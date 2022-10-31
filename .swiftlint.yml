@@ -1,0 +1,133 @@
+
+excluded:
+    - Pods
+    - SketchBook-MacOS/Frameworks
+
+# Отключенные правила
+disabled_rules:
+    - colon
+    - comma
+    - control_statement
+    - trailing_whitespace
+    - object_literal
+
+# Опциональные правила (отключено по умолчанию)
+opt_in_rules:
+    - attributes
+    - closure_end_indentation
+    - closure_spacing
+    - empty_count
+    - explicit_init
+    - fatal_error_message
+    - file_header
+    - first_where
+    - force_unwrapping
+    - missing_docs
+    - nimble_operator
+    - number_separator
+    - object_literal
+    - operator_usage_whitespace
+    - overridden_super_call
+    - private_outlet
+    - prohibited_super_call
+    - redundant_nil_coalescing
+    - sorted_imports
+    - unused_import
+    - weak_delegate
+
+# Правило ограничивающее цикломатическую сложность
+cyclomatic_complexity:
+    warning: 10
+    error: 20
+
+# Уровень вложенности классов и функций
+nesting:
+    type_level: 1
+    function_level: 5
+
+# Максимально допустимое количество предупреждений.
+warning_threshold: 35
+
+# наличие операций, потенциально приводящих к крэшу
+force_cast: warning
+force_try: warning
+force_unwrapping: warning
+
+# Количество символом в строке
+line_length:
+    warning: 150
+    error: 200
+    ignores_comments: true
+
+# Количество строк в файле
+file_length:
+    warning: 600
+    error: 1200
+
+# Количество строк в теле класса, структуры, перечисления
+type_body_length:
+    warning: 400
+    error: 450
+
+# Количество строк в функции
+function_body_length:
+    warning: 40
+    error: 100
+
+# Количество параметров в функции
+function_parameter_count:
+    warning: 10
+    error: 15
+    
+# Для наследования IBOutlet
+private_outlet:
+    allow_private_set: true
+    
+# Проверка того, что делегат держится слабой ссылкой
+weak_delegate: warning
+
+# Написаны ли комментарии к публичным функциям/свойствам
+missing_docs:
+    warning: source.lang.swift.accessibility.public
+    warning: source.lang.swift.accessibility.open
+
+# Длина названий классов, структур, перечислений
+type_name:
+    min_length: 4 # only warning
+    max_length: # warning and error
+        warning: 40
+        error: 50
+    excluded: iPhone # excluded via string
+
+# Длина названий констант и переменных
+identifier_name:
+    min_length: # warning and error
+        warning: 3
+        error: 2
+    excluded: # excluded via string array
+        - id
+        - to
+        - vk
+        - tv
+        - pc
+        - hd
+        - ru
+        - it
+        - en
+        - fr
+        - de
+        - es
+        - zh
+        - ja
+        - pt
+        - x
+        - y
+        - z
+        - up
+
+# Длина численного значения
+number_separator:
+    minimum_length: 10
+
+# Тип отчета (доступные параметры: xcode, json, csv, checkstyle, junit)
+reporter: "xcode"

@@ -9,21 +9,21 @@
 /* Begin PBXBuildFile section */
 		B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33EFF0E290FF02800AD9BEE /* AppDelegate.swift */; };
 		B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33EFF10290FF02800AD9BEE /* SceneDelegate.swift */; };
-		B33EFF13290FF02800AD9BEE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33EFF12290FF02800AD9BEE /* ViewController.swift */; };
-		B33EFF16290FF02800AD9BEE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B33EFF14290FF02800AD9BEE /* Main.storyboard */; };
 		B33EFF18290FF02900AD9BEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B33EFF17290FF02900AD9BEE /* Assets.xcassets */; };
 		B33EFF1B290FF02900AD9BEE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B33EFF19290FF02900AD9BEE /* LaunchScreen.storyboard */; };
+		EF84F46FAFBAF3BBEEB5E7C0 /* Pods_GroceryList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025222570B015E69FF5973D3 /* Pods_GroceryList.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		025222570B015E69FF5973D3 /* Pods_GroceryList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GroceryList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		262EB22BC930A385DC81E51C /* Pods-GroceryList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroceryList.release.xcconfig"; path = "Target Support Files/Pods-GroceryList/Pods-GroceryList.release.xcconfig"; sourceTree = "<group>"; };
 		B33EFF0B290FF02800AD9BEE /* GroceryList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroceryList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B33EFF0E290FF02800AD9BEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B33EFF10290FF02800AD9BEE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B33EFF12290FF02800AD9BEE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		B33EFF15290FF02800AD9BEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B33EFF17290FF02900AD9BEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B33EFF1A290FF02900AD9BEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B33EFF1C290FF02900AD9BEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA1E0A38753E53B699F8E323 /* Pods-GroceryList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroceryList.debug.xcconfig"; path = "Target Support Files/Pods-GroceryList/Pods-GroceryList.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +31,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF84F46FAFBAF3BBEEB5E7C0 /* Pods_GroceryList.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		63F454BEA0A39B416C42036E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BA1E0A38753E53B699F8E323 /* Pods-GroceryList.debug.xcconfig */,
+				262EB22BC930A385DC81E51C /* Pods-GroceryList.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		9BCFA37A03FAA44487B60585 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				025222570B015E69FF5973D3 /* Pods_GroceryList.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B33EFF02290FF02800AD9BEE = {
 			isa = PBXGroup;
 			children = (
 				B33EFF0D290FF02800AD9BEE /* GroceryList */,
 				B33EFF0C290FF02800AD9BEE /* Products */,
+				63F454BEA0A39B416C42036E /* Pods */,
+				9BCFA37A03FAA44487B60585 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +76,29 @@
 		B33EFF0D290FF02800AD9BEE /* GroceryList */ = {
 			isa = PBXGroup;
 			children = (
+				B37A0F4A29100CD900343FF1 /* Application */,
+				B37A0F4B29100CEA00343FF1 /* SupportingFiles */,
+			);
+			path = GroceryList;
+			sourceTree = "<group>";
+		};
+		B37A0F4A29100CD900343FF1 /* Application */ = {
+			isa = PBXGroup;
+			children = (
 				B33EFF0E290FF02800AD9BEE /* AppDelegate.swift */,
 				B33EFF10290FF02800AD9BEE /* SceneDelegate.swift */,
-				B33EFF12290FF02800AD9BEE /* ViewController.swift */,
-				B33EFF14290FF02800AD9BEE /* Main.storyboard */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		B37A0F4B29100CEA00343FF1 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
 				B33EFF17290FF02900AD9BEE /* Assets.xcassets */,
 				B33EFF19290FF02900AD9BEE /* LaunchScreen.storyboard */,
 				B33EFF1C290FF02900AD9BEE /* Info.plist */,
 			);
-			path = GroceryList;
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +108,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B33EFF1F290FF02900AD9BEE /* Build configuration list for PBXNativeTarget "GroceryList" */;
 			buildPhases = (
+				33F25A9A0204D8D97E00524C /* [CP] Check Pods Manifest.lock */,
 				B33EFF07290FF02800AD9BEE /* Sources */,
 				B33EFF08290FF02800AD9BEE /* Frameworks */,
 				B33EFF09290FF02800AD9BEE /* Resources */,
+				D16B002746908D53B9512E9C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -127,18 +163,58 @@
 			files = (
 				B33EFF1B290FF02900AD9BEE /* LaunchScreen.storyboard in Resources */,
 				B33EFF18290FF02900AD9BEE /* Assets.xcassets in Resources */,
-				B33EFF16290FF02800AD9BEE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		33F25A9A0204D8D97E00524C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GroceryList-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D16B002746908D53B9512E9C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GroceryList/Pods-GroceryList-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GroceryList/Pods-GroceryList-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GroceryList/Pods-GroceryList-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B33EFF07290FF02800AD9BEE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B33EFF13290FF02800AD9BEE /* ViewController.swift in Sources */,
 				B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */,
 				B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */,
 			);
@@ -147,14 +223,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		B33EFF14290FF02800AD9BEE /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B33EFF15290FF02800AD9BEE /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		B33EFF19290FF02900AD9BEE /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -284,18 +352,20 @@
 		};
 		B33EFF20290FF02900AD9BEE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BA1E0A38753E53B699F8E323 /* Pods-GroceryList.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4PHXKWB7YH;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = GroceryList/Info.plist;
+				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -305,24 +375,26 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		B33EFF21290FF02900AD9BEE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 262EB22BC930A385DC81E51C /* Pods-GroceryList.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4PHXKWB7YH;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = GroceryList/Info.plist;
+				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -332,7 +404,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
