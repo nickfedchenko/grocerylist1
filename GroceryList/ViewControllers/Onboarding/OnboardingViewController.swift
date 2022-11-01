@@ -49,7 +49,7 @@ class OnboardingViewController: UIViewController {
             self.nextButton.isHidden = false
             self.view.layoutIfNeeded()
         } completion: { _ in
-            
+            self.secondView.firstAnimation()
         }
 
     }
@@ -88,9 +88,17 @@ class OnboardingViewController: UIViewController {
         return button
     }()
     
+    private let nextArrow: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "nextArrow")
+        return imageView
+    }()
+    
     private func setupConstraints() {
         view.backgroundColor = .lightGray
         view.addSubviews([firstView, secondView, nextButton])
+        nextButton.addSubview(nextArrow)
        
         firstView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -107,6 +115,13 @@ class OnboardingViewController: UIViewController {
             make.height.width.equalToSuperview()
             make.top.equalToSuperview()
             make.left.equalTo(self.view.snp.right)
+        }
+        
+        nextArrow.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.centerX.equalToSuperview().offset(50)
+            make.width.equalTo(24)
+            make.height.equalTo(20)
         }
     }
 }

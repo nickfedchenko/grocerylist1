@@ -197,8 +197,8 @@ class FirstOnboardingView: UIView {
         return imageView
     }()
     
+    // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        
         addSubviews([backgroundView, blurBackgroundView, logoView, cartView, bascetView, whiteView, bottomView, recieptView])
         bottomView.addSubviews([bottomViewLabel, playView])
         

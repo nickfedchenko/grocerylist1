@@ -12,17 +12,32 @@ class SecondOnboardingView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupConstraints()
-      }
-
-      required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-      }
-    
-    func firstAnimation() {
-        
+        preparationsForAnimation()
     }
     
-    func secndAnimation() {
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    private func preparationsForAnimation() {
+        addItemImage.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+        addItemLabel.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+    }
+    
+    func firstAnimation() {
+        UIView.animate(withDuration: 1.0, delay: 0,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0.0,
+                       options: .curveLinear) {
+            self.addItemImage.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.addItemLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.layoutIfNeeded()
+        } completion: { _ in
+            
+        }
+    }
+    
+    func secondAnimation() {
         
     }
     
