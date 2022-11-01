@@ -11,6 +11,7 @@ extension UIFont {
     enum SFPro {
         case heavy(size: CGFloat)
         case medium(size: CGFloat)
+        case semibold(size: CGFloat)
         
         var font: UIFont! {
             switch self {
@@ -18,6 +19,8 @@ extension UIFont {
                 return UIFont(name: "SF Pro Display Heavy", size: size)
             case .medium(let size):
                 return UIFont(name: "SF Pro Display Medium", size: size)
+            case .semibold(let size):
+                return UIFont(name: "SF Pro Display Semibold", size: size)
             }
         }
     }

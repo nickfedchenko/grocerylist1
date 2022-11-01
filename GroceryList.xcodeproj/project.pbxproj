@@ -25,6 +25,8 @@
 		B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CED29110435003C01AD /* UIFontExtension.swift */; };
 		B37A2CF429111C41003C01AD /* SF Pro Display Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B37A2CF329111C41003C01AD /* SF Pro Display Heavy.otf */; };
 		B37A2CF6291125CA003C01AD /* SF Pro Display Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B37A2CF5291125CA003C01AD /* SF Pro Display Medium.otf */; };
+		B3C3FA4729115AA20011EC0A /* SecondOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C3FA4629115AA20011EC0A /* SecondOnboardingView.swift */; };
+		B3C3FA4929115F510011EC0A /* SF Pro Display Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3C3FA4829115F510011EC0A /* SF Pro Display Semibold.otf */; };
 		EF84F46FAFBAF3BBEEB5E7C0 /* Pods_GroceryList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025222570B015E69FF5973D3 /* Pods_GroceryList.framework */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +54,8 @@
 		B37A2CED29110435003C01AD /* UIFontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
 		B37A2CF329111C41003C01AD /* SF Pro Display Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Heavy.otf"; sourceTree = "<group>"; };
 		B37A2CF5291125CA003C01AD /* SF Pro Display Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Medium.otf"; sourceTree = "<group>"; };
+		B3C3FA4629115AA20011EC0A /* SecondOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondOnboardingView.swift; sourceTree = "<group>"; };
+		B3C3FA4829115F510011EC0A /* SF Pro Display Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Semibold.otf"; sourceTree = "<group>"; };
 		BA1E0A38753E53B699F8E323 /* Pods-GroceryList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroceryList.debug.xcconfig"; path = "Target Support Files/Pods-GroceryList/Pods-GroceryList.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -165,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				B37A2CDE29110290003C01AD /* OnboardingViewController.swift */,
+				B3C3FA4629115AA20011EC0A /* SecondOnboardingView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -186,6 +191,7 @@
 		B37A2CF229111BFB003C01AD /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				B3C3FA4829115F510011EC0A /* SF Pro Display Semibold.otf */,
 				B37A2CF5291125CA003C01AD /* SF Pro Display Medium.otf */,
 				B37A2CF329111C41003C01AD /* SF Pro Display Heavy.otf */,
 			);
@@ -259,6 +265,7 @@
 				B37A2CF6291125CA003C01AD /* SF Pro Display Medium.otf in Resources */,
 				B37A2CF429111C41003C01AD /* SF Pro Display Heavy.otf in Resources */,
 				B33EFF18290FF02900AD9BEE /* Assets.xcassets in Resources */,
+				B3C3FA4929115F510011EC0A /* SF Pro Display Semibold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +335,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3C3FA4729115AA20011EC0A /* SecondOnboardingView.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
 				B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */,

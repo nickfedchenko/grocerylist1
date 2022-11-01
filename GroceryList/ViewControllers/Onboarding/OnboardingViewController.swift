@@ -16,12 +16,15 @@ class OnboardingViewController: UIViewController {
         super.viewDidLoad()
         setupConstraints()
         preparationsForAnimation()
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         firstAnimation()
+    }
+    
+    deinit {
+        print("Onboarding deinited")
     }
     
     private func preparationsForAnimation() {
@@ -89,11 +92,34 @@ class OnboardingViewController: UIViewController {
     
     @objc
     private func bottomViewRecognizerAction() {
-        print("f")
+        UIView.animate(withDuration: 1.0) {
+            let transition = CATransition()
+            transition.type = .fade
+            transition.duration = 0.3
+            self.bottomViewLabel.layer.add(transition, forKey: nil)
+            self.bottomViewLabel.textColor = UIColor(hex: "#346965")
+            self.bottomView.backgroundColor = UIColor(hex: "#DAF4F0")
+            self.playView.isHidden = true
+            self.firstView.snp.remakeConstraints { make in
+                make.right.equalTo(self.view.snp.left)
+                make.height.width.equalToSuperview()
+            }
+            
+            self.secondView.snp.remakeConstraints { make in
+                make.edges.equalToSuperview()
+               // make.height.width.top.bottom.equalToSuperview()
+            }
+            self.view.layoutIfNeeded()
+            
+        } completion: { _ in
+      
+        }
+
     }
     
-    deinit {
-        print("Onboarding deinited")
+    @objc
+    private func nextButtonPressed() {
+        
     }
 
     // MARK: - UI
@@ -185,11 +211,33 @@ class OnboardingViewController: UIViewController {
         imageView.image = UIImage(named: "#play")
         return imageView
     }()
+    
+    private lazy var nextButton: UIButton = {
+        let button = UIButton()
+        let attributedTitle = NSAttributedString(string: "Next".localized, attributes: [
+            .font: UIFont.SFPro.semibold(size: 20).font ?? UIFont(),
+            .foregroundColor: UIColor(hex: "#FFFFFF")
+        ])
+        button.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
+        button.setAttributedTitle(attributedTitle, for: .normal)
+        button.backgroundColor = UIColor(hex: "#31635A")
+        button.layer.cornerRadius = 16
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.masksToBounds = true
+      //  button.isHidden = true
+        return button
+    }()
+    
+    private let secondView: SecondOnboardingView = {
+        let view = SecondOnboardingView()
+        return view
+    }()
    
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         view.backgroundColor = .lightGray
-        view.addSubviews([firstView])
+        view.addSubviews([firstView, secondView, nextButton])
         firstView.addSubviews([backgroundView, logoView, cartView, bascetView, whiteView, bottomView, recieptView])
         bottomView.addSubviews([bottomViewLabel, playView])
         
@@ -251,6 +299,18 @@ class OnboardingViewController: UIViewController {
             make.top.equalTo(bottomView.snp.centerY).offset(300)
             make.width.equalTo(152)
             make.height.equalTo(239)
+        }
+        
+        nextButton.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(64)
+            make.left.right.equalToSuperview().inset(20)
+            make.height.equalTo(64)
+        }
+        
+        secondView.snp.makeConstraints { make in
+            make.height.width.equalToSuperview()
+            make.top.equalToSuperview()
+            make.left.equalTo(self.view.snp.right)
         }
     }
 }
