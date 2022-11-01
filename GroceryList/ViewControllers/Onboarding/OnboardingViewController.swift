@@ -21,7 +21,7 @@ class OnboardingViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setupAnimation()
+        firstAnimation()
     }
     
     private func preparationsForAnimation() {
@@ -31,25 +31,26 @@ class OnboardingViewController: UIViewController {
         playView.transform = CGAffineTransform(scaleX: 0, y: 0)
     }
     
-    private func animationWithDumping(delay: Double = 0, compl: @escaping () -> Void) {
-        UIView.animate(withDuration: 1.2, delay: delay,
+    private func firstAnimation() {
+        UIView.animate(withDuration: 1.2, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
-            compl()
-        }
-    }
-    
-    private func setupAnimation() {
-        UIView.animate(withDuration: 1.2, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: .curveLinear) {
-            
             self.cartView.snp.updateConstraints { make in
                 make.left.equalToSuperview().inset(14)
             }
             self.bottomView.transform = CGAffineTransform(scaleX: 1, y: 1)
             self.view.layoutIfNeeded()
         } completion: { _ in
-            self.animationWithDumping {
+            self.secondAnimation()
+        }
+    }
+    
+    private func secondAnimation() {
+        UIView.animate(withDuration: 1.0, delay: 0,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0.0,
+                       options: .curveLinear) {
                 self.bottomView.layer.borderWidth = 0
                 self.bottomView.layer.shadowOpacity = 0
                 self.bottomView.backgroundColor = UIColor(hex: "#31635A")
@@ -61,20 +62,23 @@ class OnboardingViewController: UIViewController {
                 self.bascetView.transform = CGAffineTransform(scaleX: 1, y: 1)
                 self.whiteView.transform = CGAffineTransform(scaleX: 1, y: 1)
                 self.view.layoutIfNeeded()
+        } completion: { _ in
+            self.thirdAnimation()
+        }
+    }
+    
+    private func thirdAnimation() {
+        UIView.animate(withDuration: 1.2, delay: 0,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0.0,
+                       options: .curveLinear) { [self] in
+            self.recieptView.snp.updateConstraints { make in
+                make.top.equalTo(bottomView.snp.centerY).offset(0)
             }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                self.animationWithDumping { [self] in
-                    self.recieptView.snp.updateConstraints { make in
-                        make.top.equalTo(bottomView.snp.centerY).offset(0)
-                    }
-                    self.playView.transform = CGAffineTransform(scaleX: 1, y: 1)
-                    self.view.layoutIfNeeded()
-                }
-                
-                self.addRecognizer()
-            }
-
+            self.playView.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.view.layoutIfNeeded()
+        } completion: { _ in
+            self.addRecognizer()
         }
     }
     
