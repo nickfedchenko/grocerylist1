@@ -11,7 +11,7 @@ import UIKit
 class OnboardingViewController: UIViewController {
     
     weak var router: RootRouter?
-    private var currentVC = 2
+    private var currentVC = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,15 +68,22 @@ class OnboardingViewController: UIViewController {
     
     @objc
     private func nextButtonPressed() {
-        if currentVC == 2 {
+        if currentVC == 1 {
             secondView.secondAnimation()
             currentVC += 1
             return
         }
         
-        if currentVC == 3 {
-            secondView.goToFourhState()
+        if currentVC == 2 {
+            secondView.goToThirdState()
             currentVC += 1
+            return
+        }
+        
+        if currentVC == 3 {
+            secondView.goToForthState()
+            currentVC += 1
+            return
         }
     }
 
@@ -87,8 +94,8 @@ class OnboardingViewController: UIViewController {
         return view
     }()
     
-    private let secondView: SecondOnboardingView = {
-        let view = SecondOnboardingView()
+    private let secondView: OnboardingContentView = {
+        let view = OnboardingContentView()
         return view
     }()
 

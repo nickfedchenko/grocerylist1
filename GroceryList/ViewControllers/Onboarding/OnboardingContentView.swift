@@ -8,7 +8,7 @@
 import SnapKit
 import UIKit
 
-class SecondOnboardingView: UIView {
+class OnboardingContentView: UIView {
     
     var unlockButton: (() -> Void)?
     var lockButton: (() -> Void)?
@@ -26,6 +26,7 @@ class SecondOnboardingView: UIView {
     private func preparationsForAnimation() {
         addItemImage.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         sharedAlarmImage.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+        collectionsAlarmImage.transform = CGAffineTransform(scaleX: 0, y: 0)
         secondBackgroundBlurView.alpha = 0
     }
     
@@ -106,12 +107,12 @@ class SecondOnboardingView: UIView {
             self.layoutIfNeeded()
         } completion: { _ in
             self.lockButton?()
-            self.showThirdState()
+            self.showsecondState()
         }
     }
     
     // анимация перехода на второй экран
-    private func showThirdState() {
+    private func showsecondState() {
         UIView.animate(withDuration: 1.3, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
@@ -161,7 +162,7 @@ class SecondOnboardingView: UIView {
     }
     
     // анимация перехода на третий экран
-    func goToFourhState() {
+    func goToThirdState() {
         self.lockButton?()
         UIView.animate(withDuration: 1.0, delay: 0,
                        usingSpringWithDamping: 0.8,
@@ -190,6 +191,7 @@ class SecondOnboardingView: UIView {
             
             self.layoutIfNeeded()
         } completion: { _ in
+            self.showCollectionsAlarm()
         }
     }
     
@@ -198,11 +200,41 @@ class SecondOnboardingView: UIView {
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
-            self.sharedAlarmImage.transform = CGAffineTransform(scaleX: 1, y: 1)
-            self.secondBackgroundBlurView.alpha = 1
+            self.collectionsAlarmImage.transform = CGAffineTransform(scaleX: 1, y: 1)
             self.layoutIfNeeded()
         } completion: { _ in
             self.unlockButton?()
+        }
+    }
+    
+    // анимация перехода на четвертый экран
+    func goToForthState() {
+        self.lockButton?()
+        UIView.animate(withDuration: 1.0, delay: 0,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0.0,
+                       options: .curveLinear) {
+           
+            self.thirdBackgroundView.snp.remakeConstraints { make in
+                make.width.height.top.equalToSuperview()
+                make.right.equalTo(self.snp.left)
+            }
+
+            self.thirdTextLabel.snp.remakeConstraints { make in
+                make.right.equalTo(self.textContainerViewView.snp.left)
+                make.width.equalTo(200)
+                make.top.bottom.equalToSuperview()
+            }
+            
+//            self.thirdTextLabel.snp.remakeConstraints { make in
+//                make.left.right.equalToSuperview().inset(20)
+//                make.bottom.equalToSuperview().inset(30)
+//                make.top.equalToSuperview().inset(30)
+//            }
+            
+            self.layoutIfNeeded()
+        } completion: { _ in
+            self.showCollectionsAlarm()
         }
     }
     
@@ -221,62 +253,38 @@ class SecondOnboardingView: UIView {
         return label
     }
     
+    private func createImageView(with name: String, isHidden: Bool = false) -> UIImageView {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: name)
+        imageView.isHidden = isHidden
+        return imageView
+    }
+    
     // UI
-    private let backgroundView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "secondBG")
-        return imageView
-    }()
+    private lazy var backgroundView = createImageView(with: "secondBG")
+    private lazy var secondBackgroundView = createImageView(with: "thirdBG")
+    private lazy var secondBackgroundBlurView = createImageView(with: "thirdBGBlur")
+    private lazy var thirdBackgroundView = createImageView(with: "forthBG")
+    private lazy var forthBackgroundView = createImageView(with: "fifthBG")
     
-    private let secondBackgroundView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "thirdBG")
-        return imageView
-    }()
+    private lazy var phoneView = createImageView(with: "firstScreen")
+    private lazy var secondPhoneView = createImageView(with: "secondScreen")
+    private lazy var thirdPhoneView = createImageView(with: "thirdScreen")
+    private lazy var forthPhoneView = createImageView(with: "forthScreen")
+    private lazy var phoneShadowView = createImageView(with: "phoneShadow")
     
-    private let secondBackgroundBlurView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "thirdBGBlur")
-        return imageView
-    }()
+    private lazy var addItemImage = createImageView(with: "addItemImage")
     
-    private let thirdBackgroundView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "forthBG")
-        return imageView
-    }()
+    private lazy var firstSideView = createImageView(with: "firstSideView", isHidden: true)
+    private lazy var secondSideView = createImageView(with: "secondSideView", isHidden: true)
+    private lazy var thirdSideView = createImageView(with: "thirdSideView", isHidden: true)
+    private lazy var forthSideView = createImageView(with: "forthSideView", isHidden: true)
+    private lazy var fifthSideView = createImageView(with: "fifthSideView", isHidden: true)
     
-    private let phoneView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "firstScreen")
-        return imageView
-    }()
-    
-    private let secondPhoneView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "secondScreen")
-        return imageView
-    }()
-    
-    private let thirdPhoneView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "thirdScreen")
-        return imageView
-    }()
-    
-    private let phoneShadowView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "phoneShadow")
-        return imageView
-    }()
+    private lazy var firstTextLabel = createTextLabel(with: "CreateLists")
+    private lazy var secondTextLabel = createTextLabel(with: "Synchronize")
+    private lazy var thirdTextLabel = createTextLabel(with: "OrganizeRecepts")
     
     private let textContainerViewView: UIView = {
         let view = UIView()
@@ -285,63 +293,12 @@ class SecondOnboardingView: UIView {
         view.layer.masksToBounds = true
         return view
     }()
-    
-    private lazy var firstTextLabel: UILabel = createTextLabel(with: "CreateLists")
-    private lazy var secondTextLabel: UILabel = createTextLabel(with: "Synchronize")
-    private lazy var thirdTextLabel: UILabel = createTextLabel(with: "OrganizeRecepts")
-    
+
     private let shadowView: UIView = {
         let view = UIView()
         view.backgroundColor = .black.withAlphaComponent(0.3)
         view.layer.cornerRadius = 18
         return view
-    }()
-    
-    private let addItemImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "addItemImage")
-        return imageView
-    }()
-    
-    private let firstSideView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "firstSideView")
-        imageView.isHidden = true
-        return imageView
-    }()
-    
-    private let secondSideView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "secondSideView")
-        imageView.isHidden = true
-        return imageView
-    }()
-    
-    private let thirdSideView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "thirdSideView")
-        imageView.isHidden = true
-        return imageView
-    }()
-    
-    private let forthSideView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "forthSideView")
-        imageView.isHidden = true
-        return imageView
-    }()
-    
-    private let fifthSideView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "fifthSideView")
-        imageView.isHidden = true
-        return imageView
     }()
     
     private let sharedAlarmImage: UIImageView = {
@@ -370,8 +327,8 @@ class SecondOnboardingView: UIView {
     
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        addSubviews([backgroundView, secondBackgroundView, secondBackgroundBlurView, thirdBackgroundView, phoneShadowView,
-                     phoneView, secondPhoneView, thirdPhoneView, collectionsAlarmImage, shadowView, textContainerViewView,
+        addSubviews([backgroundView, secondBackgroundView, secondBackgroundBlurView, thirdBackgroundView, forthBackgroundView, phoneShadowView,
+                     phoneView, secondPhoneView, thirdPhoneView, forthPhoneView, collectionsAlarmImage, shadowView, textContainerViewView,
                      addItemImage, firstSideView, secondSideView, thirdSideView,
                      forthSideView, fifthSideView, sharedAlarmImage])
         textContainerViewView.addSubviews([firstTextLabel, secondTextLabel, thirdTextLabel])
@@ -395,6 +352,11 @@ class SecondOnboardingView: UIView {
             make.left.equalTo(secondBackgroundView.snp.right)
         }
         
+        forthBackgroundView.snp.makeConstraints { make in
+            make.width.height.top.bottom.equalToSuperview()
+            make.left.equalTo(thirdBackgroundView.snp.right)
+        }
+        
         phoneView.snp.makeConstraints { make in
             make.centerX.equalTo(backgroundView)
             make.centerY.equalToSuperview().multipliedBy(0.8)
@@ -411,6 +373,13 @@ class SecondOnboardingView: UIView {
         
         thirdPhoneView.snp.makeConstraints { make in
             make.centerX.equalTo(thirdBackgroundView)
+            make.centerY.equalToSuperview().multipliedBy(0.8)
+            make.width.equalTo(232)
+            make.height.equalTo(500)
+        }
+        
+        forthPhoneView.snp.makeConstraints { make in
+            make.centerX.equalTo(forthBackgroundView)
             make.centerY.equalToSuperview().multipliedBy(0.8)
             make.width.equalTo(232)
             make.height.equalTo(500)
