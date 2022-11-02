@@ -119,7 +119,7 @@ class OnboardingViewController: UIViewController {
         
         nextArrow.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.centerX.equalToSuperview().offset(50)
+            make.centerX.equalToSuperview().offset(45)
             make.width.equalTo(24)
             make.height.equalTo(20)
         }

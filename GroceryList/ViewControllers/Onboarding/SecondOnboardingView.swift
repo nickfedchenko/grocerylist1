@@ -31,6 +31,33 @@ class SecondOnboardingView: UIView {
                        options: .curveLinear) {
             self.addItemImage.transform = CGAffineTransform(scaleX: 1, y: 1)
             self.addItemLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.firstSideView.isHidden = false
+            self.secondSideView.isHidden = false
+            self.thirdSideView.isHidden = false
+            self.forthSideView.isHidden = false
+            if UIScreen.main.isMoreIphonePlus {
+                self.fifthSideView.isHidden = false
+            }
+       
+            self.firstSideView.snp.updateConstraints { make in
+                make.left.equalToSuperview()
+            }
+            
+            self.secondSideView.snp.updateConstraints { make in
+                make.right.equalToSuperview()
+            }
+            
+            self.thirdSideView.snp.updateConstraints { make in
+                make.left.equalToSuperview()
+            }
+            
+            self.forthSideView.snp.updateConstraints { make in
+                make.right.equalToSuperview()
+            }
+            
+            self.fifthSideView.snp.updateConstraints { make in
+                make.left.equalToSuperview()
+            }
             self.layoutIfNeeded()
         } completion: { _ in
             
@@ -80,7 +107,7 @@ class SecondOnboardingView: UIView {
     
     private let shadowView: UIView = {
         let view = UIView()
-        view.backgroundColor = .gray.withAlphaComponent(0.5)
+        view.backgroundColor = .black.withAlphaComponent(0.3)
         view.layer.cornerRadius = 18
         return view
     }()
@@ -101,9 +128,50 @@ class SecondOnboardingView: UIView {
         return label
     }()
     
+    private let firstSideView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "firstSideView")
+        imageView.isHidden = true
+        return imageView
+    }()
+    
+    private let secondSideView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "secondSideView")
+        imageView.isHidden = true
+        return imageView
+    }()
+    
+    private let thirdSideView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "thirdSideView")
+        imageView.isHidden = true
+        return imageView
+    }()
+    
+    private let forthSideView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "forthSideView")
+        imageView.isHidden = true
+        return imageView
+    }()
+    
+    private let fifthSideView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "fifthSideView")
+        imageView.isHidden = true
+        return imageView
+    }()
+    
+    // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-       
-        addSubviews([backgroundView, phoneView, shadowView, mainTextView, addItemImage])
+        addSubviews([backgroundView, phoneView, shadowView, mainTextView, addItemImage,
+                     firstSideView, secondSideView, thirdSideView, forthSideView, fifthSideView])
         mainTextView.addSubview(mainTextLabel)
         addItemImage.addSubview(addItemLabel)
         
@@ -120,14 +188,13 @@ class SecondOnboardingView: UIView {
         
         mainTextView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(50)
-            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).inset(114)
-            make.height.equalTo(201)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).inset(130)
         }
         
         shadowView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(44)
-            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).inset(104)
-            make.height.equalTo(210)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).inset(122)
+            make.height.equalTo(mainTextView.snp.height).multipliedBy(1.06)
         }
         
         addItemImage.snp.makeConstraints { make in
@@ -138,14 +205,49 @@ class SecondOnboardingView: UIView {
         }
         
         mainTextLabel.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(24)
+            make.left.right.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(30)
-            make.top.equalToSuperview().inset(46)
+            make.top.equalTo(addItemImage.snp.bottom)
         }
         
         addItemLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview().offset(-2)
             make.left.equalToSuperview().inset(58)
+        }
+        
+        fifthSideView.snp.makeConstraints { make in
+            make.width.equalTo(214)
+            make.height.equalTo(32)
+            make.top.equalTo(phoneView.snp.top).inset(318)
+            make.left.equalToSuperview().inset(-214)
+        }
+        
+        forthSideView.snp.makeConstraints { make in
+            make.width.equalTo(219)
+            make.height.equalTo(32)
+            make.top.equalTo(phoneView.snp.top).inset(246)
+            make.right.equalToSuperview().inset(-219)
+        }
+        
+        thirdSideView.snp.makeConstraints { make in
+            make.width.equalTo(217)
+            make.height.equalTo(32)
+            make.top.equalTo(phoneView.snp.top).inset(169)
+            make.left.equalToSuperview().inset(-217)
+        }
+        
+        secondSideView.snp.makeConstraints { make in
+            make.width.equalTo(166)
+            make.height.equalTo(32)
+            make.top.equalTo(phoneView.snp.top).inset(81)
+            make.right.equalToSuperview().inset(-166)
+        }
+        
+        firstSideView.snp.makeConstraints { make in
+            make.width.equalTo(151)
+            make.height.equalTo(32)
+            make.top.equalTo(phoneView.snp.top).inset(51)
+            make.left.equalToSuperview().inset(-151)
         }
 
     }
