@@ -5,6 +5,7 @@
 //  Created by Шамиль Моллачиев on 01.11.2022.
 //
 
+import SnapKit
 import UIKit
 
 class SecondOnboardingView: UIView {
@@ -24,16 +25,17 @@ class SecondOnboardingView: UIView {
     
     private func preparationsForAnimation() {
         addItemImage.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-        addItemLabel.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+        sharedAlarmImage.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+        secondBackgroundBlurView.alpha = 0
     }
     
+    // анимация перехода на второй экран
     func firstAnimation() {
         UIView.animate(withDuration: 1.0, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
             self.addItemImage.transform = CGAffineTransform(scaleX: 1, y: 1)
-            self.addItemLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
             self.firstSideView.isHidden = false
             self.secondSideView.isHidden = false
             self.thirdSideView.isHidden = false
@@ -67,6 +69,7 @@ class SecondOnboardingView: UIView {
         }
     }
     
+    // анимация закрытия второго экрана
     func secondAnimation() {
         UIView.animate(withDuration: 1.0, delay: 0,
                        usingSpringWithDamping: 0.8,
@@ -99,17 +102,97 @@ class SecondOnboardingView: UIView {
             self.fifthSideView.snp.updateConstraints { make in
                 make.left.equalToSuperview().inset(-214)
             }
+            
             self.layoutIfNeeded()
         } completion: { _ in
             self.secondAnimationFinished?()
+            self.showThirdState()
         }
-        
     }
     
+    // анимация перехода на третий экран
+    private func showThirdState() {
+        UIView.animate(withDuration: 1.5, delay: 0,
+                       usingSpringWithDamping: 0.6,
+                       initialSpringVelocity: 0.0,
+                       options: .curveLinear) {
+            self.phoneView.snp.remakeConstraints { make in
+                make.right.equalTo(self.backgroundView.snp.left)
+                make.centerY.equalToSuperview().multipliedBy(0.8)
+                make.width.equalTo(232)
+                make.height.equalTo(500)
+            }
+            
+            self.secondPhoneView.snp.remakeConstraints { make in
+                make.centerX.equalToSuperview()
+                make.centerY.equalToSuperview().multipliedBy(0.8)
+                make.width.equalTo(232)
+                make.height.equalTo(500)
+            }
+            
+            self.addItemImage.snp.remakeConstraints { make in
+                make.right.equalTo(self.backgroundView.snp.left)
+                make.centerY.equalTo(self.textContainerViewView.snp.top)
+                make.width.equalTo(164)
+                make.height.equalTo(65)
+            }
+            
+            self.backgroundView.snp.remakeConstraints { make in
+                make.width.height.top.equalToSuperview()
+                make.right.equalTo(self.snp.left)
+            }
+            
+            self.firstTextLabel.snp.remakeConstraints { make in
+                make.right.equalTo(self.textContainerViewView.snp.left)
+                make.top.bottom.equalToSuperview()
+            }
+            
+            self.secondTextLabel.snp.remakeConstraints { make in
+                make.left.right.equalToSuperview().inset(20)
+                make.bottom.equalToSuperview().inset(30)
+                make.top.equalToSuperview().inset(30)
+            }
+            
+            self.secondTextLabel.isHidden = false
+            self.layoutIfNeeded()
+        } completion: { _ in
+            self.showSharedAlarm()
+        }
+    }
+    
+    private func showSharedAlarm() {
+        UIView.animate(withDuration: 1.0, delay: 1,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0.0,
+                       options: .curveLinear) {
+            self.sharedAlarmImage.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.secondBackgroundBlurView.alpha = 1
+            self.layoutIfNeeded()
+        } completion: { _ in
+        }
+    }
+    
+    // анимация перехода на четвертый экран
+    
+    // UI
     private let backgroundView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "secondBG")
+        return imageView
+    }()
+    
+    private let secondBackgroundView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "thirdBG")
+        return imageView
+    }()
+    
+    private let secondBackgroundBlurView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "thirdBGBlur")
         return imageView
     }()
     
@@ -120,15 +203,29 @@ class SecondOnboardingView: UIView {
         return imageView
     }()
     
-    private let mainTextView: UIView = {
+    private let secondPhoneView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "secondScreen")
+        return imageView
+    }()
+    
+    private let phoneShadowView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "phoneShadow")
+        return imageView
+    }()
+    
+    private let textContainerViewView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#D7F8EE")
         view.layer.cornerRadius = 16
-        view.layer.masksToBounds = false
+        view.layer.masksToBounds = true
         return view
     }()
     
-    private let mainTextLabel: UILabel = {
+    private let firstTextLabel: UILabel = {
         let label = UILabel()
         label.font = .SFPro.semibold(size: 18).font
         label.textColor = UIColor(hex: "#31635A")
@@ -140,6 +237,22 @@ class SecondOnboardingView: UIView {
         label.attributedText = attributedString
         label.numberOfLines = 0
         label.textAlignment = .center
+        return label
+    }()
+    
+    private let secondTextLabel: UILabel = {
+        let label = UILabel()
+        label.font = .SFPro.semibold(size: 18).font
+        label.textColor = UIColor(hex: "#31635A")
+        let attributedString = NSMutableAttributedString(string: "Synchronize".localized)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 4
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle,
+                                      value: paragraphStyle, range: NSRange(location: 0, length: attributedString.length))
+        label.attributedText = attributedString
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.isHidden = true
         return label
     }()
     
@@ -155,15 +268,6 @@ class SecondOnboardingView: UIView {
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "addItemImage")
         return imageView
-    }()
-    
-    private let addItemLabel: UILabel = {
-        let label = UILabel()
-        label.font = .SFPro.semibold(size: 18).font
-        label.textColor = .white
-        label.textAlignment = .center
-        label.text = "AddItem".localized
-        return label
     }()
     
     private let firstSideView: UIImageView = {
@@ -206,15 +310,38 @@ class SecondOnboardingView: UIView {
         return imageView
     }()
     
+    private let sharedAlarmImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "sharedAlarmImage")
+        imageView.layer.shadowColor = UIColor.gray.cgColor
+        imageView.layer.shadowOpacity = 0.5
+        imageView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        imageView.layer.shadowRadius = 2
+        imageView.layer.masksToBounds = false
+        return imageView
+    }()
+    
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        addSubviews([backgroundView, phoneView, shadowView, mainTextView, addItemImage,
-                     firstSideView, secondSideView, thirdSideView, forthSideView, fifthSideView])
-        mainTextView.addSubview(mainTextLabel)
-        addItemImage.addSubview(addItemLabel)
+        addSubviews([backgroundView, secondBackgroundView, secondBackgroundBlurView, phoneShadowView,
+                     phoneView, secondPhoneView, shadowView, textContainerViewView,
+                     addItemImage, firstSideView, secondSideView, thirdSideView,
+                     forthSideView, fifthSideView, sharedAlarmImage])
+        textContainerViewView.addSubviews([firstTextLabel, secondTextLabel])
         
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        
+        secondBackgroundView.snp.makeConstraints { make in
+            make.width.height.top.bottom.equalToSuperview()
+            make.left.equalTo(backgroundView.snp.right)
+        }
+        
+        secondBackgroundBlurView.snp.makeConstraints { make in
+            make.width.height.top.bottom.equalToSuperview()
+            make.left.equalTo(backgroundView.snp.right)
         }
         
         phoneView.snp.makeConstraints { make in
@@ -224,33 +351,48 @@ class SecondOnboardingView: UIView {
             make.height.equalTo(500)
         }
         
-        mainTextView.snp.makeConstraints { make in
+        secondPhoneView.snp.makeConstraints { make in
+            make.left.equalTo(self.snp.right)
+            make.centerY.equalToSuperview().multipliedBy(0.8)
+            make.width.equalTo(232)
+            make.height.equalTo(500)
+        }
+        
+        phoneShadowView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().multipliedBy(0.8)
+            make.width.equalTo(232)
+            make.height.equalTo(500)
+        }
+        
+        textContainerViewView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(50)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).inset(130)
         }
         
-        shadowView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(44)
-            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).inset(122)
-            make.height.equalTo(mainTextView.snp.height).multipliedBy(1.06)
-        }
-        
-        addItemImage.snp.makeConstraints { make in
-            make.right.equalTo(mainTextView.snp.right)
-            make.centerY.equalTo(mainTextView.snp.top)
-            make.width.equalTo(164)
-            make.height.equalTo(65)
-        }
-        
-        mainTextLabel.snp.makeConstraints { make in
+        firstTextLabel.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(30)
             make.top.equalTo(addItemImage.snp.bottom)
         }
         
-        addItemLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview().offset(-2)
-            make.left.equalToSuperview().inset(58)
+        secondTextLabel.snp.makeConstraints { make in
+            make.left.equalTo(textContainerViewView.snp.right)
+            make.bottom.equalToSuperview().inset(30)
+            make.top.equalTo(addItemImage.snp.bottom)
+        }
+        
+        shadowView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(44)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).inset(124)
+            make.height.equalTo(textContainerViewView.snp.height).multipliedBy(1.06)
+        }
+        
+        addItemImage.snp.makeConstraints { make in
+            make.right.equalTo(textContainerViewView.snp.right)
+            make.centerY.equalTo(textContainerViewView.snp.top)
+            make.width.equalTo(164)
+            make.height.equalTo(65)
         }
         
         fifthSideView.snp.makeConstraints { make in
@@ -287,6 +429,12 @@ class SecondOnboardingView: UIView {
             make.top.equalTo(phoneView.snp.top).inset(51)
             make.left.equalToSuperview().inset(-151)
         }
-
+        
+        sharedAlarmImage.snp.makeConstraints { make in
+            make.width.equalTo(258)
+            make.height.equalTo(190)
+            make.centerY.equalTo(phoneView.snp.centerY)
+            make.centerX.equalToSuperview()
+        }
     }
 }

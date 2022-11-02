@@ -30,7 +30,6 @@ class OnboardingViewController: UIViewController {
         
         secondView.secondAnimationFinished = {  [weak self] in
             self?.nextButton.isUserInteractionEnabled = false
-            self?.showThirdViewView()
         }
     }
     
@@ -67,24 +66,6 @@ class OnboardingViewController: UIViewController {
         }
     }
     
-    private func showThirdViewView() {
-        UIView.animate(withDuration: 1.0) { [weak self] in
-            guard let self = self else { return }
-            self.secondView.snp.remakeConstraints { make in
-                make.width.height.equalToSuperview()
-                make.right.equalTo(self.view.snp.left)
-            }
-            
-            self.thirdView.snp.remakeConstraints { make in
-                make.edges.equalToSuperview()
-            }
-            
-            self.view.layoutIfNeeded()
-        } completion: { _ in
-            self.secondView.firstAnimation()
-        }
-    }
-    
     @objc
     private func nextButtonPressed() {
         if currentVC == 2 {
@@ -102,11 +83,6 @@ class OnboardingViewController: UIViewController {
     
     private let secondView: SecondOnboardingView = {
         let view = SecondOnboardingView()
-        return view
-    }()
-    
-    private let thirdView: ThirdOnboardingView = {
-        let view = ThirdOnboardingView()
         return view
     }()
 
@@ -137,7 +113,7 @@ class OnboardingViewController: UIViewController {
     
     private func setupConstraints() {
         view.backgroundColor = .lightGray
-        view.addSubviews([firstView, secondView, thirdView, nextButton])
+        view.addSubviews([firstView, secondView, nextButton])
         nextButton.addSubview(nextArrow)
        
         firstView.snp.makeConstraints { make in
@@ -152,12 +128,6 @@ class OnboardingViewController: UIViewController {
         }
         
         secondView.snp.makeConstraints { make in
-            make.height.width.equalToSuperview()
-            make.top.equalToSuperview()
-            make.left.equalTo(self.view.snp.right)
-        }
-        
-        thirdView.snp.makeConstraints { make in
             make.height.width.equalToSuperview()
             make.top.equalToSuperview()
             make.left.equalTo(self.view.snp.right)
