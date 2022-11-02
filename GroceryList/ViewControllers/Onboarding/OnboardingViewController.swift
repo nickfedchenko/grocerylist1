@@ -11,12 +11,26 @@ import UIKit
 class OnboardingViewController: UIViewController {
     
     weak var router: RootRouter?
+    private var currentVC = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConstraints()
+        setupCallbacks()
+    }
+    
+    private func setupCallbacks() {
         firstView.buttonPressedCallback = { [weak self] in
             self?.showSecondView()
+        }
+        
+        secondView.firstAnimationFinished = {  [weak self] in
+            self?.nextButton.isUserInteractionEnabled = true
+        }
+        
+        secondView.secondAnimationFinished = {  [weak self] in
+            self?.nextButton.isUserInteractionEnabled = false
+            self?.showThirdViewView()
         }
     }
     
@@ -51,12 +65,32 @@ class OnboardingViewController: UIViewController {
         } completion: { _ in
             self.secondView.firstAnimation()
         }
-
+    }
+    
+    private func showThirdViewView() {
+        UIView.animate(withDuration: 1.0) { [weak self] in
+            guard let self = self else { return }
+            self.secondView.snp.remakeConstraints { make in
+                make.width.height.equalToSuperview()
+                make.right.equalTo(self.view.snp.left)
+            }
+            
+            self.thirdView.snp.remakeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+            
+            self.view.layoutIfNeeded()
+        } completion: { _ in
+            self.secondView.firstAnimation()
+        }
     }
     
     @objc
     private func nextButtonPressed() {
-        
+        if currentVC == 2 {
+            secondView.secondAnimation()
+            currentVC += 1
+        }
     }
 
     // MARK: - UI
@@ -68,6 +102,11 @@ class OnboardingViewController: UIViewController {
     
     private let secondView: SecondOnboardingView = {
         let view = SecondOnboardingView()
+        return view
+    }()
+    
+    private let thirdView: ThirdOnboardingView = {
+        let view = ThirdOnboardingView()
         return view
     }()
 
@@ -85,6 +124,7 @@ class OnboardingViewController: UIViewController {
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.masksToBounds = true
         button.isHidden = true
+        button.isUserInteractionEnabled = false
         return button
     }()
     
@@ -97,7 +137,7 @@ class OnboardingViewController: UIViewController {
     
     private func setupConstraints() {
         view.backgroundColor = .lightGray
-        view.addSubviews([firstView, secondView, nextButton])
+        view.addSubviews([firstView, secondView, thirdView, nextButton])
         nextButton.addSubview(nextArrow)
        
         firstView.snp.makeConstraints { make in
@@ -112,6 +152,12 @@ class OnboardingViewController: UIViewController {
         }
         
         secondView.snp.makeConstraints { make in
+            make.height.width.equalToSuperview()
+            make.top.equalToSuperview()
+            make.left.equalTo(self.view.snp.right)
+        }
+        
+        thirdView.snp.makeConstraints { make in
             make.height.width.equalToSuperview()
             make.top.equalToSuperview()
             make.left.equalTo(self.view.snp.right)

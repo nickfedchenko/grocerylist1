@@ -1,13 +1,13 @@
 //
-//  SecondView.swift
+//  ThirdOnboardingView.swift
 //  GroceryList
 //
-//  Created by Шамиль Моллачиев on 01.11.2022.
+//  Created by Шамиль Моллачиев on 02.11.2022.
 //
 
 import UIKit
 
-class SecondOnboardingView: UIView {
+class ThirdOnboardingView: UIView {
     
     var firstAnimationFinished: (() -> Void)?
     var secondAnimationFinished: (() -> Void)?
@@ -287,6 +287,5 @@ class SecondOnboardingView: UIView {
             make.top.equalTo(phoneView.snp.top).inset(51)
             make.left.equalToSuperview().inset(-151)
         }
-
     }
 }

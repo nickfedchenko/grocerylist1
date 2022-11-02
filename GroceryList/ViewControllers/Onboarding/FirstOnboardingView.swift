@@ -45,6 +45,7 @@ class FirstOnboardingView: UIView {
             self.layoutIfNeeded()
         } completion: { _ in
             self.secondAnimation()
+            
         }
     }
     
