@@ -24,10 +24,13 @@ class OnboardingContentView: UIView {
     }
     
     private func preparationsForAnimation() {
-        addItemImage.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+        addItemImage.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
         sharedAlarmImage.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
         collectionsAlarmImage.transform = CGAffineTransform(scaleX: 0, y: 0)
+        contextualMenuImage.transform = CGAffineTransform(scaleX: 0, y: 0)
+        greenCartImage.transform = CGAffineTransform(scaleX: 0, y: 0)
         secondBackgroundBlurView.alpha = 0
+        fifthPhoneView.alpha = 0
     }
     
     // анимация перехода на первый экран
@@ -149,7 +152,7 @@ class OnboardingContentView: UIView {
     }
     
     private func showSharedAlarm() {
-        UIView.animate(withDuration: 1.0, delay: 1,
+        UIView.animate(withDuration: 1.0, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
@@ -196,7 +199,7 @@ class OnboardingContentView: UIView {
     }
     
     private func showCollectionsAlarm() {
-        UIView.animate(withDuration: 1.0, delay: 1,
+        UIView.animate(withDuration: 1.3, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
@@ -226,15 +229,55 @@ class OnboardingContentView: UIView {
                 make.top.bottom.equalToSuperview()
             }
             
-//            self.thirdTextLabel.snp.remakeConstraints { make in
-//                make.left.right.equalToSuperview().inset(20)
-//                make.bottom.equalToSuperview().inset(30)
-//                make.top.equalToSuperview().inset(30)
-//            }
+            self.forthTextLabel.snp.remakeConstraints { make in
+                make.left.right.equalToSuperview().inset(20)
+                make.bottom.equalToSuperview().inset(30)
+                make.top.equalToSuperview().inset(30)
+            }
             
             self.layoutIfNeeded()
         } completion: { _ in
-            self.showCollectionsAlarm()
+            self.showContextualMenu()
+        }
+    }
+    
+    private func showContextualMenu() {
+        UIView.animate(withDuration: 1.3, delay: 0,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0.0,
+                       options: .curveLinear) {
+            self.contextualMenuImage.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.layoutIfNeeded()
+        } completion: { _ in
+            self.changeImage()
+        }
+    }
+    
+    private func changeImage() {
+        UIView.animate(withDuration: 0.5, delay: 0,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0.0,
+                       options: .curveLinear) {
+            self.contextualMenuImage.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+            self.contextualMenuImage.alpha = 0
+            self.forthPhoneView.alpha = 0
+            self.fifthPhoneView.alpha = 1
+            self.layoutIfNeeded()
+        } completion: { _ in
+            self.showCart()
+        }
+    }
+    
+    private func showCart() {
+        UIView.animate(withDuration: 1, delay: 0,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0.0,
+                       options: .curveLinear) {
+            self.greenCartImage.transform = CGAffineTransform(scaleX: 1, y: 1)
+
+            self.layoutIfNeeded()
+        } completion: { _ in
+            self.unlockButton?()
         }
     }
     
@@ -271,7 +314,8 @@ class OnboardingContentView: UIView {
     private lazy var phoneView = createImageView(with: "firstScreen")
     private lazy var secondPhoneView = createImageView(with: "secondScreen")
     private lazy var thirdPhoneView = createImageView(with: "thirdScreen")
-    private lazy var forthPhoneView = createImageView(with: "forthScreen")
+    private lazy var forthPhoneView = createImageView(with: "thirdScreen")
+    private lazy var fifthPhoneView = createImageView(with: "forthScreen")
     private lazy var phoneShadowView = createImageView(with: "phoneShadow")
     
     private lazy var addItemImage = createImageView(with: "addItemImage")
@@ -285,6 +329,7 @@ class OnboardingContentView: UIView {
     private lazy var firstTextLabel = createTextLabel(with: "CreateLists")
     private lazy var secondTextLabel = createTextLabel(with: "Synchronize")
     private lazy var thirdTextLabel = createTextLabel(with: "OrganizeRecepts")
+    private lazy var forthTextLabel = createTextLabel(with: "AddRecipes")
     
     private let textContainerViewView: UIView = {
         let view = UIView()
@@ -325,13 +370,37 @@ class OnboardingContentView: UIView {
         return imageView
     }()
     
+    private let contextualMenuImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "contextualMenu")
+        imageView.layer.shadowColor = UIColor.gray.cgColor
+        imageView.layer.shadowOpacity = 0.5
+        imageView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        imageView.layer.shadowRadius = 2
+        imageView.layer.masksToBounds = false
+        return imageView
+    }()
+    
+    private let greenCartImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "greenCart")
+        imageView.layer.shadowColor = UIColor.gray.cgColor
+        imageView.layer.shadowOpacity = 0.5
+        imageView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        imageView.layer.shadowRadius = 2
+        imageView.layer.masksToBounds = false
+        return imageView
+    }()
+
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         addSubviews([backgroundView, secondBackgroundView, secondBackgroundBlurView, thirdBackgroundView, forthBackgroundView, phoneShadowView,
-                     phoneView, secondPhoneView, thirdPhoneView, forthPhoneView, collectionsAlarmImage, shadowView, textContainerViewView,
+                     phoneView, secondPhoneView, thirdPhoneView, forthPhoneView, fifthPhoneView, collectionsAlarmImage, shadowView, textContainerViewView,
                      addItemImage, firstSideView, secondSideView, thirdSideView,
-                     forthSideView, fifthSideView, sharedAlarmImage])
-        textContainerViewView.addSubviews([firstTextLabel, secondTextLabel, thirdTextLabel])
+                     forthSideView, fifthSideView, sharedAlarmImage, contextualMenuImage, greenCartImage])
+        textContainerViewView.addSubviews([firstTextLabel, secondTextLabel, thirdTextLabel, forthTextLabel])
 
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -360,36 +429,40 @@ class OnboardingContentView: UIView {
         phoneView.snp.makeConstraints { make in
             make.centerX.equalTo(backgroundView)
             make.centerY.equalToSuperview().multipliedBy(0.8)
-            make.width.equalTo(232)
-            make.height.equalTo(500)
+            make.width.equalTo(222)
+            make.height.equalTo(480)
         }
         
         secondPhoneView.snp.makeConstraints { make in
             make.centerX.equalTo(secondBackgroundView)
             make.centerY.equalToSuperview().multipliedBy(0.8)
-            make.width.equalTo(232)
-            make.height.equalTo(500)
+            make.width.equalTo(222)
+            make.height.equalTo(480)
         }
         
         thirdPhoneView.snp.makeConstraints { make in
             make.centerX.equalTo(thirdBackgroundView)
             make.centerY.equalToSuperview().multipliedBy(0.8)
-            make.width.equalTo(232)
-            make.height.equalTo(500)
+            make.width.equalTo(222)
+            make.height.equalTo(480)
         }
         
         forthPhoneView.snp.makeConstraints { make in
             make.centerX.equalTo(forthBackgroundView)
             make.centerY.equalToSuperview().multipliedBy(0.8)
-            make.width.equalTo(232)
-            make.height.equalTo(500)
+            make.width.equalTo(phoneView)
+            make.height.equalTo(480)
+        }
+        
+        fifthPhoneView.snp.makeConstraints { make in
+            make.edges.equalTo(forthPhoneView)
         }
         
         phoneShadowView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().multipliedBy(0.8)
-            make.width.equalTo(232)
-            make.height.equalTo(500)
+            make.centerY.equalToSuperview().multipliedBy(0.805)
+            make.width.equalTo(222)
+            make.height.equalTo(490)
         }
         
         textContainerViewView.snp.makeConstraints { make in
@@ -410,6 +483,12 @@ class OnboardingContentView: UIView {
         }
         
         thirdTextLabel.snp.makeConstraints { make in
+            make.left.equalTo(textContainerViewView.snp.right)
+            make.bottom.equalToSuperview().inset(30)
+            make.top.equalTo(addItemImage.snp.bottom)
+        }
+        
+        forthTextLabel.snp.makeConstraints { make in
             make.left.equalTo(textContainerViewView.snp.right)
             make.bottom.equalToSuperview().inset(30)
             make.top.equalTo(addItemImage.snp.bottom)
@@ -475,6 +554,19 @@ class OnboardingContentView: UIView {
             make.height.equalTo(337)
             make.right.equalTo(thirdPhoneView.snp.right).inset(-44)
             make.top.equalTo(phoneView.snp.top).inset(155)
+        }
+        
+        contextualMenuImage.snp.makeConstraints { make in
+            make.width.equalTo(158)
+            make.height.equalTo(115)
+            make.right.equalTo(forthPhoneView.snp.right).inset(-20)
+            make.top.equalTo(forthPhoneView.snp.top).inset(-28)
+        }
+        
+        greenCartImage.snp.makeConstraints { make in
+            make.height.width.equalTo(67)
+            make.right.equalTo(forthPhoneView.snp.right).inset(-8)
+            make.top.equalTo(forthPhoneView.snp.top).inset(200)
         }
     }
 }

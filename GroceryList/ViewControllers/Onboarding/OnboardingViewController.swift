@@ -85,6 +85,12 @@ class OnboardingViewController: UIViewController {
             currentVC += 1
             return
         }
+        
+        if currentVC > 3 {
+           print("close onboarding")
+            return
+        }
+        
     }
 
     // MARK: - UI
