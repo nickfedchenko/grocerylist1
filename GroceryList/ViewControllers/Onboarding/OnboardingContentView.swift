@@ -334,7 +334,6 @@ class OnboardingContentView: UIView {
     private lazy var thirdTextLabel = createTextLabel(with: "OrganizeRecepts")
     private lazy var forthTextLabel = createTextLabel(with: "AddRecipes")
     
-    
     private lazy var sharedAlarmImage = createImageView(with: "sharedAlarmImage", shouldAddShadow: true)
     private lazy var collectionsAlarmImage = createImageView(with: "collectionsAlarmImage", shouldAddShadow: true)
     private lazy var contextualMenuImage = createImageView(with: "contextualMenu", shouldAddShadow: true)

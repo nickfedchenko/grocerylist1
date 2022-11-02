@@ -232,11 +232,20 @@ class FirstOnboardingView: UIView {
             make.height.equalTo(90)
         }
         
-        bottomView.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().multipliedBy(0.9)
-            make.width.equalTo(342)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(80)
+        if UIScreen.main.isMoreIphonePlus {
+            bottomView.snp.makeConstraints { make in
+                make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).inset(121)
+                make.width.equalTo(342)
+                make.centerX.equalToSuperview()
+                make.height.equalTo(80)
+            }
+        } else {
+            bottomView.snp.makeConstraints { make in
+                make.bottom.equalToSuperview().multipliedBy(0.9)
+                make.width.equalTo(342)
+                make.centerX.equalToSuperview()
+                make.height.equalTo(80)
+            }
         }
         
         bottomViewLabel.snp.makeConstraints { make in
