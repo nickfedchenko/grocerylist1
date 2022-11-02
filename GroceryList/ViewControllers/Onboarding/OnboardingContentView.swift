@@ -150,7 +150,7 @@ class OnboardingContentView: UIView {
             self.showSharedAlarm()
         }
     }
-    
+    // появление картинки шаред
     private func showSharedAlarm() {
         UIView.animate(withDuration: 1.0, delay: 0,
                        usingSpringWithDamping: 0.8,
@@ -197,7 +197,7 @@ class OnboardingContentView: UIView {
             self.showCollectionsAlarm()
         }
     }
-    
+    // показывает коллекцию справа
     private func showCollectionsAlarm() {
         UIView.animate(withDuration: 1.3, delay: 0,
                        usingSpringWithDamping: 0.8,
@@ -240,7 +240,7 @@ class OnboardingContentView: UIView {
             self.showContextualMenu()
         }
     }
-    
+    // показывает контекстное меню сверху
     private func showContextualMenu() {
         UIView.animate(withDuration: 1.3, delay: 0,
                        usingSpringWithDamping: 0.8,
@@ -281,6 +281,7 @@ class OnboardingContentView: UIView {
         }
     }
     
+    // UI
     private func createTextLabel(with text: String) -> UILabel {
         let label = UILabel()
         label.font = .SFPro.semibold(size: 18).font
@@ -296,11 +297,13 @@ class OnboardingContentView: UIView {
         return label
     }
     
-    private func createImageView(with name: String, isHidden: Bool = false) -> UIImageView {
+    private func createImageView(with name: String, isHidden: Bool = false,
+                                 shouldAddShadow: Bool = false) -> UIImageView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: name)
         imageView.isHidden = isHidden
+        if shouldAddShadow { imageView.addShadow() }
         return imageView
     }
     
@@ -331,6 +334,12 @@ class OnboardingContentView: UIView {
     private lazy var thirdTextLabel = createTextLabel(with: "OrganizeRecepts")
     private lazy var forthTextLabel = createTextLabel(with: "AddRecipes")
     
+    
+    private lazy var sharedAlarmImage = createImageView(with: "sharedAlarmImage", shouldAddShadow: true)
+    private lazy var collectionsAlarmImage = createImageView(with: "collectionsAlarmImage", shouldAddShadow: true)
+    private lazy var contextualMenuImage = createImageView(with: "contextualMenu", shouldAddShadow: true)
+    private lazy var greenCartImage = createImageView(with: "greenCart", shouldAddShadow: true)
+    
     private let textContainerViewView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#D7F8EE")
@@ -346,60 +355,13 @@ class OnboardingContentView: UIView {
         return view
     }()
     
-    private let sharedAlarmImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "sharedAlarmImage")
-        imageView.layer.shadowColor = UIColor.gray.cgColor
-        imageView.layer.shadowOpacity = 0.5
-        imageView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        imageView.layer.shadowRadius = 2
-        imageView.layer.masksToBounds = false
-        return imageView
-    }()
-    
-    private let collectionsAlarmImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "collectionsAlarmImage")
-        imageView.layer.shadowColor = UIColor.gray.cgColor
-        imageView.layer.shadowOpacity = 0.5
-        imageView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        imageView.layer.shadowRadius = 2
-        imageView.layer.masksToBounds = false
-        return imageView
-    }()
-    
-    private let contextualMenuImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "contextualMenu")
-        imageView.layer.shadowColor = UIColor.gray.cgColor
-        imageView.layer.shadowOpacity = 0.5
-        imageView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        imageView.layer.shadowRadius = 2
-        imageView.layer.masksToBounds = false
-        return imageView
-    }()
-    
-    private let greenCartImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "greenCart")
-        imageView.layer.shadowColor = UIColor.gray.cgColor
-        imageView.layer.shadowOpacity = 0.5
-        imageView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        imageView.layer.shadowRadius = 2
-        imageView.layer.masksToBounds = false
-        return imageView
-    }()
-
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        addSubviews([backgroundView, secondBackgroundView, secondBackgroundBlurView, thirdBackgroundView, forthBackgroundView, phoneShadowView,
-                     phoneView, secondPhoneView, thirdPhoneView, forthPhoneView, fifthPhoneView, collectionsAlarmImage, shadowView, textContainerViewView,
-                     addItemImage, firstSideView, secondSideView, thirdSideView,
-                     forthSideView, fifthSideView, sharedAlarmImage, contextualMenuImage, greenCartImage])
+        addSubviews([backgroundView, secondBackgroundView, secondBackgroundBlurView,
+                     thirdBackgroundView, forthBackgroundView, phoneShadowView, phoneView,
+                     secondPhoneView, thirdPhoneView, forthPhoneView, fifthPhoneView, collectionsAlarmImage,
+                     shadowView, textContainerViewView, addItemImage, firstSideView, secondSideView, thirdSideView,
+                                   forthSideView, fifthSideView, sharedAlarmImage, contextualMenuImage, greenCartImage])
         textContainerViewView.addSubviews([firstTextLabel, secondTextLabel, thirdTextLabel, forthTextLabel])
 
         backgroundView.snp.makeConstraints { make in
