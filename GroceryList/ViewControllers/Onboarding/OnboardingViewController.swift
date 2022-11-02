@@ -24,11 +24,11 @@ class OnboardingViewController: UIViewController {
             self?.showSecondView()
         }
         
-        secondView.firstAnimationFinished = {  [weak self] in
+        secondView.unlockButton = {  [weak self] in
             self?.nextButton.isUserInteractionEnabled = true
         }
         
-        secondView.secondAnimationFinished = {  [weak self] in
+        secondView.lockButton = {  [weak self] in
             self?.nextButton.isUserInteractionEnabled = false
         }
     }
@@ -70,6 +70,12 @@ class OnboardingViewController: UIViewController {
     private func nextButtonPressed() {
         if currentVC == 2 {
             secondView.secondAnimation()
+            currentVC += 1
+            return
+        }
+        
+        if currentVC == 3 {
+            secondView.goToFourhState()
             currentVC += 1
         }
     }

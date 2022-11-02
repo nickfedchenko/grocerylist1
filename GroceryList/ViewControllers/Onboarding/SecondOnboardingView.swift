@@ -10,8 +10,8 @@ import UIKit
 
 class SecondOnboardingView: UIView {
     
-    var firstAnimationFinished: (() -> Void)?
-    var secondAnimationFinished: (() -> Void)?
+    var unlockButton: (() -> Void)?
+    var lockButton: (() -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,7 +29,7 @@ class SecondOnboardingView: UIView {
         secondBackgroundBlurView.alpha = 0
     }
     
-    // анимация перехода на второй экран
+    // анимация перехода на первый экран
     func firstAnimation() {
         UIView.animate(withDuration: 1.0, delay: 0,
                        usingSpringWithDamping: 0.8,
@@ -65,13 +65,13 @@ class SecondOnboardingView: UIView {
             }
             self.layoutIfNeeded()
         } completion: { _ in
-            self.firstAnimationFinished?()
+            self.unlockButton?()
         }
     }
     
-    // анимация закрытия второго экрана
+    // анимация закрытия первого экрана
     func secondAnimation() {
-        UIView.animate(withDuration: 1.0, delay: 0,
+        UIView.animate(withDuration: 1.3, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
@@ -105,30 +105,17 @@ class SecondOnboardingView: UIView {
             
             self.layoutIfNeeded()
         } completion: { _ in
-            self.secondAnimationFinished?()
+            self.lockButton?()
             self.showThirdState()
         }
     }
     
-    // анимация перехода на третий экран
+    // анимация перехода на второй экран
     private func showThirdState() {
-        UIView.animate(withDuration: 1.5, delay: 0,
-                       usingSpringWithDamping: 0.6,
+        UIView.animate(withDuration: 1.3, delay: 0,
+                       usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
-            self.phoneView.snp.remakeConstraints { make in
-                make.right.equalTo(self.backgroundView.snp.left)
-                make.centerY.equalToSuperview().multipliedBy(0.8)
-                make.width.equalTo(232)
-                make.height.equalTo(500)
-            }
-            
-            self.secondPhoneView.snp.remakeConstraints { make in
-                make.centerX.equalToSuperview()
-                make.centerY.equalToSuperview().multipliedBy(0.8)
-                make.width.equalTo(232)
-                make.height.equalTo(500)
-            }
             
             self.addItemImage.snp.remakeConstraints { make in
                 make.right.equalTo(self.backgroundView.snp.left)
@@ -169,10 +156,70 @@ class SecondOnboardingView: UIView {
             self.secondBackgroundBlurView.alpha = 1
             self.layoutIfNeeded()
         } completion: { _ in
+            self.unlockButton?()
         }
     }
     
-    // анимация перехода на четвертый экран
+    // анимация перехода на третий экран
+    func goToFourhState() {
+        self.lockButton?()
+        UIView.animate(withDuration: 1.0, delay: 0,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0.0,
+                       options: .curveLinear) {
+            self.sharedAlarmImage.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+            self.secondBackgroundBlurView.alpha = 0
+            self.sharedAlarmImage.alpha = 0
+           
+            self.secondBackgroundView.snp.remakeConstraints { make in
+                make.width.height.top.equalToSuperview()
+                make.right.equalTo(self.snp.left)
+            }
+
+            self.secondTextLabel.snp.remakeConstraints { make in
+                make.right.equalTo(self.textContainerViewView.snp.left)
+                make.width.equalTo(200)
+                make.top.bottom.equalToSuperview()
+            }
+            
+            self.thirdTextLabel.snp.remakeConstraints { make in
+                make.left.right.equalToSuperview().inset(20)
+                make.bottom.equalToSuperview().inset(30)
+                make.top.equalToSuperview().inset(30)
+            }
+            
+            self.layoutIfNeeded()
+        } completion: { _ in
+        }
+    }
+    
+    private func showCollectionsAlarm() {
+        UIView.animate(withDuration: 1.0, delay: 1,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0.0,
+                       options: .curveLinear) {
+            self.sharedAlarmImage.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.secondBackgroundBlurView.alpha = 1
+            self.layoutIfNeeded()
+        } completion: { _ in
+            self.unlockButton?()
+        }
+    }
+    
+    private func createTextLabel(with text: String) -> UILabel {
+        let label = UILabel()
+        label.font = .SFPro.semibold(size: 18).font
+        label.textColor = UIColor(hex: "#31635A")
+        let attributedString = NSMutableAttributedString(string: text.localized)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 4
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle,
+                                      value: paragraphStyle, range: NSRange(location: 0, length: attributedString.length))
+        label.attributedText = attributedString
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
+    }
     
     // UI
     private let backgroundView: UIImageView = {
@@ -196,6 +243,13 @@ class SecondOnboardingView: UIView {
         return imageView
     }()
     
+    private let thirdBackgroundView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "forthBG")
+        return imageView
+    }()
+    
     private let phoneView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -207,6 +261,13 @@ class SecondOnboardingView: UIView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "secondScreen")
+        return imageView
+    }()
+    
+    private let thirdPhoneView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "thirdScreen")
         return imageView
     }()
     
@@ -225,36 +286,9 @@ class SecondOnboardingView: UIView {
         return view
     }()
     
-    private let firstTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = .SFPro.semibold(size: 18).font
-        label.textColor = UIColor(hex: "#31635A")
-        let attributedString = NSMutableAttributedString(string: "CreateLists".localized)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 4
-        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle,
-                                      value: paragraphStyle, range: NSRange(location: 0, length: attributedString.length))
-        label.attributedText = attributedString
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        return label
-    }()
-    
-    private let secondTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = .SFPro.semibold(size: 18).font
-        label.textColor = UIColor(hex: "#31635A")
-        let attributedString = NSMutableAttributedString(string: "Synchronize".localized)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 4
-        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle,
-                                      value: paragraphStyle, range: NSRange(location: 0, length: attributedString.length))
-        label.attributedText = attributedString
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        label.isHidden = true
-        return label
-    }()
+    private lazy var firstTextLabel: UILabel = createTextLabel(with: "CreateLists")
+    private lazy var secondTextLabel: UILabel = createTextLabel(with: "Synchronize")
+    private lazy var thirdTextLabel: UILabel = createTextLabel(with: "OrganizeRecepts")
     
     private let shadowView: UIView = {
         let view = UIView()
@@ -322,14 +356,26 @@ class SecondOnboardingView: UIView {
         return imageView
     }()
     
+    private let collectionsAlarmImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "collectionsAlarmImage")
+        imageView.layer.shadowColor = UIColor.gray.cgColor
+        imageView.layer.shadowOpacity = 0.5
+        imageView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        imageView.layer.shadowRadius = 2
+        imageView.layer.masksToBounds = false
+        return imageView
+    }()
+    
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        addSubviews([backgroundView, secondBackgroundView, secondBackgroundBlurView, phoneShadowView,
-                     phoneView, secondPhoneView, shadowView, textContainerViewView,
+        addSubviews([backgroundView, secondBackgroundView, secondBackgroundBlurView, thirdBackgroundView, phoneShadowView,
+                     phoneView, secondPhoneView, thirdPhoneView, collectionsAlarmImage, shadowView, textContainerViewView,
                      addItemImage, firstSideView, secondSideView, thirdSideView,
                      forthSideView, fifthSideView, sharedAlarmImage])
-        textContainerViewView.addSubviews([firstTextLabel, secondTextLabel])
-        
+        textContainerViewView.addSubviews([firstTextLabel, secondTextLabel, thirdTextLabel])
+
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -344,15 +390,27 @@ class SecondOnboardingView: UIView {
             make.left.equalTo(backgroundView.snp.right)
         }
         
+        thirdBackgroundView.snp.makeConstraints { make in
+            make.width.height.top.bottom.equalToSuperview()
+            make.left.equalTo(secondBackgroundView.snp.right)
+        }
+        
         phoneView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
+            make.centerX.equalTo(backgroundView)
             make.centerY.equalToSuperview().multipliedBy(0.8)
             make.width.equalTo(232)
             make.height.equalTo(500)
         }
         
         secondPhoneView.snp.makeConstraints { make in
-            make.left.equalTo(self.snp.right)
+            make.centerX.equalTo(secondBackgroundView)
+            make.centerY.equalToSuperview().multipliedBy(0.8)
+            make.width.equalTo(232)
+            make.height.equalTo(500)
+        }
+        
+        thirdPhoneView.snp.makeConstraints { make in
+            make.centerX.equalTo(thirdBackgroundView)
             make.centerY.equalToSuperview().multipliedBy(0.8)
             make.width.equalTo(232)
             make.height.equalTo(500)
@@ -377,6 +435,12 @@ class SecondOnboardingView: UIView {
         }
         
         secondTextLabel.snp.makeConstraints { make in
+            make.left.equalTo(textContainerViewView.snp.right)
+            make.bottom.equalToSuperview().inset(30)
+            make.top.equalTo(addItemImage.snp.bottom)
+        }
+        
+        thirdTextLabel.snp.makeConstraints { make in
             make.left.equalTo(textContainerViewView.snp.right)
             make.bottom.equalToSuperview().inset(30)
             make.top.equalTo(addItemImage.snp.bottom)
@@ -435,6 +499,13 @@ class SecondOnboardingView: UIView {
             make.height.equalTo(190)
             make.centerY.equalTo(phoneView.snp.centerY)
             make.centerX.equalToSuperview()
+        }
+        
+        collectionsAlarmImage.snp.makeConstraints { make in
+            make.width.equalTo(206)
+            make.height.equalTo(337)
+            make.right.equalTo(thirdPhoneView.snp.right).inset(-44)
+            make.top.equalTo(phoneView.snp.top).inset(155)
         }
     }
 }

@@ -93,7 +93,7 @@ class FirstOnboardingView: UIView {
     
     @objc
     private func bottomViewRecognizerAction() {
-        UIView.animate(withDuration: 1.0) {
+        UIView.animate(withDuration: 0.8) {
             let transition = CATransition()
             transition.type = .fade
             transition.duration = 0.3
