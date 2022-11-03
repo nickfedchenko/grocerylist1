@@ -17,6 +17,8 @@
 		B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF93E2913D1AE00944E9D /* SegmentControlExtension.swift */; };
 		B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9402913D37300944E9D /* CustomSegmentControl.swift */; };
 		B36AF9432913D39400944E9D /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9422913D39400944E9D /* UIImageExtension.swift */; };
+		B36AF9452913DEC700944E9D /* GroseryListsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9442913DEC700944E9D /* GroseryListsTableViewCell.swift */; };
+		B36AF9472913E94100944E9D /* SF Pro Display Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B36AF9462913E94100944E9D /* SF Pro Display Regular.otf */; };
 		B36C75EE2911266800709721 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B36C75F02911266800709721 /* Localizable.strings */; };
 		B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD62910EE93003C01AD /* NavigationInterface.swift */; };
 		B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD72910EE93003C01AD /* RootRouter.swift */; };
@@ -54,6 +56,8 @@
 		B36AF93E2913D1AE00944E9D /* SegmentControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControlExtension.swift; sourceTree = "<group>"; };
 		B36AF9402913D37300944E9D /* CustomSegmentControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentControl.swift; sourceTree = "<group>"; };
 		B36AF9422913D39400944E9D /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		B36AF9442913DEC700944E9D /* GroseryListsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroseryListsTableViewCell.swift; sourceTree = "<group>"; };
+		B36AF9462913E94100944E9D /* SF Pro Display Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Regular.otf"; sourceTree = "<group>"; };
 		B36C75EF2911266800709721 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B36C75F12911267600709721 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B37A2CD62910EE93003C01AD /* NavigationInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationInterface.swift; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				B36AF9382913C5DC00944E9D /* MainScreenViewController.swift */,
+				B36AF9442913DEC700944E9D /* GroseryListsTableViewCell.swift */,
 				B36AF9402913D37300944E9D /* CustomSegmentControl.swift */,
 				B36AF93A2913C66000944E9D /* MainScreenViewModel.swift */,
 			);
@@ -225,6 +230,7 @@
 		B37A2CF229111BFB003C01AD /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				B36AF9462913E94100944E9D /* SF Pro Display Regular.otf */,
 				B36AF93C2913CEE900944E9D /* SF Pro Display Bold.otf */,
 				B3C3FA4829115F510011EC0A /* SF Pro Display Semibold.otf */,
 				B37A2CF5291125CA003C01AD /* SF Pro Display Medium.otf */,
@@ -298,6 +304,7 @@
 				B33EFF1B290FF02900AD9BEE /* LaunchScreen.storyboard in Resources */,
 				B36C75EE2911266800709721 /* Localizable.strings in Resources */,
 				B37A2CF6291125CA003C01AD /* SF Pro Display Medium.otf in Resources */,
+				B36AF9472913E94100944E9D /* SF Pro Display Regular.otf in Resources */,
 				B37A2CF429111C41003C01AD /* SF Pro Display Heavy.otf in Resources */,
 				B33EFF18290FF02900AD9BEE /* Assets.xcassets in Resources */,
 				B36AF93D2913CEE900944E9D /* SF Pro Display Bold.otf in Resources */,
@@ -374,6 +381,7 @@
 				B3C3FA4729115AA20011EC0A /* OnboardingContentView.swift in Sources */,
 				B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */,
 				B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */,
+				B36AF9452913DEC700944E9D /* GroseryListsTableViewCell.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
 				B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */,
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,

@@ -13,6 +13,7 @@ extension UIFont {
         case medium(size: CGFloat)
         case semibold(size: CGFloat)
         case bold(size: CGFloat)
+        case regular(size: CGFloat)
         
         var font: UIFont! {
             switch self {
@@ -24,6 +25,8 @@ extension UIFont {
                 return UIFont(name: "SF Pro Display Semibold", size: size)
             case .bold(let size):
                 return UIFont(name: "SF Pro Display Bold", size: size)
+            case .regular(let size):
+                return UIFont(name: "SF Pro Display Regular", size: size)
             }
         }
     }
