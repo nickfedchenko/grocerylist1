@@ -51,7 +51,7 @@ final class RootRouter: RootRouterProtocol {
     
     func presentRootNavigationControllerInWindow() {
         
-        if let rootViewController = viewControllerFactory.createOnboardingController(router: self) {
+        if let rootViewController = viewControllerFactory.createMainController(router: self) {
             self.navigationController = UINavigationController(rootViewController: rootViewController)
         } else {
             self.navigationController = UINavigationController()
@@ -61,7 +61,7 @@ final class RootRouter: RootRouterProtocol {
         
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
-       // goToOnboarding()
+        goToOnboarding()
     }
     
     func goToOnboarding() {

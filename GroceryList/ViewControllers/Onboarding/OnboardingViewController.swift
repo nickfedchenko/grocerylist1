@@ -87,7 +87,7 @@ class OnboardingViewController: UIViewController {
         }
         
         if currentVC > 3 {
-           print("close onboarding")
+            router?.popToRootFromOnboarding()
             return
         }
         

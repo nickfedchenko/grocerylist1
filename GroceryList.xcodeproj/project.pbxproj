@@ -11,6 +11,12 @@
 		B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33EFF10290FF02800AD9BEE /* SceneDelegate.swift */; };
 		B33EFF18290FF02900AD9BEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B33EFF17290FF02900AD9BEE /* Assets.xcassets */; };
 		B33EFF1B290FF02900AD9BEE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B33EFF19290FF02900AD9BEE /* LaunchScreen.storyboard */; };
+		B36AF9392913C5DC00944E9D /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9382913C5DC00944E9D /* MainScreenViewController.swift */; };
+		B36AF93B2913C66000944E9D /* MainScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF93A2913C66000944E9D /* MainScreenViewModel.swift */; };
+		B36AF93D2913CEE900944E9D /* SF Pro Display Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B36AF93C2913CEE900944E9D /* SF Pro Display Bold.otf */; };
+		B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF93E2913D1AE00944E9D /* SegmentControlExtension.swift */; };
+		B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9402913D37300944E9D /* CustomSegmentControl.swift */; };
+		B36AF9432913D39400944E9D /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9422913D39400944E9D /* UIImageExtension.swift */; };
 		B36C75EE2911266800709721 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B36C75F02911266800709721 /* Localizable.strings */; };
 		B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD62910EE93003C01AD /* NavigationInterface.swift */; };
 		B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD72910EE93003C01AD /* RootRouter.swift */; };
@@ -42,6 +48,12 @@
 		B33EFF17290FF02900AD9BEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B33EFF1A290FF02900AD9BEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B33EFF1C290FF02900AD9BEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B36AF9382913C5DC00944E9D /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
+		B36AF93A2913C66000944E9D /* MainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewModel.swift; sourceTree = "<group>"; };
+		B36AF93C2913CEE900944E9D /* SF Pro Display Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Bold.otf"; sourceTree = "<group>"; };
+		B36AF93E2913D1AE00944E9D /* SegmentControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControlExtension.swift; sourceTree = "<group>"; };
+		B36AF9402913D37300944E9D /* CustomSegmentControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentControl.swift; sourceTree = "<group>"; };
+		B36AF9422913D39400944E9D /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		B36C75EF2911266800709721 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B36C75F12911267600709721 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B37A2CD62910EE93003C01AD /* NavigationInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationInterface.swift; sourceTree = "<group>"; };
@@ -123,6 +135,16 @@
 			path = GroceryList;
 			sourceTree = "<group>";
 		};
+		B36AF9372913C58A00944E9D /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				B36AF9382913C5DC00944E9D /* MainScreenViewController.swift */,
+				B36AF9402913D37300944E9D /* CustomSegmentControl.swift */,
+				B36AF93A2913C66000944E9D /* MainScreenViewModel.swift */,
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		B37A0F4A29100CD900343FF1 /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				B37A2CDD2911027E003C01AD /* Onboarding */,
+				B36AF9372913C58A00944E9D /* New Group */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -186,8 +209,10 @@
 			children = (
 				B37A2CE12911034D003C01AD /* UIColorExtension.swift */,
 				B37A2CE22911034D003C01AD /* UITextFieldExtension.swift */,
+				B36AF93E2913D1AE00944E9D /* SegmentControlExtension.swift */,
 				B37A2CE32911034D003C01AD /* UIViewControllerExtension.swift */,
 				B37A2CE42911034D003C01AD /* UIViewExtension.swift */,
+				B36AF9422913D39400944E9D /* UIImageExtension.swift */,
 				B37A2CE52911034D003C01AD /* StringExtension.swift */,
 				B37A2CE62911034D003C01AD /* DateExtension.swift */,
 				B37A2CED29110435003C01AD /* UIFontExtension.swift */,
@@ -200,6 +225,7 @@
 		B37A2CF229111BFB003C01AD /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				B36AF93C2913CEE900944E9D /* SF Pro Display Bold.otf */,
 				B3C3FA4829115F510011EC0A /* SF Pro Display Semibold.otf */,
 				B37A2CF5291125CA003C01AD /* SF Pro Display Medium.otf */,
 				B37A2CF329111C41003C01AD /* SF Pro Display Heavy.otf */,
@@ -274,6 +300,7 @@
 				B37A2CF6291125CA003C01AD /* SF Pro Display Medium.otf in Resources */,
 				B37A2CF429111C41003C01AD /* SF Pro Display Heavy.otf in Resources */,
 				B33EFF18290FF02900AD9BEE /* Assets.xcassets in Resources */,
+				B36AF93D2913CEE900944E9D /* SF Pro Display Bold.otf in Resources */,
 				B3C3FA4929115F510011EC0A /* SF Pro Display Semibold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,22 +372,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3C3FA4729115AA20011EC0A /* OnboardingContentView.swift in Sources */,
+				B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */,
 				B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
 				B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */,
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
 				B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */,
 				B37A2CE82911034D003C01AD /* UITextFieldExtension.swift in Sources */,
+				B36AF93B2913C66000944E9D /* MainScreenViewModel.swift in Sources */,
 				B37A2CE92911034D003C01AD /* UIViewControllerExtension.swift in Sources */,
 				B37A2CE72911034D003C01AD /* UIColorExtension.swift in Sources */,
 				B37A2CDF29110290003C01AD /* OnboardingViewController.swift in Sources */,
+				B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */,
 				B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */,
 				B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */,
+				B36AF9432913D39400944E9D /* UIImageExtension.swift in Sources */,
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,
 				B37A2CEB2911034D003C01AD /* StringExtension.swift in Sources */,
 				B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */,
 				B3C3FA4F291175390011EC0A /* UIImageViewExtension.swift in Sources */,
 				B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */,
+				B36AF9392913C5DC00944E9D /* MainScreenViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
