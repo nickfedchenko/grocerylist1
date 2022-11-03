@@ -17,8 +17,10 @@
 		B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF93E2913D1AE00944E9D /* SegmentControlExtension.swift */; };
 		B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9402913D37300944E9D /* CustomSegmentControl.swift */; };
 		B36AF9432913D39400944E9D /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9422913D39400944E9D /* UIImageExtension.swift */; };
-		B36AF9452913DEC700944E9D /* GroseryListsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9442913DEC700944E9D /* GroseryListsTableViewCell.swift */; };
+		B36AF9452913DEC700944E9D /* GroceryListsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9442913DEC700944E9D /* GroceryListsTableViewCell.swift */; };
 		B36AF9472913E94100944E9D /* SF Pro Display Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B36AF9462913E94100944E9D /* SF Pro Display Regular.otf */; };
+		B36AF94A2913FA8000944E9D /* IntrinsicTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9492913FA8000944E9D /* IntrinsicTableView.swift */; };
+		B36AF94D2913FAD000944E9D /* GroceryTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF94C2913FAD000944E9D /* GroceryTableViewHeader.swift */; };
 		B36C75EE2911266800709721 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B36C75F02911266800709721 /* Localizable.strings */; };
 		B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD62910EE93003C01AD /* NavigationInterface.swift */; };
 		B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD72910EE93003C01AD /* RootRouter.swift */; };
@@ -56,8 +58,10 @@
 		B36AF93E2913D1AE00944E9D /* SegmentControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControlExtension.swift; sourceTree = "<group>"; };
 		B36AF9402913D37300944E9D /* CustomSegmentControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentControl.swift; sourceTree = "<group>"; };
 		B36AF9422913D39400944E9D /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
-		B36AF9442913DEC700944E9D /* GroseryListsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroseryListsTableViewCell.swift; sourceTree = "<group>"; };
+		B36AF9442913DEC700944E9D /* GroceryListsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryListsTableViewCell.swift; sourceTree = "<group>"; };
 		B36AF9462913E94100944E9D /* SF Pro Display Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Regular.otf"; sourceTree = "<group>"; };
+		B36AF9492913FA8000944E9D /* IntrinsicTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrinsicTableView.swift; sourceTree = "<group>"; };
+		B36AF94C2913FAD000944E9D /* GroceryTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryTableViewHeader.swift; sourceTree = "<group>"; };
 		B36C75EF2911266800709721 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B36C75F12911267600709721 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B37A2CD62910EE93003C01AD /* NavigationInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationInterface.swift; sourceTree = "<group>"; };
@@ -143,11 +147,29 @@
 			isa = PBXGroup;
 			children = (
 				B36AF9382913C5DC00944E9D /* MainScreenViewController.swift */,
-				B36AF9442913DEC700944E9D /* GroseryListsTableViewCell.swift */,
-				B36AF9402913D37300944E9D /* CustomSegmentControl.swift */,
+				B36AF94B2913FABA00944E9D /* TableView */,
+				B36AF9482913FA5B00944E9D /* CustomUiElements */,
 				B36AF93A2913C66000944E9D /* MainScreenViewModel.swift */,
 			);
 			path = "New Group";
+			sourceTree = "<group>";
+		};
+		B36AF9482913FA5B00944E9D /* CustomUiElements */ = {
+			isa = PBXGroup;
+			children = (
+				B36AF9402913D37300944E9D /* CustomSegmentControl.swift */,
+				B36AF9492913FA8000944E9D /* IntrinsicTableView.swift */,
+			);
+			path = CustomUiElements;
+			sourceTree = "<group>";
+		};
+		B36AF94B2913FABA00944E9D /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				B36AF9442913DEC700944E9D /* GroceryListsTableViewCell.swift */,
+				B36AF94C2913FAD000944E9D /* GroceryTableViewHeader.swift */,
+			);
+			path = TableView;
 			sourceTree = "<group>";
 		};
 		B37A0F4A29100CD900343FF1 /* Application */ = {
@@ -381,12 +403,14 @@
 				B3C3FA4729115AA20011EC0A /* OnboardingContentView.swift in Sources */,
 				B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */,
 				B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */,
-				B36AF9452913DEC700944E9D /* GroseryListsTableViewCell.swift in Sources */,
+				B36AF9452913DEC700944E9D /* GroceryListsTableViewCell.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
 				B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */,
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
 				B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */,
+				B36AF94D2913FAD000944E9D /* GroceryTableViewHeader.swift in Sources */,
 				B37A2CE82911034D003C01AD /* UITextFieldExtension.swift in Sources */,
+				B36AF94A2913FA8000944E9D /* IntrinsicTableView.swift in Sources */,
 				B36AF93B2913C66000944E9D /* MainScreenViewModel.swift in Sources */,
 				B37A2CE92911034D003C01AD /* UIViewControllerExtension.swift in Sources */,
 				B37A2CE72911034D003C01AD /* UIColorExtension.swift in Sources */,

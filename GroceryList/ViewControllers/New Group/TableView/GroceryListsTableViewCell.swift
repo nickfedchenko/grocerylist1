@@ -8,7 +8,7 @@
 import SnapKit
 import UIKit
 
-class GroseryListsTableViewCell: UITableViewCell {
+class GroceryListsTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -20,7 +20,7 @@ class GroseryListsTableViewCell: UITableViewCell {
     }
     
     func setupCell(nameOfList: String, bckgColor: UIColor, isTopRounded: Bool, isBottomRounded: Bool) {
-        backgroundColor = bckgColor
+        contentViews.backgroundColor = bckgColor
         nameLabel.text = nameOfList
         
         if isBottomRounded {
