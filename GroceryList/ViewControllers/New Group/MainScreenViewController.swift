@@ -200,14 +200,14 @@ extension MainScreenViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel?.getNumberOfCells() ?? 0
+        viewModel?.getNumberOfCells(at: section) ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = self.tableview.dequeueReusableCell(withIdentifier: "GroseryListsTableViewCell", for: indexPath)
                 as? GroceryListsTableViewCell, let viewModel = viewModel else { return UITableViewCell() }
         cell.selectionStyle = .none
-        let name = viewModel.getNameOfList(at: indexPath.row)
+        let name = viewModel.getNameOfList(at: indexPath)
         let color = viewModel.getBGColor(at: indexPath.row)
         let isTopRouned = viewModel.isTopRounded(at: indexPath.row)
         let isBottomRounded = viewModel.isBottomRounded(at: indexPath.row)

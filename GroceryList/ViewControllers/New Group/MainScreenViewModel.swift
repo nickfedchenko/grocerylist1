@@ -11,8 +11,8 @@ import UIKit
 protocol MainScreenViewModelDelegate: AnyObject {
     func getTitleForHeader(at ind: Int) -> String
     func getNumberOfSections() -> Int
-    func getNumberOfCells() -> Int
-    func getNameOfList(at ind: Int) -> String
+    func getNumberOfCells(at section: Int) -> Int
+    func getNameOfList(at ind: IndexPath) -> String
     func getBGColor(at ind: Int) -> UIColor
     func isTopRounded(at ind: Int) -> Bool
     func isBottomRounded(at ind: Int) -> Bool
@@ -20,26 +20,28 @@ protocol MainScreenViewModelDelegate: AnyObject {
 
 class MainScreenViewModel: MainScreenViewModelDelegate {
     
-    private let dataSource = MainScreenDataSource()
+    private let coldStartDataSource = ColdStartDataSource()
+    private var isFirstStart = true
     
-    private var model: [GroseryListsModel] {
-        dataSource.coldStartModel
+    private var model: [SectionModel] {
+        if isFirstStart { return coldStartDataSource.sectionsModel }
+        return coldStartDataSource.sectionsModel
     }
    
     func getNumberOfSections() -> Int {
-        return
+        return model.count
     }
     
     func getTitleForHeader(at ind: Int) -> String {
-        return "la la la"
+        return model[ind].nameOfSection
     }
 
-    func getNumberOfCells() -> Int {
-        return 3
+    func getNumberOfCells(at section: Int) -> Int {
+        return model[section].lists.count
     }
     
-    func getNameOfList(at ind: Int) -> String {
-        return "sadfsdf"
+    func getNameOfList(at ind: IndexPath) -> String {
+        return model[ind.section].lists[ind.row].name ?? "No name"
     }
     
     func getBGColor(at ind: Int) -> UIColor {
@@ -55,26 +57,59 @@ class MainScreenViewModel: MainScreenViewModelDelegate {
     }
 }
 
-class MainScreenDataSource {
-    let coldStartModel = [
-        GroseryListsModel(section: .favorite, lists: [List(name: "Supermarket".localized, items: "0/0")]),
-        GroseryListsModel(section: .today, lists: [List(name: "dfasdas".localized, items: "0334")])
+class ColdStartDataSource {
+   
+    let favoriteModel = [
+        GroseryListsModel(dateOfCreation: Date(), name: "SuperMarket".localized, color: .green, isFavorite: true, supplays: [])
     ]
+    
+    let todayModel = [
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isTestCell: true, supplays: [] )
+    ]
+    
+    let sevenDaysModel = [
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] ),
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] ),
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] )
+    ]
+    
+    let oneMonthModel = [
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] ),
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] ),
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] )
+    ]
+    
+    lazy var sectionsModel = [
+        SectionModel(nameOfSection: "favorite", lists: favoriteModel),
+        SectionModel(nameOfSection: "today", lists: todayModel),
+        SectionModel(nameOfSection: "sevenDays", lists: sevenDaysModel),
+        SectionModel(nameOfSection: "oneMonth", lists: oneMonthModel)
+    ]
+    
+}
+
+struct SectionModel {
+    var nameOfSection: String
+    var lists: [GroseryListsModel]
 }
 
 struct GroseryListsModel {
-    var section: GroceryListsCellSection
-    var lists: [List]
+    var dateOfCreation: Date?
+    var name: String?
+    var color: UIColor
+    var isFavorite: Bool = false
+    var isEmpty: Bool = false
+    var isTestCell: Bool = false
+    var supplays: [Supplay?]
 }
 
-struct List {
+struct Supplay {
     var name: String
-    var items: String
+    var isPurchased: Bool
+    var dateOfCreation: Date
+    var category: Category
 }
 
-enum GroceryListsCellSection: String {
-    case favorite = ""
-    case today = "Today"
-    case sevenDays = "SevenDays"
-    case month = "OneMonth"
+enum Category {
+    case head
 }
