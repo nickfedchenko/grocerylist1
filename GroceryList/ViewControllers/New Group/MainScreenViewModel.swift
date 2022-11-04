@@ -13,9 +13,10 @@ protocol MainScreenViewModelDelegate: AnyObject {
     func getNumberOfSections() -> Int
     func getNumberOfCells(at section: Int) -> Int
     func getNameOfList(at ind: IndexPath) -> String
-    func getBGColor(at ind: Int) -> UIColor
-    func isTopRounded(at ind: Int) -> Bool
-    func isBottomRounded(at ind: Int) -> Bool
+    func getBGColor(at ind: IndexPath) -> UIColor
+    func isTopRounded(at ind: IndexPath) -> Bool
+    func isBottomRounded(at ind: IndexPath) -> Bool
+    func getnumberOfSupplaysInside(at ind: IndexPath) -> String
 }
 
 class MainScreenViewModel: MainScreenViewModelDelegate {
@@ -44,38 +45,51 @@ class MainScreenViewModel: MainScreenViewModelDelegate {
         return model[ind.section].lists[ind.row].name ?? "No name"
     }
     
-    func getBGColor(at ind: Int) -> UIColor {
-        return UIColor.blue
+    func getBGColor(at ind: IndexPath) -> UIColor {
+        return model[ind.section].lists[ind.row].color
     }
     
-    func isTopRounded(at ind: Int) -> Bool {
-        return true
+    func isTopRounded(at ind: IndexPath) -> Bool {
+        ind.row == 0
     }
     
-    func isBottomRounded(at ind: Int) -> Bool {
-        return false
+    func isBottomRounded(at ind: IndexPath) -> Bool {
+        let lastCell = model[ind.section].lists.count - 1
+        return ind.row == lastCell
+    }
+    
+    func getnumberOfSupplaysInside(at ind: IndexPath) -> String {
+        let supply = model[ind.section].lists[ind.row]
+        var done = 0
+        supply.supplays.forEach({ item in
+            guard let item = item else { return }
+            if item.isPurchased {done += 1 }
+        })
+        
+        return "\(done)/\(supply.supplays.count)"
     }
 }
 
 class ColdStartDataSource {
    
     let favoriteModel = [
-        GroseryListsModel(dateOfCreation: Date(), name: "SuperMarket".localized, color: .green, isFavorite: true, supplays: [])
+        GroseryListsModel(dateOfCreation: Date(), name: "SuperMarket".localized,
+                          color: ColorManager.shared.getGradient(index: 1).0, isFavorite: true, supplays: [])
     ]
     
     let todayModel = [
-        GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isTestCell: true, supplays: [] )
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .red, isTestCell: true, supplays: [] )
     ]
     
     let sevenDaysModel = [
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .blue, isEmpty: true, supplays: [] ),
         GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] ),
-        GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] ),
-        GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] )
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .yellow, isEmpty: true, supplays: [] )
     ]
     
     let oneMonthModel = [
-        GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] ),
-        GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] ),
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .gray, isEmpty: true, supplays: [] ),
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .purple, isEmpty: true, supplays: [] ),
         GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] )
     ]
     

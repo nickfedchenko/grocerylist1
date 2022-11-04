@@ -19,7 +19,9 @@ class GroceryListsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell(nameOfList: String, bckgColor: UIColor, isTopRounded: Bool, isBottomRounded: Bool) {
+    func setupCell(nameOfList: String, bckgColor: UIColor, isTopRounded: Bool,
+                   isBottomRounded: Bool, numberOfItemsInside: String) {
+        countLabel.text = numberOfItemsInside
         contentViews.backgroundColor = bckgColor
         nameLabel.text = nameOfList
         
@@ -33,6 +35,9 @@ class GroceryListsTableViewCell: UITableViewCell {
             contentViews.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         }
         
+        if isBottomRounded && isTopRounded {
+            contentViews.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+        }
     }
     
     private let contentViews: UIView = {
@@ -46,7 +51,6 @@ class GroceryListsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
         label.textColor = .white
-        label.text = ".jbkjhvkghvk"
         return label
     }()
     
@@ -54,7 +58,6 @@ class GroceryListsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
         label.textColor = .white
-        label.text = "12/1000"
         return label
     }()
     

@@ -208,10 +208,12 @@ extension MainScreenViewController: UITableViewDelegate, UITableViewDataSource {
                 as? GroceryListsTableViewCell, let viewModel = viewModel else { return UITableViewCell() }
         cell.selectionStyle = .none
         let name = viewModel.getNameOfList(at: indexPath)
-        let color = viewModel.getBGColor(at: indexPath.row)
-        let isTopRouned = viewModel.isTopRounded(at: indexPath.row)
-        let isBottomRounded = viewModel.isBottomRounded(at: indexPath.row)
-        cell.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned, isBottomRounded: isBottomRounded)
+        let color = viewModel.getBGColor(at: indexPath)
+        let isTopRouned = viewModel.isTopRounded(at: indexPath)
+        let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
+        let numberOfItems = viewModel.getnumberOfSupplaysInside(at: indexPath)
+        cell.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
+                       isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems)
         return cell
     }
     
