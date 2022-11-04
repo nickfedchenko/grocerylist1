@@ -17,3 +17,6 @@
 "Recipes"                   = "Recipes";
 "CreateList"                = "CreateList";
 "Supermarket"               = "Supermarket";
+"today"                     = "Today";
+"week"                      = "Previous 7 days";
+"month"                     = "Previous 30 days";

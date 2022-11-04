@@ -22,7 +22,7 @@ class GroceryCollectionViewHeader: UICollectionReusableView {
     func setupHeader(sectionType: SectionType) {
         guard sectionType != .favorite else { return sectionName.isHidden = true }
         pinchImage.isHidden = true
-        sectionName.text = sectionType.rawValue
+        sectionName.text = sectionType.rawValue.localized
     }
     
     private let sectionName: UILabel = {

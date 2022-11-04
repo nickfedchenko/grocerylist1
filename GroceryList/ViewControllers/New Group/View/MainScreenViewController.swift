@@ -187,12 +187,15 @@ extension MainScreenViewController {
     
     private func setupCollectionView() {
         collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
-        collectionView.register(GroceryListsCollectionViewCell.self, forCellWithReuseIdentifier: "GroceryListsCollectionViewCell")
+        collectionView.register(GroceryListsCollectionViewCell.self,
+                                forCellWithReuseIdentifier: "GroceryListsCollectionViewCell")
+        collectionView.register(EmptyColoredCell.self,
+                                forCellWithReuseIdentifier: "EmptyColoredCell")
+        collectionView.register(InstructionCell.self,
+                                forCellWithReuseIdentifier: "InstructionCell")
         collectionView.register(GroceryCollectionViewHeader.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: "GroceryCollectionViewHeader")
-        collectionView.register(EmptyColoredCell.self, forCellWithReuseIdentifier: "EmptyColoredCell")
-        collectionView.register(InstructionCell.self, forCellWithReuseIdentifier: "InstructionCell")
     }
     
     private func createTableViewDataSource() {
@@ -202,14 +205,28 @@ extension MainScreenViewController {
             case .empty:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "EmptyColoredCell", for: indexPath)
                 as? EmptyColoredCell
+                guard let viewModel = self.viewModel else { return UICollectionViewCell() }
+                let isTopRouned = viewModel.isTopRounded(at: indexPath)
+                let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
+                let color = viewModel.getBGColor(at: indexPath)
+                
+                cell?.setupCell(bckgColor: color, isTopRounded: isTopRouned, isBottomRounded: isBottomRounded)
                 return cell
             case .instruction:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "InstructionCell", for: indexPath)
                 as? InstructionCell
                 return cell
             default:
-                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "GroceryListsCollectionViewCell", for: indexPath)
-                as? GroceryListsCollectionViewCell
+                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "GroceryListsCollectionViewCell",
+                                                                         for: indexPath) as? GroceryListsCollectionViewCell
+                guard let viewModel = self.viewModel else { return UICollectionViewCell() }
+                let name = viewModel.getNameOfList(at: indexPath)
+                let color = viewModel.getBGColor(at: indexPath)
+                let isTopRouned = viewModel.isTopRounded(at: indexPath)
+                let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
+                let numberOfItems = viewModel.getnumberOfSupplaysInside(at: indexPath)
+                cell?.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
+                               isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems)
                 
                 return cell
             }
@@ -231,7 +248,6 @@ extension MainScreenViewController {
         var snapshot = NSDiffableDataSourceSnapshot<SectionModel, GroseryListsModel>()
         guard let viewModel = viewModel else { return }
         snapshot.appendSections(viewModel.model)
-        
         for section in viewModel.model {
             snapshot.appendItems(section.lists, toSection: section)
         }
@@ -249,13 +265,9 @@ extension MainScreenViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(72))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 1, trailing: 0)
-        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
-        
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        
         let section = NSCollectionLayoutSection(group: group)
-        
         let header = createSectionHeader()
         section.boundarySupplementaryItems = [header]
         return section

@@ -18,6 +18,16 @@ class ColorManager {
         (#colorLiteral(red: 0.617266953, green: 0.4520972371, blue: 0.5074846148, alpha: 1), #colorLiteral(red: 0.9446584582, green: 0.9248225093, blue: 0.9337915778, alpha: 1)), (#colorLiteral(red: 0.5423686504, green: 0.5127075911, blue: 0.6284357905, alpha: 1), #colorLiteral(red: 0.9302908182, green: 0.9253249764, blue: 0.9383242726, alpha: 1)), (#colorLiteral(red: 0.4553088546, green: 0.4953843355, blue: 0.5247161388, alpha: 1), #colorLiteral(red: 0.9541888833, green: 0.9691187739, blue: 0.9817628264, alpha: 1)), (#colorLiteral(red: 0.5462152362, green: 0.4677112699, blue: 0.4301403165, alpha: 1), #colorLiteral(red: 0.9502868056, green: 0.9205604196, blue: 0.9081587791, alpha: 1))
     ]
     
+    private let emptyCellColors: [UIColor] = [
+        #colorLiteral(red: 0.87116611, green: 0.9110933542, blue: 0.910405457, alpha: 1), #colorLiteral(red: 0.8280456662, green: 0.9286016822, blue: 0.9183422923, alpha: 1), #colorLiteral(red: 0.8989184499, green: 0.8939521909, blue: 0.8940405846, alpha: 1)
+    ]
+   
+    func getEmptyCellColor(index: Int) -> UIColor {
+        guard index < emptyCellColors.count else { return #colorLiteral(red: 0.8989184499, green: 0.8939521909, blue: 0.8940405846, alpha: 1) }
+        
+        return emptyCellColors[index]
+    }
+    
     var gradientsCount: Int {
         rawGradientColors.count
     }
