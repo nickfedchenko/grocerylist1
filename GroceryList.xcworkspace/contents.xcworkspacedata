@@ -4,6 +4,170 @@
    <FileRef
       location = "group:GroceryList.xcodeproj">
    </FileRef>
+   <Group
+      location = "group:GroceryList"
+      name = "GroceryList">
+      <Group
+         location = "group:GroceryList/ViewControllers"
+         name = "ViewControllers">
+         <Group
+            location = "group:GroceryList/ViewControllers/Onboarding"
+            name = "Onboarding">
+            <FileRef
+               location = "group:GroceryList/ViewControllers/Onboarding/OnboardingViewController.swift">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/ViewControllers/Onboarding/FirstOnboardingView.swift">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/ViewControllers/Onboarding/OnboardingContentView.swift">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:GroceryList/ViewControllers/New Group"
+            name = "New Group">
+            <FileRef
+               location = "group:GroceryList/ViewControllers/New Group/MainScreenViewController.swift">
+            </FileRef>
+            <Group
+               location = "group:GroceryList/ViewControllers/New Group/TableView"
+               name = "TableView">
+               <FileRef
+                  location = "group:GroceryList/ViewControllers/New Group/TableView/GroceryListsCollectionViewCell.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:GroceryList/ViewControllers/New Group/TableView/GroceryCollectionViewHeader.swift">
+               </FileRef>
+            </Group>
+            <Group
+               location = "group:GroceryList/ViewControllers/New Group/CustomUiElements"
+               name = "CustomUiElements">
+               <FileRef
+                  location = "group:GroceryList/ViewControllers/New Group/CustomUiElements/CustomSegmentControl.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:GroceryList/ViewControllers/New Group/CustomUiElements/IntrinsicCollectionView.swift">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:GroceryList/ViewControllers/New Group/MainScreenViewModel.swift">
+            </FileRef>
+         </Group>
+      </Group>
+      <Group
+         location = "group:GroceryList/Services"
+         name = "Services">
+         <Group
+            location = "group:GroceryList/Services/Routing"
+            name = "Routing">
+            <FileRef
+               location = "group:GroceryList/Services/Routing/NavigationInterface.swift">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/Services/Routing/RootRouter.swift">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/Services/Routing/ViewControllerFactory.swift">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:GroceryList/Services/ColorManager.swift">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:GroceryList/Application"
+         name = "Application">
+         <FileRef
+            location = "group:GroceryList/Application/AppDelegate.swift">
+         </FileRef>
+         <FileRef
+            location = "group:GroceryList/Application/SceneDelegate.swift">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:GroceryList/SupportingFiles"
+         name = "SupportingFiles">
+         <Group
+            location = "group:GroceryList/SupportingFiles/Fonts"
+            name = "Fonts">
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Fonts/SF Pro Display Regular.otf">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Fonts/SF Pro Display Bold.otf">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Fonts/SF Pro Display Semibold.otf">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Fonts/SF Pro Display Medium.otf">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Fonts/SF Pro Display Heavy.otf">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:GroceryList/SupportingFiles/Extensions"
+            name = "Extensions">
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Extensions/UIColorExtension.swift">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Extensions/UITextFieldExtension.swift">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Extensions/SegmentControlExtension.swift">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Extensions/UIViewControllerExtension.swift">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Extensions/UIViewExtension.swift">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Extensions/UIImageExtension.swift">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Extensions/StringExtension.swift">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Extensions/DateExtension.swift">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Extensions/UIFontExtension.swift">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Extensions/UIImageViewExtension.swift">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Extensions/UIScreenExtension.swift">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:GroceryList/SupportingFiles/Assets.xcassets">
+         </FileRef>
+         <Group
+            location = "group:GroceryList/SupportingFiles"
+            name = "LaunchScreen.storyboard">
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/Base.lproj/LaunchScreen.storyboard">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:GroceryList/SupportingFiles/Info.plist">
+         </FileRef>
+         <Group
+            location = "group:GroceryList/SupportingFiles"
+            name = "Localizable.strings">
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/en.lproj/Localizable.strings">
+            </FileRef>
+            <FileRef
+               location = "group:GroceryList/SupportingFiles/ru.lproj/Localizable.strings">
+            </FileRef>
+         </Group>
+      </Group>
+   </Group>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>

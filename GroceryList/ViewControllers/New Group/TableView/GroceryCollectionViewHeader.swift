@@ -8,11 +8,10 @@
 import SnapKit
 import UIKit
 
-class GroceryTableViewHeader: UITableViewHeaderFooterView {
-    static let identifier = "GroceryTableViewHeader"
-    
-    override init(reuseIdentifier: String?) {
-        super.init(reuseIdentifier: reuseIdentifier)
+class GroceryCollectionViewHeader: UICollectionReusableView {
+    static let identifier = "GroceryCollectionViewHeader"
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupConstraints()
     }
     
@@ -20,21 +19,16 @@ class GroceryTableViewHeader: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-    }
-    
-    func setupHeader(nameOfSection: String?) {
-        if nameOfSection != nil { pinchImage.isHidden = true }
-        sectionName.text = nameOfSection
+    func setupHeader(sectionType: SectionType) {
+        guard sectionType != .favorite else { return sectionName.isHidden = true }
+        pinchImage.isHidden = true
+        sectionName.text = sectionType.rawValue
     }
     
     private let sectionName: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
         label.textColor = UIColor(hex: "#818281")
-        label.text = ".jbkjhvkghvk"
         return label
     }()
     
@@ -46,7 +40,7 @@ class GroceryTableViewHeader: UITableViewHeaderFooterView {
     }()
     
     private func setupConstraints() {
-        contentView.addSubviews([sectionName, pinchImage])
+        addSubviews([sectionName, pinchImage])
         sectionName.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(30)
             make.centerY.equalToSuperview()
@@ -57,6 +51,8 @@ class GroceryTableViewHeader: UITableViewHeaderFooterView {
             make.centerY.equalToSuperview()
             make.height.equalTo(20)
             make.width.equalTo(20)
+            make.bottom.equalToSuperview().inset(4)
+            make.top.equalToSuperview().inset(16)
         }
     }
 }

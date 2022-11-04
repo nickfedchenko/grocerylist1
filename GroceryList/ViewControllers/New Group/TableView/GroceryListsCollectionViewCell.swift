@@ -10,10 +10,6 @@ import UIKit
 
 class GroceryListsCollectionViewCell: UICollectionViewCell {
 
-//    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-//        super.init(style: style, reuseIdentifier: reuseIdentifier)
-//        setupConstraints()
-//    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupConstraints()
@@ -81,20 +77,19 @@ class GroceryListsCollectionViewCell: UICollectionViewCell {
         contentViews.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
             make.top.equalToSuperview()
-            make.bottom.equalToSuperview().inset(1)
-            make.height.equalTo(72)
+            make.bottom.equalToSuperview()
         }
-        
+
         nameLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(16)
             make.top.equalToSuperview().inset(11)
         }
-        
+
         countLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(16)
             make.bottom.equalToSuperview().inset(11)
         }
-        
+
         shareAvatarImage.snp.makeConstraints { make in
             make.height.width.equalTo(32)
             make.right.equalToSuperview().inset(16)

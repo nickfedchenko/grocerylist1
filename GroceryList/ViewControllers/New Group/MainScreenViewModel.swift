@@ -148,7 +148,7 @@ enum CellType {
     case empty
 }
 
-enum SectionType {
+enum SectionType: String {
     case favorite
     case today
     case week

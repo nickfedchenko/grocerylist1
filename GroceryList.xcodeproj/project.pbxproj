@@ -20,7 +20,7 @@
 		B36AF9452913DEC700944E9D /* GroceryListsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9442913DEC700944E9D /* GroceryListsCollectionViewCell.swift */; };
 		B36AF9472913E94100944E9D /* SF Pro Display Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B36AF9462913E94100944E9D /* SF Pro Display Regular.otf */; };
 		B36AF94A2913FA8000944E9D /* IntrinsicCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9492913FA8000944E9D /* IntrinsicCollectionView.swift */; };
-		B36AF94D2913FAD000944E9D /* GroceryTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF94C2913FAD000944E9D /* GroceryTableViewHeader.swift */; };
+		B36AF94D2913FAD000944E9D /* GroceryCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF94C2913FAD000944E9D /* GroceryCollectionViewHeader.swift */; };
 		B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF94E2914DB5E00944E9D /* ColorManager.swift */; };
 		B36C75EE2911266800709721 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B36C75F02911266800709721 /* Localizable.strings */; };
 		B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD62910EE93003C01AD /* NavigationInterface.swift */; };
@@ -62,7 +62,7 @@
 		B36AF9442913DEC700944E9D /* GroceryListsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryListsCollectionViewCell.swift; sourceTree = "<group>"; };
 		B36AF9462913E94100944E9D /* SF Pro Display Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Regular.otf"; sourceTree = "<group>"; };
 		B36AF9492913FA8000944E9D /* IntrinsicCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrinsicCollectionView.swift; sourceTree = "<group>"; };
-		B36AF94C2913FAD000944E9D /* GroceryTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryTableViewHeader.swift; sourceTree = "<group>"; };
+		B36AF94C2913FAD000944E9D /* GroceryCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryCollectionViewHeader.swift; sourceTree = "<group>"; };
 		B36AF94E2914DB5E00944E9D /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		B36C75EF2911266800709721 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B36C75F12911267600709721 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -169,7 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				B36AF9442913DEC700944E9D /* GroceryListsCollectionViewCell.swift */,
-				B36AF94C2913FAD000944E9D /* GroceryTableViewHeader.swift */,
+				B36AF94C2913FAD000944E9D /* GroceryCollectionViewHeader.swift */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
@@ -412,7 +412,7 @@
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
 				B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */,
-				B36AF94D2913FAD000944E9D /* GroceryTableViewHeader.swift in Sources */,
+				B36AF94D2913FAD000944E9D /* GroceryCollectionViewHeader.swift in Sources */,
 				B37A2CE82911034D003C01AD /* UITextFieldExtension.swift in Sources */,
 				B36AF94A2913FA8000944E9D /* IntrinsicCollectionView.swift in Sources */,
 				B36AF93B2913C66000944E9D /* MainScreenViewModel.swift in Sources */,

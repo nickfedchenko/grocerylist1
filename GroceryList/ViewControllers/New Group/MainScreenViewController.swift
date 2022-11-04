@@ -1,12 +1,4 @@
 //
-//  r.swift
-//  GroceryList
-//
-//  Created by Шамиль Моллачиев on 04.11.2022.
-//
-
-import Foundation
-//
 //  MainScreenViewController.swift
 //  GroceryList
 //
@@ -96,30 +88,7 @@ class MainScreenViewController: UIViewController {
         return view
     }()
     
-    var collectionView: UICollectionView!
-    
-    private func createCompositionalLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { (_, _) -> NSCollectionLayoutSection? in
-            return self.createLayout()
-        }
-        return layout
-    }
-    
-    private func createLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(86))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 1, leading: 1, bottom: 1, trailing: 1)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
-        
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        
-        section.contentInsets = NSDirectionalEdgeInsets(top: 1, leading: 1, bottom: 10, trailing: 1)
-        
-        return section
-    }
+    lazy var collectionView = IntrinsicCollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
     
     private let bottomCreateListView: UIView = {
         let view = UIView()
@@ -144,7 +113,7 @@ class MainScreenViewController: UIViewController {
     
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        collectionView = IntrinsicCollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
+
         view.backgroundColor = UIColor(hex: "#E8F5F3")
         view.addSubviews([scrollView, bottomCreateListView])
         scrollView.addSubview(contentView)
@@ -219,16 +188,29 @@ extension MainScreenViewController {
     private func setupCollectionView() {
         collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
         collectionView.register(GroceryListsCollectionViewCell.self, forCellWithReuseIdentifier: "GroceryListsCollectionViewCell")
+        collectionView.register(GroceryCollectionViewHeader.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: "GroceryCollectionViewHeader")
     }
     
     private func createTableViewDataSource() {
-        collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-     
+        collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
+                                                                      cellProvider: { collectionView, indexPath, _ in
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "GroceryListsCollectionViewCell", for: indexPath)
                         as? GroceryListsCollectionViewCell
                 return cell
-         
         })
+
+        collectionViewDataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
+            guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                                      withReuseIdentifier: "GroceryCollectionViewHeader",
+                                                                                      for: indexPath) as? GroceryCollectionViewHeader else { return nil }
+            
+            guard let model = self.collectionViewDataSource?.itemIdentifier(for: indexPath) else { return nil }
+            guard let section = self.collectionViewDataSource?.snapshot().sectionIdentifier(containingItem: model) else { return nil }
+            sectionHeader.setupHeader(sectionType: section.sectionType)
+            return sectionHeader
+        }
     }
     
     private func reloadData() {
@@ -239,8 +221,39 @@ extension MainScreenViewController {
         for section in viewModel.model {
             snapshot.appendItems(section.lists, toSection: section)
         }
-        
         collectionViewDataSource?.apply(snapshot)
+    }
+    
+    private func createCompositionalLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { (_, _) -> NSCollectionLayoutSection? in
+            return self.createLayout()
+        }
+        return layout
+    }
+    
+    private func createLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(72))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 1, trailing: 0)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
+        
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        let header = createSectionHeader()
+        section.boundarySupplementaryItems = [header]
+        return section
+    }
+    
+    private func createSectionHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let layoutHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                      heightDimension: .estimated(1))
+        let layutSectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: layoutHeaderSize,
+                                                                             elementKind: UICollectionView.elementKindSectionHeader,
+                                                                             alignment: .top)
+        return layutSectionHeader
     }
 }
 
