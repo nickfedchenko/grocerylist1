@@ -8,10 +8,14 @@
 import SnapKit
 import UIKit
 
-class GroceryListsTableViewCell: UITableViewCell {
+class GroceryListsCollectionViewCell: UICollectionViewCell {
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+//    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+//        super.init(style: style, reuseIdentifier: reuseIdentifier)
+//        setupConstraints()
+//    }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupConstraints()
     }
     

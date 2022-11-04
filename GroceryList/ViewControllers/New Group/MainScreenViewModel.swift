@@ -8,23 +8,12 @@
 import Foundation
 import UIKit
 
-protocol MainScreenViewModelDelegate: AnyObject {
-    func getTitleForHeader(at ind: Int) -> String
-    func getNumberOfSections() -> Int
-    func getNumberOfCells(at section: Int) -> Int
-    func getNameOfList(at ind: IndexPath) -> String
-    func getBGColor(at ind: IndexPath) -> UIColor
-    func isTopRounded(at ind: IndexPath) -> Bool
-    func isBottomRounded(at ind: IndexPath) -> Bool
-    func getnumberOfSupplaysInside(at ind: IndexPath) -> String
-}
-
-class MainScreenViewModel: MainScreenViewModelDelegate {
+class MainScreenViewModel {
     
     private let coldStartDataSource = ColdStartDataSource()
     private var isFirstStart = true
     
-    private var model: [SectionModel] {
+    var model: [SectionModel] {
         if isFirstStart { return coldStartDataSource.sectionsModel }
         return coldStartDataSource.sectionsModel
     }
@@ -34,7 +23,8 @@ class MainScreenViewModel: MainScreenViewModelDelegate {
     }
     
     func getTitleForHeader(at ind: Int) -> String {
-        return model[ind].nameOfSection
+     "dfdf"
+        //  return model[ind].nameOfSection
     }
 
     func getNumberOfCells(at section: Int) -> Int {
@@ -82,32 +72,52 @@ class ColdStartDataSource {
     ]
     
     let sevenDaysModel = [
-        GroseryListsModel(dateOfCreation: nil, name: nil, color: .blue, isEmpty: true, supplays: [] ),
-        GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] ),
-        GroseryListsModel(dateOfCreation: nil, name: nil, color: .yellow, isEmpty: true, supplays: [] )
+        GroseryListsModel(dateOfCreation: Date(), name: nil, color: .blue, isEmpty: true, supplays: [] ),
+        GroseryListsModel(dateOfCreation: Date(), name: nil, color: .green, isEmpty: true, supplays: [] ),
+        GroseryListsModel(dateOfCreation: Date(), name: nil, color: .yellow, isEmpty: true, supplays: [] )
     ]
     
     let oneMonthModel = [
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .gray, isEmpty: true, supplays: [] ),
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .purple, isEmpty: true, supplays: [] ),
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] ),
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .gray, isEmpty: true, supplays: [] ),
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .purple, isEmpty: true, supplays: [] ),
+        GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] ),
         GroseryListsModel(dateOfCreation: nil, name: nil, color: .gray, isEmpty: true, supplays: [] ),
         GroseryListsModel(dateOfCreation: nil, name: nil, color: .purple, isEmpty: true, supplays: [] ),
         GroseryListsModel(dateOfCreation: nil, name: nil, color: .green, isEmpty: true, supplays: [] )
     ]
     
     lazy var sectionsModel = [
-        SectionModel(nameOfSection: "favorite", lists: favoriteModel),
-        SectionModel(nameOfSection: "today", lists: todayModel),
-        SectionModel(nameOfSection: "sevenDays", lists: sevenDaysModel),
-        SectionModel(nameOfSection: "oneMonth", lists: oneMonthModel)
+        SectionModel(cellType: .usual, sectionType: .favorite, lists: favoriteModel),
+        SectionModel(cellType: .instruction, sectionType: .today, lists: oneMonthModel)
+//        SectionModel(sectionType: ., lists: sevenDaysModel),
+//        SectionModel(sectionType: .usual, lists: oneMonthModel)
     ]
     
 }
 
-struct SectionModel {
-    var nameOfSection: String
+struct SectionModel: Hashable {
+    static func == (lhs: SectionModel, rhs: SectionModel) -> Bool {
+        lhs.cellType == rhs.cellType && lhs.lists == rhs.lists
+    }
+    
+    var cellType: CellType
+    var sectionType: SectionType
     var lists: [GroseryListsModel]
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(cellType)
+    }
 }
 
-struct GroseryListsModel {
+struct GroseryListsModel: Hashable {
+    static func == (lhs: GroseryListsModel, rhs: GroseryListsModel) -> Bool {
+        lhs.id == rhs.id && lhs.name == rhs.name
+    }
+    
+    var id = UUID()
     var dateOfCreation: Date?
     var name: String?
     var color: UIColor
@@ -115,6 +125,10 @@ struct GroseryListsModel {
     var isEmpty: Bool = false
     var isTestCell: Bool = false
     var supplays: [Supplay?]
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(dateOfCreation)
+    }
 }
 
 struct Supplay {
@@ -126,4 +140,17 @@ struct Supplay {
 
 enum Category {
     case head
+}
+
+enum CellType {
+    case usual
+    case instruction
+    case empty
+}
+
+enum SectionType {
+    case favorite
+    case today
+    case week
+    case month
 }

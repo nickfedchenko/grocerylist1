@@ -1,4 +1,12 @@
 //
+//  r.swift
+//  GroceryList
+//
+//  Created by Шамиль Моллачиев on 04.11.2022.
+//
+
+import Foundation
+//
 //  MainScreenViewController.swift
 //  GroceryList
 //
@@ -10,7 +18,8 @@ import UIKit
 
 class MainScreenViewController: UIViewController {
     
-    var viewModel: MainScreenViewModelDelegate?
+    private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroseryListsModel>?
+    var viewModel: MainScreenViewModel?
     weak var router: RootRouter?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -20,8 +29,10 @@ class MainScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConstraints()
-        setupTableView()
+        setupCollectionView()
         addRecognizer()
+        createTableViewDataSource()
+        reloadData()
     }
     
     @objc
@@ -85,13 +96,30 @@ class MainScreenViewController: UIViewController {
         return view
     }()
     
-    private let tableview: IntrinsicTableView = {
-        let tableview = IntrinsicTableView()
-        tableview.showsVerticalScrollIndicator = false
-        tableview.separatorStyle = .none
-        tableview.estimatedRowHeight = UITableView.automaticDimension
-        return tableview
-    }()
+    var collectionView: UICollectionView!
+    
+    private func createCompositionalLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { (_, _) -> NSCollectionLayoutSection? in
+            return self.createLayout()
+        }
+        return layout
+    }
+    
+    private func createLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(86))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 1, leading: 1, bottom: 1, trailing: 1)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
+        
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        section.contentInsets = NSDirectionalEdgeInsets(top: 1, leading: 1, bottom: 10, trailing: 1)
+        
+        return section
+    }
     
     private let bottomCreateListView: UIView = {
         let view = UIView()
@@ -116,11 +144,12 @@ class MainScreenViewController: UIViewController {
     
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
+        collectionView = IntrinsicCollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
         view.backgroundColor = UIColor(hex: "#E8F5F3")
         view.addSubviews([scrollView, bottomCreateListView])
         scrollView.addSubview(contentView)
         contentView.addSubviews([avatarImage, userNameLabel, searchButton, groceryListsView, segmentControl])
-        groceryListsView.addSubviews([tableview])
+        groceryListsView.addSubviews([collectionView])
         bottomCreateListView.addSubviews([plusImage, createListLabel])
         
         scrollView.snp.makeConstraints { make in
@@ -161,7 +190,7 @@ class MainScreenViewController: UIViewController {
             make.bottom.right.left.equalToSuperview()
         }
 
-        tableview.snp.makeConstraints { make in
+        collectionView.snp.makeConstraints { make in
             make.left.top.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(88)
         }
@@ -185,47 +214,33 @@ class MainScreenViewController: UIViewController {
 }
 
 // MARK: - TableView
-extension MainScreenViewController: UITableViewDelegate, UITableViewDataSource {
+extension MainScreenViewController {
     
-    private func setupTableView() {
-        tableview.backgroundColor = UIColor(hex: "#E8F5F3")
-        tableview.delegate = self
-        tableview.dataSource = self
-        tableview.register(GroceryListsTableViewCell.self, forCellReuseIdentifier: "GroseryListsTableViewCell")
-        tableview.register(GroceryTableViewHeader.self, forHeaderFooterViewReuseIdentifier: "header")
+    private func setupCollectionView() {
+        collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
+        collectionView.register(GroceryListsCollectionViewCell.self, forCellWithReuseIdentifier: "GroceryListsCollectionViewCell")
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        viewModel?.getNumberOfSections() ?? 0
+    private func createTableViewDataSource() {
+        collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+     
+                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "GroceryListsCollectionViewCell", for: indexPath)
+                        as? GroceryListsCollectionViewCell
+                return cell
+         
+        })
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel?.getNumberOfCells(at: section) ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = self.tableview.dequeueReusableCell(withIdentifier: "GroseryListsTableViewCell", for: indexPath)
-                as? GroceryListsTableViewCell, let viewModel = viewModel else { return UITableViewCell() }
-        cell.selectionStyle = .none
-        let name = viewModel.getNameOfList(at: indexPath)
-        let color = viewModel.getBGColor(at: indexPath)
-        let isTopRouned = viewModel.isTopRounded(at: indexPath)
-        let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
-        let numberOfItems = viewModel.getnumberOfSupplaysInside(at: indexPath)
-        cell.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
-                       isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableview.dequeueReusableHeaderFooterView(withIdentifier: "header") as? GroceryTableViewHeader
-        let textForHeader = viewModel?.getTitleForHeader(at: section)
-        header?.setupHeader(nameOfSection: textForHeader)
-        return header
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 25
+    private func reloadData() {
+        var snapshot = NSDiffableDataSourceSnapshot<SectionModel, GroseryListsModel>()
+        guard let viewModel = viewModel else { return }
+        snapshot.appendSections(viewModel.model)
+        
+        for section in viewModel.model {
+            snapshot.appendItems(section.lists, toSection: section)
+        }
+        
+        collectionViewDataSource?.apply(snapshot)
     }
 }
 

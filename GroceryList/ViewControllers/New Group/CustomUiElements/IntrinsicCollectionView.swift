@@ -7,7 +7,7 @@
 
 import UIKit
 
-class IntrinsicTableView: UITableView {
+class IntrinsicCollectionView: UICollectionView {
     override var contentSize:CGSize {
         didSet {
             self.invalidateIntrinsicContentSize()
