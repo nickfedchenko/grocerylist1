@@ -16,7 +16,7 @@ class MainScreenViewController: UIViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
-      }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +38,7 @@ class MainScreenViewController: UIViewController {
             .foregroundColor: color
         ])
     }
-        // MARK: - UI
+    // MARK: - UI
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -113,7 +113,7 @@ class MainScreenViewController: UIViewController {
     
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-
+        
         view.backgroundColor = UIColor(hex: "#E8F5F3")
         view.addSubviews([scrollView, bottomCreateListView])
         scrollView.addSubview(contentView)
@@ -130,51 +130,51 @@ class MainScreenViewController: UIViewController {
             make.width.equalTo(view.snp.width)
             make.left.right.top.bottom.equalToSuperview()
         }
-
+        
         avatarImage.snp.makeConstraints { make in
             make.width.height.equalTo(32)
             make.left.equalTo(22)
             make.top.equalToSuperview()
         }
-
+        
         userNameLabel.snp.makeConstraints { make in
             make.left.equalTo(avatarImage.snp.right).inset(-10)
             make.centerY.equalTo(avatarImage)
         }
-
+        
         searchButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(22)
             make.centerY.equalTo(avatarImage)
             make.width.height.equalTo(40)
         }
-
+        
         segmentControl.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(22)
             make.top.equalTo(avatarImage.snp.bottom).inset(-16)
             make.height.equalTo(48)
         }
-
+        
         groceryListsView.snp.makeConstraints { make in
             make.top.equalTo(segmentControl.snp.bottom)
             make.bottom.right.left.equalToSuperview()
         }
-
+        
         collectionView.snp.makeConstraints { make in
             make.left.top.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(88)
         }
-
+        
         bottomCreateListView.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
             make.height.equalTo(86)
         }
-
+        
         plusImage.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(38)
             make.top.equalToSuperview().inset(24)
             make.height.width.equalTo(24)
         }
-
+        
         createListLabel.snp.makeConstraints { make in
             make.left.equalTo(plusImage.snp.right).inset(-8)
             make.centerY.equalTo(plusImage)
@@ -191,16 +191,30 @@ extension MainScreenViewController {
         collectionView.register(GroceryCollectionViewHeader.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: "GroceryCollectionViewHeader")
+        collectionView.register(EmptyColoredCell.self, forCellWithReuseIdentifier: "EmptyColoredCell")
+        collectionView.register(InstructionCell.self, forCellWithReuseIdentifier: "InstructionCell")
     }
     
     private func createTableViewDataSource() {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
                                                                       cellProvider: { collectionView, indexPath, _ in
-                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "GroceryListsCollectionViewCell", for: indexPath)
-                        as? GroceryListsCollectionViewCell
+            switch self.viewModel?.model[indexPath.section].cellType {
+            case .empty:
+                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "EmptyColoredCell", for: indexPath)
+                as? EmptyColoredCell
                 return cell
+            case .instruction:
+                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "InstructionCell", for: indexPath)
+                as? InstructionCell
+                return cell
+            default:
+                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "GroceryListsCollectionViewCell", for: indexPath)
+                as? GroceryListsCollectionViewCell
+                
+                return cell
+            }
         })
-
+        
         collectionViewDataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
             guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                       withReuseIdentifier: "GroceryCollectionViewHeader",
@@ -266,6 +280,6 @@ extension MainScreenViewController {
     
     @objc
     private func createListAction() {
-     print("createList")
+        print("createList")
     }
 }
