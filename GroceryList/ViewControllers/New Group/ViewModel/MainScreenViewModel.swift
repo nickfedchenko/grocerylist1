@@ -10,11 +10,21 @@ import UIKit
 
 class MainScreenViewModel {
     
+    init() {
+        dataSource = DataSource()
+        dataSource.dataChangedCallBack = {
+            self.reloadDataCallBack?()
+        }
+    }
+    
     var reloadDataCallBack: (() -> Void)?
     private let coldStartDataSource = ColdStartDataSource()
+    private var dataSource = DataSource()
     private var isFirstStart = true
     
-    var model: [SectionModel] = ColdStartDataSource().sectionsModel
+    var model: [SectionModel] {
+        dataSource.workingSectionsArray
+    }
     
     // setup cells
     func getNameOfList(at ind: IndexPath) -> String {
@@ -36,9 +46,8 @@ class MainScreenViewModel {
     
     // cells callbacks
     
-    func deleteCell(at ind: IndexPath) {
-        model[ind.section].lists.remove(at: ind.row)
-        if ind.row == 0 { model.remove(at: ind.section) }
+    func deleteCell(with model: GroseryListsModel) {
+        dataSource.coreDataSet.remove(model)
         reloadDataCallBack?()
     }
     
@@ -50,7 +59,7 @@ class MainScreenViewModel {
     
         if model[ind.section].sectionType != .favorite {
             if !model.contains(where: { $0.sectionType == .favorite }) {
-                model.insert(createEmptyFavoriteSection(with: modelToAddOrDelete), at: 0) 
+             //   model.insert(createEmptyFavoriteSection(with: modelToAddOrDelete), at: 0) 
             }
         }
         reloadDataCallBack?()

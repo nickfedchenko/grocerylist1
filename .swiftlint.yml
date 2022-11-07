@@ -55,7 +55,7 @@ force_unwrapping: warning
 
 # Количество символом в строке
 line_length:
-    warning: 155
+    warning: 165
     error: 200
     ignores_comments: true
 

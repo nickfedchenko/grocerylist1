@@ -7,6 +7,59 @@
 
 import UIKit
 
+class DataSource {
+    
+    init() {
+        createWorkingArray()
+    }
+    
+    static var shared = DataSource()
+    var dataChangedCallBack: (() -> Void)?
+    var workingSectionsArray: [SectionModel] = [] {
+        didSet {
+            dataChangedCallBack?()
+        }
+    }
+
+    var coreDataSet: Set<GroseryListsModel> = [] {
+        didSet {
+            createWorkingArray()
+        }
+    }
+    
+    func createWorkingArray() {
+        var favoriteSection = SectionModel(cellType: .usual, sectionType: .favorite, lists: [])
+        var todaySection = SectionModel(cellType: .usual, sectionType: .today, lists: [])
+        var weekSection = SectionModel(cellType: .usual, sectionType: .week, lists: [])
+        var monthSection = SectionModel(cellType: .usual, sectionType: .month, lists: [])
+        var emptySection = SectionModel(cellType: .usual, sectionType: .month, lists: oneMonthModel)
+     
+        coreDataSet.forEach({ if $0.isFavorite { favoriteSection.lists.append($0)} })
+        coreDataSet.filter({ $0.dateOfCreation < Date() - 86400 }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ todaySection.lists.append($0) })
+        coreDataSet.filter({ $0.dateOfCreation < Date() - 604800 }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ weekSection.lists.append($0) })
+        coreDataSet.filter({ $0.dateOfCreation < Date() - 2592000 }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ monthSection.lists.append($0) })
+        
+        let sections = [favoriteSection, todaySection, weekSection, monthSection, emptySection]
+        sections.forEach({ if !$0.lists.isEmpty { workingSectionsArray.append($0)} })
+       
+        workingSectionsArray = sections
+    }
+    
+    func createEmptyList() -> GroseryListsModel {
+        GroseryListsModel(dateOfCreation: Date(), color: ColorManager.shared.getEmptyCellColor(index: 0), supplays: [])
+    }
+    
+    let oneMonthModel = [
+        GroseryListsModel(dateOfCreation: Date(), name: nil,
+                          color: ColorManager.shared.getEmptyCellColor(index: 0), isEmpty: true, supplays: [] ),
+        GroseryListsModel(dateOfCreation: Date(), name: nil,
+                          color: ColorManager.shared.getEmptyCellColor(index: 1), isEmpty: true, supplays: [] ),
+        GroseryListsModel(dateOfCreation: Date(), name: nil,
+                          color: ColorManager.shared.getEmptyCellColor(index: 2), isEmpty: true, supplays: [] )
+   
+    ]
+}
+
 class ColdStartDataSource {
     
     lazy var sectionsModel = [
@@ -22,7 +75,7 @@ class ColdStartDataSource {
     ]
     
     let todayModel = [
-        GroseryListsModel(dateOfCreation: nil, name: nil, color: .red, isTestCell: true, supplays: [] )
+        GroseryListsModel(dateOfCreation: Date(), name: nil, color: .red, isTestCell: true, supplays: [] )
     ]
     
     let sevenDaysModel = [
@@ -35,11 +88,11 @@ class ColdStartDataSource {
     ]
     
     let oneMonthModel = [
-        GroseryListsModel(dateOfCreation: nil, name: nil,
+        GroseryListsModel(dateOfCreation: Date(), name: nil,
                           color: ColorManager.shared.getEmptyCellColor(index: 0), isEmpty: true, supplays: [] ),
-        GroseryListsModel(dateOfCreation: nil, name: nil,
+        GroseryListsModel(dateOfCreation: Date(), name: nil,
                           color: ColorManager.shared.getEmptyCellColor(index: 1), isEmpty: true, supplays: [] ),
-        GroseryListsModel(dateOfCreation: nil, name: nil,
+        GroseryListsModel(dateOfCreation: Date(), name: nil,
                           color: ColorManager.shared.getEmptyCellColor(index: 2), isEmpty: true, supplays: [] )
    
     ]

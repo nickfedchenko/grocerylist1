@@ -23,7 +23,7 @@ struct SectionModel: Hashable {
 
 struct GroseryListsModel: Hashable {
     var id = UUID()
-    var dateOfCreation: Date?
+    var dateOfCreation: Date
     var name: String?
     var color: UIColor
     var isFavorite: Bool = false
@@ -61,4 +61,5 @@ enum SectionType: String {
     case today
     case week
     case month
+    case empty
 }

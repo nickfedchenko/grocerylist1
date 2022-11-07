@@ -25,6 +25,15 @@ class GroceryListsCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        swipeToAddOrDeleteFavorite.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        swipeToDeleteImageView.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        setupConstraints()
+        addGestureRecognizers()
+        contentViews.layer.cornerRadius = 0
+    }
+    
     func setupCell(nameOfList: String, bckgColor: UIColor, isTopRounded: Bool,
                    isBottomRounded: Bool, numberOfItemsInside: String, isFavorite: Bool) {
         countLabel.text = numberOfItemsInside

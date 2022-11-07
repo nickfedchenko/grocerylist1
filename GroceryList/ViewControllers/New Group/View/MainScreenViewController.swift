@@ -229,7 +229,7 @@ extension MainScreenViewController {
                 cell?.setupCell(nameOfList: name, bckgColor: model.color, isTopRounded: isTopRouned,
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
                 cell?.swipeDeleteAction = {
-                    viewModel.deleteCell(at: indexPath)
+                    viewModel.deleteCell(with: model)
                 }
                 
                 cell?.swipeToAddOrDeleteFromFavorite = {
@@ -281,7 +281,7 @@ extension MainScreenViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         let header = createSectionHeader()
-        section.boundarySupplementaryItems = [header]
+      //  section.boundarySupplementaryItems = [header]
         return section
     }
     
