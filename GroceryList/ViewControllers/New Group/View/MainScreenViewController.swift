@@ -25,6 +25,9 @@ class MainScreenViewController: UIViewController {
         addRecognizer()
         createTableViewDataSource()
         reloadData()
+        viewModel?.reloadDataCallBack = { [weak self] in
+            self?.reloadData()
+        }
     }
     
     @objc
@@ -39,6 +42,8 @@ class MainScreenViewController: UIViewController {
         ])
     }
     // MARK: - UI
+    
+    private lazy var collectionView = IntrinsicCollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -87,8 +92,6 @@ class MainScreenViewController: UIViewController {
         let view = UIView()
         return view
     }()
-    
-    lazy var collectionView = IntrinsicCollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
     
     private let bottomCreateListView: UIView = {
         let view = UIView()
@@ -182,7 +185,7 @@ class MainScreenViewController: UIViewController {
     }
 }
 
-// MARK: - TableView
+// MARK: - CollectionView
 extension MainScreenViewController {
     
     private func setupCollectionView() {
@@ -200,7 +203,7 @@ extension MainScreenViewController {
     
     private func createTableViewDataSource() {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
-                                                                      cellProvider: { collectionView, indexPath, _ in
+                                                                      cellProvider: { collectionView, indexPath, model in
             switch self.viewModel?.model[indexPath.section].cellType {
             case .empty:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "EmptyColoredCell", for: indexPath)
@@ -208,9 +211,7 @@ extension MainScreenViewController {
                 guard let viewModel = self.viewModel else { return UICollectionViewCell() }
                 let isTopRouned = viewModel.isTopRounded(at: indexPath)
                 let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
-                let color = viewModel.getBGColor(at: indexPath)
-                
-                cell?.setupCell(bckgColor: color, isTopRounded: isTopRouned, isBottomRounded: isBottomRounded)
+                cell?.setupCell(bckgColor: model.color, isTopRounded: isTopRouned, isBottomRounded: isBottomRounded)
                 return cell
             case .instruction:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "InstructionCell", for: indexPath)
@@ -221,17 +222,26 @@ extension MainScreenViewController {
                                                                          for: indexPath) as? GroceryListsCollectionViewCell
                 guard let viewModel = self.viewModel else { return UICollectionViewCell() }
                 let name = viewModel.getNameOfList(at: indexPath)
-                let color = viewModel.getBGColor(at: indexPath)
                 let isTopRouned = viewModel.isTopRounded(at: indexPath)
                 let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
                 let numberOfItems = viewModel.getnumberOfSupplaysInside(at: indexPath)
-                cell?.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
-                               isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems)
                 
+                cell?.setupCell(nameOfList: name, bckgColor: model.color, isTopRounded: isTopRouned,
+                                isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
+                cell?.swipeDeleteAction = {
+                    viewModel.deleteCell(at: indexPath)
+                }
+                
+                cell?.swipeToAddOrDeleteFromFavorite = {
+                    viewModel.addOrDeleteFromFavorite(at: indexPath)
+                }
                 return cell
             }
         })
-        
+        addHeaderToCollectionView()
+    }
+    
+    private func addHeaderToCollectionView() {
         collectionViewDataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
             guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                       withReuseIdentifier: "GroceryCollectionViewHeader",
@@ -244,6 +254,7 @@ extension MainScreenViewController {
         }
     }
     
+    // ReloadData
     private func reloadData() {
         var snapshot = NSDiffableDataSourceSnapshot<SectionModel, GroseryListsModel>()
         guard let viewModel = viewModel else { return }
@@ -254,6 +265,7 @@ extension MainScreenViewController {
         collectionViewDataSource?.apply(snapshot)
     }
     
+    // CollectionViewLayout
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (_, _) -> NSCollectionLayoutSection? in
             return self.createLayout()
@@ -275,7 +287,7 @@ extension MainScreenViewController {
     
     private func createSectionHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
         let layoutHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                      heightDimension: .estimated(1))
+                                                      heightDimension: .estimated(44))
         let layutSectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: layoutHeaderSize,
                                                                              elementKind: UICollectionView.elementKindSectionHeader,
                                                                              alignment: .top)

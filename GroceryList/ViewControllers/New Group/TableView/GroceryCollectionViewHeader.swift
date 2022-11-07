@@ -43,16 +43,14 @@ class GroceryCollectionViewHeader: UICollectionReusableView {
         addSubviews([sectionName, pinchImage])
         sectionName.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(30)
-            make.centerY.equalToSuperview()
+            make.bottom.equalToSuperview().inset(4)
         }
         
         pinchImage.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(30)
-            make.centerY.equalToSuperview()
             make.height.equalTo(20)
             make.width.equalTo(20)
             make.bottom.equalToSuperview().inset(4)
-            make.top.equalToSuperview().inset(16)
         }
     }
 }
