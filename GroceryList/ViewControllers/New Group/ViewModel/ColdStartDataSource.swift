@@ -17,12 +17,14 @@ class DataSource {
     var dataChangedCallBack: (() -> Void)?
     var workingSectionsArray: [SectionModel] = [] {
         didSet {
+            print(workingSectionsArray)
             dataChangedCallBack?()
         }
     }
 
     var coreDataSet: Set<GroseryListsModel> = [] {
         didSet {
+            print(coreDataSet)
             createWorkingArray()
         }
     }
@@ -43,6 +45,7 @@ class DataSource {
         sections.forEach({ if !$0.lists.isEmpty { workingSectionsArray.append($0)} })
        
         workingSectionsArray = sections
+        print(favoriteSection.lists)
     }
     
     func createEmptyList() -> GroseryListsModel {
@@ -58,6 +61,7 @@ class DataSource {
                           color: ColorManager.shared.getEmptyCellColor(index: 2), isEmpty: true, supplays: [] )
    
     ]
+    
 }
 
 class ColdStartDataSource {

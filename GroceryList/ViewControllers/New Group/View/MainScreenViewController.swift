@@ -114,6 +114,13 @@ class MainScreenViewController: UIViewController {
         return label
     }()
     
+    private let foodImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "foodImage")
+        return imageView
+    }()
+    
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         
@@ -182,6 +189,7 @@ class MainScreenViewController: UIViewController {
             make.left.equalTo(plusImage.snp.right).inset(-8)
             make.centerY.equalTo(plusImage)
         }
+        
     }
 }
 
@@ -233,7 +241,7 @@ extension MainScreenViewController {
                 }
                 
                 cell?.swipeToAddOrDeleteFromFavorite = {
-                    viewModel.addOrDeleteFromFavorite(at: indexPath)
+                    viewModel.addOrDeleteFromFavorite(with: model)
                 }
                 return cell
             }

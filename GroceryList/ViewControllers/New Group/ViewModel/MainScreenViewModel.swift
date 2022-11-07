@@ -23,7 +23,7 @@ class MainScreenViewModel {
     private var isFirstStart = true
     
     var model: [SectionModel] {
-        dataSource.workingSectionsArray
+        return dataSource.workingSectionsArray
     }
     
     // setup cells
@@ -48,21 +48,20 @@ class MainScreenViewModel {
     
     func deleteCell(with model: GroseryListsModel) {
         dataSource.coreDataSet.remove(model)
-        reloadDataCallBack?()
     }
     
-    func addOrDeleteFromFavorite(at ind: IndexPath) {
-        let modelToAddOrDelete = model[ind.section].lists[ind.row]
-        if model[ind.section].sectionType == .favorite {
-            
-        }
+    func addCell(with model: GroseryListsModel) {
+        dataSource.coreDataSet.remove(model)
+        var newModel = model
+        newModel.isFavorite = true
+        dataSource.coreDataSet.insert(model)
+    }
     
-        if model[ind.section].sectionType != .favorite {
-            if !model.contains(where: { $0.sectionType == .favorite }) {
-             //   model.insert(createEmptyFavoriteSection(with: modelToAddOrDelete), at: 0) 
+    func addOrDeleteFromFavorite(with model: GroseryListsModel) {
+        
+        if !model.isFavorite {
+            addCell(with: model)
             }
-        }
-        reloadDataCallBack?()
     }
     
     func createEmptyFavoriteSection(with model: GroseryListsModel) -> SectionModel {
