@@ -49,6 +49,7 @@ enum Category {
 }
 
 enum CellType {
+    case topMenu
     case usual
     case instruction
     case empty

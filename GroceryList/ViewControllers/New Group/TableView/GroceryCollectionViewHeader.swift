@@ -22,11 +22,20 @@ class GroceryCollectionViewHeader: UICollectionReusableView {
     override func prepareForReuse() {
         super.prepareForReuse()
         pinchImage.isHidden = false
+        sectionName.isHidden = false
     }
     
     func setupHeader(sectionType: SectionType) {
-        guard sectionType != .favorite else { return sectionName.isHidden = true }
-        pinchImage.isHidden = true
+        if sectionType == .favorite {
+            sectionName.isHidden = true
+            pinchImage.isHidden = false
+        } else if sectionType == .empty {
+            sectionName.isHidden = true
+            pinchImage.isHidden = true
+        } else {
+            sectionName.isHidden = false
+            pinchImage.isHidden = true
+        }
         sectionName.text = sectionType.rawValue.localized
     }
     

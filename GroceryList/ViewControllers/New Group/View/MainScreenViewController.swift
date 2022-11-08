@@ -9,7 +9,6 @@ import SnapKit
 import UIKit
 
 class MainScreenViewController: UIViewController {
-    
     private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroseryListsModel>?
     var viewModel: MainScreenViewModel?
     weak var router: RootRouter?
@@ -30,11 +29,6 @@ class MainScreenViewController: UIViewController {
         }
     }
     
-    @objc
-    private func searchButtonAction() {
-        
-    }
-    
     private func createAttributedString(title: String, color: UIColor = .white) -> NSAttributedString {
         NSAttributedString(string: title, attributes: [
             .font: UIFont.SFPro.bold(size: 18).font ?? UIFont(),
@@ -43,56 +37,8 @@ class MainScreenViewController: UIViewController {
     }
     // MARK: - UI
     
-    private lazy var collectionView = IntrinsicCollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
-    
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        return scrollView
-    }()
-    
-    private let contentView: UIView = {
-        let view = UIView()
-        return view
-    }()
-    
-    private let avatarImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "profileImage")
-        return imageView
-    }()
-    
-    private let userNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 18).font
-        label.textColor = UIColor(hex: "#31635A")
-        label.text = "Unnamed"
-        return label
-    }()
-    
-    private lazy var searchButton: UIButton = {
-        let button = UIButton()
-        button.addTarget(self, action: #selector(searchButtonAction), for: .touchUpInside)
-        button.setImage(UIImage(named: "searchButtonImage"), for: .normal)
-        return button
-    }()
-    
-    private let segmentControl: UISegmentedControl = {
-        let control = CustomSegmentedControl(items: ["Grocery Lists".localized, "Recipes".localized])
-        control.setTitleFont(UIFont.SFPro.bold(size: 18).font)
-        control.setTitleColor(UIColor(hex: "#657674"))
-        control.setTitleColor(UIColor(hex: "#31635A"), state: .selected)
-        control.selectedSegmentIndex = 0
-        control.backgroundColor = UIColor(hex: "#D2E7E4")
-        control.selectedSegmentTintColor = .white
-        return control
-    }()
-    
-    private let groceryListsView: UIView = {
-        let view = UIView()
-        return view
-    }()
-    
+    private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
+
     private let bottomCreateListView: UIView = {
         let view = UIView()
         view.backgroundColor = .white.withAlphaComponent(0.9)
@@ -121,56 +67,14 @@ class MainScreenViewController: UIViewController {
         return imageView
     }()
     
-    // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        
         view.backgroundColor = UIColor(hex: "#E8F5F3")
-        view.addSubviews([scrollView, bottomCreateListView])
-        scrollView.addSubview(contentView)
-        contentView.addSubviews([avatarImage, userNameLabel, searchButton, groceryListsView, segmentControl])
-        groceryListsView.addSubviews([collectionView])
+        view.addSubviews([collectionView, bottomCreateListView])
         bottomCreateListView.addSubviews([plusImage, createListLabel])
-        
-        scrollView.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(5)
-            make.right.left.bottom.equalToSuperview()
-        }
-        
-        contentView.snp.makeConstraints { make in
-            make.width.equalTo(view.snp.width)
-            make.left.right.top.bottom.equalToSuperview()
-        }
-        
-        avatarImage.snp.makeConstraints { make in
-            make.width.height.equalTo(32)
-            make.left.equalTo(22)
-            make.top.equalToSuperview()
-        }
-        
-        userNameLabel.snp.makeConstraints { make in
-            make.left.equalTo(avatarImage.snp.right).inset(-10)
-            make.centerY.equalTo(avatarImage)
-        }
-        
-        searchButton.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(22)
-            make.centerY.equalTo(avatarImage)
-            make.width.height.equalTo(40)
-        }
-        
-        segmentControl.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(22)
-            make.top.equalTo(avatarImage.snp.bottom).inset(-16)
-            make.height.equalTo(48)
-        }
-        
-        groceryListsView.snp.makeConstraints { make in
-            make.top.equalTo(segmentControl.snp.bottom)
-            make.bottom.right.left.equalToSuperview()
-        }
-        
+
         collectionView.snp.makeConstraints { make in
-            make.left.top.right.equalToSuperview()
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(5)
+            make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(88)
         }
         
@@ -204,6 +108,8 @@ extension MainScreenViewController {
                                 forCellWithReuseIdentifier: "EmptyColoredCell")
         collectionView.register(InstructionCell.self,
                                 forCellWithReuseIdentifier: "InstructionCell")
+        collectionView.register(MainScreenTopCell.self,
+                                forCellWithReuseIdentifier: "MainScreenTopCell")
         collectionView.register(GroceryCollectionViewHeader.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: "GroceryCollectionViewHeader")
@@ -213,6 +119,11 @@ extension MainScreenViewController {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
                                                                       cellProvider: { collectionView, indexPath, model in
             switch self.viewModel?.model[indexPath.section].cellType {
+            case .topMenu:
+                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "MainScreenTopCell", for: indexPath)
+                as? MainScreenTopCell
+               
+                return cell
             case .empty:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "EmptyColoredCell", for: indexPath)
                 as? EmptyColoredCell
@@ -238,6 +149,7 @@ extension MainScreenViewController {
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
                 cell?.swipeDeleteAction = {
                     viewModel.deleteCell(with: model)
+                    
                 }
                 
                 cell?.swipeToAddOrDeleteFromFavorite = {

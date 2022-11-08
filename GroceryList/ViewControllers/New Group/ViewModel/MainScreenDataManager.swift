@@ -57,6 +57,7 @@ class MainScreenDataManager {
 
     private func createWorkingArray() {
         var finalArray: [SectionModel] = []
+        let topSection = SectionModel(cellType: .topMenu, sectionType: .empty, lists: [GroseryListsModel(id: UUID(), dateOfCreation: Date(), name: "k", color: "j", isFavorite: false, supplays: [])])
         var favoriteSection = SectionModel(cellType: .usual, sectionType: .favorite, lists: [])
         var todaySection = SectionModel(cellType: .usual, sectionType: .today, lists: [])
         var weekSection = SectionModel(cellType: .usual, sectionType: .week, lists: [])
@@ -72,6 +73,7 @@ class MainScreenDataManager {
             monthSection.lists.append($0) })
         
         let sections = [favoriteSection, todaySection, weekSection, monthSection]
+        finalArray.append(topSection)
         sections.filter({ $0.lists != [] }).forEach({ finalArray.append($0) })
         
         workingSectionsArray = finalArray
