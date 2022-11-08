@@ -11,7 +11,7 @@ import UIKit
 class MainScreenViewModel {
     
     init() {
-        dataSource = DataSource()
+        dataSource = MainScreenDataManager()
         dataSource.dataChangedCallBack = {
             self.reloadDataCallBack?()
         }
@@ -26,7 +26,7 @@ class MainScreenViewModel {
     }
     
     var reloadDataCallBack: (() -> Void)?
-    private var dataSource: DataSource
+    private var dataSource: MainScreenDataManager
     
     var model: [SectionModel] {
         return dataSource.workingSectionsArray
@@ -53,9 +53,7 @@ class MainScreenViewModel {
     // cells callbacks
     
     func deleteCell(with model: GroseryListsModel) {
-        if let index = dataSource.listOfModels?.firstIndex(of: model ) {
-            dataSource.listOfModels?.remove(at: index)
-        }
+        dataSource.deleteList(with: model)
     }
     
     func addCell(with model: GroseryListsModel) {

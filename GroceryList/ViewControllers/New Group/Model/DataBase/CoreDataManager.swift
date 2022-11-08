@@ -60,6 +60,16 @@ class CoreDataManager {
         return object
     }
     
+    func removeList(_ id: UUID) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
     func deleteAllEntities() {
         let entities = coreData.container.managedObjectModel.entities
         entities.forEach {

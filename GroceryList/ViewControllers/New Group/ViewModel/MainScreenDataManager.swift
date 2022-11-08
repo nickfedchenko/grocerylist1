@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DataSource {
+class MainScreenDataManager {
     
     var dataChangedCallBack: (() -> Void)?
     
@@ -19,7 +19,7 @@ class DataSource {
         }
     }
     
-    var listOfModels: [GroseryListsModel]? {
+    private var listOfModels: [GroseryListsModel]? {
         didSet {
             createWorkingArray()
         }
@@ -30,6 +30,13 @@ class DataSource {
         createWorkingArray()
     }
     
+    func deleteList(with model: GroseryListsModel) {
+        if let index = listOfModels?.firstIndex(of: model ) {
+            listOfModels?.remove(at: index)
+            CoreDataManager.shared.removeList(model.id)
+        }
+    }
+    
     private func transformCoreDataModelToModel(_ model: DBGroceryListModel) -> GroseryListsModel {
         let id = model.id ?? UUID()
         let date = model.dateOfCreation ?? Date()
@@ -38,7 +45,7 @@ class DataSource {
                                  name: model.name, color: color, isFavorite: model.isFavorite, supplays: [])
     }
 
-    func createWorkingArray() {
+    private func createWorkingArray() {
         var finalArray: [SectionModel] = []
         var favoriteSection = SectionModel(cellType: .usual, sectionType: .favorite, lists: [])
         var todaySection = SectionModel(cellType: .usual, sectionType: .today, lists: [])

@@ -28,7 +28,7 @@
 		B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF94E2914DB5E00944E9D /* ColorManager.swift */; };
 		B36AF9532915403600944E9D /* EmptyColoredCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9522915403600944E9D /* EmptyColoredCell.swift */; };
 		B36AF9552915410400944E9D /* InstructionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9542915410400944E9D /* InstructionCell.swift */; };
-		B36AF957291554EC00944E9D /* ColdStartDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF956291554EC00944E9D /* ColdStartDataSource.swift */; };
+		B36AF957291554EC00944E9D /* MainScreenDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF956291554EC00944E9D /* MainScreenDataManager.swift */; };
 		B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF95B2915556700944E9D /* GroseryListModels.swift */; };
 		B36C75EE2911266800709721 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B36C75F02911266800709721 /* Localizable.strings */; };
 		B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B36D18D7291A1960005EE32D /* DataBase.xcdatamodeld */; };
@@ -81,7 +81,7 @@
 		B36AF94E2914DB5E00944E9D /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		B36AF9522915403600944E9D /* EmptyColoredCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyColoredCell.swift; sourceTree = "<group>"; };
 		B36AF9542915410400944E9D /* InstructionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionCell.swift; sourceTree = "<group>"; };
-		B36AF956291554EC00944E9D /* ColdStartDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColdStartDataSource.swift; sourceTree = "<group>"; };
+		B36AF956291554EC00944E9D /* MainScreenDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenDataManager.swift; sourceTree = "<group>"; };
 		B36AF95B2915556700944E9D /* GroseryListModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroseryListModels.swift; sourceTree = "<group>"; };
 		B36C75EF2911266800709721 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B36C75F12911267600709721 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -222,7 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				B36AF93A2913C66000944E9D /* MainScreenViewModel.swift */,
-				B36AF956291554EC00944E9D /* ColdStartDataSource.swift */,
+				B36AF956291554EC00944E9D /* MainScreenDataManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -512,7 +512,7 @@
 				B36AF9392913C5DC00944E9D /* MainScreenViewController.swift in Sources */,
 				B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */,
 				B33DFD23291A678800AC7403 /* DBSupplay+CoreDataClass.swift in Sources */,
-				B36AF957291554EC00944E9D /* ColdStartDataSource.swift in Sources */,
+				B36AF957291554EC00944E9D /* MainScreenDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

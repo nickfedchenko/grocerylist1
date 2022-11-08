@@ -19,6 +19,11 @@ class GroceryCollectionViewHeader: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        pinchImage.isHidden = false
+    }
+    
     func setupHeader(sectionType: SectionType) {
         guard sectionType != .favorite else { return sectionName.isHidden = true }
         pinchImage.isHidden = true
