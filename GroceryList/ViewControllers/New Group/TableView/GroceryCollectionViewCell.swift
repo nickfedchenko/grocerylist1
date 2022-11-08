@@ -26,6 +26,16 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        swipeToAddOrDeleteFavorite.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        swipeToDeleteImageView.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        contentViews.snp.updateConstraints { make in
+            make.left.right.equalToSuperview().inset(20)
+        }
+        state = .normal
+    }
+    
     func setupCell(nameOfList: String, bckgColor: String, isTopRounded: Bool,
                    isBottomRounded: Bool, numberOfItemsInside: String, isFavorite: Bool) {
         countLabel.text = numberOfItemsInside
@@ -63,7 +73,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
             if state == .readyToPinch { hidePinch() }
             
         case .left:
-            if state == .readyToPinch { print("pinch") }
+            if state == .readyToPinch { swipeToAddOrDeleteFromFavorite?() }
             if state == .normal { showPinch() }
             if state == .readyToDelete { hideDelete() }
         

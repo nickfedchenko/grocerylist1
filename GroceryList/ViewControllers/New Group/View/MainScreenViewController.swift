@@ -270,7 +270,7 @@ extension MainScreenViewController {
         for section in viewModel.model {
             snapshot.appendItems(section.lists, toSection: section)
         }
-        collectionViewDataSource?.apply(snapshot)
+        collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
     }
     
     // CollectionViewLayout

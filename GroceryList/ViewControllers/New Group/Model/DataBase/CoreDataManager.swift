@@ -46,8 +46,11 @@ class CoreDataManager {
         let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(list.id)'")
         if let object = try? context.fetch(fetchRequest).first {
-            object.dateOfCreation = list.dateOfCreation
+            object.id = list.id
             object.isFavorite = list.isFavorite
+            object.color = list.color
+            object.name = list.name
+            object.dateOfCreation = list.dateOfCreation
         }
         try? context.save()
     }

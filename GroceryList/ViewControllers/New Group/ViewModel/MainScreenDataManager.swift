@@ -37,6 +37,16 @@ class MainScreenDataManager {
         }
     }
     
+    func addOrDeleteFromFavorite(with model: GroseryListsModel) {
+        var newModel = model
+        newModel.isFavorite = !newModel.isFavorite
+        
+        if let index = listOfModels?.firstIndex(of: model ) {
+            listOfModels?[index].isFavorite = !model.isFavorite
+            CoreDataManager.shared.saveList(list: newModel)
+        }
+    }
+    
     private func transformCoreDataModelToModel(_ model: DBGroceryListModel) -> GroseryListsModel {
         let id = model.id ?? UUID()
         let date = model.dateOfCreation ?? Date()

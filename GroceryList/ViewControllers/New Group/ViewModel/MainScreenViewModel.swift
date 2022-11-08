@@ -16,12 +16,14 @@ class MainScreenViewModel {
             self.reloadDataCallBack?()
         }
 
-       // let model = CoreDataManager.shared.getAllLists()
-       // CoreDataManager.shared.getList(list: "979E19AA-3EA2-476C-9DC8-5348C932C689")
-
-       // model?.forEach({ print($0.dateOfCreation)})
-//          CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "second",
-//                                                                  color: "1DD3CF", isFavorite: false, supplays: [] ))
+        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "1",
+                                                                  color: "1DD3CF", isFavorite: true, supplays: [] ))
+        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "2",
+                                                                color: "1DD3CF", isFavorite: true, supplays: [] ))
+        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "3",
+                                                                color: "1DD3CF", isFavorite: true, supplays: [] ))
+        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "4",
+                                                                color: "1DD3CF", isFavorite: true, supplays: [] ))
 //
     }
     
@@ -56,18 +58,8 @@ class MainScreenViewModel {
         dataSource.deleteList(with: model)
     }
     
-    func addCell(with model: GroseryListsModel) {
-//        dataSource.coreDataSet.remove(model)
-//        var newModel = model
-//        newModel.isFavorite = true
-//        dataSource.coreDataSet.insert(model)
-    }
-    
     func addOrDeleteFromFavorite(with model: GroseryListsModel) {
-        
-        if !model.isFavorite {
-            addCell(with: model)
-            }
+        dataSource.addOrDeleteFromFavorite(with: model)
     }
     
     func createEmptyFavoriteSection(with model: GroseryListsModel) -> SectionModel {
