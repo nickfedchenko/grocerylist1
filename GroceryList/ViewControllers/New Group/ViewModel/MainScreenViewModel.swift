@@ -15,18 +15,19 @@ class MainScreenViewModel {
         dataSource.dataChangedCallBack = {
             self.reloadDataCallBack?()
         }
-        let model =   CoreDataManager.shared.getAllLists()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.reloadDataCallBack?()
+        }
+        let model = CoreDataManager.shared.getAllLists()
        // CoreDataManager.shared.getList(list: "979E19AA-3EA2-476C-9DC8-5348C932C689")
 
         model?.forEach({ print($0.dateOfCreation)})
-        //  CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "bttb",
+       //   CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "bttbы",
        //                                                           color: ColorManager.shared.getEmptyCellColor(index: 0), supplays: [] ))
     }
     
     var reloadDataCallBack: (() -> Void)?
-    private let coldStartDataSource = ColdStartDataSource()
-    private var dataSource = DataSource()
-    private var isFirstStart = true
+    private var dataSource: DataSource
     
     var model: [SectionModel] {
         return dataSource.workingSectionsArray
@@ -53,14 +54,14 @@ class MainScreenViewModel {
     // cells callbacks
     
     func deleteCell(with model: GroseryListsModel) {
-        dataSource.coreDataSet.remove(model)
+      //  dataSource.coreDataSet.remove(model)
     }
     
     func addCell(with model: GroseryListsModel) {
-        dataSource.coreDataSet.remove(model)
-        var newModel = model
-        newModel.isFavorite = true
-        dataSource.coreDataSet.insert(model)
+//        dataSource.coreDataSet.remove(model)
+//        var newModel = model
+//        newModel.isFavorite = true
+//        dataSource.coreDataSet.insert(model)
     }
     
     func addOrDeleteFromFavorite(with model: GroseryListsModel) {
