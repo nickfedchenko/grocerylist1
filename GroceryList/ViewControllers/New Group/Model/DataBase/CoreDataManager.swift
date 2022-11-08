@@ -22,7 +22,6 @@ class CoreDataManager {
             updateList(list)
             return
         }
-        print(list.id)
         let context = coreData.container.viewContext
         let object = DBGroceryListModel(context: context)
         object.id = list.id

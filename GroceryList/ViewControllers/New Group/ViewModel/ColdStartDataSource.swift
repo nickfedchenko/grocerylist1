@@ -15,7 +15,7 @@ class DataSource {
     
     var workingSectionsArray: [SectionModel] = [] {
         didSet {
-            print(workingSectionsArray)
+           // print(workingSectionsArray)
             dataChangedCallBack?()
         }
     }
@@ -35,23 +35,25 @@ class DataSource {
     }
 
     func createWorkingArray() {
+        var finalArray: [SectionModel] = []
         var favoriteSection = SectionModel(cellType: .usual, sectionType: .favorite, lists: [])
         var todaySection = SectionModel(cellType: .usual, sectionType: .today, lists: [])
         var weekSection = SectionModel(cellType: .usual, sectionType: .week, lists: [])
         var monthSection = SectionModel(cellType: .usual, sectionType: .month, lists: [])
      
-        listOfModels?.forEach({ if $0.isFavorite { favoriteSection.lists.append($0)} })
+        listOfModels?.filter({ $0.isFavorite == true }).forEach({ favoriteSection.lists.append($0) })
        
-        listOfModels?.filter({ $0.dateOfCreation > Date() - 86400 }).forEach({ todaySection.lists.append($0) })
+        listOfModels?.filter({ $0.dateOfCreation > Date() - 86400 && !$0.isFavorite }).forEach({ todaySection.lists.append($0) })
        
-        listOfModels?.filter({ $0.dateOfCreation > Date() - 604800 && $0.dateOfCreation < Date() - 86400 }).forEach({ weekSection.lists.append($0) })
+        listOfModels?.filter({ $0.dateOfCreation > Date() - 604800 && $0.dateOfCreation < Date() - 86400 && !$0.isFavorite }).forEach({ weekSection.lists.append($0) })
       
-        listOfModels?.filter({ $0.dateOfCreation < Date() - 2592000 && $0.dateOfCreation < Date() - 604800 }).forEach({
+        listOfModels?.filter({ $0.dateOfCreation < Date() - 2592000 && $0.dateOfCreation < Date() - 604800 && !$0.isFavorite }).forEach({
             monthSection.lists.append($0) })
         
         let sections = [favoriteSection, todaySection, weekSection, monthSection]
-        sections.forEach({ if !$0.lists.isEmpty { workingSectionsArray.append($0)} })
-       
-        workingSectionsArray = sections
+        sections.filter({ $0.lists != [] }).forEach({ finalArray.append($0) })
+        
+        workingSectionsArray = finalArray
+        print(workingSectionsArray.count)
     }
 }

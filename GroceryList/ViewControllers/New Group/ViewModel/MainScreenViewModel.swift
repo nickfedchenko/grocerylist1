@@ -15,15 +15,14 @@ class MainScreenViewModel {
         dataSource.dataChangedCallBack = {
             self.reloadDataCallBack?()
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.reloadDataCallBack?()
-        }
-        let model = CoreDataManager.shared.getAllLists()
+
+       // let model = CoreDataManager.shared.getAllLists()
        // CoreDataManager.shared.getList(list: "979E19AA-3EA2-476C-9DC8-5348C932C689")
 
-        model?.forEach({ print($0.dateOfCreation)})
-       //   CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "bttbы",
-       //                                                           color: ColorManager.shared.getEmptyCellColor(index: 0), supplays: [] ))
+       // model?.forEach({ print($0.dateOfCreation)})
+//          CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "second",
+//                                                                  color: ColorManager.shared.getEmptyCellColor(index: 0), isFavorite: false, supplays: [] ))
+//
     }
     
     var reloadDataCallBack: (() -> Void)?

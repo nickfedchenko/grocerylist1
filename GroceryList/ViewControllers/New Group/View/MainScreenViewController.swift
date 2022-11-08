@@ -289,7 +289,7 @@ extension MainScreenViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         let header = createSectionHeader()
-      //  section.boundarySupplementaryItems = [header]
+        section.boundarySupplementaryItems = [header]
         return section
     }
     
