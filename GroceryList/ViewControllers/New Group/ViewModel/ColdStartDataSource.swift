@@ -11,20 +11,19 @@ class DataSource {
     
     init() {
         createWorkingArray()
+   
     }
     
     static var shared = DataSource()
     var dataChangedCallBack: (() -> Void)?
     var workingSectionsArray: [SectionModel] = [] {
         didSet {
-            print(workingSectionsArray)
             dataChangedCallBack?()
         }
     }
 
     var coreDataSet: Set<GroseryListsModel> = [] {
         didSet {
-            print(coreDataSet)
             createWorkingArray()
         }
     }
@@ -45,7 +44,6 @@ class DataSource {
         sections.forEach({ if !$0.lists.isEmpty { workingSectionsArray.append($0)} })
        
         workingSectionsArray = sections
-        print(favoriteSection.lists)
     }
     
     func createEmptyList() -> GroseryListsModel {
@@ -54,11 +52,11 @@ class DataSource {
     
     let oneMonthModel = [
         GroseryListsModel(dateOfCreation: Date(), name: nil,
-                          color: ColorManager.shared.getEmptyCellColor(index: 0), isEmpty: true, supplays: [] ),
+                          color: ColorManager.shared.getEmptyCellColor(index: 0), supplays: [] ),
         GroseryListsModel(dateOfCreation: Date(), name: nil,
-                          color: ColorManager.shared.getEmptyCellColor(index: 1), isEmpty: true, supplays: [] ),
+                          color: ColorManager.shared.getEmptyCellColor(index: 1), supplays: [] ),
         GroseryListsModel(dateOfCreation: Date(), name: nil,
-                          color: ColorManager.shared.getEmptyCellColor(index: 2), isEmpty: true, supplays: [] )
+                          color: ColorManager.shared.getEmptyCellColor(index: 2), supplays: [] )
    
     ]
     
@@ -79,25 +77,25 @@ class ColdStartDataSource {
     ]
     
     let todayModel = [
-        GroseryListsModel(dateOfCreation: Date(), name: nil, color: .red, isTestCell: true, supplays: [] )
+        GroseryListsModel(dateOfCreation: Date(), name: nil, color: .red, supplays: [] )
     ]
     
     let sevenDaysModel = [
         GroseryListsModel(dateOfCreation: Date(), name: nil,
-                          color: ColorManager.shared.getEmptyCellColor(index: 0), isEmpty: true, supplays: [] ),
+                          color: ColorManager.shared.getEmptyCellColor(index: 0), supplays: [] ),
         GroseryListsModel(dateOfCreation: Date(), name: nil,
-                          color: ColorManager.shared.getEmptyCellColor(index: 1), isEmpty: true, supplays: [] ),
+                          color: ColorManager.shared.getEmptyCellColor(index: 1), supplays: [] ),
         GroseryListsModel(dateOfCreation: Date(), name: nil,
-                          color: ColorManager.shared.getEmptyCellColor(index: 2), isEmpty: true, supplays: [] )
+                          color: ColorManager.shared.getEmptyCellColor(index: 2), supplays: [] )
     ]
     
     let oneMonthModel = [
         GroseryListsModel(dateOfCreation: Date(), name: nil,
-                          color: ColorManager.shared.getEmptyCellColor(index: 0), isEmpty: true, supplays: [] ),
+                          color: ColorManager.shared.getEmptyCellColor(index: 0), supplays: [] ),
         GroseryListsModel(dateOfCreation: Date(), name: nil,
-                          color: ColorManager.shared.getEmptyCellColor(index: 1), isEmpty: true, supplays: [] ),
+                          color: ColorManager.shared.getEmptyCellColor(index: 1), supplays: [] ),
         GroseryListsModel(dateOfCreation: Date(), name: nil,
-                          color: ColorManager.shared.getEmptyCellColor(index: 2), isEmpty: true, supplays: [] )
+                          color: ColorManager.shared.getEmptyCellColor(index: 2), supplays: [] )
    
     ]
 }

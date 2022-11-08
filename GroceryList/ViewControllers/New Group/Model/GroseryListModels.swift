@@ -27,8 +27,6 @@ struct GroseryListsModel: Hashable {
     var name: String?
     var color: UIColor
     var isFavorite: Bool = false
-    var isEmpty: Bool = false
-    var isTestCell: Bool = false
     var supplays: [Supplay?]
     
     static func == (lhs: GroseryListsModel, rhs: GroseryListsModel) -> Bool {

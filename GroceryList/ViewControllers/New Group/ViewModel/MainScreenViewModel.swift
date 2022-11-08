@@ -15,6 +15,12 @@ class MainScreenViewModel {
         dataSource.dataChangedCallBack = {
             self.reloadDataCallBack?()
         }
+        let model =   CoreDataManager.shared.getAllLists()
+       // CoreDataManager.shared.getList(list: "979E19AA-3EA2-476C-9DC8-5348C932C689")
+
+        model?.forEach({ print($0.dateOfCreation)})
+        //  CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "bttb",
+       //                                                           color: ColorManager.shared.getEmptyCellColor(index: 0), supplays: [] ))
     }
     
     var reloadDataCallBack: (() -> Void)?
