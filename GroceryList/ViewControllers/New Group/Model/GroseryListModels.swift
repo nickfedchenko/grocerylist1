@@ -25,7 +25,7 @@ struct GroseryListsModel: Hashable {
     var id = UUID()
     var dateOfCreation: Date
     var name: String?
-    var color: UIColor
+    var color: String
     var isFavorite: Bool = false
     var supplays: [Supplay?]
     

@@ -16,11 +16,11 @@ extension DBGroceryListModel {
         return NSFetchRequest<DBGroceryListModel>(entityName: "DBGroceryListModel")
     }
 
-    @NSManaged public var id: UUID?
-    @NSManaged public var dateOfCreation: Date?
-    @NSManaged public var name: String?
     @NSManaged public var color: String?
+    @NSManaged public var dateOfCreation: Date?
+    @NSManaged public var id: UUID?
     @NSManaged public var isFavorite: Bool
+    @NSManaged public var name: String?
     @NSManaged public var supplays: NSSet?
 
 }

@@ -30,8 +30,9 @@ class DataSource {
     private func transformCoreDataModelToModel(_ model: DBGroceryListModel) -> GroseryListsModel {
         let id = model.id ?? UUID()
         let date = model.dateOfCreation ?? Date()
+        let color = model.color ?? "1DD31D"
         return GroseryListsModel(id: id, dateOfCreation: date,
-                                 name: model.name, color: .lightGray, isFavorite: model.isFavorite, supplays: [])
+                                 name: model.name, color: color, isFavorite: model.isFavorite, supplays: [])
     }
 
     func createWorkingArray() {

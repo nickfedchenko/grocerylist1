@@ -35,10 +35,10 @@ class GroceryListsCollectionViewCell: UICollectionViewCell {
         contentViews.layer.cornerRadius = 0
     }
     
-    func setupCell(nameOfList: String, bckgColor: UIColor, isTopRounded: Bool,
+    func setupCell(nameOfList: String, bckgColor: String, isTopRounded: Bool,
                    isBottomRounded: Bool, numberOfItemsInside: String, isFavorite: Bool) {
         countLabel.text = numberOfItemsInside
-        contentViews.backgroundColor = bckgColor
+        contentViews.backgroundColor = UIColor(hex: "#\(bckgColor)")
         nameLabel.text = nameOfList
         
         swipeToAddOrDeleteFavorite.image = isFavorite ? UIImage(named: "swipeTeDeleteFromFavorite") : UIImage(named: "swipeToAddToFavorite")

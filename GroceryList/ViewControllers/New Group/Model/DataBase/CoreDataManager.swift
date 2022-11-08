@@ -26,7 +26,7 @@ class CoreDataManager {
         let object = DBGroceryListModel(context: context)
         object.id = list.id
         object.isFavorite = list.isFavorite
-      //  object.color = list.color
+        object.color = list.color
         object.name = list.name
         object.dateOfCreation = list.dateOfCreation
         try? context.save()

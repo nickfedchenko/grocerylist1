@@ -21,7 +21,7 @@ class MainScreenViewModel {
 
        // model?.forEach({ print($0.dateOfCreation)})
 //          CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "second",
-//                                                                  color: ColorManager.shared.getEmptyCellColor(index: 0), isFavorite: false, supplays: [] ))
+//                                                                  color: "1DD3CF", isFavorite: false, supplays: [] ))
 //
     }
     
@@ -37,7 +37,7 @@ class MainScreenViewModel {
         return model[ind.section].lists[ind.row].name ?? "No name"
     }
     
-    func getBGColor(at ind: IndexPath) -> UIColor {
+    func getBGColor(at ind: IndexPath) -> String {
         return model[ind.section].lists[ind.row].color
     }
     

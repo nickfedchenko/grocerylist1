@@ -6,14 +6,14 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="supplays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DBSupplay"/>
+        <relationship name="supplays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DBSupplay" inverseName="list" inverseEntity="DBSupplay"/>
     </entity>
     <entity name="DBSupplay" representedClassName=".DBSupplay" syncable="YES">
         <attribute name="dateOfCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isPurchased" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBGroceryListModel"/>
+        <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBGroceryListModel" inverseName="supplays" inverseEntity="DBGroceryListModel"/>
     </entity>
     <elements>
         <element name="DBGroceryListModel" positionX="-63" positionY="-18" width="128" height="119"/>
