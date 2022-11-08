@@ -198,7 +198,7 @@ extension MainScreenViewController {
     
     private func setupCollectionView() {
         collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
-        collectionView.register(GroceryListsCollectionViewCell.self,
+        collectionView.register(GroceryCollectionViewCell.self,
                                 forCellWithReuseIdentifier: "GroceryListsCollectionViewCell")
         collectionView.register(EmptyColoredCell.self,
                                 forCellWithReuseIdentifier: "EmptyColoredCell")
@@ -227,7 +227,7 @@ extension MainScreenViewController {
                 return cell
             default:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "GroceryListsCollectionViewCell",
-                                                                         for: indexPath) as? GroceryListsCollectionViewCell
+                                                                         for: indexPath) as? GroceryCollectionViewCell
                 guard let viewModel = self.viewModel else { return UICollectionViewCell() }
                 let name = viewModel.getNameOfList(at: indexPath)
                 let isTopRouned = viewModel.isTopRounded(at: indexPath)

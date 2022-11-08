@@ -53,7 +53,9 @@ class MainScreenViewModel {
     // cells callbacks
     
     func deleteCell(with model: GroseryListsModel) {
-      //  dataSource.coreDataSet.remove(model)
+        if let index = dataSource.listOfModels?.firstIndex(of: model ) {
+            dataSource.listOfModels?.remove(at: index)
+        }
     }
     
     func addCell(with model: GroseryListsModel) {

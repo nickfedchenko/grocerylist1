@@ -8,7 +8,7 @@
 import SnapKit
 import UIKit
 
-class GroceryListsCollectionViewCell: UICollectionViewCell {
+class GroceryCollectionViewCell: UICollectionViewCell {
     
     var swipeDeleteAction: (() -> Void)?
     var swipeToAddOrDeleteFromFavorite: (() -> Void)?
@@ -24,15 +24,6 @@ class GroceryListsCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        swipeToAddOrDeleteFavorite.transform = CGAffineTransform(scaleX: 0.0, y: 1)
-        swipeToDeleteImageView.transform = CGAffineTransform(scaleX: 0.0, y: 1)
-        setupConstraints()
-        addGestureRecognizers()
-        contentViews.layer.cornerRadius = 0
     }
     
     func setupCell(nameOfList: String, bckgColor: String, isTopRounded: Bool,
@@ -63,7 +54,11 @@ class GroceryListsCollectionViewCell: UICollectionViewCell {
         print(state)
         switch recognizer.direction {
         case .right:
-            if state == .readyToDelete { swipeDeleteAction?() }
+            if state == .readyToDelete {
+                contentView.isHidden = true
+                swipeDeleteAction?()
+          
+            }
             if state == .normal { showDelete() }
             if state == .readyToPinch { hidePinch() }
             

@@ -21,7 +21,7 @@
 		B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF93E2913D1AE00944E9D /* SegmentControlExtension.swift */; };
 		B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9402913D37300944E9D /* CustomSegmentControl.swift */; };
 		B36AF9432913D39400944E9D /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9422913D39400944E9D /* UIImageExtension.swift */; };
-		B36AF9452913DEC700944E9D /* GroceryListsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9442913DEC700944E9D /* GroceryListsCollectionViewCell.swift */; };
+		B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9442913DEC700944E9D /* GroceryCollectionViewCell.swift */; };
 		B36AF9472913E94100944E9D /* SF Pro Display Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B36AF9462913E94100944E9D /* SF Pro Display Regular.otf */; };
 		B36AF94A2913FA8000944E9D /* IntrinsicCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9492913FA8000944E9D /* IntrinsicCollectionView.swift */; };
 		B36AF94D2913FAD000944E9D /* GroceryCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF94C2913FAD000944E9D /* GroceryCollectionViewHeader.swift */; };
@@ -74,7 +74,7 @@
 		B36AF93E2913D1AE00944E9D /* SegmentControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControlExtension.swift; sourceTree = "<group>"; };
 		B36AF9402913D37300944E9D /* CustomSegmentControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentControl.swift; sourceTree = "<group>"; };
 		B36AF9422913D39400944E9D /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
-		B36AF9442913DEC700944E9D /* GroceryListsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryListsCollectionViewCell.swift; sourceTree = "<group>"; };
+		B36AF9442913DEC700944E9D /* GroceryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryCollectionViewCell.swift; sourceTree = "<group>"; };
 		B36AF9462913E94100944E9D /* SF Pro Display Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Regular.otf"; sourceTree = "<group>"; };
 		B36AF9492913FA8000944E9D /* IntrinsicCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrinsicCollectionView.swift; sourceTree = "<group>"; };
 		B36AF94C2913FAD000944E9D /* GroceryCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryCollectionViewHeader.swift; sourceTree = "<group>"; };
@@ -202,7 +202,7 @@
 		B36AF94B2913FABA00944E9D /* TableView */ = {
 			isa = PBXGroup;
 			children = (
-				B36AF9442913DEC700944E9D /* GroceryListsCollectionViewCell.swift */,
+				B36AF9442913DEC700944E9D /* GroceryCollectionViewCell.swift */,
 				B36AF9522915403600944E9D /* EmptyColoredCell.swift */,
 				B36AF9542915410400944E9D /* InstructionCell.swift */,
 				B36AF94C2913FAD000944E9D /* GroceryCollectionViewHeader.swift */,
@@ -479,7 +479,7 @@
 				B3C3FA4729115AA20011EC0A /* OnboardingContentView.swift in Sources */,
 				B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */,
 				B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */,
-				B36AF9452913DEC700944E9D /* GroceryListsCollectionViewCell.swift in Sources */,
+				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
 				B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */,
 				B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */,

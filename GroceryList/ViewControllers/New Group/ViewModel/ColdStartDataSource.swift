@@ -15,12 +15,15 @@ class DataSource {
     
     var workingSectionsArray: [SectionModel] = [] {
         didSet {
-           // print(workingSectionsArray)
             dataChangedCallBack?()
         }
     }
     
-    var listOfModels: [GroseryListsModel]?
+    var listOfModels: [GroseryListsModel]? {
+        didSet {
+            createWorkingArray()
+        }
+    }
    
     init() {
        listOfModels = coreDataListsArray?.map({ transformCoreDataModelToModel($0) }) ?? []
@@ -55,6 +58,5 @@ class DataSource {
         sections.filter({ $0.lists != [] }).forEach({ finalArray.append($0) })
         
         workingSectionsArray = finalArray
-        print(workingSectionsArray.count)
     }
 }
