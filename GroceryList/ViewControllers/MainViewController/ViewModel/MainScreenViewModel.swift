@@ -11,6 +11,7 @@ import UIKit
 class MainScreenViewModel {
     
     weak var router: RootRouter?
+    private var colorManager = ColorManager()
     
     init() {
         dataSource = MainScreenDataManager()
@@ -18,12 +19,12 @@ class MainScreenViewModel {
             self.reloadDataCallBack?()
         }
 
-        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "1",
-                                                                  color: "1DD3CF", isFavorite: true, supplays: [] ))
-        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "2",
-                                                                color: "1DD3CF", isFavorite: true, supplays: [] ))
-        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date() - 660000, name: "3",
-                                                                color: "1DD3CF", isFavorite: false, supplays: [] ))
+//        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "1",
+//                                                                  color: 1, isFavorite: true, supplays: [] ))
+//        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "2",
+//                                                                color: 1, isFavorite: true, supplays: [] ))
+//        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date() - 660000, name: "3",
+//                                                                color: 1, isFavorite: false, supplays: [] ))
     }
     
     var reloadDataCallBack: (() -> Void)?
@@ -36,8 +37,8 @@ class MainScreenViewModel {
     // routing
     
     func createNewListTapped() {
-        router?.goCreateNewList(compl: {
-            print("create list dismissed")
+        router?.goCreateNewList(compl: { [weak self] in
+            self?.dataSource.updateListOfModels()
         })
     }
     
@@ -46,8 +47,9 @@ class MainScreenViewModel {
         return model[ind.section].lists[ind.row].name ?? "No name"
     }
     
-    func getBGColor(at ind: IndexPath) -> String {
-        return model[ind.section].lists[ind.row].color
+    func getBGColor(at ind: IndexPath) -> UIColor {
+        let colorInd = model[ind.section].lists[ind.row].color
+        return colorManager.getGradient(index: colorInd).0
     }
     
     func isTopRounded(at ind: IndexPath) -> Bool {

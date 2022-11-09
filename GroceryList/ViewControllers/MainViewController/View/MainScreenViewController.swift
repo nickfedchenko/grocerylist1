@@ -132,7 +132,8 @@ extension MainScreenViewController {
                 guard let viewModel = self.viewModel else { return UICollectionViewCell() }
                 let isTopRouned = viewModel.isTopRounded(at: indexPath)
                 let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
-                cell?.setupCell(bckgColor: model.color, isTopRounded: isTopRouned, isBottomRounded: isBottomRounded)
+                let color = viewModel.getBGColor(at: indexPath)
+                cell?.setupCell(bckgColor: color, isTopRounded: isTopRouned, isBottomRounded: isBottomRounded)
                 return cell
             
             // cell for cold start
@@ -150,7 +151,8 @@ extension MainScreenViewController {
                 let isTopRouned = viewModel.isTopRounded(at: indexPath)
                 let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
                 let numberOfItems = viewModel.getnumberOfSupplaysInside(at: indexPath)
-                cell?.setupCell(nameOfList: name, bckgColor: model.color, isTopRounded: isTopRouned,
+                let color = viewModel.getBGColor(at: indexPath)
+                cell?.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
                 cell?.swipeDeleteAction = {
                     viewModel.deleteCell(with: model)

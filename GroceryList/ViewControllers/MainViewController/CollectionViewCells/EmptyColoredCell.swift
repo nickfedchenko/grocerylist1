@@ -19,8 +19,8 @@ class EmptyColoredCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell(bckgColor: String, isTopRounded: Bool, isBottomRounded: Bool) {
-        contentViews.backgroundColor = UIColor(hex: "#\(bckgColor)")
+    func setupCell(bckgColor: UIColor, isTopRounded: Bool, isBottomRounded: Bool) {
+        contentViews.backgroundColor = bckgColor
 
         if isBottomRounded {
             contentViews.layer.cornerRadius = 8

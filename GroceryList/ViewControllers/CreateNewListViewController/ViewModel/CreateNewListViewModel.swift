@@ -19,8 +19,9 @@ class CreateNewListViewModel {
     
     func savePressed(nameOfList: String?, numberOfColor: Int) {
         let list = GroseryListsModel(id: UUID(), dateOfCreation: Date(),
-                                     name: nameOfList, color: "f", isFavorite: false, supplays: [])
+                                     name: nameOfList, color: numberOfColor, isFavorite: false, supplays: [])
         CoreDataManager.shared.saveList(list: list)
+        valueChangedCallback?()
     }
     
     func getNumberOfCells() -> Int {

@@ -32,24 +32,7 @@ class CreateNewListViewController: UIViewController {
         textfield.becomeFirstResponder()
     }
     
-    @objc
-    private func saveAction() {
-        hidePanel()
-    }
-    
-    @objc
-    private func pickItemsAction() {
-        print("pick items from anither list")
-    }
-    
-    private func addRecognizers() {
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(saveAction))
-        saveButtonView.addGestureRecognizer(tapRecognizer)
-        
-        let secondTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(pickItemsAction))
-        pickItemsFromList.addGestureRecognizer(secondTapRecognizer)
-    }
-    
+    // MARK: - Keyboard
     private func addKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -168,6 +151,7 @@ class CreateNewListViewController: UIViewController {
         return imageView
     }()
     
+    // MARK: - Constraints
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         view.backgroundColor = .black.withAlphaComponent(0.5)
@@ -235,7 +219,7 @@ class CreateNewListViewController: UIViewController {
         }
     }
 }
-
+// MARK: - Textfield
 extension CreateNewListViewController: UITextFieldDelegate {
     
     private func readyToSave() {
@@ -260,6 +244,7 @@ extension CreateNewListViewController: UITextFieldDelegate {
     }
 }
 
+// MARK: - CollcetionView
 extension CreateNewListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     private func setupCollectionView() {
@@ -301,5 +286,38 @@ extension CreateNewListViewController: UICollectionViewDelegate, UICollectionVie
         let backgroundColor = viewModel?.getColorForCell(at: indexPath.row).1
         contentView.backgroundColor = backgroundColor
         textfield.backgroundColor = textFieldColer
+    }
+}
+
+// MARK: - recognizer actions
+extension CreateNewListViewController {
+    
+    private func addRecognizers() {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(saveAction))
+        saveButtonView.addGestureRecognizer(tapRecognizer)
+        
+        let secondTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(pickItemsAction))
+        pickItemsFromList.addGestureRecognizer(secondTapRecognizer)
+        
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
+        contentView.addGestureRecognizer(panRecognizer)
+    }
+    
+    @objc
+    private func saveAction() {
+        hidePanel()
+    }
+    
+    @objc
+    private func pickItemsAction() {
+        print("pick items from anither list")
+    }
+    
+    @objc
+    private func swipeDownAction(_ recognizer: UIPanGestureRecognizer) {
+        let tempTranslation = recognizer.translation(in: contentView)
+        if tempTranslation.y >= 100 {
+            hidePanel()
+        }
     }
 }

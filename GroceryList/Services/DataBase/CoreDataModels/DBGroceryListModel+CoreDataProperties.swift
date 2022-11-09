@@ -2,7 +2,7 @@
 //  DBGroceryListModel+CoreDataProperties.swift
 //  
 //
-//  Created by Шамиль Моллачиев on 08.11.2022.
+//  Created by Шамиль Моллачиев on 09.11.2022.
 //
 //
 
@@ -16,7 +16,7 @@ extension DBGroceryListModel {
         return NSFetchRequest<DBGroceryListModel>(entityName: "DBGroceryListModel")
     }
 
-    @NSManaged public var color: String?
+    @NSManaged public var color: Int64
     @NSManaged public var dateOfCreation: Date?
     @NSManaged public var id: UUID?
     @NSManaged public var isFavorite: Bool

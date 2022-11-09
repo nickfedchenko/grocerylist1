@@ -28,8 +28,7 @@ class MainScreenDataManager {
     }
    
     init() {
-       listOfModels = coreDataListsArray?.map({ transformCoreDataModelToModel($0) }) ?? []
-        createWorkingArray()
+        updateListOfModels()
     }
     
     func deleteList(with model: GroseryListsModel) {
@@ -37,6 +36,11 @@ class MainScreenDataManager {
             listOfModels?.remove(at: index)
             CoreDataManager.shared.removeList(model.id)
         }
+    }
+    
+    func updateListOfModels() {
+        coreDataListsArray = CoreDataManager.shared.getAllLists()
+        listOfModels = coreDataListsArray?.map({ transformCoreDataModelToModel($0) }) ?? []
     }
     
     func addOrDeleteFromFavorite(with model: GroseryListsModel) {
@@ -54,14 +58,14 @@ class MainScreenDataManager {
     private func transformCoreDataModelToModel(_ model: DBGroceryListModel) -> GroseryListsModel {
         let id = model.id ?? UUID()
         let date = model.dateOfCreation ?? Date()
-        let color = model.color ?? "1DD31D"
+        let color = model.color
         return GroseryListsModel(id: id, dateOfCreation: date,
-                                 name: model.name, color: color, isFavorite: model.isFavorite, supplays: [])
+                                 name: model.name, color: Int(color), isFavorite: model.isFavorite, supplays: [])
     }
 
     private func createWorkingArray() {
         var finalArray: [SectionModel] = []
-        let list = GroseryListsModel(id: topCellID, dateOfCreation: Date(), name: "k", color: "j", isFavorite: false, supplays: [])
+        let list = GroseryListsModel(id: topCellID, dateOfCreation: Date(), name: "k", color: 0, isFavorite: false, supplays: [])
         let topSection = SectionModel(id: 0, cellType: .topMenu, sectionType: .empty, lists: [list])
         var favoriteSection = SectionModel(id: 1, cellType: .usual, sectionType: .favorite, lists: [])
         var todaySection = SectionModel(id: 2, cellType: .usual, sectionType: .today, lists: [])
