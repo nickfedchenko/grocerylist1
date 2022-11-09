@@ -17,6 +17,12 @@ class CreateNewListViewModel {
     
     }
     
+    func savePressed(nameOfList: String?, numberOfColor: Int) {
+        let list = GroseryListsModel(id: UUID(), dateOfCreation: Date(),
+                                     name: nameOfList, color: "f", isFavorite: false, supplays: [])
+        CoreDataManager.shared.saveList(list: list)
+    }
+    
     func getNumberOfCells() -> Int {
         colorManager.gradientsCount
     }

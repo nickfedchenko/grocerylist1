@@ -12,6 +12,7 @@ class CreateNewListViewController: UIViewController {
     
     var viewModel: CreateNewListViewModel?
     weak var router: RootRouter?
+    private var selectedColor = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,7 +77,7 @@ class CreateNewListViewController: UIViewController {
     private func hidePanel() {
         textfield.resignFirstResponder()
         updateConstr(with: -400)
-        
+        viewModel?.savePressed(nameOfList: textfield.text, numberOfColor: selectedColor)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.dismiss(animated: false, completion: nil)
         }
@@ -237,9 +238,24 @@ class CreateNewListViewController: UIViewController {
 
 extension CreateNewListViewController: UITextFieldDelegate {
     
+    private func readyToSave() {
+        saveButtonView.isUserInteractionEnabled = true
+        saveButtonView.backgroundColor = UIColor(hex: "#31635A")
+    }
+    
+    private func notReadyToSave() {
+        saveButtonView.isUserInteractionEnabled = false
+        saveButtonView.backgroundColor = UIColor(hex: "#D2D5DA")
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
+        if newLength > 2 {
+            readyToSave()
+        } else {
+            notReadyToSave()
+        }
         return newLength <= 30
     }
 }
@@ -277,5 +293,13 @@ extension CreateNewListViewController: UICollectionViewDelegate, UICollectionVie
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 12
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedColor = indexPath.row
+        let textFieldColer = viewModel?.getColorForCell(at: indexPath.row).0
+        let backgroundColor = viewModel?.getColorForCell(at: indexPath.row).1
+        contentView.backgroundColor = backgroundColor
+        textfield.backgroundColor = textFieldColer
     }
 }
