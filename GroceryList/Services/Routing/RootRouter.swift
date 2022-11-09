@@ -80,6 +80,12 @@ final class RootRouter: RootRouterProtocol {
         shouldShowOnboarding = false
     }
     
+    func goCreateNewList(compl: @escaping () -> Void) {
+        guard let controller = viewControllerFactory.createCreateNewListController(router: self,
+                                                                                   compl: compl) else { return }
+        navigationPresent(controller, animated: false)
+    }
+    
     func popToRoot() {
         navigationPopToRootViewController(animated: true)
     }

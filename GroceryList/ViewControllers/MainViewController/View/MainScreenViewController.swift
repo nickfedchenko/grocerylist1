@@ -9,9 +9,9 @@ import SnapKit
 import UIKit
 
 class MainScreenViewController: UIViewController {
+    
     private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroseryListsModel>?
     var viewModel: MainScreenViewModel?
-    weak var router: RootRouter?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
@@ -222,6 +222,6 @@ extension MainScreenViewController {
     
     @objc
     private func createListAction() {
-        print("createList")
+        viewModel?.createNewListTapped()
     }
 }

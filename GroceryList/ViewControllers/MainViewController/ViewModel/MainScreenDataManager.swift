@@ -29,7 +29,6 @@ class MainScreenDataManager {
    
     init() {
        listOfModels = coreDataListsArray?.map({ transformCoreDataModelToModel($0) }) ?? []
-        print(listOfModels?.count)
         createWorkingArray()
     }
     

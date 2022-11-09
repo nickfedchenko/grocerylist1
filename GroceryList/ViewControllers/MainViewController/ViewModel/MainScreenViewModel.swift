@@ -10,6 +10,8 @@ import UIKit
 
 class MainScreenViewModel {
     
+    weak var router: RootRouter?
+    
     init() {
         dataSource = MainScreenDataManager()
         dataSource.dataChangedCallBack = {
@@ -22,9 +24,6 @@ class MainScreenViewModel {
                                                                 color: "1DD3CF", isFavorite: true, supplays: [] ))
         CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date() - 660000, name: "3",
                                                                 color: "1DD3CF", isFavorite: false, supplays: [] ))
-//        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "4",
-//                                                                color: "1DD3CF", isFavorite: false, supplays: [] ))
-
     }
     
     var reloadDataCallBack: (() -> Void)?
@@ -32,6 +31,14 @@ class MainScreenViewModel {
     
     var model: [SectionModel] {
         return dataSource.workingSectionsArray
+    }
+    
+    // routing
+    
+    func createNewListTapped() {
+        router?.goCreateNewList(compl: {
+            print("create list dismissed")
+        })
     }
     
     // setup cells

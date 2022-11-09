@@ -17,6 +17,8 @@
 		B33EFF1B290FF02900AD9BEE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B33EFF19290FF02900AD9BEE /* LaunchScreen.storyboard */; };
 		B36933F8291A97D900AFFAA6 /* MainScreenTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */; };
 		B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933F9291AAC2C00AFFAA6 /* CellState.swift */; };
+		B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */; };
+		B3693402291BA62F00AFFAA6 /* CreateNewListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3693401291BA62F00AFFAA6 /* CreateNewListViewModel.swift */; };
 		B36AF9392913C5DC00944E9D /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9382913C5DC00944E9D /* MainScreenViewController.swift */; };
 		B36AF93B2913C66000944E9D /* MainScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF93A2913C66000944E9D /* MainScreenViewModel.swift */; };
 		B36AF93D2913CEE900944E9D /* SF Pro Display Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B36AF93C2913CEE900944E9D /* SF Pro Display Bold.otf */; };
@@ -71,6 +73,8 @@
 		B33EFF1C290FF02900AD9BEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenTopCell.swift; sourceTree = "<group>"; };
 		B36933F9291AAC2C00AFFAA6 /* CellState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellState.swift; sourceTree = "<group>"; };
+		B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListViewController.swift; sourceTree = "<group>"; };
+		B3693401291BA62F00AFFAA6 /* CreateNewListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListViewModel.swift; sourceTree = "<group>"; };
 		B36AF9382913C5DC00944E9D /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 		B36AF93A2913C66000944E9D /* MainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewModel.swift; sourceTree = "<group>"; };
 		B36AF93C2913CEE900944E9D /* SF Pro Display Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Bold.otf"; sourceTree = "<group>"; };
@@ -172,8 +176,8 @@
 		B33EFF0D290FF02800AD9BEE /* GroceryList */ = {
 			isa = PBXGroup;
 			children = (
-				B37A2CDC29110263003C01AD /* ViewControllers */,
 				B37A2CD42910EE77003C01AD /* Services */,
+				B37A2CDC29110263003C01AD /* ViewControllers */,
 				B37A0F4A29100CD900343FF1 /* Application */,
 				B37A0F4B29100CEA00343FF1 /* SupportingFiles */,
 			);
@@ -188,16 +192,33 @@
 			path = CellModel;
 			sourceTree = "<group>";
 		};
-		B36AF9372913C58A00944E9D /* New Group */ = {
+		B36933FC291BA4CE00AFFAA6 /* MainViewController */ = {
 			isa = PBXGroup;
 			children = (
-				B36AF95A2915553C00944E9D /* Model */,
+				B36AF95A2915553C00944E9D /* Models */,
 				B36AF9592915551E00944E9D /* ViewModel */,
 				B36AF9582915550800944E9D /* View */,
 				B36AF94B2913FABA00944E9D /* CollectionViewCells */,
 				B36AF9482913FA5B00944E9D /* CustomUiElements */,
 			);
-			path = "New Group";
+			path = MainViewController;
+			sourceTree = "<group>";
+		};
+		B36933FD291BA4EE00AFFAA6 /* CreateNewListViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B36933FE291BA53900AFFAA6 /* View */,
+			);
+			path = CreateNewListViewController;
+			sourceTree = "<group>";
+		};
+		B36933FE291BA53900AFFAA6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */,
+				B3693401291BA62F00AFFAA6 /* CreateNewListViewModel.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		B36AF9482913FA5B00944E9D /* CustomUiElements */ = {
@@ -237,13 +258,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		B36AF95A2915553C00944E9D /* Model */ = {
+		B36AF95A2915553C00944E9D /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				B36AF95B2915556700944E9D /* GroseryListModels.swift */,
 				B36933FB291AAC3A00AFFAA6 /* CellModel */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		B36D18D6291A1949005EE32D /* DataBase */ = {
@@ -303,7 +324,8 @@
 			isa = PBXGroup;
 			children = (
 				B37A2CDD2911027E003C01AD /* Onboarding */,
-				B36AF9372913C58A00944E9D /* New Group */,
+				B36933FC291BA4CE00AFFAA6 /* MainViewController */,
+				B36933FD291BA4EE00AFFAA6 /* CreateNewListViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -492,10 +514,12 @@
 				B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */,
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
+				B3693402291BA62F00AFFAA6 /* CreateNewListViewModel.swift in Sources */,
 				B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */,
 				B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */,
 				B36AF9552915410400944E9D /* InstructionCell.swift in Sources */,
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
+				B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */,
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
 				B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */,
 				B33DFD25291A678800AC7403 /* DBGroceryListModel+CoreDataProperties.swift in Sources */,

@@ -20,3 +20,5 @@
 "today"                     = "Today";
 "week"                      = "Previous 7 days";
 "month"                     = "Previous 30 days";
+"NameOfNewList"             = "Name of the new list...";
+"Save"                      = "Save";
