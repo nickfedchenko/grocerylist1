@@ -93,7 +93,6 @@ class MainScreenViewController: UIViewController {
             make.left.equalTo(plusImage.snp.right).inset(-8)
             make.centerY.equalTo(plusImage)
         }
-        
     }
 }
 
@@ -122,7 +121,7 @@ extension MainScreenViewController {
             case .topMenu:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "MainScreenTopCell", for: indexPath)
                 as? MainScreenTopCell
-               
+
                 return cell
             case .empty:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "EmptyColoredCell", for: indexPath)
@@ -144,12 +143,11 @@ extension MainScreenViewController {
                 let isTopRouned = viewModel.isTopRounded(at: indexPath)
                 let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
                 let numberOfItems = viewModel.getnumberOfSupplaysInside(at: indexPath)
-                
+                print(indexPath.row)
                 cell?.setupCell(nameOfList: name, bckgColor: model.color, isTopRounded: isTopRouned,
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
                 cell?.swipeDeleteAction = {
                     viewModel.deleteCell(with: model)
-                    
                 }
                 
                 cell?.swipeToAddOrDeleteFromFavorite = {
@@ -193,7 +191,7 @@ extension MainScreenViewController {
         return layout
     }
     
-    private func createLayout() -> NSCollectionLayoutSection {
+    private func createLayout(isHeaderNeeded: Bool = true) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(72))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 1, trailing: 0)
@@ -201,7 +199,7 @@ extension MainScreenViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         let header = createSectionHeader()
-        section.boundarySupplementaryItems = [header]
+            section.boundarySupplementaryItems = [header]
         return section
     }
     

@@ -8,7 +8,7 @@
 import UIKit
 
 struct SectionModel: Hashable {
-    var id = UUID()
+    var id: Int
     var cellType: CellType
     var sectionType: SectionType
     var lists: [GroseryListsModel]
@@ -17,7 +17,7 @@ struct SectionModel: Hashable {
         lhs.id == rhs.id
     }
     func hash(into hasher: inout Hasher) {
-        hasher.combine(cellType)
+        hasher.combine(id)
     }
 }
 
@@ -33,7 +33,7 @@ struct GroseryListsModel: Hashable {
         lhs.id == rhs.id
     }
     func hash(into hasher: inout Hasher) {
-        hasher.combine(dateOfCreation)
+        hasher.combine(id)
     }
 }
 

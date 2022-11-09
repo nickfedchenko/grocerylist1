@@ -2,7 +2,7 @@
 excluded:
     - Pods
     - SketchBook-MacOS/Frameworks
-    - GroceryList/ViewControllers/New Group/Model/DataBase
+    - GroceryList/Services/DataBase
 
 # Отключенные правила
 disabled_rules:

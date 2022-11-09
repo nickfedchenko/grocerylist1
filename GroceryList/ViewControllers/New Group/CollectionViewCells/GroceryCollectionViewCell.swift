@@ -28,12 +28,17 @@ class GroceryCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        clearTheCell()
+    }
+    
+    private func clearTheCell() {
         swipeToAddOrDeleteFavorite.transform = CGAffineTransform(scaleX: 0.0, y: 1)
         swipeToDeleteImageView.transform = CGAffineTransform(scaleX: 0.0, y: 1)
         contentViews.snp.updateConstraints { make in
             make.left.right.equalToSuperview().inset(20)
         }
         state = .normal
+        self.layoutIfNeeded()
     }
     
     func setupCell(nameOfList: String, bckgColor: String, isTopRounded: Bool,
@@ -45,6 +50,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         swipeToAddOrDeleteFavorite.image = isFavorite ? UIImage(named: "swipeTeDeleteFromFavorite") : UIImage(named: "swipeToAddToFavorite")
         
         if isBottomRounded && isTopRounded {
+            contentViews.layer.cornerRadius = 8
             contentViews.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]
             return
         }
@@ -85,7 +91,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(named: "swipeToDelete")
-        imageView.isUserInteractionEnabled = true
+         // imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -93,7 +99,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(named: "swipeToAddToFavorite")
-        imageView.isUserInteractionEnabled = true
+        //imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -108,12 +114,12 @@ class GroceryCollectionViewCell: UICollectionViewCell {
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
         }
-
+        
         nameLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(16)
             make.top.equalToSuperview().inset(11)
         }
-
+        
         countLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(16)
             make.bottom.equalToSuperview().inset(11)
@@ -144,11 +150,11 @@ extension GroceryCollectionViewCell {
         swipeLeftRecognizer.direction = .left
         contentViews.addGestureRecognizer(swipeLeftRecognizer)
         
-//        let tapPinchRecognizer = UITapGestureRecognizer(target: self, action: #selector(deleteAction))
-//        swipeToAddOrDeleteFavorite.addGestureRecognizer(tapPinchRecognizer)
+                let tapPinchRecognizer = UITapGestureRecognizer(target: self, action: #selector(deleteAction))
+                swipeToAddOrDeleteFavorite.addGestureRecognizer(tapPinchRecognizer)
         
-//        let tapDeleteRecognizer = UITapGestureRecognizer(target: self, action: #selector(pinchAction))
-//        swipeToDeleteImageView.addGestureRecognizer(tapDeleteRecognizer)
+                let tapDeleteRecognizer = UITapGestureRecognizer(target: self, action: #selector(pinchAction))
+                swipeToDeleteImageView.addGestureRecognizer(tapDeleteRecognizer)
     }
     
     @objc
@@ -166,14 +172,22 @@ extension GroceryCollectionViewCell {
         switch recognizer.direction {
         case .right:
             if state == .readyToDelete {
-                contentView.isHidden = true
+                DispatchQueue.main.async {
+                    self.clearTheCell()
+                }
                 swipeDeleteAction?()
             }
             if state == .normal { showDelete() }
             if state == .readyToPinch { hidePinch() }
             
         case .left:
-            if state == .readyToPinch { swipeToAddOrDeleteFromFavorite?() }
+            if state == .readyToPinch {
+         
+                DispatchQueue.main.async {
+                    self.clearTheCell()
+                }
+                swipeToAddOrDeleteFromFavorite?()
+            }
             if state == .normal { showPinch() }
             if state == .readyToDelete { hideDelete() }
         default:

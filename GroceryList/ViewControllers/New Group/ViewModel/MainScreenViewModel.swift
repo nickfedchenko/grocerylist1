@@ -20,11 +20,11 @@ class MainScreenViewModel {
                                                                   color: "1DD3CF", isFavorite: true, supplays: [] ))
         CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "2",
                                                                 color: "1DD3CF", isFavorite: true, supplays: [] ))
-        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "3",
-                                                                color: "1DD3CF", isFavorite: true, supplays: [] ))
-        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "4",
-                                                                color: "1DD3CF", isFavorite: true, supplays: [] ))
-//
+        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date() - 660000, name: "3",
+                                                                color: "1DD3CF", isFavorite: false, supplays: [] ))
+//        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "4",
+//                                                                color: "1DD3CF", isFavorite: false, supplays: [] ))
+
     }
     
     var reloadDataCallBack: (() -> Void)?
@@ -60,10 +60,6 @@ class MainScreenViewModel {
     
     func addOrDeleteFromFavorite(with model: GroseryListsModel) {
         dataSource.addOrDeleteFromFavorite(with: model)
-    }
-    
-    func createEmptyFavoriteSection(with model: GroseryListsModel) -> SectionModel {
-        SectionModel(cellType: .usual, sectionType: .favorite, lists: [model])
     }
     
     func getnumberOfSupplaysInside(at ind: IndexPath) -> String {
