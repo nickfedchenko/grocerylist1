@@ -38,7 +38,7 @@ class MainScreenViewController: UIViewController {
     // MARK: - UI
     
     private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
-
+    
     private let bottomCreateListView: UIView = {
         let view = UIView()
         view.backgroundColor = .white.withAlphaComponent(0.9)
@@ -71,7 +71,7 @@ class MainScreenViewController: UIViewController {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
         view.addSubviews([collectionView, bottomCreateListView])
         bottomCreateListView.addSubviews([plusImage, createListLabel])
-
+        
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(5)
             make.left.right.equalToSuperview()
@@ -118,11 +118,14 @@ extension MainScreenViewController {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
                                                                       cellProvider: { collectionView, indexPath, model in
             switch self.viewModel?.model[indexPath.section].cellType {
+            
+            // top view with switcher
             case .topMenu:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "MainScreenTopCell", for: indexPath)
                 as? MainScreenTopCell
-
                 return cell
+                
+            // empty cell in bottom of collection
             case .empty:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "EmptyColoredCell", for: indexPath)
                 as? EmptyColoredCell
@@ -131,19 +134,22 @@ extension MainScreenViewController {
                 let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
                 cell?.setupCell(bckgColor: model.color, isTopRounded: isTopRouned, isBottomRounded: isBottomRounded)
                 return cell
+            
+            // cell for cold start
             case .instruction:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "InstructionCell", for: indexPath)
                 as? InstructionCell
                 return cell
+          
+            // default cell for list
             default:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "GroceryListsCollectionViewCell",
-                                                                         for: indexPath) as? GroceryCollectionViewCell
+                                                                   for: indexPath) as? GroceryCollectionViewCell
                 guard let viewModel = self.viewModel else { return UICollectionViewCell() }
                 let name = viewModel.getNameOfList(at: indexPath)
                 let isTopRouned = viewModel.isTopRounded(at: indexPath)
                 let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
                 let numberOfItems = viewModel.getnumberOfSupplaysInside(at: indexPath)
-                print(indexPath.row)
                 cell?.setupCell(nameOfList: name, bckgColor: model.color, isTopRounded: isTopRouned,
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
                 cell?.swipeDeleteAction = {
@@ -199,7 +205,7 @@ extension MainScreenViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         let header = createSectionHeader()
-            section.boundarySupplementaryItems = [header]
+        section.boundarySupplementaryItems = [header]
         return section
     }
     

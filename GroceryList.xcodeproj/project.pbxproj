@@ -19,6 +19,7 @@
 		B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933F9291AAC2C00AFFAA6 /* CellState.swift */; };
 		B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */; };
 		B3693402291BA62F00AFFAA6 /* CreateNewListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3693401291BA62F00AFFAA6 /* CreateNewListViewModel.swift */; };
+		B3693405291BB44A00AFFAA6 /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3693404291BB44A00AFFAA6 /* ColorCollectionViewCell.swift */; };
 		B36AF9392913C5DC00944E9D /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF9382913C5DC00944E9D /* MainScreenViewController.swift */; };
 		B36AF93B2913C66000944E9D /* MainScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36AF93A2913C66000944E9D /* MainScreenViewModel.swift */; };
 		B36AF93D2913CEE900944E9D /* SF Pro Display Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B36AF93C2913CEE900944E9D /* SF Pro Display Bold.otf */; };
@@ -75,6 +76,7 @@
 		B36933F9291AAC2C00AFFAA6 /* CellState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellState.swift; sourceTree = "<group>"; };
 		B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListViewController.swift; sourceTree = "<group>"; };
 		B3693401291BA62F00AFFAA6 /* CreateNewListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListViewModel.swift; sourceTree = "<group>"; };
+		B3693404291BB44A00AFFAA6 /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		B36AF9382913C5DC00944E9D /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 		B36AF93A2913C66000944E9D /* MainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewModel.swift; sourceTree = "<group>"; };
 		B36AF93C2913CEE900944E9D /* SF Pro Display Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Bold.otf"; sourceTree = "<group>"; };
@@ -207,7 +209,9 @@
 		B36933FD291BA4EE00AFFAA6 /* CreateNewListViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B3693406291BB5BF00AFFAA6 /* ViewModel */,
 				B36933FE291BA53900AFFAA6 /* View */,
+				B3693403291BB42B00AFFAA6 /* CollectionViewCell */,
 			);
 			path = CreateNewListViewController;
 			sourceTree = "<group>";
@@ -216,9 +220,24 @@
 			isa = PBXGroup;
 			children = (
 				B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */,
-				B3693401291BA62F00AFFAA6 /* CreateNewListViewModel.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		B3693403291BB42B00AFFAA6 /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				B3693404291BB44A00AFFAA6 /* ColorCollectionViewCell.swift */,
+			);
+			path = CollectionViewCell;
+			sourceTree = "<group>";
+		};
+		B3693406291BB5BF00AFFAA6 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B3693401291BA62F00AFFAA6 /* CreateNewListViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		B36AF9482913FA5B00944E9D /* CustomUiElements */ = {
@@ -527,6 +546,7 @@
 				B36AF94D2913FAD000944E9D /* GroceryCollectionViewHeader.swift in Sources */,
 				B37A2CE82911034D003C01AD /* UITextFieldExtension.swift in Sources */,
 				B36AF93B2913C66000944E9D /* MainScreenViewModel.swift in Sources */,
+				B3693405291BB44A00AFFAA6 /* ColorCollectionViewCell.swift in Sources */,
 				B37A2CE92911034D003C01AD /* UIViewControllerExtension.swift in Sources */,
 				B33DFD26291A678800AC7403 /* DBGroceryListModel+CoreDataClass.swift in Sources */,
 				B37A2CE72911034D003C01AD /* UIColorExtension.swift in Sources */,

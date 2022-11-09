@@ -21,12 +21,6 @@ class ColorManager {
     private let emptyCellColors: [UIColor] = [
         #colorLiteral(red: 0.87116611, green: 0.9110933542, blue: 0.910405457, alpha: 1), #colorLiteral(red: 0.8280456662, green: 0.9286016822, blue: 0.9183422923, alpha: 1), #colorLiteral(red: 0.8989184499, green: 0.8939521909, blue: 0.8940405846, alpha: 1)
     ]
-   
-    func getEmptyCellColor(index: Int) -> UIColor {
-        guard index < emptyCellColors.count else { return #colorLiteral(red: 0.8989184499, green: 0.8939521909, blue: 0.8940405846, alpha: 1) }
-        
-        return emptyCellColors[index]
-    }
     
     var gradientsCount: Int {
         rawGradientColors.count

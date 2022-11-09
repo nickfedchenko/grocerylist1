@@ -22,3 +22,5 @@
 "month"                     = "Previous 30 days";
 "NameOfNewList"             = "Name of the new list...";
 "Save"                      = "Save";
+"PickFromAnotherList"       = "Pick items from another list";
+"AutomaticSorting"          = "Automatic assignment \nof categories to products and grouping";
