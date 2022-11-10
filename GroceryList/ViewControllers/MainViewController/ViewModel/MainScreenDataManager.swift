@@ -31,29 +31,46 @@ class MainScreenDataManager {
         updateListOfModels()
     }
     
-    func deleteList(with model: GroseryListsModel) {
+    func deleteList(with model: GroseryListsModel) -> Set<GroseryListsModel> {
         if let index = listOfModels?.firstIndex(of: model ) {
             listOfModels?.remove(at: index)
             CoreDataManager.shared.removeList(model.id)
         }
+        updateFirstAndLastModels()
+        return setOfModelsToUpdate
     }
     
-    func updateListOfModels() {
+    func updateListOfModels() -> Set<GroseryListsModel> {
+        updateFirstAndLastModels()
         coreDataListsArray = CoreDataManager.shared.getAllLists()
         listOfModels = coreDataListsArray?.map({ transformCoreDataModelToModel($0) }) ?? []
+        updateFirstAndLastModels()
+        return setOfModelsToUpdate
     }
     
-    func addOrDeleteFromFavorite(with model: GroseryListsModel) {
-        print(model.isFavorite)
+    func addOrDeleteFromFavorite(with model: GroseryListsModel) -> Set<GroseryListsModel> {
+        updateFirstAndLastModels()
         var newModel = model
         newModel.isFavorite = !newModel.isFavorite
-        print(newModel.isFavorite)
         if let index = listOfModels?.firstIndex(of: model ) {
             listOfModels?.remove(at: index)
             listOfModels?.insert(newModel, at: 0)
             CoreDataManager.shared.saveList(list: newModel)
         }
+        updateFirstAndLastModels()
+        setOfModelsToUpdate.remove(newModel)
+        setOfModelsToUpdate.remove(model)
+        return setOfModelsToUpdate
     }
+    
+    func updateFirstAndLastModels() {
+        workingSectionsArray.forEach({
+            setOfModelsToUpdate.insert($0.lists.first!)
+            setOfModelsToUpdate.insert($0.lists.last!)
+        })
+    }
+    
+    var setOfModelsToUpdate: Set<GroseryListsModel> = []
     
     private func transformCoreDataModelToModel(_ model: DBGroceryListModel) -> GroseryListsModel {
         let id = model.id ?? UUID()
@@ -72,13 +89,13 @@ class MainScreenDataManager {
         var weekSection = SectionModel(id: 3, cellType: .usual, sectionType: .week, lists: [])
         var monthSection = SectionModel(id: 4, cellType: .usual, sectionType: .month, lists: [])
      
-        listOfModels?.filter({ $0.isFavorite == true }).forEach({ favoriteSection.lists.append($0) })
+        listOfModels?.filter({ $0.isFavorite == true }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ favoriteSection.lists.append($0) })
        
-        listOfModels?.filter({ $0.dateOfCreation > Date() - 86400 && !$0.isFavorite }).forEach({ todaySection.lists.append($0) })
+        listOfModels?.filter({ $0.dateOfCreation > Date() - 86400 && !$0.isFavorite }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ todaySection.lists.append($0) })
        
         listOfModels?.filter({ $0.dateOfCreation < Date() - 604800 && $0.dateOfCreation < Date() - 86400 && !$0.isFavorite }).forEach({ weekSection.lists.append($0) })
       
-        listOfModels?.filter({ $0.dateOfCreation < Date() - 2592000 && $0.dateOfCreation < Date() - 604800 && !$0.isFavorite }).forEach({
+        listOfModels?.filter({ $0.dateOfCreation < Date() - 2592000 && $0.dateOfCreation < Date() - 604800 && !$0.isFavorite }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({
             monthSection.lists.append($0) })
         
         let sections = [favoriteSection, todaySection, weekSection, monthSection]

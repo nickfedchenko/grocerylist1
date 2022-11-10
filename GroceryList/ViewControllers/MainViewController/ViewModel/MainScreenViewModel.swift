@@ -28,6 +28,7 @@ class MainScreenViewModel {
     }
     
     var reloadDataCallBack: (() -> Void)?
+    var updateCells:((Set<GroseryListsModel>) -> Void)?
     private var dataSource: MainScreenDataManager
     
     var model: [SectionModel] {
@@ -38,7 +39,9 @@ class MainScreenViewModel {
     
     func createNewListTapped() {
         router?.goCreateNewList(compl: { [weak self] in
-            self?.dataSource.updateListOfModels()
+            guard let list = self?.dataSource.updateListOfModels() else { return }
+            self?.updateCells?(list)
+            self?.dataSource.setOfModelsToUpdate = []
         })
     }
     
@@ -64,11 +67,15 @@ class MainScreenViewModel {
     // cells callbacks
     
     func deleteCell(with model: GroseryListsModel) {
-        dataSource.deleteList(with: model)
+        let list = dataSource.deleteList(with: model)
+        updateCells?(list)
+        dataSource.setOfModelsToUpdate = []
     }
     
     func addOrDeleteFromFavorite(with model: GroseryListsModel) {
-        dataSource.addOrDeleteFromFavorite(with: model)
+        let list = dataSource.addOrDeleteFromFavorite(with: model)
+        updateCells?(list)
+        dataSource.setOfModelsToUpdate = []
     }
     
     func getnumberOfSupplaysInside(at ind: IndexPath) -> String {

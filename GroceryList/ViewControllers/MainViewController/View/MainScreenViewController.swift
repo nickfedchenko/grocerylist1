@@ -27,6 +27,18 @@ class MainScreenViewController: UIViewController {
         viewModel?.reloadDataCallBack = { [weak self] in
             self?.reloadData()
         }
+        
+        viewModel?.updateCells = { setOfLists in
+            self.reloadItems(lists: setOfLists)
+        }
+    }
+    
+    private func reloadItems(lists: Set<GroseryListsModel>) {
+        print(lists.count)
+        var snapshot = collectionViewDataSource?.snapshot()
+        let array = Array(lists)
+        snapshot?.reloadItems(array)
+        collectionViewDataSource?.apply(snapshot!, animatingDifferences: true)
     }
     
     private func createAttributedString(title: String, color: UIColor = .white) -> NSAttributedString {
@@ -97,9 +109,14 @@ class MainScreenViewController: UIViewController {
 }
 
 // MARK: - CollectionView
-extension MainScreenViewController {
+extension MainScreenViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath)
+    }
     
     private func setupCollectionView() {
+        collectionView.delegate = self
         collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
         collectionView.register(GroceryCollectionViewCell.self,
                                 forCellWithReuseIdentifier: "GroceryListsCollectionViewCell")
@@ -160,6 +177,7 @@ extension MainScreenViewController {
                 
                 cell?.swipeToAddOrDeleteFromFavorite = {
                     viewModel.addOrDeleteFromFavorite(with: model)
+       
                 }
                 return cell
             }

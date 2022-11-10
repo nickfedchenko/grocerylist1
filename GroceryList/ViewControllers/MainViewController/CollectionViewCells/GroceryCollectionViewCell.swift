@@ -38,6 +38,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
             make.left.right.equalToSuperview().inset(20)
         }
         state = .normal
+        contentViews.layer.cornerRadius = 0
         self.layoutIfNeeded()
     }
     
