@@ -10,6 +10,7 @@ import UIKit
 
 class CreateNewListViewModel {
     
+    weak var router: RootRouter?
     private var colorManager = ColorManager()
     var valueChangedCallback: (() -> Void)?
    

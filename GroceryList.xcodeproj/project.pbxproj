@@ -11,6 +11,8 @@
 		B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33EFF10290FF02800AD9BEE /* SceneDelegate.swift */; };
 		B33EFF18290FF02900AD9BEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B33EFF17290FF02900AD9BEE /* Assets.xcassets */; };
 		B33EFF1B290FF02900AD9BEE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B33EFF19290FF02900AD9BEE /* LaunchScreen.storyboard */; };
+		B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3476901291D010D0045A287 /* ProductsViewController.swift */; };
+		B3476904291D017B0045A287 /* ProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3476903291D017B0045A287 /* ProductsViewModel.swift */; };
 		B36933F8291A97D900AFFAA6 /* MainScreenTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */; };
 		B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933F9291AAC2C00AFFAA6 /* CellState.swift */; };
 		B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */; };
@@ -68,6 +70,8 @@
 		B33EFF17290FF02900AD9BEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B33EFF1A290FF02900AD9BEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B33EFF1C290FF02900AD9BEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B3476901291D010D0045A287 /* ProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
+		B3476903291D017B0045A287 /* ProductsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewModel.swift; sourceTree = "<group>"; };
 		B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenTopCell.swift; sourceTree = "<group>"; };
 		B36933F9291AAC2C00AFFAA6 /* CellState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellState.swift; sourceTree = "<group>"; };
 		B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +190,23 @@
 			path = GroceryList;
 			sourceTree = "<group>";
 		};
+		B3476900291D00E00045A287 /* ProductsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B3476901291D010D0045A287 /* ProductsViewController.swift */,
+				B3476903291D017B0045A287 /* ProductsViewModel.swift */,
+			);
+			path = ProductsViewController;
+			sourceTree = "<group>";
+		};
+		B3476905291D01EE0045A287 /* MainScreenDataManager */ = {
+			isa = PBXGroup;
+			children = (
+				B36AF956291554EC00944E9D /* MainScreenDataManager.swift */,
+			);
+			path = MainScreenDataManager;
+			sourceTree = "<group>";
+		};
 		B36933FB291AAC3A00AFFAA6 /* CellModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -200,6 +221,7 @@
 				B36AF95A2915553C00944E9D /* Models */,
 				B36AF9592915551E00944E9D /* ViewModel */,
 				B36AF9582915550800944E9D /* View */,
+				B3476905291D01EE0045A287 /* MainScreenDataManager */,
 				B36AF94B2913FABA00944E9D /* CollectionViewCells */,
 				B36AF9482913FA5B00944E9D /* CustomUiElements */,
 			);
@@ -272,7 +294,6 @@
 			isa = PBXGroup;
 			children = (
 				B36AF93A2913C66000944E9D /* MainScreenViewModel.swift */,
-				B36AF956291554EC00944E9D /* MainScreenDataManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -345,6 +366,7 @@
 				B37A2CDD2911027E003C01AD /* Onboarding */,
 				B36933FC291BA4CE00AFFAA6 /* MainViewController */,
 				B36933FD291BA4EE00AFFAA6 /* CreateNewListViewController */,
+				B3476900291D00E00045A287 /* ProductsViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -558,11 +580,13 @@
 				B3693415291BD58B00AFFAA6 /* DBGroceryListModel+CoreDataClass.swift in Sources */,
 				B36D18ED291A2CF4005EE32D /* CoreDataManager.swift in Sources */,
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,
+				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
 				B3693416291BD58B00AFFAA6 /* DBSupplay+CoreDataProperties.swift in Sources */,
 				B37A2CEB2911034D003C01AD /* StringExtension.swift in Sources */,
 				B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */,
 				B3C3FA4F291175390011EC0A /* UIImageViewExtension.swift in Sources */,
 				B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */,
+				B3476904291D017B0045A287 /* ProductsViewModel.swift in Sources */,
 				B36933F8291A97D900AFFAA6 /* MainScreenTopCell.swift in Sources */,
 				B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */,
 				B36AF9392913C5DC00944E9D /* MainScreenViewController.swift in Sources */,

@@ -3,7 +3,7 @@ excluded:
     - Pods
     - SketchBook-MacOS/Frameworks
     - GroceryList/Services/DataBase
-    - GroceryList/ViewControllers/MainViewController/ViewModel/MainScreenDataManager.swift
+    - GroceryList/ViewControllers/MainViewController/MainScreenDataManager/MainScreenDataManager.swift
 
 # Отключенные правила
 disabled_rules:

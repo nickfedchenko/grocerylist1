@@ -86,6 +86,12 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: false)
     }
     
+    func goProductsVC(model: GroseryListsModel, compl: @escaping () -> Void) {
+        guard let controller = viewControllerFactory.createProductsController(model: model, router: self,
+                                                                                   compl: compl) else { return }
+        navigationPushViewController(controller, animated: true)
+    }
+    
     func popToRoot() {
         navigationPopToRootViewController(animated: true)
     }

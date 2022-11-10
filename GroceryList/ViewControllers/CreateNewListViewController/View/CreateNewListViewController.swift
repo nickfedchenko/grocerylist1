@@ -11,7 +11,6 @@ import UIKit
 class CreateNewListViewController: UIViewController {
     
     var viewModel: CreateNewListViewModel?
-    weak var router: RootRouter?
     private var selectedColor = 0
     
     override func viewDidLoad() {

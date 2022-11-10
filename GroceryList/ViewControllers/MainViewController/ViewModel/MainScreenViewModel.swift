@@ -36,12 +36,17 @@ class MainScreenViewModel {
     }
     
     // routing
-    
     func createNewListTapped() {
         router?.goCreateNewList(compl: { [weak self] in
             guard let list = self?.dataSource.updateListOfModels() else { return }
             self?.updateCells?(list)
             self?.dataSource.setOfModelsToUpdate = []
+        })
+    }
+    
+    func cellTapped(with model: GroseryListsModel) {
+        router?.goProductsVC(model: model, compl: {
+
         })
     }
     

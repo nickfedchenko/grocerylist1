@@ -100,7 +100,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(named: "swipeToAddToFavorite")
-        //imageView.isUserInteractionEnabled = true
+        // imageView.isUserInteractionEnabled = true
         return imageView
     }()
     

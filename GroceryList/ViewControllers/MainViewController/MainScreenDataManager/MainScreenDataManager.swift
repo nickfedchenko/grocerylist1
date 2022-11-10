@@ -40,6 +40,7 @@ class MainScreenDataManager {
         return setOfModelsToUpdate
     }
     
+    @discardableResult
     func updateListOfModels() -> Set<GroseryListsModel> {
         updateFirstAndLastModels()
         coreDataListsArray = CoreDataManager.shared.getAllLists()

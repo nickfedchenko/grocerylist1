@@ -33,14 +33,6 @@ class MainScreenViewController: UIViewController {
         }
     }
     
-    private func reloadItems(lists: Set<GroseryListsModel>) {
-        print(lists.count)
-        var snapshot = collectionViewDataSource?.snapshot()
-        let array = Array(lists)
-        snapshot?.reloadItems(array)
-        collectionViewDataSource?.apply(snapshot!, animatingDifferences: true)
-    }
-    
     private func createAttributedString(title: String, color: UIColor = .white) -> NSAttributedString {
         NSAttributedString(string: title, attributes: [
             .font: UIFont.SFPro.bold(size: 18).font ?? UIFont(),
@@ -112,7 +104,8 @@ class MainScreenViewController: UIViewController {
 extension MainScreenViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
+        guard let model = collectionViewDataSource?.itemIdentifier(for: indexPath) else { return }
+        viewModel?.cellTapped(with: model)
     }
     
     private func setupCollectionView() {
@@ -206,6 +199,13 @@ extension MainScreenViewController: UICollectionViewDelegate {
         for section in viewModel.model {
             snapshot.appendItems(section.lists, toSection: section)
         }
+        collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func reloadItems(lists: Set<GroseryListsModel>) {
+        guard var snapshot = collectionViewDataSource?.snapshot() else { return }
+        let array = Array(lists)
+        snapshot.reloadItems(array)
         collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
     }
     
