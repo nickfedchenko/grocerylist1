@@ -26,6 +26,10 @@ class CreateNewListViewController: UIViewController {
         setupTextFieldParametrs()
     }
     
+    deinit {
+        print("create new list deinited")
+    }
+    
     private func setupTextFieldParametrs() {
         textfield.delegate = self
         textfield.becomeFirstResponder()
@@ -59,9 +63,8 @@ class CreateNewListViewController: UIViewController {
     private func hidePanel() {
         textfield.resignFirstResponder()
         updateConstr(with: -400)
-        viewModel?.savePressed(nameOfList: textfield.text, numberOfColor: selectedColor)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            self.dismiss(animated: false, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -69,6 +72,9 @@ class CreateNewListViewController: UIViewController {
     private let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#F9FBEB")
+        view.layer.cornerRadius = 20
+        view.layer.masksToBounds = true
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         return view
     }()
     
@@ -304,6 +310,7 @@ extension CreateNewListViewController {
     
     @objc
     private func saveAction() {
+        viewModel?.savePressed(nameOfList: textfield.text, numberOfColor: selectedColor)
         hidePanel()
     }
     

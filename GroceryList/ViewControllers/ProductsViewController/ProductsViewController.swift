@@ -40,7 +40,7 @@ class ProductsViewController: UIViewController {
     
     @objc
     private func contextMenuButtonPressed() {
-        
+        viewModel?.settingsTapped()
     }
     
     // MARK: - UI

@@ -13,6 +13,8 @@
 		B33EFF1B290FF02900AD9BEE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B33EFF19290FF02900AD9BEE /* LaunchScreen.storyboard */; };
 		B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3476901291D010D0045A287 /* ProductsViewController.swift */; };
 		B3476904291D017B0045A287 /* ProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3476903291D017B0045A287 /* ProductsViewModel.swift */; };
+		B3476909291D21730045A287 /* ProductsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3476908291D21730045A287 /* ProductsSettingsViewController.swift */; };
+		B347690B291D23800045A287 /* ProductsSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347690A291D23800045A287 /* ProductsSettingsViewModel.swift */; };
 		B36933F8291A97D900AFFAA6 /* MainScreenTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */; };
 		B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933F9291AAC2C00AFFAA6 /* CellState.swift */; };
 		B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */; };
@@ -72,6 +74,8 @@
 		B33EFF1C290FF02900AD9BEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3476901291D010D0045A287 /* ProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
 		B3476903291D017B0045A287 /* ProductsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewModel.swift; sourceTree = "<group>"; };
+		B3476908291D21730045A287 /* ProductsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsSettingsViewController.swift; sourceTree = "<group>"; };
+		B347690A291D23800045A287 /* ProductsSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsSettingsViewModel.swift; sourceTree = "<group>"; };
 		B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenTopCell.swift; sourceTree = "<group>"; };
 		B36933F9291AAC2C00AFFAA6 /* CellState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellState.swift; sourceTree = "<group>"; };
 		B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListViewController.swift; sourceTree = "<group>"; };
@@ -205,6 +209,15 @@
 				B36AF956291554EC00944E9D /* MainScreenDataManager.swift */,
 			);
 			path = MainScreenDataManager;
+			sourceTree = "<group>";
+		};
+		B3476907291D213D0045A287 /* ProductsSettingsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B3476908291D21730045A287 /* ProductsSettingsViewController.swift */,
+				B347690A291D23800045A287 /* ProductsSettingsViewModel.swift */,
+			);
+			path = ProductsSettingsViewController;
 			sourceTree = "<group>";
 		};
 		B36933FB291AAC3A00AFFAA6 /* CellModel */ = {
@@ -367,6 +380,7 @@
 				B36933FC291BA4CE00AFFAA6 /* MainViewController */,
 				B36933FD291BA4EE00AFFAA6 /* CreateNewListViewController */,
 				B3476900291D00E00045A287 /* ProductsViewController */,
+				B3476907291D213D0045A287 /* ProductsSettingsViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -552,6 +566,7 @@
 			files = (
 				B3C3FA4729115AA20011EC0A /* OnboardingContentView.swift in Sources */,
 				B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */,
+				B347690B291D23800045A287 /* ProductsSettingsViewModel.swift in Sources */,
 				B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */,
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
@@ -589,6 +604,7 @@
 				B3476904291D017B0045A287 /* ProductsViewModel.swift in Sources */,
 				B36933F8291A97D900AFFAA6 /* MainScreenTopCell.swift in Sources */,
 				B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */,
+				B3476909291D21730045A287 /* ProductsSettingsViewController.swift in Sources */,
 				B36AF9392913C5DC00944E9D /* MainScreenViewController.swift in Sources */,
 				B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */,
 				B36AF957291554EC00944E9D /* MainScreenDataManager.swift in Sources */,

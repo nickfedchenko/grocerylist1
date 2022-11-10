@@ -83,13 +83,19 @@ final class RootRouter: RootRouterProtocol {
     func goCreateNewList(compl: @escaping () -> Void) {
         guard let controller = viewControllerFactory.createCreateNewListController(router: self,
                                                                                    compl: compl) else { return }
-        navigationPresent(controller, animated: false)
+        navigationPresent(controller, animated: true)
     }
     
     func goProductsVC(model: GroseryListsModel, compl: @escaping () -> Void) {
         guard let controller = viewControllerFactory.createProductsController(model: model, router: self,
                                                                                    compl: compl) else { return }
         navigationPushViewController(controller, animated: true)
+    }
+    
+    func goProductsSettingsVC(compl: @escaping () -> Void) {
+        guard let controller = viewControllerFactory.createProductsSettingsController(router: self,
+                                                                                   compl: compl) else { return }
+        navigationPresent(controller, animated: true)
     }
     
     func popToRoot() {

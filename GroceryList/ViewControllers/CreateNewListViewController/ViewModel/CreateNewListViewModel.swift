@@ -32,4 +32,5 @@ class CreateNewListViewModel {
     func getColorForCell(at ind: Int) -> (UIColor, UIColor) {
         colorManager.getGradient(index: ind)
     }
+    
 }

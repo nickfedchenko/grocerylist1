@@ -35,5 +35,11 @@ class ProductsViewModel {
     func goBackButtonPressed() {
         router?.pop()
     }
+    
+    func settingsTapped() {
+        router?.goProductsSettingsVC(compl: {
+            
+        })
+    }
 
 }
