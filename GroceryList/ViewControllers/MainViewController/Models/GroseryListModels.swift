@@ -37,15 +37,26 @@ struct GroseryListsModel: Hashable {
     }
 }
 
-struct Supplay {
+struct Supplay: Hashable {
+    var id = UUID()
     var name: String
     var isPurchased: Bool
     var dateOfCreation: Date
-    var category: Category
+    var category: String
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
 
-enum Category {
-    case head
+struct Category: Hashable {
+    var id = UUID()
+    var name: String
+    var supplays: [Supplay?]
+   
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
 
 enum CellType {

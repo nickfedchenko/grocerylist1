@@ -47,9 +47,11 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
                                   compl: @escaping () -> Void) -> UIViewController? {
         let viewController = ProductsViewController()
         let viewModel = ProductsViewModel(model: model)
+        let dataSource = ProductsDataManager(supplays: model.supplays)
         viewModel.valueChangedCallback = compl
         viewController.viewModel = viewModel
         viewModel.router = router
+        viewModel.dataSource = dataSource
         return viewController
     }
     

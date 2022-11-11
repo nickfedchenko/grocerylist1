@@ -14,6 +14,7 @@ class ProductsViewModel {
     private var colorManager = ColorManager()
     var valueChangedCallback: (() -> Void)?
     var model: GroseryListsModel
+    var dataSource: ProductsDataManager?
    
     init(model: GroseryListsModel) {
         self.model = model
