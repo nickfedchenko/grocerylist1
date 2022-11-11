@@ -12,13 +12,13 @@ class MainScreenViewModel {
     
     weak var router: RootRouter?
     private var colorManager = ColorManager()
+    let network = Networking()
     
     init() {
         dataSource = MainScreenDataManager()
         dataSource.dataChangedCallBack = {
             self.reloadDataCallBack?()
         }
-
 //        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "1",
 //                                                                  color: 1, isFavorite: true, supplays: [] ))
 //        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "2",

@@ -7,6 +7,7 @@ target 'GroceryList' do
   
   pod 'Alamofire'
   pod 'SwiftLint'
+  pod 'GzipSwift'
   pod 'SnapKit'
 
   # Pods for GroceryList
