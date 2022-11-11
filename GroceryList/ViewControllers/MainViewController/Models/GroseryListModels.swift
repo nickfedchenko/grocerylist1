@@ -38,14 +38,13 @@ struct GroseryListsModel: Hashable {
 }
 
 struct Supplay: Hashable {
-    var id = UUID()
     var name: String
     var isPurchased: Bool
     var dateOfCreation: Date
     var category: String
     
     func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+        hasher.combine(name)
     }
 }
 

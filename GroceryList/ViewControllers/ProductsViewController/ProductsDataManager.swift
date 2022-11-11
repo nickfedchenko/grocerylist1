@@ -23,6 +23,12 @@ class ProductsDataManager {
     }
     
     var dataChangedCallBack: (() -> Void)?
+    
+    var arrayWithSections: [Category] = [] {
+        didSet {
+            dataChangedCallBack?()
+        }
+    }
 
     func createArrayWithSections() {
 
@@ -37,8 +43,7 @@ class ProductsDataManager {
             }
         })
         
-        let arrayOfCategory = dict.map({ Category(name: $0.key, supplays: $0.value) })
-
+        arrayWithSections = dict.map({ Category(name: $0.key, supplays: $0.value) })
     }
         
 }
