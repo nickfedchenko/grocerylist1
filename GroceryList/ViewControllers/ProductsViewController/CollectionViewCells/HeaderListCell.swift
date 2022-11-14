@@ -20,6 +20,14 @@ class HeaderListCell: UICollectionViewListCell {
     }
     
     func setupCell(text: String?) {
+        if text == "Purchased".localized {
+            contentViews.backgroundColor = .white
+            nameLabel.textColor = UIColor(hex: "#70B170")
+        } else {
+            contentViews.backgroundColor = UIColor(hex: "#70B170")
+            nameLabel.textColor = .white
+        }
+        
         nameLabel.text = text
     }
     

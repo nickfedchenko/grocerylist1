@@ -162,6 +162,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B30573C52922670300CA8BDE /* CollectionViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				B30573BA29222BE700CA8BDE /* HeaderListCell.swift */,
+				B30573BC29222D4400CA8BDE /* ProductListCell.swift */,
+			);
+			path = CollectionViewCells;
+			sourceTree = "<group>";
+		};
 		B3179EA4291E304700455419 /* ColorManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -222,8 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				B3476901291D010D0045A287 /* ProductsViewController.swift */,
-				B30573BA29222BE700CA8BDE /* HeaderListCell.swift */,
-				B30573BC29222D4400CA8BDE /* ProductListCell.swift */,
+				B30573C52922670300CA8BDE /* CollectionViewCells */,
 				B3476903291D017B0045A287 /* ProductsViewModel.swift */,
 				B3179EAA291E3DAE00455419 /* ProductsDataManager.swift */,
 			);

@@ -21,7 +21,7 @@ class ProductsViewModel {
         self.model = model
         
         self.dataSource.dataChangedCallBack = {
-            print(self.dataSource.arrayWithSections)
+            self.valueChangedCallback?()
         }
         
         self.dataSource.createArrayWithSections()
@@ -51,6 +51,10 @@ class ProductsViewModel {
         router?.goProductsSettingsVC(compl: {
             
         })
+    }
+    
+    func cellTapped(product: Supplay) {
+        dataSource.updateFavoriteStatus(for: product)
     }
 
 }

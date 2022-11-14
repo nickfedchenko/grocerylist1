@@ -87,7 +87,6 @@ class MainScreenViewModel {
         let supply = model[ind.section].lists[ind.row]
         var done = 0
         supply.supplays.forEach({ item in
-            guard let item = item else { return }
             if item.isPurchased {done += 1 }
         })
         return "\(done)/\(supply.supplays.count)"

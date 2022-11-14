@@ -9,14 +9,16 @@ import UIKit
 
 class ProductsDataManager {
     
-    var supplays: [Supplay?]
-    
-    init ( supplays: [Supplay?] ) {
+    var supplays: [Supplay]
+
+    init ( supplays: [Supplay] ) {
         self.supplays = supplays
         self.supplays = [
-            Supplay(name: "dsds", isPurchased: true, dateOfCreation: Date(), category: "1"),
+            Supplay(name: "dsds", isPurchased: true, dateOfCreation: Date(), category: "Purchased"),
             Supplay(name: "cxx", isPurchased: false, dateOfCreation: Date(), category: "2"),
-            Supplay(name: "fff", isPurchased: true, dateOfCreation: Date(), category: "2")
+            Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
+            Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
+            Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2"),
         ]
 
     }
@@ -30,65 +32,39 @@ class ProductsDataManager {
     }
 
     func createArrayWithSections() {
-
         var dict: [ String: [Supplay] ] = [:]
         
+        var dictPurchased: [ String: [Supplay] ] = [:]
+        dictPurchased["Purchased".localized] = []
+        
         supplays.forEach({ supplay in
-            guard let supplay1 = supplay else { return }
-            if dict[supplay1.category] != nil {
-                dict[supplay1.category]?.append(supplay1)
+            guard !supplay.isPurchased else { dictPurchased["Purchased"]?.append(supplay); return }
+            if dict[supplay.category] != nil {
+                dict[supplay.category]?.append(supplay)
             } else {
-                dict[supplay1.category] = [supplay1]
+                dict[supplay.category] = [supplay]
             }
         })
         
-        arrayWithSections = dict.map({ Category(name: $0.key, supplays: $0.value) })
+        var newArray = dict.map({ Category(name: $0.key, supplays: $0.value) })
+        
+//        dictPurchased["Purchased".localized] = []
+//        dictPurchased["Purchased".localized]?.append(contentsOf: supplays.filter({ $0.isPurchased }))
+        
+        newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, supplays: $0.value) }))
+        
+        arrayWithSections = newArray
+        print(arrayWithSections.count)
+    }
+    
+    func updateFavoriteStatus(for product: Supplay) {
+        var newProduct = product
+        newProduct.isPurchased = !product.isPurchased
+        if let index = supplays.firstIndex(of: product ) {
+            supplays.remove(at: index)
+            supplays.append(newProduct)
+        }
+        createArrayWithSections()
     }
         
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//class ProductsDataManager {
-//
-//    let supplays: [Supplay?]
-//
-//    init ( supplays: [Supplay?] ) {
-//        self.supplays = supplays
-//    }
-//
-//    var dataChangedCallBack: (() -> Void)?
-//
-//    func createArrayWithSections() {
-//        var listOfCategories: Set<Category?> = []
-//
-//        var listOfCategoryNames: Set<String?> = []
-//
-//        supplays.forEach({ listOfCategoryNames.insert($0?.name) })
-//
-//        listOfCategoryNames.forEach({ listOfCategories.insert(Category(name: $0, supplays: [])) })
-//
-//        supplays.forEach({ suppl in
-//
-//        })
-//    }
-//}
