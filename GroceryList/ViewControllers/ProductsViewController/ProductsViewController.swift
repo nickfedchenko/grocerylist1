@@ -107,10 +107,9 @@ class ProductsViewController: UIViewController {
         layoutConfig.headerMode = .firstItemInSection
         layoutConfig.showsSeparators = false
         layoutConfig.backgroundColor = .clear
-        let biba = UICollectionViewCompositionalLayout.list(using: layoutConfig)
-        biba.collectionView?.backgroundColor = .white
-        
-        return biba
+        let layout = UICollectionViewCompositionalLayout.list(using: layoutConfig)
+        layout.collectionView?.backgroundColor = .white
+        return layout
     }
     
     func setupCollectionView() {
@@ -122,7 +121,7 @@ class ProductsViewController: UIViewController {
         let headerCellRegistration = UICollectionView.CellRegistration<HeaderListCell, Category> {
             (cell, indexPath, parent) in
             let color = self.viewModel?.getColorForBackground()
-            cell.setupCell(bcgColor: color)
+            cell.setupCell(text: parent.name)
             
             var headerDisclosureOption = UICellAccessory.OutlineDisclosureOptions(style: .header)
             headerDisclosureOption.tintColor = .white
@@ -134,7 +133,7 @@ class ProductsViewController: UIViewController {
             (cell, indexPath, child) in
             
             let color = self.viewModel?.getColorForBackground()
-            cell.setupCell(bcgColor: color)
+            cell.setupCell(bcgColor: color, text: child.name, isPurchased: child.isPurchased)
 
         }
         
@@ -179,7 +178,7 @@ class ProductsViewController: UIViewController {
             sectionSnapshot.append(childDataItemArray, to: parentDataItem)
             
             // Expand this section by default
-            sectionSnapshot.expand([parentDataItem])
+          //  sectionSnapshot.expand([parentDataItem])
             
             // Apply section snapshot to the respective collection view section
             dataSource.apply(sectionSnapshot, to: parent, animatingDifferences: false)

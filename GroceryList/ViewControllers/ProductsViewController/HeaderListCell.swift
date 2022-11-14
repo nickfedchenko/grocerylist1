@@ -19,8 +19,8 @@ class HeaderListCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell(bcgColor: UIColor?) {
-     //   contentView.backgroundColor = bcgColor
+    func setupCell(text: String?) {
+        nameLabel.text = text
     }
     
     private let contentViews: UIView = {
@@ -43,11 +43,12 @@ class HeaderListCell: UICollectionViewListCell {
         
         contentViews.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+            make.height.equalTo(44)
         }
         
         nameLabel.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(16)
-            make.top.equalToSuperview().inset(11)
+            make.left.equalToSuperview().inset(28)
+            make.centerY.equalToSuperview()
         }
        
     }

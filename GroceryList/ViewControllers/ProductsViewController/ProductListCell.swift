@@ -19,65 +19,61 @@ class ProductListCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell(bcgColor: UIColor?) {
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+         let attrs = super.preferredLayoutAttributesFitting(layoutAttributes)
+         attrs.bounds.size.height = 56
+         return attrs
+     }
+    
+    func setupCell(bcgColor: UIColor?, text: String?, isPurchased: Bool) {
         contentView.backgroundColor = bcgColor
+        checkmarkImage.image = isPurchased ? UIImage(named: "purchasedCheckmark") : UIImage(named: "emptyCheckmark")
+        nameLabel.text = text
     }
     
     private let contentViews: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
         return view
     }()
     
-    private let nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
-        label.textColor = .white
-        return label
-    }()
-    
-    private let countLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
-        label.textColor = .white
-        return label
-    }()
-    
-    private let shareAvatarImage: UIImageView = {
+    private let checkmarkImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "shareAvatar")
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "emptyCheckmark")
         return imageView
     }()
-     
+    
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.medium(size: 16).font
+        label.textColor = .black
+        return label
+    }()
+    
     // MARK: - UI
     private func setupConstraints() {
-        contentViews.backgroundColor = .white
-        contentView.backgroundColor = .white
-        self.addSubviews([contentViews])
-        contentViews.addSubviews([nameLabel, countLabel, shareAvatarImage])
+        contentView.addSubviews([contentViews])
+        contentViews.addSubviews([nameLabel, checkmarkImage])
         
         contentViews.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(16)
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview().inset(1)
+            make.top.equalToSuperview().inset(8)
+            make.bottom.equalToSuperview()
+        }
+        
+        checkmarkImage.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(8)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(32)
         }
         
         nameLabel.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(16)
-            make.top.equalToSuperview().inset(11)
-        }
-        
-        countLabel.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(16)
-            make.bottom.equalToSuperview().inset(11)
-        }
-        
-        shareAvatarImage.snp.makeConstraints { make in
-            make.height.width.equalTo(32)
-            make.right.equalToSuperview().inset(16)
+            make.left.equalTo(checkmarkImage.snp.right).inset(-12)
             make.centerY.equalToSuperview()
+            make.right.equalToSuperview().inset(8)
         }
        
     }
