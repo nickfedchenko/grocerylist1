@@ -27,6 +27,10 @@ class ProductsViewModel {
         self.dataSource.createArrayWithSections()
     }
     
+    var arrayWithSections: [Category] {
+        return dataSource.arrayWithSections
+    }
+    
     func getColorForBackground() -> UIColor {
         colorManager.getGradient(index: model.color).1
     }
