@@ -14,11 +14,17 @@ class ProductsViewModel {
     private var colorManager = ColorManager()
     var valueChangedCallback: (() -> Void)?
     var model: GroseryListsModel
-    var dataSource: ProductsDataManager?
+    var dataSource: ProductsDataManager
    
-    init(model: GroseryListsModel) {
+    init(model: GroseryListsModel, dataSource: ProductsDataManager) {
+        self.dataSource = dataSource
         self.model = model
-        print(model)
+        
+        self.dataSource.dataChangedCallBack = {
+            print(self.dataSource.arrayWithSections)
+        }
+        
+        self.dataSource.createArrayWithSections()
     }
     
     func getColorForBackground() -> UIColor {

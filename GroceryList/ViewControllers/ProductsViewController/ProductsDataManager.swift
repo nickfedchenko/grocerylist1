@@ -18,8 +18,7 @@ class ProductsDataManager {
             Supplay(name: "cxx", isPurchased: true, dateOfCreation: Date(), category: "2"),
             Supplay(name: "fff", isPurchased: true, dateOfCreation: Date(), category: "2")
         ]
-        
-        createArrayWithSections()
+
     }
     
     var dataChangedCallBack: (() -> Void)?
