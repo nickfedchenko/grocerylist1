@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B30573BB29222BE700CA8BDE /* HeaderListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573BA29222BE700CA8BDE /* HeaderListCell.swift */; };
 		B30573BD29222D4500CA8BDE /* ProductListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573BC29222D4400CA8BDE /* ProductListCell.swift */; };
+		B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573C62923A11000CA8BDE /* ProductSettingsTableViewCell.swift */; };
 		B3179EA9291E324B00455419 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3179EA8291E324B00455419 /* Network.swift */; };
 		B3179EAB291E3DAE00455419 /* ProductsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3179EAA291E3DAE00455419 /* ProductsDataManager.swift */; };
 		B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33EFF0E290FF02800AD9BEE /* AppDelegate.swift */; };
@@ -72,6 +73,7 @@
 		262EB22BC930A385DC81E51C /* Pods-GroceryList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroceryList.release.xcconfig"; path = "Target Support Files/Pods-GroceryList/Pods-GroceryList.release.xcconfig"; sourceTree = "<group>"; };
 		B30573BA29222BE700CA8BDE /* HeaderListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderListCell.swift; sourceTree = "<group>"; };
 		B30573BC29222D4400CA8BDE /* ProductListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCell.swift; sourceTree = "<group>"; };
+		B30573C62923A11000CA8BDE /* ProductSettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSettingsTableViewCell.swift; sourceTree = "<group>"; };
 		B3179EA8291E324B00455419 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		B3179EAA291E3DAE00455419 /* ProductsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDataManager.swift; sourceTree = "<group>"; };
 		B33EFF0B290FF02800AD9BEE /* GroceryList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroceryList.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -250,6 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				B3476908291D21730045A287 /* ProductsSettingsViewController.swift */,
+				B30573C62923A11000CA8BDE /* ProductSettingsTableViewCell.swift */,
 				B347690A291D23800045A287 /* ProductsSettingsViewModel.swift */,
 			);
 			path = ProductsSettingsViewController;
@@ -606,6 +609,7 @@
 				B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */,
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
+				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
 				B3693402291BA62F00AFFAA6 /* CreateNewListViewModel.swift in Sources */,
 				B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */,
 				B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */,

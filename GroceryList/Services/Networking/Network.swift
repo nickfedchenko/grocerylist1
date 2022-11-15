@@ -5,8 +5,8 @@
 //  Created by Шамиль Моллачиев on 11.11.2022.
 //
 
-import Gzip
 import Foundation
+import Gzip
 
 class Networking {
     
@@ -63,7 +63,6 @@ class Networking {
         .resume()
     }
 }
-
 
 struct PostsResponse: Codable {
     let error: Bool

@@ -16,6 +16,8 @@ class ProductsSettingsViewController: UIViewController {
         super.viewDidLoad()
         setupConstraints()
         addRecognizers()
+        setupTableView()
+        parametrsLabel.textColor = viewModel?.getTextColor()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -77,7 +79,6 @@ class ProductsSettingsViewController: UIViewController {
     private let parametrsLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 18).font
-        label.textColor = UIColor(hex: "#70B170")
         label.text = "Parametrs".localized
         return label
     }()
@@ -92,12 +93,19 @@ class ProductsSettingsViewController: UIViewController {
         button.setAttributedTitle(attributedTitle, for: .normal)
         return button
     }()
+    
+    private let tableview: UITableView = {
+        let tableview = UITableView()
+        tableview.showsVerticalScrollIndicator = false
+        tableview.estimatedRowHeight = UITableView.automaticDimension
+        return tableview
+    }()
 
     // MARK: - Constraints
     private func setupConstraints() {
         view.backgroundColor = .black.withAlphaComponent(0.5)
         view.addSubview(contentView)
-        contentView.addSubviews([pinchView, parametrsLabel, doneButton])
+        contentView.addSubviews([pinchView, parametrsLabel, doneButton, tableview])
        
         contentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
@@ -121,6 +129,12 @@ class ProductsSettingsViewController: UIViewController {
             make.centerY.equalTo(parametrsLabel)
             make.right.equalToSuperview().inset(20)
         }
+        
+        tableview.snp.makeConstraints { make in
+            make.top.equalTo(parametrsLabel.snp.bottom).inset(-20)
+            make.bottom.equalToSuperview().inset(20)
+            make.left.right.equalToSuperview()
+        }
     }
 }
 
@@ -138,5 +152,36 @@ extension ProductsSettingsViewController {
         if tempTranslation.y >= 100 {
             hidePanel()
         }
+    }
+}
+
+extension ProductsSettingsViewController: UITableViewDelegate, UITableViewDataSource {
+    private func setupTableView() {
+        tableview.backgroundColor = .clear
+        tableview.delegate = self
+        tableview.dataSource = self
+        tableview.isScrollEnabled = false
+        tableview.separatorStyle = .none
+        tableview.register(ProductSettingsTableViewCell.self, forCellReuseIdentifier: "ProductSettingsTableViewCell")
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel?.getNumberOfCells() ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = self.tableview.dequeueReusableCell(withIdentifier: "ProductSettingsTableViewCell", for: indexPath)
+                as? ProductSettingsTableViewCell, let viewModel = viewModel else { return UITableViewCell() }
+        let image = viewModel.getImage(at: indexPath.row)
+        let text = viewModel.getText(at: indexPath.row)
+        let isInset = viewModel.getInset(at: indexPath.row)
+        let separatorColor = viewModel.getSeparatirLineColor()
+        cell.setupCell(imageForCell: image, text: text, inset: isInset, separatorColor: separatorColor)
+        cell.selectionStyle = .none
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
     }
 }

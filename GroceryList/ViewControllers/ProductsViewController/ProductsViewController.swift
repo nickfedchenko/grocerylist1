@@ -30,12 +30,7 @@ class ProductsViewController: UIViewController {
         setupController()
         
         viewModel?.valueChangedCallback = { [self] in
-            
-       
-            var snapshot = dataSource.snapshot()
-            snapshot.deleteAllItems()
-            self.dataSource.apply(snapshot, animatingDifferences: false, completion: nil)
-            self.reloadData()
+           reloadData()
         }
     }
     
@@ -127,25 +122,23 @@ class ProductsViewController: UIViewController {
         collectionView.delegate = self
         
         // MARK: Cell registration
-        let headerCellRegistration = UICollectionView.CellRegistration<HeaderListCell, Category> {
-            (cell, indexPath, parent) in
+        let headerCellRegistration = UICollectionView.CellRegistration<HeaderListCell, Category> { (cell, _, parent) in
            
-            cell.setupCell(text: parent.name)
+            let color = self.viewModel?.getAddItemViewColor()
+            cell.setupCell(text: parent.name, color: color)
             
             var headerDisclosureOption = UICellAccessory.OutlineDisclosureOptions(style: .header)
            
             if parent.name == "Purchased".localized {
-                headerDisclosureOption.tintColor = UIColor(hex: "#70B170")
+                headerDisclosureOption.tintColor = color
             } else {
                 headerDisclosureOption.tintColor = .white
             }
          
-            
             cell.accessories = [.outlineDisclosure(options:headerDisclosureOption)]
         }
         
-        let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Supplay> {
-            (cell, indexPath, child) in
+        let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Supplay> { (cell, _, child) in
             
             let color = self.viewModel?.getColorForBackground()
             cell.setupCell(bcgColor: color, text: child.name, isPurchased: child.isPurchased)
@@ -153,8 +146,8 @@ class ProductsViewController: UIViewController {
         }
         
         // MARK: Initialize data source
-        dataSource = UICollectionViewDiffableDataSource<Category, DataItem>(collectionView: collectionView) {
-            (collectionView, indexPath, listItem) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<Category, DataItem>(collectionView: collectionView) { (collectionView, indexPath, listItem) ->
+            UICollectionViewCell? in
             
             switch listItem {
             case .parent(let parent):
@@ -181,7 +174,12 @@ class ProductsViewController: UIViewController {
     private func reloadData() {
         // MARK: Construct data source snapshot
         // Loop through each parent items to create a section snapshots.
+        var snapshot = NSDiffableDataSourceSnapshot<Category, DataItem>()
+       
         guard let viewModel = viewModel else { return }
+        snapshot.appendSections(viewModel.arrayWithSections)
+        
+        dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
         for parent in viewModel.arrayWithSections {
             
             // Create a section snapshot
@@ -263,7 +261,6 @@ extension ProductsViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        
         guard let model = dataSource?.itemIdentifier(for: indexPath) else { return }
         switch model {
         case .parent(let category):
@@ -273,61 +270,4 @@ extension ProductsViewController: UICollectionViewDelegate {
 
         }
     }
-//
-//    func collectionView(_ collectionView: UICollectionView,
-//                        didSelectItemAt indexPath: IndexPath) {
-//        print(indexPath)
-//
-//        let selectedSection = dataSource.snapshot().sectionIdentifiers[indexPath.section]
-//        let selectedSectionSnapshot = dataSource.snapshot(for: selectedSection)
-//
-//        // 1
-//        // Obtain a reference to the selected parent
-//        guard
-//            let selectedParentDataItem = selectedSectionSnapshot.rootItems.first,
-//            case let DataItem.parent(selectedParent) = selectedParentDataItem else {
-//            return
-//        }
-//
-//        // 2
-//        // Obtain a reference to the selected child
-//        let selectedChildDataItem = selectedSectionSnapshot.items[indexPath.item]
-//        guard case let DataItem.child(selectedChild) = selectedChildDataItem else {
-//            return
-//        }
-//
-//        // 3
-//        // Create a new parent with selectedChild's title
-//        let newParent = Category(name: selectedChild.category, supplays: [])
-//      //  Parent(title: selectedChild.title, children: selectedParent.children)
-//        let newParentDataItem = DataItem.parent(newParent)
-//
-//        // 4
-//        // Avoid crash when user tap on same cell twice (snapshot data must be unique)
-//        guard selectedParent != newParent else {
-//            return
-//        }
-//
-//        // 5
-//        // Replace the parent in section snapshot (by insert new item and then delete old item)
-//        var newSectionSnapshot = selectedSectionSnapshot
-//        newSectionSnapshot.insert([newParentDataItem], before: selectedParentDataItem)
-//        newSectionSnapshot.delete([selectedParentDataItem])
-//
-//        // 6
-//        // Reconstruct section snapshot by appending children to `newParentDataItem`
-//       let allChildDataItems = selectedParent.supplays.map { DataItem.child($0) }
-//        newSectionSnapshot.append(allChildDataItems, to: newParentDataItem)
-//
-//        // 7
-//        // Expand the section
-//        newSectionSnapshot.expand([newParentDataItem])
-//
-//        // 8
-//        // Apply new section snapshot to selected section
-//        dataSource.apply(newSectionSnapshot, to: selectedSection, animatingDifferences: true) {
-//            // The cell's select state will be gone after applying a new snapshot, thus manually reselecting the cell.
-//            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
-//        }
-//    }
 }

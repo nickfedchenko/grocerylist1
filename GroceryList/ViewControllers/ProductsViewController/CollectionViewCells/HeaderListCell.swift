@@ -19,12 +19,12 @@ class HeaderListCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell(text: String?) {
+    func setupCell(text: String?, color: UIColor?) {
         if text == "Purchased".localized {
             contentViews.backgroundColor = .white
-            nameLabel.textColor = UIColor(hex: "#70B170")
+            nameLabel.textColor = color
         } else {
-            contentViews.backgroundColor = UIColor(hex: "#70B170")
+            contentViews.backgroundColor = color
             nameLabel.textColor = .white
         }
         

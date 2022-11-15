@@ -18,7 +18,7 @@ class ProductsDataManager {
             Supplay(name: "cxx", isPurchased: false, dateOfCreation: Date(), category: "2"),
             Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
             Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
-            Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2"),
+            Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2")
         ]
 
     }
@@ -46,15 +46,16 @@ class ProductsDataManager {
             }
         })
         
-        var newArray = dict.map({ Category(name: $0.key, supplays: $0.value) })
+        var newArray = dict.map({ Category(name: $0.key, supplays: $0.value) }).sorted(by: { $0.name < $1.name })
 
         newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, supplays: $0.value) }))
-        
+         
         arrayWithSections = newArray
         print(arrayWithSections.count)
     }
     
     func updateFavoriteStatus(for product: Supplay) {
+
         var newProduct = product
         newProduct.isPurchased = !product.isPurchased
         if let index = supplays.firstIndex(of: product ) {

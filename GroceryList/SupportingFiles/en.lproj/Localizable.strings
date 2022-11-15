@@ -28,3 +28,14 @@
 "Parametrs"                 = "List parameters";
 "Done"                      = "Done";
 "Purchased"                 = "Purchased";
+"rename"                    = "Rename";
+"pinch"                     = "Fix";
+"changeColor"               = "ChangeColor";
+"sort"                      = "Sort";
+"byCategory"                = "By category";
+"byTime"                    = "By time";
+"byAlphabet"                = "Alphabetically";
+"copy"                      = "Copy in ...";
+"print"                     = "Print";
+"send"                      = "Send";
+"delete"                    = "Delete";
