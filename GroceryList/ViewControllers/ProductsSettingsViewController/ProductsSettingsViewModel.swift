@@ -42,6 +42,78 @@ class ProductsSettingsViewModel {
         return colors.1
     }
     
+    func cellSelected(at ind: Int) {
+        switch ind {
+        case 0:
+            rename()
+        case 1:
+            pinch()
+        case 2:
+            changeColor()
+        case 3:
+            print("")
+        case 4:
+            byCategory()
+        case 5:
+            byTime()
+        case 6:
+            byAlphabet()
+        case 7:
+            makeCopy()
+        case 8:
+            printAct()
+        case 9:
+            sendAct()
+        case 10:
+            deleteAct()
+        default:
+            print("")
+        }
+        
+        func rename() {
+            
+        }
+        
+        func pinch() {
+            
+        }
+        
+        func changeColor() {
+            
+        }
+        
+        func byCategory() {
+            
+        }
+        
+        func byTime() {
+            
+        }
+        
+        func byAlphabet() {
+            
+        }
+        
+        func makeCopy() {
+            
+        }
+        
+        func printAct() {
+            
+        }
+        
+        func sendAct() {
+            
+        }
+        
+        func deleteAct() {
+            
+        }
+        
+    }
+}
+
+extension ProductsSettingsViewModel {
     enum TableViewContent: String, CaseIterable {
         case rename
         case pinch
@@ -91,5 +163,4 @@ class ProductsSettingsViewModel {
             }
         }
     }
-
 }

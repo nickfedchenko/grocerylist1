@@ -182,6 +182,6 @@ extension ProductsSettingsViewController: UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        viewModel?.cellSelected(at: indexPath.row)
     }
 }
