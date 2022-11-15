@@ -174,32 +174,34 @@ class ProductsViewController: UIViewController {
     private func reloadData() {
         // MARK: Construct data source snapshot
         // Loop through each parent items to create a section snapshots.
-        var snapshot = NSDiffableDataSourceSnapshot<Category, DataItem>()
+        var snapshot = dataSource.snapshot()
        
         guard let viewModel = viewModel else { return }
-        snapshot.appendSections(viewModel.arrayWithSections)
+        snapshot.deleteAllItems()
         
-        dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
+//        snapshot.sectionIdentifiers.forEach { section in
+//            snapshot.deleteAllItems()
+//        }
+        
+//        dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
         for parent in viewModel.arrayWithSections {
-            
-            // Create a section snapshot
-            var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<DataItem>()
-            
+            snapshot.appendSections([parent])
             // Create a parent DataItem & append as parent
             let parentDataItem = DataItem.parent(parent)
-            sectionSnapshot.append([parentDataItem])
+//            sectionSnapshot.append([parentDataItem])
             
             // Create an array of child items & append as children of parentDataItem
             let childDataItemArray = parent.supplays.map { DataItem.child($0) }
-            sectionSnapshot.append(childDataItemArray, to: parentDataItem)
-            
+//            sectionSnapshot.append(childDataItemArray, to: parentDataItem)
+            snapshot.appendItems([parentDataItem], toSection: parent)
+            snapshot.appendItems(childDataItemArray, toSection: parent)
             // Expand this section by default
-            sectionSnapshot.expand([parentDataItem])
+//            sectionSnapshot.expand([parentDataItem])
             
             // Apply section snapshot to the respective collection view section
-            
-            dataSource.apply(sectionSnapshot, to: parent, animatingDifferences: true)
+        
         }
+            self.dataSource.apply(snapshot, animatingDifferences: true)
         
     }
     
