@@ -30,6 +30,8 @@ class ProductsViewController: UIViewController {
         setupController()
         
         viewModel?.valueChangedCallback = { [self] in
+            
+       
             var snapshot = dataSource.snapshot()
             snapshot.deleteAllItems()
             self.dataSource.apply(snapshot, animatingDifferences: false, completion: nil)
@@ -260,12 +262,15 @@ class ProductsViewController: UIViewController {
 extension ProductsViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        
         guard let model = dataSource?.itemIdentifier(for: indexPath) else { return }
         switch model {
         case .parent(let category):
             print(category)
         case .child(let supplay):
             viewModel?.cellTapped(product: supplay)
+
         }
     }
 //

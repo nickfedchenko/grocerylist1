@@ -14,7 +14,7 @@ class ProductsDataManager {
     init ( supplays: [Supplay] ) {
         self.supplays = supplays
         self.supplays = [
-            Supplay(name: "dsds", isPurchased: true, dateOfCreation: Date(), category: "Purchased"),
+            Supplay(name: "dsds", isPurchased: true, dateOfCreation: Date(), category: "wfe3"),
             Supplay(name: "cxx", isPurchased: false, dateOfCreation: Date(), category: "2"),
             Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
             Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
@@ -47,10 +47,7 @@ class ProductsDataManager {
         })
         
         var newArray = dict.map({ Category(name: $0.key, supplays: $0.value) })
-        
-//        dictPurchased["Purchased".localized] = []
-//        dictPurchased["Purchased".localized]?.append(contentsOf: supplays.filter({ $0.isPurchased }))
-        
+
         newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, supplays: $0.value) }))
         
         arrayWithSections = newArray

@@ -49,12 +49,11 @@ struct Supplay: Hashable {
 }
 
 struct Category: Hashable {
-    var id = UUID()
     var name: String
     var supplays: [Supplay]
    
     func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+        hasher.combine(name)
     }
 }
 
