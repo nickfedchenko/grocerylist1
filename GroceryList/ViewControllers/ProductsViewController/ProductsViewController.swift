@@ -15,7 +15,7 @@ class ProductsViewController: UIViewController {
         case child(Supplay)
     }
     
-    var dataSource: UICollectionViewDiffableDataSource<Category, DataItem>!
+    var dataSource: UICollectionViewDiffableDataSource<Section, DataItem>!
     
     var viewModel: ProductsViewModel?
     
@@ -123,18 +123,18 @@ class ProductsViewController: UIViewController {
         
         // MARK: Cell registration
         let headerCellRegistration = UICollectionView.CellRegistration<HeaderListCell, Category> { (cell, _, parent) in
-           
+            
             let color = self.viewModel?.getAddItemViewColor()
             cell.setupCell(text: parent.name, color: color)
             
             var headerDisclosureOption = UICellAccessory.OutlineDisclosureOptions(style: .header)
-           
+            
             if parent.name == "Purchased".localized {
                 headerDisclosureOption.tintColor = color
             } else {
                 headerDisclosureOption.tintColor = .white
             }
-         
+            
             cell.accessories = [.outlineDisclosure(options:headerDisclosureOption)]
         }
         
@@ -142,11 +142,11 @@ class ProductsViewController: UIViewController {
             
             let color = self.viewModel?.getColorForBackground()
             cell.setupCell(bcgColor: color, text: child.name, isPurchased: child.isPurchased)
-
+            
         }
         
         // MARK: Initialize data source
-        dataSource = UICollectionViewDiffableDataSource<Category, DataItem>(collectionView: collectionView) { (collectionView, indexPath, listItem) ->
+        dataSource = UICollectionViewDiffableDataSource<Section, DataItem>(collectionView: collectionView) { (collectionView, indexPath, listItem) ->
             UICollectionViewCell? in
             
             switch listItem {
@@ -168,43 +168,38 @@ class ProductsViewController: UIViewController {
             }
         }
         reloadData()
-      
+        
+    }
+    
+    enum Section: Hashable {
+        case main
     }
     
     private func reloadData() {
-        // MARK: Construct data source snapshot
-        // Loop through each parent items to create a section snapshots.
-        var snapshot = NSDiffableDataSourceSnapshot<Category, DataItem>()
-       
-        guard let viewModel = viewModel else { return }
-        snapshot.appendSections(viewModel.arrayWithSections)
+        var snapshot = dataSource.snapshot()
         
-        dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
+        guard let viewModel = viewModel else { return }
+        if snapshot.sectionIdentifiers.isEmpty {
+            snapshot.appendSections([.main])
+            dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
+        }
+        var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<DataItem>()
         for parent in viewModel.arrayWithSections {
             
-            // Create a section snapshot
-            var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<DataItem>()
-            
-            // Create a parent DataItem & append as parent
             let parentDataItem = DataItem.parent(parent)
-            sectionSnapshot.append([parentDataItem])
-            
-            // Create an array of child items & append as children of parentDataItem
             let childDataItemArray = parent.supplays.map { DataItem.child($0) }
+            
+            sectionSnapshot.append([parentDataItem])
             sectionSnapshot.append(childDataItemArray, to: parentDataItem)
             
-            // Expand this section by default
             sectionSnapshot.expand([parentDataItem])
-            
-            // Apply section snapshot to the respective collection view section
-            
-            dataSource.apply(sectionSnapshot, to: parent, animatingDifferences: true)
         }
         
+        self.dataSource.apply(sectionSnapshot, to: .main, animatingDifferences: true)
     }
     
     // MARK: - Constraints
-
+    
     private func setupConstraints() {
         view.addSubviews([navigationView, collectionView, addItemView])
         navigationView.addSubviews([arrowBackButton, nameOfListLabel, contextMenuButton])

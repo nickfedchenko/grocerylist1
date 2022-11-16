@@ -16,6 +16,7 @@ struct SectionModel: Hashable {
     static func == (lhs: SectionModel, rhs: SectionModel) -> Bool {
         lhs.id == rhs.id
     }
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
@@ -32,12 +33,13 @@ struct GroseryListsModel: Hashable {
     static func == (lhs: GroseryListsModel, rhs: GroseryListsModel) -> Bool {
         lhs.id == rhs.id
     }
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
 }
 
-struct Supplay: Hashable {
+struct Supplay: Hashable, Equatable {
     var name: String
     var isPurchased: Bool
     var dateOfCreation: Date
@@ -46,14 +48,25 @@ struct Supplay: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
     }
+    
+    static func == (lhs: Supplay, rhs: Supplay) -> Bool {
+        return lhs.name == rhs.name &&
+        lhs.dateOfCreation == rhs.dateOfCreation &&
+        lhs.category == rhs.category && lhs.isPurchased == rhs.isPurchased
+    }
 }
 
-struct Category: Hashable {
+struct Category: Hashable, Equatable {
     var name: String
     var supplays: [Supplay]
-   
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
+    }
+    
+    static func == (lhs: Category, rhs: Category) -> Bool {
+        return lhs.name == rhs.name &&
+        lhs.supplays == rhs.supplays
     }
 }
 
