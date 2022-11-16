@@ -310,7 +310,8 @@ extension CreateNewListViewController {
     
     @objc
     private func saveAction() {
-        viewModel?.savePressed(nameOfList: textfield.text, numberOfColor: selectedColor)
+        print(switchView.isOn)
+        viewModel?.savePressed(nameOfList: textfield.text, numberOfColor: selectedColor, isSortByCategory: switchView.isOn)
         hidePanel()
     }
     

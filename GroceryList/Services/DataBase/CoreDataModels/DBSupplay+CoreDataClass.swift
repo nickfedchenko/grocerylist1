@@ -2,7 +2,7 @@
 //  DBSupplay+CoreDataClass.swift
 //  
 //
-//  Created by Шамиль Моллачиев on 09.11.2022.
+//  Created by Шамиль Моллачиев on 16.11.2022.
 //
 //
 

@@ -76,13 +76,15 @@ class MainScreenDataManager {
         let id = model.id ?? UUID()
         let date = model.dateOfCreation ?? Date()
         let color = model.color
+        let sortType = Int(model.typeOfSorting)
         return GroseryListsModel(id: id, dateOfCreation: date,
-                                 name: model.name, color: Int(color), isFavorite: model.isFavorite, supplays: [])
+                                 name: model.name, color: Int(color), isFavorite: model.isFavorite, supplays: [], typeOfSorting: sortType)
     }
 
     private func createWorkingArray() {
         var finalArray: [SectionModel] = []
-        let list = GroseryListsModel(id: topCellID, dateOfCreation: Date(), name: "k", color: 0, isFavorite: false, supplays: [])
+        let list = GroseryListsModel(id: topCellID, dateOfCreation: Date(), name: "k",
+                                     color: 0, isFavorite: false, supplays: [], typeOfSorting: 0)
         let topSection = SectionModel(id: 0, cellType: .topMenu, sectionType: .empty, lists: [list])
         var favoriteSection = SectionModel(id: 1, cellType: .usual, sectionType: .favorite, lists: [])
         var todaySection = SectionModel(id: 2, cellType: .usual, sectionType: .today, lists: [])

@@ -29,6 +29,7 @@ class CoreDataManager {
         object.color = Int64(list.color)
         object.name = list.name
         object.dateOfCreation = list.dateOfCreation
+        object.typeOfSorting = Int64(list.typeOfSorting)
         try? context.save()
     }
     
@@ -51,6 +52,7 @@ class CoreDataManager {
             object.color = Int64(list.color)
             object.name = list.name
             object.dateOfCreation = list.dateOfCreation
+            object.typeOfSorting = Int64(list.typeOfSorting)
         }
         try? context.save()
     }

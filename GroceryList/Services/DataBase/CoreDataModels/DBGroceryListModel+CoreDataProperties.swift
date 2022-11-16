@@ -2,7 +2,7 @@
 //  DBGroceryListModel+CoreDataProperties.swift
 //  
 //
-//  Created by Шамиль Моллачиев on 09.11.2022.
+//  Created by Шамиль Моллачиев on 16.11.2022.
 //
 //
 
@@ -21,6 +21,7 @@ extension DBGroceryListModel {
     @NSManaged public var id: UUID?
     @NSManaged public var isFavorite: Bool
     @NSManaged public var name: String?
+    @NSManaged public var typeOfSorting: Int64
     @NSManaged public var supplays: NSSet?
 
 }

@@ -10,6 +10,7 @@ import UIKit
 
 protocol ProductSettingsViewDelegate: AnyObject {
     func dismissController()
+    func reloadTableView()
 }
 
 class ProductsSettingsViewModel {
@@ -56,7 +57,10 @@ class ProductsSettingsViewModel {
     }
     
     func isChecmarkActive(at ind: Int) -> Bool {
-        false
+        if ind == 4 { return model.typeOfSorting == SortingType.category.rawValue }
+        if ind == 5 { return model.typeOfSorting == SortingType.time.rawValue }
+        if ind == 6 { return model.typeOfSorting == SortingType.alphabet.rawValue }
+        return false
     }
     
     func cellSelected(at ind: Int) {
@@ -72,11 +76,14 @@ class ProductsSettingsViewModel {
         case 3:
             print("")
         case 4:
-            byCategory()
+            model.typeOfSorting = SortingType.category.rawValue
+            delegate?.reloadTableView()
         case 5:
-            byTime()
+            model.typeOfSorting = SortingType.time.rawValue
+            delegate?.reloadTableView()
         case 6:
-            byAlphabet()
+            model.typeOfSorting = SortingType.alphabet.rawValue
+            delegate?.reloadTableView()
         case 7:
             UIImageWriteToSavedPhotosAlbum(snapshot, self, nil, nil)
         case 8:
@@ -107,10 +114,6 @@ class ProductsSettingsViewModel {
         }
         
         func byTime() {
-            
-        }
-        
-        func byAlphabet() {
             
         }
     }

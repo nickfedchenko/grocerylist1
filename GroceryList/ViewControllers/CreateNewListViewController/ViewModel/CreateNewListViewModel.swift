@@ -18,9 +18,11 @@ class CreateNewListViewModel {
     
     }
     
-    func savePressed(nameOfList: String?, numberOfColor: Int) {
+    func savePressed(nameOfList: String?, numberOfColor: Int, isSortByCategory: Bool) {
+        let typeOfSorting = isSortByCategory ? 0 : 1
+        
         let list = GroseryListsModel(id: UUID(), dateOfCreation: Date(),
-                                     name: nameOfList, color: numberOfColor, isFavorite: false, supplays: [])
+                                     name: nameOfList, color: numberOfColor, isFavorite: false, supplays: [], typeOfSorting: typeOfSorting)
         CoreDataManager.shared.saveList(list: list)
         valueChangedCallback?()
     }

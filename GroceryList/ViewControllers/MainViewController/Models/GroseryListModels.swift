@@ -29,6 +29,7 @@ struct GroseryListsModel: Hashable {
     var color: Int
     var isFavorite: Bool = false
     var supplays: [Supplay]
+    var typeOfSorting: Int
     
     static func == (lhs: GroseryListsModel, rhs: GroseryListsModel) -> Bool {
         lhs.id == rhs.id
@@ -84,4 +85,10 @@ enum SectionType: String {
     case week
     case month
     case empty
+}
+
+enum SortingType: Int {
+    case category
+    case time
+    case alphabet
 }

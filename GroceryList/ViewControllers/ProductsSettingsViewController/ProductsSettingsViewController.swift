@@ -176,7 +176,8 @@ extension ProductsSettingsViewController: UITableViewDelegate, UITableViewDataSo
         let text = viewModel.getText(at: indexPath.row)
         let isInset = viewModel.getInset(at: indexPath.row)
         let separatorColor = viewModel.getSeparatirLineColor()
-        cell.setupCell(imageForCell: image, text: text, inset: isInset, separatorColor: separatorColor)
+        let isCheckmark = viewModel.isChecmarkActive(at: indexPath.row)
+        cell.setupCell(imageForCell: image, text: text, inset: isInset, separatorColor: separatorColor, isCheckmarkActive: isCheckmark)
         cell.selectionStyle = .none
         return cell
     }
@@ -187,7 +188,10 @@ extension ProductsSettingsViewController: UITableViewDelegate, UITableViewDataSo
 }
 
 extension ProductsSettingsViewController: ProductSettingsViewDelegate {
-
+    func reloadTableView() {
+        tableview.reloadData()
+    }
+    
     func dismissController() {
         hidePanel {[weak self] in
             self?.viewModel?.controllerDissmised()

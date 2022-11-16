@@ -19,8 +19,20 @@ class ProductSettingsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        image.snp.updateConstraints { make in
+            make.left.equalToSuperview().inset(20)
+        }
+        separatorLine.snp.updateConstraints { make in
+            make.left.equalToSuperview().inset(20)
+        }
+        
+        label.textColor = .black
+    }
+    
     func setupCell(imageForCell: UIImage?, text: String?, inset: Bool,
-                   separatorColor: UIColor, isCheckmarkHidden: Bool = true) {
+                   separatorColor: UIColor, isCheckmarkActive: Bool) {
         if inset {
             image.snp.updateConstraints { make in
                 make.left.equalToSuperview().inset(40)
@@ -34,7 +46,7 @@ class ProductSettingsTableViewCell: UITableViewCell {
             label.textColor = UIColor(hex: "#DF0404")
         }
         
-        checkmarkImage.isHidden = isCheckmarkHidden
+        checkmarkImage.isHidden = !isCheckmarkActive
         separatorLine.backgroundColor = separatorColor
         image.image = imageForCell
         label.text = text
