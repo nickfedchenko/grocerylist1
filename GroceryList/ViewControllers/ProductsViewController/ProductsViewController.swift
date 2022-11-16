@@ -268,12 +268,15 @@ extension ProductsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let model = dataSource?.itemIdentifier(for: indexPath) else { return }
+      
         switch model {
         case .parent(let category):
             print(category)
         case .child(let supplay):
-            viewModel?.cellTapped(product: supplay)
-
+            let cell = collectionView.cellForItem(at: indexPath) as? ProductListCell
+            cell?.addCheckmark { [weak self] in
+                self?.viewModel?.cellTapped(product: supplay)
+            }
         }
     }
 }

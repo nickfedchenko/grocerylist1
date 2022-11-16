@@ -5,7 +5,7 @@
 //  Created by Шамиль Моллачиев on 19.10.2022.
 //
 
-import Foundation
+import UIKit
 
 extension String {
     var localized: String {
@@ -19,5 +19,14 @@ extension String {
             let bundle = Bundle(path: path)
             else { return value }
         return NSLocalizedString(self, bundle: bundle, comment: "")
+    }
+}
+
+extension String {
+    func strikeThrough() -> NSAttributedString {
+        let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: self)
+        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle,
+                                     value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributeString.length))
+        return attributeString
     }
 }

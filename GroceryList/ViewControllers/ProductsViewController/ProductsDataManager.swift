@@ -29,9 +29,7 @@ class ProductsDataManager {
             Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
             Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
             Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2")
-        
         ]
-
     }
     
     var dataChangedCallBack: (() -> Void)?
@@ -62,7 +60,6 @@ class ProductsDataManager {
         newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, supplays: $0.value) }))
          
         arrayWithSections = newArray
-        print(arrayWithSections.count)
     }
     
     func updateFavoriteStatus(for product: Supplay) {

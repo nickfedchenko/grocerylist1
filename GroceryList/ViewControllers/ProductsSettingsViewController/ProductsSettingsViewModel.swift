@@ -57,6 +57,7 @@ class ProductsSettingsViewModel {
     }
     
     func isChecmarkActive(at ind: Int) -> Bool {
+        if ind == 1 { return model.isFavorite }
         if ind == 4 { return model.typeOfSorting == SortingType.category.rawValue }
         if ind == 5 { return model.typeOfSorting == SortingType.time.rawValue }
         if ind == 6 { return model.typeOfSorting == SortingType.alphabet.rawValue }
@@ -70,7 +71,8 @@ class ProductsSettingsViewModel {
         case 0:
             rename()
         case 1:
-            pinch()
+            model.isFavorite = !model.isFavorite
+            savePatametrs()
         case 2:
             changeColor()
         case 3:

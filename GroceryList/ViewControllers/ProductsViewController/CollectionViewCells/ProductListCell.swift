@@ -28,7 +28,22 @@ class ProductListCell: UICollectionViewListCell {
     func setupCell(bcgColor: UIColor?, text: String?, isPurchased: Bool) {
         contentView.backgroundColor = bcgColor
         checkmarkImage.image = isPurchased ? UIImage(named: "purchasedCheckmark") : UIImage(named: "emptyCheckmark")
-        nameLabel.text = text
+        guard let text = text else { return }
+
+        nameLabel.attributedText = NSAttributedString(string: text)
+        if isPurchased { nameLabel.attributedText = text.strikeThrough(); return}
+    }
+    
+    func addCheckmark(compl: @escaping (() -> Void) ) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            self.checkmarkImage.image = UIImage(named: "purchasedCheckmark")
+            self.nameLabel.attributedText = self.nameLabel.text?.strikeThrough()
+            self.layoutIfNeeded()
+        } completion: { _ in
+            compl()
+        }
+      
     }
     
     private let contentViews: UIView = {
