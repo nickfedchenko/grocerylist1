@@ -35,7 +35,8 @@
 "byCategory"                = "By category";
 "byTime"                    = "By time";
 "byAlphabet"                = "Alphabetically";
-"copy"                      = "Copy in ...";
+"copy"                      = "Save to Photo";
 "print"                     = "Print";
 "send"                      = "Send";
 "delete"                    = "Delete";
+"Grocery List"              = "Grocery List";

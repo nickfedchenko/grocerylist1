@@ -92,10 +92,25 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
-    func goProductsSettingsVC(model: GroseryListsModel, compl: @escaping () -> Void) {
-        guard let controller = viewControllerFactory.createProductsSettingsController(model: model, router: self,
+    func goProductsSettingsVC(snapshot: UIImage?, model: GroseryListsModel, compl: @escaping () -> Void) {
+        guard let controller = viewControllerFactory.createProductsSettingsController(snapshot: snapshot, model: model, router: self,
                                                                                    compl: compl) else { return }
         navigationPresent(controller, animated: true)
+    }
+    
+    func showActivityVC(image: [Any]) {
+        guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
+        topViewController?.present(controller, animated: true, completion: nil)
+    }
+    
+    func showPrintVC(image: UIImage) {
+        guard let controller = viewControllerFactory.createPrintController(image: image) else { return }
+        controller.present(animated: true, completionHandler: nil)
+    }
+    
+    func showAlertVC(title: String, message: String) {
+        guard let controller = viewControllerFactory.createAlertController(title: title, message: message ) else { return }
+        topViewController?.present(controller, animated: true, completion: nil)
     }
     
     func popToRoot() {

@@ -47,8 +47,8 @@ class ProductsViewModel {
         router?.pop()
     }
     
-    func settingsTapped() {
-        router?.goProductsSettingsVC(model: model, compl: {
+    func settingsTapped(with snapshot: UIImage?) {
+        router?.goProductsSettingsVC(snapshot: snapshot, model: model, compl: {
             
         })
     }

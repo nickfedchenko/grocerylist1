@@ -53,7 +53,16 @@ class ProductsViewController: UIViewController {
     
     @objc
     private func contextMenuButtonPressed() {
-        viewModel?.settingsTapped()
+        let snapshot = makeSnapshot()
+        viewModel?.settingsTapped(with: snapshot)
+    }
+    
+    private func makeSnapshot() -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(collectionView.contentSize, false, 0)
+        collectionView.drawHierarchy(in: collectionView.bounds, afterScreenUpdates: false)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
     }
     
     // MARK: - UI

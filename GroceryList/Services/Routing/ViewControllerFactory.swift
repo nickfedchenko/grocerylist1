@@ -13,7 +13,10 @@ protocol ViewControllerFactoryProtocol {
     func createCreateNewListController(router: RootRouter, compl: @escaping () -> Void) -> UIViewController?
     func createProductsController(model: GroseryListsModel,router: RootRouter,
                                   compl: @escaping () -> Void) -> UIViewController?
-    func createProductsSettingsController(model: GroseryListsModel, router: RootRouter, compl: @escaping () -> Void) -> UIViewController?
+    func createProductsSettingsController(snapshot: UIImage?,model: GroseryListsModel, router: RootRouter, compl: @escaping () -> Void) -> UIViewController?
+    func createActivityController(image: [Any]) -> UIViewController?
+    func createPrintController(image: UIImage) -> UIPrintInteractionController?
+    func createAlertController(title: String, message: String) -> UIAlertController?
 }
     
 // MARK: - Factory
@@ -54,14 +57,37 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createProductsSettingsController(model: GroseryListsModel, router: RootRouter, compl: @escaping () -> Void) -> UIViewController? {
+    func createProductsSettingsController(snapshot: UIImage?, model: GroseryListsModel, router: RootRouter, compl: @escaping () -> Void) -> UIViewController? {
         let viewController = ProductsSettingsViewController()
-        let viewModel = ProductsSettingsViewModel(model: model)
+        let viewModel = ProductsSettingsViewModel(model: model, snapshot: snapshot)
         viewModel.delegate = viewController
         viewModel.valueChangedCallback = compl
         viewController.viewModel = viewModel
         viewModel.router = router
         return viewController
+    }
+    
+    func createActivityController(image: [Any]) -> UIViewController? {
+        let viewController = UIActivityViewController(activityItems: image, applicationActivities: nil)
+        return viewController
+    }
+    
+    func createPrintController(image: UIImage) -> UIPrintInteractionController? {
+        let information = UIPrintInfo(dictionary: nil)
+        information.outputType = UIPrintInfo.OutputType.general
+        information.jobName = "Grocery List".localized
+       
+        let viewController = UIPrintInteractionController.shared
+        viewController.printInfo = information
+        viewController.printingItem = image
+        return viewController
+    }
+    
+    func createAlertController(title: String, message: String) -> UIAlertController? {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "Ok", style: .default)
+        alert.addAction(alertAction)
+        return alert
     }
     
     private func createNavigationViewController(controller: UIViewController) -> UINavigationController {

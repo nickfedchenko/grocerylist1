@@ -18,7 +18,18 @@ class ProductsDataManager {
             Supplay(name: "cxx", isPurchased: false, dateOfCreation: Date(), category: "2"),
             Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
             Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
+            Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2"),
+            Supplay(name: "dsds", isPurchased: true, dateOfCreation: Date(), category: "wfe3"),
+            Supplay(name: "cxx", isPurchased: false, dateOfCreation: Date(), category: "2"),
+            Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
+            Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
+            Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2"),
+            Supplay(name: "dsds", isPurchased: true, dateOfCreation: Date(), category: "wfe3"),
+            Supplay(name: "cxx", isPurchased: false, dateOfCreation: Date(), category: "2"),
+            Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
+            Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
             Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2")
+        
         ]
 
     }

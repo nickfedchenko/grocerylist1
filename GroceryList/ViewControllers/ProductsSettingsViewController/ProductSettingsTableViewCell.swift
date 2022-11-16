@@ -80,7 +80,6 @@ class ProductSettingsTableViewCell: UITableViewCell {
             make.left.equalToSuperview().inset(20)
             make.bottom.equalToSuperview()
         }
-        
     }
     
 }

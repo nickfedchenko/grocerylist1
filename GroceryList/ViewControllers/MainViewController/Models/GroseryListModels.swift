@@ -40,6 +40,7 @@ struct GroseryListsModel: Hashable {
 }
 
 struct Supplay: Hashable, Equatable {
+    var id = UUID()
     var name: String
     var isPurchased: Bool
     var dateOfCreation: Date
@@ -52,7 +53,7 @@ struct Supplay: Hashable, Equatable {
     static func == (lhs: Supplay, rhs: Supplay) -> Bool {
         return lhs.name == rhs.name &&
         lhs.dateOfCreation == rhs.dateOfCreation &&
-        lhs.category == rhs.category && lhs.isPurchased == rhs.isPurchased
+        lhs.category == rhs.category && lhs.isPurchased == rhs.isPurchased && lhs.id == rhs.id
     }
 }
 

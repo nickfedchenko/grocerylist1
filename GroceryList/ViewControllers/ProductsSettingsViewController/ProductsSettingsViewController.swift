@@ -187,6 +187,7 @@ extension ProductsSettingsViewController: UITableViewDelegate, UITableViewDataSo
 }
 
 extension ProductsSettingsViewController: ProductSettingsViewDelegate {
+
     func dismissController() {
         hidePanel {[weak self] in
             self?.viewModel?.controllerDissmised()

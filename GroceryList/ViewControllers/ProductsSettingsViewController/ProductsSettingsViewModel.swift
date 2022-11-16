@@ -14,15 +14,17 @@ protocol ProductSettingsViewDelegate: AnyObject {
 
 class ProductsSettingsViewModel {
     
-    var model: GroseryListsModel
+    private var snapshot: UIImage?
+    private var model: GroseryListsModel
     weak var router: RootRouter?
     var valueChangedCallback: (() -> Void)?
     weak var delegate: ProductSettingsViewDelegate?
     
     private var colorManager = ColorManager()
    
-    init(model: GroseryListsModel) {
+    init(model: GroseryListsModel, snapshot: UIImage?) {
         self.model = model
+        self.snapshot = snapshot
     }
     
     func getNumberOfCells() -> Int {
@@ -54,6 +56,8 @@ class ProductsSettingsViewModel {
     }
     
     func cellSelected(at ind: Int) {
+        guard let snapshot = snapshot else { return }
+
         switch ind {
         case 0:
             rename()
@@ -70,13 +74,14 @@ class ProductsSettingsViewModel {
         case 6:
             byAlphabet()
         case 7:
-            makeCopy()
+            UIImageWriteToSavedPhotosAlbum(snapshot, self, nil, nil)
         case 8:
-            printAct()
+            router?.showPrintVC(image: snapshot)
         case 9:
-            sendAct()
+            router?.showActivityVC(image: [snapshot])
         case 10:
-            deleteAct()
+            CoreDataManager.shared.removeList(model.id)
+            delegate?.dismissController()
         default:
             print("")
         }
@@ -104,26 +109,11 @@ class ProductsSettingsViewModel {
         func byAlphabet() {
             
         }
-        
-        func makeCopy() {
-            
-        }
-        
-        func printAct() {
-            
-        }
-        
-        func sendAct() {
-            
-        }
-        
-        func deleteAct() {
-            CoreDataManager.shared.removeList(model.id)
-            delegate?.dismissController()
-        }
-        
     }
+    
+
 }
+
 
 extension ProductsSettingsViewModel {
     enum TableViewContent: String, CaseIterable {
