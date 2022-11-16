@@ -55,6 +55,10 @@ class ProductsSettingsViewModel {
         router?.pop()
     }
     
+    func isChecmarkActive(at ind: Int) -> Bool {
+        false
+    }
+    
     func cellSelected(at ind: Int) {
         guard let snapshot = snapshot else { return }
 
@@ -110,10 +114,7 @@ class ProductsSettingsViewModel {
             
         }
     }
-    
-
 }
-
 
 extension ProductsSettingsViewModel {
     enum TableViewContent: String, CaseIterable {

@@ -19,7 +19,8 @@ class ProductSettingsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell(imageForCell: UIImage?, text: String?, inset: Bool, separatorColor: UIColor) {
+    func setupCell(imageForCell: UIImage?, text: String?, inset: Bool,
+                   separatorColor: UIColor, isCheckmarkHidden: Bool = true) {
         if inset {
             image.snp.updateConstraints { make in
                 make.left.equalToSuperview().inset(40)
@@ -32,6 +33,8 @@ class ProductSettingsTableViewCell: UITableViewCell {
         if text == "delete".localized {
             label.textColor = UIColor(hex: "#DF0404")
         }
+        
+        checkmarkImage.isHidden = isCheckmarkHidden
         separatorLine.backgroundColor = separatorColor
         image.image = imageForCell
         label.text = text
@@ -57,10 +60,17 @@ class ProductSettingsTableViewCell: UITableViewCell {
         return view
     }()
     
+    private let checkmarkImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "cellCheckmark")
+        return imageView
+    }()
+    
     // MARK: - UI
     private func setupConstraints() {
         backgroundColor = .clear
-        contentView.addSubviews([image, label, separatorLine])
+        contentView.addSubviews([image, label, separatorLine, checkmarkImage])
         
         image.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
@@ -79,6 +89,12 @@ class ProductSettingsTableViewCell: UITableViewCell {
             make.right.equalToSuperview()
             make.left.equalToSuperview().inset(20)
             make.bottom.equalToSuperview()
+        }
+        
+        checkmarkImage.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(30)
+            make.centerY.equalToSuperview()
+            make.height.width.equalTo(20)
         }
     }
     
