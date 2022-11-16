@@ -32,11 +32,13 @@ class MainScreenDataManager {
     }
     
     func deleteList(with model: GroseryListsModel) -> Set<GroseryListsModel> {
+    setOfModelsToUpdate = []
         if let index = listOfModels?.firstIndex(of: model ) {
-            listOfModels?.remove(at: index)
             CoreDataManager.shared.removeList(model.id)
+            listOfModels?.remove(at: index)
         }
         updateFirstAndLastModels()
+      //  print(workingSectionsArray)
         return setOfModelsToUpdate
     }
     

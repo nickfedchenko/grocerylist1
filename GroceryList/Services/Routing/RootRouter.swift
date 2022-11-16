@@ -92,8 +92,8 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
-    func goProductsSettingsVC(colors: (UIColor, UIColor), compl: @escaping () -> Void) {
-        guard let controller = viewControllerFactory.createProductsSettingsController(colors: colors, router: self,
+    func goProductsSettingsVC(model: GroseryListsModel, compl: @escaping () -> Void) {
+        guard let controller = viewControllerFactory.createProductsSettingsController(model: model, router: self,
                                                                                    compl: compl) else { return }
         navigationPresent(controller, animated: true)
     }

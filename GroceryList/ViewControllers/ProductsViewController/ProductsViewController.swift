@@ -125,7 +125,8 @@ class ProductsViewController: UIViewController {
         let headerCellRegistration = UICollectionView.CellRegistration<HeaderListCell, Category> { (cell, _, parent) in
             
             let color = self.viewModel?.getAddItemViewColor()
-            cell.setupCell(text: parent.name, color: color)
+            let bcgColor = self.viewModel?.getColorForBackground()
+            cell.setupCell(text: parent.name, color: color, bcgColor: bcgColor)
             
             var headerDisclosureOption = UICellAccessory.OutlineDisclosureOptions(style: .header)
             

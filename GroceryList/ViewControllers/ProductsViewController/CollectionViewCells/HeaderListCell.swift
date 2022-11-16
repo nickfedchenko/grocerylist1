@@ -19,44 +19,58 @@ class HeaderListCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell(text: String?, color: UIColor?) {
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+         let attrs = super.preferredLayoutAttributesFitting(layoutAttributes)
+         attrs.bounds.size.height = 50
+         return attrs
+     }
+    
+    func setupCell(text: String?, color: UIColor?, bcgColor: UIColor?) {
         if text == "Purchased".localized {
-            contentViews.backgroundColor = .white
+            coloredView.backgroundColor = .white
             nameLabel.textColor = color
         } else {
-            contentViews.backgroundColor = color
+            coloredView.backgroundColor = color
+            contentViews.backgroundColor = bcgColor
             nameLabel.textColor = .white
         }
-        
+        contentViews.backgroundColor = bcgColor
         nameLabel.text = text
     }
     
     private let contentViews: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#70B170")
+        return view
+    }()
+    
+    private let coloredView: UIView = {
+        let view = UIView()
         return view
     }()
     
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
-        label.textColor = .white
         return label
     }()
     
     // MARK: - UI
     private func setupConstraints() {
         self.addSubviews([contentViews])
-        contentViews.addSubviews([nameLabel])
+        contentViews.addSubviews([coloredView ,nameLabel])
         
         contentViews.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            make.height.equalTo(44)
+        }
+        
+        coloredView.snp.makeConstraints { make in
+            make.left.right.bottom.equalToSuperview()
+            make.top.equalToSuperview().inset(8)
         }
         
         nameLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(28)
-            make.centerY.equalToSuperview()
+            make.centerY.equalTo(coloredView.snp.centerY)
         }
        
     }

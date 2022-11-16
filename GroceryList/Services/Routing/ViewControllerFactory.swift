@@ -13,7 +13,7 @@ protocol ViewControllerFactoryProtocol {
     func createCreateNewListController(router: RootRouter, compl: @escaping () -> Void) -> UIViewController?
     func createProductsController(model: GroseryListsModel,router: RootRouter,
                                   compl: @escaping () -> Void) -> UIViewController?
-    func createProductsSettingsController(colors: (UIColor, UIColor), router: RootRouter, compl: @escaping () -> Void) -> UIViewController?
+    func createProductsSettingsController(model: GroseryListsModel, router: RootRouter, compl: @escaping () -> Void) -> UIViewController?
 }
     
 // MARK: - Factory
@@ -54,9 +54,9 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createProductsSettingsController(colors: (UIColor, UIColor), router: RootRouter, compl: @escaping () -> Void) -> UIViewController? {
+    func createProductsSettingsController(model: GroseryListsModel, router: RootRouter, compl: @escaping () -> Void) -> UIViewController? {
         let viewController = ProductsSettingsViewController()
-        let viewModel = ProductsSettingsViewModel(colors: colors)
+        let viewModel = ProductsSettingsViewModel(model: model)
         viewModel.valueChangedCallback = compl
         viewController.viewModel = viewModel
         viewModel.router = router

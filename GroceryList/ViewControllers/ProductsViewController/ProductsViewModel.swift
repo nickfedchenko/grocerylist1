@@ -48,9 +48,7 @@ class ProductsViewModel {
     }
     
     func settingsTapped() {
-        let firstColor = getAddItemViewColor()
-        let secondColor = getAddItemViewColor()
-        router?.goProductsSettingsVC(colors: (firstColor, secondColor), compl: {
+        router?.goProductsSettingsVC(model: model, compl: {
             
         })
     }

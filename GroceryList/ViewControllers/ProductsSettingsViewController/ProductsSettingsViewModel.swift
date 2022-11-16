@@ -10,12 +10,14 @@ import UIKit
 
 class ProductsSettingsViewModel {
     
-    var colors: (UIColor, UIColor)
+    var model: GroseryListsModel
     weak var router: RootRouter?
     var valueChangedCallback: (() -> Void)?
+    
+    private var colorManager = ColorManager()
    
-    init(colors: (UIColor, UIColor)) {
-        self.colors = colors
+    init(model: GroseryListsModel) {
+        self.model = model
     }
     
     func getNumberOfCells() -> Int {
@@ -35,11 +37,11 @@ class ProductsSettingsViewModel {
     }
     
     func getTextColor() -> UIColor {
-        return colors.0
+        colorManager.getGradient(index: model.color).0
     }
     
     func getSeparatirLineColor() -> UIColor {
-        return colors.1
+        colorManager.getGradient(index: model.color).1
     }
     
     func cellSelected(at ind: Int) {
@@ -107,7 +109,7 @@ class ProductsSettingsViewModel {
         }
         
         func deleteAct() {
-            
+            router?.pop()
         }
         
     }
