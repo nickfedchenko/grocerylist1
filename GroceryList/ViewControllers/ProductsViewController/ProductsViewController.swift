@@ -15,7 +15,7 @@ class ProductsViewController: UIViewController {
         case child(Supplay)
     }
     
-    var dataSource: UICollectionViewDiffableDataSource<Category, DataItem>!
+    var dataSource: UICollectionViewDiffableDataSource<Section, DataItem>!
     
     var viewModel: ProductsViewModel?
     
@@ -146,7 +146,7 @@ class ProductsViewController: UIViewController {
         }
         
         // MARK: Initialize data source
-        dataSource = UICollectionViewDiffableDataSource<Category, DataItem>(collectionView: collectionView) { (collectionView, indexPath, listItem) ->
+        dataSource = UICollectionViewDiffableDataSource<Section, DataItem>(collectionView: collectionView) { (collectionView, indexPath, listItem) ->
             UICollectionViewCell? in
             
             switch listItem {
@@ -171,21 +171,27 @@ class ProductsViewController: UIViewController {
       
     }
     
+    enum Section: Hashable {
+        case main
+    }
+    
     private func reloadData() {
         // MARK: Construct data source snapshot
         // Loop through each parent items to create a section snapshots.
         var snapshot = dataSource.snapshot()
        
         guard let viewModel = viewModel else { return }
-        snapshot.deleteAllItems()
-        
+        if snapshot.sectionIdentifiers.isEmpty {
+            snapshot.appendSections([.main])
+            dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
+        }
 //        snapshot.sectionIdentifiers.forEach { section in
 //            snapshot.deleteAllItems()
 //        }
-        
-//        dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
+    
+        var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<DataItem>()
         for parent in viewModel.arrayWithSections {
-            snapshot.appendSections([parent])
+            
             // Create a parent DataItem & append as parent
             let parentDataItem = DataItem.parent(parent)
 //            sectionSnapshot.append([parentDataItem])
@@ -193,17 +199,19 @@ class ProductsViewController: UIViewController {
             // Create an array of child items & append as children of parentDataItem
             let childDataItemArray = parent.supplays.map { DataItem.child($0) }
 //            sectionSnapshot.append(childDataItemArray, to: parentDataItem)
-            snapshot.appendItems([parentDataItem], toSection: parent)
-            snapshot.appendItems(childDataItemArray, toSection: parent)
-            // Expand this section by default
-//            sectionSnapshot.expand([parentDataItem])
+            sectionSnapshot.append([parentDataItem])
+            sectionSnapshot.append(childDataItemArray, to: parentDataItem)
             
+            // Expand this section by default
+            sectionSnapshot.expand([parentDataItem])
+          
             // Apply section snapshot to the respective collection view section
         
         }
-            self.dataSource.apply(snapshot, animatingDifferences: true)
+     
+        self.dataSource.apply(sectionSnapshot, to: .main, animatingDifferences: true)
+        }
         
-    }
     
     // MARK: - Constraints
 
