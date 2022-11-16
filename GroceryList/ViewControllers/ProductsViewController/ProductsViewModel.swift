@@ -8,6 +8,10 @@
 import Foundation
 import UIKit
 
+protocol ProductsViewModelDelegate: AnyObject {
+    func updateController()
+}
+
 class ProductsViewModel {
     
     weak var router: RootRouter?
@@ -15,6 +19,7 @@ class ProductsViewModel {
     var valueChangedCallback: (() -> Void)?
     var model: GroseryListsModel
     var dataSource: ProductsDataManager
+    weak var delegate: ProductsViewModelDelegate?
    
     init(model: GroseryListsModel, dataSource: ProductsDataManager) {
         self.dataSource = dataSource
@@ -48,7 +53,8 @@ class ProductsViewModel {
     }
     
     func settingsTapped(with snapshot: UIImage?) {
-        router?.goProductsSettingsVC(snapshot: snapshot, model: model, compl: {
+        router?.goProductsSettingsVC(snapshot: snapshot, model: model, compl: { [weak self] updatedModel in
+            self?.model = updatedModel
             
         })
     }

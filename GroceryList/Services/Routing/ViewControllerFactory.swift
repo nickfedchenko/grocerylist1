@@ -13,7 +13,8 @@ protocol ViewControllerFactoryProtocol {
     func createCreateNewListController(router: RootRouter, compl: @escaping () -> Void) -> UIViewController?
     func createProductsController(model: GroseryListsModel,router: RootRouter,
                                   compl: @escaping () -> Void) -> UIViewController?
-    func createProductsSettingsController(snapshot: UIImage?,model: GroseryListsModel, router: RootRouter, compl: @escaping () -> Void) -> UIViewController?
+    func createProductsSettingsController(snapshot: UIImage?, model: GroseryListsModel,
+                                          router: RootRouter, compl: @escaping (GroseryListsModel) -> Void) -> UIViewController?
     func createActivityController(image: [Any]) -> UIViewController?
     func createPrintController(image: UIImage) -> UIPrintInteractionController?
     func createAlertController(title: String, message: String) -> UIAlertController?
@@ -52,12 +53,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let dataSource = ProductsDataManager(supplays: model.supplays)
         let viewModel = ProductsViewModel(model: model, dataSource: dataSource)
         viewModel.valueChangedCallback = compl
+        viewModel.delegate = viewController
         viewController.viewModel = viewModel
         viewModel.router = router
         return viewController
     }
     
-    func createProductsSettingsController(snapshot: UIImage?, model: GroseryListsModel, router: RootRouter, compl: @escaping () -> Void) -> UIViewController? {
+    func createProductsSettingsController(snapshot: UIImage?, model: GroseryListsModel,
+                                          router: RootRouter, compl: @escaping (GroseryListsModel) -> Void) -> UIViewController? {
         let viewController = ProductsSettingsViewController()
         let viewModel = ProductsSettingsViewModel(model: model, snapshot: snapshot)
         viewModel.delegate = viewController

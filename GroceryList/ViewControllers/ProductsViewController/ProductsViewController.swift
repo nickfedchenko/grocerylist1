@@ -277,3 +277,9 @@ extension ProductsViewController: UICollectionViewDelegate {
         }
     }
 }
+
+extension ProductsViewController: ProductsViewModelDelegate {
+    func updateController() {
+        setupController()
+    }
+}

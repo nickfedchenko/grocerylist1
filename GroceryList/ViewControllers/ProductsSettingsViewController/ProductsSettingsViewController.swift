@@ -197,5 +197,4 @@ extension ProductsSettingsViewController: ProductSettingsViewDelegate {
             self?.viewModel?.controllerDissmised()
         }
     }
-    
 }

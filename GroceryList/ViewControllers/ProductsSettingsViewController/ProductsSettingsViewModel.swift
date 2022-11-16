@@ -18,7 +18,7 @@ class ProductsSettingsViewModel {
     private var snapshot: UIImage?
     private var model: GroseryListsModel
     weak var router: RootRouter?
-    var valueChangedCallback: (() -> Void)?
+    var valueChangedCallback: ((GroseryListsModel) -> Void)?
     weak var delegate: ProductSettingsViewDelegate?
     
     private var colorManager = ColorManager()
@@ -77,13 +77,13 @@ class ProductsSettingsViewModel {
             print("")
         case 4:
             model.typeOfSorting = SortingType.category.rawValue
-            delegate?.reloadTableView()
+            savePatametrs()
         case 5:
             model.typeOfSorting = SortingType.time.rawValue
-            delegate?.reloadTableView()
+            savePatametrs()
         case 6:
             model.typeOfSorting = SortingType.alphabet.rawValue
-            delegate?.reloadTableView()
+            savePatametrs()
         case 7:
             UIImageWriteToSavedPhotosAlbum(snapshot, self, nil, nil)
         case 8:
@@ -108,14 +108,12 @@ class ProductsSettingsViewModel {
         func changeColor() {
             
         }
-        
-        func byCategory() {
-            
-        }
-        
-        func byTime() {
-            
-        }
+    }
+    
+    private func savePatametrs() {
+        delegate?.reloadTableView()
+        valueChangedCallback?(model)
+        CoreDataManager.shared.saveList(list: model)
     }
 }
 

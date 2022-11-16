@@ -92,7 +92,7 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
-    func goProductsSettingsVC(snapshot: UIImage?, model: GroseryListsModel, compl: @escaping () -> Void) {
+    func goProductsSettingsVC(snapshot: UIImage?, model: GroseryListsModel, compl: @escaping (GroseryListsModel) -> Void) {
         guard let controller = viewControllerFactory.createProductsSettingsController(snapshot: snapshot, model: model, router: self,
                                                                                    compl: compl) else { return }
         navigationPresent(controller, animated: true)
