@@ -32,16 +32,16 @@ class ProductsSettingsViewController: UIViewController {
     // MARK: - close vc
     @objc
     private func doneButtonPressed() {
-        hidePanel()
+        hidePanel(compl: nil)
     }
     
     // MARK: - swipeDown
     
-    private func hidePanel() {
+    private func hidePanel(compl: (() -> Void)?) {
         updateConstr(with: -602)
        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true, completion: compl)
         }
     }
     
@@ -150,7 +150,7 @@ extension ProductsSettingsViewController {
     private func swipeDownAction(_ recognizer: UIPanGestureRecognizer) {
         let tempTranslation = recognizer.translation(in: contentView)
         if tempTranslation.y >= 100 {
-            hidePanel()
+            hidePanel(compl: nil)
         }
     }
 }
@@ -184,4 +184,13 @@ extension ProductsSettingsViewController: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel?.cellSelected(at: indexPath.row)
     }
+}
+
+extension ProductsSettingsViewController: ProductSettingsViewDelegate {
+    func dismissController() {
+        hidePanel {[weak self] in
+            self?.viewModel?.controllerDissmised()
+        }
+    }
+    
 }

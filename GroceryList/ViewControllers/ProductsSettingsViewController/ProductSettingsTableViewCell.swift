@@ -32,7 +32,7 @@ class ProductSettingsTableViewCell: UITableViewCell {
         if text == "delete".localized {
             label.textColor = UIColor(hex: "#DF0404")
         }
-        separatorLine.backgroundColor = separatorColor.withAlphaComponent(0.3)
+        separatorLine.backgroundColor = separatorColor
         image.image = imageForCell
         label.text = text
     }

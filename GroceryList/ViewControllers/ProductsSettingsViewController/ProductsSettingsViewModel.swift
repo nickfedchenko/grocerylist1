@@ -8,11 +8,16 @@
 import Foundation
 import UIKit
 
+protocol ProductSettingsViewDelegate: AnyObject {
+    func dismissController()
+}
+
 class ProductsSettingsViewModel {
     
     var model: GroseryListsModel
     weak var router: RootRouter?
     var valueChangedCallback: (() -> Void)?
+    weak var delegate: ProductSettingsViewDelegate?
     
     private var colorManager = ColorManager()
    
@@ -42,6 +47,10 @@ class ProductsSettingsViewModel {
     
     func getSeparatirLineColor() -> UIColor {
         colorManager.getGradient(index: model.color).1
+    }
+    
+    func controllerDissmised() {
+        router?.pop()
     }
     
     func cellSelected(at ind: Int) {
@@ -109,7 +118,8 @@ class ProductsSettingsViewModel {
         }
         
         func deleteAct() {
-            router?.pop()
+            CoreDataManager.shared.removeList(model.id)
+            delegate?.dismissController()
         }
         
     }

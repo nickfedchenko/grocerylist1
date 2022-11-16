@@ -57,6 +57,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createProductsSettingsController(model: GroseryListsModel, router: RootRouter, compl: @escaping () -> Void) -> UIViewController? {
         let viewController = ProductsSettingsViewController()
         let viewModel = ProductsSettingsViewModel(model: model)
+        viewModel.delegate = viewController
         viewModel.valueChangedCallback = compl
         viewController.viewModel = viewModel
         viewModel.router = router

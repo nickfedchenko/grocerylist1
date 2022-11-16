@@ -23,7 +23,6 @@ class MainScreenViewController: UIViewController {
         setupCollectionView()
         addRecognizer()
         createTableViewDataSource()
-        reloadData()
         viewModel?.reloadDataCallBack = { [weak self] in
             self?.reloadData()
         }
@@ -31,6 +30,15 @@ class MainScreenViewController: UIViewController {
         viewModel?.updateCells = { setOfLists in
             self.reloadItems(lists: setOfLists)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        var snapshot = collectionViewDataSource?.snapshot()
+        snapshot?.deleteAllItems()
+        collectionViewDataSource?.apply(snapshot!)
+        viewModel?.reloadDataFromStorage()
+      
     }
     
     private func createAttributedString(title: String, color: UIColor = .white) -> NSAttributedString {

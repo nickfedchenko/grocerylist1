@@ -26,10 +26,6 @@ class MainScreenDataManager {
             createWorkingArray()
         }
     }
-   
-    init() {
-        updateListOfModels()
-    }
     
     func deleteList(with model: GroseryListsModel) -> Set<GroseryListsModel> {
     setOfModelsToUpdate = []
@@ -38,12 +34,12 @@ class MainScreenDataManager {
             listOfModels?.remove(at: index)
         }
         updateFirstAndLastModels()
-      //  print(workingSectionsArray)
         return setOfModelsToUpdate
     }
     
     @discardableResult
     func updateListOfModels() -> Set<GroseryListsModel> {
+        setOfModelsToUpdate = []
         updateFirstAndLastModels()
         coreDataListsArray = CoreDataManager.shared.getAllLists()
         listOfModels = coreDataListsArray?.map({ transformCoreDataModelToModel($0) }) ?? []
@@ -52,6 +48,7 @@ class MainScreenDataManager {
     }
     
     func addOrDeleteFromFavorite(with model: GroseryListsModel) -> Set<GroseryListsModel> {
+        setOfModelsToUpdate = []
         updateFirstAndLastModels()
         var newModel = model
         newModel.isFavorite = !newModel.isFavorite

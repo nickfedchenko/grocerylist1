@@ -39,6 +39,7 @@ class ProductsViewController: UIViewController {
         view.backgroundColor = viewModel?.getColorForBackground()
         addItemView.backgroundColor = viewModel?.getAddItemViewColor()
         nameOfListLabel.textColor = viewModel?.getAddItemViewColor()
+        navigationView.backgroundColor = viewModel?.getColorForBackground()
     }
     
     deinit {
@@ -202,7 +203,7 @@ class ProductsViewController: UIViewController {
     // MARK: - Constraints
     
     private func setupConstraints() {
-        view.addSubviews([navigationView, collectionView, addItemView])
+        view.addSubviews([collectionView, navigationView, addItemView])
         navigationView.addSubviews([arrowBackButton, nameOfListLabel, contextMenuButton])
         addItemView.addSubviews([plusImage, addItemLabel])
         
@@ -248,7 +249,7 @@ class ProductsViewController: UIViewController {
         
         collectionView.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
-            make.top.equalTo(navigationView.snp.bottom)
+            make.top.equalTo(navigationView.snp.bottom).inset(30)
         }
     }
 }

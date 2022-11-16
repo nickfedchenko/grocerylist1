@@ -19,12 +19,6 @@ class MainScreenViewModel {
         dataSource.dataChangedCallBack = {
             self.reloadDataCallBack?()
         }
-//        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "1",
-//                                                                  color: 1, isFavorite: true, supplays: [] ))
-//        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date(), name: "2",
-//                                                                color: 1, isFavorite: true, supplays: [] ))
-//        CoreDataManager.shared.saveList(list: GroseryListsModel(dateOfCreation: Date() - 660000, name: "3",
-//                                                                color: 1, isFavorite: false, supplays: [] ))
     }
     
     var reloadDataCallBack: (() -> Void)?
@@ -37,6 +31,7 @@ class MainScreenViewModel {
     
     // routing
     func createNewListTapped() {
+        
         router?.goCreateNewList(compl: { [weak self] in
             guard let list = self?.dataSource.updateListOfModels() else { return }
             self?.updateCells?(list)
@@ -90,5 +85,9 @@ class MainScreenViewModel {
             if item.isPurchased {done += 1 }
         })
         return "\(done)/\(supply.supplays.count)"
+    }
+    
+    func reloadDataFromStorage() {
+        dataSource.updateListOfModels()
     }
 }
