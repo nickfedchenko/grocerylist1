@@ -10,7 +10,7 @@ import UIKit
 protocol ViewControllerFactoryProtocol {
     func createOnboardingController(router: RootRouter) -> UIViewController?
     func createMainController(router: RootRouter) -> UIViewController?
-    func createCreateNewListController(router: RootRouter, compl: @escaping () -> Void) -> UIViewController?
+    func createCreateNewListController(model: GroseryListsModel?, router: RootRouter, compl: @escaping () -> Void) -> UIViewController?
     func createProductsController(model: GroseryListsModel,router: RootRouter,
                                   compl: @escaping () -> Void) -> UIViewController?
     func createProductsSettingsController(snapshot: UIImage?, model: GroseryListsModel,
@@ -38,12 +38,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createCreateNewListController(router: RootRouter, compl: @escaping () -> Void) -> UIViewController? {
+    func createCreateNewListController(model: GroseryListsModel?, router: RootRouter,
+                                       compl: @escaping () -> Void) -> UIViewController? {
         let viewController = CreateNewListViewController()
         let viewModel = CreateNewListViewModel()
         viewModel.valueChangedCallback = compl
         viewController.viewModel = viewModel
         viewModel.router = router
+        viewModel.model = model
         return viewController
     }
     

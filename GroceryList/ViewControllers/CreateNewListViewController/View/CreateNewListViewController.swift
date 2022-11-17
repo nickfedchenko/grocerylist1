@@ -18,6 +18,7 @@ class CreateNewListViewController: UIViewController {
         setupConstraints()
         addKeyboardNotifications()
         addRecognizers()
+        setupControllerIfModelExist()
         setupCollectionView()
     }
     
@@ -33,6 +34,16 @@ class CreateNewListViewController: UIViewController {
     private func setupTextFieldParametrs() {
         textfield.delegate = self
         textfield.becomeFirstResponder()
+    }
+    
+    private func setupControllerIfModelExist() {
+        guard let model = viewModel?.model else { return }
+        readyToSave()
+        selectedColor = model.color
+        contentView.backgroundColor = viewModel?.getBackgroundColor(at: selectedColor)
+        textfield.backgroundColor = viewModel?.getTextFieldColor(at: selectedColor)
+        switchView.isOn = model.typeOfSorting == SortingType.category.rawValue
+        textfield.text = model.name
     }
     
     // MARK: - Keyboard
@@ -256,7 +267,7 @@ extension CreateNewListViewController: UICollectionViewDelegate, UICollectionVie
         colorCollectionView.delegate = self
         colorCollectionView.dataSource = self
         colorCollectionView.register(ColorCollectionViewCell.self, forCellWithReuseIdentifier: "ColorCollectionViewCell")
-        colorCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .left)
+        colorCollectionView.selectItem(at: IndexPath(row: selectedColor, section: 0), animated: false, scrollPosition: .left)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -268,8 +279,9 @@ extension CreateNewListViewController: UICollectionViewDelegate, UICollectionVie
             withReuseIdentifier: "ColorCollectionViewCell",
             for: indexPath) as? ColorCollectionViewCell,
               let viewModel = viewModel else { return UICollectionViewCell() }
-        let colors = viewModel.getColorForCell(at: indexPath.row)
-        cell.setupCell(listColor: colors.0, backgroundColor: colors.1)
+        let textFieldColer = viewModel.getTextFieldColor(at: indexPath.row)
+        let backgroundColor = viewModel.getBackgroundColor(at: indexPath.row)
+        cell.setupCell(listColor: textFieldColer, backgroundColor: backgroundColor)
         return cell
     }
     
@@ -287,8 +299,8 @@ extension CreateNewListViewController: UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedColor = indexPath.row
-        let textFieldColer = viewModel?.getColorForCell(at: indexPath.row).0
-        let backgroundColor = viewModel?.getColorForCell(at: indexPath.row).1
+        let textFieldColer = viewModel?.getTextFieldColor(at: indexPath.row)
+        let backgroundColor = viewModel?.getBackgroundColor(at: indexPath.row)
         contentView.backgroundColor = backgroundColor
         textfield.backgroundColor = textFieldColer
     }
@@ -310,7 +322,6 @@ extension CreateNewListViewController {
     
     @objc
     private func saveAction() {
-        print(switchView.isOn)
         viewModel?.savePressed(nameOfList: textfield.text, numberOfColor: selectedColor, isSortByCategory: switchView.isOn)
         hidePanel()
     }

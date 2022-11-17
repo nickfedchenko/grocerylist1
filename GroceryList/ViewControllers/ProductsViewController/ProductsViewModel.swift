@@ -55,7 +55,6 @@ class ProductsViewModel {
     func settingsTapped(with snapshot: UIImage?) {
         router?.goProductsSettingsVC(snapshot: snapshot, model: model, compl: { [weak self] updatedModel in
             self?.model = updatedModel
-            
         })
     }
     

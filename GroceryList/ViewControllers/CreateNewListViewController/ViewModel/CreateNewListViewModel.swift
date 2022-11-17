@@ -13,6 +13,7 @@ class CreateNewListViewModel {
     weak var router: RootRouter?
     private var colorManager = ColorManager()
     var valueChangedCallback: (() -> Void)?
+    var model: GroseryListsModel?
    
     init() {
     
@@ -31,8 +32,11 @@ class CreateNewListViewModel {
         colorManager.gradientsCount
     }
     
-    func getColorForCell(at ind: Int) -> (UIColor, UIColor) {
-        colorManager.getGradient(index: ind)
+    func getTextFieldColor(at ind: Int) -> UIColor {
+        colorManager.getGradient(index: ind).0
     }
     
+    func getBackgroundColor(at ind: Int) -> UIColor {
+        colorManager.getGradient(index: ind).1
+    }
 }

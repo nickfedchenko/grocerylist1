@@ -34,9 +34,9 @@ class MainScreenViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        var snapshot = collectionViewDataSource?.snapshot()
-        snapshot?.deleteAllItems()
-        collectionViewDataSource?.apply(snapshot!)
+        guard var snapshot = collectionViewDataSource?.snapshot() else { return }
+        snapshot.deleteAllItems()
+        collectionViewDataSource?.apply(snapshot)
         viewModel?.reloadDataFromStorage()
       
     }

@@ -81,9 +81,16 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goCreateNewList(compl: @escaping () -> Void) {
-        guard let controller = viewControllerFactory.createCreateNewListController(router: self,
+        guard let controller = viewControllerFactory.createCreateNewListController(model: nil, router: self,
                                                                                    compl: compl) else { return }
         navigationPresent(controller, animated: true)
+    }
+    
+    func presentCreateNewList(model: GroseryListsModel,compl: @escaping () -> Void) {
+        guard let controller = viewControllerFactory.createCreateNewListController(model: model, router: self,
+                                                                                   compl: compl) else { return }
+        controller.modalPresentationStyle = .overCurrentContext
+        topViewController?.present(controller, animated: true, completion: nil)
     }
     
     func goProductsVC(model: GroseryListsModel, compl: @escaping () -> Void) {

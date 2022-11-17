@@ -14,7 +14,6 @@ protocol ProductSettingsViewDelegate: AnyObject {
 }
 
 class ProductsSettingsViewModel {
-    
     private var snapshot: UIImage?
     private var model: GroseryListsModel
     weak var router: RootRouter?
@@ -66,10 +65,11 @@ class ProductsSettingsViewModel {
     
     func cellSelected(at ind: Int) {
         guard let snapshot = snapshot else { return }
-
         switch ind {
         case 0:
-            rename()
+            router?.presentCreateNewList(model: model) {
+                print("f")
+            }
         case 1:
             model.isFavorite = !model.isFavorite
             savePatametrs()
