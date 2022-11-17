@@ -13,23 +13,24 @@ class ProductsDataManager {
 
     init ( supplays: [Supplay] ) {
         self.supplays = supplays
-        self.supplays = [
-            Supplay(name: "dsds", isPurchased: true, dateOfCreation: Date(), category: "wfe3"),
-            Supplay(name: "cxx", isPurchased: false, dateOfCreation: Date(), category: "2"),
-            Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
-            Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
-            Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2"),
-            Supplay(name: "dsds", isPurchased: true, dateOfCreation: Date(), category: "wfe3"),
-            Supplay(name: "cxx", isPurchased: false, dateOfCreation: Date(), category: "2"),
-            Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
-            Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
-            Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2"),
-            Supplay(name: "dsds", isPurchased: true, dateOfCreation: Date(), category: "wfe3"),
-            Supplay(name: "cxx", isPurchased: false, dateOfCreation: Date(), category: "2"),
-            Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
-            Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
-            Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2")
-        ]
+        print(supplays)
+//        self.supplays = [
+//            Supplay(listId: UUID(), name: "dsds", isPurchased: true, dateOfCreation: Date(), category: "wfe3"),
+//            Supplay(name: "cxx", isPurchased: false, dateOfCreation: Date(), category: "2"),
+//            Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
+//            Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
+//            Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2"),
+//            Supplay(name: "dsds", isPurchased: true, dateOfCreation: Date(), category: "wfe3"),
+//            Supplay(name: "cxx", isPurchased: false, dateOfCreation: Date(), category: "2"),
+//            Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
+//            Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
+//            Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2"),
+//            Supplay(name: "dsds", isPurchased: true, dateOfCreation: Date(), category: "wfe3"),
+//            Supplay(name: "cxx", isPurchased: false, dateOfCreation: Date(), category: "2"),
+//            Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
+//            Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
+//            Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2")
+//        ]
     }
     
     var dataChangedCallBack: (() -> Void)?
@@ -66,6 +67,7 @@ class ProductsDataManager {
 
         var newProduct = product
         newProduct.isPurchased = !product.isPurchased
+        CoreDataManager.shared.createSupplay(supplay: newProduct)
         if let index = supplays.firstIndex(of: product ) {
             supplays.remove(at: index)
             supplays.append(newProduct)

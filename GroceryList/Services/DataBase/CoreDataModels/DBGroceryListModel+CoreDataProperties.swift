@@ -2,7 +2,7 @@
 //  DBGroceryListModel+CoreDataProperties.swift
 //  
 //
-//  Created by Шамиль Моллачиев on 16.11.2022.
+//  Created by Шамиль Моллачиев on 17.11.2022.
 //
 //
 

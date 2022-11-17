@@ -77,8 +77,25 @@ class MainScreenDataManager {
         let date = model.dateOfCreation ?? Date()
         let color = model.color
         let sortType = Int(model.typeOfSorting)
+        let supplays = model.supplays?.allObjects as? [DBSupplay]
+        let supp = supplays?.map({ transformCoredataSupplays(supplay: $0)})
+        
         return GroceryListsModel(id: id, dateOfCreation: date,
-                                 name: model.name, color: Int(color), isFavorite: model.isFavorite, supplays: [], typeOfSorting: sortType)
+                                 name: model.name, color: Int(color), isFavorite: model.isFavorite, supplays: supp!, typeOfSorting: sortType)
+    }
+    
+    private func transformCoredataSupplays(supplay: DBSupplay?) -> Supplay {
+        guard let supplay = supplay else { return Supplay(listId: UUID(), name: "",
+                                                          isPurchased: false, dateOfCreation: Date(), category: "")}
+
+        let id = supplay.id ?? UUID()
+        let listId = supplay.listId ?? UUID()
+        let name = supplay.name ?? ""
+        let isPurchased = supplay.isPurchased ?? false
+        let dateOfCreation = supplay.dateOfCreation ?? Date()
+        let category = "df"
+        
+        return Supplay(id: id, listId: listId, name: name, isPurchased: isPurchased, dateOfCreation: dateOfCreation, category: category)
     }
 
     private func createWorkingArray() {

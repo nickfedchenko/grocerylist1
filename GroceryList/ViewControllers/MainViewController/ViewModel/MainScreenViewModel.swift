@@ -19,6 +19,11 @@ class MainScreenViewModel {
         dataSource.dataChangedCallBack = {
             self.reloadDataCallBack?()
         }
+        
+//        let id = CoreDataManager.shared.getAllLists()![0]
+//        let supplay = Supplay(id: UUID(), listId: id.id!, name: "biba", isPurchased: false, dateOfCreation: Date(), category: "2")
+//        CoreDataManager.shared.createSupplay(supplay: supplay)
+     //   print(CoreDataManager.shared.getSupplays(for: id))
     }
     
     var reloadDataCallBack: (() -> Void)?

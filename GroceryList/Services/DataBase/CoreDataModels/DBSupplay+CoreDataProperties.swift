@@ -2,7 +2,7 @@
 //  DBSupplay+CoreDataProperties.swift
 //  
 //
-//  Created by Шамиль Моллачиев on 16.11.2022.
+//  Created by Шамиль Моллачиев on 17.11.2022.
 //
 //
 
@@ -17,9 +17,10 @@ extension DBSupplay {
     }
 
     @NSManaged public var dateOfCreation: Date?
-    @NSManaged public var isFavorite: Bool
     @NSManaged public var isPurchased: Bool
     @NSManaged public var name: String?
+    @NSManaged public var id: UUID?
+    @NSManaged public var listId: UUID?
     @NSManaged public var list: DBGroceryListModel?
 
 }

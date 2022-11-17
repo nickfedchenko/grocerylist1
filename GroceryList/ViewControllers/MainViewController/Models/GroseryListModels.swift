@@ -42,6 +42,7 @@ struct GroceryListsModel: Hashable {
 
 struct Supplay: Hashable, Equatable {
     var id = UUID()
+    var listId: UUID
     var name: String
     var isPurchased: Bool
     var dateOfCreation: Date

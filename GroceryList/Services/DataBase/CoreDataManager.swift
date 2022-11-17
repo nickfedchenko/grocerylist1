@@ -30,7 +30,59 @@ class CoreDataManager {
         object.name = list.name
         object.dateOfCreation = list.dateOfCreation
         object.typeOfSorting = Int64(list.typeOfSorting)
+        object.supplays = nil
         try? context.save()
+//        list.supplays.forEach({ suppl in
+//            self.createSupplay(supplay: suppl)
+//        })
+    }
+    
+    func createSupplay(supplay: Supplay) {
+        guard getSupplay(id: supplay.id) == nil else {
+            updateSupplay(supplay: supplay)
+            return
+        }
+        
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "\(#keyPath(DBGroceryListModel.id)) = '\(supplay.listId)'")
+        guard let list = try? context.fetch(fetchRequest).first else { return }
+        
+        let object = DBSupplay(context: context)
+        object.list = list
+        object.isPurchased = supplay.isPurchased
+        object.name = supplay.name
+        object.dateOfCreation = supplay.dateOfCreation
+        object.id = supplay.id
+        object.listId = supplay.listId
+        try? context.save()
+    }
+    
+    func getSupplay(id: UUID) -> DBSupplay? {
+        let fetchRequest: NSFetchRequest<DBSupplay> = DBSupplay.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest).first else {
+            return nil
+        }
+        return object
+    }
+    
+    func updateSupplay(supplay: Supplay) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBSupplay> = DBSupplay.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(supplay.id)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            object.isPurchased = supplay.isPurchased
+            object.name = supplay.name
+            object.dateOfCreation = supplay.dateOfCreation
+        }
+        try? context.save()
+    }
+    
+    func getSupplays(for list: GroceryListsModel) -> [DBSupplay] {
+        let fetchRequest: NSFetchRequest<DBSupplay> = DBSupplay.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "listId = '\(list.id)'")
+        return (try? coreData.container.viewContext.fetch(fetchRequest).compactMap { $0 }) ?? []
     }
     
     func getList(list: String) -> DBGroceryListModel? {
@@ -53,6 +105,7 @@ class CoreDataManager {
             object.name = list.name
             object.dateOfCreation = list.dateOfCreation
             object.typeOfSorting = Int64(list.typeOfSorting)
+            object.supplays = NSSet(array: list.supplays)
         }
         try? context.save()
     }
