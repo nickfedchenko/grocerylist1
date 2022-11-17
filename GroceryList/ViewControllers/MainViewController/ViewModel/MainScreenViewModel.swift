@@ -22,7 +22,7 @@ class MainScreenViewModel {
     }
     
     var reloadDataCallBack: (() -> Void)?
-    var updateCells:((Set<GroseryListsModel>) -> Void)?
+    var updateCells:((Set<GroceryListsModel>) -> Void)?
     private var dataSource: MainScreenDataManager
     
     var model: [SectionModel] {
@@ -32,14 +32,14 @@ class MainScreenViewModel {
     // routing
     func createNewListTapped() {
         
-        router?.goCreateNewList(compl: { [weak self] in
+        router?.goCreateNewList(compl: { [weak self] _ in
             guard let list = self?.dataSource.updateListOfModels() else { return }
             self?.updateCells?(list)
             self?.dataSource.setOfModelsToUpdate = []
         })
     }
     
-    func cellTapped(with model: GroseryListsModel) {
+    func cellTapped(with model: GroceryListsModel) {
         router?.goProductsVC(model: model, compl: {
 
         })
@@ -66,13 +66,13 @@ class MainScreenViewModel {
     
     // cells callbacks
     
-    func deleteCell(with model: GroseryListsModel) {
+    func deleteCell(with model: GroceryListsModel) {
         let list = dataSource.deleteList(with: model)
         updateCells?(list)
         dataSource.setOfModelsToUpdate = []
     }
     
-    func addOrDeleteFromFavorite(with model: GroseryListsModel) {
+    func addOrDeleteFromFavorite(with model: GroceryListsModel) {
         let list = dataSource.addOrDeleteFromFavorite(with: model)
         updateCells?(list)
         dataSource.setOfModelsToUpdate = []

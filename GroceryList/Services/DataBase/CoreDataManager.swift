@@ -17,7 +17,7 @@ class CoreDataManager {
         coreData = CoreDataStorage()
     }
     
-    func saveList(list: GroseryListsModel) {
+    func saveList(list: GroceryListsModel) {
         guard getList(list: list.id.uuidString) == nil else {
             updateList(list)
             return
@@ -42,7 +42,7 @@ class CoreDataManager {
         return object
     }
     
-    private func updateList(_ list: GroseryListsModel) {
+    private func updateList(_ list: GroceryListsModel) {
         let context = coreData.container.viewContext
         let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(list.id)'")

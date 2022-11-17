@@ -10,7 +10,7 @@ import UIKit
 
 class MainScreenViewController: UIViewController {
     
-    private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroseryListsModel>?
+    private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroceryListsModel>?
     var viewModel: MainScreenViewModel?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -201,7 +201,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
     
     // ReloadData
     private func reloadData() {
-        var snapshot = NSDiffableDataSourceSnapshot<SectionModel, GroseryListsModel>()
+        var snapshot = NSDiffableDataSourceSnapshot<SectionModel, GroceryListsModel>()
         guard let viewModel = viewModel else { return }
         snapshot.appendSections(viewModel.model)
         for section in viewModel.model {
@@ -210,7 +210,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
         collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
     }
     
-    private func reloadItems(lists: Set<GroseryListsModel>) {
+    private func reloadItems(lists: Set<GroceryListsModel>) {
         guard var snapshot = collectionViewDataSource?.snapshot() else { return }
      
         let array = Array(lists)

@@ -39,7 +39,7 @@ opt_in_rules:
 
 # Правило ограничивающее цикломатическую сложность
 cyclomatic_complexity:
-    warning: 10
+    warning: 12
     error: 20
 
 # Уровень вложенности классов и функций

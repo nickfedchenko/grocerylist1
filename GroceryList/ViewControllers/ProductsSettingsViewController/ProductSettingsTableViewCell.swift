@@ -54,7 +54,7 @@ class ProductSettingsTableViewCell: UITableViewCell {
     
     private let image: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .center
         return imageView
     }()
     

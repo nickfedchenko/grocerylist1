@@ -40,6 +40,7 @@ class ProductsViewController: UIViewController {
         addItemView.backgroundColor = viewModel?.getAddItemViewColor()
         nameOfListLabel.textColor = viewModel?.getAddItemViewColor()
         navigationView.backgroundColor = viewModel?.getColorForBackground()
+        collectionView.reloadData()
     }
     
     deinit {

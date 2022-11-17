@@ -11,7 +11,7 @@ struct SectionModel: Hashable {
     var id: Int
     var cellType: CellType
     var sectionType: SectionType
-    var lists: [GroseryListsModel]
+    var lists: [GroceryListsModel]
     
     static func == (lhs: SectionModel, rhs: SectionModel) -> Bool {
         lhs.id == rhs.id
@@ -22,7 +22,7 @@ struct SectionModel: Hashable {
     }
 }
 
-struct GroseryListsModel: Hashable {
+struct GroceryListsModel: Hashable {
     var id = UUID()
     var dateOfCreation: Date
     var name: String?
@@ -31,7 +31,7 @@ struct GroseryListsModel: Hashable {
     var supplays: [Supplay]
     var typeOfSorting: Int
     
-    static func == (lhs: GroseryListsModel, rhs: GroseryListsModel) -> Bool {
+    static func == (lhs: GroceryListsModel, rhs: GroceryListsModel) -> Bool {
         lhs.id == rhs.id
     }
     

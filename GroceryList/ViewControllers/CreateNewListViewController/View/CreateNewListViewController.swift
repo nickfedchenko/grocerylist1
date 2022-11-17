@@ -44,6 +44,7 @@ class CreateNewListViewController: UIViewController {
         textfield.backgroundColor = viewModel?.getTextFieldColor(at: selectedColor)
         switchView.isOn = model.typeOfSorting == SortingType.category.rawValue
         textfield.text = model.name
+        closeButtonView.backgroundColor = viewModel?.getBackgroundColor(at: selectedColor)
     }
     
     // MARK: - Keyboard
@@ -62,10 +63,11 @@ class CreateNewListViewController: UIViewController {
     
     func updateConstr(with inset: Double) {
         UIView.animate(withDuration: 0.3) { [ weak self ] in
-            self?.contentView.snp.updateConstraints { make in
+            guard let self = self else { return }
+            self.contentView.snp.updateConstraints { make in
                 make.bottom.equalToSuperview().inset(inset)
             }
-            self?.view.layoutIfNeeded()
+            self.view.layoutIfNeeded()
         }
     }
     
@@ -167,15 +169,33 @@ class CreateNewListViewController: UIViewController {
         return imageView
     }()
     
+    private let closeButtonView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#F9FBEB")
+        view.layer.cornerRadius = 20
+        view.layer.masksToBounds = true
+        view.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+        return view
+    }()
+    
+    private let closeLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.semibold(size: 20).font
+        label.textColor = UIColor(hex: "#31635A")
+        label.text = "Cancel".localized.uppercased()
+        return label
+    }()
+    
     // MARK: - Constraints
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         view.backgroundColor = .black.withAlphaComponent(0.5)
-        view.addSubview(contentView)
+        view.addSubviews([contentView, closeButtonView])
         contentView.addSubviews([textfield, colorCollectionView, saveButtonView,
                                  pickItemsFromList, sortingLabel, switchView])
         pickItemsFromList.addSubviews([pickItemsLabel, pickItemsImage])
         saveButtonView.addSubview(saveLabel)
+        closeButtonView.addSubview(closeLabel)
         
         contentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
@@ -233,6 +253,17 @@ class CreateNewListViewController: UIViewController {
         saveLabel.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
         }
+        
+        closeButtonView.snp.makeConstraints { make in
+            make.left.equalTo(contentView.snp.left)
+            make.right.equalTo(contentView.snp.right)
+            make.top.equalTo(contentView.snp.bottom)
+            make.height.equalTo(80)
+        }
+        
+        closeLabel.snp.makeConstraints { make in
+            make.centerY.centerX.equalToSuperview()
+        }
     }
 }
 // MARK: - Textfield
@@ -257,6 +288,10 @@ extension CreateNewListViewController: UITextFieldDelegate {
             notReadyToSave()
         }
         return newLength <= 30
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
     }
 }
 
@@ -301,6 +336,7 @@ extension CreateNewListViewController: UICollectionViewDelegate, UICollectionVie
         selectedColor = indexPath.row
         let textFieldColer = viewModel?.getTextFieldColor(at: indexPath.row)
         let backgroundColor = viewModel?.getBackgroundColor(at: indexPath.row)
+        closeButtonView.backgroundColor = backgroundColor
         contentView.backgroundColor = backgroundColor
         textfield.backgroundColor = textFieldColer
     }
@@ -318,6 +354,14 @@ extension CreateNewListViewController {
         
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
         contentView.addGestureRecognizer(panRecognizer)
+        
+        let closeRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeAction))
+        closeButtonView.addGestureRecognizer(closeRecognizer)
+    }
+    
+    @objc
+    private func closeAction() {
+        hidePanel()
     }
     
     @objc

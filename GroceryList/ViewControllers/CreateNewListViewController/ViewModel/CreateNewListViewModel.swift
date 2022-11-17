@@ -12,20 +12,28 @@ class CreateNewListViewModel {
     
     weak var router: RootRouter?
     private var colorManager = ColorManager()
-    var valueChangedCallback: (() -> Void)?
-    var model: GroseryListsModel?
+    var valueChangedCallback: ((GroceryListsModel) -> Void)?
+    var model: GroceryListsModel?
    
     init() {
     
     }
     
     func savePressed(nameOfList: String?, numberOfColor: Int, isSortByCategory: Bool) {
-        let typeOfSorting = isSortByCategory ? 0 : 1
         
-        let list = GroseryListsModel(id: UUID(), dateOfCreation: Date(),
+        if var model = model {
+            model.name = nameOfList
+            model.color = numberOfColor
+            model.typeOfSorting = isSortByCategory ? SortingType.category.rawValue : model.typeOfSorting
+            CoreDataManager.shared.saveList(list: model)
+            valueChangedCallback?(model)
+            return
+        }
+        let typeOfSorting = isSortByCategory ? 0 : 1
+        let list = GroceryListsModel(id: UUID(), dateOfCreation: Date(),
                                      name: nameOfList, color: numberOfColor, isFavorite: false, supplays: [], typeOfSorting: typeOfSorting)
         CoreDataManager.shared.saveList(list: list)
-        valueChangedCallback?()
+        valueChangedCallback?(list)
     }
     
     func getNumberOfCells() -> Int {

@@ -17,11 +17,11 @@ class ProductsViewModel {
     weak var router: RootRouter?
     private var colorManager = ColorManager()
     var valueChangedCallback: (() -> Void)?
-    var model: GroseryListsModel
+    var model: GroceryListsModel
     var dataSource: ProductsDataManager
     weak var delegate: ProductsViewModelDelegate?
    
-    init(model: GroseryListsModel, dataSource: ProductsDataManager) {
+    init(model: GroceryListsModel, dataSource: ProductsDataManager) {
         self.dataSource = dataSource
         self.model = model
         
@@ -55,6 +55,7 @@ class ProductsViewModel {
     func settingsTapped(with snapshot: UIImage?) {
         router?.goProductsSettingsVC(snapshot: snapshot, model: model, compl: { [weak self] updatedModel in
             self?.model = updatedModel
+            self?.delegate?.updateController()
         })
     }
     

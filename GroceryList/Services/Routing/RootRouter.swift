@@ -80,26 +80,26 @@ final class RootRouter: RootRouterProtocol {
         shouldShowOnboarding = false
     }
     
-    func goCreateNewList(compl: @escaping () -> Void) {
+    func goCreateNewList(compl: @escaping (GroceryListsModel) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewListController(model: nil, router: self,
                                                                                    compl: compl) else { return }
         navigationPresent(controller, animated: true)
     }
     
-    func presentCreateNewList(model: GroseryListsModel,compl: @escaping () -> Void) {
+    func presentCreateNewList(model: GroceryListsModel,compl: @escaping (GroceryListsModel) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewListController(model: model, router: self,
                                                                                    compl: compl) else { return }
         controller.modalPresentationStyle = .overCurrentContext
         topViewController?.present(controller, animated: true, completion: nil)
     }
     
-    func goProductsVC(model: GroseryListsModel, compl: @escaping () -> Void) {
+    func goProductsVC(model: GroceryListsModel, compl: @escaping () -> Void) {
         guard let controller = viewControllerFactory.createProductsController(model: model, router: self,
                                                                                    compl: compl) else { return }
         navigationPushViewController(controller, animated: true)
     }
     
-    func goProductsSettingsVC(snapshot: UIImage?, model: GroseryListsModel, compl: @escaping (GroseryListsModel) -> Void) {
+    func goProductsSettingsVC(snapshot: UIImage?, model: GroceryListsModel, compl: @escaping (GroceryListsModel) -> Void) {
         guard let controller = viewControllerFactory.createProductsSettingsController(snapshot: snapshot, model: model, router: self,
                                                                                    compl: compl) else { return }
         navigationPresent(controller, animated: true)

@@ -10,29 +10,41 @@ import UIKit
 
 protocol ProductSettingsViewDelegate: AnyObject {
     func dismissController()
-    func reloadTableView()
+    func reloadController()
 }
 
 class ProductsSettingsViewModel {
     private var snapshot: UIImage?
-    private var model: GroseryListsModel
+    private var model: GroceryListsModel
     weak var router: RootRouter?
-    var valueChangedCallback: ((GroseryListsModel) -> Void)?
+    var valueChangedCallback: ((GroceryListsModel) -> Void)?
     weak var delegate: ProductSettingsViewDelegate?
     
     private var colorManager = ColorManager()
    
-    init(model: GroseryListsModel, snapshot: UIImage?) {
+    init(model: GroceryListsModel, snapshot: UIImage?) {
         self.model = model
         self.snapshot = snapshot
     }
     
     func getNumberOfCells() -> Int {
+        print(TableViewContent.allCases.count)
         return TableViewContent.allCases.count
     }
     
     func getImage(at ind: Int) -> UIImage? {
+        if ind == 2 { return getImageWithColor(color: getTextColor(), size: CGSize(width: 28, height: 28))?.rounded(radius: 100)}
         return TableViewContent.allCases[ind].image
+    }
+    
+    func getImageWithColor(color: UIColor, size: CGSize) -> UIImage? {
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        color.setFill()
+        UIRectFill(rect)
+        let image: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
     }
     
     func getText(at ind: Int) -> String? {
@@ -40,6 +52,7 @@ class ProductsSettingsViewModel {
     }
     
     func getInset(at ind: Int) -> Bool {
+        print(ind)
         return TableViewContent.allCases[ind].isInset
     }
     
@@ -67,16 +80,18 @@ class ProductsSettingsViewModel {
         guard let snapshot = snapshot else { return }
         switch ind {
         case 0:
-            router?.presentCreateNewList(model: model) {
-                print("f")
+            router?.presentCreateNewList(model: model) { [weak self] newModel in
+                self?.model = newModel
+                self?.savePatametrs()
             }
         case 1:
             model.isFavorite = !model.isFavorite
             savePatametrs()
         case 2:
-            changeColor()
-        case 3:
-            print("")
+            router?.presentCreateNewList(model: model) { [weak self] newModel in
+                self?.model = newModel
+                self?.savePatametrs()
+            }
         case 4:
             model.typeOfSorting = SortingType.category.rawValue
             savePatametrs()
@@ -98,22 +113,10 @@ class ProductsSettingsViewModel {
         default:
             print("")
         }
-        
-        func rename() {
-            
-        }
-        
-        func pinch() {
-            
-        }
-        
-        func changeColor() {
-            
-        }
     }
     
     private func savePatametrs() {
-        delegate?.reloadTableView()
+        delegate?.reloadController()
         valueChangedCallback?(model)
         CoreDataManager.shared.saveList(list: model)
     }

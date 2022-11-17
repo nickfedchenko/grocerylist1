@@ -21,13 +21,13 @@ class MainScreenDataManager {
         }
     }
     
-    private var listOfModels: [GroseryListsModel]? {
+    private var listOfModels: [GroceryListsModel]? {
         didSet {
             createWorkingArray()
         }
     }
     
-    func deleteList(with model: GroseryListsModel) -> Set<GroseryListsModel> {
+    func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel> {
     setOfModelsToUpdate = []
         if let index = listOfModels?.firstIndex(of: model ) {
             CoreDataManager.shared.removeList(model.id)
@@ -38,7 +38,7 @@ class MainScreenDataManager {
     }
     
     @discardableResult
-    func updateListOfModels() -> Set<GroseryListsModel> {
+    func updateListOfModels() -> Set<GroceryListsModel> {
         setOfModelsToUpdate = []
         updateFirstAndLastModels()
         coreDataListsArray = CoreDataManager.shared.getAllLists()
@@ -47,7 +47,7 @@ class MainScreenDataManager {
         return setOfModelsToUpdate
     }
     
-    func addOrDeleteFromFavorite(with model: GroseryListsModel) -> Set<GroseryListsModel> {
+    func addOrDeleteFromFavorite(with model: GroceryListsModel) -> Set<GroceryListsModel> {
         setOfModelsToUpdate = []
         updateFirstAndLastModels()
         var newModel = model
@@ -70,20 +70,20 @@ class MainScreenDataManager {
         })
     }
     
-    var setOfModelsToUpdate: Set<GroseryListsModel> = []
+    var setOfModelsToUpdate: Set<GroceryListsModel> = []
     
-    private func transformCoreDataModelToModel(_ model: DBGroceryListModel) -> GroseryListsModel {
+    private func transformCoreDataModelToModel(_ model: DBGroceryListModel) -> GroceryListsModel {
         let id = model.id ?? UUID()
         let date = model.dateOfCreation ?? Date()
         let color = model.color
         let sortType = Int(model.typeOfSorting)
-        return GroseryListsModel(id: id, dateOfCreation: date,
+        return GroceryListsModel(id: id, dateOfCreation: date,
                                  name: model.name, color: Int(color), isFavorite: model.isFavorite, supplays: [], typeOfSorting: sortType)
     }
 
     private func createWorkingArray() {
         var finalArray: [SectionModel] = []
-        let list = GroseryListsModel(id: topCellID, dateOfCreation: Date(), name: "k",
+        let list = GroceryListsModel(id: topCellID, dateOfCreation: Date(), name: "k",
                                      color: 0, isFavorite: false, supplays: [], typeOfSorting: 0)
         let topSection = SectionModel(id: 0, cellType: .topMenu, sectionType: .empty, lists: [list])
         var favoriteSection = SectionModel(id: 1, cellType: .usual, sectionType: .favorite, lists: [])
