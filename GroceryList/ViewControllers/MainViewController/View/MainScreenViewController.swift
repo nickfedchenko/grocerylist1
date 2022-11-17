@@ -212,9 +212,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
     
     private func reloadItems(lists: Set<GroceryListsModel>) {
         guard var snapshot = collectionViewDataSource?.snapshot() else { return }
-     
         let array = Array(lists)
-        print(array.count)
         snapshot.reloadItems(array)
         collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
     }

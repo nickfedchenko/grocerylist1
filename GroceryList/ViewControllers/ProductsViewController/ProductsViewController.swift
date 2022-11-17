@@ -147,7 +147,7 @@ class ProductsViewController: UIViewController {
                 headerDisclosureOption.tintColor = .white
             }
             
-            cell.accessories = [.outlineDisclosure(options:headerDisclosureOption)]
+            cell.accessories = [.outlineDisclosure(options: headerDisclosureOption)]
         }
         
         let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Supplay> { (cell, _, child) in
@@ -181,6 +181,28 @@ class ProductsViewController: UIViewController {
         }
         reloadData()
         
+        dataSource.sectionSnapshotHandlers.willCollapseItem = { item in
+            switch item {
+            case .parent(let category):
+                guard let ind = self.viewModel?.getCellIndex(with: category) else { return }
+                let cell = self.collectionView.cellForItem(at: IndexPath(row: ind, section: 0)) as? HeaderListCell
+                cell?.collapsing()
+            case.child(let child):
+                print(child)
+            }
+        }
+        
+        dataSource.sectionSnapshotHandlers.willExpandItem = { item in
+            switch item {
+            case .parent(let category):
+                guard let ind = self.viewModel?.getCellIndex(with: category) else { return }
+                let cell = self.collectionView.cellForItem(at: IndexPath(row: ind, section: 0)) as? HeaderListCell
+                cell?.expanding()
+            case.child(let child):
+                print(child)
+            }
+        }
+
     }
     
     enum Section: Hashable {
@@ -193,7 +215,7 @@ class ProductsViewController: UIViewController {
         guard let viewModel = viewModel else { return }
         if snapshot.sectionIdentifiers.isEmpty {
             snapshot.appendSections([.main])
-            dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
+            dataSource.apply(snapshot, animatingDifferences: false, completion: nil)
         }
         var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<DataItem>()
         for parent in viewModel.arrayWithSections {
@@ -206,8 +228,7 @@ class ProductsViewController: UIViewController {
             
             sectionSnapshot.expand([parentDataItem])
         }
-        
-        self.dataSource.apply(sectionSnapshot, to: .main, animatingDifferences: true)
+        self.dataSource.apply(sectionSnapshot, to: .main, animatingDifferences: false)
     }
     
     // MARK: - Constraints
@@ -267,6 +288,7 @@ class ProductsViewController: UIViewController {
 extension ProductsViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath)
         
         guard let model = dataSource?.itemIdentifier(for: indexPath) else { return }
       

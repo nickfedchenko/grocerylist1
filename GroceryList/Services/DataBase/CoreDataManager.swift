@@ -32,9 +32,7 @@ class CoreDataManager {
         object.typeOfSorting = Int64(list.typeOfSorting)
         object.supplays = nil
         try? context.save()
-//        list.supplays.forEach({ suppl in
-//            self.createSupplay(supplay: suppl)
-//        })
+
     }
     
     func createSupplay(supplay: Supplay) {
@@ -55,6 +53,7 @@ class CoreDataManager {
         object.dateOfCreation = supplay.dateOfCreation
         object.id = supplay.id
         object.listId = supplay.listId
+        object.category = supplay.category
         try? context.save()
     }
     
@@ -75,6 +74,7 @@ class CoreDataManager {
             object.isPurchased = supplay.isPurchased
             object.name = supplay.name
             object.dateOfCreation = supplay.dateOfCreation
+            object.category = supplay.category
         }
         try? context.save()
     }
@@ -105,7 +105,6 @@ class CoreDataManager {
             object.name = list.name
             object.dateOfCreation = list.dateOfCreation
             object.typeOfSorting = Int64(list.typeOfSorting)
-            object.supplays = NSSet(array: list.supplays)
         }
         try? context.save()
     }

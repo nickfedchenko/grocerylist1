@@ -10,6 +10,7 @@
         <relationship name="supplays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DBSupplay" inverseName="list" inverseEntity="DBSupplay"/>
     </entity>
     <entity name="DBSupplay" representedClassName=".DBSupplay" syncable="YES">
+        <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="dateOfCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isPurchased" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -19,6 +20,6 @@
     </entity>
     <elements>
         <element name="DBGroceryListModel" positionX="-63" positionY="-18" width="128" height="134"/>
-        <element name="DBSupplay" positionX="-54" positionY="27" width="128" height="119"/>
+        <element name="DBSupplay" positionX="-54" positionY="27" width="128" height="134"/>
     </elements>
 </model>

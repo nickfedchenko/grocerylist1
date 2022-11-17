@@ -91,9 +91,9 @@ class MainScreenDataManager {
         let id = supplay.id ?? UUID()
         let listId = supplay.listId ?? UUID()
         let name = supplay.name ?? ""
-        let isPurchased = supplay.isPurchased ?? false
+        let isPurchased = supplay.isPurchased 
         let dateOfCreation = supplay.dateOfCreation ?? Date()
-        let category = "df"
+        let category = supplay.category ?? ""
         
         return Supplay(id: id, listId: listId, name: name, isPurchased: isPurchased, dateOfCreation: dateOfCreation, category: category)
     }

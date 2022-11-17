@@ -53,9 +53,9 @@ class Networking {
                     complition(.failure(error))
                 }
                 guard let data = data else { return }
-                let optimizedData: Data = try! data.gunzipped()
-                print( try! JSONSerialization.jsonObject(with: optimizedData, options:.mutableContainers) )
-                print(optimizedData)
+//                let optimizedData: Data = try! data.gunzipped()
+//                print( try? JSONSerialization.jsonObject(with: optimizedData, options:.mutableContainers) )
+//                print(optimizedData)
                 
                 complition(.success(data))
             }

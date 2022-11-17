@@ -13,24 +13,6 @@ class ProductsDataManager {
 
     init ( supplays: [Supplay] ) {
         self.supplays = supplays
-        print(supplays)
-//        self.supplays = [
-//            Supplay(listId: UUID(), name: "dsds", isPurchased: true, dateOfCreation: Date(), category: "wfe3"),
-//            Supplay(name: "cxx", isPurchased: false, dateOfCreation: Date(), category: "2"),
-//            Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
-//            Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
-//            Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2"),
-//            Supplay(name: "dsds", isPurchased: true, dateOfCreation: Date(), category: "wfe3"),
-//            Supplay(name: "cxx", isPurchased: false, dateOfCreation: Date(), category: "2"),
-//            Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
-//            Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
-//            Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2"),
-//            Supplay(name: "dsds", isPurchased: true, dateOfCreation: Date(), category: "wfe3"),
-//            Supplay(name: "cxx", isPurchased: false, dateOfCreation: Date(), category: "2"),
-//            Supplay(name: "d", isPurchased: false, dateOfCreation: Date(), category: "2"),
-//            Supplay(name: "ffrv", isPurchased: false, dateOfCreation: Date(), category: "23"),
-//            Supplay(name: "ffev4f", isPurchased: false, dateOfCreation: Date(), category: "2")
-//        ]
     }
     
     var dataChangedCallBack: (() -> Void)?
@@ -42,6 +24,7 @@ class ProductsDataManager {
     }
 
     func createArrayWithSections() {
+        guard !supplays.isEmpty else { return }
         var dict: [ String: [Supplay] ] = [:]
         
         var dictPurchased: [ String: [Supplay] ] = [:]
@@ -57,9 +40,10 @@ class ProductsDataManager {
         })
         
         var newArray = dict.map({ Category(name: $0.key, supplays: $0.value) }).sorted(by: { $0.name < $1.name })
-
-        newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, supplays: $0.value) }))
-         
+        
+        if supplays.contains(where: { $0.isPurchased }) {
+            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, supplays: $0.value) }))
+        }
         arrayWithSections = newArray
     }
     

@@ -25,6 +25,14 @@ class HeaderListCell: UICollectionViewListCell {
          return attrs
      }
     
+    func collapsing() {
+        coloredView.backgroundColor = .blue
+    }
+    
+    func expanding() {
+        coloredView.backgroundColor = .red
+    }
+    
     func setupCell(text: String?, color: UIColor?, bcgColor: UIColor?) {
         if text == "Purchased".localized {
             coloredView.backgroundColor = .white

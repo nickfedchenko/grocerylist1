@@ -52,7 +52,6 @@ class ProductsSettingsViewModel {
     }
     
     func getInset(at ind: Int) -> Bool {
-        print(ind)
         return TableViewContent.allCases[ind].isInset
     }
     

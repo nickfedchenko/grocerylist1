@@ -52,6 +52,11 @@ class ProductsViewModel {
         router?.pop()
     }
     
+    func getCellIndex(with category: Category) -> Int {
+        guard let index = arrayWithSections.firstIndex(of: category ) else { return 0 }
+        return index
+    }
+    
     func settingsTapped(with snapshot: UIImage?) {
         router?.goProductsSettingsVC(snapshot: snapshot, model: model, compl: { [weak self] updatedModel in
             self?.model = updatedModel
