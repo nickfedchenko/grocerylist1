@@ -25,22 +25,37 @@ class HeaderListCell: UICollectionViewListCell {
          return attrs
      }
     
-    func collapsing() {
-        coloredView.backgroundColor = .blue
+    func collapsing(color: UIColor?) {
+        UIView.animate(withDuration: 0.5) {
+            self.coloredView.backgroundColor = color
+        }
     }
     
     func expanding() {
-        coloredView.backgroundColor = .red
+        UIView.animate(withDuration: 0.5) {
+            self.coloredView.backgroundColor = .clear
+        }
+
     }
     
-    func setupCell(text: String?, color: UIColor?, bcgColor: UIColor?) {
+    func setupCell(text: String?, color: UIColor?, bcgColor: UIColor?, isExpand: Bool) {
         if text == "Purchased".localized {
             coloredView.backgroundColor = .white
             nameLabel.textColor = color
+            collapsedColoredView.backgroundColor = .clear
         } else {
-            coloredView.backgroundColor = color
-            contentViews.backgroundColor = bcgColor
-            nameLabel.textColor = .white
+            if isExpand {
+                coloredView.backgroundColor = .clear
+                collapsedColoredView.backgroundColor = color
+                contentViews.backgroundColor = bcgColor
+                nameLabel.textColor = .white
+            } else {
+                collapsedColoredView.backgroundColor = color
+                coloredView.backgroundColor = color
+                contentViews.backgroundColor = bcgColor
+                nameLabel.textColor = .white
+            }
+            
         }
         contentViews.backgroundColor = bcgColor
         nameLabel.text = text
@@ -56,6 +71,15 @@ class HeaderListCell: UICollectionViewListCell {
         return view
     }()
     
+    private let collapsedColoredView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 20
+        view.layer.maskedCorners = [.layerMaxXMinYCorner]
+        view.layer.masksToBounds = true
+        view.backgroundColor = .orange
+        return view
+    }()
+    
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
@@ -65,7 +89,7 @@ class HeaderListCell: UICollectionViewListCell {
     // MARK: - UI
     private func setupConstraints() {
         self.addSubviews([contentViews])
-        contentViews.addSubviews([coloredView ,nameLabel])
+        contentViews.addSubviews([coloredView, collapsedColoredView, nameLabel])
         
         contentViews.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -74,6 +98,13 @@ class HeaderListCell: UICollectionViewListCell {
         coloredView.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
             make.top.equalToSuperview().inset(8)
+        }
+        
+        collapsedColoredView.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.right.equalTo(nameLabel.snp.right).inset(-28)
+            make.bottom.equalToSuperview().inset(4)
+            make.top.equalToSuperview().inset(12)
         }
         
         nameLabel.snp.makeConstraints { make in

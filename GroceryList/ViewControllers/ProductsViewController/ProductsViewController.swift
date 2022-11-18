@@ -7,6 +7,7 @@
 
 import SnapKit
 import UIKit
+import zlib
 
 class ProductsViewController: UIViewController {
     
@@ -31,7 +32,6 @@ class ProductsViewController: UIViewController {
         viewModel?.valueChangedCallback = { [weak self] in
             self?.reloadData()
         }
-     
     }
     
     private func setupController() {
@@ -127,17 +127,18 @@ class ProductsViewController: UIViewController {
         return layout
     }
     
+    // MARK: - CollectionView
     func setupCollectionView() {
         
         // MARK: Configure collection view
         collectionView.delegate = self
         
         // MARK: Cell registration
-        let headerCellRegistration = UICollectionView.CellRegistration<HeaderListCell, Category> { (cell, _, parent) in
+        let headerCellRegistration = UICollectionView.CellRegistration<HeaderListCell, Category> { [ weak self ](cell, _, parent) in
             
-            let color = self.viewModel?.getAddItemViewColor()
-            let bcgColor = self.viewModel?.getColorForBackground()
-            cell.setupCell(text: parent.name, color: color, bcgColor: bcgColor)
+            let color = self?.viewModel?.getAddItemViewColor()
+            let bcgColor = self?.viewModel?.getColorForBackground()
+            cell.setupCell(text: parent.name, color: color, bcgColor: bcgColor, isExpand: parent.isExpanded)
             
             var headerDisclosureOption = UICellAccessory.OutlineDisclosureOptions(style: .header)
             
@@ -147,12 +148,12 @@ class ProductsViewController: UIViewController {
                 headerDisclosureOption.tintColor = .white
             }
             
-            cell.accessories = [.outlineDisclosure(options: headerDisclosureOption)]
+           // cell.accessories = [.outlineDisclosure(options: headerDisclosureOption) { print("f")}]
         }
         
-        let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Supplay> { (cell, _, child) in
+        let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Supplay> { [ weak self ] (cell, _, child) in
             
-            let color = self.viewModel?.getColorForBackground()
+            let color = self?.viewModel?.getColorForBackground()
             cell.setupCell(bcgColor: color, text: child.name, isPurchased: child.isPurchased)
             
         }
@@ -163,16 +164,12 @@ class ProductsViewController: UIViewController {
             
             switch listItem {
             case .parent(let parent):
-                
-                // Dequeue header cell
                 let cell = collectionView.dequeueConfiguredReusableCell(using: headerCellRegistration,
                                                                         for: indexPath,
                                                                         item: parent)
                 return cell
                 
             case .child(let child):
-                
-                // Dequeue cell
                 let cell = collectionView.dequeueConfiguredReusableCell(using: childCellRegistration,
                                                                         for: indexPath,
                                                                         item: child)
@@ -180,32 +177,6 @@ class ProductsViewController: UIViewController {
             }
         }
         reloadData()
-        
-        dataSource.sectionSnapshotHandlers.willCollapseItem = { [weak self] item in
-            switch item {
-            case .parent(let category):
-                guard let ind = self?.viewModel?.getCellIndex(with: category) else { return }
-                print(ind)
-                let cell = self?.collectionView.cellForItem(at: IndexPath(row: ind, section: 0)) as? HeaderListCell
-                cell?.collapsing()
-                self?.viewModel?.arrayWithSections[ind].isExpanded = false
-            case.child(let child):
-                print(child)
-            }
-        }
-        
-        dataSource.sectionSnapshotHandlers.willExpandItem = { [weak self] item in
-            switch item {
-            case .parent(let category):
-                guard let ind = self?.viewModel?.getCellIndex(with: category) else { return }
-                let cell = self?.collectionView.cellForItem(at: IndexPath(row: ind, section: 0)) as? HeaderListCell
-                cell?.expanding()
-                self?.viewModel?.arrayWithSections[ind].isExpanded = true
-            case.child(let child):
-                print(child)
-            }
-        }
-
     }
     
     enum Section: Hashable {
@@ -218,10 +189,10 @@ class ProductsViewController: UIViewController {
         guard let viewModel = viewModel else { return }
         if snapshot.sectionIdentifiers.isEmpty {
             snapshot.appendSections([.main])
-            dataSource.apply(snapshot, animatingDifferences: false, completion: nil)
+            dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
         }
         var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<DataItem>()
-        for (ind, parent) in viewModel.arrayWithSections.enumerated() {
+        for parent in viewModel.arrayWithSections {
             
             let parentDataItem = DataItem.parent(parent)
             let childDataItemArray = parent.supplays.map { DataItem.child($0) }
@@ -233,7 +204,7 @@ class ProductsViewController: UIViewController {
             sectionSnapshot.expand([parentDataItem])
             }
         }
-        self.dataSource.apply(sectionSnapshot, to: .main, animatingDifferences: false)
+        self.dataSource.apply(sectionSnapshot, to: .main, animatingDifferences: true)
     }
     
     // MARK: - Constraints
@@ -290,6 +261,7 @@ class ProductsViewController: UIViewController {
     }
 }
 
+// MARK: - CellTapped
 extension ProductsViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -307,8 +279,51 @@ extension ProductsViewController: UICollectionViewDelegate {
             }
         }
     }
+    
+    // Схлопывание и расширения родительской ячейки + анимация
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        var snap = dataSource.snapshot(for: .main)
+        guard let item = dataSource.itemIdentifier(for: indexPath) else { return false }
+        let sectionSnapshot = snap.snapshot(of: item, includingParent: false)
+        let hasChildren = sectionSnapshot.items.count > 0
+       
+        if hasChildren {
+            if snap.isExpanded(item) {
+                switchModelAndSetupParametr(item: item, isExpanded: false, indexPath: indexPath)
+                snap.collapse([item])
+            } else {
+                switchModelAndSetupParametr(item: item, isExpanded: true, indexPath: indexPath)
+                snap.expand([item])
+            }
+            self.dataSource.apply(snap, to: .main)
+        }
+        return !hasChildren
+    }
+    
+    private func shouldExpandCell(isExpanded: Bool, ind: IndexPath, color: UIColor?) {
+        let cell = collectionView.cellForItem(at: ind) as? HeaderListCell
+        
+        if isExpanded {
+            cell?.expanding()
+        } else {
+            cell?.collapsing(color: color)
+        }
+    }
+    
+    private func switchModelAndSetupParametr(item: DataItem, isExpanded: Bool, indexPath: IndexPath) {
+        switch item {
+        case .parent(let category):
+            guard let ind = self.viewModel?.getCellIndex(with: category) else { return }
+            self.viewModel?.arrayWithSections[ind].isExpanded = isExpanded
+            guard category.name != "Purchased".localized else { return }
+            self.shouldExpandCell(isExpanded: isExpanded, ind: indexPath, color: viewModel?.getAddItemViewColor())
+        case .child:
+            print("")
+        }
+    }
 }
 
+// MARK: - View model delegate
 extension ProductsViewController: ProductsViewModelDelegate {
     func updateController() {
         setupController()

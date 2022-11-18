@@ -21,9 +21,11 @@ class MainScreenViewModel {
         }
         
 //        let id = CoreDataManager.shared.getAllLists()![0]
-//        let supplay = Supplay(id: UUID(), listId: id.id!, name: "222", isPurchased: true, dateOfCreation: Date(), category: "435")
+//        let supplay = Supplay(id: UUID(), listId: id.id!, name: "biba", isPurchased: true, dateOfCreation: Date(), category: "boba")
+//        let supplay2 = Supplay(id: UUID(), listId: id.id!, name: "gr767", isPurchased: false, dateOfCreation: Date(), category: "lfg")
 //        CoreDataManager.shared.createSupplay(supplay: supplay)
-     //   print(CoreDataManager.shared.getSupplays(for: id))
+//        CoreDataManager.shared.createSupplay(supplay: supplay2)
+       // print(CoreDataManager.shared.getSupplays(for: id))
     }
     
     var reloadDataCallBack: (() -> Void)?

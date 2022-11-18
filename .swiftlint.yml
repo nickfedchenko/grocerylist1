@@ -12,13 +12,13 @@ disabled_rules:
     - control_statement
     - trailing_whitespace
     - object_literal
+    - empty_count
 
 # Опциональные правила (отключено по умолчанию)
 opt_in_rules:
     - attributes
     - closure_end_indentation
     - closure_spacing
-    - empty_count
     - explicit_init
     - fatal_error_message
     - file_header
