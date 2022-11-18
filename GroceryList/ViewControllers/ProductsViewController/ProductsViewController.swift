@@ -28,7 +28,7 @@ class ProductsViewController: UIViewController {
         setupConstraints()
         setupCollectionView()
         setupController()
-
+        
         viewModel?.valueChangedCallback = { [weak self] in
             self?.reloadData()
         }
@@ -148,7 +148,7 @@ class ProductsViewController: UIViewController {
                 headerDisclosureOption.tintColor = .white
             }
             
-           // cell.accessories = [.outlineDisclosure(options: headerDisclosureOption) { print("f")}]
+            // cell.accessories = [.outlineDisclosure(options: headerDisclosureOption) { print("f")}]
         }
         
         let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Supplay> { [ weak self ] (cell, _, child) in
@@ -201,7 +201,7 @@ class ProductsViewController: UIViewController {
             sectionSnapshot.append(childDataItemArray, to: parentDataItem)
             
             if parent.isExpanded {
-            sectionSnapshot.expand([parentDataItem])
+                sectionSnapshot.expand([parentDataItem])
             }
         }
         self.dataSource.apply(sectionSnapshot, to: .main, animatingDifferences: true)
@@ -268,7 +268,7 @@ extension ProductsViewController: UICollectionViewDelegate {
         print(indexPath)
         
         guard let model = dataSource?.itemIdentifier(for: indexPath) else { return }
-      
+        
         switch model {
         case .parent(let category):
             print(category)
@@ -286,7 +286,7 @@ extension ProductsViewController: UICollectionViewDelegate {
         guard let item = dataSource.itemIdentifier(for: indexPath) else { return false }
         let sectionSnapshot = snap.snapshot(of: item, includingParent: false)
         let hasChildren = sectionSnapshot.items.count > 0
-       
+        
         if hasChildren {
             if snap.isExpanded(item) {
                 switchModelAndSetupParametr(item: item, isExpanded: false, indexPath: indexPath)
@@ -300,25 +300,26 @@ extension ProductsViewController: UICollectionViewDelegate {
         return !hasChildren
     }
     
-    private func shouldExpandCell(isExpanded: Bool, ind: IndexPath, color: UIColor?) {
-        let cell = collectionView.cellForItem(at: ind) as? HeaderListCell
-        
-        if isExpanded {
-            cell?.expanding()
-        } else {
-            cell?.collapsing(color: color)
-        }
-    }
-    
     private func switchModelAndSetupParametr(item: DataItem, isExpanded: Bool, indexPath: IndexPath) {
         switch item {
         case .parent(let category):
             guard let ind = self.viewModel?.getCellIndex(with: category) else { return }
             self.viewModel?.arrayWithSections[ind].isExpanded = isExpanded
-            guard category.name != "Purchased".localized else { return }
-            self.shouldExpandCell(isExpanded: isExpanded, ind: indexPath, color: viewModel?.getAddItemViewColor())
+            let cellTypeIsPurchased = category.name == "Purchased".localized
+            self.shouldExpandCell(isExpanded: isExpanded, ind: indexPath,
+                                  color: viewModel?.getAddItemViewColor(), isPurchased: cellTypeIsPurchased)
         case .child:
             print("")
+        }
+    }
+    
+    private func shouldExpandCell(isExpanded: Bool, ind: IndexPath, color: UIColor?, isPurchased: Bool) {
+        let cell = collectionView.cellForItem(at: ind) as? HeaderListCell
+        
+        if isExpanded {
+            cell?.expanding(isPurchased: isPurchased)
+        } else {
+            cell?.collapsing(color: color, isPurchased: isPurchased)
         }
     }
 }

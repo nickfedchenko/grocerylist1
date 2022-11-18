@@ -9,7 +9,7 @@ import SnapKit
 import UIKit
 
 class HeaderListCell: UICollectionViewListCell {
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupConstraints()
@@ -19,23 +19,29 @@ class HeaderListCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-        override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-         let attrs = super.preferredLayoutAttributesFitting(layoutAttributes)
-         attrs.bounds.size.height = 50
-         return attrs
-     }
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        let attrs = super.preferredLayoutAttributesFitting(layoutAttributes)
+        attrs.bounds.size.height = 50
+        return attrs
+    }
     
-    func collapsing(color: UIColor?) {
+    func collapsing(color: UIColor?, isPurchased: Bool) {
         UIView.animate(withDuration: 0.5) {
-            self.coloredView.backgroundColor = color
+            if !isPurchased {
+                self.coloredView.backgroundColor = color
+            }
+            self.checkmarkView.transform = CGAffineTransform(rotationAngle: .pi * 2)
         }
     }
     
-    func expanding() {
+    func expanding(isPurchased: Bool) {
         UIView.animate(withDuration: 0.5) {
-            self.coloredView.backgroundColor = .clear
+            if !isPurchased {
+                self.coloredView.backgroundColor = .clear
+            }
+            self.checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
         }
-
+        
     }
     
     func setupCell(text: String?, color: UIColor?, bcgColor: UIColor?, isExpand: Bool) {
@@ -71,6 +77,13 @@ class HeaderListCell: UICollectionViewListCell {
         return view
     }()
     
+    private let checkmarkView: CheckmarkView = {
+        let view = CheckmarkView()
+        view.backgroundColor = .clear
+        view.transform = CGAffineTransform(rotationAngle: .pi )
+        return view
+    }()
+    
     private let collapsedColoredView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
@@ -89,7 +102,7 @@ class HeaderListCell: UICollectionViewListCell {
     // MARK: - UI
     private func setupConstraints() {
         self.addSubviews([contentViews])
-        contentViews.addSubviews([coloredView, collapsedColoredView, nameLabel])
+        contentViews.addSubviews([coloredView, collapsedColoredView, nameLabel, checkmarkView])
         
         contentViews.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -109,6 +122,13 @@ class HeaderListCell: UICollectionViewListCell {
         
         nameLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(28)
+            make.centerY.equalTo(coloredView.snp.centerY)
+        }
+        
+        checkmarkView.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(20)
+            make.width.equalTo(20)
+            make.height.equalTo(12)
             make.centerY.equalTo(coloredView.snp.centerY)
         }
        
