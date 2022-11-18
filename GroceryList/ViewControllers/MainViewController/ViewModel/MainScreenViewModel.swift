@@ -16,8 +16,8 @@ class MainScreenViewModel {
     
     init() {
         dataSource = MainScreenDataManager()
-        dataSource.dataChangedCallBack = {
-            self.reloadDataCallBack?()
+        dataSource.dataChangedCallBack = { [weak self] in
+            self?.reloadDataCallBack?()
         }
         
 //        let id = CoreDataManager.shared.getAllLists()![0]

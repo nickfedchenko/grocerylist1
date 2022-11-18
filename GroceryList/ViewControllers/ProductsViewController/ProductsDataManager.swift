@@ -44,11 +44,20 @@ class ProductsDataManager {
         if supplays.contains(where: { $0.isPurchased }) {
             newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, supplays: $0.value) }))
         }
+        
+        for (ind, newValue) in newArray.enumerated() {
+            arrayWithSections.forEach({ oldValue in
+                if newValue.name == oldValue.name {
+                    newArray[ind].isExpanded = oldValue.isExpanded
+                    print(oldValue.isExpanded)
+                }
+            })
+        }
+    
         arrayWithSections = newArray
     }
     
     func updateFavoriteStatus(for product: Supplay) {
-
         var newProduct = product
         newProduct.isPurchased = !product.isPurchased
         CoreDataManager.shared.createSupplay(supplay: newProduct)

@@ -25,8 +25,8 @@ class ProductsViewModel {
         self.dataSource = dataSource
         self.model = model
         
-        self.dataSource.dataChangedCallBack = {
-            self.valueChangedCallback?()
+        self.dataSource.dataChangedCallBack = { [weak self] in
+            self?.valueChangedCallback?()
         }
         
         self.dataSource.createArrayWithSections()

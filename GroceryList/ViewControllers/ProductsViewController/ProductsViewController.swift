@@ -16,7 +16,6 @@ class ProductsViewController: UIViewController {
     }
     
     var dataSource: UICollectionViewDiffableDataSource<Section, DataItem>!
-    
     var viewModel: ProductsViewModel?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -28,10 +27,11 @@ class ProductsViewController: UIViewController {
         setupConstraints()
         setupCollectionView()
         setupController()
-        
-        viewModel?.valueChangedCallback = { [self] in
-           reloadData()
+
+        viewModel?.valueChangedCallback = { [weak self] in
+            self?.reloadData()
         }
+     
     }
     
     private func setupController() {
@@ -181,23 +181,26 @@ class ProductsViewController: UIViewController {
         }
         reloadData()
         
-        dataSource.sectionSnapshotHandlers.willCollapseItem = { item in
+        dataSource.sectionSnapshotHandlers.willCollapseItem = { [weak self] item in
             switch item {
             case .parent(let category):
-                guard let ind = self.viewModel?.getCellIndex(with: category) else { return }
-                let cell = self.collectionView.cellForItem(at: IndexPath(row: ind, section: 0)) as? HeaderListCell
+                guard let ind = self?.viewModel?.getCellIndex(with: category) else { return }
+                print(ind)
+                let cell = self?.collectionView.cellForItem(at: IndexPath(row: ind, section: 0)) as? HeaderListCell
                 cell?.collapsing()
+                self?.viewModel?.arrayWithSections[ind].isExpanded = false
             case.child(let child):
                 print(child)
             }
         }
         
-        dataSource.sectionSnapshotHandlers.willExpandItem = { item in
+        dataSource.sectionSnapshotHandlers.willExpandItem = { [weak self] item in
             switch item {
             case .parent(let category):
-                guard let ind = self.viewModel?.getCellIndex(with: category) else { return }
-                let cell = self.collectionView.cellForItem(at: IndexPath(row: ind, section: 0)) as? HeaderListCell
+                guard let ind = self?.viewModel?.getCellIndex(with: category) else { return }
+                let cell = self?.collectionView.cellForItem(at: IndexPath(row: ind, section: 0)) as? HeaderListCell
                 cell?.expanding()
+                self?.viewModel?.arrayWithSections[ind].isExpanded = true
             case.child(let child):
                 print(child)
             }
@@ -218,7 +221,7 @@ class ProductsViewController: UIViewController {
             dataSource.apply(snapshot, animatingDifferences: false, completion: nil)
         }
         var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<DataItem>()
-        for parent in viewModel.arrayWithSections {
+        for (ind, parent) in viewModel.arrayWithSections.enumerated() {
             
             let parentDataItem = DataItem.parent(parent)
             let childDataItemArray = parent.supplays.map { DataItem.child($0) }
@@ -226,7 +229,9 @@ class ProductsViewController: UIViewController {
             sectionSnapshot.append([parentDataItem])
             sectionSnapshot.append(childDataItemArray, to: parentDataItem)
             
+            if parent.isExpanded {
             sectionSnapshot.expand([parentDataItem])
+            }
         }
         self.dataSource.apply(sectionSnapshot, to: .main, animatingDifferences: false)
     }

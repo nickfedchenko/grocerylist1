@@ -59,8 +59,15 @@ struct Supplay: Hashable, Equatable {
     }
 }
 
-struct Category: Hashable, Equatable {
+class Category: Hashable, Equatable {
+    
+    init(name: String, supplays: [Supplay], isExpanded: Bool = true ) {
+        self.name = name
+        self.isExpanded = isExpanded
+        self.supplays = supplays
+    }
     var name: String
+    var isExpanded: Bool = true
     var supplays: [Supplay]
     
     func hash(into hasher: inout Hasher) {
@@ -68,8 +75,7 @@ struct Category: Hashable, Equatable {
     }
     
     static func == (lhs: Category, rhs: Category) -> Bool {
-        return lhs.name == rhs.name &&
-        lhs.supplays == rhs.supplays
+        return lhs.name == rhs.name 
     }
 }
 
