@@ -47,6 +47,7 @@ struct Product: Hashable, Equatable {
     var isPurchased: Bool
     var dateOfCreation: Date
     var category: String
+    var isFavorite: Bool
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
@@ -55,7 +56,8 @@ struct Product: Hashable, Equatable {
     static func == (lhs: Product, rhs: Product) -> Bool {
         return lhs.name == rhs.name &&
         lhs.dateOfCreation == rhs.dateOfCreation &&
-        lhs.category == rhs.category && lhs.isPurchased == rhs.isPurchased && lhs.id == rhs.id
+        lhs.category == rhs.category && lhs.isPurchased == rhs.isPurchased
+        && lhs.id == rhs.id && lhs.isFavorite == rhs.isFavorite
     }
 }
 

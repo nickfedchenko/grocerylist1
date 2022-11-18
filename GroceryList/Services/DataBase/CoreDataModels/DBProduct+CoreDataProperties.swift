@@ -22,6 +22,7 @@ extension DBProduct {
     @NSManaged public var isPurchased: Bool
     @NSManaged public var listId: UUID?
     @NSManaged public var name: String?
+    @NSManaged public var isFavorite: Bool
     @NSManaged public var list: DBGroceryListModel?
 
 }

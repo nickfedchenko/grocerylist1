@@ -53,6 +53,7 @@ class CoreDataManager {
         object.id = product.id
         object.listId = product.listId
         object.category = product.category
+        object.isFavorite = product.isFavorite
         try? context.save()
     }
     
@@ -74,6 +75,7 @@ class CoreDataManager {
             object.name = product.name
             object.dateOfCreation = product.dateOfCreation
             object.category = product.category
+            object.isFavorite = product.isFavorite
         }
         try? context.save()
     }

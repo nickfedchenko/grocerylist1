@@ -207,6 +207,7 @@ extension ProductListCell {
             if state == .readyToPinch { hidePinch() }
             
         case .left:
+            guard nameLabel.textColor == .black else { return }
             if state == .readyToPinch {
          
                 DispatchQueue.main.async {

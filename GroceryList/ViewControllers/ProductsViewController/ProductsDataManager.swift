@@ -30,8 +30,14 @@ class ProductsDataManager {
         var dictPurchased: [ String: [Product] ] = [:]
         dictPurchased["Purchased".localized] = []
         
+        var dictFavorite: [ String: [Product] ] = [:]
+        dictFavorite["Favorite"] = []
+        
         products.forEach({ product in
+           
             guard !product.isPurchased else { dictPurchased["Purchased"]?.append(product); return }
+            guard !product.isFavorite else { dictFavorite["Favorite"]?.append(product); return }
+
             if dict[product.category] != nil {
                 dict[product.category]?.append(product)
             } else {
@@ -39,12 +45,22 @@ class ProductsDataManager {
             }
         })
         
-        var newArray = dict.map({ Category(name: $0.key, products: $0.value) }).sorted(by: { $0.name < $1.name })
+        var newArray: [Category] = []
         
+        // Избранное
+        if products.contains(where: { $0.isFavorite && !$0.isPurchased }) {
+            newArray.append(contentsOf: dictFavorite.map({ Category(name: $0.key, products: $0.value) }))
+        }
+        
+        // Все что не избрано и не куплено
+        newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value) }).sorted(by: { $0.name < $1.name }))
+        
+        // Все что куплено
         if products.contains(where: { $0.isPurchased }) {
             newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value) }))
         }
         
+        // Сохранение параметра свернутости развернутости списка
         for (ind, newValue) in newArray.enumerated() {
             arrayWithSections.forEach({ oldValue in
                 if newValue.name == oldValue.name {
@@ -57,9 +73,20 @@ class ProductsDataManager {
         arrayWithSections = newArray
     }
     
-    func updateFavoriteStatus(for product: Product) {
+    func updatePurchasedStatus(for product: Product) {
         var newProduct = product
         newProduct.isPurchased = !product.isPurchased
+        CoreDataManager.shared.createProduct(product: newProduct)
+        if let index = products.firstIndex(of: product ) {
+            products.remove(at: index)
+            products.append(newProduct)
+        }
+        createArrayWithSections()
+    }
+    
+    func updateFavoriteStatus(for product: Product) {
+        var newProduct = product
+        newProduct.isFavorite = !product.isFavorite
         CoreDataManager.shared.createProduct(product: newProduct)
         if let index = products.firstIndex(of: product ) {
             products.remove(at: index)

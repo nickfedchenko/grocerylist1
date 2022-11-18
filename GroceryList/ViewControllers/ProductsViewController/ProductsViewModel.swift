@@ -64,7 +64,11 @@ class ProductsViewModel {
         })
     }
     
-    func cellTapped(product: Product) {
+    func updatePurchasedStatus(product: Product) {
+        dataSource.updatePurchasedStatus(for: product)
+    }
+    
+    func updateFavoriteStatus(for product: Product) {
         dataSource.updateFavoriteStatus(for: product)
     }
     

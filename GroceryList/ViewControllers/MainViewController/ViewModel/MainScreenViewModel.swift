@@ -21,10 +21,10 @@ class MainScreenViewModel {
         }
         
         let id = CoreDataManager.shared.getAllLists()![0]
-       // CoreDataManager.shared.deleteAllEntities()
+      //  CoreDataManager.shared.deleteAllEntities()
         print(CoreDataManager.shared.getAllLists()?.count)
-        let supplay = Product(id: UUID(), listId: id.id!, name: "biba", isPurchased: true, dateOfCreation: Date(), category: "boba")
-        let supplay2 = Product(id: UUID(), listId: id.id!, name: "gr767", isPurchased: false, dateOfCreation: Date(), category: "lfg")
+        let supplay = Product(id: UUID(), listId: id.id!, name: "biba", isPurchased: true, dateOfCreation: Date(), category: "boba", isFavorite: true)
+        let supplay2 = Product(id: UUID(), listId: id.id!, name: "gr767", isPurchased: false, dateOfCreation: Date(), category: "lfg", isFavorite: true)
         CoreDataManager.shared.createProduct(product: supplay)
         CoreDataManager.shared.createProduct(product: supplay2)
     }

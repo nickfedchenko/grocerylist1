@@ -27,19 +27,21 @@ class HeaderListCell: UICollectionViewListCell {
     
     func collapsing(color: UIColor?, isPurchased: Bool) {
         UIView.animate(withDuration: 0.5) {
+            self.checkmarkView.transform = CGAffineTransform(rotationAngle: .pi * 2)
+            guard self.nameLabel.text != "" else { return }
             if !isPurchased {
                 self.coloredView.backgroundColor = color
             }
-            self.checkmarkView.transform = CGAffineTransform(rotationAngle: .pi * 2)
         }
     }
     
     func expanding(isPurchased: Bool) {
         UIView.animate(withDuration: 0.5) {
+            self.checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
+            guard self.nameLabel.text == "" else { return }
             if !isPurchased {
                 self.coloredView.backgroundColor = .clear
             }
-            self.checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
         }
         
     }
@@ -49,22 +51,29 @@ class HeaderListCell: UICollectionViewListCell {
             coloredView.backgroundColor = .white
             nameLabel.textColor = color
             collapsedColoredView.backgroundColor = .clear
+            nameLabel.text = text
+        } else if text == "Favorite" {
+            nameLabel.text = ""
+            contentViews.backgroundColor = .clear
+            collapsedColoredView.backgroundColor = .clear
+            pinchView.isHidden = false
         } else {
             if isExpand {
                 coloredView.backgroundColor = .clear
                 collapsedColoredView.backgroundColor = color
                 contentViews.backgroundColor = bcgColor
                 nameLabel.textColor = .white
+                nameLabel.text = text
             } else {
                 collapsedColoredView.backgroundColor = color
                 coloredView.backgroundColor = color
                 contentViews.backgroundColor = bcgColor
                 nameLabel.textColor = .white
+                nameLabel.text = text
             }
             
         }
         contentViews.backgroundColor = bcgColor
-        nameLabel.text = text
     }
     
     private let contentViews: UIView = {
@@ -99,10 +108,18 @@ class HeaderListCell: UICollectionViewListCell {
         return label
     }()
     
+    private let pinchView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "blackPinch")
+        imageView.isHidden = true
+        return imageView
+    }()
+    
     // MARK: - UI
     private func setupConstraints() {
         self.addSubviews([contentViews])
-        contentViews.addSubviews([coloredView, collapsedColoredView, nameLabel, checkmarkView])
+        contentViews.addSubviews([coloredView, collapsedColoredView, nameLabel, checkmarkView, pinchView])
         
         contentViews.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -132,5 +149,10 @@ class HeaderListCell: UICollectionViewListCell {
             make.centerY.equalTo(coloredView.snp.centerY)
         }
        
+        pinchView.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(28)
+            make.centerY.equalTo(coloredView.snp.centerY)
+            make.width.equalTo(26)
+        }
     }
 }

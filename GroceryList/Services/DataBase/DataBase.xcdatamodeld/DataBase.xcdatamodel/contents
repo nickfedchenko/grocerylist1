@@ -13,6 +13,7 @@
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="dateOfCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isPurchased" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="listId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -20,6 +21,6 @@
     </entity>
     <elements>
         <element name="DBGroceryListModel" positionX="-63" positionY="-18" width="128" height="134"/>
-        <element name="DBProduct" positionX="-54" positionY="27" width="128" height="134"/>
+        <element name="DBProduct" positionX="-54" positionY="27" width="128" height="149"/>
     </elements>
 </model>

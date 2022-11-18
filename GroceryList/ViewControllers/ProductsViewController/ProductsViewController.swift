@@ -154,8 +154,9 @@ class ProductsViewController: UIViewController {
 //                snapshot.deleteItems(parent)
             }
             
+            guard !child.isPurchased else { return }
             cell.swipeToAddOrDeleteFromFavorite = {
-               // viewModel.addOrDeleteFromFavorite(with: model)
+                self?.viewModel?.updateFavoriteStatus(for: child)
    
             }
             
@@ -279,12 +280,12 @@ extension ProductsViewController: UICollectionViewDelegate {
             let cell = collectionView.cellForItem(at: indexPath) as? ProductListCell
             if product.isPurchased {
                 cell?.removeCheckmark { [weak self] in
-                    self?.viewModel?.cellTapped(product: product)
+                    self?.viewModel?.updatePurchasedStatus(product: product)
                 }
             } else {
                 let color = viewModel?.getColorForForeground()
                 cell?.addCheckmark(color: color) { [weak self] in
-                    self?.viewModel?.cellTapped(product: product)
+                    self?.viewModel?.updatePurchasedStatus(product: product)
                 }
             }
         }

@@ -20,10 +20,10 @@
 		B3476904291D017B0045A287 /* ProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3476903291D017B0045A287 /* ProductsViewModel.swift */; };
 		B3476909291D21730045A287 /* ProductsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3476908291D21730045A287 /* ProductsSettingsViewController.swift */; };
 		B347690B291D23800045A287 /* ProductsSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347690A291D23800045A287 /* ProductsSettingsViewModel.swift */; };
-		B36091862927D18B004EBBE6 /* DBProduct+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36091822927D18B004EBBE6 /* DBProduct+CoreDataClass.swift */; };
-		B36091872927D18B004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36091832927D18B004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */; };
-		B36091882927D18B004EBBE6 /* DBProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36091842927D18B004EBBE6 /* DBProduct+CoreDataProperties.swift */; };
-		B36091892927D18B004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36091852927D18B004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */; };
+		B360918E2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918A2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift */; };
+		B360918F2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */; };
+		B36091902927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */; };
+		B36091912927D99E004EBBE6 /* DBProduct+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918D2927D99E004EBBE6 /* DBProduct+CoreDataClass.swift */; };
 		B36933F8291A97D900AFFAA6 /* MainScreenTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */; };
 		B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933F9291AAC2C00AFFAA6 /* CellState.swift */; };
 		B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */; };
@@ -87,10 +87,10 @@
 		B3476903291D017B0045A287 /* ProductsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewModel.swift; sourceTree = "<group>"; };
 		B3476908291D21730045A287 /* ProductsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsSettingsViewController.swift; sourceTree = "<group>"; };
 		B347690A291D23800045A287 /* ProductsSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsSettingsViewModel.swift; sourceTree = "<group>"; };
-		B36091822927D18B004EBBE6 /* DBProduct+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataClass.swift"; sourceTree = "<group>"; };
-		B36091832927D18B004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataClass.swift"; sourceTree = "<group>"; };
-		B36091842927D18B004EBBE6 /* DBProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		B36091852927D18B004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B360918A2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B360918D2927D99E004EBBE6 /* DBProduct+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenTopCell.swift; sourceTree = "<group>"; };
 		B36933F9291AAC2C00AFFAA6 /* CellState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellState.swift; sourceTree = "<group>"; };
 		B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListViewController.swift; sourceTree = "<group>"; };
@@ -195,10 +195,10 @@
 		B33DFD1E291A676400AC7403 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
-				B36091832927D18B004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */,
-				B36091852927D18B004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */,
-				B36091822927D18B004EBBE6 /* DBProduct+CoreDataClass.swift */,
-				B36091842927D18B004EBBE6 /* DBProduct+CoreDataProperties.swift */,
+				B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */,
+				B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */,
+				B360918D2927D99E004EBBE6 /* DBProduct+CoreDataClass.swift */,
+				B360918A2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift */,
 			);
 			path = CoreDataModels;
 			sourceTree = "<group>";
@@ -622,19 +622,19 @@
 				B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */,
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
+				B36091912927D99E004EBBE6 /* DBProduct+CoreDataClass.swift in Sources */,
 				B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */,
 				B36D18EB291A2CCD005EE32D /* CoreDataStorage.swift in Sources */,
 				B36AF94D2913FAD000944E9D /* GroceryCollectionViewHeader.swift in Sources */,
-				B36091862927D18B004EBBE6 /* DBProduct+CoreDataClass.swift in Sources */,
 				B37A2CE82911034D003C01AD /* UITextFieldExtension.swift in Sources */,
 				B36AF93B2913C66000944E9D /* MainScreenViewModel.swift in Sources */,
 				B3693405291BB44A00AFFAA6 /* ColorCollectionViewCell.swift in Sources */,
 				B30573BB29222BE700CA8BDE /* HeaderListCell.swift in Sources */,
 				B37A2CE92911034D003C01AD /* UIViewControllerExtension.swift in Sources */,
 				B3179EAB291E3DAE00455419 /* ProductsDataManager.swift in Sources */,
-				B36091892927D18B004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */,
 				B37A2CE72911034D003C01AD /* UIColorExtension.swift in Sources */,
 				B36AF9532915403600944E9D /* EmptyColoredCell.swift in Sources */,
+				B360918E2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift in Sources */,
 				B37A2CDF29110290003C01AD /* OnboardingViewController.swift in Sources */,
 				B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */,
 				B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */,
@@ -645,8 +645,6 @@
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
 				B37A2CEB2911034D003C01AD /* StringExtension.swift in Sources */,
 				B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */,
-				B36091872927D18B004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */,
-				B36091882927D18B004EBBE6 /* DBProduct+CoreDataProperties.swift in Sources */,
 				B3C3FA4F291175390011EC0A /* UIImageViewExtension.swift in Sources */,
 				B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */,
 				B3476904291D017B0045A287 /* ProductsViewModel.swift in Sources */,
@@ -656,7 +654,9 @@
 				B30573BD29222D4500CA8BDE /* ProductListCell.swift in Sources */,
 				B36AF9392913C5DC00944E9D /* MainScreenViewController.swift in Sources */,
 				B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */,
+				B36091902927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */,
 				B36AF957291554EC00944E9D /* MainScreenDataManager.swift in Sources */,
+				B360918F2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
