@@ -77,31 +77,31 @@ class MainScreenDataManager {
         let date = model.dateOfCreation ?? Date()
         let color = model.color
         let sortType = Int(model.typeOfSorting)
-        let supplays = model.supplays?.allObjects as? [DBSupplay]
-        let supp = supplays?.map({ transformCoredataSupplays(supplay: $0)})
+        let products = model.supplays?.allObjects as? [DBSupplay]
+        let prod = products?.map({ transformCoredataSupplays(product: $0)})
         
         return GroceryListsModel(id: id, dateOfCreation: date,
-                                 name: model.name, color: Int(color), isFavorite: model.isFavorite, supplays: supp!, typeOfSorting: sortType)
+                                 name: model.name, color: Int(color), isFavorite: model.isFavorite, products: prod!, typeOfSorting: sortType)
     }
     
-    private func transformCoredataSupplays(supplay: DBSupplay?) -> Supplay {
-        guard let supplay = supplay else { return Supplay(listId: UUID(), name: "",
+    private func transformCoredataSupplays(product: DBSupplay?) -> Product {
+        guard let product = product else { return Product(listId: UUID(), name: "",
                                                           isPurchased: false, dateOfCreation: Date(), category: "")}
 
-        let id = supplay.id ?? UUID()
-        let listId = supplay.listId ?? UUID()
-        let name = supplay.name ?? ""
-        let isPurchased = supplay.isPurchased 
-        let dateOfCreation = supplay.dateOfCreation ?? Date()
-        let category = supplay.category ?? ""
+        let id = product.id ?? UUID()
+        let listId = product.listId ?? UUID()
+        let name = product.name ?? ""
+        let isPurchased = product.isPurchased
+        let dateOfCreation = product.dateOfCreation ?? Date()
+        let category = product.category ?? ""
         
-        return Supplay(id: id, listId: listId, name: name, isPurchased: isPurchased, dateOfCreation: dateOfCreation, category: category)
+        return Product(id: id, listId: listId, name: name, isPurchased: isPurchased, dateOfCreation: dateOfCreation, category: category)
     }
 
     private func createWorkingArray() {
         var finalArray: [SectionModel] = []
         let list = GroceryListsModel(id: topCellID, dateOfCreation: Date(), name: "k",
-                                     color: 0, isFavorite: false, supplays: [], typeOfSorting: 0)
+                                     color: 0, isFavorite: false, products: [], typeOfSorting: 0)
         let topSection = SectionModel(id: 0, cellType: .topMenu, sectionType: .empty, lists: [list])
         var favoriteSection = SectionModel(id: 1, cellType: .usual, sectionType: .favorite, lists: [])
         var todaySection = SectionModel(id: 2, cellType: .usual, sectionType: .today, lists: [])

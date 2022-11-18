@@ -31,7 +31,7 @@ class CreateNewListViewModel {
         }
         let typeOfSorting = isSortByCategory ? 0 : 1
         let list = GroceryListsModel(id: UUID(), dateOfCreation: Date(),
-                                     name: nameOfList, color: numberOfColor, isFavorite: false, supplays: [], typeOfSorting: typeOfSorting)
+                                     name: nameOfList, color: numberOfColor, isFavorite: false, products: [], typeOfSorting: typeOfSorting)
         CoreDataManager.shared.saveList(list: list)
         valueChangedCallback?(list)
     }

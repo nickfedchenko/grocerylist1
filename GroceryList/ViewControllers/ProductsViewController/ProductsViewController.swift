@@ -13,7 +13,7 @@ class ProductsViewController: UIViewController {
     
     enum DataItem: Hashable {
         case parent(Category)
-        case child(Supplay)
+        case child(Product)
     }
     
     var dataSource: UICollectionViewDiffableDataSource<Section, DataItem>!
@@ -141,7 +141,7 @@ class ProductsViewController: UIViewController {
             cell.setupCell(text: parent.name, color: color, bcgColor: bcgColor, isExpand: parent.isExpanded)
         }
         
-        let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Supplay> { [ weak self ] (cell, _, child) in
+        let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { [ weak self ] (cell, _, child) in
             
             let bcgColor = self?.viewModel?.getColorForBackground()
             let textColor = self?.viewModel?.getColorForForeground()
@@ -195,7 +195,7 @@ class ProductsViewController: UIViewController {
         for parent in viewModel.arrayWithSections {
             
             let parentDataItem = DataItem.parent(parent)
-            let childDataItemArray = parent.supplays.map { DataItem.child($0) }
+            let childDataItemArray = parent.products.map { DataItem.child($0) }
             
             sectionSnapshot.append([parentDataItem])
             sectionSnapshot.append(childDataItemArray, to: parentDataItem)
@@ -272,16 +272,16 @@ extension ProductsViewController: UICollectionViewDelegate {
         switch model {
         case .parent(let category):
             print(category)
-        case .child(let supplay):
+        case .child(let product):
             let cell = collectionView.cellForItem(at: indexPath) as? ProductListCell
-            if supplay.isPurchased {
+            if product.isPurchased {
                 cell?.removeCheckmark { [weak self] in
-                    self?.viewModel?.cellTapped(product: supplay)
+                    self?.viewModel?.cellTapped(product: product)
                 }
             } else {
                 let color = viewModel?.getColorForForeground()
                 cell?.addCheckmark(color: color) { [weak self] in
-                    self?.viewModel?.cellTapped(product: supplay)
+                    self?.viewModel?.cellTapped(product: product)
                 }
             }
         }

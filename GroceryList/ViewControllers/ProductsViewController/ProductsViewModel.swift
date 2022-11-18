@@ -64,11 +64,11 @@ class ProductsViewModel {
         })
     }
     
-    func cellTapped(product: Supplay) {
+    func cellTapped(product: Product) {
         dataSource.updateFavoriteStatus(for: product)
     }
     
-    func delete(product: Supplay) {
+    func delete(product: Product) {
         dataSource.delete(product: product)
     }
 

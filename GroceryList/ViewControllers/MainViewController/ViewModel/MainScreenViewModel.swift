@@ -88,10 +88,10 @@ class MainScreenViewModel {
     func getnumberOfSupplaysInside(at ind: IndexPath) -> String {
         let supply = model[ind.section].lists[ind.row]
         var done = 0
-        supply.supplays.forEach({ item in
+        supply.products.forEach({ item in
             if item.isPurchased {done += 1 }
         })
-        return "\(done)/\(supply.supplays.count)"
+        return "\(done)/\(supply.products.count)"
     }
     
     func reloadDataFromStorage() {

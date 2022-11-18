@@ -9,10 +9,10 @@ import UIKit
 
 class ProductsDataManager {
     
-    var supplays: [Supplay]
+    var products: [Product]
 
-    init ( supplays: [Supplay] ) {
-        self.supplays = supplays
+    init ( products: [Product] ) {
+        self.products = products
     }
     
     var dataChangedCallBack: (() -> Void)?
@@ -24,25 +24,25 @@ class ProductsDataManager {
     }
 
     func createArrayWithSections() {
-        guard !supplays.isEmpty else { return }
-        var dict: [ String: [Supplay] ] = [:]
+        guard !products.isEmpty else { return }
+        var dict: [ String: [Product] ] = [:]
         
-        var dictPurchased: [ String: [Supplay] ] = [:]
+        var dictPurchased: [ String: [Product] ] = [:]
         dictPurchased["Purchased".localized] = []
         
-        supplays.forEach({ supplay in
-            guard !supplay.isPurchased else { dictPurchased["Purchased"]?.append(supplay); return }
-            if dict[supplay.category] != nil {
-                dict[supplay.category]?.append(supplay)
+        products.forEach({ product in
+            guard !product.isPurchased else { dictPurchased["Purchased"]?.append(product); return }
+            if dict[product.category] != nil {
+                dict[product.category]?.append(product)
             } else {
-                dict[supplay.category] = [supplay]
+                dict[product.category] = [product]
             }
         })
         
-        var newArray = dict.map({ Category(name: $0.key, supplays: $0.value) }).sorted(by: { $0.name < $1.name })
+        var newArray = dict.map({ Category(name: $0.key, products: $0.value) }).sorted(by: { $0.name < $1.name })
         
-        if supplays.contains(where: { $0.isPurchased }) {
-            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, supplays: $0.value) }))
+        if products.contains(where: { $0.isPurchased }) {
+            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value) }))
         }
         
         for (ind, newValue) in newArray.enumerated() {
@@ -57,21 +57,21 @@ class ProductsDataManager {
         arrayWithSections = newArray
     }
     
-    func updateFavoriteStatus(for product: Supplay) {
+    func updateFavoriteStatus(for product: Product) {
         var newProduct = product
         newProduct.isPurchased = !product.isPurchased
-        CoreDataManager.shared.createSupplay(supplay: newProduct)
-        if let index = supplays.firstIndex(of: product ) {
-            supplays.remove(at: index)
-            supplays.append(newProduct)
+        CoreDataManager.shared.createProduct(product: newProduct)
+        if let index = products.firstIndex(of: product ) {
+            products.remove(at: index)
+            products.append(newProduct)
         }
         createArrayWithSections()
     }
     
-    func delete(product: Supplay) {
-        CoreDataManager.shared.removeSupplay(supplay: product)
-        if let index = supplays.firstIndex(of: product ) {
-            supplays.remove(at: index)
+    func delete(product: Product) {
+        CoreDataManager.shared.removeProduct(product: product)
+        if let index = products.firstIndex(of: product ) {
+            products.remove(at: index)
         }
         createArrayWithSections()
     }

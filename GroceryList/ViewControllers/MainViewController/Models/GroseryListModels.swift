@@ -28,7 +28,7 @@ struct GroceryListsModel: Hashable {
     var name: String?
     var color: Int
     var isFavorite: Bool = false
-    var supplays: [Supplay]
+    var products: [Product]
     var typeOfSorting: Int
     
     static func == (lhs: GroceryListsModel, rhs: GroceryListsModel) -> Bool {
@@ -40,7 +40,7 @@ struct GroceryListsModel: Hashable {
     }
 }
 
-struct Supplay: Hashable, Equatable {
+struct Product: Hashable, Equatable {
     var id = UUID()
     var listId: UUID
     var name: String
@@ -52,7 +52,7 @@ struct Supplay: Hashable, Equatable {
         hasher.combine(name)
     }
     
-    static func == (lhs: Supplay, rhs: Supplay) -> Bool {
+    static func == (lhs: Product, rhs: Product) -> Bool {
         return lhs.name == rhs.name &&
         lhs.dateOfCreation == rhs.dateOfCreation &&
         lhs.category == rhs.category && lhs.isPurchased == rhs.isPurchased && lhs.id == rhs.id
@@ -61,14 +61,14 @@ struct Supplay: Hashable, Equatable {
 
 class Category: Hashable, Equatable {
     
-    init(name: String, supplays: [Supplay], isExpanded: Bool = true ) {
+    init(name: String, products: [Product], isExpanded: Bool = true ) {
         self.name = name
         self.isExpanded = isExpanded
-        self.supplays = supplays
+        self.products = products
     }
     var name: String
     var isExpanded: Bool = true
-    var supplays: [Supplay]
+    var products: [Product]
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
