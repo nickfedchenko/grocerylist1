@@ -20,7 +20,7 @@ class MainScreenViewModel {
             self?.reloadDataCallBack?()
         }
         
-//        let id = CoreDataManager.shared.getAllLists()![0]
+//        let id = CoreDataManager.shared.getAllLists()![2]
 //        let supplay = Supplay(id: UUID(), listId: id.id!, name: "biba", isPurchased: true, dateOfCreation: Date(), category: "boba")
 //        let supplay2 = Supplay(id: UUID(), listId: id.id!, name: "gr767", isPurchased: false, dateOfCreation: Date(), category: "lfg")
 //        CoreDataManager.shared.createSupplay(supplay: supplay)

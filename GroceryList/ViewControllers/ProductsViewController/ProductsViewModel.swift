@@ -67,5 +67,9 @@ class ProductsViewModel {
     func cellTapped(product: Supplay) {
         dataSource.updateFavoriteStatus(for: product)
     }
+    
+    func delete(product: Supplay) {
+        dataSource.delete(product: product)
+    }
 
 }

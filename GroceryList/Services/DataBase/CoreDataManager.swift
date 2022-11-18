@@ -85,6 +85,16 @@ class CoreDataManager {
         return (try? coreData.container.viewContext.fetch(fetchRequest).compactMap { $0 }) ?? []
     }
     
+    func removeSupplay(supplay: Supplay) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBSupplay> = DBSupplay.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(supplay.id)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
     func getList(list: String) -> DBGroceryListModel? {
         let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(list)'")

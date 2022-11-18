@@ -139,16 +139,6 @@ class ProductsViewController: UIViewController {
             let color = self?.viewModel?.getColorForForeground()
             let bcgColor = self?.viewModel?.getColorForBackground()
             cell.setupCell(text: parent.name, color: color, bcgColor: bcgColor, isExpand: parent.isExpanded)
-            
-            var headerDisclosureOption = UICellAccessory.OutlineDisclosureOptions(style: .header)
-            
-            if parent.name == "Purchased".localized {
-                headerDisclosureOption.tintColor = color
-            } else {
-                headerDisclosureOption.tintColor = .white
-            }
-            
-            // cell.accessories = [.outlineDisclosure(options: headerDisclosureOption) { print("f")}]
         }
         
         let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Supplay> { [ weak self ] (cell, _, child) in
@@ -156,6 +146,15 @@ class ProductsViewController: UIViewController {
             let bcgColor = self?.viewModel?.getColorForBackground()
             let textColor = self?.viewModel?.getColorForForeground()
             cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name, isPurchased: child.isPurchased)
+            
+            cell.swipeDeleteAction = {
+                self?.viewModel?.delete(product: child)
+            }
+            
+            cell.swipeToAddOrDeleteFromFavorite = {
+               // viewModel.addOrDeleteFromFavorite(with: model)
+   
+            }
             
         }
         

@@ -67,5 +67,13 @@ class ProductsDataManager {
         }
         createArrayWithSections()
     }
+    
+    func delete(product: Supplay) {
+        CoreDataManager.shared.removeSupplay(supplay: product)
+        if let index = supplays.firstIndex(of: product ) {
+            supplays.remove(at: index)
+        }
+        createArrayWithSections()
+    }
         
 }

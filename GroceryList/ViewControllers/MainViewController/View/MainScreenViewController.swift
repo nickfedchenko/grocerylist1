@@ -172,6 +172,8 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 let color = viewModel.getBGColor(at: indexPath)
                 cell?.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
+              
+            // Удаление и закрепление ячейки
                 cell?.swipeDeleteAction = {
                     viewModel.deleteCell(with: model)
                 }
