@@ -168,7 +168,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 let name = viewModel.getNameOfList(at: indexPath)
                 let isTopRouned = viewModel.isTopRounded(at: indexPath)
                 let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
-                let numberOfItems = viewModel.getnumberOfSupplaysInside(at: indexPath)
+                let numberOfItems = viewModel.getnumberOfProductsInside(at: indexPath)
                 let color = viewModel.getBGColor(at: indexPath)
                 cell?.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)

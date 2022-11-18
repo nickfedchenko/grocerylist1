@@ -77,14 +77,14 @@ class MainScreenDataManager {
         let date = model.dateOfCreation ?? Date()
         let color = model.color
         let sortType = Int(model.typeOfSorting)
-        let products = model.supplays?.allObjects as? [DBSupplay]
-        let prod = products?.map({ transformCoredataSupplays(product: $0)})
+        let products = model.products?.allObjects as? [DBProduct]
+        let prod = products?.map({ transformCoredataProducts(product: $0)})
         
         return GroceryListsModel(id: id, dateOfCreation: date,
                                  name: model.name, color: Int(color), isFavorite: model.isFavorite, products: prod!, typeOfSorting: sortType)
     }
     
-    private func transformCoredataSupplays(product: DBSupplay?) -> Product {
+    private func transformCoredataProducts(product: DBProduct?) -> Product {
         guard let product = product else { return Product(listId: UUID(), name: "",
                                                           isPurchased: false, dateOfCreation: Date(), category: "")}
 

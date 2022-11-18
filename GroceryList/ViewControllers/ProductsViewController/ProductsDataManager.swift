@@ -72,6 +72,7 @@ class ProductsDataManager {
         CoreDataManager.shared.removeProduct(product: product)
         if let index = products.firstIndex(of: product ) {
             products.remove(at: index)
+            if products.isEmpty { arrayWithSections = [] }
         }
         createArrayWithSections()
     }

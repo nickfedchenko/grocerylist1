@@ -30,7 +30,6 @@ class CoreDataManager {
         object.name = list.name
         object.dateOfCreation = list.dateOfCreation
         object.typeOfSorting = Int64(list.typeOfSorting)
-        object.supplays = nil
         try? context.save()
 
     }
@@ -46,7 +45,7 @@ class CoreDataManager {
         fetchRequest.predicate = NSPredicate(format: "\(#keyPath(DBGroceryListModel.id)) = '\(product.listId)'")
         guard let list = try? context.fetch(fetchRequest).first else { return }
         
-        let object = DBSupplay(context: context)
+        let object = DBProduct(context: context)
         object.list = list
         object.isPurchased = product.isPurchased
         object.name = product.name
@@ -57,8 +56,8 @@ class CoreDataManager {
         try? context.save()
     }
     
-    func getProduct(id: UUID) -> DBSupplay? {
-        let fetchRequest: NSFetchRequest<DBSupplay> = DBSupplay.fetchRequest()
+    func getProduct(id: UUID) -> DBProduct? {
+        let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
         guard let object = try? coreData.container.viewContext.fetch(fetchRequest).first else {
             return nil
@@ -68,7 +67,7 @@ class CoreDataManager {
     
     func updateProduct(product: Product) {
         let context = coreData.container.viewContext
-        let fetchRequest: NSFetchRequest<DBSupplay> = DBSupplay.fetchRequest()
+        let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
         if let object = try? context.fetch(fetchRequest).first {
             object.isPurchased = product.isPurchased
@@ -79,15 +78,15 @@ class CoreDataManager {
         try? context.save()
     }
     
-    func getProducts(for list: GroceryListsModel) -> [DBSupplay] {
-        let fetchRequest: NSFetchRequest<DBSupplay> = DBSupplay.fetchRequest()
+    func getProducts(for list: GroceryListsModel) -> [DBProduct] {
+        let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "listId = '\(list.id)'")
         return (try? coreData.container.viewContext.fetch(fetchRequest).compactMap { $0 }) ?? []
     }
     
     func removeProduct(product: Product) {
         let context = coreData.container.viewContext
-        let fetchRequest: NSFetchRequest<DBSupplay> = DBSupplay.fetchRequest()
+        let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
         if let object = try? context.fetch(fetchRequest).first {
             context.delete(object)

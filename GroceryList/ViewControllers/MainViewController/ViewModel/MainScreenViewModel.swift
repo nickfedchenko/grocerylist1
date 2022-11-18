@@ -20,12 +20,13 @@ class MainScreenViewModel {
             self?.reloadDataCallBack?()
         }
         
-//        let id = CoreDataManager.shared.getAllLists()![2]
-//        let supplay = Supplay(id: UUID(), listId: id.id!, name: "biba", isPurchased: true, dateOfCreation: Date(), category: "boba")
-//        let supplay2 = Supplay(id: UUID(), listId: id.id!, name: "gr767", isPurchased: false, dateOfCreation: Date(), category: "lfg")
-//        CoreDataManager.shared.createSupplay(supplay: supplay)
-//        CoreDataManager.shared.createSupplay(supplay: supplay2)
-       // print(CoreDataManager.shared.getSupplays(for: id))
+        let id = CoreDataManager.shared.getAllLists()![0]
+       // CoreDataManager.shared.deleteAllEntities()
+        print(CoreDataManager.shared.getAllLists()?.count)
+        let supplay = Product(id: UUID(), listId: id.id!, name: "biba", isPurchased: true, dateOfCreation: Date(), category: "boba")
+        let supplay2 = Product(id: UUID(), listId: id.id!, name: "gr767", isPurchased: false, dateOfCreation: Date(), category: "lfg")
+        CoreDataManager.shared.createProduct(product: supplay)
+        CoreDataManager.shared.createProduct(product: supplay2)
     }
     
     var reloadDataCallBack: (() -> Void)?
@@ -85,7 +86,7 @@ class MainScreenViewModel {
         dataSource.setOfModelsToUpdate = []
     }
     
-    func getnumberOfSupplaysInside(at ind: IndexPath) -> String {
+    func getnumberOfProductsInside(at ind: IndexPath) -> String {
         let supply = model[ind.section].lists[ind.row]
         var done = 0
         supply.products.forEach({ item in

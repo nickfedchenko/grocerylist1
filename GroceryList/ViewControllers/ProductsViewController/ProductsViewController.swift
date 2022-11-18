@@ -149,6 +149,9 @@ class ProductsViewController: UIViewController {
             
             cell.swipeDeleteAction = {
                 self?.viewModel?.delete(product: child)
+//                var snapshot = self?.dataSource.snapshot()
+//                guard var snapshot = snapshot else { return }
+//                snapshot.deleteItems(parent)
             }
             
             cell.swipeToAddOrDeleteFromFavorite = {

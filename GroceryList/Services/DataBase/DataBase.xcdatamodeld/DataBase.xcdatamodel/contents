@@ -7,19 +7,19 @@
         <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="typeOfSorting" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="supplays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DBSupplay" inverseName="list" inverseEntity="DBSupplay"/>
+        <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DBProduct" inverseName="list" inverseEntity="DBProduct"/>
     </entity>
-    <entity name="DBSupplay" representedClassName=".DBSupplay" syncable="YES">
+    <entity name="DBProduct" representedClassName=".DBProduct" syncable="YES">
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="dateOfCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isPurchased" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="listId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBGroceryListModel" inverseName="supplays" inverseEntity="DBGroceryListModel"/>
+        <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBGroceryListModel" inverseName="products" inverseEntity="DBGroceryListModel"/>
     </entity>
     <elements>
         <element name="DBGroceryListModel" positionX="-63" positionY="-18" width="128" height="134"/>
-        <element name="DBSupplay" positionX="-54" positionY="27" width="128" height="134"/>
+        <element name="DBProduct" positionX="-54" positionY="27" width="128" height="134"/>
     </elements>
 </model>
