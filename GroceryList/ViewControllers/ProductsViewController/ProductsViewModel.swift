@@ -40,7 +40,7 @@ class ProductsViewModel {
         colorManager.getGradient(index: model.color).1
     }
     
-    func getAddItemViewColor() -> UIColor {
+    func getColorForForeground() -> UIColor {
         colorManager.getGradient(index: model.color).0
     }
     

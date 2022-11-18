@@ -37,8 +37,8 @@ class ProductsViewController: UIViewController {
     private func setupController() {
         nameOfListLabel.text = viewModel?.getNameOfList()
         view.backgroundColor = viewModel?.getColorForBackground()
-        addItemView.backgroundColor = viewModel?.getAddItemViewColor()
-        nameOfListLabel.textColor = viewModel?.getAddItemViewColor()
+        addItemView.backgroundColor = viewModel?.getColorForForeground()
+        nameOfListLabel.textColor = viewModel?.getColorForForeground()
         navigationView.backgroundColor = viewModel?.getColorForBackground()
         collectionView.reloadData()
     }
@@ -136,7 +136,7 @@ class ProductsViewController: UIViewController {
         // MARK: Cell registration
         let headerCellRegistration = UICollectionView.CellRegistration<HeaderListCell, Category> { [ weak self ](cell, _, parent) in
             
-            let color = self?.viewModel?.getAddItemViewColor()
+            let color = self?.viewModel?.getColorForForeground()
             let bcgColor = self?.viewModel?.getColorForBackground()
             cell.setupCell(text: parent.name, color: color, bcgColor: bcgColor, isExpand: parent.isExpanded)
             
@@ -153,8 +153,9 @@ class ProductsViewController: UIViewController {
         
         let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Supplay> { [ weak self ] (cell, _, child) in
             
-            let color = self?.viewModel?.getColorForBackground()
-            cell.setupCell(bcgColor: color, text: child.name, isPurchased: child.isPurchased)
+            let bcgColor = self?.viewModel?.getColorForBackground()
+            let textColor = self?.viewModel?.getColorForForeground()
+            cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name, isPurchased: child.isPurchased)
             
         }
         
@@ -274,8 +275,15 @@ extension ProductsViewController: UICollectionViewDelegate {
             print(category)
         case .child(let supplay):
             let cell = collectionView.cellForItem(at: indexPath) as? ProductListCell
-            cell?.addCheckmark { [weak self] in
-                self?.viewModel?.cellTapped(product: supplay)
+            if supplay.isPurchased {
+                cell?.removeCheckmark { [weak self] in
+                    self?.viewModel?.cellTapped(product: supplay)
+                }
+            } else {
+                let color = viewModel?.getColorForForeground()
+                cell?.addCheckmark(color: color) { [weak self] in
+                    self?.viewModel?.cellTapped(product: supplay)
+                }
             }
         }
     }
@@ -307,7 +315,7 @@ extension ProductsViewController: UICollectionViewDelegate {
             self.viewModel?.arrayWithSections[ind].isExpanded = isExpanded
             let cellTypeIsPurchased = category.name == "Purchased".localized
             self.shouldExpandCell(isExpanded: isExpanded, ind: indexPath,
-                                  color: viewModel?.getAddItemViewColor(), isPurchased: cellTypeIsPurchased)
+                                  color: viewModel?.getColorForForeground(), isPurchased: cellTypeIsPurchased)
         case .child:
             print("")
         }

@@ -25,25 +25,57 @@ class ProductListCell: UICollectionViewListCell {
          return attrs
      }
     
-    func setupCell(bcgColor: UIColor?, text: String?, isPurchased: Bool) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        nameLabel.textColor = .black
+        nameLabel.attributedText = NSAttributedString(string: "")
+    }
+    
+    func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?, isPurchased: Bool) {
         contentView.backgroundColor = bcgColor
-        checkmarkImage.image = isPurchased ? UIImage(named: "purchasedCheckmark") : UIImage(named: "emptyCheckmark")
+        checkmarkImage.image = isPurchased ? getImageWithColor(color: textColor) : UIImage(named: "emptyCheckmark")
         guard let text = text else { return }
 
         nameLabel.attributedText = NSAttributedString(string: text)
-        if isPurchased { nameLabel.attributedText = text.strikeThrough(); return}
+        if isPurchased {
+            nameLabel.textColor = textColor
+        }
     }
     
-    func addCheckmark(compl: @escaping (() -> Void) ) {
+    func addCheckmark(color: UIColor?, compl: @escaping (() -> Void) ) {
         UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self = self else { return }
-            self.checkmarkImage.image = UIImage(named: "purchasedCheckmark")
+            self.checkmarkImage.image = self.getImageWithColor(color: color)
             self.nameLabel.attributedText = self.nameLabel.text?.strikeThrough()
             self.layoutIfNeeded()
         } completion: { _ in
             compl()
         }
-      
+    }
+    
+    func removeCheckmark(compl: @escaping (() -> Void) ) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            self.checkmarkImage.image = UIImage(named: "emptyCheckmark")
+            self.nameLabel.attributedText = NSAttributedString(string: self.nameLabel.text!)
+            self.nameLabel.textColor = .black
+            self.layoutIfNeeded()
+        } completion: { _ in
+            compl()
+        }
+    }
+    
+    func getImageWithColor(color: UIColor?) -> UIImage? {
+        let size = CGSize(width: 28, height: 28)
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        guard let color = color else { return nil }
+        color.setFill()
+        UIRectFill(rect)
+        let image: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        guard let image = image else { return nil }
+        return image.rounded(radius: 100)
     }
     
     private let contentViews: UIView = {
@@ -61,6 +93,13 @@ class ProductListCell: UICollectionViewListCell {
         return imageView
     }()
     
+    private let whiteCheckmarkImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "whiteCheckmark")
+        return imageView
+    }()
+    
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
@@ -71,7 +110,7 @@ class ProductListCell: UICollectionViewListCell {
     // MARK: - UI
     private func setupConstraints() {
         contentView.addSubviews([contentViews])
-        contentViews.addSubviews([nameLabel, checkmarkImage])
+        contentViews.addSubviews([nameLabel, checkmarkImage, whiteCheckmarkImage])
         
         contentViews.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(16)
@@ -89,6 +128,11 @@ class ProductListCell: UICollectionViewListCell {
             make.left.equalTo(checkmarkImage.snp.right).inset(-12)
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().inset(8)
+        }
+        
+        whiteCheckmarkImage.snp.makeConstraints { make in
+            make.centerY.centerX.equalTo(checkmarkImage)
+            make.width.height.equalTo(17)
         }
        
     }
