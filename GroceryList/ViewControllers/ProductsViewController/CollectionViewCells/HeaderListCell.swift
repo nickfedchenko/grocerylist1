@@ -19,6 +19,11 @@ class HeaderListCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        pinchView.isHidden = true
+    }
+    
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         let attrs = super.preferredLayoutAttributesFitting(layoutAttributes)
         attrs.bounds.size.height = 50
@@ -38,7 +43,7 @@ class HeaderListCell: UICollectionViewListCell {
     func expanding(isPurchased: Bool) {
         UIView.animate(withDuration: 0.5) {
             self.checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
-            guard self.nameLabel.text == "" else { return }
+           
             if !isPurchased {
                 self.coloredView.backgroundColor = .clear
             }
