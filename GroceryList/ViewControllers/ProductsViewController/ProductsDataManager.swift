@@ -51,7 +51,7 @@ class ProductsDataManager {
         dictFavorite["Favorite"] = []
       
         // тип сортировки
-        var products = products.sorted(by: { $0.name > $1.name })
+        let products = products.sorted(by: { $0.name < $1.name })
         
         products.forEach({ product in
            
@@ -104,7 +104,7 @@ class ProductsDataManager {
         dictFavorite["Favorite"] = []
         
         // тип сортировки
-        var products = products.sorted(by: { $0.dateOfCreation > $1.dateOfCreation })
+        let products = products.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
         products.forEach({ product in
            
             guard !product.isPurchased else { dictPurchased["Purchased"]?.append(product); return }
@@ -155,7 +155,7 @@ class ProductsDataManager {
         dictFavorite["Favorite"] = []
         
         // тип сортировки
-        var products = products.sorted(by: { $0.dateOfCreation > $1.dateOfCreation })
+        let products = products.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
         products.forEach({ product in
            
             guard !product.isPurchased else { dictPurchased["Purchased"]?.append(product); return }

@@ -24,8 +24,9 @@ class HeaderListCell: UICollectionViewListCell {
         pinchView.isHidden = true
         checkmarkView.isHidden = false
         coloredViewForSorting.isHidden = true
-        contentViews.backgroundColor = .clear
         coloredView.backgroundColor = .clear
+        titleLabel.textColor = .white
+        collapsedColoredView.backgroundColor = .clear
     }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
@@ -37,7 +38,6 @@ class HeaderListCell: UICollectionViewListCell {
     func collapsing(color: UIColor?, isPurchased: Bool) {
         UIView.animate(withDuration: 0.5) {
             self.checkmarkView.transform = CGAffineTransform(rotationAngle: .pi * 2)
-          //  guard self.titleLabel.text != "" else { return }
             if !isPurchased {
                 self.coloredView.backgroundColor = color
             }
@@ -54,49 +54,47 @@ class HeaderListCell: UICollectionViewListCell {
     }
     
     func setupCell(text: String?, color: UIColor?, bcgColor: UIColor?, isExpand: Bool, typeOfCell: TypeOfCell) {
-        if typeOfCell == .purchased {
+        
+        switch typeOfCell {
+        case .favorite:
+            titleLabel.text = ""
+            pinchView.isHidden = false
+            if !isExpand { coloredView.backgroundColor = color }
+        case .purchased:
             coloredView.backgroundColor = .white
             titleLabel.textColor = color
-            collapsedColoredView.backgroundColor = .clear
             titleLabel.text = text
-        } else if typeOfCell == .favorite {
-            titleLabel.text = ""
-            contentViews.backgroundColor = .clear
             collapsedColoredView.backgroundColor = .clear
-            pinchView.isHidden = false
-        } else if typeOfCell == .sortedByAlphabet {
+        case .sortedByAlphabet:
             checkmarkView.isHidden = true
             titleLabel.text = "AlphabeticalSorted".localized
-            contentViews.backgroundColor = .clear
             coloredViewForSorting.backgroundColor = color
             coloredViewForSorting.isHidden = false
-        } else if typeOfCell == .sortedByDate {
+        case .sortedByDate:
             checkmarkView.isHidden = true
             titleLabel.text = "DateSorted".localized
-            contentViews.backgroundColor = .clear
             coloredViewForSorting.backgroundColor = color
             coloredViewForSorting.isHidden = false
-        } else {
+        case .normal:
+            titleLabel.text = text
             if isExpand {
-                checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
-                coloredView.backgroundColor = .clear
                 collapsedColoredView.backgroundColor = color
-                contentViews.backgroundColor = bcgColor
-                titleLabel.textColor = .white
-                titleLabel.text = text
             } else {
-                checkmarkView.transform = CGAffineTransform(rotationAngle: .pi * 2)
                 collapsedColoredView.backgroundColor = color
                 coloredView.backgroundColor = color
-                contentViews.backgroundColor = bcgColor
-                titleLabel.textColor = .white
-                titleLabel.text = text
             }
         }
-        contentViews.backgroundColor = bcgColor
+        
+        if isExpand {
+            checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
+        } else {
+            checkmarkView.transform = CGAffineTransform(rotationAngle: .pi * 2)
+        }
+        
+        containerView.backgroundColor = bcgColor
     }
     
-    private let contentViews: UIView = {
+    private let containerView: UIView = {
         let view = UIView()
         return view
     }()
@@ -118,7 +116,7 @@ class HeaderListCell: UICollectionViewListCell {
         view.layer.cornerRadius = 20
         view.layer.maskedCorners = [.layerMaxXMinYCorner]
         view.layer.masksToBounds = true
-        view.backgroundColor = .orange
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -127,7 +125,6 @@ class HeaderListCell: UICollectionViewListCell {
         view.layer.cornerRadius = 20
         view.layer.maskedCorners = [.layerMaxXMinYCorner]
         view.layer.masksToBounds = true
-        view.backgroundColor = .orange
         view.isHidden = true
         return view
     }()
@@ -155,11 +152,11 @@ class HeaderListCell: UICollectionViewListCell {
     
     // MARK: - UI
     private func setupConstraints() {
-        self.addSubviews([contentViews])
-        contentViews.addSubviews([coloredView, collapsedColoredView, coloredViewForSorting, titleLabel, checkmarkView, pinchView])
+        self.addSubviews([containerView])
+        containerView.addSubviews([coloredView, collapsedColoredView, coloredViewForSorting, titleLabel, checkmarkView, pinchView])
         coloredViewForSorting.addSubview(checkmarkForSorting)
         
-        contentViews.snp.makeConstraints { make in
+        containerView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
@@ -200,7 +197,7 @@ class HeaderListCell: UICollectionViewListCell {
             make.height.equalTo(12)
             make.centerY.equalTo(coloredView.snp.centerY)
         }
-       
+        
         pinchView.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(28)
             make.centerY.equalTo(coloredView.snp.centerY)

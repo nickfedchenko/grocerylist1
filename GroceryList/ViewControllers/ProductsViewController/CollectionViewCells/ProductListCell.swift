@@ -65,7 +65,8 @@ class ProductListCell: UICollectionViewListCell {
         UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self = self else { return }
             self.checkmarkImage.image = UIImage(named: "emptyCheckmark")
-            self.nameLabel.attributedText = NSAttributedString(string: self.nameLabel.text!)
+            guard let text = self.nameLabel.text else { return }
+            self.nameLabel.attributedText = NSAttributedString(string: text)
             self.nameLabel.textColor = .black
             self.layoutIfNeeded()
         } completion: { _ in

@@ -20,13 +20,13 @@ class MainScreenViewModel {
             self?.reloadDataCallBack?()
         }
         
-        let id = CoreDataManager.shared.getAllLists()![0]
-      //  CoreDataManager.shared.deleteAllEntities()
-        print(CoreDataManager.shared.getAllLists()?.count)
-        let supplay = Product(id: UUID(), listId: id.id!, name: "biba", isPurchased: true, dateOfCreation: Date(), category: "boba", isFavorite: true)
-        let supplay2 = Product(id: UUID(), listId: id.id!, name: "gr767", isPurchased: false, dateOfCreation: Date(), category: "lfg", isFavorite: true)
-        CoreDataManager.shared.createProduct(product: supplay)
-        CoreDataManager.shared.createProduct(product: supplay2)
+//        let id = CoreDataManager.shared.getAllLists()![0]
+//    //    CoreDataManager.shared.deleteAllEntities()
+//        print(CoreDataManager.shared.getAllLists()?.count)
+//        let supplay = Product(id: UUID(), listId: id.id!, name: "ccc", isPurchased: true, dateOfCreation: Date(), category: "222", isFavorite: true)
+//        let supplay2 = Product(id: UUID(), listId: id.id!, name: "ddd", isPurchased: false, dateOfCreation: Date(), category: "222", isFavorite: true)
+//        CoreDataManager.shared.createProduct(product: supplay)
+//        CoreDataManager.shared.createProduct(product: supplay2)
     }
     
     var reloadDataCallBack: (() -> Void)?
