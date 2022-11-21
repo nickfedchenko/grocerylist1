@@ -41,3 +41,5 @@
 "delete"                    = "Delete";
 "Grocery List"              = "Grocery List";
 "Cancel"                    = "Cancel";
+"AlphabeticalSorted"        = "Alphabetical sorting";
+"DateSorted"                = "Sorting by creation date";

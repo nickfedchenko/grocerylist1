@@ -138,7 +138,8 @@ class ProductsViewController: UIViewController {
             
             let color = self?.viewModel?.getColorForForeground()
             let bcgColor = self?.viewModel?.getColorForBackground()
-            cell.setupCell(text: parent.name, color: color, bcgColor: bcgColor, isExpand: parent.isExpanded)
+            cell.setupCell(text: parent.name, color: color, bcgColor: bcgColor,
+                           isExpand: parent.isExpanded, typeOfCell: parent.typeOFCell)
         }
         
         let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { [ weak self ] (cell, _, child) in
@@ -147,11 +148,9 @@ class ProductsViewController: UIViewController {
             let textColor = self?.viewModel?.getColorForForeground()
             cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name, isPurchased: child.isPurchased)
             
+            // свайпы
             cell.swipeDeleteAction = {
                 self?.viewModel?.delete(product: child)
-//                var snapshot = self?.dataSource.snapshot()
-//                guard var snapshot = snapshot else { return }
-//                snapshot.deleteItems(parent)
             }
             
             guard !child.isPurchased else { return }
@@ -159,7 +158,6 @@ class ProductsViewController: UIViewController {
                 self?.viewModel?.updateFavoriteStatus(for: child)
    
             }
-            
         }
         
         // MARK: Initialize data source
@@ -268,6 +266,7 @@ class ProductsViewController: UIViewController {
 // MARK: - CellTapped
 extension ProductsViewController: UICollectionViewDelegate {
     
+    // чекмарк о покупке
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath)
         
@@ -295,6 +294,15 @@ extension ProductsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         var snap = dataSource.snapshot(for: .main)
         guard let item = dataSource.itemIdentifier(for: indexPath) else { return false }
+        
+        // проверка на тип сортировки для отключения возможности схлопывания ячеек при сортировке по алфавиту
+        switch item {
+        case .parent(let parent):
+            guard parent.typeOFCell != .sortedByAlphabet && parent.typeOFCell != .sortedByDate else { return false }
+        default:
+           print("")
+        }
+      
         let sectionSnapshot = snap.snapshot(of: item, includingParent: false)
         let hasChildren = sectionSnapshot.items.count > 0
         

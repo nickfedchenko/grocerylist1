@@ -38,3 +38,5 @@
 "delete"                    = "Удалить";
 "Grocery List"              = "Список покупок";
 "Cancel"                    = "Отмена";
+"AlphabeticalSorted"        = "Cортировка по алфавиту";
+"DateSorted"                = "Cортировка по дате создания";

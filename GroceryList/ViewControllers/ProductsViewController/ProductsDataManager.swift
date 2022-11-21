@@ -49,15 +49,15 @@ class ProductsDataManager {
         
         // Избранное
         if products.contains(where: { $0.isFavorite && !$0.isPurchased }) {
-            newArray.append(contentsOf: dictFavorite.map({ Category(name: $0.key, products: $0.value) }))
+            newArray.append(contentsOf: dictFavorite.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByAlphabet) }))
         }
         
         // Все что не избрано и не куплено
-        newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value) }).sorted(by: { $0.name < $1.name }))
+        newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .normal) }).sorted(by: { $0.name < $1.name }))
         
         // Все что куплено
         if products.contains(where: { $0.isPurchased }) {
-            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value) }))
+            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value, typeOFCell: .purchased) }))
         }
         
         // Сохранение параметра свернутости развернутости списка

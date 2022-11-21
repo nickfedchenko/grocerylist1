@@ -63,14 +63,16 @@ struct Product: Hashable, Equatable {
 
 class Category: Hashable, Equatable {
     
-    init(name: String, products: [Product], isExpanded: Bool = true ) {
+    init(name: String, products: [Product], isExpanded: Bool = true, typeOFCell: TypeOfCell ) {
         self.name = name
         self.isExpanded = isExpanded
         self.products = products
+        self.typeOFCell = typeOFCell
     }
     var name: String
     var isExpanded: Bool = true
     var products: [Product]
+    var typeOFCell: TypeOfCell
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
@@ -100,4 +102,12 @@ enum SortingType: Int {
     case category
     case time
     case alphabet
+}
+
+enum TypeOfCell {
+    case favorite
+    case purchased
+    case sortedByAlphabet
+    case sortedByDate
+    case normal
 }
