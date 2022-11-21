@@ -324,7 +324,7 @@ extension ProductsViewController: UICollectionViewDelegate {
         case .parent(let category):
             guard let ind = self.viewModel?.getCellIndex(with: category) else { return }
             self.viewModel?.arrayWithSections[ind].isExpanded = isExpanded
-            let cellTypeIsPurchased = category.name == "Purchased".localized
+            let cellTypeIsPurchased = category.typeOFCell == .purchased
             self.shouldExpandCell(isExpanded: isExpanded, ind: indexPath,
                                   color: viewModel?.getColorForForeground(), isPurchased: cellTypeIsPurchased)
         case .child:

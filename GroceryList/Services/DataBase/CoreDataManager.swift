@@ -31,7 +31,6 @@ class CoreDataManager {
         object.dateOfCreation = list.dateOfCreation
         object.typeOfSorting = Int64(list.typeOfSorting)
         try? context.save()
-
     }
     
     func createProduct(product: Product) {

@@ -24,6 +24,8 @@ class HeaderListCell: UICollectionViewListCell {
         pinchView.isHidden = true
         checkmarkView.isHidden = false
         coloredViewForSorting.isHidden = true
+        contentViews.backgroundColor = .clear
+        coloredView.backgroundColor = .clear
     }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
@@ -35,7 +37,7 @@ class HeaderListCell: UICollectionViewListCell {
     func collapsing(color: UIColor?, isPurchased: Bool) {
         UIView.animate(withDuration: 0.5) {
             self.checkmarkView.transform = CGAffineTransform(rotationAngle: .pi * 2)
-            guard self.titleLabel.text != "" else { return }
+          //  guard self.titleLabel.text != "" else { return }
             if !isPurchased {
                 self.coloredView.backgroundColor = color
             }
@@ -45,7 +47,6 @@ class HeaderListCell: UICollectionViewListCell {
     func expanding(isPurchased: Bool) {
         UIView.animate(withDuration: 0.5) {
             self.checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
-           
             if !isPurchased {
                 self.coloredView.backgroundColor = .clear
             }
@@ -77,12 +78,14 @@ class HeaderListCell: UICollectionViewListCell {
             coloredViewForSorting.isHidden = false
         } else {
             if isExpand {
+                checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
                 coloredView.backgroundColor = .clear
                 collapsedColoredView.backgroundColor = color
                 contentViews.backgroundColor = bcgColor
                 titleLabel.textColor = .white
                 titleLabel.text = text
             } else {
+                checkmarkView.transform = CGAffineTransform(rotationAngle: .pi * 2)
                 collapsedColoredView.backgroundColor = color
                 coloredView.backgroundColor = color
                 contentViews.backgroundColor = bcgColor

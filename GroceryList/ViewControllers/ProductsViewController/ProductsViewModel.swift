@@ -29,11 +29,11 @@ class ProductsViewModel {
             self?.valueChangedCallback?()
         }
         
-        self.dataSource.createArrayWithSections()
+        self.dataSource.createDataSourceArray()
     }
     
     var arrayWithSections: [Category] {
-        return dataSource.arrayWithSections
+        return dataSource.dataSourceArray
     }
     
     func getColorForBackground() -> UIColor {
@@ -60,6 +60,7 @@ class ProductsViewModel {
     func settingsTapped(with snapshot: UIImage?) {
         router?.goProductsSettingsVC(snapshot: snapshot, model: model, compl: { [weak self] updatedModel in
             self?.model = updatedModel
+            self?.dataSource.typeOfSorting = SortingType(rawValue: self?.model.typeOfSorting ?? 0) ?? .category
             self?.delegate?.updateController()
         })
     }

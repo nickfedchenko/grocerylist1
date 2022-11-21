@@ -53,7 +53,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createProductsController(model: GroceryListsModel, router: RootRouter,
                                   compl: @escaping () -> Void) -> UIViewController? {
         let viewController = ProductsViewController()
-        let dataSource = ProductsDataManager(products: model.products)
+        let dataSource = ProductsDataManager(products: model.products, typeOfSorting: SortingType(rawValue: model.typeOfSorting) ?? .category)
         let viewModel = ProductsViewModel(model: model, dataSource: dataSource)
         viewModel.valueChangedCallback = compl
         viewModel.delegate = viewController
