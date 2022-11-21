@@ -60,6 +60,7 @@
 		B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CED29110435003C01AD /* UIFontExtension.swift */; };
 		B37A2CF429111C41003C01AD /* SF Pro Display Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B37A2CF329111C41003C01AD /* SF Pro Display Heavy.otf */; };
 		B37A2CF6291125CA003C01AD /* SF Pro Display Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B37A2CF5291125CA003C01AD /* SF Pro Display Medium.otf */; };
+		B3802315292BC7DA0039EDE0 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3802314292BC7DA0039EDE0 /* UserDefaultsManager.swift */; };
 		B3C3FA4729115AA20011EC0A /* OnboardingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C3FA4629115AA20011EC0A /* OnboardingContentView.swift */; };
 		B3C3FA4929115F510011EC0A /* SF Pro Display Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3C3FA4829115F510011EC0A /* SF Pro Display Semibold.otf */; };
 		B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C3FA4A291161D80011EC0A /* FirstOnboardingView.swift */; };
@@ -128,6 +129,7 @@
 		B37A2CED29110435003C01AD /* UIFontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
 		B37A2CF329111C41003C01AD /* SF Pro Display Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Heavy.otf"; sourceTree = "<group>"; };
 		B37A2CF5291125CA003C01AD /* SF Pro Display Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Medium.otf"; sourceTree = "<group>"; };
+		B3802314292BC7DA0039EDE0 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		B3C3FA4629115AA20011EC0A /* OnboardingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContentView.swift; sourceTree = "<group>"; };
 		B3C3FA4829115F510011EC0A /* SF Pro Display Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Semibold.otf"; sourceTree = "<group>"; };
 		B3C3FA4A291161D80011EC0A /* FirstOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstOnboardingView.swift; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 		B37A2CD42910EE77003C01AD /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B3802313292BC7B70039EDE0 /* UserDefaultsManager */,
 				B3179EA5291E305F00455419 /* Networking */,
 				B36D18D6291A1949005EE32D /* DataBase */,
 				B37A2CD52910EE84003C01AD /* Routing */,
@@ -465,6 +468,14 @@
 				B37A2CF329111C41003C01AD /* SF Pro Display Heavy.otf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		B3802313292BC7B70039EDE0 /* UserDefaultsManager */ = {
+			isa = PBXGroup;
+			children = (
+				B3802314292BC7DA0039EDE0 /* UserDefaultsManager.swift */,
+			);
+			path = UserDefaultsManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -648,6 +659,7 @@
 				B3C3FA4F291175390011EC0A /* UIImageViewExtension.swift in Sources */,
 				B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */,
 				B3476904291D017B0045A287 /* ProductsViewModel.swift in Sources */,
+				B3802315292BC7DA0039EDE0 /* UserDefaultsManager.swift in Sources */,
 				B36933F8291A97D900AFFAA6 /* MainScreenTopCell.swift in Sources */,
 				B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */,
 				B3476909291D21730045A287 /* ProductsSettingsViewController.swift in Sources */,

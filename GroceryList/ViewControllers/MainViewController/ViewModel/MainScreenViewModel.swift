@@ -34,7 +34,7 @@ class MainScreenViewModel {
     private var dataSource: MainScreenDataManager
     
     var model: [SectionModel] {
-        return dataSource.workingSectionsArray
+        return dataSource.dataSourceArray
     }
     
     // routing
@@ -61,6 +61,11 @@ class MainScreenViewModel {
     func getBGColor(at ind: IndexPath) -> UIColor {
         let colorInd = model[ind.section].lists[ind.row].color
         return colorManager.getGradient(index: colorInd).0
+    }
+    
+    func getBGColorForEmptyCell(at ind: IndexPath) -> UIColor {
+        let colorInd = model[ind.section].lists[ind.row].color
+        return colorManager.getEmptyCellColor(index: colorInd)
     }
     
     func isTopRounded(at ind: IndexPath) -> Bool {

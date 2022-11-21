@@ -38,7 +38,6 @@ class MainScreenViewController: UIViewController {
         snapshot.deleteAllItems()
         collectionViewDataSource?.apply(snapshot)
         viewModel?.reloadDataFromStorage()
-      
     }
     
     private func createAttributedString(title: String, color: UIColor = .white) -> NSAttributedString {
@@ -113,6 +112,8 @@ extension MainScreenViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let model = collectionViewDataSource?.itemIdentifier(for: indexPath) else { return }
+        guard let section = self.collectionViewDataSource?.snapshot().sectionIdentifier(containingItem: model) else { return }
+        guard section.cellType == .usual else { return }
         viewModel?.cellTapped(with: model)
     }
     
@@ -150,7 +151,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 guard let viewModel = self.viewModel else { return UICollectionViewCell() }
                 let isTopRouned = viewModel.isTopRounded(at: indexPath)
                 let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
-                let color = viewModel.getBGColor(at: indexPath)
+                let color = viewModel.getBGColorForEmptyCell(at: indexPath)
                 cell?.setupCell(bckgColor: color, isTopRounded: isTopRouned, isBottomRounded: isBottomRounded)
                 return cell
             

@@ -9,19 +9,25 @@ import UIKit
 
 class MainScreenDataManager {
     
+    init() {
+        if !UserDefaultsManager.isColdStartModelAdded {
+            createWorkingArray()
+            UserDefaultsManager.isColdStartModelAdded = false
+        }
+    }
+    
     private let topCellID = UUID()
-    
     var dataChangedCallBack: (() -> Void)?
+    var setOfModelsToUpdate: Set<GroceryListsModel> = []
+    private var coreDataModles = CoreDataManager.shared.getAllLists()
     
-    private var coreDataListsArray = CoreDataManager.shared.getAllLists()
-    
-    var workingSectionsArray: [SectionModel] = [] {
+    var dataSourceArray: [SectionModel] = [] {
         didSet {
             dataChangedCallBack?()
         }
     }
     
-    private var listOfModels: [GroceryListsModel]? {
+    private var transformedModels: [GroceryListsModel]? {
         didSet {
             createWorkingArray()
         }
@@ -29,9 +35,9 @@ class MainScreenDataManager {
     
     func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel> {
     setOfModelsToUpdate = []
-        if let index = listOfModels?.firstIndex(of: model ) {
+        if let index = transformedModels?.firstIndex(of: model ) {
             CoreDataManager.shared.removeList(model.id)
-            listOfModels?.remove(at: index)
+            transformedModels?.remove(at: index)
         }
         updateFirstAndLastModels()
         return setOfModelsToUpdate
@@ -41,8 +47,8 @@ class MainScreenDataManager {
     func updateListOfModels() -> Set<GroceryListsModel> {
         setOfModelsToUpdate = []
         updateFirstAndLastModels()
-        coreDataListsArray = CoreDataManager.shared.getAllLists()
-        listOfModels = coreDataListsArray?.map({ transformCoreDataModelToModel($0) }) ?? []
+        coreDataModles = CoreDataManager.shared.getAllLists()
+        transformedModels = coreDataModles?.map({ transformCoreDataModelToModel($0) }) ?? []
         updateFirstAndLastModels()
         return setOfModelsToUpdate
     }
@@ -52,9 +58,9 @@ class MainScreenDataManager {
         updateFirstAndLastModels()
         var newModel = model
         newModel.isFavorite = !newModel.isFavorite
-        if let index = listOfModels?.firstIndex(of: model ) {
-            listOfModels?.remove(at: index)
-            listOfModels?.insert(newModel, at: 0)
+        if let index = transformedModels?.firstIndex(of: model ) {
+            transformedModels?.remove(at: index)
+            transformedModels?.insert(newModel, at: 0)
             CoreDataManager.shared.saveList(list: newModel)
         }
         updateFirstAndLastModels()
@@ -64,13 +70,11 @@ class MainScreenDataManager {
     }
     
     func updateFirstAndLastModels() {
-        workingSectionsArray.forEach({
+        dataSourceArray.forEach({
             setOfModelsToUpdate.insert($0.lists.first!)
             setOfModelsToUpdate.insert($0.lists.last!)
         })
     }
-    
-    var setOfModelsToUpdate: Set<GroceryListsModel> = []
     
     private func transformCoreDataModelToModel(_ model: DBGroceryListModel) -> GroceryListsModel {
         let id = model.id ?? UUID()
@@ -98,30 +102,67 @@ class MainScreenDataManager {
         
         return Product(id: id, listId: listId, name: name, isPurchased: isPurchased, dateOfCreation: dateOfCreation, category: category, isFavorite: isFavorite)
     }
-
+    
     private func createWorkingArray() {
+        if !UserDefaultsManager.isColdStartModelAdded {
+            saveColdStartInCoreData()
+        } else {
+            createDefaultArray()
+        }
+    }
+
+    private func saveColdStartInCoreData() {
+        // секция с избранным
+        let supermarket = GroceryListsModel(dateOfCreation: Date(), name: "Supermarket".localized, color: 0, isFavorite: true, products: [], typeOfSorting: 0)
+        CoreDataManager.shared.saveList(list: supermarket)
+       
+        // в этой секции размещается обучающая ячейка
+        let learnCell = GroceryListsModel(dateOfCreation: Date(), name: "Supermarket".localized, color: 0, isFavorite: false, products: [], typeOfSorting: 0)
+        CoreDataManager.shared.saveList(list: learnCell)
+        
+        // тут пустые разноцветные ячейки на неделю
+        let weekFirst = GroceryListsModel(dateOfCreation: Date() - 100000, color: 0, products: [], typeOfSorting: 0)
+        let weekSecond = GroceryListsModel(dateOfCreation: Date() - 100000, color: 1, products: [], typeOfSorting: 0)
+        let weekThird = GroceryListsModel(dateOfCreation: Date() - 100000, color: 2, products: [], typeOfSorting: 0)
+        CoreDataManager.shared.saveList(list: weekFirst)
+        CoreDataManager.shared.saveList(list: weekSecond)
+        CoreDataManager.shared.saveList(list: weekThird)
+        
+        // тут пустые разноцветные ячейки на месяц
+        let monthFirst = GroceryListsModel(dateOfCreation: Date() - 3000000, color: 0, products: [], typeOfSorting: 0)
+        let monthSecond = GroceryListsModel(dateOfCreation: Date() - 3000000, color: 1, products: [], typeOfSorting: 0)
+        let monthThird = GroceryListsModel(dateOfCreation: Date() - 3000000, color: 2, products: [], typeOfSorting: 0)
+        CoreDataManager.shared.saveList(list: monthFirst)
+        CoreDataManager.shared.saveList(list: monthSecond)
+        CoreDataManager.shared.saveList(list: monthThird)
+     
+        createDefaultArray()
+    }
+    
+    private func createDefaultArray() {
         var finalArray: [SectionModel] = []
         let list = GroceryListsModel(id: topCellID, dateOfCreation: Date(), name: "k",
                                      color: 0, isFavorite: false, products: [], typeOfSorting: 0)
         let topSection = SectionModel(id: 0, cellType: .topMenu, sectionType: .empty, lists: [list])
         var favoriteSection = SectionModel(id: 1, cellType: .usual, sectionType: .favorite, lists: [])
-        var todaySection = SectionModel(id: 2, cellType: .usual, sectionType: .today, lists: [])
-        var weekSection = SectionModel(id: 3, cellType: .usual, sectionType: .week, lists: [])
-        var monthSection = SectionModel(id: 4, cellType: .usual, sectionType: .month, lists: [])
+        var todaySection = SectionModel(id: 2, cellType: .instruction, sectionType: .today, lists: [])
+        var weekSection = SectionModel(id: 3, cellType: .empty, sectionType: .week, lists: [])
+        var monthSection = SectionModel(id: 4, cellType: .empty, sectionType: .month, lists: [])
      
-        listOfModels?.filter({ $0.isFavorite == true }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ favoriteSection.lists.append($0) })
+        transformedModels?.filter({ $0.isFavorite == true }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ favoriteSection.lists.append($0) })
        
-        listOfModels?.filter({ $0.dateOfCreation > Date() - 86400 && !$0.isFavorite }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ todaySection.lists.append($0) })
+        transformedModels?.filter({ $0.dateOfCreation > Date() - 86400 && !$0.isFavorite }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ todaySection.lists.append($0) })
        
-        listOfModels?.filter({ $0.dateOfCreation < Date() - 604800 && $0.dateOfCreation < Date() - 86400 && !$0.isFavorite }).forEach({ weekSection.lists.append($0) })
+        transformedModels?.filter({ $0.dateOfCreation < Date() - 604800 && $0.dateOfCreation < Date() - 86400 && !$0.isFavorite }).forEach({ weekSection.lists.append($0) })
       
-        listOfModels?.filter({ $0.dateOfCreation < Date() - 2592000 && $0.dateOfCreation < Date() - 604800 && !$0.isFavorite }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({
+        transformedModels?.filter({ $0.dateOfCreation < Date() - 2592000 && $0.dateOfCreation < Date() - 604800 && !$0.isFavorite }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({
             monthSection.lists.append($0) })
         
         let sections = [favoriteSection, todaySection, weekSection, monthSection]
         finalArray.append(topSection)
         sections.filter({ $0.lists != [] }).forEach({ finalArray.append($0) })
         
-        workingSectionsArray = finalArray
+        dataSourceArray = finalArray
     }
+    
 }
