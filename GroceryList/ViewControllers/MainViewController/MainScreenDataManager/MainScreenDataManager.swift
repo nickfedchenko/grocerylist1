@@ -75,8 +75,11 @@ class MainScreenDataManager {
     
     func updateFirstAndLastModels() {
         dataSourceArray.forEach({
-            setOfModelsToUpdate.insert($0.lists.first!)
-            setOfModelsToUpdate.insert($0.lists.last!)
+            guard let firstElement = $0.lists.first else { return }
+            setOfModelsToUpdate.insert(firstElement)
+            
+            guard let lastElement = $0.lists.last else { return }
+            setOfModelsToUpdate.insert(lastElement)
         })
     }
     
@@ -169,6 +172,9 @@ class MainScreenDataManager {
         if monthSection.lists.isEmpty { monthSection = emptyMonthSection }
         
         let sections = [topSection, favoriteSection, todaySection, weekSection, monthSection]
+        // защита от краша при наличии пустой секции
+        sections.filter({ $0.lists != [] }).forEach({ finalArray.append($0) })
+        
         dataSourceArray = finalArray
     }
     
