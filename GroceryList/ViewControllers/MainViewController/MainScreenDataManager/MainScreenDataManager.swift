@@ -10,9 +10,9 @@ import UIKit
 class MainScreenDataManager {
     
     init() {
-        if !UserDefaultsManager.isColdStartModelAdded {
+        if UserDefaultsManager.isColdStartModelAdded {
             createWorkingArray()
-            UserDefaultsManager.isColdStartModelAdded = false
+            UserDefaultsManager.isColdStartModelAdded = true
         }
     }
     
@@ -104,7 +104,7 @@ class MainScreenDataManager {
     }
     
     private func createWorkingArray() {
-        if !UserDefaultsManager.isColdStartModelAdded {
+        if UserDefaultsManager.isColdStartModelAdded {
             saveColdStartInCoreData()
         } else {
             createDefaultArray()
@@ -112,11 +112,11 @@ class MainScreenDataManager {
     }
 
     private func saveColdStartInCoreData() {
-        // секция с избранным
+//        // секция с избранным
         let supermarket = GroceryListsModel(dateOfCreation: Date(), name: "Supermarket".localized, color: 0, isFavorite: true, products: [], typeOfSorting: 0)
         CoreDataManager.shared.saveList(list: supermarket)
-       
-        // в этой секции размещается обучающая ячейка
+//
+//        // в этой секции размещается обучающая ячейка
         let learnCell = GroceryListsModel(dateOfCreation: Date(), name: "Supermarket".localized, color: 0, isFavorite: false, products: [], typeOfSorting: 0)
         CoreDataManager.shared.saveList(list: learnCell)
         
@@ -137,6 +137,7 @@ class MainScreenDataManager {
         CoreDataManager.shared.saveList(list: monthThird)
      
         createDefaultArray()
+      //  CoreDataManager.shared.deleteAllEntities()
     }
     
     private func createDefaultArray() {
@@ -149,20 +150,23 @@ class MainScreenDataManager {
         var weekSection = SectionModel(id: 3, cellType: .empty, sectionType: .week, lists: [])
         var monthSection = SectionModel(id: 4, cellType: .empty, sectionType: .month, lists: [])
      
-        transformedModels?.filter({ $0.isFavorite == true }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ favoriteSection.lists.append($0) })
+        transformedModels?.filter({ $0.isFavorite == true }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ favoriteSection.lists.append($0) })
+
+        transformedModels?.filter({ Calendar.current.isDateInToday($0.dateOfCreation) && !$0.isFavorite }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ todaySection.lists.append($0) })
        
-        transformedModels?.filter({ $0.dateOfCreation > Date() - 86400 && !$0.isFavorite }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ todaySection.lists.append($0) })
-       
-        transformedModels?.filter({ $0.dateOfCreation < Date() - 604800 && $0.dateOfCreation < Date() - 86400 && !$0.isFavorite }).forEach({ weekSection.lists.append($0) })
+        transformedModels?.filter({ isDateInWeek(date: $0.dateOfCreation) && !Calendar.current.isDateInToday($0.dateOfCreation) && !$0.isFavorite }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ weekSection.lists.append($0) })
       
-        transformedModels?.filter({ $0.dateOfCreation < Date() - 2592000 && $0.dateOfCreation < Date() - 604800 && !$0.isFavorite }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({
-            monthSection.lists.append($0) })
+        transformedModels?.filter({ !isDateInWeek(date: $0.dateOfCreation) && !Calendar.current.isDateInToday($0.dateOfCreation) && !$0.isFavorite }).forEach({ monthSection.lists.append($0) })
         
         let sections = [favoriteSection, todaySection, weekSection, monthSection]
         finalArray.append(topSection)
         sections.filter({ $0.lists != [] }).forEach({ finalArray.append($0) })
         
         dataSourceArray = finalArray
+    }
+    
+    func isDateInWeek(date: Date) -> Bool {
+        Calendar.current.isDate(Date(), equalTo: date, toGranularity: .weekOfYear)
     }
     
 }
