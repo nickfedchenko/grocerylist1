@@ -18,20 +18,6 @@ class MainScreenDataManager {
     var setOfModelsToUpdate: Set<GroceryListsModel> = []
     private var coreDataModles = CoreDataManager.shared.getAllLists()
     
-    // ячейки для холодного старта
-    let instruction = GroceryListsModel(dateOfCreation: Date(), color: 0, products: [], typeOfSorting: 0)
-    let todayFirst = GroceryListsModel(dateOfCreation: Date(), color: 0, products: [], typeOfSorting: 0)
-    let todaySecond = GroceryListsModel(dateOfCreation: Date(), color: 1, products: [], typeOfSorting: 0)
-    let todayThird = GroceryListsModel(dateOfCreation: Date(), color: 2, products: [], typeOfSorting: 0)
-    let weekFirst = GroceryListsModel(dateOfCreation: Date(), color: 0, products: [], typeOfSorting: 0)
-    let weekSecond = GroceryListsModel(dateOfCreation: Date(), color: 1, products: [], typeOfSorting: 0)
-    let weekThird = GroceryListsModel(dateOfCreation: Date(), color: 2, products: [], typeOfSorting: 0)
-    let monthFirst = GroceryListsModel(dateOfCreation: Date(), color: 0, products: [], typeOfSorting: 0)
-    let monthSecond = GroceryListsModel(dateOfCreation: Date(), color: 1, products: [], typeOfSorting: 0)
-    let monthThird = GroceryListsModel(dateOfCreation: Date(), color: 2, products: [], typeOfSorting: 0)
-    
-    lazy var coldStartModels = [instruction, todayFirst, todaySecond, todayThird, weekFirst, weekSecond, weekThird, monthFirst, monthSecond, monthThird]
-    
     private var coldStartState: ColdStartState {
         get {
            return ColdStartState(rawValue: UserDefaultsManager.coldStartState) ?? .initial
@@ -56,7 +42,6 @@ class MainScreenDataManager {
     
     func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel> {
         if coldStartState == .firstItemAdded { coldStartState = .coldStartFinished }
-        setOfModelsToUpdate = []
         if let index = transformedModels?.firstIndex(of: model ) {
             CoreDataManager.shared.removeList(model.id)
             transformedModels?.remove(at: index)
@@ -67,7 +52,6 @@ class MainScreenDataManager {
     
     @discardableResult
     func updateListOfModels() -> Set<GroceryListsModel> {
-        setOfModelsToUpdate = []
         updateFirstAndLastModels()
         coreDataModles = CoreDataManager.shared.getAllLists()
         transformedModels = coreDataModles?.map({ transformCoreDataModelToModel($0) }) ?? []
@@ -77,7 +61,6 @@ class MainScreenDataManager {
     
     func addOrDeleteFromFavorite(with model: GroceryListsModel) -> Set<GroceryListsModel> {
         if coldStartState == .firstItemAdded { coldStartState = .coldStartFinished }
-        setOfModelsToUpdate = []
         updateFirstAndLastModels()
         var newModel = model
         newModel.isFavorite = !newModel.isFavorite
@@ -87,8 +70,6 @@ class MainScreenDataManager {
             CoreDataManager.shared.saveList(list: newModel)
         }
         updateFirstAndLastModels()
-        setOfModelsToUpdate.remove(newModel)
-        setOfModelsToUpdate.remove(model)
         return setOfModelsToUpdate
     }
     
@@ -97,9 +78,6 @@ class MainScreenDataManager {
             setOfModelsToUpdate.insert($0.lists.first!)
             setOfModelsToUpdate.insert($0.lists.last!)
         })
-        
-        // фильтрация пустых ячеек чтобы не словить краш т,к их нет в кор дате
-        coldStartModels.forEach({ if setOfModelsToUpdate.contains($0) { setOfModelsToUpdate.remove($0) }})
     }
     
     private func transformCoreDataModelToModel(_ model: DBGroceryListModel) -> GroceryListsModel {
@@ -138,14 +116,29 @@ class MainScreenDataManager {
     }
     
     private func createDefaultArray() {
+        
+        // ячейки для холодного старта
+        let instruction = GroceryListsModel(dateOfCreation: Date(), color: 0, products: [], typeOfSorting: 0)
+        let todayFirst = GroceryListsModel(dateOfCreation: Date(), color: 0, products: [], typeOfSorting: 0)
+        let todaySecond = GroceryListsModel(dateOfCreation: Date(), color: 1, products: [], typeOfSorting: 0)
+        let todayThird = GroceryListsModel(dateOfCreation: Date(), color: 2, products: [], typeOfSorting: 0)
+        let weekFirst = GroceryListsModel(dateOfCreation: Date(), color: 0, products: [], typeOfSorting: 0)
+        let weekSecond = GroceryListsModel(dateOfCreation: Date(), color: 1, products: [], typeOfSorting: 0)
+        let weekThird = GroceryListsModel(dateOfCreation: Date(), color: 2, products: [], typeOfSorting: 0)
+        let monthFirst = GroceryListsModel(dateOfCreation: Date(), color: 0, products: [], typeOfSorting: 0)
+        let monthSecond = GroceryListsModel(dateOfCreation: Date(), color: 1, products: [], typeOfSorting: 0)
+        let monthThird = GroceryListsModel(dateOfCreation: Date(), color: 2, products: [], typeOfSorting: 0)
+        
+        
+        // секции - у нас их ограниченое количество
         var finalArray: [SectionModel] = []
         let list = GroceryListsModel(id: topCellID, dateOfCreation: Date(), name: "k",
                                      color: 0, isFavorite: false, products: [], typeOfSorting: 0)
         let topSection = SectionModel(id: 0, cellType: .topMenu, sectionType: .empty, lists: [list])
         var favoriteSection = SectionModel(id: 1, cellType: .usual, sectionType: .favorite, lists: [])
-        var todaySection = SectionModel(id: 2, cellType: .instruction, sectionType: .today, lists: [])
-        var weekSection = SectionModel(id: 3, cellType: .empty, sectionType: .week, lists: [])
-        var monthSection = SectionModel(id: 4, cellType: .empty, sectionType: .month, lists: [])
+        var todaySection = SectionModel(id: 2, cellType: .usual, sectionType: .today, lists: [])
+        var weekSection = SectionModel(id: 3, cellType: .usual, sectionType: .week, lists: [])
+        var monthSection = SectionModel(id: 4, cellType: .usual, sectionType: .month, lists: [])
         
         // поведение при холодном старте
         if  coldStartState == .firstItemAdded {
@@ -175,12 +168,7 @@ class MainScreenDataManager {
         if weekSection.lists.isEmpty { weekSection = emptyWeekSection }
         if monthSection.lists.isEmpty { monthSection = emptyMonthSection }
         
-        let sections = [favoriteSection, todaySection, weekSection, monthSection]
-        finalArray.append(topSection)
-      
-        // защита от краша при наличии пустой секции
-        sections.filter({ $0.lists != [] }).forEach({ finalArray.append($0) })
-        
+        let sections = [topSection, favoriteSection, todaySection, weekSection, monthSection]
         dataSourceArray = finalArray
     }
     

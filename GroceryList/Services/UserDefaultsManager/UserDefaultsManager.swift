@@ -11,10 +11,10 @@ class UserDefaultsManager {
     
     static var coldStartState: Int {
         get {
-            return UserDefaults.standard.integer(forKey: "3")
+            return UserDefaults.standard.integer(forKey: "454")
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "3")
+            UserDefaults.standard.set(newValue, forKey: "454")
         }
     }
 }
