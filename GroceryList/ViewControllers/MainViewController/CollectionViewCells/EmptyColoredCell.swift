@@ -19,9 +19,22 @@ class EmptyColoredCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        contentViews.layer.cornerRadius = 0
+        self.layoutIfNeeded()
+    }
+    
     func setupCell(bckgColor: UIColor, isTopRounded: Bool, isBottomRounded: Bool) {
         contentViews.backgroundColor = bckgColor
 
+        
+        if isBottomRounded && isTopRounded {
+            contentViews.layer.cornerRadius = 8
+            contentViews.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+            return
+        }
+        
         if isBottomRounded {
             contentViews.layer.cornerRadius = 8
             contentViews.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
@@ -30,10 +43,6 @@ class EmptyColoredCell: UICollectionViewCell {
         if isTopRounded {
             contentViews.layer.cornerRadius = 8
             contentViews.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        }
-        
-        if isBottomRounded && isTopRounded {
-            contentViews.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         }
     }
     

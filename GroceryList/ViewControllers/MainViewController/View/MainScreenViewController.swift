@@ -46,12 +46,17 @@ class MainScreenViewController: UIViewController {
             .foregroundColor: color
         ])
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        bottomCreateListView.startAnimating()
+    }
     // MARK: - UI
     
     private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
     
-    private let bottomCreateListView: UIView = {
-        let view = UIView()
+    private let bottomCreateListView: ShimmerView = {
+        let view = ShimmerView()
         view.backgroundColor = .white.withAlphaComponent(0.9)
         return view
     }()
@@ -60,6 +65,7 @@ class MainScreenViewController: UIViewController {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "#plusImage")
+        imageView.blink()
         return imageView
     }()
     
@@ -82,6 +88,7 @@ class MainScreenViewController: UIViewController {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
         view.addSubviews([collectionView, bottomCreateListView])
         bottomCreateListView.addSubviews([plusImage, createListLabel])
+       // collectionView.addSubview(foodImage)
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(5)
@@ -104,6 +111,13 @@ class MainScreenViewController: UIViewController {
             make.left.equalTo(plusImage.snp.right).inset(-8)
             make.centerY.equalTo(plusImage)
         }
+        
+//        foodImage.snp.makeConstraints { make in
+//            make.bottom.equalToSuperview()
+//            make.width.equalTo(316)
+//            make.height.equalTo(367)
+//            make.centerX.equalToSuperview()
+//        }
     }
 }
 
@@ -216,7 +230,8 @@ extension MainScreenViewController: UICollectionViewDelegate {
     private func reloadItems(lists: Set<GroceryListsModel>) {
         guard var snapshot = collectionViewDataSource?.snapshot() else { return }
         let array = Array(lists)
-        snapshot.reloadItems(array)
+        array.forEach({ if snapshot.sectionIdentifier(containingItem: $0) != nil { snapshot.reloadItems([$0]) } })
+       
         collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
     }
     
@@ -260,5 +275,14 @@ extension MainScreenViewController {
     @objc
     private func createListAction() {
         viewModel?.createNewListTapped()
+    }
+}
+
+extension UIView {
+    func blink() {
+        UIView.animate(withDuration: 0.9, delay: 0.0, options: [.curveLinear, .repeat, .autoreverse], animations: {
+            self.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)
+            
+        }, completion: nil)
     }
 }

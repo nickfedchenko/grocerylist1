@@ -33,6 +33,7 @@ class CreateNewListViewModel {
         let list = GroceryListsModel(id: UUID(), dateOfCreation: Date(),
                                      name: nameOfList, color: numberOfColor, isFavorite: false, products: [], typeOfSorting: typeOfSorting)
         CoreDataManager.shared.saveList(list: list)
+        UserDefaultsManager.coldStartState = 2
         valueChangedCallback?(list)
     }
     

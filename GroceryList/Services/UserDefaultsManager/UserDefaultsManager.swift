@@ -9,12 +9,12 @@ import Foundation
 
 class UserDefaultsManager {
     
-    static var isColdStartModelAdded: Bool {
+    static var coldStartState: Int {
         get {
-            return UserDefaults.standard.bool(forKey: "isColdStartModelAdded")
+            return UserDefaults.standard.integer(forKey: "3")
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "isColdStartModelAdded")
+            UserDefaults.standard.set(newValue, forKey: "3")
         }
     }
 }
