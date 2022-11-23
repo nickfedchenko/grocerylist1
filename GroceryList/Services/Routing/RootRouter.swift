@@ -126,6 +126,12 @@ final class RootRouter: RootRouterProtocol {
         topViewController?.present(controller, animated: true, completion: nil)
     }
     
+    func presentSelectProduct(height: Double, model: GroceryListsModel) {
+        guard let controller = viewControllerFactory.createSelectProductsController(height: height, model: model, router: self) else { return }
+        controller.modalPresentationStyle = .overCurrentContext
+        topViewController?.present(controller, animated: true, completion: nil)
+    }
+    
     func popToRoot() {
         navigationPopToRootViewController(animated: true)
     }

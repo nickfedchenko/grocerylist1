@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 
 class SelectListViewModel: MainScreenViewModel {
-    override func cellTapped(with model: GroceryListsModel) {
-        print("sdf")
+   
+    func cellTapped(with model: GroceryListsModel, viewHeight: Double) {
+        router?.presentSelectProduct(height: viewHeight, model: model)
     }
 }

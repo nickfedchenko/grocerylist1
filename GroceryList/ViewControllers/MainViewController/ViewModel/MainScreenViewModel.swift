@@ -15,6 +15,14 @@ class MainScreenViewModel {
         self.dataSource?.dataChangedCallBack = { [weak self] in
             self?.reloadDataCallBack?()
         }
+//        
+//        let id = CoreDataManager.shared.getAllLists()![0]
+//        //    CoreDataManager.shared.deleteAllEntities()
+//       //     print(CoreDataManager.shared.getAllLists()?.count)
+//            let supplay = Product(id: UUID(), listId: id.id!, name: "кем", isPurchased: true, dateOfCreation: Date(), category: "ака4", isFavorite: true)
+//            let supplay2 = Product(id: UUID(), listId: id.id!, name: "аа", isPurchased: false, dateOfCreation: Date(), category: "м4ав", isFavorite: true)
+//            CoreDataManager.shared.createProduct(product: supplay)
+//            CoreDataManager.shared.createProduct(product: supplay2)
     }
     
     weak var router: RootRouter?
@@ -26,14 +34,6 @@ class MainScreenViewModel {
     var model: [SectionModel] {
         return dataSource?.dataSourceArray ?? []
     }
-
-//        let id = CoreDataManager.shared.getAllLists()![0]
-//    //    CoreDataManager.shared.deleteAllEntities()
-//        print(CoreDataManager.shared.getAllLists()?.count)
-//        let supplay = Product(id: UUID(), listId: id.id!, name: "ccc", isPurchased: true, dateOfCreation: Date(), category: "222", isFavorite: true)
-//        let supplay2 = Product(id: UUID(), listId: id.id!, name: "ddd", isPurchased: false, dateOfCreation: Date(), category: "222", isFavorite: true)
-//        CoreDataManager.shared.createProduct(product: supplay)
-//        CoreDataManager.shared.createProduct(product: supplay2)
     
     // routing
     func createNewListTapped() {

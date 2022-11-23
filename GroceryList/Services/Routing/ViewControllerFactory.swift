@@ -20,6 +20,7 @@ protocol ViewControllerFactoryProtocol {
     func createPrintController(image: UIImage) -> UIPrintInteractionController?
     func createAlertController(title: String, message: String) -> UIAlertController?
     func createSelectListController(height: Double, router: RootRouter) -> UIViewController?
+    func createSelectProductsController(height: Double, model: GroceryListsModel, router: RootRouter) -> UIViewController?
 }
     
 // MARK: - Factory
@@ -70,6 +71,15 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.valueChangedCallback = compl
         viewModel.delegate = viewController
         viewController.viewModel = viewModel
+        viewModel.router = router
+        return viewController
+    }
+    
+    func createSelectProductsController(height: Double, model: GroceryListsModel, router: RootRouter) -> UIViewController? {
+        let viewController = SelectProductViewController()
+        let viewModel = SelectProductViewModel(model: model)
+        viewController.viewModel = viewModel
+        viewController.contentViewHeigh = height
         viewModel.router = router
         return viewController
     }

@@ -27,9 +27,6 @@ class SelectListViewController: UIViewController {
         viewModel?.reloadDataCallBack = { [weak self] in
             self?.reloadData()
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-            self?.dismiss(animated: true)
-        }
     }
     
     deinit {
@@ -142,7 +139,7 @@ extension SelectListViewController: UICollectionViewDelegate {
         guard let model = collectionViewDataSource?.itemIdentifier(for: indexPath) else { return }
         guard let section = self.collectionViewDataSource?.snapshot().sectionIdentifier(containingItem: model) else { return }
         guard section.cellType == .usual else { return }
-        viewModel?.cellTapped(with: model)
+        viewModel?.cellTapped(with: model, viewHeight: contentViewHeigh)
     }
     
     private func setupCollectionView() {
