@@ -25,10 +25,12 @@ class MainScreenViewController: UIViewController {
         createTableViewDataSource()
         viewModel?.reloadDataCallBack = { [weak self] in
             self?.reloadData()
+            self?.updateImageConstraint()
         }
         
         viewModel?.updateCells = { setOfLists in
             self.reloadItems(lists: setOfLists)
+            self.updateImageConstraint()
         }
     }
     
@@ -47,9 +49,32 @@ class MainScreenViewController: UIViewController {
         ])
     }
     
+    private func updateImageConstraint() {
+        let height = viewModel?.getImageHeight()
+        
+        switch height {
+        case .empty:
+            foodImage.isHidden = true
+        case .min:
+            foodImage.isHidden = false
+            foodImage.snp.updateConstraints { make in
+                make.bottom.equalTo(collectionView.contentSize.height + 180)
+            }
+        case .middle:
+            foodImage.isHidden = false
+            foodImage.snp.updateConstraints { make in
+                make.bottom.equalTo(collectionView.contentSize.height)
+            }
+        case .none:
+            print("print")
+        }
+       
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         bottomCreateListView.startAnimating()
+        updateImageConstraint()
     }
     // MARK: - UI
     
@@ -79,7 +104,7 @@ class MainScreenViewController: UIViewController {
     
     private let foodImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "foodImage")
         return imageView
     }()
@@ -88,7 +113,7 @@ class MainScreenViewController: UIViewController {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
         view.addSubviews([collectionView, bottomCreateListView])
         bottomCreateListView.addSubviews([plusImage, createListLabel])
-       // collectionView.addSubview(foodImage)
+        collectionView.addSubview(foodImage)
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(5)
@@ -112,13 +137,14 @@ class MainScreenViewController: UIViewController {
             make.centerY.equalTo(plusImage)
         }
         
-//        foodImage.snp.makeConstraints { make in
-//            make.bottom.equalToSuperview()
-//            make.width.equalTo(316)
-//            make.height.equalTo(367)
-//            make.centerX.equalToSuperview()
-//        }
+        foodImage.snp.makeConstraints { make in
+            make.bottom.equalTo(collectionView.contentSize.height)
+            make.width.equalTo(316)
+            make.height.equalTo(400)
+            make.centerX.equalToSuperview()
+        }
     }
+    
 }
 
 // MARK: - CollectionView

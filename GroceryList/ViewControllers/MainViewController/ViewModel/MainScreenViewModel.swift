@@ -103,4 +103,8 @@ class MainScreenViewModel {
     func reloadDataFromStorage() {
         dataSource.updateListOfModels()
     }
+    
+    func getImageHeight() -> ImageHeight {
+        dataSource.imageHeight
+    }
 }

@@ -18,6 +18,8 @@ class MainScreenDataManager {
     var setOfModelsToUpdate: Set<GroceryListsModel> = []
     private var coreDataModles = CoreDataManager.shared.getAllLists()
     
+    var imageHeight: ImageHeight = .empty
+    
     private var coldStartState: ColdStartState {
         get {
            return ColdStartState(rawValue: UserDefaultsManager.coldStartState) ?? .initial
@@ -115,19 +117,16 @@ class MainScreenDataManager {
             CoreDataManager.shared.saveList(list: GroceryListsModel(dateOfCreation: Date(), name: "Supermarket".localized, color: 0, isFavorite: true, products: [], typeOfSorting: 0))
             coldStartState = .firstItemAdded
         }
-        createDefaultArray()
+        createDataSourceArray()
     }
     
-    private func createDefaultArray() {
+    private func createDataSourceArray() {
         
         // ячейки для холодного старта
         let instruction = GroceryListsModel(dateOfCreation: Date(), color: 0, products: [], typeOfSorting: 0)
-        let todayFirst = GroceryListsModel(dateOfCreation: Date(), color: 0, products: [], typeOfSorting: 0)
-        let todaySecond = GroceryListsModel(dateOfCreation: Date(), color: 1, products: [], typeOfSorting: 0)
-        let todayThird = GroceryListsModel(dateOfCreation: Date(), color: 2, products: [], typeOfSorting: 0)
+        let todayFirst = GroceryListsModel(dateOfCreation: Date(), color: 2, products: [], typeOfSorting: 0)
         let weekFirst = GroceryListsModel(dateOfCreation: Date(), color: 0, products: [], typeOfSorting: 0)
         let weekSecond = GroceryListsModel(dateOfCreation: Date(), color: 1, products: [], typeOfSorting: 0)
-        let weekThird = GroceryListsModel(dateOfCreation: Date(), color: 2, products: [], typeOfSorting: 0)
         let monthFirst = GroceryListsModel(dateOfCreation: Date(), color: 0, products: [], typeOfSorting: 0)
         let monthSecond = GroceryListsModel(dateOfCreation: Date(), color: 1, products: [], typeOfSorting: 0)
         let monthThird = GroceryListsModel(dateOfCreation: Date(), color: 2, products: [], typeOfSorting: 0)
@@ -163,18 +162,23 @@ class MainScreenDataManager {
         
        
         // проверка на пустые секции - если такие есть то автоматом заполняются шаблонными ячейками
-        let emptyTodaySection = SectionModel(id: 2, cellType: .empty, sectionType: .today, lists: [todayFirst, todaySecond, todayThird])
-        let emptyWeekSection = SectionModel(id: 3, cellType: .empty, sectionType: .week, lists: [weekFirst, weekSecond, weekThird])
+        let emptyTodaySection = SectionModel(id: 2, cellType: .empty, sectionType: .today, lists: [todayFirst])
+        let emptyWeekSection = SectionModel(id: 3, cellType: .empty, sectionType: .week, lists: [weekFirst, weekSecond])
         let emptyMonthSection = SectionModel(id: 4, cellType: .empty, sectionType: .month, lists: [monthFirst, monthSecond, monthThird])
     
+        if !monthSection.lists.isEmpty { imageHeight = .empty }
+        if !weekSection.lists.isEmpty  && monthSection.lists.isEmpty { imageHeight = .min }
+        if weekSection.lists.isEmpty  && monthSection.lists.isEmpty { imageHeight = .middle }
+        
         
         // если нижестоящая секция не пустая - то в секции ниже не добавляются пустые шаблоны
         if todaySection.lists.isEmpty && weekSection.lists.isEmpty && monthSection.lists.isEmpty { todaySection = emptyTodaySection }
         if weekSection.lists.isEmpty && monthSection.lists.isEmpty { weekSection = emptyWeekSection }
         if monthSection.lists.isEmpty { monthSection = emptyMonthSection }
-        var sections: [SectionModel] = [topSection, favoriteSection, todaySection, weekSection, monthSection]
+      
+      
+        let sections: [SectionModel] = [topSection, favoriteSection, todaySection, weekSection, monthSection]
         
-    //    sections.sort(by: { $0.lists.count > $1.lists.count })
         // защита от краша при наличии пустой секции
         sections.filter({ $0.lists != [] }).forEach({ finalArray.append($0) })
         
@@ -190,4 +194,11 @@ enum ColdStartState: Int {
     case initial
     case firstItemAdded
     case coldStartFinished
+}
+
+
+enum ImageHeight {
+    case empty
+    case min
+    case middle
 }
