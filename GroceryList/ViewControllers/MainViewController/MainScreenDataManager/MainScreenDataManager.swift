@@ -7,7 +7,18 @@
 
 import UIKit
 
-class MainScreenDataManager {
+protocol DataSourceProtocol {
+    var imageHeight: ImageHeight { get set }
+    var dataSourceArray: [SectionModel] { get set }
+    var dataChangedCallBack: (() -> Void)? { get set }
+    var setOfModelsToUpdate: Set<GroceryListsModel> { get set }
+    func updateListOfModels() -> Set<GroceryListsModel>
+    func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel>
+    func addOrDeleteFromFavorite(with model: GroceryListsModel) -> Set<GroceryListsModel>
+    
+}
+
+class MainScreenDataManager: DataSourceProtocol {
     
     init() {
         createWorkingArray()
@@ -36,7 +47,7 @@ class MainScreenDataManager {
         }
     }
     
-    private var transformedModels: [GroceryListsModel]? {
+    var transformedModels: [GroceryListsModel]? {
         didSet {
             createWorkingArray()
         }
@@ -120,7 +131,7 @@ class MainScreenDataManager {
         createDataSourceArray()
     }
     
-    private func createDataSourceArray() {
+    func createDataSourceArray() {
         
         // ячейки для холодного старта
         let instruction = GroceryListsModel(dateOfCreation: Date(), color: 0, products: [], typeOfSorting: 0)

@@ -21,6 +21,9 @@
 		B3476909291D21730045A287 /* ProductsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3476908291D21730045A287 /* ProductsSettingsViewController.swift */; };
 		B347690B291D23800045A287 /* ProductsSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347690A291D23800045A287 /* ProductsSettingsViewModel.swift */; };
 		B34BB80A292D1C4600748E8E /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB809292D1C4600748E8E /* ShimmerView.swift */; };
+		B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB80C292E339400748E8E /* SelectListViewController.swift */; };
+		B34BB80F292E389B00748E8E /* SelectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB80E292E389B00748E8E /* SelectListViewModel.swift */; };
+		B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB810292E38F700748E8E /* SelectListDataManager.swift */; };
 		B360918E2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918A2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift */; };
 		B360918F2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */; };
 		B36091902927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */; };
@@ -90,6 +93,9 @@
 		B3476908291D21730045A287 /* ProductsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsSettingsViewController.swift; sourceTree = "<group>"; };
 		B347690A291D23800045A287 /* ProductsSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsSettingsViewModel.swift; sourceTree = "<group>"; };
 		B34BB809292D1C4600748E8E /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
+		B34BB80C292E339400748E8E /* SelectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewController.swift; sourceTree = "<group>"; };
+		B34BB80E292E389B00748E8E /* SelectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewModel.swift; sourceTree = "<group>"; };
+		B34BB810292E38F700748E8E /* SelectListDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListDataManager.swift; sourceTree = "<group>"; };
 		B360918A2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -265,6 +271,16 @@
 			path = ProductsSettingsViewController;
 			sourceTree = "<group>";
 		};
+		B34BB80B292E330D00748E8E /* SelectListViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B34BB80C292E339400748E8E /* SelectListViewController.swift */,
+				B34BB80E292E389B00748E8E /* SelectListViewModel.swift */,
+				B34BB810292E38F700748E8E /* SelectListDataManager.swift */,
+			);
+			path = SelectListViewController;
+			sourceTree = "<group>";
+		};
 		B36933FB291AAC3A00AFFAA6 /* CellModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -427,6 +443,7 @@
 				B37A2CDD2911027E003C01AD /* Onboarding */,
 				B36933FC291BA4CE00AFFAA6 /* MainViewController */,
 				B36933FD291BA4EE00AFFAA6 /* CreateNewListViewController */,
+				B34BB80B292E330D00748E8E /* SelectListViewController */,
 				B3476900291D00E00045A287 /* ProductsViewController */,
 				B3476907291D213D0045A287 /* ProductsSettingsViewController */,
 			);
@@ -627,6 +644,7 @@
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
 				B3E654A32927A7D300106500 /* ArrowView.swift in Sources */,
+				B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */,
 				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
 				B3693402291BA62F00AFFAA6 /* CreateNewListViewModel.swift in Sources */,
 				B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */,
@@ -636,6 +654,7 @@
 				B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */,
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
+				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
 				B36091912927D99E004EBBE6 /* DBProduct+CoreDataClass.swift in Sources */,
 				B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */,
 				B36D18EB291A2CCD005EE32D /* CoreDataStorage.swift in Sources */,
@@ -656,6 +675,7 @@
 				B34BB80A292D1C4600748E8E /* ShimmerView.swift in Sources */,
 				B36AF9432913D39400944E9D /* UIImageExtension.swift in Sources */,
 				B36D18ED291A2CF4005EE32D /* CoreDataManager.swift in Sources */,
+				B34BB80F292E389B00748E8E /* SelectListViewModel.swift in Sources */,
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
 				B37A2CEB2911034D003C01AD /* StringExtension.swift in Sources */,

@@ -372,7 +372,7 @@ extension CreateNewListViewController {
     
     @objc
     private func pickItemsAction() {
-        print("pick items from anither list")
+        viewModel?.pickItemTapped()
     }
     
     @objc

@@ -19,6 +19,7 @@ protocol ViewControllerFactoryProtocol {
     func createActivityController(image: [Any]) -> UIViewController?
     func createPrintController(image: UIImage) -> UIPrintInteractionController?
     func createAlertController(title: String, message: String) -> UIAlertController?
+    func createSelectListController(router: RootRouter) -> UIViewController?
 }
     
 // MARK: - Factory
@@ -33,7 +34,8 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
     func createMainController(router: RootRouter) -> UIViewController? {
         let viewController = MainScreenViewController()
-        let viewModel = MainScreenViewModel()
+        let dataSource = MainScreenDataManager()
+        let viewModel = MainScreenViewModel(dataSource: dataSource)
         viewController.viewModel = viewModel
         viewModel.router = router
         return viewController
@@ -47,6 +49,15 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewController.viewModel = viewModel
         viewModel.router = router
         viewModel.model = model
+        return viewController
+    }
+    
+    func createSelectListController(router: RootRouter) -> UIViewController? {
+        let viewController = SelectListViewController()
+        let dataSource = SelectListDataManager()
+        let viewModel = SelectListViewModel(dataSource: dataSource)
+        viewController.viewModel = viewModel
+        viewModel.router = router
         return viewController
     }
     

@@ -48,4 +48,8 @@ class CreateNewListViewModel {
     func getBackgroundColor(at ind: Int) -> UIColor {
         colorManager.getGradient(index: ind).1
     }
+    
+    func pickItemTapped() {
+        router?.presentSelectList()
+    }
 }

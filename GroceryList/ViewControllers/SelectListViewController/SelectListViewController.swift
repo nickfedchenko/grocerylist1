@@ -1,17 +1,17 @@
 //
-//  MainScreenViewController.swift
+//  SelectListViewController.swift
 //  GroceryList
 //
-//  Created by Шамиль Моллачиев on 03.11.2022.
+//  Created by Шамиль Моллачиев on 23.11.2022.
 //
 
 import SnapKit
 import UIKit
 
-class MainScreenViewController: UIViewController {
+class SelectListViewController: UIViewController {
     
     private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroceryListsModel>?
-    var viewModel: MainScreenViewModel?
+    var viewModel: SelectListViewModel?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
@@ -21,16 +21,9 @@ class MainScreenViewController: UIViewController {
         super.viewDidLoad()
         setupConstraints()
         setupCollectionView()
-        addRecognizer()
         createTableViewDataSource()
         viewModel?.reloadDataCallBack = { [weak self] in
             self?.reloadData()
-            self?.updateImageConstraint()
-        }
-        
-        viewModel?.updateCells = { setOfLists in
-            self.reloadItems(lists: setOfLists)
-            self.updateImageConstraint()
         }
     }
     
@@ -42,119 +35,41 @@ class MainScreenViewController: UIViewController {
         viewModel?.reloadDataFromStorage()
     }
     
-    private func createAttributedString(title: String, color: UIColor = .white) -> NSAttributedString {
-        NSAttributedString(string: title, attributes: [
-            .font: UIFont.SFPro.bold(size: 18).font ?? UIFont(),
-            .foregroundColor: color
-        ])
-    }
-    
-    private func updateImageConstraint() {
-        let height = viewModel?.getImageHeight()
-        
-        switch height {
-        case .empty:
-            foodImage.isHidden = true
-        case .min:
-            foodImage.isHidden = false
-            foodImage.image = UIImage(named: "halfFood")
-            foodImage.snp.updateConstraints { make in
-                make.bottom.equalTo(collectionView.contentSize.height)
-                make.left.right.equalToSuperview().inset(20)
-                make.height.equalTo(213)
-            }
-        case .middle:
-            foodImage.isHidden = false
-            foodImage.image = UIImage(named: "foodImage")
-            foodImage.snp.updateConstraints { make in
-                make.bottom.equalTo(collectionView.contentSize.height)
-                make.left.right.equalToSuperview().inset(20)
-                make.height.equalTo(400)
-            }
-        case .none:
-            print("print")
-        }
-       
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        bottomCreateListView.startAnimating()
-        updateImageConstraint()
-    }
     // MARK: - UI
     
     private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
     
-    private let bottomCreateListView: ShimmerView = {
-        let view = ShimmerView()
-        view.backgroundColor = .white.withAlphaComponent(0.9)
+    private let contentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#F9FBEB")
+        view.layer.cornerRadius = 20
+        view.layer.masksToBounds = true
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         return view
     }()
     
-    private let plusImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "#plusImage")
-        imageView.blink()
-        return imageView
-    }()
-    
-    private let createListLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 18).font
-        label.textColor = UIColor(hex: "#31635A")
-        label.text = "CreateList".localized
-        return label
-    }()
-    
-    private let foodImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "foodImage")
-        return imageView
-    }()
-    
     private func setupConstraints() {
-        view.backgroundColor = UIColor(hex: "#E8F5F3")
-        view.addSubviews([collectionView, bottomCreateListView])
-        bottomCreateListView.addSubviews([plusImage, createListLabel])
-        collectionView.addSubview(foodImage)
+        view.backgroundColor = .clear
+        view.addSubviews([contentView])
+        contentView.addSubviews([collectionView])
+        
+        contentView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.height.equalTo(385)
+        }
+        
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(5)
-            make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(88)
+            make.edges.equalToSuperview()
         }
-        
-        bottomCreateListView.snp.makeConstraints { make in
-            make.left.right.bottom.equalToSuperview()
-            make.height.equalTo(86)
-        }
-        
-        plusImage.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(38)
-            make.top.equalToSuperview().inset(24)
-            make.height.width.equalTo(24)
-        }
-        
-        createListLabel.snp.makeConstraints { make in
-            make.left.equalTo(plusImage.snp.right).inset(-8)
-            make.centerY.equalTo(plusImage)
-        }
-        
-        foodImage.snp.makeConstraints { make in
-            make.bottom.equalTo(collectionView.contentSize.height)
-            make.left.right.equalToSuperview().inset(20)
-            make.height.equalTo(400)
-            make.centerX.equalToSuperview()
-        }
+
     }
     
 }
 
 // MARK: - CollectionView
-extension MainScreenViewController: UICollectionViewDelegate {
+extension SelectListViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let model = collectionViewDataSource?.itemIdentifier(for: indexPath) else { return }
@@ -220,15 +135,6 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 cell?.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
               
-            // Удаление и закрепление ячейки
-                cell?.swipeDeleteAction = {
-                    viewModel.deleteCell(with: model)
-                }
-                
-                cell?.swipeToAddOrDeleteFromFavorite = {
-                    viewModel.addOrDeleteFromFavorite(with: model)
-       
-                }
                 return cell
             }
         })
@@ -294,18 +200,5 @@ extension MainScreenViewController: UICollectionViewDelegate {
                                                                              elementKind: UICollectionView.elementKindSectionHeader,
                                                                              alignment: .top)
         return layutSectionHeader
-    }
-}
-
-// MARK: - CreateListAction
-extension MainScreenViewController {
-    private func addRecognizer() {
-        let firstRecognizer = UITapGestureRecognizer(target: self, action: #selector(createListAction))
-        bottomCreateListView.addGestureRecognizer(firstRecognizer)
-    }
-    
-    @objc
-    private func createListAction() {
-        viewModel?.createNewListTapped()
     }
 }

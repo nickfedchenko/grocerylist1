@@ -10,16 +10,23 @@ import UIKit
 
 class MainScreenViewModel {
     
-    weak var router: RootRouter?
-    private var colorManager = ColorManager()
-    let network = Networking()
-    
-    init() {
-        dataSource = MainScreenDataManager()
-        dataSource.dataChangedCallBack = { [weak self] in
+    init(dataSource: DataSourceProtocol) {
+        self.dataSource = dataSource
+        self.dataSource?.dataChangedCallBack = { [weak self] in
             self?.reloadDataCallBack?()
         }
-        
+    }
+    
+    weak var router: RootRouter?
+    private var colorManager = ColorManager()
+    var reloadDataCallBack: (() -> Void)?
+    var updateCells:((Set<GroceryListsModel>) -> Void)?
+    var dataSource: DataSourceProtocol?
+   
+    var model: [SectionModel] {
+        return dataSource?.dataSourceArray ?? []
+    }
+
 //        let id = CoreDataManager.shared.getAllLists()![0]
 //    //    CoreDataManager.shared.deleteAllEntities()
 //        print(CoreDataManager.shared.getAllLists()?.count)
@@ -27,23 +34,14 @@ class MainScreenViewModel {
 //        let supplay2 = Product(id: UUID(), listId: id.id!, name: "ddd", isPurchased: false, dateOfCreation: Date(), category: "222", isFavorite: true)
 //        CoreDataManager.shared.createProduct(product: supplay)
 //        CoreDataManager.shared.createProduct(product: supplay2)
-    }
-    
-    var reloadDataCallBack: (() -> Void)?
-    var updateCells:((Set<GroceryListsModel>) -> Void)?
-    private var dataSource: MainScreenDataManager
-    
-    var model: [SectionModel] {
-        return dataSource.dataSourceArray
-    }
     
     // routing
     func createNewListTapped() {
         
         router?.goCreateNewList(compl: { [weak self] _ in
-            guard let list = self?.dataSource.updateListOfModels() else { return }
+            guard let list = self?.dataSource?.updateListOfModels() else { return }
             self?.updateCells?(list)
-            self?.dataSource.setOfModelsToUpdate = []
+            self?.dataSource?.setOfModelsToUpdate = []
         })
     }
     
@@ -80,15 +78,15 @@ class MainScreenViewModel {
     // cells callbacks
     
     func deleteCell(with model: GroceryListsModel) {
-        let list = dataSource.deleteList(with: model)
+        guard let list = dataSource?.deleteList(with: model) else { return }
         updateCells?(list)
-        dataSource.setOfModelsToUpdate = []
+        dataSource?.setOfModelsToUpdate = []
     }
     
     func addOrDeleteFromFavorite(with model: GroceryListsModel) {
-        let list = dataSource.addOrDeleteFromFavorite(with: model)
+        guard let list = dataSource?.addOrDeleteFromFavorite(with: model) else { return }
         updateCells?(list)
-        dataSource.setOfModelsToUpdate = []
+        dataSource?.setOfModelsToUpdate = []
     }
     
     func getnumberOfProductsInside(at ind: IndexPath) -> String {
@@ -101,10 +99,10 @@ class MainScreenViewModel {
     }
     
     func reloadDataFromStorage() {
-        dataSource.updateListOfModels()
+        dataSource?.updateListOfModels()
     }
     
     func getImageHeight() -> ImageHeight {
-        dataSource.imageHeight
+        dataSource?.imageHeight ?? .empty
     }
 }
