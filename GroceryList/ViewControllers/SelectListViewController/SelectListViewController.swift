@@ -27,6 +27,13 @@ class SelectListViewController: UIViewController {
         viewModel?.reloadDataCallBack = { [weak self] in
             self?.reloadData()
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.dismiss(animated: true)
+        }
+    }
+    
+    deinit {
+        print("select list deinited")
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -150,11 +157,11 @@ extension SelectListViewController: UICollectionViewDelegate {
     
     private func createTableViewDataSource() {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
-                                                                      cellProvider: { collectionView, indexPath, model in
+                                                                      cellProvider: { [weak self] collectionView, indexPath, model in
 
-                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "SelectListCollectionCell",
+                let cell = self?.collectionView.dequeueReusableCell(withReuseIdentifier: "SelectListCollectionCell",
                                                                    for: indexPath) as? SelectListCollectionCell
-                guard let viewModel = self.viewModel else { return UICollectionViewCell() }
+                guard let viewModel = self?.viewModel else { return UICollectionViewCell() }
                 let name = viewModel.getNameOfList(at: indexPath)
                 let isTopRouned = viewModel.isTopRounded(at: indexPath)
                 let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
@@ -169,13 +176,13 @@ extension SelectListViewController: UICollectionViewDelegate {
     }
     
     private func addHeaderToCollectionView() {
-        collectionViewDataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
+        collectionViewDataSource?.supplementaryViewProvider = { [weak self]  collectionView, kind, indexPath in
             guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                       withReuseIdentifier: "GroceryCollectionViewHeader",
                                                                                       for: indexPath) as? GroceryCollectionViewHeader else { return nil }
             
-            guard let model = self.collectionViewDataSource?.itemIdentifier(for: indexPath) else { return nil }
-            guard let section = self.collectionViewDataSource?.snapshot().sectionIdentifier(containingItem: model) else { return nil }
+            guard let model = self?.collectionViewDataSource?.itemIdentifier(for: indexPath) else { return nil }
+            guard let section = self?.collectionViewDataSource?.snapshot().sectionIdentifier(containingItem: model) else { return nil }
             sectionHeader.setupHeader(sectionType: section.sectionType)
             return sectionHeader
         }
@@ -202,13 +209,13 @@ extension SelectListViewController: UICollectionViewDelegate {
     
     // CollectionViewLayout
     private func createCompositionalLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { (_, _) -> NSCollectionLayoutSection? in
-            return self.createLayout()
+        let layout = UICollectionViewCompositionalLayout { [weak self] (_, _) -> NSCollectionLayoutSection? in
+            return self?.createLayout()
         }
         return layout
     }
     
-    private func createLayout(isHeaderNeeded: Bool = true) -> NSCollectionLayoutSection {
+    private func createLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(72))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 1, trailing: 0)
@@ -247,8 +254,8 @@ extension SelectListViewController {
     
     private func hidePanel() {
         updateConstr(with: -contentViewHeigh)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            self.dismiss(animated: true, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
         }
     }
 }
