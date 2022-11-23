@@ -167,11 +167,14 @@ class MainScreenDataManager {
         let emptyWeekSection = SectionModel(id: 3, cellType: .empty, sectionType: .week, lists: [weekFirst, weekSecond, weekThird])
         let emptyMonthSection = SectionModel(id: 4, cellType: .empty, sectionType: .month, lists: [monthFirst, monthSecond, monthThird])
     
-        if todaySection.lists.isEmpty { todaySection = emptyTodaySection}
-        if weekSection.lists.isEmpty { weekSection = emptyWeekSection }
-        if monthSection.lists.isEmpty { monthSection = emptyMonthSection }
         
-        let sections = [topSection, favoriteSection, todaySection, weekSection, monthSection]
+        // если нижестоящая секция не пустая - то в секции ниже не добавляются пустые шаблоны
+        if todaySection.lists.isEmpty && weekSection.lists.isEmpty && monthSection.lists.isEmpty { todaySection = emptyTodaySection }
+        if weekSection.lists.isEmpty && monthSection.lists.isEmpty { weekSection = emptyWeekSection }
+        if monthSection.lists.isEmpty { monthSection = emptyMonthSection }
+        var sections: [SectionModel] = [topSection, favoriteSection, todaySection, weekSection, monthSection]
+        
+    //    sections.sort(by: { $0.lists.count > $1.lists.count })
         // защита от краша при наличии пустой секции
         sections.filter({ $0.lists != [] }).forEach({ finalArray.append($0) })
         
