@@ -60,7 +60,7 @@ class MainScreenViewController: UIViewController {
             foodImage.image = UIImage(named: "halfFood")
             foodImage.snp.updateConstraints { make in
                 make.bottom.equalTo(collectionView.contentSize.height)
-                make.width.equalTo(339)
+                make.left.right.equalToSuperview().inset(20)
                 make.height.equalTo(213)
             }
         case .middle:
@@ -68,7 +68,7 @@ class MainScreenViewController: UIViewController {
             foodImage.image = UIImage(named: "foodImage")
             foodImage.snp.updateConstraints { make in
                 make.bottom.equalTo(collectionView.contentSize.height)
-                make.width.equalTo(350)
+                make.left.right.equalToSuperview().inset(20)
                 make.height.equalTo(400)
             }
         case .none:
@@ -145,7 +145,7 @@ class MainScreenViewController: UIViewController {
         
         foodImage.snp.makeConstraints { make in
             make.bottom.equalTo(collectionView.contentSize.height)
-            make.width.equalTo(316)
+            make.left.right.equalToSuperview().inset(20)
             make.height.equalTo(400)
             make.centerX.equalToSuperview()
         }
