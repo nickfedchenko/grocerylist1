@@ -49,7 +49,7 @@ class CreateNewListViewModel {
         colorManager.getGradient(index: ind).1
     }
     
-    func pickItemTapped() {
-        router?.presentSelectList()
+    func pickItemTapped(height: Double) {
+        router?.presentSelectList(height: height)
     }
 }

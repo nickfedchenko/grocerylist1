@@ -12,6 +12,8 @@ class CreateNewListViewController: UIViewController {
     
     var viewModel: CreateNewListViewModel?
     private var selectedColor = 0
+    private var keyboardHeight = 0.0
+    private var contentViewHeight: Double = 385
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +61,7 @@ class CreateNewListViewController: UIViewController {
         guard let keyboardFrame = value?.cgRectValue else { return }
         let height = Double(keyboardFrame.height)
         updateConstr(with: height)
+        keyboardHeight = height
     }
     
     func updateConstr(with inset: Double) {
@@ -200,7 +203,7 @@ class CreateNewListViewController: UIViewController {
         contentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(-385)
-            make.height.equalTo(385)
+            make.height.equalTo(contentViewHeight)
         }
         
         textfield.snp.makeConstraints { make in
@@ -372,7 +375,7 @@ extension CreateNewListViewController {
     
     @objc
     private func pickItemsAction() {
-        viewModel?.pickItemTapped()
+        viewModel?.pickItemTapped(height: keyboardHeight + contentViewHeight)
     }
     
     @objc

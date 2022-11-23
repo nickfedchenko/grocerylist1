@@ -24,6 +24,7 @@
 		B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB80C292E339400748E8E /* SelectListViewController.swift */; };
 		B34BB80F292E389B00748E8E /* SelectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB80E292E389B00748E8E /* SelectListViewModel.swift */; };
 		B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB810292E38F700748E8E /* SelectListDataManager.swift */; };
+		B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB812292E4C4500748E8E /* SelectListCollectionCell.swift */; };
 		B360918E2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918A2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift */; };
 		B360918F2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */; };
 		B36091902927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */; };
@@ -96,6 +97,7 @@
 		B34BB80C292E339400748E8E /* SelectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewController.swift; sourceTree = "<group>"; };
 		B34BB80E292E389B00748E8E /* SelectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewModel.swift; sourceTree = "<group>"; };
 		B34BB810292E38F700748E8E /* SelectListDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListDataManager.swift; sourceTree = "<group>"; };
+		B34BB812292E4C4500748E8E /* SelectListCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListCollectionCell.swift; sourceTree = "<group>"; };
 		B360918A2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 			children = (
 				B34BB80C292E339400748E8E /* SelectListViewController.swift */,
 				B34BB80E292E389B00748E8E /* SelectListViewModel.swift */,
+				B34BB812292E4C4500748E8E /* SelectListCollectionCell.swift */,
 				B34BB810292E38F700748E8E /* SelectListDataManager.swift */,
 			);
 			path = SelectListViewController;
@@ -678,6 +681,7 @@
 				B34BB80F292E389B00748E8E /* SelectListViewModel.swift in Sources */,
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
+				B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */,
 				B37A2CEB2911034D003C01AD /* StringExtension.swift in Sources */,
 				B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */,
 				B3C3FA4F291175390011EC0A /* UIImageViewExtension.swift in Sources */,

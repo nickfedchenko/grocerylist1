@@ -19,7 +19,7 @@ protocol ViewControllerFactoryProtocol {
     func createActivityController(image: [Any]) -> UIViewController?
     func createPrintController(image: UIImage) -> UIPrintInteractionController?
     func createAlertController(title: String, message: String) -> UIAlertController?
-    func createSelectListController(router: RootRouter) -> UIViewController?
+    func createSelectListController(height: Double, router: RootRouter) -> UIViewController?
 }
     
 // MARK: - Factory
@@ -52,11 +52,12 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSelectListController(router: RootRouter) -> UIViewController? {
+    func createSelectListController(height: Double, router: RootRouter) -> UIViewController? {
         let viewController = SelectListViewController()
         let dataSource = SelectListDataManager()
         let viewModel = SelectListViewModel(dataSource: dataSource)
         viewController.viewModel = viewModel
+        viewController.contentViewHeigh = height
         viewModel.router = router
         return viewController
     }

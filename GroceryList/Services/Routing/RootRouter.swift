@@ -120,8 +120,8 @@ final class RootRouter: RootRouterProtocol {
         topViewController?.present(controller, animated: true, completion: nil)
     }
     
-    func presentSelectList() {
-        guard let controller = viewControllerFactory.createSelectListController(router: self) else { return }
+    func presentSelectList(height: Double) {
+        guard let controller = viewControllerFactory.createSelectListController(height: height, router: self) else { return }
         controller.modalPresentationStyle = .overCurrentContext
         topViewController?.present(controller, animated: true, completion: nil)
     }

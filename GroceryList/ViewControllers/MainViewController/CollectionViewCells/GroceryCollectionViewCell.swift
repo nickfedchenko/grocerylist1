@@ -42,6 +42,22 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         self.layoutIfNeeded()
     }
     
+    func addGestureRecognizers() {
+        let swipeRightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
+        swipeRightRecognizer.direction = .right
+        contentViews.addGestureRecognizer(swipeRightRecognizer)
+        
+        let swipeLeftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
+        swipeLeftRecognizer.direction = .left
+        contentViews.addGestureRecognizer(swipeLeftRecognizer)
+        
+                let tapPinchRecognizer = UITapGestureRecognizer(target: self, action: #selector(deleteAction))
+                swipeToAddOrDeleteFavorite.addGestureRecognizer(tapPinchRecognizer)
+        
+                let tapDeleteRecognizer = UITapGestureRecognizer(target: self, action: #selector(pinchAction))
+                swipeToDeleteImageView.addGestureRecognizer(tapDeleteRecognizer)
+    }
+    
     func setupCell(nameOfList: String, bckgColor: UIColor, isTopRounded: Bool,
                    isBottomRounded: Bool, numberOfItemsInside: String, isFavorite: Bool) {
         countLabel.text = numberOfItemsInside
@@ -142,21 +158,6 @@ class GroceryCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Swipe to delete
 extension GroceryCollectionViewCell {
-    private func addGestureRecognizers() {
-        let swipeRightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
-        swipeRightRecognizer.direction = .right
-        contentViews.addGestureRecognizer(swipeRightRecognizer)
-        
-        let swipeLeftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
-        swipeLeftRecognizer.direction = .left
-        contentViews.addGestureRecognizer(swipeLeftRecognizer)
-        
-                let tapPinchRecognizer = UITapGestureRecognizer(target: self, action: #selector(deleteAction))
-                swipeToAddOrDeleteFavorite.addGestureRecognizer(tapPinchRecognizer)
-        
-                let tapDeleteRecognizer = UITapGestureRecognizer(target: self, action: #selector(pinchAction))
-                swipeToDeleteImageView.addGestureRecognizer(tapDeleteRecognizer)
-    }
     
     @objc
     private func deleteAction() {

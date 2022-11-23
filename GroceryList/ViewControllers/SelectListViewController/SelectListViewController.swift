@@ -12,6 +12,7 @@ class SelectListViewController: UIViewController {
     
     private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroceryListsModel>?
     var viewModel: SelectListViewModel?
+    var contentViewHeigh: Double = 0
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
@@ -22,11 +23,12 @@ class SelectListViewController: UIViewController {
         setupConstraints()
         setupCollectionView()
         createTableViewDataSource()
+        addRecognizer()
         viewModel?.reloadDataCallBack = { [weak self] in
             self?.reloadData()
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard var snapshot = collectionViewDataSource?.snapshot() else { return }
@@ -35,35 +37,93 @@ class SelectListViewController: UIViewController {
         viewModel?.reloadDataFromStorage()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateConstr(with: 0)
+    }
+    
+    func updateConstr(with inset: Double) {
+        UIView.animate(withDuration: 0.3) { [ weak self ] in
+            guard let self = self else { return }
+            self.contentView.snp.updateConstraints { make in
+                make.bottom.equalToSuperview().inset(inset)
+            }
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc
+    private func closeButtonAction() {
+        hidePanel()
+    }
+    
     // MARK: - UI
     
     private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
     
     private let contentView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#F9FBEB")
+        view.backgroundColor = UIColor(hex: "#E8F5F3")
         view.layer.cornerRadius = 20
         view.layer.masksToBounds = true
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         return view
     }()
     
+    private let topView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#E8F5F3")
+        return view
+    }()
+    
+    private let createListLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.semibold(size: 17).font
+        label.textColor = UIColor(hex: "#31635A")
+        label.text = "PickItem".localized
+        return label
+    }()
+    
+    private lazy var closeButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(closeButtonAction), for: .touchUpInside)
+        button.setImage(UIImage(named: "closeButtonCross"), for: .normal)
+        return button
+    }()
+    
     private func setupConstraints() {
         view.backgroundColor = .clear
         view.addSubviews([contentView])
-        contentView.addSubviews([collectionView])
+        contentView.addSubviews([topView, collectionView])
+        topView.addSubviews([createListLabel, closeButton])
         
         contentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.height.equalTo(385)
+            make.bottom.equalToSuperview().inset(-contentViewHeigh)
+            make.height.equalTo(contentViewHeigh)
         }
         
+        topView.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview()
+            make.height.equalTo(60)
+        }
         
         collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(topView.snp.bottom).inset(20)
+            make.left.right.bottom.equalToSuperview()
         }
-
+        
+        createListLabel.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(20)
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview().inset(80)
+        }
+        
+        closeButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(22)
+            make.centerY.equalTo(createListLabel)
+            make.width.height.equalTo(40)
+        }
     }
     
 }
@@ -81,14 +141,8 @@ extension SelectListViewController: UICollectionViewDelegate {
     private func setupCollectionView() {
         collectionView.delegate = self
         collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
-        collectionView.register(GroceryCollectionViewCell.self,
-                                forCellWithReuseIdentifier: "GroceryListsCollectionViewCell")
-        collectionView.register(EmptyColoredCell.self,
-                                forCellWithReuseIdentifier: "EmptyColoredCell")
-        collectionView.register(InstructionCell.self,
-                                forCellWithReuseIdentifier: "InstructionCell")
-        collectionView.register(MainScreenTopCell.self,
-                                forCellWithReuseIdentifier: "MainScreenTopCell")
+        collectionView.register(SelectListCollectionCell.self,
+                                forCellWithReuseIdentifier: "SelectListCollectionCell")
         collectionView.register(GroceryCollectionViewHeader.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: "GroceryCollectionViewHeader")
@@ -97,35 +151,9 @@ extension SelectListViewController: UICollectionViewDelegate {
     private func createTableViewDataSource() {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
                                                                       cellProvider: { collectionView, indexPath, model in
-            switch self.viewModel?.model[indexPath.section].cellType {
-            
-            // top view with switcher
-            case .topMenu:
-                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "MainScreenTopCell", for: indexPath)
-                as? MainScreenTopCell
-                return cell
-                
-            // empty cell in bottom of collection
-            case .empty:
-                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "EmptyColoredCell", for: indexPath)
-                as? EmptyColoredCell
-                guard let viewModel = self.viewModel else { return UICollectionViewCell() }
-                let isTopRouned = viewModel.isTopRounded(at: indexPath)
-                let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
-                let color = viewModel.getBGColorForEmptyCell(at: indexPath)
-                cell?.setupCell(bckgColor: color, isTopRounded: isTopRouned, isBottomRounded: isBottomRounded)
-                return cell
-            
-            // cell for cold start
-            case .instruction:
-                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "InstructionCell", for: indexPath)
-                as? InstructionCell
-                return cell
-          
-            // default cell for list
-            default:
-                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "GroceryListsCollectionViewCell",
-                                                                   for: indexPath) as? GroceryCollectionViewCell
+
+                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "SelectListCollectionCell",
+                                                                   for: indexPath) as? SelectListCollectionCell
                 guard let viewModel = self.viewModel else { return UICollectionViewCell() }
                 let name = viewModel.getNameOfList(at: indexPath)
                 let isTopRouned = viewModel.isTopRounded(at: indexPath)
@@ -136,7 +164,6 @@ extension SelectListViewController: UICollectionViewDelegate {
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
               
                 return cell
-            }
         })
         addHeaderToCollectionView()
     }
@@ -200,5 +227,28 @@ extension SelectListViewController: UICollectionViewDelegate {
                                                                              elementKind: UICollectionView.elementKindSectionHeader,
                                                                              alignment: .top)
         return layutSectionHeader
+    }
+}
+
+extension SelectListViewController {
+    
+    private func addRecognizer() {
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
+        contentView.addGestureRecognizer(panRecognizer)
+    }
+    
+    @objc
+    private func swipeDownAction(_ recognizer: UIPanGestureRecognizer) {
+        let tempTranslation = recognizer.translation(in: contentView)
+        if tempTranslation.y >= 100 {
+            hidePanel()
+        }
+    }
+    
+    private func hidePanel() {
+        updateConstr(with: -contentViewHeigh)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }
