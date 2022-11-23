@@ -57,13 +57,19 @@ class MainScreenViewController: UIViewController {
             foodImage.isHidden = true
         case .min:
             foodImage.isHidden = false
+            foodImage.image = UIImage(named: "halfFood")
             foodImage.snp.updateConstraints { make in
-                make.bottom.equalTo(collectionView.contentSize.height + 180)
+                make.bottom.equalTo(collectionView.contentSize.height)
+                make.width.equalTo(339)
+                make.height.equalTo(213)
             }
         case .middle:
             foodImage.isHidden = false
+            foodImage.image = UIImage(named: "foodImage")
             foodImage.snp.updateConstraints { make in
                 make.bottom.equalTo(collectionView.contentSize.height)
+                make.width.equalTo(350)
+                make.height.equalTo(400)
             }
         case .none:
             print("print")
@@ -104,7 +110,7 @@ class MainScreenViewController: UIViewController {
     
     private let foodImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(named: "foodImage")
         return imageView
     }()
