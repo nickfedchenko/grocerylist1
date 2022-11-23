@@ -11,6 +11,6 @@ import UIKit
 class SelectListViewModel: MainScreenViewModel {
    
     func cellTapped(with model: GroceryListsModel, viewHeight: Double) {
-        router?.presentSelectProduct(height: viewHeight, model: model)
+       
     }
 }

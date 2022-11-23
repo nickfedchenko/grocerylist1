@@ -43,16 +43,18 @@ class SelectListViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        updateConstr(with: 0)
+        updateConstr(with: 0, compl: nil)
     }
     
-    func updateConstr(with inset: Double) {
-        UIView.animate(withDuration: 0.3) { [ weak self ] in
+    func updateConstr(with inset: Double, compl: (() -> Void)?) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self = self else { return }
             self.contentView.snp.updateConstraints { make in
                 make.bottom.equalToSuperview().inset(inset)
             }
             self.view.layoutIfNeeded()
+        } completion: { _ in
+            compl?()
         }
     }
     
@@ -129,7 +131,6 @@ class SelectListViewController: UIViewController {
             make.width.height.equalTo(40)
         }
     }
-    
 }
 
 // MARK: - CollectionView
@@ -137,9 +138,17 @@ extension SelectListViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let model = collectionViewDataSource?.itemIdentifier(for: indexPath) else { return }
-        guard let section = self.collectionViewDataSource?.snapshot().sectionIdentifier(containingItem: model) else { return }
-        guard section.cellType == .usual else { return }
-        viewModel?.cellTapped(with: model, viewHeight: contentViewHeigh)
+        goNextVC(model: model)
+    }
+    
+    private func goNextVC(model: GroceryListsModel) {
+        updateConstr(with: -contentViewHeigh, compl: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            self?.dismiss(animated: false, completion: { [weak self] in
+                guard let self = self else { return }
+                self.viewModel?.cellTapped(with: model, viewHeight: self.contentViewHeigh)
+            })
+        }
     }
     
     private func setupCollectionView() {
@@ -250,9 +259,8 @@ extension SelectListViewController {
     }
     
     private func hidePanel() {
-        updateConstr(with: -contentViewHeigh)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
-            self?.dismiss(animated: true, completion: nil)
+        updateConstr(with: -contentViewHeigh) {
+            self.dismiss(animated: true, completion: nil)
         }
     }
 }
