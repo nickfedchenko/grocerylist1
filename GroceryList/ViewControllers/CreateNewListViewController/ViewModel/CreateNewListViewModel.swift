@@ -36,7 +36,15 @@ class CreateNewListViewModel {
                                      name: nameOfList, color: numberOfColor, isFavorite: false, products: [], typeOfSorting: typeOfSorting)
         CoreDataManager.shared.saveList(list: list)
         UserDefaultsManager.coldStartState = 2
+        
+        copiedProducts.forEach({ saveCopiedProduct(product: $0, listId: list.id) })
         valueChangedCallback?(list)
+    }
+    
+    func saveCopiedProduct(product: Product, listId: UUID) {
+        let newProduct = Product(id: UUID(), listId: listId, name: product.name, isPurchased: false,
+                                 dateOfCreation: Date(), category: product.category, isFavorite: false, isSelected: false)
+        CoreDataManager.shared.createProduct(product: newProduct)
     }
     
     func getNumberOfCells() -> Int {

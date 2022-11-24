@@ -89,6 +89,7 @@ final class RootRouter: RootRouterProtocol {
     func presentCreateNewList(model: GroceryListsModel,compl: @escaping (GroceryListsModel) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewListController(model: model, router: self,
                                                                                    compl: compl) else { return }
+        controller.modalPresentationStyle = .overCurrentContext
         topViewController?.present(controller, animated: true, completion: nil)
     }
     
