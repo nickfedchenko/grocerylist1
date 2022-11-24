@@ -10,6 +10,7 @@ import UIKit
 
 protocol CreateNewLiseViewModelDelegate: AnyObject {
     func updateLabelText(text: String)
+    func presentController(controller: UIViewController?)
 }
 
 class CreateNewListViewModel {
@@ -27,6 +28,7 @@ class CreateNewListViewModel {
             model.color = numberOfColor
             model.typeOfSorting = isSortByCategory ? 0 : 2
             CoreDataManager.shared.saveList(list: model)
+            copiedProducts.forEach({ saveCopiedProduct(product: $0, listId: model.id) })
             valueChangedCallback?(model)
             return
         }
@@ -59,10 +61,11 @@ class CreateNewListViewModel {
     }
     
     func pickItemTapped(height: Double) {
-        router?.presentSelectList(height: height, setOfSelectedProd: copiedProducts, compl: { [weak self] products in
+        let controller = router?.prepareSelectListController(height: height, setOfSelectedProd: copiedProducts, compl: { [weak self] products in
             self?.copiedProducts = products
             self?.updateText()
         })
+        delegate?.presentController(controller: controller)
     }
     
     func updateText() {

@@ -392,6 +392,11 @@ extension CreateNewListViewController {
 }
 
 extension CreateNewListViewController: CreateNewLiseViewModelDelegate {
+    func presentController(controller: UIViewController?) {
+        guard let controller else { return }
+        present(controller, animated: true)
+    }
+    
     func updateLabelText(text: String) {
         pickItemsLabel.text = text
     }
