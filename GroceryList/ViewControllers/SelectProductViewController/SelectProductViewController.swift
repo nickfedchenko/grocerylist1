@@ -107,7 +107,7 @@ class SelectProductViewController: UIViewController {
        
         contentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(-contentViewHeigh)
+            make.bottom.equalToSuperview()
             make.height.equalTo(contentViewHeigh)
         }
         

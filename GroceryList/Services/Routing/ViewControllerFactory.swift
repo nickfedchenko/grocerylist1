@@ -60,6 +60,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewController.viewModel = viewModel
         viewController.contentViewHeigh = height
         viewModel.router = router
+        viewModel.delegate = viewController
         return viewController
     }
     
@@ -76,6 +77,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createSelectProductsController(height: Double, model: GroceryListsModel, router: RootRouter) -> UIViewController? {
+      
         let viewController = SelectProductViewController()
         let viewModel = SelectProductViewModel(model: model)
         viewController.viewModel = viewModel

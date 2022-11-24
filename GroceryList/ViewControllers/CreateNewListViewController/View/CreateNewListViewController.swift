@@ -15,6 +15,10 @@ class CreateNewListViewController: UIViewController {
     private var keyboardHeight = 0.0
     private var contentViewHeight: Double = 385
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConstraints()

@@ -89,7 +89,6 @@ final class RootRouter: RootRouterProtocol {
     func presentCreateNewList(model: GroceryListsModel,compl: @escaping (GroceryListsModel) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewListController(model: model, router: self,
                                                                                    compl: compl) else { return }
-        controller.modalPresentationStyle = .overCurrentContext
         topViewController?.present(controller, animated: true, completion: nil)
     }
     
@@ -126,10 +125,9 @@ final class RootRouter: RootRouterProtocol {
         topViewController?.present(controller, animated: true, completion: nil)
     }
     
-    func presentSelectProduct(height: Double, model: GroceryListsModel) {
-        guard let controller = viewControllerFactory.createSelectProductsController(height: height, model: model, router: self) else { return }
-        controller.modalPresentationStyle = .overCurrentContext
-        topViewController?.present(controller, animated: true, completion: nil)
+    func presentSelectProduct(height: Double, model: GroceryListsModel) -> UIViewController {
+        guard let controller = viewControllerFactory.createSelectProductsController(height: height, model: model, router: self) else { return UIViewController()}
+        return controller
     }
     
     func popToRoot() {

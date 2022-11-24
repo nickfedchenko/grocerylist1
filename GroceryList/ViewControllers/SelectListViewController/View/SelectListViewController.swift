@@ -13,6 +13,9 @@ class SelectListViewController: UIViewController {
     private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroceryListsModel>?
     var viewModel: SelectListViewModel?
     var contentViewHeigh: Double = 0
+    var router: RootRouter? {
+        viewModel?.router
+    }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
@@ -138,17 +141,7 @@ extension SelectListViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let model = collectionViewDataSource?.itemIdentifier(for: indexPath) else { return }
-        goNextVC(model: model)
-    }
-    
-    private func goNextVC(model: GroceryListsModel) {
-        updateConstr(with: -contentViewHeigh, compl: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
-            self?.dismiss(animated: false, completion: { [weak self] in
-                guard let self = self else { return }
-                self.viewModel?.cellTapped(with: model, viewHeight: self.contentViewHeigh)
-            })
-        }
+        viewModel?.cellTapped(with: model, viewHeight: contentViewHeigh)
     }
     
     private func setupCollectionView() {
@@ -262,5 +255,11 @@ extension SelectListViewController {
         updateConstr(with: -contentViewHeigh) {
             self.dismiss(animated: true, completion: nil)
         }
+    }
+}
+
+extension SelectListViewController: SelectListViewModelDelegate {
+    func presentSelectedVC(controller: UIViewController) {
+        self.present(controller, animated: true)
     }
 }
