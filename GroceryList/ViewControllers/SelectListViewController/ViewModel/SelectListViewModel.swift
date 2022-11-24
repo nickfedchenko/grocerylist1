@@ -15,13 +15,13 @@ protocol SelectListViewModelDelegate: AnyObject {
 
 class SelectListViewModel: MainScreenViewModel {
     
-    var selectedProductsCompl: (([Product]) -> Void)?
+    var selectedProductsCompl: ((Set<Product>) -> Void)?
     weak var delegate: SelectListViewModelDelegate?
-    var copiedProducts: [Product] = []
+    var copiedProducts: Set<Product> = []
    
     func cellTapped(with model: GroceryListsModel, viewHeight: Double) {
         let viewController = router?.presentSelectProduct(height: viewHeight, model: model, compl: { [weak self] products in
-            self?.copiedProducts.append(contentsOf: products)
+            products.forEach({ self?.copiedProducts.insert($0) })
         })
         
         guard let viewController else { return }

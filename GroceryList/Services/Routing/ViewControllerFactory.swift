@@ -20,9 +20,9 @@ protocol ViewControllerFactoryProtocol {
     func createPrintController(image: UIImage) -> UIPrintInteractionController?
     func createAlertController(title: String, message: String) -> UIAlertController?
     func createSelectListController(height: Double, router: RootRouter,
-                                    compl: @escaping ([Product]) -> Void) -> UIViewController? 
+                                    compl: @escaping (Set<Product>) -> Void) -> UIViewController?
     func createSelectProductsController(height: Double, model: GroceryListsModel,
-                                        router: RootRouter, compl: @escaping ([Product]) -> Void) -> UIViewController?
+                                        router: RootRouter, compl: @escaping (Set<Product>) -> Void) -> UIViewController?
 }
     
 // MARK: - Factory
@@ -55,7 +55,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSelectListController(height: Double, router: RootRouter, compl: @escaping ([Product]) -> Void) -> UIViewController? {
+    func createSelectListController(height: Double, router: RootRouter, compl: @escaping (Set<Product>) -> Void) -> UIViewController? {
         let viewController = SelectListViewController()
         let dataSource = SelectListDataManager()
         let viewModel = SelectListViewModel(dataSource: dataSource)
@@ -80,7 +80,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createSelectProductsController(height: Double, model: GroceryListsModel,
-                                        router: RootRouter, compl: @escaping ([Product]) -> Void) -> UIViewController? {
+                                        router: RootRouter, compl: @escaping (Set<Product>) -> Void) -> UIViewController? {
         let viewController = SelectProductViewController()
         let viewModel = SelectProductViewModel(model: model)
         viewController.viewModel = viewModel

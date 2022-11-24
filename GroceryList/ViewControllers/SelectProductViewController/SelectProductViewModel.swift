@@ -18,18 +18,18 @@ class SelectProductViewModel {
         prepareArrayOfProducts()
     }
     
-    var productsSelectedCompl: (([Product]) -> Void)?
+    var productsSelectedCompl: ((Set<Product>) -> Void)?
     private var colorManager = ColorManager()
     weak var router: RootRouter?
     var model: GroceryListsModel
     var arrayOfProducts: [Product] = []
-    var arrayOfCopiedProducts: [Product] = []
+    var arrayOfCopiedProducts: Set<Product> = []
     weak var delegate: SelectProductViewModelDelegate?
+    let firstFakeProduct = Product(listId: UUID(), name: "", isPurchased: false,
+                                   dateOfCreation: Date(), category: "", isFavorite: false)
     
     private func prepareArrayOfProducts() {
         guard !model.products.isEmpty else { return }
-        let firstFakeProduct = Product(listId: UUID(), name: "", isPurchased: false,
-                                       dateOfCreation: Date(), category: "", isFavorite: false)
         arrayOfProducts.append(firstFakeProduct)
         arrayOfProducts.append(contentsOf: model.products)
         arrayOfProducts.sort(by: { $0.name < $1.name })
@@ -74,15 +74,10 @@ class SelectProductViewModel {
     func doneButtonPressed() {
         arrayOfProducts.forEach({ product in
             if product.isSelected {
-                let copiedProduct = copyProduct(product: product)
-                arrayOfCopiedProducts.append(copiedProduct)
+                guard product != firstFakeProduct else { return }
+                arrayOfCopiedProducts.insert(product)
             }
         })
         productsSelectedCompl?(arrayOfCopiedProducts)
-    }
-    
-    func copyProduct(product: Product) -> Product {
-        Product(id: UUID(), listId: UUID(), name: product.name, isPurchased: false,
-                dateOfCreation: Date(), category: product.category, isFavorite: false, isSelected: false)
     }
 }

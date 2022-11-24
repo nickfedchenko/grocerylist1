@@ -119,13 +119,13 @@ final class RootRouter: RootRouterProtocol {
         topViewController?.present(controller, animated: true, completion: nil)
     }
     
-    func presentSelectList(height: Double, compl: @escaping (([Product]) -> Void)) {
+    func presentSelectList(height: Double, compl: @escaping ((Set<Product>) -> Void)) {
         guard let controller = viewControllerFactory.createSelectListController(height: height, router: self, compl: compl) else { return }
         controller.modalPresentationStyle = .overCurrentContext
         topViewController?.present(controller, animated: true, completion: nil)
     }
     
-    func presentSelectProduct(height: Double, model: GroceryListsModel, compl: @escaping (([Product]) -> Void)) -> UIViewController {
+    func presentSelectProduct(height: Double, model: GroceryListsModel, compl: @escaping ((Set<Product>) -> Void)) -> UIViewController {
         guard let controller = viewControllerFactory.createSelectProductsController(height: height, model: model, router: self, compl: compl) else { return UIViewController()}
         return controller
     }

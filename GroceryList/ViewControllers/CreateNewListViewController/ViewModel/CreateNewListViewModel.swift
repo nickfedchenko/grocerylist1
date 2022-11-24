@@ -14,6 +14,7 @@ class CreateNewListViewModel {
     private var colorManager = ColorManager()
     var valueChangedCallback: ((GroceryListsModel) -> Void)?
     var model: GroceryListsModel?
+    var copiedProducts: Set<Product> = []
    
     init() {
     
@@ -50,8 +51,9 @@ class CreateNewListViewModel {
     }
     
     func pickItemTapped(height: Double) {
-        router?.presentSelectList(height: height, compl: { products in
-            print(products)
+        router?.presentSelectList(height: height, compl: { [weak self] products in
+            products.forEach({ self?.copiedProducts.insert($0) })
+            print(self?.copiedProducts)
         })
     }
 }
