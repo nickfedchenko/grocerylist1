@@ -28,7 +28,6 @@ class ProductsSettingsViewModel {
     }
     
     func getNumberOfCells() -> Int {
-        print(TableViewContent.allCases.count)
         return TableViewContent.allCases.count
     }
     
@@ -74,6 +73,23 @@ class ProductsSettingsViewModel {
         if ind == 6 { return model.typeOfSorting == SortingType.alphabet.rawValue }
         return false
     }
+    
+    func presentCreateNewList() {
+        let controller = router?.presentCreateNewList(model: model) { [weak self] newModel in
+            self?.model = newModel
+            self?.savePatametrs()
+        }
+        
+    }
+    
+//    func presentCreateNewList() {
+//        let controller = router?.presentCreateNewList(model: model) { [weak self] newModel in
+//            self?.model = newModel
+//            self?.savePatametrs()
+//        }
+//        controller.presty
+//        delegate?.presentVC(controller: controller)
+//    }
     
     func cellSelected(at ind: Int) {
         guard let snapshot = snapshot else { return }

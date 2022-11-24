@@ -267,7 +267,6 @@ extension ProductsViewController: UICollectionViewDelegate {
     
     // чекмарк о покупке
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
         
         guard let model = dataSource?.itemIdentifier(for: indexPath) else { return }
         

@@ -22,7 +22,6 @@ class CreateNewListViewModel {
     var copiedProducts: Set<Product> = []
    
     func savePressed(nameOfList: String?, numberOfColor: Int, isSortByCategory: Bool) {
-        print(isSortByCategory)
         if var model = model {
             model.name = nameOfList
             model.color = numberOfColor

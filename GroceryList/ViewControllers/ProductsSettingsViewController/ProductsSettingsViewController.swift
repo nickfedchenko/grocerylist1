@@ -188,6 +188,10 @@ extension ProductsSettingsViewController: UITableViewDelegate, UITableViewDataSo
 }
 
 extension ProductsSettingsViewController: ProductSettingsViewDelegate {
+    func presentVC(controller: UIViewController?) {
+        guard let controller else { return }
+        self.present(controller, animated: true)
+    }
 
     func reloadController() {
         parametrsLabel.textColor = viewModel?.getTextColor()

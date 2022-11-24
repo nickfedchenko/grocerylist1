@@ -102,7 +102,6 @@ class SelectProductViewModel {
                 copiedProducts.insert(product)
             }
         })
-        print(copiedProducts.count)
         productsSelectedCompl?(copiedProducts)
     }
 }

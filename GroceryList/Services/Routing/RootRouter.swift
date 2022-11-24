@@ -90,7 +90,7 @@ final class RootRouter: RootRouterProtocol {
         guard let controller = viewControllerFactory.createCreateNewListController(model: model, router: self,
                                                                                    compl: compl) else { return }
         controller.modalPresentationStyle = .overCurrentContext
-        topViewController?.present(controller, animated: true, completion: nil)
+        topViewController?.present(controller, animated: true)
     }
     
     func goProductsVC(model: GroceryListsModel, compl: @escaping () -> Void) {
@@ -105,6 +105,13 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func presentSelectList(height: Double, setOfSelectedProd: Set<Product>, compl: @escaping ((Set<Product>) -> Void)) {
+        guard let controller = viewControllerFactory.createSelectListController(height: height, router: self, setOfSelectedProd: setOfSelectedProd, compl: compl) else { return }
+        controller.modalPresentationStyle = .overCurrentContext
+        topViewController?.present(controller, animated: true, completion: nil)
+    }
+    
+    // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
         topViewController?.present(controller, animated: true, completion: nil)
@@ -120,18 +127,14 @@ final class RootRouter: RootRouterProtocol {
         topViewController?.present(controller, animated: true, completion: nil)
     }
     
-    func presentSelectList(height: Double, setOfSelectedProd: Set<Product>, compl: @escaping ((Set<Product>) -> Void)) {
-        guard let controller = viewControllerFactory.createSelectListController(height: height, router: self, setOfSelectedProd: setOfSelectedProd, compl: compl) else { return }
-        controller.modalPresentationStyle = .overCurrentContext
-        topViewController?.present(controller, animated: true, completion: nil)
-    }
-    
+    // просто создание вью - контролер сам будет презентить их, т.к топ контролер уже презентит вью и эти не получается так запрезентить
     func presentSelectProduct(height: Double, model: GroceryListsModel,
                               setOfSelectedProd: Set<Product>, compl: @escaping ((Set<Product>) -> Void)) -> UIViewController {
         guard let controller = viewControllerFactory.createSelectProductsController(height: height, model: model, setOfSelectedProd: setOfSelectedProd, router: self, compl: compl) else { return UIViewController()}
         return controller
     }
     
+    // pop
     func popToRoot() {
         navigationPopToRootViewController(animated: true)
     }
