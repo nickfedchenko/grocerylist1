@@ -8,18 +8,19 @@
 import Foundation
 import UIKit
 
+protocol CreateNewLiseViewModelDelegate: AnyObject {
+    func updateLabelText(text: String)
+}
+
 class CreateNewListViewModel {
     
+    weak var delegate: CreateNewLiseViewModelDelegate?
     weak var router: RootRouter?
     private var colorManager = ColorManager()
     var valueChangedCallback: ((GroceryListsModel) -> Void)?
     var model: GroceryListsModel?
     var copiedProducts: Set<Product> = []
    
-    init() {
-    
-    }
-    
     func savePressed(nameOfList: String?, numberOfColor: Int, isSortByCategory: Bool) {
         
         if var model = model {
@@ -53,6 +54,12 @@ class CreateNewListViewModel {
     func pickItemTapped(height: Double) {
         router?.presentSelectList(height: height, setOfSelectedProd: copiedProducts, compl: { [weak self] products in
             self?.copiedProducts = products
+            self?.updateText()
         })
+    }
+    
+    func updateText() {
+        let text = "PickFromAnotherList".localized + " " + "(\(copiedProducts.count))"
+        delegate?.updateLabelText(text: text)
     }
 }

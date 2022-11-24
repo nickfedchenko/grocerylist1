@@ -50,6 +50,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let viewModel = CreateNewListViewModel()
         viewModel.valueChangedCallback = compl
         viewController.viewModel = viewModel
+        viewModel.delegate = viewController
         viewModel.router = router
         viewModel.model = model
         return viewController

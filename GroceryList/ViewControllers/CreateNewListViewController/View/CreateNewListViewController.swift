@@ -390,3 +390,9 @@ extension CreateNewListViewController {
         }
     }
 }
+
+extension CreateNewListViewController: CreateNewLiseViewModelDelegate {
+    func updateLabelText(text: String) {
+        pickItemsLabel.text = text
+    }
+}
