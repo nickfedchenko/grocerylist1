@@ -22,16 +22,16 @@ class CreateNewListViewModel {
     var copiedProducts: Set<Product> = []
    
     func savePressed(nameOfList: String?, numberOfColor: Int, isSortByCategory: Bool) {
-        
+        print(isSortByCategory)
         if var model = model {
             model.name = nameOfList
             model.color = numberOfColor
-            model.typeOfSorting = isSortByCategory ? SortingType.category.rawValue : model.typeOfSorting
+            model.typeOfSorting = isSortByCategory ? 0 : 2
             CoreDataManager.shared.saveList(list: model)
             valueChangedCallback?(model)
             return
         }
-        let typeOfSorting = isSortByCategory ? 0 : 1
+        let typeOfSorting = isSortByCategory ? 0 : 2
         let list = GroceryListsModel(id: UUID(), dateOfCreation: Date(),
                                      name: nameOfList, color: numberOfColor, isFavorite: false, products: [], typeOfSorting: typeOfSorting)
         CoreDataManager.shared.saveList(list: list)
