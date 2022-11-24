@@ -20,8 +20,8 @@ class SelectListViewModel: MainScreenViewModel {
     var copiedProducts: Set<Product> = []
    
     func cellTapped(with model: GroceryListsModel, viewHeight: Double) {
-        let viewController = router?.presentSelectProduct(height: viewHeight, model: model, compl: { [weak self] products in
-            products.forEach({ self?.copiedProducts.insert($0) })
+        let viewController = router?.presentSelectProduct(height: viewHeight, model: model, setOfSelectedProd: copiedProducts, compl: { [weak self] products in
+            self?.copiedProducts = products
         })
         
         guard let viewController else { return }

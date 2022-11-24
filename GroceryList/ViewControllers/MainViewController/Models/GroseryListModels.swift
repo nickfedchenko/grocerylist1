@@ -51,7 +51,7 @@ struct Product: Hashable, Equatable {
     var isSelected = false
     
     func hash(into hasher: inout Hasher) {
-        hasher.combine(name)
+        hasher.combine(id)
     }
     
     static func == (lhs: Product, rhs: Product) -> Bool {

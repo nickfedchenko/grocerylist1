@@ -13,8 +13,9 @@ protocol SelectProductViewModelDelegate: AnyObject {
 
 class SelectProductViewModel {
     
-    init(model: GroceryListsModel) {
+    init(model: GroceryListsModel, copiedProducts: Set<Product>) {
         self.model = model
+        self.copiedProducts = copiedProducts
         prepareArrayOfProducts()
     }
     
@@ -23,7 +24,7 @@ class SelectProductViewModel {
     weak var router: RootRouter?
     var model: GroceryListsModel
     var arrayOfProducts: [Product] = []
-    var arrayOfCopiedProducts: Set<Product> = []
+    var copiedProducts: Set<Product>
     weak var delegate: SelectProductViewModelDelegate?
     let firstFakeProduct = Product(listId: UUID(), name: "", isPurchased: false,
                                    dateOfCreation: Date(), category: "", isFavorite: false)
@@ -33,6 +34,23 @@ class SelectProductViewModel {
         arrayOfProducts.append(firstFakeProduct)
         arrayOfProducts.append(contentsOf: model.products)
         arrayOfProducts.sort(by: { $0.name < $1.name })
+        
+        copiedProducts.forEach({ product in
+            if let index = arrayOfProducts.firstIndex(of: product ) {
+                arrayOfProducts.remove(at: index)
+                arrayOfProducts.insert(product, at: index)
+            }
+        })
+//
+//        copiedProducts.forEach({ product in
+//            for (ind, prod) in arrayOfProducts.enumerated() {
+//                if prod.id == product.id {
+//                    arrayOfProducts.remove(at: ind)
+//                    arrayOfProducts.insert(product, at: ind)
+//                }
+//            }
+//        })
+        
     }
     
     func getNameOfList() -> String {
@@ -65,7 +83,13 @@ class SelectProductViewModel {
                 arrayOfProducts[ind].isSelected = true
             }
         } else {
-            arrayOfProducts[ind].isSelected = !arrayOfProducts[ind].isSelected
+            if arrayOfProducts[ind].isSelected {
+                copiedProducts.remove(arrayOfProducts[ind])
+                arrayOfProducts[ind].isSelected = !arrayOfProducts[ind].isSelected
+            } else {
+                arrayOfProducts[ind].isSelected = !arrayOfProducts[ind].isSelected
+                copiedProducts.insert(arrayOfProducts[ind])
+            }
         }
         
         delegate?.reloadCollection()
@@ -75,9 +99,10 @@ class SelectProductViewModel {
         arrayOfProducts.forEach({ product in
             if product.isSelected {
                 guard product != firstFakeProduct else { return }
-                arrayOfCopiedProducts.insert(product)
+                copiedProducts.insert(product)
             }
         })
-        productsSelectedCompl?(arrayOfCopiedProducts)
+        print(copiedProducts.count)
+        productsSelectedCompl?(copiedProducts)
     }
 }

@@ -16,11 +16,11 @@ class MainScreenViewModel {
             self?.reloadDataCallBack?()
         }
 //        
-//        let id = CoreDataManager.shared.getAllLists()![0]
+//        let id = CoreDataManager.shared.getAllLists()![1]
 //        //    CoreDataManager.shared.deleteAllEntities()
 //       //     print(CoreDataManager.shared.getAllLists()?.count)
-//            let supplay = Product(id: UUID(), listId: id.id!, name: "кем", isPurchased: true, dateOfCreation: Date(), category: "ака4", isFavorite: true)
-//            let supplay2 = Product(id: UUID(), listId: id.id!, name: "аа", isPurchased: false, dateOfCreation: Date(), category: "м4ав", isFavorite: true)
+//            let supplay = Product(id: UUID(), listId: id.id!, name: "rr", isPurchased: true, dateOfCreation: Date(), category: "44", isFavorite: true)
+//            let supplay2 = Product(id: UUID(), listId: id.id!, name: "33", isPurchased: false, dateOfCreation: Date(), category: "fff", isFavorite: true)
 //            CoreDataManager.shared.createProduct(product: supplay)
 //            CoreDataManager.shared.createProduct(product: supplay2)
     }

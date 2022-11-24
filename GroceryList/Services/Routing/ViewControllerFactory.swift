@@ -20,8 +20,8 @@ protocol ViewControllerFactoryProtocol {
     func createPrintController(image: UIImage) -> UIPrintInteractionController?
     func createAlertController(title: String, message: String) -> UIAlertController?
     func createSelectListController(height: Double, router: RootRouter,
-                                    compl: @escaping (Set<Product>) -> Void) -> UIViewController?
-    func createSelectProductsController(height: Double, model: GroceryListsModel,
+                                    setOfSelectedProd: Set<Product>, compl: @escaping (Set<Product>) -> Void) -> UIViewController? 
+    func createSelectProductsController(height: Double, model: GroceryListsModel, setOfSelectedProd: Set<Product>,
                                         router: RootRouter, compl: @escaping (Set<Product>) -> Void) -> UIViewController?
 }
     
@@ -55,7 +55,8 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSelectListController(height: Double, router: RootRouter, compl: @escaping (Set<Product>) -> Void) -> UIViewController? {
+    func createSelectListController(height: Double, router: RootRouter,
+                                    setOfSelectedProd: Set<Product>, compl: @escaping (Set<Product>) -> Void) -> UIViewController? {
         let viewController = SelectListViewController()
         let dataSource = SelectListDataManager()
         let viewModel = SelectListViewModel(dataSource: dataSource)
@@ -64,6 +65,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.selectedProductsCompl = compl
         viewModel.router = router
         viewModel.delegate = viewController
+        viewModel.copiedProducts = setOfSelectedProd
         return viewController
     }
     
@@ -79,10 +81,10 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSelectProductsController(height: Double, model: GroceryListsModel,
+    func createSelectProductsController(height: Double, model: GroceryListsModel, setOfSelectedProd: Set<Product>,
                                         router: RootRouter, compl: @escaping (Set<Product>) -> Void) -> UIViewController? {
         let viewController = SelectProductViewController()
-        let viewModel = SelectProductViewModel(model: model)
+        let viewModel = SelectProductViewModel(model: model, copiedProducts: setOfSelectedProd)
         viewController.viewModel = viewModel
         viewController.contentViewHeigh = height
         viewModel.router = router

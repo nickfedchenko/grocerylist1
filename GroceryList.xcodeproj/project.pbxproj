@@ -253,9 +253,9 @@
 		B3476900291D00E00045A287 /* ProductsViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B34BB815292E557D00748E8E /* ViewModel */,
 				B34BB814292E556F00748E8E /* View */,
 				B30573C52922670300CA8BDE /* CollectionViewCells */,
-				B34BB815292E557D00748E8E /* ViewModel */,
 				B34BB816292E558700748E8E /* DataManager */,
 			);
 			path = ProductsViewController;
