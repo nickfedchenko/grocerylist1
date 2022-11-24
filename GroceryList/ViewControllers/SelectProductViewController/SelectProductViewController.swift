@@ -22,6 +22,7 @@ class SelectProductViewController: UIViewController {
         setupConstraint()
         setupController()
         addRecognizer()
+        setupCollectionView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -29,16 +30,24 @@ class SelectProductViewController: UIViewController {
         updateConstr(with: 0, compl: nil)
     }
     
+    deinit {
+        print("select product deinited")
+    }
+    
     private func setupController() {
         titleLabel.text = viewModel?.getNameOfList()
-        titleLabel.textColor = viewModel?.getColorForText()
+        titleLabel.textColor = viewModel?.getForegroundColor()
         contentView.backgroundColor = viewModel?.getColorForBackground()
         topView.backgroundColor = viewModel?.getColorForBackground()
     }
     
     @objc
     private func doneButtonPressed() {
-        print("done pressed")
+        updateConstr(with: -contentViewHeigh) {
+            self.dismiss(animated: true, completion: { [weak self] in
+                self?.viewModel?.doneButtonPressed()
+            })
+        }
     }
     
     @objc
@@ -95,14 +104,23 @@ class SelectProductViewController: UIViewController {
         ])
         button.addTarget(self, action: #selector(doneButtonPressed), for: .touchUpInside)
         button.setAttributedTitle(attributedTitle, for: .normal)
-       
+        
         return button
+    }()
+    
+    private var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        layout.scrollDirection = .vertical
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+        return collectionView
     }()
 
     private func setupConstraint() {
         view.backgroundColor = .clear
         view.addSubviews([contentView])
-        contentView.addSubviews([topView])
+        contentView.addSubviews([topView, collectionView])
         topView.addSubviews([arrowBackButton, titleLabel, doneButton])
        
         contentView.snp.makeConstraints { make in
@@ -131,8 +149,60 @@ class SelectProductViewController: UIViewController {
             make.right.equalToSuperview().inset(19)
             make.centerY.equalToSuperview()
         }
+        
+        collectionView.snp.makeConstraints { make in
+            make.left.right.bottom.equalToSuperview()
+            make.top.equalTo(topView.snp.bottom).inset(-20)
+        }
     }
 }
+
+    // MARK: - CollcetionView
+    extension SelectProductViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+        
+        private func setupCollectionView() {
+            collectionView.delegate = self
+            collectionView.dataSource = self
+            collectionView.register(SelectProductCell.self, forCellWithReuseIdentifier: "SelectProductCell")
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            return viewModel?.getNumberOfCell() ?? 0
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "SelectProductCell",
+                for: indexPath) as? SelectProductCell,
+                  let viewModel = viewModel else { return UICollectionViewCell() }
+            
+            let backgroundColor = viewModel.getColorForBackground()
+            let foregroundColor = viewModel.getForegroundColor()
+            let name = viewModel.getNameOfCell(at: indexPath.row)
+            let isSelectAllButton = indexPath.row == 0 ? true : false
+            let isProductSelected = viewModel.isProductSelected(at: indexPath.row)
+
+                cell.setupCell(bcgColor: backgroundColor, foregroundColor: foregroundColor, text: name,
+                               rightImage: nil, isSelected: isProductSelected, isSelectAllButton: isSelectAllButton)
+            return cell
+        }
+        
+        func collectionView(_ collectionView: UICollectionView,
+                            layout collectionViewLayout: UICollectionViewLayout,
+                            sizeForItemAt indexPath: IndexPath) -> CGSize {
+            return CGSize(width: view.frame.width - 32, height: 48)
+        }
+        
+        func collectionView(_ collectionView: UICollectionView,
+                            layout collectionViewLayout: UICollectionViewLayout,
+                            minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+            return 8
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            viewModel?.cellSelected(at: indexPath.row)
+        }
+    }
 
 extension SelectProductViewController {
     
@@ -151,9 +221,13 @@ extension SelectProductViewController {
     
     private func hidePanel() {
         updateConstr(with: -contentViewHeigh) {
-            self.dismiss(animated: true, completion: {
-                self.viewModel?.closeTapped(height: self.contentViewHeigh)
-            })
+            self.dismiss(animated: true, completion: nil)
         }
     }
+}
+
+extension SelectProductViewController: SelectProductViewModelDelegate {
+    func reloadCollection() {
+        collectionView.reloadData()
+    } 
 }

@@ -50,6 +50,8 @@ class CreateNewListViewModel {
     }
     
     func pickItemTapped(height: Double) {
-        router?.presentSelectList(height: height)
+        router?.presentSelectList(height: height, compl: { products in
+            print(products)
+        })
     }
 }

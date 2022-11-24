@@ -253,12 +253,18 @@ extension SelectListViewController {
     
     private func hidePanel() {
         updateConstr(with: -contentViewHeigh) {
-            self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true, completion: { [weak self] in
+                self?.viewModel?.controllerDissmissed()
+            })
         }
     }
 }
 
 extension SelectListViewController: SelectListViewModelDelegate {
+    func dismissController() {
+        hidePanel()
+    }
+    
     func presentSelectedVC(controller: UIViewController) {
         self.present(controller, animated: true)
     }

@@ -48,6 +48,7 @@ struct Product: Hashable, Equatable {
     var dateOfCreation: Date
     var category: String
     var isFavorite: Bool
+    var isSelected = false
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)

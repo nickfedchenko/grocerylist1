@@ -164,6 +164,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
     }
     
     private func setupCollectionView() {
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
         collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
         collectionView.register(GroceryCollectionViewCell.self,

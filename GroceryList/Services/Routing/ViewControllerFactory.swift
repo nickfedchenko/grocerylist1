@@ -19,8 +19,10 @@ protocol ViewControllerFactoryProtocol {
     func createActivityController(image: [Any]) -> UIViewController?
     func createPrintController(image: UIImage) -> UIPrintInteractionController?
     func createAlertController(title: String, message: String) -> UIAlertController?
-    func createSelectListController(height: Double, router: RootRouter) -> UIViewController?
-    func createSelectProductsController(height: Double, model: GroceryListsModel, router: RootRouter) -> UIViewController?
+    func createSelectListController(height: Double, router: RootRouter,
+                                    compl: @escaping ([Product]) -> Void) -> UIViewController? 
+    func createSelectProductsController(height: Double, model: GroceryListsModel,
+                                        router: RootRouter, compl: @escaping ([Product]) -> Void) -> UIViewController?
 }
     
 // MARK: - Factory
@@ -53,12 +55,13 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSelectListController(height: Double, router: RootRouter) -> UIViewController? {
+    func createSelectListController(height: Double, router: RootRouter, compl: @escaping ([Product]) -> Void) -> UIViewController? {
         let viewController = SelectListViewController()
         let dataSource = SelectListDataManager()
         let viewModel = SelectListViewModel(dataSource: dataSource)
         viewController.viewModel = viewModel
         viewController.contentViewHeigh = height
+        viewModel.selectedProductsCompl = compl
         viewModel.router = router
         viewModel.delegate = viewController
         return viewController
@@ -76,13 +79,15 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSelectProductsController(height: Double, model: GroceryListsModel, router: RootRouter) -> UIViewController? {
-      
+    func createSelectProductsController(height: Double, model: GroceryListsModel,
+                                        router: RootRouter, compl: @escaping ([Product]) -> Void) -> UIViewController? {
         let viewController = SelectProductViewController()
         let viewModel = SelectProductViewModel(model: model)
         viewController.viewModel = viewModel
         viewController.contentViewHeigh = height
         viewModel.router = router
+        viewModel.delegate = viewController
+        viewModel.productsSelectedCompl = compl
         return viewController
     }
     
