@@ -38,7 +38,7 @@ class MainScreenViewModel {
     // routing
     func createNewListTapped() {
         
-        router?.goCreateNewList(compl: { [weak self] _ in
+        router?.goCreateNewList(compl: { [weak self] _, _  in
             guard let list = self?.dataSource?.updateListOfModels() else { return }
             self?.updateCells?(list)
             self?.dataSource?.setOfModelsToUpdate = []

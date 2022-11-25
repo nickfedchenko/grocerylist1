@@ -18,9 +18,10 @@ class CreateNewListViewModel {
     weak var delegate: CreateNewLiseViewModelDelegate?
     weak var router: RootRouter?
     private var colorManager = ColorManager()
-    var valueChangedCallback: ((GroceryListsModel) -> Void)?
+    var valueChangedCallback: ((GroceryListsModel, [Product]) -> Void)?
     var model: GroceryListsModel?
     var copiedProducts: Set<Product> = []
+    var newSavedProducts: [Product] = []
    
     func savePressed(nameOfList: String?, numberOfColor: Int, isSortByCategory: Bool) {
         if var model = model {
@@ -29,7 +30,7 @@ class CreateNewListViewModel {
             model.typeOfSorting = isSortByCategory ? 0 : 2
             CoreDataManager.shared.saveList(list: model)
             copiedProducts.forEach({ saveCopiedProduct(product: $0, listId: model.id) })
-            valueChangedCallback?(model)
+            valueChangedCallback?(model, newSavedProducts)
             return
         }
         let typeOfSorting = isSortByCategory ? 0 : 2
@@ -39,12 +40,13 @@ class CreateNewListViewModel {
         UserDefaultsManager.coldStartState = 2
         
         copiedProducts.forEach({ saveCopiedProduct(product: $0, listId: list.id) })
-        valueChangedCallback?(list)
+        valueChangedCallback?(list, newSavedProducts)
     }
     
     func saveCopiedProduct(product: Product, listId: UUID) {
         let newProduct = Product(id: UUID(), listId: listId, name: product.name, isPurchased: false,
                                  dateOfCreation: Date(), category: product.category, isFavorite: false, isSelected: false)
+        newSavedProducts.append(newProduct)
         CoreDataManager.shared.createProduct(product: newProduct)
     }
     

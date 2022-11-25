@@ -80,13 +80,13 @@ final class RootRouter: RootRouterProtocol {
         shouldShowOnboarding = false
     }
     
-    func goCreateNewList(compl: @escaping (GroceryListsModel) -> Void) {
+    func goCreateNewList(compl: @escaping (GroceryListsModel, [Product]) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewListController(model: nil, router: self,
                                                                                    compl: compl) else { return }
         navigationPresent(controller, animated: true)
     }
     
-    func presentCreateNewList(model: GroceryListsModel,compl: @escaping (GroceryListsModel) -> Void) {
+    func presentCreateNewList(model: GroceryListsModel,compl: @escaping (GroceryListsModel, [Product]) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewListController(model: model, router: self,
                                                                                    compl: compl) else { return }
         controller.modalPresentationStyle = .overCurrentContext
@@ -99,7 +99,7 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
-    func goProductsSettingsVC(snapshot: UIImage?, model: GroceryListsModel, compl: @escaping (GroceryListsModel) -> Void) {
+    func goProductsSettingsVC(snapshot: UIImage?, model: GroceryListsModel, compl: @escaping (GroceryListsModel, [Product]) -> Void) {
         guard let controller = viewControllerFactory.createProductsSettingsController(snapshot: snapshot, model: model, router: self,
                                                                                    compl: compl) else { return }
         navigationPresent(controller, animated: true)

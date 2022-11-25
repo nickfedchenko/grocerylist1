@@ -40,6 +40,11 @@ class ProductsDataManager {
         shouldSaveExpanding = true
     }
     
+    func appendCopiedProducts(product: [Product]) {
+        products.append(contentsOf: product)
+        createDataSourceArray()
+    }
+    
     // MARK: - Сортировка по алфавиту
     private func createArraySortedByAlphabet() {
         var dict: [ String: [Product] ] = [:]

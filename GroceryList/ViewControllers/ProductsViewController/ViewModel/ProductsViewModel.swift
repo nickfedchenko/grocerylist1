@@ -20,7 +20,7 @@ class ProductsViewModel {
     var model: GroceryListsModel
     var dataSource: ProductsDataManager
     weak var delegate: ProductsViewModelDelegate?
-   
+    
     init(model: GroceryListsModel, dataSource: ProductsDataManager) {
         self.dataSource = dataSource
         self.model = model
@@ -58,8 +58,9 @@ class ProductsViewModel {
     }
     
     func settingsTapped(with snapshot: UIImage?) {
-        router?.goProductsSettingsVC(snapshot: snapshot, model: model, compl: { [weak self] updatedModel in
+        router?.goProductsSettingsVC(snapshot: snapshot, model: model, compl: { [weak self] updatedModel, products in
             self?.model = updatedModel
+            self?.appendToDataSourceProducts(products: products)
             self?.dataSource.typeOfSorting = SortingType(rawValue: self?.model.typeOfSorting ?? 0) ?? .category
             self?.delegate?.updateController()
         })
@@ -75,6 +76,10 @@ class ProductsViewModel {
     
     func delete(product: Product) {
         dataSource.delete(product: product)
+    }
+    
+    func appendToDataSourceProducts(products: [Product]) {
+        dataSource.appendCopiedProducts(product: products)
     }
 
 }

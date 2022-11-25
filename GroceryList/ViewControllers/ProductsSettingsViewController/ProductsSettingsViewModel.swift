@@ -17,8 +17,9 @@ class ProductsSettingsViewModel {
     private var snapshot: UIImage?
     private var model: GroceryListsModel
     weak var router: RootRouter?
-    var valueChangedCallback: ((GroceryListsModel) -> Void)?
+    var valueChangedCallback: ((GroceryListsModel, [Product]) -> Void)?
     weak var delegate: ProductSettingsViewDelegate?
+    private var copiedProducts: [Product] = []
     
     private var colorManager = ColorManager()
    
@@ -78,16 +79,18 @@ class ProductsSettingsViewModel {
         guard let snapshot = snapshot else { return }
         switch ind {
         case 0:
-            router?.presentCreateNewList(model: model) { [weak self] newModel in
+            router?.presentCreateNewList(model: model) { [weak self] newModel, products  in
                 self?.model = newModel
+                self?.copiedProducts = products
                 self?.savePatametrs()
             }
         case 1:
             model.isFavorite = !model.isFavorite
             savePatametrs()
         case 2:
-            router?.presentCreateNewList(model: model) { [weak self] newModel in
+            router?.presentCreateNewList(model: model) { [weak self] newModel, products  in
                 self?.model = newModel
+                self?.copiedProducts = products
                 self?.savePatametrs()
             }
         case 4:
@@ -115,7 +118,7 @@ class ProductsSettingsViewModel {
     
     private func savePatametrs() {
         delegate?.reloadController()
-        valueChangedCallback?(model)
+        valueChangedCallback?(model, copiedProducts)
         CoreDataManager.shared.saveList(list: model)
     }
 }
