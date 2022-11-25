@@ -28,7 +28,6 @@ class EmptyColoredCell: UICollectionViewCell {
     func setupCell(bckgColor: UIColor, isTopRounded: Bool, isBottomRounded: Bool) {
         contentViews.backgroundColor = bckgColor
 
-        
         if isBottomRounded && isTopRounded {
             contentViews.layer.cornerRadius = 8
             contentViews.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]

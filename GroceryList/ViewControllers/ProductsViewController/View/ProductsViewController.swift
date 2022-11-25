@@ -27,7 +27,7 @@ class ProductsViewController: UIViewController {
         setupConstraints()
         setupCollectionView()
         setupController()
-        
+        addRecognizer()
         viewModel?.valueChangedCallback = { [weak self] in
             self?.reloadData()
         }
@@ -346,5 +346,17 @@ extension ProductsViewController: ProductsViewModelDelegate {
     func updateController() {
         setupController()
         reloadData()
+    }
+}
+
+extension ProductsViewController {
+    private func addRecognizer() {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(addItemViewTapped))
+        addItemView.addGestureRecognizer(tapRecognizer)
+    }
+    
+    @objc
+    private func addItemViewTapped () {
+        viewModel?.addNewProductTapped()
     }
 }

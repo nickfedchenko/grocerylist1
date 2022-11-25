@@ -23,6 +23,8 @@ protocol ViewControllerFactoryProtocol {
                                     setOfSelectedProd: Set<Product>, compl: @escaping (Set<Product>) -> Void) -> UIViewController? 
     func createSelectProductsController(height: Double, model: GroceryListsModel, setOfSelectedProd: Set<Product>,
                                         router: RootRouter, compl: @escaping (Set<Product>) -> Void) -> UIViewController?
+    func createCreateNewProductController(model: GroceryListsModel?, router: RootRouter,
+                                          compl: @escaping (Product) -> Void) -> UIViewController?
 }
     
 // MARK: - Factory
@@ -48,6 +50,18 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
                                        compl: @escaping (GroceryListsModel, [Product]) -> Void) -> UIViewController? {
         let viewController = CreateNewListViewController()
         let viewModel = CreateNewListViewModel()
+        viewModel.valueChangedCallback = compl
+        viewController.viewModel = viewModel
+        viewModel.delegate = viewController
+        viewModel.router = router
+        viewModel.model = model
+        return viewController
+    }
+    
+    func createCreateNewProductController(model: GroceryListsModel?, router: RootRouter,
+                                          compl: @escaping (Product) -> Void) -> UIViewController? {
+        let viewController = CreateNewProductViewController()
+        let viewModel = CreateNewProductViewModel()
         viewModel.valueChangedCallback = compl
         viewController.viewModel = viewModel
         viewModel.delegate = viewController

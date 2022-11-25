@@ -46,3 +46,5 @@
 "Supermarket"               = "Supermarket";
 "PickItem"                  = "Pick items from another list";
 "selectAll"                 = "Select All";
+"Name"                      = "Name";
+"AddNote"                   = "Add note, quantity (optional)";

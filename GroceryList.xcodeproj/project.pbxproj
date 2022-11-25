@@ -74,6 +74,8 @@
 		B3C3FA4F291175390011EC0A /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C3FA4E291175390011EC0A /* UIImageViewExtension.swift */; };
 		B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C3FA50291261870011EC0A /* UIScreenExtension.swift */; };
 		B3D20456292F6C0600599A01 /* SelectProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D20455292F6C0600599A01 /* SelectProductCell.swift */; };
+		B3D2045B2930F00A00599A01 /* CreateNewProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D2045A2930F00A00599A01 /* CreateNewProductViewController.swift */; };
+		B3D2045D2930F49C00599A01 /* CreateNewProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D2045C2930F49B00599A01 /* CreateNewProductViewModel.swift */; };
 		B3E654A32927A7D300106500 /* ArrowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E654A22927A7D300106500 /* ArrowView.swift */; };
 		EF84F46FAFBAF3BBEEB5E7C0 /* Pods_GroceryList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025222570B015E69FF5973D3 /* Pods_GroceryList.framework */; };
 /* End PBXBuildFile section */
@@ -151,6 +153,8 @@
 		B3C3FA4E291175390011EC0A /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		B3C3FA50291261870011EC0A /* UIScreenExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScreenExtension.swift; sourceTree = "<group>"; };
 		B3D20455292F6C0600599A01 /* SelectProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProductCell.swift; sourceTree = "<group>"; };
+		B3D2045A2930F00A00599A01 /* CreateNewProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProductViewController.swift; sourceTree = "<group>"; };
+		B3D2045C2930F49B00599A01 /* CreateNewProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProductViewModel.swift; sourceTree = "<group>"; };
 		B3E654A22927A7D300106500 /* ArrowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowView.swift; sourceTree = "<group>"; };
 		BA1E0A38753E53B699F8E323 /* Pods-GroceryList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroceryList.debug.xcconfig"; path = "Target Support Files/Pods-GroceryList/Pods-GroceryList.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -522,6 +526,7 @@
 				B34BB81B292E562000748E8E /* SelectProductViewController */,
 				B3476900291D00E00045A287 /* ProductsViewController */,
 				B3476907291D213D0045A287 /* ProductsSettingsViewController */,
+				B3D204592930EFC200599A01 /* CreateNewProductViewComtroller */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -572,6 +577,15 @@
 				B3802314292BC7DA0039EDE0 /* UserDefaultsManager.swift */,
 			);
 			path = UserDefaultsManager;
+			sourceTree = "<group>";
+		};
+		B3D204592930EFC200599A01 /* CreateNewProductViewComtroller */ = {
+			isa = PBXGroup;
+			children = (
+				B3D2045A2930F00A00599A01 /* CreateNewProductViewController.swift */,
+				B3D2045C2930F49B00599A01 /* CreateNewProductViewModel.swift */,
+			);
+			path = CreateNewProductViewComtroller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -741,6 +755,7 @@
 				B3693405291BB44A00AFFAA6 /* ColorCollectionViewCell.swift in Sources */,
 				B30573BB29222BE700CA8BDE /* HeaderListCell.swift in Sources */,
 				B37A2CE92911034D003C01AD /* UIViewControllerExtension.swift in Sources */,
+				B3D2045B2930F00A00599A01 /* CreateNewProductViewController.swift in Sources */,
 				B3179EAB291E3DAE00455419 /* ProductsDataManager.swift in Sources */,
 				B37A2CE72911034D003C01AD /* UIColorExtension.swift in Sources */,
 				B36AF9532915403600944E9D /* EmptyColoredCell.swift in Sources */,
@@ -751,6 +766,7 @@
 				B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */,
 				B34BB80A292D1C4600748E8E /* ShimmerView.swift in Sources */,
 				B36AF9432913D39400944E9D /* UIImageExtension.swift in Sources */,
+				B3D2045D2930F49C00599A01 /* CreateNewProductViewModel.swift in Sources */,
 				B36D18ED291A2CF4005EE32D /* CoreDataManager.swift in Sources */,
 				B34BB80F292E389B00748E8E /* SelectListViewModel.swift in Sources */,
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,

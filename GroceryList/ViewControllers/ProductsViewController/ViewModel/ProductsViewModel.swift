@@ -81,5 +81,11 @@ class ProductsViewModel {
     func appendToDataSourceProducts(products: [Product]) {
         dataSource.appendCopiedProducts(product: products)
     }
+    
+    func addNewProductTapped() {
+        router?.goCreateNewProductController(model: model, compl: { _ in
+            
+        })
+    }
 
 }
