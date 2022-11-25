@@ -48,3 +48,4 @@
 "selectAll"                 = "Select All";
 "Name"                      = "Name";
 "AddNote"                   = "Add note, quantity (optional)";
+"Quantity"                  = "Quantity (optional)";

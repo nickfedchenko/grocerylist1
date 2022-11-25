@@ -34,6 +34,16 @@ class CreateNewProductViewController: UIViewController {
         print("create new list deinited")
     }
     
+    @objc
+    private func plusButtonAction() {
+        print("plusTapped")
+    }
+
+    @objc
+    private func minusButtonAction() {
+        print("minusTapped")
+    }
+    
     private func setupTextFieldParametrs() {
         topTextField.delegate = self
         topTextField.becomeFirstResponder()
@@ -155,6 +165,48 @@ class CreateNewProductViewController: UIViewController {
         return imageView
     }()
     
+    private let quantityTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.semibold(size: 15).font
+        label.textColor = UIColor(hex: "#657674")
+        label.text = "Quantity".localized
+        return label
+    }()
+    
+    private lazy var minusButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(minusButtonAction), for: .touchUpInside)
+        button.imageView?.contentMode = .scaleAspectFill
+        button.setImage(UIImage(named: "minusInactive"), for: .normal)
+        return button
+    }()
+    
+    private lazy var plusButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(plusButtonAction), for: .touchUpInside)
+        button.imageView?.contentMode = .scaleAspectFill
+        button.setImage(UIImage(named: "plusInactive"), for: .normal)
+        return button
+    }()
+    
+    private let quantityView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 8
+        view.layer.masksToBounds = true
+        view.layer.borderColor = UIColor(hex: "#B8BFCC").cgColor
+        view.layer.borderWidth = 1
+        return view
+    }()
+    
+    private let quantityLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.semibold(size: 17).font
+        label.textColor = UIColor(hex: "#AEB4B2")
+        label.text = "0"
+        return label
+    }()
+    
     private let saveButtonView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#D2D5DA")
@@ -171,10 +223,12 @@ class CreateNewProductViewController: UIViewController {
     }()
     
     // MARK: - Constraints
+    // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         view.backgroundColor = .black.withAlphaComponent(0.5)
         view.addSubviews([contentView])
-        contentView.addSubviews([saveButtonView, topCategoryView, textfieldView])
+        contentView.addSubviews([saveButtonView, topCategoryView, textfieldView, quantityTitleLabel, quantityView, minusButton, plusButton])
+        quantityView.addSubviews([quantityLabel])
         topCategoryView.addSubviews([topCategoryLabel, topCategoryPencilImage])
         textfieldView.addSubviews([checkmarkImage, topTextField, bottomTextField, addImageImage])
         saveButtonView.addSubview(saveLabel)
@@ -229,6 +283,35 @@ class CreateNewProductViewController: UIViewController {
         addImageImage.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(8)
             make.centerY.equalToSuperview()
+            make.width.height.equalTo(40)
+        }
+        
+        quantityTitleLabel.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(29)
+            make.top.equalTo(textfieldView.snp.bottom).inset(-15)
+            make.height.equalTo(17)
+        }
+        
+        quantityView.snp.makeConstraints { make in
+            make.top.equalTo(quantityTitleLabel.snp.bottom).inset(-4)
+            make.left.equalTo(minusButton.snp.left)
+            make.right.equalTo(plusButton.snp.right)
+            make.bottom.equalTo(plusButton.snp.bottom)
+        }
+        
+        quantityLabel.snp.makeConstraints { make in
+            make.centerY.centerX.equalToSuperview()
+        }
+        
+        minusButton.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(20)
+            make.top.equalTo(quantityTitleLabel.snp.bottom).inset(-4)
+            make.width.height.equalTo(40)
+        }
+        
+        plusButton.snp.makeConstraints { make in
+            make.left.equalTo(minusButton.snp.right).inset(-120)
+            make.top.equalTo(quantityTitleLabel.snp.bottom).inset(-4)
             make.width.height.equalTo(40)
         }
         
