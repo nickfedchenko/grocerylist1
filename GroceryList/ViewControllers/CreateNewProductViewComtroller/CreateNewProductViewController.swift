@@ -13,6 +13,7 @@ import UIKit
 class CreateNewProductViewController: UIViewController {
     
     var viewModel: CreateNewProductViewModel?
+    private var imagePicker = UIImagePickerController()
     private var isCategorySelected = false
     private var quantityCount = 0
     
@@ -172,6 +173,8 @@ class CreateNewProductViewController: UIViewController {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(named: "#addImage")
+        imageView.layer.cornerRadius = 8
+        imageView.layer.masksToBounds = true
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
@@ -386,7 +389,7 @@ extension CreateNewProductViewController: UITextFieldDelegate {
     
     private func readyToSave() {
         saveButtonView.isUserInteractionEnabled = true
-        saveButtonView.backgroundColor = UIColor(hex: "#31635A")
+        saveButtonView.backgroundColor = UIColor(hex: "#6FB16F")
     }
     
     private func notReadyToSave() {
@@ -463,7 +466,7 @@ extension CreateNewProductViewController {
     
     @objc
     private func tapOnAddImageAction() {
-        print("tap on add image")
+        pickImage()
     }
     
     @objc
@@ -484,6 +487,26 @@ extension CreateNewProductViewController {
         }
     }
 }
+
+extension CreateNewProductViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+
+    func pickImage() {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .savedPhotosAlbum
+            imagePicker.allowsEditing = false
+            imagePicker.modalPresentationStyle = .pageSheet
+            present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        self.dismiss(animated: true, completion: nil)
+        let image = info[.originalImage] as? UIImage
+        addImageImage.image = image
+    }
+}
+
 
 extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     func presentController(controller: UIViewController?) {
