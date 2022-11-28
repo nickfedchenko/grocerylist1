@@ -68,6 +68,8 @@
 		B37A2CF429111C41003C01AD /* SF Pro Display Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B37A2CF329111C41003C01AD /* SF Pro Display Heavy.otf */; };
 		B37A2CF6291125CA003C01AD /* SF Pro Display Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B37A2CF5291125CA003C01AD /* SF Pro Display Medium.otf */; };
 		B3802315292BC7DA0039EDE0 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3802314292BC7DA0039EDE0 /* UserDefaultsManager.swift */; };
+		B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B45E592934C01D00D60E82 /* SelectCategoryViewController.swift */; };
+		B3B45E5C2934C02B00D60E82 /* SelectCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B45E5B2934C02B00D60E82 /* SelectCategoryViewModel.swift */; };
 		B3C3FA4729115AA20011EC0A /* OnboardingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C3FA4629115AA20011EC0A /* OnboardingContentView.swift */; };
 		B3C3FA4929115F510011EC0A /* SF Pro Display Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3C3FA4829115F510011EC0A /* SF Pro Display Semibold.otf */; };
 		B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C3FA4A291161D80011EC0A /* FirstOnboardingView.swift */; };
@@ -147,6 +149,8 @@
 		B37A2CF329111C41003C01AD /* SF Pro Display Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Heavy.otf"; sourceTree = "<group>"; };
 		B37A2CF5291125CA003C01AD /* SF Pro Display Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Medium.otf"; sourceTree = "<group>"; };
 		B3802314292BC7DA0039EDE0 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		B3B45E592934C01D00D60E82 /* SelectCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryViewController.swift; sourceTree = "<group>"; };
+		B3B45E5B2934C02B00D60E82 /* SelectCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryViewModel.swift; sourceTree = "<group>"; };
 		B3C3FA4629115AA20011EC0A /* OnboardingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContentView.swift; sourceTree = "<group>"; };
 		B3C3FA4829115F510011EC0A /* SF Pro Display Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Semibold.otf"; sourceTree = "<group>"; };
 		B3C3FA4A291161D80011EC0A /* FirstOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstOnboardingView.swift; sourceTree = "<group>"; };
@@ -527,6 +531,7 @@
 				B3476900291D00E00045A287 /* ProductsViewController */,
 				B3476907291D213D0045A287 /* ProductsSettingsViewController */,
 				B3D204592930EFC200599A01 /* CreateNewProductViewComtroller */,
+				B3B45E582934BFEA00D60E82 /* SelectCategoryViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -577,6 +582,15 @@
 				B3802314292BC7DA0039EDE0 /* UserDefaultsManager.swift */,
 			);
 			path = UserDefaultsManager;
+			sourceTree = "<group>";
+		};
+		B3B45E582934BFEA00D60E82 /* SelectCategoryViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B3B45E592934C01D00D60E82 /* SelectCategoryViewController.swift */,
+				B3B45E5B2934C02B00D60E82 /* SelectCategoryViewModel.swift */,
+			);
+			path = SelectCategoryViewController;
 			sourceTree = "<group>";
 		};
 		B3D204592930EFC200599A01 /* CreateNewProductViewComtroller */ = {
@@ -736,6 +750,7 @@
 				B3E654A32927A7D300106500 /* ArrowView.swift in Sources */,
 				B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */,
 				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
+				B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */,
 				B3693402291BA62F00AFFAA6 /* CreateNewListViewModel.swift in Sources */,
 				B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */,
 				B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */,
@@ -760,6 +775,7 @@
 				B37A2CE72911034D003C01AD /* UIColorExtension.swift in Sources */,
 				B36AF9532915403600944E9D /* EmptyColoredCell.swift in Sources */,
 				B360918E2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift in Sources */,
+				B3B45E5C2934C02B00D60E82 /* SelectCategoryViewModel.swift in Sources */,
 				B37A2CDF29110290003C01AD /* OnboardingViewController.swift in Sources */,
 				B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */,
 				B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */,

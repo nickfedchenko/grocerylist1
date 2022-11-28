@@ -19,5 +19,15 @@ class CreateNewProductViewModel {
     weak var router: RootRouter?
     var model: GroceryListsModel?
     private var colorManager = ColorManager()
-
+    
+    func getBackgroundColor() -> UIColor {
+        guard let colorInd = model?.color else { return UIColor.white}
+        return colorManager.getGradient(index: colorInd).1
+    }
+    
+    func goToSelectCategoryVC() {
+        router?.goSelectCategoryController(model: model!, compl: { categoryName in
+            
+        })
+    }
 }

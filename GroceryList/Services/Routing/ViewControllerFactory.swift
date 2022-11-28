@@ -25,6 +25,8 @@ protocol ViewControllerFactoryProtocol {
                                         router: RootRouter, compl: @escaping (Set<Product>) -> Void) -> UIViewController?
     func createCreateNewProductController(model: GroceryListsModel?, router: RootRouter,
                                           compl: @escaping (Product) -> Void) -> UIViewController?
+    func createSelectCategoryController(model: GroceryListsModel,
+                                        router: RootRouter, compl: @escaping (String) -> Void) -> UIViewController?
 }
     
 // MARK: - Factory
@@ -105,6 +107,18 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.router = router
         viewModel.delegate = viewController
         viewModel.productsSelectedCompl = compl
+        return viewController
+    }
+    
+    func createSelectCategoryController(model: GroceryListsModel,
+                                        router: RootRouter, compl: @escaping (String) -> Void) -> UIViewController? {
+        let viewController = SelectCategoryViewController()
+        let viewModel = SelectCategoryViewModel()
+        viewController.viewModel = viewModel
+        viewModel.router = router
+        viewModel.delegate = viewController
+        viewModel.model = model
+        viewModel.categorySelectedCallback = compl
         return viewController
     }
     

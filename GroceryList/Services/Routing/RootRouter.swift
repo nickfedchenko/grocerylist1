@@ -111,6 +111,12 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func goSelectCategoryController(model: GroceryListsModel, compl: @escaping (String) -> Void) {
+        guard let controller = viewControllerFactory.createSelectCategoryController(model: model, router: self,
+                                                                                   compl: compl) else { return }
+        topViewController?.present(controller, animated: true, completion: nil)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }

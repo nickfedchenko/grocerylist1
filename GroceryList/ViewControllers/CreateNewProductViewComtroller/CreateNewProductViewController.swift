@@ -5,8 +5,6 @@
 //  Created by Шамиль Моллачиев on 25.11.2022.
 //
 
-import Foundation
-
 import SnapKit
 import UIKit
 
@@ -25,6 +23,7 @@ class CreateNewProductViewController: UIViewController {
         super.viewDidLoad()
         setupConstraints()
         addKeyboardNotifications()
+        setupBackgroundColor()
         addRecognizers()
     }
     
@@ -46,6 +45,8 @@ class CreateNewProductViewController: UIViewController {
     private func plusButtonAction() {
         quantityCount += 1
         quantityLabel.text = String(quantityCount)
+        let quantity = selectUnitLabel.text ?? ""
+        bottomTextField.text = "\(quantityCount) \(quantity)"
         quantityAvailable()
     }
 
@@ -54,12 +55,18 @@ class CreateNewProductViewController: UIViewController {
         guard quantityCount > 1 else { return quantityNotAvailable() }
         quantityCount -= 1
         quantityLabel.text = String(quantityCount)
+        let quantity = selectUnitLabel.text ?? ""
+        bottomTextField.text = "\(quantityCount) \(quantity)"
     }
     
     private func setupTextFieldParametrs() {
         bottomTextField.delegate = self
         topTextField.delegate = self
         topTextField.becomeFirstResponder()
+    }
+    
+    private func setupBackgroundColor() {
+        contentView.backgroundColor = viewModel?.getBackgroundColor()
     }
     
     // MARK: - Keyboard
@@ -412,7 +419,8 @@ extension CreateNewProductViewController: UITextFieldDelegate {
         quantityView.layer.borderColor = UIColor(hex: "#B8BFCC").cgColor
         selectUnitsView.backgroundColor = UIColor(hex: "#D2D5DA")
         quantityCount = 0
-        quantityLabel.text = "0"
+        quantityLabel.text = String(quantityCount)
+        bottomTextField.text = ""
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -471,7 +479,7 @@ extension CreateNewProductViewController {
     
     @objc
     private func tapOnCategoryAction() {
-        print("tap on category")
+        viewModel?.goToSelectCategoryVC()
     }
     
     @objc
@@ -506,7 +514,6 @@ extension CreateNewProductViewController: UINavigationControllerDelegate, UIImag
         addImageImage.image = image
     }
 }
-
 
 extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     func presentController(controller: UIViewController?) {
