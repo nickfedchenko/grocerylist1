@@ -16,7 +16,7 @@ class CreateNewProductViewController: UIViewController {
     private var quantityCount = 0
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
+        .lightContent
     }
     
     override func viewDidLoad() {
@@ -518,6 +518,7 @@ extension CreateNewProductViewController: UINavigationControllerDelegate, UIImag
 extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     func presentController(controller: UIViewController?) {
         guard let controller else { return }
-        present(controller, animated: true)
+        navigationController?.pushViewController(controller, animated: true)
+      //  present(controller, animated: true)
     }
 }

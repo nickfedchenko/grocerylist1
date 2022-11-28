@@ -20,4 +20,14 @@ class SelectCategoryViewModel {
     var model: GroceryListsModel?
     private var colorManager = ColorManager()
 
+    func getBackgroundColor() -> UIColor {
+        guard let model else { return .white }
+        return colorManager.getGradient(index: model.color).1
+    }
+    
+    func getForegroundColor() -> UIColor {
+        guard let model else { return .white }
+        return colorManager.getGradient(index: model.color).0
+    }
 }
+

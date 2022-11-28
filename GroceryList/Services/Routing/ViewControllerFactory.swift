@@ -69,7 +69,9 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.delegate = viewController
         viewModel.router = router
         viewModel.model = model
-        return viewController
+        let navController = MyNavigationController(rootViewController: viewController)
+        navController.navigationBar.isHidden = true
+        return navController
     }
     
     func createSelectListController(height: Double, router: RootRouter,
@@ -160,5 +162,11 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let navigationController = UINavigationController(rootViewController: controller)
         navigationController.isNavigationBarHidden = true
         return navigationController
+    }
+}
+
+class MyNavigationController: UINavigationController {
+    override var childForStatusBarStyle: UIViewController? {
+        topViewController
     }
 }
