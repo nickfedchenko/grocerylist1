@@ -13,6 +13,8 @@ import UIKit
 class CreateNewProductViewController: UIViewController {
     
     var viewModel: CreateNewProductViewModel?
+    private var isCategorySelected = false
+    private var quantityCount = 0
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
@@ -30,21 +32,31 @@ class CreateNewProductViewController: UIViewController {
         setupTextFieldParametrs()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        contentView.makeCustomRound(topLeft: 4, topRight: 40, bottomLeft: 0, bottomRight: 0)
+    }
+    
     deinit {
         print("create new list deinited")
     }
     
     @objc
     private func plusButtonAction() {
-        print("plusTapped")
+        quantityCount += 1
+        quantityLabel.text = String(quantityCount)
+        quantityAvailable()
     }
 
     @objc
     private func minusButtonAction() {
-        print("minusTapped")
+        guard quantityCount > 1 else { return quantityNotAvailable() }
+        quantityCount -= 1
+        quantityLabel.text = String(quantityCount)
     }
     
     private func setupTextFieldParametrs() {
+        bottomTextField.delegate = self
         topTextField.delegate = self
         topTextField.becomeFirstResponder()
     }
@@ -87,8 +99,6 @@ class CreateNewProductViewController: UIViewController {
     private let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#F9FBEB")
-        view.layer.cornerRadius = 4
-        view.layer.masksToBounds = true
         return view
     }()
     
@@ -103,8 +113,8 @@ class CreateNewProductViewController: UIViewController {
     private let topCategoryLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
-        label.textColor = .white
-        label.text = "Here should be category name"
+        label.textColor = UIColor(hex: "#777777")
+        label.text = "Category".localized
         return label
     }()
     
@@ -120,6 +130,7 @@ class CreateNewProductViewController: UIViewController {
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
+        view.addShadowForView()
         return view
     }()
     
@@ -196,7 +207,33 @@ class CreateNewProductViewController: UIViewController {
         view.layer.masksToBounds = true
         view.layer.borderColor = UIColor(hex: "#B8BFCC").cgColor
         view.layer.borderWidth = 1
+        view.addShadowForView()
         return view
+    }()
+    
+    private let selectUnitsView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#D2D5DA")
+        view.layer.cornerRadius = 8
+        view.layer.masksToBounds = true
+        view.addShadowForView()
+        return view
+    }()
+    
+    private let whiteArrowForSelectUnit: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "whiteArrowRight")
+        return imageView
+    }()
+    
+    private let selectUnitLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.semibold(size: 17).font
+        label.textColor = .white
+        label.textAlignment = .center
+        label.text = "pieces".localized
+        return label
     }()
     
     private let quantityLabel: UILabel = {
@@ -227,7 +264,8 @@ class CreateNewProductViewController: UIViewController {
     private func setupConstraints() {
         view.backgroundColor = .black.withAlphaComponent(0.5)
         view.addSubviews([contentView])
-        contentView.addSubviews([saveButtonView, topCategoryView, textfieldView, quantityTitleLabel, quantityView, minusButton, plusButton])
+        contentView.addSubviews([saveButtonView, topCategoryView, textfieldView, quantityTitleLabel, quantityView, minusButton, plusButton, selectUnitsView])
+        selectUnitsView.addSubviews([whiteArrowForSelectUnit, selectUnitLabel])
         quantityView.addSubviews([quantityLabel])
         topCategoryView.addSubviews([topCategoryLabel, topCategoryPencilImage])
         textfieldView.addSubviews([checkmarkImage, topTextField, bottomTextField, addImageImage])
@@ -315,6 +353,24 @@ class CreateNewProductViewController: UIViewController {
             make.width.height.equalTo(40)
         }
         
+        selectUnitsView.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(20)
+            make.top.bottom.equalTo(plusButton)
+            make.width.equalTo(134)
+        }
+        
+        whiteArrowForSelectUnit.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(12)
+            make.top.bottom.equalToSuperview().inset(8)
+            make.width.equalTo(17)
+        }
+        
+        selectUnitLabel.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(8)
+            make.right.equalTo(whiteArrowForSelectUnit.snp.left).inset(-16)
+            make.centerY.equalToSuperview()
+        }
+        
         saveButtonView.snp.makeConstraints { make in
             make.bottom.right.left.equalToSuperview()
             make.height.equalTo(64)
@@ -338,19 +394,43 @@ extension CreateNewProductViewController: UITextFieldDelegate {
         saveButtonView.backgroundColor = UIColor(hex: "#D2D5DA")
     }
     
+    private func quantityAvailable() {
+        minusButton.setImage(UIImage(named: "minusActive"), for: .normal)
+        plusButton.setImage(UIImage(named: "plusActive"), for: .normal)
+        quantityLabel.textColor = UIColor(hex: "#31635A")
+        quantityView.layer.borderColor = UIColor(hex: "#31635A").cgColor
+        selectUnitsView.backgroundColor = UIColor(hex: "#31635A")
+    }
+    
+    private func quantityNotAvailable() {
+        minusButton.setImage(UIImage(named: "minusInactive"), for: .normal)
+        plusButton.setImage(UIImage(named: "plusInactive"), for: .normal)
+        quantityLabel.textColor = UIColor(hex: "#AEB4B2")
+        quantityView.layer.borderColor = UIColor(hex: "#B8BFCC").cgColor
+        selectUnitsView.backgroundColor = UIColor(hex: "#D2D5DA")
+        quantityCount = 0
+        quantityLabel.text = "0"
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
-        if newLength > 2 {
+        if newLength > 2 && isCategorySelected {
             readyToSave()
         } else {
             notReadyToSave()
         }
-        return newLength <= 30
+        return newLength <= 25
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        if textField == topTextField {
+            bottomTextField.becomeFirstResponder()
+        } else {
+            quantityAvailable()
+        }
+
+        return true
     }
 }
 
@@ -364,13 +444,21 @@ extension CreateNewProductViewController {
         
         let tapOnCategoryRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOnCategoryAction))
         topCategoryView.addGestureRecognizer(tapOnCategoryRecognizer)
+        
+        let tapOnSelectUnits = UITapGestureRecognizer(target: self, action: #selector(tapOnSelectUnitsAction))
+        saveButtonView.addGestureRecognizer(tapOnSelectUnits)
      
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(saveAction))
-        saveButtonView.addGestureRecognizer(tapRecognizer)
+        let tapOnSaveRecognizer = UITapGestureRecognizer(target: self, action: #selector(saveAction))
+        saveButtonView.addGestureRecognizer(tapOnSaveRecognizer)
         
-        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
-        contentView.addGestureRecognizer(panRecognizer)
+        let swipeDownRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
+        contentView.addGestureRecognizer(swipeDownRecognizer)
         
+    }
+    
+    @objc
+    private func tapOnSelectUnitsAction() {
+        print("tap on select units")
     }
     
     @objc
@@ -401,9 +489,5 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     func presentController(controller: UIViewController?) {
         guard let controller else { return }
         present(controller, animated: true)
-    }
-    
-    func updateLabelText(text: String) {
-       
     }
 }

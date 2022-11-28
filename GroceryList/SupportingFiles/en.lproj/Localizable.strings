@@ -49,3 +49,5 @@
 "Name"                      = "Name";
 "AddNote"                   = "Add note, quantity (optional)";
 "Quantity"                  = "Quantity (optional)";
+"pieces"                    = "pieces";
+"Category"                  = "Category";

@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 protocol CreateNewProductViewModelDelegate: AnyObject {
-    func updateLabelText(text: String)
     func presentController(controller: UIViewController?)
 }
 
