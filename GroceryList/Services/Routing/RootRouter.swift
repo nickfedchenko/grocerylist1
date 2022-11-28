@@ -147,6 +147,13 @@ final class RootRouter: RootRouterProtocol {
        return controller
     }
     
+    func prepareCreateNewCategoryController(model: GroceryListsModel, compl: @escaping (CategoryModel) -> Void) -> UIViewController {
+        guard let controller = viewControllerFactory.createCreateNewCategoryController(model: model, router: self,
+                                                                                   compl: compl) else { return UIViewController() }
+        controller.modalPresentationStyle = .overCurrentContext
+       return controller
+    }
+    
     // pop
     func popToRoot() {
         navigationPopToRootViewController(animated: true)

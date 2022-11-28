@@ -283,7 +283,7 @@ class CreateNewProductViewController: UIViewController {
         
         contentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(-385)
+            make.bottom.equalToSuperview().inset(-268)
             make.height.equalTo(268)
         }
         
@@ -426,7 +426,7 @@ extension CreateNewProductViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
-        if newLength > 2 && isCategorySelected {
+        if newLength > 2 {
             readyToSave()
         } else {
             notReadyToSave()
@@ -519,6 +519,5 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     func presentController(controller: UIViewController?) {
         guard let controller else { return }
         navigationController?.pushViewController(controller, animated: true)
-      //  present(controller, animated: true)
     }
 }

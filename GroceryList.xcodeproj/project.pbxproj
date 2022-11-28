@@ -30,6 +30,8 @@
 		B34EAC9C2934E95E00FBD0E0 /* SelectCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34EAC9B2934E95E00FBD0E0 /* SelectCategoryCell.swift */; };
 		B34EAC9E2934EE0100FBD0E0 /* SelectCategoryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34EAC9D2934EE0100FBD0E0 /* SelectCategoryDataSource.swift */; };
 		B34EACA42934F05800FBD0E0 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34EACA32934F05800FBD0E0 /* CategoryModel.swift */; };
+		B34EACA8293500C000FBD0E0 /* CreateNewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34EACA7293500C000FBD0E0 /* CreateNewCategoryViewController.swift */; };
+		B34EACAA293501E100FBD0E0 /* CreateNewCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34EACA9293501E100FBD0E0 /* CreateNewCategoryViewModel.swift */; };
 		B360918E2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918A2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift */; };
 		B360918F2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */; };
 		B36091902927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */; };
@@ -113,6 +115,8 @@
 		B34EAC9B2934E95E00FBD0E0 /* SelectCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryCell.swift; sourceTree = "<group>"; };
 		B34EAC9D2934EE0100FBD0E0 /* SelectCategoryDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryDataSource.swift; sourceTree = "<group>"; };
 		B34EACA32934F05800FBD0E0 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
+		B34EACA7293500C000FBD0E0 /* CreateNewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewCategoryViewController.swift; sourceTree = "<group>"; };
+		B34EACA9293501E100FBD0E0 /* CreateNewCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewCategoryViewModel.swift; sourceTree = "<group>"; };
 		B360918A2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -410,6 +414,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		B34EACA62935007400FBD0E0 /* CreateNewCategoryViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B34EACA7293500C000FBD0E0 /* CreateNewCategoryViewController.swift */,
+				B34EACA9293501E100FBD0E0 /* CreateNewCategoryViewModel.swift */,
+			);
+			path = CreateNewCategoryViewController;
+			sourceTree = "<group>";
+		};
 		B36933FB291AAC3A00AFFAA6 /* CellModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -578,6 +591,7 @@
 				B3476907291D213D0045A287 /* ProductsSettingsViewController */,
 				B3D204592930EFC200599A01 /* CreateNewProductViewComtroller */,
 				B3B45E582934BFEA00D60E82 /* SelectCategoryViewController */,
+				B34EACA62935007400FBD0E0 /* CreateNewCategoryViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -805,6 +819,7 @@
 				B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */,
 				B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */,
 				B36AF9552915410400944E9D /* InstructionCell.swift in Sources */,
+				B34EACA8293500C000FBD0E0 /* CreateNewCategoryViewController.swift in Sources */,
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
 				B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */,
 				B34BB81F292E5C8000748E8E /* SelectProductViewModel.swift in Sources */,
@@ -850,6 +865,7 @@
 				B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */,
 				B3476909291D21730045A287 /* ProductsSettingsViewController.swift in Sources */,
 				B30573BD29222D4500CA8BDE /* ProductListCell.swift in Sources */,
+				B34EACAA293501E100FBD0E0 /* CreateNewCategoryViewModel.swift in Sources */,
 				B36AF9392913C5DC00944E9D /* MainScreenViewController.swift in Sources */,
 				B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */,
 				B36091902927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */,

@@ -10,6 +10,7 @@ import UIKit
 
 protocol SelectCategoryViewModelDelegate: AnyObject {
     func reloadData()
+    func presentController(controller: UIViewController?)
 }
 
 class SelectCategoryViewModel {
@@ -50,5 +51,17 @@ class SelectCategoryViewModel {
     func selectCell(at ind: Int) {
         dataSource.selectCell(at: ind)
         delegate?.reloadData()
+    }
+    
+    func sortWithText(text: String) {
+        
+    }
+    
+    func addNewCategoryTapped() {
+        let createNewCatCV = router?.prepareCreateNewCategoryController(model: model, compl: { _ in
+            print("categoryc created")
+        })
+        
+        delegate?.presentController(controller: createNewCatCV)
     }
 }
