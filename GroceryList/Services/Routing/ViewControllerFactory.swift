@@ -115,11 +115,10 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createSelectCategoryController(model: GroceryListsModel,
                                         router: RootRouter, compl: @escaping (String) -> Void) -> UIViewController? {
         let viewController = SelectCategoryViewController()
-        let viewModel = SelectCategoryViewModel()
+        let viewModel = SelectCategoryViewModel(model: model)
         viewController.viewModel = viewModel
         viewModel.router = router
         viewModel.delegate = viewController
-        viewModel.model = model
         viewModel.categorySelectedCallback = compl
         return viewController
     }

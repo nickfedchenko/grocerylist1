@@ -27,7 +27,7 @@ class CreateNewProductViewModel {
     
     func goToSelectCategoryVC() {
         guard let model else { return }
-        let controller = router?.prepareSelectCategoryController(model: model, compl: { categoryName in
+        let controller = router?.prepareSelectCategoryController(model: model, compl: { _ in
             
         })
         delegate?.presentController(controller: controller)
