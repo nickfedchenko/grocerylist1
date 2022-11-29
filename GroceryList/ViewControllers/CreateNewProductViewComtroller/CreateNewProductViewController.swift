@@ -426,11 +426,19 @@ extension CreateNewProductViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
+        viewModel?.chekIsProductFromCategory(name: textField.text)
         if newLength > 2 {
             readyToSave()
         } else {
             notReadyToSave()
         }
+        
+        if string.isEmpty {
+            viewModel?.chekIsProductFromCategory(name: String(text.dropLast()))
+        } else {
+                viewModel?.chekIsProductFromCategory(name: text + string)
+        }
+        
         return newLength <= 25
     }
     
@@ -516,8 +524,26 @@ extension CreateNewProductViewController: UINavigationControllerDelegate, UIImag
 }
 
 extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
+    
+    func deselectCategory() {
+        topCategoryView.backgroundColor = UIColor(hex: "#D2D5DA")
+        topCategoryLabel.textColor = UIColor(hex: "#777777")
+        topCategoryLabel.text = "Category".localized
+        addImageImage.image = UIImage(named: "#addImage")
+    }
+    
+    func selectCategory(text: String, imageURL: String) {
+        topCategoryView.backgroundColor = UIColor(hex: "#80C980")
+        topCategoryLabel.textColor = .white
+        topCategoryLabel.text = text
+        guard !imageURL.isEmpty else { return }
+        addImageImage.kf.indicatorType = .activity
+        addImageImage.kf.setImage(with: URL(string: imageURL), placeholder: nil, options: nil, completionHandler: nil)
+    }
+    
     func presentController(controller: UIViewController?) {
         guard let controller else { return }
         navigationController?.pushViewController(controller, animated: true)
+
     }
 }

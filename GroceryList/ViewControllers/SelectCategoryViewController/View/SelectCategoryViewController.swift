@@ -227,14 +227,9 @@ extension SelectCategoryViewController: UITextFieldDelegate {
         let newLength = text.count + string.count - range.length
         if string.isEmpty {
             viewModel?.searchByWord(word: String(text.dropLast()))
-        }  else {
+        } else {
             viewModel?.searchByWord(word: text + string)
         }
-//        if newLength == 0 {
-//            viewModel?.searchByWord(word: "")
-//        } else {
-//            viewModel?.searchByWord(word: text + string)
-//        }
         return newLength <= 25
     }
     
@@ -289,6 +284,17 @@ extension SelectCategoryViewController: UICollectionViewDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel?.selectCell(at: indexPath.row)
     }
+    
+    func updateCollectionContentInset() {
+        let contentSize = collectionView.collectionViewLayout.collectionViewContentSize
+        var contentInsetTop = collectionView.bounds.size.height
+
+            contentInsetTop -= contentSize.height
+            if contentInsetTop <= 0 {
+                contentInsetTop = 0
+        }
+        collectionView.contentInset = UIEdgeInsets(top: contentInsetTop,left: 0,bottom: 0,right: 0)
+    }
 }
 
 // MARK: - Delegate
@@ -300,5 +306,7 @@ extension SelectCategoryViewController: SelectCategoryViewModelDelegate {
     
     func reloadData() {
         collectionView.reloadData()
+        updateCollectionContentInset()
+        
     }
 }

@@ -9,6 +9,7 @@ target 'GroceryList' do
   pod 'SwiftLint'
   pod 'GzipSwift'
   pod 'SnapKit'
+  pod 'Kingfisher', '~> 7.0'
 
   # Pods for GroceryList
 

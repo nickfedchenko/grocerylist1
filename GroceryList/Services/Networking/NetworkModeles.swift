@@ -10,10 +10,10 @@ import Foundation
 struct GetAllProductsResponse: Codable {
     let error: Bool
     let messages: [String]
-    let data: [ProductData]
+    let data: [NetworkProductModel]
 }
 
-struct ProductData: Codable {
+struct NetworkProductModel: Codable {
     let title: String
     let marketCategory: MarketCategory
     let units: [Unit]
@@ -21,7 +21,7 @@ struct ProductData: Codable {
 }
 
 struct Unit: Codable {
-    let title: String
+    let title: String?
     let value: Double
 }
 
