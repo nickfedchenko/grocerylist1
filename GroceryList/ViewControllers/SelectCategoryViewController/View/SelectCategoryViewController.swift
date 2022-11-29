@@ -21,6 +21,12 @@ class SelectCategoryViewController: UIViewController {
         setupConstraints()
         setupController()
         setupCollectionView()
+        setupTextFieldParametrs()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        addKeyboardNotifications()
     }
     
     deinit {
@@ -42,6 +48,41 @@ class SelectCategoryViewController: UIViewController {
     @objc
     private func addButtonPressed() {
         viewModel?.addNewCategoryTapped()
+    }
+    
+    private func setupTextFieldParametrs() {
+        textField.delegate = self
+    }
+    
+    // MARK: - Keyboard
+    private func addKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc
+    private func keyboardWillShow(_ notification: NSNotification) {
+        let value = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        guard let keyboardFrame = value?.cgRectValue else { return }
+        let height = Double(keyboardFrame.height)
+        updateConstr(with: height)
+    }
+    
+    @objc
+    private func keyboardWillHide(_ notification: NSNotification) {
+        updateConstr(with: 0)
+    }
+    
+    func updateConstr(with inset: Double) {
+        UIView.animate(withDuration: 0.3) { [ weak self ] in
+            guard let self = self else { return }
+            self.searchView.snp.updateConstraints { make in
+                make.bottom.equalToSuperview().inset(inset)
+            }
+            self.view.layoutIfNeeded()
+        }
     }
     
     // MARK: - UI
@@ -148,7 +189,8 @@ class SelectCategoryViewController: UIViewController {
         }
         
         collectionView.snp.makeConstraints { make in
-            make.left.right.bottom.equalToSuperview()
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(searchView.snp.bottom)
             make.top.equalTo(navigationView.snp.top)
         }
         
@@ -174,6 +216,21 @@ class SelectCategoryViewController: UIViewController {
             make.top.bottom.equalToSuperview().inset(8)
             make.right.equalToSuperview().inset(8)
         }
+    }
+}
+
+// MARK: - Textfield
+extension SelectCategoryViewController: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        let newLength = text.count + string.count - range.length
+        return newLength <= 25
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 

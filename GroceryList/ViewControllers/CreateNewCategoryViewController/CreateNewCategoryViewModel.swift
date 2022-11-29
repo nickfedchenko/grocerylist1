@@ -24,4 +24,9 @@ class CreateNewCategoryViewModel {
         guard let colorInd = model?.color else { return UIColor.white}
         return colorManager.getGradient(index: colorInd).1
     }
+    
+    func getForegroundColor() -> UIColor {
+        guard let colorInd = model?.color else { return UIColor.white}
+        return colorManager.getGradient(index: colorInd).0
+    }
 }

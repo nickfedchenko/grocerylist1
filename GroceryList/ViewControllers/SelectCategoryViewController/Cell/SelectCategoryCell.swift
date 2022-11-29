@@ -58,7 +58,6 @@ class SelectCategoryCell: UICollectionViewCell {
     
     private let lineView: UIView = {
         let view = UIView()
-        view.backgroundColor = .blue
         return view
     }()
     

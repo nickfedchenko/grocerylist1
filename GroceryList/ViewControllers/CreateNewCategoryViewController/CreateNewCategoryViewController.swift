@@ -39,8 +39,8 @@ class CreateNewCategoryViewController: UIViewController {
     }
     
     private func setupTextFieldParametrs() {
-        topTextField.delegate = self
-        topTextField.becomeFirstResponder()
+        textField.delegate = self
+        textField.becomeFirstResponder()
     }
     
     private func setupBackgroundColor() {
@@ -74,7 +74,7 @@ class CreateNewCategoryViewController: UIViewController {
     // MARK: - swipeDown
     
     private func hidePanel() {
-        topTextField.resignFirstResponder()
+        textField.resignFirstResponder()
         updateConstr(with: -400)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.dismiss(animated: true, completion: nil)
@@ -90,7 +90,7 @@ class CreateNewCategoryViewController: UIViewController {
     
     private let topCategoryView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#D2D5DA")
+        view.backgroundColor = UIColor(hex: "#80C980")
         view.layer.cornerRadius = 4
         view.layer.masksToBounds = true
         return view
@@ -99,8 +99,8 @@ class CreateNewCategoryViewController: UIViewController {
     private let topCategoryLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
-        label.textColor = UIColor(hex: "#777777")
-        label.text = "Category".localized
+        label.textColor = .white
+        label.text = "Create".localized
         return label
     }()
     
@@ -111,17 +111,30 @@ class CreateNewCategoryViewController: UIViewController {
         return imageView
     }()
 
-    private let topTextField: UITextField = {
+    private let textField: UITextField = {
         let textfield = UITextField()
         textfield.font = UIFont.SFPro.medium(size: 17).font
         textfield.textColor = .black
         textfield.backgroundColor = .white
         textfield.keyboardAppearance = .light
         textfield.attributedPlaceholder = NSAttributedString(
-            string: "Name".localized,
+            string: "NewCategory".localized,
             attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "#D2D5DA")]
         )
+        textfield.layer.cornerRadius = 8
+        textfield.layer.borderColor = UIColor(hex: "#31635A").cgColor
+        textfield.layer.borderWidth = 2
+        textfield.layer.masksToBounds = true
+        textfield.paddingLeft(inset: 25)
         return textfield
+    }()
+    
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.semibold(size: 17).font
+        label.textColor = UIColor(hex: "#657674")
+        label.text = "Name".localized
+        return label
     }()
 
     private let saveButtonView: UIView = {
@@ -143,7 +156,7 @@ class CreateNewCategoryViewController: UIViewController {
     private func setupConstraints() {
         view.backgroundColor = .black.withAlphaComponent(0.5)
         view.addSubviews([contentView])
-        contentView.addSubviews([saveButtonView, topCategoryView, topTextField])
+        contentView.addSubviews([saveButtonView, topCategoryView, textField, nameLabel])
         topCategoryView.addSubviews([topCategoryLabel, topCategoryPencilImage])
         saveButtonView.addSubview(saveLabel)
         
@@ -169,8 +182,15 @@ class CreateNewCategoryViewController: UIViewController {
             make.width.height.equalTo(25)
         }
         
-        topTextField.snp.makeConstraints { make in
-            make.centerY.centerX.equalToSuperview()
+        nameLabel.snp.makeConstraints { make in
+            make.left.equalTo(textField.snp.left).inset(8)
+            make.bottom.equalTo(textField.snp.top).inset(-8)
+        }
+        
+        textField.snp.makeConstraints { make in
+            make.bottom.equalTo(saveButtonView.snp.top).inset(-24)
+            make.left.right.equalToSuperview().inset(20)
+            make.height.equalTo(44)
         }
         
         saveButtonView.snp.makeConstraints { make in
