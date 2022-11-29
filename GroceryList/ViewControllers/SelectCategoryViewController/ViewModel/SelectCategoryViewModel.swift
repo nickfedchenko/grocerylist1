@@ -19,6 +19,9 @@ class SelectCategoryViewModel {
         self.model = model
         self.colorManager = ColorManager()
         self.dataSource = SelectCategoryDataSource()
+        dataSource.arrayUpdatedCallback = { [weak self] in
+            self?.delegate?.reloadData()
+        }
     }
     
     var categorySelectedCallback: ((String) -> Void)?
@@ -63,5 +66,9 @@ class SelectCategoryViewModel {
         })
         
         delegate?.presentController(controller: createNewCatCV)
+    }
+    
+    func searchByWord(word: String) {
+        dataSource.filterArray(word: word)
     }
 }

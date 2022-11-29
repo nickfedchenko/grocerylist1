@@ -225,6 +225,16 @@ extension SelectCategoryViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
+        if string.isEmpty {
+            viewModel?.searchByWord(word: String(text.dropLast()))
+        }  else {
+            viewModel?.searchByWord(word: text + string)
+        }
+//        if newLength == 0 {
+//            viewModel?.searchByWord(word: "")
+//        } else {
+//            viewModel?.searchByWord(word: text + string)
+//        }
         return newLength <= 25
     }
     

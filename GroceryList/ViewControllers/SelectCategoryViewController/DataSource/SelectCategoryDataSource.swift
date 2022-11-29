@@ -9,7 +9,15 @@ import Foundation
 
 class SelectCategoryDataSource {
     
-    var arrayOfCategories: [CategoryModel?] = [
+    init() {
+        arrayOfCategories = workingArray
+    }
+    
+    var arrayUpdatedCallback: (() -> Void)?
+    
+    var arrayOfCategories: [CategoryModel?] = []
+       
+    let workingArray:  [CategoryModel?] = [
         CategoryModel(name: "category 1"), CategoryModel(name: "category 2"), CategoryModel(name: "category 3"), CategoryModel(name: "category 4"),
         CategoryModel(name: "category 5"), CategoryModel(name: "category 6"), CategoryModel(name: "category 7"), CategoryModel(name: "category 8"),
         CategoryModel(name: "category 9"), CategoryModel(name: "category 10"), CategoryModel(name: "category 11"), CategoryModel(name: "category 12"),
@@ -18,7 +26,7 @@ class SelectCategoryDataSource {
     ]
     
     func getCategory(at ind: Int) -> CategoryModel {
-         arrayOfCategories[ind] ?? CategoryModel(name: "")
+        arrayOfCategories[ind] ?? CategoryModel(name: "")
     }
     
     func isSelected(at ind: Int) -> Bool {
@@ -33,6 +41,18 @@ class SelectCategoryDataSource {
         for ind in arrayOfCategories.indices {
             arrayOfCategories[ind]?.isSelected = false
         }
-        arrayOfCategories[ind]?.isSelected = true
+  
+    }
+    
+    func filterArray(word: String) {
+      arrayOfCategories = workingArray.filter({ category in
+            guard let category else { return false }
+          return category.name.lowercased().contains(word.lowercased())
+        })
+        
+        if word.isEmpty {
+            arrayOfCategories = workingArray
+        }
+        arrayUpdatedCallback?()
     }
 }
