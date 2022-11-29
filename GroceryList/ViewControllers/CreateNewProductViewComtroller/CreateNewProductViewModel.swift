@@ -14,6 +14,19 @@ protocol CreateNewProductViewModelDelegate: AnyObject {
 
 class CreateNewProductViewModel {
     
+    init(network: NetworkDataProvider) {
+        self.network = network
+        network.getAllProducts { post in
+            switch post {
+            case .failure(let error):
+                print(error)
+            case .success(let response):
+                print(response)
+            }
+        }
+    }
+    
+    var network: NetworkDataProvider
     var valueChangedCallback: ((Product) -> Void)?
     weak var delegate: CreateNewProductViewModelDelegate?
     weak var router: RootRouter?
@@ -32,4 +45,9 @@ class CreateNewProductViewModel {
         })
         delegate?.presentController(controller: controller)
     }
+}
+
+
+enum Caregories {
+    
 }

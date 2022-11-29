@@ -5,66 +5,89 @@
 //  Created by Шамиль Моллачиев on 11.11.2022.
 //
 
-import Foundation
-import Gzip
+import Alamofire
+import UIKit
 
-class Networking {
+protocol NetworkDataProvider {
+    func getAllProducts(completion: @escaping GetAllProductsResult)
+}
+
+typealias GetAllProductsResult = (Result<GetAllProductsResponse, AFError>) -> Void
+
+enum RequestGenerator: Codable {
     
-    func fetchUserBalance(completion: @escaping(PostsResponse?) -> Void) {
-        let locale = Locale.current.languageCode
-        let currentLocale = locale == "ru" ? "ru" : "en"
-        let urlString = "https://tracker.finanse.space/archive/\(currentLocale)_products.json.gz"
-        fetchData(urlString: urlString, responce: completion)
+    private var token: String {
+        return "yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
     }
+
+    case getPosts
     
-    private func fetchData<T: Decodable> (urlString: String, responce: @escaping (T?) -> Void) {
-        requestData(urlString: urlString) { result in
-            switch result {
-            case .success(let data):
-                let decoded = self.decodeJSON(type: T.self, from: data)
-                responce(decoded)
-            case .failure(let error):
-                print("Error received reuestiong data: \(error.localizedDescription)")
-                responce(nil)
-            }
-        }
-    }
-    
-    private func decodeJSON<T: Decodable>(type: T.Type, from data: Data?) -> T? {
-        let decoder = JSONDecoder()
-        guard let data = data else { return nil }
-        do {
-            let objects = try decoder.decode(type.self, from: data)
-            return objects
-        } catch let jsonError {
-            print(jsonError)
-            return nil
-        }
-    }
-    
-    private func requestData(urlString: String, complition: @escaping (Result<Data, Error>) -> Void) {
-        guard let url = URL(string: urlString) else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    complition(.failure(error))
+    var request: URLRequest {
+        switch self {
+            
+        case .getPosts:
+            guard var components = URLComponents(
+                string: "https://newketo.finanse.space/api/product/fetchAll") else {
+                    fatalError("FatalError")
                 }
-                guard let data = data else { return }
-//                let optimizedData: Data = try! data.gunzipped()
-//                print( try? JSONSerialization.jsonObject(with: optimizedData, options:.mutableContainers) )
-//                print(optimizedData)
-                
-                complition(.success(data))
+            injectLocale(in: &components)
+            guard let url = components.url else {
+                fatalError("Error resolving URL")
             }
+            var request = URLRequest(url: url)
+            request.method = .get
+            request.addValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+            return request
+            
         }
-        .resume()
+    }
+    
+    private func injectLocale(in components: inout URLComponents) {
+        var locale = Locale.current.languageCode
+        
+        locale = locale == "ru" ? "ru" : "en"
+        
+        if components.queryItems == nil {
+            components.queryItems = [.init(name: "langCode", value: locale)]
+        } else {
+            components.queryItems?.append(.init(name: "langCode", value: locale))
+        }
     }
 }
 
-struct PostsResponse: Codable {
-    let error: Bool
-    let messages: [String]
+final class NetworkEngine {
+ 
+    private func performDecodableRequest<T: Decodable>(
+        request: RequestGenerator,
+        completion: @escaping ((Result<T, AFError>) -> Void)
+    ) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        AF.request(request.request)
+            .validate()
+            .responseDecodable(
+                of: T.self,
+                queue: .global(qos: .userInitiated),
+                decoder: decoder
+            ) { result in
+                guard let data = result.value else {
+                    if let error = result.error {
+                        
+                        completion(.failure(error))
+                    }
+                    return
+                }
+                completion(.success(data))
+            }
+    }
+}
+
+extension NetworkEngine: NetworkDataProvider {
+   
+    func getAllProducts(completion: @escaping GetAllProductsResult) {
+        performDecodableRequest(request: .getPosts, completion: completion)
+    }
+    
 }

@@ -73,6 +73,7 @@
 		B37A2CF429111C41003C01AD /* SF Pro Display Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B37A2CF329111C41003C01AD /* SF Pro Display Heavy.otf */; };
 		B37A2CF6291125CA003C01AD /* SF Pro Display Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B37A2CF5291125CA003C01AD /* SF Pro Display Medium.otf */; };
 		B3802315292BC7DA0039EDE0 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3802314292BC7DA0039EDE0 /* UserDefaultsManager.swift */; };
+		B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3815C0529361BAC0060262D /* NetworkModeles.swift */; };
 		B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B45E592934C01D00D60E82 /* SelectCategoryViewController.swift */; };
 		B3B45E5C2934C02B00D60E82 /* SelectCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B45E5B2934C02B00D60E82 /* SelectCategoryViewModel.swift */; };
 		B3C3FA4729115AA20011EC0A /* OnboardingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C3FA4629115AA20011EC0A /* OnboardingContentView.swift */; };
@@ -159,6 +160,7 @@
 		B37A2CF329111C41003C01AD /* SF Pro Display Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Heavy.otf"; sourceTree = "<group>"; };
 		B37A2CF5291125CA003C01AD /* SF Pro Display Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Medium.otf"; sourceTree = "<group>"; };
 		B3802314292BC7DA0039EDE0 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		B3815C0529361BAC0060262D /* NetworkModeles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModeles.swift; sourceTree = "<group>"; };
 		B3B45E592934C01D00D60E82 /* SelectCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryViewController.swift; sourceTree = "<group>"; };
 		B3B45E5B2934C02B00D60E82 /* SelectCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryViewModel.swift; sourceTree = "<group>"; };
 		B3C3FA4629115AA20011EC0A /* OnboardingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContentView.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				B3179EA8291E324B00455419 /* Network.swift */,
+				B3815C0529361BAC0060262D /* NetworkModeles.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -812,6 +815,7 @@
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
 				B3E654A32927A7D300106500 /* ArrowView.swift in Sources */,
+				B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */,
 				B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */,
 				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
 				B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */,

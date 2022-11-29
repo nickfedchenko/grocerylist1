@@ -41,6 +41,7 @@ class SelectCategoryDataSource {
         for ind in arrayOfCategories.indices {
             arrayOfCategories[ind]?.isSelected = false
         }
+        arrayOfCategories[ind]?.isSelected = true
   
     }
     
