@@ -29,6 +29,8 @@ class SelectCategoryViewController: UIViewController {
     
     private func setupController() {
         view.backgroundColor = viewModel?.getBackgroundColor()
+        navigationView.backgroundColor = viewModel?.getBackgroundColor().withAlphaComponent(0.9)
+        searchView.backgroundColor = viewModel?.getBackgroundColor().withAlphaComponent(0.9)
         titleCenterLabel.textColor = viewModel?.getForegroundColor()
     }
     
@@ -79,11 +81,47 @@ class SelectCategoryViewController: UIViewController {
         return collectionView
     }()
     
+    private let searchView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    private let textfieldView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 8
+        view.layer.masksToBounds = true
+        view.addShadowForView()
+        return view
+    }()
+    
+    private let searchImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "greenLoopImage")
+        return imageView
+    }()
+    
+    private let textField: UITextField = {
+        let textfield = UITextField()
+        textfield.font = UIFont.SFPro.medium(size: 16).font
+        textfield.textColor = .black
+        textfield.backgroundColor = .white
+        textfield.keyboardAppearance = .light
+        textfield.attributedPlaceholder = NSAttributedString(
+            string: "SearcInCategory".localized,
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "#657674")]
+        )
+        return textfield
+    }()
+    
     // MARK: - Constraints
     
     private func setupConstraints() {
-        view.addSubviews([navigationView, collectionView])
+        view.addSubviews([collectionView, navigationView, searchView])
         navigationView.addSubviews([arrowBackButton, titleCenterLabel, addButton])
+        searchView.addSubviews([textfieldView])
+        textfieldView.addSubviews([searchImage, textField])
         
         navigationView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
@@ -111,7 +149,30 @@ class SelectCategoryViewController: UIViewController {
         
         collectionView.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
-            make.top.equalTo(navigationView.snp.bottom)
+            make.top.equalTo(navigationView.snp.top)
+        }
+        
+        searchView.snp.makeConstraints { make in
+            make.left.right.bottom.equalToSuperview()
+            make.height.equalTo(96)
+        }
+        
+        textfieldView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(16)
+            make.top.equalToSuperview().inset(8)
+            make.height.equalTo(40)
+        }
+        
+        searchImage.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(7)
+            make.top.bottom.equalToSuperview().inset(8)
+            make.width.equalTo(26)
+        }
+        
+        textField.snp.makeConstraints { make in
+            make.left.equalTo(searchImage.snp.right).inset(-7)
+            make.top.bottom.equalToSuperview().inset(8)
+            make.right.equalToSuperview().inset(8)
         }
     }
 }
@@ -152,6 +213,10 @@ extension SelectCategoryViewController: UICollectionViewDelegate, UICollectionVi
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: 66, left: 0, bottom: 96, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

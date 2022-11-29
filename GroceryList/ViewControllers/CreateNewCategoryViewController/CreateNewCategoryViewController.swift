@@ -199,7 +199,7 @@ extension CreateNewCategoryViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
-        if newLength > 2 && isCategorySelected {
+        if newLength > 2 {
             readyToSave()
         } else {
             notReadyToSave()
