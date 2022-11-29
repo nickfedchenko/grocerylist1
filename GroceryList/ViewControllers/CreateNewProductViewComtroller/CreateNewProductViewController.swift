@@ -230,6 +230,18 @@ class CreateNewProductViewController: UIViewController {
         return view
     }()
     
+    private let selectUnitsBigView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 8
+        view.layer.masksToBounds = true
+        view.layer.borderColor = UIColor(hex: "#31635A").cgColor
+        view.layer.borderWidth = 1
+        view.isHidden = true
+        view.addShadowForView()
+        return view
+    }()
+    
     private let whiteArrowForSelectUnit: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -273,7 +285,7 @@ class CreateNewProductViewController: UIViewController {
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         view.backgroundColor = .black.withAlphaComponent(0.5)
-        view.addSubviews([contentView])
+        view.addSubviews([contentView, selectUnitsBigView])
         contentView.addSubviews([saveButtonView, topCategoryView, textfieldView, quantityTitleLabel, quantityView, minusButton, plusButton, selectUnitsView])
         selectUnitsView.addSubviews([whiteArrowForSelectUnit, selectUnitLabel])
         quantityView.addSubviews([quantityLabel])
@@ -379,6 +391,11 @@ class CreateNewProductViewController: UIViewController {
             make.left.equalToSuperview().inset(8)
             make.right.equalTo(whiteArrowForSelectUnit.snp.left).inset(-16)
             make.centerY.equalToSuperview()
+        }
+        
+        selectUnitsBigView.snp.makeConstraints { make in
+            make.left.right.bottom.equalTo(selectUnitsView)
+            make.height.equalTo(240)
         }
         
         saveButtonView.snp.makeConstraints { make in
@@ -532,10 +549,13 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         addImageImage.image = UIImage(named: "#addImage")
     }
     
-    func selectCategory(text: String, imageURL: String) {
+    func selectCategory(text: String, imageURL: String, preferedUint: String) {
         topCategoryView.backgroundColor = UIColor(hex: "#80C980")
         topCategoryLabel.textColor = .white
         topCategoryLabel.text = text
+        if !preferedUint.isEmpty {
+            selectUnitLabel.text = preferedUint
+        }
         guard !imageURL.isEmpty else { return }
         addImageImage.kf.indicatorType = .activity
         addImageImage.kf.setImage(with: URL(string: imageURL), placeholder: nil, options: nil, completionHandler: nil)
@@ -544,6 +564,5 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     func presentController(controller: UIViewController?) {
         guard let controller else { return }
         navigationController?.pushViewController(controller, animated: true)
-
     }
 }

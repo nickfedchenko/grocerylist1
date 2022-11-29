@@ -23,6 +23,7 @@ struct NetworkProductModel: Codable {
 struct Unit: Codable {
     let title: String?
     let value: Double
+    let isDefault: Bool?
 }
 
 struct MarketCategory: Codable {

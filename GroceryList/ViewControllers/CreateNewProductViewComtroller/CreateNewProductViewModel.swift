@@ -5,13 +5,13 @@
 //  Created by Шамиль Моллачиев on 25.11.2022.
 //
 
-import Kingfisher
 import Foundation
+import Kingfisher
 import UIKit
 
 protocol CreateNewProductViewModelDelegate: AnyObject {
     func presentController(controller: UIViewController?)
-    func selectCategory(text: String, imageURL: String)
+    func selectCategory(text: String, imageURL: String, preferedUint: String)
     func deselectCategory()
 }
 
@@ -62,21 +62,21 @@ class CreateNewProductViewModel {
     func getAllInformation(product: NetworkProductModel) {
         let imageUrl = product.photo
         let title = product.title
-        let units = product.units
-        delegate?.selectCategory(text: title, imageURL: imageUrl)
+        let unit = product.units.first(where: { $0.isDefault == true })
+        delegate?.selectCategory(text: title, imageURL: imageUrl, preferedUint: unit?.title ?? "")
     }
 }
 
 enum UnitSystem {
     
-    case unaited (_: USUntiSystem)
-    case metric (_: MetricUnitSystem)
+    case unaited
+    case metric
     
-    enum USUntiSystem {
+    enum USUntiSystem: Int, CaseIterable {
         case ozz
         case pondus
-        case gall
         case fluidOz
+        case gall
         case pack
         case piece
         
@@ -98,9 +98,9 @@ enum UnitSystem {
         }
     }
 
-    enum MetricUnitSystem: Int {
-        case kilogram
+    enum MetricUnitSystem: Int, CaseIterable {
         case gram
+        case kilogram
         case mililiter
         case liter
         case pack
