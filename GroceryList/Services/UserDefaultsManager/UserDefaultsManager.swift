@@ -17,4 +17,13 @@ class UserDefaultsManager {
             UserDefaults.standard.set(newValue, forKey: "coldStartState")
         }
     }
+    
+    static var isMetricSystem: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "isMetricSystem")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isMetricSystem")
+        }
+    }
 }

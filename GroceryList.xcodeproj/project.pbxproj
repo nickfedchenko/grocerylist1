@@ -32,6 +32,9 @@
 		B34EACA42934F05800FBD0E0 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34EACA32934F05800FBD0E0 /* CategoryModel.swift */; };
 		B34EACA8293500C000FBD0E0 /* CreateNewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34EACA7293500C000FBD0E0 /* CreateNewCategoryViewController.swift */; };
 		B34EACAA293501E100FBD0E0 /* CreateNewCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34EACA9293501E100FBD0E0 /* CreateNewCategoryViewModel.swift */; };
+		B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F0F5E293788AF00C19891 /* UnitsCell.swift */; };
+		B35F0F612937972700C19891 /* UnitSystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F0F602937972700C19891 /* UnitSystemModel.swift */; };
+		B35F0F632937975200C19891 /* MeashureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F0F622937975200C19891 /* MeashureManager.swift */; };
 		B360918E2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918A2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift */; };
 		B360918F2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */; };
 		B36091902927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */; };
@@ -120,6 +123,9 @@
 		B34EACA32934F05800FBD0E0 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		B34EACA7293500C000FBD0E0 /* CreateNewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewCategoryViewController.swift; sourceTree = "<group>"; };
 		B34EACA9293501E100FBD0E0 /* CreateNewCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewCategoryViewModel.swift; sourceTree = "<group>"; };
+		B35F0F5E293788AF00C19891 /* UnitsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitsCell.swift; sourceTree = "<group>"; };
+		B35F0F602937972700C19891 /* UnitSystemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitSystemModel.swift; sourceTree = "<group>"; };
+		B35F0F622937975200C19891 /* MeashureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeashureManager.swift; sourceTree = "<group>"; };
 		B360918A2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -432,6 +438,14 @@
 			path = CreateNewCategoryViewController;
 			sourceTree = "<group>";
 		};
+		B35F0F642937975900C19891 /* MeashureManager */ = {
+			isa = PBXGroup;
+			children = (
+				B35F0F622937975200C19891 /* MeashureManager.swift */,
+			);
+			path = MeashureManager;
+			sourceTree = "<group>";
+		};
 		B36933FB291AAC3A00AFFAA6 /* CellModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -574,6 +588,7 @@
 				B36D18D6291A1949005EE32D /* DataBase */,
 				B37A2CD52910EE84003C01AD /* Routing */,
 				B3179EA4291E304700455419 /* ColorManager */,
+				B35F0F642937975900C19891 /* MeashureManager */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -670,6 +685,8 @@
 			children = (
 				B3D2045A2930F00A00599A01 /* CreateNewProductViewController.swift */,
 				B3D2045C2930F49B00599A01 /* CreateNewProductViewModel.swift */,
+				B35F0F5E293788AF00C19891 /* UnitsCell.swift */,
+				B35F0F602937972700C19891 /* UnitSystemModel.swift */,
 			);
 			path = CreateNewProductViewComtroller;
 			sourceTree = "<group>";
@@ -825,12 +842,15 @@
 				B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */,
 				B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */,
 				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
+				B35F0F632937975200C19891 /* MeashureManager.swift in Sources */,
 				B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */,
 				B3693402291BA62F00AFFAA6 /* CreateNewListViewModel.swift in Sources */,
 				B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */,
 				B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */,
 				B36AF9552915410400944E9D /* InstructionCell.swift in Sources */,
 				B34EACA8293500C000FBD0E0 /* CreateNewCategoryViewController.swift in Sources */,
+				B35F0F612937972700C19891 /* UnitSystemModel.swift in Sources */,
+				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
 				B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */,
 				B34BB81F292E5C8000748E8E /* SelectProductViewModel.swift in Sources */,

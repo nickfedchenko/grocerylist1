@@ -14,10 +14,8 @@ class CreateNewProductViewController: UIViewController {
     private var imagePicker = UIImagePickerController()
     private var isCategorySelected = false
     private var quantityCount = 0
-    var selectedUnitSystem: UnitSystem = .ozz
-    private var quantityValueStep: Int {
-        return selectedUnitSystem.stepValue
-    }
+
+    private var quantityValueStep: Int = 1
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
@@ -29,6 +27,7 @@ class CreateNewProductViewController: UIViewController {
         addKeyboardNotifications()
         setupBackgroundColor()
         addRecognizers()
+        setupTableView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -246,6 +245,15 @@ class CreateNewProductViewController: UIViewController {
         return view
     }()
     
+    private let tableview: UITableView = {
+        let tableview = UITableView()
+        tableview.showsVerticalScrollIndicator = false
+        tableview.estimatedRowHeight = UITableView.automaticDimension
+        tableview.layer.cornerRadius = 8
+        tableview.layer.masksToBounds = true
+        return tableview
+    }()
+    
     private let whiteArrowForSelectUnit: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -288,10 +296,12 @@ class CreateNewProductViewController: UIViewController {
     // MARK: - Constraints
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
+        selectUnitsBigView.transform = CGAffineTransform(scaleX: 1, y: 0)
         view.backgroundColor = .black.withAlphaComponent(0.5)
         view.addSubviews([contentView, selectUnitsBigView])
         contentView.addSubviews([saveButtonView, topCategoryView, textfieldView, quantityTitleLabel, quantityView, minusButton, plusButton, selectUnitsView])
         selectUnitsView.addSubviews([whiteArrowForSelectUnit, selectUnitLabel])
+        selectUnitsBigView.addSubviews([tableview])
         quantityView.addSubviews([quantityLabel])
         topCategoryView.addSubviews([topCategoryLabel, topCategoryPencilImage])
         textfieldView.addSubviews([checkmarkImage, topTextField, bottomTextField, addImageImage])
@@ -399,7 +409,11 @@ class CreateNewProductViewController: UIViewController {
         
         selectUnitsBigView.snp.makeConstraints { make in
             make.left.right.bottom.equalTo(selectUnitsView)
-            make.height.equalTo(280)
+            make.height.equalTo(320)
+        }
+        
+        tableview.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         
         saveButtonView.snp.makeConstraints { make in
@@ -487,7 +501,7 @@ extension CreateNewProductViewController {
         topCategoryView.addGestureRecognizer(tapOnCategoryRecognizer)
         
         let tapOnSelectUnits = UITapGestureRecognizer(target: self, action: #selector(tapOnSelectUnitsAction))
-        saveButtonView.addGestureRecognizer(tapOnSelectUnits)
+        selectUnitsView.addGestureRecognizer(tapOnSelectUnits)
      
         let tapOnSaveRecognizer = UITapGestureRecognizer(target: self, action: #selector(saveAction))
         saveButtonView.addGestureRecognizer(tapOnSaveRecognizer)
@@ -499,7 +513,8 @@ extension CreateNewProductViewController {
     
     @objc
     private func tapOnSelectUnitsAction() {
-        print("tap on select units")
+        quantityAvailable()
+        selectUnitsBigView.transform = CGAffineTransform(scaleX: 1, y: 1)
     }
     
     @objc
@@ -545,7 +560,55 @@ extension CreateNewProductViewController: UINavigationControllerDelegate, UIImag
     }
 }
 
+extension CreateNewProductViewController: UITableViewDelegate, UITableViewDataSource {
+    private func setupTableView() {
+        tableview.backgroundColor = .white
+        tableview.delegate = self
+        tableview.dataSource = self
+        tableview.isScrollEnabled = true
+        tableview.separatorStyle = .none
+        tableview.register(UnitsCell.self, forCellReuseIdentifier: "UnitsCell")
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel?.getNumberOfCells() ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = self.tableview.dequeueReusableCell(withIdentifier: "UnitsCell", for: indexPath)
+                as? UnitsCell, let viewModel = viewModel else { return UITableViewCell() }
+        let title = viewModel.getTitleForCell(at: indexPath.row)
+        cell.setupCell(title: title, isSelected: false)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableview.cellForRow(at: indexPath)
+        cell?.isSelected = true
+        hideTableview(cell: cell)
+        selectUnitLabel.text = viewModel?.getTitleForCell(at: indexPath.row)
+        bottomTextField.text = ""
+        viewModel?.cellSelected(at: indexPath.row)
+    }
+        
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 40
+    }
+    
+    func hideTableview(cell: UITableViewCell?) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.selectUnitsBigView.transform = CGAffineTransform(scaleX: 1, y: 0)
+            cell?.isSelected = false
+        }
+    }
+}
+
 extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
+    func setupController(step: Int) {
+        quantityValueStep = step
+        quantityCount = 0
+        quantityLabel.text = "0"
+    }
     
     func deselectCategory() {
         topCategoryView.backgroundColor = UIColor(hex: "#D2D5DA")

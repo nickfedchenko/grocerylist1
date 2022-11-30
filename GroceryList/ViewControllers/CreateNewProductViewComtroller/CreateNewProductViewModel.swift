@@ -13,12 +13,36 @@ protocol CreateNewProductViewModelDelegate: AnyObject {
     func presentController(controller: UIViewController?)
     func selectCategory(text: String, imageURL: String, preferedUint: String)
     func deselectCategory()
+    func setupController(step: Int)
 }
 
 class CreateNewProductViewModel {
     
     var arrayOfproductsByCategories: GetAllProductsResponse?
-   
+    var isMetricSystem = UserDefaultsManager.isMetricSystem
+    
+    var selectedUnitSystemArray: [UnitSystem] {
+        if isMetricSystem {
+            return arrayForMetricSystem
+        } else {
+            return arrayForImperalSystem
+        }
+    }
+    
+    var arrayForMetricSystem: [UnitSystem] = [
+        UnitSystem.gram, UnitSystem.kilogram,
+        UnitSystem.liter, UnitSystem.mililiter,
+        UnitSystem.can, UnitSystem.bottle,
+        UnitSystem.pack, UnitSystem.piece
+    ]
+    
+    var arrayForImperalSystem: [UnitSystem] = [
+        UnitSystem.ozz, UnitSystem.lbс,
+        UnitSystem.pt, UnitSystem.fluidOz,
+        UnitSystem.can, UnitSystem.bottle,
+        UnitSystem.pack, UnitSystem.piece
+    ]
+    
     init(network: NetworkDataProvider) {
         self.network = network
         network.getAllProducts { post in
@@ -38,6 +62,20 @@ class CreateNewProductViewModel {
     weak var router: RootRouter?
     var model: GroceryListsModel?
     private var colorManager = ColorManager()
+    
+    func getNumberOfCells() -> Int {
+        return 8
+    }
+    
+    func getTitleForCell(at ind: Int) -> String {
+        selectedUnitSystemArray[ind].rawValue.localized
+    }
+    
+    func cellSelected(at ind: Int) {
+        
+        let step = selectedUnitSystemArray[ind].stepValue
+        delegate?.setupController(step: step)
+    }
     
     func getBackgroundColor() -> UIColor {
         guard let colorInd = model?.color else { return UIColor.white}
@@ -64,67 +102,5 @@ class CreateNewProductViewModel {
         let title = product.marketCategory.title
         let unit = product.units.first(where: { $0.isDefault == true })
         delegate?.selectCategory(text: title, imageURL: imageUrl, preferedUint: unit?.title ?? "")
-    }
-}
-
-
-enum UnitSystem: Int, CaseIterable {
-   
-    case ozz
-    case lbс
-    case pt
-    case fluidOz
-    
-    case gram
-    case kilogram
-    case liter
-    case mililiter
-   
-    case piece
-    case pack
-    case bottle
-    
-    var stepValue: Int {
-        switch self {
-        case .ozz:
-            return 100
-        case .fluidOz:
-            return 20
-        case .pack:
-            return 1
-        case .piece:
-            return 1
-        case .lbс:
-            return 1
-        case .pt:
-            return 1
-        case .gram:
-            return 100
-        case .kilogram:
-            return 1
-        case .liter:
-            return 1
-        case .mililiter:
-            return 100
-        case .bottle:
-            return 1
-        }
-        
-    }
-}
-
-class MeasureManager {
-    
-    static var shared = MeasureManager()
-    
-    var isCurrentSustemMetric = true
-    
-    func getGramOrOz(value: Int) -> Int {
-        switch isCurrentSustemMetric {
-        case true:
-            return value
-        case false:
-            return Int(Double(value) / 28.34952)
-        }
     }
 }
