@@ -10,23 +10,25 @@ import Foundation
 class SelectCategoryDataSource {
     
     init() {
-        arrayOfCategories = workingArray
+        arrayOfCategories = defaultCategoriesArray
     }
     
     var arrayUpdatedCallback: (() -> Void)?
-    
     var arrayOfCategories: [CategoryModel?] = []
+    private var selectedCategoryInd: Int? = 0
        
-    let workingArray:  [CategoryModel?] = [
-        CategoryModel(name: "category 1"), CategoryModel(name: "category 2"), CategoryModel(name: "category 3"), CategoryModel(name: "category 4"),
-        CategoryModel(name: "category 5"), CategoryModel(name: "category 6"), CategoryModel(name: "category 7"), CategoryModel(name: "category 8"),
-        CategoryModel(name: "category 9"), CategoryModel(name: "category 10"), CategoryModel(name: "category 11"), CategoryModel(name: "category 12"),
-        CategoryModel(name: "category 13"), CategoryModel(name: "category 14"), CategoryModel(name: "category 15"), CategoryModel(name: "category 16"),
-        CategoryModel(name: "category 17"), CategoryModel(name: "category 18"), CategoryModel(name: "category 19"), CategoryModel(name: "category 20")
+    let defaultCategoriesArray:  [CategoryModel?] = [
+        CategoryModel(ind: 1, name: "Alcohol".localized), CategoryModel(ind: 2, name: "Grocery".localized),
+        CategoryModel(ind: 3, name: "ReadyFood".localized), CategoryModel(ind: 4, name: "Frozen".localized),
+        CategoryModel(ind: 5, name: "HealtyFood".localized), CategoryModel(ind: 6, name: "WorldCitchen".localized),
+        CategoryModel(ind: 7, name: "Milk".localized), CategoryModel(ind: 8, name: "Drinks".localized),
+        CategoryModel(ind: 9, name: "FruitsAndVegetables".localized), CategoryModel(ind: 10, name: "Fish".localized),
+        CategoryModel(ind: 11, name: "Sweet".localized), CategoryModel(ind: 12, name: "Bread".localized),
+        CategoryModel(ind: 13, name: "Tea".localized), CategoryModel(ind: 14, name: "Meat".localized)
     ]
     
     func getCategory(at ind: Int) -> CategoryModel {
-        arrayOfCategories[ind] ?? CategoryModel(name: "")
+        arrayOfCategories[ind] ?? CategoryModel(ind: 0, name: "")
     }
     
     func isSelected(at ind: Int) -> Bool {
@@ -42,17 +44,23 @@ class SelectCategoryDataSource {
             arrayOfCategories[ind]?.isSelected = false
         }
         arrayOfCategories[ind]?.isSelected = true
-  
+        selectedCategoryInd = arrayOfCategories[ind]?.ind
     }
     
     func filterArray(word: String) {
-      arrayOfCategories = workingArray.filter({ category in
+      arrayOfCategories = defaultCategoriesArray.filter({ category in
             guard let category else { return false }
           return category.name.lowercased().contains(word.lowercased())
         })
         
         if word.isEmpty {
-            arrayOfCategories = workingArray
+            arrayOfCategories = defaultCategoriesArray
+        }
+        
+        for (index, category) in arrayOfCategories.enumerated() {
+            if category?.ind == selectedCategoryInd {
+                arrayOfCategories[index]?.isSelected = true
+            }
         }
         arrayUpdatedCallback?()
     }

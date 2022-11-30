@@ -443,19 +443,20 @@ extension CreateNewProductViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
-        viewModel?.chekIsProductFromCategory(name: textField.text)
-        if newLength > 2 {
-            readyToSave()
-        } else {
-            notReadyToSave()
-        }
+        if textField == topTextField {
         
-        if string.isEmpty {
-            viewModel?.chekIsProductFromCategory(name: String(text.dropLast()))
-        } else {
+            if newLength > 2 && isCategorySelected {
+                readyToSave()
+            } else {
+                notReadyToSave()
+            }
+            
+            if string.isEmpty {
+                viewModel?.chekIsProductFromCategory(name: String(text.dropLast()))
+            } else {
                 viewModel?.chekIsProductFromCategory(name: text + string)
+            }
         }
-        
         return newLength <= 25
     }
     
@@ -547,12 +548,14 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         topCategoryLabel.textColor = UIColor(hex: "#777777")
         topCategoryLabel.text = "Category".localized
         addImageImage.image = UIImage(named: "#addImage")
+        isCategorySelected = false
     }
     
     func selectCategory(text: String, imageURL: String, preferedUint: String) {
         topCategoryView.backgroundColor = UIColor(hex: "#80C980")
         topCategoryLabel.textColor = .white
         topCategoryLabel.text = text
+        isCategorySelected = true
         if !preferedUint.isEmpty {
             selectUnitLabel.text = preferedUint
         }

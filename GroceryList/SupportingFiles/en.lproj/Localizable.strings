@@ -55,3 +55,18 @@
 "SearcInCategory"           = "Search in Category";
 "Create"                    = "Create";
 "NewCategory"               = "NewCategory";
+
+"Alcohol"                   = "Alcohol";
+"Grocery"                   = "Grocery";
+"ReadyFood"                 = "Ready-made food";
+"Frozen"                    = "Frozen foods";
+"HealtyFood"                = "Healthy eating";
+"WorldCitchen"              = "Cuisines of the world";
+"Milk"                      = "Dairy products";
+"Drinks"                    = "Drinks";
+"FruitsAndVegetables"       = "Fruits and vegetables";
+"Fish"                      = "Fish and seafood";
+"Sweet"                     = "Sweets";
+"Bread"                     = "Bread and pastries";
+"Tea"                       = "Tea and coffee";
+"Meat"                      = "Meat and poultry";

@@ -61,7 +61,7 @@ class CreateNewProductViewModel {
     
     func getAllInformation(product: NetworkProductModel) {
         let imageUrl = product.photo
-        let title = product.title
+        let title = product.marketCategory.title
         let unit = product.units.first(where: { $0.isDefault == true })
         delegate?.selectCategory(text: title, imageURL: imageUrl, preferedUint: unit?.title ?? "")
     }

@@ -8,6 +8,7 @@
 import Foundation
 
 struct CategoryModel {
+    var ind: Int
     var name: String
     var isSelected = false
 }
