@@ -31,9 +31,9 @@ class SelectCategoryViewModel {
     weak var router: RootRouter?
     var model: GroceryListsModel
     
-    func categorySelected(at ind: Int) {
-        let nameOfCategory = getTitleText(at: ind) ?? ""
-        categorySelectedCallback?(nameOfCategory)
+    func categorySelected(with name: String?) {
+        let selectedName = name ?? ""
+        categorySelectedCallback?(selectedName)
     }
     
     func getNumberOfCells() -> Int {

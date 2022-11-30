@@ -12,6 +12,7 @@ class SelectCategoryViewController: UIViewController {
     
     var viewModel: SelectCategoryViewModel?
     var selectedCellInd: Int?
+    var selectedCategoryName: String?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
@@ -44,7 +45,7 @@ class SelectCategoryViewController: UIViewController {
     @objc
     private func arrowBackButtonPressed() {
         if let selectedCellInd {
-            viewModel?.categorySelected(at: selectedCellInd)
+            viewModel?.categorySelected(with: selectedCategoryName)
         }
         navigationController?.popToRootViewController(animated: true)
     }
@@ -288,6 +289,7 @@ extension SelectCategoryViewController: UICollectionViewDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel?.selectCell(at: indexPath.row)
         selectedCellInd = indexPath.row
+        selectedCategoryName = viewModel?.getTitleText(at: indexPath.row)
     }
     
     func updateCollectionContentInset() {

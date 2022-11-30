@@ -237,7 +237,7 @@ class CreateNewProductViewController: UIViewController {
         view.layer.masksToBounds = true
         view.layer.borderColor = UIColor(hex: "#31635A").cgColor
         view.layer.borderWidth = 1
-        view.isHidden = true
+        view.isHidden = false
         view.addShadowForView()
         return view
     }()
@@ -395,7 +395,7 @@ class CreateNewProductViewController: UIViewController {
         
         selectUnitsBigView.snp.makeConstraints { make in
             make.left.right.bottom.equalTo(selectUnitsView)
-            make.height.equalTo(240)
+            make.height.equalTo(280)
         }
         
         saveButtonView.snp.makeConstraints { make in
