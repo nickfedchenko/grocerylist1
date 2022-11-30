@@ -15,7 +15,7 @@ struct GetAllProductsResponse: Codable {
 
 struct NetworkProductModel: Codable {
     let title: String
-    let marketCategory: MarketCategory
+    let marketCategory: MarketCategory?
     let units: [Unit]
     let photo: String
 }
@@ -28,5 +28,5 @@ struct Unit: Codable {
 
 struct MarketCategory: Codable {
     let id: Int
-    let title: String
+    let title: String?
 }
