@@ -72,3 +72,16 @@
 "Meat"                      = "Meat and poultry";
 
 "ozz"                       = "oz";
+"lbс"                       = "lb";
+"pt"                        = "pt";
+"fluidOz"                   = "fl oz";
+
+"gram"                      = "g";
+"kilogram"                  = "kg";
+"liter"                     = "L";
+"mililiter"                 = "mL";
+
+"can"                       = "can";
+"piece"                     = "pc";
+"pack"                      = "pack";
+"bottle"                    = "bottle";
