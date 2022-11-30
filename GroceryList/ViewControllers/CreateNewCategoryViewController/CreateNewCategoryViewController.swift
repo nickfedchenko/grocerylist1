@@ -247,6 +247,8 @@ extension CreateNewCategoryViewController {
     
     @objc
     private func saveAction() {
+        let text = textField.text ?? ""
+        viewModel?.saveNewCategory(name: text)
         hidePanel()
     }
     

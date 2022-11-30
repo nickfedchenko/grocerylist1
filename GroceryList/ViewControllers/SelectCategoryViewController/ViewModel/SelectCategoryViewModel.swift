@@ -31,6 +31,11 @@ class SelectCategoryViewModel {
     weak var router: RootRouter?
     var model: GroceryListsModel
     
+    func categorySelected(at ind: Int) {
+        let nameOfCategory = getTitleText(at: ind) ?? ""
+        categorySelectedCallback?(nameOfCategory)
+    }
+    
     func getNumberOfCells() -> Int {
         dataSource.getNumberOfCategories()
     }
@@ -56,13 +61,10 @@ class SelectCategoryViewModel {
         delegate?.reloadData()
     }
     
-    func sortWithText(text: String) {
-        
-    }
-    
     func addNewCategoryTapped() {
-        let createNewCatCV = router?.prepareCreateNewCategoryController(model: model, compl: { _ in
-            print("categoryc created")
+        let newCategoryInd = dataSource.getNewCategoryInd()
+        let createNewCatCV = router?.prepareCreateNewCategoryController(model: model, newCategoryInd: newCategoryInd, compl: { [weak self] newCategory in
+            self?.dataSource.addNewCategory(category: newCategory)
         })
         
         delegate?.presentController(controller: createNewCatCV)

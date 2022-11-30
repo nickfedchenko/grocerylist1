@@ -85,6 +85,8 @@
 		B3D2045B2930F00A00599A01 /* CreateNewProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D2045A2930F00A00599A01 /* CreateNewProductViewController.swift */; };
 		B3D2045D2930F49C00599A01 /* CreateNewProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D2045C2930F49B00599A01 /* CreateNewProductViewModel.swift */; };
 		B3E654A32927A7D300106500 /* ArrowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E654A22927A7D300106500 /* ArrowView.swift */; };
+		B3FECE4329375AA80077F8EF /* DBCategories+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FECE4129375AA80077F8EF /* DBCategories+CoreDataProperties.swift */; };
+		B3FECE4429375AA80077F8EF /* DBCategories+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FECE4229375AA80077F8EF /* DBCategories+CoreDataClass.swift */; };
 		EF84F46FAFBAF3BBEEB5E7C0 /* Pods_GroceryList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025222570B015E69FF5973D3 /* Pods_GroceryList.framework */; };
 /* End PBXBuildFile section */
 
@@ -172,6 +174,8 @@
 		B3D2045A2930F00A00599A01 /* CreateNewProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProductViewController.swift; sourceTree = "<group>"; };
 		B3D2045C2930F49B00599A01 /* CreateNewProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProductViewModel.swift; sourceTree = "<group>"; };
 		B3E654A22927A7D300106500 /* ArrowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowView.swift; sourceTree = "<group>"; };
+		B3FECE4129375AA80077F8EF /* DBCategories+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBCategories+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B3FECE4229375AA80077F8EF /* DBCategories+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBCategories+CoreDataClass.swift"; sourceTree = "<group>"; };
 		BA1E0A38753E53B699F8E323 /* Pods-GroceryList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroceryList.debug.xcconfig"; path = "Target Support Files/Pods-GroceryList/Pods-GroceryList.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -235,6 +239,8 @@
 			isa = PBXGroup;
 			children = (
 				B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */,
+				B3FECE4229375AA80077F8EF /* DBCategories+CoreDataClass.swift */,
+				B3FECE4129375AA80077F8EF /* DBCategories+CoreDataProperties.swift */,
 				B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */,
 				B360918D2927D99E004EBBE6 /* DBProduct+CoreDataClass.swift */,
 				B360918A2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift */,
@@ -813,6 +819,7 @@
 				B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */,
 				B34EAC9E2934EE0100FBD0E0 /* SelectCategoryDataSource.swift in Sources */,
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
+				B3FECE4429375AA80077F8EF /* DBCategories+CoreDataClass.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
 				B3E654A32927A7D300106500 /* ArrowView.swift in Sources */,
 				B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */,
@@ -849,6 +856,7 @@
 				B37A2CDF29110290003C01AD /* OnboardingViewController.swift in Sources */,
 				B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */,
 				B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */,
+				B3FECE4329375AA80077F8EF /* DBCategories+CoreDataProperties.swift in Sources */,
 				B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */,
 				B34BB80A292D1C4600748E8E /* ShimmerView.swift in Sources */,
 				B36AF9432913D39400944E9D /* UIImageExtension.swift in Sources */,

@@ -147,8 +147,8 @@ final class RootRouter: RootRouterProtocol {
        return controller
     }
     
-    func prepareCreateNewCategoryController(model: GroceryListsModel, compl: @escaping (CategoryModel) -> Void) -> UIViewController {
-        guard let controller = viewControllerFactory.createCreateNewCategoryController(model: model, router: self,
+    func prepareCreateNewCategoryController(model: GroceryListsModel, newCategoryInd: Int, compl: @escaping (CategoryModel) -> Void) -> UIViewController {
+        guard let controller = viewControllerFactory.createCreateNewCategoryController(model: model, newCategoryInd: newCategoryInd, router: self,
                                                                                    compl: compl) else { return UIViewController() }
         controller.modalPresentationStyle = .overCurrentContext
        return controller

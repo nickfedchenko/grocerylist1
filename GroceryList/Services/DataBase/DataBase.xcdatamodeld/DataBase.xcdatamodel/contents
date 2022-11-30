@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21G115" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22A400" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DBCategory" representedClassName=".DBCategories" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="DBGroceryListModel" representedClassName=".DBGroceryListModel" syncable="YES">
         <attribute name="color" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="dateOfCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -19,8 +23,4 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBGroceryListModel" inverseName="products" inverseEntity="DBGroceryListModel"/>
     </entity>
-    <elements>
-        <element name="DBGroceryListModel" positionX="-63" positionY="-18" width="128" height="134"/>
-        <element name="DBProduct" positionX="-54" positionY="27" width="128" height="149"/>
-    </elements>
 </model>

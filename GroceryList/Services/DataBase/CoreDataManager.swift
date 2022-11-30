@@ -127,6 +127,24 @@ class CoreDataManager {
         return object
     }
     
+    
+    func saveCategory(category: CategoryModel) {
+        let context = coreData.container.viewContext
+        let object = DBCategories(context: context)
+        object.id = Int64(category.ind)
+        object.name = category.name
+        try? context.save()
+    }
+    
+    func getAllCategories() -> [DBCategories]? {
+        let fetchRequest: NSFetchRequest<DBCategories> = DBCategories.fetchRequest()
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
+            return nil
+        }
+        return object
+    }
+    
+    
     func removeList(_ id: UUID) {
         let context = coreData.container.viewContext
         let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()

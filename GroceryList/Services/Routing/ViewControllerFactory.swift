@@ -27,7 +27,7 @@ protocol ViewControllerFactoryProtocol {
                                           compl: @escaping (Product) -> Void) -> UIViewController?
     func createSelectCategoryController(model: GroceryListsModel,
                                         router: RootRouter, compl: @escaping (String) -> Void) -> UIViewController?
-    func createCreateNewCategoryController(model: GroceryListsModel?, router: RootRouter,
+    func createCreateNewCategoryController(model: GroceryListsModel?, newCategoryInd: Int, router: RootRouter,
                                            compl: @escaping (CategoryModel) -> Void) -> UIViewController?
 }
     
@@ -77,15 +77,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return navController
     }
     
-    func createCreateNewCategoryController(model: GroceryListsModel?, router: RootRouter,
+    func createCreateNewCategoryController(model: GroceryListsModel?, newCategoryInd: Int, router: RootRouter,
                                            compl: @escaping (CategoryModel) -> Void) -> UIViewController? {
         let viewController = CreateNewCategoryViewController()
-        let viewModel = CreateNewCategoryViewModel()
+        let viewModel = CreateNewCategoryViewModel(model: model, newModelInd: newCategoryInd)
         viewModel.categoryCreatedCallBack = compl
         viewController.viewModel = viewModel
         viewModel.delegate = viewController
         viewModel.router = router
-        viewModel.model = model
         return viewController
     }
     

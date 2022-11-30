@@ -46,8 +46,8 @@ class CreateNewProductViewModel {
     
     func goToSelectCategoryVC() {
         guard let model else { return }
-        let controller = router?.prepareSelectCategoryController(model: model, compl: { _ in
-            
+        let controller = router?.prepareSelectCategoryController(model: model, compl: { [weak self] newCategoryName in
+            self?.delegate?.selectCategory(text: newCategoryName, imageURL: "", preferedUint: "")
         })
         delegate?.presentController(controller: controller)
     }
