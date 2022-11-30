@@ -145,7 +145,10 @@ class ProductsViewController: UIViewController {
             
             let bcgColor = self?.viewModel?.getColorForBackground()
             let textColor = self?.viewModel?.getColorForForeground()
-            cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name, isPurchased: child.isPurchased)
+            
+            var image: UIImage?
+            if let data = child.imageData { image = UIImage(data: data) }
+            cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name, isPurchased: child.isPurchased, image: image)
             
             // свайпы
             cell.swipeDeleteAction = {

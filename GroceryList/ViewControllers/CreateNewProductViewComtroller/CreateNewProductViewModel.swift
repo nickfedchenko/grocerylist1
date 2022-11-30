@@ -75,10 +75,12 @@ class CreateNewProductViewModel {
         delegate?.setupController(step: step)
     }
     
-    func saveProduct(categoryName: String, productName: String) {
+    func saveProduct(categoryName: String, productName: String, image: UIImage?) {
         guard let model else { return }
         print(categoryName, productName)
-        let product = Product(listId: model.id, name: productName, isPurchased: false, dateOfCreation: Date(), category: categoryName, isFavorite: false)
+        var imageData: Data?
+        if let image { imageData = image.pngData() }
+        let product = Product(listId: model.id, name: productName, isPurchased: false, dateOfCreation: Date(), category: categoryName, isFavorite: false, imageData: imageData)
         CoreDataManager.shared.createProduct(product: product)
         valueChangedCallback?(product)
     }

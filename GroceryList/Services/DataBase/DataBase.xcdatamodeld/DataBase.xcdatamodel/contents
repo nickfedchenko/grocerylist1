@@ -17,6 +17,7 @@
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="dateOfCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isPurchased" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="listId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>

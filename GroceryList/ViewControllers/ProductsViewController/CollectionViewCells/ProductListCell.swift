@@ -39,7 +39,7 @@ class ProductListCell: UICollectionViewListCell {
         clearTheCell()
     }
     
-    func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?, isPurchased: Bool) {
+    func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?, isPurchased: Bool, image: UIImage?) {
         contentView.backgroundColor = bcgColor
         checkmarkImage.image = isPurchased ? getImageWithColor(color: textColor) : UIImage(named: "emptyCheckmark")
         guard let text = text else { return }
@@ -48,6 +48,8 @@ class ProductListCell: UICollectionViewListCell {
         if isPurchased {
             nameLabel.textColor = textColor
         }
+        
+        if let image = image { imageView.image = image }
     }
     
     func addCheckmark(color: UIColor?, compl: @escaping (() -> Void) ) {
@@ -130,10 +132,19 @@ class ProductListCell: UICollectionViewListCell {
         return imageView
     }()
     
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 8
+        imageView.layer.masksToBounds = true
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
     // MARK: - UI
     private func setupConstraints() {
         contentView.addSubviews([swipeToDeleteImageView, swipeToAddOrDeleteFavorite, contentViews])
-        contentViews.addSubviews([nameLabel, checkmarkImage, whiteCheckmarkImage])
+        contentViews.addSubviews([nameLabel, checkmarkImage, whiteCheckmarkImage, imageView])
         
         contentViews.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(16)
@@ -168,6 +179,12 @@ class ProductListCell: UICollectionViewListCell {
             make.top.bottom.equalTo(contentViews)
             make.left.equalToSuperview().inset(-1)
             make.width.equalTo(68)
+        }
+        
+        imageView.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(8)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(40)
         }
     }
 }
@@ -284,6 +301,7 @@ extension ProductListCell {
             make.left.right.equalToSuperview().inset(16)
         }
         state = .normal
+        imageView.image = nil
         self.layoutIfNeeded()
     }
 }

@@ -14,6 +14,7 @@ class CreateNewProductViewController: UIViewController {
     private var imagePicker = UIImagePickerController()
     private var isCategorySelected = false
     private var quantityCount = 0
+    private var isImageChanged = false
 
     private var quantityValueStep: Int = 1
     
@@ -531,8 +532,9 @@ extension CreateNewProductViewController {
     private func saveAction() {
         guard var categoryName = topCategoryLabel.text, let productName = topTextField.text else { return }
         categoryName = categoryName == "Category".localized ? "other".localized : categoryName
-       
-        viewModel?.saveProduct(categoryName: categoryName, productName: productName)
+        var image: UIImage?
+        if isImageChanged { image = addImageImage.image }
+        viewModel?.saveProduct(categoryName: categoryName, productName: productName, image: image)
         hidePanel()
     }
     
@@ -561,6 +563,7 @@ extension CreateNewProductViewController: UINavigationControllerDelegate, UIImag
         self.dismiss(animated: true, completion: nil)
         let image = info[.originalImage] as? UIImage
         addImageImage.image = image
+        isImageChanged = true
     }
 }
 
@@ -633,6 +636,7 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         guard !imageURL.isEmpty else { return }
         addImageImage.kf.indicatorType = .activity
         addImageImage.kf.setImage(with: URL(string: imageURL), placeholder: nil, options: nil, completionHandler: nil)
+        isImageChanged = true
     }
     
     func presentController(controller: UIViewController?) {
