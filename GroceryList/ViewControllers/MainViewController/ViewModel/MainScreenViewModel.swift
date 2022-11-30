@@ -15,14 +15,6 @@ class MainScreenViewModel {
         self.dataSource?.dataChangedCallBack = { [weak self] in
             self?.reloadDataCallBack?()
         }
-//        
-//        let id = CoreDataManager.shared.getAllLists()![1]
-//        //    CoreDataManager.shared.deleteAllEntities()
-//       //     print(CoreDataManager.shared.getAllLists()?.count)
-//            let supplay = Product(id: UUID(), listId: id.id!, name: "rr", isPurchased: true, dateOfCreation: Date(), category: "44", isFavorite: true)
-//            let supplay2 = Product(id: UUID(), listId: id.id!, name: "33", isPurchased: false, dateOfCreation: Date(), category: "fff", isFavorite: true)
-//            CoreDataManager.shared.createProduct(product: supplay)
-//            CoreDataManager.shared.createProduct(product: supplay2)
     }
     
     weak var router: RootRouter?

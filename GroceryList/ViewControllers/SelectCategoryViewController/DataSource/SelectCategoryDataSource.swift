@@ -29,7 +29,8 @@ class SelectCategoryDataSource {
         CategoryModel(ind: 7, name: "Milk".localized), CategoryModel(ind: 8, name: "Drinks".localized),
         CategoryModel(ind: 9, name: "FruitsAndVegetables".localized), CategoryModel(ind: 10, name: "Fish".localized),
         CategoryModel(ind: 11, name: "Sweet".localized), CategoryModel(ind: 12, name: "Bread".localized),
-        CategoryModel(ind: 13, name: "Tea".localized), CategoryModel(ind: 14, name: "Meat".localized)
+        CategoryModel(ind: 13, name: "Tea".localized), CategoryModel(ind: 14, name: "Meat".localized),
+        CategoryModel(ind: 15, name: "other".localized)
     ]
     
     func transformCoreDataModels() {

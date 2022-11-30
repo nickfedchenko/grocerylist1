@@ -18,8 +18,27 @@ protocol CreateNewProductViewModelDelegate: AnyObject {
 
 class CreateNewProductViewModel {
     
+    var network: NetworkDataProvider
+    var valueChangedCallback: ((Product) -> Void)?
+    weak var delegate: CreateNewProductViewModelDelegate?
+    weak var router: RootRouter?
+    var model: GroceryListsModel?
+    private var colorManager = ColorManager()
     var arrayOfproductsByCategories: GetAllProductsResponse?
     var isMetricSystem = UserDefaultsManager.isMetricSystem
+    
+    init(network: NetworkDataProvider) {
+        self.network = network
+        network.getAllProducts { post in
+            switch post {
+            case .failure(let error):
+                print(error)
+            case .success(let response):
+                self.arrayOfproductsByCategories = response
+                print(response)
+            }
+        }
+    }
     
     var selectedUnitSystemArray: [UnitSystem] {
         if isMetricSystem {
@@ -42,27 +61,7 @@ class CreateNewProductViewModel {
         UnitSystem.can, UnitSystem.bottle,
         UnitSystem.pack, UnitSystem.piece
     ]
-    
-    init(network: NetworkDataProvider) {
-        self.network = network
-        network.getAllProducts { post in
-            switch post {
-            case .failure(let error):
-                print(error)
-            case .success(let response):
-                self.arrayOfproductsByCategories = response
-                print(response)
-            }
-        }
-    }
-    
-    var network: NetworkDataProvider
-    var valueChangedCallback: ((Product) -> Void)?
-    weak var delegate: CreateNewProductViewModelDelegate?
-    weak var router: RootRouter?
-    var model: GroceryListsModel?
-    private var colorManager = ColorManager()
-    
+
     func getNumberOfCells() -> Int {
         return 8
     }
@@ -72,9 +71,16 @@ class CreateNewProductViewModel {
     }
     
     func cellSelected(at ind: Int) {
-        
         let step = selectedUnitSystemArray[ind].stepValue
         delegate?.setupController(step: step)
+    }
+    
+    func saveProduct(categoryName: String, productName: String) {
+        guard let model else { return }
+        print(categoryName, productName)
+        let product = Product(listId: model.id, name: productName, isPurchased: false, dateOfCreation: Date(), category: categoryName, isFavorite: false)
+        CoreDataManager.shared.createProduct(product: product)
+        valueChangedCallback?(product)
     }
     
     func getBackgroundColor() -> UIColor {
@@ -92,7 +98,7 @@ class CreateNewProductViewModel {
     
     func chekIsProductFromCategory(name: String?) {
         guard let arrayOfproductsByCategories else { return }
-        guard let product = arrayOfproductsByCategories.data.first(where: { $0.title == name }) else { delegate?.deselectCategory(); return }
+        guard let product = arrayOfproductsByCategories.data.first(where: { $0.title == name }) else { return }
         getAllInformation(product: product)
        
     }

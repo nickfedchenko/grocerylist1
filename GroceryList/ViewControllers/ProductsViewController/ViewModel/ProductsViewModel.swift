@@ -83,8 +83,8 @@ class ProductsViewModel {
     }
     
     func addNewProductTapped() {
-        router?.goCreateNewProductController(model: model, compl: { _ in
-            
+        router?.goCreateNewProductController(model: model, compl: { [weak self] product in
+            self?.dataSource.appendCopiedProducts(product: [product])
         })
     }
 

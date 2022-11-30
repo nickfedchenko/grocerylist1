@@ -529,6 +529,10 @@ extension CreateNewProductViewController {
     
     @objc
     private func saveAction() {
+        guard var categoryName = topCategoryLabel.text, let productName = topTextField.text else { return }
+        categoryName = categoryName == "Category".localized ? "other".localized : categoryName
+       
+        viewModel?.saveProduct(categoryName: categoryName, productName: productName)
         hidePanel()
     }
     
