@@ -41,15 +41,6 @@ class SelectProductViewModel {
                 arrayOfProducts.insert(product, at: index)
             }
         })
-//
-//        copiedProducts.forEach({ product in
-//            for (ind, prod) in arrayOfProducts.enumerated() {
-//                if prod.id == product.id {
-//                    arrayOfProducts.remove(at: ind)
-//                    arrayOfProducts.insert(product, at: ind)
-//                }
-//            }
-//        })
         
     }
     

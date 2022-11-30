@@ -2,7 +2,7 @@
 //  DBProduct+CoreDataClass.swift
 //  
 //
-//  Created by Шамиль Моллачиев on 18.11.2022.
+//  Created by Шамиль Моллачиев on 01.12.2022.
 //
 //
 

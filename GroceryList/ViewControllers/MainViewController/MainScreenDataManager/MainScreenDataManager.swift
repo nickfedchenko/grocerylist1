@@ -119,8 +119,9 @@ class MainScreenDataManager: DataSourceProtocol {
         let dateOfCreation = product.dateOfCreation ?? Date()
         let category = product.category ?? ""
         let isFavorite = product.isFavorite
+        let imageData = product.image
         
-        return Product(id: id, listId: listId, name: name, isPurchased: isPurchased, dateOfCreation: dateOfCreation, category: category, isFavorite: isFavorite)
+        return Product(id: id, listId: listId, name: name, isPurchased: isPurchased, dateOfCreation: dateOfCreation, category: category, isFavorite: isFavorite, imageData: imageData)
     }
     
     private func createWorkingArray() {

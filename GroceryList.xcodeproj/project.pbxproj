@@ -35,10 +35,8 @@
 		B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F0F5E293788AF00C19891 /* UnitsCell.swift */; };
 		B35F0F612937972700C19891 /* UnitSystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F0F602937972700C19891 /* UnitSystemModel.swift */; };
 		B35F0F632937975200C19891 /* MeashureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F0F622937975200C19891 /* MeashureManager.swift */; };
-		B360918E2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918A2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift */; };
 		B360918F2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */; };
 		B36091902927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */; };
-		B36091912927D99E004EBBE6 /* DBProduct+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918D2927D99E004EBBE6 /* DBProduct+CoreDataClass.swift */; };
 		B36933F8291A97D900AFFAA6 /* MainScreenTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */; };
 		B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933F9291AAC2C00AFFAA6 /* CellState.swift */; };
 		B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */; };
@@ -62,6 +60,8 @@
 		B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B36D18D7291A1960005EE32D /* DataBase.xcdatamodeld */; };
 		B36D18EB291A2CCD005EE32D /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36D18EA291A2CCD005EE32D /* CoreDataStorage.swift */; };
 		B36D18ED291A2CF4005EE32D /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36D18EC291A2CF4005EE32D /* CoreDataManager.swift */; };
+		B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E132937CBB30074BE38 /* DBProduct+CoreDataClass.swift */; };
+		B3777E162937CBB30074BE38 /* DBProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */; };
 		B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD62910EE93003C01AD /* NavigationInterface.swift */; };
 		B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD72910EE93003C01AD /* RootRouter.swift */; };
 		B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD82910EE93003C01AD /* ViewControllerFactory.swift */; };
@@ -126,10 +126,8 @@
 		B35F0F5E293788AF00C19891 /* UnitsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitsCell.swift; sourceTree = "<group>"; };
 		B35F0F602937972700C19891 /* UnitSystemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitSystemModel.swift; sourceTree = "<group>"; };
 		B35F0F622937975200C19891 /* MeashureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeashureManager.swift; sourceTree = "<group>"; };
-		B360918A2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataClass.swift"; sourceTree = "<group>"; };
-		B360918D2927D99E004EBBE6 /* DBProduct+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenTopCell.swift; sourceTree = "<group>"; };
 		B36933F9291AAC2C00AFFAA6 /* CellState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellState.swift; sourceTree = "<group>"; };
 		B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListViewController.swift; sourceTree = "<group>"; };
@@ -154,6 +152,8 @@
 		B36D18D8291A1960005EE32D /* DataBase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataBase.xcdatamodel; sourceTree = "<group>"; };
 		B36D18EA291A2CCD005EE32D /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
 		B36D18EC291A2CF4005EE32D /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		B3777E132937CBB30074BE38 /* DBProduct+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B37A2CD62910EE93003C01AD /* NavigationInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationInterface.swift; sourceTree = "<group>"; };
 		B37A2CD72910EE93003C01AD /* RootRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
 		B37A2CD82910EE93003C01AD /* ViewControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
@@ -247,9 +247,9 @@
 				B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */,
 				B3FECE4229375AA80077F8EF /* DBCategories+CoreDataClass.swift */,
 				B3FECE4129375AA80077F8EF /* DBCategories+CoreDataProperties.swift */,
+				B3777E132937CBB30074BE38 /* DBProduct+CoreDataClass.swift */,
+				B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */,
 				B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */,
-				B360918D2927D99E004EBBE6 /* DBProduct+CoreDataClass.swift */,
-				B360918A2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift */,
 			);
 			path = CoreDataModels;
 			sourceTree = "<group>";
@@ -857,7 +857,6 @@
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
-				B36091912927D99E004EBBE6 /* DBProduct+CoreDataClass.swift in Sources */,
 				B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */,
 				B36D18EB291A2CCD005EE32D /* CoreDataStorage.swift in Sources */,
 				B36AF94D2913FAD000944E9D /* GroceryCollectionViewHeader.swift in Sources */,
@@ -870,7 +869,7 @@
 				B3179EAB291E3DAE00455419 /* ProductsDataManager.swift in Sources */,
 				B37A2CE72911034D003C01AD /* UIColorExtension.swift in Sources */,
 				B36AF9532915403600944E9D /* EmptyColoredCell.swift in Sources */,
-				B360918E2927D99E004EBBE6 /* DBProduct+CoreDataProperties.swift in Sources */,
+				B3777E162937CBB30074BE38 /* DBProduct+CoreDataProperties.swift in Sources */,
 				B3B45E5C2934C02B00D60E82 /* SelectCategoryViewModel.swift in Sources */,
 				B34EACA42934F05800FBD0E0 /* CategoryModel.swift in Sources */,
 				B37A2CDF29110290003C01AD /* OnboardingViewController.swift in Sources */,
@@ -887,6 +886,7 @@
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
 				B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */,
 				B37A2CEB2911034D003C01AD /* StringExtension.swift in Sources */,
+				B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */,
 				B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */,
 				B3C3FA4F291175390011EC0A /* UIImageViewExtension.swift in Sources */,
 				B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */,

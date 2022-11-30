@@ -2,7 +2,7 @@
 //  DBProduct+CoreDataProperties.swift
 //  
 //
-//  Created by Шамиль Моллачиев on 18.11.2022.
+//  Created by Шамиль Моллачиев on 01.12.2022.
 //
 //
 
@@ -19,10 +19,11 @@ extension DBProduct {
     @NSManaged public var category: String?
     @NSManaged public var dateOfCreation: Date?
     @NSManaged public var id: UUID?
+    @NSManaged public var isFavorite: Bool
     @NSManaged public var isPurchased: Bool
     @NSManaged public var listId: UUID?
     @NSManaged public var name: String?
-    @NSManaged public var isFavorite: Bool
+    @NSManaged public var image: Data?
     @NSManaged public var list: DBGroceryListModel?
 
 }
