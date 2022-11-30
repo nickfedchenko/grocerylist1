@@ -67,44 +67,49 @@ class CreateNewProductViewModel {
     }
 }
 
-enum UnitSystem {
-    
-    case unaited
-    case metric
-    
-    enum USUntiSystem: Int, CaseIterable {
-        case ozz
-        case pondus
-        case fluidOz
-        case gall
-        case pack
-        case piece
-        
-        var stepValue: Int {
-            switch self {
-            case .ozz:
-                return 100
-            case .fluidOz:
-                return 20
-            case .pack:
-                return 1
-            case .piece:
-                return 1
-            case .gall:
-                return 1
-            case .pondus:
-                return 1
-            }
-        }
-    }
 
-    enum MetricUnitSystem: Int, CaseIterable {
-        case gram
-        case kilogram
-        case mililiter
-        case liter
-        case pack
-        case piece
+enum UnitSystem: Int, CaseIterable {
+   
+    case ozz
+    case lbс
+    case pt
+    case fluidOz
+    
+    case gram
+    case kilogram
+    case liter
+    case mililiter
+   
+    case piece
+    case pack
+    case bottle
+    
+    var stepValue: Int {
+        switch self {
+        case .ozz:
+            return 100
+        case .fluidOz:
+            return 20
+        case .pack:
+            return 1
+        case .piece:
+            return 1
+        case .lbс:
+            return 1
+        case .pt:
+            return 1
+        case .gram:
+            return 100
+        case .kilogram:
+            return 1
+        case .liter:
+            return 1
+        case .mililiter:
+            return 100
+        case .bottle:
+            return 1
+        }
+        
     }
 }
 

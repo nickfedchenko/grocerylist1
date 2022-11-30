@@ -14,6 +14,10 @@ class CreateNewProductViewController: UIViewController {
     private var imagePicker = UIImagePickerController()
     private var isCategorySelected = false
     private var quantityCount = 0
+    var selectedUnitSystem: UnitSystem = .ozz
+    private var quantityValueStep: Int {
+        return selectedUnitSystem.stepValue
+    }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
@@ -43,7 +47,7 @@ class CreateNewProductViewController: UIViewController {
     
     @objc
     private func plusButtonAction() {
-        quantityCount += 1
+        quantityCount += quantityValueStep
         quantityLabel.text = String(quantityCount)
         let quantity = selectUnitLabel.text ?? ""
         bottomTextField.text = "\(quantityCount) \(quantity)"
@@ -53,7 +57,7 @@ class CreateNewProductViewController: UIViewController {
     @objc
     private func minusButtonAction() {
         guard quantityCount > 1 else { return quantityNotAvailable() }
-        quantityCount -= 1
+        quantityCount -= quantityValueStep
         quantityLabel.text = String(quantityCount)
         let quantity = selectUnitLabel.text ?? ""
         bottomTextField.text = "\(quantityCount) \(quantity)"
