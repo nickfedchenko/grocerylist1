@@ -21,22 +21,19 @@ class MainScreenTopCell: UICollectionViewCell {
     
     @objc
     private func searchButtonAction() {
-        
+        print("search button pressed")
     }
     
-    private let avatarImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "profileImage")
-        return imageView
-    }()
+    @objc
+    private func settingsButtonAction() {
+        print("settingsButtonPressed")
+    }
     
-    private let userNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 18).font
-        label.textColor = UIColor(hex: "#31635A")
-        label.text = "Unnamed"
-        return label
+    private lazy var settingsButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(settingsButtonAction), for: .touchUpInside)
+        button.setImage(UIImage(named: "settingsButtonImage"), for: .normal)
+        return button
     }()
     
     private lazy var searchButton: UIButton = {
@@ -59,27 +56,23 @@ class MainScreenTopCell: UICollectionViewCell {
     
     // MARK: - UI
     private func setupConstraints() {
-        contentView.addSubviews([avatarImage, userNameLabel, searchButton, segmentControl])
-        avatarImage.snp.makeConstraints { make in
-            make.width.height.equalTo(32)
-            make.left.equalTo(22)
+        contentView.backgroundColor = .green
+        contentView.addSubviews([settingsButton, searchButton, segmentControl])
+        settingsButton.snp.makeConstraints { make in
+            make.width.height.equalTo(24)
+            make.left.equalTo(28)
             make.top.equalToSuperview().inset(-20)
         }
         
-        userNameLabel.snp.makeConstraints { make in
-            make.left.equalTo(avatarImage.snp.right).inset(-10)
-            make.centerY.equalTo(avatarImage)
-        }
-        
         searchButton.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(22)
-            make.centerY.equalTo(avatarImage)
+            make.right.equalToSuperview().inset(28)
+            make.centerY.equalTo(settingsButton)
             make.width.height.equalTo(40)
         }
         
         segmentControl.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(22)
-            make.top.equalTo(avatarImage.snp.bottom).inset(-16)
+            make.top.equalTo(settingsButton.snp.bottom).inset(-16)
             make.height.equalTo(48)
         }
         
