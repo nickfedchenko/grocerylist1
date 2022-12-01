@@ -11,7 +11,7 @@ import UIKit
 
 protocol CreateNewProductViewModelDelegate: AnyObject {
     func presentController(controller: UIViewController?)
-    func selectCategory(text: String, imageURL: String, preferedUint: String)
+    func selectCategory(text: String, imageURL: String)
     func deselectCategory()
     func setupController(step: Int)
 }
@@ -23,21 +23,11 @@ class CreateNewProductViewModel {
     weak var router: RootRouter?
     var model: GroceryListsModel?
     private var colorManager = ColorManager()
-    var arrayOfproductsByCategories: GetAllProductsResponse?
+    var arrayOfproductsByCategories: [DBNetworkProduct]?
     var isMetricSystem = UserDefaultsManager.isMetricSystem
     
-    var network: NetworkDataProvider
-    init(network: NetworkDataProvider) {
-        self.network = network
-        network.getAllProducts { post in
-            switch post {
-            case .failure(let error):
-                print(error)
-            case .success(let response):
-                self.arrayOfproductsByCategories = response
-                print(response)
-            }
-        }
+    init() {
+        arrayOfproductsByCategories = CoreDataManager.shared.getAllNetworkProducts()
     }
     
     var selectedUnitSystemArray: [UnitSystem] {
@@ -94,22 +84,21 @@ class CreateNewProductViewModel {
     func goToSelectCategoryVC() {
         guard let model else { return }
         let controller = router?.prepareSelectCategoryController(model: model, compl: { [weak self] newCategoryName in
-            self?.delegate?.selectCategory(text: newCategoryName, imageURL: "", preferedUint: "")
+            self?.delegate?.selectCategory(text: newCategoryName, imageURL: "")
         })
         delegate?.presentController(controller: controller)
     }
     
     func chekIsProductFromCategory(name: String?) {
         guard let arrayOfproductsByCategories else { return }
-        guard let product = arrayOfproductsByCategories.data.first(where: { $0.title == name }) else { return }
+        guard let product = arrayOfproductsByCategories.first(where: { $0.title == name }) else { return }
         getAllInformation(product: product)
        
     }
     
-    func getAllInformation(product: NetworkProductModel) {
-        let imageUrl = product.photo
-        let title = product.marketCategory?.title
-        let unit = product.units.first(where: { $0.isDefault == true })
-        delegate?.selectCategory(text: title ?? "other".localized, imageURL: imageUrl, preferedUint: unit?.title ?? "")
+    func getAllInformation(product: DBNetworkProduct) {
+        let imageUrl = product.photo ?? ""
+        let title = product.title
+        delegate?.selectCategory(text: title ?? "other".localized, imageURL: imageUrl)
     }
 }

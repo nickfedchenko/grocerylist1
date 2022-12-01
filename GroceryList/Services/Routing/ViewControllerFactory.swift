@@ -66,8 +66,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createCreateNewProductController(model: GroceryListsModel?, router: RootRouter,
                                           compl: @escaping (Product) -> Void) -> UIViewController? {
         let viewController = CreateNewProductViewController()
-        let network = NetworkEngine()
-        let viewModel = CreateNewProductViewModel(network: network)
+        let viewModel = CreateNewProductViewModel()
         viewModel.valueChangedCallback = compl
         viewController.viewModel = viewModel
         viewModel.delegate = viewController

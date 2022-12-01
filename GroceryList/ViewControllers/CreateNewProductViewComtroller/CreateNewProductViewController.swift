@@ -626,7 +626,7 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         isCategorySelected = false
     }
     
-    func selectCategory(text: String, imageURL: String, preferedUint: String) {
+    func selectCategory(text: String, imageURL: String) {
         topCategoryView.backgroundColor = UIColor(hex: "#80C980")
         topCategoryLabel.textColor = .white
         topCategoryLabel.text = text
@@ -636,10 +636,7 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         if text.count > 2 && isCategorySelected {
             readyToSave()
         }
-        
-        if !preferedUint.isEmpty {
-            selectUnitLabel.text = preferedUint
-        }
+    
         guard !imageURL.isEmpty else { return }
         addImageImage.kf.indicatorType = .activity
         addImageImage.kf.setImage(with: URL(string: imageURL), placeholder: nil, options: nil, completionHandler: nil)
