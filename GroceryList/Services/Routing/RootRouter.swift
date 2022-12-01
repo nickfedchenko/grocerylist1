@@ -51,7 +51,7 @@ final class RootRouter: RootRouterProtocol {
     
     func presentRootNavigationControllerInWindow() {
         
-        if let rootViewController = viewControllerFactory.createOnboardingController(router: self) {
+        if let rootViewController = viewControllerFactory.createMainController(router: self) {
             self.navigationController = UINavigationController(rootViewController: rootViewController)
         } else {
             self.navigationController = UINavigationController()
@@ -61,7 +61,7 @@ final class RootRouter: RootRouterProtocol {
         
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
-       // goToOnboarding()
+        goToOnboarding()
     }
     
     func goToOnboarding() {
@@ -80,6 +80,86 @@ final class RootRouter: RootRouterProtocol {
         shouldShowOnboarding = false
     }
     
+    func goCreateNewList(compl: @escaping (GroceryListsModel, [Product]) -> Void) {
+        guard let controller = viewControllerFactory.createCreateNewListController(model: nil, router: self,
+                                                                                   compl: compl) else { return }
+        navigationPresent(controller, animated: false)
+    }
+    
+    func presentCreateNewList(model: GroceryListsModel,compl: @escaping (GroceryListsModel, [Product]) -> Void) {
+        guard let controller = viewControllerFactory.createCreateNewListController(model: model, router: self,
+                                                                                   compl: compl) else { return }
+        controller.modalPresentationStyle = .overCurrentContext
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func goProductsVC(model: GroceryListsModel, compl: @escaping () -> Void) {
+        guard let controller = viewControllerFactory.createProductsController(model: model, router: self,
+                                                                                   compl: compl) else { return }
+        navigationPushViewController(controller, animated: true)
+    }
+    
+    func goProductsSettingsVC(snapshot: UIImage?, model: GroceryListsModel, compl: @escaping (GroceryListsModel, [Product]) -> Void) {
+        guard let controller = viewControllerFactory.createProductsSettingsController(snapshot: snapshot, model: model, router: self,
+                                                                                   compl: compl) else { return }
+        navigationPresent(controller, animated: false)
+    }
+    
+    func goCreateNewProductController(model: GroceryListsModel, compl: @escaping (Product) -> Void) {
+        guard let controller = viewControllerFactory.createCreateNewProductController(model: model, router: self,
+                                                                                   compl: compl) else { return }
+        navigationPresent(controller, animated: false)
+    }
+    
+    func goToSettingsController() {
+        guard let controller = viewControllerFactory.createSettingsController(router: self) else { return }
+        navigationPushViewController(controller, animated: true)
+    }
+    
+    // алерты / активити и принтер
+    func showActivityVC(image: [Any]) {
+        guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
+        topViewController?.present(controller, animated: true, completion: nil)
+    }
+    
+    func showPrintVC(image: UIImage) {
+        guard let controller = viewControllerFactory.createPrintController(image: image) else { return }
+        controller.present(animated: true, completionHandler: nil)
+    }
+    
+    func showAlertVC(title: String, message: String) {
+        guard let controller = viewControllerFactory.createAlertController(title: title, message: message ) else { return }
+        topViewController?.present(controller, animated: true, completion: nil)
+    }
+    
+    // просто создание вью - контролер сам будет презентить их, т.к топ контролер уже презентит вью и эти не получается так запрезентить
+    func prepareSelectProductController(height: Double, model: GroceryListsModel,
+                                        setOfSelectedProd: Set<Product>, compl: @escaping ((Set<Product>) -> Void)) -> UIViewController {
+        guard let controller = viewControllerFactory.createSelectProductsController(height: height, model: model, setOfSelectedProd: setOfSelectedProd, router: self, compl: compl) else { return UIViewController()}
+        return controller
+    }
+    
+    func prepareSelectListController(height: Double, setOfSelectedProd: Set<Product>, compl: @escaping ((Set<Product>) -> Void)) -> UIViewController {
+        guard let controller = viewControllerFactory.createSelectListController(height: height, router: self,
+                                                                                setOfSelectedProd: setOfSelectedProd, compl: compl) else { return UIViewController()}
+        controller.modalPresentationStyle = .overCurrentContext
+        return controller
+    }
+    
+    func prepareSelectCategoryController(model: GroceryListsModel, compl: @escaping (String) -> Void) -> UIViewController {
+        guard let controller = viewControllerFactory.createSelectCategoryController(model: model, router: self,
+                                                                                   compl: compl) else { return UIViewController() }
+       return controller
+    }
+    
+    func prepareCreateNewCategoryController(model: GroceryListsModel, newCategoryInd: Int, compl: @escaping (CategoryModel) -> Void) -> UIViewController {
+        guard let controller = viewControllerFactory.createCreateNewCategoryController(model: model, newCategoryInd: newCategoryInd, router: self,
+                                                                                   compl: compl) else { return UIViewController() }
+        controller.modalPresentationStyle = .overCurrentContext
+       return controller
+    }
+    
+    // pop
     func popToRoot() {
         navigationPopToRootViewController(animated: true)
     }

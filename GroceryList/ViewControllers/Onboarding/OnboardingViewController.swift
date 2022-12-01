@@ -15,6 +15,8 @@ class OnboardingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UserDefaultsManager.isMetricSystem = true
+        UserDefaultsManager.isHapticOn = true
         setupConstraints()
         setupCallbacks()
     }
@@ -87,7 +89,7 @@ class OnboardingViewController: UIViewController {
         }
         
         if currentVC > 3 {
-           print("close onboarding")
+            router?.popToRootFromOnboarding()
             return
         }
         
