@@ -12,7 +12,9 @@ class SettingsParametrView: UIView {
     
     init() {
         super.init(frame: .zero)
+        switchView.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
         setupConstraints()
+        updateSwitcher()
     }
     
     required init?(coder: NSCoder) {
@@ -29,6 +31,10 @@ class SettingsParametrView: UIView {
             switchView.isHidden = false
         }
         textLabel.text = text
+    }
+    
+    func updateSwitcher() {
+        switchView.isOn = UserDefaultsManager.isHapticOn
     }
     
     private let topLineView: UIView = {
@@ -67,10 +73,14 @@ class SettingsParametrView: UIView {
     private let switchView: UISwitch = {
         let switcher = UISwitch()
         switcher.onTintColor = UIColor(hex: "#31635A")
-        switcher.isOn = true
         switcher.isHidden = true
         return switcher
     }()
+    
+    @objc
+    private func switchChanged() {
+        UserDefaultsManager.isHapticOn = switchView.isOn
+    }
     
     private func setupConstraints() {
         addSubviews([topLineView, textLabel, lineView, rightChevron, unitSystemLabel, switchView])

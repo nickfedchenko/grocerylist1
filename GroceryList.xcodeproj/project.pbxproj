@@ -66,6 +66,7 @@
 		B3777E1B2938BF830074BE38 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E1A2938BF830074BE38 /* SettingsViewModel.swift */; };
 		B3777E1D2938CBF40074BE38 /* SettingsParametrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E1C2938CBF40074BE38 /* SettingsParametrView.swift */; };
 		B3777E202938D8210074BE38 /* InternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E1F2938D8210074BE38 /* InternetConnection.swift */; };
+		B3777E232938E4E90074BE38 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E222938E4E90074BE38 /* HapticManager.swift */; };
 		B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD62910EE93003C01AD /* NavigationInterface.swift */; };
 		B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD72910EE93003C01AD /* RootRouter.swift */; };
 		B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD82910EE93003C01AD /* ViewControllerFactory.swift */; };
@@ -162,6 +163,7 @@
 		B3777E1A2938BF830074BE38 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		B3777E1C2938CBF40074BE38 /* SettingsParametrView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsParametrView.swift; sourceTree = "<group>"; };
 		B3777E1F2938D8210074BE38 /* InternetConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetConnection.swift; sourceTree = "<group>"; };
+		B3777E222938E4E90074BE38 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		B37A2CD62910EE93003C01AD /* NavigationInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationInterface.swift; sourceTree = "<group>"; };
 		B37A2CD72910EE93003C01AD /* RootRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
 		B37A2CD82910EE93003C01AD /* ViewControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
@@ -584,6 +586,14 @@
 			path = InternetConnection;
 			sourceTree = "<group>";
 		};
+		B3777E212938E4CC0074BE38 /* HapticManader */ = {
+			isa = PBXGroup;
+			children = (
+				B3777E222938E4E90074BE38 /* HapticManager.swift */,
+			);
+			path = HapticManader;
+			sourceTree = "<group>";
+		};
 		B37A0F4A29100CD900343FF1 /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -609,6 +619,7 @@
 		B37A2CD42910EE77003C01AD /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B3777E212938E4CC0074BE38 /* HapticManader */,
 				B3777E1E2938D8050074BE38 /* InternetConnection */,
 				B3802313292BC7B70039EDE0 /* UserDefaultsManager */,
 				B3179EA5291E305F00455419 /* Networking */,
@@ -924,6 +935,7 @@
 				B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */,
 				B3476904291D017B0045A287 /* ProductsViewModel.swift in Sources */,
 				B3802315292BC7DA0039EDE0 /* UserDefaultsManager.swift in Sources */,
+				B3777E232938E4E90074BE38 /* HapticManager.swift in Sources */,
 				B36933F8291A97D900AFFAA6 /* MainScreenTopCell.swift in Sources */,
 				B34EAC9C2934E95E00FBD0E0 /* SelectCategoryCell.swift in Sources */,
 				B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */,

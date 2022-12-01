@@ -26,4 +26,13 @@ class UserDefaultsManager {
             UserDefaults.standard.set(newValue, forKey: "isMetricSystem")
         }
     }
+    
+    static var isHapticOn: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "isHapticOn")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isHapticOn")
+        }
+    }
 }
