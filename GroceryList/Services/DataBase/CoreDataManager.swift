@@ -87,6 +87,54 @@ class CoreDataManager {
         return (try? coreData.container.viewContext.fetch(fetchRequest).compactMap { $0 }) ?? []
     }
     
+    func createNetworkProduct(product: NetworkProductModel) {
+        guard getNetworkProduct(id: product.id) == nil else {
+            updateNetworkProduct(product: product)
+            return
+        }
+        
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBNetworkProduct> = DBNetworkProduct.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
+        
+        let object = DBNetworkProduct(context: context)
+        object.title = product.title
+        object.id = Int64(product.id)
+        object.marketCategory = product.marketCategory?.title
+        object.photo = product.photo
+        try? context.save()
+    }
+    
+    func getNetworkProduct(id: Int) -> DBNetworkProduct? {
+        let fetchRequest: NSFetchRequest<DBNetworkProduct> = DBNetworkProduct.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest).first else {
+            return nil
+        }
+        return object
+    }
+    
+    func updateNetworkProduct(product: NetworkProductModel) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBNetworkProduct> = DBNetworkProduct.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            object.title = product.title
+            object.id = Int64(product.id)
+            object.marketCategory = product.marketCategory?.title
+            object.photo = product.photo
+        }
+        try? context.save()
+    }
+    
+    func getAllNetworkProducts() -> [DBNetworkProduct]? {
+        let fetchRequest: NSFetchRequest<DBNetworkProduct> = DBNetworkProduct.fetchRequest()
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
+            return nil
+        }
+        return object
+    }
+    
     func removeProduct(product: Product) {
         let context = coreData.container.viewContext
         let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()

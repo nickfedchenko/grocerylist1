@@ -17,7 +17,7 @@ extension DBNetworkProduct {
     }
 
     @NSManaged public var title: String?
-    @NSManaged public var photo: Data?
+    @NSManaged public var photo: String?
     @NSManaged public var marketCategory: String?
     @NSManaged public var id: Int64
 

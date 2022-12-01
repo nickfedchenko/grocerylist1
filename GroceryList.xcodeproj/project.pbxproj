@@ -37,6 +37,7 @@
 		B35F0F632937975200C19891 /* MeashureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F0F622937975200C19891 /* MeashureManager.swift */; };
 		B360918F2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */; };
 		B36091902927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */; };
+		B3673EB72938F70B002D9262 /* BackendDatabaseProductsSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3673EB62938F70B002D9262 /* BackendDatabaseProductsSaver.swift */; };
 		B36933F8291A97D900AFFAA6 /* MainScreenTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */; };
 		B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933F9291AAC2C00AFFAA6 /* CellState.swift */; };
 		B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */; };
@@ -135,6 +136,7 @@
 		B35F0F622937975200C19891 /* MeashureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeashureManager.swift; sourceTree = "<group>"; };
 		B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B3673EB62938F70B002D9262 /* BackendDatabaseProductsSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendDatabaseProductsSaver.swift; sourceTree = "<group>"; };
 		B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenTopCell.swift; sourceTree = "<group>"; };
 		B36933F9291AAC2C00AFFAA6 /* CellState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellState.swift; sourceTree = "<group>"; };
 		B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListViewController.swift; sourceTree = "<group>"; };
@@ -462,6 +464,14 @@
 			path = MeashureManager;
 			sourceTree = "<group>";
 		};
+		B3673EB52938F6CD002D9262 /* BackendDatabaseProductsSaver */ = {
+			isa = PBXGroup;
+			children = (
+				B3673EB62938F70B002D9262 /* BackendDatabaseProductsSaver.swift */,
+			);
+			path = BackendDatabaseProductsSaver;
+			sourceTree = "<group>";
+		};
 		B36933FB291AAC3A00AFFAA6 /* CellModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -625,6 +635,7 @@
 		B37A2CD42910EE77003C01AD /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B3673EB52938F6CD002D9262 /* BackendDatabaseProductsSaver */,
 				B3777E212938E4CC0074BE38 /* HapticManader */,
 				B3777E1E2938D8050074BE38 /* InternetConnection */,
 				B3802313292BC7B70039EDE0 /* UserDefaultsManager */,
@@ -893,6 +904,7 @@
 				B3777E202938D8210074BE38 /* InternetConnection.swift in Sources */,
 				B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */,
 				B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */,
+				B3673EB72938F70B002D9262 /* BackendDatabaseProductsSaver.swift in Sources */,
 				B36AF9552915410400944E9D /* InstructionCell.swift in Sources */,
 				B34EACA8293500C000FBD0E0 /* CreateNewCategoryViewController.swift in Sources */,
 				B3777E2B2938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift in Sources */,
