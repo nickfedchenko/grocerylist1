@@ -81,6 +81,10 @@ class MainScreenViewModel {
         dataSource?.setOfModelsToUpdate = []
     }
     
+    func settingsTapped() {
+        router?.goToSettingsController()
+    }
+    
     func getnumberOfProductsInside(at ind: IndexPath) -> String {
         let supply = model[ind.section].lists[ind.row]
         var done = 0

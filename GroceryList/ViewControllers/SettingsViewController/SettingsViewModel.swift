@@ -17,4 +17,7 @@ class SettingsViewModel {
     weak var delegate: SettingsViewModelDelegate?
     weak var router: RootRouter?
    
+    func closeButtonTapped() {
+        router?.popToRoot()
+    }
 }

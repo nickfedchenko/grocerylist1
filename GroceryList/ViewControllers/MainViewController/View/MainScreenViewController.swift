@@ -189,6 +189,9 @@ extension MainScreenViewController: UICollectionViewDelegate {
             case .topMenu:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "MainScreenTopCell", for: indexPath)
                 as? MainScreenTopCell
+                cell?.settingsTapped = { [weak self] in
+                    self?.viewModel?.settingsTapped()
+                }
                 return cell
                 
             // empty cell in bottom of collection

@@ -10,6 +10,8 @@ import UIKit
 
 class MainScreenTopCell: UICollectionViewCell {
 
+    var settingsTapped: (() -> Void)?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupConstraints()
@@ -26,7 +28,7 @@ class MainScreenTopCell: UICollectionViewCell {
     
     @objc
     private func settingsButtonAction() {
-        print("settingsButtonPressed")
+        settingsTapped?()
     }
     
     private lazy var settingsButton: UIButton = {

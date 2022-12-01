@@ -64,6 +64,7 @@
 		B3777E162937CBB30074BE38 /* DBProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */; };
 		B3777E192938BEA80074BE38 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E182938BEA80074BE38 /* SettingsViewController.swift */; };
 		B3777E1B2938BF830074BE38 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E1A2938BF830074BE38 /* SettingsViewModel.swift */; };
+		B3777E1D2938CBF40074BE38 /* SettingsParametrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E1C2938CBF40074BE38 /* SettingsParametrView.swift */; };
 		B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD62910EE93003C01AD /* NavigationInterface.swift */; };
 		B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD72910EE93003C01AD /* RootRouter.swift */; };
 		B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD82910EE93003C01AD /* ViewControllerFactory.swift */; };
@@ -158,6 +159,7 @@
 		B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B3777E182938BEA80074BE38 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B3777E1A2938BF830074BE38 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		B3777E1C2938CBF40074BE38 /* SettingsParametrView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsParametrView.swift; sourceTree = "<group>"; };
 		B37A2CD62910EE93003C01AD /* NavigationInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationInterface.swift; sourceTree = "<group>"; };
 		B37A2CD72910EE93003C01AD /* RootRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
 		B37A2CD82910EE93003C01AD /* ViewControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
@@ -567,6 +569,7 @@
 			children = (
 				B3777E182938BEA80074BE38 /* SettingsViewController.swift */,
 				B3777E1A2938BF830074BE38 /* SettingsViewModel.swift */,
+				B3777E1C2938CBF40074BE38 /* SettingsParametrView.swift */,
 			);
 			path = SettingsViewController;
 			sourceTree = "<group>";
@@ -901,6 +904,7 @@
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
 				B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */,
+				B3777E1D2938CBF40074BE38 /* SettingsParametrView.swift in Sources */,
 				B37A2CEB2911034D003C01AD /* StringExtension.swift in Sources */,
 				B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */,
 				B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */,

@@ -44,7 +44,7 @@ class SelectCategoryViewController: UIViewController {
     
     @objc
     private func arrowBackButtonPressed() {
-        if let selectedCellInd {
+        if selectedCellInd != nil {
             viewModel?.categorySelected(with: selectedCategoryName)
         }
         navigationController?.popToRootViewController(animated: true)

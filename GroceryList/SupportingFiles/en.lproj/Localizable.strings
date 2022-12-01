@@ -86,3 +86,9 @@
 "pack"                      = "pack";
 "bottle"                    = "bottle";
 "other"                     = "Other";
+
+"preferencies"              = "Настройки";
+"Problems?"                 = "A problem? Contact us!";
+"DoYouLikeApp?"             = "Do you like the app? Tell us!";
+"Haptic Feedback"           = "Haptic Feedback";
+"Quantity Units"            = "Quantity Units";
