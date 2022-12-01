@@ -27,7 +27,7 @@ class SelectProductViewModel {
     var copiedProducts: Set<Product>
     weak var delegate: SelectProductViewModelDelegate?
     let firstFakeProduct = Product(listId: UUID(), name: "", isPurchased: false,
-                                   dateOfCreation: Date(), category: "", isFavorite: false)
+                                   dateOfCreation: Date(), category: "", isFavorite: false, description: "")
     
     private func prepareArrayOfProducts() {
         guard !model.products.isEmpty else { return }

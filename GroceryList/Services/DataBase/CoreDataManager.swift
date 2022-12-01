@@ -54,6 +54,7 @@ class CoreDataManager {
         object.category = product.category
         object.isFavorite = product.isFavorite
         object.image = product.imageData
+        object.userDescription = product.description
         try? context.save()
     }
     

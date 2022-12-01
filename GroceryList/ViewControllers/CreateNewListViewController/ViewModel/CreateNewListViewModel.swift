@@ -45,7 +45,7 @@ class CreateNewListViewModel {
     
     func saveCopiedProduct(product: Product, listId: UUID) {
         let newProduct = Product(id: UUID(), listId: listId, name: product.name, isPurchased: false,
-                                 dateOfCreation: Date(), category: product.category, isFavorite: false, isSelected: false)
+                                 dateOfCreation: Date(), category: product.category, isFavorite: false, isSelected: false, description: product.description)
         newSavedProducts.append(newProduct)
         CoreDataManager.shared.createProduct(product: newProduct)
     }

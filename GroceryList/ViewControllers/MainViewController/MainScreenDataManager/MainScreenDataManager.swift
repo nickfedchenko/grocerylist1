@@ -110,7 +110,7 @@ class MainScreenDataManager: DataSourceProtocol {
     
     private func transformCoredataProducts(product: DBProduct?) -> Product {
         guard let product = product else { return Product(listId: UUID(), name: "",
-                                                          isPurchased: false, dateOfCreation: Date(), category: "", isFavorite: false)}
+                                                          isPurchased: false, dateOfCreation: Date(), category: "", isFavorite: false, description: "")}
 
         let id = product.id ?? UUID()
         let listId = product.listId ?? UUID()
@@ -120,8 +120,10 @@ class MainScreenDataManager: DataSourceProtocol {
         let category = product.category ?? ""
         let isFavorite = product.isFavorite
         let imageData = product.image
+        let description = product.userDescription ?? ""
         
-        return Product(id: id, listId: listId, name: name, isPurchased: isPurchased, dateOfCreation: dateOfCreation, category: category, isFavorite: isFavorite, imageData: imageData)
+        return Product(id: id, listId: listId, name: name, isPurchased: isPurchased,
+                       dateOfCreation: dateOfCreation, category: category, isFavorite: isFavorite, imageData: imageData, description: description)
     }
     
     private func createWorkingArray() {

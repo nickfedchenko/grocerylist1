@@ -148,7 +148,8 @@ class ProductsViewController: UIViewController {
             
             var image: UIImage?
             if let data = child.imageData { image = UIImage(data: data) }
-            cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name, isPurchased: child.isPurchased, image: image)
+            let description = child.description
+            cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name, isPurchased: child.isPurchased, image: image, description: description)
             
             // свайпы
             cell.swipeDeleteAction = {
@@ -158,7 +159,6 @@ class ProductsViewController: UIViewController {
             guard !child.isPurchased else { return }
             cell.swipeToAddOrDeleteFromFavorite = {
                 self?.viewModel?.updateFavoriteStatus(for: child)
-   
             }
         }
         

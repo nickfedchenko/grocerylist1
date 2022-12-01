@@ -22,6 +22,7 @@
         <attribute name="isPurchased" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="listId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="userDescription" optional="YES" attributeType="String"/>
         <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBGroceryListModel" inverseName="products" inverseEntity="DBGroceryListModel"/>
     </entity>
 </model>

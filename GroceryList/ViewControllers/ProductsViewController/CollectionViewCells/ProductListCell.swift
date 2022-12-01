@@ -36,20 +36,34 @@ class ProductListCell: UICollectionViewListCell {
         super.prepareForReuse()
         nameLabel.textColor = .black
         nameLabel.attributedText = NSAttributedString(string: "")
+        firstDescriptionLabel.attributedText = NSAttributedString(string: "")
+        firstDescriptionLabel.textColor = .black
+        secondDescriptionLabel.attributedText = NSAttributedString(string: "")
+        secondDescriptionLabel.textColor = .black
+        viewWithDescription.isHidden = true
         clearTheCell()
     }
     
-    func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?, isPurchased: Bool, image: UIImage?) {
+    func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?, isPurchased: Bool, image: UIImage?, description: String) {
         contentView.backgroundColor = bcgColor
         checkmarkImage.image = isPurchased ? getImageWithColor(color: textColor) : UIImage(named: "emptyCheckmark")
         guard let text = text else { return }
 
         nameLabel.attributedText = NSAttributedString(string: text)
+        firstDescriptionLabel.attributedText = NSAttributedString(string: text)
+        secondDescriptionLabel.text = description
+       
         if isPurchased {
             nameLabel.textColor = textColor
+            firstDescriptionLabel.textColor = textColor
+            secondDescriptionLabel.textColor = textColor
         }
         
         if let image = image { imageView.image = image }
+       
+        if !description.isEmpty {
+            viewWithDescription.isHidden = false
+        }
     }
     
     func addCheckmark(color: UIColor?, compl: @escaping (() -> Void) ) {
@@ -57,6 +71,7 @@ class ProductListCell: UICollectionViewListCell {
             guard let self = self else { return }
             self.checkmarkImage.image = self.getImageWithColor(color: color)
             self.nameLabel.attributedText = self.nameLabel.text?.strikeThrough()
+            self.firstDescriptionLabel.attributedText = self.firstDescriptionLabel.text?.strikeThrough()
             self.layoutIfNeeded()
         } completion: { _ in
             compl()
@@ -141,15 +156,55 @@ class ProductListCell: UICollectionViewListCell {
         return imageView
     }()
     
+    private let viewWithDescription: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.isHidden = true
+        return view
+    }()
+    
+    private let firstDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.medium(size: 16).font
+        label.textColor = .black
+        label.text = "dfdf"
+        return label
+    }()
+    
+    private let secondDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.regular(size: 14).font
+        label.textColor = .black
+        label.text = "dfdkf"
+        return label
+    }()
+    
     // MARK: - UI
     private func setupConstraints() {
         contentView.addSubviews([swipeToDeleteImageView, swipeToAddOrDeleteFavorite, contentViews])
-        contentViews.addSubviews([nameLabel, checkmarkImage, whiteCheckmarkImage, imageView])
+        contentViews.addSubviews([nameLabel, checkmarkImage, whiteCheckmarkImage, imageView, viewWithDescription])
+        viewWithDescription.addSubviews([firstDescriptionLabel, secondDescriptionLabel])
         
         contentViews.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(16)
             make.top.equalToSuperview().inset(8)
             make.bottom.equalToSuperview()
+        }
+        
+        viewWithDescription.snp.makeConstraints { make in
+            make.left.right.equalTo(nameLabel)
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        
+        firstDescriptionLabel.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalToSuperview().inset(8)
+        }
+        
+        secondDescriptionLabel.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview().inset(6)
         }
         
         checkmarkImage.snp.makeConstraints { make in

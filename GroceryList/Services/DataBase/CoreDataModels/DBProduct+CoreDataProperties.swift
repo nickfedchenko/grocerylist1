@@ -24,6 +24,7 @@ extension DBProduct {
     @NSManaged public var listId: UUID?
     @NSManaged public var name: String?
     @NSManaged public var image: Data?
+    @NSManaged public var userDescription: String?
     @NSManaged public var list: DBGroceryListModel?
 
 }
