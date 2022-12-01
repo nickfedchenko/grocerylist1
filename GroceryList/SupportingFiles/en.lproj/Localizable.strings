@@ -92,3 +92,9 @@
 "DoYouLikeApp?"             = "Do you like the app? Tell us!";
 "Haptic Feedback"           = "Haptic Feedback";
 "Quantity Units"            = "Quantity Units";
+"Metric"                    = "Metric";
+"Imperial"                  = "Imperial (U.S.)";
+
+"Warning"                   = "Warning";
+"NoInternet"                = "No internet connection";
+

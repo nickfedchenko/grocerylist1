@@ -25,6 +25,7 @@ class SettingsParametrView: UIView {
             unitSystemLabel.text = unitSustemText
         }
         if isHaptickView {
+            rightChevron.isHidden = true
             switchView.isHidden = false
         }
         textLabel.text = text
