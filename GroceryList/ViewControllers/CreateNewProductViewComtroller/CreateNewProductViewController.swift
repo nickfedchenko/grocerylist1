@@ -630,6 +630,12 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         topCategoryLabel.textColor = .white
         topCategoryLabel.text = text
         isCategorySelected = true
+        
+        let text = topTextField.text ?? ""
+        if text.count > 2 && isCategorySelected {
+            readyToSave()
+        }
+        
         if !preferedUint.isEmpty {
             selectUnitLabel.text = preferedUint
         }
