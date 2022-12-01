@@ -201,11 +201,9 @@ extension SettingsViewController {
     
     private func addRecognizer() {
         let unitsViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(unitsViewAction))
-        let hapticViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(hapticViewAction))
         let likeAppViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(likeAppViewAction))
         let contactUsViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(contactUsAction))
         unitsView.addGestureRecognizer(unitsViewRecognizer)
-        hapticView.addGestureRecognizer(hapticViewRecognizer)
         likeAppView.addGestureRecognizer(likeAppViewRecognizer)
         contactUsView.addGestureRecognizer(contactUsViewRecognizer)
         
@@ -260,11 +258,6 @@ extension SettingsViewController {
             self.view.layoutIfNeeded()
         } completion: { _ in
         }
-    }
-    
-    @objc
-    private func hapticViewAction(_ recognizer: UIPanGestureRecognizer) {
-    
     }
     
     @objc

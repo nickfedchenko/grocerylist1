@@ -9,7 +9,7 @@ import SnapKit
 import UIKit
 
 class ProductListCell: UICollectionViewListCell {
-
+    
     var swipeDeleteAction: (() -> Void)?
     var swipeToAddOrDeleteFromFavorite: (() -> Void)?
     private var state: CellState = .normal
@@ -27,10 +27,10 @@ class ProductListCell: UICollectionViewListCell {
     }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-         let attrs = super.preferredLayoutAttributesFitting(layoutAttributes)
-         attrs.bounds.size.height = 56
-         return attrs
-     }
+        let attrs = super.preferredLayoutAttributesFitting(layoutAttributes)
+        attrs.bounds.size.height = 56
+        return attrs
+    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -44,23 +44,30 @@ class ProductListCell: UICollectionViewListCell {
         clearTheCell()
     }
     
-    func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?, isPurchased: Bool, image: UIImage?, description: String) {
+    func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?, isPurchased: Bool, image: Data?, description: String) {
         contentView.backgroundColor = bcgColor
         checkmarkImage.image = isPurchased ? getImageWithColor(color: textColor) : UIImage(named: "emptyCheckmark")
         guard let text = text else { return }
-
+        
         nameLabel.attributedText = NSAttributedString(string: text)
         firstDescriptionLabel.attributedText = NSAttributedString(string: text)
         secondDescriptionLabel.text = description
-       
+        
         if isPurchased {
             nameLabel.textColor = textColor
             firstDescriptionLabel.textColor = textColor
             secondDescriptionLabel.textColor = textColor
         }
         
-        if let image = image { imageView.image = image }
-       
+        if let image = image {
+            DispatchQueue.global().async {
+                let image = UIImage(data: image)
+                DispatchQueue.main.async {
+                    self.imageView.image = image
+                }
+            }
+        }
+        
         if !description.isEmpty {
             viewWithDescription.isHidden = false
         }
@@ -282,7 +289,7 @@ extension ProductListCell {
         case .left:
             guard nameLabel.textColor == .black else { return }
             if state == .readyToPinch {
-         
+                
                 DispatchQueue.main.async {
                     self.clearTheCell()
                 }

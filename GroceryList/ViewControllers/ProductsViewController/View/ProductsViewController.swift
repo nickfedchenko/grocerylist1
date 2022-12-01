@@ -145,9 +145,8 @@ class ProductsViewController: UIViewController {
             
             let bcgColor = self?.viewModel?.getColorForBackground()
             let textColor = self?.viewModel?.getColorForForeground()
-            
-            var image: UIImage?
-            if let data = child.imageData { image = UIImage(data: data) }
+            let image = child.imageData
+          
             let description = child.description
             cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name, isPurchased: child.isPurchased, image: image, description: description)
             
