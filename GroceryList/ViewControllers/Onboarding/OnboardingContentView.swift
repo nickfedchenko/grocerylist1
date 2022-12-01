@@ -29,17 +29,20 @@ class OnboardingContentView: UIView {
         collectionsAlarmImage.transform = CGAffineTransform(scaleX: 0, y: 0)
         contextualMenuImage.transform = CGAffineTransform(scaleX: 0, y: 0)
         greenCartImage.transform = CGAffineTransform(scaleX: 0, y: 0)
+        backgroundBlurView.alpha = 0
         secondBackgroundBlurView.alpha = 0
-        fifthPhoneView.alpha = 0
+        thirdBackgroundBlurView.alpha = 0
+        forthBackgroundBlurView.alpha = 0
     }
     
     // анимация перехода на первый экран
     func firstAnimation() {
-        UIView.animate(withDuration: 1.0, delay: 0,
+        UIView.animate(withDuration: 0.6, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
             self.addItemImage.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.backgroundBlurView.alpha = 1
             self.firstSideView.isHidden = false
             self.secondSideView.isHidden = false
             self.thirdSideView.isHidden = false
@@ -75,7 +78,7 @@ class OnboardingContentView: UIView {
     
     // анимация закрытия первого экрана
     func secondAnimation() {
-        UIView.animate(withDuration: 1.3, delay: 0,
+        UIView.animate(withDuration: 0.6, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
@@ -83,6 +86,7 @@ class OnboardingContentView: UIView {
             self.secondSideView.isHidden = false
             self.thirdSideView.isHidden = false
             self.forthSideView.isHidden = false
+            self.backgroundBlurView.alpha = 0
             if UIScreen.main.isMoreIphonePlus {
                 self.fifthSideView.isHidden = false
             }
@@ -116,7 +120,7 @@ class OnboardingContentView: UIView {
     
     // анимация перехода на второй экран
     private func showsecondState() {
-        UIView.animate(withDuration: 1.3, delay: 0,
+        UIView.animate(withDuration: 1.0, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
@@ -152,7 +156,7 @@ class OnboardingContentView: UIView {
     }
     // появление картинки шаред
     private func showSharedAlarm() {
-        UIView.animate(withDuration: 1.0, delay: 0,
+        UIView.animate(withDuration: 0.5, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
@@ -199,10 +203,11 @@ class OnboardingContentView: UIView {
     }
     // показывает коллекцию справа
     private func showCollectionsAlarm() {
-        UIView.animate(withDuration: 1.3, delay: 0,
+        UIView.animate(withDuration: 0.5, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
+            self.thirdBackgroundBlurView.alpha = 1
             self.collectionsAlarmImage.transform = CGAffineTransform(scaleX: 1, y: 1)
             self.layoutIfNeeded()
         } completion: { _ in
@@ -242,11 +247,12 @@ class OnboardingContentView: UIView {
     }
     // показывает контекстное меню сверху
     private func showContextualMenu() {
-        UIView.animate(withDuration: 1.3, delay: 0,
+        UIView.animate(withDuration: 0.5, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
             self.contextualMenuImage.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.forthBackgroundBlurView.alpha = 1
             self.layoutIfNeeded()
         } completion: { _ in
             self.changeImage()
@@ -254,7 +260,7 @@ class OnboardingContentView: UIView {
     }
     
     private func changeImage() {
-        UIView.animate(withDuration: 0.5, delay: 0,
+        UIView.animate(withDuration: 0.9, delay: 1.3,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
@@ -309,10 +315,13 @@ class OnboardingContentView: UIView {
     
     // UI
     private lazy var backgroundView = createImageView(with: "secondBG")
+    private lazy var backgroundBlurView = createImageView(with: "secondBGBlur")
     private lazy var secondBackgroundView = createImageView(with: "thirdBG")
     private lazy var secondBackgroundBlurView = createImageView(with: "thirdBGBlur")
     private lazy var thirdBackgroundView = createImageView(with: "forthBG")
+    private lazy var thirdBackgroundBlurView = createImageView(with: "forthBGBlur")
     private lazy var forthBackgroundView = createImageView(with: "fifthBG")
+    private lazy var forthBackgroundBlurView = createImageView(with: "fifthBGBlur")
     
     private lazy var phoneView = createImageView(with: "firstScreen")
     private lazy var secondPhoneView = createImageView(with: "secondScreen")
@@ -356,15 +365,19 @@ class OnboardingContentView: UIView {
     
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        addSubviews([backgroundView, secondBackgroundView, secondBackgroundBlurView,
-                     thirdBackgroundView, forthBackgroundView, phoneShadowView, phoneView,
-                     secondPhoneView, thirdPhoneView, forthPhoneView, fifthPhoneView, collectionsAlarmImage,
+        addSubviews([backgroundView, backgroundBlurView, secondBackgroundView, secondBackgroundBlurView,
+                     thirdBackgroundView, thirdBackgroundBlurView, forthBackgroundView, forthBackgroundBlurView, phoneShadowView, phoneView,
+                     secondPhoneView, thirdPhoneView, fifthPhoneView, forthPhoneView, collectionsAlarmImage,
                      shadowView, textContainerViewView, addItemImage, firstSideView, secondSideView, thirdSideView,
                                    forthSideView, fifthSideView, sharedAlarmImage, contextualMenuImage, greenCartImage])
         textContainerViewView.addSubviews([firstTextLabel, secondTextLabel, thirdTextLabel, forthTextLabel])
 
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        
+        backgroundBlurView.snp.makeConstraints { make in
+            make.edges.equalTo(backgroundView)
         }
         
         secondBackgroundView.snp.makeConstraints { make in
@@ -382,9 +395,17 @@ class OnboardingContentView: UIView {
             make.left.equalTo(secondBackgroundView.snp.right)
         }
         
+        thirdBackgroundBlurView.snp.makeConstraints { make in
+            make.edges.equalTo(thirdBackgroundView)
+        }
+        
         forthBackgroundView.snp.makeConstraints { make in
             make.width.height.top.bottom.equalToSuperview()
             make.left.equalTo(thirdBackgroundView.snp.right)
+        }
+        
+        forthBackgroundBlurView.snp.makeConstraints { make in
+            make.edges.equalTo(forthBackgroundView)
         }
         
         phoneView.snp.makeConstraints { make in
