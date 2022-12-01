@@ -14,6 +14,7 @@ struct GetAllProductsResponse: Codable {
 }
 
 struct NetworkProductModel: Codable {
+    let id: Int
     let title: String
     let marketCategory: MarketCategory?
     let units: [Unit]

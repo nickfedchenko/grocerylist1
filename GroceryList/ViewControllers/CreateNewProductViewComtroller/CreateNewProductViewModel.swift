@@ -18,7 +18,6 @@ protocol CreateNewProductViewModelDelegate: AnyObject {
 
 class CreateNewProductViewModel {
     
-    var network: NetworkDataProvider
     var valueChangedCallback: ((Product) -> Void)?
     weak var delegate: CreateNewProductViewModelDelegate?
     weak var router: RootRouter?
@@ -27,6 +26,7 @@ class CreateNewProductViewModel {
     var arrayOfproductsByCategories: GetAllProductsResponse?
     var isMetricSystem = UserDefaultsManager.isMetricSystem
     
+    var network: NetworkDataProvider
     init(network: NetworkDataProvider) {
         self.network = network
         network.getAllProducts { post in

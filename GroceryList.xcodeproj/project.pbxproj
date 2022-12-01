@@ -67,6 +67,8 @@
 		B3777E1D2938CBF40074BE38 /* SettingsParametrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E1C2938CBF40074BE38 /* SettingsParametrView.swift */; };
 		B3777E202938D8210074BE38 /* InternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E1F2938D8210074BE38 /* InternetConnection.swift */; };
 		B3777E232938E4E90074BE38 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E222938E4E90074BE38 /* HapticManager.swift */; };
+		B3777E2A2938F41F0074BE38 /* DBNetworkProduct+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E282938F41F0074BE38 /* DBNetworkProduct+CoreDataClass.swift */; };
+		B3777E2B2938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E292938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift */; };
 		B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD62910EE93003C01AD /* NavigationInterface.swift */; };
 		B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD72910EE93003C01AD /* RootRouter.swift */; };
 		B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD82910EE93003C01AD /* ViewControllerFactory.swift */; };
@@ -164,6 +166,8 @@
 		B3777E1C2938CBF40074BE38 /* SettingsParametrView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsParametrView.swift; sourceTree = "<group>"; };
 		B3777E1F2938D8210074BE38 /* InternetConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetConnection.swift; sourceTree = "<group>"; };
 		B3777E222938E4E90074BE38 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		B3777E282938F41F0074BE38 /* DBNetworkProduct+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBNetworkProduct+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B3777E292938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBNetworkProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B37A2CD62910EE93003C01AD /* NavigationInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationInterface.swift; sourceTree = "<group>"; };
 		B37A2CD72910EE93003C01AD /* RootRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
 		B37A2CD82910EE93003C01AD /* ViewControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
@@ -256,6 +260,8 @@
 			children = (
 				B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */,
 				B3FECE4229375AA80077F8EF /* DBCategories+CoreDataClass.swift */,
+				B3777E282938F41F0074BE38 /* DBNetworkProduct+CoreDataClass.swift */,
+				B3777E292938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift */,
 				B3FECE4129375AA80077F8EF /* DBCategories+CoreDataProperties.swift */,
 				B3777E132937CBB30074BE38 /* DBProduct+CoreDataClass.swift */,
 				B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */,
@@ -889,6 +895,7 @@
 				B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */,
 				B36AF9552915410400944E9D /* InstructionCell.swift in Sources */,
 				B34EACA8293500C000FBD0E0 /* CreateNewCategoryViewController.swift in Sources */,
+				B3777E2B2938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift in Sources */,
 				B35F0F612937972700C19891 /* UnitSystemModel.swift in Sources */,
 				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
@@ -928,6 +935,7 @@
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
 				B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */,
 				B3777E1D2938CBF40074BE38 /* SettingsParametrView.swift in Sources */,
+				B3777E2A2938F41F0074BE38 /* DBNetworkProduct+CoreDataClass.swift in Sources */,
 				B37A2CEB2911034D003C01AD /* StringExtension.swift in Sources */,
 				B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */,
 				B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */,
