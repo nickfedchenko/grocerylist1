@@ -84,15 +84,16 @@ class CreateNewProductViewController: UIViewController {
         let value = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         guard let keyboardFrame = value?.cgRectValue else { return }
         let height = Double(keyboardFrame.height)
-        updateConstr(with: height)
+        updateConstr(with: height, alpha: 0.5)
     }
     
-    func updateConstr(with inset: Double) {
+    func updateConstr(with inset: Double, alpha: Double) {
         UIView.animate(withDuration: 0.3) { [ weak self ] in
             guard let self = self else { return }
             self.contentView.snp.updateConstraints { make in
                 make.bottom.equalToSuperview().inset(inset)
             }
+            self.view.backgroundColor = .black.withAlphaComponent(alpha)
             self.view.layoutIfNeeded()
         }
     }
@@ -101,9 +102,9 @@ class CreateNewProductViewController: UIViewController {
     
     private func hidePanel() {
         topTextField.resignFirstResponder()
-        updateConstr(with: -400)
+        updateConstr(with: -400, alpha: 0)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: false, completion: nil)
         }
     }
     
@@ -298,7 +299,6 @@ class CreateNewProductViewController: UIViewController {
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         selectUnitsBigView.transform = CGAffineTransform(scaleX: 1, y: 0)
-        view.backgroundColor = .black.withAlphaComponent(0.5)
         view.addSubviews([contentView, selectUnitsBigView])
         contentView.addSubviews([saveButtonView, topCategoryView, textfieldView, quantityTitleLabel, quantityView, minusButton, plusButton, selectUnitsView])
         selectUnitsView.addSubviews([whiteArrowForSelectUnit, selectUnitLabel])

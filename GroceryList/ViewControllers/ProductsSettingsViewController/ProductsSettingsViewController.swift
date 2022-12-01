@@ -38,19 +38,20 @@ class ProductsSettingsViewController: UIViewController {
     // MARK: - swipeDown
     
     private func hidePanel(compl: (() -> Void)?) {
-        updateConstr(with: -602)
+        updateConstr(with: -602, alpha: 0)
        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            self.dismiss(animated: true, completion: compl)
+            self.dismiss(animated: false, completion: compl)
         }
     }
     
     private func showPanel() {
-        updateConstr(with: 0)
+        updateConstr(with: 0, alpha: 0.5)
     }
     
-    func updateConstr(with inset: Double) {
+    func updateConstr(with inset: Double, alpha: Double) {
         UIView.animate(withDuration: 0.3) { [ weak self ] in
+            self?.view.backgroundColor = .black.withAlphaComponent(alpha)
             self?.contentView.snp.updateConstraints { make in
                 make.bottom.equalToSuperview().inset(inset)
             }
@@ -103,7 +104,6 @@ class ProductsSettingsViewController: UIViewController {
 
     // MARK: - Constraints
     private func setupConstraints() {
-        view.backgroundColor = .black.withAlphaComponent(0.5)
         view.addSubview(contentView)
         contentView.addSubviews([pinchView, parametrsLabel, doneButton, tableview])
        

@@ -27,7 +27,7 @@ enum RequestGenerator: Codable {
             
         case .getPosts:
             guard var components = URLComponents(
-                string: "https://newketo.finanse.space/api/product/fetchAll") else {
+                string: "https://newketo.finanse.space/api/shoppingList/fetchProducts") else {
                     fatalError("FatalError")
                 }
             injectLocale(in: &components)

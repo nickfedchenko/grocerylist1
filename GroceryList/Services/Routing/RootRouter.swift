@@ -83,7 +83,7 @@ final class RootRouter: RootRouterProtocol {
     func goCreateNewList(compl: @escaping (GroceryListsModel, [Product]) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewListController(model: nil, router: self,
                                                                                    compl: compl) else { return }
-        navigationPresent(controller, animated: true)
+        navigationPresent(controller, animated: false)
     }
     
     func presentCreateNewList(model: GroceryListsModel,compl: @escaping (GroceryListsModel, [Product]) -> Void) {
@@ -102,13 +102,13 @@ final class RootRouter: RootRouterProtocol {
     func goProductsSettingsVC(snapshot: UIImage?, model: GroceryListsModel, compl: @escaping (GroceryListsModel, [Product]) -> Void) {
         guard let controller = viewControllerFactory.createProductsSettingsController(snapshot: snapshot, model: model, router: self,
                                                                                    compl: compl) else { return }
-        navigationPresent(controller, animated: true)
+        navigationPresent(controller, animated: false)
     }
     
     func goCreateNewProductController(model: GroceryListsModel, compl: @escaping (Product) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewProductController(model: model, router: self,
                                                                                    compl: compl) else { return }
-        navigationPresent(controller, animated: true)
+        navigationPresent(controller, animated: false)
     }
     
     // алерты / активити и принтер

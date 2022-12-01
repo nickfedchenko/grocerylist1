@@ -58,15 +58,16 @@ class CreateNewCategoryViewController: UIViewController {
         let value = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         guard let keyboardFrame = value?.cgRectValue else { return }
         let height = Double(keyboardFrame.height)
-        updateConstr(with: height)
+        updateConstr(with: height, alpha: 0.5)
     }
     
-    func updateConstr(with inset: Double) {
+    func updateConstr(with inset: Double, alpha: Double) {
         UIView.animate(withDuration: 0.3) { [ weak self ] in
             guard let self = self else { return }
             self.contentView.snp.updateConstraints { make in
                 make.bottom.equalToSuperview().inset(inset)
             }
+            self.view.backgroundColor = .black.withAlphaComponent(alpha)
             self.view.layoutIfNeeded()
         }
     }
@@ -75,7 +76,7 @@ class CreateNewCategoryViewController: UIViewController {
     
     private func hidePanel() {
         textField.resignFirstResponder()
-        updateConstr(with: -400)
+        updateConstr(with: -400, alpha: 0)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.dismiss(animated: true, completion: nil)
         }
@@ -154,7 +155,6 @@ class CreateNewCategoryViewController: UIViewController {
     
     // MARK: - Constraints
     private func setupConstraints() {
-        view.backgroundColor = .black.withAlphaComponent(0.5)
         view.addSubviews([contentView])
         contentView.addSubviews([saveButtonView, topCategoryView, textField, nameLabel])
         topCategoryView.addSubviews([topCategoryLabel, topCategoryPencilImage])
