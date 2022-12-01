@@ -122,7 +122,7 @@ class MainScreenViewController: UIViewController {
         collectionView.addSubview(foodImage)
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(5)
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(10)
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(88)
         }
@@ -270,21 +270,26 @@ extension MainScreenViewController: UICollectionViewDelegate {
     
     // CollectionViewLayout
     private func createCompositionalLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { (_, _) -> NSCollectionLayoutSection? in
-            return self.createLayout()
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, _) -> NSCollectionLayoutSection? in
+            return self.createLayout(sectionIndex: sectionIndex)
         }
         return layout
     }
     
-    private func createLayout(isHeaderNeeded: Bool = true) -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(72))
+    private func createLayout(sectionIndex: Int) -> NSCollectionLayoutSection {
+        var itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(72))
+        if sectionIndex == 0 {
+            itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(92))
+        }
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 1, trailing: 0)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        let header = createSectionHeader()
-        section.boundarySupplementaryItems = [header]
+        if sectionIndex != 0 {
+            let header = createSectionHeader()
+            section.boundarySupplementaryItems = [header]
+        }
         return section
     }
     

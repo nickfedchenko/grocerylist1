@@ -29,6 +29,7 @@ protocol ViewControllerFactoryProtocol {
                                         router: RootRouter, compl: @escaping (String) -> Void) -> UIViewController?
     func createCreateNewCategoryController(model: GroceryListsModel?, newCategoryInd: Int, router: RootRouter,
                                            compl: @escaping (CategoryModel) -> Void) -> UIViewController?
+    func createSettingsController(router: RootRouter) -> UIViewController?
 }
     
 // MARK: - Factory
@@ -143,6 +144,15 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let viewModel = ProductsSettingsViewModel(model: model, snapshot: snapshot)
         viewModel.delegate = viewController
         viewModel.valueChangedCallback = compl
+        viewController.viewModel = viewModel
+        viewModel.router = router
+        return viewController
+    }
+    
+    func createSettingsController(router: RootRouter) -> UIViewController? {
+        let viewController = SettingsViewController()
+        let viewModel = SettingsViewModel()
+        viewModel.delegate = viewController
         viewController.viewModel = viewModel
         viewModel.router = router
         return viewController

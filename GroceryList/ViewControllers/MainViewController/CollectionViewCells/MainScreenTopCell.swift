@@ -56,12 +56,11 @@ class MainScreenTopCell: UICollectionViewCell {
     
     // MARK: - UI
     private func setupConstraints() {
-        contentView.backgroundColor = .green
         contentView.addSubviews([settingsButton, searchButton, segmentControl])
         settingsButton.snp.makeConstraints { make in
             make.width.height.equalTo(24)
             make.left.equalTo(28)
-            make.top.equalToSuperview().inset(-20)
+            make.top.equalToSuperview()
         }
         
         searchButton.snp.makeConstraints { make in
@@ -74,6 +73,7 @@ class MainScreenTopCell: UICollectionViewCell {
             make.left.right.equalToSuperview().inset(22)
             make.top.equalTo(settingsButton.snp.bottom).inset(-16)
             make.height.equalTo(48)
+            
         }
         
     }

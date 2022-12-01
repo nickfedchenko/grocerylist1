@@ -111,6 +111,11 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: false)
     }
     
+    func goToSettingsController() {
+        guard let controller = viewControllerFactory.createSettingsController(router: self) else { return }
+        navigationPushViewController(controller, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
