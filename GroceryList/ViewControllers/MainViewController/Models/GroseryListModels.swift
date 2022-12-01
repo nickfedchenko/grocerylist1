@@ -50,6 +50,7 @@ struct Product: Hashable, Equatable {
     var isFavorite: Bool
     var isSelected = false
     var imageData: Data?
+    var description: String
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

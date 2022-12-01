@@ -63,7 +63,7 @@ class CreateNewProductViewModel {
     ]
 
     func getNumberOfCells() -> Int {
-        return 8
+        selectedUnitSystemArray.count
     }
     
     func getTitleForCell(at ind: Int) -> String {
@@ -75,12 +75,13 @@ class CreateNewProductViewModel {
         delegate?.setupController(step: step)
     }
     
-    func saveProduct(categoryName: String, productName: String, image: UIImage?) {
+    func saveProduct(categoryName: String, productName: String, image: UIImage?, description: String) {
         guard let model else { return }
         print(categoryName, productName)
         var imageData: Data?
         if let image { imageData = image.pngData() }
-        let product = Product(listId: model.id, name: productName, isPurchased: false, dateOfCreation: Date(), category: categoryName, isFavorite: false, imageData: imageData)
+        let product = Product(listId: model.id, name: productName, isPurchased: false, dateOfCreation: Date(),
+                              category: categoryName, isFavorite: false, imageData: imageData, description: description)
         CoreDataManager.shared.createProduct(product: product)
         valueChangedCallback?(product)
     }

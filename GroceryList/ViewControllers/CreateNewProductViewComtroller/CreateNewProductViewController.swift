@@ -534,7 +534,8 @@ extension CreateNewProductViewController {
         categoryName = categoryName == "Category".localized ? "other".localized : categoryName
         var image: UIImage?
         if isImageChanged { image = addImageImage.image }
-        viewModel?.saveProduct(categoryName: categoryName, productName: productName, image: image)
+        let description = bottomTextField.text ?? ""
+        viewModel?.saveProduct(categoryName: categoryName, productName: productName, image: image, description: description)
         hidePanel()
     }
     
