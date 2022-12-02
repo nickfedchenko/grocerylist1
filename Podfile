@@ -10,6 +10,7 @@ target 'GroceryList' do
   pod 'GzipSwift'
   pod 'SnapKit'
   pod 'Kingfisher', '~> 7.0'
+  pod 'ApphudSDK'
 
   # Pods for GroceryList
 

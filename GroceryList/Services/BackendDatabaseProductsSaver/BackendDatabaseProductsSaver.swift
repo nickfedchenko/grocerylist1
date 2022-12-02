@@ -9,6 +9,8 @@ import Foundation
 
 class BackendDatabaseProductsSaver {
    
+    static var shared = BackendDatabaseProductsSaver()
+    
     var network: NetworkDataProvider?
     
     var arrayOfProducts: [NetworkProductModel] = [] {
@@ -19,6 +21,9 @@ class BackendDatabaseProductsSaver {
  
     init() {
         network = NetworkEngine()
+    }
+    
+    func fetchAllProducts() {
         network?.getAllProducts { post in
             switch post {
             case .failure(let error):
@@ -29,6 +34,10 @@ class BackendDatabaseProductsSaver {
                 }
             }
         }
+    }
+    
+    deinit {
+        print("backend deinited")
     }
     
     func transformNetworkModelsToCoreData() {

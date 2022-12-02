@@ -110,6 +110,7 @@ class ProductsViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 18).font
         label.textColor = .white
+        label.numberOfLines = 2
         label.text = "AddItem".localized
         return label
     }()
@@ -255,6 +256,7 @@ class ProductsViewController: UIViewController {
         addItemLabel.snp.makeConstraints { make in
             make.left.equalTo(plusImage.snp.right).inset(-16)
             make.centerY.equalTo(plusImage)
+            make.right.equalToSuperview().inset(5)
         }
         
         collectionView.snp.makeConstraints { make in

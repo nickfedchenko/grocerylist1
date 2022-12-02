@@ -90,6 +90,7 @@ class OnboardingViewController: UIViewController {
         
         if currentVC > 3 {
             router?.popToRootFromOnboarding()
+            router?.showPaywallVC()
             return
         }
         
@@ -120,6 +121,7 @@ class OnboardingViewController: UIViewController {
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.masksToBounds = true
+        button.addShadowForView()
         button.isHidden = true
         button.isUserInteractionEnabled = false
         return button

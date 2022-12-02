@@ -81,10 +81,8 @@ class SelectCategoryDataSource {
             arrayOfCategories = defaultCategoriesArray
         }
         
-        for (index, category) in arrayOfCategories.enumerated() {
-            if category.ind == selectedCategoryInd {
+        for (index, category) in arrayOfCategories.enumerated() where category.ind == selectedCategoryInd {
                 arrayOfCategories[index].isSelected = true
-            }
         }
         arrayUpdatedCallback?()
     }

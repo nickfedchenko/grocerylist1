@@ -12,7 +12,7 @@ protocol DataSourceProtocol {
     var dataSourceArray: [SectionModel] { get set }
     var dataChangedCallBack: (() -> Void)? { get set }
     var setOfModelsToUpdate: Set<GroceryListsModel> { get set }
-    func updateListOfModels() -> Set<GroceryListsModel>
+    @discardableResult func updateListOfModels() -> Set<GroceryListsModel>
     func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel>
     func addOrDeleteFromFavorite(with model: GroceryListsModel) -> Set<GroceryListsModel>
     
