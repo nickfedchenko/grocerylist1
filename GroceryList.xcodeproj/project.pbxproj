@@ -95,6 +95,9 @@
 		B3D20456292F6C0600599A01 /* SelectProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D20455292F6C0600599A01 /* SelectProductCell.swift */; };
 		B3D2045B2930F00A00599A01 /* CreateNewProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D2045A2930F00A00599A01 /* CreateNewProductViewController.swift */; };
 		B3D2045D2930F49C00599A01 /* CreateNewProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D2045C2930F49B00599A01 /* CreateNewProductViewModel.swift */; };
+		B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D858472939D45000CCE230 /* PaywallViewController.swift */; };
+		B3D8584A293A1A2A00CCE230 /* PaywallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D85849293A1A2A00CCE230 /* PaywallCell.swift */; };
+		B3D8584C293A405E00CCE230 /* PaywallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8584B293A405E00CCE230 /* PaywallModel.swift */; };
 		B3E654A32927A7D300106500 /* ArrowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E654A22927A7D300106500 /* ArrowView.swift */; };
 		B3FECE4329375AA80077F8EF /* DBCategories+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FECE4129375AA80077F8EF /* DBCategories+CoreDataProperties.swift */; };
 		B3FECE4429375AA80077F8EF /* DBCategories+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FECE4229375AA80077F8EF /* DBCategories+CoreDataClass.swift */; };
@@ -195,6 +198,9 @@
 		B3D20455292F6C0600599A01 /* SelectProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProductCell.swift; sourceTree = "<group>"; };
 		B3D2045A2930F00A00599A01 /* CreateNewProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProductViewController.swift; sourceTree = "<group>"; };
 		B3D2045C2930F49B00599A01 /* CreateNewProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProductViewModel.swift; sourceTree = "<group>"; };
+		B3D858472939D45000CCE230 /* PaywallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewController.swift; sourceTree = "<group>"; };
+		B3D85849293A1A2A00CCE230 /* PaywallCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallCell.swift; sourceTree = "<group>"; };
+		B3D8584B293A405E00CCE230 /* PaywallModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallModel.swift; sourceTree = "<group>"; };
 		B3E654A22927A7D300106500 /* ArrowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowView.swift; sourceTree = "<group>"; };
 		B3FECE4129375AA80077F8EF /* DBCategories+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBCategories+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B3FECE4229375AA80077F8EF /* DBCategories+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBCategories+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -661,6 +667,7 @@
 		B37A2CDC29110263003C01AD /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				B3D858462939D43B00CCE230 /* Paywall */,
 				B37A2CDD2911027E003C01AD /* Onboarding */,
 				B36933FC291BA4CE00AFFAA6 /* MainViewController */,
 				B36933FD291BA4EE00AFFAA6 /* CreateNewListViewController */,
@@ -745,6 +752,16 @@
 				B35F0F602937972700C19891 /* UnitSystemModel.swift */,
 			);
 			path = CreateNewProductViewComtroller;
+			sourceTree = "<group>";
+		};
+		B3D858462939D43B00CCE230 /* Paywall */ = {
+			isa = PBXGroup;
+			children = (
+				B3D858472939D45000CCE230 /* PaywallViewController.swift */,
+				B3D8584B293A405E00CCE230 /* PaywallModel.swift */,
+				B3D85849293A1A2A00CCE230 /* PaywallCell.swift */,
+			);
+			path = Paywall;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -897,6 +914,7 @@
 				B3E654A32927A7D300106500 /* ArrowView.swift in Sources */,
 				B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */,
 				B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */,
+				B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */,
 				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
 				B35F0F632937975200C19891 /* MeashureManager.swift in Sources */,
 				B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */,
@@ -925,6 +943,7 @@
 				B30573BB29222BE700CA8BDE /* HeaderListCell.swift in Sources */,
 				B37A2CE92911034D003C01AD /* UIViewControllerExtension.swift in Sources */,
 				B3D2045B2930F00A00599A01 /* CreateNewProductViewController.swift in Sources */,
+				B3D8584C293A405E00CCE230 /* PaywallModel.swift in Sources */,
 				B3179EAB291E3DAE00455419 /* ProductsDataManager.swift in Sources */,
 				B37A2CE72911034D003C01AD /* UIColorExtension.swift in Sources */,
 				B36AF9532915403600944E9D /* EmptyColoredCell.swift in Sources */,
@@ -943,6 +962,7 @@
 				B3D2045D2930F49C00599A01 /* CreateNewProductViewModel.swift in Sources */,
 				B36D18ED291A2CF4005EE32D /* CoreDataManager.swift in Sources */,
 				B34BB80F292E389B00748E8E /* SelectListViewModel.swift in Sources */,
+				B3D8584A293A1A2A00CCE230 /* PaywallCell.swift in Sources */,
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
 				B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */,

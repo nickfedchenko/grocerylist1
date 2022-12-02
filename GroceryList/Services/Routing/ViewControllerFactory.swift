@@ -30,6 +30,7 @@ protocol ViewControllerFactoryProtocol {
     func createCreateNewCategoryController(model: GroceryListsModel?, newCategoryInd: Int, router: RootRouter,
                                            compl: @escaping (CategoryModel) -> Void) -> UIViewController?
     func createSettingsController(router: RootRouter) -> UIViewController?
+    func createPaywallController() -> UIViewController?
 }
     
 // MARK: - Factory
@@ -154,6 +155,11 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.delegate = viewController
         viewController.viewModel = viewModel
         viewModel.router = router
+        return viewController
+    }
+    
+    func createPaywallController() -> UIViewController? {
+        let viewController = PaywallViewController()
         return viewController
     }
     

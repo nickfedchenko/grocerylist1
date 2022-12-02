@@ -5,6 +5,7 @@
 //  Created by Шамиль Моллачиев on 19.10.2022.
 //
 
+import ApphudSDK
 import UIKit
 
 protocol RootRouterProtocol: NavigationInterface {
@@ -130,6 +131,12 @@ final class RootRouter: RootRouterProtocol {
     func showAlertVC(title: String, message: String) {
         guard let controller = viewControllerFactory.createAlertController(title: title, message: message ) else { return }
         topViewController?.present(controller, animated: true, completion: nil)
+    }
+    
+    func showPaywallVC() {
+        guard let controller = viewControllerFactory.createPaywallController() else { return }
+        guard !Apphud.hasActiveSubscription() else { return }
+        navigationPresent(controller, style: .fullScreen, animated: true)
     }
     
     // просто создание вью - контролер сам будет презентить их, т.к топ контролер уже презентит вью и эти не получается так запрезентить

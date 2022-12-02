@@ -82,7 +82,8 @@ class MainScreenViewModel {
     }
     
     func settingsTapped() {
-        router?.goToSettingsController()
+        //router?.goToSettingsController()
+        router?.showPaywallVC()
     }
     
     func getnumberOfProductsInside(at ind: IndexPath) -> String {

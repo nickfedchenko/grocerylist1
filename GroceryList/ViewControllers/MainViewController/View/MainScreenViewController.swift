@@ -32,6 +32,7 @@ class MainScreenViewController: UIViewController {
             self.reloadItems(lists: setOfLists)
             self.updateImageConstraint()
         }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

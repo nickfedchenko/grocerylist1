@@ -28,15 +28,15 @@ protocol NavigationInterface: AnyObject {
 extension NavigationInterface {
     
     var topViewController: UIViewController? {
-        self.viewController?.presentedViewController
+        self.navigationController?.visibleViewController
     }
     
     func navigationPresent(_ viewController: UIViewController,
                            style: UIModalPresentationStyle = .overCurrentContext, animated: Bool) {
         viewController.modalPresentationStyle = style
         
-        if let selfVS = self.viewController {
-            selfVS.present(viewController, animated: animated)
+        if let topVC = self.topViewController {
+            topVC.present(viewController, animated: animated)
             return
         }
         navigationController?.present(viewController, animated: animated)
