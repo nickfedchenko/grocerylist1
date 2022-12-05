@@ -12,6 +12,13 @@ class MainScreenViewController: UIViewController {
     
     private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroceryListsModel>?
     var viewModel: MainScreenViewModel?
+    private lazy var recipesCollectionView: UICollectionView = {
+        let layout = UICollectionViewCompositionalLayout { index, _ in
+            self.makeRecipeSection(for: index)
+        }
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return collectionView
+    }()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
@@ -305,6 +312,87 @@ extension MainScreenViewController: UICollectionViewDelegate {
                                                                              alignment: .top)
         return layutSectionHeader
     }
+    
+    private func makeTopCellLayoutSection() -> NSCollectionLayoutSection {
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(92)
+        )
+        
+        
+        let item = NSCollectionLayoutItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .fractionalHeight(1))
+        )
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        return section
+    }
+    
+    private func makeRecipeSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(128),
+            heightDimension: .absolute(128)
+        )
+        
+        let item = NSCollectionLayoutItem(
+            layoutSize: itemSize
+        )
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .estimated(128 * 8 + (8 * 6)),
+            heightDimension: .absolute(128)
+        )
+        
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitem: item,
+            count: 7
+        )
+        
+        group.interItemSpacing = .fixed(8)
+        
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(24)
+        )
+        
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .topLeading,
+            absoluteOffset: CGPoint(x: 0, y: 0-8)
+        )
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.boundarySupplementaryItems = [header]
+        section.supplementariesFollowContentInsets = true
+        return section
+    }
+    
+    private func makeRecipesLayout() -> UICollectionViewCompositionalLayout {
+        let layoutConfig = UICollectionViewCompositionalLayoutConfiguration()
+        layoutConfig.interSectionSpacing = 24
+        layoutConfig.scrollDirection = .vertical
+        let layout = UICollectionViewCompositionalLayout { [weak self] index, _ in
+            return self?.makeRecipeSection(for: index)
+        }
+        layout.configuration = layoutConfig
+        return layout
+    }
+    
+    private func makeRecipeSection(for index: Int) -> NSCollectionLayoutSection {
+        if index == 0 {
+            return makeTopCellLayoutSection()
+        } else {
+            return makeRecipeSection()
+        }
+    }
+    
 }
 
 // MARK: - CreateListAction

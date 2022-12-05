@@ -6,6 +6,19 @@
 //
 
 import UIKit
+struct RecipeSectionsModel {
+    enum RecipeCellType {
+        case topMenuCell
+        case recipePreview
+    }
+    enum RecipeSectionType: String {
+        case breakfast, lunch, dinner, snacks
+    }
+    
+    var cellType: RecipeCellType
+    var sectionType: RecipeSectionType
+    var recipes: [GroceryListsModel]
+}
 
 struct SectionModel: Hashable {
     var id: Int

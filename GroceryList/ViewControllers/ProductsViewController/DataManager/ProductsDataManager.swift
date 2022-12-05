@@ -163,11 +163,7 @@ class ProductsDataManager {
         let products = products.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
         products.forEach({ product in
            
-            guard !product.isPurchased else {
-                
-            dictPurchased["Purchased"]?.append(product); return
-                print(dictPurchased)
-            }
+            guard !product.isPurchased else { dictPurchased["Purchased".localized]?.append(product); return }
             guard !product.isFavorite else { dictFavorite["Favorite"]?.append(product); return }
 
             if dict[product.category] != nil {

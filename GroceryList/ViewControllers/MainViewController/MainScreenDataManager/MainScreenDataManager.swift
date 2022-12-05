@@ -28,6 +28,7 @@ class MainScreenDataManager: DataSourceProtocol {
     var dataChangedCallBack: (() -> Void)?
     var setOfModelsToUpdate: Set<GroceryListsModel> = []
     private var coreDataModles = CoreDataManager.shared.getAllLists()
+
     
     var imageHeight: ImageHeight = .empty
     
