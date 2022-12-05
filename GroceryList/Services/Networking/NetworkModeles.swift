@@ -86,8 +86,20 @@ struct Recipe: Codable {
 
 // MARK: - AdditionalTag
 struct AdditionalTag: Codable {
+    enum EatingTime: Int {
+        case breakfast = 8
+        case dinner = 10
+        case lunch = 9
+        case snack = 11
+    }
+    
     let id: Int
     let title: String
+
+    var eatingType: EatingTime? {
+        EatingTime(rawValue: id)
+    }
+    
 }
 
 // MARK: - Ingredient

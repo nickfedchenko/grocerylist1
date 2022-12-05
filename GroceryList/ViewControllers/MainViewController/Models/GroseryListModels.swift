@@ -11,13 +11,14 @@ struct RecipeSectionsModel {
         case topMenuCell
         case recipePreview
     }
+    
     enum RecipeSectionType: String {
-        case breakfast, lunch, dinner, snacks
+        case breakfast, lunch, dinner, snacks, none
     }
     
     var cellType: RecipeCellType
     var sectionType: RecipeSectionType
-    var recipes: [GroceryListsModel]
+    var recipes: [Recipe]
 }
 
 struct SectionModel: Hashable {

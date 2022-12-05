@@ -17,6 +17,8 @@ class MainScreenViewController: UIViewController {
             self.makeRecipeSection(for: index)
         }
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(MainScreenTopCell.self, forCellWithReuseIdentifier: "MainScreenTopCell")
+        collectionView.register(, forCellWithReuseIdentifier: <#T##String#>)
         return collectionView
     }()
     

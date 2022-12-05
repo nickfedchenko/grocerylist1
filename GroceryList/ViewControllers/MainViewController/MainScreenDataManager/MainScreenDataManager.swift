@@ -22,13 +22,15 @@ class MainScreenDataManager: DataSourceProtocol {
     
     init() {
         createWorkingArray()
+        recipesSections = makeRecipesSections()
+        print(recipesSections)
     }
     
     private let topCellID = UUID()
     var dataChangedCallBack: (() -> Void)?
     var setOfModelsToUpdate: Set<GroceryListsModel> = []
     private var coreDataModles = CoreDataManager.shared.getAllLists()
-    private var allRecipes: [DBRecipe] = []
+    private var recipesSections: [RecipeSectionsModel] = []
     
     var imageHeight: ImageHeight = .empty
     
@@ -202,6 +204,25 @@ class MainScreenDataManager: DataSourceProtocol {
     
     func isDateInWeek(date: Date) -> Bool {
         Calendar.current.isDate(Date(), equalTo: date, toGranularity: .weekOfYear)
+    }
+    
+    /// MARK: - Recipes part
+    
+    func makeRecipesSections() -> [RecipeSectionsModel] {
+        guard let  allRecipes: [DBRecipe] = CoreDataManager.shared.getAllRecipes() else { return [] }
+        let plainRecipes = allRecipes.compactMap { Recipe(from: $0) }
+        let breakfastRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .breakfast } )}
+        let lunchRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .lunch } )}
+        let dinnerRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .dinner } )}
+        let snacksRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .snack } )}
+        
+        return [
+            .init(cellType: .topMenuCell, sectionType: .none, recipes: []),
+            .init(cellType: .recipePreview, sectionType: .breakfast, recipes: breakfastRecipes),
+            .init(cellType: .recipePreview, sectionType: .lunch, recipes: lunchRecipes),
+            .init(cellType: .recipePreview, sectionType: .dinner, recipes: dinnerRecipes),
+            .init(cellType: .recipePreview, sectionType: .snacks, recipes: snacksRecipes),
+        ]
     }
 }
 
