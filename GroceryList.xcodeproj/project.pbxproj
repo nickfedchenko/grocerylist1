@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3881788E293AFB190094344D /* DBRecipe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3881788D293AFB190094344D /* DBRecipe+CoreDataClass.swift */; };
+		3881788F293AFB190094344D /* DBRecipe+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3881788C293AFB190094344D /* DBRecipe+CoreDataProperties.swift */; };
+		38817892293BEC8E0094344D /* DataProviderFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38817891293BEC8E0094344D /* DataProviderFacade.swift */; };
 		B30573BB29222BE700CA8BDE /* HeaderListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573BA29222BE700CA8BDE /* HeaderListCell.swift */; };
 		B30573BD29222D4500CA8BDE /* ProductListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573BC29222D4400CA8BDE /* ProductListCell.swift */; };
 		B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573C62923A11000CA8BDE /* ProductSettingsTableViewCell.swift */; };
@@ -107,6 +110,9 @@
 /* Begin PBXFileReference section */
 		025222570B015E69FF5973D3 /* Pods_GroceryList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GroceryList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		262EB22BC930A385DC81E51C /* Pods-GroceryList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroceryList.release.xcconfig"; path = "Target Support Files/Pods-GroceryList/Pods-GroceryList.release.xcconfig"; sourceTree = "<group>"; };
+		3881788C293AFB190094344D /* DBRecipe+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DBRecipe+CoreDataProperties.swift"; path = "/Users/vladimirbanushkin/grocerylist1/GroceryList/Services/DataBase/CoreDataModels/DBRecipe+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		3881788D293AFB190094344D /* DBRecipe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DBRecipe+CoreDataClass.swift"; path = "/Users/vladimirbanushkin/grocerylist1/GroceryList/Services/DataBase/CoreDataModels/DBRecipe+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		38817891293BEC8E0094344D /* DataProviderFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderFacade.swift; sourceTree = "<group>"; };
 		B30573BA29222BE700CA8BDE /* HeaderListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderListCell.swift; sourceTree = "<group>"; };
 		B30573BC29222D4400CA8BDE /* ProductListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCell.swift; sourceTree = "<group>"; };
 		B30573C62923A11000CA8BDE /* ProductSettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSettingsTableViewCell.swift; sourceTree = "<group>"; };
@@ -219,6 +225,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		38817890293BEC7E0094344D /* DataProviderFacade */ = {
+			isa = PBXGroup;
+			children = (
+				38817891293BEC8E0094344D /* DataProviderFacade.swift */,
+			);
+			path = DataProviderFacade;
+			sourceTree = "<group>";
+		};
 		63F454BEA0A39B416C42036E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -266,6 +280,8 @@
 		B33DFD1E291A676400AC7403 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
+				3881788D293AFB190094344D /* DBRecipe+CoreDataClass.swift */,
+				3881788C293AFB190094344D /* DBRecipe+CoreDataProperties.swift */,
 				B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */,
 				B3FECE4229375AA80077F8EF /* DBCategories+CoreDataClass.swift */,
 				B3777E282938F41F0074BE38 /* DBNetworkProduct+CoreDataClass.swift */,
@@ -641,6 +657,7 @@
 		B37A2CD42910EE77003C01AD /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				38817890293BEC7E0094344D /* DataProviderFacade */,
 				B3673EB52938F6CD002D9262 /* BackendDatabaseProductsSaver */,
 				B3777E212938E4CC0074BE38 /* HapticManader */,
 				B3777E1E2938D8050074BE38 /* InternetConnection */,
@@ -910,11 +927,13 @@
 				B34EAC9E2934EE0100FBD0E0 /* SelectCategoryDataSource.swift in Sources */,
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
 				B3FECE4429375AA80077F8EF /* DBCategories+CoreDataClass.swift in Sources */,
+				3881788F293AFB190094344D /* DBRecipe+CoreDataProperties.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
 				B3E654A32927A7D300106500 /* ArrowView.swift in Sources */,
 				B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */,
 				B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */,
 				B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */,
+				3881788E293AFB190094344D /* DBRecipe+CoreDataClass.swift in Sources */,
 				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
 				B35F0F632937975200C19891 /* MeashureManager.swift in Sources */,
 				B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */,
@@ -989,6 +1008,7 @@
 				B34BB81D292E567B00748E8E /* SelectProductViewController.swift in Sources */,
 				B360918F2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */,
 				B3D20456292F6C0600599A01 /* SelectProductCell.swift in Sources */,
+				38817892293BEC8E0094344D /* DataProviderFacade.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

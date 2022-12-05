@@ -9,6 +9,11 @@ import CoreData
 import Foundation
 import UIKit
 
+protocol CoredataSyncProtocol {
+    func saveRecipes(recipes: [Recipe])
+    func saveProducts(products: [NetworkProductModel])
+}
+
 class CoreDataManager {
     let coreData: CoreDataStorage
     static let shared = CoreDataManager()
@@ -135,6 +140,14 @@ class CoreDataManager {
         return object
     }
     
+    func getAllRecipes() -> [DBRecipe]? {
+        let fetchRequest: NSFetchRequest<DBRecipe> = DBRecipe.fetchRequest()
+        guard let object = try? coreData.context.fetch(fetchRequest) else {
+            return nil
+        }
+        return object
+    }
+    
     func removeProduct(product: Product) {
         let context = coreData.container.viewContext
         let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
@@ -225,3 +238,35 @@ class CoreDataManager {
         }
     }
 }
+
+extension CoreDataManager: CoredataSyncProtocol {
+    func saveRecipes(recipes: [Recipe]) {
+        let asyncContext = coreData.taskContext
+        let _ = recipes.map { DBRecipe.prepare(fromPlainModel: $0, context: asyncContext)}
+        guard asyncContext.hasChanges else { return }
+        asyncContext.perform {
+            do {
+                try asyncContext.save()
+            } catch let error {
+                print(error)
+                asyncContext.rollback()
+            }
+        }
+    }
+    
+    func saveProducts(products: [NetworkProductModel]) {
+        let asyncContext = coreData.taskContext
+        let _ = products.map { DBNetworkProduct.prepare(fromProduct: $0, using: asyncContext) }
+        guard asyncContext.hasChanges else { return }
+        asyncContext.perform {
+            do {
+                try asyncContext.save()
+            } catch {
+                asyncContext.rollback()
+            }
+        }
+    }
+    
+    
+}
+

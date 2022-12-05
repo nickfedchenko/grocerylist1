@@ -21,6 +21,19 @@ extension DBNetworkProduct {
     @NSManaged public var marketCategory: String?
     @NSManaged public var id: Int64
 
+    
+    static func prepare(
+        fromProduct product: NetworkProductModel,
+        using context: NSManagedObjectContext
+    ) -> DBNetworkProduct {
+        let dbProduct = DBNetworkProduct(context: context)
+        dbProduct.title = product.title
+        dbProduct.id = Int64(product.id)
+        dbProduct.marketCategory = product.marketCategory?.title
+        dbProduct.photo = product.photo
+        return dbProduct
+    }
+    
 }
 
 extension DBNetworkProduct : Identifiable {

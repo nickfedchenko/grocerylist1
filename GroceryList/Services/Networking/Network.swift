@@ -10,9 +10,11 @@ import UIKit
 
 protocol NetworkDataProvider {
     func getAllProducts(completion: @escaping GetAllProductsResult)
+    func getAllRecipes(completion: @escaping AllDishesResult)
 }
 
 typealias GetAllProductsResult = (Result<GetAllProductsResponse, AFError>) -> Void
+typealias AllDishesResult = (Result<AllRecipesResponse, AFError>) -> Void
 
 enum RequestGenerator: Codable {
     
@@ -20,12 +22,13 @@ enum RequestGenerator: Codable {
         return "yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
     }
 
-    case getPosts
+    case getProducts
+    case getRecipes
     
     var request: URLRequest {
         switch self {
             
-        case .getPosts:
+        case .getProducts:
             guard var components = URLComponents(
                 string: "https://newketo.finanse.space/api/shoppingList/fetchProducts") else {
                     fatalError("FatalError")
@@ -39,6 +42,19 @@ enum RequestGenerator: Codable {
             request.addValue("Bearer " + token, forHTTPHeaderField: "Authorization")
             return request
             
+        case .getRecipes:
+            guard var components = URLComponents(
+                string: "https://newketo.finanse.space/api/dish/fetchAll") else {
+                    fatalError("FatalError")
+                }
+            injectLocale(in: &components)
+            guard let url = components.url else {
+                fatalError("Error resolving URL")
+            }
+            var request = URLRequest(url: url)
+            request.method = .get
+            request.addValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+            return request
         }
     }
     
@@ -53,6 +69,11 @@ enum RequestGenerator: Codable {
             components.queryItems?.append(.init(name: "langCode", value: locale))
         }
     }
+    
+    private func getTargetLangCode() -> String {
+        return ""
+    }
+    
 }
 
 final class NetworkEngine {
@@ -87,7 +108,11 @@ final class NetworkEngine {
 extension NetworkEngine: NetworkDataProvider {
    
     func getAllProducts(completion: @escaping GetAllProductsResult) {
-        performDecodableRequest(request: .getPosts, completion: completion)
+        performDecodableRequest(request: .getProducts, completion: completion)
+    }
+    
+    func getAllRecipes(completion: @escaping AllDishesResult) {
+        performDecodableRequest(request: .getRecipes, completion: completion)
     }
     
 }

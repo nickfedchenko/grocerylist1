@@ -98,7 +98,7 @@ class CreateNewProductViewModel {
     
     func getAllInformation(product: DBNetworkProduct) {
         let imageUrl = product.photo ?? ""
-        let title = product.title
+        let title = product.marketCategory
         delegate?.selectCategory(text: title ?? "other".localized, imageURL: imageUrl)
     }
 }
