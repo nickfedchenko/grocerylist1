@@ -188,13 +188,13 @@ class PaywallViewController: UIViewController {
             return "\(skProduct.priceLocale.currencySymbol ?? "$")"
             + String(format: "%.2f", price / 6)
             + " / "
-            + "month".localized
+            + "Month".localized
         case .month:
             if skProduct.subscriptionPeriod?.numberOfUnits == 6 {
                 return "\(skProduct.priceLocale.currencySymbol ?? "$")"
                 + String(format: "%.2f", price / 6)
                 + " / "
-                + "month".localized
+                + "Month".localized
             } else if skProduct.subscriptionPeriod?.numberOfUnits == 1 {
                 return ""
             } else {
