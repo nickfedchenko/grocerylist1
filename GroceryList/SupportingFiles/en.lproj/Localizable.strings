@@ -108,3 +108,9 @@
 "Loading info"              = "Loading";
 "month"                     = "month";
 "Loading"                   = "Loading";
+
+"Recipes" = "Recipes";
+"Breakfast" = "Breakfast";
+"Lunch" = "Lunch";
+"Dinner" = "Dinner";
+"Snacks" = "Snacks";

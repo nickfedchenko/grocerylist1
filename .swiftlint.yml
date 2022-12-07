@@ -4,6 +4,7 @@ excluded:
     - SketchBook-MacOS/Frameworks
     - GroceryList/Services/DataBase
     - GroceryList/ViewControllers/MainViewController/MainScreenDataManager/MainScreenDataManager.swift
+    - GroceryList/SupportingFiles/Generated
 
 # Отключенные правила
 disabled_rules:

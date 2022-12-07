@@ -9,16 +9,24 @@ import SnapKit
 import UIKit
 
 class MainScreenViewController: UIViewController {
+    private var presentationMode: MainScreenPresentationMode = .lists
     
     private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroceryListsModel>?
     var viewModel: MainScreenViewModel?
     private lazy var recipesCollectionView: UICollectionView = {
-        let layout = UICollectionViewCompositionalLayout { index, _ in
-            self.makeRecipeSection(for: index)
-        }
+        let layout = makeRecipesLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(MainScreenTopCell.self, forCellWithReuseIdentifier: "MainScreenTopCell")
-        collectionView.register(, forCellWithReuseIdentifier: <#T##String#>)
+        collectionView.register(RecipePreviewCell.self, forCellWithReuseIdentifier: RecipePreviewCell.identifier)
+        collectionView.register(
+            RecipesFolderHeader.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: RecipesFolderHeader.identifier
+        )
+        collectionView.dataSource = self
+        collectionView.alpha = 0
+        collectionView.backgroundColor = .clear
+        collectionView.delegate = self
         return collectionView
     }()
     
@@ -84,7 +92,7 @@ class MainScreenViewController: UIViewController {
         case .none:
             print("print")
         }
-       
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -127,14 +135,21 @@ class MainScreenViewController: UIViewController {
     
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
-        view.addSubviews([collectionView, bottomCreateListView])
+        view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView])
         bottomCreateListView.addSubviews([plusImage, createListLabel])
         collectionView.addSubview(foodImage)
-        
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(10)
-            make.left.right.equalToSuperview()
+            make.width.equalTo(view.snp.width)
+            make.leading.equalToSuperview()
             make.bottom.equalToSuperview().inset(88)
+        }
+        
+        recipesCollectionView.snp.makeConstraints { make in
+            make.width.equalTo(collectionView)
+            make.height.equalTo(collectionView)
+            make.top.equalTo(collectionView)
+            make.leading.equalTo(collectionView.snp.trailing)
         }
         
         bottomCreateListView.snp.makeConstraints { make in
@@ -167,10 +182,18 @@ class MainScreenViewController: UIViewController {
 extension MainScreenViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let model = collectionViewDataSource?.itemIdentifier(for: indexPath) else { return }
-        guard let section = self.collectionViewDataSource?.snapshot().sectionIdentifier(containingItem: model) else { return }
-        guard section.cellType == .usual else { return }
-        viewModel?.cellTapped(with: model)
+        if collectionView == self.collectionView {
+            guard let model = collectionViewDataSource?.itemIdentifier(for: indexPath) else { return }
+            guard let section = self.collectionViewDataSource?.snapshot().sectionIdentifier(containingItem: model) else { return }
+            guard section.cellType == .usual else { return }
+            viewModel?.cellTapped(with: model)
+        } else {
+            if indexPath.section != 0 {
+                guard let model = viewModel?.dataSource?.recipesSections[indexPath.section] else { return }
+                let vc = RecipesListViewController(with: model)
+                navigationController?.pushViewController(vc, animated: true)
+            }
+        }
     }
     
     private func setupCollectionView() {
@@ -194,17 +217,19 @@ extension MainScreenViewController: UICollectionViewDelegate {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
                                                                       cellProvider: { collectionView, indexPath, model in
             switch self.viewModel?.model[indexPath.section].cellType {
-            
-            // top view with switcher
+                
+                // top view with switcher
             case .topMenu:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "MainScreenTopCell", for: indexPath)
                 as? MainScreenTopCell
                 cell?.settingsTapped = { [weak self] in
                     self?.viewModel?.settingsTapped()
                 }
+                cell?.delegate = self
+                cell?.configure(with: self.presentationMode)
                 return cell
                 
-            // empty cell in bottom of collection
+                // empty cell in bottom of collection
             case .empty:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "EmptyColoredCell", for: indexPath)
                 as? EmptyColoredCell
@@ -214,14 +239,14 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 let color = viewModel.getBGColorForEmptyCell(at: indexPath)
                 cell?.setupCell(bckgColor: color, isTopRounded: isTopRouned, isBottomRounded: isBottomRounded)
                 return cell
-            
-            // cell for cold start
+                
+                // cell for cold start
             case .instruction:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "InstructionCell", for: indexPath)
                 as? InstructionCell
                 return cell
-          
-            // default cell for list
+                
+                // default cell for list
             default:
                 let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "GroceryListsCollectionViewCell",
                                                                    for: indexPath) as? GroceryCollectionViewCell
@@ -233,15 +258,15 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 let color = viewModel.getBGColor(at: indexPath)
                 cell?.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
-              
-            // Удаление и закрепление ячейки
+                
+                // Удаление и закрепление ячейки
                 cell?.swipeDeleteAction = {
                     viewModel.deleteCell(with: model)
                 }
                 
                 cell?.swipeToAddOrDeleteFromFavorite = {
                     viewModel.addOrDeleteFromFavorite(with: model)
-       
+                    
                 }
                 return cell
             }
@@ -277,7 +302,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
         guard var snapshot = collectionViewDataSource?.snapshot() else { return }
         let array = Array(lists)
         array.forEach({ if snapshot.sectionIdentifier(containingItem: $0) != nil { snapshot.reloadItems([$0]) } })
-       
+        
         collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
     }
     
@@ -331,7 +356,6 @@ extension MainScreenViewController: UICollectionViewDelegate {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        
         return section
     }
     
@@ -367,18 +391,21 @@ extension MainScreenViewController: UICollectionViewDelegate {
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .topLeading,
-            absoluteOffset: CGPoint(x: 0, y: 0-8)
+            absoluteOffset: CGPoint(x: 0, y: -8)
         )
+    
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
         section.boundarySupplementaryItems = [header]
         section.supplementariesFollowContentInsets = true
+        section.contentInsets.leading = 20
         return section
     }
     
     private func makeRecipesLayout() -> UICollectionViewCompositionalLayout {
         let layoutConfig = UICollectionViewCompositionalLayoutConfiguration()
         layoutConfig.interSectionSpacing = 24
+      
         layoutConfig.scrollDirection = .vertical
         let layout = UICollectionViewCompositionalLayout { [weak self] index, _ in
             return self?.makeRecipeSection(for: index)
@@ -407,5 +434,127 @@ extension MainScreenViewController {
     @objc
     private func createListAction() {
         viewModel?.createNewListTapped()
+    }
+}
+
+extension MainScreenViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        viewModel?.dataSource?.recipesSections.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section == 0 {
+            return 1
+        } else {
+            return viewModel?.dataSource?.recipesSections[section].recipes.count ?? 0
+        }
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        print("indexPath section \(indexPath.section)")
+        guard let viewModel = viewModel else { return UICollectionViewCell() }
+        if indexPath.section == 0 {
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "MainScreenTopCell",
+                for: indexPath
+            ) as? MainScreenTopCell else {
+                //            collectionView.re
+                return UICollectionViewCell()
+            }
+            cell.settingsTapped = { [weak self] in
+                self?.viewModel?.settingsTapped()
+            }
+            cell.delegate = self
+            cell.configure(with: presentationMode)
+            return cell
+        } else {
+            guard let model = viewModel.getRecipeModel(for: indexPath),
+                  let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecipePreviewCell.identifier, for: indexPath) as? RecipePreviewCell
+            else { return UICollectionViewCell() }
+            cell.configure(with: model)
+        return cell
+        }
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            
+            if indexPath.section > 0 {
+                guard let header = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: RecipesFolderHeader.identifier,
+                    for: indexPath
+                ) as? RecipesFolderHeader,
+                      let sectionModel = viewModel?.dataSource?.recipesSections[indexPath.section]
+                else { return UICollectionReusableView() }
+                header.configure(with: sectionModel, at: indexPath.section)
+                header.delegate = self
+                return header
+            } else {
+                return UICollectionReusableView()
+            }
+        }
+        return UICollectionReusableView()
+    }
+}
+
+// MARK: - Swapping collections logic
+extension MainScreenViewController: MainScreenTopCellDelegate {
+    private func showRecipesCollection() {
+        collectionView.snp.updateConstraints { make in
+            make.leading.equalToSuperview().inset(-view.bounds.width)
+        }
+        
+        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.1) {
+            self.view.layoutIfNeeded()
+            self.collectionView.alpha = 0
+            self.recipesCollectionView.alpha = 1
+        }
+    }
+    
+    private func showListsCollection() {
+        collectionView.snp.updateConstraints { make in
+            make.leading.equalToSuperview()
+        }
+        
+        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.1) {
+            self.view.layoutIfNeeded()
+            self.collectionView.alpha = 1
+            self.recipesCollectionView.alpha = 0
+        }
+    }
+    
+    func modeChanged(to mode: MainScreenPresentationMode) {
+        
+        presentationMode = mode
+        if mode == .lists {
+            showListsCollection()
+            if let item = collectionViewDataSource?.itemIdentifier(for: IndexPath(item: 0, section: 0)),
+               var snapshot = collectionViewDataSource?.snapshot()  {
+                snapshot.reloadItems([item])
+                collectionViewDataSource?.apply(snapshot)
+            }
+            
+        } else {
+            showRecipesCollection()
+            recipesCollectionView.reloadSections(IndexSet(integer: 0))
+        }
+    }
+}
+
+
+extension MainScreenViewController: RecipesFolderHeaderDelegate {
+    func headerTapped(at index: Int) {
+        guard let section = viewModel?.dataSource?.recipesSections[index] else { return }
+        let recipesListVC = RecipesListViewController(with: section)
+        navigationController?.pushViewController(recipesListVC, animated: true)
     }
 }

@@ -15,6 +15,7 @@ protocol DataSourceProtocol {
     @discardableResult func updateListOfModels() -> Set<GroceryListsModel>
     func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel>
     func addOrDeleteFromFavorite(with model: GroceryListsModel) -> Set<GroceryListsModel>
+    var recipesSections: [RecipeSectionsModel] { get set }
     
 }
 
@@ -30,7 +31,7 @@ class MainScreenDataManager: DataSourceProtocol {
     var dataChangedCallBack: (() -> Void)?
     var setOfModelsToUpdate: Set<GroceryListsModel> = []
     private var coreDataModles = CoreDataManager.shared.getAllLists()
-    private var recipesSections: [RecipeSectionsModel] = []
+    var recipesSections: [RecipeSectionsModel] = []
     
     var imageHeight: ImageHeight = .empty
     

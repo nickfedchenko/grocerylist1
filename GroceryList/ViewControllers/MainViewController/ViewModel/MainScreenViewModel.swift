@@ -27,6 +27,12 @@ class MainScreenViewModel {
         return dataSource?.dataSourceArray ?? []
     }
     
+    func getRecipeModel(for indexPath: IndexPath) -> Recipe? {
+        guard let dataSource = dataSource else { return nil }
+        let model = dataSource.recipesSections[indexPath.section].recipes[indexPath.item]
+        return model
+    }
+    
     // routing
     func createNewListTapped() {
         

@@ -107,3 +107,9 @@
 "Loading info"              = "Загрузка";
 "Month"                     = "в месяц";
 "Loading"                   = "Загрузка";
+
+"Recipes" = "Рецепты";
+"Breakfast" = "Завтрак";
+"Lunch" = "Обед";
+"Dinner" = "Ужин";
+"Snacks" = "Закуски";
