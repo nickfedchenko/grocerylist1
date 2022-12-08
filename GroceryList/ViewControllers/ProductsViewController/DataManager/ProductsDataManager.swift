@@ -50,7 +50,7 @@ class ProductsDataManager {
         var dict: [ String: [Product] ] = [:]
         
         var dictPurchased: [ String: [Product] ] = [:]
-        dictPurchased["Purchased"] = []
+        dictPurchased["Purchased".localized] = []
         
         var dictFavorite: [ String: [Product] ] = [:]
         dictFavorite["Favorite"] = []
@@ -60,7 +60,7 @@ class ProductsDataManager {
         
         products.forEach({ product in
            
-            guard !product.isPurchased else { dictPurchased["Purchased"]?.append(product); return }
+            guard !product.isPurchased else { dictPurchased["Purchased".localized]?.append(product); return }
             guard !product.isFavorite else { dictFavorite["Favorite"]?.append(product); return }
 
             if dict["sortedByCategory"] != nil {
@@ -103,7 +103,7 @@ class ProductsDataManager {
         var dict: [ String: [Product] ] = [:]
         
         var dictPurchased: [ String: [Product] ] = [:]
-        dictPurchased["Purchased"] = []
+        dictPurchased["Purchased".localized] = []
         
         var dictFavorite: [ String: [Product] ] = [:]
         dictFavorite["Favorite"] = []
@@ -112,7 +112,7 @@ class ProductsDataManager {
         let products = products.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
         products.forEach({ product in
            
-            guard !product.isPurchased else { dictPurchased["Purchased"]?.append(product); return }
+            guard !product.isPurchased else { dictPurchased["Purchased".localized]?.append(product); return }
             guard !product.isFavorite else { dictFavorite["Favorite"]?.append(product); return }
 
             if dict[idForDict] != nil {
@@ -154,7 +154,7 @@ class ProductsDataManager {
         var dict: [ String: [Product] ] = [:]
         
         var dictPurchased: [ String: [Product] ] = [:]
-        dictPurchased["Purchased"] = []
+        dictPurchased["Purchased".localized] = []
         
         var dictFavorite: [ String: [Product] ] = [:]
         dictFavorite["Favorite"] = []

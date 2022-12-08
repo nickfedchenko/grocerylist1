@@ -15,6 +15,8 @@
 		383C77F3293F799E0030AE78 /* RecipesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77F2293F799E0030AE78 /* RecipesListViewController.swift */; };
 		383C77F7293F79EB0030AE78 /* RecipesListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77F6293F79EB0030AE78 /* RecipesListHeaderView.swift */; };
 		383C77FA293FB7310030AE78 /* RecipeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77F9293FB7310030AE78 /* RecipeListCell.swift */; };
+		383C77FD2940ED0F0030AE78 /* AddProductsSelectionListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77FC2940ED0F0030AE78 /* AddProductsSelectionListController.swift */; };
+		383C78002940F5740030AE78 /* AddProductsSelectionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77FF2940F5740030AE78 /* AddProductsSelectionListViewModel.swift */; };
 		3881788E293AFB190094344D /* DBRecipe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3881788D293AFB190094344D /* DBRecipe+CoreDataClass.swift */; };
 		3881788F293AFB190094344D /* DBRecipe+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3881788C293AFB190094344D /* DBRecipe+CoreDataProperties.swift */; };
 		38817892293BEC8E0094344D /* DataProviderFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38817891293BEC8E0094344D /* DataProviderFacade.swift */; };
@@ -126,6 +128,8 @@
 		383C77F2293F799E0030AE78 /* RecipesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesListViewController.swift; sourceTree = "<group>"; };
 		383C77F6293F79EB0030AE78 /* RecipesListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesListHeaderView.swift; sourceTree = "<group>"; };
 		383C77F9293FB7310030AE78 /* RecipeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListCell.swift; sourceTree = "<group>"; };
+		383C77FC2940ED0F0030AE78 /* AddProductsSelectionListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductsSelectionListController.swift; sourceTree = "<group>"; };
+		383C77FF2940F5740030AE78 /* AddProductsSelectionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductsSelectionListViewModel.swift; sourceTree = "<group>"; };
 		3881788C293AFB190094344D /* DBRecipe+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DBRecipe+CoreDataProperties.swift"; path = "/Users/vladimirbanushkin/grocerylist1/GroceryList/Services/DataBase/CoreDataModels/DBRecipe+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		3881788D293AFB190094344D /* DBRecipe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DBRecipe+CoreDataClass.swift"; path = "/Users/vladimirbanushkin/grocerylist1/GroceryList/Services/DataBase/CoreDataModels/DBRecipe+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		38817891293BEC8E0094344D /* DataProviderFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderFacade.swift; sourceTree = "<group>"; };
@@ -260,6 +264,7 @@
 		383C77F4293F79D60030AE78 /* RecipesListViewController */ = {
 			isa = PBXGroup;
 			children = (
+				383C77FB2940A1650030AE78 /* Childs */,
 				383C77F5293F79E10030AE78 /* Views */,
 				383C77F2293F799E0030AE78 /* RecipesListViewController.swift */,
 			);
@@ -281,6 +286,23 @@
 				383C77F9293FB7310030AE78 /* RecipeListCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		383C77FB2940A1650030AE78 /* Childs */ = {
+			isa = PBXGroup;
+			children = (
+				383C77FE2940F5630030AE78 /* Model */,
+				383C77FC2940ED0F0030AE78 /* AddProductsSelectionListController.swift */,
+			);
+			path = Childs;
+			sourceTree = "<group>";
+		};
+		383C77FE2940F5630030AE78 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				383C77FF2940F5740030AE78 /* AddProductsSelectionListViewModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		38817890293BEC7E0094344D /* DataProviderFacade */ = {
@@ -1031,10 +1053,12 @@
 				B3777E202938D8210074BE38 /* InternetConnection.swift in Sources */,
 				B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */,
 				B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */,
+				383C77FD2940ED0F0030AE78 /* AddProductsSelectionListController.swift in Sources */,
 				B3673EB72938F70B002D9262 /* BackendDatabaseProductsSaver.swift in Sources */,
 				B36AF9552915410400944E9D /* InstructionCell.swift in Sources */,
 				B34EACA8293500C000FBD0E0 /* CreateNewCategoryViewController.swift in Sources */,
 				B3777E2B2938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift in Sources */,
+				383C78002940F5740030AE78 /* AddProductsSelectionListViewModel.swift in Sources */,
 				B35F0F612937972700C19891 /* UnitSystemModel.swift in Sources */,
 				383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */,
 				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,

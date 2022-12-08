@@ -190,7 +190,6 @@ class CoreDataManager {
         return object
     }
     
-    
     func saveCategory(category: CategoryModel) {
         let context = coreData.container.viewContext
         let object = DBCategories(context: context)

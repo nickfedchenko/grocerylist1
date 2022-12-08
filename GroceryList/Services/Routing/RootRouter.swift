@@ -166,6 +166,12 @@ final class RootRouter: RootRouterProtocol {
        return controller
     }
     
+    func goToRecipes(for section: RecipeSectionsModel) {
+        let vc = RecipesListViewController(with: section)
+        vc.router = self
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     // pop
     func popToRoot() {
         navigationPopToRootViewController(animated: true)

@@ -33,7 +33,11 @@ class MainScreenDataManager: DataSourceProtocol {
     private var coreDataModles = CoreDataManager.shared.getAllLists()
     var recipesSections: [RecipeSectionsModel] = []
     
-    var imageHeight: ImageHeight = .empty
+    var imageHeight: ImageHeight = .empty {
+        didSet {
+          print("image height is \(imageHeight)")
+        }
+    }
     
     private var coldStartState: ColdStartState {
         get {

@@ -8,7 +8,7 @@
 import UIKit
 
 final class RecipesListViewController: UIViewController {
-    
+    var router: RootRouter?
     private var section: RecipeSectionsModel
     
     private lazy var recipesListCollectionView: UICollectionView = {
@@ -100,7 +100,8 @@ extension RecipesListViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Item selected at \(indexPath.item)")
+        navigationController?.popViewController(animated: true)
+//        let vc = router?.prepareSelectListController(height: 200, setOfSelectedProd: Set<section>, compl: <#T##((Set<Product>) -> Void)##((Set<Product>) -> Void)##(Set<Product>) -> Void#>)
     }
 }
 
