@@ -13,7 +13,7 @@ struct RecipeSectionsModel {
     }
     
     enum RecipeSectionType: String {
-        case breakfast, lunch, dinner, snacks, none
+        case breakfast, lunch, dinner, snacks, none, favorites
     }
     
     var cellType: RecipeCellType
@@ -53,24 +53,24 @@ struct GroceryListsModel: Hashable {
         hasher.combine(id)
     }
     
-//    init?(from dbModel: DBGroceryListModel) {
-//        id = dbModel.id ?? UUID()
-//        dateOfCreation = dbModel.dateOfCreation ?? Date()
-//        color = Int(dbModel.color)
-//        typeOfSorting = Int(dbModel.typeOfSorting)
-//        guard let prods = dbModel.products?.allObjects as? [DBProduct] else { return nil }
-//        products = prods.compactMap({ Product(from: $0)})
-//    }
-//
-//    init(id: UUID = UUID(), dateOfCreation: Date, name: String? = nil, color: Int, isFavorite: Bool = false, products: [Product], typeOfSorting: Int) {
-//        self.dateOfCreation = dateOfCreation
-//        self.color = color
-//        self.products = products
-//        self.typeOfSorting = typeOfSorting
-//        self.id = id
-//        self.name = name
-//        self.isFavorite = isFavorite
-//    }
+    init?(from dbModel: DBGroceryListModel) {
+        id = dbModel.id ?? UUID()
+        dateOfCreation = dbModel.dateOfCreation ?? Date()
+        color = Int(dbModel.color)
+        typeOfSorting = Int(dbModel.typeOfSorting)
+        guard let prods = dbModel.products?.allObjects as? [DBProduct] else { return nil }
+        products = prods.compactMap({ Product(from: $0) })
+    }
+    
+    init(id: UUID = UUID(), dateOfCreation: Date, name: String? = nil, color: Int, isFavorite: Bool = false, products: [Product], typeOfSorting: Int) {
+        self.dateOfCreation = dateOfCreation
+        self.color = color
+        self.products = products
+        self.typeOfSorting = typeOfSorting
+        self.id = id
+        self.name = name
+        self.isFavorite = isFavorite
+    }
 }
 
 struct Product: Hashable, Equatable {
@@ -84,6 +84,7 @@ struct Product: Hashable, Equatable {
     var isSelected = false
     var imageData: Data?
     var description: String
+    var fromRecipeTitle: String?
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -96,42 +97,44 @@ struct Product: Hashable, Equatable {
         && lhs.id == rhs.id && lhs.isFavorite == rhs.isFavorite
     }
     
-//    init?(from dbProduct: DBProduct) {
-//         id = dbProduct.id ?? UUID()
-//         listId = dbProduct.listId ?? UUID()
-//         name = dbProduct.name ?? ""
-//         isPurchased = dbProduct.isPurchased
-//         dateOfCreation = dbProduct.dateOfCreation ?? Date()
-//         category = dbProduct.category ?? ""
-//         isFavorite = dbProduct.isFavorite
-//         imageData = dbProduct.image
-//         description = dbProduct.userDescription ?? ""
-//    }
-//
-//    init(
-//        id: UUID = UUID(),
-//        listId: UUID = UUID(),
-//        name: String,
-//        isPurchased: Bool,
-//        dateOfCreation: Date,
-//        category: String,
-//        isFavorite: Bool,
-//        isSelected: Bool = false,
-//        imageData: Data? = nil,
-//        description: String
-//    ) {
-//        self.id = id
-//        self.listId = listId
-//        self.name = name
-//        self.isPurchased = isPurchased
-//        self.dateOfCreation = dateOfCreation
-//        self.category = category
-//        self.isFavorite = isFavorite
-//        self.imageData = imageData
-//        self.description = description
-//        self.isSelected = isSelected
-//
-//    }
+    init?(from dbProduct: DBProduct) {
+        id = dbProduct.id ?? UUID()
+        listId = dbProduct.listId ?? UUID()
+        name = dbProduct.name ?? ""
+        isPurchased = dbProduct.isPurchased
+        dateOfCreation = dbProduct.dateOfCreation ?? Date()
+        category = dbProduct.category ?? ""
+        isFavorite = dbProduct.isFavorite
+        imageData = dbProduct.image
+        description = dbProduct.userDescription ?? ""
+        fromRecipeTitle = dbProduct.fromRecipeTitle
+    }
+    
+    init(
+        id: UUID = UUID(),
+        listId: UUID = UUID(),
+        name: String,
+        isPurchased: Bool,
+        dateOfCreation: Date,
+        category: String,
+        isFavorite: Bool,
+        isSelected: Bool = false,
+        imageData: Data? = nil,
+        description: String,
+        fromRecipeTitle: String? = nil
+    ) {
+        self.id = id
+        self.listId = listId
+        self.name = name
+        self.isPurchased = isPurchased
+        self.dateOfCreation = dateOfCreation
+        self.category = category
+        self.isFavorite = isFavorite
+        self.imageData = imageData
+        self.description = description
+        self.isSelected = isSelected
+        self.fromRecipeTitle = fromRecipeTitle
+    }
 }
 
 class Category: Hashable, Equatable {

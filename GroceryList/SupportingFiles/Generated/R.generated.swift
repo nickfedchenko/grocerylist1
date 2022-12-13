@@ -131,7 +131,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
-  /// This `R.file` struct is generated, and contains static references to 7 files.
+  /// This `R.file` struct is generated, and contains static references to 8 files.
   struct file {
     /// Resource file `SF Pro Display Bold.otf`.
     static let sfProDisplayBoldOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Display Bold", pathExtension: "otf")
@@ -145,6 +145,8 @@ struct R: Rswift.Validatable {
     static let sfProDisplaySemiboldOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Display Semibold", pathExtension: "otf")
     /// Resource file `SFProRounded-Bold.otf`.
     static let sfProRoundedBoldOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SFProRounded-Bold", pathExtension: "otf")
+    /// Resource file `SFProText-Medium.ttf`.
+    static let sfProTextMediumTtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SFProText-Medium", pathExtension: "ttf")
     /// Resource file `SFProText-Semibold.ttf`.
     static let sfProTextSemiboldTtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SFProText-Semibold", pathExtension: "ttf")
 
@@ -184,6 +186,12 @@ struct R: Rswift.Validatable {
       return fileResource.bundle.url(forResource: fileResource)
     }
 
+    /// `bundle.url(forResource: "SFProText-Medium", withExtension: "ttf")`
+    static func sfProTextMediumTtf(_: Void = ()) -> Foundation.URL? {
+      let fileResource = R.file.sfProTextMediumTtf
+      return fileResource.bundle.url(forResource: fileResource)
+    }
+
     /// `bundle.url(forResource: "SFProText-Semibold", withExtension: "ttf")`
     static func sfProTextSemiboldTtf(_: Void = ()) -> Foundation.URL? {
       let fileResource = R.file.sfProTextSemiboldTtf
@@ -193,7 +201,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
-  /// This `R.font` struct is generated, and contains static references to 7 fonts.
+  /// This `R.font` struct is generated, and contains static references to 8 fonts.
   struct font: Rswift.Validatable {
     /// Font `SFProDisplay-Bold`.
     static let sfProDisplayBold = Rswift.FontResource(fontName: "SFProDisplay-Bold")
@@ -207,6 +215,8 @@ struct R: Rswift.Validatable {
     static let sfProDisplaySemibold = Rswift.FontResource(fontName: "SFProDisplay-Semibold")
     /// Font `SFProRounded-Bold`.
     static let sfProRoundedBold = Rswift.FontResource(fontName: "SFProRounded-Bold")
+    /// Font `SFProText-Medium`.
+    static let sfProTextMedium = Rswift.FontResource(fontName: "SFProText-Medium")
     /// Font `SFProText-Semibold`.
     static let sfProTextSemibold = Rswift.FontResource(fontName: "SFProText-Semibold")
 
@@ -240,6 +250,11 @@ struct R: Rswift.Validatable {
       return UIKit.UIFont(resource: sfProRoundedBold, size: size)
     }
 
+    /// `UIFont(name: "SFProText-Medium", size: ...)`
+    static func sfProTextMedium(size: CGFloat) -> UIKit.UIFont? {
+      return UIKit.UIFont(resource: sfProTextMedium, size: size)
+    }
+
     /// `UIFont(name: "SFProText-Semibold", size: ...)`
     static func sfProTextSemibold(size: CGFloat) -> UIKit.UIFont? {
       return UIKit.UIFont(resource: sfProTextSemibold, size: size)
@@ -252,13 +267,14 @@ struct R: Rswift.Validatable {
       if R.font.sfProDisplayRegular(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProDisplay-Regular' could not be loaded, is 'SF Pro Display Regular.otf' added to the UIAppFonts array in this targets Info.plist?") }
       if R.font.sfProDisplaySemibold(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProDisplay-Semibold' could not be loaded, is 'SF Pro Display Semibold.otf' added to the UIAppFonts array in this targets Info.plist?") }
       if R.font.sfProRoundedBold(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProRounded-Bold' could not be loaded, is 'SFProRounded-Bold.otf' added to the UIAppFonts array in this targets Info.plist?") }
+      if R.font.sfProTextMedium(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProText-Medium' could not be loaded, is 'SFProText-Medium.ttf' added to the UIAppFonts array in this targets Info.plist?") }
       if R.font.sfProTextSemibold(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProText-Semibold' could not be loaded, is 'SFProText-Semibold.ttf' added to the UIAppFonts array in this targets Info.plist?") }
     }
 
     fileprivate init() {}
   }
 
-  /// This `R.image` struct is generated, and contains static references to 87 images.
+  /// This `R.image` struct is generated, and contains static references to 95 images.
   struct image {
     /// Image `#addImage`.
     static let addImage = Rswift.ImageResource(bundle: R.hostingBundle, name: "#addImage")
@@ -302,8 +318,14 @@ struct R: Rswift.Validatable {
     static let time = Rswift.ImageResource(bundle: R.hostingBundle, name: "Time")
     /// Image `addItemImage`.
     static let addItemImage = Rswift.ImageResource(bundle: R.hostingBundle, name: "addItemImage")
+    /// Image `addToCartFilled`.
+    static let addToCartFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "addToCartFilled")
     /// Image `addToCart`.
     static let addToCart = Rswift.ImageResource(bundle: R.hostingBundle, name: "addToCart")
+    /// Image `addToFavSelected`.
+    static let addToFavSelected = Rswift.ImageResource(bundle: R.hostingBundle, name: "addToFavSelected")
+    /// Image `addToFavUnselected`.
+    static let addToFavUnselected = Rswift.ImageResource(bundle: R.hostingBundle, name: "addToFavUnselected")
     /// Image `basket`.
     static let basket = Rswift.ImageResource(bundle: R.hostingBundle, name: "basket")
     /// Image `cart`.
@@ -368,6 +390,8 @@ struct R: Rswift.Validatable {
     static let logo = Rswift.ImageResource(bundle: R.hostingBundle, name: "logo")
     /// Image `minusActive`.
     static let minusActive = Rswift.ImageResource(bundle: R.hostingBundle, name: "minusActive")
+    /// Image `minusButton`.
+    static let minusButton = Rswift.ImageResource(bundle: R.hostingBundle, name: "minusButton")
     /// Image `minusInactive`.
     static let minusInactive = Rswift.ImageResource(bundle: R.hostingBundle, name: "minusInactive")
     /// Image `nextArrow`.
@@ -382,6 +406,8 @@ struct R: Rswift.Validatable {
     static let pinchImage = Rswift.ImageResource(bundle: R.hostingBundle, name: "pinchImage")
     /// Image `plusActive`.
     static let plusActive = Rswift.ImageResource(bundle: R.hostingBundle, name: "plusActive")
+    /// Image `plusButton`.
+    static let plusButton = Rswift.ImageResource(bundle: R.hostingBundle, name: "plusButton")
     /// Image `plusInactive`.
     static let plusInactive = Rswift.ImageResource(bundle: R.hostingBundle, name: "plusInactive")
     /// Image `productShelf`.
@@ -408,6 +434,8 @@ struct R: Rswift.Validatable {
     static let settingsButtonImage = Rswift.ImageResource(bundle: R.hostingBundle, name: "settingsButtonImage")
     /// Image `shareAvatar`.
     static let shareAvatar = Rswift.ImageResource(bundle: R.hostingBundle, name: "shareAvatar")
+    /// Image `shareIcon`.
+    static let shareIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "shareIcon")
     /// Image `sharedAlarmImage`.
     static let sharedAlarmImage = Rswift.ImageResource(bundle: R.hostingBundle, name: "sharedAlarmImage")
     /// Image `sheckmarkForSorting`.
@@ -426,6 +454,10 @@ struct R: Rswift.Validatable {
     static let thirdScreen = Rswift.ImageResource(bundle: R.hostingBundle, name: "thirdScreen")
     /// Image `thirdSideView`.
     static let thirdSideView = Rswift.ImageResource(bundle: R.hostingBundle, name: "thirdSideView")
+    /// Image `timerIcon`.
+    static let timerIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "timerIcon")
+    /// Image `vectorArrow`.
+    static let vectorArrow = Rswift.ImageResource(bundle: R.hostingBundle, name: "vectorArrow")
     /// Image `whiteArrowRight`.
     static let whiteArrowRight = Rswift.ImageResource(bundle: R.hostingBundle, name: "whiteArrowRight")
     /// Image `whiteCheckmark`.
@@ -586,6 +618,27 @@ struct R: Rswift.Validatable {
     /// `UIImage(named: "addToCart", bundle: ..., traitCollection: ...)`
     static func addToCart(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.addToCart, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "addToCartFilled", bundle: ..., traitCollection: ...)`
+    static func addToCartFilled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.addToCartFilled, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "addToFavSelected", bundle: ..., traitCollection: ...)`
+    static func addToFavSelected(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.addToFavSelected, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "addToFavUnselected", bundle: ..., traitCollection: ...)`
+    static func addToFavUnselected(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.addToFavUnselected, compatibleWith: traitCollection)
     }
     #endif
 
@@ -814,6 +867,13 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "minusButton", bundle: ..., traitCollection: ...)`
+    static func minusButton(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.minusButton, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
     /// `UIImage(named: "minusInactive", bundle: ..., traitCollection: ...)`
     static func minusInactive(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.minusInactive, compatibleWith: traitCollection)
@@ -859,6 +919,13 @@ struct R: Rswift.Validatable {
     /// `UIImage(named: "plusActive", bundle: ..., traitCollection: ...)`
     static func plusActive(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.plusActive, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "plusButton", bundle: ..., traitCollection: ...)`
+    static func plusButton(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.plusButton, compatibleWith: traitCollection)
     }
     #endif
 
@@ -954,6 +1021,13 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "shareIcon", bundle: ..., traitCollection: ...)`
+    static func shareIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.shareIcon, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
     /// `UIImage(named: "sharedAlarmImage", bundle: ..., traitCollection: ...)`
     static func sharedAlarmImage(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.sharedAlarmImage, compatibleWith: traitCollection)
@@ -1013,6 +1087,20 @@ struct R: Rswift.Validatable {
     /// `UIImage(named: "thirdSideView", bundle: ..., traitCollection: ...)`
     static func thirdSideView(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.thirdSideView, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "timerIcon", bundle: ..., traitCollection: ...)`
+    static func timerIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.timerIcon, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "vectorArrow", bundle: ..., traitCollection: ...)`
+    static func vectorArrow(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.vectorArrow, compatibleWith: traitCollection)
     }
     #endif
 
@@ -1079,7 +1167,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 93 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 104 localization keys.
     struct localizable {
       /// en translation: A problem? Contact us!
       ///
@@ -1097,6 +1185,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let addRecipes = Rswift.StringResource(key: "AddRecipes", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Added earlier
+      ///
+      /// Locales: en, ru
+      static let addedEarlier = Rswift.StringResource(key: "AddedEarlier", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Alcohol
       ///
       /// Locales: en, ru
@@ -1113,6 +1205,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let automaticSorting = Rswift.StringResource(key: "AutomaticSorting", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Back
+      ///
+      /// Locales: en, ru
+      static let back = Rswift.StringResource(key: "Back", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Bread and pastries
       ///
       /// Locales: en, ru
@@ -1229,6 +1325,14 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let imperial = Rswift.StringResource(key: "Imperial", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Ingredients
+      ///
+      /// Locales: en, ru
+      static let ingredients = Rswift.StringResource(key: "Ingredients", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Instructions
+      ///
+      /// Locales: en, ru
+      static let instructions = Rswift.StringResource(key: "Instructions", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: L
       ///
       /// Locales: en, ru
@@ -1353,6 +1457,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let selectAll = Rswift.StringResource(key: "selectAll", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Select list
+      ///
+      /// Locales: en, ru
+      static let selectList = Rswift.StringResource(key: "Select list", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Select сategory
       ///
       /// Locales: en, ru
@@ -1405,6 +1513,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let bottle = Rswift.StringResource(key: "bottle", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: by taste
+      ///
+      /// Locales: en, ru
+      static let byTaste = Rswift.StringResource(key: "by taste", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: can
       ///
       /// Locales: en, ru
@@ -1429,6 +1541,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let mililiter = Rswift.StringResource(key: "mililiter", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: min
+      ///
+      /// Locales: en, ru
+      static let min = Rswift.StringResource(key: "min", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: oz
       ///
       /// Locales: en, ru
@@ -1449,6 +1565,22 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let pt = Rswift.StringResource(key: "pt", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: serving
+      ///
+      /// Locales: en, ru
+      static let servings1 = Rswift.StringResource(key: "servings-1", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: servings
+      ///
+      /// Locales: en, ru
+      static let servings = Rswift.StringResource(key: "servings", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: servings
+      ///
+      /// Locales: en, ru
+      static let servings24 = Rswift.StringResource(key: "servings-2-4", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: servings
+      ///
+      /// Locales: en, ru
+      static let servings4 = Rswift.StringResource(key: "servings>4", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Настройки
       ///
       /// Locales: en, ru
@@ -1514,6 +1646,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("AddRecipes", bundle: bundle, comment: "")
       }
 
+      /// en translation: Added earlier
+      ///
+      /// Locales: en, ru
+      static func addedEarlier(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("AddedEarlier", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "AddedEarlier"
+        }
+
+        return NSLocalizedString("AddedEarlier", bundle: bundle, comment: "")
+      }
+
       /// en translation: Alcohol
       ///
       /// Locales: en, ru
@@ -1572,6 +1719,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("AutomaticSorting", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Back
+      ///
+      /// Locales: en, ru
+      static func back(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("Back", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "Back"
+        }
+
+        return NSLocalizedString("Back", bundle: bundle, comment: "")
       }
 
       /// en translation: Bread and pastries
@@ -2007,6 +2169,36 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("Imperial", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Ingredients
+      ///
+      /// Locales: en, ru
+      static func ingredients(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("Ingredients", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "Ingredients"
+        }
+
+        return NSLocalizedString("Ingredients", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Instructions
+      ///
+      /// Locales: en, ru
+      static func instructions(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("Instructions", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "Instructions"
+        }
+
+        return NSLocalizedString("Instructions", bundle: bundle, comment: "")
       }
 
       /// en translation: L
@@ -2474,6 +2666,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("selectAll", bundle: bundle, comment: "")
       }
 
+      /// en translation: Select list
+      ///
+      /// Locales: en, ru
+      static func selectList(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("Select list", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "Select list"
+        }
+
+        return NSLocalizedString("Select list", bundle: bundle, comment: "")
+      }
+
       /// en translation: Select сategory
       ///
       /// Locales: en, ru
@@ -2669,6 +2876,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("bottle", bundle: bundle, comment: "")
       }
 
+      /// en translation: by taste
+      ///
+      /// Locales: en, ru
+      static func byTaste(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("by taste", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "by taste"
+        }
+
+        return NSLocalizedString("by taste", bundle: bundle, comment: "")
+      }
+
       /// en translation: can
       ///
       /// Locales: en, ru
@@ -2759,6 +2981,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("mililiter", bundle: bundle, comment: "")
       }
 
+      /// en translation: min
+      ///
+      /// Locales: en, ru
+      static func min(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("min", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "min"
+        }
+
+        return NSLocalizedString("min", bundle: bundle, comment: "")
+      }
+
       /// en translation: oz
       ///
       /// Locales: en, ru
@@ -2832,6 +3069,66 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("pt", bundle: bundle, comment: "")
+      }
+
+      /// en translation: serving
+      ///
+      /// Locales: en, ru
+      static func servings1(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("servings-1", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "servings-1"
+        }
+
+        return NSLocalizedString("servings-1", bundle: bundle, comment: "")
+      }
+
+      /// en translation: servings
+      ///
+      /// Locales: en, ru
+      static func servings(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("servings", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "servings"
+        }
+
+        return NSLocalizedString("servings", bundle: bundle, comment: "")
+      }
+
+      /// en translation: servings
+      ///
+      /// Locales: en, ru
+      static func servings24(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("servings-2-4", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "servings-2-4"
+        }
+
+        return NSLocalizedString("servings-2-4", bundle: bundle, comment: "")
+      }
+
+      /// en translation: servings
+      ///
+      /// Locales: en, ru
+      static func servings4(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("servings>4", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "servings>4"
+        }
+
+        return NSLocalizedString("servings>4", bundle: bundle, comment: "")
       }
 
       /// en translation: Настройки

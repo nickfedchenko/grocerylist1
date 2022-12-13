@@ -72,7 +72,7 @@ class HeaderListCell: UICollectionViewListCell {
             coloredViewForSorting.isHidden = false
         case .sortedByDate:
             checkmarkView.isHidden = true
-            titleLabel.text = "DateSorted".localized
+            titleLabel.text = text// "AddedEarlier".localized
             coloredViewForSorting.backgroundColor = color
             coloredViewForSorting.isHidden = false
         case .normal:

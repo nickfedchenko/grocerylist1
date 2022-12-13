@@ -57,6 +57,7 @@ class MainScreenTopCell: UICollectionViewCell {
         let button = UIButton()
         button.addTarget(self, action: #selector(searchButtonAction), for: .touchUpInside)
         button.setImage(UIImage(named: "searchButtonImage"), for: .normal)
+        button.alpha = 0
         return button
     }()
     

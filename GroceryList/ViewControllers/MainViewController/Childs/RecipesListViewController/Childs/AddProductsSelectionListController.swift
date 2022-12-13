@@ -7,37 +7,40 @@
 
 import UIKit
 
-final class AddProductsSelectionListController: UIViewController {
-    private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
+protocol AddProductsSelectionListControllerDelegate: AnyObject {
+    func ingredientsSuccessfullyAdded()
+}
+
+final class AddProductsSelectionListController: SelectListViewController {
+    var productsToAdd: [Product]
+    weak var delegate: AddProductsSelectionListControllerDelegate?
     
-    let viewModel = AddProductsListViewModel()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        correctTitleLabel()
+    }
     
-    
-    private func createCompositionalLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { [weak self] (_, _) -> NSCollectionLayoutSection? in
-            return self?.createLayout()
+    init(with productsSet: [Product]) {
+        self.productsToAdd = productsSet
+        super.init(nibName: nil, bundle: nil)
+        productsToAdd.forEach {
+            print("products to add recipe title is \($0.fromRecipeTitle)")
         }
-        return layout
     }
     
-    private func createLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(72))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 1, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        let section = NSCollectionLayoutSection(group: group)
-        let header = createSectionHeader()
-        section.boundarySupplementaryItems = [header]
-        return section
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    private func createSectionHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
-        let layoutHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                      heightDimension: .estimated(44))
-        let layutSectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: layoutHeaderSize,
-                                                                             elementKind: UICollectionView.elementKindSectionHeader,
-                                                                             alignment: .top)
-        return layutSectionHeader
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let model = collectionViewDataSource?.itemIdentifier(for: indexPath) else { return }
+        viewModel?.shouldAdd(to: model, products: productsToAdd)
+        delegate?.ingredientsSuccessfullyAdded()
+        dismiss(animated: true)
     }
+
+    private func correctTitleLabel() {
+        createListLabel.text = R.string.localizable.selectList()
+    }
+    
 }

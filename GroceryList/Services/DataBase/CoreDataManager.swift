@@ -60,7 +60,13 @@ class CoreDataManager {
         object.isFavorite = product.isFavorite
         object.image = product.imageData
         object.userDescription = product.description
-        try? context.save()
+        object.fromRecipeTitle = product.fromRecipeTitle
+        do {
+            try context.save()
+        } catch let error {
+            print(error)
+            context.rollback()
+        }
     }
     
     func getProduct(id: UUID) -> DBProduct? {
@@ -82,8 +88,14 @@ class CoreDataManager {
             object.dateOfCreation = product.dateOfCreation
             object.category = product.category
             object.isFavorite = product.isFavorite
+            object.fromRecipeTitle = product.fromRecipeTitle
         }
-        try? context.save()
+        do {
+            try context.save()
+        } catch let error {
+            print(error)
+            context.rollback()
+        }
     }
     
     func getProducts(for list: GroceryListsModel) -> [DBProduct] {

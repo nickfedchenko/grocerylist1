@@ -295,6 +295,10 @@ class CreateNewProductViewController: UIViewController {
         return label
     }()
     
+    private func updateAutoSelectedUnit() {
+        
+    }
+    
     // MARK: - Constraints
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
@@ -626,11 +630,18 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         isCategorySelected = false
     }
     
-    func selectCategory(text: String, imageURL: String) {
+    func selectCategory(text: String, imageURL: String, defaultSelectedUnit: UnitSystem) {
         topCategoryView.backgroundColor = UIColor(hex: "#80C980")
         topCategoryLabel.textColor = .white
         topCategoryLabel.text = text
         isCategorySelected = true
+        if let viewModel = viewModel {
+            if let index = viewModel.isMetricSystem
+                ? viewModel.arrayForMetricSystem.firstIndex(of: defaultSelectedUnit)
+                :  viewModel.arrayForImperalSystem.firstIndex(of: defaultSelectedUnit) {
+                tableView(tableview, didSelectRowAt: IndexPath(row: index, section: 0))
+            }
+        }
         
         let text = topTextField.text ?? ""
         if text.count > 2 && isCategorySelected {

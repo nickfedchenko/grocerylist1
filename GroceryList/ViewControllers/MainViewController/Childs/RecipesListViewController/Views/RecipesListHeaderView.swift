@@ -42,6 +42,8 @@ final class RecipesListHeaderView: UIView {
         let button = UIButton(type: .system)
         button.setImage(R.image.searchButtonImage(), for: .normal)
         button.tintColor = UIColor(hex: "1A645A")
+        // TODO: - Fix when adds search functionality
+        button.alpha = 0
         return button
     }()
     
@@ -69,6 +71,7 @@ final class RecipesListHeaderView: UIView {
     
     func releaseBlurAnimation() {
         blurRadiusDriver?.stopAnimation(true)
+        blurRadiusDriver?.finishAnimation(at: .current)
     }
     
     private func setupActions() {
@@ -113,12 +116,12 @@ final class RecipesListHeaderView: UIView {
         blurRadiusDriver?.stopAnimation(true)
         blurRadiusDriver?.finishAnimation(at: .current)
         
-        blurBack.effect = nil
-        blurRadiusDriver = UIViewPropertyAnimator(duration: 1, curve: .linear, animations: {
+        
+        blurRadiusDriver = UIViewPropertyAnimator(duration: 1, curve: .linear) {
             self.blurBack.effect = UIBlurEffect(style: .light)
-        })
-        blurRadiusDriver?.fractionComplete = 0.06
-        blurRadiusDriver?.stopAnimation(true)
-        blurRadiusDriver?.finishAnimation(at: .current)
+        }
+        blurRadiusDriver?.fractionComplete = 0.1
+//        blurRadiusDriver?.stopAnimation(true)
+//        blurRadiusDriver?.finishAnimation(at: .current)
     }
 }

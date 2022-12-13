@@ -23,6 +23,7 @@ class MainScreenViewController: UIViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: RecipesFolderHeader.identifier
         )
+        collectionView.contentInset.bottom = 10
         collectionView.dataSource = self
         collectionView.alpha = 0
         collectionView.backgroundColor = .clear
@@ -58,6 +59,9 @@ class MainScreenViewController: UIViewController {
         snapshot.deleteAllItems()
         collectionViewDataSource?.apply(snapshot)
         viewModel?.reloadDataFromStorage()
+        viewModel?.updateRecipesSection()
+        updateImageConstraint()
+        recipesCollectionView.reloadData()
     }
     
     private func createAttributedString(title: String, color: UIColor = .white) -> NSAttributedString {
@@ -98,7 +102,7 @@ class MainScreenViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         bottomCreateListView.startAnimating()
-        updateImageConstraint()
+
     }
     // MARK: - UI
     
@@ -189,8 +193,8 @@ extension MainScreenViewController: UICollectionViewDelegate {
             viewModel?.cellTapped(with: model)
         } else {
             if indexPath.section != 0 {
-                guard let model = viewModel?.dataSource?.recipesSections[indexPath.section] else { return }
-                let vc = RecipesListViewController(with: model)
+                guard let model = viewModel?.dataSource?.recipesSections[indexPath.section].recipes[indexPath.item] else { return }
+                let vc = RecipeViewController(with: RecipeScreenViewModel(recipe: model), backButtonTitle: R.string.localizable.back())
                 navigationController?.pushViewController(vc, animated: true)
             }
         }
@@ -213,6 +217,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
                                 withReuseIdentifier: "GroceryCollectionViewHeader")
     }
     
+        // swiftlint:disable:next function_body_length
     private func createTableViewDataSource() {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
                                                                       cellProvider: { collectionView, indexPath, model in
@@ -345,7 +350,6 @@ extension MainScreenViewController: UICollectionViewDelegate {
             widthDimension: .fractionalWidth(1),
             heightDimension: .absolute(92)
         )
-        
         
         let item = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(

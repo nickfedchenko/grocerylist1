@@ -62,9 +62,7 @@ extension DBRecipe {
     private static func encodeOptionalStringArray(array: [String]?) -> Data? {
         guard let array = array else { return nil }
         let description = array.description
-        guard let data = try? JSONEncoder().encode(description) else {
-            return nil
-        }
+        let data = description.data(using: .utf8)
         return data
     }
     

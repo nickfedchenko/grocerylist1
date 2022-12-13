@@ -37,7 +37,7 @@ enum RequestGenerator: Codable {
             guard let url = components.url else {
                 fatalError("Error resolving URL")
             }
-            var request = URLRequest(url: url)
+            var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData)
             request.method = .get
             request.addValue("Bearer " + token, forHTTPHeaderField: "Authorization")
             return request
@@ -51,7 +51,7 @@ enum RequestGenerator: Codable {
             guard let url = components.url else {
                 fatalError("Error resolving URL")
             }
-            var request = URLRequest(url: url)
+            var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData)
             request.method = .get
             request.addValue("Bearer " + token, forHTTPHeaderField: "Authorization")
             return request

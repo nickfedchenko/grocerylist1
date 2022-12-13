@@ -80,7 +80,7 @@
 "liter"                     = "л";
 "mililiter"                 = "мл";
 
-"can"                       = "банк";
+"can"                       = "банка";
 "piece"                     = "шт";
 "pack"                      = "уп";
 "bottle"                    = "бут";
@@ -92,7 +92,7 @@
 "Haptic Feedback"           = "Тактильный отклик";
 "Quantity Units"            = "Единицы измерения";
 "Metric"                    = "Метрическая";
-"Imperial"                  = "Американская система мер";
+"Imperial"                  = "Импреская";
 
 "Warning"                   = "Внимание";
 "NoInternet"                = "Отсутствует соединение с сервером";
@@ -108,8 +108,21 @@
 "Month"                     = "в месяц";
 "Loading"                   = "Загрузка";
 
-"Recipes" = "Рецепты";
-"Breakfast" = "Завтрак";
-"Lunch" = "Обед";
-"Dinner" = "Ужин";
-"Snacks" = "Закуски";
+"Recipes"                   = "Рецепты";
+"Breakfast"                 = "Завтрак";
+"Lunch"                     = "Обед";
+"Dinner"                    = "Ужин";
+"Snacks"                    = "Закуски";
+
+"Select list"               = "Выберите список";
+
+"min" = "мин";
+"Ingredients" = "Ингредиенты";
+"servings" = "порции";
+"servings-1" = "порция";
+"servings-2-4" = "порции";
+"servings>4" = "порций";
+"by taste" = "по вкусу";
+"Instructions" = "Инструкции";
+"AddedEarlier" = "Добавлено ранее";
+"Back" = "Назад";

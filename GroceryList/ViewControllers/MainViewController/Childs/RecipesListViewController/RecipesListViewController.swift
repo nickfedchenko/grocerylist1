@@ -11,6 +11,8 @@ final class RecipesListViewController: UIViewController {
     var router: RootRouter?
     private var section: RecipeSectionsModel
     
+    var currentlySelectedIndex: Int = -1
+    
     private lazy var recipesListCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -80,6 +82,7 @@ extension RecipesListViewController: UICollectionViewDataSource, UICollectionVie
         let model = section.recipes[indexPath.item]
         cell.configure(with: model)
         cell.selectedIndex = indexPath.item
+        cell.delegate = self
         return cell
     }
     
@@ -100,11 +103,12 @@ extension RecipesListViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        navigationController?.popViewController(animated: true)
+        let recipe = section.recipes[indexPath.item]
+        let vc = RecipeViewController(with: RecipeScreenViewModel(recipe: recipe), backButtonTitle: R.string.localizable.recipes())
+        navigationController?.pushViewController(vc, animated: true)
 //        let vc = router?.prepareSelectListController(height: 200, setOfSelectedProd: Set<section>, compl: <#T##((Set<Product>) -> Void)##((Set<Product>) -> Void)##(Set<Product>) -> Void#>)
     }
 }
-
 
 extension RecipesListViewController: RecipesListHeaderViewDelegate {
     func backButtonTapped() {
@@ -113,5 +117,45 @@ extension RecipesListViewController: RecipesListHeaderViewDelegate {
     
     func searchButtonTapped() {
         print("search tapped")
+    }
+}
+
+extension RecipesListViewController: RecipeListCellDelegate {
+    func didTapToButProductsAtRecipe(at index: Int) {
+        let recipeTitle = section.recipes[index].title
+        currentlySelectedIndex = index
+        print("added recipeTitle in product \(recipeTitle)")
+        let products: [Product] = section.recipes[index].ingredients.map {
+            let netProduct = $0.product
+//            let step = $0.product.marketUnit?.step?.defaultQuantityStep ?? 1
+//            let description = String(format: "%.0f", $0.product.marketUnit?.step?.defaultQuantityStep ?? 1) + " " + String($0.product.marketUnit?.shortTitle ?? "г")
+            let product = Product(
+                name: netProduct.title,
+                isPurchased: false,
+                dateOfCreation: Date(),
+                category: netProduct.marketCategory?.title ?? "",
+                isFavorite: false,
+                description: "",
+                fromRecipeTitle: recipeTitle
+            )
+            return product
+        }
+        
+        let vc = AddProductsSelectionListController(with:products)
+        vc.contentViewHeigh = 700
+        vc.modalPresentationStyle = .overCurrentContext
+        let dataSource = SelectListDataManager()
+        let viewModel = SelectListViewModel(dataSource: dataSource)
+        vc.viewModel = viewModel
+        vc.delegate = self
+        present(vc, animated: true)
+    }
+}
+
+extension RecipesListViewController: AddProductsSelectionListControllerDelegate {
+    func ingredientsSuccessfullyAdded() {
+        guard currentlySelectedIndex >= 0 else { return }
+        guard let cell = recipesListCollectionView.cellForItem(at: IndexPath(item: currentlySelectedIndex, section: 0)) as? RecipeListCell else { return }
+        cell.setSuccessfullyAddedIngredients(isSuccess: true)
     }
 }

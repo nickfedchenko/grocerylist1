@@ -16,15 +16,14 @@ protocol DataSourceProtocol {
     func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel>
     func addOrDeleteFromFavorite(with model: GroceryListsModel) -> Set<GroceryListsModel>
     var recipesSections: [RecipeSectionsModel] { get set }
-    
+    func makeRecipesSections()
 }
 
 class MainScreenDataManager: DataSourceProtocol {
     
     init() {
         createWorkingArray()
-        recipesSections = makeRecipesSections()
-        print(recipesSections)
+        makeRecipesSections()
     }
     
     private let topCellID = UUID()
@@ -129,9 +128,10 @@ class MainScreenDataManager: DataSourceProtocol {
         let isFavorite = product.isFavorite
         let imageData = product.image
         let description = product.userDescription ?? ""
+        let fromRecipeTitle = product.fromRecipeTitle
         
         return Product(id: id, listId: listId, name: name, isPurchased: isPurchased,
-                       dateOfCreation: dateOfCreation, category: category, isFavorite: isFavorite, imageData: imageData, description: description)
+                       dateOfCreation: dateOfCreation, category: category, isFavorite: isFavorite, imageData: imageData, description: description, fromRecipeTitle: fromRecipeTitle)
     }
     
     private func createWorkingArray() {
@@ -213,20 +213,21 @@ class MainScreenDataManager: DataSourceProtocol {
     
     /// MARK: - Recipes part
     
-    func makeRecipesSections() -> [RecipeSectionsModel] {
-        guard let  allRecipes: [DBRecipe] = CoreDataManager.shared.getAllRecipes() else { return [] }
+    func makeRecipesSections() {
+        guard let  allRecipes: [DBRecipe] = CoreDataManager.shared.getAllRecipes() else { return }
         let plainRecipes = allRecipes.compactMap { Recipe(from: $0) }
         let breakfastRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .breakfast } )}
         let lunchRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .lunch } )}
         let dinnerRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .dinner } )}
         let snacksRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .snack } )}
-        
-        return [
+        let favorites = plainRecipes.filter { UserDefaultsManager.favoritesRecipeIds.contains($0.id) }
+        recipesSections = [
             .init(cellType: .topMenuCell, sectionType: .none, recipes: []),
             .init(cellType: .recipePreview, sectionType: .breakfast, recipes: breakfastRecipes),
             .init(cellType: .recipePreview, sectionType: .lunch, recipes: lunchRecipes),
             .init(cellType: .recipePreview, sectionType: .dinner, recipes: dinnerRecipes),
             .init(cellType: .recipePreview, sectionType: .snacks, recipes: snacksRecipes),
+            .init(cellType: .recipePreview, sectionType: .favorites, recipes: favorites)
         ]
     }
 }

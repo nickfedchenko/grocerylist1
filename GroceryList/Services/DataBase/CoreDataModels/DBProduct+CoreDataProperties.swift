@@ -26,4 +26,5 @@ extension DBProduct {
     @NSManaged public var image: Data?
     @NSManaged public var userDescription: String?
     @NSManaged public var list: DBGroceryListModel?
+    @NSManaged public var fromRecipeTitle: String?
 }

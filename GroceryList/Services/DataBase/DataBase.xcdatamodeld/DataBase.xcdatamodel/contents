@@ -14,6 +14,7 @@
         <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DBProduct" inverseName="list" inverseEntity="DBProduct"/>
     </entity>
     <entity name="DBNetworkProduct" representedClassName=".DBNetworkProduct" syncable="YES">
+        <attribute name="defaultMarketUnitID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="marketCategory" optional="YES" attributeType="String"/>
         <attribute name="photo" optional="YES" attributeType="String"/>
@@ -22,6 +23,7 @@
     <entity name="DBProduct" representedClassName=".DBProduct" syncable="YES">
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="dateOfCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="fromRecipeTitle" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>

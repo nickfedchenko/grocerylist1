@@ -19,6 +19,7 @@ struct NetworkProductModel: Codable {
     let marketCategory: MarketCategory?
     let units: [Unit]
     let photo: String
+    let marketUnit: MarketUnitClass?
 }
 
 struct Unit: Codable {
@@ -70,6 +71,17 @@ struct Recipe: Codable {
         dishWeight = dbModel.dishWeight < 0 ? nil : dbModel.dishWeight
         dishWeightType = dbModel.dishWeightType < 0 ? nil : Int(dbModel.dishWeightType)
         countries = (try? JSONDecoder().decode([String].self, from: dbModel.countries ?? Data())) ?? []
+        if let decodedInstructions = (try? JSONDecoder().decode([String].self, from: dbModel.instructions ?? Data())) {
+            print("successfully got instructions")
+        } else {
+            print("failed to decode instructions array")
+        }
+        
+        if let data = dbModel.instructions {
+            print(String(data: data, encoding: .utf8))
+        } else {
+            print("data not saved")
+        }
         instructions = (try? JSONDecoder().decode([String].self, from: dbModel.instructions ?? Data())) ?? []
         ingredients = (try? JSONDecoder().decode([Ingredient].self, from: dbModel.ingredients ?? Data())) ?? []
         eatingTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel.eatingTags ?? Data())) ?? []
@@ -108,14 +120,49 @@ struct Ingredient: Codable {
     let product: NetworkProductModel
     let quantity: Double
     let isNamed: Bool
-    let unit: MarketUnitClass
+    let unit: MarketUnitClass?
 }
-
-// MARK: - Product
 
 // MARK: - MarketUnitClass
 struct MarketUnitClass: Codable {
+    enum MarketUnitPrepared: Int {
+        case kilogram = 17
+        case gram = 18
+        case litter = 19
+        case millilitre = 20
+        case piece = 21
+        case pack = 22
+        case bottle = 23
+        case tin = 27
+        var defaultQuantityStep: Double {
+            switch self {
+            case .kilogram:
+                return 1
+            case .gram:
+                return 100
+            case .litter:
+                return 1
+            case .millilitre:
+                return 100
+            case .piece:
+                return 1
+            case .pack:
+                return 1
+            case .bottle:
+                return 1
+            case .tin:
+                return 1
+            }
+        }
+    }
+
     let id: Int
     let title, shortTitle: String
     let isOnlyForMarket: Bool
+    var step: MarketUnitPrepared? {
+        print("Id for step instance  =  \(id)")
+        return MarketUnitPrepared(rawValue: id)
+        
+    }
+    
 }

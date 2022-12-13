@@ -146,30 +146,48 @@ final class RootRouter: RootRouterProtocol {
         return controller
     }
     
-    func prepareSelectListController(height: Double, setOfSelectedProd: Set<Product>, compl: @escaping ((Set<Product>) -> Void)) -> UIViewController {
-        guard let controller = viewControllerFactory.createSelectListController(height: height, router: self,
-                                                                                setOfSelectedProd: setOfSelectedProd, compl: compl) else { return UIViewController()}
+    func prepareSelectListController(
+        height: Double,
+        setOfSelectedProd: Set<Product>,
+        compl: @escaping ((Set<Product>) -> Void)
+    ) -> UIViewController {
+        guard let controller = viewControllerFactory.createSelectListController(
+            height: height,
+            router: self,
+            setOfSelectedProd: setOfSelectedProd,
+            compl: compl
+        ) else { return UIViewController()}
         controller.modalPresentationStyle = .overCurrentContext
         return controller
     }
     
     func prepareSelectCategoryController(model: GroceryListsModel, compl: @escaping (String) -> Void) -> UIViewController {
-        guard let controller = viewControllerFactory.createSelectCategoryController(model: model, router: self,
-                                                                                   compl: compl) else { return UIViewController() }
-       return controller
+        guard let controller = viewControllerFactory.createSelectCategoryController(
+            model: model,
+            router: self,
+            compl: compl
+        ) else { return UIViewController() }
+        return controller
     }
     
-    func prepareCreateNewCategoryController(model: GroceryListsModel, newCategoryInd: Int, compl: @escaping (CategoryModel) -> Void) -> UIViewController {
-        guard let controller = viewControllerFactory.createCreateNewCategoryController(model: model, newCategoryInd: newCategoryInd, router: self,
-                                                                                   compl: compl) else { return UIViewController() }
+    func prepareCreateNewCategoryController(
+        model: GroceryListsModel,
+        newCategoryInd: Int,
+        compl: @escaping (CategoryModel) -> Void
+    ) -> UIViewController {
+        guard let controller = viewControllerFactory.createCreateNewCategoryController(
+            model: model,
+            newCategoryInd: newCategoryInd,
+            router: self,
+            compl: compl
+        ) else { return UIViewController() }
         controller.modalPresentationStyle = .overCurrentContext
-       return controller
+        return controller
     }
     
     func goToRecipes(for section: RecipeSectionsModel) {
-        let vc = RecipesListViewController(with: section)
-        vc.router = self
-        navigationController?.pushViewController(vc, animated: true)
+        let recipeVC = viewControllerFactory.createRecipesListController(for: section, with: self)
+        navigationPushViewController(recipeVC, animated: true)
     }
     
     // pop

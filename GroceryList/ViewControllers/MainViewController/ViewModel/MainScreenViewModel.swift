@@ -33,6 +33,10 @@ class MainScreenViewModel {
         return model
     }
     
+    func updateRecipesSection() {
+        dataSource?.makeRecipesSections()
+    }
+    
     // routing
     func createNewListTapped() {
         

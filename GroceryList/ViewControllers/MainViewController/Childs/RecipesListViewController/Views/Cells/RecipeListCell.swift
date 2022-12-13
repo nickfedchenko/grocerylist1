@@ -7,10 +7,15 @@
 
 import UIKit
 
+protocol RecipeListCellDelegate: AnyObject {
+    func didTapToButProductsAtRecipe(at index: Int)
+}
+
 final class RecipeListCell: UICollectionViewCell {
     static let identifier = String(describing: RecipeListCell.self)
     var selectedIndex = -1
-    
+    weak var delegate: RecipeListCellDelegate?
+    	
     private let mainImage: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 8
@@ -34,6 +39,8 @@ final class RecipeListCell: UICollectionViewCell {
     private let addToCartButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(R.image.addToCart(), for: .normal)
+        button.setImage(R.image.addToCartFilled(), for: .selected
+        )
         button.tintColor = UIColor(hex: "1A645A")
         return button
     }()
@@ -79,7 +86,7 @@ final class RecipeListCell: UICollectionViewCell {
                     }
                 }
                 self?.addToCartButtonTapped()
-        },
+            },
             for: .touchUpInside
         )
     }
@@ -106,7 +113,7 @@ final class RecipeListCell: UICollectionViewCell {
             make.trailing.equalToSuperview().inset(48)
         }
         addToCartButton.snp.makeConstraints { make in
-            make.width.height.equalTo(24)
+            make.width.height.equalTo(40)
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().inset(8)
         }
@@ -118,6 +125,11 @@ final class RecipeListCell: UICollectionViewCell {
     }
     
     func addToCartButtonTapped() {
-        print("Add to cart tapped at index\(selectedIndex)")
+        delegate?.didTapToButProductsAtRecipe(at: selectedIndex)
+    }
+    
+    func setSuccessfullyAddedIngredients(isSuccess: Bool) {
+        addToCartButton.isSelected = isSuccess
+        addToCartButton.isUserInteractionEnabled = !isSuccess
     }
 }
