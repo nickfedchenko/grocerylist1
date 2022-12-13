@@ -51,4 +51,69 @@ extension UIView {
         self.layer.shadowRadius = 2
         self.layer.masksToBounds = false
     }
+    
+    func roundCorners(topLeft: CGFloat = 0, topRight: CGFloat = 0, bottomLeft: CGFloat = 0, bottomRight: CGFloat = 0) {
+        let topLeftRadius = CGSize(width: topLeft, height: topLeft)
+        let topRightRadius = CGSize(width: topRight, height: topRight)
+        let bottomLeftRadius = CGSize(width: bottomLeft, height: bottomLeft)
+        let bottomRightRadius = CGSize(width: bottomRight, height: bottomRight)
+        let maskPath = UIBezierPath(
+            shouldRoundRect: bounds,
+            topLeftRadius: topLeftRadius,
+            topRightRadius: topRightRadius,
+            bottomLeftRadius: bottomLeftRadius,
+            bottomRightRadius: bottomRightRadius
+        )
+        let shape = CAShapeLayer()
+        shape.path = maskPath.cgPath
+        layer.mask = shape
+    }
+    
+    func animateByScaleTransform() {
+        UIView.animate(withDuration: 0.1) {
+            self.transform = .init(scaleX: 0.8, y: 0.8)
+        } completion: { _ in
+            UIView.animate(withDuration: 0.1) {
+                self.transform = .identity
+            }
+        }
+    }
+    
+    public func snapshotNewView(scale: CGFloat = 0.0, isOpaque: Bool = true, with backgroundColor: UIColor?) -> UIImage {
+        self.backgroundColor = backgroundColor
+        UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, scale)
+        drawHierarchy(in: bounds, afterScreenUpdates: true)
+        if let image = UIGraphicsGetImageFromCurrentImageContext() {
+            UIGraphicsEndImageContext()
+            self.backgroundColor = .clear
+            return image
+        } else {
+            self.backgroundColor = .clear
+            return UIImage()
+        }
+    }
+}
+
+extension UIScrollView {
+    private func screenshot() -> UIImage{
+        
+        let savedContentOffset = contentOffset
+        let savedFrame = frame
+
+        UIGraphicsBeginImageContextWithOptions(contentSize, false, 0)
+
+        contentOffset = .zero
+        frame = CGRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height)
+        layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+//        contentOffset = savedContentOffset
+//        frame = savedFrame
+
+        return image ?? UIImage()
+
+    }
+    
+ 
 }

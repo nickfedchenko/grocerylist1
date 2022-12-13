@@ -10,7 +10,7 @@ import UIKit
 
 class SelectListViewController: UIViewController {
     
-    private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroceryListsModel>?
+    var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroceryListsModel>?
     var viewModel: SelectListViewModel?
     var contentViewHeigh: Double = 0
     var router: RootRouter? {
@@ -85,7 +85,7 @@ class SelectListViewController: UIViewController {
         return view
     }()
     
-    private let createListLabel: UILabel = {
+    let createListLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
         label.textColor = UIColor(hex: "#31635A")

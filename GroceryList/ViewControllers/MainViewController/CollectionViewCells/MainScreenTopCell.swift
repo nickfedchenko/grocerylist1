@@ -8,17 +8,32 @@
 import SnapKit
 import UIKit
 
-class MainScreenTopCell: UICollectionViewCell {
+enum MainScreenPresentationMode {
+    case lists, recipes
+}
 
+protocol MainScreenTopCellDelegate: AnyObject {
+    func modeChanged(to mode: MainScreenPresentationMode)
+}
+
+class MainScreenTopCell: UICollectionViewCell {
+    
     var settingsTapped: (() -> Void)?
+    weak var delegate: MainScreenTopCellDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupConstraints()
+        setupActions()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    func configure(with mode: MainScreenPresentationMode) {
+        segmentControl.selectedSegmentIndex = mode == .recipes ? 1 : 0
     }
     
     @objc
@@ -42,6 +57,7 @@ class MainScreenTopCell: UICollectionViewCell {
         let button = UIButton()
         button.addTarget(self, action: #selector(searchButtonAction), for: .touchUpInside)
         button.setImage(UIImage(named: "searchButtonImage"), for: .normal)
+        button.alpha = 0
         return button
     }()
     
@@ -55,6 +71,10 @@ class MainScreenTopCell: UICollectionViewCell {
         control.selectedSegmentTintColor = .white
         return control
     }()
+    
+    private func setupActions() {
+        segmentControl.addTarget(self, action: #selector(segmentChanged(sender:)), for: .valueChanged)
+    }
     
     // MARK: - UI
     private func setupConstraints() {
@@ -78,5 +98,17 @@ class MainScreenTopCell: UICollectionViewCell {
             
         }
         
+    }
+    
+    @objc
+    private func segmentChanged(sender: UISegmentedControl) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            if sender.selectedSegmentIndex == 1 {
+                sender.selectedSegmentIndex = 0
+            } else {
+                sender.selectedSegmentIndex = 1
+            }
+        }
+        delegate?.modeChanged(to: sender.selectedSegmentIndex == 0 ? .lists : .recipes)
     }
 }

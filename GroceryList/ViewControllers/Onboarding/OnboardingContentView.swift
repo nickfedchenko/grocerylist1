@@ -8,6 +8,7 @@
 import SnapKit
 import UIKit
 
+// swiftlint:disable:next type_body_length
 class OnboardingContentView: UIView {
     
     var unlockButton: (() -> Void)?

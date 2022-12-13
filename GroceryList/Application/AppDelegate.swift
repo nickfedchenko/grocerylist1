@@ -10,13 +10,13 @@ import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    // TODO: - StartApphud
+    let syncService: DataSyncProtocol = DataProviderFacade()
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         AppDelegate.activateFonts(withExtension: "ttf")
         AppDelegate.activateFonts(withExtension: "otf")
-        BackendDatabaseProductsSaver().fetchAllProducts()
-      //  Apphud.start(apiKey: "app_KiTTACgwQ8GrNu6jgXq6uNYdGqctwi")
+        syncService.updateProducts()
+        syncService.updateRecipes()
         return true
     }
 

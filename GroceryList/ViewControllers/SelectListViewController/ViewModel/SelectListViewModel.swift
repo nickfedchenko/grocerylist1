@@ -30,6 +30,15 @@ class SelectListViewModel: MainScreenViewModel {
         delegate?.presentSelectedVC(controller: viewController)
     }
     
+    // MARK: - Recipes part
+    func shouldAdd(to list: GroceryListsModel, products: [Product]) {
+        products.forEach { product in
+            var newProduct = product
+            newProduct.listId = list.id
+            CoreDataManager.shared.createProduct(product: newProduct)
+        }
+    }
+    
     func controllerDissmissed() {
         selectedProductsCompl?(copiedProducts)
     }

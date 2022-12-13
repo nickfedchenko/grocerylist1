@@ -138,6 +138,7 @@ class ProductsViewController: UIViewController {
             
             let color = self?.viewModel?.getColorForForeground()
             let bcgColor = self?.viewModel?.getColorForBackground()
+            print("header name is \(parent.name)")
             cell.setupCell(text: parent.name, color: color, bcgColor: bcgColor,
                            isExpand: parent.isExpanded, typeOfCell: parent.typeOFCell)
         }
@@ -300,11 +301,13 @@ extension ProductsViewController: UICollectionViewDelegate {
         // проверка на тип сортировки для отключения возможности схлопывания ячеек при сортировке по алфавиту
         switch item {
         case .parent(let parent):
-            guard parent.typeOFCell != .sortedByAlphabet && parent.typeOFCell != .sortedByDate else { return false }
+            guard parent.typeOFCell != .sortedByAlphabet && parent.typeOFCell != .sortedByDate else {
+                return false
+            }
         default:
-           print("")
+            print("")
         }
-      
+        
         let sectionSnapshot = snap.snapshot(of: item, includingParent: false)
         let hasChildren = sectionSnapshot.items.count > 0
         

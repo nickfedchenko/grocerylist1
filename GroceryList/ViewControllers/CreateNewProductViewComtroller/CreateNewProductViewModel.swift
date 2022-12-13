@@ -11,7 +11,7 @@ import UIKit
 
 protocol CreateNewProductViewModelDelegate: AnyObject {
     func presentController(controller: UIViewController?)
-    func selectCategory(text: String, imageURL: String)
+    func selectCategory(text: String, imageURL: String, defaultSelectedUnit: UnitSystem)
     func deselectCategory()
     func setupController(step: Int)
 }
@@ -25,7 +25,7 @@ class CreateNewProductViewModel {
     private var colorManager = ColorManager()
     var arrayOfproductsByCategories: [DBNetworkProduct]?
     var isMetricSystem = UserDefaultsManager.isMetricSystem
-    
+    var currentSelectedUnit: UnitSystem = .gram
     init() {
         arrayOfproductsByCategories = CoreDataManager.shared.getAllNetworkProducts()
     }
@@ -39,17 +39,25 @@ class CreateNewProductViewModel {
     }
     
     var arrayForMetricSystem: [UnitSystem] = [
-        UnitSystem.gram, UnitSystem.kilogram,
-        UnitSystem.liter, UnitSystem.mililiter,
-        UnitSystem.can, UnitSystem.bottle,
-        UnitSystem.pack, UnitSystem.piece
+        UnitSystem.gram,
+        UnitSystem.kilogram,
+        UnitSystem.liter,
+        UnitSystem.mililiter,
+        UnitSystem.can,
+        UnitSystem.bottle,
+        UnitSystem.pack,
+        UnitSystem.piece
     ]
     
     var arrayForImperalSystem: [UnitSystem] = [
-        UnitSystem.ozz, UnitSystem.lbс,
-        UnitSystem.pt, UnitSystem.fluidOz,
-        UnitSystem.can, UnitSystem.bottle,
-        UnitSystem.pack, UnitSystem.piece
+        UnitSystem.ozz,
+        UnitSystem.lbс,
+        UnitSystem.pt,
+        UnitSystem.fluidOz,
+        UnitSystem.can,
+        UnitSystem.bottle,
+        UnitSystem.pack,
+        UnitSystem.piece
     ]
 
     func getNumberOfCells() -> Int {
@@ -84,21 +92,52 @@ class CreateNewProductViewModel {
     func goToSelectCategoryVC() {
         guard let model else { return }
         let controller = router?.prepareSelectCategoryController(model: model, compl: { [weak self] newCategoryName in
-            self?.delegate?.selectCategory(text: newCategoryName, imageURL: "")
+            guard let self = self else { return }
+            self.delegate?.selectCategory(text: newCategoryName, imageURL: "", defaultSelectedUnit: self.currentSelectedUnit )
         })
         delegate?.presentController(controller: controller)
     }
     
     func chekIsProductFromCategory(name: String?) {
         guard let arrayOfproductsByCategories else { return }
-        guard let product = arrayOfproductsByCategories.first(where: { $0.title == name }) else { return }
+        
+        guard let product = arrayOfproductsByCategories.first(where: {
+            guard let name = name,
+                  let title = $0.title else { return false }
+            return title.lowercased().contains(name.lowercased())
+            
+        }) else { return }
         getAllInformation(product: product)
-       
     }
     
     func getAllInformation(product: DBNetworkProduct) {
         let imageUrl = product.photo ?? ""
-        let title = product.title
-        delegate?.selectCategory(text: title ?? "other".localized, imageURL: imageUrl)
+        print("Product id \(product.id)")
+        let title = product.marketCategory
+        let unitId = product.defaultMarketUnitID
+        print("рит = \(unitId)")
+        var shouldSelectUnit: MarketUnitClass.MarketUnitPrepared = .init(rawValue: Int(product.defaultMarketUnitID)) ?? .gram
+        var properSelectedUnit: UnitSystem = {
+            switch shouldSelectUnit {
+            case .bottle:
+                return .bottle
+            case .gram:
+                return isMetricSystem ? .gram : .ozz
+            case .kilogram:
+                return isMetricSystem ? .kilogram : .lbс
+            case .litter:
+                return isMetricSystem ? .liter : .pt
+            case .millilitre:
+                return isMetricSystem ?.mililiter : .fluidOz
+            case .pack:
+                return .pack
+            case .piece:
+                return .piece
+            case .tin:
+                return .can
+            }
+        }()
+        currentSelectedUnit = properSelectedUnit
+        delegate?.selectCategory(text: title ?? "other".localized, imageURL: imageUrl, defaultSelectedUnit: currentSelectedUnit)
     }
 }

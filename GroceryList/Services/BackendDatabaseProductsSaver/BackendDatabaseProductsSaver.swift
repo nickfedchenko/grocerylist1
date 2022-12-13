@@ -9,22 +9,21 @@ import Foundation
 
 class BackendDatabaseProductsSaver {
    
-    static var shared = BackendDatabaseProductsSaver()
-    
-    var network: NetworkDataProvider?
+    var network: NetworkDataProvider = NetworkEngine()
     
     var arrayOfProducts: [NetworkProductModel] = [] {
         didSet {
             transformNetworkModelsToCoreData()
         }
     }
- 
+    
     init() {
-        network = NetworkEngine()
+        syncProducts()
+        syncDishes()
     }
     
-    func fetchAllProducts() {
-        network?.getAllProducts { post in
+    private func syncProducts() {
+        network.getAllProducts { post in
             switch post {
             case .failure(let error):
                 print(error)
@@ -36,8 +35,15 @@ class BackendDatabaseProductsSaver {
         }
     }
     
-    deinit {
-        print("backend deinited")
+    private func syncDishes() {
+        network.getAllRecipes { result  in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let recipesResponse):
+                print(recipesResponse.data)
+            }
+        }
     }
     
     func transformNetworkModelsToCoreData() {
@@ -45,4 +51,7 @@ class BackendDatabaseProductsSaver {
             self.arrayOfProducts.forEach({ CoreDataManager.shared.createNetworkProduct(product: $0) })
         }
     }
+    
+    
+    
 }

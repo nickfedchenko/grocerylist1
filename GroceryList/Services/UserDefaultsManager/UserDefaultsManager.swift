@@ -8,6 +8,9 @@
 import Foundation
 
 class UserDefaultsManager {
+    enum UDKeys: String {
+        case favoriteRecipes
+    }
     
     static var coldStartState: Int {
         get {
@@ -34,5 +37,29 @@ class UserDefaultsManager {
         set {
             UserDefaults.standard.set(newValue, forKey: "isHapticOn")
         }
+    }
+    
+    static var favoritesRecipeIds: [Int] {
+        get {
+            guard
+                let data: Data = getValue(for: .favoriteRecipes),
+                let ids = try? JSONDecoder().decode([Int].self, from: data)
+            else { return [] }
+            return ids
+        }
+        
+        set {
+            if let data = try? JSONEncoder().encode(newValue) {
+                setValue(value: data, for: .favoriteRecipes)
+            }
+        }
+    }
+    
+    private static func setValue<T>(value: T, for key: UDKeys) {
+        UserDefaults.standard.set(value, forKey: key.rawValue)
+    }
+    
+    private static func getValue<T>(for key: UDKeys) -> T? {
+        UserDefaults.standard.object(forKey: key.rawValue) as? T
     }
 }
