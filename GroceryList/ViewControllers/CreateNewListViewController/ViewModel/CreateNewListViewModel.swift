@@ -10,7 +10,6 @@ import UIKit
 
 protocol CreateNewLiseViewModelDelegate: AnyObject {
     func updateLabelText(text: String)
-    func presentController(controller: UIViewController?)
 }
 
 class CreateNewListViewModel {
@@ -63,11 +62,10 @@ class CreateNewListViewModel {
     }
     
     func pickItemTapped(height: Double) {
-        let controller = router?.prepareSelectListController(height: height, setOfSelectedProd: copiedProducts, compl: { [weak self] products in
+        router?.goToSelectListController(height: height, setOfSelectedProd: copiedProducts, compl: { [weak self] products in
             self?.copiedProducts = products
             self?.updateText()
         })
-        delegate?.presentController(controller: controller)
     }
     
     func updateText() {

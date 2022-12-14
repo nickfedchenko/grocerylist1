@@ -10,7 +10,6 @@ import UIKit
 
 protocol SelectCategoryViewModelDelegate: AnyObject {
     func reloadData()
-    func presentController(controller: UIViewController?)
 }
 
 class SelectCategoryViewModel {
@@ -63,11 +62,9 @@ class SelectCategoryViewModel {
     
     func addNewCategoryTapped() {
         let newCategoryInd = dataSource.getNewCategoryInd()
-        let createNewCatCV = router?.prepareCreateNewCategoryController(model: model, newCategoryInd: newCategoryInd, compl: { [weak self] newCategory in
+        router?.goToCreateNewCategoryController(model: model, newCategoryInd: newCategoryInd, compl: { [weak self] newCategory in
             self?.dataSource.addNewCategory(category: newCategory)
         })
-        
-        delegate?.presentController(controller: createNewCatCV)
     }
     
     func searchByWord(word: String) {

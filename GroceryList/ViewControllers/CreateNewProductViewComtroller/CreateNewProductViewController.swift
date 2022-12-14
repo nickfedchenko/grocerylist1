@@ -642,9 +642,4 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         addImageImage.kf.setImage(with: URL(string: imageURL), placeholder: nil, options: nil, completionHandler: nil)
         isImageChanged = true
     }
-    
-    func presentController(controller: UIViewController?) {
-        guard let controller else { return }
-        navigationController?.pushViewController(controller, animated: true)
-    }
 }

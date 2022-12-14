@@ -306,11 +306,6 @@ extension SelectCategoryViewController: UICollectionViewDelegate, UICollectionVi
 
 // MARK: - Delegate
 extension SelectCategoryViewController: SelectCategoryViewModelDelegate {
-    func presentController(controller: UIViewController?) {
-        guard let controller else { return }
-        self.present(controller, animated: true)
-    }
-    
     func reloadData() {
         collectionView.reloadData()
         updateCollectionContentInset()

@@ -10,7 +10,6 @@ import Kingfisher
 import UIKit
 
 protocol CreateNewProductViewModelDelegate: AnyObject {
-    func presentController(controller: UIViewController?)
     func selectCategory(text: String, imageURL: String)
     func deselectCategory()
     func setupController(step: Int)
@@ -83,10 +82,9 @@ class CreateNewProductViewModel {
     
     func goToSelectCategoryVC() {
         guard let model else { return }
-        let controller = router?.prepareSelectCategoryController(model: model, compl: { [weak self] newCategoryName in
+        router?.goToSelectCategoryController(model: model, compl: { [weak self] newCategoryName in
             self?.delegate?.selectCategory(text: newCategoryName, imageURL: "")
         })
-        delegate?.presentController(controller: controller)
     }
     
     func chekIsProductFromCategory(name: String?) {

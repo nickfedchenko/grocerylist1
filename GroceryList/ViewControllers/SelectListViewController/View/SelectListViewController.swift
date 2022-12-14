@@ -264,8 +264,4 @@ extension SelectListViewController: SelectListViewModelDelegate {
     func dismissController() {
         hidePanel()
     }
-    
-    func presentSelectedVC(controller: UIViewController) {
-        self.present(controller, animated: true)
-    }
 }
