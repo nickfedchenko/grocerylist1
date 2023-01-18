@@ -154,8 +154,9 @@ class PaywallViewController: UIViewController {
                 let products = paywalls.first?.products,
                 let self = self
             else { return }
-            self.products = products
-            self.choiceOfCostArray = products.map {
+            self.products = products.reversed()
+       
+            self.choiceOfCostArray = self.products.map {
                 .init(
                     isPopular: false,
                     period: self.getTitle(from: $0),
@@ -186,17 +187,33 @@ class PaywallViewController: UIViewController {
         switch skProduct.subscriptionPeriod?.unit {
         case .year:
             return "\(skProduct.priceLocale.currencySymbol ?? "$")"
-            + String(format: "%.2f", price / 6)
+            + String(format: "%.2f", price / 52.1786)
             + " / "
-            + "Month".localized
+            + "weekly".localized
         case .month:
-            if skProduct.subscriptionPeriod?.numberOfUnits == 6 {
+            if skProduct.subscriptionPeriod?.numberOfUnits == 1 {
                 return "\(skProduct.priceLocale.currencySymbol ?? "$")"
-                + String(format: "%.2f", price / 6)
+                + String(format: "%.2f", price / 4.13)
                 + " / "
-                + "Month".localized
-            } else if skProduct.subscriptionPeriod?.numberOfUnits == 1 {
-                return ""
+                + "weekly".localized
+            } else {
+                return "Loading info".localized
+            }
+        case .week:
+            if skProduct.subscriptionPeriod?.numberOfUnits == 1 {
+                return "\(skProduct.priceLocale.currencySymbol ?? "$")"
+                + String(format: "%.2f", price)
+                + " / "
+                + "weekly".localized
+            } else {
+                return "Loading info".localized
+            }
+        case .day:
+            if skProduct.subscriptionPeriod?.numberOfUnits == 7 {
+                return "\(skProduct.priceLocale.currencySymbol ?? "$")"
+                + String(format: "%.2f", price)
+                + " / "
+                + "weekly".localized
             } else {
                 return "Loading info".localized
             }
@@ -225,6 +242,13 @@ class PaywallViewController: UIViewController {
             } else {
                 return "Loading info".localized
             }
+        case .day:
+            if skProduct.subscriptionPeriod?.numberOfUnits == 7 {
+                return "\(skProduct.priceLocale.currencySymbol ?? "$")"
+                + String(format: "%.2f", price)
+            } else {
+                return "Loading info".localized
+            }
         default:
             return "Loading info".localized
         }
@@ -240,6 +264,12 @@ class PaywallViewController: UIViewController {
                 return "6 Month".localized
             } else if skProduct.subscriptionPeriod?.numberOfUnits == 1 {
                 return "Monthly".localized
+            } else {
+                return "Loading info".localized
+            }
+        case .day:
+            if skProduct.subscriptionPeriod?.numberOfUnits == 7 {
+                return "Week".localized
             } else {
                 return "Loading info".localized
             }

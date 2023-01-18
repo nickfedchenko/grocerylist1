@@ -109,7 +109,7 @@ final class RecipeViewController: UIViewController {
             return []
             
         }
-        print("Instructions are \(instructions)")
+        
         for (index, instruction) in instructions.enumerated() {
             let view = InstructionView()
             view.setStepNumber(num: index + 1)

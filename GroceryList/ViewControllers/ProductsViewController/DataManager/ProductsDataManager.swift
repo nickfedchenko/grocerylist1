@@ -113,7 +113,6 @@ class ProductsDataManager {
         // тип сортировки
         let products = products.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
         products.forEach({ product in
-           print("got from db recipe title \(product.fromRecipeTitle)")
             guard !product.isPurchased else {
                 dictPurchased["Purchased".localized]?.append(product)
                 return

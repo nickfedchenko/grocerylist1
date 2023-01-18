@@ -108,11 +108,14 @@
 "Month"                     = "в месяц";
 "Loading"                   = "Загрузка";
 
+
 "Recipes"                   = "Рецепты";
 "Breakfast"                 = "Завтрак";
 "Lunch"                     = "Обед";
 "Dinner"                    = "Ужин";
 "Snacks"                    = "Закуски";
+"weekly"                    = "неделя";
+"Week"                      = "Week";
 
 "Select list"               = "Выберите список";
 

@@ -10,14 +10,10 @@
 		383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */; };
 		383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */; };
 		383C77E9293DC6200030AE78 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E8293DC6200030AE78 /* R.generated.swift */; };
-		383C77EC293DC6930030AE78 /* SFProRounded-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 383C77EB293DC6930030AE78 /* SFProRounded-Bold.otf */; };
-		383C77EE293DD3050030AE78 /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 383C77ED293DD3040030AE78 /* SFProText-Semibold.ttf */; };
 		383C77F3293F799E0030AE78 /* RecipesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77F2293F799E0030AE78 /* RecipesListViewController.swift */; };
 		383C77F7293F79EB0030AE78 /* RecipesListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77F6293F79EB0030AE78 /* RecipesListHeaderView.swift */; };
 		383C77FA293FB7310030AE78 /* RecipeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77F9293FB7310030AE78 /* RecipeListCell.swift */; };
 		383C77FD2940ED0F0030AE78 /* AddProductsSelectionListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77FC2940ED0F0030AE78 /* AddProductsSelectionListController.swift */; };
-		3881788E293AFB190094344D /* DBRecipe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3881788D293AFB190094344D /* DBRecipe+CoreDataClass.swift */; };
-		3881788F293AFB190094344D /* DBRecipe+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3881788C293AFB190094344D /* DBRecipe+CoreDataProperties.swift */; };
 		38817892293BEC8E0094344D /* DataProviderFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38817891293BEC8E0094344D /* DataProviderFacade.swift */; };
 		389DCF432945CDFA00DB9382 /* RecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DCF422945CDF900DB9382 /* RecipeViewController.swift */; };
 		389DCF452945CE9A00DB9382 /* RecipeScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DCF442945CE9A00DB9382 /* RecipeScreenViewModel.swift */; };
@@ -28,6 +24,11 @@
 		38F4903F2946DC6A00529D1F /* IngredientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F4903E2946DC6A00529D1F /* IngredientView.swift */; };
 		38F4904129476FFD00529D1F /* UIBezierPath+MaskedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F4904029476FFD00529D1F /* UIBezierPath+MaskedCorners.swift */; };
 		38F49043294771A500529D1F /* InstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F49042294771A500529D1F /* InstructionView.swift */; };
+		846600E5294A012C00D85415 /* SFProRounded-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 846600E3294A012C00D85415 /* SFProRounded-Bold.otf */; };
+		846600E6294A012C00D85415 /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 846600E4294A012C00D85415 /* SFProText-Semibold.ttf */; };
+		846600E9294A024800D85415 /* DBRecipe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846600E7294A024800D85415 /* DBRecipe+CoreDataClass.swift */; };
+		846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846600E8294A024800D85415 /* DBRecipe+CoreDataProperties.swift */; };
+		846600EC294BB9B100D85415 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 846600EB294BB9B100D85415 /* StoreKit.framework */; };
 		B30573BB29222BE700CA8BDE /* HeaderListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573BA29222BE700CA8BDE /* HeaderListCell.swift */; };
 		B30573BD29222D4500CA8BDE /* ProductListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573BC29222D4400CA8BDE /* ProductListCell.swift */; };
 		B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573C62923A11000CA8BDE /* ProductSettingsTableViewCell.swift */; };
@@ -131,14 +132,10 @@
 		383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipePreviewCell.swift; sourceTree = "<group>"; };
 		383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipesFolderHeader.swift; sourceTree = "<group>"; };
 		383C77E8293DC6200030AE78 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
-		383C77EB293DC6930030AE78 /* SFProRounded-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SFProRounded-Bold.otf"; path = "../../../../CalorieTracker/CalorieTracker/Sources/Fonts/SFProRounded-Bold.otf"; sourceTree = "<group>"; };
-		383C77ED293DD3040030AE78 /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SFProText-Semibold.ttf"; path = "../../../../CalorieTracker/CalorieTracker/Sources/Fonts/SFProText-Semibold.ttf"; sourceTree = "<group>"; };
 		383C77F2293F799E0030AE78 /* RecipesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesListViewController.swift; sourceTree = "<group>"; };
 		383C77F6293F79EB0030AE78 /* RecipesListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesListHeaderView.swift; sourceTree = "<group>"; };
 		383C77F9293FB7310030AE78 /* RecipeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListCell.swift; sourceTree = "<group>"; };
 		383C77FC2940ED0F0030AE78 /* AddProductsSelectionListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductsSelectionListController.swift; sourceTree = "<group>"; };
-		3881788C293AFB190094344D /* DBRecipe+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DBRecipe+CoreDataProperties.swift"; path = "/Users/vladimirbanushkin/grocerylist1/GroceryList/Services/DataBase/CoreDataModels/DBRecipe+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
-		3881788D293AFB190094344D /* DBRecipe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DBRecipe+CoreDataClass.swift"; path = "/Users/vladimirbanushkin/grocerylist1/GroceryList/Services/DataBase/CoreDataModels/DBRecipe+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		38817891293BEC8E0094344D /* DataProviderFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderFacade.swift; sourceTree = "<group>"; };
 		389DCF422945CDF900DB9382 /* RecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeViewController.swift; sourceTree = "<group>"; };
 		389DCF442945CE9A00DB9382 /* RecipeScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeScreenViewModel.swift; sourceTree = "<group>"; };
@@ -149,6 +146,11 @@
 		38F4903E2946DC6A00529D1F /* IngredientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientView.swift; sourceTree = "<group>"; };
 		38F4904029476FFD00529D1F /* UIBezierPath+MaskedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+MaskedCorners.swift"; sourceTree = "<group>"; };
 		38F49042294771A500529D1F /* InstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionView.swift; sourceTree = "<group>"; };
+		846600E3294A012C00D85415 /* SFProRounded-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProRounded-Bold.otf"; sourceTree = "<group>"; };
+		846600E4294A012C00D85415 /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Semibold.ttf"; sourceTree = "<group>"; };
+		846600E7294A024800D85415 /* DBRecipe+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBRecipe+CoreDataClass.swift"; sourceTree = "<group>"; };
+		846600E8294A024800D85415 /* DBRecipe+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBRecipe+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		846600EB294BB9B100D85415 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		B30573BA29222BE700CA8BDE /* HeaderListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderListCell.swift; sourceTree = "<group>"; };
 		B30573BC29222D4400CA8BDE /* ProductListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCell.swift; sourceTree = "<group>"; };
 		B30573C62923A11000CA8BDE /* ProductSettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSettingsTableViewCell.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF84F46FAFBAF3BBEEB5E7C0 /* Pods_GroceryList.framework in Frameworks */,
+				846600EC294BB9B100D85415 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +358,7 @@
 		9BCFA37A03FAA44487B60585 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				846600EB294BB9B100D85415 /* StoreKit.framework */,
 				025222570B015E69FF5973D3 /* Pods_GroceryList.framework */,
 			);
 			name = Frameworks;
@@ -390,8 +394,8 @@
 		B33DFD1E291A676400AC7403 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
-				3881788D293AFB190094344D /* DBRecipe+CoreDataClass.swift */,
-				3881788C293AFB190094344D /* DBRecipe+CoreDataProperties.swift */,
+				846600E7294A024800D85415 /* DBRecipe+CoreDataClass.swift */,
+				846600E8294A024800D85415 /* DBRecipe+CoreDataProperties.swift */,
 				B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */,
 				B3FECE4229375AA80077F8EF /* DBCategories+CoreDataClass.swift */,
 				B3777E282938F41F0074BE38 /* DBNetworkProduct+CoreDataClass.swift */,
@@ -846,9 +850,9 @@
 		B37A2CF229111BFB003C01AD /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				846600E3294A012C00D85415 /* SFProRounded-Bold.otf */,
+				846600E4294A012C00D85415 /* SFProText-Semibold.ttf */,
 				389DCF4B2946246A00DB9382 /* SFProText-Medium.ttf */,
-				383C77ED293DD3040030AE78 /* SFProText-Semibold.ttf */,
-				383C77EB293DC6930030AE78 /* SFProRounded-Bold.otf */,
 				B36AF9462913E94100944E9D /* SF Pro Display Regular.otf */,
 				B36AF93C2913CEE900944E9D /* SF Pro Display Bold.otf */,
 				B3C3FA4829115F510011EC0A /* SF Pro Display Semibold.otf */,
@@ -964,14 +968,14 @@
 			files = (
 				B33EFF1B290FF02900AD9BEE /* LaunchScreen.storyboard in Resources */,
 				B36C75EE2911266800709721 /* Localizable.strings in Resources */,
-				383C77EC293DC6930030AE78 /* SFProRounded-Bold.otf in Resources */,
 				389DCF4C2946246A00DB9382 /* SFProText-Medium.ttf in Resources */,
-				383C77EE293DD3050030AE78 /* SFProText-Semibold.ttf in Resources */,
+				846600E5294A012C00D85415 /* SFProRounded-Bold.otf in Resources */,
 				B37A2CF6291125CA003C01AD /* SF Pro Display Medium.otf in Resources */,
 				B36AF9472913E94100944E9D /* SF Pro Display Regular.otf in Resources */,
 				B37A2CF429111C41003C01AD /* SF Pro Display Heavy.otf in Resources */,
 				B33EFF18290FF02900AD9BEE /* Assets.xcassets in Resources */,
 				B36AF93D2913CEE900944E9D /* SF Pro Display Bold.otf in Resources */,
+				846600E6294A012C00D85415 /* SFProText-Semibold.ttf in Resources */,
 				B3C3FA4929115F510011EC0A /* SF Pro Display Semibold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1069,7 +1073,6 @@
 				B34EAC9E2934EE0100FBD0E0 /* SelectCategoryDataSource.swift in Sources */,
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
 				B3FECE4429375AA80077F8EF /* DBCategories+CoreDataClass.swift in Sources */,
-				3881788F293AFB190094344D /* DBRecipe+CoreDataProperties.swift in Sources */,
 				383C77F3293F799E0030AE78 /* RecipesListViewController.swift in Sources */,
 				383C77F7293F79EB0030AE78 /* RecipesListHeaderView.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
@@ -1078,8 +1081,8 @@
 				B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */,
 				38F4904129476FFD00529D1F /* UIBezierPath+MaskedCorners.swift in Sources */,
 				B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */,
+				846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */,
 				383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */,
-				3881788E293AFB190094344D /* DBRecipe+CoreDataClass.swift in Sources */,
 				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
 				B35F0F632937975200C19891 /* MeashureManager.swift in Sources */,
 				B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */,
@@ -1127,6 +1130,7 @@
 				B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */,
 				B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */,
 				389DCF4E2946534300DB9382 /* RecipeServingSelector.swift in Sources */,
+				846600E9294A024800D85415 /* DBRecipe+CoreDataClass.swift in Sources */,
 				B3FECE4329375AA80077F8EF /* DBCategories+CoreDataProperties.swift in Sources */,
 				383C77FA293FB7310030AE78 /* RecipeListCell.swift in Sources */,
 				B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */,
@@ -1317,22 +1321,25 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4PHXKWB7YH;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = S93MCWMH29;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Grocery_list;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "We need access to your libraryto add photo to new product or recipe";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera roll to add photo to new product or recipe";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.shamaich.GroceryList;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ksens.shopp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1347,22 +1354,25 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4PHXKWB7YH;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = S93MCWMH29;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Grocery_list;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "We need access to your libraryto add photo to new product or recipe";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera roll to add photo to new product or recipe";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.shamaich.GroceryList;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ksens.shopp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

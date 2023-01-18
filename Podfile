@@ -11,6 +11,7 @@ target 'GroceryList' do
   pod 'SnapKit'
   pod 'Kingfisher', '~> 7.0'
   pod 'ApphudSDK'
+  pod 'R.swift'
 
   # Pods for GroceryList
 

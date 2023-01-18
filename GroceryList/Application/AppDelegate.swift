@@ -13,6 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let syncService: DataSyncProtocol = DataProviderFacade()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        Apphud.start(apiKey: "app_UumawTKYjWf9iUejoRkxntPLZQa7eq")
         AppDelegate.activateFonts(withExtension: "ttf")
         AppDelegate.activateFonts(withExtension: "otf")
         syncService.updateProducts()

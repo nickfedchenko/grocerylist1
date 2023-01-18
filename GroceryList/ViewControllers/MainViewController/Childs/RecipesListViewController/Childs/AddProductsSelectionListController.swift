@@ -23,9 +23,6 @@ final class AddProductsSelectionListController: SelectListViewController {
     init(with productsSet: [Product]) {
         self.productsToAdd = productsSet
         super.init(nibName: nil, bundle: nil)
-        productsToAdd.forEach {
-            print("products to add recipe title is \($0.fromRecipeTitle)")
-        }
     }
     
     required init?(coder: NSCoder) {

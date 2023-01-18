@@ -5,6 +5,7 @@
 //  Created by Шамиль Моллачиев on 03.11.2022.
 //
 
+import ApphudSDK
 import SnapKit
 import UIKit
 
@@ -537,12 +538,18 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
     }
     
     func modeChanged(to mode: MainScreenPresentationMode) {
-        
+        guard Apphud.hasActiveSubscription() else {
+            if let paywall = viewModel?.router?.viewControllerFactory.createPaywallController() {
+                paywall.modalPresentationStyle = .fullScreen
+                present(paywall, animated: true)
+            }
+            return
+        }
         presentationMode = mode
         if mode == .lists {
             showListsCollection()
             if let item = collectionViewDataSource?.itemIdentifier(for: IndexPath(item: 0, section: 0)),
-               var snapshot = collectionViewDataSource?.snapshot()  {
+               var snapshot = collectionViewDataSource?.snapshot() {
                 snapshot.reloadItems([item])
                 collectionViewDataSource?.apply(snapshot)
             }
