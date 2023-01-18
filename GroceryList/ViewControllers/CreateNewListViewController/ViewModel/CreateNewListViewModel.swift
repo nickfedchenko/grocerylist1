@@ -30,16 +30,18 @@ class CreateNewListViewModel {
             model.typeOfSorting = isSortByCategory ? 0 : 2
             CoreDataManager.shared.saveList(list: model)
             copiedProducts.forEach({ saveCopiedProduct(product: $0, listId: model.id) })
+            model.products = newSavedProducts
             valueChangedCallback?(model, newSavedProducts)
             return
         }
         let typeOfSorting = isSortByCategory ? 0 : 2
-        let list = GroceryListsModel(id: UUID(), dateOfCreation: Date(),
+        var list = GroceryListsModel(id: UUID(), dateOfCreation: Date(),
                                      name: nameOfList, color: numberOfColor, isFavorite: false, products: [], typeOfSorting: typeOfSorting)
         CoreDataManager.shared.saveList(list: list)
         UserDefaultsManager.coldStartState = 2
         
         copiedProducts.forEach({ saveCopiedProduct(product: $0, listId: list.id) })
+        list.products = newSavedProducts
         valueChangedCallback?(list, newSavedProducts)
     }
     

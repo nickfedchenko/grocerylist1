@@ -15,6 +15,7 @@ class CreateNewProductViewController: UIViewController {
     private var isCategorySelected = false
     private var quantityCount = 0
     private var isImageChanged = false
+    private var userCommentText = ""
 
     private var quantityValueStep: Int = 1
     
@@ -49,23 +50,38 @@ class CreateNewProductViewController: UIViewController {
     private func plusButtonAction() {
         quantityCount += quantityValueStep
         quantityLabel.text = String(quantityCount)
-        let quantity = selectUnitLabel.text ?? ""
-        bottomTextField.text = "\(quantityCount) \(quantity)"
+        setupText()
         quantityAvailable()
     }
 
     @objc
     private func minusButtonAction() {
-        guard quantityCount > 1 else { return quantityNotAvailable() }
+        guard quantityCount > 1 else {
+            userCommentText = ""
+            return quantityNotAvailable()
+        }
         quantityCount -= quantityValueStep
         quantityLabel.text = String(quantityCount)
+        setupText()
+    }
+    
+    private func setupText() {
         let quantity = selectUnitLabel.text ?? ""
-        bottomTextField.text = "\(quantityCount) \(quantity)"
+        if userCommentText.isEmpty {
+            bottomTextField.text = "\(quantityCount) \(quantity) "
+        } else {
+            let words = userCommentText.components(separatedBy: " ")
+            let wordsToRemove = "\(quantityCount - quantityValueStep) \(quantity)".components(separatedBy: " ")
+            let result = words.filter { !wordsToRemove.contains($0) }.joined(separator: " ")
+            userCommentText = result
+            bottomTextField.text = userCommentText + ", \(quantityCount) \(quantity) "
+        }
     }
     
     private func setupTextFieldParametrs() {
         bottomTextField.delegate = self
         topTextField.delegate = self
+        quantityLabel.delegate = self
         topTextField.becomeFirstResponder()
     }
     
@@ -109,6 +125,13 @@ class CreateNewProductViewController: UIViewController {
     }
     
     // MARK: - UI
+    
+    private let topClearView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
     private let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#F9FBEB")
@@ -226,6 +249,13 @@ class CreateNewProductViewController: UIViewController {
         return view
     }()
     
+    private let selectUnitsBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.isHidden = true
+        return view
+    }()
+    
     private let selectUnitsView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#D2D5DA")
@@ -272,12 +302,18 @@ class CreateNewProductViewController: UIViewController {
         return label
     }()
     
-    private let quantityLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
-        label.textColor = UIColor(hex: "#AEB4B2")
-        label.text = "0"
-        return label
+    private let quantityLabel: UITextField = {
+        let textfield = UITextField()
+        textfield.font = UIFont.SFPro.semibold(size: 17).font
+        textfield.textColor = .black
+        textfield.backgroundColor = .white
+        textfield.keyboardAppearance = .light
+        textfield.keyboardType = .numberPad
+        textfield.attributedPlaceholder = NSAttributedString(
+            string: "0",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "#AEB4B2")]
+        )
+        return textfield
     }()
     
     private let saveButtonView: UIView = {
@@ -294,16 +330,12 @@ class CreateNewProductViewController: UIViewController {
         label.text = "Save".localized.uppercased()
         return label
     }()
-    
-    private func updateAutoSelectedUnit() {
-        
-    }
-    
+
     // MARK: - Constraints
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         selectUnitsBigView.transform = CGAffineTransform(scaleX: 1, y: 0)
-        view.addSubviews([contentView, selectUnitsBigView])
+        view.addSubviews([contentView, topClearView, selectUnitsBackgroundView, selectUnitsBigView])
         contentView.addSubviews([saveButtonView, topCategoryView, textfieldView, quantityTitleLabel, quantityView, minusButton, plusButton, selectUnitsView])
         selectUnitsView.addSubviews([whiteArrowForSelectUnit, selectUnitLabel])
         selectUnitsBigView.addSubviews([tableview])
@@ -311,6 +343,11 @@ class CreateNewProductViewController: UIViewController {
         topCategoryView.addSubviews([topCategoryLabel, topCategoryPencilImage])
         textfieldView.addSubviews([checkmarkImage, topTextField, bottomTextField, addImageImage])
         saveButtonView.addSubview(saveLabel)
+        
+        topClearView.snp.makeConstraints { make in
+            make.left.right.top.equalToSuperview()
+            make.bottom.equalTo(contentView.snp.top)
+        }
         
         contentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
@@ -412,6 +449,10 @@ class CreateNewProductViewController: UIViewController {
             make.centerY.equalToSuperview()
         }
         
+        selectUnitsBackgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
         selectUnitsBigView.snp.makeConstraints { make in
             make.left.right.bottom.equalTo(selectUnitsView)
             make.height.equalTo(320)
@@ -466,6 +507,8 @@ extension CreateNewProductViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
+        var finalText = string.isEmpty ? String(text.dropLast()) : text + string
+        
         if textField == topTextField {
         
             if newLength > 2 && isCategorySelected {
@@ -474,12 +517,25 @@ extension CreateNewProductViewController: UITextFieldDelegate {
                 notReadyToSave()
             }
             
-            if string.isEmpty {
-                viewModel?.chekIsProductFromCategory(name: String(text.dropLast()))
-            } else {
-                viewModel?.chekIsProductFromCategory(name: text + string)
-            }
+            viewModel?.chekIsProductFromCategory(name: finalText)
+ 
         }
+        
+        if textField == bottomTextField {
+            userCommentText = finalText
+        }
+        
+        if textField == quantityLabel {
+            quantityCount = Int(finalText) ?? 0
+            setupText()
+            
+            if finalText.isEmpty {
+                quantityNotAvailable()
+                
+            }
+            if !finalText.isEmpty { quantityAvailable() }
+        }
+        
         return newLength <= 25
     }
     
@@ -514,11 +570,28 @@ extension CreateNewProductViewController {
         let swipeDownRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
         contentView.addGestureRecognizer(swipeDownRecognizer)
         
+        let tapOnBlurViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOnBlurViewAction))
+        topClearView.addGestureRecognizer(tapOnBlurViewRecognizer)
+        
+        let tapSelectUnitsBGRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapSelectUnitsBGAction))
+        selectUnitsBackgroundView.addGestureRecognizer(tapSelectUnitsBGRecognizer)
+        
+    }
+    
+    @objc
+    private func tapSelectUnitsBGAction() {
+        hideTableview(cell: nil)
+    }
+    
+    @objc
+    private func tapOnBlurViewAction() {
+        hidePanel()
     }
     
     @objc
     private func tapOnSelectUnitsAction() {
         quantityAvailable()
+        selectUnitsBackgroundView.isHidden = false
         selectUnitsBigView.transform = CGAffineTransform(scaleX: 1, y: 1)
     }
     
@@ -601,6 +674,7 @@ extension CreateNewProductViewController: UITableViewDelegate, UITableViewDataSo
         selectUnitLabel.text = viewModel?.getTitleForCell(at: indexPath.row)
         bottomTextField.text = ""
         viewModel?.cellSelected(at: indexPath.row)
+        plusButtonAction()
     }
         
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -610,6 +684,7 @@ extension CreateNewProductViewController: UITableViewDelegate, UITableViewDataSo
     func hideTableview(cell: UITableViewCell?) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.selectUnitsBigView.transform = CGAffineTransform(scaleX: 1, y: 0)
+            self.selectUnitsBackgroundView.isHidden = true
             cell?.isSelected = false
         }
     }

@@ -90,6 +90,13 @@ class CreateNewListViewController: UIViewController {
     }
     
     // MARK: - UI
+    
+    private let topClearView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
     private let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#F9FBEB")
@@ -197,12 +204,17 @@ class CreateNewListViewController: UIViewController {
     // MARK: - Constraints
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        view.addSubviews([contentView, closeButtonView])
+        view.addSubviews([contentView, closeButtonView, topClearView])
         contentView.addSubviews([textfield, colorCollectionView, saveButtonView,
                                  pickItemsFromList, sortingLabel, switchView])
         pickItemsFromList.addSubviews([pickItemsLabel, pickItemsImage])
         saveButtonView.addSubview(saveLabel)
         closeButtonView.addSubview(closeLabel)
+        
+        topClearView.snp.makeConstraints { make in
+            make.left.top.right.equalToSuperview()
+            make.bottom.equalTo(contentView.snp.top)
+        }
         
         contentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
@@ -364,6 +376,9 @@ extension CreateNewListViewController {
         
         let closeRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeAction))
         closeButtonView.addGestureRecognizer(closeRecognizer)
+        
+        let topClearViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeAction))
+        topClearView.addGestureRecognizer(topClearViewRecognizer)
     }
     
     @objc
