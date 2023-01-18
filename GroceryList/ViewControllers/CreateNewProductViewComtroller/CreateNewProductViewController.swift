@@ -81,6 +81,7 @@ class CreateNewProductViewController: UIViewController {
     private func setupTextFieldParametrs() {
         bottomTextField.delegate = self
         topTextField.delegate = self
+        quantityLabel.delegate = self
         topTextField.becomeFirstResponder()
     }
     
@@ -301,12 +302,18 @@ class CreateNewProductViewController: UIViewController {
         return label
     }()
     
-    private let quantityLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
-        label.textColor = UIColor(hex: "#AEB4B2")
-        label.text = "0"
-        return label
+    private let quantityLabel: UITextField = {
+        let textfield = UITextField()
+        textfield.font = UIFont.SFPro.semibold(size: 17).font
+        textfield.textColor = .black
+        textfield.backgroundColor = .white
+        textfield.keyboardAppearance = .light
+        textfield.keyboardType = .numberPad
+        textfield.attributedPlaceholder = NSAttributedString(
+            string: "0",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "#AEB4B2")]
+        )
+        return textfield
     }()
     
     private let saveButtonView: UIView = {
@@ -500,6 +507,8 @@ extension CreateNewProductViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
+        var finalText = string.isEmpty ? String(text.dropLast()) : text + string
+        
         if textField == topTextField {
         
             if newLength > 2 && isCategorySelected {
@@ -508,20 +517,25 @@ extension CreateNewProductViewController: UITextFieldDelegate {
                 notReadyToSave()
             }
             
-            if string.isEmpty {
-                viewModel?.chekIsProductFromCategory(name: String(text.dropLast()))
-            } else {
-                viewModel?.chekIsProductFromCategory(name: text + string)
-            }
+            viewModel?.chekIsProductFromCategory(name: finalText)
+ 
         }
         
         if textField == bottomTextField {
-            if string.isEmpty {
-                userCommentText = String(text.dropLast())
-            } else {
-                userCommentText = text + string
-            }
+            userCommentText = finalText
         }
+        
+        if textField == quantityLabel {
+            quantityCount = Int(finalText) ?? 0
+            setupText()
+            
+            if finalText.isEmpty {
+                quantityNotAvailable()
+                
+            }
+            if !finalText.isEmpty { quantityAvailable() }
+        }
+        
         return newLength <= 25
     }
     
