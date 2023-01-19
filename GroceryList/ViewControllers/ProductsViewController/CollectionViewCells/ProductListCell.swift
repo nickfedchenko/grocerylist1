@@ -209,12 +209,14 @@ class ProductListCell: UICollectionViewListCell {
         
         firstDescriptionLabel.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.top.equalToSuperview().inset(8)
+            make.top.equalTo(checkmarkImage.snp.top)
+            make.height.equalTo(17)
         }
         
         secondDescriptionLabel.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(6)
+            make.height.equalTo(17)
         }
         
         checkmarkImage.snp.makeConstraints { make in

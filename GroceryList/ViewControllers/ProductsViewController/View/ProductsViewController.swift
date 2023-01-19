@@ -222,7 +222,7 @@ class ProductsViewController: UIViewController {
         navigationView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             make.right.left.equalToSuperview()
-            make.height.equalTo(66)
+            make.height.equalTo(44)
         }
         
         arrowBackButton.snp.makeConstraints { make in

@@ -19,6 +19,11 @@ class HeaderListCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        collapsedColoredView.makeCustomRound(topLeft: 0, topRight: 20, bottomLeft: 0, bottomRight: 4)
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         pinchView.isHidden = true
@@ -113,8 +118,6 @@ class HeaderListCell: UICollectionViewListCell {
     
     private let collapsedColoredView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 20
-        view.layer.maskedCorners = [.layerMaxXMinYCorner]
         view.layer.masksToBounds = true
         view.backgroundColor = .clear
         return view
