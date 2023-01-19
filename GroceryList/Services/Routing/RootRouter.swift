@@ -139,6 +139,11 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, style: .fullScreen, animated: true)
     }
     
+    func showReviewRequestController() {
+       let controller = viewControllerFactory.createReviewsController(router: self)
+        navigationPushViewController(controller, animated: true)
+    }
+    
     // просто создание вью - контролер сам будет презентить их, т.к топ контролер уже презентит вью и эти не получается так запрезентить
     func prepareSelectProductController(height: Double, model: GroceryListsModel,
                                         setOfSelectedProd: Set<Product>, compl: @escaping ((Set<Product>) -> Void)) -> UIViewController {

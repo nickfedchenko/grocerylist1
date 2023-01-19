@@ -24,6 +24,9 @@
 		38F4903F2946DC6A00529D1F /* IngredientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F4903E2946DC6A00529D1F /* IngredientView.swift */; };
 		38F4904129476FFD00529D1F /* UIBezierPath+MaskedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F4904029476FFD00529D1F /* UIBezierPath+MaskedCorners.swift */; };
 		38F49043294771A500529D1F /* InstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F49042294771A500529D1F /* InstructionView.swift */; };
+		840C189F2978D2230006F975 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840C189E2978D2230006F975 /* Int+Extensions.swift */; };
+		844FC6392978612B008173AA /* OnboardingReviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FC6382978612B008173AA /* OnboardingReviewController.swift */; };
+		844FC63B2978B825008173AA /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FC63A2978B825008173AA /* ReviewCell.swift */; };
 		846600E5294A012C00D85415 /* SFProRounded-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 846600E3294A012C00D85415 /* SFProRounded-Bold.otf */; };
 		846600E6294A012C00D85415 /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 846600E4294A012C00D85415 /* SFProText-Semibold.ttf */; };
 		846600E9294A024800D85415 /* DBRecipe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846600E7294A024800D85415 /* DBRecipe+CoreDataClass.swift */; };
@@ -146,6 +149,9 @@
 		38F4903E2946DC6A00529D1F /* IngredientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientView.swift; sourceTree = "<group>"; };
 		38F4904029476FFD00529D1F /* UIBezierPath+MaskedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+MaskedCorners.swift"; sourceTree = "<group>"; };
 		38F49042294771A500529D1F /* InstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionView.swift; sourceTree = "<group>"; };
+		840C189E2978D2230006F975 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		844FC6382978612B008173AA /* OnboardingReviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingReviewController.swift; sourceTree = "<group>"; };
+		844FC63A2978B825008173AA /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
 		846600E3294A012C00D85415 /* SFProRounded-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProRounded-Bold.otf"; sourceTree = "<group>"; };
 		846600E4294A012C00D85415 /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Semibold.ttf"; sourceTree = "<group>"; };
 		846600E7294A024800D85415 /* DBRecipe+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBRecipe+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -824,6 +830,8 @@
 				B37A2CDE29110290003C01AD /* OnboardingViewController.swift */,
 				B3C3FA4A291161D80011EC0A /* FirstOnboardingView.swift */,
 				B3C3FA4629115AA20011EC0A /* OnboardingContentView.swift */,
+				844FC6382978612B008173AA /* OnboardingReviewController.swift */,
+				844FC63A2978B825008173AA /* ReviewCell.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -843,6 +851,7 @@
 				B3C3FA4E291175390011EC0A /* UIImageViewExtension.swift */,
 				B3C3FA50291261870011EC0A /* UIScreenExtension.swift */,
 				38F4904029476FFD00529D1F /* UIBezierPath+MaskedCorners.swift */,
+				840C189E2978D2230006F975 /* Int+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1080,6 +1089,7 @@
 				B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */,
 				B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */,
 				38F4904129476FFD00529D1F /* UIBezierPath+MaskedCorners.swift in Sources */,
+				840C189F2978D2230006F975 /* Int+Extensions.swift in Sources */,
 				B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */,
 				846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */,
 				383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */,
@@ -1107,6 +1117,7 @@
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
+				844FC6392978612B008173AA /* OnboardingReviewController.swift in Sources */,
 				383C77E9293DC6200030AE78 /* R.generated.swift in Sources */,
 				B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */,
 				B36D18EB291A2CCD005EE32D /* CoreDataStorage.swift in Sources */,
@@ -1160,6 +1171,7 @@
 				B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */,
 				B3476909291D21730045A287 /* ProductsSettingsViewController.swift in Sources */,
 				38F49043294771A500529D1F /* InstructionView.swift in Sources */,
+				844FC63B2978B825008173AA /* ReviewCell.swift in Sources */,
 				B30573BD29222D4500CA8BDE /* ProductListCell.swift in Sources */,
 				B34EACAA293501E100FBD0E0 /* CreateNewCategoryViewModel.swift in Sources */,
 				B36AF9392913C5DC00944E9D /* MainScreenViewController.swift in Sources */,
@@ -1325,7 +1337,7 @@
 				DEVELOPMENT_TEAM = S93MCWMH29;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Grocery_list;
+				INFOPLIST_KEY_CFBundleDisplayName = "Grocery list";
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "We need access to your libraryto add photo to new product or recipe";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera roll to add photo to new product or recipe";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
@@ -1358,7 +1370,7 @@
 				DEVELOPMENT_TEAM = S93MCWMH29;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Grocery_list;
+				INFOPLIST_KEY_CFBundleDisplayName = "Grocery list";
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "We need access to your libraryto add photo to new product or recipe";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera roll to add photo to new product or recipe";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";

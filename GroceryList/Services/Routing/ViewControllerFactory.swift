@@ -63,6 +63,7 @@ protocol ViewControllerFactoryProtocol {
     func createSettingsController(router: RootRouter) -> UIViewController?
     func createPaywallController() -> UIViewController?
     func createRecipesListController(for section: RecipeSectionsModel, with router: RootRouter) -> UIViewController
+    func createReviewsController(router: RootRouter) -> UIViewController
 }
 
 // MARK: - Factory
@@ -218,6 +219,11 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createPaywallController() -> UIViewController? {
         let viewController = PaywallViewController()
         return viewController
+    }
+    
+    func createReviewsController(router: RootRouter) -> UIViewController {
+        let controller = OnboardingReviewController(router: router)
+        return controller
     }
     
     func createActivityController(image: [Any]) -> UIViewController? {
