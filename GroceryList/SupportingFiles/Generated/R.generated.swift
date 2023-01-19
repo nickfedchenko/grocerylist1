@@ -1194,7 +1194,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 106 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 107 localization keys.
     struct localizable {
       /// en translation: A problem? Contact us!
       ///
@@ -1312,6 +1312,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let error = Rswift.StringResource(key: "Error", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Favorites
+      ///
+      /// Locales: en, ru
+      static let favorites = Rswift.StringResource(key: "Favorites", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Fish and seafood
       ///
       /// Locales: en, ru
@@ -2054,6 +2058,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("Error", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Favorites
+      ///
+      /// Locales: en, ru
+      static func favorites(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("Favorites", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "Favorites"
+        }
+
+        return NSLocalizedString("Favorites", bundle: bundle, comment: "")
       }
 
       /// en translation: Fish and seafood

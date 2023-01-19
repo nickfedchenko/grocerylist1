@@ -14,6 +14,8 @@ class ProductListCell: UICollectionViewListCell {
     var swipeToAddOrDeleteFromFavorite: (() -> Void)?
     private var state: CellState = .normal
     
+    private let shadowView = UIView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         swipeToAddOrDeleteFavorite.transform = CGAffineTransform(scaleX: 0.0, y: 1)

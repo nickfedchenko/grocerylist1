@@ -51,6 +51,7 @@ final class RecipesListHeaderView: UIView {
         let label = UILabel()
         label.font = R.font.sfProRoundedBold(size: 22)
         label.textColor = UIColor(hex: "1A645A")
+        label.numberOfLines = 1
         return label
     }()
     
@@ -58,11 +59,12 @@ final class RecipesListHeaderView: UIView {
         super.init(frame: frame)
         setupActions()
         setupSubviews()
+        backgroundColor = UIColor(hex: "E5F5F3", alpha: 0.9)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
+    } 
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
@@ -72,6 +74,10 @@ final class RecipesListHeaderView: UIView {
     func releaseBlurAnimation() {
         blurRadiusDriver?.stopAnimation(true)
         blurRadiusDriver?.finishAnimation(at: .current)
+    }
+    
+    func setTitle(title: String) {
+        self.title.text = title
     }
     
     private func setupActions() {
@@ -94,13 +100,14 @@ final class RecipesListHeaderView: UIView {
         addSubview(blurBack)
         blurBack.contentView.addSubview(backButton)
         blurBack.contentView.addSubview(searchButton)
+        blurBack.contentView.addSubview(title)
         
         blurBack.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
         backButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(54)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(2)
             make.leading.equalToSuperview().offset(20)
             make.width.equalTo(97)
         }
@@ -109,6 +116,11 @@ final class RecipesListHeaderView: UIView {
             make.centerY.equalTo(backButton)
             make.trailing.equalToSuperview().inset(20)
             make.height.width.equalTo(40)
+        }
+        
+        title.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(20)
+            make.bottom.equalToSuperview().inset(8)
         }
     }
     
