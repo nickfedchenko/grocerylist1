@@ -301,7 +301,9 @@ extension CreateNewListViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
-        if newLength > 2 {
+        let finalText = string.isEmpty ? String(text.dropLast()) : text + string
+        
+        if newLength >= 1 {
             readyToSave()
         } else {
             notReadyToSave()

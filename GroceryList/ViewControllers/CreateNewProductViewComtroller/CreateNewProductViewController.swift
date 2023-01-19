@@ -514,7 +514,7 @@ extension CreateNewProductViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
-        var finalText = string.isEmpty ? String(text.dropLast()) : text + string
+        let finalText = string.isEmpty ? String(text.dropLast()) : text + string
         
         if textField == topTextField {
         
