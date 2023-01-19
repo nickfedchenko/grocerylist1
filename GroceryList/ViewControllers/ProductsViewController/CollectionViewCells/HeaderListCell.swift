@@ -195,7 +195,7 @@ class HeaderListCell: UICollectionViewListCell {
         }
         
         checkmarkView.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(20)
+            make.right.equalToSuperview().inset(30)
             make.width.equalTo(20)
             make.height.equalTo(12)
             make.centerY.equalTo(coloredView.snp.centerY)
