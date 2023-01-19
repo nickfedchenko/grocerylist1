@@ -90,7 +90,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    private let nameLabel: UILabel = {
+    let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
         label.textColor = .white

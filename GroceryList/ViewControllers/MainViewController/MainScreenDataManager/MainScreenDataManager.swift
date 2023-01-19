@@ -17,10 +17,10 @@ protocol DataSourceProtocol {
     func addOrDeleteFromFavorite(with model: GroceryListsModel) -> Set<GroceryListsModel>
     var recipesSections: [RecipeSectionsModel] { get set }
     func makeRecipesSections()
+    func updateFavoritesSection()
 }
 
 class MainScreenDataManager: DataSourceProtocol {
-    
     init() {
         createWorkingArray()
         makeRecipesSections()
@@ -223,12 +223,21 @@ class MainScreenDataManager: DataSourceProtocol {
         let favorites = plainRecipes.filter { UserDefaultsManager.favoritesRecipeIds.contains($0.id) }
         recipesSections = [
             .init(cellType: .topMenuCell, sectionType: .none, recipes: []),
-            .init(cellType: .recipePreview, sectionType: .breakfast, recipes: breakfastRecipes),
-            .init(cellType: .recipePreview, sectionType: .lunch, recipes: lunchRecipes),
-            .init(cellType: .recipePreview, sectionType: .dinner, recipes: dinnerRecipes),
-            .init(cellType: .recipePreview, sectionType: .snacks, recipes: snacksRecipes),
+            .init(cellType: .recipePreview, sectionType: .breakfast, recipes: breakfastRecipes.shuffled()),
+            .init(cellType: .recipePreview, sectionType: .lunch, recipes: lunchRecipes.shuffled()),
+            .init(cellType: .recipePreview, sectionType: .dinner, recipes: dinnerRecipes.shuffled()),
+            .init(cellType: .recipePreview, sectionType: .snacks, recipes: snacksRecipes.shuffled()),
             .init(cellType: .recipePreview, sectionType: .favorites, recipes: favorites)
         ]
+    }
+    
+    func updateFavoritesSection() {
+        guard let allRecipes: [DBRecipe] = CoreDataManager.shared.getAllRecipes() else { return }
+        let plainRecipes = allRecipes.compactMap { Recipe(from: $0) }
+        let favorites = plainRecipes.filter { UserDefaultsManager.favoritesRecipeIds.contains($0.id) }
+        let favoritesSection: RecipeSectionsModel = .init(cellType: .recipePreview, sectionType: .favorites, recipes: favorites)
+        guard let index = recipesSections.firstIndex(where: {$0.sectionType == .favorites }) else { return }
+        recipesSections[index] = favoritesSection
     }
 }
 

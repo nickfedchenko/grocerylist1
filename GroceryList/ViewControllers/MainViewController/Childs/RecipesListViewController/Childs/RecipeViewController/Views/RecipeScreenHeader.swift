@@ -89,8 +89,6 @@ final class RecipeScreenHeader: UIView {
 //        blurRadiusDriver?.finishAnimation(at: .current)
     }
     
-  
-    
     private func setupSubviews() {
         addSubview(blurView)
         blurView.contentView.addSubview(backButton)
