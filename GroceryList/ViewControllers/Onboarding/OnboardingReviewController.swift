@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import StoreKit
 
 final class OnboardingReviewController: UIViewController {
     private var selectedIndex: CGFloat = 0
@@ -49,7 +50,7 @@ final class OnboardingReviewController: UIViewController {
         collection.showsHorizontalScrollIndicator = false
         collection.backgroundColor = .clear
 //        collection.isUserInteractionEnabled = false
-//        collection.contentInset.left = 40
+//        collection.contentInset.left = 30
         return collection
     }()
     
@@ -93,15 +94,30 @@ final class OnboardingReviewController: UIViewController {
         setupSubviews()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        reviewsCollection.setContentOffset(CGPoint(x: view.bounds.width - 20, y: 0), animated: false)
+    override func viewDidLayoutSubviews() {
+        reviewsCollection.setContentOffset(CGPoint(x: view.bounds.width - 120, y: 0), animated: false)
+    }
+    
+    private func showRequest() {
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+        SKStoreReviewController.requestReview(in: scene)
     }
     
     @objc
     private func nextTapped() {
+        guard selectedIndex < 2 else {
+            router?.popToRootFromOnboarding()
+            router?.showPaywallVC()
+            return
+        }
+        if selectedIndex == 1 {
+            showRequest()
+        }
         selectedIndex += 1
-        reviewsCollection.setContentOffset(CGPoint(x: ((view.bounds.width - 20) * (selectedIndex + 1)), y: 0), animated: true)
+        reviewsCollection.setContentOffset(
+            CGPoint(x: reviewsCollection.contentOffset.x + view.bounds.width - 80 , y: 0),
+            animated: true
+        )
     }
     
     private func setupSubviews() {
@@ -158,10 +174,14 @@ extension OnboardingReviewController: UICollectionViewDelegateFlowLayout, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: view.bounds.width - 40, height: 282)
+        CGSize(width: view.bounds.width - 80, height: 282)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         0
     }
 }
