@@ -14,6 +14,24 @@ struct RecipeSectionsModel {
     
     enum RecipeSectionType: String {
         case breakfast, lunch, dinner, snacks, none, favorites
+        
+        var title: String {
+            switch self {
+                
+            case .breakfast:
+                return R.string.localizable.breakfast()
+            case .lunch:
+                return R.string.localizable.lunch()
+            case .dinner:
+                return R.string.localizable.dinner()
+            case .snacks:
+                return R.string.localizable.snacks()
+            case .none:
+                return "NoneType"
+            case .favorites:
+                return R.string.localizable.favorites()
+            }
+        }
     }
     
     var cellType: RecipeCellType

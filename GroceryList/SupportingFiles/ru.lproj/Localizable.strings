@@ -116,6 +116,7 @@
 "Snacks"                    = "Закуски";
 "weekly"                    = "неделя";
 "Week"                      = "Week";
+"Favorites"                 = "Избранное";
 
 "Select list"               = "Выберите список";
 
@@ -129,3 +130,6 @@
 "Instructions" = "Инструкции";
 "AddedEarlier" = "Добавлено ранее";
 "Back" = "Назад";
+
+"review.mainTitle" = "Оцените приложение в AppStore";
+"review.subtitle" = "Это поможет сделать его лучше";

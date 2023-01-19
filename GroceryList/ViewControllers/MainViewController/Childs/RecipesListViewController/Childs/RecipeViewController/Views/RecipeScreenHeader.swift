@@ -61,7 +61,19 @@ final class RecipeScreenHeader: UIView {
     }
     
     func setTitle(title: String) {
-        titleLabel.text = title
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.lineHeightMultiple = 0.91
+        paragraph.maximumLineHeight = 21
+        let attrTitle = NSAttributedString(
+            string: title,
+            attributes: [
+                .paragraphStyle: paragraph,
+                .font: R.font.sfProRoundedBold(size: 22) ?? .systemFont(ofSize: 22),
+                .foregroundColor: UIColor(hex: "0C695E"),
+                .kern: 0.38
+            ]
+        )
+        titleLabel.attributedText = attrTitle
     }
     
     func releaseBlurAnimation() {
@@ -84,12 +96,10 @@ final class RecipeScreenHeader: UIView {
         blurRadiusDriver = UIViewPropertyAnimator(duration: 1, curve: .linear, animations: {
             self.blurView.effect = UIBlurEffect(style: .light)
         })
-        blurRadiusDriver?.fractionComplete = 0.1
+        blurRadiusDriver?.fractionComplete = 0.2
 //        blurRadiusDriver?.stopAnimation(true)
 //        blurRadiusDriver?.finishAnimation(at: .current)
     }
-    
-  
     
     private func setupSubviews() {
         addSubview(blurView)
@@ -101,9 +111,10 @@ final class RecipeScreenHeader: UIView {
         }
         
         backButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(46)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(2)
             make.leading.equalToSuperview().offset(8)
             make.width.equalTo(110)
+//            make.height.equalTo(40)
         }
         
         titleLabel.snp.makeConstraints { make in

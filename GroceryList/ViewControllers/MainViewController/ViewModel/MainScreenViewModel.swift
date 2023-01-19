@@ -37,6 +37,10 @@ class MainScreenViewModel {
         dataSource?.makeRecipesSections()
     }
     
+    func updateFavorites() {
+        dataSource?.updateFavoritesSection()
+    }
+    
     // routing
     func createNewListTapped() {
         
@@ -45,7 +49,6 @@ class MainScreenViewModel {
             self?.updateCells?(list)
             self?.dataSource?.setOfModelsToUpdate = []
             self?.router?.goProductsVC(model: model, compl: {
-                
             })
         })
     }

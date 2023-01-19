@@ -29,6 +29,7 @@ final class RecipeViewController: UIViewController {
         scrollView.contentInset.top = 136
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
+        scrollView.contentInsetAdjustmentBehavior = .never
         return scrollView
     }()
     
@@ -131,6 +132,10 @@ final class RecipeViewController: UIViewController {
         self.viewModel = viewModel
         self.backButtonTitle = backButtonTitle
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    override func viewSafeAreaInsetsDidChange() {
+        print("Inset top is \(view.safeAreaInsets.top)")
     }
     
     override func viewDidLoad() {

@@ -60,9 +60,14 @@ class MainScreenViewController: UIViewController {
         snapshot.deleteAllItems()
         collectionViewDataSource?.apply(snapshot)
         viewModel?.reloadDataFromStorage()
-        viewModel?.updateRecipesSection()
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self?.viewModel?.updateFavorites()
+            DispatchQueue.main.async {
+//                self?.recipesCollectionView.reloadSections(IndexSet(integer: 4))
+                self?.recipesCollectionView.reloadData()
+            }
+        }
         updateImageConstraint()
-        recipesCollectionView.reloadData()
     }
     
     private func createAttributedString(title: String, color: UIColor = .white) -> NSAttributedString {
@@ -97,13 +102,11 @@ class MainScreenViewController: UIViewController {
         case .none:
             print("print")
         }
-        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         bottomCreateListView.startAnimating()
-
     }
     // MARK: - UI
     
@@ -518,7 +521,7 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
             make.leading.equalToSuperview().inset(-view.bounds.width)
         }
         
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.1) {
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.6, options: [.curveEaseInOut]) {
             self.view.layoutIfNeeded()
             self.collectionView.alpha = 0
             self.recipesCollectionView.alpha = 1
@@ -530,7 +533,7 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
             make.leading.equalToSuperview()
         }
         
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.1) {
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.6, options: [.curveEaseInOut]) {
             self.view.layoutIfNeeded()
             self.collectionView.alpha = 1
             self.recipesCollectionView.alpha = 0

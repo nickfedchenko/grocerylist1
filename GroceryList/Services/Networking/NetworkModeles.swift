@@ -76,12 +76,6 @@ struct Recipe: Codable {
         } else {
             print("failed to decode instructions array")
         }
-        
-        if let data = dbModel.instructions {
-            print(String(data: data, encoding: .utf8))
-        } else {
-            print("data not saved")
-        }
         instructions = (try? JSONDecoder().decode([String].self, from: dbModel.instructions ?? Data())) ?? []
         ingredients = (try? JSONDecoder().decode([Ingredient].self, from: dbModel.ingredients ?? Data())) ?? []
         eatingTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel.eatingTags ?? Data())) ?? []

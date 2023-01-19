@@ -116,6 +116,7 @@
 "Snacks"                    = "Snacks";
 "weekly"                    = "week";
 "Week"                      = "Week";
+"Favorites"                 = "Favorites";
 
 "Select list"               = "Select list";
 
@@ -129,3 +130,6 @@
 "Instructions" = "Instructions";
 "AddedEarlier" = "Added earlier";
 "Back" = "Back";
+
+"review.mainTitle" = "Rate the app in the AppStore";
+"review.subtitle" = "This helps to make it even better";

@@ -44,11 +44,16 @@ final class RecipesListViewController: UIViewController {
         super.viewDidLoad()
         setupAppearance()
         setupSubviews()
+        setTitle()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         header.releaseBlurAnimation()
+    }
+    
+    private func setTitle() {
+        header.setTitle(title: section.sectionType.title)
     }
     
     private func setupAppearance() {

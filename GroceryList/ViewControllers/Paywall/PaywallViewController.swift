@@ -145,6 +145,11 @@ class PaywallViewController: UIViewController {
         return button
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .top)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConstraints()

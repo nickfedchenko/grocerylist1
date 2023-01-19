@@ -89,8 +89,8 @@ class OnboardingViewController: UIViewController {
         }
         
         if currentVC > 3 {
-            router?.popToRootFromOnboarding()
-            router?.showPaywallVC()
+//            router?.popToRootFromOnboarding()
+            router?.showReviewRequestController()
             return
         }
         

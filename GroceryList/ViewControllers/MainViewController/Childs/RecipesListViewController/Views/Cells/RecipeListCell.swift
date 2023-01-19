@@ -30,7 +30,7 @@ final class RecipeListCell: UICollectionViewCell {
         let label = UILabel()
         label.font = R.font.sfProTextSemibold(size: 16)
         label.textColor = UIColor(hex: "192621")
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.numberOfLines = 2
         label.text = "Air fryer bacon"
         return label
