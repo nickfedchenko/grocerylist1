@@ -104,7 +104,7 @@ class CreateNewProductViewModel {
         guard let product = arrayOfproductsByCategories.first(where: {
             guard let name = name,
                   let title = $0.title else { return false }
-            return title.lowercased().contains(name.lowercased())
+            return title.lowercased() == name.lowercased()
             
         }) else { return }
         getAllInformation(product: product)

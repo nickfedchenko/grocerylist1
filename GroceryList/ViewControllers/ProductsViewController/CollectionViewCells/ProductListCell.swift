@@ -201,7 +201,8 @@ class ProductListCell: UICollectionViewListCell {
         }
         
         viewWithDescription.snp.makeConstraints { make in
-            make.left.right.equalTo(nameLabel)
+            make.right.equalTo(imageView.snp.left)
+            make.left.equalTo(nameLabel)
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
         }
