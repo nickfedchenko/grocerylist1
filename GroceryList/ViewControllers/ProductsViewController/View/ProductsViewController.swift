@@ -108,7 +108,7 @@ class ProductsViewController: UIViewController {
     
     private let addItemLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 18).font
+        label.font = UIFont.SFProRounded.semibold(size: 18).font
         label.textColor = .white
         label.numberOfLines = 2
         label.text = "AddItem".localized

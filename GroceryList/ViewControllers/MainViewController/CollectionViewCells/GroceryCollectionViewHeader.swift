@@ -41,7 +41,7 @@ class GroceryCollectionViewHeader: UICollectionReusableView {
     
     private let sectionName: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
+        label.font = UIFont.SFProRounded.semibold(size: 17).font
         label.textColor = UIColor(hex: "#818281")
         return label
     }()
@@ -57,14 +57,14 @@ class GroceryCollectionViewHeader: UICollectionReusableView {
         addSubviews([sectionName, pinchImage])
         sectionName.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(36)
-            make.bottom.equalToSuperview().inset(4)
+            make.bottom.equalToSuperview().inset(6)
         }
         
         pinchImage.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(36)
             make.height.equalTo(20)
             make.width.equalTo(20)
-            make.bottom.equalToSuperview().inset(4)
+            make.bottom.equalToSuperview().inset(6)
         }
     }
 }

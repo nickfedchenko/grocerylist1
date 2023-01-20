@@ -131,7 +131,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
-  /// This `R.file` struct is generated, and contains static references to 8 files.
+  /// This `R.file` struct is generated, and contains static references to 15 files.
   struct file {
     /// Resource file `SF Pro Display Bold.otf`.
     static let sfProDisplayBoldOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Display Bold", pathExtension: "otf")
@@ -143,12 +143,26 @@ struct R: Rswift.Validatable {
     static let sfProDisplayRegularOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Display Regular", pathExtension: "otf")
     /// Resource file `SF Pro Display Semibold.otf`.
     static let sfProDisplaySemiboldOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Display Semibold", pathExtension: "otf")
-    /// Resource file `SFProRounded-Bold.otf`.
-    static let sfProRoundedBoldOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SFProRounded-Bold", pathExtension: "otf")
-    /// Resource file `SFProText-Medium.ttf`.
-    static let sfProTextMediumTtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SFProText-Medium", pathExtension: "ttf")
-    /// Resource file `SFProText-Semibold.ttf`.
-    static let sfProTextSemiboldTtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SFProText-Semibold", pathExtension: "ttf")
+    /// Resource file `SF Pro Rounded Bold.otf`.
+    static let sfProRoundedBoldOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Rounded Bold", pathExtension: "otf")
+    /// Resource file `SF Pro Rounded Heavy.otf`.
+    static let sfProRoundedHeavyOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Rounded Heavy", pathExtension: "otf")
+    /// Resource file `SF Pro Rounded Medium.otf`.
+    static let sfProRoundedMediumOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Rounded Medium", pathExtension: "otf")
+    /// Resource file `SF Pro Rounded Regular.otf`.
+    static let sfProRoundedRegularOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Rounded Regular", pathExtension: "otf")
+    /// Resource file `SF Pro Rounded Semibold.otf`.
+    static let sfProRoundedSemiboldOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Rounded Semibold", pathExtension: "otf")
+    /// Resource file `SF Pro Text Bold.otf`.
+    static let sfProTextBoldOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Text Bold", pathExtension: "otf")
+    /// Resource file `SF Pro Text Heavy.otf`.
+    static let sfProTextHeavyOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Text Heavy", pathExtension: "otf")
+    /// Resource file `SF Pro Text Medium.otf`.
+    static let sfProTextMediumOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Text Medium", pathExtension: "otf")
+    /// Resource file `SF Pro Text Regular.otf`.
+    static let sfProTextRegularOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Text Regular", pathExtension: "otf")
+    /// Resource file `SF Pro Text Semibold.otf`.
+    static let sfProTextSemiboldOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Text Semibold", pathExtension: "otf")
 
     /// `bundle.url(forResource: "SF Pro Display Bold", withExtension: "otf")`
     static func sfProDisplayBoldOtf(_: Void = ()) -> Foundation.URL? {
@@ -180,28 +194,70 @@ struct R: Rswift.Validatable {
       return fileResource.bundle.url(forResource: fileResource)
     }
 
-    /// `bundle.url(forResource: "SFProRounded-Bold", withExtension: "otf")`
+    /// `bundle.url(forResource: "SF Pro Rounded Bold", withExtension: "otf")`
     static func sfProRoundedBoldOtf(_: Void = ()) -> Foundation.URL? {
       let fileResource = R.file.sfProRoundedBoldOtf
       return fileResource.bundle.url(forResource: fileResource)
     }
 
-    /// `bundle.url(forResource: "SFProText-Medium", withExtension: "ttf")`
-    static func sfProTextMediumTtf(_: Void = ()) -> Foundation.URL? {
-      let fileResource = R.file.sfProTextMediumTtf
+    /// `bundle.url(forResource: "SF Pro Rounded Heavy", withExtension: "otf")`
+    static func sfProRoundedHeavyOtf(_: Void = ()) -> Foundation.URL? {
+      let fileResource = R.file.sfProRoundedHeavyOtf
       return fileResource.bundle.url(forResource: fileResource)
     }
 
-    /// `bundle.url(forResource: "SFProText-Semibold", withExtension: "ttf")`
-    static func sfProTextSemiboldTtf(_: Void = ()) -> Foundation.URL? {
-      let fileResource = R.file.sfProTextSemiboldTtf
+    /// `bundle.url(forResource: "SF Pro Rounded Medium", withExtension: "otf")`
+    static func sfProRoundedMediumOtf(_: Void = ()) -> Foundation.URL? {
+      let fileResource = R.file.sfProRoundedMediumOtf
+      return fileResource.bundle.url(forResource: fileResource)
+    }
+
+    /// `bundle.url(forResource: "SF Pro Rounded Regular", withExtension: "otf")`
+    static func sfProRoundedRegularOtf(_: Void = ()) -> Foundation.URL? {
+      let fileResource = R.file.sfProRoundedRegularOtf
+      return fileResource.bundle.url(forResource: fileResource)
+    }
+
+    /// `bundle.url(forResource: "SF Pro Rounded Semibold", withExtension: "otf")`
+    static func sfProRoundedSemiboldOtf(_: Void = ()) -> Foundation.URL? {
+      let fileResource = R.file.sfProRoundedSemiboldOtf
+      return fileResource.bundle.url(forResource: fileResource)
+    }
+
+    /// `bundle.url(forResource: "SF Pro Text Bold", withExtension: "otf")`
+    static func sfProTextBoldOtf(_: Void = ()) -> Foundation.URL? {
+      let fileResource = R.file.sfProTextBoldOtf
+      return fileResource.bundle.url(forResource: fileResource)
+    }
+
+    /// `bundle.url(forResource: "SF Pro Text Heavy", withExtension: "otf")`
+    static func sfProTextHeavyOtf(_: Void = ()) -> Foundation.URL? {
+      let fileResource = R.file.sfProTextHeavyOtf
+      return fileResource.bundle.url(forResource: fileResource)
+    }
+
+    /// `bundle.url(forResource: "SF Pro Text Medium", withExtension: "otf")`
+    static func sfProTextMediumOtf(_: Void = ()) -> Foundation.URL? {
+      let fileResource = R.file.sfProTextMediumOtf
+      return fileResource.bundle.url(forResource: fileResource)
+    }
+
+    /// `bundle.url(forResource: "SF Pro Text Regular", withExtension: "otf")`
+    static func sfProTextRegularOtf(_: Void = ()) -> Foundation.URL? {
+      let fileResource = R.file.sfProTextRegularOtf
+      return fileResource.bundle.url(forResource: fileResource)
+    }
+
+    /// `bundle.url(forResource: "SF Pro Text Semibold", withExtension: "otf")`
+    static func sfProTextSemiboldOtf(_: Void = ()) -> Foundation.URL? {
+      let fileResource = R.file.sfProTextSemiboldOtf
       return fileResource.bundle.url(forResource: fileResource)
     }
 
     fileprivate init() {}
   }
 
-  /// This `R.font` struct is generated, and contains static references to 8 fonts.
+  /// This `R.font` struct is generated, and contains static references to 15 fonts.
   struct font: Rswift.Validatable {
     /// Font `SFProDisplay-Bold`.
     static let sfProDisplayBold = Rswift.FontResource(fontName: "SFProDisplay-Bold")
@@ -215,8 +271,22 @@ struct R: Rswift.Validatable {
     static let sfProDisplaySemibold = Rswift.FontResource(fontName: "SFProDisplay-Semibold")
     /// Font `SFProRounded-Bold`.
     static let sfProRoundedBold = Rswift.FontResource(fontName: "SFProRounded-Bold")
+    /// Font `SFProRounded-Heavy`.
+    static let sfProRoundedHeavy = Rswift.FontResource(fontName: "SFProRounded-Heavy")
+    /// Font `SFProRounded-Medium`.
+    static let sfProRoundedMedium = Rswift.FontResource(fontName: "SFProRounded-Medium")
+    /// Font `SFProRounded-Regular`.
+    static let sfProRoundedRegular = Rswift.FontResource(fontName: "SFProRounded-Regular")
+    /// Font `SFProRounded-Semibold`.
+    static let sfProRoundedSemibold = Rswift.FontResource(fontName: "SFProRounded-Semibold")
+    /// Font `SFProText-Bold`.
+    static let sfProTextBold = Rswift.FontResource(fontName: "SFProText-Bold")
+    /// Font `SFProText-Heavy`.
+    static let sfProTextHeavy = Rswift.FontResource(fontName: "SFProText-Heavy")
     /// Font `SFProText-Medium`.
     static let sfProTextMedium = Rswift.FontResource(fontName: "SFProText-Medium")
+    /// Font `SFProText-Regular`.
+    static let sfProTextRegular = Rswift.FontResource(fontName: "SFProText-Regular")
     /// Font `SFProText-Semibold`.
     static let sfProTextSemibold = Rswift.FontResource(fontName: "SFProText-Semibold")
 
@@ -250,9 +320,44 @@ struct R: Rswift.Validatable {
       return UIKit.UIFont(resource: sfProRoundedBold, size: size)
     }
 
+    /// `UIFont(name: "SFProRounded-Heavy", size: ...)`
+    static func sfProRoundedHeavy(size: CGFloat) -> UIKit.UIFont? {
+      return UIKit.UIFont(resource: sfProRoundedHeavy, size: size)
+    }
+
+    /// `UIFont(name: "SFProRounded-Medium", size: ...)`
+    static func sfProRoundedMedium(size: CGFloat) -> UIKit.UIFont? {
+      return UIKit.UIFont(resource: sfProRoundedMedium, size: size)
+    }
+
+    /// `UIFont(name: "SFProRounded-Regular", size: ...)`
+    static func sfProRoundedRegular(size: CGFloat) -> UIKit.UIFont? {
+      return UIKit.UIFont(resource: sfProRoundedRegular, size: size)
+    }
+
+    /// `UIFont(name: "SFProRounded-Semibold", size: ...)`
+    static func sfProRoundedSemibold(size: CGFloat) -> UIKit.UIFont? {
+      return UIKit.UIFont(resource: sfProRoundedSemibold, size: size)
+    }
+
+    /// `UIFont(name: "SFProText-Bold", size: ...)`
+    static func sfProTextBold(size: CGFloat) -> UIKit.UIFont? {
+      return UIKit.UIFont(resource: sfProTextBold, size: size)
+    }
+
+    /// `UIFont(name: "SFProText-Heavy", size: ...)`
+    static func sfProTextHeavy(size: CGFloat) -> UIKit.UIFont? {
+      return UIKit.UIFont(resource: sfProTextHeavy, size: size)
+    }
+
     /// `UIFont(name: "SFProText-Medium", size: ...)`
     static func sfProTextMedium(size: CGFloat) -> UIKit.UIFont? {
       return UIKit.UIFont(resource: sfProTextMedium, size: size)
+    }
+
+    /// `UIFont(name: "SFProText-Regular", size: ...)`
+    static func sfProTextRegular(size: CGFloat) -> UIKit.UIFont? {
+      return UIKit.UIFont(resource: sfProTextRegular, size: size)
     }
 
     /// `UIFont(name: "SFProText-Semibold", size: ...)`
@@ -266,9 +371,16 @@ struct R: Rswift.Validatable {
       if R.font.sfProDisplayMedium(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProDisplay-Medium' could not be loaded, is 'SF Pro Display Medium.otf' added to the UIAppFonts array in this targets Info.plist?") }
       if R.font.sfProDisplayRegular(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProDisplay-Regular' could not be loaded, is 'SF Pro Display Regular.otf' added to the UIAppFonts array in this targets Info.plist?") }
       if R.font.sfProDisplaySemibold(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProDisplay-Semibold' could not be loaded, is 'SF Pro Display Semibold.otf' added to the UIAppFonts array in this targets Info.plist?") }
-      if R.font.sfProRoundedBold(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProRounded-Bold' could not be loaded, is 'SFProRounded-Bold.otf' added to the UIAppFonts array in this targets Info.plist?") }
-      if R.font.sfProTextMedium(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProText-Medium' could not be loaded, is 'SFProText-Medium.ttf' added to the UIAppFonts array in this targets Info.plist?") }
-      if R.font.sfProTextSemibold(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProText-Semibold' could not be loaded, is 'SFProText-Semibold.ttf' added to the UIAppFonts array in this targets Info.plist?") }
+      if R.font.sfProRoundedBold(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProRounded-Bold' could not be loaded, is 'SF Pro Rounded Bold.otf' added to the UIAppFonts array in this targets Info.plist?") }
+      if R.font.sfProRoundedHeavy(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProRounded-Heavy' could not be loaded, is 'SF Pro Rounded Heavy.otf' added to the UIAppFonts array in this targets Info.plist?") }
+      if R.font.sfProRoundedMedium(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProRounded-Medium' could not be loaded, is 'SF Pro Rounded Medium.otf' added to the UIAppFonts array in this targets Info.plist?") }
+      if R.font.sfProRoundedRegular(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProRounded-Regular' could not be loaded, is 'SF Pro Rounded Regular.otf' added to the UIAppFonts array in this targets Info.plist?") }
+      if R.font.sfProRoundedSemibold(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProRounded-Semibold' could not be loaded, is 'SF Pro Rounded Semibold.otf' added to the UIAppFonts array in this targets Info.plist?") }
+      if R.font.sfProTextBold(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProText-Bold' could not be loaded, is 'SF Pro Text Bold.otf' added to the UIAppFonts array in this targets Info.plist?") }
+      if R.font.sfProTextHeavy(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProText-Heavy' could not be loaded, is 'SF Pro Text Heavy.otf' added to the UIAppFonts array in this targets Info.plist?") }
+      if R.font.sfProTextMedium(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProText-Medium' could not be loaded, is 'SF Pro Text Medium.otf' added to the UIAppFonts array in this targets Info.plist?") }
+      if R.font.sfProTextRegular(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProText-Regular' could not be loaded, is 'SF Pro Text Regular.otf' added to the UIAppFonts array in this targets Info.plist?") }
+      if R.font.sfProTextSemibold(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProText-Semibold' could not be loaded, is 'SF Pro Text Semibold.otf' added to the UIAppFonts array in this targets Info.plist?") }
     }
 
     fileprivate init() {}

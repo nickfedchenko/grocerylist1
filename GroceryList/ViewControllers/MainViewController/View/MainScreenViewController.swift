@@ -128,7 +128,7 @@ class MainScreenViewController: UIViewController {
     
     private let createListLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 18).font
+        label.font = UIFont.SFProRounded.semibold(size: 18).font
         label.textColor = UIColor(hex: "#31635A")
         label.text = "CreateList".localized
         return label
@@ -329,7 +329,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
             itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(92))
         }
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 1, trailing: 0)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
@@ -563,7 +563,6 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
         }
     }
 }
-
 
 extension MainScreenViewController: RecipesFolderHeaderDelegate {
     func headerTapped(at index: Int) {

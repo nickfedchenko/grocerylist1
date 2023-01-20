@@ -63,7 +63,7 @@ class MainScreenTopCell: UICollectionViewCell {
     
     private let segmentControl: UISegmentedControl = {
         let control = CustomSegmentedControl(items: ["Grocery Lists".localized, "Recipes".localized])
-        control.setTitleFont(UIFont.SFPro.bold(size: 18).font)
+        control.setTitleFont(UIFont.SFProRounded.bold(size: 18).font)
         control.setTitleColor(UIColor(hex: "#657674"))
         control.setTitleColor(UIColor(hex: "#31635A"), state: .selected)
         control.selectedSegmentIndex = 0
