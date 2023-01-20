@@ -155,7 +155,7 @@ class CreateNewListViewController: UIViewController {
     
     private let pickItemsLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.regular(size: 16).font
+        label.font = UIFont.SFProDisplay.regular(size: 16).font
         label.textColor = UIColor(hex: "#31635A")
         label.text = "PickFromAnotherList".localized
         return label

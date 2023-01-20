@@ -20,54 +20,8 @@ class SelectListViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupConstraints()
-        setupCollectionView()
-        createTableViewDataSource()
-        addRecognizer()
-        viewModel?.reloadDataCallBack = { [weak self] in
-            self?.reloadData()
-        }
-    }
-    
-    deinit {
-        print("select list deinited")
-    }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        guard var snapshot = collectionViewDataSource?.snapshot() else { return }
-        snapshot.deleteAllItems()
-        collectionViewDataSource?.apply(snapshot)
-        viewModel?.reloadDataFromStorage()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        updateConstr(with: 0, compl: nil)
-    }
-    
-    func updateConstr(with inset: Double, compl: (() -> Void)?) {
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            guard let self = self else { return }
-            self.contentView.snp.updateConstraints { make in
-                make.bottom.equalToSuperview().inset(inset)
-            }
-            self.view.layoutIfNeeded()
-        } completion: { _ in
-            compl?()
-        }
-    }
-    
-    @objc
-    private func closeButtonAction() {
-        hidePanel()
-    }
-    
     // MARK: - UI
-    
     private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
     
     private let contentView: UIView = {
@@ -99,7 +53,50 @@ class SelectListViewController: UIViewController {
         button.setImage(UIImage(named: "closeButtonCross"), for: .normal)
         return button
     }()
+ 
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupConstraints()
+        setupCollectionView()
+        createTableViewDataSource()
+        addRecognizer()
+        viewModel?.reloadDataCallBack = { [weak self] in
+            self?.reloadData()
+        }
+    }
     
+    deinit {
+        print("select list deinited")
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard var snapshot = collectionViewDataSource?.snapshot() else { return }
+        snapshot.deleteAllItems()
+        collectionViewDataSource?.apply(snapshot)
+        viewModel?.reloadDataFromStorage()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateConstr(with: 0, compl: nil)
+    }
+    
+    // MARK: - Constraints
+    func updateConstr(with inset: Double, compl: (() -> Void)?) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            self.contentView.snp.updateConstraints { make in
+                make.bottom.equalToSuperview().inset(inset)
+            }
+            self.view.layoutIfNeeded()
+        } completion: { _ in
+            compl?()
+        }
+    }
+
+    // MARK: - Constraints
     private func setupConstraints() {
         view.backgroundColor = .clear
         view.addSubviews([contentView])
@@ -133,6 +130,12 @@ class SelectListViewController: UIViewController {
             make.centerY.equalTo(createListLabel)
             make.width.height.equalTo(40)
         }
+    }
+    
+    // MARK: - ButtonAction
+    @objc
+    private func closeButtonAction() {
+        hidePanel()
     }
 }
 

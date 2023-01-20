@@ -13,6 +13,10 @@ final class RecipeViewController: UIViewController {
     private var isFavorite: Bool {
         UserDefaultsManager.favoritesRecipeIds.contains(viewModel.recipe.id)
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
 
     private lazy var header: RecipeScreenHeader = {
        let header = RecipeScreenHeader()
