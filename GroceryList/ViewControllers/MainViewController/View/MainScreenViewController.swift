@@ -150,7 +150,7 @@ class MainScreenViewController: UIViewController {
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(10)
             make.width.equalTo(view.snp.width)
             make.leading.equalToSuperview()
-            make.bottom.equalToSuperview().inset(88)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
         }
         
         recipesCollectionView.snp.makeConstraints { make in
@@ -205,6 +205,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
     }
     
     private func setupCollectionView() {
+        collectionView.contentInset.bottom = 60
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
         collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
@@ -557,10 +558,12 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
                 snapshot.reloadItems([item])
                 collectionViewDataSource?.apply(snapshot)
             }
+            bottomCreateListView.isHidden = false
             
         } else {
             showRecipesCollection()
             recipesCollectionView.reloadSections(IndexSet(integer: 0))
+            bottomCreateListView.isHidden = true
         }
     }
 }
