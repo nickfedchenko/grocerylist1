@@ -10,6 +10,10 @@ import UIKit
 
 class ProductsViewController: UIViewController {
     
+    enum Section: Hashable {
+        case main
+    }
+    
     enum DataItem: Hashable {
         case parent(Category)
         case child(Product)
@@ -21,51 +25,7 @@ class ProductsViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupConstraints()
-        setupCollectionView()
-        setupController()
-        addRecognizer()
-        viewModel?.valueChangedCallback = { [weak self] in
-            self?.reloadData()
-        }
-    }
-    
-    private func setupController() {
-        nameOfListLabel.text = viewModel?.getNameOfList()
-        view.backgroundColor = viewModel?.getColorForBackground()
-        addItemView.backgroundColor = viewModel?.getColorForForeground()
-        nameOfListLabel.textColor = viewModel?.getColorForForeground()
-        navigationView.backgroundColor = viewModel?.getColorForBackground()
-        collectionView.reloadData()
-    }
-    
-    deinit {
-        print("ProductView deinited")
-    }
-    
-    @objc
-    private func arrowBackButtonPressed() {
-        viewModel?.goBackButtonPressed()
-    }
-    
-    @objc
-    private func contextMenuButtonPressed() {
-        let snapshot = makeSnapshot()
-        viewModel?.settingsTapped(with: snapshot)
-    }
-    
-    private func makeSnapshot() -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(collectionView.contentSize, false, 0)
-        collectionView.drawHierarchy(in: collectionView.bounds, afterScreenUpdates: false)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
-    }
-    
-    // MARK: - UI
+
     private let navigationView: UIView = {
         let view = UIView()
         return view
@@ -117,18 +77,47 @@ class ProductsViewController: UIViewController {
     
     private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
     
-    private func createLayout() -> UICollectionViewCompositionalLayout {
-        var layoutConfig = UICollectionLayoutListConfiguration(appearance: .plain)
-        layoutConfig.headerMode = .firstItemInSection
-        layoutConfig.showsSeparators = false
-        layoutConfig.backgroundColor = .clear
-        let layout = UICollectionViewCompositionalLayout.list(using: layoutConfig)
-        layout.collectionView?.backgroundColor = .white
-        return layout
+    // MARK: - LifeCycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupConstraints()
+        setupCollectionView()
+        setupController()
+        addRecognizer()
+        viewModel?.valueChangedCallback = { [weak self] in
+            self?.reloadData()
+        }
+    }
+    
+    private func setupController() {
+        nameOfListLabel.text = viewModel?.getNameOfList()
+        view.backgroundColor = viewModel?.getColorForBackground()
+        addItemView.backgroundColor = viewModel?.getColorForForeground()
+        nameOfListLabel.textColor = viewModel?.getColorForForeground()
+        navigationView.backgroundColor = viewModel?.getColorForBackground()
+        collectionView.reloadData()
+    }
+    
+    deinit {
+        print("ProductView deinited")
+    }
+    
+    // MARK: - buttonPressed
+    
+    @objc
+    private func arrowBackButtonPressed() {
+        viewModel?.goBackButtonPressed()
+    }
+    
+    @objc
+    private func contextMenuButtonPressed() {
+        let snapshot = makeSnapshot()
+        viewModel?.settingsTapped(with: snapshot)
     }
     
     // MARK: - CollectionView
     func setupCollectionView() {
+        collectionView.contentInset.bottom = 60
         
         // MARK: Configure collection view
         collectionView.delegate = self
@@ -142,7 +131,8 @@ class ProductsViewController: UIViewController {
             cell.setupCell(text: parent.name, color: color, bcgColor: bcgColor,
                            isExpand: parent.isExpanded, typeOfCell: parent.typeOFCell)
         }
-        
+    
+
         let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { [ weak self ] (cell, _, child) in
             
             let bcgColor = self?.viewModel?.getColorForBackground()
@@ -183,11 +173,7 @@ class ProductsViewController: UIViewController {
         }
         reloadData()
     }
-    
-    enum Section: Hashable {
-        case main
-    }
-    
+
     private func reloadData() {
         var snapshot = dataSource.snapshot()
         
@@ -211,6 +197,25 @@ class ProductsViewController: UIViewController {
         }
         self.dataSource.apply(sectionSnapshot, to: .main, animatingDifferences: true)
     }
+    
+    private func makeSnapshot() -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(collectionView.contentSize, false, 0)
+        collectionView.drawHierarchy(in: collectionView.bounds, afterScreenUpdates: false)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+    
+    private func createLayout() -> UICollectionViewCompositionalLayout {
+        var layoutConfig = UICollectionLayoutListConfiguration(appearance: .plain)
+        layoutConfig.headerMode = .firstItemInSection
+        layoutConfig.showsSeparators = false
+        layoutConfig.backgroundColor = .clear
+        let layout = UICollectionViewCompositionalLayout.list(using: layoutConfig)
+        layout.collectionView?.backgroundColor = .white
+        return layout
+    }
+    
     
     // MARK: - Constraints
     
@@ -341,7 +346,7 @@ extension ProductsViewController: UICollectionViewDelegate {
         let cell = collectionView.cellForItem(at: ind) as? HeaderListCell
         
         if isExpanded {
-            cell?.expanding(isPurchased: isPurchased)
+            cell?.expanding(color: color, isPurchased: isPurchased)
         } else {
             cell?.collapsing(color: color, isPurchased: isPurchased)
         }

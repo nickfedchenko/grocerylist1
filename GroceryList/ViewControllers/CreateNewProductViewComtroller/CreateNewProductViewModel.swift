@@ -77,7 +77,7 @@ class CreateNewProductViewModel {
         guard let model else { return }
         print(categoryName, productName)
         var imageData: Data?
-        if let image { imageData = image.pngData() }
+        if let image { imageData = image.jpegData(compressionQuality: 0.5) }
         let product = Product(listId: model.id, name: productName, isPurchased: false, dateOfCreation: Date(),
                               category: categoryName, isFavorite: false, imageData: imageData, description: description)
         CoreDataManager.shared.createProduct(product: product)

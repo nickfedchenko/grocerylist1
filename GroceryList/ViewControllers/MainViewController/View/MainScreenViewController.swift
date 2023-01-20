@@ -541,13 +541,14 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
     }
     
     func modeChanged(to mode: MainScreenPresentationMode) {
-        guard Apphud.hasActiveSubscription() else {
-            if let paywall = viewModel?.router?.viewControllerFactory.createPaywallController() {
-                paywall.modalPresentationStyle = .fullScreen
-                present(paywall, animated: true)
-            }
-            return
-        }
+        // TODO: - 
+//        guard Apphud.hasActiveSubscription() else {
+//            if let paywall = viewModel?.router?.viewControllerFactory.createPaywallController() {
+//                paywall.modalPresentationStyle = .fullScreen
+//                present(paywall, animated: true)
+//            }
+//            return
+//        }
         presentationMode = mode
         if mode == .lists {
             showListsCollection()

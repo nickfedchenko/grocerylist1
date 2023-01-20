@@ -386,7 +386,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
-  /// This `R.image` struct is generated, and contains static references to 98 images.
+  /// This `R.image` struct is generated, and contains static references to 99 images.
   struct image {
     /// Image `#addImage`.
     static let addImage = Rswift.ImageResource(bundle: R.hostingBundle, name: "#addImage")
@@ -444,6 +444,8 @@ struct R: Rswift.Validatable {
     static let cart = Rswift.ImageResource(bundle: R.hostingBundle, name: "cart")
     /// Image `cellCheckmark`.
     static let cellCheckmark = Rswift.ImageResource(bundle: R.hostingBundle, name: "cellCheckmark")
+    /// Image `chevronDown`.
+    static let chevronDown = Rswift.ImageResource(bundle: R.hostingBundle, name: "chevronDown")
     /// Image `chevronRight`.
     static let chevronRight = Rswift.ImageResource(bundle: R.hostingBundle, name: "chevronRight")
     /// Image `closeButtonCross`.
@@ -778,6 +780,13 @@ struct R: Rswift.Validatable {
     /// `UIImage(named: "cellCheckmark", bundle: ..., traitCollection: ...)`
     static func cellCheckmark(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.cellCheckmark, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "chevronDown", bundle: ..., traitCollection: ...)`
+    static func chevronDown(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.chevronDown, compatibleWith: traitCollection)
     }
     #endif
 

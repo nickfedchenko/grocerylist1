@@ -26,6 +26,8 @@ extension UIView {
         let minY = bounds.minY
         let maxX = bounds.maxX
         let maxY = bounds.maxY
+        
+        print(self.bounds)
 
         let path = UIBezierPath()
         path.move(to: CGPoint(x: minX + topLeft, y: minY))
@@ -95,25 +97,15 @@ extension UIView {
 }
 
 extension UIScrollView {
-    private func screenshot() -> UIImage{
-        
-        let savedContentOffset = contentOffset
-        let savedFrame = frame
-
+    private func screenshot() -> UIImage {
         UIGraphicsBeginImageContextWithOptions(contentSize, false, 0)
-
+        
         contentOffset = .zero
         frame = CGRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height)
         layer.render(in: UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-
-//        contentOffset = savedContentOffset
-//        frame = savedFrame
-
         return image ?? UIImage()
-
+        
     }
-    
- 
 }

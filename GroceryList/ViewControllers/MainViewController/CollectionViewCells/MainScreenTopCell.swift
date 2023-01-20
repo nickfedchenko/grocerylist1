@@ -31,7 +31,6 @@ class MainScreenTopCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     func configure(with mode: MainScreenPresentationMode) {
         segmentControl.selectedSegmentIndex = mode == .recipes ? 1 : 0
     }

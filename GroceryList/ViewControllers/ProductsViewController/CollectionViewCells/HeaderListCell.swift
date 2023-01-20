@@ -19,11 +19,6 @@ class HeaderListCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        collapsedColoredView.makeCustomRound(topLeft: 0, topRight: 20, bottomLeft: 0, bottomRight: 4)
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         pinchView.isHidden = true
@@ -43,15 +38,21 @@ class HeaderListCell: UICollectionViewListCell {
     func collapsing(color: UIColor?, isPurchased: Bool) {
         UIView.animate(withDuration: 0.5) {
             self.checkmarkView.transform = CGAffineTransform(rotationAngle: .pi * 2)
+            self.checkmarkView.tintColor = .white
+            self.pinchView.tintColor = .white
             if !isPurchased {
                 self.coloredView.backgroundColor = color
+            } else {
+                self.checkmarkView.tintColor = color
             }
         }
     }
     
-    func expanding(isPurchased: Bool) {
+    func expanding(color: UIColor?, isPurchased: Bool) {
         UIView.animate(withDuration: 0.5) {
             self.checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
+            self.checkmarkView.tintColor = color
+            self.pinchView.tintColor = color
             if !isPurchased {
                 self.coloredView.backgroundColor = .clear
             }
@@ -59,11 +60,11 @@ class HeaderListCell: UICollectionViewListCell {
     }
     
     func setupCell(text: String?, color: UIColor?, bcgColor: UIColor?, isExpand: Bool, typeOfCell: TypeOfCell) {
-        
         switch typeOfCell {
         case .favorite:
             titleLabel.text = ""
             pinchView.isHidden = false
+            pinchView.tintColor = color
             if !isExpand { coloredView.backgroundColor = color }
         case .purchased:
             coloredView.backgroundColor = .white
@@ -90,6 +91,8 @@ class HeaderListCell: UICollectionViewListCell {
             }
         }
         
+        checkmarkView.tintColor = color
+        
         if isExpand {
             checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
         } else {
@@ -109,15 +112,17 @@ class HeaderListCell: UICollectionViewListCell {
         return view
     }()
     
-    private let checkmarkView: CheckmarkView = {
-        let view = CheckmarkView()
+    private let checkmarkView: UIImageView = {
+        let view = UIImageView()
         view.backgroundColor = .clear
+        view.image = R.image.chevronDown()
+        view.tintColor = UIColor(hex: "#58B368")
         view.transform = CGAffineTransform(rotationAngle: .pi )
         return view
     }()
     
-    private let collapsedColoredView: UIView = {
-        let view = UIView()
+    let collapsedColoredView: CorneredView = {
+        let view = CorneredView()
         view.layer.masksToBounds = true
         view.backgroundColor = .clear
         return view
@@ -155,7 +160,7 @@ class HeaderListCell: UICollectionViewListCell {
     
     // MARK: - UI
     private func setupConstraints() {
-        self.addSubviews([containerView])
+        contentView.addSubviews([containerView])
         containerView.addSubviews([coloredView, collapsedColoredView, coloredViewForSorting, titleLabel, checkmarkView, pinchView])
         coloredViewForSorting.addSubview(checkmarkForSorting)
         
@@ -171,8 +176,8 @@ class HeaderListCell: UICollectionViewListCell {
         collapsedColoredView.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.right.equalTo(titleLabel.snp.right).inset(-28)
-            make.bottom.equalToSuperview().inset(4)
-            make.top.equalToSuperview().inset(12)
+            make.height.equalTo(34)
+            make.top.equalToSuperview().offset(12)
         }
         
         coloredViewForSorting.snp.makeConstraints { make in
@@ -196,8 +201,8 @@ class HeaderListCell: UICollectionViewListCell {
         
         checkmarkView.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(30)
-            make.width.equalTo(20)
-            make.height.equalTo(12)
+            make.width.equalTo(19)
+            make.height.equalTo(11)
             make.centerY.equalTo(coloredView.snp.centerY)
         }
         
@@ -206,5 +211,12 @@ class HeaderListCell: UICollectionViewListCell {
             make.centerY.equalTo(coloredView.snp.centerY)
             make.width.equalTo(26)
         }
+    }
+}
+
+class CorneredView: UIView {
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        makeCustomRound(topLeft: 0, topRight: 20, bottomLeft: 0, bottomRight: 4)
     }
 }
