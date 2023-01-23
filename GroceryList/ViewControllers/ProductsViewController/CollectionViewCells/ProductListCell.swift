@@ -21,7 +21,6 @@ class ProductListCell: UICollectionViewListCell {
         swipeToAddOrDeleteFavorite.transform = CGAffineTransform(scaleX: 0.0, y: 1)
         swipeToDeleteImageView.transform = CGAffineTransform(scaleX: 0.0, y: 1)
         setupConstraints()
-        addGestureRecognizers()
     }
     
     required init?(coder: NSCoder) {
@@ -142,17 +141,17 @@ class ProductListCell: UICollectionViewListCell {
         return label
     }()
     
-    private let swipeToDeleteImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "redDeleteImage")
+    private lazy var swipeToDeleteImageView: UIButton = {
+        let imageView = UIButton()
+        imageView.setImage(UIImage(named: "greenPinchImage"), for: .normal)
+        imageView.addTarget(self, action: #selector(pinchPressed), for: .touchUpInside)
         return imageView
     }()
     
-    private let swipeToAddOrDeleteFavorite: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "greenPinchImage")
+    private lazy var swipeToAddOrDeleteFavorite: UIButton = {
+        let imageView = UIButton()
+        imageView.setImage(UIImage(named: "redDeleteImage"), for: .normal)
+        imageView.addTarget(self, action: #selector(deletePressed), for: .touchUpInside)
         return imageView
     }()
     
@@ -258,23 +257,14 @@ class ProductListCell: UICollectionViewListCell {
 
 // MARK: - Swipe to delete
 extension ProductListCell {
-    private func addGestureRecognizers() {
-        let swipeRightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
-        swipeRightRecognizer.direction = .right
-        contentViews.addGestureRecognizer(swipeRightRecognizer)
-        
-        let swipeLeftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
-        swipeLeftRecognizer.direction = .left
-        contentViews.addGestureRecognizer(swipeLeftRecognizer)
-    }
     
     @objc
-    private func deleteAction() {
+    private func deletePressed() {
         swipeDeleteAction?()
     }
     
     @objc
-    private func pinchAction() {
+    private func pinchPressed() {
         swipeToAddOrDeleteFromFavorite?()
     }
     
@@ -286,7 +276,7 @@ extension ProductListCell {
                 DispatchQueue.main.async {
                     self.clearTheCell()
                 }
-                swipeDeleteAction?()
+                swipeToAddOrDeleteFromFavorite?()
             }
             if state == .normal { showDelete() }
             if state == .readyToPinch { hidePinch() }
@@ -298,7 +288,7 @@ extension ProductListCell {
                 DispatchQueue.main.async {
                     self.clearTheCell()
                 }
-                swipeToAddOrDeleteFromFavorite?()
+                swipeDeleteAction?()
             }
             if state == .normal { showPinch() }
             if state == .readyToDelete { hideDelete() }
