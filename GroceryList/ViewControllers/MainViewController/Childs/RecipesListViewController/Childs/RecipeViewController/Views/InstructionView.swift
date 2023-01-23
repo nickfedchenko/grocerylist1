@@ -56,18 +56,21 @@ final class InstructionView: UIView {
     }
     
     func setupSubviews() {
+
         addSubviews([stepNumber, instructionLabel])
         
         stepNumber.snp.makeConstraints { make in
             make.width.height.equalTo(24)
-            make.top.left.equalToSuperview().offset(12)
+            make.top.left.equalToSuperview().inset(12)
         }
         
         instructionLabel.snp.makeConstraints { make in
             make.leading.equalTo(stepNumber.snp.trailing).offset(12)
             make.trailing.equalToSuperview().inset(8)
             make.top.equalToSuperview().offset(8)
-            make.bottom.equalToSuperview().inset(8)
+            make.bottom.equalToSuperview().inset(12)
+            make.height.greaterThanOrEqualTo(32)
         }
+        
     }
 }
