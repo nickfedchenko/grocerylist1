@@ -1317,6 +1317,14 @@ struct R: Rswift.Validatable {
   struct string {
     /// This `R.string.localizable` struct is generated, and contains static references to 113 localization keys.
     struct localizable {
+      /// en translation:  Back
+      ///
+      /// Locales: en, ru
+      static let back = Rswift.StringResource(key: "Back", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation:  Recipes
+      ///
+      /// Locales: en, ru
+      static let recipes = Rswift.StringResource(key: "Recipes", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: A problem? Contact us!
       ///
       /// Locales: en, ru
@@ -1357,10 +1365,6 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let baby = Rswift.StringResource(key: "Baby", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Back
-      ///
-      /// Locales: en, ru
-      static let back = Rswift.StringResource(key: "Back", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Bread and pastries
       ///
       /// Locales: en, ru
@@ -1597,10 +1601,6 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let readyFood = Rswift.StringResource(key: "ReadyFood", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Recipes
-      ///
-      /// Locales: en, ru
-      static let recipes = Rswift.StringResource(key: "Recipes", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Rename
       ///
       /// Locales: en, ru
@@ -1770,6 +1770,36 @@ struct R: Rswift.Validatable {
       /// Locales: en, ru
       static let preferencies = Rswift.StringResource(key: "preferencies", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
 
+      /// en translation:  Back
+      ///
+      /// Locales: en, ru
+      static func back(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("Back", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "Back"
+        }
+
+        return NSLocalizedString("Back", bundle: bundle, comment: "")
+      }
+
+      /// en translation:  Recipes
+      ///
+      /// Locales: en, ru
+      static func recipes(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("Recipes", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "Recipes"
+        }
+
+        return NSLocalizedString("Recipes", bundle: bundle, comment: "")
+      }
+
       /// en translation: A problem? Contact us!
       ///
       /// Locales: en, ru
@@ -1918,21 +1948,6 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("Baby", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Back
-      ///
-      /// Locales: en, ru
-      static func back(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("Back", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "Back"
-        }
-
-        return NSLocalizedString("Back", bundle: bundle, comment: "")
       }
 
       /// en translation: Bread and pastries
@@ -2818,21 +2833,6 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("ReadyFood", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Recipes
-      ///
-      /// Locales: en, ru
-      static func recipes(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("Recipes", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "Recipes"
-        }
-
-        return NSLocalizedString("Recipes", bundle: bundle, comment: "")
       }
 
       /// en translation: Rename

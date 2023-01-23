@@ -119,6 +119,7 @@ final class RecipeScreenHeader: UIView {
         
         titleLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(backButton.snp.bottom).inset(-26)
             make.bottom.equalToSuperview().inset(8)
         }
     }

@@ -39,6 +39,35 @@ class SelectListViewController: UIViewController {
         return view
     }()
     
+    private let dismissRecognizerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
+    private let selectListTopView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#E8F5F3")
+        view.isHidden = true
+        return view
+    }()
+    
+    private let lineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#ACACAC")
+        view.layer.cornerRadius = 2
+        view.layer.cornerCurve = .continuous
+        return view
+    }()
+    
+    let selectListLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.semibold(size: 18).font
+        label.textColor = UIColor(hex: "#0C695E")
+        label.text = "Select list".localized
+        return label
+    }()
+    
     let createListLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
@@ -83,8 +112,15 @@ class SelectListViewController: UIViewController {
         updateConstr(with: 0, compl: nil)
     }
     
+    func addFoodToListMode() {
+        selectListTopView.isHidden = false
+        UIView.animate(withDuration: 0.5) {
+            self.view.backgroundColor = .black.withAlphaComponent(0.4)
+        }
+    }
+    
     // MARK: - Constraints
-    func updateConstr(with inset: Double, compl: (() -> Void)?) {
+    private func updateConstr(with inset: Double, compl: (() -> Void)?) {
         UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self = self else { return }
             self.contentView.snp.updateConstraints { make in
@@ -99,9 +135,15 @@ class SelectListViewController: UIViewController {
     // MARK: - Constraints
     private func setupConstraints() {
         view.backgroundColor = .clear
-        view.addSubviews([contentView])
-        contentView.addSubviews([topView, collectionView])
+        view.addSubviews([contentView, dismissRecognizerView])
+        contentView.addSubviews([topView, collectionView, selectListTopView])
         topView.addSubviews([createListLabel, closeButton])
+        selectListTopView.addSubviews([lineView, selectListLabel])
+        
+        dismissRecognizerView.snp.makeConstraints { make in
+            make.top.right.left.equalToSuperview()
+            make.bottom.equalTo(contentView.snp.top)
+        }
         
         contentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
@@ -112,6 +154,23 @@ class SelectListViewController: UIViewController {
         topView.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
             make.height.equalTo(60)
+        }
+        
+        selectListTopView.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview()
+            make.height.equalTo(60)
+        }
+        
+        lineView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().inset(8)
+            make.width.equalTo(65)
+            make.height.equalTo(4)
+        }
+        
+        selectListLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(lineView.snp.bottom).offset(14)
         }
         
         collectionView.snp.makeConstraints { make in
@@ -244,6 +303,14 @@ extension SelectListViewController {
     private func addRecognizer() {
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
         contentView.addGestureRecognizer(panRecognizer)
+        
+        let dismissRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissAction(_:)))
+        dismissRecognizerView.addGestureRecognizer(dismissRecognizer)
+    }
+    
+    @objc
+    private func dismissAction(_ recognizer: UIPanGestureRecognizer) {
+        hidePanel()
     }
     
     @objc
@@ -255,6 +322,7 @@ extension SelectListViewController {
     }
     
     private func hidePanel() {
+        self.view.backgroundColor = .clear
         updateConstr(with: -contentViewHeigh) {
             self.dismiss(animated: true, completion: { [weak self] in
                 self?.viewModel?.controllerDissmissed()

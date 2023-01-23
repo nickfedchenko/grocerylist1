@@ -93,11 +93,14 @@ final class RecipeListCell: UICollectionViewCell {
     
     private func setupSubviews() {
         contentView.backgroundColor = .white
-        layer.cornerRadius = 8
-        layer.cornerCurve = .continuous
-        layer.masksToBounds = true
         contentView.layer.cornerRadius = 8
+        contentView.layer.masksToBounds = true
         contentView.layer.cornerCurve = .continuous
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOpacity = 0.1
+        self.layer.shadowOffset = CGSize(width: 0, height: 0)
+        self.layer.shadowRadius = 3
+        self.layer.masksToBounds = false
         [titleLabel, mainImage, addToCartButton].forEach {
             contentView.addSubview($0)
         }
@@ -120,8 +123,8 @@ final class RecipeListCell: UICollectionViewCell {
     }
     
     func drawInlinedStroke() {
-        layer.borderColor = UIColor.white.cgColor
-        layer.borderWidth = 1
+        contentView.layer.borderColor = UIColor.white.cgColor
+        contentView.layer.borderWidth = 1
     }
     
     func addToCartButtonTapped() {

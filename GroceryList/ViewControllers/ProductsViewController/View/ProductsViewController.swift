@@ -132,7 +132,6 @@ class ProductsViewController: UIViewController {
                            isExpand: parent.isExpanded, typeOfCell: parent.typeOFCell)
         }
     
-
         let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { [ weak self ] (cell, _, child) in
             
             let bcgColor = self?.viewModel?.getColorForBackground()
@@ -215,7 +214,6 @@ class ProductsViewController: UIViewController {
         layout.collectionView?.backgroundColor = .white
         return layout
     }
-    
     
     // MARK: - Constraints
     

@@ -175,7 +175,7 @@ class HeaderListCell: UICollectionViewListCell {
         
         collapsedColoredView.snp.makeConstraints { make in
             make.left.equalToSuperview()
-            make.right.equalTo(titleLabel.snp.right).inset(-28)
+            make.right.equalTo(titleLabel.snp.right).inset(-26)
             make.height.equalTo(34)
             make.top.equalToSuperview().offset(12)
         }

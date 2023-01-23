@@ -94,7 +94,7 @@
 
 "preferencies"              = "Настройки";
 "Problems?"                 = "Проблема? Свяжитесь с нами!";
-"DoYouLikeApp?"             = "Понравилось приложение? Расскажи об этом!";
+"DoYouLikeApp?"             = "Оцени нас!";
 "Haptic Feedback"           = "Тактильный отклик";
 "Quantity Units"            = "Единицы измерения";
 "Metric"                    = "Метрическая";
@@ -115,7 +115,7 @@
 "Loading"                   = "Загрузка";
 
 
-"Recipes"                   = "Рецепты";
+"Recipes"                   = " Рецепты";
 "Breakfast"                 = "Завтрак";
 "Lunch"                     = "Обед";
 "Dinner"                    = "Ужин";
@@ -135,7 +135,7 @@
 "by taste" = "по вкусу";
 "Instructions" = "Инструкции";
 "AddedEarlier" = "Добавлено ранее";
-"Back" = "Назад";
+"Back" = " Назад";
 
 "review.mainTitle" = "Оцените приложение в AppStore";
 "review.subtitle" = "Это поможет сделать его лучше";
