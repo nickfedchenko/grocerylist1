@@ -9,6 +9,6 @@ import Foundation
 
 enum CellState {
     case normal
-    case readyToDelete
-    case readyToPinch
+    case swipedRight
+    case swipedLeft
 }

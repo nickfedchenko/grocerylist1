@@ -173,17 +173,17 @@ extension GroceryCollectionViewCell {
     private func swipeAction(_ recognizer: UISwipeGestureRecognizer) {
         switch recognizer.direction {
         case .right:
-            if state == .readyToDelete {
+            if state == .swipedRight {
                 DispatchQueue.main.async {
                     self.clearTheCell()
                 }
                 swipeDeleteAction?()
             }
             if state == .normal { showDelete() }
-            if state == .readyToPinch { hidePinch() }
+            if state == .swipedLeft { hidePinch() }
             
         case .left:
-            if state == .readyToPinch {
+            if state == .swipedLeft {
          
                 DispatchQueue.main.async {
                     self.clearTheCell()
@@ -191,7 +191,7 @@ extension GroceryCollectionViewCell {
                 swipeToAddOrDeleteFromFavorite?()
             }
             if state == .normal { showPinch() }
-            if state == .readyToDelete { hideDelete() }
+            if state == .swipedRight { hideDelete() }
         default:
             print("")
         }
@@ -207,7 +207,7 @@ extension GroceryCollectionViewCell {
             }
             self.layoutIfNeeded()
         } completion: { _ in
-            self.state = .readyToDelete
+            self.state = .swipedRight
         }
     }
     
@@ -234,7 +234,7 @@ extension GroceryCollectionViewCell {
             }
             self.layoutIfNeeded()
         } completion: { _ in
-            self.state = .readyToPinch
+            self.state = .swipedLeft
         }
     }
     

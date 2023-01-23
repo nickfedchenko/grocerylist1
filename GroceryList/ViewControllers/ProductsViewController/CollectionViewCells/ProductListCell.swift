@@ -10,17 +10,18 @@ import UIKit
 
 class ProductListCell: UICollectionViewListCell {
     
-    var swipeDeleteAction: (() -> Void)?
-    var swipeToAddOrDeleteFromFavorite: (() -> Void)?
+    var swipeToPinchAction: (() -> Void)?
+    var swipeToDeleteAction: (() -> Void)?
     private var state: CellState = .normal
     
     private let shadowView = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        swipeToAddOrDeleteFavorite.transform = CGAffineTransform(scaleX: 0.0, y: 1)
-        swipeToDeleteImageView.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        rightButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        leftButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
         setupConstraints()
+        addGestureRecognizers()
     }
     
     required init?(coder: NSCoder) {
@@ -141,14 +142,14 @@ class ProductListCell: UICollectionViewListCell {
         return label
     }()
     
-    private lazy var swipeToDeleteImageView: UIButton = {
+    private lazy var leftButton: UIButton = {
         let imageView = UIButton()
         imageView.setImage(UIImage(named: "greenPinchImage"), for: .normal)
         imageView.addTarget(self, action: #selector(pinchPressed), for: .touchUpInside)
         return imageView
     }()
     
-    private lazy var swipeToAddOrDeleteFavorite: UIButton = {
+    private lazy var rightButton: UIButton = {
         let imageView = UIButton()
         imageView.setImage(UIImage(named: "redDeleteImage"), for: .normal)
         imageView.addTarget(self, action: #selector(deletePressed), for: .touchUpInside)
@@ -189,7 +190,7 @@ class ProductListCell: UICollectionViewListCell {
     
     // MARK: - UI
     private func setupConstraints() {
-        contentView.addSubviews([swipeToDeleteImageView, swipeToAddOrDeleteFavorite, contentViews])
+        contentView.addSubviews([leftButton, rightButton, contentViews])
         contentViews.addSubviews([nameLabel, checkmarkImage, whiteCheckmarkImage, imageView, viewWithDescription])
         viewWithDescription.addSubviews([firstDescriptionLabel, secondDescriptionLabel])
         
@@ -235,13 +236,13 @@ class ProductListCell: UICollectionViewListCell {
             make.width.height.equalTo(17)
         }
         
-        swipeToAddOrDeleteFavorite.snp.makeConstraints { make in
+        rightButton.snp.makeConstraints { make in
             make.top.bottom.equalTo(contentViews)
             make.right.equalToSuperview().inset(-1)
             make.width.equalTo(68)
         }
         
-        swipeToDeleteImageView.snp.makeConstraints { make in
+        leftButton.snp.makeConstraints { make in
             make.top.bottom.equalTo(contentViews)
             make.left.equalToSuperview().inset(-1)
             make.width.equalTo(68)
@@ -258,63 +259,73 @@ class ProductListCell: UICollectionViewListCell {
 // MARK: - Swipe to delete
 extension ProductListCell {
     
+    private func addGestureRecognizers() {
+        let swipeRightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
+        swipeRightRecognizer.direction = .right
+        contentViews.addGestureRecognizer(swipeRightRecognizer)
+        
+        let swipeLeftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
+        swipeLeftRecognizer.direction = .left
+        contentViews.addGestureRecognizer(swipeLeftRecognizer)
+    }
+    
     @objc
     private func deletePressed() {
-        swipeDeleteAction?()
+        swipeToPinchAction?()
     }
     
     @objc
     private func pinchPressed() {
-        swipeToAddOrDeleteFromFavorite?()
+        swipeToDeleteAction?()
     }
     
     @objc
     private func swipeAction(_ recognizer: UISwipeGestureRecognizer) {
         switch recognizer.direction {
         case .right:
-            if state == .readyToDelete {
+            if state == .swipedRight {
                 DispatchQueue.main.async {
                     self.clearTheCell()
                 }
-                swipeToAddOrDeleteFromFavorite?()
+                swipeToDeleteAction?()
             }
-            if state == .normal { showDelete() }
-            if state == .readyToPinch { hidePinch() }
+            if state == .normal { showLeftImage() }
+            if state == .swipedLeft { hideRightImage() }
             
         case .left:
             guard nameLabel.textColor == .black else { return }
-            if state == .readyToPinch {
+            if state == .swipedLeft {
                 
                 DispatchQueue.main.async {
                     self.clearTheCell()
                 }
-                swipeDeleteAction?()
+                swipeToPinchAction?()
             }
-            if state == .normal { showPinch() }
-            if state == .readyToDelete { hideDelete() }
+            if state == .normal { showRightImage() }
+            if state == .swipedRight { hideLeftImage() }
         default:
             print("")
         }
     }
     
-    private func showDelete() {
+    private func showLeftImage() {
         UIView.animate(withDuration: 0.2) { [weak self] in
             guard let self = self else { return }
-            self.swipeToDeleteImageView.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.leftButton.transform = CGAffineTransform(scaleX: 1, y: 1)
             self.contentViews.snp.updateConstraints { make in
                 make.left.equalToSuperview().inset(60)
                 make.right.equalToSuperview().inset(-56)
             }
             self.layoutIfNeeded()
         } completion: { _ in
-            self.state = .readyToDelete
+            self.state = .swipedRight
         }
     }
     
-    private func hideDelete() {
+    private func hideLeftImage() {
         UIView.animate(withDuration: 0.2) { [weak self] in
             guard let self = self else { return }
-            self.swipeToDeleteImageView.transform = CGAffineTransform(scaleX: 0, y: 1)
+            self.leftButton.transform = CGAffineTransform(scaleX: 0, y: 1)
             self.contentViews.snp.updateConstraints { make in
                 make.left.right.equalToSuperview().inset(16)
             }
@@ -324,24 +335,24 @@ extension ProductListCell {
         }
     }
     
-    private func showPinch() {
+    private func showRightImage() {
         UIView.animate(withDuration: 0.2) { [weak self] in
             guard let self = self else { return }
-            self.swipeToAddOrDeleteFavorite.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.rightButton.transform = CGAffineTransform(scaleX: 1, y: 1)
             self.contentViews.snp.updateConstraints { make in
                 make.right.equalToSuperview().inset(60)
                 make.left.equalToSuperview().inset(-7)
             }
             self.layoutIfNeeded()
         } completion: { _ in
-            self.state = .readyToPinch
+            self.state = .swipedLeft
         }
     }
     
-    private func hidePinch() {
+    private func hideRightImage() {
         UIView.animate(withDuration: 0.2) { [weak self] in
             guard let self = self else { return }
-            self.swipeToAddOrDeleteFavorite.transform = CGAffineTransform(scaleX: 0, y: 1)
+            self.rightButton.transform = CGAffineTransform(scaleX: 0, y: 1)
             self.contentViews.snp.updateConstraints { make in
                 make.left.right.equalToSuperview().inset(16)
             }
@@ -352,8 +363,8 @@ extension ProductListCell {
     }
     
     private func clearTheCell() {
-        swipeToAddOrDeleteFavorite.transform = CGAffineTransform(scaleX: 0.0, y: 1)
-        swipeToDeleteImageView.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        rightButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        leftButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
         contentViews.snp.updateConstraints { make in
             make.left.right.equalToSuperview().inset(16)
         }

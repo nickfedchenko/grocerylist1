@@ -142,12 +142,12 @@ class ProductsViewController: UIViewController {
             cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name, isPurchased: child.isPurchased, image: image, description: description)
             
             // свайпы
-            cell.swipeDeleteAction = {
+            cell.swipeToPinchAction = {
                 self?.viewModel?.delete(product: child)
             }
             
             guard !child.isPurchased else { return }
-            cell.swipeToAddOrDeleteFromFavorite = {
+            cell.swipeToDeleteAction = {
                 self?.viewModel?.updateFavoriteStatus(for: child)
             }
         }
