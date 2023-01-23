@@ -78,7 +78,7 @@ final class RecipeViewController: UIViewController {
         for ingredient in viewModel.recipe.ingredients {
             let title = ingredient.product.title
             let unitCount = ingredient.quantity
-            let unitName = ingredient.unit?.title ?? ""
+            let unitName = ingredient.unit?.shortTitle ?? ""
             let view = IngredientView()
             view.setTitle(title: title)
             if unitCount == 0 {
