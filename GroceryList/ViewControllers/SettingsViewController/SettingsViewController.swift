@@ -232,7 +232,7 @@ extension SettingsViewController {
     }
     
     func hideUnitsView() {
-        UIView.animate(withDuration: 1.0, delay: 0,
+        UIView.animate(withDuration: 0.3, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
@@ -250,7 +250,7 @@ extension SettingsViewController {
     
     @objc
     private func unitsViewAction(_ recognizer: UIPanGestureRecognizer) {
-        UIView.animate(withDuration: 1.0, delay: 0,
+        UIView.animate(withDuration: 0.3, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
@@ -262,21 +262,20 @@ extension SettingsViewController {
     
     @objc
     private func likeAppViewAction(_ recognizer: UIPanGestureRecognizer) {
-        guard InternetConnection.isConnected() else { alertOk(title: "Warning".localized, message: "NoInternet".localized); return }
-        if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
-                    SKStoreReviewController.requestReview(in: scene)
-                }
+        guard let
+                url = URL(string: "itms-apps://itunes.apple.com/app/id1659848939?action=write-review"),
+              UIApplication.shared.canOpenURL(url)
+        else { return }
+        UIApplication.shared.open(url)
     }
     
     @objc
     private func contactUsAction(_ recognizer: UIPanGestureRecognizer) {
-        guard InternetConnection.isConnected() else { alertOk(title: "Warning".localized, message: "NoInternet".localized); return }
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
-            mail.setToRecipients(["mikolay.nos13@yandex.ru"])
+            mail.setToRecipients(["ksennn.vasko0222@yandex.ru"])
             mail.setMessageBody("<p>Hey! I have some questions!</p>", isHTML: true)
-
             present(mail, animated: true)
         } else {
             print("Send mail not allowed")

@@ -52,7 +52,7 @@ class SettingsParametrView: UIView {
     
     private let unitSystemLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.medium(size: 16).font
+        label.font = UIFont.SFPro.medium(size: 16.fitW).font
         label.textColor = .black
         return label
     }()
