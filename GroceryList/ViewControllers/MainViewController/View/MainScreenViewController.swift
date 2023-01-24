@@ -128,7 +128,7 @@ class MainScreenViewController: UIViewController {
     
     private let createListLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 18).font
+        label.font = UIFont.SFProRounded.semibold(size: 18).font
         label.textColor = UIColor(hex: "#31635A")
         label.text = "CreateList".localized
         return label
@@ -150,7 +150,7 @@ class MainScreenViewController: UIViewController {
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(10)
             make.width.equalTo(view.snp.width)
             make.leading.equalToSuperview()
-            make.bottom.equalToSuperview().inset(88)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
         }
         
         recipesCollectionView.snp.makeConstraints { make in
@@ -205,6 +205,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
     }
     
     private func setupCollectionView() {
+        collectionView.contentInset.bottom = 60
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
         collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
@@ -329,7 +330,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
             itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(92))
         }
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 1, trailing: 0)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
@@ -541,13 +542,14 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
     }
     
     func modeChanged(to mode: MainScreenPresentationMode) {
-        guard Apphud.hasActiveSubscription() else {
-            if let paywall = viewModel?.router?.viewControllerFactory.createPaywallController() {
-                paywall.modalPresentationStyle = .fullScreen
-                present(paywall, animated: true)
-            }
-            return
-        }
+        // TODO: - 
+//        guard Apphud.hasActiveSubscription() else {
+//            if let paywall = viewModel?.router?.viewControllerFactory.createPaywallController() {
+//                paywall.modalPresentationStyle = .fullScreen
+//                present(paywall, animated: true)
+//            }
+//            return
+//        }
         presentationMode = mode
         if mode == .lists {
             showListsCollection()
@@ -556,14 +558,15 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
                 snapshot.reloadItems([item])
                 collectionViewDataSource?.apply(snapshot)
             }
+            bottomCreateListView.isHidden = false
             
         } else {
             showRecipesCollection()
             recipesCollectionView.reloadSections(IndexSet(integer: 0))
+            bottomCreateListView.isHidden = true
         }
     }
 }
-
 
 extension MainScreenViewController: RecipesFolderHeaderDelegate {
     func headerTapped(at index: Int) {

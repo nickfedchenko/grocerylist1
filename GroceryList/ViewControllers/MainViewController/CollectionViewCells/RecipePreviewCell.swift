@@ -58,6 +58,7 @@ final class RecipePreviewCell: UICollectionViewCell {
         layer.cornerCurve = .continuous
         contentView.layer.cornerRadius = 8
         contentView.layer.cornerCurve = .continuous
+        contentView.layer.masksToBounds = true
         [titleLabel, mainImage].forEach {
             contentView.addSubview($0)
         }
@@ -73,7 +74,6 @@ final class RecipePreviewCell: UICollectionViewCell {
             make.bottom.equalToSuperview().inset(8)
         }
         
-       
     }
     
     private func drawShadows() {

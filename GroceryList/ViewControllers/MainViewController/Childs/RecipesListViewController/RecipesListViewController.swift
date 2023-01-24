@@ -13,14 +13,16 @@ final class RecipesListViewController: UIViewController {
     
     var currentlySelectedIndex: Int = -1
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
+    
     private lazy var recipesListCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(RecipeListCell.self, forCellWithReuseIdentifier: RecipeListCell.identifier)
-//        collectionView.dataSource = self
-        collectionView.contentInset.top = 136
-//        collectionView.contentInset.left = 20
+        collectionView.contentInset.top = 142
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
@@ -107,11 +109,15 @@ extension RecipesListViewController: UICollectionViewDataSource, UICollectionVie
         CGSize(width: view.bounds.width - 40, height: 64)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        8
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let recipe = section.recipes[indexPath.item]
-        let vc = RecipeViewController(with: RecipeScreenViewModel(recipe: recipe), backButtonTitle: R.string.localizable.recipes())
+        let vc = RecipeViewController(with: RecipeScreenViewModel(recipe: recipe),
+                                      backButtonTitle: R.string.localizable.recipes())
         navigationController?.pushViewController(vc, animated: true)
-//        let vc = router?.prepareSelectListController(height: 200, setOfSelectedProd: Set<section>, compl: <#T##((Set<Product>) -> Void)##((Set<Product>) -> Void)##(Set<Product>) -> Void#>)
     }
 }
 
@@ -132,8 +138,6 @@ extension RecipesListViewController: RecipeListCellDelegate {
         print("added recipeTitle in product \(recipeTitle)")
         let products: [Product] = section.recipes[index].ingredients.map {
             let netProduct = $0.product
-//            let step = $0.product.marketUnit?.step?.defaultQuantityStep ?? 1
-//            let description = String(format: "%.0f", $0.product.marketUnit?.step?.defaultQuantityStep ?? 1) + " " + String($0.product.marketUnit?.shortTitle ?? "г")
             let product = Product(
                 name: netProduct.title,
                 isPurchased: false,
@@ -153,7 +157,7 @@ extension RecipesListViewController: RecipeListCellDelegate {
         let viewModel = SelectListViewModel(dataSource: dataSource)
         vc.viewModel = viewModel
         vc.delegate = self
-        present(vc, animated: true)
+        present(vc, animated: false)
     }
 }
 

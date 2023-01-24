@@ -13,11 +13,11 @@ class CreateNewProductViewController: UIViewController {
     var viewModel: CreateNewProductViewModel?
     private var imagePicker = UIImagePickerController()
     private var isCategorySelected = false
-    private var quantityCount = 0
+    private var quantityCount: Double = 0
     private var isImageChanged = false
     private var userCommentText = ""
 
-    private var quantityValueStep: Int = 1
+    private var quantityValueStep: Double = 1
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
@@ -49,7 +49,7 @@ class CreateNewProductViewController: UIViewController {
     @objc
     private func plusButtonAction() {
         quantityCount += quantityValueStep
-        quantityLabel.text = String(quantityCount)
+        quantityLabel.text = getDecimalString()
         setupText()
         quantityAvailable()
     }
@@ -61,21 +61,28 @@ class CreateNewProductViewController: UIViewController {
             return quantityNotAvailable()
         }
         quantityCount -= quantityValueStep
-        quantityLabel.text = String(quantityCount)
+        quantityLabel.text = getDecimalString()
+                             
         setupText()
     }
     
     private func setupText() {
         let quantity = selectUnitLabel.text ?? ""
+        
         if userCommentText.isEmpty {
-            bottomTextField.text = "\(quantityCount) \(quantity) "
+            bottomTextField.text = "\(getDecimalString()) \(quantity) "
         } else {
             let words = userCommentText.components(separatedBy: " ")
             let wordsToRemove = "\(quantityCount - quantityValueStep) \(quantity)".components(separatedBy: " ")
             let result = words.filter { !wordsToRemove.contains($0) }.joined(separator: " ")
             userCommentText = result
-            bottomTextField.text = userCommentText + ", \(quantityCount) \(quantity) "
+          
+            bottomTextField.text = userCommentText + ", \(getDecimalString()) \(quantity) "
         }
+    }
+    
+    private func getDecimalString() -> String {
+        String(format: "%.\(quantityCount.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", quantityCount)
     }
     
     private func setupTextFieldParametrs() {
@@ -308,7 +315,7 @@ class CreateNewProductViewController: UIViewController {
         textfield.textColor = .black
         textfield.backgroundColor = .white
         textfield.keyboardAppearance = .light
-        textfield.keyboardType = .numberPad
+        textfield.keyboardType = .decimalPad
         textfield.attributedPlaceholder = NSAttributedString(
             string: "0",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "#AEB4B2")]
@@ -500,14 +507,14 @@ extension CreateNewProductViewController: UITextFieldDelegate {
         quantityView.layer.borderColor = UIColor(hex: "#B8BFCC").cgColor
         selectUnitsView.backgroundColor = UIColor(hex: "#D2D5DA")
         quantityCount = 0
-        quantityLabel.text = String(quantityCount)
+        quantityLabel.text = "0"
         bottomTextField.text = ""
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
-        var finalText = string.isEmpty ? String(text.dropLast()) : text + string
+        let finalText = string.isEmpty ? String(text.dropLast()) : text + string
         
         if textField == topTextField {
         
@@ -526,14 +533,17 @@ extension CreateNewProductViewController: UITextFieldDelegate {
         }
         
         if textField == quantityLabel {
-            quantityCount = Int(finalText) ?? 0
+            let textInDouble = finalText.replacingOccurrences(of: ",", with: ".")
+           
+            quantityCount = Double(textInDouble) ?? 0
             setupText()
             
             if finalText.isEmpty {
                 quantityNotAvailable()
-                
+            } else {
+                quantityAvailable()
             }
-            if !finalText.isEmpty { quantityAvailable() }
+          
         }
         
         return newLength <= 25
@@ -692,7 +702,7 @@ extension CreateNewProductViewController: UITableViewDelegate, UITableViewDataSo
 
 extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     func setupController(step: Int) {
-        quantityValueStep = step
+        quantityValueStep = Double(step)
         quantityCount = 0
         quantityLabel.text = "0"
     }

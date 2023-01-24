@@ -107,7 +107,7 @@ class MainScreenViewModel {
         supply.products.forEach({ item in
             if item.isPurchased {done += 1 }
         })
-        return "\(done)/\(supply.products.count)"
+        return "\(done) / \(supply.products.count)"
     }
     
     func reloadDataFromStorage() {

@@ -18,6 +18,12 @@ final class AddProductsSelectionListController: SelectListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         correctTitleLabel()
+       
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        addFoodToListMode()
     }
     
     init(with productsSet: [Product]) {

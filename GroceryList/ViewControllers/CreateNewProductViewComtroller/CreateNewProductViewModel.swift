@@ -77,7 +77,7 @@ class CreateNewProductViewModel {
         guard let model else { return }
         print(categoryName, productName)
         var imageData: Data?
-        if let image { imageData = image.pngData() }
+        if let image { imageData = image.jpegData(compressionQuality: 0.5) }
         let product = Product(listId: model.id, name: productName, isPurchased: false, dateOfCreation: Date(),
                               category: categoryName, isFavorite: false, imageData: imageData, description: description)
         CoreDataManager.shared.createProduct(product: product)
@@ -104,7 +104,7 @@ class CreateNewProductViewModel {
         guard let product = arrayOfproductsByCategories.first(where: {
             guard let name = name,
                   let title = $0.title else { return false }
-            return title.lowercased().contains(name.lowercased())
+            return title.lowercased() == name.lowercased()
             
         }) else { return }
         getAllInformation(product: product)

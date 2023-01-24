@@ -18,15 +18,61 @@ extension UIFont {
         var font: UIFont! {
             switch self {
             case .heavy(let size):
-                return UIFont(name: "SF Pro Display Heavy", size: size)
+                return R.font.sfProTextHeavy(size: size)
             case .medium(let size):
-                return UIFont(name: "SF Pro Display Medium", size: size)
+                return R.font.sfProTextMedium(size: size)
             case .semibold(let size):
-                return UIFont(name: "SF Pro Display Semibold", size: size)
+                return R.font.sfProTextSemibold(size: size)
             case .bold(let size):
-                return UIFont(name: "SF Pro Display Bold", size: size)
+                return R.font.sfProTextBold(size: size)
             case .regular(let size):
-                return UIFont(name: "SF Pro Display Regular", size: size)
+                return R.font.sfProTextRegular(size: size)
+            }
+        }
+    }
+    
+    enum SFProDisplay {
+        case heavy(size: CGFloat)
+        case medium(size: CGFloat)
+        case semibold(size: CGFloat)
+        case bold(size: CGFloat)
+        case regular(size: CGFloat)
+        
+        var font: UIFont! {
+            switch self {
+            case .heavy(let size):
+                return R.font.sfProDisplayHeavy(size: size)
+            case .medium(let size):
+                return R.font.sfProDisplayMedium(size: size)
+            case .semibold(let size):
+                return R.font.sfProDisplaySemibold(size: size)
+            case .bold(let size):
+                return R.font.sfProDisplayBold(size: size)
+            case .regular(let size):
+                return R.font.sfProDisplayRegular(size: size)
+            }
+        }
+    }
+    
+    enum SFProRounded {
+        case heavy(size: CGFloat)
+        case medium(size: CGFloat)
+        case semibold(size: CGFloat)
+        case bold(size: CGFloat)
+        case regular(size: CGFloat)
+        
+        var font: UIFont! {
+            switch self {
+            case .heavy(let size):
+                return R.font.sfProRoundedHeavy(size: size)
+            case .medium(let size):
+                return R.font.sfProRoundedMedium(size: size)
+            case .semibold(let size):
+                return R.font.sfProRoundedSemibold(size: size)
+            case .bold(let size):
+                return R.font.sfProRoundedBold(size: size)
+            case .regular(let size):
+                return R.font.sfProRoundedRegular(size: size)
             }
         }
     }

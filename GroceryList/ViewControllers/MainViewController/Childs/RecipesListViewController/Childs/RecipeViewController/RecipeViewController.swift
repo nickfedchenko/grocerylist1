@@ -13,6 +13,10 @@ final class RecipeViewController: UIViewController {
     private var isFavorite: Bool {
         UserDefaultsManager.favoritesRecipeIds.contains(viewModel.recipe.id)
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
 
     private lazy var header: RecipeScreenHeader = {
        let header = RecipeScreenHeader()
@@ -24,9 +28,10 @@ final class RecipeViewController: UIViewController {
     
     let containerView = UIView()
     
-    let contentScrollView: UIScrollView = {
+    lazy var contentScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.contentInset.top = 136
+        scrollView.contentInset.bottom = view.safeAreaInsets.bottom
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.contentInsetAdjustmentBehavior = .never
@@ -73,7 +78,7 @@ final class RecipeViewController: UIViewController {
         for ingredient in viewModel.recipe.ingredients {
             let title = ingredient.product.title
             let unitCount = ingredient.quantity
-            let unitName = ingredient.unit?.title ?? ""
+            let unitName = ingredient.unit?.shortTitle ?? ""
             let view = IngredientView()
             view.setTitle(title: title)
             if unitCount == 0 {
@@ -146,6 +151,13 @@ final class RecipeViewController: UIViewController {
         setupActions()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        contentScrollView.contentInset.top = header.bounds.height
+        contentScrollView.contentInset.bottom = view.safeAreaInsets.bottom
+        contentScrollView.setContentOffset(CGPoint(x: 0, y: -contentScrollView.contentInset.top), animated: true)
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         header.releaseBlurAnimation()
@@ -174,12 +186,12 @@ final class RecipeViewController: UIViewController {
         }
         
         let addProductsVC = AddProductsSelectionListController(with:products)
-        addProductsVC.contentViewHeigh = 700
+        addProductsVC.contentViewHeigh = 500
         addProductsVC.modalPresentationStyle = .overCurrentContext
         let dataSource = SelectListDataManager()
         let viewModel = SelectListViewModel(dataSource: dataSource)
         addProductsVC.viewModel = viewModel
-        present(addProductsVC, animated: true)
+        present(addProductsVC, animated: false)
     }
     
     private func setupAppearance() {
@@ -213,7 +225,6 @@ final class RecipeViewController: UIViewController {
         
         header.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(136)
         }
         
         containerView.snp.makeConstraints { make in

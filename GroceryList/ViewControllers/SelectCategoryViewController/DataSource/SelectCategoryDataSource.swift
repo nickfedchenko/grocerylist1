@@ -30,7 +30,10 @@ class SelectCategoryDataSource {
         CategoryModel(ind: 9, name: "FruitsAndVegetables".localized), CategoryModel(ind: 10, name: "Fish".localized),
         CategoryModel(ind: 11, name: "Sweet".localized), CategoryModel(ind: 12, name: "Bread".localized),
         CategoryModel(ind: 13, name: "Tea".localized), CategoryModel(ind: 14, name: "Meat".localized),
-        CategoryModel(ind: 15, name: "other".localized)
+        CategoryModel(ind: 15, name: "other".localized), CategoryModel(ind: 14, name: "Baby".localized),
+        CategoryModel(ind: 15, name: "Health & Beauty".localized), CategoryModel(ind: 14, name: "Home, Garden & Patio".localized),
+        CategoryModel(ind: 15, name: "Household & Cleaning".localized), CategoryModel(ind: 14, name: "Pet Care".localized),
+        CategoryModel(ind: 14, name: "Stationery".localized)
     ]
     
     func transformCoreDataModels() {

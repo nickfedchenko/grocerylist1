@@ -16,8 +16,8 @@ class GroceryCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        swipeToAddOrDeleteFavorite.transform = CGAffineTransform(scaleX: 0.0, y: 1)
-        swipeToDeleteImageView.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        rightButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        leftButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
         setupConstraints()
         addGestureRecognizers()
     }
@@ -32,8 +32,8 @@ class GroceryCollectionViewCell: UICollectionViewCell {
     }
     
     private func clearTheCell() {
-        swipeToAddOrDeleteFavorite.transform = CGAffineTransform(scaleX: 0.0, y: 1)
-        swipeToDeleteImageView.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        rightButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        leftButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
         contentViews.snp.updateConstraints { make in
             make.left.right.equalToSuperview().inset(20)
         }
@@ -50,12 +50,6 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         let swipeLeftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
         swipeLeftRecognizer.direction = .left
         contentViews.addGestureRecognizer(swipeLeftRecognizer)
-        
-                let tapPinchRecognizer = UITapGestureRecognizer(target: self, action: #selector(deleteAction))
-                swipeToAddOrDeleteFavorite.addGestureRecognizer(tapPinchRecognizer)
-        
-                let tapDeleteRecognizer = UITapGestureRecognizer(target: self, action: #selector(pinchAction))
-                swipeToDeleteImageView.addGestureRecognizer(tapDeleteRecognizer)
     }
     
     func setupCell(nameOfList: String, bckgColor: UIColor, isTopRounded: Bool,
@@ -63,9 +57,12 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         countLabel.text = numberOfItemsInside
         contentViews.backgroundColor = bckgColor
         nameLabel.text = nameOfList
-        
-        swipeToAddOrDeleteFavorite.image = isFavorite ? UIImage(named: "swipeTeDeleteFromFavorite") : UIImage(named: "swipeToAddToFavorite")
-        
+       
+        if isFavorite {
+            leftButton.setImage(UIImage(named: "swipeToAddToFavorite"), for: .normal)
+        } else {
+            leftButton.setImage(UIImage(named: "swipeTeDeleteFromFavorite"), for: .normal)
+        }
         if isBottomRounded && isTopRounded {
             contentViews.layer.cornerRadius = 8
             contentViews.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]
@@ -92,38 +89,36 @@ class GroceryCollectionViewCell: UICollectionViewCell {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
+        label.font = UIFont.SFProRounded.semibold(size: 17).font
         label.textColor = .white
         return label
     }()
     
     private let countLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
+        label.font = UIFont.SFProRounded.semibold(size: 17).font
         label.textColor = .white
         return label
     }()
     
-    private let swipeToDeleteImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "swipeToDelete")
-         // imageView.isUserInteractionEnabled = true
+    private lazy var leftButton: UIButton = {
+        let imageView = UIButton()
+        imageView.setImage(UIImage(named: "swipeToAddToFavorite"), for: .normal)
+        imageView.addTarget(self, action: #selector(pinchAction), for: .touchUpInside)
         return imageView
     }()
     
-    private let swipeToAddOrDeleteFavorite: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "swipeToAddToFavorite")
-        // imageView.isUserInteractionEnabled = true
+    private lazy var rightButton: UIButton = {
+        let imageView = UIButton()
+        imageView.setImage(UIImage(named: "swipeToDelete"), for: .normal)
+        imageView.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
         return imageView
     }()
     
     // MARK: - UI
     private func setupConstraints() {
         backgroundColor = UIColor(hex: "#E8F5F3")
-        contentView.addSubviews([contentViews, swipeToDeleteImageView, swipeToAddOrDeleteFavorite])
+        contentView.addSubviews([leftButton, rightButton, contentViews])
         contentViews.addSubviews([nameLabel, countLabel])
         
         contentViews.snp.makeConstraints { make in
@@ -142,13 +137,13 @@ class GroceryCollectionViewCell: UICollectionViewCell {
             make.bottom.equalToSuperview().inset(11)
         }
         
-        swipeToDeleteImageView.snp.makeConstraints { make in
+        leftButton.snp.makeConstraints { make in
             make.height.equalTo(contentViews)
             make.left.equalToSuperview()
             make.width.equalTo(72)
         }
         
-        swipeToAddOrDeleteFavorite.snp.makeConstraints { make in
+        rightButton.snp.makeConstraints { make in
             make.height.equalTo(contentViews)
             make.right.equalToSuperview().inset(-1)
             make.width.equalTo(72)
@@ -160,38 +155,38 @@ class GroceryCollectionViewCell: UICollectionViewCell {
 extension GroceryCollectionViewCell {
     
     @objc
-    private func deleteAction() {
-        swipeDeleteAction?()
+    private func pinchAction() {
+        swipeToAddOrDeleteFromFavorite?()
     }
     
     @objc
-    private func pinchAction() {
-        swipeToAddOrDeleteFromFavorite?()
+    private func deleteAction() {
+        swipeDeleteAction?()
     }
     
     @objc
     private func swipeAction(_ recognizer: UISwipeGestureRecognizer) {
         switch recognizer.direction {
         case .right:
-            if state == .readyToDelete {
+            if state == .swipedRight {
                 DispatchQueue.main.async {
                     self.clearTheCell()
                 }
-                swipeDeleteAction?()
+                pinchAction()
             }
             if state == .normal { showDelete() }
-            if state == .readyToPinch { hidePinch() }
+            if state == .swipedLeft { hidePinch() }
             
         case .left:
-            if state == .readyToPinch {
+            if state == .swipedLeft {
          
                 DispatchQueue.main.async {
                     self.clearTheCell()
                 }
-                swipeToAddOrDeleteFromFavorite?()
+                deleteAction()
             }
             if state == .normal { showPinch() }
-            if state == .readyToDelete { hideDelete() }
+            if state == .swipedRight { hideDelete() }
         default:
             print("")
         }
@@ -200,21 +195,21 @@ extension GroceryCollectionViewCell {
     private func showDelete() {
         UIView.animate(withDuration: 0.2) { [weak self] in
             guard let self = self else { return }
-            self.swipeToDeleteImageView.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.leftButton.transform = CGAffineTransform(scaleX: 1, y: 1)
             self.contentViews.snp.updateConstraints { make in
                 make.left.equalToSuperview().inset(65)
                 make.right.equalToSuperview().inset(-56)
             }
             self.layoutIfNeeded()
         } completion: { _ in
-            self.state = .readyToDelete
+            self.state = .swipedRight
         }
     }
     
     private func hideDelete() {
         UIView.animate(withDuration: 0.2) { [weak self] in
             guard let self = self else { return }
-            self.swipeToDeleteImageView.transform = CGAffineTransform(scaleX: 0, y: 1)
+            self.leftButton.transform = CGAffineTransform(scaleX: 0, y: 1)
             self.contentViews.snp.updateConstraints { make in
                 make.left.right.equalToSuperview().inset(20)
             }
@@ -227,21 +222,21 @@ extension GroceryCollectionViewCell {
     private func showPinch() {
         UIView.animate(withDuration: 0.2) { [weak self] in
             guard let self = self else { return }
-            self.swipeToAddOrDeleteFavorite.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.rightButton.transform = CGAffineTransform(scaleX: 1, y: 1)
             self.contentViews.snp.updateConstraints { make in
                 make.right.equalToSuperview().inset(65)
                 make.left.equalToSuperview().inset(-7)
             }
             self.layoutIfNeeded()
         } completion: { _ in
-            self.state = .readyToPinch
+            self.state = .swipedLeft
         }
     }
     
     private func hidePinch() {
         UIView.animate(withDuration: 0.2) { [weak self] in
             guard let self = self else { return }
-            self.swipeToAddOrDeleteFavorite.transform = CGAffineTransform(scaleX: 0, y: 1)
+            self.rightButton.transform = CGAffineTransform(scaleX: 0, y: 1)
             self.contentViews.snp.updateConstraints { make in
                 make.left.right.equalToSuperview().inset(20)
             }

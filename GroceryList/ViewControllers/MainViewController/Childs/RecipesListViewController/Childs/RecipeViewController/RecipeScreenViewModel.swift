@@ -11,6 +11,7 @@ protocol RecipeScreenViewModelProtocol {
     func getNumberOfIngredients() -> Int
     func getRecipeTitle() -> String
     func getIngredientsSizeAccordingToServings(servings: Int) -> [String]
+    func getContentInsetHeight() -> CGFloat
     var recipe: Recipe { get }
 }
 
@@ -22,7 +23,6 @@ final class RecipeScreenViewModel {
     }
 }
 
-
 extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
     func getNumberOfIngredients() -> Int {
         recipe.ingredients.count
@@ -30,6 +30,14 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
     
     func getRecipeTitle() -> String {
         recipe.title
+    }
+    
+    func getContentInsetHeight() -> CGFloat {
+        if recipe.title.count > 20 {
+           return 166
+        } else {
+            return 136
+        }
     }
     
     func getIngredientsSizeAccordingToServings(servings: Int) -> [String] {
