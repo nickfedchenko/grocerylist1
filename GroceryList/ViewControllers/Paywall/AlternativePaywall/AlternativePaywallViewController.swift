@@ -16,6 +16,7 @@ class AlternativePaywallViewController: UIViewController {
     private var selectedProduct: ApphudProduct?
     private let featuresView = CheckmarkCompositionView()
     private let tryForFreeView = TryForFreeView()
+    private let isSmallSize = UIScreen.main.isSmallSize
     
     private var choiceOfCostArray = [
         PayWallModel(
@@ -283,30 +284,30 @@ class AlternativePaywallViewController: UIViewController {
         }
         
         backgroundShadowView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.bottom.equalTo(tryForFreeView.snp.bottom)
+            make.left.right.bottom.equalToSuperview()
+         
             make.top.equalTo(tryForFreeView.snp.top).inset(-40)
         }
     
         productShelfImage.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(22)
             make.height.equalTo(176)
-            make.bottom.equalTo(tryForFreeView.snp.top).inset(0)
+            make.bottom.equalTo(tryForFreeView.snp.top).inset(isSmallSize ? 20 : -10)
         }
         
         tryForFreeView.snp.makeConstraints { make in
-            make.bottom.equalTo(featuresView.snp.top).inset(-24)
+            make.bottom.equalTo(featuresView.snp.top).inset(isSmallSize ? -18 : -26)
             make.centerX.equalToSuperview()
         }
         
         featuresView.snp.makeConstraints { make in
-            make.bottom.equalTo(collectionView.snp.top).inset(-18)
+            make.bottom.equalTo(collectionView.snp.top).inset(isSmallSize ? -8 : -26)
             make.centerX.equalToSuperview()
         }
         
         collectionView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
-            make.bottom.equalTo(nextButton.snp.top).inset(-20)
+            make.bottom.equalTo(nextButton.snp.top).inset(isSmallSize ? 0 : -20)
             make.height.equalTo(260)
         }
         
@@ -352,7 +353,6 @@ class AlternativePaywallViewController: UIViewController {
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(20)
             make.width.height.equalTo(20)
         }
-
     }
     
     @objc
