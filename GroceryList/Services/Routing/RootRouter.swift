@@ -63,6 +63,7 @@ final class RootRouter: RootRouterProtocol {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         goToOnboarding()
+        showPaywallVC()
     }
     
     func goToOnboarding() {

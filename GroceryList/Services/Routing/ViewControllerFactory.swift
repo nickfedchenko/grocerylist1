@@ -217,7 +217,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createPaywallController() -> UIViewController? {
-        let viewController = PaywallViewController()
+        let viewController = AlternativePaywallViewController()
         return viewController
     }
     
