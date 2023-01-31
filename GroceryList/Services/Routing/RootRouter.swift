@@ -63,7 +63,6 @@ final class RootRouter: RootRouterProtocol {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         goToOnboarding()
-        showPaywallVC()
     }
     
     func goToOnboarding() {
@@ -135,6 +134,23 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func showPaywallVC() {
+        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
+            guard let paywall = paywalls.first else { return }
+            if paywall.identifier == "Main" {
+                self?.showDefaultPaywallVC()
+            } else {
+                self?.showAlternativePaywallVC()
+            }
+        }
+    }
+    
+    func showDefaultPaywallVC() {
+        guard let controller = viewControllerFactory.createPaywallController() else { return }
+        guard !Apphud.hasActiveSubscription() else { return }
+        navigationPresent(controller, style: .fullScreen, animated: true)
+    }
+    
+    func showAlternativePaywallVC() {
         guard let controller = viewControllerFactory.createPaywallController() else { return }
         guard !Apphud.hasActiveSubscription() else { return }
         navigationPresent(controller, style: .fullScreen, animated: true)

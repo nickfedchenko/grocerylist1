@@ -62,6 +62,7 @@ protocol ViewControllerFactoryProtocol {
     ) -> UIViewController?
     func createSettingsController(router: RootRouter) -> UIViewController?
     func createPaywallController() -> UIViewController?
+    func createAlternativePaywallController() -> UIViewController?
     func createRecipesListController(for section: RecipeSectionsModel, with router: RootRouter) -> UIViewController
     func createReviewsController(router: RootRouter) -> UIViewController
 }
@@ -217,6 +218,11 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createPaywallController() -> UIViewController? {
+        let viewController = PaywallViewController()
+        return viewController
+    }
+    
+    func createAlternativePaywallController() -> UIViewController? {
         let viewController = AlternativePaywallViewController()
         return viewController
     }
