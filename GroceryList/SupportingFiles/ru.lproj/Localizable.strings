@@ -123,6 +123,8 @@
 "weekly"                    = "неделя";
 "Week"                      = "Неделя";
 "Favorites"                 = "Избранное";
+"/WEEK"                     = "/ НЕДЕЛЯ";
+"3 days free"               = "3 для бесплатно";
 
 "Select list"               = "Выберите список";
 
@@ -139,3 +141,7 @@
 
 "review.mainTitle" = "Оцените приложение в AppStore";
 "review.subtitle" = "Это поможет сделать его лучше";
+
+"Create your own exercises"     = "Create your own exercises";
+"Track your exercise analytics" = "Track your exercise analytics";
+"Discover your best results"    = "Discover your best results";

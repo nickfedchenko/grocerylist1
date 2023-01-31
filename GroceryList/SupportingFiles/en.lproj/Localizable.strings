@@ -124,6 +124,8 @@
 "weekly"                    = "week";
 "Week"                      = "Week";
 "Favorites"                 = "Favorites";
+"/WEEK"                     = "/ WEEK";
+"3 days free"               = "3 days free";
 
 "Select list"               = "Select list";
 
@@ -140,3 +142,8 @@
 
 "review.mainTitle" = "Rate the app in the AppStore";
 "review.subtitle" = "This helps to make it even better";
+
+
+"Create your own exercises"     = "Create your own exercises";
+"Track your exercise analytics" = "Track your exercise analytics";
+"Discover your best results"    = "Discover your best results";

@@ -34,6 +34,10 @@
 		B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573C62923A11000CA8BDE /* ProductSettingsTableViewCell.swift */; };
 		B315F9D52988FD530009CEB8 /* AlternativePaywallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315F9D42988FD530009CEB8 /* AlternativePaywallViewController.swift */; };
 		B315F9D72988FF270009CEB8 /* AlternativePaywallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315F9D62988FF270009CEB8 /* AlternativePaywallCell.swift */; };
+		B315F9DC29892EA00009CEB8 /* CheckmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315F9DB29892EA00009CEB8 /* CheckmarkView.swift */; };
+		B315F9DE2989339A0009CEB8 /* CheckmarkCompositionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315F9DD2989339A0009CEB8 /* CheckmarkCompositionView.swift */; };
+		B315F9E12989373A0009CEB8 /* TryForFreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315F9E02989373A0009CEB8 /* TryForFreeView.swift */; };
+		B315F9E3298939E60009CEB8 /* SF Pro Text Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = B315F9E2298939E60009CEB8 /* SF Pro Text Black.otf */; };
 		B3179EA9291E324B00455419 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3179EA8291E324B00455419 /* Network.swift */; };
 		B3179EAB291E3DAE00455419 /* ProductsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3179EAA291E3DAE00455419 /* ProductsDataManager.swift */; };
 		B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33EFF0E290FF02800AD9BEE /* AppDelegate.swift */; };
@@ -167,6 +171,10 @@
 		B30573C62923A11000CA8BDE /* ProductSettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSettingsTableViewCell.swift; sourceTree = "<group>"; };
 		B315F9D42988FD530009CEB8 /* AlternativePaywallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternativePaywallViewController.swift; sourceTree = "<group>"; };
 		B315F9D62988FF270009CEB8 /* AlternativePaywallCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternativePaywallCell.swift; sourceTree = "<group>"; };
+		B315F9DB29892EA00009CEB8 /* CheckmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckmarkView.swift; sourceTree = "<group>"; };
+		B315F9DD2989339A0009CEB8 /* CheckmarkCompositionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckmarkCompositionView.swift; sourceTree = "<group>"; };
+		B315F9E02989373A0009CEB8 /* TryForFreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TryForFreeView.swift; sourceTree = "<group>"; };
+		B315F9E2298939E60009CEB8 /* SF Pro Text Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Text Black.otf"; sourceTree = "<group>"; };
 		B3179EA8291E324B00455419 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		B3179EAA291E3DAE00455419 /* ProductsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDataManager.swift; sourceTree = "<group>"; };
 		B33EFF0B290FF02800AD9BEE /* GroceryList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroceryList.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -400,6 +408,7 @@
 			children = (
 				B315F9D42988FD530009CEB8 /* AlternativePaywallViewController.swift */,
 				B315F9D62988FF270009CEB8 /* AlternativePaywallCell.swift */,
+				B315F9DF298936F70009CEB8 /* Features */,
 			);
 			path = AlternativePaywall;
 			sourceTree = "<group>";
@@ -419,6 +428,16 @@
 				B3D85849293A1A2A00CCE230 /* PaywallCell.swift */,
 			);
 			path = DefaultPaywall;
+			sourceTree = "<group>";
+		};
+		B315F9DF298936F70009CEB8 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				B315F9E02989373A0009CEB8 /* TryForFreeView.swift */,
+				B315F9DB29892EA00009CEB8 /* CheckmarkView.swift */,
+				B315F9DD2989339A0009CEB8 /* CheckmarkCompositionView.swift */,
+			);
+			path = Features;
 			sourceTree = "<group>";
 		};
 		B3179EA4291E304700455419 /* ColorManager */ = {
@@ -900,6 +919,7 @@
 		B37A2CF229111BFB003C01AD /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				B315F9E2298939E60009CEB8 /* SF Pro Text Black.otf */,
 				B3981C5C297A89E800206DB7 /* SF Pro Text Bold.otf */,
 				B3981C5F297A89E800206DB7 /* SF Pro Text Heavy.otf */,
 				B3981C5B297A89E800206DB7 /* SF Pro Text Medium.otf */,
@@ -1040,6 +1060,7 @@
 				B3981C63297A89E800206DB7 /* SF Pro Text Semibold.otf in Resources */,
 				B3981C5A297A86F200206DB7 /* SF Pro Rounded Regular.otf in Resources */,
 				B3C3FA4929115F510011EC0A /* SF Pro Display Semibold.otf in Resources */,
+				B315F9E3298939E60009CEB8 /* SF Pro Text Black.otf in Resources */,
 				B3981C62297A89E800206DB7 /* SF Pro Text Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1131,6 +1152,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3C3FA4729115AA20011EC0A /* OnboardingContentView.swift in Sources */,
+				B315F9DE2989339A0009CEB8 /* CheckmarkCompositionView.swift in Sources */,
 				B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */,
 				B347690B291D23800045A287 /* ProductsSettingsViewModel.swift in Sources */,
 				B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */,
@@ -1143,6 +1165,7 @@
 				B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */,
 				B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */,
 				38F4904129476FFD00529D1F /* UIBezierPath+MaskedCorners.swift in Sources */,
+				B315F9DC29892EA00009CEB8 /* CheckmarkView.swift in Sources */,
 				840C189F2978D2230006F975 /* Int+Extensions.swift in Sources */,
 				B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */,
 				846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */,
@@ -1193,6 +1216,7 @@
 				B34EACA42934F05800FBD0E0 /* CategoryModel.swift in Sources */,
 				B37A2CDF29110290003C01AD /* OnboardingViewController.swift in Sources */,
 				B3777E192938BEA80074BE38 /* SettingsViewController.swift in Sources */,
+				B315F9E12989373A0009CEB8 /* TryForFreeView.swift in Sources */,
 				B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */,
 				B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */,
 				389DCF4E2946534300DB9382 /* RecipeServingSelector.swift in Sources */,

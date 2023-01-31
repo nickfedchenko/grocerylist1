@@ -25,7 +25,7 @@ class AlternativePaywallCell: UICollectionViewCell {
     
     private let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#D8F8EF")
+        view.backgroundColor = .white
         view.layer.cornerRadius = 16
         view.layer.borderWidth = 2
         view.layer.borderColor = UIColor.white.cgColor
@@ -59,8 +59,8 @@ class AlternativePaywallCell: UICollectionViewCell {
     private let mostPopularView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#31635A")
-        view.layer.cornerRadius = 16
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.layer.cornerRadius = 12
+        view.layer.cornerCurve = .continuous
         view.layer.masksToBounds = true
         view.isHidden = true
         return view
@@ -78,17 +78,16 @@ class AlternativePaywallCell: UICollectionViewCell {
     
     private let descriptLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 28).font
+        label.font = UIFont.SFPro.bold(size: 19).font
         label.textColor = UIColor(hex: "#31635A")
-        label.text = "$43.54 / per month"
         return label
     }()
     
     private let perWeekLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 28).font
+        label.font = UIFont.SFPro.bold(size: 12).font
         label.textColor = UIColor(hex: "#31635A")
-        label.text = "/WEEK"
+        label.text = "/WEEK".localized
         return label
     }()
     
@@ -106,6 +105,21 @@ class AlternativePaywallCell: UICollectionViewCell {
         label.textColor = UIColor(hex: "#657674")
         label.text = "$43.54"
         return label
+    }()
+    
+    private let threeDaysFreeLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.medium(size: 13).font
+        label.textColor = UIColor(hex: "#657674")
+        label.text = "3 days free".localized
+        return label
+    }()
+    
+    private let dotImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "paywallDot")
+        return imageView
     }()
     
     override init(frame: CGRect) {
@@ -137,13 +151,13 @@ class AlternativePaywallCell: UICollectionViewCell {
     private func setupConstraints() {
         contentView.addSubviews([containerView, mostPopularView])
         mostPopularView.addSubviews([mostPopularLabel])
-        containerView.addSubviews([descriptLabel, periodLabel, priceLabel, perWeekLabel])
+        containerView.addSubviews([descriptLabel, periodLabel, priceLabel, perWeekLabel, threeDaysFreeLabel, dotImage])
         
         mostPopularView.snp.makeConstraints { make in
-            make.left.equalTo(containerView.snp.left).inset(16)
-            make.bottom.equalTo(containerView.snp.top)
+            make.right.equalTo(containerView.snp.right).inset(16)
+            make.centerY.equalTo(containerView.snp.top)
             make.width.equalTo(138)
-            make.height.equalTo(26)
+            make.height.equalTo(24)
         }
         
         containerView.snp.makeConstraints { make in
@@ -158,7 +172,7 @@ class AlternativePaywallCell: UICollectionViewCell {
         }
         
         descriptLabel.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(20)
+            make.right.equalTo(perWeekLabel.snp.left).inset(-1)
             make.centerY.equalToSuperview()
         }
         
@@ -174,7 +188,19 @@ class AlternativePaywallCell: UICollectionViewCell {
         
         perWeekLabel.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(16)
-            make.centerY.equalToSuperview()
+            make.bottom.equalTo(descriptLabel.snp.bottom).inset(2)
+        }
+        
+        threeDaysFreeLabel.snp.makeConstraints { make in
+            make.left.equalTo(priceLabel.snp.right).inset(-13)
+            make.centerY.equalTo(priceLabel.snp.centerY)
+        }
+        
+        dotImage.snp.makeConstraints { make in
+            make.centerY.equalTo(threeDaysFreeLabel.snp.centerY)
+            make.width.equalTo(3)
+            make.height.equalTo(3)
+            make.right.equalTo(threeDaysFreeLabel.snp.left).inset(-5)
         }
         
     }

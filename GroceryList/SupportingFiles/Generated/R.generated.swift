@@ -131,7 +131,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
-  /// This `R.file` struct is generated, and contains static references to 15 files.
+  /// This `R.file` struct is generated, and contains static references to 16 files.
   struct file {
     /// Resource file `SF Pro Display Bold.otf`.
     static let sfProDisplayBoldOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Display Bold", pathExtension: "otf")
@@ -153,6 +153,8 @@ struct R: Rswift.Validatable {
     static let sfProRoundedRegularOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Rounded Regular", pathExtension: "otf")
     /// Resource file `SF Pro Rounded Semibold.otf`.
     static let sfProRoundedSemiboldOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Rounded Semibold", pathExtension: "otf")
+    /// Resource file `SF Pro Text Black.otf`.
+    static let sfProTextBlackOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Text Black", pathExtension: "otf")
     /// Resource file `SF Pro Text Bold.otf`.
     static let sfProTextBoldOtf = Rswift.FileResource(bundle: R.hostingBundle, name: "SF Pro Text Bold", pathExtension: "otf")
     /// Resource file `SF Pro Text Heavy.otf`.
@@ -224,6 +226,12 @@ struct R: Rswift.Validatable {
       return fileResource.bundle.url(forResource: fileResource)
     }
 
+    /// `bundle.url(forResource: "SF Pro Text Black", withExtension: "otf")`
+    static func sfProTextBlackOtf(_: Void = ()) -> Foundation.URL? {
+      let fileResource = R.file.sfProTextBlackOtf
+      return fileResource.bundle.url(forResource: fileResource)
+    }
+
     /// `bundle.url(forResource: "SF Pro Text Bold", withExtension: "otf")`
     static func sfProTextBoldOtf(_: Void = ()) -> Foundation.URL? {
       let fileResource = R.file.sfProTextBoldOtf
@@ -257,7 +265,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
-  /// This `R.font` struct is generated, and contains static references to 15 fonts.
+  /// This `R.font` struct is generated, and contains static references to 16 fonts.
   struct font: Rswift.Validatable {
     /// Font `SFProDisplay-Bold`.
     static let sfProDisplayBold = Rswift.FontResource(fontName: "SFProDisplay-Bold")
@@ -279,6 +287,8 @@ struct R: Rswift.Validatable {
     static let sfProRoundedRegular = Rswift.FontResource(fontName: "SFProRounded-Regular")
     /// Font `SFProRounded-Semibold`.
     static let sfProRoundedSemibold = Rswift.FontResource(fontName: "SFProRounded-Semibold")
+    /// Font `SFProText-Black`.
+    static let sfProTextBlack = Rswift.FontResource(fontName: "SFProText-Black")
     /// Font `SFProText-Bold`.
     static let sfProTextBold = Rswift.FontResource(fontName: "SFProText-Bold")
     /// Font `SFProText-Heavy`.
@@ -340,6 +350,11 @@ struct R: Rswift.Validatable {
       return UIKit.UIFont(resource: sfProRoundedSemibold, size: size)
     }
 
+    /// `UIFont(name: "SFProText-Black", size: ...)`
+    static func sfProTextBlack(size: CGFloat) -> UIKit.UIFont? {
+      return UIKit.UIFont(resource: sfProTextBlack, size: size)
+    }
+
     /// `UIFont(name: "SFProText-Bold", size: ...)`
     static func sfProTextBold(size: CGFloat) -> UIKit.UIFont? {
       return UIKit.UIFont(resource: sfProTextBold, size: size)
@@ -376,6 +391,7 @@ struct R: Rswift.Validatable {
       if R.font.sfProRoundedMedium(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProRounded-Medium' could not be loaded, is 'SF Pro Rounded Medium.otf' added to the UIAppFonts array in this targets Info.plist?") }
       if R.font.sfProRoundedRegular(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProRounded-Regular' could not be loaded, is 'SF Pro Rounded Regular.otf' added to the UIAppFonts array in this targets Info.plist?") }
       if R.font.sfProRoundedSemibold(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProRounded-Semibold' could not be loaded, is 'SF Pro Rounded Semibold.otf' added to the UIAppFonts array in this targets Info.plist?") }
+      if R.font.sfProTextBlack(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProText-Black' could not be loaded, is 'SF Pro Text Black.otf' added to the UIAppFonts array in this targets Info.plist?") }
       if R.font.sfProTextBold(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProText-Bold' could not be loaded, is 'SF Pro Text Bold.otf' added to the UIAppFonts array in this targets Info.plist?") }
       if R.font.sfProTextHeavy(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProText-Heavy' could not be loaded, is 'SF Pro Text Heavy.otf' added to the UIAppFonts array in this targets Info.plist?") }
       if R.font.sfProTextMedium(size: 42) == nil { throw Rswift.ValidationError(description:"[R.swift] Font 'SFProText-Medium' could not be loaded, is 'SF Pro Text Medium.otf' added to the UIAppFonts array in this targets Info.plist?") }
@@ -386,7 +402,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
-  /// This `R.image` struct is generated, and contains static references to 99 images.
+  /// This `R.image` struct is generated, and contains static references to 101 images.
   struct image {
     /// Image `#addImage`.
     static let addImage = Rswift.ImageResource(bundle: R.hostingBundle, name: "#addImage")
@@ -512,6 +528,10 @@ struct R: Rswift.Validatable {
     static let nextArrow = Rswift.ImageResource(bundle: R.hostingBundle, name: "nextArrow")
     /// Image `paywallBackground`.
     static let paywallBackground = Rswift.ImageResource(bundle: R.hostingBundle, name: "paywallBackground")
+    /// Image `paywallCheckmark`.
+    static let paywallCheckmark = Rswift.ImageResource(bundle: R.hostingBundle, name: "paywallCheckmark")
+    /// Image `paywallDot`.
+    static let paywallDot = Rswift.ImageResource(bundle: R.hostingBundle, name: "paywallDot")
     /// Image `phoneShadow`.
     static let phoneShadow = Rswift.ImageResource(bundle: R.hostingBundle, name: "phoneShadow")
     /// Image `pickImage`.
@@ -1022,6 +1042,20 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "paywallCheckmark", bundle: ..., traitCollection: ...)`
+    static func paywallCheckmark(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.paywallCheckmark, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "paywallDot", bundle: ..., traitCollection: ...)`
+    static func paywallDot(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.paywallDot, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
     /// `UIImage(named: "phoneShadow", bundle: ..., traitCollection: ...)`
     static func phoneShadow(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.phoneShadow, compatibleWith: traitCollection)
@@ -1315,7 +1349,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 113 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 118 localization keys.
     struct localizable {
       /// en translation:  Back
       ///
@@ -1325,6 +1359,14 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let recipes = Rswift.StringResource(key: "Recipes", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: / WEEK
+      ///
+      /// Locales: en, ru
+      static let weeK = Rswift.StringResource(key: "/WEEK", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: 3 days free
+      ///
+      /// Locales: en, ru
+      static let daysFree = Rswift.StringResource(key: "3 days free", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: A problem? Contact us!
       ///
       /// Locales: en, ru
@@ -1405,6 +1447,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let createLists = Rswift.StringResource(key: "CreateLists", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Create your own exercises
+      ///
+      /// Locales: en, ru
+      static let createYourOwnExercises = Rswift.StringResource(key: "Create your own exercises", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: CreateList
       ///
       /// Locales: en, ru
@@ -1425,6 +1471,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let dinner = Rswift.StringResource(key: "Dinner", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Discover your best results
+      ///
+      /// Locales: en, ru
+      static let discoverYourBestResults = Rswift.StringResource(key: "Discover your best results", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Do you like the app? Tell us!
       ///
       /// Locales: en, ru
@@ -1681,6 +1731,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let today = Rswift.StringResource(key: "today", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Track your exercise analytics
+      ///
+      /// Locales: en, ru
+      static let trackYourExerciseAnalytics = Rswift.StringResource(key: "Track your exercise analytics", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Warning
       ///
       /// Locales: en, ru
@@ -1798,6 +1852,36 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("Recipes", bundle: bundle, comment: "")
+      }
+
+      /// en translation: / WEEK
+      ///
+      /// Locales: en, ru
+      static func weeK(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("/WEEK", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "/WEEK"
+        }
+
+        return NSLocalizedString("/WEEK", bundle: bundle, comment: "")
+      }
+
+      /// en translation: 3 days free
+      ///
+      /// Locales: en, ru
+      static func daysFree(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("3 days free", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "3 days free"
+        }
+
+        return NSLocalizedString("3 days free", bundle: bundle, comment: "")
       }
 
       /// en translation: A problem? Contact us!
@@ -2100,6 +2184,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("CreateLists", bundle: bundle, comment: "")
       }
 
+      /// en translation: Create your own exercises
+      ///
+      /// Locales: en, ru
+      static func createYourOwnExercises(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("Create your own exercises", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "Create your own exercises"
+        }
+
+        return NSLocalizedString("Create your own exercises", bundle: bundle, comment: "")
+      }
+
       /// en translation: CreateList
       ///
       /// Locales: en, ru
@@ -2173,6 +2272,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("Dinner", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Discover your best results
+      ///
+      /// Locales: en, ru
+      static func discoverYourBestResults(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("Discover your best results", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "Discover your best results"
+        }
+
+        return NSLocalizedString("Discover your best results", bundle: bundle, comment: "")
       }
 
       /// en translation: Do you like the app? Tell us!
@@ -3133,6 +3247,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("today", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Track your exercise analytics
+      ///
+      /// Locales: en, ru
+      static func trackYourExerciseAnalytics(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("Track your exercise analytics", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "Track your exercise analytics"
+        }
+
+        return NSLocalizedString("Track your exercise analytics", bundle: bundle, comment: "")
       }
 
       /// en translation: Warning

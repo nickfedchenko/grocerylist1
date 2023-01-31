@@ -14,6 +14,8 @@ class AlternativePaywallViewController: UIViewController {
     private var products: [ApphudProduct] = []
     private var selectedPrice: PayWallModel?
     private var selectedProduct: ApphudProduct?
+    private let featuresView = CheckmarkCompositionView()
+    private let tryForFreeView = TryForFreeView()
     
     private var choiceOfCostArray = [
         PayWallModel(
@@ -102,23 +104,6 @@ class AlternativePaywallViewController: UIViewController {
         return collectionView
     }()
     
-    private let chosePlanLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
-        label.textColor = UIColor(hex: "#97909B")
-        label.text = "Choose the right plan".localized
-        label.numberOfLines = 2
-        label.textAlignment = .center
-        return label
-    }()
-    
-    private let logoImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "logoShoppy")
-        return imageView
-    }()
-    
     private let productShelfImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -130,6 +115,11 @@ class AlternativePaywallViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = .black.withAlphaComponent(0.4)
         view.isHidden = true
+        return view
+    }()
+    
+    private let backgroundShadowView: UIView = {
+        let view = UIView()
         return view
     }()
     
@@ -145,9 +135,15 @@ class AlternativePaywallViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .top)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        backgroundShadowView.applyGradient(colours: [UIColor(hex: "#E8F4F3"), .clear])
     }
     
     override func viewDidLoad() {
@@ -173,7 +169,7 @@ class AlternativePaywallViewController: UIViewController {
             self.collectionView.reloadData()
         }
     }
-    
+    // MARK: - Func
     private func lockUI() {
         lockScreenView.isHidden = false
         activityIndicator.startAnimating()
@@ -277,35 +273,41 @@ class AlternativePaywallViewController: UIViewController {
     
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        view.addSubviews([backgroundImageView, nextButton, nextArrow, termsButton, privacyButton,
-                          cancelButton, collectionView, chosePlanLabel, productShelfImage, logoImage, lockScreenView, activityIndicator, closeButton])
+        view.addSubviews([backgroundImageView, productShelfImage, backgroundShadowView, nextButton, nextArrow, termsButton, privacyButton,
+                          cancelButton, collectionView, lockScreenView,
+                          activityIndicator, closeButton, featuresView, tryForFreeView])
         nextButton.addSubviews([nextArrow])
         lockScreenView.addSubviews([activityIndicator])
         backgroundImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
+        backgroundShadowView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(tryForFreeView.snp.bottom)
+            make.top.equalTo(tryForFreeView.snp.top).inset(-40)
+        }
+    
         productShelfImage.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(22)
             make.height.equalTo(176)
-            make.bottom.equalTo(logoImage.snp.top).inset(16)
+            make.bottom.equalTo(tryForFreeView.snp.top).inset(0)
         }
         
-        logoImage.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(18)
-            make.height.equalTo(142)
-            make.bottom.equalTo(chosePlanLabel.snp.top).inset(-8)
+        tryForFreeView.snp.makeConstraints { make in
+            make.bottom.equalTo(featuresView.snp.top).inset(-24)
+            make.centerX.equalToSuperview()
         }
         
-        chosePlanLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(collectionView.snp.top).inset(-27)
-            make.left.right.equalToSuperview()
+        featuresView.snp.makeConstraints { make in
+            make.bottom.equalTo(collectionView.snp.top).inset(-18)
+            make.centerX.equalToSuperview()
         }
         
         collectionView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
             make.bottom.equalTo(nextButton.snp.top).inset(-20)
-            make.height.equalTo(274)
+            make.height.equalTo(260)
         }
         
         nextButton.snp.makeConstraints { make in
@@ -439,7 +441,7 @@ extension AlternativePaywallViewController: UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: 26, left: 0, bottom: 0, right: 0)
+        UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView,
