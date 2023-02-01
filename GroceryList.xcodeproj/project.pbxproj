@@ -43,6 +43,7 @@
 		B315F9EA298A4AFF0009CEB8 /* ReviewSelectableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315F9E9298A4AFF0009CEB8 /* ReviewSelectableView.swift */; };
 		B3179EA9291E324B00455419 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3179EA8291E324B00455419 /* Network.swift */; };
 		B3179EAB291E3DAE00455419 /* ProductsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3179EAA291E3DAE00455419 /* ProductsDataManager.swift */; };
+		B3329596298A667E002DF1EE /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3329595298A667E002DF1EE /* AmplitudeManager.swift */; };
 		B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33EFF0E290FF02800AD9BEE /* AppDelegate.swift */; };
 		B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33EFF10290FF02800AD9BEE /* SceneDelegate.swift */; };
 		B33EFF18290FF02900AD9BEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B33EFF17290FF02900AD9BEE /* Assets.xcassets */; };
@@ -183,6 +184,7 @@
 		B315F9E9298A4AFF0009CEB8 /* ReviewSelectableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSelectableView.swift; sourceTree = "<group>"; };
 		B3179EA8291E324B00455419 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		B3179EAA291E3DAE00455419 /* ProductsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDataManager.swift; sourceTree = "<group>"; };
+		B3329595298A667E002DF1EE /* AmplitudeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeManager.swift; sourceTree = "<group>"; };
 		B33EFF0B290FF02800AD9BEE /* GroceryList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroceryList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B33EFF0E290FF02800AD9BEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B33EFF10290FF02800AD9BEE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -471,6 +473,14 @@
 				B3815C0529361BAC0060262D /* NetworkModeles.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		B3329594298A6475002DF1EE /* Ampllitude */ = {
+			isa = PBXGroup;
+			children = (
+				B3329595298A667E002DF1EE /* AmplitudeManager.swift */,
+			);
+			path = Ampllitude;
 			sourceTree = "<group>";
 		};
 		B33DFD1E291A676400AC7403 /* CoreDataModels */ = {
@@ -857,6 +867,7 @@
 		B37A2CD42910EE77003C01AD /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B3329594298A6475002DF1EE /* Ampllitude */,
 				38817890293BEC7E0094344D /* DataProviderFacade */,
 				B3673EB52938F6CD002D9262 /* BackendDatabaseProductsSaver */,
 				B3777E212938E4CC0074BE38 /* HapticManader */,
@@ -1263,6 +1274,7 @@
 				B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */,
 				B3476904291D017B0045A287 /* ProductsViewModel.swift in Sources */,
 				B3802315292BC7DA0039EDE0 /* UserDefaultsManager.swift in Sources */,
+				B3329596298A667E002DF1EE /* AmplitudeManager.swift in Sources */,
 				B3777E232938E4E90074BE38 /* HapticManager.swift in Sources */,
 				38F4903F2946DC6A00529D1F /* IngredientView.swift in Sources */,
 				B36933F8291A97D900AFFAA6 /* MainScreenTopCell.swift in Sources */,

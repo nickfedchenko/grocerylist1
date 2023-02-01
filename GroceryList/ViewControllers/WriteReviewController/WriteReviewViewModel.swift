@@ -17,6 +17,8 @@ class WriteReviewViewModel {
     weak var router: RootRouter?
     
     func yesButtonTapped() {
+        AmplitudeManager.shared.logEvent(.feedbackScreenOpen, properties: [.value: .like])
+      
         guard let
                 url = URL(string: "itms-apps://itunes.apple.com/app/id1659848939?action=write-review"),
               UIApplication.shared.canOpenURL(url)
@@ -25,6 +27,7 @@ class WriteReviewViewModel {
     }
     
     func noButtonTapped() {
+        AmplitudeManager.shared.logEvent(.feedbackScreenOpen, properties: [.value: .dislike])
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = delegate
