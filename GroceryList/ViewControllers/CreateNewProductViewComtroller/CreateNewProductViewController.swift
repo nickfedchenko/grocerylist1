@@ -23,114 +23,6 @@ class CreateNewProductViewController: UIViewController {
         .lightContent
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupConstraints()
-        addKeyboardNotifications()
-        setupBackgroundColor()
-        addRecognizers()
-        setupTableView()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        setupTextFieldParametrs()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        contentView.makeCustomRound(topLeft: 4, topRight: 40, bottomLeft: 0, bottomRight: 0)
-    }
-    
-    deinit {
-        print("create new list deinited")
-    }
-    
-    @objc
-    private func plusButtonAction() {
-        quantityCount += quantityValueStep
-        quantityLabel.text = getDecimalString()
-        setupText()
-        quantityAvailable()
-    }
-
-    @objc
-    private func minusButtonAction() {
-        guard quantityCount > 1 else {
-            userCommentText = ""
-            return quantityNotAvailable()
-        }
-        quantityCount -= quantityValueStep
-        quantityLabel.text = getDecimalString()
-                             
-        setupText()
-    }
-    
-    private func setupText() {
-        let quantity = selectUnitLabel.text ?? ""
-        
-        if userCommentText.isEmpty {
-            bottomTextField.text = "\(getDecimalString()) \(quantity) "
-        } else {
-            let words = userCommentText.components(separatedBy: " ")
-            let wordsToRemove = "\(quantityCount - quantityValueStep) \(quantity)".components(separatedBy: " ")
-            let result = words.filter { !wordsToRemove.contains($0) }.joined(separator: " ")
-            userCommentText = result
-          
-            bottomTextField.text = userCommentText + ", \(getDecimalString()) \(quantity) "
-        }
-    }
-    
-    private func getDecimalString() -> String {
-        String(format: "%.\(quantityCount.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", quantityCount)
-    }
-    
-    private func setupTextFieldParametrs() {
-        bottomTextField.delegate = self
-        topTextField.delegate = self
-        quantityLabel.delegate = self
-        topTextField.becomeFirstResponder()
-    }
-    
-    private func setupBackgroundColor() {
-        contentView.backgroundColor = viewModel?.getBackgroundColor()
-    }
-    
-    // MARK: - Keyboard
-    private func addKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification, object: nil)
-    }
-    
-    @objc
-    private func keyboardWillShow(_ notification: NSNotification) {
-        let value = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        guard let keyboardFrame = value?.cgRectValue else { return }
-        let height = Double(keyboardFrame.height)
-        updateConstr(with: height, alpha: 0.5)
-    }
-    
-    func updateConstr(with inset: Double, alpha: Double) {
-        UIView.animate(withDuration: 0.3) { [ weak self ] in
-            guard let self = self else { return }
-            self.contentView.snp.updateConstraints { make in
-                make.bottom.equalToSuperview().inset(inset)
-            }
-            self.view.backgroundColor = .black.withAlphaComponent(alpha)
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    // MARK: - swipeDown
-    
-    private func hidePanel() {
-        topTextField.resignFirstResponder()
-        updateConstr(with: -400, alpha: 0)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            self.dismiss(animated: false, completion: nil)
-        }
-    }
-    
     // MARK: - UI
     
     private let topClearView: UIView = {
@@ -338,6 +230,108 @@ class CreateNewProductViewController: UIViewController {
         return label
     }()
 
+    // MARK: - LifeCycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupConstraints()
+        addKeyboardNotifications()
+        setupBackgroundColor()
+        addRecognizers()
+        setupTableView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setupTextFieldParametrs()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        contentView.makeCustomRound(topLeft: 4, topRight: 40, bottomLeft: 0, bottomRight: 0)
+    }
+    
+    deinit {
+        print("create new list deinited")
+    }
+    
+    // MARK: - ButtonActions
+    @objc
+    private func plusButtonAction() {
+        quantityCount += quantityValueStep
+        quantityLabel.text = getDecimalString()
+        setupText()
+        quantityAvailable()
+    }
+
+    @objc
+    private func minusButtonAction() {
+        guard quantityCount > 1 else {
+            userCommentText = ""
+            return quantityNotAvailable()
+        }
+        quantityCount -= quantityValueStep
+        quantityLabel.text = getDecimalString()
+                             
+        setupText()
+    }
+    
+    private func setupText() {
+        let quantity = selectUnitLabel.text ?? ""
+        
+        if userCommentText.isEmpty {
+            bottomTextField.text = "\(getDecimalString()) \(quantity) "
+        } else {
+            let words = userCommentText.components(separatedBy: " ")
+            let wordsToRemove = "\(quantityCount - quantityValueStep) \(quantity)".components(separatedBy: " ")
+            let result = words.filter { !wordsToRemove.contains($0) }.joined(separator: " ")
+            userCommentText = result
+          
+            bottomTextField.text = userCommentText + ", \(getDecimalString()) \(quantity) "
+        }
+    }
+    
+    private func getDecimalString() -> String {
+        String(format: "%.\(quantityCount.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", quantityCount)
+    }
+    
+    private func setupBackgroundColor() {
+        contentView.backgroundColor = viewModel?.getBackgroundColor()
+    }
+    
+    // MARK: - Keyboard and swipe downAction
+    private func addKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    @objc
+    private func keyboardWillShow(_ notification: NSNotification) {
+        let value = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        guard let keyboardFrame = value?.cgRectValue else { return }
+        let height = Double(keyboardFrame.height)
+        updateConstr(with: height, alpha: 0.5)
+    }
+    
+    func updateConstr(with inset: Double, alpha: Double) {
+        UIView.animate(withDuration: 0.3) { [ weak self ] in
+            guard let self = self else { return }
+            self.contentView.snp.updateConstraints { make in
+                make.bottom.equalToSuperview().inset(inset)
+            }
+            self.view.backgroundColor = .black.withAlphaComponent(alpha)
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    // MARK: - swipeDown
+    
+    private func hidePanel() {
+        topTextField.resignFirstResponder()
+        updateConstr(with: -400, alpha: 0)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            self.dismiss(animated: false, completion: nil)
+        }
+    }
     // MARK: - Constraints
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
@@ -482,6 +476,13 @@ class CreateNewProductViewController: UIViewController {
 // MARK: - Textfield
 extension CreateNewProductViewController: UITextFieldDelegate {
     
+    private func setupTextFieldParametrs() {
+        bottomTextField.delegate = self
+        topTextField.delegate = self
+        quantityLabel.delegate = self
+        topTextField.becomeFirstResponder()
+    }
+    
     private func readyToSave() {
         saveButtonView.isUserInteractionEnabled = true
         saveButtonView.backgroundColor = UIColor(hex: "#6FB16F")
@@ -522,6 +523,15 @@ extension CreateNewProductViewController: UITextFieldDelegate {
                 readyToSave()
             } else {
                 notReadyToSave()
+            }
+            
+            if newLength == 0 {
+                notReadyToSave()
+                isImageChanged = false
+                addImageImage.image = UIImage(named: "#addImage")
+                topCategoryView.backgroundColor = UIColor(hex: "#D2D5DA")
+                topCategoryLabel.text = "Category".localized
+                quantityNotAvailable()
             }
             
             viewModel?.chekIsProductFromCategory(name: finalText)
@@ -715,12 +725,12 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         isCategorySelected = false
     }
     
-    func selectCategory(text: String, imageURL: String, defaultSelectedUnit: UnitSystem) {
+    func selectCategory(text: String, imageURL: String, defaultSelectedUnit: UnitSystem?) {
         topCategoryView.backgroundColor = UIColor(hex: "#80C980")
         topCategoryLabel.textColor = .white
         topCategoryLabel.text = text
         isCategorySelected = true
-        if let viewModel = viewModel {
+        if let viewModel = viewModel, let defaultSelectedUnit = defaultSelectedUnit {
             if let index = viewModel.isMetricSystem
                 ? viewModel.arrayForMetricSystem.firstIndex(of: defaultSelectedUnit)
                 :  viewModel.arrayForImperalSystem.firstIndex(of: defaultSelectedUnit) {
