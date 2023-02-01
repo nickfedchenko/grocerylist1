@@ -44,6 +44,7 @@
 		B3179EA9291E324B00455419 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3179EA8291E324B00455419 /* Network.swift */; };
 		B3179EAB291E3DAE00455419 /* ProductsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3179EAA291E3DAE00455419 /* ProductsDataManager.swift */; };
 		B3329596298A667E002DF1EE /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3329595298A667E002DF1EE /* AmplitudeManager.swift */; };
+		B3329598298A8F19002DF1EE /* NotificationsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3329597298A8F19002DF1EE /* NotificationsExtension.swift */; };
 		B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33EFF0E290FF02800AD9BEE /* AppDelegate.swift */; };
 		B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33EFF10290FF02800AD9BEE /* SceneDelegate.swift */; };
 		B33EFF18290FF02900AD9BEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B33EFF17290FF02900AD9BEE /* Assets.xcassets */; };
@@ -185,6 +186,7 @@
 		B3179EA8291E324B00455419 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		B3179EAA291E3DAE00455419 /* ProductsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDataManager.swift; sourceTree = "<group>"; };
 		B3329595298A667E002DF1EE /* AmplitudeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeManager.swift; sourceTree = "<group>"; };
+		B3329597298A8F19002DF1EE /* NotificationsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsExtension.swift; sourceTree = "<group>"; };
 		B33EFF0B290FF02800AD9BEE /* GroceryList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroceryList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B33EFF0E290FF02800AD9BEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B33EFF10290FF02800AD9BEE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -928,6 +930,7 @@
 			isa = PBXGroup;
 			children = (
 				B37A2CE12911034D003C01AD /* UIColorExtension.swift */,
+				B3329597298A8F19002DF1EE /* NotificationsExtension.swift */,
 				B37A2CE22911034D003C01AD /* UITextFieldExtension.swift */,
 				B36AF93E2913D1AE00944E9D /* SegmentControlExtension.swift */,
 				B37A2CE32911034D003C01AD /* UIViewControllerExtension.swift */,
@@ -1205,6 +1208,7 @@
 				B3777E202938D8210074BE38 /* InternetConnection.swift in Sources */,
 				B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */,
 				B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */,
+				B3329598298A8F19002DF1EE /* NotificationsExtension.swift in Sources */,
 				383C77FD2940ED0F0030AE78 /* AddProductsSelectionListController.swift in Sources */,
 				B3673EB72938F70B002D9262 /* BackendDatabaseProductsSaver.swift in Sources */,
 				B36AF9552915410400944E9D /* InstructionCell.swift in Sources */,

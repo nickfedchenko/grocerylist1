@@ -30,6 +30,7 @@ extension DataProviderFacade: DataSyncProtocol {
                 print(error)
             case let .success(productsResponse):
                 self?.saveProductsInPersistentStore(products: productsResponse.data)
+                
             }
         }
     }
@@ -53,3 +54,4 @@ extension DataProviderFacade: DataSyncProtocol {
         domainSyncManager?.saveProducts(products: products)
     }
 }
+

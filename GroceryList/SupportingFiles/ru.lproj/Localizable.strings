@@ -148,9 +148,9 @@
 "Discover your best results"    = "Discover your best results";
 
 // WriteReviewController
-"Your opinion matter to us!"    = "Your opinion matter to us!";
-"Like the app?"                 = "Like the app?";
-"Yes"                           = "Yes";
-"No"                            = "No";
-"Write a review"                = "Write a review";
-"Send us feedback"              = "Send us feedback";
+"Your opinion matter to us!"    = "Ваше мнение важно для нас!";
+"Like the app?"                 = "Нравится приложение?";
+"Yes"                           = "Да";
+"No"                            = "Нет";
+"Write a review"                = "Написать отзыв";
+"Send us feedback"              = "Дать обратную связь";
