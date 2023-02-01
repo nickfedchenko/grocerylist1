@@ -38,6 +38,9 @@
 		B315F9DE2989339A0009CEB8 /* CheckmarkCompositionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315F9DD2989339A0009CEB8 /* CheckmarkCompositionView.swift */; };
 		B315F9E12989373A0009CEB8 /* TryForFreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315F9E02989373A0009CEB8 /* TryForFreeView.swift */; };
 		B315F9E3298939E60009CEB8 /* SF Pro Text Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = B315F9E2298939E60009CEB8 /* SF Pro Text Black.otf */; };
+		B315F9E6298A3F420009CEB8 /* WriteReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315F9E5298A3F420009CEB8 /* WriteReviewViewController.swift */; };
+		B315F9E8298A3FF30009CEB8 /* WriteReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315F9E7298A3FF30009CEB8 /* WriteReviewViewModel.swift */; };
+		B315F9EA298A4AFF0009CEB8 /* ReviewSelectableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315F9E9298A4AFF0009CEB8 /* ReviewSelectableView.swift */; };
 		B3179EA9291E324B00455419 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3179EA8291E324B00455419 /* Network.swift */; };
 		B3179EAB291E3DAE00455419 /* ProductsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3179EAA291E3DAE00455419 /* ProductsDataManager.swift */; };
 		B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33EFF0E290FF02800AD9BEE /* AppDelegate.swift */; };
@@ -175,6 +178,9 @@
 		B315F9DD2989339A0009CEB8 /* CheckmarkCompositionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckmarkCompositionView.swift; sourceTree = "<group>"; };
 		B315F9E02989373A0009CEB8 /* TryForFreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TryForFreeView.swift; sourceTree = "<group>"; };
 		B315F9E2298939E60009CEB8 /* SF Pro Text Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Text Black.otf"; sourceTree = "<group>"; };
+		B315F9E5298A3F420009CEB8 /* WriteReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReviewViewController.swift; sourceTree = "<group>"; };
+		B315F9E7298A3FF30009CEB8 /* WriteReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReviewViewModel.swift; sourceTree = "<group>"; };
+		B315F9E9298A4AFF0009CEB8 /* ReviewSelectableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSelectableView.swift; sourceTree = "<group>"; };
 		B3179EA8291E324B00455419 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		B3179EAA291E3DAE00455419 /* ProductsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDataManager.swift; sourceTree = "<group>"; };
 		B33EFF0B290FF02800AD9BEE /* GroceryList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroceryList.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -438,6 +444,16 @@
 				B315F9DD2989339A0009CEB8 /* CheckmarkCompositionView.swift */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		B315F9E4298A3F0A0009CEB8 /* WriteReviewController */ = {
+			isa = PBXGroup;
+			children = (
+				B315F9E5298A3F420009CEB8 /* WriteReviewViewController.swift */,
+				B315F9E7298A3FF30009CEB8 /* WriteReviewViewModel.swift */,
+				B315F9E9298A4AFF0009CEB8 /* ReviewSelectableView.swift */,
+			);
+			path = WriteReviewController;
 			sourceTree = "<group>";
 		};
 		B3179EA4291E304700455419 /* ColorManager */ = {
@@ -868,6 +884,7 @@
 		B37A2CDC29110263003C01AD /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				B315F9E4298A3F0A0009CEB8 /* WriteReviewController */,
 				B3D858462939D43B00CCE230 /* Paywall */,
 				B37A2CDD2911027E003C01AD /* Onboarding */,
 				B36933FC291BA4CE00AFFAA6 /* MainViewController */,
@@ -1187,8 +1204,10 @@
 				383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */,
 				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
+				B315F9EA298A4AFF0009CEB8 /* ReviewSelectableView.swift in Sources */,
 				389DCF452945CE9A00DB9382 /* RecipeScreenViewModel.swift in Sources */,
 				389DCF4A29461B2000DB9382 /* RecipeMainImageView.swift in Sources */,
+				B315F9E6298A3F420009CEB8 /* WriteReviewViewController.swift in Sources */,
 				B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */,
 				B34BB81F292E5C8000748E8E /* SelectProductViewModel.swift in Sources */,
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
@@ -1232,6 +1251,7 @@
 				B34BB80F292E389B00748E8E /* SelectListViewModel.swift in Sources */,
 				B3D8584A293A1A2A00CCE230 /* PaywallCell.swift in Sources */,
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,
+				B315F9E8298A3FF30009CEB8 /* WriteReviewViewModel.swift in Sources */,
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
 				B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */,
 				B3777E1D2938CBF40074BE38 /* SettingsParametrView.swift in Sources */,

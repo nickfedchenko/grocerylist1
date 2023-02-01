@@ -65,6 +65,7 @@ protocol ViewControllerFactoryProtocol {
     func createAlternativePaywallController() -> UIViewController?
     func createRecipesListController(for section: RecipeSectionsModel, with router: RootRouter) -> UIViewController
     func createReviewsController(router: RootRouter) -> UIViewController
+    func createReviewController(router: RootRouter) -> UIViewController?
 }
 
 // MARK: - Factory
@@ -97,6 +98,15 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.delegate = viewController
         viewModel.router = router
         viewModel.model = model
+        return viewController
+    }
+    
+    func createReviewController(router: RootRouter) -> UIViewController? {
+        let viewController = WriteReviewViewController()
+        let viewModel = WriteReviewViewModel()
+        viewController.viewModel = viewModel
+        viewModel.delegate = viewController
+        viewModel.router = router
         return viewController
     }
     

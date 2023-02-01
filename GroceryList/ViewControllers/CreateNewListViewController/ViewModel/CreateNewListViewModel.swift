@@ -43,6 +43,7 @@ class CreateNewListViewModel {
         copiedProducts.forEach({ saveCopiedProduct(product: $0, listId: list.id) })
         list.products = newSavedProducts
         valueChangedCallback?(list, newSavedProducts)
+        UserDefaultsManager.isFirstListCreated = true
     }
     
     func saveCopiedProduct(product: Product, listId: UUID) {

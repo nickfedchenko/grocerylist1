@@ -142,6 +142,15 @@
 "review.mainTitle" = "Оцените приложение в AppStore";
 "review.subtitle" = "Это поможет сделать его лучше";
 
+// AlternativePaywallController
 "Create your own exercises"     = "Create your own exercises";
 "Track your exercise analytics" = "Track your exercise analytics";
 "Discover your best results"    = "Discover your best results";
+
+// WriteReviewController
+"Your opinion matter to us!"    = "Your opinion matter to us!";
+"Like the app?"                 = "Like the app?";
+"Yes"                           = "Yes";
+"No"                            = "No";
+"Write a review"                = "Write a review";
+"Send us feedback"              = "Send us feedback";

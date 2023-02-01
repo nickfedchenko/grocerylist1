@@ -50,6 +50,7 @@ class ProductsViewModel {
     
     func goBackButtonPressed() {
         router?.pop()
+        router?.goReviewController()
     }
     
     func getCellIndex(with category: Category) -> Int {
