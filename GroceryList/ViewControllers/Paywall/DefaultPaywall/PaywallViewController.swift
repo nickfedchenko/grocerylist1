@@ -147,7 +147,7 @@ class PaywallViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .top)
+        collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: .top)
     }
     
     override func viewDidLoad() {
@@ -170,6 +170,7 @@ class PaywallViewController: UIViewController {
                 )
             }
             self.choiceOfCostArray[0].isPopular = true
+            self.collectionView(self.collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
             self.collectionView.reloadData()
         }
     }

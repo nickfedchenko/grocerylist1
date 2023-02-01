@@ -12,7 +12,7 @@ import Foundation
 class AmplitudeManager {
     
     private init() {
-        Amplitude.instance().initializeApiKey("", userId: Apphud.userID())
+        Amplitude.instance().initializeApiKey("b199f09c9cddea79687c52f8a0c77e6b", userId: Apphud.userID())
     }
     
     static let shared = AmplitudeManager()

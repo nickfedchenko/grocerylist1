@@ -167,6 +167,7 @@ class AlternativePaywallViewController: UIViewController {
                 )
             }
             self.choiceOfCostArray[0].isPopular = true
+            self.collectionView(self.collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
             self.collectionView.reloadData()
         }
     }

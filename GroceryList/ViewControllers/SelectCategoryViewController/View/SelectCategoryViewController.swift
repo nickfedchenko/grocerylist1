@@ -11,87 +11,12 @@ import UIKit
 class SelectCategoryViewController: UIViewController {
     
     var viewModel: SelectCategoryViewModel?
-    var selectedCellInd: Int?
-    var selectedCategoryName: String?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupConstraints()
-        setupController()
-        setupCollectionView()
-        setupTextFieldParametrs()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        addKeyboardNotifications()
-    }
-    
-    deinit {
-        print("select category deinited ")
-    }
-    
-    private func setupController() {
-        view.backgroundColor = viewModel?.getBackgroundColor()
-        navigationView.backgroundColor = viewModel?.getBackgroundColor().withAlphaComponent(0.9)
-        searchView.backgroundColor = viewModel?.getBackgroundColor().withAlphaComponent(0.9)
-        titleCenterLabel.textColor = viewModel?.getForegroundColor()
-    }
-    
-    @objc
-    private func arrowBackButtonPressed() {
-        if selectedCellInd != nil {
-            viewModel?.categorySelected(with: selectedCategoryName)
-        }
-        navigationController?.popToRootViewController(animated: true)
-    }
-    
-    @objc
-    private func addButtonPressed() {
-        viewModel?.addNewCategoryTapped()
-    }
-    
-    private func setupTextFieldParametrs() {
-        textField.delegate = self
-    }
-    
-    // MARK: - Keyboard
-    private func addKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc
-    private func keyboardWillShow(_ notification: NSNotification) {
-        let value = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        guard let keyboardFrame = value?.cgRectValue else { return }
-        let height = Double(keyboardFrame.height)
-        updateConstr(with: height)
-    }
-    
-    @objc
-    private func keyboardWillHide(_ notification: NSNotification) {
-        updateConstr(with: 0)
-    }
-    
-    func updateConstr(with inset: Double) {
-        UIView.animate(withDuration: 0.3) { [ weak self ] in
-            guard let self = self else { return }
-            self.searchView.snp.updateConstraints { make in
-                make.bottom.equalToSuperview().inset(inset)
-            }
-            self.view.layoutIfNeeded()
-        }
-    }
-    
     // MARK: - UI
-    
     private let navigationView: UIView = {
         let view = UIView()
         return view
@@ -161,8 +86,77 @@ class SelectCategoryViewController: UIViewController {
         return textfield
     }()
     
-    // MARK: - Constraints
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupConstraints()
+        setupController()
+        setupCollectionView()
+        setupTextFieldParametrs()
+    }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        addKeyboardNotifications()
+    }
+    
+    deinit {
+        print("select category deinited ")
+    }
+
+    // MARK: - Functions
+    private func setupController() {
+        view.backgroundColor = viewModel?.getBackgroundColor()
+        navigationView.backgroundColor = viewModel?.getBackgroundColor().withAlphaComponent(0.9)
+        searchView.backgroundColor = viewModel?.getBackgroundColor().withAlphaComponent(0.9)
+        titleCenterLabel.textColor = viewModel?.getForegroundColor()
+    }
+    
+    @objc
+    private func arrowBackButtonPressed() {
+        viewModel?.goBackButtonPressed()
+    }
+    
+    @objc
+    private func addButtonPressed() {
+        viewModel?.addNewCategoryTapped()
+    }
+    
+    private func setupTextFieldParametrs() {
+        textField.delegate = self
+    }
+    
+    // MARK: - Keyboard
+    private func addKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc
+    private func keyboardWillShow(_ notification: NSNotification) {
+        let value = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        guard let keyboardFrame = value?.cgRectValue else { return }
+        let height = Double(keyboardFrame.height)
+        updateConstr(with: height)
+    }
+    
+    @objc
+    private func keyboardWillHide(_ notification: NSNotification) {
+        updateConstr(with: 0)
+    }
+    
+    func updateConstr(with inset: Double) {
+        UIView.animate(withDuration: 0.3) { [ weak self ] in
+            guard let self = self else { return }
+            self.searchView.snp.updateConstraints { make in
+                make.bottom.equalToSuperview().inset(inset)
+            }
+            self.view.layoutIfNeeded()
+        }
+    }
+    // MARK: - Constraints
     private func setupConstraints() {
         view.addSubviews([collectionView, navigationView, searchView])
         navigationView.addSubviews([arrowBackButton, titleCenterLabel, addButton])
@@ -288,8 +282,9 @@ extension SelectCategoryViewController: UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel?.selectCell(at: indexPath.row)
-        selectedCellInd = indexPath.row
-        selectedCategoryName = viewModel?.getTitleText(at: indexPath.row)
+        let selectedCategoryName = viewModel?.getTitleText(at: indexPath.row)
+        
+        viewModel?.categorySelected(with: selectedCategoryName)
     }
     
     func updateCollectionContentInset() {
@@ -314,5 +309,9 @@ extension SelectCategoryViewController: SelectCategoryViewModelDelegate {
     func reloadData() {
         collectionView.reloadData()
         updateCollectionContentInset()
+    }
+    
+    func dismissController() {
+        navigationController?.popToRootViewController(animated: true)
     }
 }
