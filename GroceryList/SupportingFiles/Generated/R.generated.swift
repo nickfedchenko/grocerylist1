@@ -1474,10 +1474,6 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let createLists = Rswift.StringResource(key: "CreateLists", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Create your own exercises
-      ///
-      /// Locales: en, ru
-      static let createYourOwnExercises = Rswift.StringResource(key: "Create your own exercises", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: CreateList
       ///
       /// Locales: en, ru
@@ -1498,10 +1494,6 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let dinner = Rswift.StringResource(key: "Dinner", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Discover your best results
-      ///
-      /// Locales: en, ru
-      static let discoverYourBestResults = Rswift.StringResource(key: "Discover your best results", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Do you like the app? Tell us!
       ///
       /// Locales: en, ru
@@ -1538,6 +1530,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let fruitsAndVegetables = Rswift.StringResource(key: "FruitsAndVegetables", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Get recipes and share them
+      ///
+      /// Locales: en, ru
+      static let discoverYourBestResults = Rswift.StringResource(key: "Discover your best results", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Grocery
       ///
       /// Locales: en, ru
@@ -1662,6 +1658,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let pickItem = Rswift.StringResource(key: "PickItem", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Plan your shopping list for the week
+      ///
+      /// Locales: en, ru
+      static let trackYourExerciseAnalytics = Rswift.StringResource(key: "Track your exercise analytics", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Print
       ///
       /// Locales: en, ru
@@ -1698,6 +1698,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let save = Rswift.StringResource(key: "Save", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Save time and money
+      ///
+      /// Locales: en, ru
+      static let createYourOwnExercises = Rswift.StringResource(key: "Create your own exercises", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Save time and money  with us
       ///
       /// Locales: en, ru
@@ -1770,10 +1774,6 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let today = Rswift.StringResource(key: "today", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Track your exercise analytics
-      ///
-      /// Locales: en, ru
-      static let trackYourExerciseAnalytics = Rswift.StringResource(key: "Track your exercise analytics", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Warning
       ///
       /// Locales: en, ru
@@ -2235,21 +2235,6 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("CreateLists", bundle: bundle, comment: "")
       }
 
-      /// en translation: Create your own exercises
-      ///
-      /// Locales: en, ru
-      static func createYourOwnExercises(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("Create your own exercises", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "Create your own exercises"
-        }
-
-        return NSLocalizedString("Create your own exercises", bundle: bundle, comment: "")
-      }
-
       /// en translation: CreateList
       ///
       /// Locales: en, ru
@@ -2323,21 +2308,6 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("Dinner", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Discover your best results
-      ///
-      /// Locales: en, ru
-      static func discoverYourBestResults(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("Discover your best results", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "Discover your best results"
-        }
-
-        return NSLocalizedString("Discover your best results", bundle: bundle, comment: "")
       }
 
       /// en translation: Do you like the app? Tell us!
@@ -2473,6 +2443,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("FruitsAndVegetables", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Get recipes and share them
+      ///
+      /// Locales: en, ru
+      static func discoverYourBestResults(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("Discover your best results", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "Discover your best results"
+        }
+
+        return NSLocalizedString("Discover your best results", bundle: bundle, comment: "")
       }
 
       /// en translation: Grocery
@@ -2940,6 +2925,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("PickItem", bundle: bundle, comment: "")
       }
 
+      /// en translation: Plan your shopping list for the week
+      ///
+      /// Locales: en, ru
+      static func trackYourExerciseAnalytics(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("Track your exercise analytics", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "Track your exercise analytics"
+        }
+
+        return NSLocalizedString("Track your exercise analytics", bundle: bundle, comment: "")
+      }
+
       /// en translation: Print
       ///
       /// Locales: en, ru
@@ -3073,6 +3073,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("Save", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Save time and money
+      ///
+      /// Locales: en, ru
+      static func createYourOwnExercises(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("Create your own exercises", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "Create your own exercises"
+        }
+
+        return NSLocalizedString("Create your own exercises", bundle: bundle, comment: "")
       }
 
       /// en translation: Save time and money  with us
@@ -3343,21 +3358,6 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("today", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Track your exercise analytics
-      ///
-      /// Locales: en, ru
-      static func trackYourExerciseAnalytics(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("Track your exercise analytics", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "Track your exercise analytics"
-        }
-
-        return NSLocalizedString("Track your exercise analytics", bundle: bundle, comment: "")
       }
 
       /// en translation: Warning

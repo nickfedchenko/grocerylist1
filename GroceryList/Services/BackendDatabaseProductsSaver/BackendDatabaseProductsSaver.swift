@@ -29,7 +29,7 @@ class BackendDatabaseProductsSaver {
                 print(error)
             case .success(let response):
                 DispatchQueue.main.async {
-                    self.arrayOfProducts = response.data
+                    self.arrayOfProducts = response
                 }
             }
         }
@@ -42,7 +42,7 @@ class BackendDatabaseProductsSaver {
                 print(error)
             case .success(let recipesResponse):
             
-                print(recipesResponse.data)
+                print(recipesResponse)
             }
         }
     }

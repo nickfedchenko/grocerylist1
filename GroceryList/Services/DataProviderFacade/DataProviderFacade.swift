@@ -29,7 +29,7 @@ extension DataProviderFacade: DataSyncProtocol {
             case let .failure(error):
                 print(error)
             case let .success(productsResponse):
-                self?.saveProductsInPersistentStore(products: productsResponse.data)
+                self?.saveProductsInPersistentStore(products: productsResponse)
                 
             }
         }
@@ -41,7 +41,7 @@ extension DataProviderFacade: DataSyncProtocol {
             case let .failure(error):
                 print(error)
             case let .success(recipesResponse):
-                self?.saveRecipesInPersistentStore(recipes: recipesResponse.data)
+                self?.saveRecipesInPersistentStore(recipes: recipesResponse)
             }
         }
     }

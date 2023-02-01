@@ -13,7 +13,8 @@ target 'GroceryList' do
   pod 'Kingfisher', '~> 7.0'
   pod 'ApphudSDK'
   pod 'R.swift'
-
+  pod 'GzipSwift'
+  
   # Pods for GroceryList
 
 end
