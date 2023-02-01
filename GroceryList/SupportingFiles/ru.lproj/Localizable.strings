@@ -143,9 +143,9 @@
 "review.subtitle" = "Это поможет сделать его лучше";
 
 // AlternativePaywallController
-"Create your own exercises"     = "Create your own exercises";
-"Track your exercise analytics" = "Track your exercise analytics";
-"Discover your best results"    = "Discover your best results";
+"Create your own exercises"     = "Экономь время и деньги";
+"Track your exercise analytics" = "Планируй список покупок на неделю";
+"Discover your best results"    = "Добаляй рецепты и делись ими";
 
 // WriteReviewController
 "Your opinion matter to us!"    = "Ваше мнение важно для нас!";
