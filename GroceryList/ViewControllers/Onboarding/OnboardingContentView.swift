@@ -491,38 +491,33 @@ class OnboardingContentView: UIView {
         }
         
         fifthSideView.snp.makeConstraints { make in
-            make.width.equalTo(214)
             make.height.equalTo(32)
             make.top.equalTo(phoneView.snp.top).inset(318)
             make.left.equalToSuperview().inset(-214)
         }
         
         forthSideView.snp.makeConstraints { make in
-            make.width.equalTo(219)
             make.height.equalTo(32)
             make.top.equalTo(phoneView.snp.top).inset(246)
             make.right.equalToSuperview().inset(-219)
         }
         
         thirdSideView.snp.makeConstraints { make in
-            make.width.equalTo(217)
             make.height.equalTo(32)
             make.top.equalTo(phoneView.snp.top).inset(169)
             make.left.equalToSuperview().inset(-217)
         }
         
         secondSideView.snp.makeConstraints { make in
-            make.width.equalTo(166)
             make.height.equalTo(32)
-            make.top.equalTo(phoneView.snp.top).inset(81)
+            make.top.equalTo(phoneView.snp.top).inset(85)
             make.right.equalToSuperview().inset(-166)
         }
         
         firstSideView.snp.makeConstraints { make in
-            make.width.equalTo(151)
             make.height.equalTo(32)
             make.top.equalTo(phoneView.snp.top).inset(51)
-            make.left.equalToSuperview().inset(-151)
+            make.left.equalToSuperview().inset(-200)
         }
         
         sharedAlarmImage.snp.makeConstraints { make in
