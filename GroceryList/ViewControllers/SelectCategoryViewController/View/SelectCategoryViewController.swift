@@ -11,87 +11,9 @@ import UIKit
 class SelectCategoryViewController: UIViewController {
     
     var viewModel: SelectCategoryViewModel?
-    var selectedCellInd: Int?
-    var selectedCategoryName: String?
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupConstraints()
-        setupController()
-        setupCollectionView()
-        setupTextFieldParametrs()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        addKeyboardNotifications()
-    }
-    
-    deinit {
-        print("select category deinited ")
-    }
-    
-    private func setupController() {
-        view.backgroundColor = viewModel?.getBackgroundColor()
-        navigationView.backgroundColor = viewModel?.getBackgroundColor().withAlphaComponent(0.9)
-        searchView.backgroundColor = viewModel?.getBackgroundColor().withAlphaComponent(0.9)
-        titleCenterLabel.textColor = viewModel?.getForegroundColor()
-    }
-    
-    @objc
-    private func arrowBackButtonPressed() {
-        if selectedCellInd != nil {
-            viewModel?.categorySelected(with: selectedCategoryName)
-        }
-        navigationController?.popToRootViewController(animated: true)
-    }
-    
-    @objc
-    private func addButtonPressed() {
-        viewModel?.addNewCategoryTapped()
-    }
-    
-    private func setupTextFieldParametrs() {
-        textField.delegate = self
-    }
-    
-    // MARK: - Keyboard
-    private func addKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc
-    private func keyboardWillShow(_ notification: NSNotification) {
-        let value = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        guard let keyboardFrame = value?.cgRectValue else { return }
-        let height = Double(keyboardFrame.height)
-        updateConstr(with: height)
-    }
-    
-    @objc
-    private func keyboardWillHide(_ notification: NSNotification) {
-        updateConstr(with: 0)
-    }
-    
-    func updateConstr(with inset: Double) {
-        UIView.animate(withDuration: 0.3) { [ weak self ] in
-            guard let self = self else { return }
-            self.searchView.snp.updateConstraints { make in
-                make.bottom.equalToSuperview().inset(inset)
-            }
-            self.view.layoutIfNeeded()
-        }
-    }
+    private var searchViewHeight = 96.0
     
     // MARK: - UI
-    
     private let navigationView: UIView = {
         let view = UIView()
         return view
@@ -129,6 +51,10 @@ class SelectCategoryViewController: UIViewController {
     
     private let searchView: UIView = {
         let view = UIView()
+        view.layer.cornerRadius = 8
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.layer.masksToBounds = true
+        view.addShadowForView(radius: 5, height: -2)
         return view
     }()
     
@@ -138,6 +64,14 @@ class SelectCategoryViewController: UIViewController {
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
         view.addShadowForView()
+        return view
+    }()
+    
+    private let pinchView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#000000")
+        view.layer.cornerRadius = 2
+        view.layer.masksToBounds = true
         return view
     }()
     
@@ -154,6 +88,8 @@ class SelectCategoryViewController: UIViewController {
         textfield.textColor = .black
         textfield.backgroundColor = .white
         textfield.keyboardAppearance = .light
+        textfield.spellCheckingType = .no
+        textfield.autocorrectionType = .no
         textfield.attributedPlaceholder = NSAttributedString(
             string: "SearcInCategory".localized,
             attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "#657674")]
@@ -161,12 +97,101 @@ class SelectCategoryViewController: UIViewController {
         return textfield
     }()
     
-    // MARK: - Constraints
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupConstraints()
+        setupController()
+        setupCollectionView()
+        setupTextFieldParametrs()
+        addRecognizer()
+    }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.addKeyboardNotifications()
+            self.textField.becomeFirstResponder()
+        }
+    }
+    
+    deinit {
+        print("select category deinited ")
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
+
+    // MARK: - Functions
+    private func setupController() {
+        view.backgroundColor = viewModel?.getBackgroundColor()
+        navigationView.backgroundColor = viewModel?.getBackgroundColor().withAlphaComponent(0.9)
+        searchView.backgroundColor = UIColor(hex: "#D1D5DB")
+        titleCenterLabel.textColor = viewModel?.getForegroundColor()
+    }
+    
+    @objc
+    private func arrowBackButtonPressed() {
+        viewModel?.goBackButtonPressed()
+    }
+    
+    @objc
+    private func addButtonPressed() {
+        viewModel?.addNewCategoryTapped()
+    }
+    
+    private func setupTextFieldParametrs() {
+        textField.delegate = self
+    }
+    
+    // MARK: - Keyboard
+    private func addKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc
+    private func keyboardWillShow(_ notification: NSNotification) {
+        let value = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        guard let keyboardFrame = value?.cgRectValue else { return }
+        let height = Double(keyboardFrame.height)
+        updateConstr(with: height)
+    }
+    
+    @objc
+    private func keyboardWillHide(_ notification: NSNotification) {
+        updateConstr(with: -searchViewHeight)
+    }
+    
+    func updateConstr(with inset: Double) {
+        UIView.animate(withDuration: 0.1) { [ weak self ] in
+            guard let self = self else { return }
+            self.searchView.snp.updateConstraints { make in
+                make.bottom.equalToSuperview().inset(inset)
+            }
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    // MARK: - Recognizer
+    private func addRecognizer() {
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
+        searchView.addGestureRecognizer(panRecognizer)
+    }
+    
+    @objc
+    private func swipeDownAction(_ recognizer: UIPanGestureRecognizer) {
+        textField.resignFirstResponder()
+    }
+    
+    // MARK: - Constraints
     private func setupConstraints() {
         view.addSubviews([collectionView, navigationView, searchView])
         navigationView.addSubviews([arrowBackButton, titleCenterLabel, addButton])
-        searchView.addSubviews([textfieldView])
+        searchView.addSubviews([textfieldView, pinchView])
         textfieldView.addSubviews([searchImage, textField])
         
         navigationView.snp.makeConstraints { make in
@@ -200,13 +225,13 @@ class SelectCategoryViewController: UIViewController {
         }
         
         searchView.snp.makeConstraints { make in
-            make.left.right.bottom.equalToSuperview()
-            make.height.equalTo(96)
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview().inset(-96)
+            make.height.equalTo(searchViewHeight)
         }
         
         textfieldView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(16)
-            make.top.equalToSuperview().inset(8)
+            make.left.right.bottom.equalToSuperview().inset(16)
             make.height.equalTo(40)
         }
         
@@ -220,6 +245,13 @@ class SelectCategoryViewController: UIViewController {
             make.left.equalTo(searchImage.snp.right).inset(-7)
             make.top.bottom.equalToSuperview().inset(8)
             make.right.equalToSuperview().inset(8)
+        }
+        
+        pinchView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(12)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(80)
+            make.height.equalTo(5)
         }
     }
 }
@@ -288,8 +320,9 @@ extension SelectCategoryViewController: UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel?.selectCell(at: indexPath.row)
-        selectedCellInd = indexPath.row
-        selectedCategoryName = viewModel?.getTitleText(at: indexPath.row)
+        let selectedCategoryName = viewModel?.getTitleText(at: indexPath.row)
+        
+        viewModel?.categorySelected(with: selectedCategoryName)
     }
     
     func updateCollectionContentInset() {
@@ -314,5 +347,9 @@ extension SelectCategoryViewController: SelectCategoryViewModelDelegate {
     func reloadData() {
         collectionView.reloadData()
         updateCollectionContentInset()
+    }
+    
+    func dismissController() {
+        navigationController?.popToRootViewController(animated: true)
     }
 }

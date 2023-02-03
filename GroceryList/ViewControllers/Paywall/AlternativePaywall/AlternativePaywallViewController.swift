@@ -1,19 +1,22 @@
 //
-//  PaywallViewController.swift
+//  AlternativePaywallViewController.swift
 //  GroceryList
 //
-//  Created by Шамиль Моллачиев on 02.12.2022.
+//  Created by Шамиль Моллачиев on 31.01.2023.
 //
 
 import ApphudSDK
 import SnapKit
 import UIKit
 
-class PaywallViewController: UIViewController {
+class AlternativePaywallViewController: UIViewController {
   
     private var products: [ApphudProduct] = []
     private var selectedPrice: PayWallModel?
     private var selectedProduct: ApphudProduct?
+    private let featuresView = CheckmarkCompositionView()
+    private let tryForFreeView = TryForFreeView()
+    private let isSmallSize = UIScreen.main.isSmallSize
     
     private var choiceOfCostArray = [
         PayWallModel(
@@ -102,23 +105,6 @@ class PaywallViewController: UIViewController {
         return collectionView
     }()
     
-    private let chosePlanLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
-        label.textColor = UIColor(hex: "#97909B")
-        label.text = "Choose the right plan".localized
-        label.numberOfLines = 2
-        label.textAlignment = .center
-        return label
-    }()
-    
-    private let logoImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "logoShoppy")
-        return imageView
-    }()
-    
     private let productShelfImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -130,6 +116,11 @@ class PaywallViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = .black.withAlphaComponent(0.4)
         view.isHidden = true
+        return view
+    }()
+    
+    private let backgroundShadowView: UIView = {
+        let view = UIView()
         return view
     }()
     
@@ -145,9 +136,15 @@ class PaywallViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .top)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        backgroundShadowView.applyGradient(colours: [UIColor(hex: "#E8F4F3"), .clear])
     }
     
     override func viewDidLoad() {
@@ -170,10 +167,11 @@ class PaywallViewController: UIViewController {
                 )
             }
             self.choiceOfCostArray[0].isPopular = true
+            self.collectionView(self.collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
             self.collectionView.reloadData()
         }
     }
-    
+    // MARK: - Func
     private func lockUI() {
         lockScreenView.isHidden = false
         activityIndicator.startAnimating()
@@ -193,14 +191,10 @@ class PaywallViewController: UIViewController {
         case .year:
             return "\(skProduct.priceLocale.currencySymbol ?? "$")"
             + String(format: "%.2f", price / 52.1786)
-            + " / "
-            + "weekly".localized
         case .month:
             if skProduct.subscriptionPeriod?.numberOfUnits == 1 {
                 return "\(skProduct.priceLocale.currencySymbol ?? "$")"
                 + String(format: "%.2f", price / 4.13)
-                + " / "
-                + "weekly".localized
             } else {
                 return "Loading info".localized
             }
@@ -208,8 +202,6 @@ class PaywallViewController: UIViewController {
             if skProduct.subscriptionPeriod?.numberOfUnits == 1 {
                 return "\(skProduct.priceLocale.currencySymbol ?? "$")"
                 + String(format: "%.2f", price)
-                + " / "
-                + "weekly".localized
             } else {
                 return "Loading info".localized
             }
@@ -217,8 +209,6 @@ class PaywallViewController: UIViewController {
             if skProduct.subscriptionPeriod?.numberOfUnits == 7 {
                 return "\(skProduct.priceLocale.currencySymbol ?? "$")"
                 + String(format: "%.2f", price)
-                + " / "
-                + "weekly".localized
             } else {
                 return "Loading info".localized
             }
@@ -285,35 +275,41 @@ class PaywallViewController: UIViewController {
     
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        view.addSubviews([backgroundImageView, nextButton, nextArrow, termsButton, privacyButton,
-                          cancelButton, collectionView, chosePlanLabel, productShelfImage, logoImage, lockScreenView, activityIndicator, closeButton])
+        view.addSubviews([backgroundImageView, productShelfImage, backgroundShadowView, nextButton, nextArrow, termsButton, privacyButton,
+                          cancelButton, collectionView, lockScreenView,
+                          activityIndicator, closeButton, featuresView, tryForFreeView])
         nextButton.addSubviews([nextArrow])
         lockScreenView.addSubviews([activityIndicator])
         backgroundImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
+        backgroundShadowView.snp.makeConstraints { make in
+            make.left.right.bottom.equalToSuperview()
+         
+            make.top.equalTo(tryForFreeView.snp.top).inset(-40)
+        }
+    
         productShelfImage.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(22)
             make.height.equalTo(176)
-            make.bottom.equalTo(logoImage.snp.top).inset(16)
+            make.bottom.equalTo(tryForFreeView.snp.top).inset(isSmallSize ? 20 : -10)
         }
         
-        logoImage.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(18)
-            make.height.equalTo(142)
-            make.bottom.equalTo(chosePlanLabel.snp.top).inset(-8)
+        tryForFreeView.snp.makeConstraints { make in
+            make.bottom.equalTo(featuresView.snp.top).inset(isSmallSize ? -18 : -26)
+            make.centerX.equalToSuperview()
         }
         
-        chosePlanLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(collectionView.snp.top).inset(-27)
-            make.left.right.equalToSuperview()
+        featuresView.snp.makeConstraints { make in
+            make.bottom.equalTo(collectionView.snp.top).inset(isSmallSize ? -8 : -26)
+            make.centerX.equalToSuperview()
         }
         
         collectionView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
-            make.bottom.equalTo(nextButton.snp.top).inset(-20)
-            make.height.equalTo(274)
+            make.bottom.equalTo(nextButton.snp.top).inset(isSmallSize ? 0 : -20)
+            make.height.equalTo(260)
         }
         
         nextButton.snp.makeConstraints { make in
@@ -358,7 +354,6 @@ class PaywallViewController: UIViewController {
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(20)
             make.width.height.equalTo(20)
         }
-
     }
     
     @objc
@@ -413,13 +408,13 @@ class PaywallViewController: UIViewController {
 }
 
 // MARK: - CollcetionView
-extension PaywallViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension AlternativePaywallViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     private func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(PaywallCell.self, forCellWithReuseIdentifier: "PaywallCell")
+        collectionView.register(AlternativePaywallCell.self, forCellWithReuseIdentifier: "AlternativePaywallCell")
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -427,8 +422,8 @@ extension PaywallViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PaywallCell",
-            for: indexPath) as? PaywallCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AlternativePaywallCell",
+            for: indexPath) as? AlternativePaywallCell else { return UICollectionViewCell() }
        
         cell.layer.masksToBounds = false
         let isTopCell = choiceOfCostArray[indexPath.row].isPopular
@@ -447,13 +442,13 @@ extension PaywallViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: 26, left: 0, bottom: 0, right: 0)
+        UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 16
+        return 8
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

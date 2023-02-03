@@ -39,6 +39,24 @@ class UserDefaultsManager {
         }
     }
     
+    static var isReviewShowed: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "shouldOpenWriteReview")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "shouldOpenWriteReview")
+        }
+    }
+    
+    static var isFirstListCreated: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "isFirstListCreated")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isFirstListCreated")
+        }
+    }
+    
     static var favoritesRecipeIds: [Int] {
         get {
             guard

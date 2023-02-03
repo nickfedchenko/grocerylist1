@@ -5,6 +5,7 @@ target 'GroceryList' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
   
+  pod 'Amplitude'
   pod 'Alamofire'
   pod 'SwiftLint'
   pod 'GzipSwift'
@@ -12,7 +13,8 @@ target 'GroceryList' do
   pod 'Kingfisher', '~> 7.0'
   pod 'ApphudSDK'
   pod 'R.swift'
-
+  pod 'GzipSwift'
+  
   # Pods for GroceryList
 
 end

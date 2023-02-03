@@ -24,6 +24,7 @@ class MainScreenDataManager: DataSourceProtocol {
     init() {
         createWorkingArray()
         makeRecipesSections()
+        addObserver()
     }
     
     private let topCellID = UUID()
@@ -101,6 +102,20 @@ class MainScreenDataManager: DataSourceProtocol {
             guard let lastElement = $0.lists.last else { return }
             setOfModelsToUpdate.insert(lastElement)
         })
+    }
+    
+    private func addObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(recieptsLoaded),
+            name: .recieptsDownladedAnsSaved,
+            object: nil
+        )
+    }
+    
+    @objc
+    private func recieptsLoaded() {
+        makeRecipesSections()
     }
     
     private func transformCoreDataModelToModel(_ model: DBGroceryListModel) -> GroceryListsModel {

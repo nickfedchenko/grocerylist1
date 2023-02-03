@@ -94,6 +94,16 @@ final class RootRouter: RootRouterProtocol {
         topViewController?.present(controller, animated: true)
     }
     
+    func goReviewController() {
+        guard !UserDefaultsManager.isReviewShowed, UserDefaultsManager.isFirstListCreated else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let self = self else { return }
+            guard let controller = self.viewControllerFactory.createReviewController(router: self) else { return }
+            self.navigationPresent(controller, animated: false)
+        }
+        UserDefaultsManager.isReviewShowed = true
+    }
+    
     func goProductsVC(model: GroceryListsModel, compl: @escaping () -> Void) {
         guard let controller = viewControllerFactory.createProductsController(model: model, router: self,
                                                                                    compl: compl) else { return }
@@ -134,6 +144,23 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func showPaywallVC() {
+        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
+            guard let paywall = paywalls.first else { return }
+            if paywall.identifier == "Main" {
+                self?.showDefaultPaywallVC()
+            } else {
+                self?.showAlternativePaywallVC()
+            }
+        }
+    }
+    
+    func showDefaultPaywallVC() {
+        guard let controller = viewControllerFactory.createPaywallController() else { return }
+        guard !Apphud.hasActiveSubscription() else { return }
+        navigationPresent(controller, style: .fullScreen, animated: true)
+    }
+    
+    func showAlternativePaywallVC() {
         guard let controller = viewControllerFactory.createPaywallController() else { return }
         guard !Apphud.hasActiveSubscription() else { return }
         navigationPresent(controller, style: .fullScreen, animated: true)

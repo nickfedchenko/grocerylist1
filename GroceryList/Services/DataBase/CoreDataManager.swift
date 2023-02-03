@@ -258,6 +258,7 @@ extension CoreDataManager: CoredataSyncProtocol {
         asyncContext.perform {
             do {
                 try asyncContext.save()
+                NotificationCenter.default.post(name: .recieptsDownladedAnsSaved, object: nil)
             } catch let error {
                 print(error)
                 asyncContext.rollback()
@@ -272,6 +273,7 @@ extension CoreDataManager: CoredataSyncProtocol {
         asyncContext.perform {
             do {
                 try asyncContext.save()
+                NotificationCenter.default.post(name: .productsDownladedAnsSaved, object: nil)
             } catch {
                 asyncContext.rollback()
             }

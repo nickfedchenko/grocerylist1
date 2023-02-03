@@ -46,11 +46,11 @@ extension UIView {
         layer.mask = mask
     }
     
-    func addShadowForView() {
+    func addShadowForView(radius: CGFloat = 2, height: Int = 0 ) {
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOpacity = 0.2
-        self.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.layer.shadowRadius = 2
+        self.layer.shadowOffset = CGSize(width: 0, height: height)
+        self.layer.shadowRadius = radius
         self.layer.masksToBounds = false
     }
     
@@ -107,5 +107,17 @@ extension UIScrollView {
         UIGraphicsEndImageContext()
         return image ?? UIImage()
         
+    }
+}
+
+extension UIView {
+    func applyGradient(colours: [UIColor]) {
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.frame = self.bounds
+        gradient.colors = colours.map { $0.cgColor }
+        gradient.startPoint = CGPoint(x : 0.0, y : 1.0)
+        gradient.endPoint = CGPoint(x :0.0, y: 0.0)
+        gradient.locations = [0.9 , 1.0]
+        self.layer.insertSublayer(gradient, at: 0)
     }
 }

@@ -124,6 +124,8 @@
 "weekly"                    = "week";
 "Week"                      = "Week";
 "Favorites"                 = "Favorites";
+"/WEEK"                     = "/ WEEK";
+"3 days free"               = "3 days free";
 
 "Select list"               = "Select list";
 
@@ -140,3 +142,16 @@
 
 "review.mainTitle" = "Rate the app in the AppStore";
 "review.subtitle" = "This helps to make it even better";
+
+// AlternativePaywallController
+"Create your own exercises"     = "Save time and money";
+"Track your exercise analytics" = "Plan your shopping list for the week";
+"Discover your best results"    = "Get recipes and share them";
+
+// WriteReviewController
+"Your opinion matter to us!"    = "Your opinion matter to us!";
+"Like the app?"                 = "Like the app?";
+"Yes"                           = "Yes";
+"No"                            = "No";
+"Write a review"                = "Write a review";
+"Send us feedback"              = "Send us feedback";

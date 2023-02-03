@@ -121,8 +121,10 @@
 "Dinner"                    = "Ужин";
 "Snacks"                    = "Закуски";
 "weekly"                    = "неделя";
-"Week"                      = "Week";
+"Week"                      = "Неделя";
 "Favorites"                 = "Избранное";
+"/WEEK"                     = "/ НЕДЕЛЯ";
+"3 days free"               = "3 для бесплатно";
 
 "Select list"               = "Выберите список";
 
@@ -139,3 +141,16 @@
 
 "review.mainTitle" = "Оцените приложение в AppStore";
 "review.subtitle" = "Это поможет сделать его лучше";
+
+// AlternativePaywallController
+"Create your own exercises"     = "Экономь время и деньги";
+"Track your exercise analytics" = "Планируй список покупок на неделю";
+"Discover your best results"    = "Добаляй рецепты и делись ими";
+
+// WriteReviewController
+"Your opinion matter to us!"    = "Ваше мнение важно для нас!";
+"Like the app?"                 = "Нравится приложение?";
+"Yes"                           = "Да";
+"No"                            = "Нет";
+"Write a review"                = "Написать отзыв";
+"Send us feedback"              = "Дать обратную связь";

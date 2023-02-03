@@ -11,7 +11,7 @@ import UIKit
 
 protocol CreateNewProductViewModelDelegate: AnyObject {
     func presentController(controller: UIViewController?)
-    func selectCategory(text: String, imageURL: String, defaultSelectedUnit: UnitSystem)
+    func selectCategory(text: String, imageURL: String, defaultSelectedUnit: UnitSystem?)
     func deselectCategory()
     func setupController(step: Int)
 }
@@ -93,7 +93,7 @@ class CreateNewProductViewModel {
         guard let model else { return }
         let controller = router?.prepareSelectCategoryController(model: model, compl: { [weak self] newCategoryName in
             guard let self = self else { return }
-            self.delegate?.selectCategory(text: newCategoryName, imageURL: "", defaultSelectedUnit: self.currentSelectedUnit )
+            self.delegate?.selectCategory(text: newCategoryName, imageURL: "", defaultSelectedUnit: nil)
         })
         delegate?.presentController(controller: controller)
     }
@@ -128,7 +128,7 @@ class CreateNewProductViewModel {
             case .litter:
                 return isMetricSystem ? .liter : .pt
             case .millilitre:
-                return isMetricSystem ?.mililiter : .fluidOz
+                return isMetricSystem ? .mililiter : .fluidOz
             case .pack:
                 return .pack
             case .piece:

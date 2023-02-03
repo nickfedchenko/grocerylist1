@@ -11,6 +11,7 @@ import UIKit
 protocol SelectCategoryViewModelDelegate: AnyObject {
     func reloadData()
     func presentController(controller: UIViewController?)
+    func dismissController()
 }
 
 class SelectCategoryViewModel {
@@ -34,6 +35,13 @@ class SelectCategoryViewModel {
     func categorySelected(with name: String?) {
         let selectedName = name ?? ""
         categorySelectedCallback?(selectedName)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.delegate?.dismissController()
+        }
+    }
+    
+    func goBackButtonPressed() {
+        delegate?.dismissController()
     }
     
     func getNumberOfCells() -> Int {

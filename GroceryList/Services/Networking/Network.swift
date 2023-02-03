@@ -6,6 +6,7 @@
 //
 
 import Alamofire
+import Gzip
 import UIKit
 
 protocol NetworkDataProvider {
@@ -13,71 +14,64 @@ protocol NetworkDataProvider {
     func getAllRecipes(completion: @escaping AllDishesResult)
 }
 
-typealias GetAllProductsResult = (Result<GetAllProductsResponse, AFError>) -> Void
-typealias AllDishesResult = (Result<AllRecipesResponse, AFError>) -> Void
+typealias GetAllProductsResult = (Result<[NetworkProductModel], AFError>) -> Void
+typealias AllDishesResult = (Result<[Recipe], AFError>) -> Void
 
 enum RequestGenerator: Codable {
-    
-    private var token: String {
-        return "yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
-    }
-
     case getProducts
-    case getRecipes
-    
+    case getReciepts
+
     var request: URLRequest {
         switch self {
-            
+
         case .getProducts:
-            guard var components = URLComponents(
-                string: "https://newketo.finanse.space/api/shoppingList/fetchProducts") else {
+            guard let components = URLComponents(
+                string: getUrlForProducts()) else {
                     fatalError("FatalError")
                 }
-            injectLocale(in: &components)
+
             guard let url = components.url else {
                 fatalError("Error resolving URL")
             }
-            var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData)
+            var request = URLRequest(url: url)
             request.method = .get
-            request.addValue("Bearer " + token, forHTTPHeaderField: "Authorization")
             return request
-            
-        case .getRecipes:
-            guard var components = URLComponents(
-                string: "https://newketo.finanse.space/api/dish/fetchAll") else {
+        case .getReciepts:
+            guard let components = URLComponents(
+                string: getUrlForReciepts()) else {
                     fatalError("FatalError")
                 }
-            injectLocale(in: &components)
+
             guard let url = components.url else {
                 fatalError("Error resolving URL")
             }
-            var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData)
+            var request = URLRequest(url: url)
             request.method = .get
-            request.addValue("Bearer " + token, forHTTPHeaderField: "Authorization")
             return request
         }
     }
     
-    private func injectLocale(in components: inout URLComponents) {
-        var locale = Locale.current.languageCode
-        
-        locale = locale == "ru" ? "ru" : "en"
-        
-        if components.queryItems == nil {
-            components.queryItems = [.init(name: "langCode", value: locale)]
+    private func getUrlForProducts() -> String {
+        guard let locale = Locale.current.languageCode else { return "" }
+        if let currentLocale = CurrentLocale(rawValue: locale) {
+            return "https://newketo.finanse.space/storage/json/products_\(currentLocale.rawValue).json.gz"
         } else {
-            components.queryItems?.append(.init(name: "langCode", value: locale))
+            return "https://newketo.finanse.space/storage/json/products_en.json.gz"
         }
     }
     
-    private func getTargetLangCode() -> String {
-        return ""
+    private func getUrlForReciepts() -> String {
+        guard let locale = Locale.current.languageCode else { return "" }
+        if let currentLocale = CurrentLocale(rawValue: locale) {
+            return "https://newketo.finanse.space/storage/json/dish_\(currentLocale.rawValue).json.gz"
+        } else {
+            return "https://newketo.finanse.space/storage/json/dish_it.json.gz"
+        }
     }
-    
 }
 
 final class NetworkEngine {
- 
+    
     private func performDecodableRequest<T: Decodable>(
         request: RequestGenerator,
         completion: @escaping ((Result<T, AFError>) -> Void)
@@ -88,11 +82,7 @@ final class NetworkEngine {
         decoder.dateDecodingStrategy = .formatted(formatter)
         AF.request(request.request)
             .validate()
-            .responseDecodable(
-                of: T.self,
-                queue: .global(qos: .userInitiated),
-                decoder: decoder
-            ) { result in
+            .responseData { result in
                 guard let data = result.value else {
                     if let error = result.error {
                         
@@ -100,10 +90,22 @@ final class NetworkEngine {
                     }
                     return
                 }
-                completion(.success(data))
+                
+                if data.isGzipped {
+                    DispatchQueue.global().async {
+                        guard let decopmressedData = try? data.gunzipped() else { return }
+                        guard let unzippedDishes = try? decoder.decode(T.self, from: decopmressedData) else {
+                            print("errModel")
+                            return
+                        }
+                        completion(.success(unzippedDishes))
+                    }
+                   
+                }
             }
     }
 }
+
 
 extension NetworkEngine: NetworkDataProvider {
    
@@ -112,7 +114,17 @@ extension NetworkEngine: NetworkDataProvider {
     }
     
     func getAllRecipes(completion: @escaping AllDishesResult) {
-        performDecodableRequest(request: .getRecipes, completion: completion)
+        performDecodableRequest(request: .getReciepts, completion: completion)
     }
     
+}
+
+
+enum CurrentLocale: String {
+    case en
+    case ru
+    case de
+    case fr
+    case sp
+    case it
 }
