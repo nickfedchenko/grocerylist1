@@ -94,6 +94,7 @@
 		B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B36D18D7291A1960005EE32D /* DataBase.xcdatamodeld */; };
 		B36D18EB291A2CCD005EE32D /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36D18EA291A2CCD005EE32D /* CoreDataStorage.swift */; };
 		B36D18ED291A2CF4005EE32D /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36D18EC291A2CF4005EE32D /* CoreDataManager.swift */; };
+		B373CDD2298D3A6A00AE522D /* AddToAnotherListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B373CDD1298D3A6A00AE522D /* AddToAnotherListViewController.swift */; };
 		B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E132937CBB30074BE38 /* DBProduct+CoreDataClass.swift */; };
 		B3777E162937CBB30074BE38 /* DBProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */; };
 		B3777E192938BEA80074BE38 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E182938BEA80074BE38 /* SettingsViewController.swift */; };
@@ -239,6 +240,7 @@
 		B36D18D8291A1960005EE32D /* DataBase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataBase.xcdatamodel; sourceTree = "<group>"; };
 		B36D18EA291A2CCD005EE32D /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
 		B36D18EC291A2CF4005EE32D /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		B373CDD1298D3A6A00AE522D /* AddToAnotherListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToAnotherListViewController.swift; sourceTree = "<group>"; };
 		B3777E132937CBB30074BE38 /* DBProduct+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B3777E182938BEA80074BE38 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -556,6 +558,7 @@
 				B3476908291D21730045A287 /* ProductsSettingsViewController.swift */,
 				B30573C62923A11000CA8BDE /* ProductSettingsTableViewCell.swift */,
 				B347690A291D23800045A287 /* ProductsSettingsViewModel.swift */,
+				B373CDD1298D3A6A00AE522D /* AddToAnotherListViewController.swift */,
 			);
 			path = ProductsSettingsViewController;
 			sourceTree = "<group>";
@@ -1229,6 +1232,7 @@
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
 				844FC6392978612B008173AA /* OnboardingReviewController.swift in Sources */,
+				B373CDD2298D3A6A00AE522D /* AddToAnotherListViewController.swift in Sources */,
 				383C77E9293DC6200030AE78 /* R.generated.swift in Sources */,
 				B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */,
 				B36D18EB291A2CCD005EE32D /* CoreDataStorage.swift in Sources */,

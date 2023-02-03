@@ -76,7 +76,7 @@ final class RecipeViewController: UIViewController {
     lazy var ingredientViews: [IngredientView] = {
         var views: [IngredientView] = []
         for ingredient in viewModel.recipe.ingredients {
-            let title = ingredient.product.title
+            let title = ingredient.product.title.firstCharacterUpperCase()
             let unitCount = ingredient.quantity
             let unitName = ingredient.unit?.shortTitle ?? ""
             let view = IngredientView()
