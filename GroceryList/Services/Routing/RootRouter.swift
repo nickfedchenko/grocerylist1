@@ -161,7 +161,7 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func showAlternativePaywallVC() {
-        guard let controller = viewControllerFactory.createPaywallController() else { return }
+        guard let controller = viewControllerFactory.createAlternativePaywallController() else { return }
         guard !Apphud.hasActiveSubscription() else { return }
         navigationPresent(controller, style: .fullScreen, animated: true)
     }
