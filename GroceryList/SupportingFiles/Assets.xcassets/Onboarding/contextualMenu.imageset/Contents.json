@@ -4,10 +4,12 @@
       "idiom" : "universal"
     },
     {
+      "filename" : "contextualMenu.png",
       "idiom" : "universal",
       "locale" : "en"
     },
     {
+      "filename" : "contextualMenuRu.png",
       "idiom" : "universal",
       "locale" : "ru"
     }

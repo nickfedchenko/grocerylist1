@@ -305,12 +305,13 @@ class OnboardingContentView: UIView {
     }
     
     private func createImageView(with name: String, isHidden: Bool = false,
-                                 shouldAddShadow: Bool = false) -> UIImageView {
+                                 shouldAddShadow: Bool = false, isSideView: Bool = false) -> UIImageView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: name)
         imageView.isHidden = isHidden
         if shouldAddShadow { imageView.addShadow() }
+        if isSideView { imageView.addShadow(color: .black, height: 3) }
         return imageView
     }
     
@@ -333,11 +334,11 @@ class OnboardingContentView: UIView {
     
     private lazy var addItemImage = createImageView(with: "addItemImage")
     
-    private lazy var firstSideView = createImageView(with: "firstSideView", isHidden: true)
-    private lazy var secondSideView = createImageView(with: "secondSideView", isHidden: true)
-    private lazy var thirdSideView = createImageView(with: "thirdSideView", isHidden: true)
-    private lazy var forthSideView = createImageView(with: "forthSideView", isHidden: true)
-    private lazy var fifthSideView = createImageView(with: "fifthSideView", isHidden: true)
+    private lazy var firstSideView = createImageView(with: "firstSideView", isHidden: true, isSideView: true)
+    private lazy var secondSideView = createImageView(with: "secondSideView", isHidden: true, isSideView: true)
+    private lazy var thirdSideView = createImageView(with: "thirdSideView", isHidden: true, isSideView: true)
+    private lazy var forthSideView = createImageView(with: "forthSideView", isHidden: true, isSideView: true)
+    private lazy var fifthSideView = createImageView(with: "fifthSideView", isHidden: true, isSideView: true)
     
     private lazy var firstTextLabel = createTextLabel(with: "CreateLists")
     private lazy var secondTextLabel = createTextLabel(with: "Synchronize")
