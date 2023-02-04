@@ -66,10 +66,10 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goToOnboarding() {
-       // if shouldShowOnboarding {
+        if shouldShowOnboarding {
             guard let onboardingController = viewControllerFactory.createOnboardingController(router: self) else { return }
             navigationPushViewController(onboardingController, animated: false)
-      //  }
+        }
     }
 
     func pop() {
