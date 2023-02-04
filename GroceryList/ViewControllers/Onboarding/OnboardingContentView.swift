@@ -93,7 +93,7 @@ class OnboardingContentView: UIView {
             }
        
             self.firstSideView.snp.updateConstraints { make in
-                make.left.equalToSuperview().inset(-151)
+                make.left.equalToSuperview().inset(-250)
             }
             
             self.secondSideView.snp.updateConstraints { make in
@@ -412,15 +412,15 @@ class OnboardingContentView: UIView {
         phoneView.snp.makeConstraints { make in
             make.centerX.equalTo(backgroundView)
             make.centerY.equalToSuperview().multipliedBy(0.8)
-            make.width.equalTo(222)
-            make.height.equalTo(480)
+            make.width.equalTo(218)
+            make.height.equalTo(476)
         }
         
         secondPhoneView.snp.makeConstraints { make in
             make.centerX.equalTo(secondBackgroundView)
             make.centerY.equalToSuperview().multipliedBy(0.8)
-            make.width.equalTo(222)
-            make.height.equalTo(480)
+            make.width.equalTo(218)
+            make.height.equalTo(476)
         }
         
         thirdPhoneView.snp.makeConstraints { make in
