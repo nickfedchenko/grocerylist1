@@ -94,6 +94,11 @@ final class OnboardingReviewController: UIViewController {
         setupSubviews()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        showRequest()
+    }
+    
     override func viewDidLayoutSubviews() {
         reviewsCollection.setContentOffset(CGPoint(x: view.bounds.width - 120, y: 0), animated: false)
     }
@@ -105,19 +110,8 @@ final class OnboardingReviewController: UIViewController {
     
     @objc
     private func nextTapped() {
-        guard selectedIndex < 2 else {
             router?.popToRootFromOnboarding()
             router?.showPaywallVC()
-            return
-        }
-        if selectedIndex == 1 {
-            showRequest()
-        }
-        selectedIndex += 1
-        reviewsCollection.setContentOffset(
-            CGPoint(x: reviewsCollection.contentOffset.x + view.bounds.width - 80 , y: 0),
-            animated: true
-        )
     }
     
     private func setupSubviews() {
