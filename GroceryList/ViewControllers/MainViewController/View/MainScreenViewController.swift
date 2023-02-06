@@ -464,7 +464,6 @@ extension MainScreenViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        print("indexPath section \(indexPath.section)")
         guard let viewModel = viewModel else { return UICollectionViewCell() }
         if indexPath.section == 0 {
             guard let cell = collectionView.dequeueReusableCell(

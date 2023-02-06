@@ -130,6 +130,8 @@
 		B3981C62297A89E800206DB7 /* SF Pro Text Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C5D297A89E800206DB7 /* SF Pro Text Regular.otf */; };
 		B3981C63297A89E800206DB7 /* SF Pro Text Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C5E297A89E800206DB7 /* SF Pro Text Semibold.otf */; };
 		B3981C64297A89E800206DB7 /* SF Pro Text Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C5F297A89E800206DB7 /* SF Pro Text Heavy.otf */; };
+		B3AD42D5299106360043A37F /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AD42D4299106360043A37F /* SocketManager.swift */; };
+		B3AEB29529910535000C6B4C /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AEB29429910535000C6B4C /* R.generated.swift */; };
 		B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B45E592934C01D00D60E82 /* SelectCategoryViewController.swift */; };
 		B3B45E5C2934C02B00D60E82 /* SelectCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B45E5B2934C02B00D60E82 /* SelectCategoryViewModel.swift */; };
 		B3C3FA4729115AA20011EC0A /* OnboardingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C3FA4629115AA20011EC0A /* OnboardingContentView.swift */; };
@@ -283,6 +285,8 @@
 		B3981C5D297A89E800206DB7 /* SF Pro Text Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Text Regular.otf"; sourceTree = "<group>"; };
 		B3981C5E297A89E800206DB7 /* SF Pro Text Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Text Semibold.otf"; sourceTree = "<group>"; };
 		B3981C5F297A89E800206DB7 /* SF Pro Text Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Text Heavy.otf"; sourceTree = "<group>"; };
+		B3AD42D4299106360043A37F /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
+		B3AEB29429910535000C6B4C /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		B3B45E592934C01D00D60E82 /* SelectCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryViewController.swift; sourceTree = "<group>"; };
 		B3B45E5B2934C02B00D60E82 /* SelectCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryViewModel.swift; sourceTree = "<group>"; };
 		B3C3FA4629115AA20011EC0A /* OnboardingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContentView.swift; sourceTree = "<group>"; };
@@ -890,6 +894,7 @@
 		B37A2CD42910EE77003C01AD /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B3AD42D32991061D0043A37F /* SocketManager */,
 				B3329594298A6475002DF1EE /* Ampllitude */,
 				38817890293BEC7E0094344D /* DataProviderFacade */,
 				B3673EB52938F6CD002D9262 /* BackendDatabaseProductsSaver */,
@@ -998,6 +1003,14 @@
 				B3802314292BC7DA0039EDE0 /* UserDefaultsManager.swift */,
 			);
 			path = UserDefaultsManager;
+			sourceTree = "<group>";
+		};
+		B3AD42D32991061D0043A37F /* SocketManager */ = {
+			isa = PBXGroup;
+			children = (
+				B3AD42D4299106360043A37F /* SocketManager.swift */,
+			);
+			path = SocketManager;
 			sourceTree = "<group>";
 		};
 		B3B45E582934BFEA00D60E82 /* SelectCategoryViewController */ = {
@@ -1160,7 +1173,7 @@
 			);
 			outputPaths = (
 				"",
-				"$(DERIVED_FILE_DIR)/$SRCROOT/$TARGET_NAME/SupportingFiles/Generated/R.generated.swift",
+				$SRCROOT/R.generated.swift,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1262,6 +1275,7 @@
 				B37A2CE82911034D003C01AD /* UITextFieldExtension.swift in Sources */,
 				B36AF93B2913C66000944E9D /* MainScreenViewModel.swift in Sources */,
 				B315F9D52988FD530009CEB8 /* AlternativePaywallViewController.swift in Sources */,
+				B3AD42D5299106360043A37F /* SocketManager.swift in Sources */,
 				B3693405291BB44A00AFFAA6 /* ColorCollectionViewCell.swift in Sources */,
 				B30573BB29222BE700CA8BDE /* HeaderListCell.swift in Sources */,
 				B37A2CE92911034D003C01AD /* UIViewControllerExtension.swift in Sources */,

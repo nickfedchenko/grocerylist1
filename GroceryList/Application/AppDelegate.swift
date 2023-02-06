@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerForNotifications()
         syncService.updateProducts()
         syncService.updateRecipes()
+        SocketManager.shared.connect()
         return true
     }
 
