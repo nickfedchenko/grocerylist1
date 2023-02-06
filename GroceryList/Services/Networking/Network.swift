@@ -16,10 +16,12 @@ protocol NetworkDataProvider {
 
 typealias GetAllProductsResult = (Result<[NetworkProductModel], AFError>) -> Void
 typealias AllDishesResult = (Result<[Recipe], AFError>) -> Void
+typealias RegistrationResult = (Result<RegistrationResponse, AFError>) -> Void
 
 enum RequestGenerator: Codable {
     case getProducts
     case getReciepts
+    case createUser(userModel: User?)
 
     var request: URLRequest {
         switch self {
@@ -48,6 +50,38 @@ enum RequestGenerator: Codable {
             var request = URLRequest(url: url)
             request.method = .get
             return request
+        case .createUser:
+            fatalError("use myltiformObject")
+        }
+    }
+    
+    var multiformRequestObject: (MultipartFormData, URL) {
+        switch self {
+        case .createUser(userModel: let user):
+            print("createUser")
+            guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/register") else {
+                fatalError("Error With Creating Components")
+            }
+            
+            injectUserParametrs(in: &components, userModel: user)
+        
+            guard
+                let url = components.url,
+                let imageData = user?.avatar
+            else { fatalError("Error resolving URL")
+            }
+            let boundary = UUID().uuidString
+            let mfData = MultipartFormData(fileManager: .default, boundary: boundary)
+            mfData.append(
+                imageData,
+                withName: "avatar",
+                fileName: "avatar.jpg",
+                mimeType: "avatar/jpg"
+            )
+            
+            return (mfData, url)
+        default:
+            fatalError("Use request property instead")
         }
     }
     
@@ -68,9 +102,64 @@ enum RequestGenerator: Codable {
             return "https://newketo.finanse.space/storage/json/dish_it.json.gz"
         }
     }
+    
+    private func injectUserParametrs(in components: inout URLComponents, userModel: User?) {
+        guard let userModel = userModel else { return }
+        let motivationQueries: [URLQueryItem] = [
+            .init(name: "email", value: userModel.email),
+            .init(name: "password", value: userModel.password),
+            .init(name: "username", value: userModel.userName)
+        ]
+        
+        if components.queryItems == nil {
+            components.queryItems = motivationQueries
+        } else {
+            components.queryItems?.append(contentsOf: motivationQueries)
+        }
+    }
 }
 
 final class NetworkEngine {
+    
+    private func performDecodableUploadRequest<T: Decodable>(
+        request: RequestGenerator,
+        completion: @escaping ((Result<T, AFError>) -> Void)
+    ) {
+        
+        let headers = [
+            "Authorization": "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ",
+            "Content-Type": "multipart/form-data"
+        ]
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        let mfObject = request.multiformRequestObject
+        print(mfObject)
+        AF
+            .upload(multipartFormData: mfObject.0, to: mfObject.1,
+                    method: .post, headers: .init(headers))
+            .validate()
+            .responseDecodable(
+                of: T.self,
+                queue: .global(qos: .userInitiated),
+                decoder: decoder
+            ) { result in
+                print(result.response)
+                guard let data = result.value else {
+                    let jsonEncoder = JSONEncoder()
+                    let jsonData = try? jsonEncoder.encode(result.data ?? Data())
+                    let json = String(data: jsonData!, encoding: String.Encoding.utf8)
+                    print(json)
+                    if let error = result.error {
+                        completion(.failure(error))
+                    }
+                    return
+                }
+                completion(.success(data))
+            }
+    }
     
     private func performDecodableRequest<T: Decodable>(
         request: RequestGenerator,
@@ -116,13 +205,9 @@ extension NetworkEngine: NetworkDataProvider {
         performDecodableRequest(request: .getReciepts, completion: completion)
     }
     
-}
-
-enum CurrentLocale: String {
-    case en
-    case ru
-    case de
-    case fr
-    case sp
-    case it
+    func registerUser(completion: @escaping RegistrationResult) {
+        performDecodableUploadRequest(request: .createUser(userModel: User(id: 2, userName: "1234", avatar: UIImage(systemName: "trash")?.jpegData(compressionQuality: 1),
+                                                                           email: "1234", token: "dfd", isConfirmed: false, password: "1234")), completion: completion)
+    }
+    
 }
