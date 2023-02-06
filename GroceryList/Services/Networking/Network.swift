@@ -67,7 +67,7 @@ enum RequestGenerator: Codable {
         
             guard
                 let url = components.url,
-                let imageData = user?.avatar
+                let imageData = user?.avatarAsData
             else { fatalError("Error resolving URL")
             }
             let boundary = UUID().uuidString
@@ -146,12 +146,7 @@ final class NetworkEngine {
                 queue: .global(qos: .userInitiated),
                 decoder: decoder
             ) { result in
-                print(result.response)
                 guard let data = result.value else {
-                    let jsonEncoder = JSONEncoder()
-                    let jsonData = try? jsonEncoder.encode(result.data ?? Data())
-                    let json = String(data: jsonData!, encoding: String.Encoding.utf8)
-                    print(json)
                     if let error = result.error {
                         completion(.failure(error))
                     }
@@ -206,8 +201,10 @@ extension NetworkEngine: NetworkDataProvider {
     }
     
     func registerUser(completion: @escaping RegistrationResult) {
-        performDecodableUploadRequest(request: .createUser(userModel: User(id: 2, userName: "1234", avatar: UIImage(systemName: "trash")?.jpegData(compressionQuality: 1),
-                                                                           email: "1234", token: "dfd", isConfirmed: false, password: "1234")), completion: completion)
+        performDecodableUploadRequest(request: .createUser(userModel: User(id: 2, userName: "dfdf", email: "fdfdf",
+                                                                           token: "dfd", isConfirmed: false, password: "fgfg",
+                                                                           avatarAsData: UIImage(systemName: "trash")?.jpegData(compressionQuality: 1)
+                                                                          )), completion: completion)
     }
     
 }
