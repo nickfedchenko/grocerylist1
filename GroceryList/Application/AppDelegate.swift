@@ -5,9 +5,10 @@
 //  Created by Шамиль Моллачиев on 31.10.2022.
 //
 
+import Amplitude
 import ApphudSDK
-import UIKit
 import UserNotifications
+import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,9 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Apphud.start(apiKey: "app_UumawTKYjWf9iUejoRkxntPLZQa7eq")
+        _ = AmplitudeManager.shared
         AppDelegate.activateFonts(withExtension: "ttf")
         AppDelegate.activateFonts(withExtension: "otf")
-        requestPushPermissions()
+        registerForNotifications()
         syncService.updateProducts()
         syncService.updateRecipes()
         return true
@@ -37,15 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-    
-    private func requestPushPermissions() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { isSuccessed, error in
-            print("Pushes is allow - \(isSuccessed)")
-            if let error = error {
-                print("Error is \(error)")
-            }
-        }
-    }
 }
 
 extension AppDelegate {
@@ -62,5 +55,48 @@ extension AppDelegate {
         if !CTFontManagerRegisterFontsForURL(url as CFURL, .process, &error) {
             CFShow(error as CFTypeRef?)
         }
+    }
+    
+    func registerForNotifications() {
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in
+            // handle if needed
+        }
+        UIApplication.shared.registerForRemoteNotifications()
+    }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Apphud.submitPushNotificationsToken(token: deviceToken, callback: nil)
+        Amplitude.instance().logEvent("Successfully registered for remote notifications")
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register for push notifications")
+        Amplitude.instance().logEvent("Failed to register remote notifications")
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        if Apphud.handlePushNotification(apsInfo: response.notification.request.content.userInfo) {
+            // Push Notification was handled by Apphud, probably do nothing
+            print("Handled succesfully")
+        } else {
+            // Handle other types of push notifications
+            print("Need to manually handle push notification")
+        }
+        completionHandler()
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        if Apphud.handlePushNotification(apsInfo: notification.request.content.userInfo) {
+            // Push Notification was handled by Apphud, probably do nothing
+            print("Handled succesfully")
+        } else {
+            // Handle other types of push notifications
+            print("Need to manually handle push notification")
+        }
+        completionHandler([]) // return empty array to skip showing notification banner
     }
 }
