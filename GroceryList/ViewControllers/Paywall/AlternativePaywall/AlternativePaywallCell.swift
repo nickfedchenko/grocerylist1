@@ -148,6 +148,7 @@ class AlternativePaywallCell: UICollectionViewCell {
 
     // MARK: - UI
 
+    // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         contentView.addSubviews([containerView, mostPopularView])
         mostPopularView.addSubviews([mostPopularLabel])

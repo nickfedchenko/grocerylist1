@@ -742,7 +742,7 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         if text.count > 2 && isCategorySelected {
             readyToSave()
         }
-    
+        
         guard !imageURL.isEmpty else { return }
         addImageImage.kf.indicatorType = .activity
         addImageImage.kf.setImage(with: URL(string: imageURL), placeholder: nil, options: nil, completionHandler: nil)

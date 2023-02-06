@@ -54,4 +54,3 @@ extension DataProviderFacade: DataSyncProtocol {
         domainSyncManager?.saveProducts(products: products)
     }
 }
-

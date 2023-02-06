@@ -225,7 +225,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
         // swiftlint:disable:next function_body_length
     private func createTableViewDataSource() {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
-                                                                      cellProvider: { collectionView, indexPath, model in
+                                                                      cellProvider: { _, indexPath, model in
             switch self.viewModel?.model[indexPath.section].cellType {
                 
                 // top view with switcher
@@ -543,10 +543,7 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
     
     func modeChanged(to mode: MainScreenPresentationMode) {
         guard Apphud.hasActiveSubscription() else {
-            if let paywall = viewModel?.router?.viewControllerFactory.createPaywallController() {
-                paywall.modalPresentationStyle = .fullScreen
-                present(paywall, animated: true)
-            }
+           showPaywall()
             return
         }
         presentationMode = mode
@@ -563,6 +560,29 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
             showRecipesCollection()
             recipesCollectionView.reloadSections(IndexSet(integer: 0))
             bottomCreateListView.isHidden = true
+        }
+    }
+    
+    private func showPaywall() {
+        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
+            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+                if let vc = self?.viewModel?.router?.viewControllerFactory.createPaywallController() {
+                    vc.modalPresentationStyle = .fullScreen
+                    self?.present(vc, animated: true)
+                }
+                return
+            }
+            if paywall.identifier == "Main" {
+                if let paywall = self?.viewModel?.router?.viewControllerFactory.createPaywallController() {
+                    paywall.modalPresentationStyle = .fullScreen
+                    self?.present(paywall, animated: true)
+                }
+            } else {
+                if let paywall = self?.viewModel?.router?.viewControllerFactory.createAlternativePaywallController() {
+                    paywall.modalPresentationStyle = .fullScreen
+                    self?.present(paywall, animated: true)
+                }
+            }
         }
     }
 }
