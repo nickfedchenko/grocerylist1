@@ -17,7 +17,7 @@ extension String {
         guard
             let path = Bundle.main.path(forResource: "en", ofType: "lproj"),
             let bundle = Bundle(path: path)
-            else { return value }
+        else { return value }
         return NSLocalizedString(self, bundle: bundle, comment: "")
     }
 }
@@ -29,4 +29,10 @@ extension String {
                                      value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: attributeString.length))
         return attributeString
     }
+    
+    func firstCharacterUpperCase() -> String {
+        if self.count == 0 { return self }
+        return prefix(1).uppercased() + dropFirst().lowercased()
+    }
 }
+

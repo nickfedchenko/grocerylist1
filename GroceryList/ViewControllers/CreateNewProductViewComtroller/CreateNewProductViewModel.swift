@@ -101,12 +101,23 @@ class CreateNewProductViewModel {
     func chekIsProductFromCategory(name: String?) {
         guard let arrayOfproductsByCategories else { return }
         
-        guard let product = arrayOfproductsByCategories.first(where: {
+        var product: DBNetworkProduct?
+        
+        for productDB in arrayOfproductsByCategories {
             guard let name = name,
-                  let title = $0.title else { return false }
-            return title.lowercased() == name.lowercased()
+                  let title = productDB.title else { return }
             
-        }) else { return }
+            if title.lowercased() == name.lowercased() {
+                product = productDB
+                break
+            }
+         
+            if title.lowercased().contains(name.lowercased()) {
+                product = productDB
+            }
+        }
+        
+        guard let product = product else { return }
         getAllInformation(product: product)
     }
     

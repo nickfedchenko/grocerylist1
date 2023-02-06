@@ -153,11 +153,28 @@ class AlternativePaywallViewController: UIViewController {
         setupCollectionView()
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard
-                let products = paywalls.first?.products,
+                let products = paywalls.first(where: { $0.experimentName != nil })?.products,
                 let self = self
-            else { return }
+            else {
+                if let products = paywalls.first(where: { $0.identifier == "Main" })?.products,
+                   let self = self {
+                    self.products = products.reversed()
+                    self.choiceOfCostArray = self.products.map {
+                        .init(
+                            isPopular: false,
+                            period: self.getTitle(from: $0),
+                            price: self.getPriceString(from: $0),
+                            description: self.getAdviceString(from: $0)
+                        )
+                    }
+                    self.choiceOfCostArray[0].isPopular = true
+                    self.collectionView(self.collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
+                    self.collectionView.reloadData()
+                }
+                return
+            }
             self.products = products.reversed()
-       
+            
             self.choiceOfCostArray = self.products.map {
                 .init(
                     isPopular: false,

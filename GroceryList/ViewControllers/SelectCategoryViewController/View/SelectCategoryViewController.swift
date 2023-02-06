@@ -109,10 +109,7 @@ class SelectCategoryViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.addKeyboardNotifications()
-            self.textField.becomeFirstResponder()
-        }
+        addKeyboardNotifications()
     }
     
     deinit {
@@ -163,7 +160,7 @@ class SelectCategoryViewController: UIViewController {
     
     @objc
     private func keyboardWillHide(_ notification: NSNotification) {
-        updateConstr(with: -searchViewHeight)
+        updateConstr(with: 0)
     }
     
     func updateConstr(with inset: Double) {
@@ -184,7 +181,16 @@ class SelectCategoryViewController: UIViewController {
     
     @objc
     private func swipeDownAction(_ recognizer: UIPanGestureRecognizer) {
-        textField.resignFirstResponder()
+        
+        let tempTranslation = recognizer.translation(in: searchView)
+        if tempTranslation.y >= 100 {
+            textField.resignFirstResponder()
+        }
+        
+        if tempTranslation.y <= -100 {
+            textField.becomeFirstResponder()
+        }
+       
     }
     
     // MARK: - Constraints
@@ -226,7 +232,7 @@ class SelectCategoryViewController: UIViewController {
         
         searchView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(-96)
+            make.bottom.equalToSuperview().inset(0)
             make.height.equalTo(searchViewHeight)
         }
         

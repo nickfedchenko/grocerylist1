@@ -156,7 +156,7 @@ class PaywallViewController: UIViewController {
         setupCollectionView()
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard
-                let products = paywalls.first?.products,
+                let products = paywalls.first(where: { $0.identifier == "Main"})?.products,
                 let self = self
             else { return }
             self.products = products.reversed()

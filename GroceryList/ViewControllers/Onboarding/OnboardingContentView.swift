@@ -93,7 +93,7 @@ class OnboardingContentView: UIView {
             }
        
             self.firstSideView.snp.updateConstraints { make in
-                make.left.equalToSuperview().inset(-151)
+                make.left.equalToSuperview().inset(-250)
             }
             
             self.secondSideView.snp.updateConstraints { make in
@@ -305,12 +305,13 @@ class OnboardingContentView: UIView {
     }
     
     private func createImageView(with name: String, isHidden: Bool = false,
-                                 shouldAddShadow: Bool = false) -> UIImageView {
+                                 shouldAddShadow: Bool = false, isSideView: Bool = false) -> UIImageView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: name)
         imageView.isHidden = isHidden
         if shouldAddShadow { imageView.addShadow() }
+        if isSideView { imageView.addShadow(color: .black, height: 3) }
         return imageView
     }
     
@@ -333,11 +334,11 @@ class OnboardingContentView: UIView {
     
     private lazy var addItemImage = createImageView(with: "addItemImage")
     
-    private lazy var firstSideView = createImageView(with: "firstSideView", isHidden: true)
-    private lazy var secondSideView = createImageView(with: "secondSideView", isHidden: true)
-    private lazy var thirdSideView = createImageView(with: "thirdSideView", isHidden: true)
-    private lazy var forthSideView = createImageView(with: "forthSideView", isHidden: true)
-    private lazy var fifthSideView = createImageView(with: "fifthSideView", isHidden: true)
+    private lazy var firstSideView = createImageView(with: "firstSideView", isHidden: true, isSideView: true)
+    private lazy var secondSideView = createImageView(with: "secondSideView", isHidden: true, isSideView: true)
+    private lazy var thirdSideView = createImageView(with: "thirdSideView", isHidden: true, isSideView: true)
+    private lazy var forthSideView = createImageView(with: "forthSideView", isHidden: true, isSideView: true)
+    private lazy var fifthSideView = createImageView(with: "fifthSideView", isHidden: true, isSideView: true)
     
     private lazy var firstTextLabel = createTextLabel(with: "CreateLists")
     private lazy var secondTextLabel = createTextLabel(with: "Synchronize")
@@ -412,15 +413,15 @@ class OnboardingContentView: UIView {
         phoneView.snp.makeConstraints { make in
             make.centerX.equalTo(backgroundView)
             make.centerY.equalToSuperview().multipliedBy(0.8)
-            make.width.equalTo(222)
-            make.height.equalTo(480)
+            make.width.equalTo(218)
+            make.height.equalTo(476)
         }
         
         secondPhoneView.snp.makeConstraints { make in
             make.centerX.equalTo(secondBackgroundView)
             make.centerY.equalToSuperview().multipliedBy(0.8)
-            make.width.equalTo(222)
-            make.height.equalTo(480)
+            make.width.equalTo(218)
+            make.height.equalTo(476)
         }
         
         thirdPhoneView.snp.makeConstraints { make in
@@ -491,38 +492,33 @@ class OnboardingContentView: UIView {
         }
         
         fifthSideView.snp.makeConstraints { make in
-            make.width.equalTo(214)
             make.height.equalTo(32)
             make.top.equalTo(phoneView.snp.top).inset(318)
             make.left.equalToSuperview().inset(-214)
         }
         
         forthSideView.snp.makeConstraints { make in
-            make.width.equalTo(219)
             make.height.equalTo(32)
             make.top.equalTo(phoneView.snp.top).inset(246)
             make.right.equalToSuperview().inset(-219)
         }
         
         thirdSideView.snp.makeConstraints { make in
-            make.width.equalTo(217)
             make.height.equalTo(32)
             make.top.equalTo(phoneView.snp.top).inset(169)
             make.left.equalToSuperview().inset(-217)
         }
         
         secondSideView.snp.makeConstraints { make in
-            make.width.equalTo(166)
             make.height.equalTo(32)
-            make.top.equalTo(phoneView.snp.top).inset(81)
+            make.top.equalTo(phoneView.snp.top).inset(85)
             make.right.equalToSuperview().inset(-166)
         }
         
         firstSideView.snp.makeConstraints { make in
-            make.width.equalTo(151)
             make.height.equalTo(32)
             make.top.equalTo(phoneView.snp.top).inset(51)
-            make.left.equalToSuperview().inset(-151)
+            make.left.equalToSuperview().inset(-200)
         }
         
         sharedAlarmImage.snp.makeConstraints { make in

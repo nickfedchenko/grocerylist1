@@ -106,7 +106,6 @@ final class NetworkEngine {
     }
 }
 
-
 extension NetworkEngine: NetworkDataProvider {
    
     func getAllProducts(completion: @escaping GetAllProductsResult) {
@@ -118,7 +117,6 @@ extension NetworkEngine: NetworkDataProvider {
     }
     
 }
-
 
 enum CurrentLocale: String {
     case en
