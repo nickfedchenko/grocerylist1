@@ -131,6 +131,8 @@
 		B3981C63297A89E800206DB7 /* SF Pro Text Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C5E297A89E800206DB7 /* SF Pro Text Semibold.otf */; };
 		B3981C64297A89E800206DB7 /* SF Pro Text Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C5F297A89E800206DB7 /* SF Pro Text Heavy.otf */; };
 		B3AD42D5299106360043A37F /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AD42D4299106360043A37F /* SocketManager.swift */; };
+		B3AD42D72991135E0043A37F /* CurrentLocale.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AD42D62991135E0043A37F /* CurrentLocale.swift */; };
+		B3AD42DA299117980043A37F /* RegistrationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AD42D9299117980043A37F /* RegistrationResponse.swift */; };
 		B3AEB29529910535000C6B4C /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AEB29429910535000C6B4C /* R.generated.swift */; };
 		B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B45E592934C01D00D60E82 /* SelectCategoryViewController.swift */; };
 		B3B45E5C2934C02B00D60E82 /* SelectCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B45E5B2934C02B00D60E82 /* SelectCategoryViewModel.swift */; };
@@ -286,6 +288,8 @@
 		B3981C5E297A89E800206DB7 /* SF Pro Text Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Text Semibold.otf"; sourceTree = "<group>"; };
 		B3981C5F297A89E800206DB7 /* SF Pro Text Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Text Heavy.otf"; sourceTree = "<group>"; };
 		B3AD42D4299106360043A37F /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
+		B3AD42D62991135E0043A37F /* CurrentLocale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocale.swift; sourceTree = "<group>"; };
+		B3AD42D9299117980043A37F /* RegistrationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationResponse.swift; sourceTree = "<group>"; };
 		B3AEB29429910535000C6B4C /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		B3B45E592934C01D00D60E82 /* SelectCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryViewController.swift; sourceTree = "<group>"; };
 		B3B45E5B2934C02B00D60E82 /* SelectCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryViewModel.swift; sourceTree = "<group>"; };
@@ -494,7 +498,9 @@
 			isa = PBXGroup;
 			children = (
 				B3179EA8291E324B00455419 /* Network.swift */,
+				B3AD42D62991135E0043A37F /* CurrentLocale.swift */,
 				B3815C0529361BAC0060262D /* NetworkModeles.swift */,
+				B3AD42D8299117580043A37F /* Registration */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -1013,6 +1019,14 @@
 			path = SocketManager;
 			sourceTree = "<group>";
 		};
+		B3AD42D8299117580043A37F /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				B3AD42D9299117980043A37F /* RegistrationResponse.swift */,
+			);
+			path = Registration;
+			sourceTree = "<group>";
+		};
 		B3B45E582934BFEA00D60E82 /* SelectCategoryViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1260,6 +1274,7 @@
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
 				B315F9EA298A4AFF0009CEB8 /* ReviewSelectableView.swift in Sources */,
 				389DCF452945CE9A00DB9382 /* RecipeScreenViewModel.swift in Sources */,
+				B3AD42DA299117980043A37F /* RegistrationResponse.swift in Sources */,
 				389DCF4A29461B2000DB9382 /* RecipeMainImageView.swift in Sources */,
 				B315F9E6298A3F420009CEB8 /* WriteReviewViewController.swift in Sources */,
 				B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */,
@@ -1327,6 +1342,7 @@
 				B3476909291D21730045A287 /* ProductsSettingsViewController.swift in Sources */,
 				B315F9D72988FF270009CEB8 /* AlternativePaywallCell.swift in Sources */,
 				38F49043294771A500529D1F /* InstructionView.swift in Sources */,
+				B3AD42D72991135E0043A37F /* CurrentLocale.swift in Sources */,
 				844FC63B2978B825008173AA /* ReviewCell.swift in Sources */,
 				B30573BD29222D4500CA8BDE /* ProductListCell.swift in Sources */,
 				B34EACAA293501E100FBD0E0 /* CreateNewCategoryViewModel.swift in Sources */,

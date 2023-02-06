@@ -23,6 +23,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         syncService.updateProducts()
         syncService.updateRecipes()
         SocketManager.shared.connect()
+        NetworkEngine().registerUser { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let response):
+                print(response)
+            }
+        }
         return true
     }
 
