@@ -26,4 +26,21 @@ struct User: Codable {
     enum CodingKeys: String, CodingKey {
         case id, userName, avatar, email, token, isConfirmed = "is_confirmed", password
     }
+    
+}
+
+struct ChangeUsernameResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var sucsess: Bool
+}
+
+struct MailExistResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var isExist: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case error, messages, isExist = "is_exists"
+    }
 }

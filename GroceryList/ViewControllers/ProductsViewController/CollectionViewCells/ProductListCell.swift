@@ -189,6 +189,7 @@ class ProductListCell: UICollectionViewListCell {
     }()
     
     // MARK: - UI
+    // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         contentView.addSubviews([leftButton, rightButton, contentViews])
         contentViews.addSubviews([nameLabel, checkmarkImage, whiteCheckmarkImage, imageView, viewWithDescription])

@@ -524,6 +524,8 @@ extension CreateNewProductViewController: UITextFieldDelegate {
             } else {
                 notReadyToSave()
             }
+
+            viewModel?.chekIsProductFromCategory(name: finalText)
             
             if newLength == 0 {
                 notReadyToSave()
@@ -532,10 +534,8 @@ extension CreateNewProductViewController: UITextFieldDelegate {
                 topCategoryView.backgroundColor = UIColor(hex: "#D2D5DA")
                 topCategoryLabel.text = "Category".localized
                 quantityNotAvailable()
+                
             }
-            
-            viewModel?.chekIsProductFromCategory(name: finalText)
- 
         }
         
         if textField == bottomTextField {

@@ -159,6 +159,7 @@ class HeaderListCell: UICollectionViewListCell {
     }()
     
     // MARK: - UI
+    // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         contentView.addSubviews([containerView])
         containerView.addSubviews([coloredView, collapsedColoredView, coloredViewForSorting, titleLabel, checkmarkView, pinchView])
