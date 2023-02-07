@@ -44,3 +44,10 @@ struct MailExistResponse: Codable {
         case error, messages, isExist = "is_exists"
     }
 }
+
+
+struct ResendVerificationResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var status: String?
+}

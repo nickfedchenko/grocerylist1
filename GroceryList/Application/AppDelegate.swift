@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                print(response)
 //            }
 //        }
-//        
+//
 //        NetworkEngine().logIn(email: "rusbear28@yandex.ru", password: "123456") { result in
 //            switch result {
 //            case .failure(let error):
@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                print(response)
 //            }
 //        }
-//        
+//
 //        NetworkEngine().updateUserName(userToken: "Fdfd", newName: "Fdfdf") { result in
 //            switch result {
 //            case .failure(let error):
@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                print(response)
 //            }
 //        }
-//        
+//
 //        NetworkEngine().uploadAvatar(userToken: "Fdf", imageData: (UIImage(systemName: "trash")?.jpegData(compressionQuality: 1)!)! ) { result in
 //            switch result {
 //            case .failure(let error):
@@ -59,8 +59,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                print(response)
 //            }
 //        }
-//        
-        NetworkEngine().checkEmail(email: "ddsd") { result in
+//
+//        NetworkEngine().checkEmail(email: "ddsd") { result in
+//            switch result {
+//            case .failure(let error):
+//                print(error)
+//            case .success(let response):
+//                print(response)
+//            }
+//        }
+        
+        NetworkEngine().resendVerificationCode(email: "ddsd") { result in
             switch result {
             case .failure(let error):
                 print(error)
