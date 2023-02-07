@@ -14,7 +14,8 @@ import UserNotifications
 class AppDelegate: UIResponder, UIApplicationDelegate {
     let syncService: DataSyncProtocol = DataProviderFacade()
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Apphud.start(apiKey: "app_UumawTKYjWf9iUejoRkxntPLZQa7eq")
         _ = AmplitudeManager.shared
         AppDelegate.activateFonts(withExtension: "ttf")
@@ -23,7 +24,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         syncService.updateProducts()
         syncService.updateRecipes()
         SocketManager.shared.connect()
-        NetworkEngine().registerUser { result in
+//        NetworkEngine().registerUser(email: "ffdfd", password: "dfdf3") { result in
+//            switch result {
+//            case .failure(let error):
+//                print(error)
+//            case .success(let response):
+//                print(response)
+//            }
+//        }
+//        
+//        NetworkEngine().logIn(email: "rusbear28@yandex.ru", password: "123456") { result in
+//            switch result {
+//            case .failure(let error):
+//                print(error)
+//            case .success(let response):
+//                print(response)
+//            }
+//        }
+//        
+//        NetworkEngine().updateUserName(userToken: "Fdfd", newName: "Fdfdf") { result in
+//            switch result {
+//            case .failure(let error):
+//                print(error)
+//            case .success(let response):
+//                print(response)
+//            }
+//        }
+//        
+//        NetworkEngine().uploadAvatar(userToken: "Fdf", imageData: (UIImage(systemName: "trash")?.jpegData(compressionQuality: 1)!)! ) { result in
+//            switch result {
+//            case .failure(let error):
+//                print(error)
+//            case .success(let response):
+//                print(response)
+//            }
+//        }
+//        
+        NetworkEngine().checkEmail(email: "ddsd") { result in
             switch result {
             case .failure(let error):
                 print(error)
