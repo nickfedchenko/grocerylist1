@@ -19,6 +19,7 @@ typealias AllDishesResult = (Result<[Recipe], AFError>) -> Void
 typealias RegistrationResult = (Result<RegistrationResponse, AFError>) -> Void
 typealias ChangeUserNameResult = (Result<ChangeUsernameResponse, AFError>) -> Void
 typealias MailExistsResult = (Result<MailExistResponse, AFError>) -> Void
+typealias ResendVerificationCodeResult = (Result<ResendVerificationResponse, AFError>) -> Void
 
 enum RequestGenerator: Codable {
     case getProducts
@@ -28,6 +29,7 @@ enum RequestGenerator: Codable {
     case updateUsername(userToken: String, newName: String)
     case uploadAvatar(userToken: String, imageData: Data)
     case checkEmail(email: String)
+    case resendVerification(email: String)
     
     private var bearerToken: String {
         return "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
@@ -96,7 +98,6 @@ enum RequestGenerator: Codable {
             }
             
             injectUserTokenAndNewName(in: &components, userToken: userToken, newName: newName)
-            print(components)
             
             guard let url = components.url else {
                 fatalError("Error resolving URL")
@@ -117,6 +118,19 @@ enum RequestGenerator: Codable {
             var request = URLRequest(url: url)
             request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
             request.method = .get
+            return request
+        case .resendVerification(email: let email):
+            guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/register/resend") else {
+                fatalError("Error With Creating Components")
+            }
+            injectEmail(in: &components, email: email)
+    
+            guard let url = components.url else {
+                fatalError("Error resolving URL")
+            }
+            var request = URLRequest(url: url)
+            request.method = .post
+            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
             return request
         case .uploadAvatar:
             fatalError("use multiformRequestObject")
@@ -184,6 +198,7 @@ enum RequestGenerator: Codable {
             components.queryItems?.append(contentsOf: queries)
         }
     }
+    
     
     private func injectUserParametrs(in components: inout URLComponents, userModel: User?) {
         guard let userModel = userModel else { return }
@@ -343,6 +358,10 @@ extension NetworkEngine: NetworkDataProvider {
     
     func checkEmail(email: String, completion: @escaping MailExistsResult) {
         performDecodableRequest(request: .checkEmail(email: email), completion: completion)
+    }
+    
+    func resendVerificationCode(email: String, completion: @escaping ResendVerificationCodeResult) {
+        performDecodableRequest(request: .resendVerification(email: email), completion: completion)
     }
     
 }
