@@ -8,18 +8,18 @@
 import Foundation
 
 struct RegistrationResponse: Codable {
-    var error: Bool?
-    var messages: [String]?
-    var user: User?
+    var error: Bool
+    var messages: [String]
+    var user: User
 }
 
 struct User: Codable {
-    var id: Int?
+    var id: Int
     var userName: String?
     var avatar: String?
-    var email: String?
-    var token: String?
-    var isConfirmed: Bool?
+    var email: String
+    var token: String
+    var isConfirmed: Bool
     var password: String?
     var avatarAsData: Data?
     
@@ -45,9 +45,30 @@ struct MailExistResponse: Codable {
     }
 }
 
-
 struct ResendVerificationResponse: Codable {
     var error: Bool
     var messages: [String]
     var status: String?
+}
+
+struct PasswordResetResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var result: PasswordResetStatus
+}
+
+struct PasswordResetStatus: Codable {
+    var status: String
+    var passwordResetToken: String
+    var dateOfTokenExpiration: String
+    
+    enum CodingKeys: String, CodingKey {
+        case status, passwordResetToken = "password_reset_token", dateOfTokenExpiration = "password_reset_token_expired_at"
+    }
+}
+
+struct PasswordUpdateResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var user: User?
 }
