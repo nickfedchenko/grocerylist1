@@ -24,6 +24,10 @@ class SettingsViewModel {
         router?.popToRoot()
     }
     
+    func registerButtonPressed() {
+        
+    }
+    
     func getTextForUnitSystemView() -> String {
         if isMetricSystem {
             return "Metric".localized
