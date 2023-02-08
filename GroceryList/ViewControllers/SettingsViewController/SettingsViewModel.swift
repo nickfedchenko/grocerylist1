@@ -25,7 +25,7 @@ class SettingsViewModel {
     }
     
     func registerButtonPressed() {
-        
+        router?.goToSignUpController()
     }
     
     func getTextForUnitSystemView() -> String {

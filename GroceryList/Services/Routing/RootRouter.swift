@@ -129,6 +129,11 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
+    func goToSignUpController() {
+        guard let controller = viewControllerFactory.createSignUpController(router: self) else { return }
+        navigationPushViewController(controller, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }

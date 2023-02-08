@@ -86,6 +86,7 @@ class SettingsViewController: UIViewController {
         self.selectUnitsView.transform = CGAffineTransform(scaleX: 0, y: 0)
         setupConstraints()
         addRecognizer()
+        setupNavigationBar(titleText: R.string.localizable.preferencies())
     }
     
     deinit {
@@ -171,6 +172,8 @@ extension SettingsViewController {
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
+            self.unitsView.setupView(text: "Quantity Units".localized,
+                                     unitSustemText: self.viewModel?.getTextForUnitSystemView())
             self.selectUnitsView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
             self.view.layoutIfNeeded()
         } completion: { _ in
@@ -180,7 +183,6 @@ extension SettingsViewController {
     
     func updateUnitSystemView() {
         selectUnitsView.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
-        unitsView.setupView(text: "Quantity Units".localized, unitSustemText: viewModel?.getTextForUnitSystemView())
     }
     
     @objc
