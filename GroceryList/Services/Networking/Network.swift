@@ -38,6 +38,26 @@ enum RequestGenerator: Codable {
     private var bearerToken: String {
         return "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
     }
+    
+    private func requestCreator(basicURL: String, method: HTTPMethod, injecton: ((inout URLComponents) -> Void)) -> URLRequest {
+        guard var components = URLComponents( string: basicURL) else {
+            fatalError("FatalError")
+        }
+       
+        injecton(&components)
+        
+        guard let url = components.url else {
+            fatalError("Error resolving URL")
+        }
+        var request = URLRequest(url: url)
+        request.method = method
+        
+        if method == .post {
+            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
+        }
+        
+        return request
+    }
 
     var request: URLRequest {
         switch self {
@@ -137,6 +157,7 @@ enum RequestGenerator: Codable {
             request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
             return request
         case .passwordReset(let email):
+            
             guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/password/request") else {
                 fatalError("Error With Creating Components")
             }
@@ -150,19 +171,23 @@ enum RequestGenerator: Codable {
             request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
             return request
         case .updatePassword(let newPassword, let resetToken):
-            guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/password/update") else {
-                fatalError("Error With Creating Components")
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/password/update", method: .post) { components in
+                injectNewPasswordAndResetToken(in: &components, newPassword: newPassword, resetToken: resetToken)
             }
-            injectNewPasswordAndResetToken(in: &components, newPassword: newPassword, resetToken: resetToken)
-    
-            guard let url = components.url else {
-                fatalError("Error resolving URL")
-            }
-
-            var request = URLRequest(url: url)
-            request.method = .post
-            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
-            return request
+            
+//            guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/password/update") else {
+//                fatalError("Error With Creating Components")
+//            }
+//            injectNewPasswordAndResetToken(in: &components, newPassword: newPassword, resetToken: resetToken)
+//    
+//            guard let url = components.url else {
+//                fatalError("Error resolving URL")
+//            }
+//
+//            var request = URLRequest(url: url)
+//            request.method = .post
+//            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
+//            return request
         case .uploadAvatar:
             fatalError("use multiformRequestObject")
         }
