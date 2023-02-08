@@ -20,6 +20,8 @@ typealias RegistrationResult = (Result<RegistrationResponse, AFError>) -> Void
 typealias ChangeUserNameResult = (Result<ChangeUsernameResponse, AFError>) -> Void
 typealias MailExistsResult = (Result<MailExistResponse, AFError>) -> Void
 typealias ResendVerificationCodeResult = (Result<ResendVerificationResponse, AFError>) -> Void
+typealias PasswordResetResult = (Result<PasswordResetResponse, AFError>) -> Void
+typealias PasswordUpdateResult = (Result<PasswordUpdateResponse, AFError>) -> Void
 
 enum RequestGenerator: Codable {
     case getProducts
@@ -30,6 +32,8 @@ enum RequestGenerator: Codable {
     case uploadAvatar(userToken: String, imageData: Data)
     case checkEmail(email: String)
     case resendVerification(email: String)
+    case passwordReset(email: String)
+    case updatePassword(newPassword: String, resetToken: String)
     
     private var bearerToken: String {
         return "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
@@ -119,7 +123,7 @@ enum RequestGenerator: Codable {
             request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
             request.method = .get
             return request
-        case .resendVerification(email: let email):
+        case .resendVerification(let email):
             guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/register/resend") else {
                 fatalError("Error With Creating Components")
             }
@@ -128,6 +132,33 @@ enum RequestGenerator: Codable {
             guard let url = components.url else {
                 fatalError("Error resolving URL")
             }
+            var request = URLRequest(url: url)
+            request.method = .post
+            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
+            return request
+        case .passwordReset(let email):
+            guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/password/request") else {
+                fatalError("Error With Creating Components")
+            }
+            injectEmail(in: &components, email: email)
+    
+            guard let url = components.url else {
+                fatalError("Error resolving URL")
+            }
+            var request = URLRequest(url: url)
+            request.method = .post
+            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
+            return request
+        case .updatePassword(let newPassword, let resetToken):
+            guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/password/update") else {
+                fatalError("Error With Creating Components")
+            }
+            injectNewPasswordAndResetToken(in: &components, newPassword: newPassword, resetToken: resetToken)
+    
+            guard let url = components.url else {
+                fatalError("Error resolving URL")
+            }
+
             var request = URLRequest(url: url)
             request.method = .post
             request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
@@ -199,7 +230,6 @@ enum RequestGenerator: Codable {
         }
     }
     
-    
     private func injectUserParametrs(in components: inout URLComponents, userModel: User?) {
         guard let userModel = userModel else { return }
         let queries: [URLQueryItem] = [
@@ -251,6 +281,19 @@ enum RequestGenerator: Codable {
             components.queryItems?.append(contentsOf: queries)
         }
     }
+    
+    private func injectNewPasswordAndResetToken(in components: inout URLComponents, newPassword: String, resetToken: String) {
+        let queries: [URLQueryItem] = [
+            .init(name: "new_password", value: newPassword),
+            .init(name: "reset_token", value: resetToken)
+        ]
+        
+        if components.queryItems == nil {
+            components.queryItems = queries
+        } else {
+            components.queryItems?.append(contentsOf: queries)
+        }
+    }
 }
 
 final class NetworkEngine {
@@ -271,8 +314,7 @@ final class NetworkEngine {
         decoder.dateDecodingStrategy = .formatted(formatter)
         let mfObject = request.multiformRequestObject
         print(mfObject)
-        AF
-            .upload(multipartFormData: mfObject.0, to: mfObject.1,
+        AF.upload(multipartFormData: mfObject.0, to: mfObject.1,
                     method: .post, headers: .init(headers))
             .validate()
             .responseDecodable(
@@ -364,4 +406,14 @@ extension NetworkEngine: NetworkDataProvider {
         performDecodableRequest(request: .resendVerification(email: email), completion: completion)
     }
     
+    /// запрос на смену пароля - отправляет ссылку на почту для подтверждения сброса пароля
+    /// там мы ловим диплинк и переходив внутрь апы и уже меняем пароль методом  updatePassword(newPassword: String....
+    func passwordReset(email: String, completion: @escaping PasswordResetResult) {
+        performDecodableRequest(request: .passwordReset(email: email), completion: completion)
+    }
+    
+    /// метод фактической смены пароля
+    func updatePassword(newPassword: String, resetToken: String, completion: @escaping PasswordUpdateResult) {
+        performDecodableRequest(request: .updatePassword(newPassword: newPassword, resetToken: resetToken), completion: completion)
+    }
 }
