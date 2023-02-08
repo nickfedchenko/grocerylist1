@@ -13,29 +13,7 @@ import UIKit
 class SettingsViewController: UIViewController {
     
     var viewModel: SettingsViewModel?
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.selectUnitsView.transform = CGAffineTransform(scaleX: 0, y: 0)
-        setupConstraints()
-        addRecognizer()
-    }
-    
-    deinit {
-        print("SettingsViewController deinited")
-    }
-    
-    @objc
-    private func closeButtonAction(_ recognizer: UIPanGestureRecognizer) {
-        viewModel?.closeButtonTapped()
-    }
-    
-    // MARK: - UI
-    
+
     private let topView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#E8F5F3")
@@ -124,10 +102,38 @@ class SettingsViewController: UIViewController {
         return label
     }()
     
+    private lazy var registerView: RegisterWithMessageView = {
+        let view = RegisterWithMessageView()
+        view.registerButtonPressed = { [weak self] in
+            self?.viewModel?.registerButtonPressed()
+        }
+        return view
+    }()
+    
+    // MARK: - LifeCycle
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.selectUnitsView.transform = CGAffineTransform(scaleX: 0, y: 0)
+        setupConstraints()
+        addRecognizer()
+    }
+    
+    deinit {
+        print("SettingsViewController deinited")
+    }
+    
+    // MARK: - Functions
+    
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
-        view.addSubviews([preferenciesLabel, closeButton, unitsView, hapticView, likeAppView, contactUsView, contactUsView, selectUnitsView])
+        view.addSubviews([preferenciesLabel, closeButton, unitsView,
+                          hapticView, likeAppView, contactUsView,
+                          contactUsView, selectUnitsView, registerView])
         selectUnitsView.addSubviews([imperialView, metricView])
         metricView.addSubview(metriclLabel)
         imperialView.addSubview(imperialLabel)
@@ -194,11 +200,21 @@ class SettingsViewController: UIViewController {
             make.left.equalToSuperview().inset(16)
         }
         
+        registerView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).inset(30)
+        }
+        
     }
 }
 
 extension SettingsViewController {
     
+    @objc
+    private func closeButtonAction(_ recognizer: UIPanGestureRecognizer) {
+        viewModel?.closeButtonTapped()
+    }
+
     private func addRecognizer() {
         let unitsViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(unitsViewAction))
         let likeAppViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(likeAppViewAction))

@@ -87,15 +87,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }
 //        }
         
-        NetworkEngine().updatePassword(newPassword: "123456",
-                                       resetToken: "TvrMtqip0iPt2vt29AqbBSB2iwPJeUXbgoK") { result in
-                switch result {
-                case .failure(let error):
-                    print(error)
-                case .success(let response):
-                    print(response)
-                }
-            }
+//        NetworkEngine().updatePassword(newPassword: "123456",
+//                                       resetToken: "TvrMtqip0iPt2vt29AqbBSB2iwPJeUXbgoK") { result in
+//                switch result {
+//                case .failure(let error):
+//                    print(error)
+//                case .success(let response):
+//                    print(response)
+//                }
+//            }
         return true
     }
 
