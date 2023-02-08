@@ -16,12 +16,15 @@ protocol NetworkDataProvider {
 
 typealias GetAllProductsResult = (Result<[NetworkProductModel], AFError>) -> Void
 typealias AllDishesResult = (Result<[Recipe], AFError>) -> Void
-typealias RegistrationResult = (Result<RegistrationResponse, AFError>) -> Void
+typealias CreateUserResult = (Result<CreateUserResponse, AFError>) -> Void
 typealias ChangeUserNameResult = (Result<ChangeUsernameResponse, AFError>) -> Void
 typealias MailExistsResult = (Result<MailExistResponse, AFError>) -> Void
 typealias ResendVerificationCodeResult = (Result<ResendVerificationResponse, AFError>) -> Void
 typealias PasswordResetResult = (Result<PasswordResetResponse, AFError>) -> Void
 typealias PasswordUpdateResult = (Result<PasswordUpdateResponse, AFError>) -> Void
+typealias UpdateUsernameResult = (Result<UpdateUsernameResponse, AFError>) -> Void
+typealias UploadAvatarResult = (Result<UploadAvatarResponse, AFError>) -> Void
+typealias LogInResult = (Result<LogInResponse, AFError>) -> Void
 
 enum RequestGenerator: Codable {
     case getProducts
@@ -39,189 +42,99 @@ enum RequestGenerator: Codable {
         return "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
     }
     
-    private func requestCreator(basicURL: String, method: HTTPMethod, injecton: ((inout URLComponents) -> Void)) -> URLRequest {
-        guard var components = URLComponents( string: basicURL) else {
-            fatalError("FatalError")
-        }
-       
-        injecton(&components)
-        
-        guard let url = components.url else {
-            fatalError("Error resolving URL")
-        }
-        var request = URLRequest(url: url)
-        request.method = method
-        
-        if method == .post {
-            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
-        }
-        
-        return request
-    }
-
+    /// обычный реквест
     var request: URLRequest {
         switch self {
-            
         case .getProducts:
-            guard let components = URLComponents(
-                string: getUrlForProducts()) else {
-                fatalError("FatalError")
-            }
-            
-            guard let url = components.url else {
-                fatalError("Error resolving URL")
-            }
-            var request = URLRequest(url: url)
-            request.method = .get
-            return request
+            return requestCreator(basicURL:getUrlForProducts(), method: .get, needsToken: false) { _ in }
         case .getReciepts:
-            guard let components = URLComponents(
-                string: getUrlForReciepts()) else {
-                fatalError("FatalError")
-            }
-            
-            guard let url = components.url else {
-                fatalError("Error resolving URL")
-            }
-            var request = URLRequest(url: url)
-            request.method = .get
-            return request
+            return requestCreator(basicURL: getUrlForReciepts(), method: .get, needsToken: false) { _ in }
         case .logIn(let email, let password):
-            guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/login") else {
-                fatalError("Error With Creating Components")
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/login", method: .post) { components in
+                injectEmailAndPassword(in: &components, email: email, password: password)
             }
-            
-            injectEmailAndPassword(in: &components, email: email, password: password)
-            print(components)
-            
-            guard let url = components.url else {
-                fatalError("Error resolving URL")
-            }
-            var request = URLRequest(url: url)
-            request.method = .post
-            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
-            return request
         case .createUser(let email, let password):
-            guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/register") else {
-                fatalError("Error With Creating Components")
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/register", method: .post) { components in
+                injectEmailAndPassword(in: &components, email: email, password: password)
             }
-            
-            injectEmailAndPassword(in: &components, email: email, password: password)
-            print(components)
-            
-            guard let url = components.url else {
-                fatalError("Error resolving URL")
-            }
-            var request = URLRequest(url: url)
-            request.method = .post
-            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
-            return request
         case .updateUsername(let userToken, let newName):
-            guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/name") else {
-                fatalError("Error With Creating Components")
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/name", method: .post) { components in
+                injectUserTokenAndNewName(in: &components, userToken: userToken, newName: newName)
             }
-            
-            injectUserTokenAndNewName(in: &components, userToken: userToken, newName: newName)
-            
-            guard let url = components.url else {
-                fatalError("Error resolving URL")
-            }
-            var request = URLRequest(url: url)
-            request.method = .post
-            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
-            return request
         case .checkEmail(email: let email):
-            guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/email") else {
-                fatalError("Error With Creating Components")
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/email", method: .get) { components in
+                injectEmail(in: &components, email: email)
             }
-            injectEmail(in: &components, email: email)
-          
-            guard let url = components.url else {
-                fatalError("Error resolving URL")
-            }
-            var request = URLRequest(url: url)
-            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
-            request.method = .get
-            return request
         case .resendVerification(let email):
-            guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/register/resend") else {
-                fatalError("Error With Creating Components")
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/register/resend", method: .post) { components in
+                injectEmail(in: &components, email: email)
             }
-            injectEmail(in: &components, email: email)
-    
-            guard let url = components.url else {
-                fatalError("Error resolving URL")
-            }
-            var request = URLRequest(url: url)
-            request.method = .post
-            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
-            return request
         case .passwordReset(let email):
-            
-            guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/password/request") else {
-                fatalError("Error With Creating Components")
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/password/request", method: .post) { components in
+                injectEmail(in: &components, email: email)
             }
-            injectEmail(in: &components, email: email)
-    
-            guard let url = components.url else {
-                fatalError("Error resolving URL")
-            }
-            var request = URLRequest(url: url)
-            request.method = .post
-            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
-            return request
         case .updatePassword(let newPassword, let resetToken):
             return requestCreator(basicURL: "https://newketo.finanse.space/api/user/password/update", method: .post) { components in
                 injectNewPasswordAndResetToken(in: &components, newPassword: newPassword, resetToken: resetToken)
             }
-            
-//            guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/password/update") else {
-//                fatalError("Error With Creating Components")
-//            }
-//            injectNewPasswordAndResetToken(in: &components, newPassword: newPassword, resetToken: resetToken)
-//    
-//            guard let url = components.url else {
-//                fatalError("Error resolving URL")
-//            }
-//
-//            var request = URLRequest(url: url)
-//            request.method = .post
-//            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
-//            return request
         case .uploadAvatar:
             fatalError("use multiformRequestObject")
         }
-        
     }
     
+    /// реквест для отправки  данных на сервер
     var multiformRequestObject: (MultipartFormData, URL) {
         switch self {
         case .uploadAvatar(let token, let data):
-  
             guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/avatar") else {
                 fatalError("Error With Creating Components")
             }
             
             injectUserToken(in: &components, userToken: token)
-
-            guard
-                let url = components.url
-            else { fatalError("Error resolving URL")
+            
+            guard let url = components.url else {
+                fatalError("Error resolving URL")
             }
+            
             let imageData = data
             let boundary = UUID().uuidString
             let mfData = MultipartFormData(fileManager: .default, boundary: boundary)
+            
             mfData.append(
                 imageData,
                 withName: "avatar",
                 fileName: "avatar.jpg",
                 mimeType: "avatar/jpg"
             )
-
             return (mfData, url)
         default:
             fatalError("Use request property instead")
         }
+    }
+
+    /// метод сборки реквеста
+    private func requestCreator(basicURL: String,
+                                method: HTTPMethod,
+                                needsToken: Bool = true,
+                                injecton: ((inout URLComponents) -> Void)) -> URLRequest {
+        guard var components = URLComponents( string: basicURL) else {
+            fatalError("FatalError")
+        }
+        
+        injecton(&components)
+        
+        guard let url = components.url else {
+            fatalError("Error resolving URL")
+        }
+        
+        var request = URLRequest(url: url)
+        request.method = method
+        
+        if needsToken {
+            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
+        }
+        
+        return request
     }
     
     private func getUrlForProducts() -> String {
@@ -242,17 +155,20 @@ enum RequestGenerator: Codable {
         }
     }
     
-    private func injectEmailAndPassword(in components: inout URLComponents, email: String, password: String) {
-        let queries: [URLQueryItem] = [
-            .init(name: "email", value: email),
-            .init(name: "password", value: password)
-        ]
-        
+    private func insert(queries: [URLQueryItem], components: inout URLComponents) {
         if components.queryItems == nil {
             components.queryItems = queries
         } else {
             components.queryItems?.append(contentsOf: queries)
         }
+    }
+    
+    private func injectEmailAndPassword(in components: inout URLComponents, email: String, password: String) {
+        let queries: [URLQueryItem] = [
+            .init(name: "email", value: email),
+            .init(name: "password", value: password)
+        ]
+        insert(queries: queries, components: &components)
     }
     
     private func injectUserParametrs(in components: inout URLComponents, userModel: User?) {
@@ -262,12 +178,7 @@ enum RequestGenerator: Codable {
             .init(name: "password", value: userModel.password),
             .init(name: "username", value: userModel.userName)
         ]
-        
-        if components.queryItems == nil {
-            components.queryItems = queries
-        } else {
-            components.queryItems?.append(contentsOf: queries)
-        }
+        insert(queries: queries, components: &components)
     }
     
     private func injectUserTokenAndNewName(in components: inout URLComponents, userToken: String, newName: String) {
@@ -275,36 +186,21 @@ enum RequestGenerator: Codable {
             .init(name: "user_token", value: userToken),
             .init(name: "username", value: newName)
         ]
-        
-        if components.queryItems == nil {
-            components.queryItems = queries
-        } else {
-            components.queryItems?.append(contentsOf: queries)
-        }
+        insert(queries: queries, components: &components)
     }
     
     private func injectEmail(in components: inout URLComponents, email: String) {
         let queries: [URLQueryItem] = [
             .init(name: "email", value: email)
         ]
-        
-        if components.queryItems == nil {
-            components.queryItems = queries
-        } else {
-            components.queryItems?.append(contentsOf: queries)
-        }
+        insert(queries: queries, components: &components)
     }
     
     private func injectUserToken(in components: inout URLComponents, userToken: String) {
         let queries: [URLQueryItem] = [
             .init(name: "user_token", value: userToken)
         ]
-        
-        if components.queryItems == nil {
-            components.queryItems = queries
-        } else {
-            components.queryItems?.append(contentsOf: queries)
-        }
+        insert(queries: queries, components: &components)
     }
     
     private func injectNewPasswordAndResetToken(in components: inout URLComponents, newPassword: String, resetToken: String) {
@@ -312,17 +208,12 @@ enum RequestGenerator: Codable {
             .init(name: "new_password", value: newPassword),
             .init(name: "reset_token", value: resetToken)
         ]
-        
-        if components.queryItems == nil {
-            components.queryItems = queries
-        } else {
-            components.queryItems?.append(contentsOf: queries)
-        }
+        insert(queries: queries, components: &components)
     }
 }
 
 final class NetworkEngine {
-    
+    /// метод отправки реквеста с данными
     private func performDecodableUploadRequest<T: Decodable>(
         request: RequestGenerator,
         completion: @escaping ((Result<T, AFError>) -> Void)
@@ -338,23 +229,23 @@ final class NetworkEngine {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(formatter)
         let mfObject = request.multiformRequestObject
-        print(mfObject)
+        
         AF.upload(multipartFormData: mfObject.0, to: mfObject.1,
-                    method: .post, headers: .init(headers))
-            .validate()
-            .responseDecodable(
-                of: T.self,
-                queue: .global(qos: .userInitiated),
-                decoder: decoder
-            ) { result in
-                guard let data = result.value else {
-                    if let error = result.error {
-                        completion(.failure(error))
-                    }
-                    return
+                  method: .post, headers: .init(headers))
+        .validate()
+        .responseDecodable(
+            of: T.self,
+            queue: .global(qos: .userInitiated),
+            decoder: decoder
+        ) { result in
+            guard let data = result.value else {
+                if let error = result.error {
+                    completion(.failure(error))
                 }
-                completion(.success(data))
+                return
             }
+            completion(.success(data))
+        }
     }
     
     private func performDecodableRequest<T: Decodable>(
@@ -370,7 +261,6 @@ final class NetworkEngine {
             .responseData { result in
                 guard let data = result.value else {
                     if let error = result.error {
-                        
                         completion(.failure(error))
                     }
                     return
@@ -385,7 +275,7 @@ final class NetworkEngine {
                         }
                         completion(.success(unzippedDishes))
                     }
-                   
+                    
                 } else {
                     guard let dataModel = try? decoder.decode(T.self, from: data) else {
                         print("errModel")
@@ -398,7 +288,7 @@ final class NetworkEngine {
 }
 
 extension NetworkEngine: NetworkDataProvider {
-   
+    
     func getAllProducts(completion: @escaping GetAllProductsResult) {
         performDecodableRequest(request: .getProducts, completion: completion)
     }
@@ -406,27 +296,27 @@ extension NetworkEngine: NetworkDataProvider {
     func getAllRecipes(completion: @escaping AllDishesResult) {
         performDecodableRequest(request: .getReciepts, completion: completion)
     }
-    
-    func registerUser(email: String, password: String, completion: @escaping RegistrationResult) {
+    /// регистрация юзера
+    func createUser(email: String, password: String, completion: @escaping CreateUserResult) {
         performDecodableRequest(request: .createUser(email: email, password: password), completion: completion)
     }
-    
-    func logIn(email: String, password: String, completion: @escaping RegistrationResult) {
+    /// вход юзера, возвращает юзера с его данными
+    func logIn(email: String, password: String, completion: @escaping LogInResult) {
         performDecodableRequest(request: .logIn(email: email, password: password), completion: completion)
     }
-    
-    func updateUserName(userToken: String, newName: String, completion: @escaping RegistrationResult) {
+    /// меняем или создаем имя юзера
+    func updateUserName(userToken: String, newName: String, completion: @escaping UpdateUsernameResult) {
         performDecodableRequest(request: .updateUsername(userToken: userToken, newName: newName), completion: completion)
     }
-    
-    func uploadAvatar(userToken: String, imageData: Data, completion: @escaping RegistrationResult) {
+    /// загружаем аватар
+    func uploadAvatar(userToken: String, imageData: Data, completion: @escaping UploadAvatarResult) {
         performDecodableUploadRequest(request: .uploadAvatar(userToken: userToken, imageData: imageData), completion: completion)
     }
-    
+    /// проверка существует ли в базе имейл
     func checkEmail(email: String, completion: @escaping MailExistsResult) {
         performDecodableRequest(request: .checkEmail(email: email), completion: completion)
     }
-    
+    /// повторная отправка кода верификации
     func resendVerificationCode(email: String, completion: @escaping ResendVerificationCodeResult) {
         performDecodableRequest(request: .resendVerification(email: email), completion: completion)
     }

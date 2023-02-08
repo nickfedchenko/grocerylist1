@@ -7,10 +7,16 @@
 
 import Foundation
 
-struct RegistrationResponse: Codable {
+struct CreateUserResponse: Codable {
     var error: Bool
     var messages: [String]
     var user: User
+}
+
+struct LogInResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var user: User?
 }
 
 struct User: Codable {
@@ -68,6 +74,19 @@ struct PasswordResetStatus: Codable {
 }
 
 struct PasswordUpdateResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var user: User?
+}
+
+
+struct UpdateUsernameResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var user: User?
+}
+
+struct UploadAvatarResponse: Codable {
     var error: Bool
     var messages: [String]
     var user: User?

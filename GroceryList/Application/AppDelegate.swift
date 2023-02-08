@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         syncService.updateProducts()
         syncService.updateRecipes()
         SocketManager.shared.connect()
-//        NetworkEngine().registerUser(email: "ffdfd", password: "dfdf3") { result in
+//        NetworkEngine().createUser(email: "df", password: "dfdf3") { result in
 //            switch result {
 //            case .failure(let error):
 //                print(error)
@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }
 //        }
 //
-//        NetworkEngine().uploadAvatar(userToken: "Fdf", imageData: (UIImage(systemName: "trash")?.jpegData(compressionQuality: 1)!)! ) { result in
+//        NetworkEngine().uploadAvatar(userToken: "6YNmT8lWpsNvNFrOYMVp", imageData: (UIImage(systemName: "trash")?.jpegData(compressionQuality: 1)!)! ) { result in
 //            switch result {
 //            case .failure(let error):
 //                print(error)
