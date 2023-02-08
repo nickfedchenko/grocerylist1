@@ -66,6 +66,7 @@ protocol ViewControllerFactoryProtocol {
     func createRecipesListController(for section: RecipeSectionsModel, with router: RootRouter) -> UIViewController
     func createReviewsController(router: RootRouter) -> UIViewController
     func createReviewController(router: RootRouter) -> UIViewController?
+    func createSignUpController(router: RootRouter) -> UIViewController?
 }
 
 // MARK: - Factory
@@ -221,6 +222,15 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createSettingsController(router: RootRouter) -> UIViewController? {
         let viewController = SettingsViewController()
         let viewModel = SettingsViewModel()
+        viewModel.delegate = viewController
+        viewController.viewModel = viewModel
+        viewModel.router = router
+        return viewController
+    }
+    
+    func createSignUpController(router: RootRouter) -> UIViewController? {
+        let viewController = SignUpViewController()
+        let viewModel = SignUpViewModel()
         viewModel.delegate = viewController
         viewController.viewModel = viewModel
         viewModel.router = router
