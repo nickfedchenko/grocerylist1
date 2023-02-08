@@ -59,47 +59,13 @@ class SettingsViewController: UIViewController {
         return view
     }()
     
-    private let selectUnitsView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 12
-        view.layer.masksToBounds = true
-        view.isHidden = false
-        view.addShadowForView()
+    private lazy var selectUnitsView: SelectUnitsView = {
+        let view = SelectUnitsView(imperialColor: viewModel?.getBackgroundColorForImperial(),
+                                   metricColor: viewModel?.getBackgroundColorForMetric())
+        view.systemSelected = { [weak self] selectedSystem in
+            self?.viewModel?.systemSelected(system: selectedSystem)
+        }
         return view
-    }()
-    
-    private lazy var imperialView: UIView = {
-        let view = UIView()
-        view.backgroundColor = viewModel?.getBackgroundColorForImperial()
-        view.layer.cornerRadius = 12
-        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        view.layer.masksToBounds = true
-        return view
-    }()
-    
-    private let imperialLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
-        label.textColor = UIColor(hex: "#31635A")
-        label.text = "Imperial".localized
-        return label
-    }()
-    
-    private lazy var metricView: UIView = {
-        let view = UIView()
-        view.backgroundColor = viewModel?.getBackgroundColorForMetric()
-        view.layer.cornerRadius = 12
-        view.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-        view.layer.masksToBounds = true
-        return view
-    }()
-    
-    private let metriclLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
-        label.textColor = UIColor(hex: "#31635A")
-        label.text = "Metric".localized
-        return label
     }()
     
     private lazy var registerView: RegisterWithMessageView = {
@@ -134,9 +100,6 @@ class SettingsViewController: UIViewController {
         view.addSubviews([preferenciesLabel, closeButton, unitsView,
                           hapticView, likeAppView, contactUsView,
                           contactUsView, selectUnitsView, registerView])
-        selectUnitsView.addSubviews([imperialView, metricView])
-        metricView.addSubview(metriclLabel)
-        imperialView.addSubview(imperialLabel)
         
         preferenciesLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
@@ -180,31 +143,10 @@ class SettingsViewController: UIViewController {
             make.height.equalTo(92)
         }
         
-        imperialView.snp.makeConstraints { make in
-            make.left.right.top.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.5)
-        }
-        
-        metricView.snp.makeConstraints { make in
-            make.left.right.bottom.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.5)
-        }
-        
-        metriclLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.left.equalToSuperview().inset(16)
-        }
-        
-        imperialLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.left.equalToSuperview().inset(16)
-        }
-        
         registerView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).inset(30)
         }
-        
     }
 }
 
@@ -222,31 +164,8 @@ extension SettingsViewController {
         unitsView.addGestureRecognizer(unitsViewRecognizer)
         likeAppView.addGestureRecognizer(likeAppViewRecognizer)
         contactUsView.addGestureRecognizer(contactUsViewRecognizer)
-        
-        let imperialViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(imperialViewAction))
-        imperialView.addGestureRecognizer(imperialViewRecognizer)
-        let metricViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(metricViewAction))
-        metricView.addGestureRecognizer(metricViewRecognizer)
     }
-    
-    @objc
-    private func imperialViewAction(_ recognizer: UIPanGestureRecognizer) {
-        viewModel?.imperialSystemSelected()
-        imperialView.backgroundColor = .white
-        metricView.backgroundColor = .white
-        imperialView.backgroundColor = viewModel?.getBackgroundColorForImperial()
-        hideUnitsView()
-    }
-    
-    @objc
-    private func metricViewAction(_ recognizer: UIPanGestureRecognizer) {
-        viewModel?.metricSystemSelected()
-        imperialView.backgroundColor = .white
-        metricView.backgroundColor = .white
-        metricView.backgroundColor = viewModel?.getBackgroundColorForMetric()
-        hideUnitsView()
-    }
-    
+
     func hideUnitsView() {
         UIView.animate(withDuration: 0.3, delay: 0,
                        usingSpringWithDamping: 0.8,
@@ -308,5 +227,9 @@ extension SettingsViewController: MFMailComposeViewControllerDelegate {
 }
 
 extension SettingsViewController: SettingsViewModelDelegate {
-    
+    func updateSelectionView() {
+        selectUnitsView.updateColors(imperialColor: viewModel?.getBackgroundColorForImperial(),
+                                     metricColor: viewModel?.getBackgroundColorForMetric())
+        hideUnitsView()
+    }
 }

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol SettingsViewModelDelegate: AnyObject {
-
+    func updateSelectionView()
 }
 
 class SettingsViewModel {
@@ -52,11 +52,18 @@ class SettingsViewModel {
         }
     }
     
-    func imperialSystemSelected() {
-        UserDefaultsManager.isMetricSystem = false
+    func systemSelected(system: SelectedUnitSystem) {
+        switch system {
+        case .metric:
+            UserDefaultsManager.isMetricSystem = true
+        case .imperial:
+            UserDefaultsManager.isMetricSystem = false
+        }
+        delegate?.updateSelectionView()
     }
-    
-    func metricSystemSelected() {
-        UserDefaultsManager.isMetricSystem = true
-    }
+}
+
+enum SelectedUnitSystem {
+    case imperial
+    case metric
 }
