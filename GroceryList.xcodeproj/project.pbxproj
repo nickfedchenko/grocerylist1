@@ -1089,12 +1089,20 @@
 			isa = PBXGroup;
 			children = (
 				B3F7C9B329939E0B0081B245 /* SignUpViewController.swift */,
-				B3F7C9BD29950D6D0081B245 /* SignUpWithAppleButton.swift */,
-				B3F7C9B92994BF830081B245 /* SignUpViewForTyping.swift */,
-				B3F7C9BB2994D8F80081B245 /* TermsView.swift */,
+				B3F7C9BF29950FC00081B245 /* CustomViews */,
 				B3F7C9B529939E2D0081B245 /* SignUpViewModel.swift */,
 			);
 			path = SignUpViewCntroller;
+			sourceTree = "<group>";
+		};
+		B3F7C9BF29950FC00081B245 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				B3F7C9BD29950D6D0081B245 /* SignUpWithAppleButton.swift */,
+				B3F7C9B92994BF830081B245 /* SignUpViewForTyping.swift */,
+				B3F7C9BB2994D8F80081B245 /* TermsView.swift */,
+			);
+			path = CustomViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
