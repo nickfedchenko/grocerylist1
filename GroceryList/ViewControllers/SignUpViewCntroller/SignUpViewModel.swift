@@ -8,14 +8,27 @@
 import Foundation
 
 protocol SignUpViewModelDelegate: AnyObject {
-
+    func setupView(state: RegistrationState)
 }
 
 class SignUpViewModel {
     weak var delegate: SignUpViewModelDelegate?
     weak var router: RootRouter?
     
-    private var state: RegistrationState = .signUp
+    private var isTermsAccepted: Bool = false
+    private var state: RegistrationState {
+        didSet {
+            delegate?.setupView(state: state)
+        }
+    }
+    
+    init() {
+        state = .signUp
+    }
+    
+    func setup(state: RegistrationState) {
+        self.state = state
+    }
     
     func backButtonPressed() {
         router?.pop()
@@ -29,16 +42,56 @@ class SignUpViewModel {
         print("emailTextFieldEndEditing")
     }
     
-    func terms(isActive: Bool) {
-        print(isActive)
+    func terms(isTermsAccepted: Bool) {
+        self.isTermsAccepted = isTermsAccepted
+        print(isTermsAccepted)
     }
     
     func sighUpPressed() {
         print("sighUpPressed")
+    }
+    
+    func haveAccountPressed() {
+        print("haveAccountPressed")
+    }
+    
+    func resetPasswordPressed() {
+        print("resetPasswordPressed")
+    }
+    
+    func signWithApplePressed() {
+        print("signWithApplePressed")
     }
 }
 
 enum RegistrationState {
     case signUp
     case signIn
+    
+    func getTitle() -> String {
+        switch self {
+        case .signUp:
+            return R.string.localizable.singUp()
+        case .signIn:
+            return R.string.localizable.singIn()
+        }
+    }
+    
+    func getHaveAccountTitle() -> String {
+        switch self {
+        case .signUp:
+            return R.string.localizable.iHaveAccount()
+        case .signIn:
+            return R.string.localizable.iDontHaveAccount()
+        }
+    }
+    
+    func isTermsHidden() -> Bool {
+        switch self {
+        case .signUp:
+            return false
+        case .signIn:
+            return true
+        }
+    }
 }

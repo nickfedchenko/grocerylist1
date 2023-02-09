@@ -234,6 +234,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.delegate = viewController
         viewController.viewModel = viewModel
         viewModel.router = router
+        viewModel.setup(state: .signUp)
         return viewController
     }
     

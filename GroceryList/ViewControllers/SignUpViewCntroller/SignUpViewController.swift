@@ -5,6 +5,7 @@
 //  Created by Шамиль Моллачиев on 08.02.2023.
 //
 
+import AuthenticationServices
 import UIKit
 
 class SignUpViewController: UIViewController {
@@ -32,7 +33,6 @@ class SignUpViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.SFProRounded.bold(size: 22).font
         label.textColor = UIColor(hex: "#1A645A")
-        label.text = R.string.localizable.singUp()
         return label
     }()
     
@@ -58,15 +58,14 @@ class SignUpViewController: UIViewController {
     
     private lazy var termsView: TermsView = {
         let view = TermsView()
-        view.isActiveCompl = { [weak self] termsIsActive in
-            self?.viewModel?.terms(isActive: termsIsActive)
+        view.isActiveCompl = { [weak self] isAccepted in
+            self?.viewModel?.terms(isTermsAccepted: isAccepted)
         }
         return view
     }()
     
     private lazy var signUpButton: UIButton = {
         let button = UIButton()
-        button.setTitle(R.string.localizable.registeR(), for: .normal)
         button.titleLabel?.font = UIFont.SFPro.semibold(size: 20).font
         button.titleLabel?.textColor = UIColor(hex: "#FFFFFF")
         button.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
@@ -83,12 +82,31 @@ class SignUpViewController: UIViewController {
         button.setTitle(R.string.localizable.registeR(), for: .normal)
         button.titleLabel?.font = UIFont.SFPro.semibold(size: 20).font
         button.setTitleColor(UIColor(hex: "#19645A"), for: .normal)
-        button.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(haveAccountPressed), for: .touchUpInside)
         button.layer.cornerRadius = 16
         button.layer.cornerCurve = .continuous
         button.layer.borderColor = UIColor(hex: "#31635A").cgColor
         button.layer.borderWidth = 2
         button.layer.masksToBounds = true
+        return button
+    }()
+    
+    private lazy var resetPasswordButton: UIButton = {
+        let button = UIButton()
+        
+        let attributedTitle = NSAttributedString(string: R.string.localizable.resetPassword(), attributes: [
+            .font: UIFont.SFProDisplay.regular(size: 20).font ?? UIFont(),
+            .foregroundColor: UIColor(hex: "#617774"),
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ])
+        button.setAttributedTitle(attributedTitle, for: .normal)
+        button.addTarget(self, action: #selector(resetPasswordPressed), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var signInWithAppleButton: SignInWithAppleButton = {
+        let button = SignInWithAppleButton()
+        button.addTarget(self, action: #selector(signInWithApplePressed), for: .touchUpInside)
         return button
     }()
     
@@ -110,7 +128,10 @@ class SignUpViewController: UIViewController {
     // MARK: - Constraints
     private func setupConstraints() {
         view.backgroundColor = .backgroundColor
-        view.addSubviews([backButton , bigTitle, emailTextFieldView, passwordTextFieldView, termsView, signUpButton, haveAccountButton])
+        view.addSubviews([backButton , bigTitle, emailTextFieldView,
+                          passwordTextFieldView, termsView, signUpButton,
+                          haveAccountButton, resetPasswordButton, signInWithAppleButton
+                         ])
         
         backButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
@@ -148,6 +169,18 @@ class SignUpViewController: UIViewController {
             make.top.equalTo(signUpButton.snp.bottom).inset(-20)
             make.height.equalTo(64)
         }
+        
+        resetPasswordButton.snp.makeConstraints { make in
+            make.height.equalTo(30)
+            make.top.equalTo(passwordTextFieldView.snp.bottom).inset(-35)
+            make.centerX.equalToSuperview()
+        }
+        
+        signInWithAppleButton.snp.makeConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(60)
+            make.left.right.equalToSuperview().inset(20)
+            make.height.equalTo(64)
+        }
     }
     
     // MARK: - Button pressed
@@ -159,10 +192,31 @@ class SignUpViewController: UIViewController {
     
     @objc
     private func signUpPressed() {
-        viewModel?.backButtonPressed()
+        viewModel?.sighUpPressed()
+    }
+    
+    @objc
+    private func haveAccountPressed() {
+        viewModel?.haveAccountPressed()
+    }
+    
+    @objc
+    private func resetPasswordPressed() {
+        viewModel?.resetPasswordPressed()
+    }
+    
+    @objc
+    private func signInWithApplePressed() {
+        viewModel?.signWithApplePressed()
     }
 }
 
 extension SignUpViewController: SignUpViewModelDelegate {
-
+    func setupView(state: RegistrationState) {
+        bigTitle.text = state.getTitle()
+        signUpButton.setTitle(state.getTitle(), for: .normal)
+        haveAccountButton.setTitle(state.getHaveAccountTitle(), for: .normal)
+        termsView.isHidden = state.isTermsHidden()
+        resetPasswordButton.isHidden = !state.isTermsHidden()
+    }
 }
