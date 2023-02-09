@@ -53,10 +53,9 @@ final class RootRouter: RootRouterProtocol {
     func presentRootNavigationControllerInWindow() {
         
         if let rootViewController = viewControllerFactory.createMainController(router: self) {
-            self.navigationController = UINavigationController(rootViewController: rootViewController)
-//            self.navigationController = UINavigationController(rootViewController: PaywallViewController())
+            self.navigationController = BlackNavigationController(rootViewController: rootViewController)
         } else {
-            self.navigationController = UINavigationController()
+            self.navigationController = BlackNavigationController()
         }
         
         viewController = navigationController
@@ -240,5 +239,11 @@ final class RootRouter: RootRouterProtocol {
     
     func popToController(at ind: Int, animated: Bool) {
         navigationPop(at: ind, animated: true)
+    }
+}
+
+class BlackNavigationController: UINavigationController {
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
     }
 }
