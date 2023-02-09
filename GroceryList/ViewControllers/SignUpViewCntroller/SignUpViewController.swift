@@ -110,6 +110,16 @@ class SignUpViewController: UIViewController {
         return button
     }()
     
+    private let emailTakenView = EmailTakenView()
+    
+    private let orLogIn: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFProDisplay.regular(size: 20).font
+        label.textColor = .black
+        label.text = R.string.localizable.orLog()
+        return label
+    }()
+
     // MARK: - Lifecycle
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -126,11 +136,13 @@ class SignUpViewController: UIViewController {
     }
     
     // MARK: - Constraints
+    // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         view.backgroundColor = .backgroundColor
         view.addSubviews([backButton , bigTitle, emailTextFieldView,
                           passwordTextFieldView, termsView, signUpButton,
-                          haveAccountButton, resetPasswordButton, signInWithAppleButton
+                          haveAccountButton, resetPasswordButton, signInWithAppleButton,
+                          emailTakenView, orLogIn
                          ])
         
         backButton.snp.makeConstraints { make in
@@ -180,6 +192,16 @@ class SignUpViewController: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(60)
             make.left.right.equalToSuperview().inset(20)
             make.height.equalTo(64)
+        }
+        
+        emailTakenView.snp.makeConstraints { make in
+            make.centerY.equalTo(bigTitle)
+            make.right.equalToSuperview().inset(23)
+        }
+        
+        orLogIn.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(signInWithAppleButton.snp.top).inset(-20)
         }
     }
     
