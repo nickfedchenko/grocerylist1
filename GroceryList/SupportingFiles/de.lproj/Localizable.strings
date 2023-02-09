@@ -1,0 +1,157 @@
+/* 
+  Localazible.strings
+  GroceryList
+
+  Created by Шамиль Моллачиев on 01.11.2022.
+  
+*/
+
+"SafeTimeAndMoney"          = "Save time and money \nwith us";
+"Next"                      = "NEXT     ";
+"CreateLists"               = "Create lists with one touch \nProducts are automatically \ncategorized. \nNo more running around the \nsupermarket";
+"AddItem"                   = "Add item";
+"Synchronize"               = "Synchronize lists with relatives and friends.";
+"OrganizeRecepts"           = "Replenished collections of recipes in the app \nWrite down and organize your recipes";
+"AddRecipes"                = "Add recipes to the collection and shopping list from the Internet";
+"Grocery Lists"             = "Grocery Lists";
+"Recipes"                   = "Recipes";
+"CreateList"                = "CreateList";
+"Supermarket"               = "Supermarket";
+"today"                     = "Today";
+"week"                      = "Previous 7 days";
+"month"                     = "Previous 30 days";
+"NameOfNewList"             = "Name of the new list...";
+"Save"                      = "Save";
+"PickFromAnotherList"       = "Pick items from another list";
+"AutomaticSorting"          = "Automatic assignment \nof categories to products and grouping";
+"AddItem"                   = "Add Item";
+"Parametrs"                 = "List parameters";
+"Done"                      = "Done";
+"Purchased"                 = "Purchased";
+"rename"                    = "Rename";
+"pinch"                     = "Fix";
+"changeColor"               = "ChangeColor";
+"sort"                      = "Sort";
+"byCategory"                = "By category";
+"byTime"                    = "By time";
+"byAlphabet"                = "Alphabetically";
+"copy"                      = "Save to Photo";
+"print"                     = "Print";
+"send"                      = "Send";
+"delete"                    = "Delete";
+"Grocery List"              = "Grocery List";
+"Cancel"                    = "Cancel";
+"AlphabeticalSorted"        = "Alphabetical sorting";
+"DateSorted"                = "Sorting by creation date";
+"Supermarket"               = "Supermarket";
+"PickItem"                  = "Pick items from another list";
+"selectAll"                 = "Select All";
+"Name"                      = "Name";
+"AddNote"                   = "Add note, quantity (optional)";
+"Quantity"                  = "Quantity (optional)";
+"pieces"                    = "pieces";
+"Category"                  = "Category";
+"SelectCategory"            = "Select сategory";
+"SearcInCategory"           = "Search in Category";
+"Create"                    = "Create";
+"NewCategory"               = "NewCategory";
+
+"Alcohol"                   = "Alcohol";
+"Grocery"                   = "Grocery";
+"ReadyFood"                 = "Ready-made food";
+"Frozen"                    = "Frozen foods";
+"HealtyFood"                = "Healthy eating";
+"WorldCitchen"              = "Cuisines of the world";
+"Milk"                      = "Dairy products";
+"Drinks"                    = "Drinks";
+"FruitsAndVegetables"       = "Fruits and vegetables";
+"Fish"                      = "Fish and seafood";
+"Sweet"                     = "Sweets";
+"Bread"                     = "Bread and pastries";
+"Tea"                       = "Tea and coffee";
+"Meat"                      = "Meat and poultry";
+"Baby"                      = "Baby";
+"Health & Beauty"           = "Health & Beauty";
+"Home, Garden & Patio"      = "Home, Garden & Patio";
+"Household & Cleaning"      = "Household & Cleaning";
+"Pet Care"                  = "Pet Care";
+"Stationery"                = "Stationery";
+
+
+"ozz"                       = "oz";
+"lbс"                       = "lb";
+"pt"                        = "pt";
+"fluidOz"                   = "fl oz";
+
+"gram"                      = "g";
+"kilogram"                  = "kg";
+"liter"                     = "L";
+"mililiter"                 = "mL";
+
+"can"                       = "can";
+"piece"                     = "pc";
+"pack"                      = "pack";
+"bottle"                    = "bottle";
+"other"                     = "Other";
+
+"preferencies"              = "Настройки";
+"Problems?"                 = "A problem? Contact us!";
+"DoYouLikeApp?"             = "Do you like the app? Tell us!";
+"Haptic Feedback"           = "Haptic Feedback";
+"Quantity Units"            = "Quantity Units";
+"Metric"                    = "Metric";
+"Imperial"                  = "Imperial (U.S.)";
+
+"Warning"                   = "Warning";
+"NoInternet"                = "No internet connection";
+
+"Choose the right plan"     = "Choose the right plan for using the Shoppy";
+"MostPopular"               = "Most Popular";
+"Error"                     = "Error";
+
+"yearly"                    = "Yearly";
+"6 Month"                   = "6 Month";
+"Monthly"                   = "Monthly";
+"Loading info"              = "Loading";
+"month"                     = "month";
+"Loading"                   = "Loading";
+
+"Recipes"                   = " Recipes";
+"Breakfast"                 = "Breakfast";
+"Lunch"                     = "Lunch";
+"Dinner"                    = "Dinner";
+"Snacks"                    = "Snacks";
+"weekly"                    = "week";
+"Week"                      = "Week";
+"Favorites"                 = "Favorites";
+"/WEEK"                     = "/ WEEK";
+"3 days free"               = "3 days free";
+
+"Select list"               = "Select list";
+
+"min" = "min";
+"Ingredients" = "Ingredients";
+"servings" = "servings";
+"servings-1" = "serving";
+"servings-2-4" = "servings";
+"servings>4" = "servings";
+"by taste" = "by taste";
+"Instructions" = "Instructions";
+"AddedEarlier" = "Added earlier";
+"Back" = " Back";
+
+"review.mainTitle" = "Rate the app in the AppStore";
+"review.subtitle" = "This helps to make it even better";
+
+// AlternativePaywallController
+"Create your own exercises"     = "Save time and money";
+"Track your exercise analytics" = "Plan your shopping list for the week";
+"Discover your best results"    = "Get recipes and share them";
+
+// WriteReviewController
+"Your opinion matter to us!"    = "Your opinion matter to us!";
+"Like the app?"                 = "Like the app?";
+"Yes"                           = "Yes";
+"No"                            = "No";
+"Write a review"                = "Write a review";
+"Send us feedback"              = "Send us feedback";

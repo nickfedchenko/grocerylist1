@@ -1,0 +1,169 @@
+/*
+  Localazible.strings
+  GroceryList
+
+  Created by Шамиль Моллачиев on 01.11.2022.
+  
+*/
+
+"SafeTimeAndMoney"          = "SafeTimeAndMoney";
+"Next"                      = "Continuer";
+"CreateLists"               = "Ajout pratique de produits et tri automatique par rayons dans le supermarché";
+"Synchronize"               = "Synchroniser les listes avec la famille et les amis";
+"OrganizeRecepts"           = "Collection réapprovisionnée de recettes dans l'application \nEnregistrez et organisez vos recettes";
+"AddRecipes"                = "Ajoutez des recettes du Web à la collection et à la liste de courses";
+"Grocery Lists"             = "listes de courses";
+"Recipes"                   = "recettes";
+"CreateList"                = "Créer une liste";
+"Supermarket"               = "Supermarché";
+"today"                     = "Aujourd'hui";
+"week"                      = "Les 7 derniers jours";
+"month"                     = "Les 30 derniers jours";
+"NameOfNewList"             = "Le nom de la nouvelle liste...";
+"Save"                      = "Enregistrer sur ordinateur";
+"PickFromAnotherList"       = "Sélectionner des éléments d'une autre liste";
+"AutomaticSorting"          = "Affectation automatique des catégories de produits et regroupement";
+"AddItem"                   = "Ajouter à";
+"Parametrs"                 = "option de liste";
+"Done"                      = "Prêt";
+"Purchased"                 = "Acheté";
+"rename"                    = "Renommer";
+"pinch"                     = "Stylo";
+"changeColor"               = "changer de couleur";
+"sort"                      = "Trier par";
+"byCategory"                = "Par catégorie";
+"byTime"                    = "Ajouté au fil du temps";
+"byAlphabet"                = "Alphabétique";
+"copy"                      = "Sauvegarder dans la gallerie";
+"print"                     = "joint";
+"send"                      = "Envoyer";
+"delete"                    = "Éteindre";
+"Grocery List"              = "Liste de courses";
+"Cancel"                    = "Annuler";
+"AlphabeticalSorted"        = "Pour trier par ordre alphabétique";
+"DateSorted"                = "Trier par date de création";
+"Supermarket"               = "Entreprise";
+"PickItem"                  = "Choisissez dans une autre liste";
+"selectAll"                 = "Tout sélectionner";
+"Name"                      = "Nom";
+"AddNote"                   = "Note jointe";
+"Quantity"                  = "quantité (facultatif)";
+"pieces"                    = "pièces";
+"Category"                  = "catégorie";
+"SelectCategory"            = "choisissez la catégorie";
+"SearcInCategory"           = "RechercherdansCatégorie";
+"Create"                    = "Créer";
+"NewCategory"               = "Nouvelle catégorie";
+
+"Alcohol"                   = "alcool";
+"Grocery"                   = "épicerie";
+"ReadyFood"                 = "plat cuisiné";
+"Frozen"                    = "des surgelés";
+"HealtyFood"                = "Pour manger des aliments sains";
+"WorldCitchen"              = "WorldCitchen";
+"Milk"                      = "Les produits laitiers";
+"Drinks"                    = "breuvages";
+"FruitsAndVegetables"       = "fruits et légumes";
+"Fish"                      = "poisson, fruits de mer";
+"Sweet"                     = "bonbons";
+"Bread"                     = "Pain";
+"Tea"                       = "thé et café";
+"Meat"                      = "viande et oiseau";
+"Baby"                      = "fournitures pour bébés";
+"Health & Beauty"           = "Santé & Beauté";
+"Home, Garden & Patio"      = "Maison, jardin & terrasse";
+"Household & Cleaning"      = "Nettoyage ménager";
+"Pet Care"                  = "soins aux animaux";
+"Stationery"                = "papeterie";
+
+"ozz"                       = "once";
+"lbс"                       = "lbс";
+"pt"                        = "pt";
+"fluidOz"                   = "liquideOz";
+
+"gram"                      = "grammes";
+"kilogram"                  = "kilogramme";
+"liter"                     = "litre";
+"mililiter"                 = "millilitres";
+
+"can"                       = "cruche";
+"piece"                     = "Pièce";
+"pack"                      = "paquet";
+"bottle"                    = "Bouteille";
+"other"                     = "autre";
+
+"preferencies"              = "préférences";
+"Problems?"                 = "problèmes?";
+"DoYouLikeApp?"             = "aimez-vous l'application";
+"Haptic Feedback"           = "retour haptique";
+"Quantity Units"            = "unités de mesure";
+"Metric"                    = "Métrique";
+"Imperial"                  = "Impérial";
+
+"Warning"                   = "avertissement";
+"NoInternet"                = "Pas d'Internet";
+
+"Choose the right plan"     = "Choisissez le bon forfait";
+"MostPopular"               = "Le plus populaire";
+"Error"                     = "Erreur";
+
+"yearly"                    = "annuel";
+"6 Month"                   = "6 mois";
+"Monthly"                   = "Mensuel";
+"Loading info"              = "Les informations sont en cours de chargement";
+"Month"                     = "dans le mois";
+"Loading"                   = "Chargement";
+
+
+"Recipes"                   = " recettes";
+"Breakfast"                 = "Petit-déjeuner";
+"Lunch"                     = "Déjeuner";
+"Dinner"                    = "Dîner";
+"Snacks"                    = "collations";
+"weekly"                    = "hebdomadaire";
+"Week"                      = "Semaine";
+"Favorites"                 = "favoris";
+"/WEEK"                     = "/ SEMAINE";
+"3 days free"               = "3 jours gratuits";
+
+"Select list"               = "sélectionner la liste";
+
+"min" = "minute";
+"Ingredients" = "Ingrédients";
+"servings" = "portions";
+"servings-1" = "portion-1";
+"servings-2-4" = "portion-2-4";
+"servings>4" = "portion>4";
+"by taste" = "goûter";
+"Instructions" = "instructions";
+"AddedEarlier" = "Ajouté plus tôt";
+"Back" = " Retour";
+
+"review.mainTitle" = "Évaluez l'application dans l'AppStore";
+"review.subtitle" = "Cela aidera à le rendre meilleur";
+
+// AlternativePaywallController
+"Create your own exercises"     = "gagner du temps et de l'argent";
+"Track your exercise analytics" = "Planifiez votre liste de courses pour la semaine";
+"Discover your best results"    = "Ajouter et partager des recettes";
+
+// WriteReviewController
+"Your opinion matter to us!"    = "Votre avis est important pour nous!";
+"Like the app?"                 = "Comment l'application?";
+"Yes"                           = "Oui";
+"No"                            = "Non";
+"Write a review"                = "Écrire une critique";
+"Send us feedback"              = "Envoyez-nous vos commentaires";
+
+// Registration
+"REGISTER"                      = "INSCRIPTION";
+"RegistrationRequired"          = "Inscription requise pour utiliser les fonctionnalités de liste partagée";
+"Sing Up"                       = "Enregistrer";
+"Sing In"                       = "Entrée";
+"email"                         = "E-mail";
+"password"                      = "mot de passe";
+"signUpTerms" = "J'accepte les termes et conditions J'ai lu la politique de confidentialité et reconnais mes droits en tant qu'utilisateur";
+"IHaveAccount"                  = "J'ai un compte";
+"IDontHaveAccount"              = "je n'ai pas de compte";
+"resetPassword"                 = "Réinitialiser le mot de passe";
+"signInWithApple"               = "Connectez-vous à Apple";
