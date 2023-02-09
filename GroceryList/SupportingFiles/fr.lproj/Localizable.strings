@@ -6,16 +6,16 @@
   
 */
 
-"SafeTimeAndMoney"          = "SafeTimeAndMoney";
+"SafeTimeAndMoney"          = "Gagnez du temps et de l'argent avec nous";
 "Next"                      = "Continuer";
-"CreateLists"               = "Ajout pratique de produits et tri automatique par rayons dans le supermarché";
+"CreateLists"               = "Créer des listes avec une seule touche.\nLes produits sont automatiquement classés.\nPlus besoin de courir autour du supermarché.";
 "Synchronize"               = "Synchroniser les listes avec la famille et les amis";
-"OrganizeRecepts"           = "Collection réapprovisionnée de recettes dans l'application \nEnregistrez et organisez vos recettes";
-"AddRecipes"                = "Ajoutez des recettes du Web à la collection et à la liste de courses";
+"OrganizeRecepts"           = "Collections de recettes réapprovisionnées dans l'application. Notez et organisez vos recettes.";
+"AddRecipes"                = "Ajoutez des recettes à la collection et à la liste de courses à partir d'Internet";
 "Grocery Lists"             = "listes de courses";
 "Recipes"                   = "recettes";
 "CreateList"                = "Créer une liste";
-"Supermarket"               = "Supermarché";
+//"Supermarket"               = "Supermarché";
 "today"                     = "Aujourd'hui";
 "week"                      = "Les 7 derniers jours";
 "month"                     = "Les 30 derniers jours";
@@ -92,7 +92,7 @@
 "bottle"                    = "Bouteille";
 "other"                     = "autre";
 
-"preferencies"              = "préférences";
+"preferencies"              = "Préférences";
 "Problems?"                 = "problèmes?";
 "DoYouLikeApp?"             = "aimez-vous l'application";
 "Haptic Feedback"           = "retour haptique";
@@ -110,7 +110,7 @@
 "yearly"                    = "annuel";
 "6 Month"                   = "6 mois";
 "Monthly"                   = "Mensuel";
-"Loading info"              = "Les informations sont en cours de chargement";
+"Loading info"              = "Chargement";
 "Month"                     = "dans le mois";
 "Loading"                   = "Chargement";
 
@@ -131,9 +131,9 @@
 "min" = "minute";
 "Ingredients" = "Ingrédients";
 "servings" = "portions";
-"servings-1" = "portion-1";
-"servings-2-4" = "portion-2-4";
-"servings>4" = "portion>4";
+"servings-1" = "portions";
+"servings-2-4" = "portions";
+"servings>4" = "portions";
 "by taste" = "goûter";
 "Instructions" = "instructions";
 "AddedEarlier" = "Ajouté plus tôt";

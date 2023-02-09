@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "fifthSideView 1.svg",
       "idiom" : "universal"
     },
     {
@@ -9,9 +10,19 @@
       "locale" : "en"
     },
     {
-      "filename" : "fifthSideViewRu.svg",
+      "filename" : "fifthViewRu.svg",
       "idiom" : "universal",
       "locale" : "ru"
+    },
+    {
+      "filename" : "fifthViewFr.svg",
+      "idiom" : "universal",
+      "locale" : "fr"
+    },
+    {
+      "filename" : "fifthViewDe.svg",
+      "idiom" : "universal",
+      "locale" : "de"
     }
   ],
   "info" : {

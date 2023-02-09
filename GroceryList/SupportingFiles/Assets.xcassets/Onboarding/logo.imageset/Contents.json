@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "logo 1.svg",
       "idiom" : "universal"
     },
     {
@@ -12,6 +13,16 @@
       "filename" : "logoRu.svg",
       "idiom" : "universal",
       "locale" : "ru"
+    },
+    {
+      "filename" : "logo 2.svg",
+      "idiom" : "universal",
+      "locale" : "fr"
+    },
+    {
+      "filename" : "logo 3.svg",
+      "idiom" : "universal",
+      "locale" : "de"
     }
   ],
   "info" : {

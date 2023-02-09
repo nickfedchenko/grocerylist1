@@ -7,16 +7,16 @@
 */
 
 "SafeTimeAndMoney"          = "Save time and money \nwith us";
-"Next"                      = "NEXT     ";
+"Next"                      = "NEXT";
 "CreateLists"               = "Create lists with one touch \nProducts are automatically \ncategorized. \nNo more running around the \nsupermarket";
 "AddItem"                   = "Add item";
 "Synchronize"               = "Synchronize lists with relatives and friends.";
-"OrganizeRecepts"           = "Replenished collections of recipes in the app \nWrite down and organize your recipes";
+"OrganizeRecepts"           = "Replenished collections of recipes in the app\nWrite down and organize your recipes";
 "AddRecipes"                = "Add recipes to the collection and shopping list from the Internet";
 "Grocery Lists"             = "Grocery Lists";
 "Recipes"                   = "Recipes";
 "CreateList"                = "CreateList";
-"Supermarket"               = "Supermarket";
+//"Supermarket"               = "Supermarket";
 "today"                     = "Today";
 "week"                      = "Previous 7 days";
 "month"                     = "Previous 30 days";
@@ -38,6 +38,7 @@
 "copy"                      = "Save to Photo";
 "print"                     = "Print";
 "send"                      = "Send";
+"delete"                    = "Delete";
 "delete"                    = "Delete";
 "Grocery List"              = "Grocery List";
 "Cancel"                    = "Cancel";
@@ -156,6 +157,7 @@
 "Write a review"                = "Write a review";
 "Send us feedback"              = "Send us feedback";
 
+// Registration
 "REGISTER"                      = "REGISTER";
 "RegistrationRequired"          = "Registration is required to \nuse shared list functions";
 "Sing Up"                       = "Sing Up";

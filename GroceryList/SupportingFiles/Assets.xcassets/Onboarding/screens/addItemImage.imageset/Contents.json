@@ -1,17 +1,91 @@
 {
   "images" : [
     {
-      "idiom" : "universal"
+      "filename" : "addItemEn 1.png",
+      "idiom" : "universal",
+      "scale" : "1x"
     },
     {
-      "filename" : "addItemImage.svg",
+      "filename" : "addItemEn@2x 1.png",
       "idiom" : "universal",
-      "locale" : "en"
+      "scale" : "2x"
     },
     {
-      "filename" : "addItemImageRusvg.svg",
+      "filename" : "addItemEn@3x 1.png",
       "idiom" : "universal",
-      "locale" : "ru"
+      "scale" : "3x"
+    },
+    {
+      "filename" : "addItemEn.png",
+      "idiom" : "universal",
+      "locale" : "en",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "addItemEn@2x.png",
+      "idiom" : "universal",
+      "locale" : "en",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "addItemEn@3x.png",
+      "idiom" : "universal",
+      "locale" : "en",
+      "scale" : "3x"
+    },
+    {
+      "filename" : "addItemRu.png",
+      "idiom" : "universal",
+      "locale" : "ru",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "addItemRu@2x.png",
+      "idiom" : "universal",
+      "locale" : "ru",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "addItemRu@3x.png",
+      "idiom" : "universal",
+      "locale" : "ru",
+      "scale" : "3x"
+    },
+    {
+      "filename" : "addItemFr.png",
+      "idiom" : "universal",
+      "locale" : "fr",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "addItemFr@2x.png",
+      "idiom" : "universal",
+      "locale" : "fr",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "addItemFr@3x.png",
+      "idiom" : "universal",
+      "locale" : "fr",
+      "scale" : "3x"
+    },
+    {
+      "filename" : "addItemDe.png",
+      "idiom" : "universal",
+      "locale" : "de",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "addItemDe@2x.png",
+      "idiom" : "universal",
+      "locale" : "de",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "addItemDe@3x.png",
+      "idiom" : "universal",
+      "locale" : "de",
+      "scale" : "3x"
     }
   ],
   "info" : {
