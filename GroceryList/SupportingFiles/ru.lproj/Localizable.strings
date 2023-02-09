@@ -154,3 +154,18 @@
 "No"                            = "Нет";
 "Write a review"                = "Написать отзыв";
 "Send us feedback"              = "Дать обратную связь";
+
+// Registration
+"REGISTER"                      = "РЕГИСТРАЦИЯ";
+"RegistrationRequired"          = "Для использования функций общего списка требуется регистрация";
+"Sing Up"                       = "Регистрация";
+"Sing In"                       = "Вход";
+"email"                         = "E-mail";
+"password"                      = "Пароль";
+"signUpTerms" = "I accept the terms and conditions I have read the Privacy Policy and acknowledge my rights as a user";
+"IHaveAccount"                  = "У меня есть аккаунт";
+"IDontHaveAccount"              = "У меня нет аккаунта";
+"resetPassword"                 = "Сбросить пароль";
+"signInWithApple"               = "Войти с Apple";
+"EmailTaken"                    = "Этот адрес уже занят";
+"orLog"                         = "Или войдите в систему с помощью";

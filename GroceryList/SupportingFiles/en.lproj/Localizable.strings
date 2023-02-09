@@ -94,7 +94,7 @@
 "bottle"                    = "bottle";
 "other"                     = "Other";
 
-"preferencies"              = "Настройки";
+"preferencies"              = "Preferencies";
 "Problems?"                 = "A problem? Contact us!";
 "DoYouLikeApp?"             = "Do you like the app? Tell us!";
 "Haptic Feedback"           = "Haptic Feedback";
@@ -155,3 +155,18 @@
 "No"                            = "No";
 "Write a review"                = "Write a review";
 "Send us feedback"              = "Send us feedback";
+
+"REGISTER"                      = "REGISTER";
+"RegistrationRequired"          = "Registration is required to \nuse shared list functions";
+"Sing Up"                       = "Sing Up";
+"Sing In"                       = "Sing In";
+"email"                         = "E-mail";
+"password"                      = "Password";
+"signUpTerms" = "I accept the terms and conditions \n\nI have read the Privacy Policy and acknowledge my rights as a user";
+"IHaveAccount"                  = "I have an account";
+"IDontHaveAccount"              = "I don’t have an account";
+"resetPassword"                 = "Reset password";
+
+"signInWithApple"               = "Sign in with Apple";
+"EmailTaken"                    = "This e-mail is already taken";
+"orLog"                         = "Or login with";
