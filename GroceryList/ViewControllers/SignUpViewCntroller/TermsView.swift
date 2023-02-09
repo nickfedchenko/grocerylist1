@@ -49,6 +49,10 @@ class TermsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setupRedCheckmark() {
+        checkMarkImageView.image = R.image.signUpEmptyCheckMark()?.withTintColor(.red)
+    }
+    
     // MARK: - Constraints
     private func setupConstraints() {
         addSubviews([checkMarkImageView, text, touchView])
