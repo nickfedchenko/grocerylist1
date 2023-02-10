@@ -116,7 +116,8 @@ class SignUpViewController: UIViewController {
         return button
     }()
     
-    private let emailTakenView = EmailTakenView()
+    private let emailTakenView = RedAlertView()
+    private let noInternetView = RedAlertView(state: .internet)
     
     private let orLogIn: UILabel = {
         let label = UILabel()
@@ -148,7 +149,7 @@ class SignUpViewController: UIViewController {
         view.addSubviews([backButton , bigTitle, emailTextFieldView,
                           passwordTextFieldView, termsView, signUpButton,
                           haveAccountButton, resetPasswordButton, signInWithAppleButton,
-                          emailTakenView, orLogIn
+                          emailTakenView, orLogIn, noInternetView
                          ])
         
         backButton.snp.makeConstraints { make in
@@ -205,6 +206,11 @@ class SignUpViewController: UIViewController {
             make.right.equalToSuperview().inset(23)
         }
         
+        noInternetView.snp.makeConstraints { make in
+            make.centerY.equalTo(bigTitle)
+            make.right.equalToSuperview().inset(23)
+        }
+        
         orLogIn.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(signInWithAppleButton.snp.top).inset(-20)
@@ -240,6 +246,18 @@ class SignUpViewController: UIViewController {
 }
 
 extension SignUpViewController: SignUpViewModelDelegate {
+    func showNoInternet() {
+        noInternetView.showView()
+    }
+    
+    func hideNoInternet() {
+        noInternetView.hideView()
+    }
+    
+    func resignEmailFirstResponder() {
+        emailTextFieldView.resignTextfieldFirstResponder()
+    }
+    
     func registrationButton(isEnable: Bool) {
         signUpButton.isUserInteractionEnabled = isEnable
         switch isEnable {

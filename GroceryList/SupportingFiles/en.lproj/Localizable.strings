@@ -173,3 +173,4 @@
 "signInWithApple"               = "Sign in with Apple";
 "EmailTaken"                    = "This e-mail is already taken";
 "orLog"                         = "Or login with";
+"NoInternet"                    = "No internet connection";
