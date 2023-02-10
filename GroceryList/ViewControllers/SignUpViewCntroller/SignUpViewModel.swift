@@ -23,7 +23,7 @@ protocol SignUpViewModelDelegate: AnyObject {
 
 class SignUpViewModel {
     // MARK: - Property
-    let network = NetworkEngine()
+    let network: NetworkEngine
     weak var delegate: SignUpViewModelDelegate?
     weak var router: RootRouter?
     
@@ -52,7 +52,8 @@ class SignUpViewModel {
     private var passwordParametrs = ValidationState(type: .password, text: "", isValidated: false)
     
     // MARK: - Init
-    init() {
+    init(network: NetworkEngine) {
+        self.network = network
         state = .signUp
     }
     
@@ -126,7 +127,7 @@ class SignUpViewModel {
     }
     
     func resetPasswordPressed() {
-        print("resetPasswordPressed")
+        router?.goToPaswordResetController(email: emailParametrs.text)
     }
     
     func signWithApplePressed() {
