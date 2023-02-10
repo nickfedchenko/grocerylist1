@@ -15,6 +15,7 @@ protocol SignUpViewModelDelegate: AnyObject {
     func underlineEmail(isValid: Bool)
     func underlinePassword(isValid: Bool)
     func resingPasswordViewFirstResp()
+    func registrationButton(isEnable: Bool)
 }
 
 class SignUpViewModel {
@@ -58,7 +59,7 @@ class SignUpViewModel {
         router?.pop()
     }
     
-    func returnPressed(type: SignUpViewTextfieldType, text: String) {
+    func textfieldEndEditing(type: SignUpViewTextfieldType, text: String) {
         switch type {
         case .email:
             checkEmailValidation(text: text)
@@ -67,12 +68,9 @@ class SignUpViewModel {
         }
     }
     
-    func emailTextFieldEndEditing(text: String) {
-        checkMail(text: text)
-    }
-    
     func terms(isTermsAccepted: Bool) {
         self.isTermsValidated = isTermsAccepted
+        delegate?.resingPasswordViewFirstResp()
     }
     
     func sighUpPressed() {
@@ -80,7 +78,11 @@ class SignUpViewModel {
     }
     
     func haveAccountPressed() {
-        print("haveAccountPressed")
+        if state == .signUp {
+            state = .signIn
+        } else {
+            state = .signUp
+        }
     }
     
     func resetPasswordPressed() {
@@ -94,9 +96,9 @@ class SignUpViewModel {
     // MARK: - Validation
     private func checkAllFieldsValidation() {
         if isEmailValidated, isPasswordValidated, isTermsValidated {
-            print("unlock naexButton")
+            delegate?.registrationButton(isEnable: true)
         } else {
-            print("lock naexButton")
+            delegate?.registrationButton(isEnable: false)
         }
     }
     
@@ -118,6 +120,7 @@ class SignUpViewModel {
         } else {
             delegate?.hideEmailTaken()
             delegate?.underlineEmail(isValid: false)
+            isEmailValidated = false
         }
     }
     
