@@ -11,8 +11,8 @@ import UIKit
 
 class SignUpViewForTyping: UIView {
     
-    var returnPressed: (() -> Void)?
-    var textFieldEndEditing: (() -> Void)?
+    var returnPressed: ((String) -> Void)?
+    var textFieldEndEditing: ((String) -> Void)?
 
     private lazy var textfield: UITextField = {
         let textfield = UITextField()
@@ -48,8 +48,16 @@ class SignUpViewForTyping: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func email(isRight: Bool) {
-        bottomLineView.backgroundColor = isRight ? UIColor(hex: "#F4FFF5") : UIColor(hex: "#DF0404")
+    func makeTextfieldFirstResponder() {
+        textfield.becomeFirstResponder()
+    }
+    
+    func resignTextfieldFirstResponder() {
+        textfield.resignFirstResponder()
+    }
+    
+    func field(isCorrect: Bool) {
+        bottomLineView.backgroundColor = isCorrect ? UIColor(hex: "#F4FFF5") : UIColor(hex: "#DF0404")
     }
     
     private func setupView(type: SignUpViewTextfieldType) {
@@ -91,12 +99,14 @@ class SignUpViewForTyping: UIView {
 
 extension SignUpViewForTyping: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        returnPressed?()
+        let text = textField.text ?? ""
+        returnPressed?(text)
         return true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        textFieldEndEditing?()
+        let text = textField.text ?? ""
+        textFieldEndEditing?(text)
     }
 }
 

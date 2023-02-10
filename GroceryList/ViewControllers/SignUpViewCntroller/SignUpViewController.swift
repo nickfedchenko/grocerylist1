@@ -38,20 +38,20 @@ class SignUpViewController: UIViewController {
     
     private lazy var emailTextFieldView: SignUpViewForTyping = {
         let view = SignUpViewForTyping(type: .email)
-        view.returnPressed = { [weak self] in
-            self?.viewModel?.returnPressed(type: .email)
+        view.returnPressed = { [weak self] text in
+            self?.viewModel?.returnPressed(type: .email, text: text)
         }
         
-        view.textFieldEndEditing = { [weak self] in
-            self?.viewModel?.emailTextFieldEndEditing()
+        view.textFieldEndEditing = { [weak self] text in
+            self?.viewModel?.emailTextFieldEndEditing(text: text)
         }
         return view
     }()
     
     private lazy var passwordTextFieldView: SignUpViewForTyping = {
         let view = SignUpViewForTyping(type: .password)
-        view.returnPressed = { [weak self] in
-            self?.viewModel?.returnPressed(type: .password)
+        view.returnPressed = { [weak self] text in
+            self?.viewModel?.returnPressed(type: .password, text: text)
         }
         return view
     }()
@@ -234,6 +234,32 @@ class SignUpViewController: UIViewController {
 }
 
 extension SignUpViewController: SignUpViewModelDelegate {
+    func resingPasswordViewFirstResp() {
+        passwordTextFieldView.resignTextfieldFirstResponder()
+    }
+    
+    func underlinePassword(isValid: Bool) {
+        passwordTextFieldView.field(isCorrect: isValid)
+    }
+    
+    func underlineEmail(isValid: Bool) {
+        emailTextFieldView.field(isCorrect: isValid)
+    }
+    
+    func hideEmailTaken() {
+        emailTakenView.hideView()
+        emailTextFieldView.field(isCorrect: true)
+    }
+    
+    func showEmailTaken() {
+        emailTakenView.showView()
+        emailTextFieldView.field(isCorrect: false)
+    }
+    
+    func setupPasswordViewFirstResponder() {
+        passwordTextFieldView.makeTextfieldFirstResponder()
+    }
+    
     func setupView(state: RegistrationState) {
         bigTitle.text = state.getTitle()
         signUpButton.setTitle(state.getTitle(), for: .normal)

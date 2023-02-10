@@ -32,6 +32,8 @@ class EmailTakenView: UIView {
         super.init(frame: .zero)
         setupView()
         setupConstraints()
+        self.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+        self.isHidden = true
     }
     
     required init?(coder: NSCoder) {
