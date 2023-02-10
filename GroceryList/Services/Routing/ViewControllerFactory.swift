@@ -68,6 +68,7 @@ protocol ViewControllerFactoryProtocol {
     func createReviewsController(router: RootRouter) -> UIViewController
     func createReviewController(router: RootRouter) -> UIViewController?
     func createSignUpController(router: RootRouter) -> UIViewController?
+    func createPasswordResetController(router: RootRouter, email: String) -> UIViewController?
 }
 
 // MARK: - Factory
@@ -233,11 +234,23 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
     func createSignUpController(router: RootRouter) -> UIViewController? {
         let viewController = SignUpViewController()
-        let viewModel = SignUpViewModel()
+        let networkManager = NetworkEngine()
+        let viewModel = SignUpViewModel(network: networkManager)
         viewModel.delegate = viewController
         viewController.viewModel = viewModel
         viewModel.router = router
         viewModel.setup(state: .signUp)
+        return viewController
+    }
+    
+    func createPasswordResetController(router: RootRouter, email: String) -> UIViewController? {
+        let viewController = PasswordResetViewController()
+        let networkManager = NetworkEngine()
+        let viewModel = PasswordResetViewModel(network: networkManager)
+        viewModel.delegate = viewController
+        viewController.viewModel = viewModel
+        viewModel.router = router
+        viewModel.email = email
         return viewController
     }
     

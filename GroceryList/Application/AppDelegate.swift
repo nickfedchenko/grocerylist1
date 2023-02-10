@@ -24,24 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         syncService.updateProducts()
         syncService.updateRecipes()
         SocketManager.shared.connect()
-//        NetworkEngine().createUser(email: "df", password: "dfdf3") { result in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let response):
-//                print(response)
-//            }
-//        }
-//
-//        NetworkEngine().logIn(email: "rusbear28@yandex.ru", password: "123456") { result in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let response):
-//                print(response)
-//            }
-//        }
-//
+
 //        NetworkEngine().updateUserName(userToken: "Fdfd", newName: "Fdfdf") { result in
 //            switch result {
 //            case .failure(let error):
@@ -60,14 +43,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }
 //        }
 //
-//        NetworkEngine().checkEmail(email: "ddsd") { result in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let response):
-//                print(response)
-//            }
-//        }
         
 //        NetworkEngine().resendVerificationCode(email: "ddsd") { result in
 //            switch result {

@@ -133,6 +133,12 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
+    func goToPaswordResetController(email: String) {
+        guard let controller = viewControllerFactory.createPasswordResetController(router: self,
+                                                                                   email: email) else { return }
+        navigationPresent(controller, animated: false)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }

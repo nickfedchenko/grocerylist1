@@ -174,3 +174,8 @@
 "EmailTaken"                    = "This e-mail is already taken";
 "orLog"                         = "Or login with";
 "NoInternet"                    = "No internet connection";
+"PasswordReset"                 = "Password reset";
+"YourEmail"                     = "Your e-mail:";
+"Close"                         = "Close";
+"ok"                            = "Ok";
+"RecievePasswordShortly"        = "If you entered a correct e-mail address, you will receive password reset e-mail shortly";
