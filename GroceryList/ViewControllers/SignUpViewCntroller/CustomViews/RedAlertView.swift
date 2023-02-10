@@ -8,30 +8,26 @@
 import SnapKit
 import UIKit
 
-class EmailTakenView: UIView {
-   
-    private let checkMarkImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = R.image.signUpEmptyCheckMark()
-        return imageView
-    }()
+class RedAlertView: UIView {
+    
+    private var state: State
     
     private let textLabel: UILabel = {
         let label = UILabel()
         label.font = .SFProRounded.semibold(size: 14).font
         label.textColor = UIColor(hex: "#DF0404")
-        label.text = R.string.localizable.emailTaken()
         return label
     }()
     
     let touchView = UIView()
     
     // MARK: - LifeCycle
-    init() {
+    init(state: State = .internet) {
+        self.state = state
         super.init(frame: .zero)
         setupView()
         setupConstraints()
+        textLabel.text = state.getTitle()
         self.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
         self.isHidden = true
     }
@@ -75,6 +71,20 @@ class EmailTakenView: UIView {
         addSubviews([textLabel])
         textLabel.snp.makeConstraints { make in
             make.top.left.bottom.right.equalToSuperview().inset(10)
+        }
+    }
+    
+    enum State {
+        case internet
+        case mailTaken
+        
+        func getTitle() -> String {
+            switch self {
+            case .internet:
+                return R.string.localizable.noInternet()
+            case .mailTaken:
+                return R.string.localizable.emailTaken()
+            }
         }
     }
 }

@@ -154,7 +154,7 @@
 		B3F7C9BA2994BF830081B245 /* SignUpViewForTyping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9B92994BF830081B245 /* SignUpViewForTyping.swift */; };
 		B3F7C9BC2994D8F80081B245 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9BB2994D8F80081B245 /* TermsView.swift */; };
 		B3F7C9BE29950D6D0081B245 /* SignUpWithAppleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9BD29950D6D0081B245 /* SignUpWithAppleButton.swift */; };
-		B3F7C9C1299510140081B245 /* EmailTakenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9C0299510140081B245 /* EmailTakenView.swift */; };
+		B3F7C9C1299510140081B245 /* RedAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9C0299510140081B245 /* RedAlertView.swift */; };
 		B3F7C9C329961FF40081B245 /* RegistrationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9C229961FF40081B245 /* RegistrationState.swift */; };
 		B3FECE4329375AA80077F8EF /* DBCategories+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FECE4129375AA80077F8EF /* DBCategories+CoreDataProperties.swift */; };
 		B3FECE4429375AA80077F8EF /* DBCategories+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FECE4229375AA80077F8EF /* DBCategories+CoreDataClass.swift */; };
@@ -320,7 +320,7 @@
 		B3F7C9B92994BF830081B245 /* SignUpViewForTyping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewForTyping.swift; sourceTree = "<group>"; };
 		B3F7C9BB2994D8F80081B245 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		B3F7C9BD29950D6D0081B245 /* SignUpWithAppleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpWithAppleButton.swift; sourceTree = "<group>"; };
-		B3F7C9C0299510140081B245 /* EmailTakenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailTakenView.swift; sourceTree = "<group>"; };
+		B3F7C9C0299510140081B245 /* RedAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedAlertView.swift; sourceTree = "<group>"; };
 		B3F7C9C229961FF40081B245 /* RegistrationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationState.swift; sourceTree = "<group>"; };
 		B3FECE4129375AA80077F8EF /* DBCategories+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBCategories+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B3FECE4229375AA80077F8EF /* DBCategories+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBCategories+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -1105,7 +1105,7 @@
 			children = (
 				B3F7C9BD29950D6D0081B245 /* SignUpWithAppleButton.swift */,
 				B3F7C9B92994BF830081B245 /* SignUpViewForTyping.swift */,
-				B3F7C9C0299510140081B245 /* EmailTakenView.swift */,
+				B3F7C9C0299510140081B245 /* RedAlertView.swift */,
 				B3F7C9BB2994D8F80081B245 /* TermsView.swift */,
 			);
 			path = CustomViews;
@@ -1395,7 +1395,7 @@
 				B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */,
 				B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */,
 				B3C3FA4F291175390011EC0A /* UIImageViewExtension.swift in Sources */,
-				B3F7C9C1299510140081B245 /* EmailTakenView.swift in Sources */,
+				B3F7C9C1299510140081B245 /* RedAlertView.swift in Sources */,
 				B3F7C9C329961FF40081B245 /* RegistrationState.swift in Sources */,
 				B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */,
 				B3476904291D017B0045A287 /* ProductsViewModel.swift in Sources */,

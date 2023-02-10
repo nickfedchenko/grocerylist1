@@ -10,12 +10,15 @@ import Foundation
 protocol SignUpViewModelDelegate: AnyObject {
     func setupView(state: RegistrationState)
     func setupPasswordViewFirstResponder()
+    func resingPasswordViewFirstResp()
+    func resignEmailFirstResponder()
     func showEmailTaken()
     func hideEmailTaken()
     func underlineEmail(isValid: Bool)
     func underlinePassword(isValid: Bool)
-    func resingPasswordViewFirstResp()
     func registrationButton(isEnable: Bool)
+    func showNoInternet()
+    func hideNoInternet()
 }
 
 class SignUpViewModel {
@@ -45,8 +48,8 @@ class SignUpViewModel {
         }
     }
     
-    var emailParametrs = ValidationState(type: .email, text: "", isValidated: false)
-    var passwordParametrs = ValidationState(type: .password, text: "", isValidated: false)
+    private var emailParametrs = ValidationState(type: .email, text: "", isValidated: false)
+    private var passwordParametrs = ValidationState(type: .password, text: "", isValidated: false)
     
     // MARK: - Init
     init() {
@@ -58,10 +61,25 @@ class SignUpViewModel {
         self.state = state
     }
     
+    // MARK: - Navigation
     func backButtonPressed() {
         router?.pop()
     }
     
+    func haveAccountPressed() {
+        if state == .signUp {
+            state = .signIn
+            delegate?.hideEmailTaken()
+            isEmailValidated = emailParametrs.isValidated
+        } else {
+            state = .signUp
+            if emailParametrs.isValidated {
+                checkMail(text: emailParametrs.text)
+            }
+        }
+    }
+    
+    // MARK: - TextFieldActions
     func textfieldChangeCharcter(type: SignUpViewTextfieldType, isCorrect: Bool, text: String) {
         switch type {
         case .email:
@@ -88,27 +106,21 @@ class SignUpViewModel {
             delegate?.resingPasswordViewFirstResp()
         }
     }
-    
+ 
+    // MARK: - AcceptTerms
     func terms(isTermsAccepted: Bool) {
         self.isTermsValidated = isTermsAccepted
         delegate?.resingPasswordViewFirstResp()
+        delegate?.resignEmailFirstResponder()
     }
     
+    // MARK: - AcceptTerms
     func sighUpPressed() {
-        print("sighUpPressed")
-    }
-    
-    func haveAccountPressed() {
-        if state == .signUp {
-            state = .signIn
-            delegate?.hideEmailTaken()
-            isEmailValidated = emailParametrs.isValidated
-            
-        } else {
-            state = .signUp
-            if emailParametrs.isValidated {
-                checkMail(text: emailParametrs.text)
-            }
+        switch state {
+        case .signUp:
+            signUpUser()
+        case .signIn:
+            signInUser()
         }
     }
     
@@ -118,6 +130,40 @@ class SignUpViewModel {
     
     func signWithApplePressed() {
         print("signWithApplePressed")
+    }
+    
+    // MARK: - Validation
+    private func signUpUser() {
+        network.createUser(email: emailParametrs.text,
+                           password: passwordParametrs.text) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                print(error)
+                self?.delegate?.showNoInternet()
+            case .success(let response):
+                self?.delegate?.hideNoInternet()
+                self?.saveUserModel(userModel: response.user)
+            }
+        }
+    }
+   
+    private func signInUser() {
+        network.logIn(email: emailParametrs.text, password: passwordParametrs.text) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                print(error)
+                self?.delegate?.showNoInternet()
+            case .success(let response):
+                self?.delegate?.hideNoInternet()
+                guard let user = response.user else { return }
+                self?.saveUserModel(userModel: user)
+            }
+        }
+    }
+    
+    private func saveUserModel(userModel: User) {
+        print(userModel)
+        router?.pop()
     }
     
     // MARK: - Validation
@@ -136,7 +182,6 @@ class SignUpViewModel {
                 delegate?.registrationButton(isEnable: false)
             }
         }
-       
     }
     
     private func checkMail(text: String) {
@@ -145,7 +190,9 @@ class SignUpViewModel {
             switch result {
             case .failure(let error):
                 print(error)
+                self?.delegate?.showNoInternet()
             case .success(let model):
+                self?.delegate?.hideNoInternet()
                 if model.isExist {
                     self?.delegate?.showEmailTaken()
                     self?.isEmailValidated = false
