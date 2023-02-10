@@ -11,8 +11,9 @@ import UIKit
 
 class SignUpViewForTyping: UIView {
     
-    var returnPressed: ((String) -> Void)?
     var textFieldEndEditing: ((String) -> Void)?
+    
+    private var type: SignUpViewTextfieldType = .password
 
     private lazy var textfield: UITextField = {
         let textfield = UITextField()
@@ -40,6 +41,7 @@ class SignUpViewForTyping: UIView {
     // MARK: - LifeCycle
     init(type: SignUpViewTextfieldType) {
         super.init(frame: .zero)
+        self.type = type
         setupView(type: type)
         setupConstraints()
     }
@@ -100,13 +102,25 @@ class SignUpViewForTyping: UIView {
 extension SignUpViewForTyping: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let text = textField.text ?? ""
-        returnPressed?(text)
+        textFieldEndEditing?(text)
         return true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         let text = textField.text ?? ""
         textFieldEndEditing?(text)
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        let newLength = text.count + string.count - range.length
+        checkPassword(lenght: newLength)
+        return true
+    }
+    
+    private func checkPassword(lenght: Int) {
+        guard type == .password else { return }
+            field(isCorrect: lenght > 4)
     }
 }
 

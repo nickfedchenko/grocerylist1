@@ -38,20 +38,17 @@ class SignUpViewController: UIViewController {
     
     private lazy var emailTextFieldView: SignUpViewForTyping = {
         let view = SignUpViewForTyping(type: .email)
-        view.returnPressed = { [weak self] text in
-            self?.viewModel?.returnPressed(type: .email, text: text)
-        }
         
         view.textFieldEndEditing = { [weak self] text in
-            self?.viewModel?.emailTextFieldEndEditing(text: text)
+            self?.viewModel?.textfieldEndEditing(type: .email, text: text)
         }
         return view
     }()
     
     private lazy var passwordTextFieldView: SignUpViewForTyping = {
         let view = SignUpViewForTyping(type: .password)
-        view.returnPressed = { [weak self] text in
-            self?.viewModel?.returnPressed(type: .password, text: text)
+        view.textFieldEndEditing = { [weak self] text in
+            self?.viewModel?.textfieldEndEditing(type: .password, text: text)
         }
         return view
     }()
@@ -234,6 +231,16 @@ class SignUpViewController: UIViewController {
 }
 
 extension SignUpViewController: SignUpViewModelDelegate {
+    func registrationButton(isEnable: Bool) {
+        signUpButton.isUserInteractionEnabled = isEnable
+        switch isEnable {
+        case true:
+            signUpButton.backgroundColor = UIColor(hex: "#3E625A")
+        case false:
+            signUpButton.backgroundColor = UIColor(hex: "#617774")
+        }
+    }
+    
     func resingPasswordViewFirstResp() {
         passwordTextFieldView.resignTextfieldFirstResponder()
     }
@@ -266,5 +273,6 @@ extension SignUpViewController: SignUpViewModelDelegate {
         haveAccountButton.setTitle(state.getHaveAccountTitle(), for: .normal)
         termsView.isHidden = state.isTermsHidden()
         resetPasswordButton.isHidden = !state.isTermsHidden()
+        registrationButton(isEnable: false)
     }
 }
