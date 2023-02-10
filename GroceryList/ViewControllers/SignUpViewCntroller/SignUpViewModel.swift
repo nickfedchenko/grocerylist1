@@ -71,6 +71,7 @@ class SignUpViewModel {
             state = .signIn
             delegate?.hideEmailTaken()
             isEmailValidated = emailParametrs.isValidated
+            delegate?.underlineEmail(isValid: isEmailValidated)
         } else {
             state = .signUp
             if emailParametrs.isValidated {
@@ -155,6 +156,9 @@ class SignUpViewModel {
                 self?.delegate?.showNoInternet()
             case .success(let response):
                 self?.delegate?.hideNoInternet()
+                if response.error {
+                    self?.delegate?.underlinePassword(isValid: false)
+                }
                 guard let user = response.user else { return }
                 self?.saveUserModel(userModel: user)
             }

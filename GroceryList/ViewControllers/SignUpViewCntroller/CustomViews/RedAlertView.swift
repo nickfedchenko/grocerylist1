@@ -22,7 +22,7 @@ class RedAlertView: UIView {
     let touchView = UIView()
     
     // MARK: - LifeCycle
-    init(state: State = .internet) {
+    init(state: State = .mailTaken) {
         self.state = state
         super.init(frame: .zero)
         setupView()
