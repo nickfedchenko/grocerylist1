@@ -38,17 +38,26 @@ class SignUpViewController: UIViewController {
     
     private lazy var emailTextFieldView: SignUpViewForTyping = {
         let view = SignUpViewForTyping(type: .email)
+
+        view.textFieldReturnPressed = { [weak self] type in
+            self?.viewModel?.textfieldReturnPressed(type: type)
+        }
         
-        view.textFieldEndEditing = { [weak self] text in
-            self?.viewModel?.textfieldEndEditing(type: .email, text: text)
+        view.isFieldCorrect = { [weak self] isCorrect, text in
+            self?.viewModel?.textfieldChangeCharcter(type: .email, isCorrect: isCorrect, text: text)
         }
         return view
     }()
     
     private lazy var passwordTextFieldView: SignUpViewForTyping = {
         let view = SignUpViewForTyping(type: .password)
-        view.textFieldEndEditing = { [weak self] text in
-            self?.viewModel?.textfieldEndEditing(type: .password, text: text)
+       
+        view.textFieldReturnPressed = { [weak self] type in
+            self?.viewModel?.textfieldReturnPressed(type: type)
+        }
+       
+        view.isFieldCorrect = { [weak self] isCorrect, text in
+            self?.viewModel?.textfieldChangeCharcter(type: .password, isCorrect: isCorrect, text: text)
         }
         return view
     }()

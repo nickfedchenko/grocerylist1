@@ -45,6 +45,9 @@ class SignUpViewModel {
         }
     }
     
+    var emailParametrs = ValidationState(type: .email, text: "", isValidated: false)
+    var passwordParametrs = ValidationState(type: .password, text: "", isValidated: false)
+    
     // MARK: - Init
     init() {
         state = .signUp
@@ -59,12 +62,30 @@ class SignUpViewModel {
         router?.pop()
     }
     
-    func textfieldEndEditing(type: SignUpViewTextfieldType, text: String) {
+    func textfieldChangeCharcter(type: SignUpViewTextfieldType, isCorrect: Bool, text: String) {
         switch type {
         case .email:
-            checkEmailValidation(text: text)
+            emailParametrs.text = text
+            emailParametrs.isValidated = isCorrect
+          
+            isEmailValidated = isCorrect
+            if isCorrect {
+                checkMail(text: text)
+            }
         case .password:
-            checkPasswordValidation(text: text)
+            passwordParametrs.text = text
+            passwordParametrs.isValidated = isCorrect
+           
+            isPasswordValidated = isCorrect
+        }
+    }
+    
+    func textfieldReturnPressed(type: SignUpViewTextfieldType) {
+        switch type {
+        case .email:
+            delegate?.setupPasswordViewFirstResponder()
+        case .password:
+            delegate?.resingPasswordViewFirstResp()
         }
     }
     
@@ -80,8 +101,14 @@ class SignUpViewModel {
     func haveAccountPressed() {
         if state == .signUp {
             state = .signIn
+            delegate?.hideEmailTaken()
+            isEmailValidated = emailParametrs.isValidated
+            
         } else {
             state = .signUp
+            if emailParametrs.isValidated {
+                checkMail(text: emailParametrs.text)
+            }
         }
     }
     
@@ -95,39 +122,21 @@ class SignUpViewModel {
     
     // MARK: - Validation
     private func checkAllFieldsValidation() {
-        if isEmailValidated, isPasswordValidated, isTermsValidated {
-            delegate?.registrationButton(isEnable: true)
-        } else {
-            delegate?.registrationButton(isEnable: false)
+        switch state {
+        case .signUp:
+            if isEmailValidated, isPasswordValidated, isTermsValidated {
+                delegate?.registrationButton(isEnable: true)
+            } else {
+                delegate?.registrationButton(isEnable: false)
+            }
+        case .signIn:
+            if isEmailValidated, isPasswordValidated {
+                delegate?.registrationButton(isEnable: true)
+            } else {
+                delegate?.registrationButton(isEnable: false)
+            }
         }
-    }
-    
-    private func checkPasswordValidation(text: String) {
-        if text.count > 4 {
-            isPasswordValidated = true
-            delegate?.underlinePassword(isValid: true)
-            delegate?.resingPasswordViewFirstResp()
-        } else {
-            isPasswordValidated = false
-            delegate?.underlinePassword(isValid: false)
-        }
-    }
-    
-    private func checkEmailValidation(text: String) {
-        if isValidEmail(text) {
-            delegate?.underlineEmail(isValid: true)
-            checkMail(text: text)
-        } else {
-            delegate?.hideEmailTaken()
-            delegate?.underlineEmail(isValid: false)
-            isEmailValidated = false
-        }
-    }
-    
-    private func isValidEmail(_ email: String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailPred.evaluate(with: email)
+       
     }
     
     private func checkMail(text: String) {
@@ -142,7 +151,6 @@ class SignUpViewModel {
                     self?.isEmailValidated = false
                 } else {
                     self?.delegate?.hideEmailTaken()
-                    self?.delegate?.setupPasswordViewFirstResponder()
                     self?.isEmailValidated = true
                 }
             }
@@ -150,34 +158,8 @@ class SignUpViewModel {
     }
 }
 
-enum RegistrationState {
-    case signUp
-    case signIn
-    
-    func getTitle() -> String {
-        switch self {
-        case .signUp:
-            return R.string.localizable.singUp()
-        case .signIn:
-            return R.string.localizable.singIn()
-        }
-    }
-    
-    func getHaveAccountTitle() -> String {
-        switch self {
-        case .signUp:
-            return R.string.localizable.iHaveAccount()
-        case .signIn:
-            return R.string.localizable.iDontHaveAccount()
-        }
-    }
-    
-    func isTermsHidden() -> Bool {
-        switch self {
-        case .signUp:
-            return false
-        case .signIn:
-            return true
-        }
-    }
+struct ValidationState {
+    var type: SignUpViewTextfieldType
+    var text: String
+    var isValidated: Bool
 }
