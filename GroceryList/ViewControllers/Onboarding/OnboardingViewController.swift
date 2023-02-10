@@ -12,6 +12,7 @@ class OnboardingViewController: UIViewController {
     
     weak var router: RootRouter?
     private var currentVC = 1
+    private var generator = UIImpactFeedbackGenerator(style: .medium)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +20,7 @@ class OnboardingViewController: UIViewController {
         UserDefaultsManager.isHapticOn = true
         setupConstraints()
         setupCallbacks()
+        generator.prepare()
     }
     
     private func setupCallbacks() {
@@ -70,6 +72,8 @@ class OnboardingViewController: UIViewController {
     
     @objc
     private func nextButtonPressed() {
+        generator.impactOccurred(intensity: 1)
+        nextButton.isUserInteractionEnabled = false
         if currentVC == 1 {
             secondView.secondAnimation()
             currentVC += 1
@@ -109,7 +113,7 @@ class OnboardingViewController: UIViewController {
     }()
 
     private lazy var nextButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         let attributedTitle = NSAttributedString(string: "Next".localized, attributes: [
             .font: UIFont.SFPro.semibold(size: 20).font ?? UIFont(),
             .foregroundColor: UIColor(hex: "#FFFFFF")
@@ -124,20 +128,23 @@ class OnboardingViewController: UIViewController {
         button.addShadowForView()
         button.isHidden = true
         button.isUserInteractionEnabled = false
+        button.setImage(UIImage(named: "nextArrow"), for: .normal)
+        button.semanticContentAttribute = .forceRightToLeft
+        button.tintColor = .white
+        button.imageEdgeInsets.left = 8
         return button
     }()
     
-    private let nextArrow: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "nextArrow")
-        return imageView
-    }()
+//    private let nextArrow: UIImageView = {
+//        let imageView = UIImageView()
+//        imageView.contentMode = .scaleAspectFill
+//        imageView.image = UIImage(named: "nextArrow")
+//        return imageView
+//    }()
     
     private func setupConstraints() {
         view.backgroundColor = .lightGray
         view.addSubviews([firstView, secondView, nextButton])
-        nextButton.addSubview(nextArrow)
        
         firstView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -154,13 +161,6 @@ class OnboardingViewController: UIViewController {
             make.height.width.equalToSuperview()
             make.top.equalToSuperview()
             make.left.equalTo(self.view.snp.right)
-        }
-        
-        nextArrow.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.centerX.equalToSuperview().offset(45)
-            make.width.equalTo(24)
-            make.height.equalTo(20)
         }
     }
 }

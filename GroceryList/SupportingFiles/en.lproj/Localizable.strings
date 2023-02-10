@@ -7,16 +7,16 @@
 */
 
 "SafeTimeAndMoney"          = "Save time and money \nwith us";
-"Next"                      = "NEXT     ";
+"Next"                      = "NEXT";
 "CreateLists"               = "Create lists with one touch \nProducts are automatically \ncategorized. \nNo more running around the \nsupermarket";
 "AddItem"                   = "Add item";
 "Synchronize"               = "Synchronize lists with relatives and friends.";
-"OrganizeRecepts"           = "Replenished collections of recipes in the app \nWrite down and organize your recipes";
+"OrganizeRecepts"           = "Replenished collections of recipes in the app\nWrite down and organize your recipes";
 "AddRecipes"                = "Add recipes to the collection and shopping list from the Internet";
 "Grocery Lists"             = "Grocery Lists";
 "Recipes"                   = "Recipes";
 "CreateList"                = "CreateList";
-"Supermarket"               = "Supermarket";
+//"Supermarket"               = "Supermarket";
 "today"                     = "Today";
 "week"                      = "Previous 7 days";
 "month"                     = "Previous 30 days";
@@ -38,6 +38,7 @@
 "copy"                      = "Save to Photo";
 "print"                     = "Print";
 "send"                      = "Send";
+"delete"                    = "Delete";
 "delete"                    = "Delete";
 "Grocery List"              = "Grocery List";
 "Cancel"                    = "Cancel";
@@ -94,7 +95,7 @@
 "bottle"                    = "bottle";
 "other"                     = "Other";
 
-"preferencies"              = "Настройки";
+"preferencies"              = "Preferencies";
 "Problems?"                 = "A problem? Contact us!";
 "DoYouLikeApp?"             = "Do you like the app? Tell us!";
 "Haptic Feedback"           = "Haptic Feedback";
@@ -155,3 +156,19 @@
 "No"                            = "No";
 "Write a review"                = "Write a review";
 "Send us feedback"              = "Send us feedback";
+
+// Registration
+"REGISTER"                      = "REGISTER";
+"RegistrationRequired"          = "Registration is required to \nuse shared list functions";
+"Sing Up"                       = "Sing Up";
+"Sing In"                       = "Sing In";
+"email"                         = "E-mail";
+"password"                      = "Password";
+"signUpTerms" = "I accept the terms and conditions \n\nI have read the Privacy Policy and acknowledge my rights as a user";
+"IHaveAccount"                  = "I have an account";
+"IDontHaveAccount"              = "I don’t have an account";
+"resetPassword"                 = "Reset password";
+
+"signInWithApple"               = "Sign in with Apple";
+"EmailTaken"                    = "This e-mail is already taken";
+"orLog"                         = "Or login with";

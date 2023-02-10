@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "thirdSideView 1.svg",
       "idiom" : "universal"
     },
     {
@@ -12,6 +13,16 @@
       "filename" : "thirdSideViewRu.svg",
       "idiom" : "universal",
       "locale" : "ru"
+    },
+    {
+      "filename" : "thirdSideViewFr.svg",
+      "idiom" : "universal",
+      "locale" : "fr"
+    },
+    {
+      "filename" : "thirdSideViewDe.svg",
+      "idiom" : "universal",
+      "locale" : "de"
     }
   ],
   "info" : {

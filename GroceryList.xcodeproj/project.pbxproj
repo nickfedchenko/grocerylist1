@@ -13,6 +13,8 @@
 		383C77F7293F79EB0030AE78 /* RecipesListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77F6293F79EB0030AE78 /* RecipesListHeaderView.swift */; };
 		383C77FA293FB7310030AE78 /* RecipeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77F9293FB7310030AE78 /* RecipeListCell.swift */; };
 		383C77FD2940ED0F0030AE78 /* AddProductsSelectionListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77FC2940ED0F0030AE78 /* AddProductsSelectionListController.swift */; };
+		386CFAC7299542BE00B4AD76 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386CFAC6299542BE00B4AD76 /* R.generated.swift */; };
+		386CFACE2995A4CA00B4AD76 /* ContentViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386CFACD2995A4CA00B4AD76 /* ContentViewConstants.swift */; };
 		38817892293BEC8E0094344D /* DataProviderFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38817891293BEC8E0094344D /* DataProviderFacade.swift */; };
 		389DCF432945CDFA00DB9382 /* RecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DCF422945CDF900DB9382 /* RecipeViewController.swift */; };
 		389DCF452945CE9A00DB9382 /* RecipeScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DCF442945CE9A00DB9382 /* RecipeScreenViewModel.swift */; };
@@ -27,8 +29,7 @@
 		844FC63B2978B825008173AA /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FC63A2978B825008173AA /* ReviewCell.swift */; };
 		846600E9294A024800D85415 /* DBRecipe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846600E7294A024800D85415 /* DBRecipe+CoreDataClass.swift */; };
 		846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846600E8294A024800D85415 /* DBRecipe+CoreDataProperties.swift */; };
-		846600EC294BB9B100D85415 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 846600EB294BB9B100D85415 /* StoreKit.framework */; };
-		8477F5502990D7DF00C34A0D /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8477F54F2990D7DF00C34A0D /* R.generated.swift */; };
+		8477F5522995BD2300C34A0D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8477F5512995BD2300C34A0D /* StoreKit.framework */; };
 		B30573BB29222BE700CA8BDE /* HeaderListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573BA29222BE700CA8BDE /* HeaderListCell.swift */; };
 		B30573BD29222D4500CA8BDE /* ProductListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573BC29222D4400CA8BDE /* ProductListCell.swift */; };
 		B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573C62923A11000CA8BDE /* ProductSettingsTableViewCell.swift */; };
@@ -156,6 +157,13 @@
 		383C77F6293F79EB0030AE78 /* RecipesListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesListHeaderView.swift; sourceTree = "<group>"; };
 		383C77F9293FB7310030AE78 /* RecipeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListCell.swift; sourceTree = "<group>"; };
 		383C77FC2940ED0F0030AE78 /* AddProductsSelectionListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductsSelectionListController.swift; sourceTree = "<group>"; };
+		386CFAC6299542BE00B4AD76 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
+		386CFAC82995435300B4AD76 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		386CFAC92995435300B4AD76 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		386CFACA2995435A00B4AD76 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		386CFACB2995435A00B4AD76 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		386CFACD2995A4CA00B4AD76 /* ContentViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewConstants.swift; sourceTree = "<group>"; };
+		386CFACF2995BA4D00B4AD76 /* GroceryList.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GroceryList.entitlements; sourceTree = "<group>"; };
 		38817891293BEC8E0094344D /* DataProviderFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderFacade.swift; sourceTree = "<group>"; };
 		389DCF422945CDF900DB9382 /* RecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeViewController.swift; sourceTree = "<group>"; };
 		389DCF442945CE9A00DB9382 /* RecipeScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeScreenViewModel.swift; sourceTree = "<group>"; };
@@ -171,8 +179,7 @@
 		844FC63A2978B825008173AA /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
 		846600E7294A024800D85415 /* DBRecipe+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBRecipe+CoreDataClass.swift"; sourceTree = "<group>"; };
 		846600E8294A024800D85415 /* DBRecipe+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBRecipe+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		846600EB294BB9B100D85415 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		8477F54F2990D7DF00C34A0D /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
+		8477F5512995BD2300C34A0D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		B30573BA29222BE700CA8BDE /* HeaderListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderListCell.swift; sourceTree = "<group>"; };
 		B30573BC29222D4400CA8BDE /* ProductListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCell.swift; sourceTree = "<group>"; };
 		B30573C62923A11000CA8BDE /* ProductSettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSettingsTableViewCell.swift; sourceTree = "<group>"; };
@@ -300,21 +307,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF84F46FAFBAF3BBEEB5E7C0 /* Pods_GroceryList.framework in Frameworks */,
-				846600EC294BB9B100D85415 /* StoreKit.framework in Frameworks */,
+				8477F5522995BD2300C34A0D /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		383C77E7293DC6200030AE78 /* Generated */ = {
-			isa = PBXGroup;
-			children = (
-				8477F54F2990D7DF00C34A0D /* R.generated.swift */,
-			);
-			path = Generated;
-			sourceTree = "<group>";
-		};
 		383C77F1293F79800030AE78 /* Childs */ = {
 			isa = PBXGroup;
 			children = (
@@ -359,6 +358,22 @@
 			path = Childs;
 			sourceTree = "<group>";
 		};
+		386CFAC5299542BE00B4AD76 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				386CFAC6299542BE00B4AD76 /* R.generated.swift */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
+		386CFACC2995A4B900B4AD76 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				386CFACD2995A4CA00B4AD76 /* ContentViewConstants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		38817890293BEC7E0094344D /* DataProviderFacade */ = {
 			isa = PBXGroup;
 			children = (
@@ -401,7 +416,7 @@
 		9BCFA37A03FAA44487B60585 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				846600EB294BB9B100D85415 /* StoreKit.framework */,
+				8477F5512995BD2300C34A0D /* StoreKit.framework */,
 				025222570B015E69FF5973D3 /* Pods_GroceryList.framework */,
 			);
 			name = Frameworks;
@@ -526,6 +541,7 @@
 		B33EFF0D290FF02800AD9BEE /* GroceryList */ = {
 			isa = PBXGroup;
 			children = (
+				386CFACF2995BA4D00B4AD76 /* GroceryList.entitlements */,
 				840C18A0297FC5130006F975 /* GroceryListRelease.entitlements */,
 				B37A2CD42910EE77003C01AD /* Services */,
 				B37A2CDC29110263003C01AD /* ViewControllers */,
@@ -860,7 +876,7 @@
 		B37A0F4B29100CEA00343FF1 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				383C77E7293DC6200030AE78 /* Generated */,
+				386CFAC5299542BE00B4AD76 /* Generated */,
 				B37A2CF229111BFB003C01AD /* Fonts */,
 				B37A2CE02911034D003C01AD /* Extensions */,
 				B33EFF17290FF02900AD9BEE /* Assets.xcassets */,
@@ -922,6 +938,7 @@
 		B37A2CDD2911027E003C01AD /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				386CFACC2995A4B900B4AD76 /* Constants */,
 				B37A2CDE29110290003C01AD /* OnboardingViewController.swift */,
 				B3C3FA4A291161D80011EC0A /* FirstOnboardingView.swift */,
 				B3C3FA4629115AA20011EC0A /* OnboardingContentView.swift */,
@@ -1063,6 +1080,8 @@
 				en,
 				Base,
 				ru,
+				fr,
+				de,
 			);
 			mainGroup = B33EFF02290FF02800AD9BEE;
 			productRefGroup = B33EFF0C290FF02800AD9BEE /* Products */;
@@ -1224,6 +1243,7 @@
 				B35F0F612937972700C19891 /* UnitSystemModel.swift in Sources */,
 				383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */,
 				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,
+				386CFACE2995A4CA00B4AD76 /* ContentViewConstants.swift in Sources */,
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
 				B315F9EA298A4AFF0009CEB8 /* ReviewSelectableView.swift in Sources */,
 				389DCF452945CE9A00DB9382 /* RecipeScreenViewModel.swift in Sources */,
@@ -1298,7 +1318,7 @@
 				B34EACAA293501E100FBD0E0 /* CreateNewCategoryViewModel.swift in Sources */,
 				B36AF9392913C5DC00944E9D /* MainScreenViewController.swift in Sources */,
 				B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */,
-				8477F5502990D7DF00C34A0D /* R.generated.swift in Sources */,
+				386CFAC7299542BE00B4AD76 /* R.generated.swift in Sources */,
 				B36091902927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */,
 				B36AF957291554EC00944E9D /* MainScreenDataManager.swift in Sources */,
 				B34BB81D292E567B00748E8E /* SelectProductViewController.swift in Sources */,
@@ -1315,6 +1335,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				B33EFF1A290FF02900AD9BEE /* Base */,
+				386CFAC82995435300B4AD76 /* fr */,
+				386CFACA2995435A00B4AD76 /* de */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -1324,6 +1346,8 @@
 			children = (
 				B36C75EF2911266800709721 /* en */,
 				B36C75F12911267600709721 /* ru */,
+				386CFAC92995435300B4AD76 /* fr */,
+				386CFACB2995435A00B4AD76 /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1455,8 +1479,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = GroceryList/GroceryList.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = S93MCWMH29;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
@@ -1473,7 +1498,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ksens.shopp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1490,7 +1515,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GroceryList/GroceryListRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = S93MCWMH29;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
@@ -1507,7 +1532,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ksens.shopp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

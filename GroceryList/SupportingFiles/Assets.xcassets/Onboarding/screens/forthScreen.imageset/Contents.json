@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "forthScreen 1.png",
       "idiom" : "universal"
     },
     {
@@ -12,6 +13,16 @@
       "filename" : "forthScreenRu.png",
       "idiom" : "universal",
       "locale" : "ru"
+    },
+    {
+      "filename" : "fourthScreenFr.png",
+      "idiom" : "universal",
+      "locale" : "fr"
+    },
+    {
+      "filename" : "fourthScreenDe.png",
+      "idiom" : "universal",
+      "locale" : "de"
     }
   ],
   "info" : {

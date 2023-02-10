@@ -80,6 +80,8 @@ final class OnboardingReviewController: UIViewController {
         return pageControl
     }()
     
+    private let generator = UIImpactFeedbackGenerator(style: .medium)
+    
     init(router: RootRouter) {
         self.router = router
         super.init(nibName: nil, bundle: nil)
@@ -92,6 +94,7 @@ final class OnboardingReviewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubviews()
+        generator.prepare()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -110,6 +113,7 @@ final class OnboardingReviewController: UIViewController {
     
     @objc
     private func nextTapped() {
+            generator.impactOccurred(intensity: 1)
             router?.popToRootFromOnboarding()
             router?.showPaywallVC()
     }

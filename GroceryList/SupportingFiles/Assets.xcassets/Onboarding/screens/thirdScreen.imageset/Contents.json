@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "thirdScreen 1.png",
       "idiom" : "universal"
     },
     {
@@ -12,6 +13,16 @@
       "filename" : "thirdScreenRu.png",
       "idiom" : "universal",
       "locale" : "ru"
+    },
+    {
+      "filename" : "thirdScreenFr.png",
+      "idiom" : "universal",
+      "locale" : "fr"
+    },
+    {
+      "filename" : "thirdScreenDe.png",
+      "idiom" : "universal",
+      "locale" : "de"
     }
   ],
   "info" : {
