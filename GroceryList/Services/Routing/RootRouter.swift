@@ -53,7 +53,8 @@ final class RootRouter: RootRouterProtocol {
     func presentRootNavigationControllerInWindow() {
         
         if let rootViewController = viewControllerFactory.createMainController(router: self) {
-            self.navigationController = UINavigationController(rootViewController: rootViewController)
+//            self.navigationController = UINavigationController(rootViewController: rootViewController)
+            self.navigationController = UINavigationController(rootViewController: AlternativePaywallViewController())
         } else {
             self.navigationController = UINavigationController()
         }

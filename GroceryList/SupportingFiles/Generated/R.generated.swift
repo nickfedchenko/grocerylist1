@@ -12,9 +12,6 @@ let R = _R(bundle: Bundle(for: BundleFinder.self))
 
 struct _R {
   let bundle: Foundation.Bundle
-
-  let entitlements = entitlements()
-
   var string: string { .init(bundle: bundle, preferredLanguages: nil, locale: nil) }
   var color: color { .init(bundle: bundle) }
   var image: image { .init(bundle: bundle) }
@@ -203,13 +200,6 @@ struct _R {
       /// Locales: en, ru, fr, de
       var create: RswiftResources.StringResource { .init(key: "Create", tableName: "Localizable", source: source, developmentValue: "Create", comment: nil) }
 
-      /// en translation: Save time and money
-      ///
-      /// Key: Create your own exercises
-      ///
-      /// Locales: en, ru, fr, de
-      var createYourOwnExercises: RswiftResources.StringResource { .init(key: "Create your own exercises", tableName: "Localizable", source: source, developmentValue: "Save time and money", comment: nil) }
-
       /// en translation: CreateList
       ///
       /// Key: CreateList
@@ -237,13 +227,6 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var dinner: RswiftResources.StringResource { .init(key: "Dinner", tableName: "Localizable", source: source, developmentValue: "Dinner", comment: nil) }
-
-      /// en translation: Get recipes and share them
-      ///
-      /// Key: Discover your best results
-      ///
-      /// Locales: en, ru, fr, de
-      var discoverYourBestResults: RswiftResources.StringResource { .init(key: "Discover your best results", tableName: "Localizable", source: source, developmentValue: "Get recipes and share them", comment: nil) }
 
       /// en translation: Do you like the app? Tell us!
       ///
@@ -539,6 +522,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var pickItem: RswiftResources.StringResource { .init(key: "PickItem", tableName: "Localizable", source: source, developmentValue: "Pick items from another list", comment: nil) }
 
+      /// en translation: Plan your shopping list for the week
+      ///
+      /// Key: Plan your shopping list for the week
+      ///
+      /// Locales: en, ru, fr, de
+      var planYourShoppingListForTheWeek: RswiftResources.StringResource { .init(key: "Plan your shopping list for the week", tableName: "Localizable", source: source, developmentValue: "Plan your shopping list for the week", comment: nil) }
+
       /// en translation: A problem? Contact us!
       ///
       /// Key: Problems?
@@ -566,6 +556,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var quantityUnits: RswiftResources.StringResource { .init(key: "Quantity Units", tableName: "Localizable", source: source, developmentValue: "Quantity Units", comment: nil) }
+
+      /// en translation: Quick add recipe ingredients into your lists
+      ///
+      /// Key: Quick add recipe ingredients into your lists
+      ///
+      /// Locales: en, ru, fr, de
+      var quickAddRecipeIngredientsIntoYourLists: RswiftResources.StringResource { .init(key: "Quick add recipe ingredients into your lists", tableName: "Localizable", source: source, developmentValue: "Quick add recipe ingredients into your lists", comment: nil) }
 
       /// en translation: REGISTER
       ///
@@ -608,6 +605,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var save: RswiftResources.StringResource { .init(key: "Save", tableName: "Localizable", source: source, developmentValue: "Save", comment: nil) }
+
+      /// en translation: Save time and money
+      ///
+      /// Key: Save time and money
+      ///
+      /// Locales: en, ru, fr, de
+      var saveTimeAndMoney: RswiftResources.StringResource { .init(key: "Save time and money", tableName: "Localizable", source: source, developmentValue: "Save time and money", comment: nil) }
 
       /// en translation: Search in Category
       ///
@@ -692,13 +696,6 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var tea: RswiftResources.StringResource { .init(key: "Tea", tableName: "Localizable", source: source, developmentValue: "Tea and coffee", comment: nil) }
-
-      /// en translation: Plan your shopping list for the week
-      ///
-      /// Key: Track your exercise analytics
-      ///
-      /// Locales: en, ru, fr, de
-      var trackYourExerciseAnalytics: RswiftResources.StringResource { .init(key: "Track your exercise analytics", tableName: "Localizable", source: source, developmentValue: "Plan your shopping list for the week", comment: nil) }
 
       /// en translation: Warning
       ///
@@ -1416,11 +1413,6 @@ struct _R {
         }
       }
     }
-  }
-
-  /// This `_R.entitlements` struct is generated, and contains static references to 0 properties.
-  struct entitlements {
-    let apsEnvironment: String = "development"
   }
 
   /// This `_R.font` struct is generated, and contains static references to 16 fonts.

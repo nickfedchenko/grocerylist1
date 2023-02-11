@@ -107,7 +107,7 @@
 "MostPopular"               = "Le plus populaire";
 "Error"                     = "Erreur";
 
-"yearly"                    = "annuel";
+"yearly"                    = "Annuel";
 "6 Month"                   = "6 mois";
 "Monthly"                   = "Mensuel";
 "Loading info"              = "Chargement";
@@ -143,9 +143,9 @@
 "review.subtitle" = "Cela aidera à le rendre meilleur";
 
 // AlternativePaywallController
-"Create your own exercises"     = "gagner du temps et de l'argent";
-"Track your exercise analytics" = "Planifiez votre liste de courses pour la semaine";
-"Discover your best results"    = "Ajouter et partager des recettes";
+"Save time and money" = "Gagnez du temps et de l'argent";
+"Plan your shopping list for the week" = "Planifiez votre liste de courses pour la semaine";
+"Quick add recipe ingredients into your lists" = "Ajoutez rapidement des ingrédients de recette dans vos listes";
 
 // WriteReviewController
 "Your opinion matter to us!"    = "Votre avis est important pour nous!";

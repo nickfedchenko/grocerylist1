@@ -107,7 +107,7 @@
 "MostPopular"               = "Am beliebtesten";
 "Error"                     = "Fehler";
 
-"yearly"                    = "jährlich";
+"yearly"                    = "Jährlich";
 "6 Month"                   = "6 Monate";
 "Monthly"                   = "Monatlich";
 "Loading info"              = "Wird geladen";
@@ -143,9 +143,9 @@
 "review.subtitle" = "Dies wird dazu beitragen, dass es besser wird.";
 
 // AlternativePaywallController
-"Create your own exercises"     = "Sparen Sie Zeit und Geld";
-"Track your exercise analytics" = "Planen Sie Ihre Einkaufsliste für die Woche";
-"Discover your best results"    = "Fügen Sie Rezepte hinzu und teilen Sie sie";
+"Save time and money" = "Sparen Sie Zeit und Geld";
+"Plan your shopping list for the week" = "Planen Sie Ihre Einkaufsliste für die Woche";
+"Quick add recipe ingredients into your lists" = "Fügen Sie Rezeptzutaten schnell zu Ihren Listen hinzu";
 
 // WriteReviewController
 "Your opinion matter to us!"    = "Ihre Meinung ist uns wichtig!";
@@ -167,3 +167,5 @@
 "IDontHaveAccount"              = "Ich habe kein Konto";
 "resetPassword"                 = "Setzen Sie das Passwort zurück";
 "signInWithApple"               = "Melden Sie sich bei Apple an";
+
+

@@ -46,6 +46,11 @@ class AlternativePaywallViewController: UIViewController {
         return imageView
     }()
     
+    private let restorePurchasesButton: UIButton = {
+        let button = UIButton(type: .system)
+        return button
+    }()
+    
     private lazy var nextButton: UIButton = {
         let button = UIButton()
         let attributedTitle = NSAttributedString(string: "Next".localized, attributes: [
@@ -59,15 +64,10 @@ class AlternativePaywallViewController: UIViewController {
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.masksToBounds = true
+        button.setImage(UIImage(named: "nextArrow"), for: .normal)
+        button.semanticContentAttribute = .forceRightToLeft
         button.addShadowForView()
         return button
-    }()
-    
-    private let nextArrow: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "nextArrow")
-        return imageView
     }()
     
     private lazy var termsButton: UIButton = {
@@ -184,8 +184,10 @@ class AlternativePaywallViewController: UIViewController {
                 )
             }
             self.choiceOfCostArray[0].isPopular = true
+            self.selectedProduct = products[0]
             self.collectionView(self.collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
             self.collectionView.reloadData()
+            self.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .top)
         }
     }
     // MARK: - Func
@@ -292,10 +294,9 @@ class AlternativePaywallViewController: UIViewController {
     
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        view.addSubviews([backgroundImageView, productShelfImage, backgroundShadowView, nextButton, nextArrow, termsButton, privacyButton,
+        view.addSubviews([backgroundImageView, productShelfImage, backgroundShadowView, nextButton, termsButton, privacyButton,
                           cancelButton, collectionView, lockScreenView,
                           activityIndicator, closeButton, featuresView, tryForFreeView])
-        nextButton.addSubviews([nextArrow])
         lockScreenView.addSubviews([activityIndicator])
         backgroundImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -320,7 +321,8 @@ class AlternativePaywallViewController: UIViewController {
         
         featuresView.snp.makeConstraints { make in
             make.bottom.equalTo(collectionView.snp.top).inset(isSmallSize ? -8 : -26)
-            make.centerX.equalToSuperview()
+//            make.centerX.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(47.fitW)
         }
         
         collectionView.snp.makeConstraints { make in
@@ -334,13 +336,6 @@ class AlternativePaywallViewController: UIViewController {
             make.width.equalTo(300)
             make.centerX.equalToSuperview()
             make.height.equalTo(64)
-        }
-        
-        nextArrow.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.centerX.equalToSuperview().offset(45)
-            make.width.equalTo(24)
-            make.height.equalTo(20)
         }
         
         privacyButton.snp.makeConstraints { make in

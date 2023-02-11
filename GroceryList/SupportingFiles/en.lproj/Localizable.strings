@@ -145,9 +145,9 @@
 "review.subtitle" = "This helps to make it even better";
 
 // AlternativePaywallController
-"Create your own exercises"     = "Save time and money";
-"Track your exercise analytics" = "Plan your shopping list for the week";
-"Discover your best results"    = "Get recipes and share them";
+"Save time and money" = "Save time and money";
+"Plan your shopping list for the week" = "Plan your shopping list for the week";
+"Quick add recipe ingredients into your lists" = "Quick add recipe ingredients into your lists";
 
 // WriteReviewController
 "Your opinion matter to us!"    = "Your opinion matter to us!";

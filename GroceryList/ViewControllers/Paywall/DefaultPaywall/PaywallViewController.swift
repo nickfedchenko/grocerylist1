@@ -56,15 +56,10 @@ class PaywallViewController: UIViewController {
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.masksToBounds = true
+        button.setImage(UIImage(named: "nextArrow"), for: .normal)
+        button.semanticContentAttribute = .forceRightToLeft
         button.addShadowForView()
         return button
-    }()
-    
-    private let nextArrow: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "nextArrow")
-        return imageView
     }()
     
     private lazy var termsButton: UIButton = {
@@ -286,9 +281,9 @@ class PaywallViewController: UIViewController {
     
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        view.addSubviews([backgroundImageView, nextButton, nextArrow, termsButton, privacyButton,
+        view.addSubviews([backgroundImageView, nextButton, termsButton, privacyButton,
                           cancelButton, collectionView, chosePlanLabel, productShelfImage, logoImage, lockScreenView, activityIndicator, closeButton])
-        nextButton.addSubviews([nextArrow])
+
         lockScreenView.addSubviews([activityIndicator])
         backgroundImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -322,13 +317,6 @@ class PaywallViewController: UIViewController {
             make.width.equalTo(300)
             make.centerX.equalToSuperview()
             make.height.equalTo(64)
-        }
-        
-        nextArrow.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.centerX.equalToSuperview().offset(45)
-            make.width.equalTo(24)
-            make.height.equalTo(20)
         }
         
         privacyButton.snp.makeConstraints { make in
