@@ -46,11 +46,6 @@ class AlternativePaywallViewController: UIViewController {
         return imageView
     }()
     
-    private let restorePurchasesButton: UIButton = {
-        let button = UIButton(type: .system)
-        return button
-    }()
-    
     private lazy var nextButton: UIButton = {
         let button = UIButton()
         let attributedTitle = NSAttributedString(string: "Next".localized, attributes: [
@@ -102,6 +97,7 @@ class AlternativePaywallViewController: UIViewController {
         layout.scrollDirection = .vertical
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .clear
+        collectionView.clipsToBounds = false
         return collectionView
     }()
     
@@ -136,6 +132,24 @@ class AlternativePaywallViewController: UIViewController {
         return button
     }()
     
+    private lazy var restorePurchasesButton: UIButton = {
+        let button = UIButton(type: .system)
+        let style = NSMutableParagraphStyle()
+        let attrTitle = NSAttributedString(
+            string: "Restore purchases",
+            attributes: [
+                .font: R.font.sfProTextSemibold(size: 17) ?? .systemFont(ofSize: 17),
+                .foregroundColor: UIColor(hex: "#1A645A"),
+                .underlineStyle: NSUnderlineStyle.single.rawValue,
+                .paragraphStyle: style
+            ]
+        )
+        button.setAttributedTitle(attrTitle, for: .normal)
+        button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(didTapToRestorePurchases), for: .touchUpInside)
+        return button
+    }()
+    
     // MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -144,13 +158,14 @@ class AlternativePaywallViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        backgroundShadowView.applyGradient(colours: [UIColor(hex: "#E8F4F3"), .clear])
+        backgroundShadowView.applyGradient(colours: [UIColor(hex: "#E8F4F3"), UIColor(hex: "E5F5F3", alpha: 0)])
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConstraints()
         setupCollectionView()
+       
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard
                 let products = paywalls.first(where: { $0.experimentName != nil })?.products,
@@ -296,7 +311,7 @@ class AlternativePaywallViewController: UIViewController {
     private func setupConstraints() {
         view.addSubviews([backgroundImageView, productShelfImage, backgroundShadowView, nextButton, termsButton, privacyButton,
                           cancelButton, collectionView, lockScreenView,
-                          activityIndicator, closeButton, featuresView, tryForFreeView])
+                          activityIndicator, closeButton, featuresView, tryForFreeView, restorePurchasesButton])
         lockScreenView.addSubviews([activityIndicator])
         backgroundImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -311,7 +326,8 @@ class AlternativePaywallViewController: UIViewController {
         productShelfImage.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(22)
             make.height.equalTo(176)
-            make.bottom.equalTo(tryForFreeView.snp.top).inset(isSmallSize ? 20 : -10)
+//            make.bottom.equalTo(tryForFreeView.snp.top).inset(isSmallSize ? 20 : -10)
+            make.top.equalToSuperview().offset(76)
         }
         
         tryForFreeView.snp.makeConstraints { make in
@@ -320,15 +336,15 @@ class AlternativePaywallViewController: UIViewController {
         }
         
         featuresView.snp.makeConstraints { make in
-            make.bottom.equalTo(collectionView.snp.top).inset(isSmallSize ? -8 : -26)
+            make.bottom.equalTo(collectionView.snp.top).inset(isSmallSize ? -14 : -26)
 //            make.centerX.equalToSuperview()
             make.leading.trailing.equalToSuperview().inset(47.fitW)
         }
         
         collectionView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
-            make.bottom.equalTo(nextButton.snp.top).inset(isSmallSize ? 0 : -20)
-            make.height.equalTo(260)
+            make.bottom.equalTo(nextButton.snp.top).inset(isSmallSize ? -25 : -110)
+            make.height.equalTo(222)
         }
         
         nextButton.snp.makeConstraints { make in
@@ -365,6 +381,33 @@ class AlternativePaywallViewController: UIViewController {
             make.right.equalToSuperview().inset(23)
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(20)
             make.width.height.equalTo(20)
+        }
+        
+        restorePurchasesButton.snp.makeConstraints { make in
+            make.top.equalTo(collectionView.snp.bottom).offset(isSmallSize ? 2 : 16)
+            make.height.equalTo(20)
+            make.leading.trailing.equalToSuperview().inset(27)
+        }
+    }
+    
+    @objc
+    private func didTapToRestorePurchases() {
+        Apphud.restorePurchases { [weak self] subscriptions, _, error in
+            if let error = error {
+                self?.alertOk(title: "Error", message: error.localizedDescription)
+            }
+            
+            if subscriptions?.first?.isActive() ?? false {
+                self?.dismiss(animated: true)
+                return
+            }
+            
+            if Apphud.hasActiveSubscription() {
+                self?.dismiss(animated: true)
+                return
+            } else {
+                self?.alertOk(title: "No subscription", message: "No active subscriptions found")
+            }
         }
     }
     
@@ -450,12 +493,12 @@ extension AlternativePaywallViewController: UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 40, height: 72)
+        return CGSize(width: view.frame.width - 40, height: 68)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+////        UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
+//    }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,

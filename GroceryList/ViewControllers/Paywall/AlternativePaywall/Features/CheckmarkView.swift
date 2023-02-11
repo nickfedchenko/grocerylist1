@@ -40,6 +40,10 @@ final class CheckmarkView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func adjustForDefaultPaywall() {
+        titleLabel.font = R.font.sfProTextSemibold(size: 11)
+    }
+    
     // MARK: - Constraints
     private func setupConstraint() {
         self.addSubviews([checkmarkImage, titleLabel])
@@ -49,8 +53,9 @@ final class CheckmarkView: UIView {
 //        }
         
         checkmarkImage.snp.makeConstraints { make in
-            make.left.top.equalToSuperview()
+            make.left.equalToSuperview()
             make.width.height.equalTo(24)
+            make.centerY.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints { make in

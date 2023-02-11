@@ -62,6 +62,26 @@ class PaywallViewController: UIViewController {
         return button
     }()
     
+    private lazy var restorePurchasesButton: UIButton = {
+        let button = UIButton(type: .system)
+        let style = NSMutableParagraphStyle()
+        let attrTitle = NSAttributedString(
+            string: "Restore purchases",
+            attributes: [
+                .font: R.font.sfProTextSemibold(size: 17) ?? .systemFont(ofSize: 17),
+                .foregroundColor: UIColor(hex: "#1A645A"),
+                .underlineStyle: NSUnderlineStyle.single.rawValue,
+                .paragraphStyle: style
+            ]
+        )
+        button.setAttributedTitle(attrTitle, for: .normal)
+        button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(didTapToRestorePurchases), for: .touchUpInside)
+        return button
+    }()
+    
+    private let featuresView = CheckmarkCompositionView()
+    
     private lazy var termsButton: UIButton = {
         let button = UIButton()
         button.setTitle("Term of use".localized, for: .normal)
@@ -149,9 +169,12 @@ class PaywallViewController: UIViewController {
         super.viewDidLoad()
         setupConstraints()
         setupCollectionView()
+        if UIScreen.main.isSmallSize {
+            featuresView.updateForDefaultPaywall()
+        }
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard
-                let products = paywalls.first(where: { $0.identifier == "Main"})?.products,
+                let products = paywalls.first(where: { $0.identifier == "Main" })?.products,
                 let self = self
             else { return }
             self.products = products.reversed()
@@ -281,9 +304,14 @@ class PaywallViewController: UIViewController {
     
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        view.addSubviews([backgroundImageView, nextButton, termsButton, privacyButton,
-                          cancelButton, collectionView, chosePlanLabel, productShelfImage, logoImage, lockScreenView, activityIndicator, closeButton])
-
+        view.addSubviews(
+            [
+                backgroundImageView, nextButton, termsButton, privacyButton, cancelButton, collectionView,
+                productShelfImage, logoImage, lockScreenView, activityIndicator, closeButton, featuresView,
+                restorePurchasesButton
+            ]
+        )
+        
         lockScreenView.addSubviews([activityIndicator])
         backgroundImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -298,12 +326,18 @@ class PaywallViewController: UIViewController {
         logoImage.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(18)
             make.height.equalTo(142)
-            make.bottom.equalTo(chosePlanLabel.snp.top).inset(-8)
+            make.bottom.equalTo(collectionView.snp.top).inset(UIScreen.main.isSmallSize ? -80 : -120)
         }
         
-        chosePlanLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(collectionView.snp.top).inset(-27)
-            make.left.right.equalToSuperview()
+//        chosePlanLabel.snp.makeConstraints { make in
+//            make.bottom.equalTo(collectionView.snp.top).inset(-27)
+//            make.left.right.equalToSuperview().inset(28.fitW)
+//        }
+        
+        featuresView.snp.makeConstraints { make in
+            make.top.equalTo(logoImage.snp.bottom).offset(4)
+            make.bottom.equalTo(collectionView.snp.top).inset(-5)
+            make.leading.trailing.equalToSuperview().inset(25)
         }
         
         collectionView.snp.makeConstraints { make in
@@ -347,7 +381,12 @@ class PaywallViewController: UIViewController {
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(20)
             make.width.height.equalTo(20)
         }
-
+        
+        restorePurchasesButton.snp.makeConstraints { make in
+            make.top.equalTo(collectionView.snp.bottom).offset(UIScreen.main.isSmallSize ? 0 : 0)
+            make.bottom.equalTo(nextButton.snp.top).inset(-4)
+            make.leading.trailing.equalToSuperview().inset(27)
+        }
     }
     
     @objc
@@ -399,6 +438,27 @@ class PaywallViewController: UIViewController {
     private func closeButtonAction() {
         self.dismiss(animated: true)
     }
+    
+    @objc
+    private func didTapToRestorePurchases() {
+        Apphud.restorePurchases { [weak self] subscriptions, _, error in
+            if let error = error {
+                self?.alertOk(title: "Error", message: error.localizedDescription)
+            }
+            
+            if subscriptions?.first?.isActive() ?? false {
+                self?.dismiss(animated: true)
+                return
+            }
+            
+            if Apphud.hasActiveSubscription() {
+                self?.dismiss(animated: true)
+                return
+            } else {
+                self?.alertOk(title: "No subscription", message: "No active subscriptions found")
+            }
+        }
+    }
 }
 
 // MARK: - CollcetionView
@@ -442,7 +502,7 @@ extension PaywallViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 16
+        return 12
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
