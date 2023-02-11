@@ -8,7 +8,7 @@
 
 "SafeTimeAndMoney"          = "Save time and money \nwith us";
 "Next"                      = "NEXT";
-"CreateLists"               = "Create lists with one touch \nProducts are automatically \ncategorized. \nNo more running around the \nsupermarket";
+"CreateLists"               = "Create lists with one touch Products are automatically categorized. No more running around the supermarket";
 "AddItem"                   = "Add item";
 "Synchronize"               = "Synchronize lists with relatives and friends.";
 "OrganizeRecepts"           = "Replenished collections of recipes in the app\nWrite down and organize your recipes";
@@ -145,9 +145,9 @@
 "review.subtitle" = "This helps to make it even better";
 
 // AlternativePaywallController
-"Create your own exercises"     = "Save time and money";
-"Track your exercise analytics" = "Plan your shopping list for the week";
-"Discover your best results"    = "Get recipes and share them";
+"Save time and money" = "Save time and money";
+"Plan your shopping list for the week" = "Plan your shopping list for the week";
+"Quick add recipe ingredients into your lists" = "Quick add recipe ingredients into your lists";
 
 // WriteReviewController
 "Your opinion matter to us!"    = "Your opinion matter to us!";

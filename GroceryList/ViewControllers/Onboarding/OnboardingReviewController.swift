@@ -77,6 +77,7 @@ final class OnboardingReviewController: UIViewController {
         let pageControl = UIPageControl()
         pageControl.numberOfPages = 3
         pageControl.currentPage = 0
+        pageControl.alpha = 0
         return pageControl
     }()
     
@@ -137,13 +138,13 @@ final class OnboardingReviewController: UIViewController {
         
         reviewsCollection.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(subtitle.snp.bottom).offset(54)
+            make.top.equalTo(subtitle.snp.bottom).offset(UIScreen.main.isSmallSize ? 8 : 54)
             make.height.equalTo(282)
         }
         
         pageControl.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(reviewsCollection.snp.bottom).offset(24)
+            make.top.equalTo(reviewsCollection.snp.bottom).offset(UIScreen.main.isSmallSize ? 4 : 24)
         }
         
         nextButton.snp.makeConstraints { make in

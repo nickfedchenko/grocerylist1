@@ -746,7 +746,7 @@ extension OnboardingContentView {
             case .ru:
                 return 18
             case .en:
-                return 18
+                return UIScreen.main.isSmallSize ? 15 : 18
             case .fr:
                 return 15
             case .de:

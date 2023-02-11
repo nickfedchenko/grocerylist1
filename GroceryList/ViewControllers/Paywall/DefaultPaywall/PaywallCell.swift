@@ -60,6 +60,7 @@ class PaywallCell: UICollectionViewCell {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#31635A")
         view.layer.cornerRadius = 16
+        view.layer.cornerCurve = .continuous
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         view.layer.masksToBounds = true
         view.isHidden = true
@@ -156,7 +157,7 @@ class PaywallCell: UICollectionViewCell {
         mostPopularView.snp.makeConstraints { make in
             make.left.equalTo(containerView.snp.left).inset(16)
             make.bottom.equalTo(containerView.snp.top)
-            make.width.equalTo(138)
+//            make.width.equalTo(138)
             make.height.equalTo(26)
         }
         
@@ -167,7 +168,7 @@ class PaywallCell: UICollectionViewCell {
         }
         
         mostPopularLabel.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(3)
+            make.left.right.equalToSuperview().inset(12)
             make.centerY.equalToSuperview()
         }
         
