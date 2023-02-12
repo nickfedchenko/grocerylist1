@@ -171,7 +171,7 @@ class AlternativePaywallViewController: UIViewController {
                 let products = paywalls.first(where: { $0.experimentName != nil })?.products,
                 let self = self
             else {
-                if let products = paywalls.first(where: { $0.identifier == "Main" })?.products,
+                if let products = paywalls.first(where: { $0.identifier == "main2_trial" })?.products,
                    let self = self {
                     self.products = products.reversed()
                     self.choiceOfCostArray = self.products.map {

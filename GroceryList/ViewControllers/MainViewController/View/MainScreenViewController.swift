@@ -572,13 +572,13 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
                 }
                 return
             }
-            if paywall.identifier == "Main" {
-                if let paywall = self?.viewModel?.router?.viewControllerFactory.createPaywallController() {
+            if paywall.variationName == "New Offer" {
+                if let paywall = self?.viewModel?.router?.viewControllerFactory.createAlternativePaywallController() {
                     paywall.modalPresentationStyle = .fullScreen
                     self?.present(paywall, animated: true)
                 }
             } else {
-                if let paywall = self?.viewModel?.router?.viewControllerFactory.createAlternativePaywallController() {
+                if let paywall = self?.viewModel?.router?.viewControllerFactory.createPaywallController() {
                     paywall.modalPresentationStyle = .fullScreen
                     self?.present(paywall, animated: true)
                 }

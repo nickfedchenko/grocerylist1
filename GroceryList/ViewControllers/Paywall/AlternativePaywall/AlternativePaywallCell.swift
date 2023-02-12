@@ -157,7 +157,7 @@ class AlternativePaywallCell: UICollectionViewCell {
         mostPopularView.snp.makeConstraints { make in
             make.right.equalTo(containerView.snp.right).inset(16)
             make.centerY.equalTo(containerView.snp.top)
-            make.width.equalTo(138)
+//            make.width.equalTo(138)
             make.height.equalTo(24)
         }
         

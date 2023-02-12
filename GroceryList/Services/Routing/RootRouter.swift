@@ -145,19 +145,16 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func showPaywallVC() {
+        guard !Apphud.hasActiveSubscription() else { return }
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
-            paywalls.forEach { paywall in
-                print(paywall.identifier)
-                print(paywall.experimentName)
-            }
-            guard let paywall = paywalls.first(where: { $0.experimentName != nil } ) else { return }
-            
-            print(paywall.identifier)
-            print(paywall.experimentName)
-            if paywall.identifier == "Main" {
+            guard let paywall = paywalls.first(where: { $0.experimentName != nil } ) else {
                 self?.showDefaultPaywallVC()
-            } else {
+                return
+            }
+            if paywall.variationName == "New Offer" {
                 self?.showAlternativePaywallVC()
+            } else {
+                self?.showDefaultPaywallVC()
             }
         }
     }
