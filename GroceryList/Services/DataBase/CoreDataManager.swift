@@ -279,7 +279,5 @@ extension CoreDataManager: CoredataSyncProtocol {
             }
         }
     }
-    
-    
 }
 

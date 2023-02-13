@@ -25,14 +25,9 @@ struct User: Codable {
     var avatar: String?
     var email: String
     var token: String
-    var isConfirmed: Bool
     var password: String?
     var avatarAsData: Data?
-    
-    enum CodingKeys: String, CodingKey {
-        case id, userName, avatar, email, token, isConfirmed = "is_confirmed", password
-    }
-    
+
 }
 
 struct ChangeUsernameResponse: Codable {
@@ -78,7 +73,6 @@ struct PasswordUpdateResponse: Codable {
     var messages: [String]
     var user: User?
 }
-
 
 struct UpdateUsernameResponse: Codable {
     var error: Bool
