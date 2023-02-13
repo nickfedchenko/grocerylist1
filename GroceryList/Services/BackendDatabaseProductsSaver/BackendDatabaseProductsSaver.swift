@@ -52,7 +52,4 @@ class BackendDatabaseProductsSaver {
             self.arrayOfProducts.forEach({ CoreDataManager.shared.createNetworkProduct(product: $0) })
         }
     }
-    
-    
-    
 }

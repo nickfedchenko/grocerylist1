@@ -87,6 +87,10 @@ class SettingsViewController: UIViewController {
         setupConstraints()
         addRecognizer()
         setupNavigationBar(titleText: R.string.localizable.preferencies())
+        
+        let user = User(id: 8, email: "kkk", token: "e234")
+        CoreDataManager.shared.deleteUser()
+        print(CoreDataManager.shared.getUser())
     }
     
     deinit {

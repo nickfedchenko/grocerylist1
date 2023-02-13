@@ -119,6 +119,8 @@
 		B37A2CF6291125CA003C01AD /* SF Pro Display Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B37A2CF5291125CA003C01AD /* SF Pro Display Medium.otf */; };
 		B3802315292BC7DA0039EDE0 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3802314292BC7DA0039EDE0 /* UserDefaultsManager.swift */; };
 		B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3815C0529361BAC0060262D /* NetworkModeles.swift */; };
+		B381EF17299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF15299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift */; };
+		B381EF18299A02A100DCDE40 /* DomainUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF16299A02A100DCDE40 /* DomainUser+CoreDataClass.swift */; };
 		B3981C56297A86EA00206DB7 /* SF Pro Rounded Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C54297A85F800206DB7 /* SF Pro Rounded Bold.otf */; };
 		B3981C57297A86EC00206DB7 /* SF Pro Rounded Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */; };
 		B3981C58297A86EE00206DB7 /* SF Pro Rounded Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */; };
@@ -288,6 +290,8 @@
 		B37A2CF5291125CA003C01AD /* SF Pro Display Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Medium.otf"; sourceTree = "<group>"; };
 		B3802314292BC7DA0039EDE0 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		B3815C0529361BAC0060262D /* NetworkModeles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModeles.swift; sourceTree = "<group>"; };
+		B381EF15299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainUser+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B381EF16299A02A100DCDE40 /* DomainUser+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainUser+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B3981C51297A85F800206DB7 /* SF Pro Rounded Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Regular.otf"; sourceTree = "<group>"; };
 		B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Heavy.otf"; sourceTree = "<group>"; };
 		B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Medium.otf"; sourceTree = "<group>"; };
@@ -540,6 +544,8 @@
 		B33DFD1E291A676400AC7403 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
+				B381EF16299A02A100DCDE40 /* DomainUser+CoreDataClass.swift */,
+				B381EF15299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift */,
 				846600E7294A024800D85415 /* DBRecipe+CoreDataClass.swift */,
 				846600E8294A024800D85415 /* DBRecipe+CoreDataProperties.swift */,
 				B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */,
@@ -1393,6 +1399,7 @@
 				B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */,
 				B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */,
 				389DCF4E2946534300DB9382 /* RecipeServingSelector.swift in Sources */,
+				B381EF18299A02A100DCDE40 /* DomainUser+CoreDataClass.swift in Sources */,
 				846600E9294A024800D85415 /* DBRecipe+CoreDataClass.swift in Sources */,
 				B3FECE4329375AA80077F8EF /* DBCategories+CoreDataProperties.swift in Sources */,
 				383C77FA293FB7310030AE78 /* RecipeListCell.swift in Sources */,
@@ -1421,6 +1428,7 @@
 				B3802315292BC7DA0039EDE0 /* UserDefaultsManager.swift in Sources */,
 				B3329596298A667E002DF1EE /* AmplitudeManager.swift in Sources */,
 				B3777E232938E4E90074BE38 /* HapticManager.swift in Sources */,
+				B381EF17299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift in Sources */,
 				38F4903F2946DC6A00529D1F /* IngredientView.swift in Sources */,
 				B36933F8291A97D900AFFAA6 /* MainScreenTopCell.swift in Sources */,
 				B34EAC9C2934E95E00FBD0E0 /* SelectCategoryCell.swift in Sources */,
