@@ -198,8 +198,8 @@ extension MainScreenViewController: UICollectionViewDelegate {
         } else {
             if indexPath.section != 0 {
                 guard let model = viewModel?.dataSource?.recipesSections[indexPath.section].recipes[indexPath.item] else { return }
-                let vc = RecipeViewController(with: RecipeScreenViewModel(recipe: model), backButtonTitle: R.string.localizable.back())
-                navigationController?.pushViewController(vc, animated: true)
+                let view = RecipeViewController(with: RecipeScreenViewModel(recipe: model), backButtonTitle: R.string.localizable.back())
+                navigationController?.pushViewController(view, animated: true)
             }
         }
     }
@@ -565,9 +565,9 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
     private func showPaywall() {
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
-                if let vc = self?.viewModel?.router?.viewControllerFactory.createPaywallController() {
-                    vc.modalPresentationStyle = .fullScreen
-                    self?.present(vc, animated: true)
+                if let view = self?.viewModel?.router?.viewControllerFactory.createPaywallController() {
+                    view.modalPresentationStyle = .fullScreen
+                    self?.present(view, animated: true)
                 }
                 return
             }

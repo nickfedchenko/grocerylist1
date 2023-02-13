@@ -44,15 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        }
 //
         
-//        NetworkEngine().resendVerificationCode(email: "ddsd") { result in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let response):
-//                print(response)
-//            }
-//        }
-        
 //        NetworkEngine().passwordReset(email: "ddsd") { result in
 //            switch result {
 //            case .failure(let error):
@@ -84,9 +75,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+      
+        guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host else {
+            print("invalidUrl")
+            return false
+        }
+        
+        guard let _ = DeepLink(rawValue: host) else {
+            print("deeplink not found")
+            return false
+        }
+
+        
+        print(components.queryItems?.first?.value)
+        return true
     }
 }
 
@@ -148,4 +153,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         }
         completionHandler([]) // return empty array to skip showing notification banner
     }
+}
+
+enum DeepLink: String {
+    case resetPassword
 }
