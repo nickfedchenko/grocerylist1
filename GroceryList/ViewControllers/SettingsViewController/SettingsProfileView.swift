@@ -29,7 +29,7 @@ final class SettingsProfileView: UIView {
         imageView.contentMode = .scaleAspectFill
         imageView.image = R.image.settingsEmptyAvatar()
         imageView.isUserInteractionEnabled = true
-        imageView.layer.cornerRadius = 33
+        imageView.layer.cornerRadius = 36
         imageView.layer.masksToBounds = true
         return imageView
     }()
@@ -38,7 +38,6 @@ final class SettingsProfileView: UIView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = R.image.settingsAddPhotoSticker()
-        imageView.isHidden = true
         return imageView
     }()
     
@@ -99,8 +98,12 @@ final class SettingsProfileView: UIView {
     
     func setupView(avatarImage: UIImage?, email: String) {
         emailView.setupView(text: email, isAttrHidden: true)
+        setupImage(avatarImage: avatarImage)
+    }
+    
+    func setupImage(avatarImage: UIImage?) {
         guard let avatarImage = avatarImage else { return }
-        addPhotoStickerImageView.isHidden = false
+        addPhotoStickerImageView.isHidden = true
         avatarImageView.image = avatarImage
     }
     
@@ -119,7 +122,7 @@ final class SettingsProfileView: UIView {
         avatarImageView.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(18)
             make.top.equalTo(profileTitleLabel.snp.bottom).inset(-6)
-            make.width.height.equalTo(71)
+            make.width.height.equalTo(72)
         }
         
         addPhotoStickerImageView.snp.makeConstraints { make in
