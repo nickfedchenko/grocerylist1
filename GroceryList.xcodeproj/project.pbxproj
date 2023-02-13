@@ -123,6 +123,7 @@
 		B381EF17299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF15299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift */; };
 		B381EF18299A02A100DCDE40 /* DomainUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF16299A02A100DCDE40 /* DomainUser+CoreDataClass.swift */; };
 		B381EF1A299A08ED00DCDE40 /* SettingsProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF19299A08ED00DCDE40 /* SettingsProfileView.swift */; };
+		B381EF1D299A573500DCDE40 /* UserAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF1C299A573500DCDE40 /* UserAccountManager.swift */; };
 		B3981C56297A86EA00206DB7 /* SF Pro Rounded Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C54297A85F800206DB7 /* SF Pro Rounded Bold.otf */; };
 		B3981C57297A86EC00206DB7 /* SF Pro Rounded Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */; };
 		B3981C58297A86EE00206DB7 /* SF Pro Rounded Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */; };
@@ -296,6 +297,7 @@
 		B381EF15299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainUser+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B381EF16299A02A100DCDE40 /* DomainUser+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainUser+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B381EF19299A08ED00DCDE40 /* SettingsProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsProfileView.swift; sourceTree = "<group>"; };
+		B381EF1C299A573500DCDE40 /* UserAccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountManager.swift; sourceTree = "<group>"; };
 		B3981C51297A85F800206DB7 /* SF Pro Rounded Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Regular.otf"; sourceTree = "<group>"; };
 		B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Heavy.otf"; sourceTree = "<group>"; };
 		B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Medium.otf"; sourceTree = "<group>"; };
@@ -935,6 +937,7 @@
 		B37A2CD42910EE77003C01AD /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B381EF1B299A56A200DCDE40 /* UserAccountManager */,
 				B3AD42D32991061D0043A37F /* SocketManager */,
 				B3329594298A6475002DF1EE /* Ampllitude */,
 				38817890293BEC7E0094344D /* DataProviderFacade */,
@@ -1046,6 +1049,14 @@
 				B3802314292BC7DA0039EDE0 /* UserDefaultsManager.swift */,
 			);
 			path = UserDefaultsManager;
+			sourceTree = "<group>";
+		};
+		B381EF1B299A56A200DCDE40 /* UserAccountManager */ = {
+			isa = PBXGroup;
+			children = (
+				B381EF1C299A573500DCDE40 /* UserAccountManager.swift */,
+			);
+			path = UserAccountManager;
 			sourceTree = "<group>";
 		};
 		B3AD42D32991061D0043A37F /* SocketManager */ = {
@@ -1340,6 +1351,7 @@
 				38F4904129476FFD00529D1F /* UIBezierPath+MaskedCorners.swift in Sources */,
 				B315F9DC29892EA00009CEB8 /* CheckmarkView.swift in Sources */,
 				840C189F2978D2230006F975 /* Int+Extensions.swift in Sources */,
+				B381EF1D299A573500DCDE40 /* UserAccountManager.swift in Sources */,
 				B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */,
 				846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */,
 				383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */,

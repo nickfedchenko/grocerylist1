@@ -19,8 +19,19 @@ class SettingsViewModel {
     
     weak var delegate: SettingsViewModelDelegate?
     weak var router: RootRouter?
+    
+    var network: NetworkEngine
+    var userAccountManager: UserAccountManager
+   
     var isMetricSystem: Bool {
         UserDefaultsManager.isMetricSystem
+    }
+    
+    private var user: User?
+    
+    init(network: NetworkEngine, userAccountManager: UserAccountManager) {
+        self.userAccountManager = userAccountManager
+        self.network = network
     }
     
     func viewWillAppear() {
@@ -28,7 +39,18 @@ class SettingsViewModel {
     }
     
     func saveNewUserName(name: String) {
-        print(name)
+        guard var user = user else { return }
+        
+        user.userName = name
+        userAccountManager.saveUser(user: user)
+        NetworkEngine().updateUserName(userToken: user.token, newName: name) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let response):
+                print(response)
+            }
+        }
     }
     
     func closeButtonTapped() {
@@ -41,6 +63,22 @@ class SettingsViewModel {
     
     func avatarButtonTapped() {
         delegate?.pickImage()
+    }
+    
+    func saveAvatar(image: UIImage?) {
+        guard let imageData = image?.jpegData(compressionQuality: 1), var user = user else { return }
+     
+        user.avatarAsData = imageData
+        userAccountManager.saveUser(user: user)
+        NetworkEngine().uploadAvatar(userToken: user.token, imageData: imageData) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let response):
+                print(response)
+            }
+        }
+        
     }
     
     func registerButtonPressed() {
@@ -82,10 +120,12 @@ class SettingsViewModel {
     }
     
     private func checkUser() {
-//        guard let user = CoreDataManager.shared.getUser() else {
-//            delegate?.setupNotRegisteredView()
-//            return
-//        }
+        guard let user = userAccountManager.getUser() else {
+            delegate?.setupNotRegisteredView()
+            return
+        }
+       
+        self.user = user
         delegate?.setupRegisteredView()
     }
 }

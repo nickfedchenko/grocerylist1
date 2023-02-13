@@ -42,16 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                print(response)
 //            }
 //        }
-//
-//        NetworkEngine().uploadAvatar(userToken: "6YNmT8lWpsNvNFrOYMVp", imageData: (UIImage(systemName: "trash")?.jpegData(compressionQuality: 1)!)! ) { result in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let response):
-//                print(response)
-//            }
-//        }
-//
+
         
 //        NetworkEngine().updatePassword(newPassword: "123456",
 //                                       resetToken: "TvrMtqip0iPt2vt29AqbBSB2iwPJeUXbgoK") { result in
