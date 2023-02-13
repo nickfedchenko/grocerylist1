@@ -53,15 +53,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        }
 //
         
-//        NetworkEngine().passwordReset(email: "ddsd") { result in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let response):
-//                print(response)
-//            }
-//        }
-        
 //        NetworkEngine().updatePassword(newPassword: "123456",
 //                                       resetToken: "TvrMtqip0iPt2vt29AqbBSB2iwPJeUXbgoK") { result in
 //                switch result {
@@ -83,12 +74,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
         
-        guard let _ = DeepLink(rawValue: host) else {
+        guard let deepLink = DeepLink(rawValue: host) else {
             print("deeplink not found")
             return false
         }
 
-        
+        print(deepLink)
         print(components.queryItems?.first?.value)
         rootRouter?.goToSettingsController()
         return true
