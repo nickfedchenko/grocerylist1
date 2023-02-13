@@ -48,8 +48,8 @@ class SignUpViewModel {
         }
     }
     
-    private var emailParametrs = ValidationState(type: .email, text: "", isValidated: false)
-    private var passwordParametrs = ValidationState(type: .password, text: "", isValidated: false)
+    private var emailParameters = ValidationState(type: .email, text: "", isValidated: false)
+    private var passwordParameters = ValidationState(type: .password, text: "", isValidated: false)
     
     // MARK: - Init
     init(network: NetworkEngine) {
@@ -71,30 +71,30 @@ class SignUpViewModel {
         if state == .signUp {
             state = .signIn
             delegate?.hideEmailTaken()
-            isEmailValidated = emailParametrs.isValidated
+            isEmailValidated = emailParameters.isValidated
             delegate?.underlineEmail(isValid: isEmailValidated)
         } else {
             state = .signUp
-            if emailParametrs.isValidated {
-                checkMail(text: emailParametrs.text)
+            if emailParameters.isValidated {
+                checkMail(text: emailParameters.text)
             }
         }
     }
     
     // MARK: - TextFieldActions
-    func textfieldChangeCharcter(type: SignUpViewTextfieldType, isCorrect: Bool, text: String) {
+    func textfieldChangeCharacter(type: SignUpViewTextfieldType, isCorrect: Bool, text: String) {
         switch type {
         case .email:
-            emailParametrs.text = text
-            emailParametrs.isValidated = isCorrect
+            emailParameters.text = text
+            emailParameters.isValidated = isCorrect
           
             isEmailValidated = isCorrect
             if isCorrect {
                 checkMail(text: text)
             }
-        case .password:
-            passwordParametrs.text = text
-            passwordParametrs.isValidated = isCorrect
+        default:
+            passwordParameters.text = text
+            passwordParameters.isValidated = isCorrect
            
             isPasswordValidated = isCorrect
         }
@@ -104,7 +104,7 @@ class SignUpViewModel {
         switch type {
         case .email:
             delegate?.setupPasswordViewFirstResponder()
-        case .password:
+        default:
             delegate?.resingPasswordViewFirstResp()
         }
     }
@@ -127,7 +127,7 @@ class SignUpViewModel {
     }
     
     func resetPasswordPressed() {
-        router?.goToPaswordResetController(email: emailParametrs.text)
+        router?.goToPaswordResetController(email: emailParameters.text)
     }
     
     func signWithApplePressed() {
@@ -136,8 +136,8 @@ class SignUpViewModel {
     
     // MARK: - Validation
     private func signUpUser() {
-        network.createUser(email: emailParametrs.text,
-                           password: passwordParametrs.text) { [weak self] result in
+        network.createUser(email: emailParameters.text,
+                           password: passwordParameters.text) { [weak self] result in
             switch result {
             case .failure(let error):
                 print(error)
@@ -150,7 +150,7 @@ class SignUpViewModel {
     }
    
     private func signInUser() {
-        network.logIn(email: emailParametrs.text, password: passwordParametrs.text) { [weak self] result in
+        network.logIn(email: emailParameters.text, password: passwordParameters.text) { [weak self] result in
             switch result {
             case .failure(let error):
                 print(error)
@@ -208,10 +208,10 @@ class SignUpViewModel {
             }
         }
     }
-}
-
-struct ValidationState {
-    var type: SignUpViewTextfieldType
-    var text: String
-    var isValidated: Bool
+    
+    struct ValidationState {
+        var type: SignUpViewTextfieldType
+        var text: String
+        var isValidated: Bool
+    }
 }

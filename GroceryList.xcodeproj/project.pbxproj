@@ -121,6 +121,7 @@
 		B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3815C0529361BAC0060262D /* NetworkModeles.swift */; };
 		B381EF17299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF15299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift */; };
 		B381EF18299A02A100DCDE40 /* DomainUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF16299A02A100DCDE40 /* DomainUser+CoreDataClass.swift */; };
+		B381EF1A299A08ED00DCDE40 /* SettingsProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF19299A08ED00DCDE40 /* SettingsProfileView.swift */; };
 		B3981C56297A86EA00206DB7 /* SF Pro Rounded Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C54297A85F800206DB7 /* SF Pro Rounded Bold.otf */; };
 		B3981C57297A86EC00206DB7 /* SF Pro Rounded Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */; };
 		B3981C58297A86EE00206DB7 /* SF Pro Rounded Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */; };
@@ -292,6 +293,7 @@
 		B3815C0529361BAC0060262D /* NetworkModeles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModeles.swift; sourceTree = "<group>"; };
 		B381EF15299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainUser+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B381EF16299A02A100DCDE40 /* DomainUser+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainUser+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B381EF19299A08ED00DCDE40 /* SettingsProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsProfileView.swift; sourceTree = "<group>"; };
 		B3981C51297A85F800206DB7 /* SF Pro Rounded Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Regular.otf"; sourceTree = "<group>"; };
 		B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Heavy.otf"; sourceTree = "<group>"; };
 		B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Medium.otf"; sourceTree = "<group>"; };
@@ -883,6 +885,7 @@
 			children = (
 				B3F7C9B72993A0B90081B245 /* CustomView */,
 				B3777E182938BEA80074BE38 /* SettingsViewController.swift */,
+				B381EF19299A08ED00DCDE40 /* SettingsProfileView.swift */,
 				B3777E1A2938BF830074BE38 /* SettingsViewModel.swift */,
 			);
 			path = SettingsViewController;
@@ -1324,6 +1327,7 @@
 				B34EAC9E2934EE0100FBD0E0 /* SelectCategoryDataSource.swift in Sources */,
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
 				B3FECE4429375AA80077F8EF /* DBCategories+CoreDataClass.swift in Sources */,
+				B381EF1A299A08ED00DCDE40 /* SettingsProfileView.swift in Sources */,
 				B3F7C9BA2994BF830081B245 /* SignUpViewForTyping.swift in Sources */,
 				383C77F3293F799E0030AE78 /* RecipesListViewController.swift in Sources */,
 				383C77F7293F79EB0030AE78 /* RecipesListHeaderView.swift in Sources */,

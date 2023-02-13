@@ -44,7 +44,7 @@ class SignUpViewController: UIViewController {
         }
         
         view.isFieldCorrect = { [weak self] isCorrect, text in
-            self?.viewModel?.textfieldChangeCharcter(type: .email, isCorrect: isCorrect, text: text)
+            self?.viewModel?.textfieldChangeCharacter(type: .email, isCorrect: isCorrect, text: text)
         }
         return view
     }()
@@ -57,7 +57,7 @@ class SignUpViewController: UIViewController {
         }
        
         view.isFieldCorrect = { [weak self] isCorrect, text in
-            self?.viewModel?.textfieldChangeCharcter(type: .password, isCorrect: isCorrect, text: text)
+            self?.viewModel?.textfieldChangeCharacter(type: .password, isCorrect: isCorrect, text: text)
         }
         return view
     }()
@@ -72,7 +72,7 @@ class SignUpViewController: UIViewController {
     
     private lazy var signUpButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = UIFont.SFPro.semibold(size: 20).font
+        button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.titleLabel?.textColor = UIColor(hex: "#FFFFFF")
         button.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
         button.backgroundColor = UIColor(hex: "#31635A")
@@ -86,7 +86,7 @@ class SignUpViewController: UIViewController {
     private lazy var haveAccountButton: UIButton = {
         let button = UIButton()
         button.setTitle(R.string.localizable.registeR(), for: .normal)
-        button.titleLabel?.font = UIFont.SFPro.semibold(size: 20).font
+        button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.setTitleColor(UIColor(hex: "#19645A"), for: .normal)
         button.addTarget(self, action: #selector(haveAccountPressed), for: .touchUpInside)
         button.layer.cornerRadius = 16
