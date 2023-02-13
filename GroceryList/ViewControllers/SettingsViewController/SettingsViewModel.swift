@@ -10,6 +10,8 @@ import UIKit
 
 protocol SettingsViewModelDelegate: AnyObject {
     func updateSelectionView()
+    func setupNotRegisteredView()
+    func setupRegisteredView()
 }
 
 class SettingsViewModel {
@@ -19,9 +21,25 @@ class SettingsViewModel {
     var isMetricSystem: Bool {
         UserDefaultsManager.isMetricSystem
     }
-   
+    
+    func viewWillAppear() {
+        checkUser()
+    }
+    
+    func saveNewUserName(name: String) {
+        print(name)
+    }
+    
     func closeButtonTapped() {
         router?.popToRoot()
+    }
+    
+    func accountButtonTapped() {
+        print("accountButtonTapped")
+    }
+    
+    func avatarButtonTapped() {
+        print("avatarButtonTapped")
     }
     
     func registerButtonPressed() {
@@ -60,6 +78,14 @@ class SettingsViewModel {
             UserDefaultsManager.isMetricSystem = false
         }
         delegate?.updateSelectionView()
+    }
+    
+    private func checkUser() {
+        guard let user = CoreDataManager.shared.getUser() else {
+            delegate?.setupNotRegisteredView()
+            return
+        }
+        delegate?.setupRegisteredView()
     }
 }
 

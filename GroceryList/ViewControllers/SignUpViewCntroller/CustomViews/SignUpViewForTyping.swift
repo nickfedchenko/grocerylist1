@@ -30,7 +30,7 @@ class SignUpViewForTyping: UIView {
     private let pencilImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = R.image.whitePencil()?.withTintColor(UIColor(hex: "#4C877F"))
+        imageView.image = R.image.whitePencil()?.withTintColor(UIColor(hex: "#19645A"))
         return imageView
     }()
     
@@ -88,7 +88,7 @@ class SignUpViewForTyping: UIView {
         }
 
         pencilImage.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(8)
+            make.trailing.equalToSuperview().inset(3)
             make.centerY.equalToSuperview()
             make.width.height.equalTo(18)
         }
@@ -117,6 +117,7 @@ extension SignUpViewForTyping: UITextFieldDelegate {
             correctText = text + string
         }
         checkPassword(lenght: newLength, text: correctText)
+        checkScreenName(lenght: newLength, text: correctText)
         checkEmail(correctText)
         return true
     }
@@ -134,6 +135,11 @@ extension SignUpViewForTyping: UITextFieldDelegate {
         field(isCorrect: lenght > 4)
         isFieldCorrect?(lenght > 4, text)
     }
+    
+    private func checkScreenName(lenght: Int, text: String) {
+        guard type == .screenName else { return }
+        isFieldCorrect?(true, text)
+    }
 }
 
 enum SignUpViewTextfieldType {
@@ -148,7 +154,7 @@ enum SignUpViewTextfieldType {
         case .password:
             return R.string.localizable.password()
         case .screenName:
-            return R.string.localizable.password()
+            return R.string.localizable.settingsScreenName()
         }
     }
     
@@ -159,7 +165,7 @@ enum SignUpViewTextfieldType {
         case .password:
             return true
         case .screenName:
-            return true
+            return false
         }
     }
 }

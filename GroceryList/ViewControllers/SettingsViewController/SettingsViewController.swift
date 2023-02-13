@@ -70,9 +70,20 @@ class SettingsViewController: UIViewController {
         return view
     }()
     
-    private lazy var provileView: SettingsProfileView = {
+    private lazy var profileView: SettingsProfileView = {
         let view = SettingsProfileView()
-     
+        
+        view.saveNewNamePressed = { [weak self] name in
+            self?.viewModel?.saveNewUserName(name: name)
+        }
+        
+        view.accountButtonPressed = { [weak self] in
+            self?.viewModel?.accountButtonTapped()
+        }
+        
+        view.avatarButtonPressed = { [weak self] in
+            self?.viewModel?.avatarButtonTapped()
+        }
         return view
     }()
     
@@ -89,6 +100,11 @@ class SettingsViewController: UIViewController {
         setupNavigationBar(titleText: R.string.localizable.preferencies())
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel?.viewWillAppear()
+    }
+    
     deinit {
         print("SettingsViewController deinited")
     }
@@ -98,7 +114,7 @@ class SettingsViewController: UIViewController {
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
-        view.addSubviews([preferenciesLabel, closeButton, provileView, unitsView,
+        view.addSubviews([preferenciesLabel, closeButton, profileView, unitsView,
                           hapticView, likeAppView, contactUsView,
                           contactUsView, selectUnitsView, registerView])
         
@@ -113,14 +129,14 @@ class SettingsViewController: UIViewController {
             make.height.width.equalTo(18)
         }
         
-        provileView.snp.makeConstraints { make in
+        profileView.snp.makeConstraints { make in
             make.top.equalTo(preferenciesLabel.snp.bottom).inset(-24)
             make.left.right.equalToSuperview()
         }
         
         unitsView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
-            make.top.equalTo(provileView.snp.bottom).inset(-42)
+            make.top.equalTo(profileView.snp.bottom).inset(-5)
             make.height.equalTo(54)
         }
         
@@ -234,6 +250,28 @@ extension SettingsViewController: MFMailComposeViewControllerDelegate {
 }
 
 extension SettingsViewController: SettingsViewModelDelegate {
+    func setupRegisteredView() {
+        registerView.isHidden = true
+        profileView.isHidden = false
+        
+        unitsView.snp.remakeConstraints { make in
+            make.left.right.equalToSuperview().inset(20)
+            make.top.equalTo(profileView.snp.bottom).inset(-5)
+            make.height.equalTo(54)
+        }
+    }
+    
+    func setupNotRegisteredView() {
+        registerView.isHidden = false
+        profileView.isHidden = true
+     
+        unitsView.snp.remakeConstraints { make in
+            make.left.right.equalToSuperview().inset(20)
+            make.top.equalTo(preferenciesLabel.snp.bottom).inset(-42)
+            make.height.equalTo(54)
+        }
+    }
+    
     func updateSelectionView() {
         selectUnitsView.updateColors(imperialColor: viewModel?.getBackgroundColorForImperial(),
                                      metricColor: viewModel?.getBackgroundColorForMetric())
