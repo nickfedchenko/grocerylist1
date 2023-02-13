@@ -139,12 +139,15 @@ extension SignUpViewForTyping: UITextFieldDelegate {
 enum SignUpViewTextfieldType {
     case email
     case password
+    case screenName
     
     func getPlaceholder() -> String {
         switch self {
         case .email:
             return R.string.localizable.email()
         case .password:
+            return R.string.localizable.password()
+        case .screenName:
             return R.string.localizable.password()
         }
     }
@@ -155,9 +158,12 @@ enum SignUpViewTextfieldType {
             return false
         case .password:
             return true
+        case .screenName:
+            return true
         }
     }
 }
+
 class PasswordTextField: UITextField {
 
     override var isSecureTextEntry: Bool {

@@ -14,12 +14,6 @@ class SettingsViewController: UIViewController {
     
     var viewModel: SettingsViewModel?
 
-    private let topView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(hex: "#E8F5F3")
-        return view
-    }()
-    
     private let preferenciesLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.bold(size: 22).font
@@ -76,6 +70,12 @@ class SettingsViewController: UIViewController {
         return view
     }()
     
+    private lazy var provileView: SettingsProfileView = {
+        let view = SettingsProfileView()
+     
+        return view
+    }()
+    
     // MARK: - LifeCycle
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
@@ -87,10 +87,6 @@ class SettingsViewController: UIViewController {
         setupConstraints()
         addRecognizer()
         setupNavigationBar(titleText: R.string.localizable.preferencies())
-        
-        let user = User(id: 8, email: "kkk", token: "e234")
-        CoreDataManager.shared.deleteUser()
-        print(CoreDataManager.shared.getUser())
     }
     
     deinit {
@@ -102,7 +98,7 @@ class SettingsViewController: UIViewController {
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
-        view.addSubviews([preferenciesLabel, closeButton, unitsView,
+        view.addSubviews([preferenciesLabel, closeButton, provileView, unitsView,
                           hapticView, likeAppView, contactUsView,
                           contactUsView, selectUnitsView, registerView])
         
@@ -117,9 +113,14 @@ class SettingsViewController: UIViewController {
             make.height.width.equalTo(18)
         }
         
+        provileView.snp.makeConstraints { make in
+            make.top.equalTo(preferenciesLabel.snp.bottom).inset(-24)
+            make.left.right.equalToSuperview()
+        }
+        
         unitsView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
-            make.top.equalTo(preferenciesLabel.snp.bottom).inset(-42)
+            make.top.equalTo(provileView.snp.bottom).inset(-42)
             make.height.equalTo(54)
         }
         

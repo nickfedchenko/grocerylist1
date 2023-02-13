@@ -161,8 +161,8 @@
 // Registration
 "REGISTER"                      = "REGISTER";
 "RegistrationRequired"          = "Registration is required to \nuse shared list functions";
-"Sing Up"                       = "Sing Up";
-"Sing In"                       = "Sing In";
+"Sing Up"                       = "Sing up";
+"Sing In"                       = "Sing in";
 "email"                         = "E-mail";
 "password"                      = "Password";
 "signUpTerms" = "I accept the terms and conditions \n\nI have read the Privacy Policy and acknowledge my rights as a user";
@@ -179,3 +179,6 @@
 "Close"                         = "Close";
 "ok"                            = "Ok";
 "RecievePasswordShortly"        = "If you entered a correct e-mail address, you will receive password reset e-mail shortly";
+
+"Settings.Profile"              = "Profile";
+"Settings.AddPhoto"             = "Add your photo, it will be more beautiful";
