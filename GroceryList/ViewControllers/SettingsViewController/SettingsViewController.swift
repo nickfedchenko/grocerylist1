@@ -296,5 +296,6 @@ extension SettingsViewController: UINavigationControllerDelegate, UIImagePickerC
         self.dismiss(animated: true, completion: nil)
         let image = info[.originalImage] as? UIImage
         profileView.setupImage(avatarImage: image)
+        viewModel?.saveAvatar(image: image)
     }
 }
