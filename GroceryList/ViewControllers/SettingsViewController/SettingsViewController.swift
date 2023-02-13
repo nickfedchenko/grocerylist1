@@ -13,6 +13,7 @@ import UIKit
 class SettingsViewController: UIViewController {
     
     var viewModel: SettingsViewModel?
+    private var imagePicker = UIImagePickerController()
 
     private let preferenciesLabel: UILabel = {
         let label = UILabel()
@@ -276,5 +277,24 @@ extension SettingsViewController: SettingsViewModelDelegate {
         selectUnitsView.updateColors(imperialColor: viewModel?.getBackgroundColorForImperial(),
                                      metricColor: viewModel?.getBackgroundColorForMetric())
         hideUnitsView()
+    }
+}
+
+extension SettingsViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+
+    func pickImage() {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .savedPhotosAlbum
+            imagePicker.allowsEditing = false
+            imagePicker.modalPresentationStyle = .pageSheet
+            present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        self.dismiss(animated: true, completion: nil)
+        let image = info[.originalImage] as? UIImage
+        profileView.setupImage(avatarImage: image)
     }
 }

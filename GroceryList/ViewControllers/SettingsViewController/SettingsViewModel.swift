@@ -12,6 +12,7 @@ protocol SettingsViewModelDelegate: AnyObject {
     func updateSelectionView()
     func setupNotRegisteredView()
     func setupRegisteredView()
+    func pickImage()
 }
 
 class SettingsViewModel {
@@ -39,7 +40,7 @@ class SettingsViewModel {
     }
     
     func avatarButtonTapped() {
-        print("avatarButtonTapped")
+        delegate?.pickImage()
     }
     
     func registerButtonPressed() {
@@ -81,10 +82,10 @@ class SettingsViewModel {
     }
     
     private func checkUser() {
-        guard let user = CoreDataManager.shared.getUser() else {
-            delegate?.setupNotRegisteredView()
-            return
-        }
+//        guard let user = CoreDataManager.shared.getUser() else {
+//            delegate?.setupNotRegisteredView()
+//            return
+//        }
         delegate?.setupRegisteredView()
     }
 }
