@@ -178,4 +178,7 @@
 "RecievePasswordShortly"        = "Если вы ввели правильный адрес электронной почты, вскоре вы получите электронное письмо со сброшенным паролем";
 
 "Settings.Profile"              = "Профиль";
-"Settings.AddPhoto"             = "Добавьте фотограцию, так будет красивее";
+"Settings.AddPhoto"             = "Добавьте фотографию, так будет красивее";
+"Settings.ScreenName"           = "Имя";
+"Settings.Account"              = "Аккаунт";
+"Settings.GroceryListApp"       = "Приложение список покупок";
