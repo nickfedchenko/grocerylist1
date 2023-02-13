@@ -250,6 +250,60 @@ class CoreDataManager {
             debugPrint(error)
         }
     }
+    
+    // MARK: - USER
+    
+    // MARK: - Fetch requests
+    lazy var userRequest: NSFetchRequest = {
+        return NSFetchRequest<NSFetchRequestResult>(entityName: "DomainUser")
+    }()
+    
+    private func deleteEntitiesOfType(request: NSFetchRequest<NSFetchRequestResult> ) {
+        do {
+            let data = try coreData.container.viewContext.fetch(request)
+            for item in data {
+                guard let item = item as? NSManagedObject else { return }
+                coreData.container.viewContext.delete(item)
+            }
+            try? coreData.container.viewContext.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func deleteUser() {
+        deleteEntitiesOfType(request: userRequest)
+    }
+    
+    func saveUser(user: User) {
+        let context = coreData.container.viewContext
+        let object = DomainUser(context: context)
+        object.id = 0
+        object.name = user.userName
+        object.mail = user.email
+        object.password = user.password
+        object.token = user.token
+        object.passwordResetToken = user.passwordResetToken
+        object.avatarUrl = user.avatar
+        object.avatarAsData = user.avatarAsData
+        try? context.save()
+    }
+    
+    func getUser() -> DomainUser? {
+        do {
+            let data = try coreData.container.viewContext.fetch(userRequest)
+            for item in data {
+                if let item = item as? DomainUser {
+                    if item == data.last as? DomainUser {
+                        return item
+                    }
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
 }
 
 extension CoreDataManager: CoredataSyncProtocol {
