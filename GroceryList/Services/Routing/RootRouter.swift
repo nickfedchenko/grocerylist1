@@ -63,6 +63,7 @@ final class RootRouter: RootRouterProtocol {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         goToOnboarding()
+        goToPasswordExpiredController()
     }
     
     func goToOnboarding() {
@@ -137,9 +138,14 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
-    func goToPaswordResetController(email: String) {
+    func goToPasswordExpiredController() {
+        guard let controller = viewControllerFactory.createPasswordExpiredController(router: self) else { return }
+        navigationPushViewController(controller, animated: true)
+    }
+    
+    func goToPaswordResetController(email: String, passwordResetedCompl: @escaping (() -> Void)) {
         guard let controller = viewControllerFactory.createPasswordResetController(router: self,
-                                                                                   email: email) else { return }
+                                                                                   email: email, passwordResetedCompl: passwordResetedCompl) else { return }
         navigationPresent(controller, animated: false)
     }
     
