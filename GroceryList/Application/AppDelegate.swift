@@ -61,9 +61,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
 
-        print(deepLink)
-        print(components.queryItems?.first?.value)
-        rootRouter?.goToSettingsController()
+        guard let token = components.queryItems?.first?.value else { return false }
+        rootRouter?.openResetPassword(token: token)
         return true
     }
 }

@@ -24,6 +24,10 @@ class UserAccountManager {
         CoreDataManager.shared.saveUser(user: user)
     }
     
+    func checkTokenExpiration() {
+        
+    }
+    
     func getLocalModel(domainModel: DomainUser) -> User {
         User(id: Int(domainModel.id),
              userName: domainModel.name,

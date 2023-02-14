@@ -63,7 +63,14 @@ final class RootRouter: RootRouterProtocol {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         goToOnboarding()
-        goToPasswordExpiredController()
+      //  goToSettingsController()
+   //     goToEnterNewPasswordController()
+    }
+    
+    func openResetPassword(token: String) {
+        let userToken = UserAccountManager.shared.getUser()?.token
+        goToSettingsController()
+        goToEnterNewPasswordController()
     }
     
     func goToOnboarding() {
@@ -141,6 +148,11 @@ final class RootRouter: RootRouterProtocol {
     
     func goToPasswordExpiredController() {
         guard let controller = viewControllerFactory.createPasswordExpiredController(router: self) else { return }
+        navigationPushViewController(controller, animated: true)
+    }
+    
+    func goToEnterNewPasswordController() {
+        guard let controller = viewControllerFactory.createEnterNewPasswordController(router: self) else { return }
         navigationPushViewController(controller, animated: true)
     }
     

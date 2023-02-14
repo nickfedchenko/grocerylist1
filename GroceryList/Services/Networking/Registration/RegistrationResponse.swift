@@ -28,6 +28,7 @@ struct User: Codable {
     var password: String?
     var avatarAsData: Data?
     var passwordResetToken: String?
+    var passwordResetTokenDate: Date?
 }
 
 struct ChangeUsernameResponse: Codable {
