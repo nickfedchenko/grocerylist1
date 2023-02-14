@@ -124,6 +124,10 @@
 		B381EF18299A02A100DCDE40 /* DomainUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF16299A02A100DCDE40 /* DomainUser+CoreDataClass.swift */; };
 		B381EF1A299A08ED00DCDE40 /* SettingsProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF19299A08ED00DCDE40 /* SettingsProfileView.swift */; };
 		B381EF1D299A573500DCDE40 /* UserAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF1C299A573500DCDE40 /* UserAccountManager.swift */; };
+		B381EF20299B5B1A00DCDE40 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF1F299B5B1A00DCDE40 /* AccountViewController.swift */; };
+		B381EF22299B5B2500DCDE40 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF21299B5B2500DCDE40 /* AccountViewModel.swift */; };
+		B381EF24299B660D00DCDE40 /* LogOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF23299B660D00DCDE40 /* LogOutView.swift */; };
+		B381EF26299B661700DCDE40 /* DeleteAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF25299B661700DCDE40 /* DeleteAccountView.swift */; };
 		B3981C56297A86EA00206DB7 /* SF Pro Rounded Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C54297A85F800206DB7 /* SF Pro Rounded Bold.otf */; };
 		B3981C57297A86EC00206DB7 /* SF Pro Rounded Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */; };
 		B3981C58297A86EE00206DB7 /* SF Pro Rounded Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */; };
@@ -298,6 +302,10 @@
 		B381EF16299A02A100DCDE40 /* DomainUser+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainUser+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B381EF19299A08ED00DCDE40 /* SettingsProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsProfileView.swift; sourceTree = "<group>"; };
 		B381EF1C299A573500DCDE40 /* UserAccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountManager.swift; sourceTree = "<group>"; };
+		B381EF1F299B5B1A00DCDE40 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		B381EF21299B5B2500DCDE40 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
+		B381EF23299B660D00DCDE40 /* LogOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutView.swift; sourceTree = "<group>"; };
+		B381EF25299B661700DCDE40 /* DeleteAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountView.swift; sourceTree = "<group>"; };
 		B3981C51297A85F800206DB7 /* SF Pro Rounded Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Regular.otf"; sourceTree = "<group>"; };
 		B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Heavy.otf"; sourceTree = "<group>"; };
 		B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Medium.otf"; sourceTree = "<group>"; };
@@ -982,6 +990,7 @@
 				B3777E172938BE790074BE38 /* SettingsViewController */,
 				B3F7C9C529963EEA0081B245 /* PasswordResetViewController */,
 				B3F7C9B82993A0F70081B245 /* SignUpViewCntroller */,
+				B381EF1E299B5AFD00DCDE40 /* AccountViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1057,6 +1066,17 @@
 				B381EF1C299A573500DCDE40 /* UserAccountManager.swift */,
 			);
 			path = UserAccountManager;
+			sourceTree = "<group>";
+		};
+		B381EF1E299B5AFD00DCDE40 /* AccountViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B381EF1F299B5B1A00DCDE40 /* AccountViewController.swift */,
+				B381EF23299B660D00DCDE40 /* LogOutView.swift */,
+				B381EF25299B661700DCDE40 /* DeleteAccountView.swift */,
+				B381EF21299B5B2500DCDE40 /* AccountViewModel.swift */,
+			);
+			path = AccountViewController;
 			sourceTree = "<group>";
 		};
 		B3AD42D32991061D0043A37F /* SocketManager */ = {
@@ -1368,6 +1388,7 @@
 				B3673EB72938F70B002D9262 /* BackendDatabaseProductsSaver.swift in Sources */,
 				B36AF9552915410400944E9D /* InstructionCell.swift in Sources */,
 				B34EACA8293500C000FBD0E0 /* CreateNewCategoryViewController.swift in Sources */,
+				B381EF22299B5B2500DCDE40 /* AccountViewModel.swift in Sources */,
 				B3777E2B2938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift in Sources */,
 				389DCF432945CDFA00DB9382 /* RecipeViewController.swift in Sources */,
 				B35F0F612937972700C19891 /* UnitSystemModel.swift in Sources */,
@@ -1395,6 +1416,7 @@
 				B37A2CE82911034D003C01AD /* UITextFieldExtension.swift in Sources */,
 				B3F7C9CD29964D320081B245 /* YourEmailView.swift in Sources */,
 				B36AF93B2913C66000944E9D /* MainScreenViewModel.swift in Sources */,
+				B381EF26299B661700DCDE40 /* DeleteAccountView.swift in Sources */,
 				B315F9D52988FD530009CEB8 /* AlternativePaywallViewController.swift in Sources */,
 				B3AD42D5299106360043A37F /* SocketManager.swift in Sources */,
 				B3F7C9B029937CD60081B245 /* RegisterWithMessageView.swift in Sources */,
@@ -1417,6 +1439,7 @@
 				B315F9E12989373A0009CEB8 /* TryForFreeView.swift in Sources */,
 				B3F7C9B429939E0B0081B245 /* SignUpViewController.swift in Sources */,
 				B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */,
+				B381EF20299B5B1A00DCDE40 /* AccountViewController.swift in Sources */,
 				B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */,
 				389DCF4E2946534300DB9382 /* RecipeServingSelector.swift in Sources */,
 				B381EF18299A02A100DCDE40 /* DomainUser+CoreDataClass.swift in Sources */,
@@ -1470,6 +1493,7 @@
 				B360918F2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */,
 				B3D20456292F6C0600599A01 /* SelectProductCell.swift in Sources */,
 				38817892293BEC8E0094344D /* DataProviderFacade.swift in Sources */,
+				B381EF24299B660D00DCDE40 /* LogOutView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

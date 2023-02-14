@@ -252,7 +252,7 @@ extension SettingsViewController: MFMailComposeViewControllerDelegate {
 
 extension SettingsViewController: SettingsViewModelDelegate {
     
-    func setupRegisteredView(avatarImage: UIImage?) {
+    func setupRegisteredView(avatarImage: UIImage?, userName: String?, email: String) {
         registerView.isHidden = true
         profileView.isHidden = false
         
@@ -262,7 +262,9 @@ extension SettingsViewController: SettingsViewModelDelegate {
             make.height.equalTo(54)
         }
         
+        profileView.setupView(avatarImage: avatarImage, email: email, userName: userName)
         profileView.setupImage(avatarImage: avatarImage)
+        
     }
     
     func setupNotRegisteredView() {

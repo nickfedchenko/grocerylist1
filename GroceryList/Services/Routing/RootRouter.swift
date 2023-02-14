@@ -133,6 +133,11 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
+    func goToAccountController() {
+        guard let controller = viewControllerFactory.createAccountController(router: self) else { return }
+        navigationPushViewController(controller, animated: true)
+    }
+    
     func goToPaswordResetController(email: String) {
         guard let controller = viewControllerFactory.createPasswordResetController(router: self,
                                                                                    email: email) else { return }

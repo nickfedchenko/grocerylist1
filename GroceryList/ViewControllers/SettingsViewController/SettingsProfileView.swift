@@ -96,9 +96,11 @@ final class SettingsProfileView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupView(avatarImage: UIImage?, email: String) {
+    func setupView(avatarImage: UIImage?, email: String, userName: String?) {
         emailView.setupView(text: email, isAttrHidden: true)
         setupImage(avatarImage: avatarImage)
+        guard let userName = userName else { return }
+        screenNameTextFieldView.setupTextForTextfield(text: userName)
     }
     
     func setupImage(avatarImage: UIImage?) {

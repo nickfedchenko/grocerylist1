@@ -185,3 +185,7 @@
 "Settings.ScreenName"           = "Screen Name";
 "Settings.Account"              = "Account";
 "Settings.GroceryListApp"       = "Grocery List App";
+"Settings.Account.LogOut"       = "Log Out";
+"Settings.Account.DeleteAccount"= "Delete Account";
+"Settings.Account.ToUseShared"  = "To use Shared Notes, please login again.";
+"Settings.Account.Cancel"       = "Cancel";
