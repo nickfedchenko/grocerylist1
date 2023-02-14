@@ -8,6 +8,8 @@
 import Foundation
 
 class UserAccountManager {
+    
+    static var shared = UserAccountManager()
 
     func getUser() -> User? {
         guard let domainUser = CoreDataManager.shared.getUser() else { return nil }
