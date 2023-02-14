@@ -161,8 +161,8 @@
 // Registration
 "REGISTER"                      = "REGISTER";
 "RegistrationRequired"          = "Registration is required to \nuse shared list functions";
-"Sing Up"                       = "Sing up";
-"Sing In"                       = "Sing in";
+"Sing Up"                       = "Sign up";
+"Sing In"                       = "Sign in";
 "email"                         = "E-mail";
 "password"                      = "Password";
 "signUpTerms" = "I accept the terms and conditions \n\nI have read the Privacy Policy and acknowledge my rights as a user";
