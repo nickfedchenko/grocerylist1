@@ -24,7 +24,7 @@ extension DomainUser {
     @NSManaged public var passwordResetToken: String?
     @NSManaged public var avatarUrl: String?
     @NSManaged public var avatarAsData: Data?
-
+    @NSManaged public var passwordResetTokenDate: Date?
 }
 
 extension DomainUser : Identifiable {

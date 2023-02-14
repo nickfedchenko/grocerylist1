@@ -285,6 +285,7 @@ class CoreDataManager {
         object.passwordResetToken = user.passwordResetToken
         object.avatarUrl = user.avatar
         object.avatarAsData = user.avatarAsData
+        object.passwordResetTokenDate = user.passwordResetTokenDate
         try? context.save()
     }
     
