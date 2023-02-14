@@ -127,7 +127,10 @@ class SignUpViewModel {
     }
     
     func resetPasswordPressed() {
-        router?.goToPaswordResetController(email: emailParameters.text)
+        router?.goToPaswordResetController(email: emailParameters.text,
+                                           passwordResetedCompl: { [weak self] in
+            self?.router?.pop()
+        })
     }
     
     func signWithApplePressed() {

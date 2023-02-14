@@ -68,8 +68,11 @@ protocol ViewControllerFactoryProtocol {
     func createReviewsController(router: RootRouter) -> UIViewController
     func createReviewController(router: RootRouter) -> UIViewController?
     func createSignUpController(router: RootRouter) -> UIViewController?
-    func createPasswordResetController(router: RootRouter, email: String) -> UIViewController?
+    func createPasswordResetController(router: RootRouter,
+                                       email: String,
+                                       passwordResetedCompl: (() -> Void)?) -> UIViewController?
     func createAccountController(router: RootRouter) -> UIViewController?
+    func createPasswordExpiredController(router: RootRouter) -> UIViewController?
 }
 
 // MARK: - Factory
@@ -245,7 +248,9 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createPasswordResetController(router: RootRouter, email: String) -> UIViewController? {
+    func createPasswordResetController(router: RootRouter,
+                                       email: String,
+                                       passwordResetedCompl: (() -> Void)?) -> UIViewController? {
         let viewController = PasswordResetViewController()
         let networkManager = NetworkEngine()
         let viewModel = PasswordResetViewModel(network: networkManager)
@@ -253,6 +258,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewController.viewModel = viewModel
         viewModel.router = router
         viewModel.email = email
+        viewModel.passwordResetedCompl = passwordResetedCompl
         return viewController
     }
     
@@ -260,6 +266,15 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let viewController = AccountViewController()
         let networkManager = NetworkEngine()
         let viewModel = AccountViewModel(network: networkManager)
+        viewModel.delegate = viewController
+        viewController.viewModel = viewModel
+        viewModel.router = router
+        return viewController
+    }
+    
+    func createPasswordExpiredController(router: RootRouter) -> UIViewController? {
+        let viewController = PasswordExpiredViewController()
+        let viewModel = PasswordExpiredViewModel()
         viewModel.delegate = viewController
         viewController.viewModel = viewModel
         viewModel.router = router

@@ -77,6 +77,10 @@ class AccountViewController: UIViewController {
         addRecognizers()
     }
     
+    deinit {
+        print("AccountViewController deinied")
+    }
+    
     // MARK: - Constraints
     private func setupConstraints() {
         view.backgroundColor = .backgroundColor

@@ -129,6 +129,8 @@
 		B381EF24299B660D00DCDE40 /* LogOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF23299B660D00DCDE40 /* LogOutView.swift */; };
 		B381EF26299B661700DCDE40 /* DeleteAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF25299B661700DCDE40 /* DeleteAccountView.swift */; };
 		B381EF2A299B977700DCDE40 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9BB2994D8F80081B245 /* TermsView.swift */; };
+		B381EF2C299BA18500DCDE40 /* PasswordExpiredViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF2B299BA18500DCDE40 /* PasswordExpiredViewController.swift */; };
+		B381EF2E299BA19600DCDE40 /* PasswordExpiredViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF2D299BA19600DCDE40 /* PasswordExpiredViewModel.swift */; };
 		B3981C56297A86EA00206DB7 /* SF Pro Rounded Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C54297A85F800206DB7 /* SF Pro Rounded Bold.otf */; };
 		B3981C57297A86EC00206DB7 /* SF Pro Rounded Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */; };
 		B3981C58297A86EE00206DB7 /* SF Pro Rounded Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */; };
@@ -305,6 +307,8 @@
 		B381EF21299B5B2500DCDE40 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		B381EF23299B660D00DCDE40 /* LogOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutView.swift; sourceTree = "<group>"; };
 		B381EF25299B661700DCDE40 /* DeleteAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountView.swift; sourceTree = "<group>"; };
+		B381EF2B299BA18500DCDE40 /* PasswordExpiredViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordExpiredViewController.swift; sourceTree = "<group>"; };
+		B381EF2D299BA19600DCDE40 /* PasswordExpiredViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordExpiredViewModel.swift; sourceTree = "<group>"; };
 		B3981C51297A85F800206DB7 /* SF Pro Rounded Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Regular.otf"; sourceTree = "<group>"; };
 		B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Heavy.otf"; sourceTree = "<group>"; };
 		B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Medium.otf"; sourceTree = "<group>"; };
@@ -1081,6 +1085,8 @@
 		B381EF29299B904A00DCDE40 /* PasswordExpiredController */ = {
 			isa = PBXGroup;
 			children = (
+				B381EF2B299BA18500DCDE40 /* PasswordExpiredViewController.swift */,
+				B381EF2D299BA19600DCDE40 /* PasswordExpiredViewModel.swift */,
 			);
 			path = PasswordExpiredController;
 			sourceTree = "<group>";
@@ -1359,6 +1365,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B381EF2E299BA19600DCDE40 /* PasswordExpiredViewModel.swift in Sources */,
 				B3C3FA4729115AA20011EC0A /* OnboardingContentView.swift in Sources */,
 				B315F9DE2989339A0009CEB8 /* CheckmarkCompositionView.swift in Sources */,
 				B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */,
@@ -1493,6 +1500,7 @@
 				B36AF9392913C5DC00944E9D /* MainScreenViewController.swift in Sources */,
 				B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */,
 				386CFAC7299542BE00B4AD76 /* R.generated.swift in Sources */,
+				B381EF2C299BA18500DCDE40 /* PasswordExpiredViewController.swift in Sources */,
 				B36091902927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */,
 				B36AF957291554EC00944E9D /* MainScreenDataManager.swift in Sources */,
 				B34BB81D292E567B00748E8E /* SelectProductViewController.swift in Sources */,

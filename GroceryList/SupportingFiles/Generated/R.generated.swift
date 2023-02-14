@@ -73,7 +73,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 154 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 156 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -608,6 +608,20 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var registrationRequired: RswiftResources.StringResource { .init(key: "RegistrationRequired", tableName: "Localizable", source: source, developmentValue: "Registration is required to \nuse shared list functions", comment: nil) }
+
+      /// en translation: Enter new password
+      ///
+      /// Key: ResetPassword.EnterNewPassw
+      ///
+      /// Locales: en, ru
+      var resetPasswordEnterNewPassw: RswiftResources.StringResource { .init(key: "ResetPassword.EnterNewPassw", tableName: "Localizable", source: source, developmentValue: "Enter new password", comment: nil) }
+
+      /// en translation: This link can be used only once and will become inactive in 1 hour.  Please reset again.
+      ///
+      /// Key: ResetPassword.LinkInactive
+      ///
+      /// Locales: en, ru
+      var resetPasswordLinkInactive: RswiftResources.StringResource { .init(key: "ResetPassword.LinkInactive", tableName: "Localizable", source: source, developmentValue: "This link can be used only once and will become inactive in 1 hour. \nPlease reset again.", comment: nil) }
 
       /// en translation: Save time and money  with us
       ///

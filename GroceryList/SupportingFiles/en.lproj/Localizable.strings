@@ -192,3 +192,6 @@
 "Settings.Account.DeleteAcc?"   = "Delete account?";
 "Settings.Account.PremanentDel" = "You are about to permanently delete your account along with all data associated to it";
 "Settings.Account.Delete"       = "Delete";
+
+"ResetPassword.EnterNewPassw"   = "Enter new password";
+"ResetPassword.LinkInactive"    = "This link can be used only once and will become inactive in 1 hour. \nPlease reset again.";

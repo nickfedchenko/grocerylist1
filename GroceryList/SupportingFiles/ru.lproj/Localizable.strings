@@ -189,3 +189,6 @@
 "Settings.Account.DeleteAcc?"   = "Удалить аккаунт?";
 "Settings.Account.PremanentDel" = "Вы собираетесь безвозвратно удалить свою учетную запись вместе со всеми связанными с ней данными";
 "Settings.Account.Delete"       = "Удалить";
+
+"ResetPassword.EnterNewPassw"   = "Введите новый пароль";
+"ResetPassword.LinkInactive"    = "Эта ссылка может быть использована только один раз и становится неактивной через 1 час. \NПожалуйста, сбросьте пароль еще раз.";

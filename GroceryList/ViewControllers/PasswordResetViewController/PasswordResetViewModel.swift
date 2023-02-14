@@ -17,6 +17,8 @@ class PasswordResetViewModel {
     weak var delegate: PasswordResetViewModelDelegate?
     weak var router: RootRouter?
 
+    var passwordResetedCompl: (() -> Void)?
+   
     var email: String = "" {
         didSet {
             delegate?.setupTextfieldText(text: email)
@@ -38,6 +40,7 @@ class PasswordResetViewModel {
             resetPassword(text: text)
             isFirstState = false
         } else {
+            passwordResetedCompl?()
             delegate?.dismissController()
         }
  
