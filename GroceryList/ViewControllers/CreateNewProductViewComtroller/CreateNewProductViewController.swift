@@ -238,6 +238,7 @@ class CreateNewProductViewController: UIViewController {
         setupBackgroundColor()
         addRecognizers()
         setupTableView()
+        setupProduct()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -254,6 +255,28 @@ class CreateNewProductViewController: UIViewController {
         print("create new list deinited")
     }
     
+    // MARK: - Setup Product
+    private func setupProduct() {
+        guard viewModel?.currentProduct != nil else {
+            return
+        }
+        
+        topCategoryView.backgroundColor = UIColor(hex: "#80C980")
+        topCategoryLabel.textColor = .white
+        topCategoryLabel.text = viewModel?.productCategory
+        topTextField.text = viewModel?.productName
+        addImageImage.image = viewModel?.productImage
+        isImageChanged = true
+        bottomTextField.text = viewModel?.productDescription
+        userCommentText = viewModel?.userComment ?? ""
+        quantityCount += viewModel?.productQuantityCount ?? 0
+        quantityLabel.text = getDecimalString()
+        selectUnitLabel.text = viewModel?.productQuantityUnit
+        quantityValueStep = viewModel?.productStepValue ?? 1
+        readyToSave()
+        quantityAvailable()
+    }
+    
     // MARK: - ButtonActions
     @objc
     private func plusButtonAction() {
@@ -266,7 +289,6 @@ class CreateNewProductViewController: UIViewController {
     @objc
     private func minusButtonAction() {
         guard quantityCount > 1 else {
-            userCommentText = ""
             return quantityNotAvailable()
         }
         quantityCount -= quantityValueStep
@@ -278,16 +300,19 @@ class CreateNewProductViewController: UIViewController {
     private func setupText() {
         let quantity = selectUnitLabel.text ?? ""
         
-        if userCommentText.isEmpty {
+        let words = userCommentText.components(separatedBy: " ")
+        let count = quantityCount - quantityValueStep
+        let countString = String(format: "%.\(count.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", count)
+        let wordsToRemove = "\(countString) \(quantity)".components(separatedBy: " ")
+        let result = words.filter { !wordsToRemove.contains($0) }.joined(separator: " ")
+        userCommentText = result
+        
+        let comma = userCommentText.last == "," ? "" : ","
+        guard !userCommentText.isEmpty else {
             bottomTextField.text = "\(getDecimalString()) \(quantity) "
-        } else {
-            let words = userCommentText.components(separatedBy: " ")
-            let wordsToRemove = "\(quantityCount - quantityValueStep) \(quantity)".components(separatedBy: " ")
-            let result = words.filter { !wordsToRemove.contains($0) }.joined(separator: " ")
-            userCommentText = result
-          
-            bottomTextField.text = userCommentText + ", \(getDecimalString()) \(quantity) "
+            return
         }
+        bottomTextField.text = userCommentText + "\(comma) \(getDecimalString()) \(quantity) "
     }
     
     private func getDecimalString() -> String {

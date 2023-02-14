@@ -45,6 +45,7 @@ protocol ViewControllerFactoryProtocol {
     ) -> UIViewController?
     func createCreateNewProductController(
         model: GroceryListsModel?,
+        product: Product?,
         router: RootRouter,
         compl: @escaping (Product) -> Void
     )
@@ -115,7 +116,8 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createCreateNewProductController(
-        model: GroceryListsModel?, router: RootRouter,
+        model: GroceryListsModel?, product: Product? = nil,
+        router: RootRouter,
         compl: @escaping (Product) -> Void
     ) -> UIViewController? {
         let viewController = CreateNewProductViewController()
@@ -125,6 +127,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.delegate = viewController
         viewModel.router = router
         viewModel.model = model
+        viewModel.currentProduct = product
         let navController = MyNavigationController(rootViewController: viewController)
         navController.navigationBar.isHidden = true
         return navController

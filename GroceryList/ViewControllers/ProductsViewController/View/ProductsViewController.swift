@@ -144,6 +144,18 @@ class ProductsViewController: UIViewController {
             return
         }
         tapPressAction()
+        
+        let location = recognizer.location(in: self.collectionView)
+        guard let indexPath = self.collectionView.indexPathForItem(at: location),
+                  let model = dataSource?.itemIdentifier(for: indexPath) else {
+                      return
+                  }
+        
+        switch model {
+        case .parent: break
+        case .child(let product):
+            viewModel?.addNewProductTapped(product)
+        }
     }
     
     @objc
