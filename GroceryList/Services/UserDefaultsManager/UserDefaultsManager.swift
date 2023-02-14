@@ -57,6 +57,15 @@ class UserDefaultsManager {
         }
     }
     
+    static var countInfoMessage: Int {
+        get {
+            return UserDefaults.standard.integer(forKey: "countInfoMessage")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "countInfoMessage")
+        }
+    }
+    
     static var favoritesRecipeIds: [Int] {
         get {
             guard

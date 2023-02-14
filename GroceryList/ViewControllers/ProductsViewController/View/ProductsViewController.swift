@@ -75,6 +75,9 @@ class ProductsViewController: UIViewController {
         return label
     }()
     
+    private let messageView = InfoMessageView()
+    private var taprecognizer = UITapGestureRecognizer()
+    
     private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
     
     // MARK: - LifeCycle
@@ -83,10 +86,16 @@ class ProductsViewController: UIViewController {
         setupConstraints()
         setupCollectionView()
         setupController()
+        setupInfoMessage()
         addRecognizer()
         viewModel?.valueChangedCallback = { [weak self] in
             self?.reloadData()
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        messageView.layoutIfNeeded()
     }
     
     private func setupController() {
@@ -96,6 +105,20 @@ class ProductsViewController: UIViewController {
         nameOfListLabel.textColor = viewModel?.getColorForForeground()
         navigationView.backgroundColor = viewModel?.getColorForBackground()
         collectionView.reloadData()
+    }
+    
+    private func setupInfoMessage() {
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async {
+                self.setupInfoMessage()
+            }
+            return
+        }
+        messageView.isHidden = UserDefaultsManager.countInfoMessage >= 4 || (viewModel?.arrayWithSections.isEmpty ?? true)
+        messageView.updateView()
+        messageView.snp.updateConstraints {
+            $0.top.equalToSuperview().offset(collectionView.contentSize.height + 4)
+        }
     }
     
     deinit {
@@ -115,9 +138,28 @@ class ProductsViewController: UIViewController {
         viewModel?.settingsTapped(with: snapshot)
     }
     
+    @objc
+    private func longPressAction(_ recognizer: UILongPressGestureRecognizer) {
+        guard recognizer.state == .began else {
+            return
+        }
+        tapPressAction()
+    }
+    
+    @objc
+    private func tapPressAction() {
+        guard !messageView.isHidden else {
+            return
+        }
+        
+        UserDefaultsManager.countInfoMessage += 1
+        UIView.animate(withDuration: 0.5) { self.messageView.isHidden = true }
+        taprecognizer.isEnabled = false
+    }
+    
     // MARK: - CollectionView
     func setupCollectionView() {
-        collectionView.contentInset.bottom = 60
+        collectionView.contentInset.bottom = 120
         
         // MARK: Configure collection view
         collectionView.delegate = self
@@ -195,6 +237,7 @@ class ProductsViewController: UIViewController {
             }
         }
         self.dataSource.apply(sectionSnapshot, to: .main, animatingDifferences: true)
+        setupInfoMessage()
     }
     
     private func makeSnapshot() -> UIImage? {
@@ -221,6 +264,7 @@ class ProductsViewController: UIViewController {
         view.addSubviews([collectionView, navigationView, addItemView])
         navigationView.addSubviews([arrowBackButton, nameOfListLabel, contextMenuButton])
         addItemView.addSubviews([plusImage, addItemLabel])
+        collectionView.addSubview(messageView)
         
         navigationView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
@@ -266,6 +310,12 @@ class ProductsViewController: UIViewController {
         collectionView.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
             make.top.equalTo(navigationView.snp.bottom).inset(30)
+        }
+        
+        messageView.snp.makeConstraints { make in
+            make.width.equalTo(264)
+            make.centerX.equalTo(self.view)
+            make.top.equalToSuperview().offset(collectionView.contentSize.height + 4)
         }
     }
 }
@@ -363,10 +413,19 @@ extension ProductsViewController {
     private func addRecognizer() {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(addItemViewTapped))
         addItemView.addGestureRecognizer(tapRecognizer)
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
+        collectionView.addGestureRecognizer(longPressGesture)
+        
+        if UserDefaultsManager.countInfoMessage < 4 {
+            taprecognizer = UITapGestureRecognizer(target: self, action: #selector(tapPressAction))
+            self.view.addGestureRecognizer(taprecognizer)
+        }
     }
     
     @objc
     private func addItemViewTapped () {
+        tapPressAction()
         viewModel?.addNewProductTapped()
     }
 }

@@ -54,6 +54,7 @@
 "SearcInCategory"           = "SucheInKategorie";
 "Create"                    = "Erstellen";
 "NewCategory"               = "Neue Kategorie";
+"Long press on an Item"     = "Langes Drücken auf ein Element, kehrt zur Bearbeitung zurück";
 
 "Alcohol"                   = "Alkohol";
 "Grocery"                   = "Lebensmittelgeschäft";
