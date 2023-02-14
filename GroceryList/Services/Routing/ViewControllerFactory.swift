@@ -72,6 +72,7 @@ protocol ViewControllerFactoryProtocol {
                                        passwordResetedCompl: (() -> Void)?) -> UIViewController?
     func createAccountController(router: RootRouter) -> UIViewController?
     func createPasswordExpiredController(router: RootRouter) -> UIViewController?
+    func createEnterNewPasswordController(router: RootRouter) -> UIViewController?
 }
 
 // MARK: - Factory
@@ -272,6 +273,15 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createPasswordExpiredController(router: RootRouter) -> UIViewController? {
         let viewController = PasswordExpiredViewController()
         let viewModel = PasswordExpiredViewModel()
+        viewModel.delegate = viewController
+        viewController.viewModel = viewModel
+        viewModel.router = router
+        return viewController
+    }
+    
+    func createEnterNewPasswordController(router: RootRouter) -> UIViewController? {
+        let viewController = EnterNewPasswordViewController()
+        let viewModel = EnterNewPasswordViewModel()
         viewModel.delegate = viewController
         viewController.viewModel = viewModel
         viewModel.router = router
