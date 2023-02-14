@@ -226,8 +226,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createSettingsController(router: RootRouter) -> UIViewController? {
         let viewController = SettingsViewController()
         let networkManager = NetworkEngine()
-        let userAccountManager = UserAccountManager()
-        let viewModel = SettingsViewModel(network: networkManager, userAccountManager: userAccountManager)
+        let viewModel = SettingsViewModel(network: networkManager)
         viewModel.delegate = viewController
         viewController.viewModel = viewModel
         viewModel.router = router

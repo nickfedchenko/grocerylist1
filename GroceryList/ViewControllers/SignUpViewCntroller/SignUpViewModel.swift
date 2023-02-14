@@ -167,7 +167,7 @@ class SignUpViewModel {
     }
     
     private func saveUserModel(userModel: User) {
-        print(userModel)
+        UserAccountManager.shared.saveUser(user: userModel)
         router?.pop()
     }
     

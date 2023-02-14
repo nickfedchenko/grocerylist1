@@ -11,7 +11,7 @@ import UIKit
 protocol SettingsViewModelDelegate: AnyObject {
     func updateSelectionView()
     func setupNotRegisteredView()
-    func setupRegisteredView()
+    func setupRegisteredView(avatarImage: UIImage?)
     func pickImage()
 }
 
@@ -21,7 +21,6 @@ class SettingsViewModel {
     weak var router: RootRouter?
     
     var network: NetworkEngine
-    var userAccountManager: UserAccountManager
    
     var isMetricSystem: Bool {
         UserDefaultsManager.isMetricSystem
@@ -29,8 +28,7 @@ class SettingsViewModel {
     
     private var user: User?
     
-    init(network: NetworkEngine, userAccountManager: UserAccountManager) {
-        self.userAccountManager = userAccountManager
+    init(network: NetworkEngine) {
         self.network = network
     }
     
@@ -42,7 +40,7 @@ class SettingsViewModel {
         guard var user = user else { return }
         
         user.userName = name
-        userAccountManager.saveUser(user: user)
+        UserAccountManager.shared.saveUser(user: user)
         NetworkEngine().updateUserName(userToken: user.token, newName: name) { result in
             switch result {
             case .failure(let error):
@@ -69,7 +67,7 @@ class SettingsViewModel {
         guard let imageData = image?.jpegData(compressionQuality: 1), var user = user else { return }
      
         user.avatarAsData = imageData
-        userAccountManager.saveUser(user: user)
+        UserAccountManager.shared.saveUser(user: user)
         NetworkEngine().uploadAvatar(userToken: user.token, imageData: imageData) { result in
             switch result {
             case .failure(let error):
@@ -120,13 +118,19 @@ class SettingsViewModel {
     }
     
     private func checkUser() {
-        guard let user = userAccountManager.getUser() else {
+        guard let user = UserAccountManager.shared.getUser() else {
             delegate?.setupNotRegisteredView()
             return
         }
        
         self.user = user
-        delegate?.setupRegisteredView()
+        
+        var image: UIImage?
+        if let avatarData = user.avatarAsData, let domainImage = UIImage(data: avatarData) {
+            image = domainImage
+        }
+        
+        delegate?.setupRegisteredView(avatarImage: image)
     }
 }
 
