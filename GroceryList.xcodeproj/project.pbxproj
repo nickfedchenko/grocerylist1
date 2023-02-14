@@ -972,6 +972,7 @@
 		B37A2CDC29110263003C01AD /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				B381EF29299B904A00DCDE40 /* PasswordExpiredController */,
 				B315F9E4298A3F0A0009CEB8 /* WriteReviewController */,
 				B3D858462939D43B00CCE230 /* Paywall */,
 				B37A2CDD2911027E003C01AD /* Onboarding */,
@@ -1074,6 +1075,13 @@
 				B381EF21299B5B2500DCDE40 /* AccountViewModel.swift */,
 			);
 			path = AccountViewController;
+			sourceTree = "<group>";
+		};
+		B381EF29299B904A00DCDE40 /* PasswordExpiredController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PasswordExpiredController;
 			sourceTree = "<group>";
 		};
 		B3AD42D32991061D0043A37F /* SocketManager */ = {
