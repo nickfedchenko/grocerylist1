@@ -25,6 +25,7 @@ typealias PasswordUpdateResult = (Result<PasswordUpdateResponse, AFError>) -> Vo
 typealias UpdateUsernameResult = (Result<UpdateUsernameResponse, AFError>) -> Void
 typealias UploadAvatarResult = (Result<UploadAvatarResponse, AFError>) -> Void
 typealias LogInResult = (Result<LogInResponse, AFError>) -> Void
+typealias DeleteUserResult = (Result<DeleteUserResponse, AFError>) -> Void
 
 enum RequestGenerator: Codable {
     case getProducts
@@ -37,6 +38,7 @@ enum RequestGenerator: Codable {
     case resendVerification(email: String)
     case passwordReset(email: String)
     case updatePassword(newPassword: String, resetToken: String)
+    case deleteUser(userToken: String)
     
     private var bearerToken: String {
         return "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
@@ -76,6 +78,10 @@ enum RequestGenerator: Codable {
         case .updatePassword(let newPassword, let resetToken):
             return requestCreator(basicURL: "https://newketo.finanse.space/api/user/password/update", method: .post) { components in
                 injectNewPasswordAndResetToken(in: &components, newPassword: newPassword, resetToken: resetToken)
+            }
+        case .deleteUser(userToken: let userToken):
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/delete", method: .post) { components in
+                injectUserToken(in: &components, userToken: userToken)
             }
         case .uploadAvatar:
             fatalError("use multiformRequestObject")
@@ -330,5 +336,10 @@ extension NetworkEngine: NetworkDataProvider {
     /// метод фактической смены пароля
     func updatePassword(newPassword: String, resetToken: String, completion: @escaping PasswordUpdateResult) {
         performDecodableRequest(request: .updatePassword(newPassword: newPassword, resetToken: resetToken), completion: completion)
+    }
+    
+    /// метод фактической смены пароля
+    func deleteUser(userToken: String, completion: @escaping DeleteUserResult) {
+        performDecodableRequest(request: .deleteUser(userToken: userToken), completion: completion)
     }
 }

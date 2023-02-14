@@ -42,7 +42,7 @@ final class LogOutView: UIView {
         button.addTarget(self, action: #selector(logOutTapped), for: .touchUpInside)
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.backgroundColor = UIColor(hex: "#19645A")
-        button.layer.cornerRadius = 16
+        button.layer.cornerRadius = 8
         button.layer.cornerCurve = .continuous
         button.layer.masksToBounds = true
         button.addShadowForView(radius: 5)

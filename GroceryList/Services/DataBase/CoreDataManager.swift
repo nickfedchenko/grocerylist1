@@ -89,6 +89,7 @@ class CoreDataManager {
             object.category = product.category
             object.isFavorite = product.isFavorite
             object.fromRecipeTitle = product.fromRecipeTitle
+            object.userDescription = product.description
         }
         do {
             try context.save()

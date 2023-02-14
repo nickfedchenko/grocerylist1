@@ -9,18 +9,25 @@ import Foundation
 
 protocol AccountViewModelDelegate: AnyObject {
     func showLogOut()
+    func showDeleteAccount()
 }
 
 class AccountViewModel {
     weak var delegate: AccountViewModelDelegate?
     weak var router: RootRouter?
     
+    private var network: NetworkEngine
+    
+    init(network: NetworkEngine) {
+        self.network = network
+    }
+    
     func backButtonPressed() {
         router?.pop()
     }
     
     func deleteAccountPressed() {
-        print("deleteAccountPressed")
+        delegate?.showDeleteAccount()
     }
     
     func logOutPressed() {
@@ -28,6 +35,21 @@ class AccountViewModel {
     }
     
     func logOutInPopupPressed() {
+        UserAccountManager.shared.deleteUser()
+        router?.popToRoot()
+    }
+    
+    func deleteInPopupPressed() {
+        guard let user = UserAccountManager.shared.getUser() else { return }
+        let userToken = user.token
+        network.deleteUser(userToken: userToken) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let response):
+                print(response)
+            }
+        }
         UserAccountManager.shared.deleteUser()
         router?.popToRoot()
     }

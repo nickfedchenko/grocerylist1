@@ -85,3 +85,9 @@ struct UploadAvatarResponse: Codable {
     var messages: [String]
     var user: User?
 }
+
+struct DeleteUserResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var success: Bool?
+}

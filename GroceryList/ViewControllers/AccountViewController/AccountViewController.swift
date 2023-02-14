@@ -36,7 +36,7 @@ class AccountViewController: UIViewController {
         return view
     }()
     
-    private let deleteAccountView: SettingsParametrView = {
+    private let deleteAccountViewButton: SettingsParametrView = {
         let view = SettingsParametrView()
         view.setupView(text: R.string.localizable.settingsAccountDeleteAccount(),
                        isAttrHidden: true,
@@ -57,6 +57,19 @@ class AccountViewController: UIViewController {
         return view
     }()
     
+    private lazy var deleteAccountView: DeleteAccountView = {
+        let view = DeleteAccountView()
+        view.deletePressed = { [weak self] in
+            self?.viewModel?.deleteInPopupPressed()
+        }
+        
+        view.cancelPressed = { [weak self] in
+            self?.deleteAccountView.hideView()
+        }
+        
+        return view
+    }()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +80,7 @@ class AccountViewController: UIViewController {
     // MARK: - Constraints
     private func setupConstraints() {
         view.backgroundColor = .backgroundColor
-        view.addSubviews([backButton, logOutViewButton, deleteAccountView, logOutView])
+        view.addSubviews([backButton, logOutViewButton, deleteAccountViewButton, logOutView, deleteAccountView])
         
         backButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
@@ -80,13 +93,17 @@ class AccountViewController: UIViewController {
             make.height.equalTo(54)
         }
         
-        deleteAccountView.snp.makeConstraints { make in
+        deleteAccountViewButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
             make.top.equalTo(logOutViewButton.snp.bottom)
             make.height.equalTo(54)
         }
         
         logOutView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        deleteAccountView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
@@ -96,7 +113,7 @@ class AccountViewController: UIViewController {
         let logOutRecognizer = UITapGestureRecognizer(target: self, action: #selector(logOutAction))
         let deleteAccountRecognizer = UITapGestureRecognizer(target: self, action: #selector(deleteAccountAction))
         logOutViewButton.addGestureRecognizer(logOutRecognizer)
-        deleteAccountView.addGestureRecognizer(deleteAccountRecognizer)
+        deleteAccountViewButton.addGestureRecognizer(deleteAccountRecognizer)
     }
     
         // MARK: - Actions
@@ -118,6 +135,10 @@ class AccountViewController: UIViewController {
 }
 
 extension AccountViewController: AccountViewModelDelegate {
+    func showDeleteAccount() {
+        deleteAccountView.showView()
+    }
+    
     func showLogOut() {
         logOutView.showView()
     }

@@ -34,15 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = window
 
-//        NetworkEngine().updateUserName(userToken: "Fdfd", newName: "Fdfdf") { result in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let response):
-//                print(response)
-//            }
-//        }
-
         
 //        NetworkEngine().updatePassword(newPassword: "123456",
 //                                       resetToken: "TvrMtqip0iPt2vt29AqbBSB2iwPJeUXbgoK") { result in
