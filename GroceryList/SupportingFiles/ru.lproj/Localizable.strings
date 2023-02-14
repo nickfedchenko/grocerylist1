@@ -181,3 +181,7 @@
 "Settings.ScreenName"           = "Имя";
 "Settings.Account"              = "Аккаунт";
 "Settings.GroceryListApp"       = "Приложение список покупок";
+"Settings.Account.LogOut"       = "Выйти из аккаунта";
+"Settings.Account.DeleteAccount"= "Удалить аккаунт";
+"Settings.Account.ToUseShared"  = "Чтобы использовать общие заметки, пожалуйста, войдите в систему еще раз.";
+"Settings.Account.Cancel"       = "Отмена";

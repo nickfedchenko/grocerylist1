@@ -52,6 +52,10 @@ class SignUpViewForTyping: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setupTextForTextfield(text: String) {
+        textfield.text = text
+    }
+    
     func makeTextfieldFirstResponder() {
         textfield.becomeFirstResponder()
     }

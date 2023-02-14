@@ -22,7 +22,7 @@ class SettingsParametrView: UIView {
     }
     
     func setupView(text: String, unitSustemText: String? = nil,
-                   isHaptickView: Bool = false, isAttrHidden: Bool = false) {
+                   isHaptickView: Bool = false, isAttrHidden: Bool = false, titleColor: UIColor = .black) {
         
         if let unitSustemText {
             unitSystemLabel.text = unitSustemText
@@ -38,6 +38,7 @@ class SettingsParametrView: UIView {
             textLabel.textColor = .black
         }
         textLabel.text = text
+        textLabel.textColor = titleColor
     }
     
     func updateSwitcher() {

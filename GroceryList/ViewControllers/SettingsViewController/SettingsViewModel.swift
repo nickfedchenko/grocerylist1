@@ -11,7 +11,7 @@ import UIKit
 protocol SettingsViewModelDelegate: AnyObject {
     func updateSelectionView()
     func setupNotRegisteredView()
-    func setupRegisteredView(avatarImage: UIImage?)
+    func setupRegisteredView(avatarImage: UIImage?, userName: String?, email: String)
     func pickImage()
 }
 
@@ -56,7 +56,7 @@ class SettingsViewModel {
     }
     
     func accountButtonTapped() {
-        print("accountButtonTapped")
+        router?.goToAccountController()
     }
     
     func avatarButtonTapped() {
@@ -130,7 +130,7 @@ class SettingsViewModel {
             image = domainImage
         }
         
-        delegate?.setupRegisteredView(avatarImage: image)
+        delegate?.setupRegisteredView(avatarImage: image, userName: user.userName, email: user.email)
     }
 }
 
