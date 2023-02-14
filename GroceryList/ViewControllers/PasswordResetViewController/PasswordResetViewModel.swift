@@ -47,15 +47,19 @@ class PasswordResetViewModel {
     }
     
     private func resetPassword(text: String) {
-        NetworkEngine().passwordReset(email: text) { result in
+        NetworkEngine().passwordReset(email: text) { [weak self] result in
             switch result {
             case .failure(let error):
                 print(error)
             case .success(let response):
-                print(response)
+                print(response.result)
             }
         }
         applySecondState()
+    }
+    
+    private func setupResetToken(model: PasswordResetResponse) {
+        
     }
     
     private func applySecondState() {
