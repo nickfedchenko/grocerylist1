@@ -182,7 +182,7 @@ enum RequestGenerator: Codable {
         let queries: [URLQueryItem] = [
             .init(name: "email", value: userModel.email),
             .init(name: "password", value: userModel.password),
-            .init(name: "username", value: userModel.userName)
+            .init(name: "username", value: userModel.username)
         ]
         insert(queries: queries, components: &components)
     }

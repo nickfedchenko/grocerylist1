@@ -66,7 +66,6 @@ final class SettingsProfileView: UIView {
     
     private let emailView: SettingsParametrView = {
         let view = SettingsParametrView()
-        view.setupView(text: "SDsdsf@yandex.ru", isAttrHidden: true)
         return view
     }()
     
@@ -97,7 +96,7 @@ final class SettingsProfileView: UIView {
     }
     
     func setupView(avatarImage: UIImage?, email: String, userName: String?) {
-        emailView.setupView(text: email, isAttrHidden: true)
+        emailView.setupView(text: email, isAttrHidden: true, titleColor: .black)
         setupImage(avatarImage: avatarImage)
         guard let userName = userName else { return }
         screenNameTextFieldView.setupTextForTextfield(text: userName)
@@ -110,7 +109,7 @@ final class SettingsProfileView: UIView {
     }
     
     // MARK: - setupView and constraints
-
+    // swiftlint:disable:next function_body_length
     private func setupConstraint() {
         self.addSubviews([profileTitleLabel, avatarImageView, addPhotoStickerImageView,
                           screenNameTextFieldView, emailView, accountView, groceryLabel])

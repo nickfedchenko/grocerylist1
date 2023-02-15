@@ -9,6 +9,7 @@ import UIKit
 
 extension UIColor {
     static let backgroundColor = UIColor(hex: "#EAF5F3")
+    static let titleColor = UIColor(hex: "#19645A")
     
     convenience init(hex: String, alpha: CGFloat? = nil) {
         var hex: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()

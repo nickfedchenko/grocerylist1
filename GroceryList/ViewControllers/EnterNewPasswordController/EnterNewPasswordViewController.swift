@@ -67,6 +67,8 @@ class EnterNewPasswordViewController: UIViewController {
         return button
     }()
     
+    private let noInternetView = RedAlertView(state: .internet)
+    
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,7 +82,8 @@ class EnterNewPasswordViewController: UIViewController {
     // MARK: - Constraints
     private func setupConstraints() {
         view.backgroundColor = .backgroundColor
-        view.addSubviews([backButton, enterNewPasswordLabel, passwordTextFieldView, changePasswordButton])
+        view.addSubviews([backButton, enterNewPasswordLabel,
+                          passwordTextFieldView, changePasswordButton, noInternetView])
         
         backButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
@@ -102,6 +105,11 @@ class EnterNewPasswordViewController: UIViewController {
             make.left.right.equalToSuperview().inset(20)
             make.height.equalTo(63)
         }
+        
+        noInternetView.snp.makeConstraints { make in
+            make.bottom.equalTo(enterNewPasswordLabel.snp.top).inset(-10)
+            make.right.equalToSuperview().inset(23)
+        }
     }
     
     // MARK: - Actions
@@ -117,6 +125,10 @@ class EnterNewPasswordViewController: UIViewController {
 }
 
 extension EnterNewPasswordViewController: EnterNewPasswordViewModelDelegate {
+    func showNoInternet() {
+        noInternetView.showView()
+    }
+    
     func setChangePasswordInactive() {
         changePasswordButton.isUserInteractionEnabled = false
         changePasswordButton.backgroundColor = UIColor(hex: "#617774")

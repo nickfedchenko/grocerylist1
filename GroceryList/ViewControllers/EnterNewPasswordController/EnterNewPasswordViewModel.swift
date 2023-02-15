@@ -11,20 +11,38 @@ protocol EnterNewPasswordViewModelDelegate: AnyObject {
     func resingPasswordViewFirstResp()
     func setChangePasswordInactive()
     func setChangePasswordActive()
+    func showNoInternet()
 }
 
 class EnterNewPasswordViewModel {
     weak var delegate: EnterNewPasswordViewModelDelegate?
     weak var router: RootRouter?
     
+    private let network: NetworkEngine
     private var newPassword: String = ""
-    // MARK: - Navigation
+    
+    init(network: NetworkEngine) {
+        self.network = network
+    }
+    
+    // MARK: - Functions
     func backButtonPressed() {
         router?.pop()
     }
     
     func changePasswordButtonPressed() {
-        print("change password prwessed")
+        guard let resetModel = ResetPasswordModelManager.shared.getResetPasswordModel() else { return }
+        let resetToken = resetModel.resetToken
+        network.updatePassword(newPassword: newPassword,
+                                       resetToken: resetToken) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                print(error)
+                self?.delegate?.showNoInternet()
+            case .success(let response):
+                print(response)
+            }
+        }
     }
     
     func textfieldReturnPressed() {

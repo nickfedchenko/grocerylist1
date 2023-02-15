@@ -30,12 +30,11 @@ class UserAccountManager {
     
     func getLocalModel(domainModel: DomainUser) -> User {
         User(id: Int(domainModel.id),
-             userName: domainModel.name,
+             username: domainModel.name,
              avatar: domainModel.avatarUrl,
              email: domainModel.mail ?? "",
              token: domainModel.token ?? "",
              password: domainModel.password,
-             avatarAsData: domainModel.avatarAsData,
-             passwordResetToken: domainModel.passwordResetToken)
+             avatarAsData: domainModel.avatarAsData)
     }
 }
