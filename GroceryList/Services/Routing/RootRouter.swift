@@ -76,6 +76,11 @@ final class RootRouter: RootRouterProtocol {
         }
     }
     
+    func presentSignInController() {
+        pop(animated: false)
+        goToSignUpController(animated: false, isFromResetPassword: true)
+    }
+    
     func goToOnboarding() {
         if shouldShowOnboarding {
             guard let onboardingController = viewControllerFactory.createOnboardingController(router: self) else { return }
@@ -83,8 +88,8 @@ final class RootRouter: RootRouterProtocol {
         }
     }
 
-    func pop() {
-        navigationPopViewController(animated: true)
+    func pop(animated: Bool = true) {
+        navigationPopViewController(animated: animated)
     }
     
     func popToRootFromOnboarding() {
@@ -139,9 +144,10 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
-    func goToSignUpController() {
-        guard let controller = viewControllerFactory.createSignUpController(router: self) else { return }
-        navigationPushViewController(controller, animated: true)
+    func goToSignUpController(animated: Bool = true, isFromResetPassword: Bool = false) {
+        guard let controller = viewControllerFactory.createSignUpController(router: self,
+                                                                            isFromResetPassword: isFromResetPassword) else { return }
+        navigationPushViewController(controller, animated: animated)
     }
     
     func goToAccountController() {

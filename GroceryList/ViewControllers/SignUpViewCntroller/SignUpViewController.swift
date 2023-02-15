@@ -247,6 +247,14 @@ class SignUpViewController: UIViewController {
 }
 
 extension SignUpViewController: SignUpViewModelDelegate {
+    func setupResetPasswordState(email: String) {
+        setupView(state: .signIn)
+        haveAccountButton.isHidden = true
+        signInWithAppleButton.isHidden = true
+        orLogIn.isHidden = true
+        emailTextFieldView.setupTextForTextfield(text: email)
+    }
+    
     func showNoInternet() {
         noInternetView.showView()
     }

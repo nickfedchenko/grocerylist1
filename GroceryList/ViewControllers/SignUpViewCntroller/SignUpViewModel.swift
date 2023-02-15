@@ -19,6 +19,7 @@ protocol SignUpViewModelDelegate: AnyObject {
     func registrationButton(isEnable: Bool)
     func showNoInternet()
     func hideNoInternet()
+    func setupResetPasswordState(email: String)
 }
 
 class SignUpViewModel {
@@ -55,6 +56,21 @@ class SignUpViewModel {
     init(network: NetworkEngine) {
         self.network = network
         state = .signUp
+    }
+    
+    func setupResetPasswordState() {
+        var email = ""
+        if let resetEmail = ResetPasswordModelManager.shared.getResetPasswordModel()?.email {
+          email = resetEmail
+        }
+    
+        if !email.isEmpty {
+            emailParameters.text = email
+            emailParameters.isValidated = true
+        }
+        state = .signIn
+        isTermsValidated = true
+        delegate?.setupResetPasswordState(email: email)
     }
     
     // MARK: - Func

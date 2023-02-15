@@ -43,6 +43,8 @@ class EnterNewPasswordViewModel {
                 print(response)
             }
         }
+        
+        router?.presentSignInController()
     }
     
     func textfieldReturnPressed() {

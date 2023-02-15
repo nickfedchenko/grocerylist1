@@ -73,7 +73,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 157 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 158 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -405,6 +405,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var loadingInfo: RswiftResources.StringResource { .init(key: "Loading info", tableName: "Localizable", source: source, developmentValue: "Loading", comment: nil) }
+
+      /// en translation: Long press on an Item, returns to editing
+      ///
+      /// Key: Long press on an Item
+      ///
+      /// Locales: en, ru, fr, de
+      var longPressOnAnItem: RswiftResources.StringResource { .init(key: "Long press on an Item", tableName: "Localizable", source: source, developmentValue: "Long press on an Item, returns to editing", comment: nil) }
 
       /// en translation: Lunch
       ///
@@ -1186,7 +1193,7 @@ struct _R {
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 111 images.
+  /// This `_R.image` struct is generated, and contains static references to 114 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1304,6 +1311,9 @@ struct _R {
     /// Image `closeButtonCross`.
     var closeButtonCross: RswiftResources.ImageResource { .init(name: "closeButtonCross", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `close_cross`.
+    var close_cross: RswiftResources.ImageResource { .init(name: "close_cross", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `collectionsAlarmImage`.
     var collectionsAlarmImage: RswiftResources.ImageResource { .init(name: "collectionsAlarmImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -1352,6 +1362,9 @@ struct _R {
     /// Image `forthSideView`.
     var forthSideView: RswiftResources.ImageResource { .init(name: "forthSideView", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `grayPinch`.
+    var grayPinch: RswiftResources.ImageResource { .init(name: "grayPinch", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `greenArrowBack`.
     var greenArrowBack: RswiftResources.ImageResource { .init(name: "greenArrowBack", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -1375,6 +1388,9 @@ struct _R {
 
     /// Image `halfFood`.
     var halfFood: RswiftResources.ImageResource { .init(name: "halfFood", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `hand_white`.
+    var hand_white: RswiftResources.ImageResource { .init(name: "hand_white", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `logo`.
     var logo: RswiftResources.ImageResource { .init(name: "logo", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

@@ -116,8 +116,7 @@ class SettingsViewController: UIViewController {
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
         view.addSubviews([preferenciesLabel, closeButton, profileView, unitsView,
-                          hapticView, likeAppView, contactUsView,
-                          contactUsView, selectUnitsView, registerView])
+                          hapticView, contactUsView, selectUnitsView, registerView])
         
         preferenciesLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)

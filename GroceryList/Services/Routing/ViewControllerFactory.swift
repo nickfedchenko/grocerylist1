@@ -67,7 +67,7 @@ protocol ViewControllerFactoryProtocol {
     func createRecipesListController(for section: RecipeSectionsModel, with router: RootRouter) -> UIViewController
     func createReviewsController(router: RootRouter) -> UIViewController
     func createReviewController(router: RootRouter) -> UIViewController?
-    func createSignUpController(router: RootRouter) -> UIViewController?
+    func createSignUpController(router: RootRouter, isFromResetPassword: Bool) -> UIViewController?
     func createPasswordResetController(router: RootRouter,
                                        email: String,
                                        passwordResetedCompl: (() -> Void)?) -> UIViewController?
@@ -238,7 +238,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSignUpController(router: RootRouter) -> UIViewController? {
+    func createSignUpController(router: RootRouter, isFromResetPassword: Bool) -> UIViewController? {
         let viewController = SignUpViewController()
         let networkManager = NetworkEngine()
         let viewModel = SignUpViewModel(network: networkManager)
@@ -246,6 +246,9 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewController.viewModel = viewModel
         viewModel.router = router
         viewModel.setup(state: .signUp)
+        if isFromResetPassword {
+            viewModel.setupResetPasswordState()
+        }
         return viewController
     }
     
