@@ -267,6 +267,7 @@ class CreateNewProductViewController: UIViewController {
         topTextField.text = viewModel?.productName
         addImageImage.image = viewModel?.productImage
         isImageChanged = true
+        isCategorySelected = true
         bottomTextField.text = viewModel?.productDescription
         userCommentText = viewModel?.userComment ?? ""
         quantityCount += viewModel?.productQuantityCount ?? 0
