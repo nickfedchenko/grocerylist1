@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3328AD86299CF40800187B57 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3328AD85299CF40800187B57 /* SharingView.swift */; };
 		339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339C1AEA299A67DD0092F93E /* InfoMessageView.swift */; };
 		383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */; };
 		383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */; };
@@ -182,6 +183,7 @@
 /* Begin PBXFileReference section */
 		025222570B015E69FF5973D3 /* Pods_GroceryList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GroceryList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		262EB22BC930A385DC81E51C /* Pods-GroceryList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroceryList.release.xcconfig"; path = "Target Support Files/Pods-GroceryList/Pods-GroceryList.release.xcconfig"; sourceTree = "<group>"; };
+		3328AD85299CF40800187B57 /* SharingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingView.swift; sourceTree = "<group>"; };
 		339C1AEA299A67DD0092F93E /* InfoMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMessageView.swift; sourceTree = "<group>"; };
 		383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipePreviewCell.swift; sourceTree = "<group>"; };
 		383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipesFolderHeader.swift; sourceTree = "<group>"; };
@@ -863,6 +865,7 @@
 				383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */,
 				B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */,
 				B36AF9442913DEC700944E9D /* GroceryCollectionViewCell.swift */,
+				3328AD85299CF40800187B57 /* SharingView.swift */,
 				B36AF9522915403600944E9D /* EmptyColoredCell.swift */,
 				B36AF9542915410400944E9D /* InstructionCell.swift */,
 				B36AF94C2913FAD000944E9D /* GroceryCollectionViewHeader.swift */,
@@ -1519,6 +1522,7 @@
 				B3802315292BC7DA0039EDE0 /* UserDefaultsManager.swift in Sources */,
 				B3329596298A667E002DF1EE /* AmplitudeManager.swift in Sources */,
 				B3777E232938E4E90074BE38 /* HapticManager.swift in Sources */,
+				3328AD86299CF40800187B57 /* SharingView.swift in Sources */,
 				B381EF17299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift in Sources */,
 				38F4903F2946DC6A00529D1F /* IngredientView.swift in Sources */,
 				B381EF33299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift in Sources */,

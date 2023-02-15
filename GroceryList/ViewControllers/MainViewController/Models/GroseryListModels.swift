@@ -111,8 +111,9 @@ struct Product: Hashable, Equatable {
     static func == (lhs: Product, rhs: Product) -> Bool {
         return lhs.name == rhs.name &&
         lhs.dateOfCreation == rhs.dateOfCreation &&
-        lhs.category == rhs.category && lhs.isPurchased == rhs.isPurchased
-        && lhs.id == rhs.id && lhs.isFavorite == rhs.isFavorite && lhs.description == rhs.description
+        lhs.category == rhs.category && lhs.isPurchased == rhs.isPurchased &&
+        lhs.id == rhs.id && lhs.isFavorite == rhs.isFavorite
+        && lhs.description == rhs.description 
     }
     
     init?(from dbProduct: DBProduct) {

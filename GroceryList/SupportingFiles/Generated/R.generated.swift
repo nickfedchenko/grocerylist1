@@ -1446,6 +1446,15 @@ struct _R {
     /// Image `profileImage`.
     var profileImage: RswiftResources.ImageResource { .init(name: "profileImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `profile_add`.
+    var profile_add: RswiftResources.ImageResource { .init(name: "profile_add", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `profile_icon`.
+    var profile_icon: RswiftResources.ImageResource { .init(name: "profile_icon", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `profile_intited`.
+    var profile_intited: RswiftResources.ImageResource { .init(name: "profile_intited", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `purchasedCheckmark`.
     var purchasedCheckmark: RswiftResources.ImageResource { .init(name: "purchasedCheckmark", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 

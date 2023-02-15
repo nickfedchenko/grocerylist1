@@ -94,6 +94,11 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private let sharingView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     private let countLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProRounded.semibold(size: 17).font

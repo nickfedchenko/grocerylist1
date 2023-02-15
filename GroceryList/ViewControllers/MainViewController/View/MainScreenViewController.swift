@@ -541,10 +541,10 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
     }
     
     func modeChanged(to mode: MainScreenPresentationMode) {
-        guard Apphud.hasActiveSubscription() else {
-           showPaywall()
-            return
-        }
+//        guard Apphud.hasActiveSubscription() else {
+//           showPaywall()
+//            return
+//        }
         presentationMode = mode
         if mode == .lists {
             showListsCollection()
