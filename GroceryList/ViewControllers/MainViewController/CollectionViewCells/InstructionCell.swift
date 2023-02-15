@@ -35,17 +35,17 @@ class InstructionCell: UICollectionViewCell {
         return imageView
     }
     
-    private lazy var trash = createImageView(with: "#trash")
+    private lazy var blackPinch = createImageView(with: "grayPinch")
     private lazy var rightArrow = createImageView(with: "#arrowRigth")
     private lazy var hand = createImageView(with: "#hand")
     private lazy var leftArrow = createImageView(with: "#arrowLeft")
-    private lazy var blackPinch = createImageView(with: "#blackPinch")
+    private lazy var trash = createImageView(with: "#trash")
     
     // MARK: - UI
     private func setupConstraints() {
         contentViews.backgroundColor = UIColor(hex: "#DAEAEE")
         self.addSubviews([contentViews])
-        contentViews.addSubviews([trash, rightArrow, hand, leftArrow, blackPinch])
+        contentViews.addSubviews([blackPinch, rightArrow, hand, leftArrow, trash])
         
         contentViews.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
@@ -53,7 +53,7 @@ class InstructionCell: UICollectionViewCell {
             make.bottom.equalToSuperview()
         }
         
-        trash.snp.makeConstraints { make in
+        blackPinch.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(22)
             make.centerY.equalToSuperview()
             make.height.equalTo(24)
@@ -61,7 +61,7 @@ class InstructionCell: UICollectionViewCell {
         }
         
         rightArrow.snp.makeConstraints { make in
-            make.left.equalTo(trash.snp.right).inset(-15)
+            make.left.equalTo(blackPinch.snp.right).inset(-15)
             make.centerY.equalToSuperview()
             make.height.equalTo(11)
             make.width.equalTo(15)
@@ -73,7 +73,7 @@ class InstructionCell: UICollectionViewCell {
             make.width.equalTo(17)
         }
         
-        blackPinch.snp.makeConstraints { make in
+        trash.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(22)
             make.centerY.equalToSuperview()
             make.height.equalTo(25)
@@ -81,7 +81,7 @@ class InstructionCell: UICollectionViewCell {
         }
         
         leftArrow.snp.makeConstraints { make in
-            make.right.equalTo(blackPinch.snp.left).inset(-19)
+            make.right.equalTo(trash.snp.left).inset(-19)
             make.centerY.equalToSuperview()
             make.height.equalTo(11)
             make.width.equalTo(15)

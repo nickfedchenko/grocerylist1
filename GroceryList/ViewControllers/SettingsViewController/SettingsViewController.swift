@@ -84,9 +84,11 @@ class SettingsViewController: UIViewController {
     private let selectUnitsView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 12
-        view.layer.masksToBounds = true
         view.isHidden = false
-        view.addShadowForView()
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = CGSize(width: 0, height: 12)
+        view.layer.shadowRadius = 11
+        view.layer.shadowOpacity = 0.2
         return view
     }()
     
@@ -101,7 +103,7 @@ class SettingsViewController: UIViewController {
     
     private let imperialLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
+        label.font = UIFont.SFProRounded.semibold(size: 17).font
         label.textColor = UIColor(hex: "#31635A")
         label.text = "Imperial".localized
         return label
@@ -118,7 +120,7 @@ class SettingsViewController: UIViewController {
     
     private let metriclLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
+        label.font = UIFont.SFProRounded.semibold(size: 17).font
         label.textColor = UIColor(hex: "#31635A")
         label.text = "Metric".localized
         return label
@@ -186,11 +188,13 @@ class SettingsViewController: UIViewController {
         
         metriclLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
+            make.top.equalToSuperview().inset(11)
             make.left.equalToSuperview().inset(16)
         }
         
         imperialLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
+            make.top.equalToSuperview().inset(11)
             make.left.equalToSuperview().inset(16)
         }
         
