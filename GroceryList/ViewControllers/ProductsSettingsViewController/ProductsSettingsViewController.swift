@@ -18,6 +18,10 @@ class ProductsSettingsViewController: UIViewController {
         addRecognizers()
         setupTableView()
         parametrsLabel.textColor = viewModel?.getTextColor()
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(doneButtonPressed))
+        tapRecognizer.delegate = self
+        self.view.addGestureRecognizer(tapRecognizer)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -202,5 +206,11 @@ extension ProductsSettingsViewController: ProductSettingsViewDelegate {
         hidePanel {[weak self] in
             self?.viewModel?.controllerDissmised()
         }
+    }
+}
+
+extension ProductsSettingsViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return !(touch.view?.isDescendant(of: self.tableview) ?? false)
     }
 }
