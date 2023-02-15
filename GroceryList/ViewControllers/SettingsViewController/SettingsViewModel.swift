@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Kingfisher
 import UIKit
 
 protocol SettingsViewModelDelegate: AnyObject {
@@ -117,6 +118,27 @@ class SettingsViewModel {
         delegate?.updateSelectionView()
     }
     
+    func downloadImage(user: User) {
+        guard user.avatarAsData == nil, let userAvatarUrl = user.avatar else { return }
+        ImageDownloader.default.downloadImage(with: URL(string: userAvatarUrl)!,
+                                              options: [], progressBlock: nil) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let image):
+                let image = image.image
+                self?.saveAvatarToUser(user: user, image: image)
+            }
+        }
+    }
+    
+    func saveAvatarToUser(user: User, image: UIImage) {
+        var newUser = user
+        newUser.avatarAsData = image.jpegData(compressionQuality: 1)
+        UserAccountManager.shared.saveUser(user: newUser)
+        checkUser()
+    }
+    
     private func checkUser() {
         guard let user = UserAccountManager.shared.getUser() else {
             delegate?.setupNotRegisteredView()
@@ -124,13 +146,11 @@ class SettingsViewModel {
         }
        
         self.user = user
+        downloadImage(user: user)
         
-        var image: UIImage?
-        if let avatarData = user.avatarAsData, let domainImage = UIImage(data: avatarData) {
-            image = domainImage
-        }
-        
-        delegate?.setupRegisteredView(avatarImage: image, userName: user.username, email: user.email)
+        let avatarImage = UIImage(data: user.avatarAsData ?? Data())
+
+        delegate?.setupRegisteredView(avatarImage: avatarImage, userName: user.username, email: user.email)
     }
 }
 
