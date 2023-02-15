@@ -34,17 +34,18 @@ class EnterNewPasswordViewModel {
         guard let resetModel = ResetPasswordModelManager.shared.getResetPasswordModel() else { return }
         let resetToken = resetModel.resetToken
         network.updatePassword(newPassword: newPassword,
-                                       resetToken: resetToken) { [weak self] result in
+                               resetToken: resetToken) { [weak self] result in
             switch result {
             case .failure(let error):
                 print(error)
                 self?.delegate?.showNoInternet()
             case .success(let response):
                 print(response)
+                DispatchQueue.main.async { [weak self] in
+                    self?.router?.presentSignInController()
+                }
             }
         }
-        
-        router?.presentSignInController()
     }
     
     func textfieldReturnPressed() {

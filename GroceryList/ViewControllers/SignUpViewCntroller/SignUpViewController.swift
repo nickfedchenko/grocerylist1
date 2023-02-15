@@ -247,6 +247,11 @@ class SignUpViewController: UIViewController {
 }
 
 extension SignUpViewController: SignUpViewModelDelegate {
+    func setupEmailFirstResponder() {
+        emailTextFieldView.makeTextfieldFirstResponder()
+
+    }
+    
     func setupResetPasswordState(email: String) {
         setupView(state: .signIn)
         haveAccountButton.isHidden = true

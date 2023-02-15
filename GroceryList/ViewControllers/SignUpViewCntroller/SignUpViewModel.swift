@@ -20,6 +20,7 @@ protocol SignUpViewModelDelegate: AnyObject {
     func showNoInternet()
     func hideNoInternet()
     func setupResetPasswordState(email: String)
+    func setupEmailFirstResponder()
 }
 
 class SignUpViewModel {
@@ -58,19 +59,16 @@ class SignUpViewModel {
         state = .signUp
     }
     
+    /// используем в случае если переходим с экрана сброса пароля
     func setupResetPasswordState() {
-        var email = ""
-        if let resetEmail = ResetPasswordModelManager.shared.getResetPasswordModel()?.email {
-          email = resetEmail
-        }
-    
-        if !email.isEmpty {
-            emailParameters.text = email
-            emailParameters.isValidated = true
-        }
+        let resetEmail = ResetPasswordModelManager.shared.getResetPasswordModel()?.email ?? ""
+        emailParameters.text = resetEmail
+        emailParameters.isValidated = true
+        isEmailValidated = true
         state = .signIn
         isTermsValidated = true
-        delegate?.setupResetPasswordState(email: email)
+        delegate?.setupResetPasswordState(email: resetEmail)
+        delegate?.setupEmailFirstResponder()
     }
     
     // MARK: - Func

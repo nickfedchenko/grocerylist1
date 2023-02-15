@@ -47,6 +47,7 @@ class PasswordResetViewModel {
     }
     
     private func resetPassword(text: String) {
+        email = text
         NetworkEngine().passwordReset(email: text) { [weak self] result in
             switch result {
             case .failure(let error):
