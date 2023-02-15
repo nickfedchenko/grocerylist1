@@ -263,7 +263,6 @@ extension SettingsViewController: SettingsViewModelDelegate {
         }
         
         profileView.setupView(avatarImage: avatarImage, email: email, userName: userName)
-        profileView.setupImage(avatarImage: avatarImage)
         
     }
     
