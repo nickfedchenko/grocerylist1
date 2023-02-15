@@ -167,19 +167,20 @@ final class RecipeViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc private func addToCartTapped() {
+    @objc
+    private func addToCartTapped() {
         let recipeTitle = viewModel.recipe.title
         let products: [Product] = viewModel.recipe.ingredients.map {
             let netProduct = $0.product
 //            let step = $0.product.marketUnit?.step?.defaultQuantityStep ?? 1
-//            let description = String(format: "%.0f", $0.product.marketUnit?.step?.defaultQuantityStep ?? 1) + " " + String($0.product.marketUnit?.shortTitle ?? "г")
+            let description = String(format: "%.0f", $0.product.marketUnit?.step?.defaultQuantityStep ?? 1) + " " + String($0.product.marketUnit?.shortTitle ?? "г")
             let product = Product(
                 name: netProduct.title,
                 isPurchased: false,
                 dateOfCreation: Date(),
                 category: netProduct.marketCategory?.title ?? "",
                 isFavorite: false,
-                description: "",
+                description: description,
                 fromRecipeTitle: recipeTitle
             )
             return product

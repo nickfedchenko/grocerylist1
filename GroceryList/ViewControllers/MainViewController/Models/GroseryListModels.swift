@@ -112,7 +112,7 @@ struct Product: Hashable, Equatable {
         return lhs.name == rhs.name &&
         lhs.dateOfCreation == rhs.dateOfCreation &&
         lhs.category == rhs.category && lhs.isPurchased == rhs.isPurchased
-        && lhs.id == rhs.id && lhs.isFavorite == rhs.isFavorite
+        && lhs.id == rhs.id && lhs.isFavorite == rhs.isFavorite && lhs.description == rhs.description
     }
     
     init?(from dbProduct: DBProduct) {

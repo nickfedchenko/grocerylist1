@@ -117,9 +117,10 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: false)
     }
     
-    func goCreateNewProductController(model: GroceryListsModel, compl: @escaping (Product) -> Void) {
-        guard let controller = viewControllerFactory.createCreateNewProductController(model: model, router: self,
-                                                                                   compl: compl) else { return }
+    func goCreateNewProductController(model: GroceryListsModel, product: Product? = nil, compl: @escaping (Product) -> Void) {
+        guard let controller = viewControllerFactory.createCreateNewProductController(model: model, product: product,
+                                                                                      router: self,
+                                                                                      compl: compl) else { return }
         navigationPresent(controller, animated: false)
     }
     

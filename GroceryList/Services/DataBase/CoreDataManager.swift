@@ -85,6 +85,8 @@ class CoreDataManager {
         if let object = try? context.fetch(fetchRequest).first {
             object.isPurchased = product.isPurchased
             object.name = product.name
+            object.userDescription = product.description
+            object.image = product.imageData
             object.dateOfCreation = product.dateOfCreation
             object.category = product.category
             object.isFavorite = product.isFavorite

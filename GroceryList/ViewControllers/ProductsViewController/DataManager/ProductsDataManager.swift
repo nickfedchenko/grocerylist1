@@ -41,6 +41,9 @@ class ProductsDataManager {
     }
     
     func appendCopiedProducts(product: [Product]) {
+        product.forEach { product in
+            products.removeAll { $0.id == product.id }
+        }
         products.append(contentsOf: product)
         createDataSourceArray()
     }

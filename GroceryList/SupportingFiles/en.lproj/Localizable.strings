@@ -56,6 +56,7 @@
 "SearcInCategory"           = "Search in Category";
 "Create"                    = "Create";
 "NewCategory"               = "NewCategory";
+"Long press on an Item"     = "Long press on an Item, returns to editing";
 
 "Alcohol"                   = "Alcohol";
 "Grocery"                   = "Grocery";
