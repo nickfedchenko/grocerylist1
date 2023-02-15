@@ -22,7 +22,8 @@ class SettingsParametrView: UIView {
     }
     
     func setupView(text: String, unitSustemText: String? = nil,
-                   isHaptickView: Bool = false, isAttrHidden: Bool = false, titleColor: UIColor = .black) {
+                   isHaptickView: Bool = false, isAttrHidden: Bool = false,
+                   titleColor: UIColor = .titleColor) {
         
         if let unitSustemText {
             unitSystemLabel.text = unitSustemText

@@ -251,8 +251,6 @@ class CoreDataManager {
     }
     
     // MARK: - USER
-    
-    // MARK: - Fetch requests
     lazy var userRequest: NSFetchRequest = {
         return NSFetchRequest<NSFetchRequestResult>(entityName: "DomainUser")
     }()
@@ -278,14 +276,12 @@ class CoreDataManager {
         let context = coreData.container.viewContext
         let object = DomainUser(context: context)
         object.id = 0
-        object.name = user.userName
+        object.name = user.username
         object.mail = user.email
         object.password = user.password
         object.token = user.token
-        object.passwordResetToken = user.passwordResetToken
         object.avatarUrl = user.avatar
         object.avatarAsData = user.avatarAsData
-        object.passwordResetTokenDate = user.passwordResetTokenDate
         try? context.save()
     }
     
@@ -295,6 +291,45 @@ class CoreDataManager {
             for item in data {
                 if let item = item as? DomainUser {
                     if item == data.last as? DomainUser {
+                        return item
+                    }
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
+    
+    
+    // MARK: - ResetPasswordModel
+    
+    lazy var resetPasswordModelRequest: NSFetchRequest = {
+        return NSFetchRequest<NSFetchRequestResult>(entityName: "DomainResetPasswordModel")
+    }()
+    
+    
+    func deleteResetPasswordModel() {
+        deleteEntitiesOfType(request: resetPasswordModelRequest)
+    }
+    
+    func saveResetPasswordModel(resetPasswordModel: ResetPasswordModel) {
+        let context = coreData.container.viewContext
+        let object = DomainResetPasswordModel(context: context)
+        object.id = 0
+        object.email = resetPasswordModel.email
+        object.resetToken = resetPasswordModel.resetToken
+        object.dateOfExpiration = resetPasswordModel.dateOfExpiration
+        
+        try? context.save()
+    }
+    
+    func getResetPasswordModel() -> DomainResetPasswordModel? {
+        do {
+            let data = try coreData.container.viewContext.fetch(resetPasswordModelRequest)
+            for item in data {
+                if let item = item as? DomainResetPasswordModel {
+                    if item == data.last as? DomainResetPasswordModel {
                         return item
                     }
                 }

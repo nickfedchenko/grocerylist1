@@ -52,14 +52,17 @@ class PasswordResetViewModel {
             case .failure(let error):
                 print(error)
             case .success(let response):
-                print(response.result)
+                self?.setupResetToken(model: response)
             }
         }
         applySecondState()
     }
     
     private func setupResetToken(model: PasswordResetResponse) {
-        
+        let resetPasswordModel = ResetPasswordModel(email: email,
+                                                    resetToken: model.result.passwordResetToken,
+                                                    dateOfExpiration: Date())
+        ResetPasswordModelManager.shared.saveResetPasswordModel(model: resetPasswordModel)
     }
     
     private func applySecondState() {

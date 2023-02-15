@@ -21,10 +21,10 @@ extension DomainUser {
     @NSManaged public var mail: String?
     @NSManaged public var token: String?
     @NSManaged public var password: String?
-    @NSManaged public var passwordResetToken: String?
     @NSManaged public var avatarUrl: String?
     @NSManaged public var avatarAsData: Data?
-    @NSManaged public var passwordResetTokenDate: Date?
+//    @NSManaged public var passwordResetToken: String?
+//    @NSManaged public var passwordResetTokenDate: Date?
 }
 
 extension DomainUser : Identifiable {

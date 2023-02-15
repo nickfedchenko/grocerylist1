@@ -21,14 +21,12 @@ struct LogInResponse: Codable {
 
 struct User: Codable {
     var id: Int
-    var userName: String?
+    var username: String?
     var avatar: String?
     var email: String
     var token: String
     var password: String?
     var avatarAsData: Data?
-    var passwordResetToken: String?
-    var passwordResetTokenDate: Date?
 }
 
 struct ChangeUsernameResponse: Codable {
@@ -91,4 +89,12 @@ struct DeleteUserResponse: Codable {
     var error: Bool
     var messages: [String]
     var success: Bool?
+}
+
+
+struct ResetPasswordModel {
+    var id = 0
+    var email: String
+    var resetToken: String
+    var dateOfExpiration: Date
 }

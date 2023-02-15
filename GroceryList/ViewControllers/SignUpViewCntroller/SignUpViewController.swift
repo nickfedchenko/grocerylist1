@@ -215,6 +215,7 @@ class SignUpViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.bottom.equalTo(signInWithAppleButton.snp.top).inset(-20)
         }
+        
     }
     
     // MARK: - Button pressed

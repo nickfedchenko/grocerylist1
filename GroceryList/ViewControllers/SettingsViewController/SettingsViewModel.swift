@@ -39,7 +39,7 @@ class SettingsViewModel {
     func saveNewUserName(name: String) {
         guard var user = user else { return }
         
-        user.userName = name
+        user.username = name
         UserAccountManager.shared.saveUser(user: user)
         NetworkEngine().updateUserName(userToken: user.token, newName: name) { result in
             switch result {
@@ -130,7 +130,7 @@ class SettingsViewModel {
             image = domainImage
         }
         
-        delegate?.setupRegisteredView(avatarImage: image, userName: user.userName, email: user.email)
+        delegate?.setupRegisteredView(avatarImage: image, userName: user.username, email: user.email)
     }
 }
 

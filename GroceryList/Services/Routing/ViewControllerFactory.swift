@@ -281,7 +281,8 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
     func createEnterNewPasswordController(router: RootRouter) -> UIViewController? {
         let viewController = EnterNewPasswordViewController()
-        let viewModel = EnterNewPasswordViewModel()
+        let networkManager = NetworkEngine()
+        let viewModel = EnterNewPasswordViewModel(network: networkManager)
         viewModel.delegate = viewController
         viewController.viewModel = viewModel
         viewModel.router = router

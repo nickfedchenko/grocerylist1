@@ -21,8 +21,8 @@ class PasswordExpiredViewModel {
     }
     
     func resetButtonPressed() {
-        guard let user = UserAccountManager.shared.getUser() else { return }
-        let email = user.email
+        guard let passwordResetModel = ResetPasswordModelManager.shared.getResetPasswordModel() else { return }
+        let email = passwordResetModel.email
         router?.goToPaswordResetController(email: email,
                                            passwordResetedCompl: { [weak self] in
             self?.router?.pop()

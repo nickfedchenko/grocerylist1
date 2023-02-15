@@ -64,6 +64,12 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="DomainResetPasswordModel" representedClassName=".DomainResetPasswordModel" syncable="YES">
+        <attribute name="dateOfExpiration" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="resetToken" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="DomainUser" representedClassName=".DomainUser" syncable="YES">
         <attribute name="avatarAsData" optional="YES" attributeType="Binary"/>
         <attribute name="avatarUrl" optional="YES" attributeType="String"/>
@@ -71,8 +77,6 @@
         <attribute name="mail" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="password" optional="YES" attributeType="String"/>
-        <attribute name="passwordResetToken" optional="YES" attributeType="String"/>
-        <attribute name="passwordResetTokenDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="token" optional="YES" attributeType="String"/>
     </entity>
 </model>

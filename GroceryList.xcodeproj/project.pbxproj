@@ -94,6 +94,9 @@
 		B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B36D18D7291A1960005EE32D /* DataBase.xcdatamodeld */; };
 		B36D18EB291A2CCD005EE32D /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36D18EA291A2CCD005EE32D /* CoreDataStorage.swift */; };
 		B36D18ED291A2CF4005EE32D /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36D18EC291A2CF4005EE32D /* CoreDataManager.swift */; };
+		B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B371CCA6299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift */; };
+		B371CCA9299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B371CCA7299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift */; };
+		B371CCAC299C998700E0E197 /* ResetPasswordModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B371CCAB299C998700E0E197 /* ResetPasswordModelManager.swift */; };
 		B373CDD2298D3A6A00AE522D /* AddToAnotherListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B373CDD1298D3A6A00AE522D /* AddToAnotherListViewController.swift */; };
 		B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E132937CBB30074BE38 /* DBProduct+CoreDataClass.swift */; };
 		B3777E162937CBB30074BE38 /* DBProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */; };
@@ -274,6 +277,9 @@
 		B36D18D8291A1960005EE32D /* DataBase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataBase.xcdatamodel; sourceTree = "<group>"; };
 		B36D18EA291A2CCD005EE32D /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
 		B36D18EC291A2CF4005EE32D /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		B371CCA6299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainResetPasswordModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B371CCA7299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainResetPasswordModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B371CCAB299C998700E0E197 /* ResetPasswordModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordModelManager.swift; sourceTree = "<group>"; };
 		B373CDD1298D3A6A00AE522D /* AddToAnotherListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToAnotherListViewController.swift; sourceTree = "<group>"; };
 		B3777E132937CBB30074BE38 /* DBProduct+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -562,6 +568,8 @@
 		B33DFD1E291A676400AC7403 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
+				B371CCA7299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift */,
+				B371CCA6299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift */,
 				B381EF16299A02A100DCDE40 /* DomainUser+CoreDataClass.swift */,
 				B381EF15299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift */,
 				846600E7294A024800D85415 /* DBRecipe+CoreDataClass.swift */,
@@ -896,6 +904,14 @@
 			path = DataBase;
 			sourceTree = "<group>";
 		};
+		B371CCAA299C995A00E0E197 /* ResetPasswordModelManager */ = {
+			isa = PBXGroup;
+			children = (
+				B371CCAB299C998700E0E197 /* ResetPasswordModelManager.swift */,
+			);
+			path = ResetPasswordModelManager;
+			sourceTree = "<group>";
+		};
 		B3777E172938BE790074BE38 /* SettingsViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -948,6 +964,7 @@
 		B37A2CD42910EE77003C01AD /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B371CCAA299C995A00E0E197 /* ResetPasswordModelManager */,
 				B381EF1B299A56A200DCDE40 /* UserAccountManager */,
 				B3AD42D32991061D0043A37F /* SocketManager */,
 				B3329594298A6475002DF1EE /* Ampllitude */,
@@ -1388,6 +1405,7 @@
 				B381EF1A299A08ED00DCDE40 /* SettingsProfileView.swift in Sources */,
 				B3F7C9BA2994BF830081B245 /* SignUpViewForTyping.swift in Sources */,
 				383C77F3293F799E0030AE78 /* RecipesListViewController.swift in Sources */,
+				B371CCAC299C998700E0E197 /* ResetPasswordModelManager.swift in Sources */,
 				383C77F7293F79EB0030AE78 /* RecipesListHeaderView.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
 				B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */,
@@ -1418,6 +1436,7 @@
 				383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */,
 				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,
 				386CFACE2995A4CA00B4AD76 /* ContentViewConstants.swift in Sources */,
+				B371CCA9299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift in Sources */,
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
 				B315F9EA298A4AFF0009CEB8 /* ReviewSelectableView.swift in Sources */,
 				389DCF452945CE9A00DB9382 /* RecipeScreenViewModel.swift in Sources */,
@@ -1430,6 +1449,7 @@
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
+				B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */,
 				844FC6392978612B008173AA /* OnboardingReviewController.swift in Sources */,
 				B373CDD2298D3A6A00AE522D /* AddToAnotherListViewController.swift in Sources */,
 				B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */,
