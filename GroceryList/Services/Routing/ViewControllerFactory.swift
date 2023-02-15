@@ -67,6 +67,13 @@ protocol ViewControllerFactoryProtocol {
     func createRecipesListController(for section: RecipeSectionsModel, with router: RootRouter) -> UIViewController
     func createReviewsController(router: RootRouter) -> UIViewController
     func createReviewController(router: RootRouter) -> UIViewController?
+    func createSignUpController(router: RootRouter) -> UIViewController?
+    func createPasswordResetController(router: RootRouter,
+                                       email: String,
+                                       passwordResetedCompl: (() -> Void)?) -> UIViewController?
+    func createAccountController(router: RootRouter) -> UIViewController?
+    func createPasswordExpiredController(router: RootRouter) -> UIViewController?
+    func createEnterNewPasswordController(router: RootRouter) -> UIViewController?
 }
 
 // MARK: - Factory
@@ -223,7 +230,62 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
     func createSettingsController(router: RootRouter) -> UIViewController? {
         let viewController = SettingsViewController()
-        let viewModel = SettingsViewModel()
+        let networkManager = NetworkEngine()
+        let viewModel = SettingsViewModel(network: networkManager)
+        viewModel.delegate = viewController
+        viewController.viewModel = viewModel
+        viewModel.router = router
+        return viewController
+    }
+    
+    func createSignUpController(router: RootRouter) -> UIViewController? {
+        let viewController = SignUpViewController()
+        let networkManager = NetworkEngine()
+        let viewModel = SignUpViewModel(network: networkManager)
+        viewModel.delegate = viewController
+        viewController.viewModel = viewModel
+        viewModel.router = router
+        viewModel.setup(state: .signUp)
+        return viewController
+    }
+    
+    func createPasswordResetController(router: RootRouter,
+                                       email: String,
+                                       passwordResetedCompl: (() -> Void)?) -> UIViewController? {
+        let viewController = PasswordResetViewController()
+        let networkManager = NetworkEngine()
+        let viewModel = PasswordResetViewModel(network: networkManager)
+        viewModel.delegate = viewController
+        viewController.viewModel = viewModel
+        viewModel.router = router
+        viewModel.email = email
+        viewModel.passwordResetedCompl = passwordResetedCompl
+        return viewController
+    }
+    
+    func createAccountController(router: RootRouter) -> UIViewController? {
+        let viewController = AccountViewController()
+        let networkManager = NetworkEngine()
+        let viewModel = AccountViewModel(network: networkManager)
+        viewModel.delegate = viewController
+        viewController.viewModel = viewModel
+        viewModel.router = router
+        return viewController
+    }
+    
+    func createPasswordExpiredController(router: RootRouter) -> UIViewController? {
+        let viewController = PasswordExpiredViewController()
+        let viewModel = PasswordExpiredViewModel()
+        viewModel.delegate = viewController
+        viewController.viewModel = viewModel
+        viewModel.router = router
+        return viewController
+    }
+    
+    func createEnterNewPasswordController(router: RootRouter) -> UIViewController? {
+        let viewController = EnterNewPasswordViewController()
+        let networkManager = NetworkEngine()
+        let viewModel = EnterNewPasswordViewModel(network: networkManager)
         viewModel.delegate = viewController
         viewController.viewModel = viewModel
         viewModel.router = router

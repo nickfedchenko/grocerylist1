@@ -48,7 +48,6 @@
 		B3329596298A667E002DF1EE /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3329595298A667E002DF1EE /* AmplitudeManager.swift */; };
 		B3329598298A8F19002DF1EE /* NotificationsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3329597298A8F19002DF1EE /* NotificationsExtension.swift */; };
 		B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33EFF0E290FF02800AD9BEE /* AppDelegate.swift */; };
-		B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33EFF10290FF02800AD9BEE /* SceneDelegate.swift */; };
 		B33EFF18290FF02900AD9BEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B33EFF17290FF02900AD9BEE /* Assets.xcassets */; };
 		B33EFF1B290FF02900AD9BEE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B33EFF19290FF02900AD9BEE /* LaunchScreen.storyboard */; };
 		B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3476901291D010D0045A287 /* ProductsViewController.swift */; };
@@ -96,6 +95,9 @@
 		B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B36D18D7291A1960005EE32D /* DataBase.xcdatamodeld */; };
 		B36D18EB291A2CCD005EE32D /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36D18EA291A2CCD005EE32D /* CoreDataStorage.swift */; };
 		B36D18ED291A2CF4005EE32D /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36D18EC291A2CF4005EE32D /* CoreDataManager.swift */; };
+		B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B371CCA6299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift */; };
+		B371CCA9299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B371CCA7299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift */; };
+		B371CCAC299C998700E0E197 /* ResetPasswordModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B371CCAB299C998700E0E197 /* ResetPasswordModelManager.swift */; };
 		B373CDD2298D3A6A00AE522D /* AddToAnotherListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B373CDD1298D3A6A00AE522D /* AddToAnotherListViewController.swift */; };
 		B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E132937CBB30074BE38 /* DBProduct+CoreDataClass.swift */; };
 		B3777E162937CBB30074BE38 /* DBProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */; };
@@ -121,6 +123,19 @@
 		B37A2CF6291125CA003C01AD /* SF Pro Display Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B37A2CF5291125CA003C01AD /* SF Pro Display Medium.otf */; };
 		B3802315292BC7DA0039EDE0 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3802314292BC7DA0039EDE0 /* UserDefaultsManager.swift */; };
 		B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3815C0529361BAC0060262D /* NetworkModeles.swift */; };
+		B381EF17299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF15299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift */; };
+		B381EF18299A02A100DCDE40 /* DomainUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF16299A02A100DCDE40 /* DomainUser+CoreDataClass.swift */; };
+		B381EF1A299A08ED00DCDE40 /* SettingsProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF19299A08ED00DCDE40 /* SettingsProfileView.swift */; };
+		B381EF1D299A573500DCDE40 /* UserAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF1C299A573500DCDE40 /* UserAccountManager.swift */; };
+		B381EF20299B5B1A00DCDE40 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF1F299B5B1A00DCDE40 /* AccountViewController.swift */; };
+		B381EF22299B5B2500DCDE40 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF21299B5B2500DCDE40 /* AccountViewModel.swift */; };
+		B381EF24299B660D00DCDE40 /* LogOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF23299B660D00DCDE40 /* LogOutView.swift */; };
+		B381EF26299B661700DCDE40 /* DeleteAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF25299B661700DCDE40 /* DeleteAccountView.swift */; };
+		B381EF2A299B977700DCDE40 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9BB2994D8F80081B245 /* TermsView.swift */; };
+		B381EF2C299BA18500DCDE40 /* PasswordExpiredViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF2B299BA18500DCDE40 /* PasswordExpiredViewController.swift */; };
+		B381EF2E299BA19600DCDE40 /* PasswordExpiredViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF2D299BA19600DCDE40 /* PasswordExpiredViewModel.swift */; };
+		B381EF31299BAA4800DCDE40 /* EnterNewPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF30299BAA4800DCDE40 /* EnterNewPasswordViewController.swift */; };
+		B381EF33299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF32299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift */; };
 		B3981C56297A86EA00206DB7 /* SF Pro Rounded Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C54297A85F800206DB7 /* SF Pro Rounded Bold.otf */; };
 		B3981C57297A86EC00206DB7 /* SF Pro Rounded Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */; };
 		B3981C58297A86EE00206DB7 /* SF Pro Rounded Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */; };
@@ -131,6 +146,9 @@
 		B3981C62297A89E800206DB7 /* SF Pro Text Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C5D297A89E800206DB7 /* SF Pro Text Regular.otf */; };
 		B3981C63297A89E800206DB7 /* SF Pro Text Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C5E297A89E800206DB7 /* SF Pro Text Semibold.otf */; };
 		B3981C64297A89E800206DB7 /* SF Pro Text Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C5F297A89E800206DB7 /* SF Pro Text Heavy.otf */; };
+		B3AD42D5299106360043A37F /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AD42D4299106360043A37F /* SocketManager.swift */; };
+		B3AD42D72991135E0043A37F /* CurrentLocale.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AD42D62991135E0043A37F /* CurrentLocale.swift */; };
+		B3AD42DA299117980043A37F /* RegistrationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AD42D9299117980043A37F /* RegistrationResponse.swift */; };
 		B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B45E592934C01D00D60E82 /* SelectCategoryViewController.swift */; };
 		B3B45E5C2934C02B00D60E82 /* SelectCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B45E5B2934C02B00D60E82 /* SelectCategoryViewModel.swift */; };
 		B3C3FA4729115AA20011EC0A /* OnboardingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C3FA4629115AA20011EC0A /* OnboardingContentView.swift */; };
@@ -144,6 +162,18 @@
 		B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D858472939D45000CCE230 /* PaywallViewController.swift */; };
 		B3D8584A293A1A2A00CCE230 /* PaywallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D85849293A1A2A00CCE230 /* PaywallCell.swift */; };
 		B3D8584C293A405E00CCE230 /* PaywallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8584B293A405E00CCE230 /* PaywallModel.swift */; };
+		B3F7C9B029937CD60081B245 /* RegisterWithMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9AF29937CD60081B245 /* RegisterWithMessageView.swift */; };
+		B3F7C9B229938E150081B245 /* SelectUnitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9B129938E150081B245 /* SelectUnitsView.swift */; };
+		B3F7C9B429939E0B0081B245 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9B329939E0B0081B245 /* SignUpViewController.swift */; };
+		B3F7C9B629939E2D0081B245 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9B529939E2D0081B245 /* SignUpViewModel.swift */; };
+		B3F7C9BA2994BF830081B245 /* SignUpViewForTyping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9B92994BF830081B245 /* SignUpViewForTyping.swift */; };
+		B3F7C9BE29950D6D0081B245 /* SignUpWithAppleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9BD29950D6D0081B245 /* SignUpWithAppleButton.swift */; };
+		B3F7C9C1299510140081B245 /* RedAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9C0299510140081B245 /* RedAlertView.swift */; };
+		B3F7C9C329961FF40081B245 /* RegistrationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9C229961FF40081B245 /* RegistrationState.swift */; };
+		B3F7C9C729963F0A0081B245 /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9C629963F0A0081B245 /* PasswordResetViewController.swift */; };
+		B3F7C9C929963F1A0081B245 /* PasswordResetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9C829963F1A0081B245 /* PasswordResetViewModel.swift */; };
+		B3F7C9CB299645F80081B245 /* PasswordResetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9CA299645F80081B245 /* PasswordResetView.swift */; };
+		B3F7C9CD29964D320081B245 /* YourEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9CC29964D320081B245 /* YourEmailView.swift */; };
 		B3FECE4329375AA80077F8EF /* DBCategories+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FECE4129375AA80077F8EF /* DBCategories+CoreDataProperties.swift */; };
 		B3FECE4429375AA80077F8EF /* DBCategories+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FECE4229375AA80077F8EF /* DBCategories+CoreDataClass.swift */; };
 		EF84F46FAFBAF3BBEEB5E7C0 /* Pods_GroceryList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025222570B015E69FF5973D3 /* Pods_GroceryList.framework */; };
@@ -200,7 +230,6 @@
 		B3329597298A8F19002DF1EE /* NotificationsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsExtension.swift; sourceTree = "<group>"; };
 		B33EFF0B290FF02800AD9BEE /* GroceryList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroceryList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B33EFF0E290FF02800AD9BEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B33EFF10290FF02800AD9BEE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		B33EFF17290FF02900AD9BEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B33EFF1A290FF02900AD9BEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B33EFF1C290FF02900AD9BEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -250,6 +279,9 @@
 		B36D18D8291A1960005EE32D /* DataBase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataBase.xcdatamodel; sourceTree = "<group>"; };
 		B36D18EA291A2CCD005EE32D /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
 		B36D18EC291A2CF4005EE32D /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		B371CCA6299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainResetPasswordModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B371CCA7299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainResetPasswordModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B371CCAB299C998700E0E197 /* ResetPasswordModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordModelManager.swift; sourceTree = "<group>"; };
 		B373CDD1298D3A6A00AE522D /* AddToAnotherListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToAnotherListViewController.swift; sourceTree = "<group>"; };
 		B3777E132937CBB30074BE38 /* DBProduct+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -275,6 +307,18 @@
 		B37A2CF5291125CA003C01AD /* SF Pro Display Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Display Medium.otf"; sourceTree = "<group>"; };
 		B3802314292BC7DA0039EDE0 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		B3815C0529361BAC0060262D /* NetworkModeles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModeles.swift; sourceTree = "<group>"; };
+		B381EF15299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainUser+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B381EF16299A02A100DCDE40 /* DomainUser+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainUser+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B381EF19299A08ED00DCDE40 /* SettingsProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsProfileView.swift; sourceTree = "<group>"; };
+		B381EF1C299A573500DCDE40 /* UserAccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountManager.swift; sourceTree = "<group>"; };
+		B381EF1F299B5B1A00DCDE40 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		B381EF21299B5B2500DCDE40 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
+		B381EF23299B660D00DCDE40 /* LogOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutView.swift; sourceTree = "<group>"; };
+		B381EF25299B661700DCDE40 /* DeleteAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountView.swift; sourceTree = "<group>"; };
+		B381EF2B299BA18500DCDE40 /* PasswordExpiredViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordExpiredViewController.swift; sourceTree = "<group>"; };
+		B381EF2D299BA19600DCDE40 /* PasswordExpiredViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordExpiredViewModel.swift; sourceTree = "<group>"; };
+		B381EF30299BAA4800DCDE40 /* EnterNewPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNewPasswordViewController.swift; sourceTree = "<group>"; };
+		B381EF32299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNewPasswordViewModel.swift; sourceTree = "<group>"; };
 		B3981C51297A85F800206DB7 /* SF Pro Rounded Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Regular.otf"; sourceTree = "<group>"; };
 		B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Heavy.otf"; sourceTree = "<group>"; };
 		B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Medium.otf"; sourceTree = "<group>"; };
@@ -285,6 +329,9 @@
 		B3981C5D297A89E800206DB7 /* SF Pro Text Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Text Regular.otf"; sourceTree = "<group>"; };
 		B3981C5E297A89E800206DB7 /* SF Pro Text Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Text Semibold.otf"; sourceTree = "<group>"; };
 		B3981C5F297A89E800206DB7 /* SF Pro Text Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Text Heavy.otf"; sourceTree = "<group>"; };
+		B3AD42D4299106360043A37F /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
+		B3AD42D62991135E0043A37F /* CurrentLocale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocale.swift; sourceTree = "<group>"; };
+		B3AD42D9299117980043A37F /* RegistrationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationResponse.swift; sourceTree = "<group>"; };
 		B3B45E592934C01D00D60E82 /* SelectCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryViewController.swift; sourceTree = "<group>"; };
 		B3B45E5B2934C02B00D60E82 /* SelectCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryViewModel.swift; sourceTree = "<group>"; };
 		B3C3FA4629115AA20011EC0A /* OnboardingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContentView.swift; sourceTree = "<group>"; };
@@ -298,6 +345,19 @@
 		B3D858472939D45000CCE230 /* PaywallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewController.swift; sourceTree = "<group>"; };
 		B3D85849293A1A2A00CCE230 /* PaywallCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallCell.swift; sourceTree = "<group>"; };
 		B3D8584B293A405E00CCE230 /* PaywallModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallModel.swift; sourceTree = "<group>"; };
+		B3F7C9AF29937CD60081B245 /* RegisterWithMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterWithMessageView.swift; sourceTree = "<group>"; };
+		B3F7C9B129938E150081B245 /* SelectUnitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectUnitsView.swift; sourceTree = "<group>"; };
+		B3F7C9B329939E0B0081B245 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		B3F7C9B529939E2D0081B245 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		B3F7C9B92994BF830081B245 /* SignUpViewForTyping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewForTyping.swift; sourceTree = "<group>"; };
+		B3F7C9BB2994D8F80081B245 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
+		B3F7C9BD29950D6D0081B245 /* SignUpWithAppleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpWithAppleButton.swift; sourceTree = "<group>"; };
+		B3F7C9C0299510140081B245 /* RedAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedAlertView.swift; sourceTree = "<group>"; };
+		B3F7C9C229961FF40081B245 /* RegistrationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationState.swift; sourceTree = "<group>"; };
+		B3F7C9C629963F0A0081B245 /* PasswordResetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
+		B3F7C9C829963F1A0081B245 /* PasswordResetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetViewModel.swift; sourceTree = "<group>"; };
+		B3F7C9CA299645F80081B245 /* PasswordResetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetView.swift; sourceTree = "<group>"; };
+		B3F7C9CC29964D320081B245 /* YourEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourEmailView.swift; sourceTree = "<group>"; };
 		B3FECE4129375AA80077F8EF /* DBCategories+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBCategories+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B3FECE4229375AA80077F8EF /* DBCategories+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBCategories+CoreDataClass.swift"; sourceTree = "<group>"; };
 		BA1E0A38753E53B699F8E323 /* Pods-GroceryList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroceryList.debug.xcconfig"; path = "Target Support Files/Pods-GroceryList/Pods-GroceryList.debug.xcconfig"; sourceTree = "<group>"; };
@@ -492,7 +552,9 @@
 			isa = PBXGroup;
 			children = (
 				B3179EA8291E324B00455419 /* Network.swift */,
+				B3AD42D62991135E0043A37F /* CurrentLocale.swift */,
 				B3815C0529361BAC0060262D /* NetworkModeles.swift */,
+				B3AD42D8299117580043A37F /* Registration */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -508,6 +570,10 @@
 		B33DFD1E291A676400AC7403 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
+				B371CCA7299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift */,
+				B371CCA6299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift */,
+				B381EF16299A02A100DCDE40 /* DomainUser+CoreDataClass.swift */,
+				B381EF15299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift */,
 				846600E7294A024800D85415 /* DBRecipe+CoreDataClass.swift */,
 				846600E8294A024800D85415 /* DBRecipe+CoreDataProperties.swift */,
 				B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */,
@@ -841,12 +907,21 @@
 			path = DataBase;
 			sourceTree = "<group>";
 		};
+		B371CCAA299C995A00E0E197 /* ResetPasswordModelManager */ = {
+			isa = PBXGroup;
+			children = (
+				B371CCAB299C998700E0E197 /* ResetPasswordModelManager.swift */,
+			);
+			path = ResetPasswordModelManager;
+			sourceTree = "<group>";
+		};
 		B3777E172938BE790074BE38 /* SettingsViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B3F7C9B72993A0B90081B245 /* CustomView */,
 				B3777E182938BEA80074BE38 /* SettingsViewController.swift */,
+				B381EF19299A08ED00DCDE40 /* SettingsProfileView.swift */,
 				B3777E1A2938BF830074BE38 /* SettingsViewModel.swift */,
-				B3777E1C2938CBF40074BE38 /* SettingsParametrView.swift */,
 			);
 			path = SettingsViewController;
 			sourceTree = "<group>";
@@ -871,7 +946,6 @@
 			isa = PBXGroup;
 			children = (
 				B33EFF0E290FF02800AD9BEE /* AppDelegate.swift */,
-				B33EFF10290FF02800AD9BEE /* SceneDelegate.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -893,6 +967,9 @@
 		B37A2CD42910EE77003C01AD /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B371CCAA299C995A00E0E197 /* ResetPasswordModelManager */,
+				B381EF1B299A56A200DCDE40 /* UserAccountManager */,
+				B3AD42D32991061D0043A37F /* SocketManager */,
 				B3329594298A6475002DF1EE /* Ampllitude */,
 				38817890293BEC7E0094344D /* DataProviderFacade */,
 				B3673EB52938F6CD002D9262 /* BackendDatabaseProductsSaver */,
@@ -921,6 +998,8 @@
 		B37A2CDC29110263003C01AD /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				B381EF2F299BAA2400DCDE40 /* EnterNewPasswordController */,
+				B381EF29299B904A00DCDE40 /* PasswordExpiredController */,
 				B315F9E4298A3F0A0009CEB8 /* WriteReviewController */,
 				B3D858462939D43B00CCE230 /* Paywall */,
 				B37A2CDD2911027E003C01AD /* Onboarding */,
@@ -934,6 +1013,9 @@
 				B3B45E582934BFEA00D60E82 /* SelectCategoryViewController */,
 				B34EACA62935007400FBD0E0 /* CreateNewCategoryViewController */,
 				B3777E172938BE790074BE38 /* SettingsViewController */,
+				B3F7C9C529963EEA0081B245 /* PasswordResetViewController */,
+				B3F7C9B82993A0F70081B245 /* SignUpViewCntroller */,
+				B381EF1E299B5AFD00DCDE40 /* AccountViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1003,6 +1085,59 @@
 			path = UserDefaultsManager;
 			sourceTree = "<group>";
 		};
+		B381EF1B299A56A200DCDE40 /* UserAccountManager */ = {
+			isa = PBXGroup;
+			children = (
+				B381EF1C299A573500DCDE40 /* UserAccountManager.swift */,
+			);
+			path = UserAccountManager;
+			sourceTree = "<group>";
+		};
+		B381EF1E299B5AFD00DCDE40 /* AccountViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B381EF1F299B5B1A00DCDE40 /* AccountViewController.swift */,
+				B381EF23299B660D00DCDE40 /* LogOutView.swift */,
+				B381EF25299B661700DCDE40 /* DeleteAccountView.swift */,
+				B381EF21299B5B2500DCDE40 /* AccountViewModel.swift */,
+			);
+			path = AccountViewController;
+			sourceTree = "<group>";
+		};
+		B381EF29299B904A00DCDE40 /* PasswordExpiredController */ = {
+			isa = PBXGroup;
+			children = (
+				B381EF2B299BA18500DCDE40 /* PasswordExpiredViewController.swift */,
+				B381EF2D299BA19600DCDE40 /* PasswordExpiredViewModel.swift */,
+			);
+			path = PasswordExpiredController;
+			sourceTree = "<group>";
+		};
+		B381EF2F299BAA2400DCDE40 /* EnterNewPasswordController */ = {
+			isa = PBXGroup;
+			children = (
+				B381EF30299BAA4800DCDE40 /* EnterNewPasswordViewController.swift */,
+				B381EF32299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift */,
+			);
+			path = EnterNewPasswordController;
+			sourceTree = "<group>";
+		};
+		B3AD42D32991061D0043A37F /* SocketManager */ = {
+			isa = PBXGroup;
+			children = (
+				B3AD42D4299106360043A37F /* SocketManager.swift */,
+			);
+			path = SocketManager;
+			sourceTree = "<group>";
+		};
+		B3AD42D8299117580043A37F /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				B3AD42D9299117980043A37F /* RegistrationResponse.swift */,
+			);
+			path = Registration;
+			sourceTree = "<group>";
+		};
 		B3B45E582934BFEA00D60E82 /* SelectCategoryViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1034,6 +1169,57 @@
 				B315F9D82988FF4E0009CEB8 /* AlternativePaywall */,
 			);
 			path = Paywall;
+			sourceTree = "<group>";
+		};
+		B3F7C9B72993A0B90081B245 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				B3777E1C2938CBF40074BE38 /* SettingsParametrView.swift */,
+				B3F7C9AF29937CD60081B245 /* RegisterWithMessageView.swift */,
+				B3F7C9B129938E150081B245 /* SelectUnitsView.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		B3F7C9B82993A0F70081B245 /* SignUpViewCntroller */ = {
+			isa = PBXGroup;
+			children = (
+				B3F7C9B329939E0B0081B245 /* SignUpViewController.swift */,
+				B3F7C9B529939E2D0081B245 /* SignUpViewModel.swift */,
+				B3F7C9BF29950FC00081B245 /* CustomViews */,
+				B3F7C9C4299620000081B245 /* Models */,
+			);
+			path = SignUpViewCntroller;
+			sourceTree = "<group>";
+		};
+		B3F7C9BF29950FC00081B245 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				B3F7C9BD29950D6D0081B245 /* SignUpWithAppleButton.swift */,
+				B3F7C9B92994BF830081B245 /* SignUpViewForTyping.swift */,
+				B3F7C9C0299510140081B245 /* RedAlertView.swift */,
+				B3F7C9BB2994D8F80081B245 /* TermsView.swift */,
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		B3F7C9C4299620000081B245 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B3F7C9C229961FF40081B245 /* RegistrationState.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B3F7C9C529963EEA0081B245 /* PasswordResetViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B3F7C9C629963F0A0081B245 /* PasswordResetViewController.swift */,
+				B3F7C9CA299645F80081B245 /* PasswordResetView.swift */,
+				B3F7C9CC29964D320081B245 /* YourEmailView.swift */,
+				B3F7C9C829963F1A0081B245 /* PasswordResetViewModel.swift */,
+			);
+			path = PasswordResetViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1163,7 +1349,7 @@
 			);
 			outputPaths = (
 				"",
-				"$(DERIVED_FILE_DIR)/$SRCROOT/$TARGET_NAME/SupportingFiles/Generated/R.generated.swift",
+				$SRCROOT/R.generated.swift,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1210,6 +1396,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B381EF2E299BA19600DCDE40 /* PasswordExpiredViewModel.swift in Sources */,
 				B3C3FA4729115AA20011EC0A /* OnboardingContentView.swift in Sources */,
 				B315F9DE2989339A0009CEB8 /* CheckmarkCompositionView.swift in Sources */,
 				B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */,
@@ -1218,7 +1405,10 @@
 				B34EAC9E2934EE0100FBD0E0 /* SelectCategoryDataSource.swift in Sources */,
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
 				B3FECE4429375AA80077F8EF /* DBCategories+CoreDataClass.swift in Sources */,
+				B381EF1A299A08ED00DCDE40 /* SettingsProfileView.swift in Sources */,
+				B3F7C9BA2994BF830081B245 /* SignUpViewForTyping.swift in Sources */,
 				383C77F3293F799E0030AE78 /* RecipesListViewController.swift in Sources */,
+				B371CCAC299C998700E0E197 /* ResetPasswordModelManager.swift in Sources */,
 				383C77F7293F79EB0030AE78 /* RecipesListHeaderView.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
 				B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */,
@@ -1226,6 +1416,7 @@
 				38F4904129476FFD00529D1F /* UIBezierPath+MaskedCorners.swift in Sources */,
 				B315F9DC29892EA00009CEB8 /* CheckmarkView.swift in Sources */,
 				840C189F2978D2230006F975 /* Int+Extensions.swift in Sources */,
+				B381EF1D299A573500DCDE40 /* UserAccountManager.swift in Sources */,
 				B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */,
 				846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */,
 				383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */,
@@ -1242,34 +1433,45 @@
 				B3673EB72938F70B002D9262 /* BackendDatabaseProductsSaver.swift in Sources */,
 				B36AF9552915410400944E9D /* InstructionCell.swift in Sources */,
 				B34EACA8293500C000FBD0E0 /* CreateNewCategoryViewController.swift in Sources */,
+				B381EF22299B5B2500DCDE40 /* AccountViewModel.swift in Sources */,
 				B3777E2B2938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift in Sources */,
 				389DCF432945CDFA00DB9382 /* RecipeViewController.swift in Sources */,
 				B35F0F612937972700C19891 /* UnitSystemModel.swift in Sources */,
 				383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */,
 				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,
 				386CFACE2995A4CA00B4AD76 /* ContentViewConstants.swift in Sources */,
+				B371CCA9299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift in Sources */,
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
 				B315F9EA298A4AFF0009CEB8 /* ReviewSelectableView.swift in Sources */,
 				389DCF452945CE9A00DB9382 /* RecipeScreenViewModel.swift in Sources */,
+				B3AD42DA299117980043A37F /* RegistrationResponse.swift in Sources */,
 				389DCF4A29461B2000DB9382 /* RecipeMainImageView.swift in Sources */,
 				B315F9E6298A3F420009CEB8 /* WriteReviewViewController.swift in Sources */,
+				B3F7C9C929963F1A0081B245 /* PasswordResetViewModel.swift in Sources */,
 				B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */,
 				B34BB81F292E5C8000748E8E /* SelectProductViewModel.swift in Sources */,
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
+				B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */,
 				844FC6392978612B008173AA /* OnboardingReviewController.swift in Sources */,
 				B373CDD2298D3A6A00AE522D /* AddToAnotherListViewController.swift in Sources */,
 				B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */,
+				B3F7C9B229938E150081B245 /* SelectUnitsView.swift in Sources */,
 				B36D18EB291A2CCD005EE32D /* CoreDataStorage.swift in Sources */,
 				B36AF94D2913FAD000944E9D /* GroceryCollectionViewHeader.swift in Sources */,
 				B37A2CE82911034D003C01AD /* UITextFieldExtension.swift in Sources */,
+				B3F7C9CD29964D320081B245 /* YourEmailView.swift in Sources */,
 				B36AF93B2913C66000944E9D /* MainScreenViewModel.swift in Sources */,
+				B381EF26299B661700DCDE40 /* DeleteAccountView.swift in Sources */,
 				B315F9D52988FD530009CEB8 /* AlternativePaywallViewController.swift in Sources */,
+				B3AD42D5299106360043A37F /* SocketManager.swift in Sources */,
+				B3F7C9B029937CD60081B245 /* RegisterWithMessageView.swift in Sources */,
 				B3693405291BB44A00AFFAA6 /* ColorCollectionViewCell.swift in Sources */,
 				B30573BB29222BE700CA8BDE /* HeaderListCell.swift in Sources */,
 				B37A2CE92911034D003C01AD /* UIViewControllerExtension.swift in Sources */,
 				B3D2045B2930F00A00599A01 /* CreateNewProductViewController.swift in Sources */,
+				B3F7C9BE29950D6D0081B245 /* SignUpWithAppleButton.swift in Sources */,
 				B3D8584C293A405E00CCE230 /* PaywallModel.swift in Sources */,
 				B3179EAB291E3DAE00455419 /* ProductsDataManager.swift in Sources */,
 				B37A2CE72911034D003C01AD /* UIColorExtension.swift in Sources */,
@@ -1278,18 +1480,24 @@
 				B3B45E5C2934C02B00D60E82 /* SelectCategoryViewModel.swift in Sources */,
 				B3777E1B2938BF830074BE38 /* SettingsViewModel.swift in Sources */,
 				B34EACA42934F05800FBD0E0 /* CategoryModel.swift in Sources */,
+				B3F7C9B629939E2D0081B245 /* SignUpViewModel.swift in Sources */,
 				B37A2CDF29110290003C01AD /* OnboardingViewController.swift in Sources */,
 				B3777E192938BEA80074BE38 /* SettingsViewController.swift in Sources */,
 				B315F9E12989373A0009CEB8 /* TryForFreeView.swift in Sources */,
+				B3F7C9B429939E0B0081B245 /* SignUpViewController.swift in Sources */,
 				B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */,
+				B381EF20299B5B1A00DCDE40 /* AccountViewController.swift in Sources */,
 				B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */,
 				389DCF4E2946534300DB9382 /* RecipeServingSelector.swift in Sources */,
+				B381EF31299BAA4800DCDE40 /* EnterNewPasswordViewController.swift in Sources */,
+				B381EF18299A02A100DCDE40 /* DomainUser+CoreDataClass.swift in Sources */,
 				846600E9294A024800D85415 /* DBRecipe+CoreDataClass.swift in Sources */,
 				B3FECE4329375AA80077F8EF /* DBCategories+CoreDataProperties.swift in Sources */,
 				383C77FA293FB7310030AE78 /* RecipeListCell.swift in Sources */,
 				B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */,
 				B34BB80A292D1C4600748E8E /* ShimmerView.swift in Sources */,
 				B36AF9432913D39400944E9D /* UIImageExtension.swift in Sources */,
+				B3F7C9CB299645F80081B245 /* PasswordResetView.swift in Sources */,
 				389DCF4829460A1B00DB9382 /* RecipeScreenHeader.swift in Sources */,
 				B3D2045D2930F49C00599A01 /* CreateNewProductViewModel.swift in Sources */,
 				B36D18ED291A2CF4005EE32D /* CoreDataManager.swift in Sources */,
@@ -1303,32 +1511,40 @@
 				B3777E2A2938F41F0074BE38 /* DBNetworkProduct+CoreDataClass.swift in Sources */,
 				B37A2CEB2911034D003C01AD /* StringExtension.swift in Sources */,
 				B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */,
-				B33EFF11290FF02800AD9BEE /* SceneDelegate.swift in Sources */,
 				B3C3FA4F291175390011EC0A /* UIImageViewExtension.swift in Sources */,
+				B3F7C9C1299510140081B245 /* RedAlertView.swift in Sources */,
+				B3F7C9C329961FF40081B245 /* RegistrationState.swift in Sources */,
 				B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */,
 				B3476904291D017B0045A287 /* ProductsViewModel.swift in Sources */,
 				B3802315292BC7DA0039EDE0 /* UserDefaultsManager.swift in Sources */,
 				B3329596298A667E002DF1EE /* AmplitudeManager.swift in Sources */,
 				B3777E232938E4E90074BE38 /* HapticManager.swift in Sources */,
+				B381EF17299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift in Sources */,
 				38F4903F2946DC6A00529D1F /* IngredientView.swift in Sources */,
+				B381EF33299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift in Sources */,
 				B36933F8291A97D900AFFAA6 /* MainScreenTopCell.swift in Sources */,
 				B34EAC9C2934E95E00FBD0E0 /* SelectCategoryCell.swift in Sources */,
+				B3F7C9C729963F0A0081B245 /* PasswordResetViewController.swift in Sources */,
 				B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */,
 				B3476909291D21730045A287 /* ProductsSettingsViewController.swift in Sources */,
 				B315F9D72988FF270009CEB8 /* AlternativePaywallCell.swift in Sources */,
 				38F49043294771A500529D1F /* InstructionView.swift in Sources */,
+				B3AD42D72991135E0043A37F /* CurrentLocale.swift in Sources */,
 				844FC63B2978B825008173AA /* ReviewCell.swift in Sources */,
 				B30573BD29222D4500CA8BDE /* ProductListCell.swift in Sources */,
 				B34EACAA293501E100FBD0E0 /* CreateNewCategoryViewModel.swift in Sources */,
 				B36AF9392913C5DC00944E9D /* MainScreenViewController.swift in Sources */,
 				B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */,
 				386CFAC7299542BE00B4AD76 /* R.generated.swift in Sources */,
+				B381EF2C299BA18500DCDE40 /* PasswordExpiredViewController.swift in Sources */,
 				B36091902927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */,
 				B36AF957291554EC00944E9D /* MainScreenDataManager.swift in Sources */,
 				B34BB81D292E567B00748E8E /* SelectProductViewController.swift in Sources */,
 				B360918F2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */,
 				B3D20456292F6C0600599A01 /* SelectProductCell.swift in Sources */,
 				38817892293BEC8E0094344D /* DataProviderFacade.swift in Sources */,
+				B381EF2A299B977700DCDE40 /* TermsView.swift in Sources */,
+				B381EF24299B660D00DCDE40 /* LogOutView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

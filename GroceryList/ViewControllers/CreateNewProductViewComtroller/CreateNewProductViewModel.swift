@@ -199,8 +199,8 @@ class CreateNewProductViewModel {
         let title = product.marketCategory
         let unitId = product.defaultMarketUnitID
         print("рит = \(unitId)")
-        var shouldSelectUnit: MarketUnitClass.MarketUnitPrepared = .init(rawValue: Int(product.defaultMarketUnitID)) ?? .gram
-        var properSelectedUnit: UnitSystem = {
+        let shouldSelectUnit: MarketUnitClass.MarketUnitPrepared = .init(rawValue: Int(product.defaultMarketUnitID)) ?? .gram
+        let properSelectedUnit: UnitSystem = {
             switch shouldSelectUnit {
             case .bottle:
                 return .bottle

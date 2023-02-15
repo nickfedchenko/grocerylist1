@@ -12,9 +12,12 @@ import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    var window: UIWindow?
+    var rootRouter: RootRouter?
     let syncService: DataSyncProtocol = DataProviderFacade()
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Apphud.start(apiKey: "app_UumawTKYjWf9iUejoRkxntPLZQa7eq")
         _ = AmplitudeManager.shared
         AppDelegate.activateFonts(withExtension: "ttf")
@@ -22,22 +25,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerForNotifications()
         syncService.updateProducts()
         syncService.updateRecipes()
+        SocketManager.shared.connect()
+        
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        
+        rootRouter = RootRouter(window: window)
+        rootRouter?.presentRootNavigationControllerInWindow()
+        
+        self.window = window
+
         return true
     }
 
     // MARK: UISceneSession Lifecycle
 
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession,
-                     options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    }
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+      
+        guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host else {
+            print("invalidUrl")
+            return false
+        }
+        
+        guard let deepLink = DeepLink(rawValue: host) else {
+            print("deeplink not found")
+            return false
+        }
 
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+        guard let token = components.queryItems?.first?.value else { return false }
+        rootRouter?.openResetPassword(token: token)
+        return true
     }
 }
 
@@ -99,4 +115,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         }
         completionHandler([]) // return empty array to skip showing notification banner
     }
+}
+
+enum DeepLink: String {
+    case resetPassword
 }

@@ -91,6 +91,7 @@ class CoreDataManager {
             object.category = product.category
             object.isFavorite = product.isFavorite
             object.fromRecipeTitle = product.fromRecipeTitle
+            object.userDescription = product.description
         }
         do {
             try context.save()
@@ -250,6 +251,96 @@ class CoreDataManager {
             debugPrint(error)
         }
     }
+    
+    // MARK: - USER
+    lazy var userRequest: NSFetchRequest = {
+        return NSFetchRequest<NSFetchRequestResult>(entityName: "DomainUser")
+    }()
+    
+    private func deleteEntitiesOfType(request: NSFetchRequest<NSFetchRequestResult> ) {
+        do {
+            let data = try coreData.container.viewContext.fetch(request)
+            for item in data {
+                guard let item = item as? NSManagedObject else { return }
+                coreData.container.viewContext.delete(item)
+            }
+            try? coreData.container.viewContext.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func deleteUser() {
+        deleteEntitiesOfType(request: userRequest)
+    }
+    
+    func saveUser(user: User) {
+        let context = coreData.container.viewContext
+        let object = DomainUser(context: context)
+        object.id = 0
+        object.name = user.username
+        object.mail = user.email
+        object.password = user.password
+        object.token = user.token
+        object.avatarUrl = user.avatar
+        object.avatarAsData = user.avatarAsData
+        try? context.save()
+    }
+    
+    func getUser() -> DomainUser? {
+        do {
+            let data = try coreData.container.viewContext.fetch(userRequest)
+            for item in data {
+                if let item = item as? DomainUser {
+                    if item == data.last as? DomainUser {
+                        return item
+                    }
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
+    
+    
+    // MARK: - ResetPasswordModel
+    
+    lazy var resetPasswordModelRequest: NSFetchRequest = {
+        return NSFetchRequest<NSFetchRequestResult>(entityName: "DomainResetPasswordModel")
+    }()
+    
+    
+    func deleteResetPasswordModel() {
+        deleteEntitiesOfType(request: resetPasswordModelRequest)
+    }
+    
+    func saveResetPasswordModel(resetPasswordModel: ResetPasswordModel) {
+        let context = coreData.container.viewContext
+        let object = DomainResetPasswordModel(context: context)
+        object.id = 0
+        object.email = resetPasswordModel.email
+        object.resetToken = resetPasswordModel.resetToken
+        object.dateOfExpiration = resetPasswordModel.dateOfExpiration
+        
+        try? context.save()
+    }
+    
+    func getResetPasswordModel() -> DomainResetPasswordModel? {
+        do {
+            let data = try coreData.container.viewContext.fetch(resetPasswordModelRequest)
+            for item in data {
+                if let item = item as? DomainResetPasswordModel {
+                    if item == data.last as? DomainResetPasswordModel {
+                        return item
+                    }
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
 }
 
 extension CoreDataManager: CoredataSyncProtocol {
@@ -281,7 +372,5 @@ extension CoreDataManager: CoredataSyncProtocol {
             }
         }
     }
-    
-    
 }
 

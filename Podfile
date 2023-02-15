@@ -14,6 +14,7 @@ target 'GroceryList' do
   pod 'ApphudSDK'
   pod 'R.swift'
   pod 'GzipSwift'
+  pod 'PusherSwift', '~> 8.0'
   
   # Pods for GroceryList
 

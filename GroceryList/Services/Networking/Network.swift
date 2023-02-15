@@ -16,39 +16,131 @@ protocol NetworkDataProvider {
 
 typealias GetAllProductsResult = (Result<[NetworkProductModel], AFError>) -> Void
 typealias AllDishesResult = (Result<[Recipe], AFError>) -> Void
+typealias CreateUserResult = (Result<CreateUserResponse, AFError>) -> Void
+typealias ChangeUserNameResult = (Result<ChangeUsernameResponse, AFError>) -> Void
+typealias MailExistsResult = (Result<MailExistResponse, AFError>) -> Void
+typealias ResendVerificationCodeResult = (Result<ResendVerificationResponse, AFError>) -> Void
+typealias PasswordResetResult = (Result<PasswordResetResponse, AFError>) -> Void
+typealias PasswordUpdateResult = (Result<PasswordUpdateResponse, AFError>) -> Void
+typealias UpdateUsernameResult = (Result<UpdateUsernameResponse, AFError>) -> Void
+typealias UploadAvatarResult = (Result<UploadAvatarResponse, AFError>) -> Void
+typealias LogInResult = (Result<LogInResponse, AFError>) -> Void
+typealias DeleteUserResult = (Result<DeleteUserResponse, AFError>) -> Void
 
 enum RequestGenerator: Codable {
     case getProducts
     case getReciepts
-
+    case createUser(email: String, password: String)
+    case logIn(email: String, password: String)
+    case updateUsername(userToken: String, newName: String)
+    case uploadAvatar(userToken: String, imageData: Data)
+    case checkEmail(email: String)
+    case resendVerification(email: String)
+    case passwordReset(email: String)
+    case updatePassword(newPassword: String, resetToken: String)
+    case deleteUser(userToken: String)
+    
+    private var bearerToken: String {
+        return "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
+    }
+    
+    /// обычный реквест
     var request: URLRequest {
         switch self {
-
         case .getProducts:
-            guard let components = URLComponents(
-                string: getUrlForProducts()) else {
-                    fatalError("FatalError")
-                }
-
-            guard let url = components.url else {
-                fatalError("Error resolving URL")
-            }
-            var request = URLRequest(url: url)
-            request.method = .get
-            return request
+            return requestCreator(basicURL:getUrlForProducts(), method: .get, needsToken: false) { _ in }
         case .getReciepts:
-            guard let components = URLComponents(
-                string: getUrlForReciepts()) else {
-                    fatalError("FatalError")
-                }
-
+            return requestCreator(basicURL: getUrlForReciepts(), method: .get, needsToken: false) { _ in }
+        case .logIn(let email, let password):
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/login", method: .post) { components in
+                injectEmailAndPassword(in: &components, email: email, password: password)
+            }
+        case .createUser(let email, let password):
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/register", method: .post) { components in
+                injectEmailAndPassword(in: &components, email: email, password: password)
+            }
+        case .updateUsername(let userToken, let newName):
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/name", method: .post) { components in
+                injectUserTokenAndNewName(in: &components, userToken: userToken, newName: newName)
+            }
+        case .checkEmail(email: let email):
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/email", method: .get) { components in
+                injectEmail(in: &components, email: email)
+            }
+        case .resendVerification(let email):
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/register/resend", method: .post) { components in
+                injectEmail(in: &components, email: email)
+            }
+        case .passwordReset(let email):
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/password/request", method: .post) { components in
+                injectEmail(in: &components, email: email)
+            }
+        case .updatePassword(let newPassword, let resetToken):
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/password/update", method: .post) { components in
+                injectNewPasswordAndResetToken(in: &components, newPassword: newPassword, resetToken: resetToken)
+            }
+        case .deleteUser(userToken: let userToken):
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/delete", method: .post) { components in
+                injectUserToken(in: &components, userToken: userToken)
+            }
+        case .uploadAvatar:
+            fatalError("use multiformRequestObject")
+        }
+    }
+    
+    /// реквест для отправки  данных на сервер
+    var multiformRequestObject: (MultipartFormData, URL) {
+        switch self {
+        case .uploadAvatar(let token, let data):
+            guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/avatar") else {
+                fatalError("Error With Creating Components")
+            }
+            
+            injectUserToken(in: &components, userToken: token)
+            
             guard let url = components.url else {
                 fatalError("Error resolving URL")
             }
-            var request = URLRequest(url: url)
-            request.method = .get
-            return request
+            
+            let imageData = data
+            let boundary = UUID().uuidString
+            let mfData = MultipartFormData(fileManager: .default, boundary: boundary)
+            
+            mfData.append(
+                imageData,
+                withName: "avatar",
+                fileName: "avatar.jpg",
+                mimeType: "avatar/jpg"
+            )
+            return (mfData, url)
+        default:
+            fatalError("Use request property instead")
         }
+    }
+
+    /// метод сборки реквеста
+    private func requestCreator(basicURL: String,
+                                method: HTTPMethod,
+                                needsToken: Bool = true,
+                                injecton: ((inout URLComponents) -> Void)) -> URLRequest {
+        guard var components = URLComponents( string: basicURL) else {
+            fatalError("FatalError")
+        }
+        
+        injecton(&components)
+        
+        guard let url = components.url else {
+            fatalError("Error resolving URL")
+        }
+        
+        var request = URLRequest(url: url)
+        request.method = method
+        
+        if needsToken {
+            request.addValue(bearerToken, forHTTPHeaderField: "Authorization")
+        }
+        
+        return request
     }
     
     private func getUrlForProducts() -> String {
@@ -68,9 +160,99 @@ enum RequestGenerator: Codable {
             return "https://newketo.finanse.space/storage/json/dish_it.json.gz"
         }
     }
+    
+    private func insert(queries: [URLQueryItem], components: inout URLComponents) {
+        if components.queryItems == nil {
+            components.queryItems = queries
+        } else {
+            components.queryItems?.append(contentsOf: queries)
+        }
+    }
+    
+    private func injectEmailAndPassword(in components: inout URLComponents, email: String, password: String) {
+        let queries: [URLQueryItem] = [
+            .init(name: "email", value: email),
+            .init(name: "password", value: password)
+        ]
+        insert(queries: queries, components: &components)
+    }
+    
+    private func injectUserParametrs(in components: inout URLComponents, userModel: User?) {
+        guard let userModel = userModel else { return }
+        let queries: [URLQueryItem] = [
+            .init(name: "email", value: userModel.email),
+            .init(name: "password", value: userModel.password),
+            .init(name: "username", value: userModel.username)
+        ]
+        insert(queries: queries, components: &components)
+    }
+    
+    private func injectUserTokenAndNewName(in components: inout URLComponents, userToken: String, newName: String) {
+        let queries: [URLQueryItem] = [
+            .init(name: "user_token", value: userToken),
+            .init(name: "username", value: newName)
+        ]
+        insert(queries: queries, components: &components)
+    }
+    
+    private func injectEmail(in components: inout URLComponents, email: String) {
+        let queries: [URLQueryItem] = [
+            .init(name: "email", value: email)
+        ]
+        insert(queries: queries, components: &components)
+    }
+    
+    private func injectUserToken(in components: inout URLComponents, userToken: String) {
+        let queries: [URLQueryItem] = [
+            .init(name: "user_token", value: userToken)
+        ]
+        insert(queries: queries, components: &components)
+    }
+    
+    private func injectNewPasswordAndResetToken(in components: inout URLComponents, newPassword: String, resetToken: String) {
+        let queries: [URLQueryItem] = [
+            .init(name: "new_password", value: newPassword),
+            .init(name: "reset_token", value: resetToken)
+        ]
+        insert(queries: queries, components: &components)
+    }
 }
 
 final class NetworkEngine {
+    /// метод отправки реквеста с данными
+    private func performDecodableUploadRequest<T: Decodable>(
+        request: RequestGenerator,
+        completion: @escaping ((Result<T, AFError>) -> Void)
+    ) {
+        
+        let headers = [
+            "Authorization": "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ",
+            "Content-Type": "multipart/form-data"
+        ]
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        let mfObject = request.multiformRequestObject
+        
+        AF.upload(multipartFormData: mfObject.0, to: mfObject.1,
+                  method: .post, headers: .init(headers))
+        .validate()
+        .responseDecodable(
+            of: T.self,
+            queue: .global(qos: .userInitiated),
+            decoder: decoder
+        ) { result in
+            guard let data = result.value else {
+                if let error = result.error {
+                    completion(.failure(error))
+                }
+                return
+            }
+            completion(.success(data))
+        }
+    }
     
     private func performDecodableRequest<T: Decodable>(
         request: RequestGenerator,
@@ -85,7 +267,6 @@ final class NetworkEngine {
             .responseData { result in
                 guard let data = result.value else {
                     if let error = result.error {
-                        
                         completion(.failure(error))
                     }
                     return
@@ -100,14 +281,20 @@ final class NetworkEngine {
                         }
                         completion(.success(unzippedDishes))
                     }
-                   
+                    
+                } else {
+                    guard let dataModel = try? decoder.decode(T.self, from: data) else {
+                        print("errModel")
+                        return
+                    }
+                    completion(.success(dataModel))
                 }
             }
     }
 }
 
 extension NetworkEngine: NetworkDataProvider {
-   
+    
     func getAllProducts(completion: @escaping GetAllProductsResult) {
         performDecodableRequest(request: .getProducts, completion: completion)
     }
@@ -115,14 +302,44 @@ extension NetworkEngine: NetworkDataProvider {
     func getAllRecipes(completion: @escaping AllDishesResult) {
         performDecodableRequest(request: .getReciepts, completion: completion)
     }
+    /// регистрация юзера
+    func createUser(email: String, password: String, completion: @escaping CreateUserResult) {
+        performDecodableRequest(request: .createUser(email: email, password: password), completion: completion)
+    }
+    /// вход юзера, возвращает юзера с его данными
+    func logIn(email: String, password: String, completion: @escaping LogInResult) {
+        performDecodableRequest(request: .logIn(email: email, password: password), completion: completion)
+    }
+    /// меняем или создаем имя юзера
+    func updateUserName(userToken: String, newName: String, completion: @escaping UpdateUsernameResult) {
+        performDecodableRequest(request: .updateUsername(userToken: userToken, newName: newName), completion: completion)
+    }
+    /// загружаем аватар
+    func uploadAvatar(userToken: String, imageData: Data, completion: @escaping UploadAvatarResult) {
+        performDecodableUploadRequest(request: .uploadAvatar(userToken: userToken, imageData: imageData), completion: completion)
+    }
+    /// проверка существует ли в базе имейл
+    func checkEmail(email: String, completion: @escaping MailExistsResult) {
+        performDecodableRequest(request: .checkEmail(email: email), completion: completion)
+    }
+    /// повторная отправка кода верификации
+    func resendVerificationCode(email: String, completion: @escaping ResendVerificationCodeResult) {
+        performDecodableRequest(request: .resendVerification(email: email), completion: completion)
+    }
     
-}
-
-enum CurrentLocale: String {
-    case en
-    case ru
-    case de
-    case fr
-    case sp
-    case it
+    /// запрос на смену пароля - отправляет ссылку на почту для подтверждения сброса пароля
+    /// там мы ловим диплинк и переходив внутрь апы и уже меняем пароль методом  updatePassword(newPassword: String....
+    func passwordReset(email: String, completion: @escaping PasswordResetResult) {
+        performDecodableRequest(request: .passwordReset(email: email), completion: completion)
+    }
+    
+    /// метод фактической смены пароля
+    func updatePassword(newPassword: String, resetToken: String, completion: @escaping PasswordUpdateResult) {
+        performDecodableRequest(request: .updatePassword(newPassword: newPassword, resetToken: resetToken), completion: completion)
+    }
+    
+    /// метод фактической смены пароля
+    func deleteUser(userToken: String, completion: @escaping DeleteUserResult) {
+        performDecodableRequest(request: .deleteUser(userToken: userToken), completion: completion)
+    }
 }

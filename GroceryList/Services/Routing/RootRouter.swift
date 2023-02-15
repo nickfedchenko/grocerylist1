@@ -53,10 +53,9 @@ final class RootRouter: RootRouterProtocol {
     func presentRootNavigationControllerInWindow() {
         
         if let rootViewController = viewControllerFactory.createMainController(router: self) {
-            self.navigationController = UINavigationController(rootViewController: rootViewController)
-//            self.navigationController = UINavigationController(rootViewController: PaywallViewController())
+            self.navigationController = BlackNavigationController(rootViewController: rootViewController)
         } else {
-            self.navigationController = UINavigationController()
+            self.navigationController = BlackNavigationController()
         }
         
         viewController = navigationController
@@ -64,6 +63,17 @@ final class RootRouter: RootRouterProtocol {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         goToOnboarding()
+    }
+    
+    func openResetPassword(token: String) {
+        guard let resetModel = ResetPasswordModelManager.shared.getResetPasswordModel() else { return }
+        if resetModel.resetToken == token && Date() < (resetModel.dateOfExpiration + 3600) {
+            goToSettingsController()
+            goToEnterNewPasswordController()
+        } else {
+            goToSettingsController()
+            goToPasswordExpiredController()
+        }
     }
     
     func goToOnboarding() {
@@ -127,6 +137,32 @@ final class RootRouter: RootRouterProtocol {
     func goToSettingsController() {
         guard let controller = viewControllerFactory.createSettingsController(router: self) else { return }
         navigationPushViewController(controller, animated: true)
+    }
+    
+    func goToSignUpController() {
+        guard let controller = viewControllerFactory.createSignUpController(router: self) else { return }
+        navigationPushViewController(controller, animated: true)
+    }
+    
+    func goToAccountController() {
+        guard let controller = viewControllerFactory.createAccountController(router: self) else { return }
+        navigationPushViewController(controller, animated: true)
+    }
+    
+    func goToPasswordExpiredController() {
+        guard let controller = viewControllerFactory.createPasswordExpiredController(router: self) else { return }
+        navigationPushViewController(controller, animated: true)
+    }
+    
+    func goToEnterNewPasswordController() {
+        guard let controller = viewControllerFactory.createEnterNewPasswordController(router: self) else { return }
+        navigationPushViewController(controller, animated: true)
+    }
+    
+    func goToPaswordResetController(email: String, passwordResetedCompl: @escaping (() -> Void)) {
+        guard let controller = viewControllerFactory.createPasswordResetController(router: self,
+                                                                                   email: email, passwordResetedCompl: passwordResetedCompl) else { return }
+        navigationPresent(controller, animated: false)
     }
     
     // алерты / активити и принтер
@@ -235,5 +271,11 @@ final class RootRouter: RootRouterProtocol {
     
     func popToController(at ind: Int, animated: Bool) {
         navigationPop(at: ind, animated: true)
+    }
+}
+
+class BlackNavigationController: UINavigationController {
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
     }
 }

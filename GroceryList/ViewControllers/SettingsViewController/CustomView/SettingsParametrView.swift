@@ -21,7 +21,9 @@ class SettingsParametrView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupView(text: String, unitSustemText: String? = nil, isHaptickView: Bool = false) {
+    func setupView(text: String, unitSustemText: String? = nil,
+                   isHaptickView: Bool = false, isAttrHidden: Bool = false,
+                   titleColor: UIColor = .titleColor) {
         
         if let unitSustemText {
             unitSystemLabel.text = unitSustemText
@@ -30,18 +32,19 @@ class SettingsParametrView: UIView {
             rightChevron.isHidden = true
             switchView.isHidden = false
         }
+        
+        if isAttrHidden {
+            rightChevron.isHidden = true
+            switchView.isHidden = true
+            textLabel.textColor = .black
+        }
         textLabel.text = text
+        textLabel.textColor = titleColor
     }
     
     func updateSwitcher() {
         switchView.isOn = UserDefaultsManager.isHapticOn
     }
-    
-    private let topLineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(hex: "#F4FFF5")
-        return view
-    }()
     
     private let textLabel: UILabel = {
         let label = UILabel()
@@ -83,13 +86,7 @@ class SettingsParametrView: UIView {
     }
     
     private func setupConstraints() {
-        addSubviews([topLineView, textLabel, lineView, rightChevron, unitSystemLabel, switchView])
-        
-        topLineView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.top.equalToSuperview().inset(-1)
-            make.height.equalTo(1)
-        }
+        addSubviews([textLabel, lineView, rightChevron, unitSystemLabel, switchView])
         
         textLabel.snp.makeConstraints { make in
             make.left.equalToSuperview()
@@ -105,7 +102,7 @@ class SettingsParametrView: UIView {
         lineView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.height.equalTo(1)
+            make.height.equalTo(2)
         }
         
         switchView.snp.makeConstraints { make in
@@ -116,8 +113,8 @@ class SettingsParametrView: UIView {
         rightChevron.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(8)
             make.centerY.equalToSuperview()
-            make.width.equalTo(24)
-            make.height.equalTo(14)
+            make.width.equalTo(12)
+            make.height.equalTo(12)
         }
     }
 }
