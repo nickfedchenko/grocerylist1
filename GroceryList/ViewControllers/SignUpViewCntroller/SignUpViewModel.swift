@@ -21,6 +21,7 @@ protocol SignUpViewModelDelegate: AnyObject {
     func hideNoInternet()
     func setupResetPasswordState(email: String)
     func setupEmailFirstResponder()
+    func signWithAppleTapped()
 }
 
 class SignUpViewModel {
@@ -148,6 +149,7 @@ class SignUpViewModel {
     }
     
     func signWithApplePressed() {
+        delegate?.signWithAppleTapped()
         print("signWithApplePressed")
     }
     
