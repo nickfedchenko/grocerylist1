@@ -12,6 +12,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
     
     var swipeDeleteAction: (() -> Void)?
     var swipeToAddOrDeleteFromFavorite: (() -> Void)?
+    var sharingAction: ((String?) -> Void)?
     private var state: CellState = .normal
     
     override init(frame: CGRect) {
@@ -50,6 +51,9 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         let swipeLeftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
         swipeLeftRecognizer.direction = .left
         contentViews.addGestureRecognizer(swipeLeftRecognizer)
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+        sharingView.addGestureRecognizer(tapRecognizer)
     }
     
     func setupCell(nameOfList: String, bckgColor: UIColor, isTopRounded: Bool,
@@ -80,6 +84,10 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    func setupSharing(state: SharingView.SharingState, image: [UIImage]) {
+        sharingView.configure(state: state, images: image)
+    }
+    
     private let contentViews: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray
@@ -94,8 +102,9 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let sharingView: UIView = {
-        let view = UIView()
+    private let sharingView: SharingView = {
+        let view = SharingView()
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -124,10 +133,16 @@ class GroceryCollectionViewCell: UICollectionViewCell {
     private func setupConstraints() {
         backgroundColor = UIColor(hex: "#E8F5F3")
         contentView.addSubviews([leftButton, rightButton, contentViews])
-        contentViews.addSubviews([nameLabel, countLabel])
+        contentViews.addSubviews([nameLabel, countLabel, sharingView])
         
         contentViews.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        
+        sharingView.snp.makeConstraints { make in
+            make.trailing.equalToSuperview()
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
         }
@@ -153,6 +168,15 @@ class GroceryCollectionViewCell: UICollectionViewCell {
             make.right.equalToSuperview().inset(-1)
             make.width.equalTo(72)
         }
+    }
+}
+
+// MARK: - Sharing
+extension GroceryCollectionViewCell {
+    
+    @objc
+    private func tapAction() {
+        sharingAction?(nameLabel.text)
     }
 }
 

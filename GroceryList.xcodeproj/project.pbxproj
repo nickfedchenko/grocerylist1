@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3328AD86299CF40800187B57 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3328AD85299CF40800187B57 /* SharingView.swift */; };
+		334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */; };
+		334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */; };
 		339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339C1AEA299A67DD0092F93E /* InfoMessageView.swift */; };
 		383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */; };
 		383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */; };
@@ -184,6 +186,8 @@
 		025222570B015E69FF5973D3 /* Pods_GroceryList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GroceryList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		262EB22BC930A385DC81E51C /* Pods-GroceryList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroceryList.release.xcconfig"; path = "Target Support Files/Pods-GroceryList/Pods-GroceryList.release.xcconfig"; sourceTree = "<group>"; };
 		3328AD85299CF40800187B57 /* SharingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingView.swift; sourceTree = "<group>"; };
+		334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingPopUpViewController.swift; sourceTree = "<group>"; };
+		334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewController.swift; sourceTree = "<group>"; };
 		339C1AEA299A67DD0092F93E /* InfoMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMessageView.swift; sourceTree = "<group>"; };
 		383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipePreviewCell.swift; sourceTree = "<group>"; };
 		383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipesFolderHeader.swift; sourceTree = "<group>"; };
@@ -378,6 +382,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		334BAE4B299DF88F005F52F5 /* Sharing */ = {
+			isa = PBXGroup;
+			children = (
+				334BAE50299E39DD005F52F5 /* Pop up */,
+				334BAE51299E39EB005F52F5 /* Sharing List */,
+			);
+			path = Sharing;
+			sourceTree = "<group>";
+		};
+		334BAE50299E39DD005F52F5 /* Pop up */ = {
+			isa = PBXGroup;
+			children = (
+				334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */,
+			);
+			path = "Pop up";
+			sourceTree = "<group>";
+		};
+		334BAE51299E39EB005F52F5 /* Sharing List */ = {
+			isa = PBXGroup;
+			children = (
+				334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */,
+			);
+			path = "Sharing List";
+			sourceTree = "<group>";
+		};
 		383C77F1293F79800030AE78 /* Childs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1007,6 +1036,7 @@
 				B3D858462939D43B00CCE230 /* Paywall */,
 				B37A2CDD2911027E003C01AD /* Onboarding */,
 				B36933FC291BA4CE00AFFAA6 /* MainViewController */,
+				334BAE4B299DF88F005F52F5 /* Sharing */,
 				B36933FD291BA4EE00AFFAA6 /* CreateNewListViewController */,
 				B34BB80B292E330D00748E8E /* SelectListViewController */,
 				B34BB81B292E562000748E8E /* SelectProductViewController */,
@@ -1440,6 +1470,7 @@
 				B3777E2B2938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift in Sources */,
 				389DCF432945CDFA00DB9382 /* RecipeViewController.swift in Sources */,
 				B35F0F612937972700C19891 /* UnitSystemModel.swift in Sources */,
+				334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */,
 				383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */,
 				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,
 				386CFACE2995A4CA00B4AD76 /* ContentViewConstants.swift in Sources */,
@@ -1463,6 +1494,7 @@
 				B3F7C9B229938E150081B245 /* SelectUnitsView.swift in Sources */,
 				B36D18EB291A2CCD005EE32D /* CoreDataStorage.swift in Sources */,
 				B36AF94D2913FAD000944E9D /* GroceryCollectionViewHeader.swift in Sources */,
+				334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */,
 				B37A2CE82911034D003C01AD /* UITextFieldExtension.swift in Sources */,
 				B3F7C9CD29964D320081B245 /* YourEmailView.swift in Sources */,
 				B36AF93B2913C66000944E9D /* MainScreenViewModel.swift in Sources */,

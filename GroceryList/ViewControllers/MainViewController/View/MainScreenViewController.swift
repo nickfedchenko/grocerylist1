@@ -268,7 +268,8 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 let color = viewModel.getBGColor(at: indexPath)
                 cell?.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
-                
+                cell?.setupSharing(state: viewModel.getSharingState(at: indexPath),
+                                   image: viewModel.getShareImages(at: indexPath))
                 // Удаление и закрепление ячейки
                 cell?.swipeDeleteAction = {
                     viewModel.deleteCell(with: model)
@@ -277,6 +278,11 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 cell?.swipeToAddOrDeleteFromFavorite = {
                     viewModel.addOrDeleteFromFavorite(with: model)
                     
+                }
+                // Шаринг карточки списка
+                cell?.sharingAction = { listName in
+                    print("listName - \(String(describing: listName))")
+                    viewModel.sharingTapped()
                 }
                 return cell
             }

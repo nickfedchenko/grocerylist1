@@ -42,7 +42,7 @@ class SettingsViewModel {
         
         user.username = name
         UserAccountManager.shared.saveUser(user: user)
-        NetworkEngine().updateUserName(userToken: user.token, newName: name) { result in
+        network.updateUserName(userToken: user.token, newName: name) { result in
             switch result {
             case .failure(let error):
                 print(error)
@@ -69,7 +69,7 @@ class SettingsViewModel {
      
         user.avatarAsData = imageData
         UserAccountManager.shared.saveUser(user: user)
-        NetworkEngine().uploadAvatar(userToken: user.token, imageData: imageData) { result in
+        network.uploadAvatar(userToken: user.token, imageData: imageData) { result in
             switch result {
             case .failure(let error):
                 print(error)

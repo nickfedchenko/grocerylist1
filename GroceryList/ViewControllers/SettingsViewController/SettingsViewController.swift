@@ -61,10 +61,7 @@ class SettingsViewController: UIViewController {
             self?.viewModel?.systemSelected(system: selectedSystem)
         }
         view.layer.cornerRadius = 12
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 12)
-        view.layer.shadowRadius = 11
-        view.layer.shadowOpacity = 0.2
+        view.addDefaultShadow()
         return view
     }()
     

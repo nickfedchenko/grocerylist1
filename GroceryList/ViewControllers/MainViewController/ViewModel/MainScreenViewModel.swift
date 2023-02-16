@@ -59,6 +59,14 @@ class MainScreenViewModel {
         })
     }
     
+    func sharingTapped() {
+        guard let user = UserAccountManager.shared.getUser() else {
+            router?.goToSharingPopUp()
+            return
+        }
+        print("показываем шаринг лист - \(user)")
+    }
+    
     // setup cells
     func getNameOfList(at ind: IndexPath) -> String {
         return model[ind.section].lists[ind.row].name ?? "No name"
@@ -81,6 +89,24 @@ class MainScreenViewModel {
     func isBottomRounded(at ind: IndexPath) -> Bool {
         let lastCell = model[ind.section].lists.count - 1
         return ind.row == lastCell
+    }
+    
+    func getSharingState(at ind: IndexPath) -> SharingView.SharingState {
+        // TODO: туть передаем состояние кнопки шаре
+        /*
+          .invite - пригласить (иконка с плюсиком)
+          .expectation - ожидание присоединения (иконка с галочкой)
+          .added - пользователь добавлен + передаем массив фото пользователей
+         */
+        return .invite
+    }
+    
+    func getShareImages(at ind: IndexPath) -> [UIImage] {
+        guard getSharingState(at: ind) == .added else {
+            return []
+        }
+        // TODO: туть получаем массив фото пользователей с которыми поделились карточкой
+        return []
     }
     
     // cells callbacks
