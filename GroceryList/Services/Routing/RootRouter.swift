@@ -139,9 +139,9 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: false)
     }
     
-    func goToSettingsController() {
+    func goToSettingsController(animated: Bool = true) {
         guard let controller = viewControllerFactory.createSettingsController(router: self) else { return }
-        navigationPushViewController(controller, animated: true)
+        navigationPushViewController(controller, animated: animated)
     }
     
     func goToSignUpController(animated: Bool = true, isFromResetPassword: Bool = false) {
@@ -169,6 +169,12 @@ final class RootRouter: RootRouterProtocol {
         guard let controller = viewControllerFactory.createPasswordResetController(router: self,
                                                                                    email: email, passwordResetedCompl: passwordResetedCompl) else { return }
         navigationPresent(controller, animated: false)
+    }
+    
+    func goToSharingPopUp() {
+        let controller = viewControllerFactory.createSharingPopUpController(router: self)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
     }
     
     // алерты / активити и принтер

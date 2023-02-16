@@ -74,6 +74,7 @@ protocol ViewControllerFactoryProtocol {
     func createAccountController(router: RootRouter) -> UIViewController?
     func createPasswordExpiredController(router: RootRouter) -> UIViewController?
     func createEnterNewPasswordController(router: RootRouter) -> UIViewController?
+    func createSharingPopUpController(router: RootRouter) -> UIViewController
 }
 
 // MARK: - Factory
@@ -343,6 +344,12 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let recipeListVC = RecipesListViewController(with: section)
         recipeListVC.router = router
         return recipeListVC
+    }
+    
+    func createSharingPopUpController(router: RootRouter) -> UIViewController {
+        let viewController = SharingPopUpViewController()
+        viewController.router = router
+        return viewController
     }
 }
 
