@@ -225,7 +225,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
         // swiftlint:disable:next function_body_length
     private func createTableViewDataSource() {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
-                                                                      cellProvider: { _, indexPath, model in
+                                                                      cellProvider: { [self] _, indexPath, model in
             switch self.viewModel?.model[indexPath.section].cellType {
                 
                 // top view with switcher
@@ -237,6 +237,8 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 }
                 cell?.delegate = self
                 cell?.configure(with: self.presentationMode)
+                cell?.setupUser(photo: self.viewModel?.userPhoto,
+                                name: self.viewModel?.userName)
                 return cell
                 
                 // empty cell in bottom of collection

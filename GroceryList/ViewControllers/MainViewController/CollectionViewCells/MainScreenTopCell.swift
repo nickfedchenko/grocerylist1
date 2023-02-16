@@ -35,6 +35,13 @@ class MainScreenTopCell: UICollectionViewCell {
         segmentControl.selectedSegmentIndex = mode == .recipes ? 1 : 0
     }
     
+    func setupUser(photo: UIImage?, name: String?) {
+        settingsButton.setImage(photo, for: .normal)
+        userNameLabel.text = name
+        
+        settingsButton.clipsToBounds = UserAccountManager.shared.getUser() != nil
+    }
+    
     @objc
     private func searchButtonAction() {
         print("search button pressed")
@@ -48,8 +55,19 @@ class MainScreenTopCell: UICollectionViewCell {
     private lazy var settingsButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(settingsButtonAction), for: .touchUpInside)
-        button.setImage(UIImage(named: "settingsButtonImage"), for: .normal)
+        button.setImage(R.image.profile_icon(), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFill
+        button.layer.cornerRadius = 16
         return button
+    }()
+    
+    private lazy var userNameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(hex: "#1A645A")
+        label.font = UIFont.SFProRounded.semibold(size: 18).font
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
+        return label
     }()
     
     private lazy var searchButton: UIButton = {
@@ -77,11 +95,18 @@ class MainScreenTopCell: UICollectionViewCell {
     
     // MARK: - UI
     private func setupConstraints() {
-        contentView.addSubviews([settingsButton, searchButton, segmentControl])
+        contentView.addSubviews([settingsButton, userNameLabel, searchButton, segmentControl])
         settingsButton.snp.makeConstraints { make in
-            make.width.height.equalTo(24)
+            make.width.height.equalTo(32)
             make.left.equalTo(28)
             make.top.equalToSuperview()
+        }
+        
+        userNameLabel.snp.makeConstraints { make in
+            make.leading.equalTo(settingsButton.snp.trailing).offset(10)
+            make.centerY.equalTo(settingsButton)
+            make.height.equalTo(24)
+            make.trailing.equalTo(searchButton.snp.leading).offset(-10)
         }
         
         searchButton.snp.makeConstraints { make in

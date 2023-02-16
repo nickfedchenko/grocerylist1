@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Kingfisher
 import UIKit
 
 class MainScreenViewModel {
@@ -39,6 +40,22 @@ class MainScreenViewModel {
     
     func updateFavorites() {
         dataSource?.updateFavoritesSection()
+    }
+    
+    // user
+    var userPhoto: UIImage? {
+        guard let user = UserAccountManager.shared.getUser() else {
+            return R.image.profile_noreg()
+        }
+        
+        guard let avatarAsData = user.avatarAsData else {
+            return downloadImage(user: user)
+        }
+        return UIImage(data: avatarAsData)
+    }
+    
+    var userName: String? {
+        UserAccountManager.shared.getUser()?.username
     }
     
     // routing
@@ -142,5 +159,23 @@ class MainScreenViewModel {
     
     func getImageHeight() -> ImageHeight {
         dataSource?.imageHeight ?? .empty
+    }
+    
+    private func downloadImage(user: User) -> UIImage? {
+        guard let userAvatarUrl = user.avatar,
+              let url = URL(string: userAvatarUrl) else {
+            return R.image.profile_icon()
+        }
+        ImageDownloader.default.downloadImage(with: url,
+                                              options: [], progressBlock: nil) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let image):
+                let image = image.image
+//                return image.images
+            }
+        }
+        return R.image.profile_icon()
     }
 }
