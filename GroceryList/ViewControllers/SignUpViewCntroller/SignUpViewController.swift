@@ -338,6 +338,7 @@ extension SignUpViewController: ASAuthorizationControllerDelegate {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let appleId = appleIDCredential.user
             let appleUserEmail = appleIDCredential.email
+            viewModel?.signWithAppleSucceed(email: appleUserEmail, appleId: appleId)
         }
     }
 }
