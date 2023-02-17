@@ -170,13 +170,15 @@ class SignUpViewModel {
         // тут чекаем что почта занята - на случай если юзер удалил акк
         // если занята то переходим в функцию регистрации
         checkMail(text: email) { [weak self] isMailExist in
-            guard isMailExist else { self?.createAccountAndLogIn(email: email); return}
+            guard isMailExist else {
+                self?.createAccountAndLogIn(email: email)
+                return
+            }
+            // если почта занята то проверка прошла и входим
+            self?.emailParameters.text = email
+            self?.passwordParameters.text = password
+            self?.signInUser()
         }
-        
-        emailParameters.text = email
-        passwordParameters.text = password
-        
-        signUpUser()
     }
     
     /// сохраняем почту и логин в кейчейн и регистрируемся
