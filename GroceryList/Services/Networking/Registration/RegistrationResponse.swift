@@ -91,7 +91,6 @@ struct DeleteUserResponse: Codable {
     var success: Bool?
 }
 
-
 struct ResetPasswordModel {
     var id = 0
     var email: String
