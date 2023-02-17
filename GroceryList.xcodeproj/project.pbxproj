@@ -110,6 +110,7 @@
 		B371CCA9299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B371CCA7299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift */; };
 		B371CCAC299C998700E0E197 /* ResetPasswordModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B371CCAB299C998700E0E197 /* ResetPasswordModelManager.swift */; };
 		B371CCB0299E36BB00E0E197 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B371CCAF299E36BB00E0E197 /* KeychainManager.swift */; };
+		B371CCB2299F7B0200E0E197 /* GroceryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B371CCB1299F7B0200E0E197 /* GroceryListResponse.swift */; };
 		B373CDD2298D3A6A00AE522D /* AddToAnotherListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B373CDD1298D3A6A00AE522D /* AddToAnotherListViewController.swift */; };
 		B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E132937CBB30074BE38 /* DBProduct+CoreDataClass.swift */; };
 		B3777E162937CBB30074BE38 /* DBProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */; };
@@ -306,6 +307,7 @@
 		B371CCA7299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainResetPasswordModel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B371CCAB299C998700E0E197 /* ResetPasswordModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordModelManager.swift; sourceTree = "<group>"; };
 		B371CCAF299E36BB00E0E197 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		B371CCB1299F7B0200E0E197 /* GroceryListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryListResponse.swift; sourceTree = "<group>"; };
 		B373CDD1298D3A6A00AE522D /* AddToAnotherListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToAnotherListViewController.swift; sourceTree = "<group>"; };
 		B3777E132937CBB30074BE38 /* DBProduct+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -1202,6 +1204,7 @@
 			isa = PBXGroup;
 			children = (
 				B3AD42D9299117980043A37F /* RegistrationResponse.swift */,
+				B371CCB1299F7B0200E0E197 /* GroceryListResponse.swift */,
 			);
 			path = Registration;
 			sourceTree = "<group>";
@@ -1578,6 +1581,7 @@
 				B3F7C9CB299645F80081B245 /* PasswordResetView.swift in Sources */,
 				389DCF4829460A1B00DB9382 /* RecipeScreenHeader.swift in Sources */,
 				B3D2045D2930F49C00599A01 /* CreateNewProductViewModel.swift in Sources */,
+				B371CCB2299F7B0200E0E197 /* GroceryListResponse.swift in Sources */,
 				B36D18ED291A2CF4005EE32D /* CoreDataManager.swift in Sources */,
 				B34BB80F292E389B00748E8E /* SelectListViewModel.swift in Sources */,
 				B3D8584A293A1A2A00CCE230 /* PaywallCell.swift in Sources */,

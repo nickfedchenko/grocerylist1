@@ -26,6 +26,8 @@ typealias UpdateUsernameResult = (Result<UpdateUsernameResponse, AFError>) -> Vo
 typealias UploadAvatarResult = (Result<UploadAvatarResponse, AFError>) -> Void
 typealias LogInResult = (Result<LogInResponse, AFError>) -> Void
 typealias DeleteUserResult = (Result<DeleteUserResponse, AFError>) -> Void
+typealias GroceryListReleaseResult = (Result<GroceryListReleaseResponse, AFError>) -> Void
+typealias GroceryListDeleteResult = (Result<GroceryListDeleteResponse, AFError>) -> Void
 
 enum RequestGenerator: Codable {
     case getProducts
@@ -39,6 +41,8 @@ enum RequestGenerator: Codable {
     case passwordReset(email: String)
     case updatePassword(newPassword: String, resetToken: String)
     case deleteUser(userToken: String)
+    case groceryListRelease(userToken: String, sharingToken: String)
+    case groceryListDelete(userToken: String, listId: String)
     
     private var bearerToken: String {
         return "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
@@ -82,6 +86,16 @@ enum RequestGenerator: Codable {
         case .deleteUser(userToken: let userToken):
             return requestCreator(basicURL: "https://newketo.finanse.space/api/user/delete", method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
+            }
+        case .groceryListRelease(userToken: let userToken, sharingToken: let sharingToken):
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/release", method: .post) { components in
+                injectUserToken(in: &components, userToken: userToken)
+                injectSharingToken(in: &components, sharingToken: sharingToken)
+            }
+        case .groceryListDelete(userToken: let userToken, listId: let listId):
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/delete", method: .post) { components in
+                injectUserToken(in: &components, userToken: userToken)
+                injectListId(in: &components, listId: listId)
             }
         case .uploadAvatar:
             fatalError("use multiformRequestObject")
@@ -205,6 +219,21 @@ enum RequestGenerator: Codable {
     private func injectUserToken(in components: inout URLComponents, userToken: String) {
         let queries: [URLQueryItem] = [
             .init(name: "user_token", value: userToken)
+        ]
+        insert(queries: queries, components: &components)
+    }
+    
+    
+    private func injectSharingToken(in components: inout URLComponents, sharingToken: String) {
+        let queries: [URLQueryItem] = [
+            .init(name: "sharing_token", value: sharingToken)
+        ]
+        insert(queries: queries, components: &components)
+    }
+    
+    private func injectListId(in components: inout URLComponents, listId: String) {
+        let queries: [URLQueryItem] = [
+            .init(name: "list_id", value: listId)
         ]
         insert(queries: queries, components: &components)
     }
@@ -341,5 +370,16 @@ extension NetworkEngine: NetworkDataProvider {
     /// метод фактической смены пароля
     func deleteUser(userToken: String, completion: @escaping DeleteUserResult) {
         performDecodableRequest(request: .deleteUser(userToken: userToken), completion: completion)
+    }
+    
+    ///  подключение юзера к листу
+    func groceryListRelease(userToken: String, sharingToken: String, completion: @escaping GroceryListReleaseResult) {
+        performDecodableRequest(request: .groceryListRelease(userToken: userToken,
+                                                             sharingToken: sharingToken), completion: completion)
+    }
+    
+    ///   удаление листа - может только овнер
+    func groceryListDelete(userToken: String, listId: String, completion: @escaping GroceryListDeleteResult) {
+        performDecodableRequest(request: .groceryListDelete(userToken: userToken, listId: listId), completion: completion)
     }
 }
