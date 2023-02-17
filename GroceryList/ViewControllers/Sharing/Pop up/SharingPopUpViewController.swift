@@ -20,7 +20,7 @@ final class SharingPopUpViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Registration is required to use shared list functions".localized
+        label.text = "RegistrationRequired".localized
         label.font = UIFont.SFPro.regular(size: 17).font
         label.textColor = UIColor(hex: "#023B46")
         label.textAlignment = .center
@@ -31,19 +31,19 @@ final class SharingPopUpViewController: UIViewController {
     
     private lazy var registerButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Register", for: .normal)
+        button.setTitle("REGISTER".localized.capitalized, for: .normal)
         button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 18).font
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor(hex: "#1A645A")
         button.layer.cornerRadius = 8
-        button.addDefaultShadow()
+        button.addDefaultShadowForPopUp()
         button.addTarget(self, action: #selector(registerButtonPressed), for: .touchUpInside)
         return button
     }()
     
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Cancel", for: .normal)
+        button.setTitle("Cancel".localized, for: .normal)
         button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 17).font
         button.setTitleColor(UIColor(hex: "#1A645A"), for: .normal)
         button.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)

@@ -175,6 +175,7 @@ class ProductsViewController: UIViewController {
         
         // MARK: Configure collection view
         collectionView.delegate = self
+        collectionView.backgroundColor = .clear
         
         // MARK: Cell registration
         let headerCellRegistration = UICollectionView.CellRegistration<HeaderListCell, Category> { [ weak self ](cell, _, parent) in

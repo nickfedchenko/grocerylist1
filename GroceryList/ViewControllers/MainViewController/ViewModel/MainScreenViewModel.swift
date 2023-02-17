@@ -49,7 +49,7 @@ class MainScreenViewModel {
         }
         
         guard let avatarAsData = user.avatarAsData else {
-            return downloadImage(user: user)
+            return R.image.profile_icon()
         }
         return UIImage(data: avatarAsData)
     }
@@ -81,7 +81,7 @@ class MainScreenViewModel {
             router?.goToSharingPopUp()
             return
         }
-        print("показываем шаринг лист - \(user)")
+        router?.goToSharingList()
     }
     
     // setup cells
@@ -159,23 +159,5 @@ class MainScreenViewModel {
     
     func getImageHeight() -> ImageHeight {
         dataSource?.imageHeight ?? .empty
-    }
-    
-    private func downloadImage(user: User) -> UIImage? {
-        guard let userAvatarUrl = user.avatar,
-              let url = URL(string: userAvatarUrl) else {
-            return R.image.profile_icon()
-        }
-        ImageDownloader.default.downloadImage(with: url,
-                                              options: [], progressBlock: nil) { result in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let image):
-                let image = image.image
-//                return image.images
-            }
-        }
-        return R.image.profile_icon()
     }
 }

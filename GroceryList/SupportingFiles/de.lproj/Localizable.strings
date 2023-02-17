@@ -169,4 +169,9 @@
 "resetPassword"                 = "Setzen Sie das Passwort zurück";
 "signInWithApple"               = "Melden Sie sich bei Apple an";
 
-
+// sharing
+"Shared lists"                  = "Gemeinsam genutzte Listen können von mehreren Personen gleichzeitig angezeigt und aktualisiert werden.";
+"Sync With Family & Friends"    = "Synchronisieren mit Family & Friends";
+"Shared"                        = "Geteilt";
+"Send Invitation"               = "Einladung senden";
+"Hello! Here is a great app"    = "Hallo! Hier ist eine großartige App für gemeinsames Einkaufen und Rezepte!";

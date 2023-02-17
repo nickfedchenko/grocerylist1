@@ -61,7 +61,7 @@ class SettingsViewController: UIViewController {
             self?.viewModel?.systemSelected(system: selectedSystem)
         }
         view.layer.cornerRadius = 12
-        view.addDefaultShadow()
+        view.addDefaultShadowForPopUp()
         return view
     }()
     

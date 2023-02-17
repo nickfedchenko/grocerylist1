@@ -180,6 +180,13 @@
 "ok"                            = "Ok";
 "RecievePasswordShortly"        = "If you entered a correct e-mail address, you will receive password reset e-mail shortly";
 
+// sharing
+"Shared lists"                  = "Shared lists can be viewed and updated by multiple people at once.";
+"Sync With Family & Friends"    = "Sync With Family & Friends";
+"Shared"                        = "Shared";
+"Send Invitation"               = "Send Invitation";
+"Hello! Here is a great app"    = "Hello! Here is a great app for joint shopping and recipes!";
+
 "Settings.Profile"              = "Profile";
 "Settings.AddPhoto"             = "Add your photo, it will be more beautiful";
 "Settings.ScreenName"           = "Screen Name";

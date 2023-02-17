@@ -10,6 +10,12 @@
 		3328AD86299CF40800187B57 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3328AD85299CF40800187B57 /* SharingView.swift */; };
 		334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */; };
 		334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */; };
+		334BAE53299E6606005F52F5 /* SharingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE52299E6606005F52F5 /* SharingListViewModel.swift */; };
+		334BAE55299E700B005F52F5 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE54299E700B005F52F5 /* UITableViewExtension.swift */; };
+		334BAE57299E7305005F52F5 /* SharedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE56299E7305005F52F5 /* SharedCell.swift */; };
+		334BAE59299E7333005F52F5 /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE58299E7333005F52F5 /* TitleCell.swift */; };
+		334BAE5B299E734A005F52F5 /* SendInvitationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE5A299E734A005F52F5 /* SendInvitationCell.swift */; };
+		3367C78C299F30E8008B39A5 /* SharingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367C78B299F30E8008B39A5 /* SharingHeaderView.swift */; };
 		339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339C1AEA299A67DD0092F93E /* InfoMessageView.swift */; };
 		383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */; };
 		383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */; };
@@ -188,6 +194,12 @@
 		3328AD85299CF40800187B57 /* SharingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingView.swift; sourceTree = "<group>"; };
 		334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingPopUpViewController.swift; sourceTree = "<group>"; };
 		334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewController.swift; sourceTree = "<group>"; };
+		334BAE52299E6606005F52F5 /* SharingListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewModel.swift; sourceTree = "<group>"; };
+		334BAE54299E700B005F52F5 /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
+		334BAE56299E7305005F52F5 /* SharedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedCell.swift; sourceTree = "<group>"; };
+		334BAE58299E7333005F52F5 /* TitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
+		334BAE5A299E734A005F52F5 /* SendInvitationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendInvitationCell.swift; sourceTree = "<group>"; };
+		3367C78B299F30E8008B39A5 /* SharingHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingHeaderView.swift; sourceTree = "<group>"; };
 		339C1AEA299A67DD0092F93E /* InfoMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMessageView.swift; sourceTree = "<group>"; };
 		383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipePreviewCell.swift; sourceTree = "<group>"; };
 		383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipesFolderHeader.swift; sourceTree = "<group>"; };
@@ -403,8 +415,21 @@
 			isa = PBXGroup;
 			children = (
 				334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */,
+				334BAE52299E6606005F52F5 /* SharingListViewModel.swift */,
+				334BAE5C299E7354005F52F5 /* Cell */,
 			);
 			path = "Sharing List";
+			sourceTree = "<group>";
+		};
+		334BAE5C299E7354005F52F5 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				334BAE58299E7333005F52F5 /* TitleCell.swift */,
+				334BAE56299E7305005F52F5 /* SharedCell.swift */,
+				334BAE5A299E734A005F52F5 /* SendInvitationCell.swift */,
+				3367C78B299F30E8008B39A5 /* SharingHeaderView.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		383C77F1293F79800030AE78 /* Childs */ = {
@@ -1083,6 +1108,7 @@
 				B3C3FA50291261870011EC0A /* UIScreenExtension.swift */,
 				38F4904029476FFD00529D1F /* UIBezierPath+MaskedCorners.swift */,
 				840C189E2978D2230006F975 /* Int+Extensions.swift */,
+				334BAE54299E700B005F52F5 /* UITableViewExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1438,10 +1464,12 @@
 				B34EAC9E2934EE0100FBD0E0 /* SelectCategoryDataSource.swift in Sources */,
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
 				B3FECE4429375AA80077F8EF /* DBCategories+CoreDataClass.swift in Sources */,
+				334BAE5B299E734A005F52F5 /* SendInvitationCell.swift in Sources */,
 				B381EF1A299A08ED00DCDE40 /* SettingsProfileView.swift in Sources */,
 				B3F7C9BA2994BF830081B245 /* SignUpViewForTyping.swift in Sources */,
 				383C77F3293F799E0030AE78 /* RecipesListViewController.swift in Sources */,
 				B371CCAC299C998700E0E197 /* ResetPasswordModelManager.swift in Sources */,
+				3367C78C299F30E8008B39A5 /* SharingHeaderView.swift in Sources */,
 				383C77F7293F79EB0030AE78 /* RecipesListHeaderView.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
 				B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */,
@@ -1456,6 +1484,7 @@
 				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
 				B35F0F632937975200C19891 /* MeashureManager.swift in Sources */,
 				B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */,
+				334BAE55299E700B005F52F5 /* UITableViewExtension.swift in Sources */,
 				B3693402291BA62F00AFFAA6 /* CreateNewListViewModel.swift in Sources */,
 				B3777E202938D8210074BE38 /* InternetConnection.swift in Sources */,
 				B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */,
@@ -1489,6 +1518,7 @@
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
 				B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */,
 				844FC6392978612B008173AA /* OnboardingReviewController.swift in Sources */,
+				334BAE57299E7305005F52F5 /* SharedCell.swift in Sources */,
 				B373CDD2298D3A6A00AE522D /* AddToAnotherListViewController.swift in Sources */,
 				B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */,
 				B3F7C9B229938E150081B245 /* SelectUnitsView.swift in Sources */,
@@ -1529,6 +1559,7 @@
 				846600E9294A024800D85415 /* DBRecipe+CoreDataClass.swift in Sources */,
 				B3FECE4329375AA80077F8EF /* DBCategories+CoreDataProperties.swift in Sources */,
 				383C77FA293FB7310030AE78 /* RecipeListCell.swift in Sources */,
+				334BAE53299E6606005F52F5 /* SharingListViewModel.swift in Sources */,
 				B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */,
 				B34BB80A292D1C4600748E8E /* ShimmerView.swift in Sources */,
 				B36AF9432913D39400944E9D /* UIImageExtension.swift in Sources */,
@@ -1546,6 +1577,7 @@
 				B3777E2A2938F41F0074BE38 /* DBNetworkProduct+CoreDataClass.swift in Sources */,
 				B37A2CEB2911034D003C01AD /* StringExtension.swift in Sources */,
 				B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */,
+				334BAE59299E7333005F52F5 /* TitleCell.swift in Sources */,
 				B3C3FA4F291175390011EC0A /* UIImageViewExtension.swift in Sources */,
 				B3F7C9C1299510140081B245 /* RedAlertView.swift in Sources */,
 				B3F7C9C329961FF40081B245 /* RegistrationState.swift in Sources */,

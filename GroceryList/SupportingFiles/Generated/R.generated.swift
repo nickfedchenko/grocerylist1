@@ -73,7 +73,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 158 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 163 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -335,6 +335,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var healtyFood: RswiftResources.StringResource { .init(key: "HealtyFood", tableName: "Localizable", source: source, developmentValue: "Healthy eating", comment: nil) }
+
+      /// en translation: Hello! Here is a great app for joint shopping and recipes!
+      ///
+      /// Key: Hello! Here is a great app
+      ///
+      /// Locales: en, ru, fr, de
+      var helloHereIsAGreatApp: RswiftResources.StringResource { .init(key: "Hello! Here is a great app", tableName: "Localizable", source: source, developmentValue: "Hello! Here is a great app for joint shopping and recipes!", comment: nil) }
 
       /// en translation: Home, Garden & Patio
       ///
@@ -679,6 +686,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var selectCategory: RswiftResources.StringResource { .init(key: "SelectCategory", tableName: "Localizable", source: source, developmentValue: "Select сategory", comment: nil) }
 
+      /// en translation: Send Invitation
+      ///
+      /// Key: Send Invitation
+      ///
+      /// Locales: en, ru, fr, de
+      var sendInvitation: RswiftResources.StringResource { .init(key: "Send Invitation", tableName: "Localizable", source: source, developmentValue: "Send Invitation", comment: nil) }
+
       /// en translation: Send us feedback
       ///
       /// Key: Send us feedback
@@ -770,6 +784,20 @@ struct _R {
       /// Locales: en, ru
       var settingsScreenName: RswiftResources.StringResource { .init(key: "Settings.ScreenName", tableName: "Localizable", source: source, developmentValue: "Screen Name", comment: nil) }
 
+      /// en translation: Shared
+      ///
+      /// Key: Shared
+      ///
+      /// Locales: en, ru, fr, de
+      var shared: RswiftResources.StringResource { .init(key: "Shared", tableName: "Localizable", source: source, developmentValue: "Shared", comment: nil) }
+
+      /// en translation: Shared lists can be viewed and updated by multiple people at once.
+      ///
+      /// Key: Shared lists
+      ///
+      /// Locales: en, ru, fr, de
+      var sharedLists: RswiftResources.StringResource { .init(key: "Shared lists", tableName: "Localizable", source: source, developmentValue: "Shared lists can be viewed and updated by multiple people at once.", comment: nil) }
+
       /// en translation: Sign in
       ///
       /// Key: Sing In
@@ -811,6 +839,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var sweet: RswiftResources.StringResource { .init(key: "Sweet", tableName: "Localizable", source: source, developmentValue: "Sweets", comment: nil) }
+
+      /// en translation: Sync With Family & Friends
+      ///
+      /// Key: Sync With Family & Friends
+      ///
+      /// Locales: en, ru, fr, de
+      var syncWithFamilyFriends: RswiftResources.StringResource { .init(key: "Sync With Family & Friends", tableName: "Localizable", source: source, developmentValue: "Sync With Family & Friends", comment: nil) }
 
       /// en translation: Synchronize lists with relatives and friends.
       ///
@@ -1193,7 +1228,7 @@ struct _R {
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 119 images.
+  /// This `_R.image` struct is generated, and contains static references to 121 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1505,6 +1540,12 @@ struct _R {
 
     /// Image `shareIcon`.
     var shareIcon: RswiftResources.ImageResource { .init(name: "shareIcon", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `share_button`.
+    var share_button: RswiftResources.ImageResource { .init(name: "share_button", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `share_checkmark`.
+    var share_checkmark: RswiftResources.ImageResource { .init(name: "share_checkmark", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `sharedAlarmImage`.
     var sharedAlarmImage: RswiftResources.ImageResource { .init(name: "sharedAlarmImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

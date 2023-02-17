@@ -177,6 +177,11 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func goToSharingList() {
+        let controller = viewControllerFactory.createSharingListController(router: self)
+        navigationPresent(controller, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
@@ -196,7 +201,7 @@ final class RootRouter: RootRouterProtocol {
     func showPaywallVC() {
         guard !Apphud.hasActiveSubscription() else { return }
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
-            guard let paywall = paywalls.first(where: { $0.experimentName != nil } ) else {
+            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
                 self?.showDefaultPaywallVC()
                 return
             }
