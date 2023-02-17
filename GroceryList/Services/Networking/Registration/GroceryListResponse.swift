@@ -19,9 +19,24 @@ struct GroceryListDeleteResponse: Codable {
     var success: Bool?
 }
 
-struct FetchMyGroceryLists: Codable {
+struct FetchMyGroceryListsResponse: Codable {
     var error: Bool
     var messages: [String]
-    var items: Bool?
+    var items: FetchMyGroceryListsItems?
 }
 
+struct FetchMyGroceryListsItems: Codable {
+    var groceryListId: String
+    var isOwner: String
+    var createdAt: String
+    var groceryList: GroceryList
+    
+    enum CodingKeys: String, CodingKey {
+        case groceryListId = "grocery_list_id", isOwner = "is_owner", createdAt = "created_at", groceryList = "grocery_list"
+    }
+}
+
+struct GroceryList: Codable {
+    var hello: String
+    var param: String
+}

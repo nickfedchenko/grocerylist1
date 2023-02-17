@@ -28,6 +28,7 @@ typealias LogInResult = (Result<LogInResponse, AFError>) -> Void
 typealias DeleteUserResult = (Result<DeleteUserResponse, AFError>) -> Void
 typealias GroceryListReleaseResult = (Result<GroceryListReleaseResponse, AFError>) -> Void
 typealias GroceryListDeleteResult = (Result<GroceryListDeleteResponse, AFError>) -> Void
+typealias FetchMyGroceryListsResult = (Result<FetchMyGroceryListsResponse, AFError>) -> Void
 
 enum RequestGenerator: Codable {
     case getProducts
@@ -43,6 +44,7 @@ enum RequestGenerator: Codable {
     case deleteUser(userToken: String)
     case groceryListRelease(userToken: String, sharingToken: String)
     case groceryListDelete(userToken: String, listId: String)
+    case fetchMyGroceryLists(userToken: String)
     
     private var bearerToken: String {
         return "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
@@ -96,6 +98,11 @@ enum RequestGenerator: Codable {
             return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/delete", method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectListId(in: &components, listId: listId)
+            }
+        case .fetchMyGroceryLists(userToken: let userToken):
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/fetch",
+                                  method: .get) { components in
+                injectUserToken(in: &components, userToken: userToken)
             }
         case .uploadAvatar:
             fatalError("use multiformRequestObject")
@@ -222,7 +229,6 @@ enum RequestGenerator: Codable {
         ]
         insert(queries: queries, components: &components)
     }
-    
     
     private func injectSharingToken(in components: inout URLComponents, sharingToken: String) {
         let queries: [URLQueryItem] = [
@@ -381,5 +387,10 @@ extension NetworkEngine: NetworkDataProvider {
     ///   удаление листа - может только овнер
     func groceryListDelete(userToken: String, listId: String, completion: @escaping GroceryListDeleteResult) {
         performDecodableRequest(request: .groceryListDelete(userToken: userToken, listId: listId), completion: completion)
+    }
+    
+    ///   получение листов на которые подписан юзер
+    func fetchMyGroceryLists(userToken: String, completion: @escaping FetchMyGroceryListsResult) {
+        performDecodableRequest(request: .fetchMyGroceryLists(userToken: userToken), completion: completion)
     }
 }

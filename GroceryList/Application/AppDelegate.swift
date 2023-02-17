@@ -34,18 +34,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = window
 
-        NetworkEngine().groceryListRelease(userToken: "3aSrA1Wr61susBGd3CIc",
-                                           sharingToken: "c240d441-983a-4701-9e56-a0841d136cb4") { result in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let result):
-                print(result)
-            }
-        }
+//        NetworkEngine().groceryListRelease(userToken: "3aSrA1Wr61susBGd3CIc",
+//                                           sharingToken: "c240d441-983a-4701-9e56-a0841d136cb4") { result in
+//            switch result {
+//            case .failure(let error):
+//                print(error)
+//            case .success(let result):
+//                print(result)
+//            }
+//        }
+//        
+//        NetworkEngine().groceryListDelete(userToken: "GA7FUOEoRcSqIT58QLEM",
+//                                          listId: "420965bf-4bc1-4dce-b627-87a23e20d075") { result in
+//            switch result {
+//            case .failure(let error):
+//                print(error)
+//            case .success(let result):
+//                print(result)
+//            }
+//        }
         
-        NetworkEngine().groceryListDelete(userToken: "GA7FUOEoRcSqIT58QLEM",
-                                          listId: "420965bf-4bc1-4dce-b627-87a23e20d075") { result in
+        NetworkEngine().fetchMyGroceryLists(userToken: "GA7FUOEoRcSqIT58QLEM") { result in
             switch result {
             case .failure(let error):
                 print(error)
