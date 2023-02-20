@@ -84,7 +84,7 @@ final class RecipeScreenHeader: UIView {
         backButton.addAction(
             UIAction { [weak self] _ in
                 self?.delegate?.backButtonTapped()
-        },
+            },
             for: .touchUpInside)
     }
     

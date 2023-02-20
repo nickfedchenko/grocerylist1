@@ -158,13 +158,15 @@ final class RecipeMainImageView: UIView {
         shareRecipeButton.addTarget(self, action: #selector(shareButtonTapped(sender:)), for: .touchUpInside)
     }
     
-    @objc private func addToFavoritesTapped(sender: UIButton) {
+    @objc
+    private func addToFavoritesTapped(sender: UIButton) {
         sender.animateByScaleTransform()
         sender.isSelected.toggle()
         delegate?.addToFavoritesTapped()
     }
     
-    @objc private func shareButtonTapped(sender: UIButton) {
+    @objc
+    private func shareButtonTapped(sender: UIButton) {
         sender.animateByScaleTransform()
         delegate?.shareButtonTapped()
     }

@@ -48,7 +48,7 @@ class PasswordResetViewController: UIViewController {
         }
     }
     
-    // MARK:-  Recognizer
+    // MARK: - Recognizer
     private func addRecognizer() {
         let taptoHideRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapToHideAction))
         viewForTypeToDissmiss.addGestureRecognizer(taptoHideRecognizer)

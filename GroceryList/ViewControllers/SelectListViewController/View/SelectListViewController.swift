@@ -218,7 +218,7 @@ extension SelectListViewController: UICollectionViewDelegate {
     
     private func createTableViewDataSource() {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
-                                                                      cellProvider: { [weak self] collectionView, indexPath, model in
+                                                                      cellProvider: { [weak self] _, indexPath, model in
 
                 let cell = self?.collectionView.dequeueReusableCell(withReuseIdentifier: "SelectListCollectionCell",
                                                                    for: indexPath) as? SelectListCollectionCell

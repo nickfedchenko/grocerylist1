@@ -757,9 +757,8 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         topCategoryLabel.text = text
         isCategorySelected = true
         if let viewModel = viewModel, let defaultSelectedUnit = defaultSelectedUnit {
-            if let index = viewModel.isMetricSystem
-                ? viewModel.arrayForMetricSystem.firstIndex(of: defaultSelectedUnit)
-                :  viewModel.arrayForImperalSystem.firstIndex(of: defaultSelectedUnit) {
+            if let index = viewModel.isMetricSystem ? viewModel.arrayForMetricSystem.firstIndex(of: defaultSelectedUnit)
+                                                    : viewModel.arrayForImperalSystem.firstIndex(of: defaultSelectedUnit) {
                 tableView(tableview, didSelectRowAt: IndexPath(row: index, section: 0))
             }
         }

@@ -335,4 +335,3 @@ extension RecipeViewController: RecipeMainImageViewDelegate {
         }
     }
 }
-

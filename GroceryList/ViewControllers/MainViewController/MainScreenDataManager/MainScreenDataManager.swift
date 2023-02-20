@@ -16,6 +16,7 @@ protocol DataSourceProtocol {
     func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel>
     func addOrDeleteFromFavorite(with model: GroceryListsModel) -> Set<GroceryListsModel>
     var recipesSections: [RecipeSectionsModel] { get set }
+    var recipeCount: Int { get }
     func makeRecipesSections()
     func updateFavoritesSection()
 }
@@ -32,6 +33,8 @@ class MainScreenDataManager: DataSourceProtocol {
     var setOfModelsToUpdate: Set<GroceryListsModel> = []
     private var coreDataModles = CoreDataManager.shared.getAllLists()
     var recipesSections: [RecipeSectionsModel] = []
+    
+    var recipeCount: Int { 12 }
     
     var imageHeight: ImageHeight = .empty {
         didSet {
