@@ -247,6 +247,16 @@ class SignUpViewController: UIViewController {
 }
 
 extension SignUpViewController: SignUpViewModelDelegate {
+    func signWithAppleTapped() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+    
     func setupEmailFirstResponder() {
         emailTextFieldView.makeTextfieldFirstResponder()
 
@@ -315,5 +325,27 @@ extension SignUpViewController: SignUpViewModelDelegate {
         termsView.isHidden = state.isTermsHidden()
         resetPasswordButton.isHidden = !state.isTermsHidden()
         registrationButton(isEnable: false)
+    }
+}
+
+extension SignUpViewController: ASAuthorizationControllerDelegate {
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print(error.localizedDescription)
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            let appleId = appleIDCredential.user
+            let appleUserEmail = appleIDCredential.email
+            viewModel?.signWithAppleSucceed(email: appleUserEmail, appleId: appleId)
+        }
+    }
+}
+
+extension SignUpViewController: ASAuthorizationControllerPresentationContextProviding {
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
     }
 }

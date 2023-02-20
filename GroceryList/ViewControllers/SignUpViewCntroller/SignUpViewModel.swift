@@ -21,6 +21,7 @@ protocol SignUpViewModelDelegate: AnyObject {
     func hideNoInternet()
     func setupResetPasswordState(email: String)
     func setupEmailFirstResponder()
+    func signWithAppleTapped()
 }
 
 class SignUpViewModel {
@@ -90,7 +91,7 @@ class SignUpViewModel {
         } else {
             state = .signUp
             if emailParameters.isValidated {
-                checkMail(text: emailParameters.text)
+                checkMail(text: emailParameters.text, compl: nil)
             }
         }
     }
@@ -104,7 +105,7 @@ class SignUpViewModel {
           
             isEmailValidated = isCorrect
             if isCorrect {
-                checkMail(text: text)
+                checkMail(text: text, compl: nil)
             }
         default:
             passwordParameters.text = text
@@ -147,8 +148,51 @@ class SignUpViewModel {
         })
     }
     
+    // MARK: - signWithApple
     func signWithApplePressed() {
-        print("signWithApplePressed")
+        delegate?.signWithAppleTapped()
+    }
+    
+    /// юзер прошел сайн виз эпл, пора его регать или входить в акк
+    func signWithAppleSucceed(email: String?, appleId: String) {
+        
+        // проверяем есть ли в кейчейне данные, если нет то это первый вход и переходим регаться
+        guard let emailData = KeyChainManager.load(key: .email),
+              let passwordData = KeyChainManager.load(key: .email) else {
+            createAccountAndLogIn(email: email)
+            return
+        }
+        
+        // если данные есть
+        let email = String(decoding: emailData, as: UTF8.self)
+        let password = String(decoding: passwordData, as: UTF8.self)
+        
+        // тут чекаем что почта занята - на случай если юзер удалил акк
+        // если занята то переходим в функцию регистрации
+        checkMail(text: email) { [weak self] isMailExist in
+            guard isMailExist else {
+                self?.createAccountAndLogIn(email: email)
+                return
+            }
+            // если почта занята то проверка прошла и входим
+            self?.emailParameters.text = email
+            self?.passwordParameters.text = password
+            self?.signInUser()
+        }
+    }
+    
+    /// сохраняем почту и логин в кейчейн и регистрируемся
+    func createAccountAndLogIn(email: String?) {
+        guard let email = email else { return }
+        let password = UUID().uuidString
+        
+        KeyChainManager.save(key: .email, data: email.data(using: .utf8) ?? Data())
+        KeyChainManager.save(key: .password, data: password.data(using: .utf8) ?? Data())
+    
+        emailParameters.text = email
+        passwordParameters.text = password
+        
+        signUpUser()
     }
     
     // MARK: - Validation
@@ -206,7 +250,7 @@ class SignUpViewModel {
         }
     }
     
-    private func checkMail(text: String) {
+    private func checkMail(text: String, compl: ((Bool) -> Void)?) {
         guard state == .signUp else { return }
         network.checkEmail(email: text) { [weak self] result in
             switch result {
@@ -218,9 +262,15 @@ class SignUpViewModel {
                 if model.isExist {
                     self?.delegate?.showEmailTaken()
                     self?.isEmailValidated = false
+                    DispatchQueue.main.async {
+                        compl?(true)
+                    }
                 } else {
                     self?.delegate?.hideEmailTaken()
                     self?.isEmailValidated = true
+                    DispatchQueue.main.async {
+                        compl?(false)
+                    }
                 }
             }
         }

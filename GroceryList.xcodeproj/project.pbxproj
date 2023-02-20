@@ -98,6 +98,7 @@
 		B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B371CCA6299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift */; };
 		B371CCA9299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B371CCA7299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift */; };
 		B371CCAC299C998700E0E197 /* ResetPasswordModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B371CCAB299C998700E0E197 /* ResetPasswordModelManager.swift */; };
+		B371CCB0299E36BB00E0E197 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B371CCAF299E36BB00E0E197 /* KeychainManager.swift */; };
 		B373CDD2298D3A6A00AE522D /* AddToAnotherListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B373CDD1298D3A6A00AE522D /* AddToAnotherListViewController.swift */; };
 		B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E132937CBB30074BE38 /* DBProduct+CoreDataClass.swift */; };
 		B3777E162937CBB30074BE38 /* DBProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */; };
@@ -282,6 +283,7 @@
 		B371CCA6299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainResetPasswordModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B371CCA7299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DomainResetPasswordModel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B371CCAB299C998700E0E197 /* ResetPasswordModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordModelManager.swift; sourceTree = "<group>"; };
+		B371CCAF299E36BB00E0E197 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		B373CDD1298D3A6A00AE522D /* AddToAnotherListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToAnotherListViewController.swift; sourceTree = "<group>"; };
 		B3777E132937CBB30074BE38 /* DBProduct+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -981,6 +983,7 @@
 				B37A2CD52910EE84003C01AD /* Routing */,
 				B3179EA4291E304700455419 /* ColorManager */,
 				B35F0F642937975900C19891 /* MeashureManager */,
+				B371CCAF299E36BB00E0E197 /* KeychainManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1475,6 +1478,7 @@
 				B3D8584C293A405E00CCE230 /* PaywallModel.swift in Sources */,
 				B3179EAB291E3DAE00455419 /* ProductsDataManager.swift in Sources */,
 				B37A2CE72911034D003C01AD /* UIColorExtension.swift in Sources */,
+				B371CCB0299E36BB00E0E197 /* KeychainManager.swift in Sources */,
 				B36AF9532915403600944E9D /* EmptyColoredCell.swift in Sources */,
 				B3777E162937CBB30074BE38 /* DBProduct+CoreDataProperties.swift in Sources */,
 				B3B45E5C2934C02B00D60E82 /* SelectCategoryViewModel.swift in Sources */,
