@@ -286,7 +286,7 @@ extension SignUpViewController: SignUpViewModelDelegate {
         signUpButton.isUserInteractionEnabled = isEnable
         switch isEnable {
         case true:
-            signUpButton.backgroundColor = UIColor(hex: "#3E625A")
+            signUpButton.backgroundColor = UIColor(hex: "#19645A")
         case false:
             signUpButton.backgroundColor = UIColor(hex: "#617774")
         }
