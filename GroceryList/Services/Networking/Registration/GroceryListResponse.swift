@@ -52,3 +52,14 @@ struct GroceryListUserDeleteResponse: Codable {
     var messages: [String]
     var success: Bool?
 }
+
+struct ShareGroceryListResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var sharingToken: String
+    var groceryListId: String
+    
+    enum CodingKeys: String, CodingKey {
+        case error, messages, sharingToken = "sharing_token", groceryListId = "grocery_list_id"
+    }
+}

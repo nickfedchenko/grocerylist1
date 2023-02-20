@@ -54,7 +54,7 @@ struct SectionModel: Hashable {
     }
 }
 
-struct GroceryListsModel: Hashable {
+struct GroceryListsModel: Hashable, Codable {
     var id = UUID()
     var dateOfCreation: Date
     var name: String?
@@ -91,7 +91,7 @@ struct GroceryListsModel: Hashable {
     }
 }
 
-struct Product: Hashable, Equatable {
+struct Product: Hashable, Equatable, Codable {
     var id = UUID()
     var listId: UUID
     var name: String

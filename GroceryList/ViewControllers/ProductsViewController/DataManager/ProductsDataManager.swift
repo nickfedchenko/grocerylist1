@@ -101,6 +101,7 @@ class ProductsDataManager {
     }
     
     // MARK: - Сортировка по Дате добавления
+    // swiftlint:disable:next function_body_length
     private func createArraySortedByTime() {
         let idForDict = R.string.localizable.addedEarlier()
         var dict: [ String: [Product] ] = [:]
@@ -159,12 +160,12 @@ class ProductsDataManager {
         }
         
         // Все что не избрано и не куплено
-        
+ 
         // Все что куплено
         if products.contains(where: { $0.isPurchased }) {
             newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value, typeOFCell: .purchased) }))
         }
-
+        
         // Сохранение параметра свернутости развернутости списка
         guard shouldSaveExpanding else { return dataSourceArray = newArray }
         for (ind, newValue) in newArray.enumerated() {

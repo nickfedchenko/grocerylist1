@@ -31,6 +31,7 @@ typealias GroceryListDeleteResult = (Result<GroceryListDeleteResponse, AFError>)
 typealias FetchMyGroceryListsResult = (Result<FetchMyGroceryListsResponse, AFError>) -> Void
 typealias FetchGroceryListUsersResult = (Result<FetchGroceryListUsersResponse, AFError>) -> Void
 typealias GroceryListUserDeleteResult = (Result<GroceryListUserDeleteResponse, AFError>) -> Void
+typealias ShareGroceryListResult = (Result<ShareGroceryListResponse, AFError>) -> Void
 
 enum RequestGenerator: Codable {
     case getProducts
@@ -49,6 +50,7 @@ enum RequestGenerator: Codable {
     case fetchMyGroceryLists(userToken: String)
     case fetchGroceryListUsers(userToken: String, listId: String)
     case groceryListUserDelete(userToken: String, listId: String)
+    case shareGroceryList(userToken: String, listId: String?)
     
     private var bearerToken: String {
         return "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
@@ -119,6 +121,11 @@ enum RequestGenerator: Codable {
                                   method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectListId(in: &components, listId: listId)
+            }
+        case .shareGroceryList(userToken: let userToken, listId: let listId):
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/share",
+                                  method: .post) { components in
+                injectUserToken(in: &components, userToken: userToken)
             }
         case .uploadAvatar:
             fatalError("use multiformRequestObject")
@@ -281,10 +288,7 @@ final class NetworkEngine {
             "Content-Type": "multipart/form-data"
         ]
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(formatter)
+        let decoder = createDecoder()
         let mfObject = request.multiformRequestObject
         
         AF.upload(multipartFormData: mfObject.0, to: mfObject.1,
@@ -309,10 +313,7 @@ final class NetworkEngine {
         request: RequestGenerator,
         completion: @escaping ((Result<T, AFError>) -> Void)
     ) {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(formatter)
+        let decoder = createDecoder()
         AF.request(request.request)
             .validate()
             .responseData { result in
@@ -341,6 +342,44 @@ final class NetworkEngine {
                     completion(.success(dataModel))
                 }
             }
+    }
+    
+    private func performDecodableRequestSend<T: Decodable>(
+        request: RequestGenerator,
+        listModel: GroceryListsModel,
+        completion: @escaping ((Result<T, AFError>) -> Void)
+    ) {
+        let decoder = createDecoder()
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ",
+            "Content-Type": "application/json"
+        ]
+
+        AF.request(request.request.url!, method: .post, parameters: ["grocery_list": [listModel]],
+                   encoder: JSONParameterEncoder.default, headers: headers, interceptor: nil, requestModifier: nil)
+        .validate()
+        .responseData { result in
+            guard let data = result.value else {
+                if let error = result.error {
+                    completion(.failure(error))
+                }
+                return
+            }
+            
+            guard let dataModel = try? decoder.decode(T.self, from: data) else {
+                print("errModel")
+                return
+            }
+            completion(.success(dataModel))
+        }
+    }
+    
+    private func createDecoder() -> JSONDecoder {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        return decoder
     }
 }
 
@@ -419,4 +458,14 @@ extension NetworkEngine: NetworkDataProvider {
     func groceryListUserDelete(userToken: String, listId: String, completion: @escaping GroceryListUserDeleteResult) {
         performDecodableRequest(request: .groceryListUserDelete(userToken: userToken, listId: listId), completion: completion)
     }
+    
+    ///   отписать юзера от листа
+    func shareGroceryList(userToken: String, listId: String, listModel: GroceryListsModel, completion: @escaping ShareGroceryListResult) {
+        performDecodableRequestSend(request: .shareGroceryList(userToken: userToken, listId: listId), listModel: listModel, completion: completion)
+    }
+}
+
+struct SharedList: Codable {
+    var hello: String
+    var param: String
 }
