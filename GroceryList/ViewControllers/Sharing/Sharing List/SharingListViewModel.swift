@@ -59,7 +59,7 @@ final class SharingListViewModel {
         let listId = response.groceryListId
         print(listId)
         print(response.sharingToken)
-        let start = "groceryList://" + response.sharingToken
+        let start = "groceryList://share?token=" + response.sharingToken
         delegate?.openShareController(with: start)
     }
 

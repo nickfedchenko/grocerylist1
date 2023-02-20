@@ -83,17 +83,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                            }
 //                        }
         
-//        let model = GroceryListsModel(dateOfCreation: Date(), color: 0, products: [], typeOfSorting: 0)
-//        NetworkEngine().shareGroceryList(userToken: "IXAduhtfpFq2JfABfoDx",
-//                                              listId: "2d8b1764-0df5-45fa-abdf-42e6e0d48088", listModel: model) { result in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let result):
-//                print(result)
-//            }
-//        }
-        
 //        NetworkEngine().updateGroceryList(userToken: "IXAduhtfpFq2JfABfoDx",
 //                                              listId: "2d8b1764-0df5-45fa-abdf-42e6e0d48088", listModel: model) { result in
 //            switch result {
@@ -120,9 +109,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("deeplink not found")
             return false
         }
-
+        
         guard let token = components.queryItems?.first?.value else { return false }
-        rootRouter?.openResetPassword(token: token)
+        
+        switch deepLink {
+        case .resetPassword:
+            rootRouter?.openResetPassword(token: token)
+        case .share:
+            
+        }
         return true
     }
 }
@@ -189,4 +184,5 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
 enum DeepLink: String {
     case resetPassword
+    case share
 }
