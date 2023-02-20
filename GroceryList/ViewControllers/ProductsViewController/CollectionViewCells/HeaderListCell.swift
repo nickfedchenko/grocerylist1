@@ -147,6 +147,7 @@ class HeaderListCell: UICollectionViewListCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
+        label.textColor = .white
         return label
     }()
     

@@ -22,7 +22,7 @@ final class SelectUnitsView: UIView {
     
     private let imperialLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
+        label.font = UIFont.SFProRounded.semibold(size: 17).font
         label.textColor = UIColor(hex: "#31635A")
         label.text = "Imperial".localized
         return label
@@ -38,7 +38,7 @@ final class SelectUnitsView: UIView {
     
     private let metriclLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
+        label.font = UIFont.SFProRounded.semibold(size: 17).font
         label.textColor = UIColor(hex: "#31635A")
         label.text = "Metric".localized
         return label
@@ -89,11 +89,13 @@ final class SelectUnitsView: UIView {
         
         metriclLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
+            make.top.equalToSuperview().inset(11)
             make.left.equalToSuperview().inset(16)
         }
         
         imperialLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
+            make.top.equalToSuperview().inset(11)
             make.left.equalToSuperview().inset(16)
         }
     }

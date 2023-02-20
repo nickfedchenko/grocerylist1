@@ -17,7 +17,7 @@ class SettingsViewController: UIViewController {
 
     private let preferenciesLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.bold(size: 22).font
+        label.font = UIFont.SFProRounded.bold(size: 22).font
         label.textColor = UIColor(hex: "#31635A")
         label.text = "preferencies".localized
         return label
@@ -60,6 +60,8 @@ class SettingsViewController: UIViewController {
         view.systemSelected = { [weak self] selectedSystem in
             self?.viewModel?.systemSelected(system: selectedSystem)
         }
+        view.layer.cornerRadius = 12
+        view.addDefaultShadowForPopUp()
         return view
     }()
     

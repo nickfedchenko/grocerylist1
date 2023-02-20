@@ -225,7 +225,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
         // swiftlint:disable:next function_body_length
     private func createTableViewDataSource() {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
-                                                                      cellProvider: { _, indexPath, model in
+                                                                      cellProvider: { [self] _, indexPath, model in
             switch self.viewModel?.model[indexPath.section].cellType {
                 
                 // top view with switcher
@@ -237,6 +237,8 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 }
                 cell?.delegate = self
                 cell?.configure(with: self.presentationMode)
+                cell?.setupUser(photo: self.viewModel?.userPhoto,
+                                name: self.viewModel?.userName)
                 return cell
                 
                 // empty cell in bottom of collection
@@ -268,7 +270,8 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 let color = viewModel.getBGColor(at: indexPath)
                 cell?.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
-                
+                cell?.setupSharing(state: viewModel.getSharingState(at: indexPath),
+                                   image: viewModel.getShareImages(at: indexPath))
                 // Удаление и закрепление ячейки
                 cell?.swipeDeleteAction = {
                     viewModel.deleteCell(with: model)
@@ -277,6 +280,11 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 cell?.swipeToAddOrDeleteFromFavorite = {
                     viewModel.addOrDeleteFromFavorite(with: model)
                     
+                }
+                // Шаринг карточки списка
+                cell?.sharingAction = { listName in
+                    print("listName - \(String(describing: listName))")
+                    viewModel.sharingTapped()
                 }
                 return cell
             }
@@ -541,10 +549,10 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
     }
     
     func modeChanged(to mode: MainScreenPresentationMode) {
-        guard Apphud.hasActiveSubscription() else {
-           showPaywall()
-            return
-        }
+//        guard Apphud.hasActiveSubscription() else {
+//           showPaywall()
+//            return
+//        }
         presentationMode = mode
         if mode == .lists {
             showListsCollection()

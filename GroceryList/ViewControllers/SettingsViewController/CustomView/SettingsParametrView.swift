@@ -48,14 +48,14 @@ class SettingsParametrView: UIView {
     
     private let textLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.medium(size: 16).font
+        label.font = UIFont.SFProRounded.medium(size: 16).font
         label.textColor = UIColor(hex: "#31635A")
         return label
     }()
     
     private let unitSystemLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.medium(size: 16.fitW).font
+        label.font = UIFont.SFProRounded.medium(size: 16.fitW).font
         label.textColor = .black
         return label
     }()

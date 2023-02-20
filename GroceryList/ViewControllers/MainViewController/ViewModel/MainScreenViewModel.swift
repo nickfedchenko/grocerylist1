@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Kingfisher
 import UIKit
 
 class MainScreenViewModel {
@@ -41,6 +42,22 @@ class MainScreenViewModel {
         dataSource?.updateFavoritesSection()
     }
     
+    // user
+    var userPhoto: UIImage? {
+        guard let user = UserAccountManager.shared.getUser() else {
+            return R.image.profile_noreg()
+        }
+        
+        guard let avatarAsData = user.avatarAsData else {
+            return R.image.profile_icon()
+        }
+        return UIImage(data: avatarAsData)
+    }
+    
+    var userName: String? {
+        UserAccountManager.shared.getUser()?.username
+    }
+    
     // routing
     func createNewListTapped() {
         
@@ -57,6 +74,14 @@ class MainScreenViewModel {
         router?.goProductsVC(model: model, compl: {
 
         })
+    }
+    
+    func sharingTapped() {
+        guard let user = UserAccountManager.shared.getUser() else {
+            router?.goToSharingPopUp()
+            return
+        }
+        router?.goToSharingList()
     }
     
     // setup cells
@@ -81,6 +106,24 @@ class MainScreenViewModel {
     func isBottomRounded(at ind: IndexPath) -> Bool {
         let lastCell = model[ind.section].lists.count - 1
         return ind.row == lastCell
+    }
+    
+    func getSharingState(at ind: IndexPath) -> SharingView.SharingState {
+        // TODO: туть передаем состояние кнопки шаре
+        /*
+          .invite - пригласить (иконка с плюсиком)
+          .expectation - ожидание присоединения (иконка с галочкой)
+          .added - пользователь добавлен + передаем массив фото пользователей
+         */
+        return .invite
+    }
+    
+    func getShareImages(at ind: IndexPath) -> [UIImage] {
+        guard getSharingState(at: ind) == .added else {
+            return []
+        }
+        // TODO: туть получаем массив фото пользователей с которыми поделились карточкой
+        return []
     }
     
     // cells callbacks
