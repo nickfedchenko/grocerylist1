@@ -54,14 +54,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }
 //        }
         
-        NetworkEngine().fetchMyGroceryLists(userToken: "GA7FUOEoRcSqIT58QLEM") { result in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let result):
-                print(result)
-            }
-        }
+//        NetworkEngine().fetchMyGroceryLists(userToken: UserAccountManager.shared.getUser()!.token) { result in
+//            switch result {
+//            case .failure(let error):
+//                print(error)
+//            case .success(let result):
+//                print(result)
+//            }
+//        }
+        
+//                NetworkEngine().fetchGroceryListUsers(userToken: "GA7FUOEoRcSqIT58QLEM",
+//                                                      listId: "11a53f50-8f5f-4e73-a316-b859ee40f0b7") { result in
+//                    switch result {
+//                    case .failure(let error):
+//                        print(error)
+//                    case .success(let result):
+//                        print(result)
+//                    }
+//                }
+        
+                        NetworkEngine().groceryListUserDelete(userToken: "IXAduhtfpFq2JfABfoDx",
+                                                              listId: "11a53f50-8f5f-4e73-a316-b859ee40f0b7") { result in
+                            switch result {
+                            case .failure(let error):
+                                print(error)
+                            case .success(let result):
+                                print(result)
+                            }
+                        }
         
         return true
     }

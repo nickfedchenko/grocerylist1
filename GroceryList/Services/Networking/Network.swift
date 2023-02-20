@@ -29,6 +29,8 @@ typealias DeleteUserResult = (Result<DeleteUserResponse, AFError>) -> Void
 typealias GroceryListReleaseResult = (Result<GroceryListReleaseResponse, AFError>) -> Void
 typealias GroceryListDeleteResult = (Result<GroceryListDeleteResponse, AFError>) -> Void
 typealias FetchMyGroceryListsResult = (Result<FetchMyGroceryListsResponse, AFError>) -> Void
+typealias FetchGroceryListUsersResult = (Result<FetchGroceryListUsersResponse, AFError>) -> Void
+typealias GroceryListUserDeleteResult = (Result<GroceryListUserDeleteResponse, AFError>) -> Void
 
 enum RequestGenerator: Codable {
     case getProducts
@@ -45,6 +47,8 @@ enum RequestGenerator: Codable {
     case groceryListRelease(userToken: String, sharingToken: String)
     case groceryListDelete(userToken: String, listId: String)
     case fetchMyGroceryLists(userToken: String)
+    case fetchGroceryListUsers(userToken: String, listId: String)
+    case groceryListUserDelete(userToken: String, listId: String)
     
     private var bearerToken: String {
         return "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
@@ -103,6 +107,18 @@ enum RequestGenerator: Codable {
             return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/fetch",
                                   method: .get) { components in
                 injectUserToken(in: &components, userToken: userToken)
+            }
+        case .fetchGroceryListUsers(userToken: let userToken, listId: let listId):
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/fetch/users",
+                                  method: .get) { components in
+                injectUserToken(in: &components, userToken: userToken)
+                injectListId(in: &components, listId: listId)
+            }
+        case .groceryListUserDelete(userToken: let userToken, listId: let listId):
+            return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/users/delete",
+                                  method: .post) { components in
+                injectUserToken(in: &components, userToken: userToken)
+                injectListId(in: &components, listId: listId)
             }
         case .uploadAvatar:
             fatalError("use multiformRequestObject")
@@ -239,7 +255,7 @@ enum RequestGenerator: Codable {
     
     private func injectListId(in components: inout URLComponents, listId: String) {
         let queries: [URLQueryItem] = [
-            .init(name: "list_id", value: listId)
+            .init(name: "grocery_list_id", value: listId)
         ]
         insert(queries: queries, components: &components)
     }
@@ -392,5 +408,15 @@ extension NetworkEngine: NetworkDataProvider {
     ///   получение листов на которые подписан юзер
     func fetchMyGroceryLists(userToken: String, completion: @escaping FetchMyGroceryListsResult) {
         performDecodableRequest(request: .fetchMyGroceryLists(userToken: userToken), completion: completion)
+    }
+    
+    ///   получить список юзеров подписанных на лист
+    func fetchGroceryListUsers(userToken: String, listId: String, completion: @escaping FetchGroceryListUsersResult) {
+        performDecodableRequest(request: .fetchGroceryListUsers(userToken: userToken, listId: listId), completion: completion)
+    }
+    
+    ///   отписать юзера от листа
+    func groceryListUserDelete(userToken: String, listId: String, completion: @escaping GroceryListUserDeleteResult) {
+        performDecodableRequest(request: .groceryListUserDelete(userToken: userToken, listId: listId), completion: completion)
     }
 }

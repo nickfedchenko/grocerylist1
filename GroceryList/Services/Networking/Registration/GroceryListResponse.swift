@@ -22,12 +22,12 @@ struct GroceryListDeleteResponse: Codable {
 struct FetchMyGroceryListsResponse: Codable {
     var error: Bool
     var messages: [String]
-    var items: FetchMyGroceryListsItems?
+    var items: [FetchMyGroceryListsItems]
 }
 
 struct FetchMyGroceryListsItems: Codable {
     var groceryListId: String
-    var isOwner: String
+    var isOwner: Bool
     var createdAt: String
     var groceryList: GroceryList
     
@@ -39,4 +39,16 @@ struct FetchMyGroceryListsItems: Codable {
 struct GroceryList: Codable {
     var hello: String
     var param: String
+}
+
+struct FetchGroceryListUsersResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var users: [User]
+}
+
+struct GroceryListUserDeleteResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var success: Bool?
 }
