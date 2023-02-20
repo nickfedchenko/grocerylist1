@@ -12,12 +12,14 @@ struct SharedFriend {
     var name: String?
 }
 
+protocol SharingListViewModelDelegate: AnyObject {
+    func openShareController(with urlToShare: String)
+}
+
 final class SharingListViewModel {
     
     weak var router: RootRouter?
-    
-    private var sharedFriends: [SharedFriend] = []
-    
+    weak var delegate: SharingListViewModelDelegate?
     var necessaryHeight: Double {
         sharedFriends.isEmpty ? 0 : Double(sharedFriends.count * 56 + 32)
     }
@@ -26,11 +28,41 @@ final class SharingListViewModel {
         sharedFriends.isEmpty
     }
     
-    var shareURL: String {
-        // TODO: поменять url
-        "http://www.codingexplorer.com/"
+    var listToShareModel: GroceryListsModel
+    
+    private var sharedFriends: [SharedFriend] = []
+    private var network: NetworkEngine
+    
+    init(network: NetworkEngine, listToShare: GroceryListsModel) {
+        self.network = network
+        self.listToShareModel = listToShare
+        print(listToShare)
     }
     
+    func shareListTapped() {
+        guard let user = UserAccountManager.shared.getUser() else { return }
+      
+        network.shareGroceryList(userToken: user.token,
+                                         listId: nil, listModel: listToShareModel) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let result):
+                DispatchQueue.main.async { [weak self] in
+                    self?.getUrlAndOpenShareController(response: result)
+                }
+            }
+        }
+    }
+    
+    private func getUrlAndOpenShareController(response: ShareGroceryListResponse) {
+        let listId = response.groceryListId
+        print(listId)
+        print(response.sharingToken)
+        let start = "groceryList://" + response.sharingToken
+        delegate?.openShareController(with: start)
+    }
+
     func getSection() -> Int {
         return sharedFriendsIsEmpty ? 2 : 3
     }

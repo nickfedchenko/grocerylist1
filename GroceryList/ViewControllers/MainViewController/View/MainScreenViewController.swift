@@ -50,7 +50,6 @@ class MainScreenViewController: UIViewController {
             self.reloadItems(lists: setOfLists)
             self.updateImageConstraint()
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,7 +61,6 @@ class MainScreenViewController: UIViewController {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             self?.viewModel?.updateFavorites()
             DispatchQueue.main.async {
-//                self?.recipesCollectionView.reloadSections(IndexSet(integer: 4))
                 self?.recipesCollectionView.reloadData()
             }
         }
@@ -108,7 +106,6 @@ class MainScreenViewController: UIViewController {
         bottomCreateListView.startAnimating()
     }
     // MARK: - UI
-    
     private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
     
     private let bottomCreateListView: ShimmerView = {
@@ -273,7 +270,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 // Шаринг карточки списка
                 cell.sharingAction = { listName in
                     print("listName - \(String(describing: listName))")
-                    viewModel.sharingTapped()
+                    viewModel.sharingTapped(model: model)
                 }
                 return cell
             }

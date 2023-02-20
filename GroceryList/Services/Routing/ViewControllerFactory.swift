@@ -75,7 +75,7 @@ protocol ViewControllerFactoryProtocol {
     func createPasswordExpiredController(router: RootRouter) -> UIViewController?
     func createEnterNewPasswordController(router: RootRouter) -> UIViewController?
     func createSharingPopUpController(router: RootRouter) -> UIViewController
-    func createSharingListController(router: RootRouter) -> UIViewController
+    func createSharingListController(router: RootRouter, listToShare: GroceryListsModel) -> UIViewController
 }
 
 // MARK: - Factory
@@ -353,11 +353,13 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSharingListController(router: RootRouter) -> UIViewController {
+    func createSharingListController(router: RootRouter, listToShare: GroceryListsModel) -> UIViewController {
         let viewController = SharingListViewController()
-        let viewModel = SharingListViewModel()
+        let networkManager = NetworkEngine()
+        let viewModel = SharingListViewModel(network: networkManager, listToShare: listToShare)
         viewModel.router = router
         viewController.viewModel = viewModel
+        viewModel.delegate = viewController
         return viewController
     }
 }

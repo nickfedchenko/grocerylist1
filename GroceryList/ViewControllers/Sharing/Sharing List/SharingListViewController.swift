@@ -133,17 +133,15 @@ final class SharingListViewController: UIViewController {
         }
     }
     
-    private func sharingList(_ senderView: UIView?) {
-        let textToShare = "Grocery Lists".localized
+    private func sharingList(url: String) {
 
-        if let stringURL = viewModel?.shareURL, let urlToShare = NSURL(string: stringURL) {
-            let objectsToShare = [textToShare, urlToShare] as [Any]
+        if let urlToShare = NSURL(string: url) {
+            let objectsToShare = [urlToShare] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
 
             activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop,
                                                 UIActivity.ActivityType.addToReadingList]
 
-            activityVC.popoverPresentationController?.sourceView = senderView
             self.present(activityVC, animated: true, completion: nil)
         }
     }
@@ -211,8 +209,8 @@ extension SharingListViewController: UITableViewDataSource {
         }
         
         let cell = tableView.reusableCell(classCell: SendInvitationCell.self, indexPath: indexPath)
-        cell.sendInvitationAction = {
-            self.sharingList(cell)
+        cell.sendInvitationAction = { [weak self] in
+            self?.viewModel?.shareListTapped()
         }
         return cell
     }
@@ -236,7 +234,7 @@ extension SharingListViewController: UITableViewDelegate {
         guard let cell = tableView.cellForRow(at: indexPath) as? SendInvitationCell else {
             return
         }
-        sharingList(cell)
+        viewModel?.shareListTapped()
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -247,5 +245,12 @@ extension SharingListViewController: UITableViewDelegate {
 extension SharingListViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         return !(touch.view?.isDescendant(of: self.tableView) ?? false)
+    }
+}
+
+
+extension SharingListViewController: SharingListViewModelDelegate {
+    func openShareController(with urlToShare: String) {
+        sharingList(url: urlToShare)
     }
 }

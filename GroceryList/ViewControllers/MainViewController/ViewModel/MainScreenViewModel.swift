@@ -82,12 +82,12 @@ class MainScreenViewModel {
         })
     }
     
-    func sharingTapped() {
+    func sharingTapped(model: GroceryListsModel) {
         guard let user = UserAccountManager.shared.getUser() else {
             router?.goToSharingPopUp()
             return
         }
-        router?.goToSharingList()
+        router?.goToSharingList(listToShare: model)
     }
     
     // setup cells

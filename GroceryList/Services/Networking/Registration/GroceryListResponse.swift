@@ -63,3 +63,9 @@ struct ShareGroceryListResponse: Codable {
         case error, messages, sharingToken = "sharing_token", groceryListId = "grocery_list_id"
     }
 }
+
+struct UpdateGroceryListResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var success: Bool?
+}
