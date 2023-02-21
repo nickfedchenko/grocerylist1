@@ -364,8 +364,6 @@ final class NetworkEngine {
             "Content-Type": "application/json"
         ]
         
-    
-
         guard let url = request.request.url else { return }
         AF.request(url, method: .post, parameters: ["grocery_list": listModel],
                    encoder: JSONParameterEncoder.default, headers: headers, interceptor: nil, requestModifier: nil)

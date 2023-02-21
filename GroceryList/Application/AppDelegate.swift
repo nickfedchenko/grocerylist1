@@ -245,6 +245,13 @@ class SharedListManager {
         }
         
         print(arrayOfLists)
+        
+        arrayOfLists.forEach { list in
+            CoreDataManager.shared.saveList(list: list)
+            list.products.forEach { product in
+                CoreDataManager.shared.createProduct(product: product)
+            }
+        }
     }
     
     private func transform(sharedList: SharedGroceryList) -> GroceryListsModel {
