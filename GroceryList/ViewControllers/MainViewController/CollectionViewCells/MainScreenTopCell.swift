@@ -24,7 +24,6 @@ class MainScreenTopCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupConstraints()
-        setupActions()
     }
     
     required init?(coder: NSCoder) {
@@ -78,20 +77,12 @@ class MainScreenTopCell: UICollectionViewCell {
         return button
     }()
     
-    private let segmentControl: UISegmentedControl = {
-        let control = CustomSegmentedControl(items: ["Grocery Lists".localized, "Recipes".localized])
-        control.setTitleFont(UIFont.SFProRounded.bold(size: 18).font)
-        control.setTitleColor(UIColor(hex: "#657674"))
-        control.setTitleColor(UIColor(hex: "#31635A"), state: .selected)
+    private lazy var segmentControl: CustomSegmentedControlView = {
+        let control = CustomSegmentedControlView(items: ["Grocery Lists".localized, "Recipes".localized])
+        control.delegate = self
         control.selectedSegmentIndex = 0
-        control.backgroundColor = UIColor(hex: "#D2E7E4")
-        control.selectedSegmentTintColor = .white
         return control
     }()
-    
-    private func setupActions() {
-        segmentControl.addTarget(self, action: #selector(segmentChanged(sender:)), for: .valueChanged)
-    }
     
     // MARK: - UI
     private func setupConstraints() {
@@ -123,16 +114,13 @@ class MainScreenTopCell: UICollectionViewCell {
         }
         
     }
-    
-    @objc
-    private func segmentChanged(sender: UISegmentedControl) {
+}
+
+extension MainScreenTopCell: CustomSegmentedControlViewDelegate {
+    func segmentChanged(_ selectedSegmentIndex: Int) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            if sender.selectedSegmentIndex == 1 {
-                sender.selectedSegmentIndex = 0
-            } else {
-                sender.selectedSegmentIndex = 1
-            }
+            self.segmentControl.selectedSegmentIndex = selectedSegmentIndex == 1 ? 0 : 1
         }
-        delegate?.modeChanged(to: sender.selectedSegmentIndex == 0 ? .lists : .recipes)
+        delegate?.modeChanged(to: selectedSegmentIndex == 0 ? .lists : .recipes)
     }
 }
