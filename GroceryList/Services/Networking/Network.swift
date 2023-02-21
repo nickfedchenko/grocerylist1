@@ -363,9 +363,11 @@ final class NetworkEngine {
             "Authorization": "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ",
             "Content-Type": "application/json"
         ]
+        
+    
 
         guard let url = request.request.url else { return }
-        AF.request(url, method: .post, parameters: ["grocery_list": [listModel]],
+        AF.request(url, method: .post, parameters: ["grocery_list": listModel],
                    encoder: JSONParameterEncoder.default, headers: headers, interceptor: nil, requestModifier: nil)
         .validate()
         .responseData { result in

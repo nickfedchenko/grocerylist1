@@ -29,7 +29,7 @@ struct FetchMyGroceryListsItems: Codable {
     var groceryListId: String
     var isOwner: Bool
     var createdAt: String
-    var groceryList: GroceryListsModel?
+    var groceryList: SharedGroceryList
     
     enum CodingKeys: String, CodingKey {
         case groceryListId = "grocery_list_id", isOwner = "is_owner", createdAt = "created_at", groceryList = "grocery_list"
@@ -68,4 +68,28 @@ struct UpdateGroceryListResponse: Codable {
     var error: Bool
     var messages: [String]
     var success: Bool?
+}
+
+struct SharedGroceryList: Codable {
+    var id: UUID
+    var dateOfCreation: Double
+    var name: String?
+    var color: Int
+    var isFavorite: Bool = false
+    var products: [SharedProduct]
+    var typeOfSorting: Int
+}
+
+struct SharedProduct: Codable {
+    var id: UUID
+    var listId: UUID
+    var name: String
+    var isPurchased: Bool
+    var dateOfCreation: Double
+    var category: String
+    var isFavorite: Bool
+    var isSelected = false
+    var imageData: Data?
+    var description: String
+    var fromRecipeTitle: String?
 }

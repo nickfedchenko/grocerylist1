@@ -229,10 +229,56 @@ class SharedListManager {
             switch result {
             case .failure(let error):
                 print(error)
-            case .success(let result):
-                print(result)
+            case .success(let response):
+                self.transformSharedModelsToLocal(response: response)
             }
         }
     }
-  
+    
+    private func transformSharedModelsToLocal(response: FetchMyGroceryListsResponse) {
+        var arrayOfLists: [GroceryListsModel] = []
+    
+        response.items.forEach { sharedModel in
+            let sharedList = sharedModel.groceryList
+            let localList = transform(sharedList: sharedList)
+            arrayOfLists.append(localList)
+        }
+        
+        print(arrayOfLists)
+    }
+    
+    private func transform(sharedList: SharedGroceryList) -> GroceryListsModel {
+        var arrayOfProducts: [Product] = []
+        
+        sharedList.products.forEach { sharedProduct in
+            let localProduct = transform(sharedProduct: sharedProduct)
+            arrayOfProducts.append(localProduct)
+        }
+        
+        let dateOfListCreation = Date(timeIntervalSinceReferenceDate: sharedList.dateOfCreation)
+        
+        return GroceryListsModel(id: sharedList.id,
+                                 dateOfCreation: dateOfListCreation,
+                                 name: sharedList.name,
+                                 color: sharedList.color,
+                                 isFavorite: sharedList.isFavorite,
+                                 products: arrayOfProducts,
+                                 typeOfSorting: sharedList.typeOfSorting)
+    }
+    
+    private func transform(sharedProduct: SharedProduct) -> Product {
+        
+        let dateOfProductCreation = Date(timeIntervalSinceReferenceDate: sharedProduct.dateOfCreation)
+        return Product(id: sharedProduct.id,
+                       listId: sharedProduct.listId,
+                       name: sharedProduct.name,
+                       isPurchased: sharedProduct.isPurchased,
+                       dateOfCreation: dateOfProductCreation,
+                       category: sharedProduct.category,
+                       isFavorite: sharedProduct.isFavorite,
+                       isSelected: sharedProduct.isSelected,
+                       imageData: sharedProduct.imageData,
+                       description: sharedProduct.description,
+                       fromRecipeTitle: sharedProduct.fromRecipeTitle)
+    }
 }
