@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         rootRouter = RootRouter(window: window)
         rootRouter?.presentRootNavigationControllerInWindow()
+        SharedListManager.shared.router = rootRouter
         
         self.window = window
 
@@ -116,6 +117,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .resetPassword:
             rootRouter?.openResetPassword(token: token)
         case .share:
+            print("Fdf")
+            SharedListManager.shared.gottenDeeplinkToken(token: token)
             
         }
         return true
@@ -185,4 +188,51 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 enum DeepLink: String {
     case resetPassword
     case share
+}
+
+
+
+class SharedListManager {
+
+    static let shared = SharedListManager()
+    var router: RootRouter?
+
+    deinit {
+        print("sharedListManagerDeinited")
+    }
+
+    func gottenDeeplinkToken(token: String) {
+        if let user = UserAccountManager.shared.getUser() {
+            let userToken = user.token
+            connectToList(userToken: user.token, token: token)
+        } else {
+            router?.goToSharingPopUp()
+        }
+    }
+    
+    private func connectToList(userToken: String, token: String) {
+        NetworkEngine().groceryListRelease(userToken: userToken,
+                                           sharingToken: token) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let model):
+                DispatchQueue.main.async { [weak self] in
+                    self?.fetchMyGroceryList()
+                }
+            }
+        }
+    }
+    
+    private func fetchMyGroceryList() {
+        NetworkEngine().fetchMyGroceryLists(userToken: UserAccountManager.shared.getUser()!.token) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let result):
+                print(result)
+            }
+        }
+    }
+  
 }

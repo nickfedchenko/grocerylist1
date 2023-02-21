@@ -29,7 +29,7 @@ struct FetchMyGroceryListsItems: Codable {
     var groceryListId: String
     var isOwner: Bool
     var createdAt: String
-    var groceryList: GroceryList
+    var groceryList: GroceryListsModel?
     
     enum CodingKeys: String, CodingKey {
         case groceryListId = "grocery_list_id", isOwner = "is_owner", createdAt = "created_at", groceryList = "grocery_list"
