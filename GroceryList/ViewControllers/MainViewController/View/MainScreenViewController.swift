@@ -29,6 +29,7 @@ class MainScreenViewController: UIViewController {
         collectionView.delegate = self
         return collectionView
     }()
+    private let defaultRecipeCount = 12
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
@@ -364,7 +365,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
     }
     
     private func makeRecipeSection() -> NSCollectionLayoutSection {
-        let recipeCount = viewModel?.dataSource?.recipeCount ?? 10
+        let recipeCount = viewModel?.dataSource?.recipeCount ?? defaultRecipeCount
         
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .absolute(128),
@@ -446,7 +447,7 @@ extension MainScreenViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        section == 0 ? 1 : viewModel?.dataSource?.recipeCount ?? 10
+        section == 0 ? 1 : viewModel?.recipeCount(for: section) ?? defaultRecipeCount
     }
     
     func collectionView( _ collectionView: UICollectionView,
@@ -463,7 +464,7 @@ extension MainScreenViewController: UICollectionViewDataSource {
             return topCell
         }
         
-        let recipeCount = viewModel?.dataSource?.recipeCount ?? 10
+        let recipeCount = viewModel?.dataSource?.recipeCount ?? defaultRecipeCount
         
         if indexPath.row == recipeCount - 1,
            let sectionModel = viewModel?.dataSource?.recipesSections[indexPath.section] {

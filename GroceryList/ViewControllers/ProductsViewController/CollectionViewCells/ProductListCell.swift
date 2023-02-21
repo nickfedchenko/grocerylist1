@@ -46,7 +46,8 @@ class ProductListCell: UICollectionViewListCell {
         clearTheCell()
     }
     
-    func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?, isPurchased: Bool, image: Data?, description: String) {
+    func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?,
+                   isPurchased: Bool, image: Data?, description: String, isRecipe: Bool) {
         contentView.backgroundColor = bcgColor
         checkmarkImage.image = isPurchased ? getImageWithColor(color: textColor) : UIImage(named: "emptyCheckmark")
         guard let text = text else { return }
@@ -54,6 +55,17 @@ class ProductListCell: UICollectionViewListCell {
         nameLabel.attributedText = NSAttributedString(string: text)
         firstDescriptionLabel.attributedText = NSAttributedString(string: text)
         secondDescriptionLabel.text = description
+        
+        if isRecipe {
+            let recipe = "Recipe".localized.attributed(font: UIFont.SFProRounded.bold(size: 14).font,
+                                                       color: UIColor(hex: "#58B368"))
+            recipe.append(NSAttributedString(string: description))
+            secondDescriptionLabel.attributedText = recipe
+            if !isPurchased {
+                checkmarkImage.image = UIImage(named: "emptyCheckmark")?.withTintColor(UIColor(hex: "#58B368"))
+            }
+
+        }
         
         if isPurchased {
             nameLabel.textColor = textColor

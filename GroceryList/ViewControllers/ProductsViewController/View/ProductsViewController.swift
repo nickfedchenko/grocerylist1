@@ -194,7 +194,9 @@ class ProductsViewController: UIViewController {
             let image = child.imageData
           
             let description = child.description
-            cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name, isPurchased: child.isPurchased, image: image, description: description)
+            cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name,
+                           isPurchased: child.isPurchased, image: image, description: description,
+                           isRecipe: child.fromRecipeTitle != nil)
             
             // свайпы
             cell.swipeToPinchAction = {

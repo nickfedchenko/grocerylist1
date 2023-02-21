@@ -26,6 +26,10 @@ final class IngredientView: UIView {
         return label
     }()
     
+    var servingText: String? {
+        servingLabel.text
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupAppearance()
