@@ -34,28 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SharedListManager.shared.router = rootRouter
         
         self.window = window
-
-//        NetworkEngine().groceryListRelease(userToken: "3aSrA1Wr61susBGd3CIc",
-//                                           sharingToken: "c240d441-983a-4701-9e56-a0841d136cb4") { result in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let result):
-//                print(result)
-//            }
-//        }
-//        
+        
 //        NetworkEngine().groceryListDelete(userToken: "GA7FUOEoRcSqIT58QLEM",
 //                                          listId: "420965bf-4bc1-4dce-b627-87a23e20d075") { result in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let result):
-//                print(result)
-//            }
-//        }
-        
-//        NetworkEngine().fetchMyGroceryLists(userToken: UserAccountManager.shared.getUser()!.token) { result in
 //            switch result {
 //            case .failure(let error):
 //                print(error)
@@ -188,105 +169,4 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 enum DeepLink: String {
     case resetPassword
     case share
-}
-
-
-
-class SharedListManager {
-
-    static let shared = SharedListManager()
-    var router: RootRouter?
-
-    deinit {
-        print("sharedListManagerDeinited")
-    }
-
-    func gottenDeeplinkToken(token: String) {
-        if let user = UserAccountManager.shared.getUser() {
-            let userToken = user.token
-            connectToList(userToken: user.token, token: token)
-        } else {
-            router?.goToSharingPopUp()
-        }
-    }
-    
-    private func connectToList(userToken: String, token: String) {
-        NetworkEngine().groceryListRelease(userToken: userToken,
-                                           sharingToken: token) { result in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let model):
-                DispatchQueue.main.async { [weak self] in
-                    self?.fetchMyGroceryList()
-                }
-            }
-        }
-    }
-    
-    private func fetchMyGroceryList() {
-        NetworkEngine().fetchMyGroceryLists(userToken: UserAccountManager.shared.getUser()!.token) { result in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let response):
-                self.transformSharedModelsToLocal(response: response)
-            }
-        }
-    }
-    
-    private func transformSharedModelsToLocal(response: FetchMyGroceryListsResponse) {
-        var arrayOfLists: [GroceryListsModel] = []
-    
-        response.items.forEach { sharedModel in
-            let sharedList = sharedModel.groceryList
-            let localList = transform(sharedList: sharedList)
-            arrayOfLists.append(localList)
-        }
-        
-        print(arrayOfLists)
-        
-        arrayOfLists.forEach { list in
-            CoreDataManager.shared.saveList(list: list)
-            list.products.forEach { product in
-                CoreDataManager.shared.createProduct(product: product)
-            }
-        }
-        NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
-    }
-    
-    private func transform(sharedList: SharedGroceryList) -> GroceryListsModel {
-        var arrayOfProducts: [Product] = []
-        
-        sharedList.products.forEach { sharedProduct in
-            let localProduct = transform(sharedProduct: sharedProduct)
-            arrayOfProducts.append(localProduct)
-        }
-        
-        let dateOfListCreation = Date(timeIntervalSinceReferenceDate: sharedList.dateOfCreation)
-        
-        return GroceryListsModel(id: sharedList.id,
-                                 dateOfCreation: dateOfListCreation,
-                                 name: sharedList.name,
-                                 color: sharedList.color,
-                                 isFavorite: sharedList.isFavorite,
-                                 products: arrayOfProducts,
-                                 typeOfSorting: sharedList.typeOfSorting)
-    }
-    
-    private func transform(sharedProduct: SharedProduct) -> Product {
-        
-        let dateOfProductCreation = Date(timeIntervalSinceReferenceDate: sharedProduct.dateOfCreation)
-        return Product(id: sharedProduct.id,
-                       listId: sharedProduct.listId,
-                       name: sharedProduct.name,
-                       isPurchased: sharedProduct.isPurchased,
-                       dateOfCreation: dateOfProductCreation,
-                       category: sharedProduct.category,
-                       isFavorite: sharedProduct.isFavorite,
-                       isSelected: sharedProduct.isSelected,
-                       imageData: sharedProduct.imageData,
-                       description: sharedProduct.description,
-                       fromRecipeTitle: sharedProduct.fromRecipeTitle)
-    }
 }

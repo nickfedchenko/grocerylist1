@@ -64,6 +64,7 @@ class MainScreenViewModel {
             self?.reloadDataCallBack?()
         }
         addObserver()
+        downloadMySharedLists()
     }
     
     func getRecipeModel(for indexPath: IndexPath) -> Recipe? {
@@ -181,6 +182,12 @@ class MainScreenViewModel {
     
     func getImageHeight() -> ImageHeight {
         dataSource?.imageHeight ?? .empty
+    }
+    
+    // MARK: - Shared List Functions
+    
+    private func downloadMySharedLists() {
+        SharedListManager.shared.fetchMyGroceryLists()
     }
     
     private func addObserver() {

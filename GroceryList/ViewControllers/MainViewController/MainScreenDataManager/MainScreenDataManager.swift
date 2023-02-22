@@ -31,7 +31,10 @@ class MainScreenDataManager: DataSourceProtocol {
     private let topCellID = UUID()
     var dataChangedCallBack: (() -> Void)?
     var setOfModelsToUpdate: Set<GroceryListsModel> = []
-    private var coreDataModles = CoreDataManager.shared.getAllLists()
+    private var coreDataModels: [DBGroceryListModel] {
+        guard let models = CoreDataManager.shared.getAllLists() else { return [] }
+        return models
+    }
     var recipesSections: [RecipeSectionsModel] = []
     
     var recipeCount: Int { 12 }
@@ -77,8 +80,7 @@ class MainScreenDataManager: DataSourceProtocol {
     @discardableResult
     func updateListOfModels() -> Set<GroceryListsModel> {
         updateFirstAndLastModels()
-        coreDataModles = CoreDataManager.shared.getAllLists()
-        transformedModels = coreDataModles?.map({ transformCoreDataModelToModel($0) }) ?? []
+        transformedModels = coreDataModels.map({ transformCoreDataModelToModel($0) })
         updateFirstAndLastModels()
         return setOfModelsToUpdate
     }
@@ -127,13 +129,13 @@ class MainScreenDataManager: DataSourceProtocol {
         let color = model.color
         let sortType = Int(model.typeOfSorting)
         let products = model.products?.allObjects as? [DBProduct]
-        let prod = products?.map({ transformCoredataProducts(product: $0)})
+        let prod = products?.map({ transformCoreDataProducts(product: $0)})
         
         return GroceryListsModel(id: id, dateOfCreation: date,
                                  name: model.name, color: Int(color), isFavorite: model.isFavorite, products: prod!, typeOfSorting: sortType)
     }
     
-    private func transformCoredataProducts(product: DBProduct?) -> Product {
+    private func transformCoreDataProducts(product: DBProduct?) -> Product {
         guard let product = product else { return Product(listId: UUID(), name: "",
                                                           isPurchased: false, dateOfCreation: Date(), category: "", isFavorite: false, description: "")}
 
