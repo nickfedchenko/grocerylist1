@@ -129,10 +129,14 @@ class MainScreenDataManager: DataSourceProtocol {
         let color = model.color
         let sortType = Int(model.typeOfSorting)
         let products = model.products?.allObjects as? [DBProduct]
-        let prod = products?.map({ transformCoreDataProducts(product: $0)})
+        let prod = products?.map({ transformCoreDataProducts(product: $0)}) ?? []
+        let isShared = model.isShared
+        let sharedId = model.sharedListId ?? ""
         
         return GroceryListsModel(id: id, dateOfCreation: date,
-                                 name: model.name, color: Int(color), isFavorite: model.isFavorite, products: prod!, typeOfSorting: sortType)
+                                 name: model.name, color: Int(color),
+                                 isFavorite: model.isFavorite, products: prod,
+                                 typeOfSorting: sortType, isShared: isShared, sharedId: sharedId)
     }
     
     private func transformCoreDataProducts(product: DBProduct?) -> Product {

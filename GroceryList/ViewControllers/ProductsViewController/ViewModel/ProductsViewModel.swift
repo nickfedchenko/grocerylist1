@@ -49,6 +49,7 @@ class ProductsViewModel {
     }
     
     func goBackButtonPressed() {
+        SharedListManager.shared.updateGroceryList(listModel: model)
         router?.pop()
         router?.goReviewController()
     }

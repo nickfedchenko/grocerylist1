@@ -22,22 +22,7 @@ class CoreDataManager {
         coreData = CoreDataStorage()
     }
     
-    func saveList(list: GroceryListsModel) {
-        guard getList(list: list.id.uuidString) == nil else {
-            updateList(list)
-            return
-        }
-        let context = coreData.container.viewContext
-        let object = DBGroceryListModel(context: context)
-        object.id = list.id
-        object.isFavorite = list.isFavorite
-        object.color = Int64(list.color)
-        object.name = list.name
-        object.dateOfCreation = list.dateOfCreation
-        object.typeOfSorting = Int64(list.typeOfSorting)
-        try? context.save()
-    }
-    
+    // MARK: - Products
     func createProduct(product: Product) {
         guard getProduct(id: product.id) == nil else {
             updateProduct(product: product)
@@ -107,6 +92,8 @@ class CoreDataManager {
         return (try? coreData.container.viewContext.fetch(fetchRequest).compactMap { $0 }) ?? []
     }
     
+    // MARK: - NetworkProducts
+    
     func createNetworkProduct(product: NetworkProductModel) {
         guard getNetworkProduct(id: product.id) == nil else {
             updateNetworkProduct(product: product)
@@ -173,6 +160,27 @@ class CoreDataManager {
         try? context.save()
     }
     
+    
+    // MARK: - GroceryList
+    func saveList(list: GroceryListsModel) {
+        guard getList(list: list.id.uuidString) == nil else {
+            updateList(list)
+            return
+        }
+        let context = coreData.container.viewContext
+        let object = DBGroceryListModel(context: context)
+        object.id = list.id
+        object.isFavorite = list.isFavorite
+        object.color = Int64(list.color)
+        object.name = list.name
+        object.dateOfCreation = list.dateOfCreation
+        object.typeOfSorting = Int64(list.typeOfSorting)
+        object.isShared = list.isShared
+        object.sharedListId = list.sharedId
+        try? context.save()
+    }
+    
+    
     func getList(list: String) -> DBGroceryListModel? {
         let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(list)'")
@@ -193,6 +201,8 @@ class CoreDataManager {
             object.name = list.name
             object.dateOfCreation = list.dateOfCreation
             object.typeOfSorting = Int64(list.typeOfSorting)
+            object.isShared = list.isShared
+            object.sharedListId = list.sharedId
         }
         try? context.save()
     }
@@ -204,23 +214,6 @@ class CoreDataManager {
         }
         return object
     }
-    
-    func saveCategory(category: CategoryModel) {
-        let context = coreData.container.viewContext
-        let object = DBCategories(context: context)
-        object.id = Int64(category.ind)
-        object.name = category.name
-        try? context.save()
-    }
-    
-    func getAllCategories() -> [DBCategories]? {
-        let fetchRequest: NSFetchRequest<DBCategories> = DBCategories.fetchRequest()
-        guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
-            return nil
-        }
-        return object
-    }
-    
     
     func removeList(_ id: UUID) {
         let context = coreData.container.viewContext
@@ -235,13 +228,32 @@ class CoreDataManager {
     func removeSharedLists() {
         let context = coreData.container.viewContext
         let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id = 'f'")
+        fetchRequest.predicate = NSPredicate(format: "isShared = %d", true)
+      
         if let objects = try? context.fetch(fetchRequest){
             objects.forEach {
                 context.delete($0)
             }
         }
         try? context.save()
+    }
+    
+    
+    // MARK: - Categories
+    func saveCategory(category: CategoryModel) {
+        let context = coreData.container.viewContext
+        let object = DBCategories(context: context)
+        object.id = Int64(category.ind)
+        object.name = category.name
+        try? context.save()
+    }
+    
+    func getAllCategories() -> [DBCategories]? {
+        let fetchRequest: NSFetchRequest<DBCategories> = DBCategories.fetchRequest()
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
+            return nil
+        }
+        return object
     }
     
     func deleteAllEntities() {

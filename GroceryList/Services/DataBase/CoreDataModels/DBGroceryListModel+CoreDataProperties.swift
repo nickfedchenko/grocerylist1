@@ -23,6 +23,8 @@ extension DBGroceryListModel {
     @NSManaged public var name: String?
     @NSManaged public var typeOfSorting: Int64
     @NSManaged public var products: NSSet?
+    @NSManaged public var sharedListId: String?
+    @NSManaged public var isShared: Bool
 
 }
 

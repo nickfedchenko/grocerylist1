@@ -62,6 +62,8 @@ struct GroceryListsModel: Hashable, Codable {
     var isFavorite: Bool = false
     var products: [Product]
     var typeOfSorting: Int
+    var sharedId: String = ""
+    var isShared: Bool = false
     
     static func == (lhs: GroceryListsModel, rhs: GroceryListsModel) -> Bool {
         lhs.id == rhs.id
@@ -80,7 +82,9 @@ struct GroceryListsModel: Hashable, Codable {
         products = prods.compactMap({ Product(from: $0) })
     }
     
-    init(id: UUID = UUID(), dateOfCreation: Date, name: String? = nil, color: Int, isFavorite: Bool = false, products: [Product], typeOfSorting: Int) {
+    init(id: UUID = UUID(), dateOfCreation: Date,
+         name: String? = nil, color: Int, isFavorite: Bool = false,
+         products: [Product], typeOfSorting: Int, isShared: Bool = false, sharedId: String = "") {
         self.dateOfCreation = dateOfCreation
         self.color = color
         self.products = products
@@ -88,6 +92,8 @@ struct GroceryListsModel: Hashable, Codable {
         self.id = id
         self.name = name
         self.isFavorite = isFavorite
+        self.isShared = isShared
+        self.sharedId = sharedId
     }
 }
 

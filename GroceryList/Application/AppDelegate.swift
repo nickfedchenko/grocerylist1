@@ -65,16 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                            }
 //                        }
         
-//        NetworkEngine().updateGroceryList(userToken: "IXAduhtfpFq2JfABfoDx",
-//                                              listId: "2d8b1764-0df5-45fa-abdf-42e6e0d48088", listModel: model) { result in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let result):
-//                print(result)
-//            }
-//        }
-        
         return true
     }
 

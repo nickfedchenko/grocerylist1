@@ -78,6 +78,8 @@ struct SharedGroceryList: Codable {
     var isFavorite: Bool = false
     var products: [SharedProduct]
     var typeOfSorting: Int
+    var sharedID: UUID?
+    var isShared: Bool? = false
 }
 
 struct SharedProduct: Codable {

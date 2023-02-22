@@ -56,6 +56,20 @@ class SharedListManager {
         }
     }
     
+    func updateGroceryList(listModel: GroceryListsModel) {
+        guard let user = UserAccountManager.shared.getUser(), listModel.isShared == true else { return }
+      
+        NetworkEngine().updateGroceryList(userToken: user.token,
+                                          listId: listModel.sharedId, listModel: listModel) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let result):
+                print(result)
+            }
+        }
+    }
+    
     // MARK: - Share grocery list
     
     func shareGroceryList(listModel: GroceryListsModel, compl: ((String) -> Void)?) {
@@ -80,14 +94,16 @@ class SharedListManager {
     
         response.items.forEach { sharedModel in
             let sharedList = sharedModel.groceryList
-            let localList = transform(sharedList: sharedList)
+            var localList = transform(sharedList: sharedList)
+            localList.isShared = true
+            localList.sharedId = sharedModel.groceryListId
             arrayOfLists.append(localList)
         }
         
         print(arrayOfLists)
         
         arrayOfLists.forEach { list in
-            CoreDataManager.shared.removeList(list.id)
+            CoreDataManager.shared.removeSharedLists()
             CoreDataManager.shared.saveList(list: list)
             list.products.forEach { product in
                 CoreDataManager.shared.createProduct(product: product)
