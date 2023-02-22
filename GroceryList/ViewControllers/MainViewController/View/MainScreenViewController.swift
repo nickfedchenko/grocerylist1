@@ -153,7 +153,7 @@ class MainScreenViewController: UIViewController {
         }
         
         recipesCollectionView.snp.makeConstraints { make in
-            make.width.equalTo(collectionView)
+            make.width.equalTo(self.view.bounds.width)
             make.height.equalTo(collectionView)
             make.top.equalTo(collectionView)
             make.leading.equalTo(collectionView.snp.trailing)
@@ -425,6 +425,9 @@ extension MainScreenViewController: UICollectionViewDelegate {
         index == 0 ? makeTopCellLayoutSection() : makeRecipeSection()
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollView.contentOffset.x = 0.0
+    }
 }
 
 // MARK: - CreateListAction
