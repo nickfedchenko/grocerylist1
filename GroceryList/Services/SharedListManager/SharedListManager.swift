@@ -12,9 +12,11 @@ class SharedListManager {
     static let shared = SharedListManager()
     var router: RootRouter?
     private var network: NetworkEngine
+    private var modelTransformer: DomainModelsToLocalTransformer
     
     init() {
         self.network = NetworkEngine()
+        self.modelTransformer = DomainModelsToLocalTransformer()
     }
 
     deinit {
@@ -57,10 +59,13 @@ class SharedListManager {
     }
     
     func updateGroceryList(listModel: GroceryListsModel) {
+        guard let domainList = CoreDataManager.shared.getList(list: listModel.id.uuidString) else { return }
+        let localList = modelTransformer.transformCoreDataModelToModel(domainList)
+        
         guard let user = UserAccountManager.shared.getUser(), listModel.isShared == true else { return }
       
         NetworkEngine().updateGroceryList(userToken: user.token,
-                                          listId: listModel.sharedId, listModel: listModel) { result in
+                                          listId: listModel.sharedId, listModel: localList) { result in
             switch result {
             case .failure(let error):
                 print(error)
