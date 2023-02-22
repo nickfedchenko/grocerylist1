@@ -232,6 +232,18 @@ class CoreDataManager {
         try? context.save()
     }
     
+    func removeSharedLists() {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = 'f'")
+        if let objects = try? context.fetch(fetchRequest){
+            objects.forEach {
+                context.delete($0)
+            }
+        }
+        try? context.save()
+    }
+    
     func deleteAllEntities() {
         let entities = coreData.container.managedObjectModel.entities
         entities.forEach {

@@ -11,6 +11,11 @@ class SharedListManager {
 
     static let shared = SharedListManager()
     var router: RootRouter?
+    private var network: NetworkEngine
+    
+    init() {
+        self.network = NetworkEngine()
+    }
 
     deinit {
         print("sharedListManagerDeinited")
@@ -41,7 +46,7 @@ class SharedListManager {
     
     func fetchMyGroceryLists() {
         guard let user = UserAccountManager.shared.getUser() else { return }
-        NetworkEngine().fetchMyGroceryLists(userToken: user.token) { result in
+        network.fetchMyGroceryLists(userToken: user.token) { result in
             switch result {
             case .failure(let error):
                 print(error)
@@ -51,6 +56,25 @@ class SharedListManager {
         }
     }
     
+    // MARK: - Share grocery list
+    
+    func shareGroceryList(listModel: GroceryListsModel, compl: ((String) -> Void)?) {
+        guard let user = UserAccountManager.shared.getUser() else { return }
+      
+        network.shareGroceryList(userToken: user.token,
+                                         listId: nil, listModel: listModel) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let response):
+                let deepLinkToken = "groceryList://share?token=" + response.sharingToken
+                compl?(deepLinkToken)
+                self?.fetchMyGroceryLists()
+            }
+        }
+    }
+    
+    // MARK: - преобразуем нетворк модели в локальные
     private func transformSharedModelsToLocal(response: FetchMyGroceryListsResponse) {
         var arrayOfLists: [GroceryListsModel] = []
     
@@ -63,6 +87,7 @@ class SharedListManager {
         print(arrayOfLists)
         
         arrayOfLists.forEach { list in
+            CoreDataManager.shared.removeList(list.id)
             CoreDataManager.shared.saveList(list: list)
             list.products.forEach { product in
                 CoreDataManager.shared.createProduct(product: product)
@@ -71,6 +96,7 @@ class SharedListManager {
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
     
+    /// трансформим временную модель в постоянную
     private func transform(sharedList: SharedGroceryList) -> GroceryListsModel {
         var arrayOfProducts: [Product] = []
         
@@ -90,8 +116,8 @@ class SharedListManager {
                                  typeOfSorting: sharedList.typeOfSorting)
     }
     
+    /// трансформим временную модель в постоянную
     private func transform(sharedProduct: SharedProduct) -> Product {
-        
         let dateOfProductCreation = Date(timeIntervalSinceReferenceDate: sharedProduct.dateOfCreation)
         return Product(id: sharedProduct.id,
                        listId: sharedProduct.listId,

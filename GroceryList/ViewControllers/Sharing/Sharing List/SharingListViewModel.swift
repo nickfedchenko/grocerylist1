@@ -40,29 +40,13 @@ final class SharingListViewModel {
     }
     
     func shareListTapped() {
-        guard let user = UserAccountManager.shared.getUser() else { return }
-      
-        network.shareGroceryList(userToken: user.token,
-                                         listId: nil, listModel: listToShareModel) { result in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let result):
-                DispatchQueue.main.async { [weak self] in
-                    self?.getUrlAndOpenShareController(response: result)
-                }
+        SharedListManager.shared.shareGroceryList(listModel: listToShareModel) { [weak self] deepLink in
+            DispatchQueue.main.async {
+                self?.delegate?.openShareController(with: deepLink)
             }
         }
     }
     
-    private func getUrlAndOpenShareController(response: ShareGroceryListResponse) {
-        let listId = response.groceryListId
-        print(listId)
-        print(response.sharingToken)
-        let start = "groceryList://share?token=" + response.sharingToken
-        delegate?.openShareController(with: start)
-    }
-
     func getSection() -> Int {
         return sharedFriendsIsEmpty ? 2 : 3
     }
