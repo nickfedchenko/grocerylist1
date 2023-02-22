@@ -14,6 +14,8 @@ final class IngredientView: UIView {
         label.font = R.font.sfProTextMedium(size: 16)
         label.textColor = .black
         label.textAlignment = .left
+        label.numberOfLines = 0
+        label.sizeToFit()
         return label
     }()
     
@@ -22,7 +24,6 @@ final class IngredientView: UIView {
         label.font = R.font.sfProTextMedium(size: 16)
         label.textColor = UIColor(hex: "FF764B")
         label.textAlignment = .right
-        label.numberOfLines = 0
         return label
     }()
     
@@ -38,6 +39,17 @@ final class IngredientView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutIfNeeded() {
+        super.layoutIfNeeded()
+        let labelWidth = servingLabel.intrinsicContentSize.width
+        let viewWidth = self.frame.width / 2.2
+        let maxWidth = labelWidth > viewWidth ? viewWidth : labelWidth
+        servingLabel.numberOfLines = 3
+        servingLabel.snp.updateConstraints {
+            $0.width.greaterThanOrEqualTo(maxWidth)
+        }
     }
     
     private func setupAppearance() {
@@ -58,15 +70,16 @@ final class IngredientView: UIView {
         addSubview(servingLabel)
         
         titleLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
             make.leading.equalToSuperview().offset(12)
-            make.trailing.equalTo(servingLabel.snp.leading).inset(12).priority(.low)
+            make.top.bottom.equalToSuperview().inset(15)
+            make.trailing.equalTo(servingLabel.snp.leading).inset(-18)
         }
         
         servingLabel.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(14)
+            make.bottom.equalToSuperview().inset(15)
+            make.top.greaterThanOrEqualTo(15)
             make.trailing.equalToSuperview().inset(12)
-            make.leading.equalTo(titleLabel.snp.trailing).offset(12).priority(.high)
+            make.width.greaterThanOrEqualTo(50)
         }
     }
 }

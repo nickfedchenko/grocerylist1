@@ -100,7 +100,7 @@ final class RecipeViewController: UIViewController {
     
     let ingredientsStack: UIStackView = {
         let stackView = UIStackView()
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fillProportionally
         stackView.spacing = 8
         stackView.axis = .vertical
         return stackView
@@ -296,6 +296,7 @@ final class RecipeViewController: UIViewController {
         
         ingredientViews.forEach {
             ingredientsStack.addArrangedSubview($0)
+            $0.layoutIfNeeded()
         }
         
         instructionsViews.forEach {

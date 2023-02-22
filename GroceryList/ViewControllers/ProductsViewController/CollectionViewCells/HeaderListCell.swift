@@ -31,7 +31,7 @@ class HeaderListCell: UICollectionViewListCell {
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         let attrs = super.preferredLayoutAttributesFitting(layoutAttributes)
-        attrs.bounds.size.height = 50
+        attrs.bounds.size.height = 52
         return attrs
     }
     
@@ -178,8 +178,8 @@ class HeaderListCell: UICollectionViewListCell {
         collapsedColoredView.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.right.equalTo(titleLabel.snp.right).inset(-26)
-            make.height.equalTo(34)
-            make.top.equalToSuperview().offset(12)
+            make.height.equalTo(32)
+            make.bottom.equalToSuperview().inset(4)
         }
         
         coloredViewForSorting.snp.makeConstraints { make in
@@ -198,7 +198,7 @@ class HeaderListCell: UICollectionViewListCell {
         
         titleLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(28)
-            make.centerY.equalTo(coloredView.snp.centerY)
+            make.centerY.equalTo(collapsedColoredView.snp.centerY)
         }
         
         checkmarkView.snp.makeConstraints { make in
