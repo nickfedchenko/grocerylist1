@@ -11,15 +11,7 @@ import UIKit
 
 class MainScreenViewModel {
     
-    init(dataSource: DataSourceProtocol) {
-        self.dataSource = dataSource
-        self.dataSource?.dataChangedCallBack = { [weak self] in
-            self?.reloadDataCallBack?()
-        }
-    }
-    
     weak var router: RootRouter?
-    private var colorManager = ColorManager()
     var reloadDataCallBack: (() -> Void)?
     var updateCells:((Set<GroceryListsModel>) -> Void)?
     var dataSource: DataSourceProtocol?
@@ -62,6 +54,30 @@ class MainScreenViewModel {
     
     var userName: String? {
         UserAccountManager.shared.getUser()?.username
+    }
+    
+    private var colorManager = ColorManager()
+    
+    init(dataSource: DataSourceProtocol) {
+        self.dataSource = dataSource
+        self.dataSource?.dataChangedCallBack = { [weak self] in
+            self?.reloadDataCallBack?()
+        }
+        addObserver()
+    }
+    
+    func getRecipeModel(for indexPath: IndexPath) -> Recipe? {
+        guard let dataSource = dataSource else { return nil }
+        let model = dataSource.recipesSections[indexPath.section].recipes[indexPath.item]
+        return model
+    }
+    
+    func updateRecipesSection() {
+        dataSource?.makeRecipesSections()
+    }
+    
+    func updateFavorites() {
+        dataSource?.updateFavoritesSection()
     }
     
     // routing
@@ -165,5 +181,20 @@ class MainScreenViewModel {
     
     func getImageHeight() -> ImageHeight {
         dataSource?.imageHeight ?? .empty
+    }
+    
+    private func addObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(sharedListDownloaded),
+            name: .sharedListDownloadedAndSaved,
+            object: nil
+        )
+    }
+    
+    @objc
+    private func sharedListDownloaded() {
+        guard let dataSource = dataSource else { return }
+        updateCells?(dataSource.updateListOfModels())
     }
 }

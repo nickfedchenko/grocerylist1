@@ -252,6 +252,7 @@ class SharedListManager {
                 CoreDataManager.shared.createProduct(product: product)
             }
         }
+        NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
     
     private func transform(sharedList: SharedGroceryList) -> GroceryListsModel {
