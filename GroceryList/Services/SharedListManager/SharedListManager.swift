@@ -58,6 +58,21 @@ class SharedListManager {
         }
     }
     
+    // MARK: - Fetch grocery list users
+    func fetchGroceryListUsers(listId: String) {
+        guard let user = UserAccountManager.shared.getUser() else { return }
+        NetworkEngine().fetchGroceryListUsers(userToken: user.token,
+                                              listId: listId) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let result):
+                print(result)
+            }
+        }
+    }
+    
+    // MARK: - Update grocery list
     func updateGroceryList(listModel: GroceryListsModel) {
         guard let domainList = CoreDataManager.shared.getList(list: listModel.id.uuidString) else { return }
         let localList = modelTransformer.transformCoreDataModelToModel(domainList)

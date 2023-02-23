@@ -47,4 +47,5 @@ class DomainModelsToLocalTransformer {
         return Product(id: id, listId: listId, name: name, isPurchased: isPurchased,
                        dateOfCreation: dateOfCreation, category: category, isFavorite: isFavorite, imageData: imageData, description: description, fromRecipeTitle: fromRecipeTitle)
     }
+    
 }

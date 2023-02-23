@@ -36,6 +36,7 @@ class AccountViewModel {
     
     func logOutInPopupPressed() {
         UserAccountManager.shared.deleteUser()
+        CoreDataManager.shared.removeSharedLists()
         router?.popToRoot()
     }
     
@@ -51,6 +52,7 @@ class AccountViewModel {
             }
         }
         UserAccountManager.shared.deleteUser()
+        CoreDataManager.shared.removeSharedLists()
         router?.popToRoot()
     }
 }
