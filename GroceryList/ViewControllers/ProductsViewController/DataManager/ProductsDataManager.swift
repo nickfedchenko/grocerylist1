@@ -10,7 +10,9 @@ import UIKit
 class ProductsDataManager {
     
     private var shouldSaveExpanding: Bool = false
-    var products: [Product]
+    var products: [Product] {
+        getProducts()
+    }
     var groceryListId: String
     var isListShared: Bool
     var typeOfSorting: SortingType {
@@ -22,10 +24,16 @@ class ProductsDataManager {
 
     init (products: [Product], typeOfSorting: SortingType,
           groceryListId: String, isListShared: Bool) {
-        self.products = products
+
         self.typeOfSorting = typeOfSorting
         self.groceryListId = groceryListId
         self.isListShared = isListShared
+    }
+    
+    private func getProducts() -> [Product] {
+        guard let domainList = CoreDataManager.shared.getList(list: groceryListId) else { return [] }
+        let localList = DomainModelsToLocalTransformer().transformCoreDataModelToModel(domainList)
+        return localList.products
     }
     
     var dataChangedCallBack: (() -> Void)?
@@ -35,28 +43,21 @@ class ProductsDataManager {
             dataChangedCallBack?()
         }
     }
-    
-    private func updateList() {
-        guard isListShared else { return }
-        guard let domainList = CoreDataManager.shared.getList(list: groceryListId) else { return }
-        let localList = DomainModelsToLocalTransformer().transformCoreDataModelToModel(domainList)
-        SharedListManager.shared.updateGroceryList(listModel: localList)
-    }
 
     func createDataSourceArray() {
+        if products.isEmpty { dataSourceArray = [] }
         guard !products.isEmpty else { return }
         if typeOfSorting == .category { createArrayWithSections() }
         if typeOfSorting == .alphabet { createArraySortedByAlphabet() }
         if typeOfSorting == .time { createArraySortedByTime() }
         shouldSaveExpanding = true
-        updateList()
     }
     
     func appendCopiedProducts(product: [Product]) {
-        product.forEach { product in
-            products.removeAll { $0.id == product.id }
-        }
-        products.append(contentsOf: product)
+//        product.forEach { product in
+//            products.removeAll { $0.id == product.id }
+//        }
+//        products.append(contentsOf: product)
         createDataSourceArray()
     }
     
@@ -245,10 +246,10 @@ class ProductsDataManager {
         var newProduct = product
         newProduct.isPurchased = !product.isPurchased
         CoreDataManager.shared.createProduct(product: newProduct)
-        if let index = products.firstIndex(of: product ) {
-            products.remove(at: index)
-            products.append(newProduct)
-        }
+//        if let index = products.firstIndex(of: product ) {
+//            products.remove(at: index)
+//            products.append(newProduct)
+//        }
         createDataSourceArray()
     }
     
@@ -256,19 +257,17 @@ class ProductsDataManager {
         var newProduct = product
         newProduct.isFavorite = !product.isFavorite
         CoreDataManager.shared.createProduct(product: newProduct)
-        if let index = products.firstIndex(of: product ) {
-            products.remove(at: index)
-            products.append(newProduct)
-        }
+//        if let index = products.firstIndex(of: product ) {
+//            products.remove(at: index)
+//            products.append(newProduct)
+//        }
         createDataSourceArray()
     }
     
     func delete(product: Product) {
         CoreDataManager.shared.removeProduct(product: product)
-        if let index = products.firstIndex(of: product ) {
-            products.remove(at: index)
-            if products.isEmpty { dataSourceArray = [] }
-        }
+        if products.isEmpty { dataSourceArray = [] }
+      
         createDataSourceArray()
     }
         

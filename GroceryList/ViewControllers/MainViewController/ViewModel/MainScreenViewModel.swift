@@ -155,7 +155,7 @@ class MainScreenViewModel {
         guard let list = dataSource?.addOrDeleteFromFavorite(with: model) else { return }
         updateCells?(list)
         dataSource?.setOfModelsToUpdate = []
-        SharedListManager.shared.updateGroceryList(listModel: model)
+        SharedListManager.shared.updateGroceryList(listId: model.id.uuidString)
     }
     
     func settingsTapped() {

@@ -32,7 +32,15 @@ class SocketManager: PusherDelegate {
         
         let myChannel = pusher.subscribe(chanelName)
         
-        myChannel.bind(eventName: chanelName, callback: { (data: Any?) -> Void in
+        myChannel.bind(eventName: "updated", eventCallback: { (event: PusherEvent) -> Void in
+            SharedListManager.shared.fetchMyGroceryLists()
+            if let data: String = event.data {
+                
+            }
+        })
+        
+        myChannel.bind(eventName: "updated", callback: { (data: Any?) -> Void in
+            SharedListManager.shared.fetchMyGroceryLists()
             if let data = data as? [String : AnyObject] {
                 if let message = data["message"] as? String {
                    
@@ -56,7 +64,7 @@ class SocketManager: PusherDelegate {
     }
     
     func debugLog(message: String) {
-        SharedListManager.shared.fetchMyGroceryLists()
+
         print(message)
     }
     
