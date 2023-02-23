@@ -141,12 +141,21 @@ class MainScreenViewModel {
         guard let list = dataSource?.deleteList(with: model) else { return }
         updateCells?(list)
         dataSource?.setOfModelsToUpdate = []
+        
+        guard model.isShared else { return }
+        
+        if model.isSharedListOwner {
+            SharedListManager.shared.deleteGroceryList(listId: model.sharedId)
+        } else {
+            SharedListManager.shared.unsubscribeFromGroceryList(listId: model.sharedId)
+        }
     }
     
     func addOrDeleteFromFavorite(with model: GroceryListsModel) {
         guard let list = dataSource?.addOrDeleteFromFavorite(with: model) else { return }
         updateCells?(list)
         dataSource?.setOfModelsToUpdate = []
+        SharedListManager.shared.updateGroceryList(listModel: model)
     }
     
     func settingsTapped() {

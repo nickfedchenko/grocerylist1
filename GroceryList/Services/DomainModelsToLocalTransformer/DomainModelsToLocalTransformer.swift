@@ -22,11 +22,13 @@ class DomainModelsToLocalTransformer {
         let prod = products?.map({ transformCoreDataProducts(product: $0) }) ?? []
         let isShared = model.isShared
         let sharedId = model.sharedListId ?? ""
+        let isSharedListOwner = model.isSharedListOwner
         
         return GroceryListsModel(id: id, dateOfCreation: date,
                                  name: model.name, color: Int(color),
                                  isFavorite: model.isFavorite, products: prod,
-                                 typeOfSorting: sortType, isShared: isShared, sharedId: sharedId)
+                                 typeOfSorting: sortType, isShared: isShared,
+                                 sharedId: sharedId, isSharedListOwner: isSharedListOwner)
     }
     
     private func transformCoreDataProducts(product: DBProduct?) -> Product {

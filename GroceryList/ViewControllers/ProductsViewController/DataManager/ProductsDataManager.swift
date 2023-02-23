@@ -11,6 +11,8 @@ class ProductsDataManager {
     
     private var shouldSaveExpanding: Bool = false
     var products: [Product]
+    var groceryListId: String
+    var isListShared: Bool
     var typeOfSorting: SortingType {
         didSet {
             shouldSaveExpanding = false
@@ -18,9 +20,12 @@ class ProductsDataManager {
         }
     }
 
-    init (products: [Product], typeOfSorting: SortingType ) {
+    init (products: [Product], typeOfSorting: SortingType,
+          groceryListId: String, isListShared: Bool) {
         self.products = products
         self.typeOfSorting = typeOfSorting
+        self.groceryListId = groceryListId
+        self.isListShared = isListShared
     }
     
     var dataChangedCallBack: (() -> Void)?
@@ -30,14 +35,21 @@ class ProductsDataManager {
             dataChangedCallBack?()
         }
     }
+    
+    private func updateList() {
+        guard isListShared else { return }
+        guard let domainList = CoreDataManager.shared.getList(list: groceryListId) else { return }
+        let localList = DomainModelsToLocalTransformer().transformCoreDataModelToModel(domainList)
+        SharedListManager.shared.updateGroceryList(listModel: localList)
+    }
 
     func createDataSourceArray() {
         guard !products.isEmpty else { return }
-        
         if typeOfSorting == .category { createArrayWithSections() }
         if typeOfSorting == .alphabet { createArraySortedByAlphabet() }
         if typeOfSorting == .time { createArraySortedByTime() }
         shouldSaveExpanding = true
+        updateList()
     }
     
     func appendCopiedProducts(product: [Product]) {

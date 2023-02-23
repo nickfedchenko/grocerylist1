@@ -23,6 +23,7 @@ class SharedListManager {
         print("sharedListManagerDeinited")
     }
 
+    /// получаем токен и обрабатываем событие
     func gottenDeeplinkToken(token: String) {
         if let user = UserAccountManager.shared.getUser() {
             connectToList(userToken: user.token, token: token)
@@ -31,6 +32,7 @@ class SharedListManager {
         }
     }
     
+    /// подписываемся на лист
     private func connectToList(userToken: String, token: String) {
         NetworkEngine().groceryListRelease(userToken: userToken,
                                            sharingToken: token) { result in
@@ -46,6 +48,7 @@ class SharedListManager {
         }
     }
     
+    /// получаем список листов на которые подписаны
     func fetchMyGroceryLists() {
         guard let user = UserAccountManager.shared.getUser() else { return }
         network.fetchMyGroceryLists(userToken: user.token) { result in
@@ -54,6 +57,34 @@ class SharedListManager {
                 print(error)
             case .success(let response):
                 self.transformSharedModelsToLocal(response: response)
+            }
+        }
+    }
+    
+    // MARK: - отписка от списка
+    func unsubscribeFromGroceryList(listId: String) {
+        guard let user = UserAccountManager.shared.getUser() else { return }
+        NetworkEngine().groceryListUserDelete(userToken: user.token,
+                                              listId: listId) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let result):
+                print(result)
+            }
+        }
+    }
+            
+    // MARK: - Delete grocery list
+    func deleteGroceryList(listId: String) {
+        guard let user = UserAccountManager.shared.getUser() else { return }
+        NetworkEngine().groceryListDelete(userToken: user.token,
+                                              listId: listId) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let result):
+                print(result)
             }
         }
     }
@@ -117,6 +148,7 @@ class SharedListManager {
             var localList = transform(sharedList: sharedList)
             localList.isShared = true
             localList.sharedId = sharedModel.groceryListId
+            localList.isSharedListOwner = sharedModel.isOwner
             arrayOfLists.append(localList)
         }
         
@@ -129,7 +161,9 @@ class SharedListManager {
                 CoreDataManager.shared.createProduct(product: product)
             }
         }
+        UserDefaultsManager.coldStartState = 2
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
+
     }
     
     /// трансформим временную модель в постоянную

@@ -177,6 +177,7 @@ class CoreDataManager {
         object.typeOfSorting = Int64(list.typeOfSorting)
         object.isShared = list.isShared
         object.sharedListId = list.sharedId
+        object.isSharedListOwner = list.isSharedListOwner
         try? context.save()
     }
     
