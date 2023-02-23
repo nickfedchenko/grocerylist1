@@ -115,9 +115,9 @@ extension RecipesListViewController: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let recipe = section.recipes[indexPath.item]
-        let vc = RecipeViewController(with: RecipeScreenViewModel(recipe: recipe),
-                                      backButtonTitle: R.string.localizable.recipes())
-        navigationController?.pushViewController(vc, animated: true)
+        let viewController = RecipeViewController(with: RecipeScreenViewModel(recipe: recipe),
+                                                  backButtonTitle: R.string.localizable.recipes())
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
@@ -150,14 +150,14 @@ extension RecipesListViewController: RecipeListCellDelegate {
             return product
         }
         
-        let vc = AddProductsSelectionListController(with:products)
-        vc.contentViewHeigh = 700
-        vc.modalPresentationStyle = .overCurrentContext
+        let viewController = AddProductsSelectionListController(with: products)
+        viewController.contentViewHeigh = 700
+        viewController.modalPresentationStyle = .overCurrentContext
         let dataSource = SelectListDataManager()
         let viewModel = SelectListViewModel(dataSource: dataSource)
-        vc.viewModel = viewModel
-        vc.delegate = self
-        present(vc, animated: false)
+        viewController.viewModel = viewModel
+        viewController.delegate = self
+        present(viewController, animated: false)
     }
 }
 

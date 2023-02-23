@@ -16,6 +16,7 @@ protocol DataSourceProtocol {
     func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel>
     func addOrDeleteFromFavorite(with model: GroceryListsModel) -> Set<GroceryListsModel>
     var recipesSections: [RecipeSectionsModel] { get set }
+    var recipeCount: Int { get }
     func makeRecipesSections()
     func updateFavoritesSection()
 }
@@ -32,6 +33,8 @@ class MainScreenDataManager: DataSourceProtocol {
     var setOfModelsToUpdate: Set<GroceryListsModel> = []
     private var coreDataModles = CoreDataManager.shared.getAllLists()
     var recipesSections: [RecipeSectionsModel] = []
+    
+    var recipeCount: Int { 12 }
     
     var imageHeight: ImageHeight = .empty {
         didSet {
@@ -235,23 +238,33 @@ class MainScreenDataManager: DataSourceProtocol {
         let lunchRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .lunch } )}
         let dinnerRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .dinner } )}
         let snacksRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .snack } )}
-        let favorites = plainRecipes.filter { UserDefaultsManager.favoritesRecipeIds.contains($0.id) }
         recipesSections = [
             .init(cellType: .topMenuCell, sectionType: .none, recipes: []),
             .init(cellType: .recipePreview, sectionType: .breakfast, recipes: breakfastRecipes.shuffled()),
             .init(cellType: .recipePreview, sectionType: .lunch, recipes: lunchRecipes.shuffled()),
             .init(cellType: .recipePreview, sectionType: .dinner, recipes: dinnerRecipes.shuffled()),
-            .init(cellType: .recipePreview, sectionType: .snacks, recipes: snacksRecipes.shuffled()),
-            .init(cellType: .recipePreview, sectionType: .favorites, recipes: favorites)
+            .init(cellType: .recipePreview, sectionType: .snacks, recipes: snacksRecipes.shuffled())
         ]
+        updateFavoritesSection()
     }
     
     func updateFavoritesSection() {
         guard let allRecipes: [DBRecipe] = CoreDataManager.shared.getAllRecipes() else { return }
         let plainRecipes = allRecipes.compactMap { Recipe(from: $0) }
         let favorites = plainRecipes.filter { UserDefaultsManager.favoritesRecipeIds.contains($0.id) }
-        let favoritesSection: RecipeSectionsModel = .init(cellType: .recipePreview, sectionType: .favorites, recipes: favorites)
-        guard let index = recipesSections.firstIndex(where: {$0.sectionType == .favorites }) else { return }
+        let favoritesSection = RecipeSectionsModel(cellType: .recipePreview, sectionType: .favorites, recipes: favorites)
+        
+        guard let index = recipesSections.firstIndex(where: { $0.sectionType == .favorites }) else {
+            if !favorites.isEmpty {
+                recipesSections.insert(favoritesSection, at: 1)
+            }
+            return
+        }
+        if favorites.isEmpty {
+            recipesSections.remove(at: index)
+            return
+        }
+        
         recipesSections[index] = favoritesSection
     }
 }

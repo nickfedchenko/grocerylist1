@@ -34,5 +34,8 @@ extension String {
         if self.count == 0 { return self }
         return prefix(1).uppercased() + dropFirst().lowercased()
     }
+    
+    func attributed(font: UIFont, color: UIColor) -> NSMutableAttributedString {
+        NSMutableAttributedString(string: self, attributes: [.font: font, .foregroundColor: color])
+    }
 }
-

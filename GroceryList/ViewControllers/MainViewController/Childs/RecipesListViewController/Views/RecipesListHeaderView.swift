@@ -128,7 +128,6 @@ final class RecipesListHeaderView: UIView {
         blurRadiusDriver?.stopAnimation(true)
         blurRadiusDriver?.finishAnimation(at: .current)
         
-        
         blurRadiusDriver = UIViewPropertyAnimator(duration: 1, curve: .linear) {
             self.blurBack.effect = UIBlurEffect(style: .light)
         }

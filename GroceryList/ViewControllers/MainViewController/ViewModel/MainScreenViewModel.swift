@@ -23,7 +23,7 @@ class MainScreenViewModel {
     var reloadDataCallBack: (() -> Void)?
     var updateCells:((Set<GroceryListsModel>) -> Void)?
     var dataSource: DataSourceProtocol?
-   
+    
     var model: [SectionModel] {
         return dataSource?.dataSourceArray ?? []
     }
@@ -32,6 +32,12 @@ class MainScreenViewModel {
         guard let dataSource = dataSource else { return nil }
         let model = dataSource.recipesSections[indexPath.section].recipes[indexPath.item]
         return model
+    }
+    
+    func recipeCount(for section: Int) -> Int {
+        let count = dataSource?.recipesSections[section].recipes.count ?? 0
+        let maxCount = dataSource?.recipeCount ?? 10
+        return count < maxCount ? count : maxCount
     }
     
     func updateRecipesSection() {

@@ -155,17 +155,15 @@ class ProductsDataManager {
         newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByDate) }).sorted(by: { $0.name < $1.name }))
         
         if products.contains(where: { $0.fromRecipeTitle != nil }) {
-            newArray.append(contentsOf: recipesDict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByDate)}))
+            newArray.append(contentsOf: recipesDict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByDate) }))
         }
         
         // Все что не избрано и не куплено
- 
         
         // Все что куплено
         if products.contains(where: { $0.isPurchased }) {
             newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value, typeOFCell: .purchased) }))
         }
-        
 
         // Сохранение параметра свернутости развернутости списка
         guard shouldSaveExpanding else { return dataSourceArray = newArray }

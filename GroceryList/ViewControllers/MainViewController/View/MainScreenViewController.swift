@@ -17,20 +17,19 @@ class MainScreenViewController: UIViewController {
     private lazy var recipesCollectionView: UICollectionView = {
         let layout = makeRecipesLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(MainScreenTopCell.self, forCellWithReuseIdentifier: "MainScreenTopCell")
-        collectionView.register(RecipePreviewCell.self, forCellWithReuseIdentifier: RecipePreviewCell.identifier)
-        collectionView.register(
-            RecipesFolderHeader.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: RecipesFolderHeader.identifier
-        )
+        collectionView.register(classCell: MainScreenTopCell.self)
+        collectionView.register(classCell: RecipePreviewCell.self)
+        collectionView.register(classCell: MoreRecipeCell.self)
+        collectionView.registerHeader(classHeader: RecipesFolderHeader.self)
         collectionView.contentInset.bottom = 10
+        collectionView.contentInset.right = 10
         collectionView.dataSource = self
         collectionView.alpha = 0
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
         return collectionView
     }()
+    private let defaultRecipeCount = 12
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
@@ -154,7 +153,7 @@ class MainScreenViewController: UIViewController {
         }
         
         recipesCollectionView.snp.makeConstraints { make in
-            make.width.equalTo(collectionView)
+            make.width.equalTo(self.view.bounds.width)
             make.height.equalTo(collectionView)
             make.top.equalTo(collectionView)
             make.leading.equalTo(collectionView.snp.trailing)
@@ -196,7 +195,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
             guard section.cellType == .usual else { return }
             viewModel?.cellTapped(with: model)
         } else {
-            if indexPath.section != 0 {
+            if indexPath.section != 0 && indexPath.row != (viewModel?.dataSource?.recipeCount ?? 10) - 1 {
                 guard let model = viewModel?.dataSource?.recipesSections[indexPath.section].recipes[indexPath.item] else { return }
                 let view = RecipeViewController(with: RecipeScreenViewModel(recipe: model), backButtonTitle: R.string.localizable.back())
                 navigationController?.pushViewController(view, animated: true)
@@ -209,17 +208,11 @@ extension MainScreenViewController: UICollectionViewDelegate {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
         collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
-        collectionView.register(GroceryCollectionViewCell.self,
-                                forCellWithReuseIdentifier: "GroceryListsCollectionViewCell")
-        collectionView.register(EmptyColoredCell.self,
-                                forCellWithReuseIdentifier: "EmptyColoredCell")
-        collectionView.register(InstructionCell.self,
-                                forCellWithReuseIdentifier: "InstructionCell")
-        collectionView.register(MainScreenTopCell.self,
-                                forCellWithReuseIdentifier: "MainScreenTopCell")
-        collectionView.register(GroceryCollectionViewHeader.self,
-                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: "GroceryCollectionViewHeader")
+        collectionView.register(classCell: GroceryCollectionViewCell.self)
+        collectionView.register(classCell: EmptyColoredCell.self)
+        collectionView.register(classCell: InstructionCell.self)
+        collectionView.register(classCell: MainScreenTopCell.self)
+        collectionView.registerHeader(classHeader: GroceryCollectionViewHeader.self)
     }
     
         // swiftlint:disable:next function_body_length
@@ -230,59 +223,55 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 
                 // top view with switcher
             case .topMenu:
-                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "MainScreenTopCell", for: indexPath)
-                as? MainScreenTopCell
-                cell?.settingsTapped = { [weak self] in
+                let cell = self.collectionView.reusableCell(classCell: MainScreenTopCell.self, indexPath: indexPath)
+                cell.settingsTapped = { [weak self] in
                     self?.viewModel?.settingsTapped()
                 }
-                cell?.delegate = self
-                cell?.configure(with: self.presentationMode)
-                cell?.setupUser(photo: self.viewModel?.userPhoto,
+                cell.delegate = self
+                cell.configure(with: self.presentationMode)
+                cell.setupUser(photo: self.viewModel?.userPhoto,
                                 name: self.viewModel?.userName)
                 return cell
                 
                 // empty cell in bottom of collection
             case .empty:
-                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "EmptyColoredCell", for: indexPath)
-                as? EmptyColoredCell
+                let cell = self.collectionView.reusableCell(classCell: EmptyColoredCell.self, indexPath: indexPath)
                 guard let viewModel = self.viewModel else { return UICollectionViewCell() }
                 let isTopRouned = viewModel.isTopRounded(at: indexPath)
                 let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
                 let color = viewModel.getBGColorForEmptyCell(at: indexPath)
-                cell?.setupCell(bckgColor: color, isTopRounded: isTopRouned, isBottomRounded: isBottomRounded)
+                cell.setupCell(bckgColor: color, isTopRounded: isTopRouned, isBottomRounded: isBottomRounded)
                 return cell
                 
                 // cell for cold start
             case .instruction:
-                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "InstructionCell", for: indexPath)
-                as? InstructionCell
+                let cell = self.collectionView.reusableCell(classCell: InstructionCell.self, indexPath: indexPath)
                 return cell
                 
                 // default cell for list
             default:
-                let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "GroceryListsCollectionViewCell",
-                                                                   for: indexPath) as? GroceryCollectionViewCell
+                let cell = self.collectionView.reusableCell(classCell: GroceryCollectionViewCell.self, indexPath: indexPath)
                 guard let viewModel = self.viewModel else { return UICollectionViewCell() }
                 let name = viewModel.getNameOfList(at: indexPath)
                 let isTopRouned = viewModel.isTopRounded(at: indexPath)
                 let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
                 let numberOfItems = viewModel.getnumberOfProductsInside(at: indexPath)
                 let color = viewModel.getBGColor(at: indexPath)
-                cell?.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
+                cell.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
-                cell?.setupSharing(state: viewModel.getSharingState(at: indexPath),
+                cell.setupSharing(state: viewModel.getSharingState(at: indexPath),
                                    image: viewModel.getShareImages(at: indexPath))
                 // Удаление и закрепление ячейки
-                cell?.swipeDeleteAction = {
+                cell.swipeDeleteAction = {
                     viewModel.deleteCell(with: model)
                 }
                 
-                cell?.swipeToAddOrDeleteFromFavorite = {
+                cell.swipeToAddOrDeleteFromFavorite = {
                     viewModel.addOrDeleteFromFavorite(with: model)
                     
                 }
                 // Шаринг карточки списка
-                cell?.sharingAction = { listName in
+                cell.sharingAction = { listName in
                     print("listName - \(String(describing: listName))")
                     viewModel.sharingTapped()
                 }
@@ -293,10 +282,9 @@ extension MainScreenViewController: UICollectionViewDelegate {
     }
     
     private func addHeaderToCollectionView() {
-        collectionViewDataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
-            guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                                      withReuseIdentifier: "GroceryCollectionViewHeader",
-                                                                                      for: indexPath) as? GroceryCollectionViewHeader else { return nil }
+        collectionViewDataSource?.supplementaryViewProvider = { collectionView, _, indexPath in
+            guard let sectionHeader = collectionView.reusableHeader(classHeader: GroceryCollectionViewHeader.self,
+                                                                    indexPath: indexPath) else { return nil }
             
             guard let model = self.collectionViewDataSource?.itemIdentifier(for: indexPath) else { return nil }
             guard let section = self.collectionViewDataSource?.snapshot().sectionIdentifier(containingItem: model) else { return nil }
@@ -377,6 +365,8 @@ extension MainScreenViewController: UICollectionViewDelegate {
     }
     
     private func makeRecipeSection() -> NSCollectionLayoutSection {
+        let recipeCount = viewModel?.dataSource?.recipeCount ?? defaultRecipeCount
+        
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .absolute(128),
             heightDimension: .absolute(128)
@@ -387,14 +377,14 @@ extension MainScreenViewController: UICollectionViewDelegate {
         )
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .estimated(128 * 8 + (8 * 6)),
+            widthDimension: .estimated(CGFloat(128 * recipeCount + (8 * recipeCount - 2))),
             heightDimension: .absolute(128)
         )
         
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitem: item,
-            count: 7
+            count: recipeCount
         )
         
         group.interItemSpacing = .fixed(8)
@@ -422,8 +412,8 @@ extension MainScreenViewController: UICollectionViewDelegate {
     private func makeRecipesLayout() -> UICollectionViewCompositionalLayout {
         let layoutConfig = UICollectionViewCompositionalLayoutConfiguration()
         layoutConfig.interSectionSpacing = 24
-      
         layoutConfig.scrollDirection = .vertical
+        
         let layout = UICollectionViewCompositionalLayout { [weak self] index, _ in
             return self?.makeRecipeSection(for: index)
         }
@@ -432,13 +422,12 @@ extension MainScreenViewController: UICollectionViewDelegate {
     }
     
     private func makeRecipeSection(for index: Int) -> NSCollectionLayoutSection {
-        if index == 0 {
-            return makeTopCellLayoutSection()
-        } else {
-            return makeRecipeSection()
-        }
+        index == 0 ? makeTopCellLayoutSection() : makeRecipeSection()
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollView.contentOffset.x = 0.0
+    }
 }
 
 // MARK: - CreateListAction
@@ -461,64 +450,50 @@ extension MainScreenViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        } else {
-            return viewModel?.dataSource?.recipesSections[section].recipes.count ?? 0
-        }
+        section == 0 ? 1 : viewModel?.recipeCount(for: section) ?? defaultRecipeCount
     }
     
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let viewModel = viewModel else { return UICollectionViewCell() }
-        if indexPath.section == 0 {
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "MainScreenTopCell",
-                for: indexPath
-            ) as? MainScreenTopCell else {
-                //            collectionView.re
-                return UICollectionViewCell()
-            }
-            cell.settingsTapped = { [weak self] in
+    func collectionView( _ collectionView: UICollectionView,
+                         cellForItemAt indexPath: IndexPath ) -> UICollectionViewCell {
+        guard !(indexPath.section == 0) else {
+            let topCell = collectionView.reusableCell(classCell: MainScreenTopCell.self, indexPath: indexPath)
+            topCell.settingsTapped = { [weak self] in
                 self?.viewModel?.settingsTapped()
             }
-            cell.delegate = self
-            cell.configure(with: presentationMode)
-            return cell
-        } else {
-            guard let model = viewModel.getRecipeModel(for: indexPath),
-                  let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecipePreviewCell.identifier, for: indexPath) as? RecipePreviewCell
-            else { return UICollectionViewCell() }
-            cell.configure(with: model)
-        return cell
+            topCell.delegate = self
+            topCell.configure(with: presentationMode)
+            topCell.setupUser(photo: self.viewModel?.userPhoto,
+                              name: self.viewModel?.userName)
+            return topCell
         }
+        
+        let recipeCount = viewModel?.dataSource?.recipeCount ?? defaultRecipeCount
+        
+        if indexPath.row == recipeCount - 1,
+           let sectionModel = viewModel?.dataSource?.recipesSections[indexPath.section] {
+            let moreCell = collectionView.reusableCell(classCell: MoreRecipeCell.self, indexPath: indexPath)
+            moreCell.delegate = self
+            moreCell.configure(at: indexPath.section, title: "\(sectionModel.recipes.count - recipeCount)")
+            return moreCell
+        }
+        
+        guard let model = viewModel?.getRecipeModel(for: indexPath) else { return UICollectionViewCell() }
+        let cell = collectionView.reusableCell(classCell: RecipePreviewCell.self, indexPath: indexPath)
+        cell.configure(with: model)
+        return cell
     }
     
-    func collectionView(
-        _ collectionView: UICollectionView,
-        viewForSupplementaryElementOfKind kind: String,
-        at indexPath: IndexPath
-    ) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionHeader {
-            
-            if indexPath.section > 0 {
-                guard let header = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: kind,
-                    withReuseIdentifier: RecipesFolderHeader.identifier,
-                    for: indexPath
-                ) as? RecipesFolderHeader,
-                      let sectionModel = viewModel?.dataSource?.recipesSections[indexPath.section]
-                else { return UICollectionReusableView() }
-                header.configure(with: sectionModel, at: indexPath.section)
-                header.delegate = self
-                return header
-            } else {
-                return UICollectionReusableView()
-            }
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        guard indexPath.section > 0,
+              let header = collectionView.reusableHeader(classHeader: RecipesFolderHeader.self, indexPath: indexPath),
+              let sectionModel = viewModel?.dataSource?.recipesSections[indexPath.section] else {
+            return UICollectionReusableView()
         }
-        return UICollectionReusableView()
+        header.configure(with: sectionModel, at: indexPath.section)
+        header.delegate = self
+        return header
     }
 }
 
@@ -549,10 +524,10 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
     }
     
     func modeChanged(to mode: MainScreenPresentationMode) {
-//        guard Apphud.hasActiveSubscription() else {
-//           showPaywall()
-//            return
-//        }
+        guard Apphud.hasActiveSubscription() else {
+           showPaywall()
+            return
+        }
         presentationMode = mode
         if mode == .lists {
             showListsCollection()

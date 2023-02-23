@@ -38,7 +38,7 @@ class SignInWithAppleButton: UIButton {
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        guard let _ = super.hitTest(point, with: event),
+        guard super.hitTest(point, with: event) != nil,
               let superview = containerView.superview else { return nil }
             return superview
     }
