@@ -50,7 +50,6 @@ class ProductsViewModel {
     }
     
     func goBackButtonPressed() {
-        updateList()
         router?.pop()
         router?.goReviewController()
     }
@@ -66,7 +65,9 @@ class ProductsViewModel {
             self?.appendToDataSourceProducts(products: products)
             self?.dataSource.typeOfSorting = SortingType(rawValue: self?.model.typeOfSorting ?? 0) ?? .category
             self?.delegate?.updateController()
-            self?.updateList()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+                self?.updateList()
+            }
         })
     }
     

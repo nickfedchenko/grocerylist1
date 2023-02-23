@@ -34,23 +34,19 @@ class SocketManager: PusherDelegate {
         
         myChannel.bind(eventName: "updated", eventCallback: { (event: PusherEvent) -> Void in
             SharedListManager.shared.fetchMyGroceryLists()
-            if let data: String = event.data {
-                
+            if let data: Data = event.data?.data(using: .utf8) {
+                guard let decoded = try? JSONDecoder().decode(SocketResponse.self, from: data) else { return }
+                SharedListManager.shared.saveListFromSocket(response: decoded)
             }
         })
         
-        myChannel.bind(eventName: "updated", callback: { (data: Any?) -> Void in
+        myChannel.bind(eventName: "delete", eventCallback: { (event: PusherEvent) -> Void in
             SharedListManager.shared.fetchMyGroceryLists()
-            if let data = data as? [String : AnyObject] {
-                if let message = data["message"] as? String {
-                   
-                }
+            if let data: Data = event.data?.data(using: .utf8) {
+                guard let decoded = try? JSONDecoder().decode(SocketResponse.self, from: data) else { return }
+                SharedListManager.shared.saveListFromSocket(response: decoded)
             }
         })
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            myChannel.trigger(eventName: "push", data: "sendMessage")
-        }
       
     }
     
@@ -64,8 +60,6 @@ class SocketManager: PusherDelegate {
     }
     
     func debugLog(message: String) {
-
-        print(message)
     }
     
     func subscribedToChannel(name: String) {
@@ -87,4 +81,9 @@ class SocketManager: PusherDelegate {
         print(eventName, channelName, data)
     }
     
+}
+
+struct SocketResponse: Codable {
+    var sendForUserToken: String
+    var groceryList: SharedGroceryList
 }

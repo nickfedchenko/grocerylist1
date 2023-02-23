@@ -62,6 +62,13 @@ class SharedListManager {
     }
     
     // MARK: - отписка от списка
+    func saveListFromSocket(response: SocketResponse) {
+        let list = transform(sharedList: response.groceryList)
+        CoreDataManager.shared.saveList(list: list)
+        NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
+    }
+      
+    // MARK: - отписка от списка
     func unsubscribeFromGroceryList(listId: String) {
         guard let user = UserAccountManager.shared.getUser() else { return }
         NetworkEngine().groceryListUserDelete(userToken: user.token,
@@ -152,10 +159,11 @@ class SharedListManager {
             arrayOfLists.append(localList)
         }
         
-        print(arrayOfLists)
-        
+        print(arrayOfLists.count)
+        CoreDataManager.shared.removeSharedLists()
+       
         arrayOfLists.forEach { list in
-            CoreDataManager.shared.removeSharedLists()
+
             CoreDataManager.shared.saveList(list: list)
             list.products.forEach { product in
                 CoreDataManager.shared.createProduct(product: product)
@@ -167,7 +175,7 @@ class SharedListManager {
     }
     
     /// трансформим временную модель в постоянную
-    private func transform(sharedList: SharedGroceryList) -> GroceryListsModel {
+    func transform(sharedList: SharedGroceryList) -> GroceryListsModel {
         var arrayOfProducts: [Product] = []
         
         sharedList.products.forEach { sharedProduct in

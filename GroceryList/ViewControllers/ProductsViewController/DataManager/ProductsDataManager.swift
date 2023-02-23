@@ -14,7 +14,6 @@ class ProductsDataManager {
         getProducts()
     }
     var groceryListId: String
-    var isListShared: Bool
     var typeOfSorting: SortingType {
         didSet {
             shouldSaveExpanding = false
@@ -23,11 +22,9 @@ class ProductsDataManager {
     }
 
     init (products: [Product], typeOfSorting: SortingType,
-          groceryListId: String, isListShared: Bool) {
-
+          groceryListId: String) {
         self.typeOfSorting = typeOfSorting
         self.groceryListId = groceryListId
-        self.isListShared = isListShared
     }
     
     private func getProducts() -> [Product] {
@@ -54,10 +51,6 @@ class ProductsDataManager {
     }
     
     func appendCopiedProducts(product: [Product]) {
-//        product.forEach { product in
-//            products.removeAll { $0.id == product.id }
-//        }
-//        products.append(contentsOf: product)
         createDataSourceArray()
     }
     
@@ -246,10 +239,6 @@ class ProductsDataManager {
         var newProduct = product
         newProduct.isPurchased = !product.isPurchased
         CoreDataManager.shared.createProduct(product: newProduct)
-//        if let index = products.firstIndex(of: product ) {
-//            products.remove(at: index)
-//            products.append(newProduct)
-//        }
         createDataSourceArray()
     }
     
@@ -257,17 +246,12 @@ class ProductsDataManager {
         var newProduct = product
         newProduct.isFavorite = !product.isFavorite
         CoreDataManager.shared.createProduct(product: newProduct)
-//        if let index = products.firstIndex(of: product ) {
-//            products.remove(at: index)
-//            products.append(newProduct)
-//        }
         createDataSourceArray()
     }
     
     func delete(product: Product) {
         CoreDataManager.shared.removeProduct(product: product)
         if products.isEmpty { dataSourceArray = [] }
-      
         createDataSourceArray()
     }
         

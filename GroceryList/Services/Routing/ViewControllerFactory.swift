@@ -178,7 +178,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let viewController = ProductsViewController()
         let dataSource = ProductsDataManager(products: model.products,
                                              typeOfSorting: SortingType(rawValue: model.typeOfSorting) ?? .category,
-                                             groceryListId: model.id.uuidString, isListShared: model.isShared)
+                                             groceryListId: model.id.uuidString)
         let viewModel = ProductsViewModel(model: model, dataSource: dataSource)
         viewModel.valueChangedCallback = compl
         viewModel.delegate = viewController
