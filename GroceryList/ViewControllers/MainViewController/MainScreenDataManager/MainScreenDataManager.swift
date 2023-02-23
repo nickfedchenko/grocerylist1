@@ -60,15 +60,6 @@ class MainScreenDataManager: DataSourceProtocol {
     private var modelTransformer: DomainModelsToLocalTransformer
     private let topCellID = UUID()
     
-    private var coldStartState: ColdStartState {
-        get {
-           return ColdStartState(rawValue: UserDefaultsManager.coldStartState) ?? .initial
-        }
-        set {
-            UserDefaultsManager.coldStartState = newValue.rawValue
-        }
-    }
-    
     private var coreDataModels: [DBGroceryListModel] {
         guard let models = CoreDataManager.shared.getAllLists() else { return [] }
         return models

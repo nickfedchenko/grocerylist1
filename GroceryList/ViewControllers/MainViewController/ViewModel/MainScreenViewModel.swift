@@ -67,20 +67,6 @@ class MainScreenViewModel {
         downloadMySharedLists()
     }
     
-    func getRecipeModel(for indexPath: IndexPath) -> Recipe? {
-        guard let dataSource = dataSource else { return nil }
-        let model = dataSource.recipesSections[indexPath.section].recipes[indexPath.item]
-        return model
-    }
-    
-    func updateRecipesSection() {
-        dataSource?.makeRecipesSections()
-    }
-    
-    func updateFavorites() {
-        dataSource?.updateFavoritesSection()
-    }
-    
     // routing
     func createNewListTapped() {
         

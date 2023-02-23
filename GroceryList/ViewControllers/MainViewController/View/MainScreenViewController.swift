@@ -41,7 +41,7 @@ class MainScreenViewController: UIViewController {
         collectionView.delegate = self
         collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
         collectionView.register(GroceryCollectionViewCell.self,
-                                forCellWithReuseIdentifier: "GroceryListsCollectionViewCell")
+                                forCellWithReuseIdentifier: "GroceryCollectionViewCell")
         collectionView.register(EmptyColoredCell.self,
                                 forCellWithReuseIdentifier: "EmptyColoredCell")
         collectionView.register(InstructionCell.self,
