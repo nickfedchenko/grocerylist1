@@ -13,6 +13,10 @@ class SharedListManager {
     var router: RootRouter?
     private var network: NetworkEngine
     private var modelTransformer: DomainModelsToLocalTransformer
+    private var tokens: [String] {
+        get { UserDefaultsManager.userTokens ?? [] }
+        set { UserDefaultsManager.userTokens = newValue }
+    }
     
     init() {
         self.network = NetworkEngine()
@@ -25,10 +29,17 @@ class SharedListManager {
 
     /// получаем токен и обрабатываем событие
     func gottenDeeplinkToken(token: String) {
+        tokens.append(token)
         if let user = UserAccountManager.shared.getUser() {
             connectToList(userToken: user.token, token: token)
         } else {
             router?.goToSharingPopUp()
+        }
+    }
+    
+    func connectToListAfterRegistration() {
+        if let user = UserAccountManager.shared.getUser() {
+            tokens.forEach { connectToList(userToken: user.token, token: $0) }
         }
     }
     
