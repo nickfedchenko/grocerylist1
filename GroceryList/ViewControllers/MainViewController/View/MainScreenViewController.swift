@@ -101,6 +101,11 @@ class MainScreenViewController: UIViewController {
         viewModel?.updateCells = { setOfLists in
             self.reloadItems(lists: setOfLists)
             self.updateImageConstraint()
+
+        }
+    
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.collectionView.reloadData()
         }
     }
     

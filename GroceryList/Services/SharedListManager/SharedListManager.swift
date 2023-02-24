@@ -84,7 +84,6 @@ class SharedListManager {
 
         appendToUsersDict(id: list.sharedId, users: response.listUsers)
 
-        print(sharedListsUsers)
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
 
@@ -212,17 +211,12 @@ class SharedListManager {
             }
         }
         UserDefaultsManager.coldStartState = 2
+        print(sharedListsUsers)
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
 
     private func appendToUsersDict(id: String, users: [User]) {
-        if sharedListsUsers[id] == nil {
             sharedListsUsers[id] = users
-        } else if sharedListsUsers[id] == users {
-            return
-        } else {
-            sharedListsUsers[id] = users
-        }
     }
 
     /// трансформим временную модель в постоянную

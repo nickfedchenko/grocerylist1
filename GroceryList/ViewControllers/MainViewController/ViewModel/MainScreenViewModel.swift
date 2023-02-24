@@ -124,10 +124,6 @@ class MainScreenViewModel {
     }
     
     func getShareImages(_  model: GroceryListsModel) -> [String?] {
-        guard model.isShared else {
-            return []
-        }
-        
         var arrayOfImageUrls: [String?] = []
         
         if let newUsers = SharedListManager.shared.sharedListsUsers[model.sharedId] {
