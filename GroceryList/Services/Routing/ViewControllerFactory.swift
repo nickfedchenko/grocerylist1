@@ -77,7 +77,7 @@ protocol ViewControllerFactoryProtocol {
     func createSharingPopUpController(router: RootRouter) -> UIViewController
     func createSharingListController(router: RootRouter,
                                      listToShare: GroceryListsModel,
-                                     users: [SharedUser]) -> UIViewController
+                                     users: [User]) -> UIViewController
 }
 
 // MARK: - Factory
@@ -359,7 +359,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
     func createSharingListController(router: RootRouter,
                                      listToShare: GroceryListsModel,
-                                     users: [SharedUser]) -> UIViewController {
+                                     users: [User]) -> UIViewController {
         let viewController = SharingListViewController()
         let networkManager = NetworkEngine()
         let viewModel = SharingListViewModel(network: networkManager, listToShare: listToShare, users: users)

@@ -69,6 +69,10 @@ final class SharingListViewController: UIViewController {
         showContentView()
     }
     
+    deinit {
+        print("SharingListViewController deinited")
+    }
+    
     private func setup() {
         let swipeDownRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
         swipeDownRecognizer.direction = .down
@@ -247,7 +251,6 @@ extension SharingListViewController: UIGestureRecognizerDelegate {
         return !(touch.view?.isDescendant(of: self.tableView) ?? false)
     }
 }
-
 
 extension SharingListViewController: SharingListViewModelDelegate {
     func openShareController(with urlToShare: String) {

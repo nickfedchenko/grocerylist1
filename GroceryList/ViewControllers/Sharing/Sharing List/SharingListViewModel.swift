@@ -31,14 +31,15 @@ final class SharingListViewModel {
     
     var listToShareModel: GroceryListsModel
     
-    private var sharedUsers: [SharedUser] = []
+    private var sharedUsers: [User] = []
     private var network: NetworkEngine
     
-    init(network: NetworkEngine, listToShare: GroceryListsModel, users: [SharedUser]) {
+    init(network: NetworkEngine, listToShare: GroceryListsModel, users: [User]) {
         self.network = network
         self.listToShareModel = listToShare
         sharedUsers = users
         print(listToShare)
+        sharedUsers.removeAll(where: { $0.token == UserAccountManager.shared.getUser()?.token })
     }
     
     func shareListTapped() {
@@ -60,11 +61,13 @@ final class SharingListViewModel {
         return 1
     }
     
-    func getPhoto(by index: Int) -> UIImage {
-        return sharedUsers[safe: index]?.photo ?? UIImage()
+    func getPhoto(by index: Int) -> String? {
+        
+        return sharedUsers[index].avatar
+      //  return sharedUsers[safe: index]?.photo ?? UIImage()
     }
     
     func getName(by index: Int) -> String {
-        return sharedUsers[safe: index]?.name ?? "-"
+        return sharedUsers[safe: index]?.username ?? "-"
     }
 }

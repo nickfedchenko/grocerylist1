@@ -52,7 +52,7 @@ final class SharingView: UIView {
         }
     }
     
-    func configure(state: SharingState, images: [String] = []) {
+    func configure(state: SharingState, images: [String?] = []) {
         self.state = state
         allImageViews.forEach {
             $0.image = nil
@@ -83,7 +83,7 @@ final class SharingView: UIView {
         return imageView
     }
     
-    private func configureImages(_ images: [String]) {
+    private func configureImages(_ images: [String?]) {
         guard !images.isEmpty else {
             return
         }
@@ -115,7 +115,7 @@ final class SharingView: UIView {
             imageView.layer.borderWidth = 2
             imageView.layer.cornerRadius = 16
             
-            guard let userAvatarUrl = images[safe: index],
+            guard let userAvatarUrl = images[index],
                   let url = URL(string: userAvatarUrl) else {
                 return imageView.image = R.image.profile_icon()
             }

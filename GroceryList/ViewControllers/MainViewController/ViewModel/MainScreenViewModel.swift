@@ -123,25 +123,20 @@ class MainScreenViewModel {
         model.isShared ? .added : .invite
     }
     
-    func getShareImages(_  model: GroceryListsModel) -> [String] {
+    func getShareImages(_  model: GroceryListsModel) -> [String?] {
         guard model.isShared else {
             return []
         }
         
-        var arrayOfImageUrls: [String] = []
+        var arrayOfImageUrls: [String?] = []
         
         if let newUsers = SharedListManager.shared.sharedListsUsers[model.sharedId] {
             newUsers.forEach { user in
-                if user.avatar == "" {
-                    arrayOfImageUrls.append("https://newketo.finanse.space/storage/avatar/9rDgNwKfI1IRyDYv5ubpNQKKGZLvXhh4rUC3Uvgq.pdf")
-                } else {
-                    if let avatar = user.avatar {
-                        arrayOfImageUrls.append(avatar)
-                    }
+                if user.token != UserAccountManager.shared.getUser()?.token {
+                    arrayOfImageUrls.append(user.avatar)
                 }
             }
         }
-        
         return arrayOfImageUrls
     }
     
