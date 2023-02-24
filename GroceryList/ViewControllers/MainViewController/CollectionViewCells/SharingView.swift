@@ -45,10 +45,11 @@ final class SharingView: UIView {
     }
     
     func clearView() {
-       // state = .invite
+        countLabel.text = ""
         allImageViews.forEach {
             $0.isHidden = true
             $0.layer.borderColor = UIColor.clear.cgColor
+            $0.backgroundColor = .clear
         }
     }
     
@@ -64,7 +65,6 @@ final class SharingView: UIView {
             firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
         case .added:
             firstImageView.isHidden = false
-          //  firstImageView.image = R.image.profile_intited()
             firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
             configureImages(images)
         }
