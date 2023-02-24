@@ -7,8 +7,9 @@
 
 import UIKit
 
-struct SharedFriend {
-    var photo: UIImage?
+struct SharedUser {
+    let id: Int
+    var photo: UIImage
     var name: String?
 }
 
@@ -21,21 +22,22 @@ final class SharingListViewModel {
     weak var router: RootRouter?
     weak var delegate: SharingListViewModelDelegate?
     var necessaryHeight: Double {
-        sharedFriends.isEmpty ? 0 : Double(sharedFriends.count * 56 + 32)
+        sharedUsers.isEmpty ? 0 : Double(sharedUsers.count * 56 + 32)
     }
     
     var sharedFriendsIsEmpty: Bool {
-        sharedFriends.isEmpty
+        sharedUsers.isEmpty
     }
     
     var listToShareModel: GroceryListsModel
     
-    private var sharedFriends: [SharedFriend] = []
+    private var sharedUsers: [SharedUser] = []
     private var network: NetworkEngine
     
-    init(network: NetworkEngine, listToShare: GroceryListsModel) {
+    init(network: NetworkEngine, listToShare: GroceryListsModel, users: [SharedUser]) {
         self.network = network
         self.listToShareModel = listToShare
+        sharedUsers = users
         print(listToShare)
     }
     
@@ -53,16 +55,16 @@ final class SharingListViewModel {
     
     func getNumberOfRows(inSection: Int) -> Int {
         guard sharedFriendsIsEmpty else {
-            return inSection == 1 ? sharedFriends.count : 1
+            return inSection == 1 ? sharedUsers.count : 1
         }
         return 1
     }
     
     func getPhoto(by index: Int) -> UIImage {
-        return sharedFriends[safe: index]?.photo ?? UIImage()
+        return sharedUsers[safe: index]?.photo ?? UIImage()
     }
     
     func getName(by index: Int) -> String {
-        return sharedFriends[safe: index]?.name ?? "-"
+        return sharedUsers[safe: index]?.name ?? "-"
     }
 }

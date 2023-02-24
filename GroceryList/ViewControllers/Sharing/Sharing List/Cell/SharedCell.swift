@@ -27,7 +27,7 @@ final class SharedCell: UITableViewCell {
     
     private lazy var userPhotoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 16
         imageView.clipsToBounds = true
         return imageView
