@@ -57,6 +57,8 @@ class MainScreenViewModel {
     }
     
     private var colorManager = ColorManager()
+    private var sharedUsers: [String: [SharedUser]] = [:]
+    private let groupForSavingSharedUser = DispatchGroup()
     
     init(dataSource: DataSourceProtocol) {
         self.dataSource = dataSource
@@ -86,11 +88,12 @@ class MainScreenViewModel {
     }
     
     func sharingTapped(model: GroceryListsModel) {
-        guard let user = UserAccountManager.shared.getUser() else {
+        guard UserAccountManager.shared.getUser() != nil else {
             router?.goToSharingPopUp()
             return
         }
-        router?.goToSharingList(listToShare: model)
+        let users = sharedUsers[model.sharedId] ?? []
+        router?.goToSharingList(listToShare: model, users: users)
     }
     
     // setup cells
@@ -117,22 +120,41 @@ class MainScreenViewModel {
         return ind.row == lastCell
     }
     
-    func getSharingState(at ind: IndexPath) -> SharingView.SharingState {
-        // TODO: туть передаем состояние кнопки шаре
-        /*
-          .invite - пригласить (иконка с плюсиком)
-          .expectation - ожидание присоединения (иконка с галочкой)
-          .added - пользователь добавлен + передаем массив фото пользователей
-         */
-        return .invite
+    func getSharingState(_  model: GroceryListsModel) -> SharingView.SharingState {
+        model.isShared ? .added : .invite
     }
     
-    func getShareImages(at ind: IndexPath) -> [UIImage] {
-        guard getSharingState(at: ind) == .added else {
-            return []
+    func getShareImages(_  model: GroceryListsModel, completion: @escaping ((UIImage) -> Void)) {
+        guard model.isShared else {
+            return
         }
-        // TODO: туть получаем массив фото пользователей с которыми поделились карточкой
-        return []
+        
+        if let users = sharedUsers[model.sharedId] {
+            users.forEach { completion($0.photo) }
+            return
+        }
+        
+        SharedListManager.shared.fetchGroceryListUsers(listId: model.sharedId) { users in
+            for user in users.users {
+                guard user.email != UserAccountManager.shared.getUser()?.email else {
+                    continue
+                }
+                guard user.avatar != nil else {
+                    let image = R.image.profile_icon() ?? UIImage()
+                    self.setSharedUsers(listId: model.sharedId,
+                                        user: SharedUser(id: user.id,
+                                                         photo: image, name: user.username))
+                    completion(image)
+                    return
+                }
+                self.downloadImage(user: user) { image in
+                    self.setSharedUsers(listId: model.sharedId,
+                                        user: SharedUser(id: user.id,
+                                                         photo: image, name: user.username))
+                    completion(image)
+                }
+            }
+        }
     }
     
     // cells callbacks
@@ -197,6 +219,35 @@ class MainScreenViewModel {
     @objc
     private func sharedListDownloaded() {
         guard let dataSource = dataSource else { return }
+        sharedUsers.removeAll()
         updateCells?(dataSource.updateListOfModels())
+    }
+    
+    func downloadImage(user: User, completion: @escaping ((UIImage) -> Void)) {
+        guard let userAvatarUrl = user.avatar,
+              let url = URL(string: userAvatarUrl) else { return }
+        ImageDownloader.default.downloadImage(with: url, options: [],
+                                              progressBlock: nil) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let image):
+                completion(image.image)
+            }
+        }
+    }
+    
+    private func setSharedUsers(listId: String, user: SharedUser) {
+        groupForSavingSharedUser.enter()
+        guard sharedUsers[listId] != nil else {
+            sharedUsers[listId] = [user]
+            groupForSavingSharedUser.leave()
+            return
+        }
+        
+        if !(sharedUsers[listId]?.contains(where: { $0.id == user.id }) ?? false) {
+            sharedUsers[listId]?.append(user)
+        }
+        groupForSavingSharedUser.leave()
     }
 }

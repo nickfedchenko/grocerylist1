@@ -226,6 +226,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
     private func createTableViewDataSource() {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
                                                                       cellProvider: { [self] _, indexPath, model in
+            
             switch self.viewModel?.model[indexPath.section].cellType {
                 
                 // top view with switcher
@@ -254,8 +255,6 @@ extension MainScreenViewController: UICollectionViewDelegate {
             case .instruction:
                 let cell = self.collectionView.reusableCell(classCell: InstructionCell.self, indexPath: indexPath)
                 return cell
-                
-                // default cell for list
             default:
                 let cell = self.collectionView.reusableCell(classCell: GroceryCollectionViewCell.self, indexPath: indexPath)
                 guard let viewModel = self.viewModel else { return UICollectionViewCell() }
@@ -266,8 +265,10 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 let color = viewModel.getBGColor(at: indexPath)
                 cell.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
-                cell.setupSharing(state: viewModel.getSharingState(at: indexPath),
-                                   image: viewModel.getShareImages(at: indexPath))
+                cell.setupSharing(state: viewModel.getSharingState(model))
+                viewModel.getShareImages(model) { userImage in
+                    cell.setupSharing(image: userImage)
+                }
                 // Удаление и закрепление ячейки
                 cell.swipeDeleteAction = {
                     viewModel.deleteCell(with: model)
@@ -278,8 +279,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
                     
                 }
                 // Шаринг карточки списка
-                cell.sharingAction = { listName in
-                    print("listName - \(String(describing: listName))")
+                cell.sharingAction = {
                     viewModel.sharingTapped(model: model)
                 }
                 return cell

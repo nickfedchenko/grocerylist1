@@ -12,7 +12,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
     
     var swipeDeleteAction: (() -> Void)?
     var swipeToAddOrDeleteFromFavorite: (() -> Void)?
-    var sharingAction: ((String?) -> Void)?
+    var sharingAction: (() -> Void)?
     private var state: CellState = .normal
     
     override init(frame: CGRect) {
@@ -40,6 +40,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         }
         state = .normal
         contentViews.layer.cornerRadius = 0
+        sharingView.clearView()
         self.layoutIfNeeded()
     }
     
@@ -84,8 +85,11 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func setupSharing(state: SharingView.SharingState, image: [UIImage]) {
-        sharingView.configure(state: state, images: image)
+    func setupSharing(state: SharingView.SharingState) {
+        sharingView.state = state
+    }
+    func setupSharing(image: UIImage) {
+        sharingView.configure(image: image)
     }
     
     private let contentViews: UIView = {
@@ -176,7 +180,7 @@ extension GroceryCollectionViewCell {
     
     @objc
     private func tapAction() {
-        sharingAction?(nameLabel.text)
+        sharingAction?()
     }
 }
 

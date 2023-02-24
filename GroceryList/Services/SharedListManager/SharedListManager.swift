@@ -34,7 +34,7 @@ class SharedListManager {
     
     /// подписываемся на лист
     private func connectToList(userToken: String, token: String) {
-        NetworkEngine().groceryListRelease(userToken: userToken,
+        network.groceryListRelease(userToken: userToken,
                                            sharingToken: token) { result in
             switch result {
             case .failure(let error):
@@ -97,14 +97,15 @@ class SharedListManager {
     }
     
     // MARK: - Fetch grocery list users
-    func fetchGroceryListUsers(listId: String) {
+    func fetchGroceryListUsers(listId: String, completion: @escaping ((FetchGroceryListUsersResponse) -> Void)) {
         guard let user = UserAccountManager.shared.getUser() else { return }
-        NetworkEngine().fetchGroceryListUsers(userToken: user.token,
+        network.fetchGroceryListUsers(userToken: user.token,
                                               listId: listId) { result in
             switch result {
             case .failure(let error):
                 print(error)
             case .success(let result):
+                completion(result)
                 print(result)
             }
         }
