@@ -65,6 +65,7 @@ class SharedListManager {
     func saveListFromSocket(response: SocketResponse) {
         let list = transform(sharedList: response.groceryList)
         CoreDataManager.shared.saveList(list: list)
+        
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
       
