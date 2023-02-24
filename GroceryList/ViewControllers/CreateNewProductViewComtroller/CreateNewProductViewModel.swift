@@ -23,13 +23,14 @@ class CreateNewProductViewModel {
     weak var router: RootRouter?
     var model: GroceryListsModel?
     private var colorManager = ColorManager()
-    var arrayOfproductsByCategories: [DBNetworkProduct]?
+    var arrayOfProductsByCategories: [DBNetworkProduct]?
     var isMetricSystem = UserDefaultsManager.isMetricSystem
     var currentSelectedUnit: UnitSystem = .gram
     var currentProduct: Product?
     
     init() {
-        arrayOfproductsByCategories = CoreDataManager.shared.getAllNetworkProducts()
+        arrayOfProductsByCategories = CoreDataManager.shared.getAllNetworkProducts()?
+                                                     .sorted(by: { $0.title ?? "" > $1.title ?? "" })
     }
     
     var selectedUnitSystemArray: [UnitSystem] {
@@ -170,26 +171,33 @@ class CreateNewProductViewModel {
         delegate?.presentController(controller: controller)
     }
     
-    func chekIsProductFromCategory(name: String?) {
-        guard let arrayOfproductsByCategories else { return }
+    func checkIsProductFromCategory(name: String?) {
+        guard let arrayOfProductsByCategories,
+              let name = name?.lowercased() else {
+            return
+        }
         
         var product: DBNetworkProduct?
-        
-        for productDB in arrayOfproductsByCategories {
-            guard let name = name,
-                  let title = productDB.title else { return }
+        for productDB in arrayOfProductsByCategories {
+            guard let title = productDB.title?.lowercased()
+                                              .getTitleWithout(symbols: ["(", ")"]) else {
+                return
+            }
             
-            if title.lowercased() == name.lowercased() {
+            guard title != name else {
                 product = productDB
                 break
             }
-         
-            if title.lowercased().contains(name.lowercased()) {
+            
+            if title.contains(name) {
                 product = productDB
             }
         }
         
-        guard let product = product else { return }
+        guard let product = product else {
+            delegate?.selectCategory(text: "", imageURL: "", defaultSelectedUnit: nil)
+            return
+        }
         getAllInformation(product: product)
     }
     
