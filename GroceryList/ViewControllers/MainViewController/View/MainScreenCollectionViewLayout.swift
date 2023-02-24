@@ -47,7 +47,9 @@ final class MainScreenCollectionViewLayout {
         return section
     }
     
-    private func makeRecipeSection() -> NSCollectionLayoutSection {
+    func makeRecipeSection() -> NSCollectionLayoutSection {
+        let recipeCount = 12
+        
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .absolute(128),
             heightDimension: .absolute(128)
@@ -58,14 +60,14 @@ final class MainScreenCollectionViewLayout {
         )
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .estimated(128 * 8 + (8 * 6)),
+            widthDimension: .estimated(CGFloat(128 * recipeCount + (8 * recipeCount - 2))),
             heightDimension: .absolute(128)
         )
         
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitem: item,
-            count: 7
+            count: recipeCount
         )
         
         group.interItemSpacing = .fixed(8)
@@ -81,13 +83,13 @@ final class MainScreenCollectionViewLayout {
             alignment: .topLeading,
             absoluteOffset: CGPoint(x: 0, y: -8)
         )
-    
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
         section.boundarySupplementaryItems = [header]
         section.supplementariesFollowContentInsets = true
         section.contentInsets.leading = 20
         return section
+        
     }
     
     // MARK: - лайаут коллекции списков

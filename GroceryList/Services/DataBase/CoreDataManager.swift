@@ -101,6 +101,26 @@ class CoreDataManager {
         return (try? coreData.container.viewContext.fetch(fetchRequest).compactMap { $0 }) ?? []
     }
     
+    func removeProduct(product: Product) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
+    func removeProduct(id: String) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
     // MARK: - NetworkProducts
     
     func createNetworkProduct(product: NetworkProductModel) {
@@ -157,16 +177,6 @@ class CoreDataManager {
             return nil
         }
         return object
-    }
-    
-    func removeProduct(product: Product) {
-        let context = coreData.container.viewContext
-        let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
-        if let object = try? context.fetch(fetchRequest).first {
-            context.delete(object)
-        }
-        try? context.save()
     }
     
     
