@@ -39,3 +39,13 @@ extension String {
         NSMutableAttributedString(string: self, attributes: [.font: font, .foregroundColor: color])
     }
 }
+
+extension String {
+    func getTitleWithout(symbols: [String]) -> String {
+        var result: String = self
+        symbols.forEach {
+            result = result.replacingOccurrences(of: $0, with: "")
+        }
+        return result
+    }
+}
