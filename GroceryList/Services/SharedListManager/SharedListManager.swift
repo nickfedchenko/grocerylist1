@@ -66,16 +66,10 @@ class SharedListManager {
     // MARK: - отписка от списка
     func saveListFromSocket(response: SocketResponse) {
         var list = transform(sharedList: response.groceryList)
-        if let sharedId = response.groceryList.sharedId {
-            list.sharedId = sharedId.uuidString
-        }
+        list.sharedId = response.groceryList.sharedId
      
         CoreDataManager.shared.saveList(list: list)
-        if sharedListsUsers[list.sharedId] == nil {
-            sharedListsUsers[list.sharedId] = response.listUsers
-        } else {
-            sharedListsUsers[list.sharedId] = response.listUsers
-        }
+        appendToUsersDict(id: list.sharedId, users: response.listUsers)
 
         print(sharedListsUsers)
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
@@ -189,6 +183,8 @@ class SharedListManager {
     private func appendToUsersDict(id: String, users: [User]) {
         if sharedListsUsers[id] == nil {
             sharedListsUsers[id] = users
+        } else if sharedListsUsers[id] == users {
+            return
         } else {
             sharedListsUsers[id] = users
         }

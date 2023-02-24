@@ -57,7 +57,6 @@ class MainScreenViewModel {
     }
     
     private var colorManager = ColorManager()
-    private var sharedUsers: [String: [SharedUser]] = [:]
     private let groupForSavingSharedUser = DispatchGroup()
     
     init(dataSource: DataSourceProtocol) {
@@ -92,7 +91,7 @@ class MainScreenViewModel {
             router?.goToSharingPopUp()
             return
         }
-        let users = sharedUsers[model.sharedId] ?? []
+        let users = SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
         router?.goToSharingList(listToShare: model, users: users)
     }
     
@@ -124,37 +123,26 @@ class MainScreenViewModel {
         model.isShared ? .added : .invite
     }
     
-    func getShareImages(_  model: GroceryListsModel, completion: @escaping ((UIImage) -> Void)) {
+    func getShareImages(_  model: GroceryListsModel) -> [String] {
         guard model.isShared else {
-            return
+            return []
         }
         
-        if let users = sharedUsers[model.sharedId] {
-            users.forEach { completion($0.photo) }
-            return
-        }
+        var arrayOfImageUrls: [String] = []
         
-        SharedListManager.shared.fetchGroceryListUsers(listId: model.sharedId) { users in
-            for user in users.users {
-                guard user.email != UserAccountManager.shared.getUser()?.email else {
-                    continue
-                }
-                guard user.avatar != nil else {
-                    let image = R.image.profile_icon() ?? UIImage()
-                    self.setSharedUsers(listId: model.sharedId,
-                                        user: SharedUser(id: user.id,
-                                                         photo: image, name: user.username))
-                    completion(image)
-                    return
-                }
-                self.downloadImage(user: user) { image in
-                    self.setSharedUsers(listId: model.sharedId,
-                                        user: SharedUser(id: user.id,
-                                                         photo: image, name: user.username))
-                    completion(image)
+        if let newUsers = SharedListManager.shared.sharedListsUsers[model.sharedId] {
+            newUsers.forEach { user in
+                if user.avatar == "" {
+                    arrayOfImageUrls.append("https://newketo.finanse.space/storage/avatar/9rDgNwKfI1IRyDYv5ubpNQKKGZLvXhh4rUC3Uvgq.pdf")
+                } else {
+                    if let avatar = user.avatar {
+                        arrayOfImageUrls.append(avatar)
+                    }
                 }
             }
         }
+        
+        return arrayOfImageUrls
     }
     
     // cells callbacks
@@ -219,35 +207,6 @@ class MainScreenViewModel {
     @objc
     private func sharedListDownloaded() {
         guard let dataSource = dataSource else { return }
-        sharedUsers.removeAll()
         updateCells?(dataSource.updateListOfModels())
-    }
-    
-    func downloadImage(user: User, completion: @escaping ((UIImage) -> Void)) {
-        guard let userAvatarUrl = user.avatar,
-              let url = URL(string: userAvatarUrl) else { return }
-        ImageDownloader.default.downloadImage(with: url, options: [],
-                                              progressBlock: nil) { result in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let image):
-                completion(image.image)
-            }
-        }
-    }
-    
-    private func setSharedUsers(listId: String, user: SharedUser) {
-        groupForSavingSharedUser.enter()
-        guard sharedUsers[listId] != nil else {
-            sharedUsers[listId] = [user]
-            groupForSavingSharedUser.leave()
-            return
-        }
-        
-        if !(sharedUsers[listId]?.contains(where: { $0.id == user.id }) ?? false) {
-            sharedUsers[listId]?.append(user)
-        }
-        groupForSavingSharedUser.leave()
     }
 }

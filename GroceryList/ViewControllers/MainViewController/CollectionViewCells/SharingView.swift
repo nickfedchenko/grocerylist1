@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 15.02.2023.
 //
 
+import Kingfisher
 import UIKit
 
 final class SharingView: UIView {
@@ -28,13 +29,10 @@ final class SharingView: UIView {
         return label
     }()
     
+    private var state: SharingState = .invite
     private var activeImageViews: [UIImageView] = []
     private var allImageViews: [UIImageView] {
         [firstImageView, secondImageView, thirdImageView, fourthImageView]
-    }
-    private var images: [UIImage] = []
-    var state: SharingState = .invite {
-        didSet { updateState() }
     }
     
     override init(frame: CGRect = .zero) {
@@ -47,20 +45,29 @@ final class SharingView: UIView {
     }
     
     func clearView() {
-        state = .invite
-        images.removeAll()
+       // state = .invite
         allImageViews.forEach {
             $0.isHidden = true
             $0.layer.borderColor = UIColor.clear.cgColor
         }
     }
     
-    func configure(image: UIImage) {
-        images.append(image)
+    func configure(state: SharingState, images: [String] = []) {
+        self.state = state
         allImageViews.forEach {
             $0.image = nil
         }
-        updateState()
+        switch state {
+        case .invite:
+            firstImageView.isHidden = false
+            firstImageView.image = R.image.profile_add()
+            firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
+        case .added:
+            firstImageView.isHidden = false
+          //  firstImageView.image = R.image.profile_intited()
+            firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
+            configureImages(images)
+        }
     }
     
     private func setup() {
@@ -76,21 +83,7 @@ final class SharingView: UIView {
         return imageView
     }
     
-    private func updateState() {
-        switch state {
-        case .invite:
-            firstImageView.isHidden = false
-            firstImageView.image = R.image.profile_add()
-            firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
-        case .added:
-            firstImageView.isHidden = false
-            firstImageView.image = R.image.profile_intited()
-            firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
-            configureImages(images)
-        }
-    }
-    
-    private func configureImages(_ images: [UIImage]) {
+    private func configureImages(_ images: [String]) {
         guard !images.isEmpty else {
             return
         }
@@ -118,10 +111,24 @@ final class SharingView: UIView {
         
         activeImageViews.enumerated().forEach { index, imageView in
             imageView.isHidden = false
-            imageView.image = images[safe: index]
             imageView.layer.borderColor = UIColor.white.withAlphaComponent(0.6).cgColor
             imageView.layer.borderWidth = 2
             imageView.layer.cornerRadius = 16
+            
+            guard let userAvatarUrl = images[safe: index],
+                  let url = URL(string: userAvatarUrl) else {
+                return imageView.image = R.image.profile_icon()
+            }
+            
+            imageView.kf.setImage(
+                with: url,
+                placeholder: nil,
+                options: [
+                    .processor(DownsamplingImageProcessor(size: CGSize(width: 30, height: 30))),
+                    .scaleFactor(UIScreen.main.scale),
+                    .cacheOriginalImage
+                ])
+
         }
         
         if images.count > 4 {
@@ -148,7 +155,7 @@ final class SharingView: UIView {
             $0.top.leading.equalToSuperview().offset(4)
         }
     }
-    
+
     private func updateAllImageViewsConstraints() {
         allImageViews.forEach { imageView in
             imageView.snp.removeConstraints()

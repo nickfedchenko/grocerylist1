@@ -265,10 +265,8 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 let color = viewModel.getBGColor(at: indexPath)
                 cell.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
-                cell.setupSharing(state: viewModel.getSharingState(model))
-                viewModel.getShareImages(model) { userImage in
-                    cell.setupSharing(image: userImage)
-                }
+                cell.setupSharing(state: viewModel.getSharingState(model), image: viewModel.getShareImages(model))
+                
                 // Удаление и закрепление ячейки
                 cell.swipeDeleteAction = {
                     viewModel.deleteCell(with: model)
