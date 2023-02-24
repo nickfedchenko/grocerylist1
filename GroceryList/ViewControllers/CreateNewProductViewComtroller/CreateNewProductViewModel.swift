@@ -173,10 +173,10 @@ class CreateNewProductViewModel {
     
     func checkIsProductFromCategory(name: String?) {
         guard let arrayOfProductsByCategories,
-              let name = name?.lowercased() else {
+              var name = name?.lowercased() else {
             return
         }
-        
+        name = name.trimmingCharacters(in: .whitespacesAndNewlines)
         var product: DBNetworkProduct?
         for productDB in arrayOfProductsByCategories {
             guard let title = productDB.title?.lowercased()
