@@ -177,8 +177,10 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func goToSharingList(listToShare: GroceryListsModel) {
-        let controller = viewControllerFactory.createSharingListController(router: self, listToShare: listToShare)
+    func goToSharingList(listToShare: GroceryListsModel, users: [SharedUser]) {
+        let controller = viewControllerFactory.createSharingListController(router: self,
+                                                                           listToShare: listToShare,
+                                                                           users: users)
         navigationPresent(controller, animated: true)
     }
     
