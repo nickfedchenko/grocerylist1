@@ -27,6 +27,7 @@ class SocketManager: PusherDelegate {
     
     // MARK: -
     func connect() {
+        guard UserAccountManager.shared.getUser() != nil else { return }
         pusher.delegate = self
         pusher.connect()
         
@@ -35,10 +36,9 @@ class SocketManager: PusherDelegate {
         myChannel.bind(eventName: "updated", eventCallback: { (event: PusherEvent) -> Void in
             SharedListManager.shared.fetchMyGroceryLists()
             if let data: Data = event.data?.data(using: .utf8) {
-           //     print(event.data)
                 guard let decoded = try? JSONDecoder().decode(SocketResponse.self, from: data) else { return }
-                print(decoded)
                 SharedListManager.shared.saveListFromSocket(response: decoded)
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
             }
         })
         

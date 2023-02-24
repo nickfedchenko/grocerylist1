@@ -77,9 +77,17 @@ class SharedListManager {
     // MARK: - отписка от списка
     func saveListFromSocket(response: SocketResponse) {
         var list = transform(sharedList: response.groceryList)
-        list.sharedId = response.groceryList.sharedId
-     
+        list.sharedId = response.groceryList.sharedId ?? ""
+        let products = CoreDataManager.shared.getProducts(for: list.id.uuidString)
+        var localProducts: [Product] = []
+        
+        products.forEach({
+           let product = DomainModelsToLocalTransformer().transformCoreDataProducts(product: $0)
+        })
+        
+        CoreDataManager.shared.removeList(list.id)
         CoreDataManager.shared.saveList(list: list)
+        
         appendToUsersDict(id: list.sharedId, users: response.listUsers)
 
         print(sharedListsUsers)
@@ -134,8 +142,9 @@ class SharedListManager {
         guard let domainList = CoreDataManager.shared.getList(list: listId) else { return }
         let localList = modelTransformer.transformCoreDataModelToModel(domainList)
         
-        guard let user = UserAccountManager.shared.getUser(), localList.isShared == true else { return }
-      
+        guard let user = UserAccountManager.shared.getUser(),
+              localList.isShared == true else { return }
+        
         NetworkEngine().updateGroceryList(userToken: user.token,
                                           listId: localList.sharedId, listModel: localList) { result in
             switch result {

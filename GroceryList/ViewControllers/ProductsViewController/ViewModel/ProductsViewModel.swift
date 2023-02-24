@@ -83,7 +83,10 @@ class ProductsViewModel {
     
     func delete(product: Product) {
         dataSource.delete(product: product)
-        updateList()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.updateList()
+        }
+
     }
     
     func appendToDataSourceProducts(products: [Product]) {

@@ -31,7 +31,7 @@ class DomainModelsToLocalTransformer {
                                  sharedId: sharedId, isSharedListOwner: isSharedListOwner)
     }
     
-    private func transformCoreDataProducts(product: DBProduct?) -> Product {
+    func transformCoreDataProducts(product: DBProduct?) -> Product {
         guard let product = product else { return Product(listId: UUID(), name: "",
                                                           isPurchased: false, dateOfCreation: Date(), category: "", isFavorite: false, description: "")}
 

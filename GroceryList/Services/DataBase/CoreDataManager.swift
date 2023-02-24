@@ -95,9 +95,9 @@ class CoreDataManager {
         }
     }
     
-    func getProducts(for list: GroceryListsModel) -> [DBProduct] {
+    func getProducts(for listId: String) -> [DBProduct] {
         let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "listId = '\(list.id)'")
+        fetchRequest.predicate = NSPredicate(format: "listId = '\(listId)'")
         return (try? coreData.container.viewContext.fetch(fetchRequest).compactMap { $0 }) ?? []
     }
     
