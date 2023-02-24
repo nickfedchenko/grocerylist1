@@ -19,7 +19,7 @@ struct LogInResponse: Codable {
     var user: User?
 }
 
-struct User: Codable {
+struct User: Codable, Equatable {
     var id: Int
     var username: String?
     var avatar: String?

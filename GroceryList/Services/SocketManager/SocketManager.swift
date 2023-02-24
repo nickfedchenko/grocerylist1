@@ -49,6 +49,10 @@ class SocketManager: PusherDelegate {
                 SharedListManager.shared.saveListFromSocket(response: decoded)
             }
         })
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            myChannel.trigger(eventName: "push", data: "sendMessage")
+        }
       
     }
     

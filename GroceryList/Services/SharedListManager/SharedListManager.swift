@@ -61,11 +61,23 @@ class SharedListManager {
         }
     }
     
+    var sharedListsUsers: [String: [User]] = [:]
+    
     // MARK: - отписка от списка
     func saveListFromSocket(response: SocketResponse) {
-        let list = transform(sharedList: response.groceryList)
+        var list = transform(sharedList: response.groceryList)
+        if let sharedId = response.groceryList.sharedId {
+            list.sharedId = sharedId.uuidString
+        }
+     
         CoreDataManager.shared.saveList(list: list)
-        
+        if sharedListsUsers[list.sharedId] == nil {
+            sharedListsUsers[list.sharedId] = response.listUsers
+        } else {
+            sharedListsUsers[list.sharedId] = response.listUsers
+        }
+
+        print(sharedListsUsers)
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
       
@@ -151,8 +163,9 @@ class SharedListManager {
     // MARK: - преобразуем нетворк модели в локальные
     private func transformSharedModelsToLocal(response: FetchMyGroceryListsResponse) {
         var arrayOfLists: [GroceryListsModel] = []
-    
+        
         response.items.forEach { sharedModel in
+            appendToUsersDict(id: sharedModel.groceryListId, users: sharedModel.users)
             let sharedList = sharedModel.groceryList
             var localList = transform(sharedList: sharedList)
             localList.isShared = true
@@ -161,11 +174,9 @@ class SharedListManager {
             arrayOfLists.append(localList)
         }
         
-        print(arrayOfLists.count)
         CoreDataManager.shared.removeSharedLists()
-       
+    
         arrayOfLists.forEach { list in
-
             CoreDataManager.shared.saveList(list: list)
             list.products.forEach { product in
                 CoreDataManager.shared.createProduct(product: product)
@@ -173,7 +184,14 @@ class SharedListManager {
         }
         UserDefaultsManager.coldStartState = 2
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
-
+    }
+    
+    private func appendToUsersDict(id: String, users: [User]) {
+        if sharedListsUsers[id] == nil {
+            sharedListsUsers[id] = users
+        } else {
+            sharedListsUsers[id] = users
+        }
     }
     
     /// трансформим временную модель в постоянную

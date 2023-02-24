@@ -30,9 +30,10 @@ struct FetchMyGroceryListsItems: Codable {
     var isOwner: Bool
     var createdAt: String
     var groceryList: SharedGroceryList
+    var users: [User]
     
     enum CodingKeys: String, CodingKey {
-        case groceryListId = "grocery_list_id", isOwner = "is_owner", createdAt = "created_at", groceryList = "grocery_list"
+        case groceryListId = "grocery_list_id", isOwner = "is_owner", createdAt = "created_at", groceryList = "grocery_list", users = "users"
     }
 }
 
@@ -78,7 +79,7 @@ struct SharedGroceryList: Codable {
     var isFavorite: Bool = false
     var products: [SharedProduct]
     var typeOfSorting: Int
-    var sharedID: UUID?
+    var sharedId: UUID?
     var isShared: Bool? = false
 }
 
