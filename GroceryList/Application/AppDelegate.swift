@@ -27,6 +27,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         syncService.updateRecipes()
         SocketManager.shared.connect()
         
+        // TODO: убрать при следующий релизах/когда будет добавлена миграция
+        CoreDataManager.shared.updateProductsAfterRemoval = {
+            self.syncService.updateProducts()
+        }
+        
         let window = UIWindow(frame: UIScreen.main.bounds)
         
         rootRouter = RootRouter(window: window)
