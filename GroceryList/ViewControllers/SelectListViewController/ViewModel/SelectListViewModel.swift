@@ -37,6 +37,7 @@ class SelectListViewModel: MainScreenViewModel {
             newProduct.listId = list.id
             CoreDataManager.shared.createProduct(product: newProduct)
         }
+        SharedListManager.shared.updateGroceryList(listId: list.id.uuidString)
     }
     
     func controllerDissmissed() {

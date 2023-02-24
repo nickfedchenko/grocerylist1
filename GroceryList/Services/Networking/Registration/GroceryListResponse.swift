@@ -81,6 +81,7 @@ struct SharedGroceryList: Codable {
     var typeOfSorting: Int
     var sharedId: String?
     var isShared: Bool? = false
+    var isSharedListOwner: Bool
 }
 
 struct SharedProduct: Codable {

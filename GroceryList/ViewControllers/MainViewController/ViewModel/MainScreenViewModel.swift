@@ -147,13 +147,9 @@ class MainScreenViewModel {
         updateCells?(list)
         dataSource?.setOfModelsToUpdate = []
         
-        guard model.isShared else { return }
-        
-        if model.isSharedListOwner {
-            SharedListManager.shared.deleteGroceryList(listId: model.sharedId)
-        } else {
-            SharedListManager.shared.unsubscribeFromGroceryList(listId: model.sharedId)
-        }
+        guard model.sharedId != "" else { return }
+        SharedListManager.shared.deleteGroceryList(listId: model.sharedId)
+        SharedListManager.shared.unsubscribeFromGroceryList(listId: model.sharedId)
     }
     
     func addOrDeleteFromFavorite(with model: GroceryListsModel) {
