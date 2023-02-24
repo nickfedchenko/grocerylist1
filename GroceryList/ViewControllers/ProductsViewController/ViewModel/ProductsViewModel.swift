@@ -65,7 +65,7 @@ class ProductsViewModel {
             self?.appendToDataSourceProducts(products: products)
             self?.dataSource.typeOfSorting = SortingType(rawValue: self?.model.typeOfSorting ?? 0) ?? .category
             self?.delegate?.updateController()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self?.updateList()
             }
         })
