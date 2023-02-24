@@ -66,6 +66,15 @@ class UserDefaultsManager {
         }
     }
     
+    static var userTokens: [String]? {
+        get {
+            return UserDefaults.standard.array(forKey: "userTokens") as? [String]
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "userTokens")
+        }
+    }
+    
     static var favoritesRecipeIds: [Int] {
         get {
             guard

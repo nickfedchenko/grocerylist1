@@ -10,12 +10,14 @@ import SnapKit
 import UIKit
 
 class MainScreenViewController: UIViewController {
-    private var presentationMode: MainScreenPresentationMode = .lists
-    
-    private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroceryListsModel>?
+   
     var viewModel: MainScreenViewModel?
+    var collectionViewLayoutManager = MainScreenCollectionViewLayout()
+    private var presentationMode: MainScreenPresentationMode = .lists
+    private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroceryListsModel>?
+  
     private lazy var recipesCollectionView: UICollectionView = {
-        let layout = makeRecipesLayout()
+        let layout = collectionViewLayoutManager.makeRecipesLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(classCell: MainScreenTopCell.self)
         collectionView.register(classCell: RecipePreviewCell.self)
@@ -31,6 +33,57 @@ class MainScreenViewController: UIViewController {
     }()
     private let defaultRecipeCount = 12
     
+    private lazy var collectionView: UICollectionView = {
+        let layout = collectionViewLayoutManager.createCompositionalLayout()
+        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        collectionView.contentInset.bottom = 60
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.delegate = self
+        collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
+        collectionView.register(GroceryCollectionViewCell.self,
+                                forCellWithReuseIdentifier: "GroceryCollectionViewCell")
+        collectionView.register(EmptyColoredCell.self,
+                                forCellWithReuseIdentifier: "EmptyColoredCell")
+        collectionView.register(InstructionCell.self,
+                                forCellWithReuseIdentifier: "InstructionCell")
+        collectionView.register(MainScreenTopCell.self,
+                                forCellWithReuseIdentifier: "MainScreenTopCell")
+        collectionView.register(GroceryCollectionViewHeader.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: "GroceryCollectionViewHeader")
+        return collectionView
+    }()
+    
+    private let bottomCreateListView: ShimmerView = {
+        let view = ShimmerView()
+        view.backgroundColor = .white.withAlphaComponent(0.9)
+        return view
+    }()
+    
+    private let plusImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "#plusImage")
+        imageView.blink()
+        return imageView
+    }()
+    
+    private let createListLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFProRounded.semibold(size: 18).font
+        label.textColor = UIColor(hex: "#31635A")
+        label.text = "CreateList".localized
+        return label
+    }()
+    
+    private let foodImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "foodImage")
+        return imageView
+    }()
+    
+    // MARK: - Lifecycle
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
     }
@@ -38,7 +91,6 @@ class MainScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConstraints()
-        setupCollectionView()
         addRecognizer()
         createTableViewDataSource()
         viewModel?.reloadDataCallBack = { [weak self] in
@@ -49,8 +101,12 @@ class MainScreenViewController: UIViewController {
         viewModel?.updateCells = { setOfLists in
             self.reloadItems(lists: setOfLists)
             self.updateImageConstraint()
+
         }
-        
+    
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.collectionView.reloadData()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,13 +118,18 @@ class MainScreenViewController: UIViewController {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             self?.viewModel?.updateFavorites()
             DispatchQueue.main.async {
-//                self?.recipesCollectionView.reloadSections(IndexSet(integer: 4))
                 self?.recipesCollectionView.reloadData()
             }
         }
         updateImageConstraint()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        bottomCreateListView.startAnimating()
+    }
+    
+    // MARK: - Functions
     private func createAttributedString(title: String, color: UIColor = .white) -> NSAttributedString {
         NSAttributedString(string: title, attributes: [
             .font: UIFont.SFPro.bold(size: 18).font ?? UIFont(),
@@ -103,43 +164,7 @@ class MainScreenViewController: UIViewController {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        bottomCreateListView.startAnimating()
-    }
     // MARK: - UI
-    
-    private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
-    
-    private let bottomCreateListView: ShimmerView = {
-        let view = ShimmerView()
-        view.backgroundColor = .white.withAlphaComponent(0.9)
-        return view
-    }()
-    
-    private let plusImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "#plusImage")
-        imageView.blink()
-        return imageView
-    }()
-    
-    private let createListLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFProRounded.semibold(size: 18).font
-        label.textColor = UIColor(hex: "#31635A")
-        label.text = "CreateList".localized
-        return label
-    }()
-    
-    private let foodImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "foodImage")
-        return imageView
-    }()
-    
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
         view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView])
@@ -182,7 +207,6 @@ class MainScreenViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
     }
-    
 }
 
 // MARK: - CollectionView
@@ -203,22 +227,11 @@ extension MainScreenViewController: UICollectionViewDelegate {
         }
     }
     
-    private func setupCollectionView() {
-        collectionView.contentInset.bottom = 60
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.delegate = self
-        collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
-        collectionView.register(classCell: GroceryCollectionViewCell.self)
-        collectionView.register(classCell: EmptyColoredCell.self)
-        collectionView.register(classCell: InstructionCell.self)
-        collectionView.register(classCell: MainScreenTopCell.self)
-        collectionView.registerHeader(classHeader: GroceryCollectionViewHeader.self)
-    }
-    
         // swiftlint:disable:next function_body_length
     private func createTableViewDataSource() {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
                                                                       cellProvider: { [self] _, indexPath, model in
+            
             switch self.viewModel?.model[indexPath.section].cellType {
                 
                 // top view with switcher
@@ -247,8 +260,6 @@ extension MainScreenViewController: UICollectionViewDelegate {
             case .instruction:
                 let cell = self.collectionView.reusableCell(classCell: InstructionCell.self, indexPath: indexPath)
                 return cell
-                
-                // default cell for list
             default:
                 let cell = self.collectionView.reusableCell(classCell: GroceryCollectionViewCell.self, indexPath: indexPath)
                 guard let viewModel = self.viewModel else { return UICollectionViewCell() }
@@ -259,8 +270,8 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 let color = viewModel.getBGColor(at: indexPath)
                 cell.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
-                cell.setupSharing(state: viewModel.getSharingState(at: indexPath),
-                                   image: viewModel.getShareImages(at: indexPath))
+                cell.setupSharing(state: viewModel.getSharingState(model), image: viewModel.getShareImages(model))
+                
                 // Удаление и закрепление ячейки
                 cell.swipeDeleteAction = {
                     viewModel.deleteCell(with: model)
@@ -271,9 +282,8 @@ extension MainScreenViewController: UICollectionViewDelegate {
                     
                 }
                 // Шаринг карточки списка
-                cell.sharingAction = { listName in
-                    print("listName - \(String(describing: listName))")
-                    viewModel.sharingTapped()
+                cell.sharingAction = {
+                    viewModel.sharingTapped(model: model)
                 }
                 return cell
             }
@@ -312,122 +322,6 @@ extension MainScreenViewController: UICollectionViewDelegate {
         collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
     }
     
-    // CollectionViewLayout
-    private func createCompositionalLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, _) -> NSCollectionLayoutSection? in
-            return self.createLayout(sectionIndex: sectionIndex)
-        }
-        return layout
-    }
-    
-    private func createLayout(sectionIndex: Int) -> NSCollectionLayoutSection {
-        var itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(72))
-        if sectionIndex == 0 {
-            itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(92))
-        }
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        let section = NSCollectionLayoutSection(group: group)
-        if sectionIndex != 0 {
-            let header = createSectionHeader()
-            section.boundarySupplementaryItems = [header]
-        }
-        return section
-    }
-    
-    private func createSectionHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
-        let layoutHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                      heightDimension: .estimated(44))
-        let layutSectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: layoutHeaderSize,
-                                                                             elementKind: UICollectionView.elementKindSectionHeader,
-                                                                             alignment: .top)
-        return layutSectionHeader
-    }
-    
-    private func makeTopCellLayoutSection() -> NSCollectionLayoutSection {
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(92)
-        )
-        
-        let item = NSCollectionLayoutItem(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .fractionalHeight(1))
-        )
-        
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        return section
-    }
-    
-    private func makeRecipeSection() -> NSCollectionLayoutSection {
-        let recipeCount = viewModel?.dataSource?.recipeCount ?? defaultRecipeCount
-        
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(128),
-            heightDimension: .absolute(128)
-        )
-        
-        let item = NSCollectionLayoutItem(
-            layoutSize: itemSize
-        )
-        
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .estimated(CGFloat(128 * recipeCount + (8 * recipeCount - 2))),
-            heightDimension: .absolute(128)
-        )
-        
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
-            subitem: item,
-            count: recipeCount
-        )
-        
-        group.interItemSpacing = .fixed(8)
-        
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(24)
-        )
-        
-        let header = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .topLeading,
-            absoluteOffset: CGPoint(x: 0, y: -8)
-        )
-    
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        section.boundarySupplementaryItems = [header]
-        section.supplementariesFollowContentInsets = true
-        section.contentInsets.leading = 20
-        return section
-    }
-    
-    private func makeRecipesLayout() -> UICollectionViewCompositionalLayout {
-        let layoutConfig = UICollectionViewCompositionalLayoutConfiguration()
-        layoutConfig.interSectionSpacing = 24
-        layoutConfig.scrollDirection = .vertical
-        
-        let layout = UICollectionViewCompositionalLayout { [weak self] index, _ in
-            return self?.makeRecipeSection(for: index)
-        }
-        layout.configuration = layoutConfig
-        return layout
-    }
-    
-    private func makeRecipeSection(for index: Int) -> NSCollectionLayoutSection {
-        index == 0 ? makeTopCellLayoutSection() : makeRecipeSection()
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollView.contentOffset.x = 0.0
-    }
 }
 
 // MARK: - CreateListAction
@@ -524,10 +418,10 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
     }
     
     func modeChanged(to mode: MainScreenPresentationMode) {
-        guard Apphud.hasActiveSubscription() else {
-           showPaywall()
-            return
-        }
+//        guard Apphud.hasActiveSubscription() else {
+//           showPaywall()
+//            return
+//        }
         presentationMode = mode
         if mode == .lists {
             showListsCollection()

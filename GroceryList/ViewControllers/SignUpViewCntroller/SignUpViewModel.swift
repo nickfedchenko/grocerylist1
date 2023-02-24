@@ -229,6 +229,8 @@ class SignUpViewModel {
     
     private func saveUserModel(userModel: User) {
         UserAccountManager.shared.saveUser(user: userModel)
+        SharedListManager.shared.connectToListAfterRegistration()
+        SocketManager.shared.connect()
         router?.pop()
     }
     

@@ -72,9 +72,9 @@ struct Recipe: Codable {
         dishWeightType = dbModel.dishWeightType < 0 ? nil : Int(dbModel.dishWeightType)
         countries = (try? JSONDecoder().decode([String].self, from: dbModel.countries ?? Data())) ?? []
         if let decodedInstructions = (try? JSONDecoder().decode([String].self, from: dbModel.instructions ?? Data())) {
-            print("successfully got instructions")
+       
         } else {
-            print("failed to decode instructions array")
+          
         }
         instructions = (try? JSONDecoder().decode([String].self, from: dbModel.instructions ?? Data())) ?? []
         ingredients = (try? JSONDecoder().decode([Ingredient].self, from: dbModel.ingredients ?? Data())) ?? []

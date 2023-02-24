@@ -11,15 +11,7 @@ import UIKit
 
 class MainScreenViewModel {
     
-    init(dataSource: DataSourceProtocol) {
-        self.dataSource = dataSource
-        self.dataSource?.dataChangedCallBack = { [weak self] in
-            self?.reloadDataCallBack?()
-        }
-    }
-    
     weak var router: RootRouter?
-    private var colorManager = ColorManager()
     var reloadDataCallBack: (() -> Void)?
     var updateCells:((Set<GroceryListsModel>) -> Void)?
     var dataSource: DataSourceProtocol?
@@ -64,6 +56,18 @@ class MainScreenViewModel {
         UserAccountManager.shared.getUser()?.username
     }
     
+    private var colorManager = ColorManager()
+    private let groupForSavingSharedUser = DispatchGroup()
+    
+    init(dataSource: DataSourceProtocol) {
+        self.dataSource = dataSource
+        self.dataSource?.dataChangedCallBack = { [weak self] in
+            self?.reloadDataCallBack?()
+        }
+        addObserver()
+        downloadMySharedLists()
+    }
+    
     // routing
     func createNewListTapped() {
         
@@ -82,12 +86,13 @@ class MainScreenViewModel {
         })
     }
     
-    func sharingTapped() {
-        guard let user = UserAccountManager.shared.getUser() else {
+    func sharingTapped(model: GroceryListsModel) {
+        guard UserAccountManager.shared.getUser() != nil else {
             router?.goToSharingPopUp()
             return
         }
-        router?.goToSharingList()
+        let users = SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
+        router?.goToSharingList(listToShare: model, users: users)
     }
     
     // setup cells
@@ -114,22 +119,21 @@ class MainScreenViewModel {
         return ind.row == lastCell
     }
     
-    func getSharingState(at ind: IndexPath) -> SharingView.SharingState {
-        // TODO: туть передаем состояние кнопки шаре
-        /*
-          .invite - пригласить (иконка с плюсиком)
-          .expectation - ожидание присоединения (иконка с галочкой)
-          .added - пользователь добавлен + передаем массив фото пользователей
-         */
-        return .invite
+    func getSharingState(_  model: GroceryListsModel) -> SharingView.SharingState {
+        model.isShared ? .added : .invite
     }
     
-    func getShareImages(at ind: IndexPath) -> [UIImage] {
-        guard getSharingState(at: ind) == .added else {
-            return []
+    func getShareImages(_  model: GroceryListsModel) -> [String?] {
+        var arrayOfImageUrls: [String?] = []
+        
+        if let newUsers = SharedListManager.shared.sharedListsUsers[model.sharedId] {
+            newUsers.forEach { user in
+                if user.token != UserAccountManager.shared.getUser()?.token {
+                    arrayOfImageUrls.append(user.avatar)
+                }
+            }
         }
-        // TODO: туть получаем массив фото пользователей с которыми поделились карточкой
-        return []
+        return arrayOfImageUrls
     }
     
     // cells callbacks
@@ -138,12 +142,17 @@ class MainScreenViewModel {
         guard let list = dataSource?.deleteList(with: model) else { return }
         updateCells?(list)
         dataSource?.setOfModelsToUpdate = []
+        
+        guard model.sharedId != "" else { return }
+        SharedListManager.shared.deleteGroceryList(listId: model.sharedId)
+        SharedListManager.shared.unsubscribeFromGroceryList(listId: model.sharedId)
     }
     
     func addOrDeleteFromFavorite(with model: GroceryListsModel) {
         guard let list = dataSource?.addOrDeleteFromFavorite(with: model) else { return }
         updateCells?(list)
         dataSource?.setOfModelsToUpdate = []
+        SharedListManager.shared.updateGroceryList(listId: model.id.uuidString)
     }
     
     func settingsTapped() {
@@ -165,5 +174,26 @@ class MainScreenViewModel {
     
     func getImageHeight() -> ImageHeight {
         dataSource?.imageHeight ?? .empty
+    }
+    
+    // MARK: - Shared List Functions
+    
+    private func downloadMySharedLists() {
+        SharedListManager.shared.fetchMyGroceryLists()
+    }
+    
+    private func addObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(sharedListDownloaded),
+            name: .sharedListDownloadedAndSaved,
+            object: nil
+        )
+    }
+    
+    @objc
+    private func sharedListDownloaded() {
+        guard let dataSource = dataSource else { return }
+        updateCells?(dataSource.updateListOfModels())
     }
 }

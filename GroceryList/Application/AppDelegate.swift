@@ -27,13 +27,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         syncService.updateRecipes()
         SocketManager.shared.connect()
         
+        // TODO: убрать при следующий релизах/когда будет добавлена миграция
+        CoreDataManager.shared.updateProductsAfterRemoval = {
+            self.syncService.updateProducts()
+        }
+        
         let window = UIWindow(frame: UIScreen.main.bounds)
         
         rootRouter = RootRouter(window: window)
         rootRouter?.presentRootNavigationControllerInWindow()
+        SharedListManager.shared.router = rootRouter
         
         self.window = window
-
         return true
     }
 
@@ -50,9 +55,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("deeplink not found")
             return false
         }
-
+        
         guard let token = components.queryItems?.first?.value else { return false }
-        rootRouter?.openResetPassword(token: token)
+        
+        switch deepLink {
+        case .resetPassword:
+            rootRouter?.openResetPassword(token: token)
+        case .share:
+            print("Fdf")
+            SharedListManager.shared.gottenDeeplinkToken(token: token)
+            
+        }
         return true
     }
 }
@@ -119,4 +132,5 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
 enum DeepLink: String {
     case resetPassword
+    case share
 }

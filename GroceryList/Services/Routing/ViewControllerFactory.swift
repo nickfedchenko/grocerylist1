@@ -75,7 +75,9 @@ protocol ViewControllerFactoryProtocol {
     func createPasswordExpiredController(router: RootRouter) -> UIViewController?
     func createEnterNewPasswordController(router: RootRouter) -> UIViewController?
     func createSharingPopUpController(router: RootRouter) -> UIViewController
-    func createSharingListController(router: RootRouter) -> UIViewController
+    func createSharingListController(router: RootRouter,
+                                     listToShare: GroceryListsModel,
+                                     users: [User]) -> UIViewController
 }
 
 // MARK: - Factory
@@ -176,7 +178,9 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         compl: @escaping () -> Void
     ) -> UIViewController? {
         let viewController = ProductsViewController()
-        let dataSource = ProductsDataManager(products: model.products, typeOfSorting: SortingType(rawValue: model.typeOfSorting) ?? .category)
+        let dataSource = ProductsDataManager(products: model.products,
+                                             typeOfSorting: SortingType(rawValue: model.typeOfSorting) ?? .category,
+                                             groceryListId: model.id.uuidString)
         let viewModel = ProductsViewModel(model: model, dataSource: dataSource)
         viewModel.valueChangedCallback = compl
         viewModel.delegate = viewController
@@ -353,11 +357,15 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSharingListController(router: RootRouter) -> UIViewController {
+    func createSharingListController(router: RootRouter,
+                                     listToShare: GroceryListsModel,
+                                     users: [User]) -> UIViewController {
         let viewController = SharingListViewController()
-        let viewModel = SharingListViewModel()
+        let networkManager = NetworkEngine()
+        let viewModel = SharingListViewModel(network: networkManager, listToShare: listToShare, users: users)
         viewModel.router = router
         viewController.viewModel = viewModel
+        viewModel.delegate = viewController
         return viewController
     }
 }

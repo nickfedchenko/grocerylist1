@@ -5,6 +5,8 @@
 //  Created by Хандымаа Чульдум on 16.02.2023.
 //
 
+
+import Kingfisher
 import UIKit
 
 final class SharedCell: UITableViewCell {
@@ -27,7 +29,7 @@ final class SharedCell: UITableViewCell {
     
     private lazy var userPhotoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 16
         imageView.clipsToBounds = true
         return imageView
@@ -49,9 +51,22 @@ final class SharedCell: UITableViewCell {
         super.init(coder: coder)
     }
     
-    func configure(name: String?, photo: UIImage?) {
+    func configure(name: String?, photo: String?) {
         userNameLabel.text = name
-        userPhotoImageView.image = photo
+        guard let userAvatarUrl = photo,
+              let url = URL(string: userAvatarUrl) else {
+            return userPhotoImageView.image = R.image.profile_icon()
+        }
+        
+        userPhotoImageView.kf.setImage(
+            with: url,
+            placeholder: nil,
+            options: [
+                .processor(DownsamplingImageProcessor(size: CGSize(width: 30, height: 30))),
+                .scaleFactor(UIScreen.main.scale),
+                .cacheOriginalImage
+            ])
+        
     }
 
     private func setup() {

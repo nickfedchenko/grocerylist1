@@ -14,8 +14,8 @@ class SocketManager: PusherDelegate {
     
     // MARK: - Constants
     private var hostName = "mpusher.ru"
-    private var key = "v1dFON7iBTbGRVrAsS6tNmR9v9GKEkrv"
-    private var chanelName = "test"
+    private var key = "IfmOiX4mZXFd9MVbMGTwdBHnzNT6ZlS6"
+    private var chanelName = "groceryList_" + (UserAccountManager.shared.getUser()?.token ?? "")
     private var portNumber = 6001
     
     // MARK: - InitPusher
@@ -27,16 +27,26 @@ class SocketManager: PusherDelegate {
     
     // MARK: -
     func connect() {
+        guard UserAccountManager.shared.getUser() != nil else { return }
         pusher.delegate = self
         pusher.connect()
         
         let myChannel = pusher.subscribe(chanelName)
         
-        myChannel.bind(eventName: chanelName, callback: { (data: Any?) -> Void in
-            if let data = data as? [String : AnyObject] {
-                if let message = data["message"] as? String {
-                    print(message)
-                }
+        myChannel.bind(eventName: "updated", eventCallback: { (event: PusherEvent) -> Void in
+            SharedListManager.shared.fetchMyGroceryLists()
+            if let data: Data = event.data?.data(using: .utf8) {
+                guard let decoded = try? JSONDecoder().decode(SocketResponse.self, from: data) else { return }
+                SharedListManager.shared.saveListFromSocket(response: decoded)
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
+            }
+        })
+        
+        myChannel.bind(eventName: "delete", eventCallback: { (event: PusherEvent) -> Void in
+            SharedListManager.shared.fetchMyGroceryLists()
+            if let data: Data = event.data?.data(using: .utf8) {
+                guard let decoded = try? JSONDecoder().decode(SocketResponse.self, from: data) else { return }
+                SharedListManager.shared.saveListFromSocket(response: decoded)
             }
         })
         
@@ -56,7 +66,6 @@ class SocketManager: PusherDelegate {
     }
     
     func debugLog(message: String) {
-        print(message)
     }
     
     func subscribedToChannel(name: String) {
@@ -78,4 +87,10 @@ class SocketManager: PusherDelegate {
         print(eventName, channelName, data)
     }
     
+}
+
+struct SocketResponse: Codable {
+    var sendForUserToken: String
+    var groceryList: SharedGroceryList
+    var listUsers: [User]
 }
