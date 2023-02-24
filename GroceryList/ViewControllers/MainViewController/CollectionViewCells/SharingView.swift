@@ -51,6 +51,7 @@ final class SharingView: UIView {
             $0.layer.borderColor = UIColor.clear.cgColor
             $0.backgroundColor = .clear
         }
+        updateAllImageViewsConstraints()
     }
     
     func configure(state: SharingState, images: [String?] = []) {
