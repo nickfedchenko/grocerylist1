@@ -175,6 +175,7 @@ class ProductsViewController: UIViewController {
         
         // MARK: Configure collection view
         collectionView.delegate = self
+        collectionView.backgroundColor = .clear
         
         // MARK: Cell registration
         let headerCellRegistration = UICollectionView.CellRegistration<HeaderListCell, Category> { [ weak self ](cell, _, parent) in
@@ -193,7 +194,9 @@ class ProductsViewController: UIViewController {
             let image = child.imageData
           
             let description = child.description
-            cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name, isPurchased: child.isPurchased, image: image, description: description)
+            cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name,
+                           isPurchased: child.isPurchased, image: image, description: description,
+                           isRecipe: child.fromRecipeTitle != nil)
             
             // свайпы
             cell.swipeToPinchAction = {
@@ -261,7 +264,7 @@ class ProductsViewController: UIViewController {
     }
     
     private func createLayout() -> UICollectionViewCompositionalLayout {
-        var layoutConfig = UICollectionLayoutListConfiguration(appearance: .plain)
+        var layoutConfig = UICollectionLayoutListConfiguration(appearance: .grouped)
         layoutConfig.headerMode = .firstItemInSection
         layoutConfig.showsSeparators = false
         layoutConfig.backgroundColor = .clear
@@ -281,31 +284,29 @@ class ProductsViewController: UIViewController {
         navigationView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             make.right.left.equalToSuperview()
-            make.height.equalTo(44)
+            make.height.equalTo(47)
         }
         
         arrowBackButton.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(28)
-            make.centerY.equalToSuperview()
-            make.width.equalTo(17)
-            make.height.equalTo(24)
+            make.left.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().offset(-5)
+            make.height.width.equalTo(40)
         }
         
         nameOfListLabel.snp.makeConstraints { make in
-            make.centerY.centerX.equalToSuperview()
+            make.center.equalToSuperview()
         }
         
         contextMenuButton.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(26)
-            make.width.equalTo(28)
-            make.height.equalTo(24)
-            make.centerY.equalToSuperview()
+            make.right.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().offset(-5)
+            make.height.width.equalTo(40)
         }
         
         addItemView.snp.makeConstraints { make in
             make.right.bottom.equalToSuperview()
             make.height.equalTo(82)
-            make.width.equalTo(207)
+            make.width.equalTo(self.view.frame.width / 2)
         }
         
         plusImage.snp.makeConstraints { make in
@@ -320,8 +321,8 @@ class ProductsViewController: UIViewController {
         }
         
         collectionView.snp.makeConstraints { make in
+            make.top.equalTo(navigationView.snp.bottom)
             make.left.right.bottom.equalToSuperview()
-            make.top.equalTo(navigationView.snp.bottom).inset(30)
         }
         
         messageView.snp.makeConstraints { make in

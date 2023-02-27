@@ -115,7 +115,7 @@
 "Month"                     = "в месяц";
 "Loading"                   = "Загрузка";
 
-
+"Recipe"                    = "Рецепт ";
 "Recipes"                   = " Рецепты";
 "Breakfast"                 = "Завтрак";
 "Lunch"                     = "Обед";
@@ -170,3 +170,34 @@
 "signInWithApple"               = "Войти с Apple";
 "EmailTaken"                    = "Этот адрес уже занят";
 "orLog"                         = "Или войдите в систему с помощью";
+"NoInternet"                    = "Отсутствует интернет соединение";
+"PasswordReset"                 = "Сброс пароля";
+"YourEmail"                     = "Ваш адрес электронной почты";
+"Close"                         = "Закрыть";
+"ok"                            = "Ок";
+"RecievePasswordShortly"        = "Если вы ввели правильный адрес электронной почты, вскоре вы получите электронное письмо со сброшенным паролем";
+
+// sharing
+"Shared lists"                  = "Общие списки могут быть просмотрены и обновлены сразу несколькими пользователями.";
+"Sync With Family & Friends"    = "Синхронизировать с семьей и друзьями";
+"Shared"                        = "Общий";
+"Send Invitation"               = "Отправить приглашение";
+"Hello! Here is a great app"    = "Привет! Вот отличное приложение для совместных покупок и рецептов!";
+
+
+"Settings.Profile"              = "Профиль";
+"Settings.AddPhoto"             = "Добавьте фотографию, так будет красивее";
+"Settings.ScreenName"           = "Имя";
+"Settings.Account"              = "Аккаунт";
+"Settings.GroceryListApp"       = "Приложение список покупок";
+"Settings.Account.LogOut"       = "Выйти из аккаунта";
+"Settings.Account.DeleteAccount"= "Удалить аккаунт";
+"Settings.Account.ToUseShared"  = "Чтобы использовать общие заметки, пожалуйста, войдите в систему еще раз.";
+"Settings.Account.Cancel"       = "Отмена";
+"Settings.Account.DeleteAcc?"   = "Удалить аккаунт?";
+"Settings.Account.PremanentDel" = "Вы собираетесь безвозвратно удалить свою учетную запись вместе со всеми связанными с ней данными";
+"Settings.Account.Delete"       = "Удалить";
+
+"ResetPassword.EnterNewPassw"   = "Введите новый пароль";
+"ResetPassword.LinkInactive"    = "Эта ссылка может быть использована только один раз и становится неактивной через 1 час. \NПожалуйста, сбросьте пароль еще раз.";
+"ResetPassword.ChangePassword"  = "Cменить пароль";

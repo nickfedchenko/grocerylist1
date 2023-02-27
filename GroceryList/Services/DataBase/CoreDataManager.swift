@@ -17,27 +17,21 @@ protocol CoredataSyncProtocol {
 class CoreDataManager {
     let coreData: CoreDataStorage
     static let shared = CoreDataManager()
+    var updateProductsAfterRemoval: (() -> Void)?
     
     private init() {
         coreData = CoreDataStorage()
-    }
-    
-    func saveList(list: GroceryListsModel) {
-        guard getList(list: list.id.uuidString) == nil else {
-            updateList(list)
-            return
+        
+        // TODO: убрать при следующий релизах/когда будет добавлена миграция
+        if !UserDefaults.standard.bool(forKey: "fix_DBNetworkProduct1") {
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "DBNetworkProduct")
+            deleteEntitiesOfType(request: request)
+            updateProductsAfterRemoval?()
+            UserDefaults.standard.set(true, forKey: "fix_DBNetworkProduct1")
         }
-        let context = coreData.container.viewContext
-        let object = DBGroceryListModel(context: context)
-        object.id = list.id
-        object.isFavorite = list.isFavorite
-        object.color = Int64(list.color)
-        object.name = list.name
-        object.dateOfCreation = list.dateOfCreation
-        object.typeOfSorting = Int64(list.typeOfSorting)
-        try? context.save()
     }
     
+    // MARK: - Products
     func createProduct(product: Product) {
         guard getProduct(id: product.id) == nil else {
             updateProduct(product: product)
@@ -91,6 +85,7 @@ class CoreDataManager {
             object.category = product.category
             object.isFavorite = product.isFavorite
             object.fromRecipeTitle = product.fromRecipeTitle
+            object.userDescription = product.description
         }
         do {
             try context.save()
@@ -100,11 +95,33 @@ class CoreDataManager {
         }
     }
     
-    func getProducts(for list: GroceryListsModel) -> [DBProduct] {
+    func getProducts(for listId: String) -> [DBProduct] {
         let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "listId = '\(list.id)'")
+        fetchRequest.predicate = NSPredicate(format: "listId = '\(listId)'")
         return (try? coreData.container.viewContext.fetch(fetchRequest).compactMap { $0 }) ?? []
     }
+    
+    func removeProduct(product: Product) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
+    func removeProduct(id: String) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
+    // MARK: - NetworkProducts
     
     func createNetworkProduct(product: NetworkProductModel) {
         guard getNetworkProduct(id: product.id) == nil else {
@@ -112,7 +129,7 @@ class CoreDataManager {
             return
         }
         
-        let context = coreData.container.viewContext
+        let context = coreData.taskContext
         let fetchRequest: NSFetchRequest<DBNetworkProduct> = DBNetworkProduct.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
         
@@ -134,7 +151,7 @@ class CoreDataManager {
     }
     
     func updateNetworkProduct(product: NetworkProductModel) {
-        let context = coreData.container.viewContext
+        let context = coreData.taskContext
         let fetchRequest: NSFetchRequest<DBNetworkProduct> = DBNetworkProduct.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
         if let object = try? context.fetch(fetchRequest).first {
@@ -162,15 +179,27 @@ class CoreDataManager {
         return object
     }
     
-    func removeProduct(product: Product) {
-        let context = coreData.container.viewContext
-        let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
-        if let object = try? context.fetch(fetchRequest).first {
-            context.delete(object)
+    
+    // MARK: - GroceryList
+    func saveList(list: GroceryListsModel) {
+        guard getList(list: list.id.uuidString) == nil else {
+            updateList(list)
+            return
         }
+        let context = coreData.container.viewContext
+        let object = DBGroceryListModel(context: context)
+        object.id = list.id
+        object.isFavorite = list.isFavorite
+        object.color = Int64(list.color)
+        object.name = list.name
+        object.dateOfCreation = list.dateOfCreation
+        object.typeOfSorting = Int64(list.typeOfSorting)
+        object.isShared = list.isShared
+        object.sharedListId = list.sharedId
+        object.isSharedListOwner = list.isSharedListOwner
         try? context.save()
     }
+    
     
     func getList(list: String) -> DBGroceryListModel? {
         let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
@@ -192,6 +221,8 @@ class CoreDataManager {
             object.name = list.name
             object.dateOfCreation = list.dateOfCreation
             object.typeOfSorting = Int64(list.typeOfSorting)
+            object.isShared = list.isShared
+            object.sharedListId = list.sharedId
         }
         try? context.save()
     }
@@ -204,6 +235,31 @@ class CoreDataManager {
         return object
     }
     
+    func removeList(_ id: UUID) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
+    func removeSharedLists() {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "isShared = %d", true)
+      
+        if let objects = try? context.fetch(fetchRequest){
+            objects.forEach {
+                context.delete($0)
+            }
+        }
+        try? context.save()
+    }
+    
+    
+    // MARK: - Categories
     func saveCategory(category: CategoryModel) {
         let context = coreData.container.viewContext
         let object = DBCategories(context: context)
@@ -218,17 +274,6 @@ class CoreDataManager {
             return nil
         }
         return object
-    }
-    
-    
-    func removeList(_ id: UUID) {
-        let context = coreData.container.viewContext
-        let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
-        if let object = try? context.fetch(fetchRequest).first {
-            context.delete(object)
-        }
-        try? context.save()
     }
     
     func deleteAllEntities() {
@@ -250,6 +295,96 @@ class CoreDataManager {
             debugPrint(error)
         }
     }
+    
+    // MARK: - USER
+    lazy var userRequest: NSFetchRequest = {
+        return NSFetchRequest<NSFetchRequestResult>(entityName: "DomainUser")
+    }()
+    
+    private func deleteEntitiesOfType(request: NSFetchRequest<NSFetchRequestResult> ) {
+        do {
+            let data = try coreData.container.viewContext.fetch(request)
+            for item in data {
+                guard let item = item as? NSManagedObject else { return }
+                coreData.container.viewContext.delete(item)
+            }
+            try? coreData.container.viewContext.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func deleteUser() {
+        deleteEntitiesOfType(request: userRequest)
+    }
+    
+    func saveUser(user: User) {
+        let context = coreData.container.viewContext
+        let object = DomainUser(context: context)
+        object.id = 0
+        object.name = user.username
+        object.mail = user.email
+        object.password = user.password
+        object.token = user.token
+        object.avatarUrl = user.avatar
+        object.avatarAsData = user.avatarAsData
+        try? context.save()
+    }
+    
+    func getUser() -> DomainUser? {
+        do {
+            let data = try coreData.container.viewContext.fetch(userRequest)
+            for item in data {
+                if let item = item as? DomainUser {
+                    if item == data.last as? DomainUser {
+                        return item
+                    }
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
+    
+    
+    // MARK: - ResetPasswordModel
+    
+    lazy var resetPasswordModelRequest: NSFetchRequest = {
+        return NSFetchRequest<NSFetchRequestResult>(entityName: "DomainResetPasswordModel")
+    }()
+    
+    
+    func deleteResetPasswordModel() {
+        deleteEntitiesOfType(request: resetPasswordModelRequest)
+    }
+    
+    func saveResetPasswordModel(resetPasswordModel: ResetPasswordModel) {
+        let context = coreData.container.viewContext
+        let object = DomainResetPasswordModel(context: context)
+        object.id = 0
+        object.email = resetPasswordModel.email
+        object.resetToken = resetPasswordModel.resetToken
+        object.dateOfExpiration = resetPasswordModel.dateOfExpiration
+        
+        try? context.save()
+    }
+    
+    func getResetPasswordModel() -> DomainResetPasswordModel? {
+        do {
+            let data = try coreData.container.viewContext.fetch(resetPasswordModelRequest)
+            for item in data {
+                if let item = item as? DomainResetPasswordModel {
+                    if item == data.last as? DomainResetPasswordModel {
+                        return item
+                    }
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
 }
 
 extension CoreDataManager: CoredataSyncProtocol {
@@ -269,19 +404,20 @@ extension CoreDataManager: CoredataSyncProtocol {
     }
     
     func saveProducts(products: [NetworkProductModel]) {
-        let asyncContext = coreData.taskContext
-        let _ = products.map { DBNetworkProduct.prepare(fromProduct: $0, using: asyncContext) }
-        guard asyncContext.hasChanges else { return }
-        asyncContext.perform {
-            do {
-                try asyncContext.save()
-                NotificationCenter.default.post(name: .productsDownladedAnsSaved, object: nil)
-            } catch {
-                asyncContext.rollback()
-            }
+        products.forEach { product in
+            createNetworkProduct(product: product)
         }
+        // TODO: после миграции раскомментировать
+//        let asyncContext = coreData.taskContext
+//        let _ = products.map { DBNetworkProduct.prepare(fromProduct: $0, using: asyncContext) }
+//        guard asyncContext.hasChanges else { return }
+//        asyncContext.perform {
+//            do {
+//                try asyncContext.save()
+//                NotificationCenter.default.post(name: .productsDownladedAnsSaved, object: nil)
+//            } catch {
+//                asyncContext.rollback()
+//            }
+//        }
     }
-    
-    
 }
-

@@ -16,22 +16,18 @@ protocol DataSourceProtocol {
     func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel>
     func addOrDeleteFromFavorite(with model: GroceryListsModel) -> Set<GroceryListsModel>
     var recipesSections: [RecipeSectionsModel] { get set }
+    var recipeCount: Int { get }
     func makeRecipesSections()
     func updateFavoritesSection()
 }
 
 class MainScreenDataManager: DataSourceProtocol {
-    init() {
-        createWorkingArray()
-        makeRecipesSections()
-        addObserver()
-    }
     
-    private let topCellID = UUID()
     var dataChangedCallBack: (() -> Void)?
     var setOfModelsToUpdate: Set<GroceryListsModel> = []
-    private var coreDataModles = CoreDataManager.shared.getAllLists()
     var recipesSections: [RecipeSectionsModel] = []
+    
+    var recipeCount: Int { 12 }
     
     var imageHeight: ImageHeight = .empty {
         didSet {
@@ -61,6 +57,21 @@ class MainScreenDataManager: DataSourceProtocol {
         }
     }
     
+    private var modelTransformer: DomainModelsToLocalTransformer
+    private let topCellID = UUID()
+    
+    private var coreDataModels: [DBGroceryListModel] {
+        guard let models = CoreDataManager.shared.getAllLists() else { return [] }
+        return models
+    }
+    
+    init() {
+        modelTransformer = DomainModelsToLocalTransformer()
+        createWorkingArray()
+        makeRecipesSections()
+        addObserver()
+    }
+    
     func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel> {
         if coldStartState == .firstItemAdded { coldStartState = .coldStartFinished }
         if let index = transformedModels?.firstIndex(of: model ) {
@@ -74,8 +85,7 @@ class MainScreenDataManager: DataSourceProtocol {
     @discardableResult
     func updateListOfModels() -> Set<GroceryListsModel> {
         updateFirstAndLastModels()
-        coreDataModles = CoreDataManager.shared.getAllLists()
-        transformedModels = coreDataModles?.map({ transformCoreDataModelToModel($0) }) ?? []
+        transformedModels = coreDataModels.map({ modelTransformer.transformCoreDataModelToModel($0) })
         updateFirstAndLastModels()
         return setOfModelsToUpdate
     }
@@ -116,37 +126,6 @@ class MainScreenDataManager: DataSourceProtocol {
     @objc
     private func recieptsLoaded() {
         makeRecipesSections()
-    }
-    
-    private func transformCoreDataModelToModel(_ model: DBGroceryListModel) -> GroceryListsModel {
-        let id = model.id ?? UUID()
-        let date = model.dateOfCreation ?? Date()
-        let color = model.color
-        let sortType = Int(model.typeOfSorting)
-        let products = model.products?.allObjects as? [DBProduct]
-        let prod = products?.map({ transformCoredataProducts(product: $0)})
-        
-        return GroceryListsModel(id: id, dateOfCreation: date,
-                                 name: model.name, color: Int(color), isFavorite: model.isFavorite, products: prod!, typeOfSorting: sortType)
-    }
-    
-    private func transformCoredataProducts(product: DBProduct?) -> Product {
-        guard let product = product else { return Product(listId: UUID(), name: "",
-                                                          isPurchased: false, dateOfCreation: Date(), category: "", isFavorite: false, description: "")}
-
-        let id = product.id ?? UUID()
-        let listId = product.listId ?? UUID()
-        let name = product.name ?? ""
-        let isPurchased = product.isPurchased
-        let dateOfCreation = product.dateOfCreation ?? Date()
-        let category = product.category ?? ""
-        let isFavorite = product.isFavorite
-        let imageData = product.image
-        let description = product.userDescription ?? ""
-        let fromRecipeTitle = product.fromRecipeTitle
-        
-        return Product(id: id, listId: listId, name: name, isPurchased: isPurchased,
-                       dateOfCreation: dateOfCreation, category: category, isFavorite: isFavorite, imageData: imageData, description: description, fromRecipeTitle: fromRecipeTitle)
     }
     
     private func createWorkingArray() {
@@ -235,23 +214,33 @@ class MainScreenDataManager: DataSourceProtocol {
         let lunchRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .lunch } )}
         let dinnerRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .dinner } )}
         let snacksRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .snack } )}
-        let favorites = plainRecipes.filter { UserDefaultsManager.favoritesRecipeIds.contains($0.id) }
         recipesSections = [
             .init(cellType: .topMenuCell, sectionType: .none, recipes: []),
             .init(cellType: .recipePreview, sectionType: .breakfast, recipes: breakfastRecipes.shuffled()),
             .init(cellType: .recipePreview, sectionType: .lunch, recipes: lunchRecipes.shuffled()),
             .init(cellType: .recipePreview, sectionType: .dinner, recipes: dinnerRecipes.shuffled()),
-            .init(cellType: .recipePreview, sectionType: .snacks, recipes: snacksRecipes.shuffled()),
-            .init(cellType: .recipePreview, sectionType: .favorites, recipes: favorites)
+            .init(cellType: .recipePreview, sectionType: .snacks, recipes: snacksRecipes.shuffled())
         ]
+        updateFavoritesSection()
     }
     
     func updateFavoritesSection() {
         guard let allRecipes: [DBRecipe] = CoreDataManager.shared.getAllRecipes() else { return }
         let plainRecipes = allRecipes.compactMap { Recipe(from: $0) }
         let favorites = plainRecipes.filter { UserDefaultsManager.favoritesRecipeIds.contains($0.id) }
-        let favoritesSection: RecipeSectionsModel = .init(cellType: .recipePreview, sectionType: .favorites, recipes: favorites)
-        guard let index = recipesSections.firstIndex(where: {$0.sectionType == .favorites }) else { return }
+        let favoritesSection = RecipeSectionsModel(cellType: .recipePreview, sectionType: .favorites, recipes: favorites)
+        
+        guard let index = recipesSections.firstIndex(where: { $0.sectionType == .favorites }) else {
+            if !favorites.isEmpty {
+                recipesSections.insert(favoritesSection, at: 1)
+            }
+            return
+        }
+        if favorites.isEmpty {
+            recipesSections.remove(at: index)
+            return
+        }
+        
         recipesSections[index] = favoritesSection
     }
 }

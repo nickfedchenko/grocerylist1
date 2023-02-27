@@ -13,38 +13,11 @@ import UIKit
 class SettingsViewController: UIViewController {
     
     var viewModel: SettingsViewModel?
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.selectUnitsView.transform = CGAffineTransform(scaleX: 0, y: 0)
-        setupConstraints()
-        addRecognizer()
-    }
-    
-    deinit {
-        print("SettingsViewController deinited")
-    }
-    
-    @objc
-    private func closeButtonAction(_ recognizer: UIPanGestureRecognizer) {
-        viewModel?.closeButtonTapped()
-    }
-    
-    // MARK: - UI
-    
-    private let topView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(hex: "#E8F5F3")
-        return view
-    }()
-    
+    private var imagePicker = UIImagePickerController()
+
     private let preferenciesLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.bold(size: 22).font
+        label.font = UIFont.SFProRounded.bold(size: 22).font
         label.textColor = UIColor(hex: "#31635A")
         label.text = "preferencies".localized
         return label
@@ -81,58 +54,71 @@ class SettingsViewController: UIViewController {
         return view
     }()
     
-    private let selectUnitsView: UIView = {
-        let view = UIView()
+    private lazy var selectUnitsView: SelectUnitsView = {
+        let view = SelectUnitsView(imperialColor: viewModel?.getBackgroundColorForImperial(),
+                                   metricColor: viewModel?.getBackgroundColorForMetric())
+        view.systemSelected = { [weak self] selectedSystem in
+            self?.viewModel?.systemSelected(system: selectedSystem)
+        }
         view.layer.cornerRadius = 12
-        view.isHidden = false
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 12)
-        view.layer.shadowRadius = 11
-        view.layer.shadowOpacity = 0.2
+        view.addDefaultShadowForPopUp()
         return view
     }()
     
-    private lazy var imperialView: UIView = {
-        let view = UIView()
-        view.backgroundColor = viewModel?.getBackgroundColorForImperial()
-        view.layer.cornerRadius = 12
-        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        view.layer.masksToBounds = true
+    private lazy var registerView: RegisterWithMessageView = {
+        let view = RegisterWithMessageView()
+        view.registerButtonPressed = { [weak self] in
+            self?.viewModel?.registerButtonPressed()
+        }
         return view
     }()
     
-    private let imperialLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFProRounded.semibold(size: 17).font
-        label.textColor = UIColor(hex: "#31635A")
-        label.text = "Imperial".localized
-        return label
-    }()
-    
-    private lazy var metricView: UIView = {
-        let view = UIView()
-        view.backgroundColor = viewModel?.getBackgroundColorForMetric()
-        view.layer.cornerRadius = 12
-        view.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-        view.layer.masksToBounds = true
+    private lazy var profileView: SettingsProfileView = {
+        let view = SettingsProfileView()
+        
+        view.saveNewNamePressed = { [weak self] name in
+            self?.viewModel?.saveNewUserName(name: name)
+        }
+        
+        view.accountButtonPressed = { [weak self] in
+            self?.viewModel?.accountButtonTapped()
+        }
+        
+        view.avatarButtonPressed = { [weak self] in
+            self?.viewModel?.avatarButtonTapped()
+        }
         return view
     }()
     
-    private let metriclLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFProRounded.semibold(size: 17).font
-        label.textColor = UIColor(hex: "#31635A")
-        label.text = "Metric".localized
-        return label
-    }()
+    // MARK: - LifeCycle
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.selectUnitsView.transform = CGAffineTransform(scaleX: 0, y: 0)
+        setupConstraints()
+        addRecognizer()
+        setupNavigationBar(titleText: R.string.localizable.preferencies())
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel?.viewWillAppear()
+    }
+    
+    deinit {
+        print("SettingsViewController deinited")
+    }
+    
+    // MARK: - Functions
     
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
-        view.addSubviews([preferenciesLabel, closeButton, unitsView, hapticView, contactUsView, selectUnitsView])
-        selectUnitsView.addSubviews([imperialView, metricView])
-        metricView.addSubview(metriclLabel)
-        imperialView.addSubview(imperialLabel)
+        view.addSubviews([preferenciesLabel, closeButton, profileView, unitsView,
+                          hapticView, contactUsView, selectUnitsView, registerView])
         
         preferenciesLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
@@ -145,9 +131,14 @@ class SettingsViewController: UIViewController {
             make.height.width.equalTo(18)
         }
         
+        profileView.snp.makeConstraints { make in
+            make.top.equalTo(preferenciesLabel.snp.bottom).inset(-24)
+            make.left.right.equalToSuperview()
+        }
+        
         unitsView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
-            make.top.equalTo(preferenciesLabel.snp.bottom).inset(-42)
+            make.top.equalTo(profileView.snp.bottom).inset(-5)
             make.height.equalTo(54)
         }
         
@@ -176,33 +167,20 @@ class SettingsViewController: UIViewController {
             make.height.equalTo(92)
         }
         
-        imperialView.snp.makeConstraints { make in
-            make.left.right.top.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.5)
+        registerView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).inset(30)
         }
-        
-        metricView.snp.makeConstraints { make in
-            make.left.right.bottom.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.5)
-        }
-        
-        metriclLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.top.equalToSuperview().inset(11)
-            make.left.equalToSuperview().inset(16)
-        }
-        
-        imperialLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.top.equalToSuperview().inset(11)
-            make.left.equalToSuperview().inset(16)
-        }
-        
     }
 }
 
 extension SettingsViewController {
     
+    @objc
+    private func closeButtonAction(_ recognizer: UIPanGestureRecognizer) {
+        viewModel?.closeButtonTapped()
+    }
+
     private func addRecognizer() {
         let unitsViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(unitsViewAction))
         let likeAppViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(likeAppViewAction))
@@ -210,36 +188,15 @@ extension SettingsViewController {
         unitsView.addGestureRecognizer(unitsViewRecognizer)
         likeAppView.addGestureRecognizer(likeAppViewRecognizer)
         contactUsView.addGestureRecognizer(contactUsViewRecognizer)
-        
-        let imperialViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(imperialViewAction))
-        imperialView.addGestureRecognizer(imperialViewRecognizer)
-        let metricViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(metricViewAction))
-        metricView.addGestureRecognizer(metricViewRecognizer)
     }
-    
-    @objc
-    private func imperialViewAction(_ recognizer: UIPanGestureRecognizer) {
-        viewModel?.imperialSystemSelected()
-        imperialView.backgroundColor = .white
-        metricView.backgroundColor = .white
-        imperialView.backgroundColor = viewModel?.getBackgroundColorForImperial()
-        hideUnitsView()
-    }
-    
-    @objc
-    private func metricViewAction(_ recognizer: UIPanGestureRecognizer) {
-        viewModel?.metricSystemSelected()
-        imperialView.backgroundColor = .white
-        metricView.backgroundColor = .white
-        metricView.backgroundColor = viewModel?.getBackgroundColorForMetric()
-        hideUnitsView()
-    }
-    
+
     func hideUnitsView() {
         UIView.animate(withDuration: 0.3, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
+            self.unitsView.setupView(text: "Quantity Units".localized,
+                                     unitSustemText: self.viewModel?.getTextForUnitSystemView())
             self.selectUnitsView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
             self.view.layoutIfNeeded()
         } completion: { _ in
@@ -249,7 +206,6 @@ extension SettingsViewController {
     
     func updateUnitSystemView() {
         selectUnitsView.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
-        unitsView.setupView(text: "Quantity Units".localized, unitSustemText: viewModel?.getTextForUnitSystemView())
     }
     
     @objc
@@ -297,4 +253,54 @@ extension SettingsViewController: MFMailComposeViewControllerDelegate {
 
 extension SettingsViewController: SettingsViewModelDelegate {
     
+    func setupRegisteredView(avatarImage: UIImage?, userName: String?, email: String) {
+        registerView.isHidden = true
+        profileView.isHidden = false
+        
+        unitsView.snp.remakeConstraints { make in
+            make.left.right.equalToSuperview().inset(20)
+            make.top.equalTo(profileView.snp.bottom).inset(-5)
+            make.height.equalTo(54)
+        }
+        
+        profileView.setupView(avatarImage: avatarImage, email: email, userName: userName)
+        
+    }
+    
+    func setupNotRegisteredView() {
+        registerView.isHidden = false
+        profileView.isHidden = true
+     
+        unitsView.snp.remakeConstraints { make in
+            make.left.right.equalToSuperview().inset(20)
+            make.top.equalTo(preferenciesLabel.snp.bottom).inset(-42)
+            make.height.equalTo(54)
+        }
+    }
+    
+    func updateSelectionView() {
+        selectUnitsView.updateColors(imperialColor: viewModel?.getBackgroundColorForImperial(),
+                                     metricColor: viewModel?.getBackgroundColorForMetric())
+        hideUnitsView()
+    }
+}
+
+extension SettingsViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+
+    func pickImage() {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .savedPhotosAlbum
+            imagePicker.allowsEditing = false
+            imagePicker.modalPresentationStyle = .pageSheet
+            present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        self.dismiss(animated: true, completion: nil)
+        let image = info[.originalImage] as? UIImage
+        profileView.setupImage(avatarImage: image)
+        viewModel?.saveAvatar(image: image)
+    }
 }

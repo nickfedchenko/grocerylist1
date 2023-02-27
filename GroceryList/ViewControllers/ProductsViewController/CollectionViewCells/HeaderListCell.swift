@@ -31,7 +31,7 @@ class HeaderListCell: UICollectionViewListCell {
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         let attrs = super.preferredLayoutAttributesFitting(layoutAttributes)
-        attrs.bounds.size.height = 50
+        attrs.bounds.size.height = 52
         return attrs
     }
     
@@ -147,6 +147,7 @@ class HeaderListCell: UICollectionViewListCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
+        label.textColor = .white
         return label
     }()
     
@@ -159,6 +160,7 @@ class HeaderListCell: UICollectionViewListCell {
     }()
     
     // MARK: - UI
+    // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         contentView.addSubviews([containerView])
         containerView.addSubviews([coloredView, collapsedColoredView, coloredViewForSorting, titleLabel, checkmarkView, pinchView])
@@ -176,8 +178,8 @@ class HeaderListCell: UICollectionViewListCell {
         collapsedColoredView.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.right.equalTo(titleLabel.snp.right).inset(-26)
-            make.height.equalTo(34)
-            make.top.equalToSuperview().offset(12)
+            make.height.equalTo(32)
+            make.bottom.equalToSuperview().inset(4)
         }
         
         coloredViewForSorting.snp.makeConstraints { make in
@@ -196,7 +198,7 @@ class HeaderListCell: UICollectionViewListCell {
         
         titleLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(28)
-            make.centerY.equalTo(coloredView.snp.centerY)
+            make.centerY.equalTo(collapsedColoredView.snp.centerY)
         }
         
         checkmarkView.snp.makeConstraints { make in

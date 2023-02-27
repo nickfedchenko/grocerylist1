@@ -6,23 +6,16 @@
 //
 
 import Foundation
+import Kingfisher
 import UIKit
 
 class MainScreenViewModel {
     
-    init(dataSource: DataSourceProtocol) {
-        self.dataSource = dataSource
-        self.dataSource?.dataChangedCallBack = { [weak self] in
-            self?.reloadDataCallBack?()
-        }
-    }
-    
     weak var router: RootRouter?
-    private var colorManager = ColorManager()
     var reloadDataCallBack: (() -> Void)?
     var updateCells:((Set<GroceryListsModel>) -> Void)?
     var dataSource: DataSourceProtocol?
-   
+    
     var model: [SectionModel] {
         return dataSource?.dataSourceArray ?? []
     }
@@ -33,12 +26,46 @@ class MainScreenViewModel {
         return model
     }
     
+    func recipeCount(for section: Int) -> Int {
+        let count = dataSource?.recipesSections[section].recipes.count ?? 0
+        let maxCount = dataSource?.recipeCount ?? 10
+        return count < maxCount ? count : maxCount
+    }
+    
     func updateRecipesSection() {
         dataSource?.makeRecipesSections()
     }
     
     func updateFavorites() {
         dataSource?.updateFavoritesSection()
+    }
+    
+    // user
+    var userPhoto: UIImage? {
+        guard let user = UserAccountManager.shared.getUser() else {
+            return R.image.profile_noreg()
+        }
+        
+        guard let avatarAsData = user.avatarAsData else {
+            return R.image.profile_icon()
+        }
+        return UIImage(data: avatarAsData)
+    }
+    
+    var userName: String? {
+        UserAccountManager.shared.getUser()?.username
+    }
+    
+    private var colorManager = ColorManager()
+    private let groupForSavingSharedUser = DispatchGroup()
+    
+    init(dataSource: DataSourceProtocol) {
+        self.dataSource = dataSource
+        self.dataSource?.dataChangedCallBack = { [weak self] in
+            self?.reloadDataCallBack?()
+        }
+        addObserver()
+        downloadMySharedLists()
     }
     
     // routing
@@ -57,6 +84,15 @@ class MainScreenViewModel {
         router?.goProductsVC(model: model, compl: {
 
         })
+    }
+    
+    func sharingTapped(model: GroceryListsModel) {
+        guard UserAccountManager.shared.getUser() != nil else {
+            router?.goToSharingPopUp()
+            return
+        }
+        let users = SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
+        router?.goToSharingList(listToShare: model, users: users)
     }
     
     // setup cells
@@ -83,18 +119,40 @@ class MainScreenViewModel {
         return ind.row == lastCell
     }
     
+    func getSharingState(_  model: GroceryListsModel) -> SharingView.SharingState {
+        model.isShared ? .added : .invite
+    }
+    
+    func getShareImages(_  model: GroceryListsModel) -> [String?] {
+        var arrayOfImageUrls: [String?] = []
+        
+        if let newUsers = SharedListManager.shared.sharedListsUsers[model.sharedId] {
+            newUsers.forEach { user in
+                if user.token != UserAccountManager.shared.getUser()?.token {
+                    arrayOfImageUrls.append(user.avatar)
+                }
+            }
+        }
+        return arrayOfImageUrls
+    }
+    
     // cells callbacks
     
     func deleteCell(with model: GroceryListsModel) {
         guard let list = dataSource?.deleteList(with: model) else { return }
         updateCells?(list)
         dataSource?.setOfModelsToUpdate = []
+        
+        guard model.sharedId != "" else { return }
+        SharedListManager.shared.deleteGroceryList(listId: model.sharedId)
+        SharedListManager.shared.unsubscribeFromGroceryList(listId: model.sharedId)
     }
     
     func addOrDeleteFromFavorite(with model: GroceryListsModel) {
         guard let list = dataSource?.addOrDeleteFromFavorite(with: model) else { return }
         updateCells?(list)
         dataSource?.setOfModelsToUpdate = []
+        SharedListManager.shared.updateGroceryList(listId: model.id.uuidString)
     }
     
     func settingsTapped() {
@@ -116,5 +174,26 @@ class MainScreenViewModel {
     
     func getImageHeight() -> ImageHeight {
         dataSource?.imageHeight ?? .empty
+    }
+    
+    // MARK: - Shared List Functions
+    
+    private func downloadMySharedLists() {
+        SharedListManager.shared.fetchMyGroceryLists()
+    }
+    
+    private func addObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(sharedListDownloaded),
+            name: .sharedListDownloadedAndSaved,
+            object: nil
+        )
+    }
+    
+    @objc
+    private func sharedListDownloaded() {
+        guard let dataSource = dataSource else { return }
+        updateCells?(dataSource.updateListOfModels())
     }
 }

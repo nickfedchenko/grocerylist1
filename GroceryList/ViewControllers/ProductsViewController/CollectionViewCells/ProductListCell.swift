@@ -14,10 +14,18 @@ class ProductListCell: UICollectionViewListCell {
     var swipeToDeleteAction: (() -> Void)?
     private var state: CellState = .normal
     
-    private let shadowView = UIView()
+    private let shadowView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 8
+        view.addCustomShadow(color: UIColor(hex: "#484848"), radius: 1, offset: CGSize(width: 0, height: 0.5))
+        return view
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.clipsToBounds = false
+        self.layer.masksToBounds = false
         rightButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
         leftButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
         setupConstraints()
@@ -46,7 +54,8 @@ class ProductListCell: UICollectionViewListCell {
         clearTheCell()
     }
     
-    func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?, isPurchased: Bool, image: Data?, description: String) {
+    func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?,
+                   isPurchased: Bool, image: Data?, description: String, isRecipe: Bool) {
         contentView.backgroundColor = bcgColor
         checkmarkImage.image = isPurchased ? getImageWithColor(color: textColor) : UIImage(named: "emptyCheckmark")
         guard let text = text else { return }
@@ -54,6 +63,17 @@ class ProductListCell: UICollectionViewListCell {
         nameLabel.attributedText = NSAttributedString(string: text)
         firstDescriptionLabel.attributedText = NSAttributedString(string: text)
         secondDescriptionLabel.text = description
+        
+        if isRecipe {
+            let recipe = "Recipe".localized.attributed(font: UIFont.SFProRounded.bold(size: 14).font,
+                                                       color: UIColor(hex: "#58B368"))
+            recipe.append(NSAttributedString(string: description))
+            secondDescriptionLabel.attributedText = recipe
+            if !isPurchased {
+                checkmarkImage.image = UIImage(named: "emptyCheckmark")?.withTintColor(UIColor(hex: "#58B368"))
+            }
+
+        }
         
         if isPurchased {
             nameLabel.textColor = textColor
@@ -117,7 +137,7 @@ class ProductListCell: UICollectionViewListCell {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 8
-        view.layer.masksToBounds = true
+        view.addCustomShadow(color: UIColor(hex: "#858585"), radius: 6, offset: CGSize(width: 0, height: 4))
         return view
     }()
     
@@ -189,15 +209,19 @@ class ProductListCell: UICollectionViewListCell {
     }()
     
     // MARK: - UI
+    // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        contentView.addSubviews([leftButton, rightButton, contentViews])
+        contentView.addSubviews([leftButton, rightButton, shadowView, contentViews])
         contentViews.addSubviews([nameLabel, checkmarkImage, whiteCheckmarkImage, imageView, viewWithDescription])
         viewWithDescription.addSubviews([firstDescriptionLabel, secondDescriptionLabel])
         
+        shadowView.snp.makeConstraints { make in
+            make.edges.equalTo(contentViews)
+        }
+        
         contentViews.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(16)
-            make.top.equalToSuperview().inset(8)
-            make.bottom.equalToSuperview()
+            make.top.bottom.equalToSuperview().inset(4)
         }
         
         viewWithDescription.snp.makeConstraints { make in

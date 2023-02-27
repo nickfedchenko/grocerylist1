@@ -77,8 +77,14 @@ final class RecipeViewController: UIViewController {
         var views: [IngredientView] = []
         for ingredient in viewModel.recipe.ingredients {
             let title = ingredient.product.title.firstCharacterUpperCase()
-            let unitCount = ingredient.quantity
-            let unitName = ingredient.unit?.shortTitle ?? ""
+            var quantity = ingredient.quantity
+            var unitTitle = ingredient.unit?.shortTitle ?? ""
+            if let unit = viewModel.unit(unitID: ingredient.unit?.id) {
+                quantity *= viewModel.convertValue()
+                unitTitle = unit.rawValue.localized
+            }
+            let unitCount = quantity
+            let unitName = unitTitle
             let view = IngredientView()
             view.setTitle(title: title)
             if unitCount == 0 {
@@ -94,7 +100,7 @@ final class RecipeViewController: UIViewController {
     
     let ingredientsStack: UIStackView = {
         let stackView = UIStackView()
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fillProportionally
         stackView.spacing = 8
         stackView.axis = .vertical
         return stackView
@@ -170,10 +176,11 @@ final class RecipeViewController: UIViewController {
     @objc
     private func addToCartTapped() {
         let recipeTitle = viewModel.recipe.title
-        let products: [Product] = viewModel.recipe.ingredients.map {
-            let netProduct = $0.product
-//            let step = $0.product.marketUnit?.step?.defaultQuantityStep ?? 1
-            let description = String(format: "%.0f", $0.product.marketUnit?.step?.defaultQuantityStep ?? 1) + " " + String($0.product.marketUnit?.shortTitle ?? "г")
+        let products: [Product] = viewModel.recipe.ingredients.enumerated().map { index, ingredient in
+            let netProduct = ingredient.product
+//            let step = ingredient.product.marketUnit?.step?.defaultQuantityStep ?? 1
+//            let description = String(format: "%.0f", ingredient.product.marketUnit?.step?.defaultQuantityStep ?? 1) + " " + String(ingredient.product.marketUnit?.shortTitle ?? "г")
+            let description = ingredientViews[safe: index]?.servingText ?? ""
             let product = Product(
                 name: netProduct.title,
                 isPurchased: false,
@@ -289,6 +296,7 @@ final class RecipeViewController: UIViewController {
         
         ingredientViews.forEach {
             ingredientsStack.addArrangedSubview($0)
+            $0.layoutIfNeeded()
         }
         
         instructionsViews.forEach {
@@ -335,4 +343,3 @@ extension RecipeViewController: RecipeMainImageViewDelegate {
         }
     }
 }
-

@@ -550,6 +550,8 @@ extension CreateNewProductViewController: UITextFieldDelegate {
             } else {
                 notReadyToSave()
             }
+
+            viewModel?.checkIsProductFromCategory(name: finalText)
             
             if newLength == 0 {
                 notReadyToSave()
@@ -558,10 +560,8 @@ extension CreateNewProductViewController: UITextFieldDelegate {
                 topCategoryView.backgroundColor = UIColor(hex: "#D2D5DA")
                 topCategoryLabel.text = "Category".localized
                 quantityNotAvailable()
+                
             }
-            
-            viewModel?.chekIsProductFromCategory(name: finalText)
- 
         }
         
         if textField == bottomTextField {
@@ -755,21 +755,30 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         topCategoryView.backgroundColor = UIColor(hex: "#80C980")
         topCategoryLabel.textColor = .white
         topCategoryLabel.text = text
-        isCategorySelected = true
+        isCategorySelected = !text.isEmpty
+
         if let viewModel = viewModel, let defaultSelectedUnit = defaultSelectedUnit {
-            if let index = viewModel.isMetricSystem
-                ? viewModel.arrayForMetricSystem.firstIndex(of: defaultSelectedUnit)
-                :  viewModel.arrayForImperalSystem.firstIndex(of: defaultSelectedUnit) {
+            if let index = viewModel.isMetricSystem ? viewModel.arrayForMetricSystem.firstIndex(of: defaultSelectedUnit)
+                                                    : viewModel.arrayForImperalSystem.firstIndex(of: defaultSelectedUnit) {
                 tableView(tableview, didSelectRowAt: IndexPath(row: index, section: 0))
             }
         }
         
-        let text = topTextField.text ?? ""
-        if text.count > 2 && isCategorySelected {
+        if isCategorySelected {
             readyToSave()
+            quantityAvailable()
+        } else {
+            deselectCategory()
+            notReadyToSave()
+            quantityNotAvailable()
+            return
         }
         
-        guard !imageURL.isEmpty else { return }
+        guard !imageURL.isEmpty else {
+            addImageImage.image = UIImage(named: "#addImage")
+            isImageChanged = false
+            return
+        }
         addImageImage.kf.indicatorType = .activity
         addImageImage.kf.setImage(with: URL(string: imageURL), placeholder: nil, options: nil, completionHandler: nil)
         isImageChanged = true

@@ -54,6 +54,21 @@ extension UIView {
         self.layer.masksToBounds = false
     }
     
+    func addDefaultShadowForPopUp() {
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: 12)
+        self.layer.shadowRadius = 11
+        self.layer.shadowOpacity = 0.2
+    }
+    
+    func addCustomShadow(color: UIColor = .black, opacity: Float = 0.15,
+                         radius: CGFloat = 2, offset: CGSize = .zero) {
+        self.layer.shadowColor = color.cgColor
+        self.layer.shadowOpacity = opacity
+        self.layer.shadowRadius = radius
+        self.layer.shadowOffset = offset
+    }
+    
     func roundCorners(topLeft: CGFloat = 0, topRight: CGFloat = 0, bottomLeft: CGFloat = 0, bottomRight: CGFloat = 0) {
         let topLeftRadius = CGSize(width: topLeft, height: topLeft)
         let topRightRadius = CGSize(width: topRight, height: topRight)
@@ -81,7 +96,7 @@ extension UIView {
         }
     }
     
-    public func snapshotNewView(scale: CGFloat = 0.0, isOpaque: Bool = true, with backgroundColor: UIColor?) -> UIImage {
+    func snapshotNewView(scale: CGFloat = 0.0, isOpaque: Bool = true, with backgroundColor: UIColor?) -> UIImage {
         self.backgroundColor = backgroundColor
         UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, scale)
         drawHierarchy(in: bounds, afterScreenUpdates: true)

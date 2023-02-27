@@ -5,8 +5,8 @@
 //  Created by Admin on 18.01.2023.
 //
 
-import UIKit
 import StoreKit
+import UIKit
 
 final class OnboardingReviewController: UIViewController {
     private var selectedIndex: CGFloat = 0

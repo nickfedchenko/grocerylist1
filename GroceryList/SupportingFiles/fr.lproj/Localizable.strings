@@ -115,7 +115,7 @@
 "Month"                     = "dans le mois";
 "Loading"                   = "Chargement";
 
-
+"Recipe"                    = "Recette ";
 "Recipes"                   = " recettes";
 "Breakfast"                 = "Petit-déjeuner";
 "Lunch"                     = "Déjeuner";
@@ -168,3 +168,10 @@
 "IDontHaveAccount"              = "je n'ai pas de compte";
 "resetPassword"                 = "Réinitialiser le mot de passe";
 "signInWithApple"               = "Connectez-vous à Apple";
+
+// sharing
+"Shared lists"                  = "Les listes partagées peuvent être consultées et mises à jour par plusieurs personnes à la fois.";
+"Sync With Family & Friends"    = "Sync With Family & Friends";
+"Shared"                        = "Partagé";
+"Send Invitation"               = "Envoyer une invitation";
+"Hello! Here is a great app"    = "Bonjour! Voici une excellente application pour les achats conjoints et les recettes!";

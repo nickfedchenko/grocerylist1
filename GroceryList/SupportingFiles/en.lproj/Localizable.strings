@@ -118,6 +118,7 @@
 "month"                     = "month";
 "Loading"                   = "Loading";
 
+"Recipe"                    = "Recipe ";
 "Recipes"                   = " Recipes";
 "Breakfast"                 = "Breakfast";
 "Lunch"                     = "Lunch";
@@ -161,8 +162,8 @@
 // Registration
 "REGISTER"                      = "REGISTER";
 "RegistrationRequired"          = "Registration is required to \nuse shared list functions";
-"Sing Up"                       = "Sing Up";
-"Sing In"                       = "Sing In";
+"Sing Up"                       = "Sign up";
+"Sing In"                       = "Sign in";
 "email"                         = "E-mail";
 "password"                      = "Password";
 "signUpTerms" = "I accept the terms and conditions \n\nI have read the Privacy Policy and acknowledge my rights as a user";
@@ -173,3 +174,33 @@
 "signInWithApple"               = "Sign in with Apple";
 "EmailTaken"                    = "This e-mail is already taken";
 "orLog"                         = "Or login with";
+"NoInternet"                    = "No internet connection";
+"PasswordReset"                 = "Password reset";
+"YourEmail"                     = "Your e-mail:";
+"Close"                         = "Close";
+"ok"                            = "Ok";
+"RecievePasswordShortly"        = "If you entered a correct e-mail address, you will receive password reset e-mail shortly";
+
+// sharing
+"Shared lists"                  = "Shared lists can be viewed and updated by multiple people at once.";
+"Sync With Family & Friends"    = "Sync With Family & Friends";
+"Shared"                        = "Shared";
+"Send Invitation"               = "Send Invitation";
+"Hello! Here is a great app"    = "Hello! Here is a great app for joint shopping and recipes!";
+
+"Settings.Profile"              = "Profile";
+"Settings.AddPhoto"             = "Add your photo, it will be more beautiful";
+"Settings.ScreenName"           = "Screen Name";
+"Settings.Account"              = "Account";
+"Settings.GroceryListApp"       = "Grocery List App";
+"Settings.Account.LogOut"       = "Log Out";
+"Settings.Account.DeleteAccount"= "Delete Account";
+"Settings.Account.ToUseShared"  = "To use Shared Notes, please login again.";
+"Settings.Account.Cancel"       = "Cancel";
+"Settings.Account.DeleteAcc?"   = "Delete account?";
+"Settings.Account.PremanentDel" = "You are about to permanently delete your account along with all data associated to it";
+"Settings.Account.Delete"       = "Delete";
+
+"ResetPassword.EnterNewPassw"   = "Enter new password";
+"ResetPassword.LinkInactive"    = "This link can be used only once and will become inactive in 1 hour. \nPlease reset again.";
+"ResetPassword.ChangePassword"  = "Change password";

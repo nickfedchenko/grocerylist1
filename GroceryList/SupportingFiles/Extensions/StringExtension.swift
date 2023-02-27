@@ -34,5 +34,18 @@ extension String {
         if self.count == 0 { return self }
         return prefix(1).uppercased() + dropFirst().lowercased()
     }
+    
+    func attributed(font: UIFont, color: UIColor) -> NSMutableAttributedString {
+        NSMutableAttributedString(string: self, attributes: [.font: font, .foregroundColor: color])
+    }
 }
 
+extension String {
+    func getTitleWithout(symbols: [String]) -> String {
+        var result: String = self
+        symbols.forEach {
+            result = result.replacingOccurrences(of: $0, with: "")
+        }
+        return result
+    }
+}

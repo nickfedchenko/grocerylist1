@@ -30,6 +30,7 @@ class ProductsViewModel {
         }
         
         self.dataSource.createDataSourceArray()
+        addObserver()
     }
     
     var arrayWithSections: [Category] {
@@ -64,19 +65,28 @@ class ProductsViewModel {
             self?.appendToDataSourceProducts(products: products)
             self?.dataSource.typeOfSorting = SortingType(rawValue: self?.model.typeOfSorting ?? 0) ?? .category
             self?.delegate?.updateController()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self?.updateList()
+            }
         })
     }
     
     func updatePurchasedStatus(product: Product) {
         dataSource.updatePurchasedStatus(for: product)
+        updateList()
     }
     
     func updateFavoriteStatus(for product: Product) {
         dataSource.updateFavoriteStatus(for: product)
+        updateList()
     }
     
     func delete(product: Product) {
         dataSource.delete(product: product)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.updateList()
+        }
+
     }
     
     func appendToDataSourceProducts(products: [Product]) {
@@ -86,7 +96,29 @@ class ProductsViewModel {
     func addNewProductTapped(_ product: Product? = nil) {
         router?.goCreateNewProductController(model: model, product: product, compl: { [weak self] product in
             self?.dataSource.appendCopiedProducts(product: [product])
+            self?.updateList()
         })
     }
-
+    
+    private func addObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(sharedListDownloaded),
+            name: .sharedListDownloadedAndSaved,
+            object: nil
+        )
+    }
+    
+    @objc
+    private func sharedListDownloaded() {
+        dataSource.createDataSourceArray()
+    }
+    
+    private func updateList() {
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self else { return }
+            guard self.model.isShared else { return }
+            SharedListManager.shared.updateGroceryList(listId: self.model.id.uuidString)
+        }
+    }
 }

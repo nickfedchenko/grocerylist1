@@ -10,7 +10,10 @@ import UIKit
 class ProductsDataManager {
     
     private var shouldSaveExpanding: Bool = false
-    var products: [Product]
+    var products: [Product] {
+        getProducts()
+    }
+    var groceryListId: String
     var typeOfSorting: SortingType {
         didSet {
             shouldSaveExpanding = false
@@ -18,9 +21,16 @@ class ProductsDataManager {
         }
     }
 
-    init (products: [Product], typeOfSorting: SortingType ) {
-        self.products = products
+    init (products: [Product], typeOfSorting: SortingType,
+          groceryListId: String) {
         self.typeOfSorting = typeOfSorting
+        self.groceryListId = groceryListId
+    }
+    
+    private func getProducts() -> [Product] {
+        guard let domainList = CoreDataManager.shared.getList(list: groceryListId) else { return [] }
+        let localList = DomainModelsToLocalTransformer().transformCoreDataModelToModel(domainList)
+        return localList.products
     }
     
     var dataChangedCallBack: (() -> Void)?
@@ -32,8 +42,8 @@ class ProductsDataManager {
     }
 
     func createDataSourceArray() {
+        if products.isEmpty { dataSourceArray = [] }
         guard !products.isEmpty else { return }
-        
         if typeOfSorting == .category { createArrayWithSections() }
         if typeOfSorting == .alphabet { createArraySortedByAlphabet() }
         if typeOfSorting == .time { createArraySortedByTime() }
@@ -41,10 +51,6 @@ class ProductsDataManager {
     }
     
     func appendCopiedProducts(product: [Product]) {
-        product.forEach { product in
-            products.removeAll { $0.id == product.id }
-        }
-        products.append(contentsOf: product)
         createDataSourceArray()
     }
     
@@ -101,6 +107,7 @@ class ProductsDataManager {
     }
     
     // MARK: - Сортировка по Дате добавления
+    // swiftlint:disable:next function_body_length
     private func createArraySortedByTime() {
         let idForDict = R.string.localizable.addedEarlier()
         var dict: [ String: [Product] ] = [:]
@@ -155,18 +162,16 @@ class ProductsDataManager {
         newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByDate) }).sorted(by: { $0.name < $1.name }))
         
         if products.contains(where: { $0.fromRecipeTitle != nil }) {
-            newArray.append(contentsOf: recipesDict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByDate)}))
+            newArray.append(contentsOf: recipesDict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByDate) }))
         }
         
         // Все что не избрано и не куплено
  
-        
         // Все что куплено
         if products.contains(where: { $0.isPurchased }) {
             newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value, typeOFCell: .purchased) }))
         }
         
-
         // Сохранение параметра свернутости развернутости списка
         guard shouldSaveExpanding else { return dataSourceArray = newArray }
         for (ind, newValue) in newArray.enumerated() {
@@ -234,10 +239,6 @@ class ProductsDataManager {
         var newProduct = product
         newProduct.isPurchased = !product.isPurchased
         CoreDataManager.shared.createProduct(product: newProduct)
-        if let index = products.firstIndex(of: product ) {
-            products.remove(at: index)
-            products.append(newProduct)
-        }
         createDataSourceArray()
     }
     
@@ -245,19 +246,12 @@ class ProductsDataManager {
         var newProduct = product
         newProduct.isFavorite = !product.isFavorite
         CoreDataManager.shared.createProduct(product: newProduct)
-        if let index = products.firstIndex(of: product ) {
-            products.remove(at: index)
-            products.append(newProduct)
-        }
         createDataSourceArray()
     }
     
     func delete(product: Product) {
         CoreDataManager.shared.removeProduct(product: product)
-        if let index = products.firstIndex(of: product ) {
-            products.remove(at: index)
-            if products.isEmpty { dataSourceArray = [] }
-        }
+        if products.isEmpty { dataSourceArray = [] }
         createDataSourceArray()
     }
         
