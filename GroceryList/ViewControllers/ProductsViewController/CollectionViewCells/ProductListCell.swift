@@ -12,6 +12,7 @@ class ProductListCell: UICollectionViewListCell {
     
     var swipeToPinchAction: (() -> Void)?
     var swipeToDeleteAction: (() -> Void)?
+    var tapImageAction: (() -> Void)?
     private var state: CellState = .normal
     
     private let shadowView: UIView = {
@@ -291,6 +292,9 @@ extension ProductListCell {
         let swipeLeftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
         swipeLeftRecognizer.direction = .left
         contentViews.addGestureRecognizer(swipeLeftRecognizer)
+        
+        let tapImage = UITapGestureRecognizer(target: self, action: #selector(imagePressed))
+        imageView.addGestureRecognizer(tapImage)
     }
     
     @objc
@@ -301,6 +305,11 @@ extension ProductListCell {
     @objc
     private func pinchPressed() {
         swipeToDeleteAction?()
+    }
+    
+    @objc
+    private func imagePressed() {
+        tapImageAction?()
     }
     
     @objc

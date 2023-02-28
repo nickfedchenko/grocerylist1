@@ -20,6 +20,7 @@ class ProductsViewModel {
     var model: GroceryListsModel
     var dataSource: ProductsDataManager
     weak var delegate: ProductsViewModelDelegate?
+    var selectedProduct: Product?
     
     init(model: GroceryListsModel, dataSource: ProductsDataManager) {
         self.dataSource = dataSource
@@ -79,6 +80,15 @@ class ProductsViewModel {
     func updateFavoriteStatus(for product: Product) {
         dataSource.updateFavoriteStatus(for: product)
         updateList()
+    }
+    
+    func updateImage(_ image: UIImage?) {
+        selectedProduct?.imageData = image?.jpegData(compressionQuality: 1)
+        guard let selectedProduct else {
+            return
+        }
+        dataSource.updateImage(for: selectedProduct)
+        valueChangedCallback?()
     }
     
     func delete(product: Product) {
