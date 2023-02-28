@@ -322,6 +322,9 @@ extension MainScreenViewController: UICollectionViewDelegate {
         collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollView.contentOffset.x = 0.0
+    }
 }
 
 // MARK: - CreateListAction
