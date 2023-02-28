@@ -249,6 +249,11 @@ class ProductsDataManager {
         createDataSourceArray()
     }
     
+    func updateImage(for product: Product) {
+        CoreDataManager.shared.createProduct(product: product)
+        createDataSourceArray()
+    }
+    
     func delete(product: Product) {
         CoreDataManager.shared.removeProduct(product: product)
         if products.isEmpty { dataSourceArray = [] }

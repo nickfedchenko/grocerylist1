@@ -76,6 +76,8 @@ class ProductsViewController: UIViewController {
     }()
     
     private let messageView = InfoMessageView()
+    private let productImageView = ProductImageView()
+    private var imagePicker = UIImagePickerController()
     private var taprecognizer = UITapGestureRecognizer()
     
     private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
@@ -87,6 +89,7 @@ class ProductsViewController: UIViewController {
         setupCollectionView()
         setupController()
         setupInfoMessage()
+        setupProductImageView()
         addRecognizer()
         viewModel?.valueChangedCallback = { [weak self] in
             self?.reloadData()
@@ -118,6 +121,33 @@ class ProductsViewController: UIViewController {
         messageView.updateView()
         messageView.snp.updateConstraints {
             $0.top.equalToSuperview().offset(collectionView.contentSize.height + 4)
+        }
+    }
+    
+    private func setupProductImageView() {
+        productImageView.isHidden = true
+        
+        productImageView.galleryAction = { [weak self] in
+            self?.pickImage()
+        }
+        
+        productImageView.deleteImageAction = { [weak self] in
+            self?.viewModel?.updateImage(nil)
+            self?.setVisibilityView(view: self?.productImageView, hidden: true)
+            self?.viewModel?.selectedProduct = nil
+        }
+        
+        productImageView.closeAction = { [weak self] in
+            self?.setVisibilityView(view: self?.productImageView, hidden: true)
+            self?.viewModel?.selectedProduct = nil
+        }
+        
+        productImageView.updatePurchaseStatusAction = { [weak self] status in
+            guard var selectedProduct = self?.viewModel?.selectedProduct else {
+                return
+            }
+            selectedProduct.isPurchased = !status
+            self?.viewModel?.updatePurchasedStatus(product: selectedProduct)
         }
     }
     
@@ -165,11 +195,18 @@ class ProductsViewController: UIViewController {
         }
         
         UserDefaultsManager.countInfoMessage += 1
-        UIView.animate(withDuration: 0.5) { self.messageView.isHidden = true }
+        setVisibilityView(view: messageView, hidden: true)
         taprecognizer.isEnabled = false
     }
     
+    // swiftlint: disable void_function_in_ternary
+    func setVisibilityView(view: UIView?, hidden: Bool) {
+        guard let view else { return }
+        hidden ? view.fadeOut() : view.fadeIn()
+    }
+    
     // MARK: - CollectionView
+    // swiftlint: disable function_body_length
     func setupCollectionView() {
         collectionView.contentInset.bottom = 120
         
@@ -197,6 +234,15 @@ class ProductsViewController: UIViewController {
             cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name,
                            isPurchased: child.isPurchased, image: image, description: description,
                            isRecipe: child.fromRecipeTitle != nil)
+            
+            // картинка
+            if image != nil {
+                cell.tapImageAction = {
+                    self?.productImageView.configuration(product: child, textColor: textColor)
+                    self?.viewModel?.selectedProduct = child
+                    self?.setVisibilityView(view: self?.productImageView, hidden: false)
+                }
+            }
             
             // свайпы
             cell.swipeToPinchAction = {
@@ -276,7 +322,7 @@ class ProductsViewController: UIViewController {
     // MARK: - Constraints
     
     private func setupConstraints() {
-        view.addSubviews([collectionView, navigationView, addItemView])
+        view.addSubviews([collectionView, navigationView, addItemView, productImageView])
         navigationView.addSubviews([arrowBackButton, nameOfListLabel, contextMenuButton])
         addItemView.addSubviews([plusImage, addItemLabel])
         collectionView.addSubview(messageView)
@@ -329,6 +375,10 @@ class ProductsViewController: UIViewController {
             make.width.equalTo(264)
             make.centerX.equalTo(self.view)
             make.top.equalToSuperview().offset(collectionView.contentSize.height + 4)
+        }
+        
+        productImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
 }
@@ -440,5 +490,25 @@ extension ProductsViewController {
     private func addItemViewTapped () {
         tapPressAction()
         viewModel?.addNewProductTapped()
+    }
+}
+
+extension ProductsViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+
+    func pickImage() {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .savedPhotosAlbum
+            imagePicker.allowsEditing = false
+            imagePicker.modalPresentationStyle = .pageSheet
+            present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        self.dismiss(animated: true, completion: nil)
+        let image = info[.originalImage] as? UIImage
+        productImageView.updateImage(image)
+        viewModel?.updateImage(image)
     }
 }
