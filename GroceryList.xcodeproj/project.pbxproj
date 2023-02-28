@@ -15,6 +15,7 @@
 		334BAE57299E7305005F52F5 /* SharedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE56299E7305005F52F5 /* SharedCell.swift */; };
 		334BAE59299E7333005F52F5 /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE58299E7333005F52F5 /* TitleCell.swift */; };
 		334BAE5B299E734A005F52F5 /* SendInvitationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE5A299E734A005F52F5 /* SendInvitationCell.swift */; };
+		335519C229ACC00F00AD2B77 /* ProductImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519C129ACC00F00AD2B77 /* ProductImageView.swift */; };
 		3367C78C299F30E8008B39A5 /* SharingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367C78B299F30E8008B39A5 /* SharingHeaderView.swift */; };
 		339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339C1AEA299A67DD0092F93E /* InfoMessageView.swift */; };
 		33D912BE29A342AA00C32117 /* NumberExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D912BD29A342AA00C32117 /* NumberExtensions.swift */; };
@@ -206,6 +207,7 @@
 		334BAE56299E7305005F52F5 /* SharedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedCell.swift; sourceTree = "<group>"; };
 		334BAE58299E7333005F52F5 /* TitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
 		334BAE5A299E734A005F52F5 /* SendInvitationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendInvitationCell.swift; sourceTree = "<group>"; };
+		335519C129ACC00F00AD2B77 /* ProductImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductImageView.swift; sourceTree = "<group>"; };
 		3367C78B299F30E8008B39A5 /* SharingHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingHeaderView.swift; sourceTree = "<group>"; };
 		339C1AEA299A67DD0092F93E /* InfoMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMessageView.swift; sourceTree = "<group>"; };
 		33D912BD29A342AA00C32117 /* NumberExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberExtensions.swift; sourceTree = "<group>"; };
@@ -750,6 +752,7 @@
 			isa = PBXGroup;
 			children = (
 				B3476901291D010D0045A287 /* ProductsViewController.swift */,
+				335519C129ACC00F00AD2B77 /* ProductImageView.swift */,
 				339C1AEA299A67DD0092F93E /* InfoMessageView.swift */,
 			);
 			path = View;
@@ -1538,6 +1541,7 @@
 				B3777E2B2938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift in Sources */,
 				389DCF432945CDFA00DB9382 /* RecipeViewController.swift in Sources */,
 				B35F0F612937972700C19891 /* UnitSystemModel.swift in Sources */,
+				335519C229ACC00F00AD2B77 /* ProductImageView.swift in Sources */,
 				334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */,
 				383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */,
 				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,
