@@ -133,12 +133,12 @@ class ProductsViewController: UIViewController {
         
         productImageView.deleteImageAction = { [weak self] in
             self?.viewModel?.updateImage(nil)
-            self?.setVisibilityView(view: self?.productImageView, hidden: true)
+            self?.productImageView.setVisibilityView(hidden: true)
             self?.viewModel?.selectedProduct = nil
         }
         
         productImageView.closeAction = { [weak self] in
-            self?.setVisibilityView(view: self?.productImageView, hidden: true)
+            self?.productImageView.setVisibilityView(hidden: true)
             self?.viewModel?.selectedProduct = nil
         }
         
@@ -195,14 +195,8 @@ class ProductsViewController: UIViewController {
         }
         
         UserDefaultsManager.countInfoMessage += 1
-        setVisibilityView(view: messageView, hidden: true)
+        messageView.fadeOut()
         taprecognizer.isEnabled = false
-    }
-    
-    // swiftlint: disable void_function_in_ternary
-    func setVisibilityView(view: UIView?, hidden: Bool) {
-        guard let view else { return }
-        hidden ? view.fadeOut() : view.fadeIn()
     }
     
     // MARK: - CollectionView
@@ -237,10 +231,12 @@ class ProductsViewController: UIViewController {
             
             // картинка
             if image != nil {
-                cell.tapImageAction = {
+                cell.tapImageAction = { [weak self] in
                     self?.productImageView.configuration(product: child, textColor: textColor)
                     self?.viewModel?.selectedProduct = child
-                    self?.setVisibilityView(view: self?.productImageView, hidden: false)
+                    self?.productImageView.updateContentViewFrame(.init(x: cell.frame.maxX,
+                                                                        y: cell.frame.minY))
+                    self?.productImageView.setVisibilityView(hidden: false)
                 }
             }
             
@@ -494,7 +490,6 @@ extension ProductsViewController {
 }
 
 extension ProductsViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-
     func pickImage() {
         if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
             imagePicker.delegate = self
