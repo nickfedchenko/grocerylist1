@@ -106,6 +106,7 @@ final class ProductImageView: UIView {
     
     private let recipeColor = UIColor(hex: "#58B368")
     private var textColor: UIColor?
+    private var contentViewFrame = CGPoint.zero
     private var isRecipe = false
     private var purchaseStatus = false {
         didSet { updatePurchaseStatus() }
@@ -131,6 +132,36 @@ final class ProductImageView: UIView {
         productTitleLabel.text = product.name
         descriptionLabel.text = product.description
         recipeLabel.text = isRecipe ? R.string.localizable.recipe() : ""
+    }
+    
+    func updateContentViewFrame(_ frame: CGPoint) {
+        contentViewFrame = frame
+    }
+    
+    func setVisibilityView(hidden: Bool) {
+        guard !hidden else {
+            self.alpha = 1.0
+            UIView.animate(withDuration: 0.3) {
+                self.alpha = 0.0
+                self.contentView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+                    .translatedBy(x: self.contentViewFrame.x - self.contentView.frame.origin.x,
+                                  y: self.contentViewFrame.y - self.contentView.frame.origin.y)
+            } completion: { _ in
+                self.isHidden = hidden
+                self.contentView.transform = .identity
+            }
+            return
+        }
+        
+        self.isHidden = hidden
+        self.alpha = 0.0
+        contentView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+            .translatedBy(x: contentViewFrame.x - contentView.frame.origin.x,
+                          y: contentViewFrame.y - contentView.frame.origin.y)
+        UIView.animate(withDuration: 0.3) {
+            self.alpha = 1.0
+            self.contentView.transform = .identity
+        }
     }
     
     func updateImage(_ image: UIImage?) {
