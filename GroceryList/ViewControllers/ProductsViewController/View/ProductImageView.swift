@@ -38,16 +38,15 @@ final class ProductImageView: UIView {
     
     private lazy var checkmarkImageView: UIImageView = {
         let imageView = UIImageView()
-        let checkmarkImage = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "emptyCheckmark")
+        imageView.image = R.image.emptyCheckmark()
         return imageView
     }()
     
     private let whiteCheckmarkImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "whiteCheckmark")
+        imageView.image = R.image.whiteCheckmark()
         return imageView
     }()
     
@@ -61,7 +60,7 @@ final class ProductImageView: UIView {
     private lazy var recipeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProRounded.bold(size: 14).font
-        label.textColor = UIColor(hex: "#58B368")
+        label.textColor = recipeColor
         return label
     }()
     
@@ -105,6 +104,7 @@ final class ProductImageView: UIView {
         return button
     }()
     
+    private let recipeColor = UIColor(hex: "#58B368")
     private var textColor: UIColor?
     private var isRecipe = false
     private var purchaseStatus = false {
@@ -130,7 +130,7 @@ final class ProductImageView: UIView {
         productImageView.image = UIImage(data: image)
         productTitleLabel.text = product.name
         descriptionLabel.text = product.description
-        recipeLabel.text = isRecipe ? "Recipe".localized : ""
+        recipeLabel.text = isRecipe ? R.string.localizable.recipe() : ""
     }
     
     func updateImage(_ image: UIImage?) {
@@ -171,15 +171,15 @@ final class ProductImageView: UIView {
     
     private func updatePurchaseStatus() {
         checkmarkImageView.image = purchaseStatus ? getImageWithColor(color: textColor)
-                                                  : UIImage(named: "emptyCheckmark")
+                                                  : R.image.emptyCheckmark()
         
         if isRecipe, !purchaseStatus {
-            checkmarkImageView.image = UIImage(named: "emptyCheckmark")?.withTintColor(UIColor(hex: "#58B368"))
+            checkmarkImageView.image = R.image.emptyCheckmark()?.withTintColor(recipeColor)
         }
         
         productTitleLabel.textColor = purchaseStatus ? textColor : .black
         descriptionLabel.textColor = purchaseStatus ? textColor : .black
-        recipeLabel.textColor = purchaseStatus ? textColor : UIColor(hex: "#58B368")
+        recipeLabel.textColor = purchaseStatus ? textColor : recipeColor
     }
     
     private func getImageWithColor(color: UIColor?) -> UIImage? {
