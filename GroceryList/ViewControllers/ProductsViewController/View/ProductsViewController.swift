@@ -199,12 +199,6 @@ class ProductsViewController: UIViewController {
         taprecognizer.isEnabled = false
     }
     
-    // swiftlint: disable void_function_in_ternary
-    func setVisibilityView(view: UIView?, hidden: Bool) {
-        guard let view else { return }
-        hidden ? view.fadeOut() : view.fadeIn()
-    }
-    
     // MARK: - CollectionView
     // swiftlint: disable function_body_length
     func setupCollectionView() {
