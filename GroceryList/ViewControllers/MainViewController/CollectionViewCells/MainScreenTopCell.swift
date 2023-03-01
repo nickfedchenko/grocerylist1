@@ -19,6 +19,7 @@ protocol MainScreenTopCellDelegate: AnyObject {
 class MainScreenTopCell: UICollectionViewCell {
     
     var settingsTapped: (() -> Void)?
+    var contextMenuTapped: (() -> Void)?
     weak var delegate: MainScreenTopCellDelegate?
     
     override init(frame: CGRect) {
@@ -51,6 +52,11 @@ class MainScreenTopCell: UICollectionViewCell {
         settingsTapped?()
     }
     
+    @objc
+    private func menuButtonAction() {
+        contextMenuTapped?()
+    }
+    
     private lazy var settingsButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(settingsButtonAction), for: .touchUpInside)
@@ -72,8 +78,15 @@ class MainScreenTopCell: UICollectionViewCell {
     private lazy var searchButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(searchButtonAction), for: .touchUpInside)
-        button.setImage(UIImage(named: "searchButtonImage"), for: .normal)
+        button.setImage(R.image.searchButtonImage(), for: .normal)
         button.alpha = 0
+        return button
+    }()
+    
+    private lazy var menuButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(menuButtonAction), for: .touchUpInside)
+        button.setImage(R.image.contextMenuPlus(), for: .normal)
         return button
     }()
     
@@ -86,7 +99,7 @@ class MainScreenTopCell: UICollectionViewCell {
     
     // MARK: - UI
     private func setupConstraints() {
-        contentView.addSubviews([settingsButton, userNameLabel, searchButton, segmentControl])
+        contentView.addSubviews([settingsButton, userNameLabel, searchButton, menuButton, segmentControl])
         settingsButton.snp.makeConstraints { make in
             make.width.height.equalTo(32)
             make.left.equalTo(28)
@@ -98,6 +111,12 @@ class MainScreenTopCell: UICollectionViewCell {
             make.centerY.equalTo(settingsButton)
             make.height.equalTo(24)
             make.trailing.equalTo(searchButton.snp.leading).offset(-10)
+        }
+        
+        menuButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(28)
+            make.centerY.equalTo(settingsButton)
+            make.width.height.equalTo(40)
         }
         
         searchButton.snp.makeConstraints { make in

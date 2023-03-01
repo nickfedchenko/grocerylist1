@@ -40,17 +40,11 @@ class MainScreenViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
         collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
-        collectionView.register(GroceryCollectionViewCell.self,
-                                forCellWithReuseIdentifier: "GroceryCollectionViewCell")
-        collectionView.register(EmptyColoredCell.self,
-                                forCellWithReuseIdentifier: "EmptyColoredCell")
-        collectionView.register(InstructionCell.self,
-                                forCellWithReuseIdentifier: "InstructionCell")
-        collectionView.register(MainScreenTopCell.self,
-                                forCellWithReuseIdentifier: "MainScreenTopCell")
-        collectionView.register(GroceryCollectionViewHeader.self,
-                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: "GroceryCollectionViewHeader")
+        collectionView.register(classCell: GroceryCollectionViewCell.self)
+        collectionView.register(classCell: EmptyColoredCell.self)
+        collectionView.register(classCell: InstructionCell.self)
+        collectionView.register(classCell: MainScreenTopCell.self)
+        collectionView.registerHeader(classHeader: GroceryCollectionViewHeader.self)
         return collectionView
     }()
     
@@ -83,6 +77,8 @@ class MainScreenViewController: UIViewController {
         return imageView
     }()
     
+    private let contextMenu = MainScreenMenuView()
+    
     // MARK: - Lifecycle
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
@@ -93,6 +89,7 @@ class MainScreenViewController: UIViewController {
         setupConstraints()
         addRecognizer()
         createTableViewDataSource()
+        setupContextMenu()
         viewModel?.reloadDataCallBack = { [weak self] in
             self?.reloadData()
             self?.updateImageConstraint()
@@ -164,10 +161,24 @@ class MainScreenViewController: UIViewController {
         }
     }
     
+    private func setupContextMenu() {
+        contextMenu.isHidden = true
+        
+        contextMenu.selectedState = { [weak self] state in
+            self?.contextMenu.fadeOut()
+            switch state {
+            case .createRecipe:
+                print("createRecipe")
+            case .createCollection:
+                print("createCollection")
+            }
+        }
+    }
+    
     // MARK: - UI
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
-        view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView])
+        view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView, contextMenu])
         bottomCreateListView.addSubviews([plusImage, createListLabel])
         collectionView.addSubview(foodImage)
         collectionView.snp.makeConstraints { make in
@@ -206,6 +217,13 @@ class MainScreenViewController: UIViewController {
             make.height.equalTo(400)
             make.centerX.equalToSuperview()
         }
+        
+        contextMenu.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(10)
+            make.trailing.equalToSuperview().offset(-68)
+            make.height.equalTo(contextMenu.requiredHeight)
+            make.width.equalTo(254)
+        }
     }
 }
 
@@ -239,6 +257,9 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 let cell = self.collectionView.reusableCell(classCell: MainScreenTopCell.self, indexPath: indexPath)
                 cell.settingsTapped = { [weak self] in
                     self?.viewModel?.settingsTapped()
+                }
+                cell.contextMenuTapped = { [weak self] in
+                    self?.contextMenu.fadeIn()
                 }
                 cell.delegate = self
                 cell.configure(with: self.presentationMode)
@@ -356,6 +377,9 @@ extension MainScreenViewController: UICollectionViewDataSource {
             let topCell = collectionView.reusableCell(classCell: MainScreenTopCell.self, indexPath: indexPath)
             topCell.settingsTapped = { [weak self] in
                 self?.viewModel?.settingsTapped()
+            }
+            topCell.contextMenuTapped = { [weak self] in
+                self?.contextMenu.fadeIn()
             }
             topCell.delegate = self
             topCell.configure(with: presentationMode)
