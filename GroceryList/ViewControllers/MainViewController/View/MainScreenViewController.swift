@@ -78,6 +78,7 @@ class MainScreenViewController: UIViewController {
     }()
     
     private let contextMenu = MainScreenMenuView()
+    private var menuTapRecognizer = UITapGestureRecognizer()
     
     // MARK: - Lifecycle
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -165,13 +166,14 @@ class MainScreenViewController: UIViewController {
         contextMenu.isHidden = true
         
         contextMenu.selectedState = { [weak self] state in
-            self?.contextMenu.fadeOut()
             switch state {
             case .createRecipe:
                 print("createRecipe")
             case .createCollection:
                 print("createCollection")
             }
+            self?.contextMenu.fadeOut()
+            self?.contextMenu.removeSelected()
         }
     }
     
@@ -260,6 +262,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 }
                 cell.contextMenuTapped = { [weak self] in
                     self?.contextMenu.fadeIn()
+                    self?.menuTapRecognizer.isEnabled = true
                 }
                 cell.delegate = self
                 cell.configure(with: self.presentationMode)
@@ -353,11 +356,20 @@ extension MainScreenViewController {
     private func addRecognizer() {
         let firstRecognizer = UITapGestureRecognizer(target: self, action: #selector(createListAction))
         bottomCreateListView.addGestureRecognizer(firstRecognizer)
+        
+        menuTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(menuTapAction))
+        self.view.addGestureRecognizer(menuTapRecognizer)
     }
     
     @objc
     private func createListAction() {
         viewModel?.createNewListTapped()
+    }
+    
+    @objc
+    private func menuTapAction() {
+        contextMenu.fadeOut()
+        menuTapRecognizer.isEnabled = false
     }
 }
 
@@ -380,6 +392,7 @@ extension MainScreenViewController: UICollectionViewDataSource {
             }
             topCell.contextMenuTapped = { [weak self] in
                 self?.contextMenu.fadeIn()
+                self?.menuTapRecognizer.isEnabled = true
             }
             topCell.delegate = self
             topCell.configure(with: presentationMode)
