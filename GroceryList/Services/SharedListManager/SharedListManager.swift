@@ -252,7 +252,7 @@ class SharedListManager {
                        isFavorite: sharedProduct.isFavorite,
                        isSelected: sharedProduct.isSelected,
                        imageData: sharedProduct.imageData,
-                       description: sharedProduct.description,
+                       description: sharedProduct.description ?? "",
                        fromRecipeTitle: sharedProduct.fromRecipeTitle)
     }
 }

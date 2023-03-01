@@ -95,6 +95,6 @@ struct SharedProduct: Codable {
     var isFavorite: Bool
     var isSelected = false
     var imageData: Data?
-    var description: String
+    var description: String?
     var fromRecipeTitle: String?
 }
