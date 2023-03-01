@@ -69,12 +69,12 @@ final class MainScreenMenuView: UIView {
             let view = MainScreenMenuSubView()
             view.configure(title: state.title, image: state.image)
             view.tag = state.rawValue
+            stackView.addArrangedSubview(view)
+            
             view.onViewAction = { [weak self] in
                 self?.markAsSelected(state)
                 self?.selectedState?(state)
-                
             }
-            stackView.addArrangedSubview(view)
         }
         
         makeConstraints()
@@ -83,6 +83,12 @@ final class MainScreenMenuView: UIView {
     func markAsSelected(_ state: MainMenuState) {
         stackView.arrangedSubviews.forEach { view in
             view.backgroundColor = view.tag == state.rawValue ? UIColor(hex: "#85F3D5") : .white
+        }
+    }
+    
+    func removeSelected() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.stackView.arrangedSubviews.forEach { $0.backgroundColor = .white }
         }
     }
     
