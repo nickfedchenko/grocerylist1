@@ -95,6 +95,10 @@ class MainScreenViewModel {
         router?.goToSharingList(listToShare: model, users: users)
     }
     
+    func createNewRecipeTapped() {
+        router?.goToCreateNewRecipe()
+    }
+    
     // setup cells
     func getNameOfList(at ind: IndexPath) -> String {
         return model[ind.section].lists[ind.row].name ?? "No name"
