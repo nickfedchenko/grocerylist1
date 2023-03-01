@@ -168,7 +168,7 @@ class MainScreenViewController: UIViewController {
         contextMenu.selectedState = { [weak self] state in
             switch state {
             case .createRecipe:
-                print("createRecipe")
+                self?.viewModel?.createNewRecipeTapped()
             case .createCollection:
                 print("createCollection")
             }
