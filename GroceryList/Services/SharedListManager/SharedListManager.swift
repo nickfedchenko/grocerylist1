@@ -181,7 +181,7 @@ class SharedListManager {
             case .failure(let error):
                 print(error)
             case .success(let response):
-                let deepLinkToken = "groceryList://share?token=" + response.sharingToken
+                let deepLinkToken = response.url
                 compl?(deepLinkToken)
                 self?.fetchMyGroceryLists()
             }
