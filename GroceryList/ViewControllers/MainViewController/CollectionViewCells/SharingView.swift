@@ -65,8 +65,6 @@ final class SharingView: UIView {
             firstImageView.image = R.image.profile_add()
             firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
         case .added:
-            firstImageView.isHidden = false
-            firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
             configureImages(images)
         }
     }
@@ -85,10 +83,13 @@ final class SharingView: UIView {
     }
     
     private func configureImages(_ images: [String?]) {
+        updateAllImageViewsConstraints()
         guard !images.isEmpty else {
+            firstImageView.isHidden = false
+            firstImageView.image = R.image.profile_intited()
+            firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
             return
         }
-        updateAllImageViewsConstraints()
         switch images.count {
         case 1:
             activeImageViews = [firstImageView]
