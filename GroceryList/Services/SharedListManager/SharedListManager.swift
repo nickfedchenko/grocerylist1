@@ -174,9 +174,9 @@ class SharedListManager {
 
     func shareGroceryList(listModel: GroceryListsModel, compl: ((String) -> Void)?) {
         guard let user = UserAccountManager.shared.getUser() else { return }
-
+        let sharedId = listModel.sharedId.isEmpty ? nil : listModel.sharedId
         network.shareGroceryList(userToken: user.token,
-                                         listId: nil, listModel: listModel) { [weak self] result in
+                                 listId: sharedId, listModel: listModel) { [weak self] result in
             switch result {
             case .failure(let error):
                 print(error)
