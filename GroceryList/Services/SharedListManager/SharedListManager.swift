@@ -174,14 +174,14 @@ class SharedListManager {
 
     func shareGroceryList(listModel: GroceryListsModel, compl: ((String) -> Void)?) {
         guard let user = UserAccountManager.shared.getUser() else { return }
-
+        let sharedId = listModel.sharedId.isEmpty ? nil : listModel.sharedId
         network.shareGroceryList(userToken: user.token,
-                                         listId: nil, listModel: listModel) { [weak self] result in
+                                 listId: sharedId, listModel: listModel) { [weak self] result in
             switch result {
             case .failure(let error):
                 print(error)
             case .success(let response):
-                let deepLinkToken = "groceryList://share?token=" + response.sharingToken
+                let deepLinkToken = response.url
                 compl?(deepLinkToken)
                 self?.fetchMyGroceryLists()
             }
@@ -252,7 +252,7 @@ class SharedListManager {
                        isFavorite: sharedProduct.isFavorite,
                        isSelected: sharedProduct.isSelected,
                        imageData: sharedProduct.imageData,
-                       description: sharedProduct.description,
+                       description: sharedProduct.description ?? "",
                        fromRecipeTitle: sharedProduct.fromRecipeTitle)
     }
 }

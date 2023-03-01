@@ -59,9 +59,10 @@ struct ShareGroceryListResponse: Codable {
     var messages: [String]
     var sharingToken: String
     var groceryListId: String
+    var url: String
     
     enum CodingKeys: String, CodingKey {
-        case error, messages, sharingToken = "sharing_token", groceryListId = "grocery_list_id"
+        case error, messages, sharingToken = "sharing_token", groceryListId = "grocery_list_id", url
     }
 }
 
@@ -94,6 +95,6 @@ struct SharedProduct: Codable {
     var isFavorite: Bool
     var isSelected = false
     var imageData: Data?
-    var description: String
+    var description: String?
     var fromRecipeTitle: String?
 }
