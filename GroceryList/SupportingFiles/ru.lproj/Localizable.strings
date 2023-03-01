@@ -200,5 +200,10 @@
 "Settings.Account.Delete"       = "Удалить";
 
 "ResetPassword.EnterNewPassw"   = "Введите новый пароль";
-"ResetPassword.LinkInactive"    = "Эта ссылка может быть использована только один раз и становится неактивной через 1 час. \NПожалуйста, сбросьте пароль еще раз.";
+"ResetPassword.LinkInactive"    = "Эта ссылка может быть использована только один раз и становится неактивной через 1 час. \nПожалуйста, сбросьте пароль еще раз.";
 "ResetPassword.ChangePassword"  = "Cменить пароль";
+
+// context menu
+"createRecipe"                  = "Создать рецепт";
+"importRecipe"                  = "Скачать рецепт из интернета";
+"createCollection"              = "Создать коллекцию";
