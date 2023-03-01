@@ -68,6 +68,9 @@ final class SharingListViewModel {
     }
     
     func getName(by index: Int) -> String {
-        return sharedUsers[safe: index]?.username ?? "-"
+        guard let user = sharedUsers[safe: index] else {
+            return "-"
+        }
+        return user.username ?? user.email
     }
 }

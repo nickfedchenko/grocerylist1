@@ -14,6 +14,10 @@ final class SettingsProfileView: UIView {
     var avatarButtonPressed: (() -> Void)?
     var saveNewNamePressed: ((String) -> Void)?
     
+    var textFromScreenName: String? {
+        screenNameTextFieldView.text
+    }
+    
     private var userName: String?
     
     private let profileTitleLabel: UILabel = {

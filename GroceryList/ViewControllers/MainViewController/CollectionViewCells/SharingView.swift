@@ -50,6 +50,7 @@ final class SharingView: UIView {
             $0.isHidden = true
             $0.layer.borderColor = UIColor.clear.cgColor
             $0.backgroundColor = .clear
+            $0.image = nil
         }
         updateAllImageViewsConstraints()
     }

@@ -178,6 +178,7 @@ extension SettingsViewController {
     
     @objc
     private func closeButtonAction(_ recognizer: UIPanGestureRecognizer) {
+        viewModel?.getTextFromTextField(profileView.textFromScreenName)
         viewModel?.closeButtonTapped()
     }
 

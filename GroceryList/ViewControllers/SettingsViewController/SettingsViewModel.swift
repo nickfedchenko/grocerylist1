@@ -28,6 +28,7 @@ class SettingsViewModel {
     }
     
     private var user: User?
+    private var userName: String?
     
     init(network: NetworkEngine) {
         self.network = network
@@ -52,7 +53,14 @@ class SettingsViewModel {
         }
     }
     
+    func getTextFromTextField(_ text: String?) {
+        userName = text
+    }
+    
     func closeButtonTapped() {
+        if let userName {
+            saveNewUserName(name: userName)
+        }
         router?.popToRoot()
     }
     
