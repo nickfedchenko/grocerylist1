@@ -175,3 +175,8 @@
 "Shared"                        = "Partagé";
 "Send Invitation"               = "Envoyer une invitation";
 "Hello! Here is a great app"    = "Bonjour! Voici une excellente application pour les achats conjoints et les recettes!";
+
+// context menu
+"createRecipe"                  = "Créer une recette";
+"importRecipe"                  = "Importer des recettes Web";
+"createCollection"              = "Créer une collection";
