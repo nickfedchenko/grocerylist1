@@ -181,3 +181,12 @@
 "createRecipe"                  = "Rezept erstellen";
 "importRecipe"                  = "Webrezepte importieren";
 "createCollection"              = "Sammlung erstellen";
+
+"recipeCreation"                = "Rezepterstellung";
+"Step 1 of 2"                   = "Schritt 1 von 2";
+"Required"                      = "Erforderlich";
+"Optional"                      = "fakultativ";
+"Collection"                    = "Sammlung";
+"Photo"                         = "Foto";
+"You can add photo"             = "Sie können dem Rezept jederzeit später ein Foto hinzufügen";
+

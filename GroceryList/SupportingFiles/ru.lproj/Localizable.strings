@@ -207,3 +207,11 @@
 "createRecipe"                  = "Создать рецепт";
 "importRecipe"                  = "Скачать рецепт из интернета";
 "createCollection"              = "Создать коллекцию";
+
+"recipeCreation"                = "Создание рецептов";
+"Step 1 of 2"                   = "Шаг 1 из 2";
+"Required"                      = "Обязательно";
+"Optional"                      = "Необязательно";
+"Collection"                    = "Коллекция";
+"Photo"                         = "Фото";
+"You can add photo"             = "Вы можете добавить фото в рецепт в любое время позже";

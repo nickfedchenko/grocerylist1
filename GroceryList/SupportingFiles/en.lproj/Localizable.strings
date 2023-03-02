@@ -210,3 +210,11 @@
 "createRecipe"                  = "Create Recipe";
 "importRecipe"                  = "Import Web Recipes";
 "createCollection"              = "Create Collection";
+
+"recipeCreation"                = "Recipe Creation";
+"Step 1 of 2"                   = "Step 1 of 2";
+"Required"                      = "Required";
+"Optional"                      = "Optional";
+"Collection"                    = "Collection";
+"Photo"                         = "Photo";
+"You can add photo"             = "You can add photo to the recipe at any time later";
