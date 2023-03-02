@@ -15,4 +15,12 @@ final class CreateNewRecipeViewModel {
         router?.navigationPopViewController(animated: true)
     }
     
+    func next() {
+        
+    }
+    
+    func saveRecipe(name: String, servings: String,
+                    collection: String?, photo: UIImage?) {
+        
+    }
 }
