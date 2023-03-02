@@ -28,6 +28,8 @@ class SettingsViewModel {
     }
     
     private var user: User?
+    private var userName: String?
+    private var originalUserName: String?
     
     init(network: NetworkEngine) {
         self.network = network
@@ -52,7 +54,14 @@ class SettingsViewModel {
         }
     }
     
+    func getTextFromTextField(_ text: String?) {
+        userName = text
+    }
+    
     func closeButtonTapped() {
+        if let userName, originalUserName != userName {
+            saveNewUserName(name: userName)
+        }
         router?.popToRoot()
     }
     
@@ -146,6 +155,7 @@ class SettingsViewModel {
         }
        
         self.user = user
+        originalUserName = user.username
         downloadImage(user: user)
         
         let avatarImage = UIImage(data: user.avatarAsData ?? Data())

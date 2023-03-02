@@ -128,6 +128,7 @@ enum RequestGenerator: Codable {
             return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/share",
                                   method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
+                if let listId = listId { injectListId(in: &components, listId: listId) }
             }
             
         case .updateGroceryList(userToken: let userToken, listId: let listId):

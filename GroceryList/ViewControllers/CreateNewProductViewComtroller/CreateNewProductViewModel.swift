@@ -195,7 +195,7 @@ class CreateNewProductViewModel {
         }
         
         guard let product = product else {
-            delegate?.selectCategory(text: "", imageURL: "", defaultSelectedUnit: nil)
+            delegate?.selectCategory(text: "other".localized, imageURL: "", defaultSelectedUnit: nil)
             return
         }
         getAllInformation(product: product)

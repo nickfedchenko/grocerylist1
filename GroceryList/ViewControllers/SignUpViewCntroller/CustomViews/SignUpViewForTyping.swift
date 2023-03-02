@@ -40,6 +40,10 @@ class SignUpViewForTyping: UIView {
         return view
     }()
     
+    var text: String? {
+        textfield.text
+    }
+    
     // MARK: - LifeCycle
     init(type: SignUpViewTextfieldType) {
         super.init(frame: .zero)
