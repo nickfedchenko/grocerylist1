@@ -180,3 +180,11 @@
 "createRecipe"                  = "Créer une recette";
 "importRecipe"                  = "Importer des recettes Web";
 "createCollection"              = "Créer une collection";
+
+"recipeCreation"                = "Création de recettes";
+"Step 1 of 2"                   = "Étape 1 de 2";
+"Required"                      = "Requis";
+"Optional"                      = "Facultatif";
+"Collection"                    = "Collection";
+"Photo"                         = "Photo";
+"You can add photo"             = "Vous pouvez ajouter une photo à la recette à tout moment plus tard";

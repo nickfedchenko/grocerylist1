@@ -166,14 +166,15 @@ class MainScreenViewController: UIViewController {
         contextMenu.isHidden = true
         
         contextMenu.selectedState = { [weak self] state in
-            switch state {
-            case .createRecipe:
-                print("createRecipe")
-            case .createCollection:
-                print("createCollection")
+            self?.contextMenu.fadeOut {
+                switch state {
+                case .createRecipe:
+                    self?.viewModel?.createNewRecipeTapped()
+                case .createCollection:
+                    print("createCollection")
+                }
+                self?.contextMenu.removeSelected()
             }
-            self?.contextMenu.fadeOut()
-            self?.contextMenu.removeSelected()
         }
     }
     
