@@ -8,8 +8,8 @@
 import UIKit
 
 struct CreateNewRecipeStepOne {
-    var name: String
-    var servings: String
+    var title: String
+    var totalServings: Int
     var collection: String?
     var photo: UIImage?
 }

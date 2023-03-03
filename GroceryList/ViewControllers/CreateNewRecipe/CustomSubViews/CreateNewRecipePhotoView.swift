@@ -71,7 +71,7 @@ class CreateNewRecipePhotoView: UIView {
     private func setup() {
         self.backgroundColor = .clear
         let tapOnImageView = UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
-        self.addGestureRecognizer(tapOnImageView)
+        shadowTwoView.addGestureRecognizer(tapOnImageView)
         
         setupShadowView()
         makeConstraints()

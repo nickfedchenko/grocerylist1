@@ -7,13 +7,14 @@
 
 import UIKit
 
-final class CreateNewRecipeViewController: UIViewController {
+final class CreateNewRecipeStepOneViewController: UIViewController {
     
-    var viewModel: CreateNewRecipeViewModel?
+    var viewModel: CreateNewRecipeStepOneViewModel?
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.contentInset.top = CGFloat(titleView.requiredHeight + 40)
         return scrollView
     }()
     
@@ -23,11 +24,6 @@ final class CreateNewRecipeViewController: UIViewController {
         stackView.axis = .vertical
         stackView.spacing = 0
         return stackView
-    }()
-    
-    private lazy var navigationView: UIView = {
-        let view = UIView()
-        return view
     }()
     
     private lazy var backButton: UIButton = {
@@ -54,12 +50,14 @@ final class CreateNewRecipeViewController: UIViewController {
         return button
     }()
     
+    private let topSafeAreaView = UIView()
+    private let navigationView = UIView()
     private let contentView = UIView()
     private var imagePicker = UIImagePickerController()
-    
+    private let titleView = CreateNewRecipeTitleView()
     private let nameView = CreateNewRecipeViewWithTextField()
     private let servingsView = CreateNewRecipeViewWithTextField()
-    private let collectionView = CreateNewRecipeViewWithTextField()
+    private let collectionView = CreateNewRecipeViewWithButton()
     private let photoView = CreateNewRecipePhotoView()
     
     private var isVisibleKeyboard = false
@@ -71,6 +69,8 @@ final class CreateNewRecipeViewController: UIViewController {
     
     private func setup() {
         self.view.backgroundColor = UIColor(hex: "#E5F5F3")
+        navigationView.backgroundColor = UIColor(hex: "#E5F5F3").withAlphaComponent(0.9)
+        topSafeAreaView.backgroundColor = UIColor(hex: "#E5F5F3").withAlphaComponent(0.9)
         setupCustomView()
         setupStackView()
         makeConstraints()
@@ -80,6 +80,7 @@ final class CreateNewRecipeViewController: UIViewController {
     }
     
     private func setupCustomView() {
+        titleView.setStep(R.string.localizable.step1Of2())
         nameView.configure(title: R.string.localizable.name(), state: .required)
         servingsView.configure(title: R.string.localizable.servings().capitalized, state: .required)
         collectionView.configure(title: R.string.localizable.collection(), state: .optional)
@@ -90,11 +91,11 @@ final class CreateNewRecipeViewController: UIViewController {
         }
         servingsView.setOnlyNumber()
         servingsView.textFieldReturnPressed = { [weak self] in
-            self?.collectionView.textField.becomeFirstResponder()
+            self?.servingsView.textField.resignFirstResponder()
         }
         
-        collectionView.textFieldReturnPressed = { [weak self] in
-            self?.collectionView.textField.resignFirstResponder()
+        collectionView.buttonPressed = { [weak self] in
+            self?.viewModel?.openCollection()
         }
             
         photoView.imageTapped = { [weak self] in
@@ -103,27 +104,13 @@ final class CreateNewRecipeViewController: UIViewController {
     }
     
     private func setupStackView() {
-        let titleView = CreateNewRecipeTitleView()
-        titleView.setStep(R.string.localizable.step1Of2())
-        stackView.addArrangedSubview(titleView)
-        titleView.snp.makeConstraints { $0.height.equalTo(titleView.requiredHeight) }
-        
         stackView.addArrangedSubview(nameView)
-        nameView.snp.makeConstraints { $0.height.equalTo(nameView.requiredHeight) }
-
         stackView.addArrangedSubview(servingsView)
-        servingsView.snp.makeConstraints { $0.height.equalTo(servingsView.requiredHeight) }
-
         stackView.addArrangedSubview(collectionView)
-        collectionView.snp.makeConstraints { $0.height.equalTo(collectionView.requiredHeight) }
-        
         stackView.addArrangedSubview(photoView)
-        photoView.snp.makeConstraints { $0.height.equalTo(photoView.requiredHeight) }
     }
     
-    private func updateNextButton() {
-        let isActive = !(nameView.textField.text?.isEmpty ?? true) &&
-                       !(servingsView.textField.text?.isEmpty ?? true)
+    private func updateNextButton(isActive: Bool) {
         nextButton.backgroundColor = UIColor(hex: isActive ? "#1A645A" : "#D8ECE9")
         nextButton.layer.shadowOpacity = isActive ? 0.15 : 0
         nextButton.isUserInteractionEnabled = isActive
@@ -137,13 +124,14 @@ final class CreateNewRecipeViewController: UIViewController {
     @objc
     private func nextButtonTapped() {
         guard let name = nameView.textField.text,
-              let servings = servingsView.textField.text else {
-            print("не заполнены поля")
+              let servings = servingsView.textField.text?.asInt else {
+            print("что-то пошло не так, проверьте обязательные поля")
+            updateNextButton(isActive: false)
             return
         }
-        viewModel?.saveRecipe(name: name,
+        viewModel?.saveRecipe(title: name,
                               servings: servings,
-                              collection: collectionView.textField.text,
+                              collection: collectionView.text,
                               photo: photoView.image)
         viewModel?.next()
     }
@@ -159,7 +147,9 @@ final class CreateNewRecipeViewController: UIViewController {
     @objc
     private func dismissKeyboard() {
         isVisibleKeyboard = false
-        updateNextButton()
+        let isActive = !(nameView.textField.text?.isEmpty ?? true) &&
+                       !(servingsView.textField.text?.isEmpty ?? true)
+        updateNextButton(isActive: isActive)
         
         guard let gestureRecognizers = self.view.gestureRecognizers else {
             return
@@ -169,10 +159,15 @@ final class CreateNewRecipeViewController: UIViewController {
     }
     
     private func makeConstraints() {
-        self.view.addSubviews([scrollView, navigationView])
+        self.view.addSubviews([scrollView, topSafeAreaView, navigationView, titleView])
         self.scrollView.addSubview(contentView)
         contentView.addSubviews([stackView, nextButton])
         navigationView.addSubviews([backButton, backLabel])
+        
+        topSafeAreaView.snp.makeConstraints {
+            $0.leading.trailing.top.equalToSuperview()
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+        }
         
         navigationView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
@@ -180,20 +175,10 @@ final class CreateNewRecipeViewController: UIViewController {
             $0.height.equalTo(40)
         }
         
-        scrollView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
+        titleView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(navigationView.snp.bottom)
-            $0.width.equalToSuperview()
-        }
-        
-        contentView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.width.equalTo(self.view)
-        }
-        
-        stackView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.width.equalTo(self.view)
+            $0.height.equalTo(titleView.requiredHeight)
         }
         
         nextButton.snp.makeConstraints {
@@ -204,6 +189,16 @@ final class CreateNewRecipeViewController: UIViewController {
             $0.bottom.equalToSuperview().offset(-80)
         }
         
+        makeScrollConstraints()
+        makeNavViewConstraints()
+        
+        nameView.snp.makeConstraints { $0.height.equalTo(nameView.requiredHeight) }
+        servingsView.snp.makeConstraints { $0.height.equalTo(servingsView.requiredHeight) }
+        collectionView.snp.makeConstraints { $0.height.equalTo(collectionView.requiredHeight) }
+        photoView.snp.makeConstraints { $0.height.equalTo(photoView.requiredHeight) }
+    }
+    
+    private func makeNavViewConstraints() {
         backButton.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
             $0.top.equalToSuperview()
@@ -216,9 +211,26 @@ final class CreateNewRecipeViewController: UIViewController {
             $0.height.equalTo(24)
         }
     }
+    
+    private func makeScrollConstraints() {
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.width.equalTo(self.view)
+        }
+        
+        stackView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.width.equalTo(self.view)
+        }
+    }
 }
 
-extension CreateNewRecipeViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+extension CreateNewRecipeStepOneViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     func pickImage() {
         if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
             imagePicker.delegate = self

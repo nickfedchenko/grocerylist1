@@ -20,6 +20,12 @@ extension String {
         else { return value }
         return NSLocalizedString(self, bundle: bundle, comment: "")
     }
+    
+    var asInt: Int? {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.number(from: self)?.intValue
+    }
 }
 
 extension String {

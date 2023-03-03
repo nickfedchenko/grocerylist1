@@ -371,8 +371,8 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createCreateNewRecipeViewController(router: RootRouter) -> UIViewController {
-        let viewController = CreateNewRecipeViewController()
-        let viewModel = CreateNewRecipeViewModel()
+        let viewController = CreateNewRecipeStepOneViewController()
+        let viewModel = CreateNewRecipeStepOneViewModel()
         viewModel.router = router
         viewController.viewModel = viewModel
         return viewController

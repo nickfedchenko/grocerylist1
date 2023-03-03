@@ -148,13 +148,14 @@ extension UIView {
     }
 
     func fadeOut(duration: TimeInterval = 0.3,
-                 delay: TimeInterval = 0.0) {
+                 delay: TimeInterval = 0.0, completion: (() -> Void)? = nil) {
         self.alpha = 1.0
         
         UIView.animate(withDuration: duration, delay: delay, options: .curveEaseOut) {
             self.alpha = 0.0
         } completion: { _ in
             self.isHidden = true
+            completion?()
         }
     }
 }
