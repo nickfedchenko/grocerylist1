@@ -121,8 +121,8 @@ struct Product: Hashable, Equatable, Codable {
         return lhs.name == rhs.name &&
         lhs.dateOfCreation == rhs.dateOfCreation &&
         lhs.category == rhs.category && lhs.isPurchased == rhs.isPurchased &&
-        lhs.id == rhs.id && lhs.isFavorite == rhs.isFavorite
-        && lhs.description == rhs.description 
+        lhs.id == rhs.id && lhs.isFavorite == rhs.isFavorite &&
+        lhs.description == rhs.description && lhs.imageData == rhs.imageData
     }
     
     init?(from dbProduct: DBProduct) {
