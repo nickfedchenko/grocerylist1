@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 164 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 167 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -969,6 +969,20 @@ struct _R {
       /// Locales: en, ru, fr, de
       var copy: RswiftResources.StringResource { .init(key: "copy", tableName: "Localizable", source: source, developmentValue: "Save to Photo", comment: nil) }
 
+      /// en translation: Create Collection
+      ///
+      /// Key: createCollection
+      ///
+      /// Locales: en, ru, fr, de
+      var createCollection: RswiftResources.StringResource { .init(key: "createCollection", tableName: "Localizable", source: source, developmentValue: "Create Collection", comment: nil) }
+
+      /// en translation: Create Recipe
+      ///
+      /// Key: createRecipe
+      ///
+      /// Locales: en, ru, fr, de
+      var createRecipe: RswiftResources.StringResource { .init(key: "createRecipe", tableName: "Localizable", source: source, developmentValue: "Create Recipe", comment: nil) }
+
       /// en translation: Delete
       ///
       /// Key: delete
@@ -996,6 +1010,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var gram: RswiftResources.StringResource { .init(key: "gram", tableName: "Localizable", source: source, developmentValue: "g", comment: nil) }
+
+      /// en translation: Import Web Recipes
+      ///
+      /// Key: importRecipe
+      ///
+      /// Locales: en, ru, fr, de
+      var importRecipe: RswiftResources.StringResource { .init(key: "importRecipe", tableName: "Localizable", source: source, developmentValue: "Import Web Recipes", comment: nil) }
 
       /// en translation: kg
       ///
@@ -1238,7 +1259,7 @@ struct _R {
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 123 images.
+  /// This `_R.image` struct is generated, and contains static references to 127 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1278,8 +1299,14 @@ struct _R {
     /// Image `Category`.
     var category: RswiftResources.ImageResource { .init(name: "Category", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `Collection`.
+    var collection: RswiftResources.ImageResource { .init(name: "Collection", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `Color`.
     var color: RswiftResources.ImageResource { .init(name: "Color", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ContextMenuPlus`.
+    var contextMenuPlus: RswiftResources.ImageResource { .init(name: "ContextMenuPlus", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Copy`.
     var copy: RswiftResources.ImageResource { .init(name: "Copy", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -1292,6 +1319,9 @@ struct _R {
 
     /// Image `Print`.
     var print: RswiftResources.ImageResource { .init(name: "Print", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Recipe`.
+    var recipe: RswiftResources.ImageResource { .init(name: "Recipe", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Rename`.
     var rename: RswiftResources.ImageResource { .init(name: "Rename", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -1322,6 +1352,9 @@ struct _R {
 
     /// Image `ViewUnderRegisterButton`.
     var viewUnderRegisterButton: RswiftResources.ImageResource { .init(name: "ViewUnderRegisterButton", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Web`.
+    var web: RswiftResources.ImageResource { .init(name: "Web", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `addItemImage`.
     var addItemImage: RswiftResources.ImageResource { .init(name: "addItemImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
