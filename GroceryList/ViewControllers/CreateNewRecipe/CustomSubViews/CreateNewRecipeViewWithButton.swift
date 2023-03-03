@@ -1,17 +1,21 @@
 //
-//  CreateNewRecipeViewWithTextField.swift
+//  CreateNewRecipeViewWithButton.swift
 //  GroceryList
 //
-//  Created by Хандымаа Чульдум on 02.03.2023.
+//  Created by Хандымаа Чульдум on 03.03.2023.
 //
 
 import UIKit
 
-final class CreateNewRecipeViewWithTextField: UIView {
-    
-    var textFieldReturnPressed: (() -> Void)?
+final class CreateNewRecipeViewWithButton: UIView {
+
+    var buttonPressed: (() -> Void)?
     var requiredHeight: Int {
         16 + 20 + 4 + 48
+    }
+    var text: String? {
+        let text = placeholderLabel.text
+        return text == initialState.placeholder ? nil : text
     }
     
     private lazy var titleLabel: UILabel = {
@@ -28,17 +32,22 @@ final class CreateNewRecipeViewWithTextField: UIView {
         return view
     }()
     
-    lazy var textField: UITextField = {
-        let textField = UITextField()
-        textField.delegate = self
-        textField.font = UIFont.SFPro.medium(size: 16).font
-        textField.tintColor = UIColor(hex: "#1A645A")
-        return textField
+    private lazy var placeholderLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.medium(size: 16).font
+        label.textColor = UIColor(hex: "#777777")
+        return label
+    }()
+    
+    private lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
     }()
     
     private let shadowOneView = UIView()
     private let shadowTwoView = UIView()
-    private var isNumber = false
+
     private var initialState: CreateNewRecipeViewState = .required
     private var state: CreateNewRecipeViewState = .required {
         didSet { updateState() }
@@ -62,13 +71,11 @@ final class CreateNewRecipeViewWithTextField: UIView {
         self.state = state
     }
     
-    func setOnlyNumber() {
-        isNumber = true
-        textField.keyboardType = .numberPad
-    }
-    
     private func setup() {
         self.backgroundColor = .clear
+        let tapOnView = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        contentView.addGestureRecognizer(tapOnView)
+        
         shadowViews.forEach { shadowView in
             shadowView.backgroundColor = .white
             shadowView.layer.cornerRadius = 8
@@ -86,12 +93,17 @@ final class CreateNewRecipeViewWithTextField: UIView {
         }
         contentView.layer.borderWidth = state.borderWidth
         contentView.layer.borderColor = state.borderColor.cgColor
-        textField.placeholder = state.placeholder
+        placeholderLabel.text = state.placeholder
+    }
+    
+    @objc
+    private func viewTapped() {
+        buttonPressed?()
     }
     
     private func makeConstraints() {
         self.addSubviews([titleLabel, shadowOneView, shadowTwoView, contentView])
-        contentView.addSubview(textField)
+        contentView.addSubviews([placeholderLabel, iconImageView])
         
         titleLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(28)
@@ -110,34 +122,17 @@ final class CreateNewRecipeViewWithTextField: UIView {
             shadowView.snp.makeConstraints { $0.edges.equalTo(contentView) }
         }
         
-        textField.snp.makeConstraints {
+        placeholderLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
             $0.center.equalToSuperview()
             $0.height.equalTo(20)
         }
-    }
-}
-
-extension CreateNewRecipeViewWithTextField: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        state = .used
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        state = (textField.text?.isEmpty ?? true) ? initialState : .filled
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textFieldReturnPressed?()
-        return true
-    }
-    
-    func textField(_ textField: UITextField,
-                   shouldChangeCharactersIn range: NSRange,
-                   replacementString string: String) -> Bool {
-        if isNumber {
-            return CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string))
+        
+        iconImageView.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.center.equalToSuperview()
+            $0.height.width.equalTo(24)
         }
-        return true
     }
+
 }

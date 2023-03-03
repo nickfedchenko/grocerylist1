@@ -42,7 +42,7 @@ final class CreateNewRecipeTitleView: UIView {
     }
     
     private func setup() {
-        self.backgroundColor = .clear
+        self.backgroundColor = UIColor(hex: "#E5F5F3").withAlphaComponent(0.9)
         
         makeConstraints()
     }
