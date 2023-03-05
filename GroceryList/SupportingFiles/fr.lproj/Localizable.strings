@@ -11,7 +11,8 @@
 "CreateLists"               = "Créer des listes avec une seule touche.\nLes produits sont automatiquement classés.\nPlus besoin de courir autour du supermarché.";
 "Synchronize"               = "Synchroniser les listes avec la famille et les amis";
 "OrganizeRecepts"           = "Collections de recettes réapprovisionnées dans l'application. Notez et organisez vos recettes.";
-"AddRecipes"                = "Ajoutez des recettes à la collection et à la liste de courses à partir d'Internet";
+"AddRecipes"                = "Ajoutez les ingrédients des recettes directement à votre liste de courses";
+//"AddRecipes"                = "Ajoutez des recettes à la collection et à la liste de courses à partir d'Internet";
 "Grocery Lists"             = "listes de courses";
 "Recipes"                   = "recettes";
 "CreateList"                = "Créer une liste";

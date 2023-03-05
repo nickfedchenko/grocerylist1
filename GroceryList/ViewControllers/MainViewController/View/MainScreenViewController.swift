@@ -423,7 +423,7 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
     
     func modeChanged(to mode: MainScreenPresentationMode) {
         guard Apphud.hasActiveSubscription() else {
-           showPaywall()
+            showPaywall()
             return
         }
         presentationMode = mode
@@ -444,25 +444,9 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
     }
     
     private func showPaywall() {
-        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
-            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
-                if let view = self?.viewModel?.router?.viewControllerFactory.createPaywallController() {
-                    view.modalPresentationStyle = .fullScreen
-                    self?.present(view, animated: true)
-                }
-                return
-            }
-            if paywall.variationName == "New Offer" {
-                if let paywall = self?.viewModel?.router?.viewControllerFactory.createAlternativePaywallController() {
-                    paywall.modalPresentationStyle = .fullScreen
-                    self?.present(paywall, animated: true)
-                }
-            } else {
-                if let paywall = self?.viewModel?.router?.viewControllerFactory.createPaywallController() {
-                    paywall.modalPresentationStyle = .fullScreen
-                    self?.present(paywall, animated: true)
-                }
-            }
+        if let paywall = viewModel?.router?.viewControllerFactory.createAlternativePaywallController() {
+            paywall.modalPresentationStyle = .fullScreen
+            present(paywall, animated: true)
         }
     }
 }

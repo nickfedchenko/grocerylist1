@@ -1814,8 +1814,8 @@
 				CODE_SIGN_ENTITLEMENTS = GroceryList/GroceryList.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
-				DEVELOPMENT_TEAM = "";
+				CURRENT_PROJECT_VERSION = 18;
+				DEVELOPMENT_TEAM = S93MCWMH29;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Grocery list";
@@ -1831,8 +1831,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7;
-				PRODUCT_BUNDLE_IDENTIFIER = asf;
+				MARKETING_VERSION = 1.91.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ksens.shopp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1850,8 +1850,8 @@
 				CODE_SIGN_ENTITLEMENTS = GroceryList/GroceryListRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
-				DEVELOPMENT_TEAM = "";
+				CURRENT_PROJECT_VERSION = 18;
+				DEVELOPMENT_TEAM = S93MCWMH29;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Grocery list";
@@ -1867,8 +1867,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7;
-				PRODUCT_BUNDLE_IDENTIFIER = asf;
+				MARKETING_VERSION = 1.91.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ksens.shopp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

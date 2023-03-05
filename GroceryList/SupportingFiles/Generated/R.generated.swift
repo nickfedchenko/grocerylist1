@@ -108,12 +108,12 @@ struct _R {
       /// Locales: en, ru, fr, de
       var addNote: RswiftResources.StringResource { .init(key: "AddNote", tableName: "Localizable", source: source, developmentValue: "Add note, quantity (optional)", comment: nil) }
 
-      /// en translation: Add recipes to the collection and shopping list from the Internet
+      /// en translation: Add ingredients from recipes straight to your shopping list
       ///
       /// Key: AddRecipes
       ///
       /// Locales: en, ru, fr, de
-      var addRecipes: RswiftResources.StringResource { .init(key: "AddRecipes", tableName: "Localizable", source: source, developmentValue: "Add recipes to the collection and shopping list from the Internet", comment: nil) }
+      var addRecipes: RswiftResources.StringResource { .init(key: "AddRecipes", tableName: "Localizable", source: source, developmentValue: "Add ingredients from recipes straight to your shopping list", comment: nil) }
 
       /// en translation: Added earlier
       ///
@@ -1608,6 +1608,7 @@ struct _R {
 
   /// This `_R.entitlements` struct is generated, and contains static references to 1 properties.
   struct entitlements {
+    let apsEnvironment: String = "development"
     let comAppleDeveloperApplesignin = comAppleDeveloperApplesignin()
     struct comAppleDeveloperApplesignin {
       let `default`: String = "Default"

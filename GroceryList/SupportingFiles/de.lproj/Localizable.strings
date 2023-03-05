@@ -11,7 +11,8 @@
 "CreateLists"               = "Erstellen Sie Listen mit einem Tastendruck\nProdukte werden automatisch kategorisiert.\nNie mehr im Supermarkt herumrennen";
 "Synchronize"               = "Listen synchronisieren mit Verwandten und Freunden";
 "OrganizeRecepts"           = "Aufgefüllte Rezeptsammlungen in der App\nSchreibe deine Rezepte auf und organisiere sie";
-"AddRecipes"                = "Fügen Sie Rezepte aus dem Internet zur Sammlung und Einkaufsliste hinzu";
+"AddRecipes"                = "Fügen Sie Zutaten aus Rezepten direkt zu Ihrer Einkaufsliste hinzu";
+//"AddRecipes"                = "Fügen Sie Rezepte aus dem Internet zur Sammlung und Einkaufsliste hinzu";
 "Grocery Lists"             = "Einkaufslisten";
 "Recipes"                   = "Rezepte";
 "CreateList"                = "Erstelle Liste";

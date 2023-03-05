@@ -223,10 +223,20 @@ class OnboardingContentView: UIView {
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
                        options: .curveLinear) {
+            // Для временно выпиленного экрана(third stage)
+            self.sharedAlarmImage.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+            self.secondBackgroundBlurView.alpha = 0
+            self.sharedAlarmImage.alpha = 0
             
             self.thirdBackgroundView.snp.remakeConstraints { make in
                 make.width.height.top.equalToSuperview()
                 make.right.equalTo(self.snp.left)
+            }
+            
+            self.secondTextLabel.snp.remakeConstraints { make in
+                make.right.equalTo(self.textContainerViewView.snp.left)
+                make.width.equalTo(200)
+                make.top.bottom.equalToSuperview()
             }
             
             self.thirdTextLabel.snp.remakeConstraints { make in

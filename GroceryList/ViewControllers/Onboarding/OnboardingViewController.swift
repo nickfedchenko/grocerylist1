@@ -80,19 +80,19 @@ class OnboardingViewController: UIViewController {
             return
         }
         
-        if currentVC == 2 {
-            secondView.goToThirdState()
-            currentVC += 1
-            return
-        }
+//        if currentVC == 2 {
+//            secondView.goToThirdState()
+//            currentVC += 1
+//            return
+//        }
         
-        if currentVC == 3 {
+        if currentVC == 2 {
             secondView.goToForthState()
             currentVC += 1
             return
         }
         
-        if currentVC > 3 {
+        if currentVC > 2 {
             router?.popToRootFromOnboarding()
 //            router?.showReviewRequestController()
             return

@@ -202,17 +202,7 @@ final class RootRouter: RootRouterProtocol {
     
     func showPaywallVC() {
         guard !Apphud.hasActiveSubscription() else { return }
-        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
-            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
-                self?.showDefaultPaywallVC()
-                return
-            }
-            if paywall.variationName == "New Offer" {
-                self?.showAlternativePaywallVC()
-            } else {
-                self?.showDefaultPaywallVC()
-            }
-        }
+        showAlternativePaywallVC()
     }
     
     func showDefaultPaywallVC() {
