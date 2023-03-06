@@ -37,6 +37,13 @@ final class CreateNewRecipeTitleView: UIView {
         super.init(coder: coder)
     }
     
+    func setRecipe(title: String?) {
+        guard let title else {
+            return
+        }
+        titleLabel.text = title
+    }
+    
     func setStep(_ step: String) {
         stepLabel.text = step
     }
