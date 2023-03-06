@@ -79,6 +79,8 @@ protocol ViewControllerFactoryProtocol {
                                      listToShare: GroceryListsModel,
                                      users: [User]) -> UIViewController
     func createCreateNewRecipeViewController(router: RootRouter) -> UIViewController
+    func createCreateNewRecipeStepTwoViewController(router: RootRouter,
+                                                    recipe: CreateNewRecipeStepOne) -> UIViewController
 }
 
 // MARK: - Factory
@@ -373,6 +375,15 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createCreateNewRecipeViewController(router: RootRouter) -> UIViewController {
         let viewController = CreateNewRecipeStepOneViewController()
         let viewModel = CreateNewRecipeStepOneViewModel()
+        viewModel.router = router
+        viewController.viewModel = viewModel
+        return viewController
+    }
+    
+    func createCreateNewRecipeStepTwoViewController(router: RootRouter,
+                                                    recipe: CreateNewRecipeStepOne) -> UIViewController {
+        let viewController = CreateNewRecipeStepTwoViewController()
+        let viewModel = CreateNewRecipeStepTwoViewModel(recipe: recipe)
         viewModel.router = router
         viewController.viewModel = viewModel
         return viewController

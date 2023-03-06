@@ -189,6 +189,12 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
+    func goToCreateNewRecipeStepTwo(recipe: CreateNewRecipeStepOne) {
+        let controller = viewControllerFactory.createCreateNewRecipeStepTwoViewController(router: self,
+                                                                                          recipe: recipe)
+        navigationPushViewController(controller, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
