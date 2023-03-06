@@ -81,6 +81,8 @@ protocol ViewControllerFactoryProtocol {
     func createCreateNewRecipeViewController(router: RootRouter) -> UIViewController
     func createCreateNewRecipeStepTwoViewController(router: RootRouter,
                                                     recipe: CreateNewRecipeStepOne) -> UIViewController
+    func createPreparationStepViewController(stepNumber: Int,
+                                             compl: @escaping (String) -> Void) -> UIViewController
 }
 
 // MARK: - Factory
@@ -385,6 +387,15 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let viewController = CreateNewRecipeStepTwoViewController()
         let viewModel = CreateNewRecipeStepTwoViewModel(recipe: recipe)
         viewModel.router = router
+        viewController.viewModel = viewModel
+        return viewController
+    }
+    
+    func createPreparationStepViewController(stepNumber: Int,
+                                             compl: @escaping (String) -> Void) -> UIViewController {
+        let viewController = PreparationStepViewController()
+        let viewModel = PreparationStepViewModel(stepNumber: stepNumber)
+        viewModel.stepCallback = compl
         viewController.viewModel = viewModel
         return viewController
     }

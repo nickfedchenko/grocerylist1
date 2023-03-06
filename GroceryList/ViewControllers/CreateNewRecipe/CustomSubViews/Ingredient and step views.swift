@@ -83,6 +83,12 @@ final class StepForCreateRecipeView: UIView {
     func configure(step: String, description: String?) {
         stepLabel.text = step
         descriptionLabel.text = description
+        
+        if descriptionLabel.intrinsicContentSize.height > stepLabel.intrinsicContentSize.height {
+            stepLabel.snp.updateConstraints {
+                $0.top.equalTo(descriptionLabel.snp.top).offset(10)
+            }
+        }
     }
     
     private func setup() {
@@ -98,7 +104,7 @@ final class StepForCreateRecipeView: UIView {
         stepLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalTo(descriptionLabel.snp.leading)
-            $0.top.equalToSuperview().offset(22)
+            $0.top.equalTo(descriptionLabel.snp.top).offset(0)
             $0.height.equalTo(20)
         }
         
@@ -107,7 +113,6 @@ final class StepForCreateRecipeView: UIView {
             $0.trailing.equalToSuperview().offset(-8)
             $0.top.equalToSuperview().offset(12)
             $0.bottom.equalToSuperview().offset(-12)
-            $0.height.greaterThanOrEqualTo(40)
         }
     }
 }

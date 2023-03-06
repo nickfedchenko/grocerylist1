@@ -37,13 +37,13 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.SFProRounded.semibold(size: 17).font
         label.textColor = UIColor(hex: "#1A645A")
-        label.text = R.string.localizable.recipes()
+        label.text = R.string.localizable.step1()
         return label
     }()
     
     private lazy var nextButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Complete".uppercased(), for: .normal)
+        button.setTitle(R.string.localizable.complete().uppercased(), for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
@@ -59,6 +59,7 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     private let descriptionView = CreateNewRecipeViewWithTextField()
     private let ingredientsView = CreateNewRecipeViewWithButton()
     private let stepsView = CreateNewRecipeViewWithButton()
+    private var stepNumber = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,16 +75,28 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         updateNextButton(isActive: false)
         makeConstraints()
         
+        viewModel?.preparationStepChanged = { [weak self] description in
+            guard let self else { return }
+            self.setupStepView(stepNumber: self.stepNumber, description: description)
+            self.stepsView.setPlaceholder(R.string.localizable.addStep())
+            self.stepsView.setState(.filled)
+            self.stepsView.closeStackButton(isVisible: true)
+            self.stepsView.snp.updateConstraints {
+                $0.height.equalTo(self.stepsView.requiredHeight)
+            }
+            self.stepNumber += 1
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardAppear),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
     }
     
     private func setupCustomView() {
         titleView.setRecipe(title: viewModel?.recipeTitle)
-        titleView.setStep("Step 2 of 2")
+        titleView.setStep(R.string.localizable.step2Of2())
         timeView.setOnlyNumber()
-        timeView.configure(title: "Preparation Time (minutes)", state: .optional)
-        descriptionView.configure(title: "Description", state: .optional)
+        timeView.configure(title: R.string.localizable.preparationTimeMinutes(), state: .optional)
+        descriptionView.configure(title: R.string.localizable.description(), state: .optional)
         setupIngredientView()
         setupStepView()
         
@@ -96,10 +109,10 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     }
     
     private func setupIngredientView() {
-        ingredientsView.setPlaceholder("Required (minimum 2)")
+        ingredientsView.setPlaceholder(R.string.localizable.requiredMinimum2())
         ingredientsView.setIconImage(image: R.image.recipePlus())
         ingredientsView.closeStackButton(isVisible: false)
-        ingredientsView.configure(title: "Ingredients", state: .required)
+        ingredientsView.configure(title: R.string.localizable.ingredients(), state: .required)
         ingredientsView.buttonPressed = { [weak self] in
             guard let self else { return }
             // показываем окно создания продукта
@@ -107,7 +120,7 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
             let isActive = self.ingredientsView.stackSubviewsCount >= 2
             self.updateNextButton(isActive: isActive)
             if isActive {
-                self.ingredientsView.setPlaceholder("Add Ingredient")
+                self.ingredientsView.setPlaceholder(R.string.localizable.addIngredient())
                 self.ingredientsView.setState(.filled)
                 self.ingredientsView.closeStackButton(isVisible: isActive)
             }
@@ -126,17 +139,10 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     private func setupStepView() {
         stepsView.setIconImage(image: R.image.recipePlus())
         stepsView.closeStackButton(isVisible: false)
-        stepsView.configure(title: "Preparation Steps", state: .optional)
+        stepsView.configure(title: R.string.localizable.preparationSteps(), state: .optional)
         stepsView.buttonPressed = { [weak self] in
             guard let self else { return }
-            // показываем окно добавления шага приготовления
-            self.setupStepView(stepNumber: 1, description: "sdad\ndfdf\ndfdf")
-            self.stepsView.setPlaceholder("Add Step")
-            self.stepsView.setState(.filled)
-            self.stepsView.closeStackButton(isVisible: true)
-            self.stepsView.snp.updateConstraints {
-                $0.height.equalTo(self.stepsView.requiredHeight)
-            }
+            self.viewModel?.presentPreparationStep(stepNumber: self.stepNumber)
         }
         stepsView.updateLayout = { [weak self] in
             guard let self else { return }

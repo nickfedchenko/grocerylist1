@@ -195,6 +195,13 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
+    func goToPreparationStep(stepNumber: Int, compl: @escaping (String) -> Void) {
+        let controller = viewControllerFactory.createPreparationStepViewController(stepNumber: stepNumber,
+                                                                                   compl: compl)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }

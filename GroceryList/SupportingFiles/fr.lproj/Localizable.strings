@@ -189,3 +189,14 @@
 "Collection"                    = "Collection";
 "Photo"                         = "Photo";
 "You can add photo"             = "Vous pouvez ajouter une photo à la recette à tout moment plus tard";
+
+"Step"                          = "Étape";
+"Step 1"                        = "Étape 1";
+"Step 2 of 2"                   = "Étape 2 sur 2";
+"Preparation Time (minutes)"    = "Temps de préparation (minutes)";
+"Description"                   = "Description";
+"Required (minimum 2)"          = "Requis (minimum 2)";
+"Add Ingredient"                = "Ajouter un ingrédient";
+"Preparation Steps"             = "Etapes de préparation";
+"Add Step"                      = "Ajouter une étape";
+"Complete"                      = "Compléter";

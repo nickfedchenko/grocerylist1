@@ -11,6 +11,7 @@ final class CreateNewRecipeStepTwoViewModel {
     
     weak var router: RootRouter?
     private var recipe: CreateNewRecipeStepOne
+    var preparationStepChanged: ((String) -> Void)?
     
     init(recipe: CreateNewRecipeStepOne) {
         self.recipe = recipe
@@ -24,6 +25,12 @@ final class CreateNewRecipeStepTwoViewModel {
         router?.navigationPopViewController(animated: true)
     }
 
+    func presentPreparationStep(stepNumber: Int) {
+        router?.goToPreparationStep(stepNumber: stepNumber) { [weak self] step in
+            self?.preparationStepChanged?(step)
+        }
+    }
+    
     func next() {
         
     }
