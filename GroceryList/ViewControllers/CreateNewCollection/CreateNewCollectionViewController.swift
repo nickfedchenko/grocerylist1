@@ -1,15 +1,15 @@
 //
-//  PreparationStepViewController.swift
+//  CreateNewCollectionViewController.swift
 //  GroceryList
 //
-//  Created by Хандымаа Чульдум on 06.03.2023.
+//  Created by Хандымаа Чульдум on 07.03.2023.
 //
 
 import UIKit
 
-final class PreparationStepViewController: UIViewController {
+final class CreateNewCollectionViewController: UIViewController {
 
-    var viewModel: PreparationStepViewModel?
+    var viewModel: CreateNewCollectionViewModel?
     
     private lazy var contentView: UIView = {
         let view = UIView()
@@ -26,22 +26,26 @@ final class PreparationStepViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 16).font
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = UIColor(hex: "#777777")
+        label.text = "Create Collection"
         return label
     }()
     
-    private lazy var textView: UITextView = {
-        let textView = UITextView()
-        textView.delegate = self
-        textView.font = UIFont.SFPro.medium(size: 18).font
-        textView.contentInset = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 8)
-        textView.textColor = .black
-        textView.layer.cornerRadius = 16
-        return textView
+    private lazy var textField: UITextField = {
+        let textField = UITextField()
+        textField.delegate = self
+        textField.tintColor = UIColor(hex: "#1A645A")
+        textField.font = UIFont.SFPro.semibold(size: 17).font
+        textField.textColor = .black
+        return textField
     }()
     
-    private let shadowOneView = UIView()
-    private let shadowTwoView = UIView()
+    private lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = R.image.menuFolder()
+        return imageView
+    }()
     
     private lazy var saveButton: UIButton = {
         let button = UIButton()
@@ -65,8 +69,11 @@ final class PreparationStepViewController: UIViewController {
     private func setup() {
         setupContentView()
         updateSaveButton(isActive: false)
-        setupShadowView()
         makeConstraints()
+        
+        let tapOnView = UITapGestureRecognizer(target: self, action: #selector(hidePanel))
+        tapOnView.delegate = self
+        self.view.addGestureRecognizer(tapOnView)
         
         NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardAppear),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -75,10 +82,7 @@ final class PreparationStepViewController: UIViewController {
     private func setupContentView() {
         let swipeDownRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
         contentView.addGestureRecognizer(swipeDownRecognizer)
-        
-        let title = R.string.localizable.step() + " " + "\(viewModel?.stepNumber ?? 1)"
-        titleLabel.text = title
-        textView.becomeFirstResponder()
+        textField.becomeFirstResponder()
     }
     
     private func updateSaveButton(isActive: Bool) {
@@ -88,7 +92,7 @@ final class PreparationStepViewController: UIViewController {
     
     @objc
     private func saveButtonTapped() {
-        viewModel?.save(step: textView.text)
+        viewModel?.save(textField.text)
         hidePanel()
     }
     
@@ -108,6 +112,15 @@ final class PreparationStepViewController: UIViewController {
         }
     }
     
+    @objc
+    private func hidePanel() {
+        textField.resignFirstResponder()
+        updateConstraints(with: -400, alpha: 0)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            self.dismiss(animated: false, completion: nil)
+        }
+    }
+    
     private func updateConstraints(with inset: Double, alpha: Double) {
         UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self = self else { return }
@@ -118,39 +131,16 @@ final class PreparationStepViewController: UIViewController {
             self.view.layoutIfNeeded()
         }
     }
-
-    private func hidePanel() {
-        textView.resignFirstResponder()
-        updateConstraints(with: -400, alpha: 0)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            self.dismiss(animated: false, completion: nil)
-        }
-    }
-    
-    private func setupShadowView() {
-        [shadowOneView, shadowTwoView].forEach { shadowView in
-            shadowView.backgroundColor = UIColor(hex: "#E5F5F3")
-            shadowView.layer.cornerRadius = 16
-        }
-        shadowOneView.addCustomShadow(color: UIColor(hex: "#484848"),
-                                      opacity: 0.15,
-                                      radius: 1,
-                                      offset: .init(width: 0, height: 0.5))
-        shadowTwoView.addCustomShadow(color: UIColor(hex: "#858585"),
-                                      opacity: 0.1,
-                                      radius: 6,
-                                      offset: .init(width: 0, height: 6))
-    }
     
     private func makeConstraints() {
         self.view.addSubview(contentView)
-        contentView.addSubviews([shadowOneView, shadowTwoView, titleView, textView, saveButton])
+        contentView.addSubviews([titleView, iconImageView, textField, saveButton])
         titleView.addSubview(titleLabel)
         
         contentView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(293)
-            $0.bottom.equalToSuperview().inset(-293)
+            $0.height.equalTo(177)
+            $0.bottom.equalToSuperview().inset(-177)
         }
         
         titleView.snp.makeConstraints {
@@ -164,16 +154,17 @@ final class PreparationStepViewController: UIViewController {
             $0.height.equalTo(17)
         }
         
-        textView.snp.makeConstraints {
-            $0.top.equalTo(titleView.snp.bottom).offset(16)
+        iconImageView.snp.makeConstraints {
+            $0.top.equalTo(titleView.snp.bottom).offset(12)
             $0.leading.equalToSuperview().offset(20)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(149)
-            $0.bottom.equalTo(saveButton.snp.top).offset(-16)
+            $0.height.equalTo(40)
+            $0.bottom.equalTo(saveButton.snp.top).offset(-12)
         }
         
-        [shadowOneView, shadowTwoView].forEach { shadowView in
-            shadowView.snp.makeConstraints { $0.edges.equalTo(textView) }
+        textField.snp.makeConstraints {
+            $0.centerY.equalTo(iconImageView)
+            $0.leading.equalTo(iconImageView.snp.trailing).offset(6)
+            $0.height.equalTo(20)
         }
         
         saveButton.snp.makeConstraints {
@@ -183,8 +174,15 @@ final class PreparationStepViewController: UIViewController {
     }
 }
 
-extension PreparationStepViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        updateSaveButton(isActive: !textView.text.isEmpty)
+extension CreateNewCollectionViewController: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        updateSaveButton(isActive: !(textField.text?.isEmpty ?? true))
+    }
+}
+
+extension CreateNewCollectionViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldReceive touch: UITouch) -> Bool {
+        return !(touch.view?.isDescendant(of: self.contentView) ?? false)
     }
 }

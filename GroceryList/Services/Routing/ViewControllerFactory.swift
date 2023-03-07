@@ -83,6 +83,7 @@ protocol ViewControllerFactoryProtocol {
                                                     recipe: CreateNewRecipeStepOne) -> UIViewController
     func createPreparationStepViewController(stepNumber: Int,
                                              compl: @escaping (String) -> Void) -> UIViewController
+    func createCreateNewCollectionViewController(compl: @escaping () -> Void) -> UIViewController
 }
 
 // MARK: - Factory
@@ -396,6 +397,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let viewController = PreparationStepViewController()
         let viewModel = PreparationStepViewModel(stepNumber: stepNumber)
         viewModel.stepCallback = compl
+        viewController.viewModel = viewModel
+        return viewController
+    }
+    
+    func createCreateNewCollectionViewController(compl: @escaping () -> Void) -> UIViewController {
+        let viewController = CreateNewCollectionViewController()
+        let viewModel = CreateNewCollectionViewModel()
+        viewModel.updateUICallBack = compl
         viewController.viewModel = viewModel
         return viewController
     }

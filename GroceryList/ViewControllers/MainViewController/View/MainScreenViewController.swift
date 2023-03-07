@@ -96,6 +96,11 @@ class MainScreenViewController: UIViewController {
             self?.updateImageConstraint()
         }
         
+        viewModel?.modeChanged = { [weak self] in
+            guard Apphud.hasActiveSubscription() else { return }
+            self?.modeChanged(to: .recipes)
+        }
+        
         viewModel?.updateCells = { setOfLists in
             self.reloadItems(lists: setOfLists)
             self.updateImageConstraint()
@@ -171,7 +176,7 @@ class MainScreenViewController: UIViewController {
                 case .createRecipe:
                     self?.viewModel?.createNewRecipeTapped()
                 case .createCollection:
-                    print("createCollection")
+                    self?.viewModel?.createNewCollectionTapped()
                 }
                 self?.contextMenu.removeSelected()
             }
@@ -460,10 +465,10 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
     }
     
     func modeChanged(to mode: MainScreenPresentationMode) {
-        guard Apphud.hasActiveSubscription() else {
-            showPaywall()
-            return
-        }
+//        guard Apphud.hasActiveSubscription() else {
+//            showPaywall()
+//            return
+//        }
         presentationMode = mode
         if mode == .lists {
             showListsCollection()

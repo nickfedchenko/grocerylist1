@@ -13,6 +13,7 @@ class MainScreenViewModel {
     
     weak var router: RootRouter?
     var reloadDataCallBack: (() -> Void)?
+    var modeChanged: (() -> Void)?
     var updateCells:((Set<GroceryListsModel>) -> Void)?
     var dataSource: DataSourceProtocol?
     
@@ -97,6 +98,13 @@ class MainScreenViewModel {
     
     func createNewRecipeTapped() {
         router?.goToCreateNewRecipe()
+    }
+    
+    func createNewCollectionTapped() {
+        router?.goToCreateNewCollection(compl: { [weak self] in
+            self?.updateRecipesSection()
+            self?.modeChanged?()
+        })
     }
     
     // setup cells

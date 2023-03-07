@@ -243,6 +243,10 @@ class MainScreenDataManager: DataSourceProtocol {
         
         recipesSections[index] = favoritesSection
     }
+    
+    func updateCustomSection() {
+        
+    }
 }
 
 enum ColdStartState: Int {

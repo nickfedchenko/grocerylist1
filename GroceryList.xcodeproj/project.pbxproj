@@ -26,6 +26,8 @@
 		3367C78C299F30E8008B39A5 /* SharingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367C78B299F30E8008B39A5 /* SharingHeaderView.swift */; };
 		3368FD6329B5F89C00D97291 /* PreparationStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD6229B5F89C00D97291 /* PreparationStepViewController.swift */; };
 		3368FD6529B60CD000D97291 /* PreparationStepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD6429B60CD000D97291 /* PreparationStepViewModel.swift */; };
+		3368FD6829B6DA0300D97291 /* CreateNewCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD6729B6DA0300D97291 /* CreateNewCollectionViewController.swift */; };
+		3368FD6A29B6E0BF00D97291 /* CreateNewCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD6929B6E0BF00D97291 /* CreateNewCollectionViewModel.swift */; };
 		337719AA29B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719A929B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift */; };
 		337719AC29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719AB29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift */; };
 		337719AE29B1A669000791BD /* CreateNewRecipeViewWithButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719AD29B1A669000791BD /* CreateNewRecipeViewWithButton.swift */; };
@@ -232,6 +234,8 @@
 		3367C78B299F30E8008B39A5 /* SharingHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingHeaderView.swift; sourceTree = "<group>"; };
 		3368FD6229B5F89C00D97291 /* PreparationStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparationStepViewController.swift; sourceTree = "<group>"; };
 		3368FD6429B60CD000D97291 /* PreparationStepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparationStepViewModel.swift; sourceTree = "<group>"; };
+		3368FD6729B6DA0300D97291 /* CreateNewCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewCollectionViewController.swift; sourceTree = "<group>"; };
+		3368FD6929B6E0BF00D97291 /* CreateNewCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewCollectionViewModel.swift; sourceTree = "<group>"; };
 		337719A929B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeStepTwoViewController.swift; sourceTree = "<group>"; };
 		337719AB29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeStepTwoViewModel.swift; sourceTree = "<group>"; };
 		337719AD29B1A669000791BD /* CreateNewRecipeViewWithButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeViewWithButton.swift; sourceTree = "<group>"; };
@@ -516,6 +520,15 @@
 				3368FD6429B60CD000D97291 /* PreparationStepViewModel.swift */,
 			);
 			path = "Preparation Steps";
+			sourceTree = "<group>";
+		};
+		3368FD6629B6D9DD00D97291 /* CreateNewCollection */ = {
+			isa = PBXGroup;
+			children = (
+				3368FD6729B6DA0300D97291 /* CreateNewCollectionViewController.swift */,
+				3368FD6929B6E0BF00D97291 /* CreateNewCollectionViewModel.swift */,
+			);
+			path = CreateNewCollection;
 			sourceTree = "<group>";
 		};
 		337719A729B198A9000791BD /* Step one */ = {
@@ -1189,6 +1202,7 @@
 				B37A2CDD2911027E003C01AD /* Onboarding */,
 				B36933FC291BA4CE00AFFAA6 /* MainViewController */,
 				334BAE4B299DF88F005F52F5 /* Sharing */,
+				3368FD6629B6D9DD00D97291 /* CreateNewCollection */,
 				335519C529AF1AC400AD2B77 /* CreateNewRecipe */,
 				B36933FD291BA4EE00AFFAA6 /* CreateNewListViewController */,
 				B34BB80B292E330D00748E8E /* SelectListViewController */,
@@ -1642,6 +1656,7 @@
 				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,
 				386CFACE2995A4CA00B4AD76 /* ContentViewConstants.swift in Sources */,
 				B371CCA9299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift in Sources */,
+				3368FD6A29B6E0BF00D97291 /* CreateNewCollectionViewModel.swift in Sources */,
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
 				B315F9EA298A4AFF0009CEB8 /* ReviewSelectableView.swift in Sources */,
 				389DCF452945CE9A00DB9382 /* RecipeScreenViewModel.swift in Sources */,
@@ -1681,6 +1696,7 @@
 				B3179EAB291E3DAE00455419 /* ProductsDataManager.swift in Sources */,
 				335519CE29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift in Sources */,
 				B37A2CE72911034D003C01AD /* UIColorExtension.swift in Sources */,
+				3368FD6829B6DA0300D97291 /* CreateNewCollectionViewController.swift in Sources */,
 				B371CCB0299E36BB00E0E197 /* KeychainManager.swift in Sources */,
 				B36AF9532915403600944E9D /* EmptyColoredCell.swift in Sources */,
 				335519C929AF1AF000AD2B77 /* CreateNewRecipeStepOneViewModel.swift in Sources */,

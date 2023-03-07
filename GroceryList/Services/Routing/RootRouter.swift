@@ -202,6 +202,12 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func goToCreateNewCollection(compl: @escaping () -> Void) {
+        let controller = viewControllerFactory.createCreateNewCollectionViewController(compl: compl)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
