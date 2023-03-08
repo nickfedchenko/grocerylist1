@@ -24,7 +24,6 @@ class MainScreenViewController: UIViewController {
         collectionView.register(classCell: MoreRecipeCell.self)
         collectionView.registerHeader(classHeader: RecipesFolderHeader.self)
         collectionView.contentInset.bottom = 10
-        collectionView.contentInset.right = 10
         collectionView.dataSource = self
         collectionView.alpha = 0
         collectionView.backgroundColor = .clear
@@ -96,9 +95,13 @@ class MainScreenViewController: UIViewController {
             self?.updateImageConstraint()
         }
         
-        viewModel?.modeChanged = { [weak self] in
+        viewModel?.addCustomCollection = { [weak self] in
             guard Apphud.hasActiveSubscription() else { return }
+            self?.presentationMode = .recipes
             self?.modeChanged(to: .recipes)
+            DispatchQueue.main.async {
+                self?.recipesCollectionView.reloadData()
+            }
         }
         
         viewModel?.updateCells = { setOfLists in
@@ -120,6 +123,7 @@ class MainScreenViewController: UIViewController {
         viewModel?.reloadDataFromStorage()
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             self?.viewModel?.updateFavorites()
+            self?.viewModel?.updateCustomSection()
             DispatchQueue.main.async {
                 self?.recipesCollectionView.reloadData()
             }
@@ -350,12 +354,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
         array.forEach({ if snapshot.sectionIdentifier(containingItem: $0) != nil { snapshot.reloadItems([$0]) } })
         
         collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollView.contentOffset.x = 0.0
-    }
-    
+    }    
 }
 
 // MARK: - CreateListAction
@@ -429,7 +428,7 @@ extension MainScreenViewController: UICollectionViewDataSource {
                         at indexPath: IndexPath) -> UICollectionReusableView {
         guard indexPath.section > 0,
               let header = collectionView.reusableHeader(classHeader: RecipesFolderHeader.self, indexPath: indexPath),
-              let sectionModel = viewModel?.dataSource?.recipesSections[indexPath.section] else {
+              let sectionModel = viewModel?.dataSource?.recipesSections[safe: indexPath.section] else {
             return UICollectionReusableView()
         }
         header.configure(with: sectionModel, at: indexPath.section)
@@ -481,7 +480,6 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
             
         } else {
             showRecipesCollection()
-            recipesCollectionView.reloadSections(IndexSet(integer: 0))
             bottomCreateListView.isHidden = true
         }
     }

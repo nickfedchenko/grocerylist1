@@ -54,12 +54,14 @@ struct Recipe: Codable {
     let photo: String
     let isDraft: Bool
     let createdAt: Date
+    let localCollection: [CollectionModel]?
 
     enum CodingKeys: String, CodingKey {
         case id, title
         case description
         case cookingTime, totalServings, dishWeight, dishWeightType
         case countries, instructions, ingredients, eatingTags, dishTypeTags, processingTypeTags, additionalTags, dietTags, exceptionTags, photo, isDraft, createdAt
+        case localCollection
     }
     
     init?(from dbModel: DBRecipe) {
@@ -87,6 +89,7 @@ struct Recipe: Codable {
         photo = dbModel.photo ?? ""
         isDraft = dbModel.isDraft
         createdAt = dbModel.createdAt ?? Date()
+        localCollection = (try? JSONDecoder().decode([CollectionModel].self, from: dbModel.localCollection ?? Data())) ?? []
     }
 }
 

@@ -1378,7 +1378,7 @@ struct _R {
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 134 images.
+  /// This `_R.image` struct is generated, and contains static references to 135 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1477,6 +1477,9 @@ struct _R {
 
     /// Image `Sort`.
     var sort: RswiftResources.ImageResource { .init(name: "Sort", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `SortRecipeMenu`.
+    var sortRecipeMenu: RswiftResources.ImageResource { .init(name: "SortRecipeMenu", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Time`.
     var time: RswiftResources.ImageResource { .init(name: "Time", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

@@ -15,8 +15,8 @@ final class CreateNewCollectionViewModel {
         guard let title else {
             return
         }
-        
+        let newCollection = CollectionModel(id: UUID().integer, title: title)
+        CoreDataManager.shared.saveCollection(newCollection)
         updateUICallBack?()
     }
-    
 }

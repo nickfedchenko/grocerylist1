@@ -13,7 +13,7 @@ class MainScreenViewModel {
     
     weak var router: RootRouter?
     var reloadDataCallBack: (() -> Void)?
-    var modeChanged: (() -> Void)?
+    var addCustomCollection: (() -> Void)?
     var updateCells:((Set<GroceryListsModel>) -> Void)?
     var dataSource: DataSourceProtocol?
     
@@ -39,6 +39,10 @@ class MainScreenViewModel {
     
     func updateFavorites() {
         dataSource?.updateFavoritesSection()
+    }
+    
+    func updateCustomSection() {
+        dataSource?.updateCustomSection()
     }
     
     // user
@@ -103,7 +107,7 @@ class MainScreenViewModel {
     func createNewCollectionTapped() {
         router?.goToCreateNewCollection(compl: { [weak self] in
             self?.updateRecipesSection()
-            self?.modeChanged?()
+            self?.addCustomCollection?()
         })
     }
     

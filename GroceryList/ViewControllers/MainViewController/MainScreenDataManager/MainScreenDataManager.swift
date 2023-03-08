@@ -19,6 +19,7 @@ protocol DataSourceProtocol {
     var recipeCount: Int { get }
     func makeRecipesSections()
     func updateFavoritesSection()
+    func updateCustomSection()
 }
 
 class MainScreenDataManager: DataSourceProtocol {
@@ -70,6 +71,24 @@ class MainScreenDataManager: DataSourceProtocol {
         createWorkingArray()
         makeRecipesSections()
         addObserver()
+        
+        // заполнение дефолтных секций
+        if !UserDefaultsManager.isFillingDefaultCollection {
+            let breakfast = CollectionModel(id: AdditionalTag.EatingTime.breakfast.rawValue,
+                                            title: RecipeSectionsModel.RecipeSectionType.breakfast.title)
+            let dinner = CollectionModel(id: AdditionalTag.EatingTime.dinner.rawValue,
+                                         title: RecipeSectionsModel.RecipeSectionType.dinner.title)
+            let lunch = CollectionModel(id: AdditionalTag.EatingTime.lunch.rawValue,
+                                        title: RecipeSectionsModel.RecipeSectionType.lunch.title)
+            let snack = CollectionModel(id: AdditionalTag.EatingTime.snack.rawValue,
+                                        title: RecipeSectionsModel.RecipeSectionType.snacks.title)
+            let miscellaneous = CollectionModel(id: UUID().integer, title: "Miscellaneous")
+            [breakfast, dinner, lunch, snack, miscellaneous].forEach { collection in
+                CoreDataManager.shared.saveCollection(collection)
+            }
+            UserDefaultsManager.isFillingDefaultCollection = true
+        }
+
     }
     
     func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel> {
@@ -208,20 +227,9 @@ class MainScreenDataManager: DataSourceProtocol {
     /// MARK: - Recipes part
     
     func makeRecipesSections() {
-        guard let  allRecipes: [DBRecipe] = CoreDataManager.shared.getAllRecipes() else { return }
-        let plainRecipes = allRecipes.compactMap { Recipe(from: $0) }
-        let breakfastRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .breakfast } )}
-        let lunchRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .lunch } )}
-        let dinnerRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .dinner } )}
-        let snacksRecipes = plainRecipes.filter { $0.eatingTags.contains(where: { $0.eatingType == .snack } )}
-        recipesSections = [
-            .init(cellType: .topMenuCell, sectionType: .none, recipes: []),
-            .init(cellType: .recipePreview, sectionType: .breakfast, recipes: breakfastRecipes.shuffled()),
-            .init(cellType: .recipePreview, sectionType: .lunch, recipes: lunchRecipes.shuffled()),
-            .init(cellType: .recipePreview, sectionType: .dinner, recipes: dinnerRecipes.shuffled()),
-            .init(cellType: .recipePreview, sectionType: .snacks, recipes: snacksRecipes.shuffled())
-        ]
+        recipesSections = [.init(cellType: .topMenuCell, sectionType: .none, recipes: [])]
         updateFavoritesSection()
+        updateCustomSection()
     }
     
     func updateFavoritesSection() {
@@ -245,7 +253,38 @@ class MainScreenDataManager: DataSourceProtocol {
     }
     
     func updateCustomSection() {
+        guard let allCollection = CoreDataManager.shared.getAllCollection(),
+              let allRecipes = CoreDataManager.shared.getAllRecipes() else { return }
         
+        let plainRecipes = allRecipes.compactMap { Recipe(from: $0) }
+        let customCollection = allCollection.compactMap { CollectionModel(from: $0) }
+        
+        customCollection.forEach { collection in
+            let recipes = plainRecipes.filter {
+                $0.localCollection?.contains(where: { collection.id == $0.id }) ?? false
+            }
+            let customSection = RecipeSectionsModel(cellType: .recipePreview,
+                                                    sectionType: .custom(collection.title),
+                                                    recipes: recipes.shuffled())
+
+            guard let index = recipesSections.firstIndex(where: { $0.sectionType == .custom(collection.title) }) else {
+                recipesSections.append(customSection)
+                return
+            }
+            recipesSections[index] = customSection
+        }
+        
+        updateMiscellaneousSection()
+    }
+    
+    func updateMiscellaneousSection() {
+        guard let miscellaneousIndex = recipesSections.firstIndex(where: { $0.sectionType == .custom("Miscellaneous") }) else {
+            return
+        }
+        
+        if recipesSections[miscellaneousIndex].recipes.isEmpty {
+            recipesSections.remove(at: miscellaneousIndex)
+        }
     }
 }
 
