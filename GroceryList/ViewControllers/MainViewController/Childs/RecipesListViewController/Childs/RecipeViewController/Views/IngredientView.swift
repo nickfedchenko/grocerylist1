@@ -7,9 +7,9 @@
 
 import UIKit
 
-final class IngredientView: UIView {
+class IngredientView: UIView {
     
-    private let titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.font = R.font.sfProTextMedium(size: 16)
         label.textColor = .black
@@ -19,7 +19,7 @@ final class IngredientView: UIView {
         return label
     }()
     
-    private let servingLabel: UILabel = {
+    let servingLabel: UILabel = {
         let label = UILabel()
         label.font = R.font.sfProTextMedium(size: 16)
         label.textColor = UIColor(hex: "FF764B")

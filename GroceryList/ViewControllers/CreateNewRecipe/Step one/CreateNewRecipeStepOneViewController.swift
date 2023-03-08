@@ -83,13 +83,15 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         titleView.setStep(R.string.localizable.step1Of2())
         nameView.configure(title: R.string.localizable.name(), state: .required)
         servingsView.configure(title: R.string.localizable.servings().capitalized, state: .required)
+        servingsView.setOnlyNumber()
+        collectionView.closeStackButton(isVisible: false)
         collectionView.configure(title: R.string.localizable.collection(), state: .optional)
         
         nameView.textField.becomeFirstResponder()
         nameView.textFieldReturnPressed = { [weak self] in
             self?.servingsView.textField.becomeFirstResponder()
         }
-        servingsView.setOnlyNumber()
+        
         servingsView.textFieldReturnPressed = { [weak self] in
             self?.servingsView.textField.resignFirstResponder()
         }
@@ -191,11 +193,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         
         makeScrollConstraints()
         makeNavViewConstraints()
-        
-        nameView.snp.makeConstraints { $0.height.equalTo(nameView.requiredHeight) }
-        servingsView.snp.makeConstraints { $0.height.equalTo(servingsView.requiredHeight) }
-        collectionView.snp.makeConstraints { $0.height.equalTo(collectionView.requiredHeight) }
-        photoView.snp.makeConstraints { $0.height.equalTo(photoView.requiredHeight) }
+        makeCustomViewConstraints()
     }
     
     private func makeNavViewConstraints() {
@@ -226,6 +224,29 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         stackView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.width.equalTo(self.view)
+        }
+    }
+    
+    private func makeCustomViewConstraints() {
+        nameView.snp.makeConstraints {
+            $0.height.equalTo(nameView.requiredHeight)
+            $0.width.equalToSuperview()
+        }
+        
+        servingsView.snp.makeConstraints {
+            $0.height.equalTo(servingsView.requiredHeight)
+            $0.width.equalToSuperview()
+        }
+        
+        collectionView.snp.makeConstraints {
+            $0.height.equalTo(collectionView.requiredHeight)
+            $0.width.equalToSuperview()
+            
+        }
+        
+        photoView.snp.makeConstraints {
+            $0.height.equalTo(photoView.requiredHeight)
+            $0.width.equalToSuperview()
         }
     }
 }

@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 174 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 184 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -93,6 +93,20 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var daysFree: RswiftResources.StringResource { .init(key: "3 days free", tableName: "Localizable", source: source, developmentValue: "3 days free", comment: nil) }
+
+      /// en translation: Add Ingredient
+      ///
+      /// Key: Add Ingredient
+      ///
+      /// Locales: en, ru, fr, de
+      var addIngredient: RswiftResources.StringResource { .init(key: "Add Ingredient", tableName: "Localizable", source: source, developmentValue: "Add Ingredient", comment: nil) }
+
+      /// en translation: Add Step
+      ///
+      /// Key: Add Step
+      ///
+      /// Locales: en, ru, fr, de
+      var addStep: RswiftResources.StringResource { .init(key: "Add Step", tableName: "Localizable", source: source, developmentValue: "Add Step", comment: nil) }
 
       /// en translation: Add Item
       ///
@@ -206,6 +220,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var collection: RswiftResources.StringResource { .init(key: "Collection", tableName: "Localizable", source: source, developmentValue: "Collection", comment: nil) }
 
+      /// en translation: Complete
+      ///
+      /// Key: Complete
+      ///
+      /// Locales: en, ru, fr, de
+      var complete: RswiftResources.StringResource { .init(key: "Complete", tableName: "Localizable", source: source, developmentValue: "Complete", comment: nil) }
+
       /// en translation: Create
       ///
       /// Key: Create
@@ -233,6 +254,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var dateSorted: RswiftResources.StringResource { .init(key: "DateSorted", tableName: "Localizable", source: source, developmentValue: "Sorting by creation date", comment: nil) }
+
+      /// en translation: Description
+      ///
+      /// Key: Description
+      ///
+      /// Locales: en, ru, fr, de
+      var description: RswiftResources.StringResource { .init(key: "Description", tableName: "Localizable", source: source, developmentValue: "Description", comment: nil) }
 
       /// en translation: Dinner
       ///
@@ -577,6 +605,20 @@ struct _R {
       /// Locales: en, ru, fr, de
       var planYourShoppingListForTheWeek: RswiftResources.StringResource { .init(key: "Plan your shopping list for the week", tableName: "Localizable", source: source, developmentValue: "Plan your shopping list for the week", comment: nil) }
 
+      /// en translation: Preparation Steps
+      ///
+      /// Key: Preparation Steps
+      ///
+      /// Locales: en, ru, fr, de
+      var preparationSteps: RswiftResources.StringResource { .init(key: "Preparation Steps", tableName: "Localizable", source: source, developmentValue: "Preparation Steps", comment: nil) }
+
+      /// en translation: Preparation Time (minutes)
+      ///
+      /// Key: Preparation Time (minutes)
+      ///
+      /// Locales: en, ru, fr, de
+      var preparationTimeMinutes: RswiftResources.StringResource { .init(key: "Preparation Time (minutes)", tableName: "Localizable", source: source, developmentValue: "Preparation Time (minutes)", comment: nil) }
+
       /// en translation: A problem? Contact us!
       ///
       /// Key: Problems?
@@ -660,6 +702,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var required: RswiftResources.StringResource { .init(key: "Required", tableName: "Localizable", source: source, developmentValue: "Required", comment: nil) }
+
+      /// en translation: Required (minimum 2)
+      ///
+      /// Key: Required (minimum 2)
+      ///
+      /// Locales: en, ru, fr, de
+      var requiredMinimum2: RswiftResources.StringResource { .init(key: "Required (minimum 2)", tableName: "Localizable", source: source, developmentValue: "Required (minimum 2)", comment: nil) }
 
       /// en translation: Change password
       ///
@@ -864,12 +913,33 @@ struct _R {
       /// Locales: en, ru, fr, de
       var stationery: RswiftResources.StringResource { .init(key: "Stationery", tableName: "Localizable", source: source, developmentValue: "Stationery", comment: nil) }
 
+      /// en translation: Step
+      ///
+      /// Key: Step
+      ///
+      /// Locales: en, ru, fr, de
+      var step: RswiftResources.StringResource { .init(key: "Step", tableName: "Localizable", source: source, developmentValue: "Step", comment: nil) }
+
+      /// en translation: Step 1
+      ///
+      /// Key: Step 1
+      ///
+      /// Locales: en, ru, fr, de
+      var step1: RswiftResources.StringResource { .init(key: "Step 1", tableName: "Localizable", source: source, developmentValue: "Step 1", comment: nil) }
+
       /// en translation: Step 1 of 2
       ///
       /// Key: Step 1 of 2
       ///
       /// Locales: en, ru, fr, de
       var step1Of2: RswiftResources.StringResource { .init(key: "Step 1 of 2", tableName: "Localizable", source: source, developmentValue: "Step 1 of 2", comment: nil) }
+
+      /// en translation: Step 2 of 2
+      ///
+      /// Key: Step 2 of 2
+      ///
+      /// Locales: en, ru, fr, de
+      var step2Of2: RswiftResources.StringResource { .init(key: "Step 2 of 2", tableName: "Localizable", source: source, developmentValue: "Step 2 of 2", comment: nil) }
 
       /// en translation: Supermarket
       ///
@@ -1308,7 +1378,7 @@ struct _R {
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 129 images.
+  /// This `_R.image` struct is generated, and contains static references to 133 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1348,6 +1418,12 @@ struct _R {
     /// Image `Category`.
     var category: RswiftResources.ImageResource { .init(name: "Category", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `ChevronDownGreen`.
+    var chevronDownGreen: RswiftResources.ImageResource { .init(name: "ChevronDownGreen", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ChevronUpGreen`.
+    var chevronUpGreen: RswiftResources.ImageResource { .init(name: "ChevronUpGreen", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `Collection`.
     var collection: RswiftResources.ImageResource { .init(name: "Collection", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -1371,6 +1447,9 @@ struct _R {
 
     /// Image `Recipe`.
     var recipe: RswiftResources.ImageResource { .init(name: "Recipe", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `RecipePlus`.
+    var recipePlus: RswiftResources.ImageResource { .init(name: "RecipePlus", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Rename`.
     var rename: RswiftResources.ImageResource { .init(name: "Rename", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -1446,6 +1525,9 @@ struct _R {
 
     /// Image `close_cross`.
     var close_cross: RswiftResources.ImageResource { .init(name: "close_cross", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `collectionChevron`.
+    var collectionChevron: RswiftResources.ImageResource { .init(name: "collectionChevron", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `collectionsAlarmImage`.
     var collectionsAlarmImage: RswiftResources.ImageResource { .init(name: "collectionsAlarmImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -1702,7 +1784,6 @@ struct _R {
 
   /// This `_R.entitlements` struct is generated, and contains static references to 1 properties.
   struct entitlements {
-    let apsEnvironment: String = "development"
     let comAppleDeveloperApplesignin = comAppleDeveloperApplesignin()
     struct comAppleDeveloperApplesignin {
       let `default`: String = "Default"

@@ -215,3 +215,14 @@
 "Collection"                    = "Коллекция";
 "Photo"                         = "Фото";
 "You can add photo"             = "Вы можете добавить фото в рецепт в любое время позже";
+
+"Step"                          = "Шаг";
+"Step 1"                        = "Шаг 1 ";
+"Step 2 of 2"                   = "Шаг 2 из 2";
+"Preparation Time (minutes)"    = "Время подготовки (в минутах)";
+"Description"                   = "Описание";
+"Required (minimum 2)"          = "Обязательно (минимум 2)";
+"Add Ingredient"                = "Добавить ингредиент";
+"Preparation Steps"             = "Шаги приготовления";
+"Add Step"                      = "Добавить шаг";
+"Complete"                      = "Завершить";

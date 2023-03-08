@@ -21,7 +21,10 @@ final class CreateNewRecipeStepOneViewModel {
     }
     
     func next() {
-        
+        guard let recipe else {
+            return
+        }
+        router?.goToCreateNewRecipeStepTwo(recipe: recipe)
     }
     
     func saveRecipe(title: String, servings: Int,
