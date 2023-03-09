@@ -118,6 +118,7 @@ struct Ingredient: Codable {
     let quantity: Double
     let isNamed: Bool
     let unit: MarketUnitClass?
+    var description: String?
 }
 
 // MARK: - MarketUnitClass
