@@ -47,7 +47,7 @@ class RecipesFolderHeader: UICollectionReusableView {
     
     func configure(with sectionModel: RecipeSectionsModel, at sectionIndex: Int) {
         recipesCountLabel.text = String(sectionModel.recipes.count)
-        folderTitleLabel.text = sectionModel.sectionType.rawValue.capitalized.localized
+        folderTitleLabel.text = sectionModel.sectionType.title
         self.sectionIndex = sectionIndex
     }
     

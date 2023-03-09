@@ -385,6 +385,33 @@ class CoreDataManager {
         }
         return nil
     }
+    
+    // MARK: - Collection
+    func saveCollection(_ collection: CollectionModel) {
+        let context = coreData.container.viewContext
+        let object = DBCollection(context: context)
+        object.id = Int64(collection.id)
+        object.title = collection.title
+        try? context.save()
+    }
+    
+    func getAllCollection() -> [DBCollection]? {
+        let fetchRequest: NSFetchRequest<DBCollection> = DBCollection.fetchRequest()
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
+            return nil
+        }
+        return object
+    }
+    
+    func deleteCollection(by id: UUID) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBCollection> = DBCollection.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
 }
 
 extension CoreDataManager: CoredataSyncProtocol {

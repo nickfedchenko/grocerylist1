@@ -91,6 +91,24 @@ class UserDefaultsManager {
         }
     }
     
+    static var isCollectionFilling: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "isCollectionFilling")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isCollectionFilling")
+        }
+    }
+    
+    static var isFillingDefaultCollection: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "isFillingDefaultCollection")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isFillingDefaultCollection")
+        }
+    }
+    
     private static func setValue<T>(value: T, for key: UDKeys) {
         UserDefaults.standard.set(value, forKey: key.rawValue)
     }

@@ -72,6 +72,7 @@ final class RecipePreviewCell: UICollectionViewCell {
             make.top.equalTo(mainImage.snp.bottom).offset(4)
             make.leading.trailing.equalToSuperview().inset(8)
             make.bottom.equalToSuperview().inset(8)
+            make.height.equalTo(36)
         }
         
     }

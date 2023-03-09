@@ -35,6 +35,7 @@ extension DBRecipe {
     @NSManaged public var isDraft: Bool
     @NSManaged public var createdAt: Date?
     @NSManaged public var ingredients: Data?
+    @NSManaged public var localCollection: Data?
     
     static func prepare(fromPlainModel model: Recipe, context: NSManagedObjectContext) -> DBRecipe {
         let recipe = DBRecipe(context: context)
@@ -56,6 +57,12 @@ extension DBRecipe {
         recipe.isDraft = model.isDraft
         recipe.createdAt = model.createdAt
         recipe.ingredients = try? JSONEncoder().encode(model.ingredients)
+        var collections: [CollectionModel] = []
+        model.eatingTags.forEach { tag in
+            collections.append(CollectionModel(id: tag.id, title: tag.title))
+        }
+        recipe.localCollection = try? JSONEncoder().encode(collections)
+        
         return recipe
     }
     

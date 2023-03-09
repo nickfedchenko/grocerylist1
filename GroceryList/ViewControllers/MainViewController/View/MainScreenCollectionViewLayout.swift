@@ -52,7 +52,7 @@ final class MainScreenCollectionViewLayout {
         
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .absolute(128),
-            heightDimension: .absolute(128)
+            heightDimension: .estimated(1)
         )
         
         let item = NSCollectionLayoutItem(
@@ -61,7 +61,7 @@ final class MainScreenCollectionViewLayout {
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .estimated(CGFloat(128 * recipeCount + (8 * recipeCount - 2))),
-            heightDimension: .absolute(128)
+            heightDimension: .estimated(1)
         )
         
         let group = NSCollectionLayoutGroup.horizontal(

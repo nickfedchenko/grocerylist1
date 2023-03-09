@@ -12,12 +12,12 @@ struct RecipeSectionsModel {
         case recipePreview
     }
     
-    enum RecipeSectionType: String {
+    enum RecipeSectionType: Equatable {
         case breakfast, lunch, dinner, snacks, none, favorites
+        case custom(String)
         
         var title: String {
             switch self {
-                
             case .breakfast:
                 return R.string.localizable.breakfast()
             case .lunch:
@@ -30,6 +30,8 @@ struct RecipeSectionsModel {
                 return "NoneType"
             case .favorites:
                 return R.string.localizable.favorites()
+            case .custom(let title):
+                return title
             }
         }
     }
