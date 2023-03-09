@@ -109,6 +109,15 @@ class UserDefaultsManager {
         }
     }
     
+    static var miscellaneousCollectionId: Int {
+        get {
+            return UserDefaults.standard.integer(forKey: "miscellaneousCollectionId")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "miscellaneousCollectionId")
+        }
+    }
+    
     private static func setValue<T>(value: T, for key: UDKeys) {
         UserDefaults.standard.set(value, forKey: key.rawValue)
     }

@@ -22,6 +22,7 @@ final class RecipeViewController: UIViewController {
        let header = RecipeScreenHeader()
         header.setTitle(title: viewModel.getRecipeTitle())
         header.setBackButtonTitle(title: backButtonTitle)
+        header.setCollectionButton(!viewModel.haveCollections())
         header.delegate = self
         return header
     }()
@@ -322,6 +323,10 @@ extension RecipeViewController: RecipeServingSelectorDelegate {
 extension RecipeViewController: RecipeScreenHeaderDelegate {
     func backButtonTapped() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    func collectionButtonTapped() {
+        viewModel.showCollection()
     }
 }
 

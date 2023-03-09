@@ -83,6 +83,7 @@ class MainScreenDataManager: DataSourceProtocol {
             let snack = CollectionModel(id: AdditionalTag.EatingTime.snack.rawValue,
                                         title: RecipeSectionsModel.RecipeSectionType.snacks.title)
             let miscellaneous = CollectionModel(id: UUID().integer, title: "Miscellaneous")
+            UserDefaultsManager.miscellaneousCollectionId = miscellaneous.id
             [breakfast, dinner, lunch, snack, miscellaneous].forEach { collection in
                 CoreDataManager.shared.saveCollection(collection)
             }

@@ -9,6 +9,7 @@ import UIKit
 
 protocol RecipeScreenHeaderDelegate: AnyObject {
     func backButtonTapped()
+    func collectionButtonTapped()
 }
 
 final class RecipeScreenHeader: UIView {
@@ -28,6 +29,15 @@ final class RecipeScreenHeader: UIView {
         label.textColor = UIColor(hex: "0C695E")
         label.numberOfLines = 2
         return label
+    }()
+    
+    private let collectionButton: UIButton = {
+        let button = UIButton()
+        button.setImage(R.image.recipePlus(), for: .normal)
+        button.tintColor = UIColor(hex: "0C695E")
+        button.titleLabel?.font = UIFont.SFProRounded.bold(size: 15).font
+        button.setTitle("Add to collection", for: .normal)
+        return button
     }()
     
     let blurView = UIVisualEffectView(effect: nil)
@@ -76,6 +86,13 @@ final class RecipeScreenHeader: UIView {
         titleLabel.attributedText = attrTitle
     }
     
+    func setCollectionButton(_ isMissingFromCollections: Bool) {
+        collectionButton.setImage(isMissingFromCollections ? R.image.recipePlus() : R.image.sortRecipeMenu(),
+                                  for: .normal)
+        collectionButton.setTitle(isMissingFromCollections ? "Add to collection" : nil,
+                                  for: .normal)
+    }
+    
     func releaseBlurAnimation() {
         blurRadiusDriver?.stopAnimation(true)
     }
@@ -84,6 +101,11 @@ final class RecipeScreenHeader: UIView {
         backButton.addAction(
             UIAction { [weak self] _ in
                 self?.delegate?.backButtonTapped()
+            },
+            for: .touchUpInside)
+        collectionButton.addAction(
+            UIAction { [weak self] _ in
+                self?.delegate?.collectionButtonTapped()
             },
             for: .touchUpInside)
     }
@@ -105,6 +127,7 @@ final class RecipeScreenHeader: UIView {
         addSubview(blurView)
         blurView.contentView.addSubview(backButton)
         blurView.contentView.addSubview(titleLabel)
+        blurView.contentView.addSubview(collectionButton)
         
         blurView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -121,6 +144,12 @@ final class RecipeScreenHeader: UIView {
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(backButton.snp.bottom).inset(-26)
             make.bottom.equalToSuperview().inset(8)
+        }
+        
+        collectionButton.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(2)
+            make.trailing.equalToSuperview().offset(-20)
+            make.height.equalTo(40)
         }
     }
 }

@@ -251,7 +251,10 @@ extension MainScreenViewController: UICollectionViewDelegate {
         } else {
             if indexPath.section != 0 && indexPath.row != (viewModel?.dataSource?.recipeCount ?? 10) - 1 {
                 guard let model = viewModel?.dataSource?.recipesSections[indexPath.section].recipes[indexPath.item] else { return }
-                let view = RecipeViewController(with: RecipeScreenViewModel(recipe: model), backButtonTitle: R.string.localizable.back())
+                let recipeViewModel = RecipeScreenViewModel(recipe: model)
+                recipeViewModel.router = viewModel?.router
+                let view = RecipeViewController(with: recipeViewModel,
+                                                backButtonTitle: R.string.localizable.back())
                 navigationController?.pushViewController(view, animated: true)
             }
         }
@@ -400,8 +403,12 @@ extension MainScreenViewController: UICollectionViewDataSource {
                 self?.contextMenu.fadeIn()
                 self?.menuTapRecognizer.isEnabled = true
             }
+            topCell.sortCollectionTapped = { [weak self] in
+                self?.viewModel?.showCollection()
+            }
+            
             topCell.delegate = self
-            topCell.configure(with: presentationMode)
+            topCell.configure(with: .recipes)
             topCell.setupUser(photo: self.viewModel?.userPhoto,
                               name: self.viewModel?.userName)
             return topCell

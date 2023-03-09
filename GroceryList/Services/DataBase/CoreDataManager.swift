@@ -412,6 +412,16 @@ class CoreDataManager {
         }
         try? context.save()
     }
+    
+    // MARK: - Recipe
+    func getRecipe(by id: Int) -> DBRecipe? {
+        let fetchRequest: NSFetchRequest<DBRecipe> = DBRecipe.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest).first else {
+            return nil
+        }
+        return object
+    }
 }
 
 extension CoreDataManager: CoredataSyncProtocol {

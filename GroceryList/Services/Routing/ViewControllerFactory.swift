@@ -84,6 +84,10 @@ protocol ViewControllerFactoryProtocol {
     func createPreparationStepViewController(stepNumber: Int,
                                              compl: @escaping (String) -> Void) -> UIViewController
     func createCreateNewCollectionViewController(compl: @escaping () -> Void) -> UIViewController
+    func createShowCollectionViewController(router: RootRouter,
+                                            state: ShowCollectionViewController.ShowCollectionState,
+                                            recipe: Recipe?,
+                                            compl: (([CollectionModel]) -> Void)?) ->
 }
 
 // MARK: - Factory
@@ -405,6 +409,18 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let viewController = CreateNewCollectionViewController()
         let viewModel = CreateNewCollectionViewModel()
         viewModel.updateUICallBack = compl
+        viewController.viewModel = viewModel
+        return viewController
+    }
+    
+    func createShowCollectionViewController(router: RootRouter,
+                                            state: ShowCollectionViewController.ShowCollectionState,
+                                            recipe: Recipe?,
+                                            compl: (([CollectionModel]) -> Void)?) -> UIViewController {
+        let viewController = ShowCollectionViewController()
+        let viewModel = ShowCollectionViewModel(state: state, recipe: recipe)
+        viewModel.router = router
+        viewModel.selectedCollection = compl
         viewController.viewModel = viewModel
         return viewController
     }
