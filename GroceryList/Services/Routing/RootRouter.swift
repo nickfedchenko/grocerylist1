@@ -220,7 +220,7 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goToIngredient() {
-        let controller = viewControllerFactory.createIngredientViewController()
+        let controller = viewControllerFactory.createIngredientViewController(router: self)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
     }
@@ -285,7 +285,7 @@ final class RootRouter: RootRouterProtocol {
         return controller
     }
     
-    func prepareSelectCategoryController(model: GroceryListsModel, compl: @escaping (String) -> Void) -> UIViewController {
+    func prepareSelectCategoryController(model: GroceryListsModel?, compl: @escaping (String) -> Void) -> UIViewController {
         guard let controller = viewControllerFactory.createSelectCategoryController(
             model: model,
             router: self,
@@ -295,7 +295,7 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func prepareCreateNewCategoryController(
-        model: GroceryListsModel,
+        model: GroceryListsModel?,
         newCategoryInd: Int,
         compl: @escaping (CategoryModel) -> Void
     ) -> UIViewController {

@@ -20,7 +20,7 @@ final class IngredientViewController: UIViewController {
         return button
     }()
     
-    private let contentView = UIView()
+    private let contentView = ContentViewForIngredient()
     private let categoryView = CategoryView()
     private let ingredientView = AddIngredientView()
     private let quantityView = QuantityView()
@@ -32,13 +32,16 @@ final class IngredientViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        contentView.makeCustomRound(topLeft: 4, topRight: 40, bottomLeft: 0, bottomRight: 0)
+        categoryView.makeCustomRound(topLeft: 4, topRight: 40, bottomLeft: 0, bottomRight: 0)
     }
     
     private func setup() {
+        viewModel?.delegate = self
         setupContentView()
-        updateSaveButton(isActive: false)
         makeConstraints()
+        updateSaveButton(isActive: false)
+        categoryIsActive(false, categoryTitle: "Category")
+        quantityView.setActive(false)
         
         NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardAppear),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -46,8 +49,10 @@ final class IngredientViewController: UIViewController {
     
     private func setupContentView() {
         contentView.backgroundColor = UIColor(hex: "#E5F5F3")
-        categoryView.backgroundColor = UIColor(hex: "#FCFCFE")
+        
         categoryView.delegate = self
+        ingredientView.delegate = self
+        quantityView.delegate = self
         ingredientView.productTextField.becomeFirstResponder()
         
         let swipeDownRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
@@ -55,8 +60,13 @@ final class IngredientViewController: UIViewController {
     }
     
     private func updateSaveButton(isActive: Bool) {
-        saveButton.backgroundColor = UIColor(hex: isActive ? "#1A645A" : "#D8ECE9")
+        saveButton.backgroundColor = UIColor(hex: isActive ? "#1A645A" : "#D1D5DB")
         saveButton.isUserInteractionEnabled = isActive
+    }
+    
+    private func categoryIsActive(_ isActive: Bool, categoryTitle: String) {
+        let color = UIColor(hex: isActive ? "#1A645A" : "#777777")
+        categoryView.setCategory(categoryTitle, textColor: color)
     }
     
     @objc
@@ -104,12 +114,13 @@ final class IngredientViewController: UIViewController {
         
         contentView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(268)
+            $0.height.greaterThanOrEqualTo(220)
             $0.bottom.equalToSuperview().inset(-268)
         }
         
         categoryView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(contentView.snp.top)
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(48)
         }
         
@@ -132,8 +143,61 @@ final class IngredientViewController: UIViewController {
     }
 }
 
+extension IngredientViewController: IngredientViewModelDelegate {
+    func categoryChange(title: String) {
+        categoryIsActive(true, categoryTitle: title)
+    }
+    
+    func unitChange(_ unit: UnitSystem) {
+        quantityView.setUnit(title: unit.rawValue)
+        quantityView.setQuantityValueStep(unit.stepValue)
+        quantityView.setActive(true)
+    }
+}
+
 extension IngredientViewController: CategoryViewDelegate {
     func categoryTapped() {
-        // show select category
+        viewModel?.goToSelectCategoryVC()
     }
+}
+
+extension IngredientViewController: AddIngredientViewDelegate {
+    func productInput(title: String?) {
+        viewModel?.checkIsProductFromCategory(name: title)
+        updateSaveButton(isActive: !(title?.isEmpty ?? true))
+    }
+}
+
+extension IngredientViewController: QuantityViewDelegate {
+    func quantityChange(text: String?) {
+        ingredientView.setQuantity(text)
+    }
+    
+    func getUnitsNumberOfCells() -> Int {
+        viewModel?.getNumberOfCells() ?? 0
+    }
+    
+    func getTitleForCell(at index: Int) -> String? {
+        viewModel?.getTitleForCell(at: index)
+    }
+    
+    func cellSelected(at index: Int) {
+        viewModel?.cellSelected(at: index)
+    }
+}
+
+final class ContentViewForIngredient: UIView {
+     override func point(inside point: CGPoint,
+                         with event: UIEvent?) -> Bool {
+         let inside = super.point(inside: point, with: event)
+         if !inside {
+             for subview in subviews {
+                 let pointInSubview = subview.convert(point, from: self)
+                 if subview.point(inside: pointInSubview, with: event) {
+                     return true
+                 }
+             }
+         }
+         return inside
+     }
 }

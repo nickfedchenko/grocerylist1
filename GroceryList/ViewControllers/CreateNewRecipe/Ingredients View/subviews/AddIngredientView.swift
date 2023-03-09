@@ -7,8 +7,17 @@
 
 import UIKit
 
+protocol AddIngredientViewDelegate: AnyObject {
+    func productInput(title: String?)
+}
+
 class AddIngredientView: UIView {
    
+    weak var delegate: AddIngredientViewDelegate?
+    var productTitle: String? { productTextField.text }
+    var descriptionTitle: String { descriptionTextView.text }
+    var quantityTitle: String? { quantityTextField.text }
+    
     private lazy var contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -22,15 +31,19 @@ class AddIngredientView: UIView {
         textField.delegate = self
         textField.font = UIFont.SFPro.semibold(size: 17).font
         textField.textColor = .black
+        textField.tintColor = .black
         return textField
     }()
     
-    lazy var descriptionTextView: UITextView = {
-        let textView = UITextView()
+    lazy var descriptionTextView: TextViewWithPlaceholder = {
+        let textView = TextViewWithPlaceholder()
         textView.delegate = self
         textView.font = UIFont.SFPro.medium(size: 15).font
         textView.textColor = .black
-        textView.text = "Note"
+        textView.tintColor = .black
+        textView.setPlaceholder(placeholder: "Note")
+        textView.isScrollEnabled = false
+        textView.textContainer.maximumNumberOfLines = 10
         return textView
     }()
     
@@ -40,6 +53,7 @@ class AddIngredientView: UIView {
         textField.font = UIFont.SFPro.bold(size: 15).font
         textField.textColor = UIColor(hex: "#D6600A")
         textField.placeholder = "Quantity"
+        textField.tintColor = .black
         return textField
     }()
     
@@ -53,6 +67,10 @@ class AddIngredientView: UIView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    func setQuantity(_ quantity: String?) {
+        quantityTextField.text = quantity
     }
     
     private func setup() {
@@ -94,18 +112,20 @@ class AddIngredientView: UIView {
         productTextField.snp.makeConstraints {
             $0.top.equalToSuperview().offset(10)
             $0.leading.equalToSuperview().offset(16)
-            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-16)
             $0.height.equalTo(17)
         }
         
         descriptionTextView.snp.makeConstraints {
-            $0.leading.equalTo(productTextField)
-            $0.top.equalTo(productTextField.snp.bottom).offset(4)
+            $0.top.equalTo(productTextField.snp.bottom)
+            $0.leading.equalToSuperview().offset(10)
+            $0.trailing.equalTo(quantityTextField.snp.leading).offset(-10)
             $0.height.greaterThanOrEqualTo(15)
+            $0.bottom.equalToSuperview().offset(-5)
         }
         
         quantityTextField.snp.makeConstraints {
-            $0.bottom.equalTo(descriptionTextView)
+            $0.bottom.equalTo(descriptionTextView).offset(-5)
             $0.trailing.equalToSuperview().offset(-10)
         }
         
@@ -114,10 +134,53 @@ class AddIngredientView: UIView {
     }
 }
 
-extension AddIngredientView: UITextViewDelegate {
+extension AddIngredientView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == productTextField {
+            descriptionTextView.becomeFirstResponder()
+        }
+        if textField == quantityTextField {
+            quantityTextField.becomeFirstResponder()
+        }
+        return true
+    }
     
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField == productTextField {
+            delegate?.productInput(title: productTextField.text)
+        }
+    }
 }
 
-extension AddIngredientView: UITextFieldDelegate {
+extension AddIngredientView: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        descriptionTextView.checkPlaceholder()
+    }
     
+    func textViewDidChange(_ textView: UITextView) {
+        descriptionTextView.checkPlaceholder()
+    }
+}
+
+final class TextViewWithPlaceholder: UITextView {
+    
+    func setPlaceholder(placeholder: String) {
+        let placeholderLabel = UILabel()
+        placeholderLabel.text = placeholder
+        placeholderLabel.font = UIFont.SFPro.medium(size: 15).font
+        placeholderLabel.sizeToFit()
+        placeholderLabel.tag = 222
+        placeholderLabel.frame.origin = CGPoint(x: 5, y: (self.font?.pointSize ?? 10) / 2)
+        placeholderLabel.textColor = .black.withAlphaComponent(0.3)
+        placeholderLabel.isHidden = !self.text.isEmpty
+
+        self.addSubview(placeholderLabel)
+    }
+
+    func checkPlaceholder() {
+        guard let placeholderLabel = self.viewWithTag(222) as? UILabel else {
+            return
+        }
+        placeholderLabel.isHidden = !self.text.isEmpty
+    }
 }

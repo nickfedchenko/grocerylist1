@@ -43,10 +43,13 @@ class CategoryView: UIView {
     func setCategory(_ category: String?, textColor: UIColor) {
         categoryLabel.text = category
         categoryLabel.textColor = textColor
+        categoryButton.setImage(R.image.whitePencil()?.withTintColor(textColor), for: .normal)
     }
     
     private func setup() {
         self.backgroundColor = UIColor(hex: "#FCFCFE")
+        let tapOnView = UITapGestureRecognizer(target: self, action: #selector(categoryButtonTapped))
+        self.addGestureRecognizer(tapOnView)
 
         makeConstraints()
     }
