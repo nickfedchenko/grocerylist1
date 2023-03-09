@@ -51,7 +51,7 @@ protocol ViewControllerFactoryProtocol {
     )
     -> UIViewController?
     func createSelectCategoryController(
-        model: GroceryListsModel,
+        model: GroceryListsModel?,
         router: RootRouter,
         compl: @escaping (String) -> Void
     ) -> UIViewController?
@@ -87,7 +87,8 @@ protocol ViewControllerFactoryProtocol {
     func createShowCollectionViewController(router: RootRouter,
                                             state: ShowCollectionViewController.ShowCollectionState,
                                             recipe: Recipe?,
-                                            compl: (([CollectionModel]) -> Void)?) ->
+                                            compl: (([CollectionModel]) -> Void)?) -> UIViewController
+    func createIngredientViewController(router: RootRouter) -> UIViewController
 }
 
 // MARK: - Factory
@@ -216,7 +217,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createSelectCategoryController(
-        model: GroceryListsModel,
+        model: GroceryListsModel?,
         router: RootRouter,
         compl: @escaping (String) -> Void
     ) -> UIViewController? {
@@ -421,6 +422,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let viewModel = ShowCollectionViewModel(state: state, recipe: recipe)
         viewModel.router = router
         viewModel.selectedCollection = compl
+        viewController.viewModel = viewModel
+        return viewController
+    }
+    
+    func createIngredientViewController(router: RootRouter) -> UIViewController {
+        let viewController = IngredientViewController()
+        let viewModel = IngredientViewModel()
+        viewModel.router = router
         viewController.viewModel = viewModel
         return viewController
     }

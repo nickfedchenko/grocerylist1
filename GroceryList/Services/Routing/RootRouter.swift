@@ -219,6 +219,12 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func goToIngredient() {
+        let controller = viewControllerFactory.createIngredientViewController(router: self)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
@@ -279,7 +285,7 @@ final class RootRouter: RootRouterProtocol {
         return controller
     }
     
-    func prepareSelectCategoryController(model: GroceryListsModel, compl: @escaping (String) -> Void) -> UIViewController {
+    func prepareSelectCategoryController(model: GroceryListsModel?, compl: @escaping (String) -> Void) -> UIViewController {
         guard let controller = viewControllerFactory.createSelectCategoryController(
             model: model,
             router: self,
@@ -289,7 +295,7 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func prepareCreateNewCategoryController(
-        model: GroceryListsModel,
+        model: GroceryListsModel?,
         newCategoryInd: Int,
         compl: @escaping (CategoryModel) -> Void
     ) -> UIViewController {

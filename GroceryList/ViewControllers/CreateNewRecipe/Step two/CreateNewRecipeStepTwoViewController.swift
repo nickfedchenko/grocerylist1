@@ -87,6 +87,23 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
             self.stepNumber += 1
         }
         
+        viewModel?.ingredientChanged = { [weak self] ingredient in
+            guard let self else { return }
+            self.setupIngredientView(title: ingredient.product.title,
+                                     serving: "\(ingredient.quantity)",
+                                     description: ingredient.description)
+            let isActive = self.ingredientsView.stackSubviewsCount >= 2
+            self.updateNextButton(isActive: isActive)
+            if isActive {
+                self.ingredientsView.setPlaceholder(R.string.localizable.addIngredient())
+                self.ingredientsView.setState(.filled)
+                self.ingredientsView.closeStackButton(isVisible: isActive)
+            }
+            self.ingredientsView.snp.updateConstraints {
+                $0.height.equalTo(self.ingredientsView.requiredHeight)
+            }
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardAppear),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
     }
@@ -115,18 +132,7 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         ingredientsView.configure(title: R.string.localizable.ingredients(), state: .required)
         ingredientsView.buttonPressed = { [weak self] in
             guard let self else { return }
-            // показываем окно создания продукта
-            self.setupIngredientView(title: "", serving: "", description: nil)
-            let isActive = self.ingredientsView.stackSubviewsCount >= 2
-            self.updateNextButton(isActive: isActive)
-            if isActive {
-                self.ingredientsView.setPlaceholder(R.string.localizable.addIngredient())
-                self.ingredientsView.setState(.filled)
-                self.ingredientsView.closeStackButton(isVisible: isActive)
-            }
-            self.ingredientsView.snp.updateConstraints {
-                $0.height.equalTo(self.ingredientsView.requiredHeight)
-            }
+            self.viewModel?.presentIngredient()
         }
         ingredientsView.updateLayout = { [weak self] in
             guard let self else { return }

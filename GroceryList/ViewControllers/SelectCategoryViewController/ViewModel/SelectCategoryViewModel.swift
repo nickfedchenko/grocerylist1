@@ -16,7 +16,7 @@ protocol SelectCategoryViewModelDelegate: AnyObject {
 
 class SelectCategoryViewModel {
     
-    init (model: GroceryListsModel) {
+    init (model: GroceryListsModel?) {
         self.model = model
         self.colorManager = ColorManager()
         self.dataSource = SelectCategoryDataSource()
@@ -30,7 +30,7 @@ class SelectCategoryViewModel {
     private var colorManager: ColorManager
     private var dataSource: SelectCategoryDataSource
     weak var router: RootRouter?
-    var model: GroceryListsModel
+    var model: GroceryListsModel?
     
     func categorySelected(with name: String?) {
         let selectedName = name ?? ""
@@ -47,10 +47,16 @@ class SelectCategoryViewModel {
     }
    
     func getBackgroundColor() -> UIColor {
+        guard let model else {
+            return colorManager.getGradient(index: 2).1
+        }
         return colorManager.getGradient(index: model.color).1
     }
     
     func getForegroundColor() -> UIColor {
+        guard let model else {
+            return colorManager.getGradient(index: 2).0
+        }
         return colorManager.getGradient(index: model.color).0
     }
     
