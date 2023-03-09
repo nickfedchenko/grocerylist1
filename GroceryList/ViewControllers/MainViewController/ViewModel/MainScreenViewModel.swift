@@ -111,6 +111,10 @@ class MainScreenViewModel {
         })
     }
     
+    func showCollection() {
+        router?.goToShowCollection(state: .edit)
+    }
+    
     // setup cells
     func getNameOfList(at ind: IndexPath) -> String {
         return model[ind.section].lists[ind.row].name ?? "No name"

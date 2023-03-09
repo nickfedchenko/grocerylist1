@@ -75,6 +75,15 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         setupStackView()
         makeConstraints()
         
+        viewModel?.changeCollections = { [weak self] collectionTitles in
+            var title = ""
+            collectionTitles.forEach { title.append("\($0), ") }
+            if !title.isEmpty {
+                title.removeLast(2)
+            }
+            self?.collectionView.updateCollectionPlaceholder(title)
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardAppear),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
     }
@@ -91,11 +100,6 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         nameView.textFieldReturnPressed = { [weak self] in
             self?.servingsView.textField.becomeFirstResponder()
         }
-        
-        servingsView.textFieldReturnPressed = { [weak self] in
-            self?.servingsView.textField.resignFirstResponder()
-        }
-        
         collectionView.buttonPressed = { [weak self] in
             self?.viewModel?.openCollection()
         }
@@ -133,7 +137,6 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         }
         viewModel?.saveRecipe(title: name,
                               servings: servings,
-                              collection: collectionView.text,
                               photo: photoView.image)
         viewModel?.next()
     }

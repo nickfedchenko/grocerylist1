@@ -14,6 +14,8 @@ protocol RecipeScreenViewModelProtocol {
     func getContentInsetHeight() -> CGFloat
     func unit(unitID: Int?) -> UnitSystem?
     func convertValue() -> Double
+    func haveCollections() -> Bool
+    func showCollection()
     var recipe: Recipe { get }
 }
 
@@ -25,12 +27,18 @@ final class RecipeScreenViewModel {
         case millilitre = 14
     }
     
+    weak var router: RootRouter?
+    
     private(set) var recipe: Recipe
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
     private var recipeUnit: RecipeUnit?
     
     init(recipe: Recipe) {
         self.recipe = recipe
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateRecipe),
+                                               name: .recieptsDownladedAnsSaved,
+                                               object: nil)
     }
 }
 
@@ -93,6 +101,29 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
             return isMetricSystem ? 1 : UnitSystem.mililiter.convertValue
         case .none: return 0
         }
+    }
+    
+    func haveCollections() -> Bool {
+        guard let collection = CoreDataManager.shared.getAllCollection()?.compactMap({ CollectionModel(from: $0) }) else {
+            return false
+        }
+        return recipe.localCollection?.contains(where: { recipeCollection in
+            collection.contains(where: { $0.id == recipeCollection.id })
+        }) ?? false
+    }
+    
+    func showCollection() {
+        router?.goToShowCollection(state: .select, recipe: recipe)
+    }
+    
+    @objc
+    private func updateRecipe() {
+        guard let dbRecipe = CoreDataManager.shared.getRecipe(by: self.recipe.id),
+              let updateRecipe = Recipe(from: dbRecipe) else {
+            return
+        }
+        
+        self.recipe = updateRecipe
     }
 }
 

@@ -54,7 +54,7 @@ struct Recipe: Codable {
     let photo: String
     let isDraft: Bool
     let createdAt: Date
-    let localCollection: [CollectionModel]?
+    var localCollection: [CollectionModel]?
 
     enum CodingKeys: String, CodingKey {
         case id, title

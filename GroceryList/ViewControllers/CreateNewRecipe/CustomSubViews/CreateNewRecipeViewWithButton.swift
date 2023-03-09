@@ -96,6 +96,20 @@ final class CreateNewRecipeViewWithButton: UIView {
         self.state = state
     }
     
+    func updateCollectionPlaceholder(_ title: String) {
+        guard !title.isEmpty else {
+            placeholderLabel.textColor = UIColor(hex: "#777777")
+            iconImageView.image = nil
+            placeholderTitle = nil
+            state = initialState
+            return
+        }
+        placeholderTitle = title
+        placeholderLabel.textColor = UIColor(hex: "#0C695E")
+        iconImageView.image = R.image.collectionChevron()
+        state = .filled
+    }
+    
     func closeStackButton(isVisible: Bool) {
         closeStackButton.isHidden = !isVisible
         if isVisible {

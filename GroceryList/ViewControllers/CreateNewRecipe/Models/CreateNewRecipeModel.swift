@@ -10,6 +10,6 @@ import UIKit
 struct CreateNewRecipeStepOne {
     var title: String
     var totalServings: Int
-    var collection: String?
+    var collection: [CollectionModel]?
     var photo: UIImage?
 }

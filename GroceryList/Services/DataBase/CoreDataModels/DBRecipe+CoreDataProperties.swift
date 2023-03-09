@@ -57,12 +57,16 @@ extension DBRecipe {
         recipe.isDraft = model.isDraft
         recipe.createdAt = model.createdAt
         recipe.ingredients = try? JSONEncoder().encode(model.ingredients)
-        var collections: [CollectionModel] = []
-        model.eatingTags.forEach { tag in
-            collections.append(CollectionModel(id: tag.id, title: tag.title))
+        if let localCollection = model.localCollection {
+            recipe.localCollection = try? JSONEncoder().encode(localCollection)
+        } else if !UserDefaults.standard.bool(forKey: "Recipe\(model.id)") {
+            var collections: [CollectionModel] = []
+            model.eatingTags.forEach { tag in
+                collections.append(CollectionModel(id: tag.id, title: tag.title))
+            }
+            recipe.localCollection = try? JSONEncoder().encode(collections)
+            UserDefaults.standard.setValue(true, forKey: "Recipe\(model.id)")
         }
-        recipe.localCollection = try? JSONEncoder().encode(collections)
-        
         return recipe
     }
     

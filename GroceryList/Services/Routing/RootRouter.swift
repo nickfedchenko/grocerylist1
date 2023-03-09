@@ -132,7 +132,7 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: false)
     }
     
-    func goCreateNewProductController(model: GroceryListsModel, product: Product? = nil, compl: @escaping (Product) -> Void) {
+    func goCreateNewProductController(model: GroceryListsModel?, product: Product? = nil, compl: @escaping (Product) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewProductController(model: model, product: product,
                                                                                       router: self,
                                                                                       compl: compl) else { return }
@@ -204,6 +204,17 @@ final class RootRouter: RootRouterProtocol {
     
     func goToCreateNewCollection(compl: @escaping () -> Void) {
         let controller = viewControllerFactory.createCreateNewCollectionViewController(compl: compl)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
+    }
+    
+    func goToShowCollection(state: ShowCollectionViewController.ShowCollectionState,
+                            recipe: Recipe? = nil,
+                            compl: (([CollectionModel]) -> Void)? = nil) {
+        let controller = viewControllerFactory.createShowCollectionViewController(router: self,
+                                                                                  state: state,
+                                                                                  recipe: recipe,
+                                                                                  compl: compl)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
     }

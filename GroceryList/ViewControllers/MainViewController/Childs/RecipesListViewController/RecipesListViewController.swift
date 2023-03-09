@@ -115,7 +115,9 @@ extension RecipesListViewController: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let recipe = section.recipes[indexPath.item]
-        let viewController = RecipeViewController(with: RecipeScreenViewModel(recipe: recipe),
+        let viewModel = RecipeScreenViewModel(recipe: recipe)
+        viewModel.router = router
+        let viewController = RecipeViewController(with: viewModel,
                                                   backButtonTitle: R.string.localizable.recipes())
         navigationController?.pushViewController(viewController, animated: true)
     }

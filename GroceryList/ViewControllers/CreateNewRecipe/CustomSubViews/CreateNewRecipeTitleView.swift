@@ -38,9 +38,6 @@ final class CreateNewRecipeTitleView: UIView {
     }
     
     func setRecipe(title: String?) {
-        guard let title else {
-            return
-        }
         titleLabel.text = title
     }
     
