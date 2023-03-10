@@ -14,6 +14,7 @@ class MainScreenViewModel {
     weak var router: RootRouter?
     var reloadDataCallBack: (() -> Void)?
     var addCustomCollection: (() -> Void)?
+    var addCustomRecipe: ((Recipe) -> Void)?
     var updateCells:((Set<GroceryListsModel>) -> Void)?
     var dataSource: DataSourceProtocol?
     
@@ -101,7 +102,9 @@ class MainScreenViewModel {
     }
     
     func createNewRecipeTapped() {
-        router?.goToCreateNewRecipe()
+        router?.goToCreateNewRecipe(compl: { [weak self] recipe in
+            self?.addCustomRecipe?(recipe)
+        })
     }
     
     func createNewCollectionTapped() {

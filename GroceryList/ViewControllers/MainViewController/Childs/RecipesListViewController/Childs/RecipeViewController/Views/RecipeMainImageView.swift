@@ -38,7 +38,7 @@ final class CookingTimeBadge: UIView {
     }
     
     func setCookingTime(time: Int?) {
-        guard let time = time else { return }
+        guard let time = time, time != -1 else { return }
         timerCountLabel.text = String(time) + " " + R.string.localizable.min()
     }
     
@@ -77,6 +77,7 @@ final class RecipeMainImageView: UIView {
         imageView.layer.cornerRadius = 12
         imageView.contentMode = .scaleAspectFill
         imageView.isUserInteractionEnabled = true
+        imageView.backgroundColor = .white
         return imageView
     }()
     
@@ -121,6 +122,10 @@ final class RecipeMainImageView: UIView {
     func setupFor(recipe: Recipe) {
         if let imageUrl = URL(string: recipe.photo) {
             mainImage.kf.setImage(with: imageUrl)
+        }
+        if let imageData = recipe.localImage,
+           let image = UIImage(data: imageData) {
+            mainImage.image = image
         }
         cookingTimeBadge.setCookingTime(time: recipe.cookingTime)
     }

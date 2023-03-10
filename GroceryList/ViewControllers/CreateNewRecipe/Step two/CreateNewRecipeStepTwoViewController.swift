@@ -89,9 +89,17 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         
         viewModel?.ingredientChanged = { [weak self] ingredient in
             guard let self else { return }
-            self.setupIngredientView(title: ingredient.product.title,
-                                     serving: "\(ingredient.quantity)",
-                                     description: ingredient.description)
+            var serving = ""
+            if ingredient.quantity == 0 {
+                serving = ingredient.quantityStr ?? R.string.localizable.byTaste()
+            } else {
+                serving = "\(ingredient.quantity) \(ingredient.unit?.title.localized ?? "")"
+            }
+            self.setupIngredientView(
+                title: ingredient.product.title,
+                serving: serving,
+                description: ingredient.description
+            )
             let isActive = self.ingredientsView.stackSubviewsCount >= 2
             self.updateNextButton(isActive: isActive)
             if isActive {
@@ -192,8 +200,8 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     
     @objc
     private func nextButtonTapped() {
-//        viewModel?.saveRecipe()
-        viewModel?.next()
+        viewModel?.saveRecipe(time: timeView.textField.text?.asInt,
+                              description: descriptionView.textField.text)
     }
     
     @objc

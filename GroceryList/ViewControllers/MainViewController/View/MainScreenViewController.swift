@@ -104,6 +104,16 @@ class MainScreenViewController: UIViewController {
             }
         }
         
+        viewModel?.addCustomRecipe = { [weak self] recipe in
+            DispatchQueue.main.async {
+                let recipeViewModel = RecipeScreenViewModel(recipe: recipe)
+                recipeViewModel.router = self?.viewModel?.router
+                let view = RecipeViewController(with: recipeViewModel,
+                                                backButtonTitle: R.string.localizable.back())
+                self?.navigationController?.pushViewController(view, animated: true)
+            }
+        }
+        
         viewModel?.updateCells = { setOfLists in
             self.reloadItems(lists: setOfLists)
             self.updateImageConstraint()

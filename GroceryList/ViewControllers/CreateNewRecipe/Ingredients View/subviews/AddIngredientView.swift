@@ -9,6 +9,7 @@ import UIKit
 
 protocol AddIngredientViewDelegate: AnyObject {
     func productInput(title: String?)
+    func quantityInput()
 }
 
 class AddIngredientView: UIView {
@@ -143,6 +144,12 @@ extension AddIngredientView: UITextFieldDelegate {
             quantityTextField.becomeFirstResponder()
         }
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == quantityTextField {
+            delegate?.quantityInput()
+        }
     }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {

@@ -71,6 +71,10 @@ final class IngredientViewController: UIViewController {
     
     @objc
     private func saveButtonTapped() {
+        viewModel?.save(title: ingredientView.productTitle ?? "",
+                        quantity: quantityView.quantityCount,
+                        quantityStr: ingredientView.quantityTitle,
+                        description: ingredientView.descriptionTitle)
         hidePanel()
     }
     
@@ -145,11 +149,11 @@ final class IngredientViewController: UIViewController {
 
 extension IngredientViewController: IngredientViewModelDelegate {
     func categoryChange(title: String) {
-        categoryIsActive(true, categoryTitle: title)
+        categoryIsActive(title == "Select Category", categoryTitle: title)
     }
     
     func unitChange(_ unit: UnitSystem) {
-        quantityView.setUnit(title: unit.rawValue)
+        quantityView.setUnit(title: unit.rawValue.localized)
         quantityView.setQuantityValueStep(unit.stepValue)
         quantityView.setActive(true)
     }
@@ -165,6 +169,11 @@ extension IngredientViewController: AddIngredientViewDelegate {
     func productInput(title: String?) {
         viewModel?.checkIsProductFromCategory(name: title)
         updateSaveButton(isActive: !(title?.isEmpty ?? true))
+    }
+    
+    func quantityInput() {
+        quantityView.setActive(false)
+        quantityView.quantityCount = 0
     }
 }
 

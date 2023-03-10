@@ -43,7 +43,8 @@ class QuantityView: UIView {
         textField.delegate = self
         textField.textColor = .black
         textField.textAlignment = .center
-        textField.placeholder = "0"
+        textField.text = "0"
+        textField.keyboardType = .numberPad
         return textField
     }()
     
@@ -109,14 +110,11 @@ class QuantityView: UIView {
         return tableview
     }()
 
-    private var quantityCount = 0.0 {
-        didSet {
-            quantityTextField.text = getDecimalString()
-            setActive(quantityCount >= 0)
-            delegate?.quantityChange(text: getQuantityString())
-        }
+    var quantityCount: Double = 0.0 {
+        didSet { quantityTextField.text = getDecimalString() }
     }
     private var quantityValueStep = 0.0
+    private var isActive = true
     
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
@@ -145,6 +143,10 @@ class QuantityView: UIView {
     }
     
     func setActive(_ isActive: Bool) {
+        guard self.isActive != isActive else {
+            return
+        }
+        self.isActive = isActive
         let color = UIColor(hex: isActive ? "#1A645A" : "#D1D5DB")
         quantityBackgroundView.layer.borderColor = color.cgColor
         unitsView.backgroundColor = color
@@ -159,10 +161,8 @@ class QuantityView: UIView {
     
     func setQuantityValueStep(_ step: Int) {
         quantityValueStep = Double(step)
-        if quantityTextField.text?.isEmpty ?? true {
-            quantityCount = Double(step)
-            quantityTextField.text = "\(step)"
-        }
+        quantityCount = 0
+        quantityTextField.text = "0"
     }
     
     func setUnit(title: String) {
@@ -178,13 +178,17 @@ class QuantityView: UIView {
     
     @objc
     private func plusButtonAction() {
+        setActive(true)
         quantityCount += quantityValueStep
+        delegate?.quantityChange(text: getQuantityString())
     }
 
     @objc
     private func minusButtonAction() {
+        setActive(true)
         let difference = quantityCount - quantityValueStep
         quantityCount = difference <= 0 ? 0 : difference
+        delegate?.quantityChange(text: getQuantityString())
     }
     
     private func getDecimalString() -> String {
@@ -201,6 +205,7 @@ class QuantityView: UIView {
     
     @objc
     private func tapOnSelectUnitsAction() {
+        setActive(true)
         unitTableBackgroundView.transform = CGAffineTransform(scaleX: 1, y: 1)
     }
     
@@ -307,7 +312,6 @@ extension QuantityView: UITableViewDelegate, UITableViewDataSource {
         let cell = unitTableview.cellForRow(at: indexPath)
         cell?.isSelected = true
         hideTableview(cell: cell)
-        unitLabel.text = delegate?.getTitleForCell(at: indexPath.row)
         delegate?.cellSelected(at: indexPath.row)
     }
         
@@ -324,7 +328,12 @@ extension QuantityView: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension QuantityView: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        setActive(true)
+    }
+    
     func textFieldDidChangeSelection(_ textField: UITextField) {
+        quantityCount = quantityTextField.text?.asDouble ?? 0
         delegate?.quantityChange(text: getQuantityString())
     }
 }
