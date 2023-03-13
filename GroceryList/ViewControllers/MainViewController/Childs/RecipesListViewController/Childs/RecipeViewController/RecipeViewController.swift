@@ -140,6 +140,10 @@ final class RecipeViewController: UIViewController {
         return stackView
     }()
     
+    private lazy var promptingView = UIView()
+    private lazy var headerOverlayView = UIView()
+    private lazy var overlayView = UIView()
+    
     init(with viewModel: RecipeScreenViewModelProtocol, backButtonTitle: String) {
         self.viewModel = viewModel
         self.backButtonTitle = backButtonTitle
@@ -156,6 +160,7 @@ final class RecipeViewController: UIViewController {
         setupSubviews()
         configureContent()
         setupActions()
+        setupPromptingView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -217,20 +222,74 @@ final class RecipeViewController: UIViewController {
         servingSelector.setCountInitially(to: viewModel.recipe.totalServings)
     }
     
+    private func setupPromptingView() {
+        if !UserDefaultsManager.isShowRecipePrompting {
+            overlayView.backgroundColor = .black.withAlphaComponent(0.2)
+            let tapOnView = UITapGestureRecognizer(target: self, action: #selector(promptingTapped))
+            promptingView.addGestureRecognizer(tapOnView)
+            
+            headerOverlayView.backgroundColor = .black.withAlphaComponent(0.2)
+            header.addSubview(headerOverlayView)
+            headerOverlayView.snp.makeConstraints { $0.edges.equalToSuperview() }
+            
+            mainImageView.showPromptingView()
+            showPromptingView()
+        }
+    }
+    
+    private func showPromptingView() {
+        let servingLabel = UILabel()
+        let servingImage = UIImageView(image: R.image.promptingServings())
+        servingLabel.textColor = UIColor(hex: "#2E2E2E")
+        servingLabel.font = UIFont.SFPro.semibold(size: 16).font
+        servingLabel.numberOfLines = 2
+        servingLabel.adjustsFontSizeToFitWidth = true
+        servingLabel.minimumScaleFactor = 0.5
+        servingLabel.text = R.string.localizable.adjustNumberOfServings()
+
+        promptingView.isHidden = false
+        promptingView.addSubview(servingImage)
+        servingImage.addSubview(servingLabel)
+        
+        servingImage.snp.makeConstraints {
+            $0.top.equalTo(servingSelector.snp.bottom).offset(4)
+            $0.leading.equalTo(servingSelector).offset(-3)
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.height.equalTo(90)
+        }
+        
+        servingLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(12)
+            $0.trailing.bottom.equalToSuperview().offset(-12)
+            $0.height.equalTo(44)
+        }
+    }
+    
+    @objc
+    private func promptingTapped() {
+        headerOverlayView.fadeOut()
+        overlayView.fadeOut()
+        mainImageView.promptingView.fadeOut()
+        promptingView.fadeOut()
+        UserDefaultsManager.isShowRecipePrompting = true
+    }
+    
     // swiftlint:disable:next function_body_length
     private func setupSubviews() {
         view.addSubview(contentScrollView)
         contentScrollView.addSubview(containerView)
-        containerView.addSubview(mainImageView)
         containerView.addSubview(ingredientsLabel)
-        containerView.addSubview(servingSelector)
-        containerView.addSubview(addToCartButton)
         containerView.addSubview(vectorArrowImage)
         containerView.addSubview(ingredientsStack)
         containerView.addSubview(instructionsLabel)
         containerView.addSubview(instructionsStack)
+        containerView.addSubview(overlayView)
+        containerView.addSubview(mainImageView)
+        containerView.addSubview(servingSelector)
+        containerView.addSubview(addToCartButton)
         
         view.addSubview(header)
+        view.addSubview(promptingView)
         
         header.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
@@ -303,6 +362,9 @@ final class RecipeViewController: UIViewController {
         instructionsViews.forEach {
             instructionsStack.addArrangedSubview($0)
         }
+        
+        overlayView.snp.makeConstraints { $0.edges.equalToSuperview() }
+        promptingView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
 }
 

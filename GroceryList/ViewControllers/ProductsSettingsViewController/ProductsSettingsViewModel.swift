@@ -70,8 +70,8 @@ class ProductsSettingsViewModel {
     func isChecmarkActive(at ind: Int) -> Bool {
         if ind == 1 { return model.isFavorite }
         if ind == 4 { return model.typeOfSorting == SortingType.category.rawValue }
-        if ind == 5 { return model.typeOfSorting == SortingType.recipe.rawValue }
-        if ind == 6 { return model.typeOfSorting == SortingType.time.rawValue }
+        if ind == 5 { return model.typeOfSorting == SortingType.time.rawValue }
+        if ind == 6 { return model.typeOfSorting == SortingType.recipe.rawValue }
         if ind == 7 { return model.typeOfSorting == SortingType.alphabet.rawValue }
         return false
     }
@@ -98,10 +98,10 @@ class ProductsSettingsViewModel {
             model.typeOfSorting = SortingType.category.rawValue
             savePatametrs()
         case 5:
-            model.typeOfSorting = SortingType.recipe.rawValue
+            model.typeOfSorting = SortingType.time.rawValue
             savePatametrs()
         case 6:
-            model.typeOfSorting = SortingType.time.rawValue
+            model.typeOfSorting = SortingType.recipe.rawValue
             savePatametrs()
         case 7:
             model.typeOfSorting = SortingType.alphabet.rawValue
@@ -134,8 +134,8 @@ extension ProductsSettingsViewModel {
         case changeColor
         case sort
         case byCategory
-        case byRecipe
         case byTime
+        case byRecipe
         case byAlphabet
         case copy
         case print
@@ -155,7 +155,7 @@ extension ProductsSettingsViewModel {
             case .byCategory:
                 return UIImage(named: "Category")
             case .byRecipe:
-                return UIImage(named: "Time")
+                return R.image.sortRecipe()
             case .byTime:
                 return UIImage(named: "Time")
             case .byAlphabet:

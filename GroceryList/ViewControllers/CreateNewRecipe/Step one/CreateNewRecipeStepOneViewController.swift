@@ -130,7 +130,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
     
     @objc
     private func nextButtonTapped() {
-        guard let name = nameView.textField.text,
+        guard let name = nameView.textField.text?.trimmingCharacters(in: .whitespaces),
               let servings = servingsView.textField.text?.asInt else {
             print("что-то пошло не так, проверьте обязательные поля")
             updateNextButton(isActive: false)

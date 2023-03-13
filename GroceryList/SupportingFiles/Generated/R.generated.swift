@@ -1441,7 +1441,7 @@ struct _R {
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 137 images.
+  /// This `_R.image` struct is generated, and contains static references to 141 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1751,6 +1751,15 @@ struct _R {
     /// Image `profile_noreg`.
     var profile_noreg: RswiftResources.ImageResource { .init(name: "profile_noreg", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `promptingFavorites`.
+    var promptingFavorites: RswiftResources.ImageResource { .init(name: "promptingFavorites", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `promptingServings`.
+    var promptingServings: RswiftResources.ImageResource { .init(name: "promptingServings", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `promptingShare`.
+    var promptingShare: RswiftResources.ImageResource { .init(name: "promptingShare", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `purchasedCheckmark`.
     var purchasedCheckmark: RswiftResources.ImageResource { .init(name: "purchasedCheckmark", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -1813,6 +1822,9 @@ struct _R {
 
     /// Image `sheckmarkForSorting`.
     var sheckmarkForSorting: RswiftResources.ImageResource { .init(name: "sheckmarkForSorting", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `sortRecipe`.
+    var sortRecipe: RswiftResources.ImageResource { .init(name: "sortRecipe", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `swipeTeDeleteFromFavorite`.
     var swipeTeDeleteFromFavorite: RswiftResources.ImageResource { .init(name: "swipeTeDeleteFromFavorite", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
