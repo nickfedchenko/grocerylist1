@@ -14,7 +14,9 @@ class CreateNewProductViewController: UIViewController {
     private var imagePicker = UIImagePickerController()
     private var isCategorySelected = false
     private var quantityCount: Double = 0
-    private var isImageChanged = false
+    private var isImageChanged = false {
+        didSet { removeImageButton.isHidden = !isImageChanged }
+    }
     private var userCommentText = ""
 
     private var quantityValueStep: Double = 1
@@ -111,6 +113,14 @@ class CreateNewProductViewController: UIViewController {
         imageView.layer.masksToBounds = true
         imageView.isUserInteractionEnabled = true
         return imageView
+    }()
+    
+    private lazy var removeImageButton: UIButton = {
+        let button = UIButton()
+        button.setImage(R.image.removeImage(), for: .normal)
+        button.addTarget(self, action: #selector(removeImageTapped), for: .touchUpInside)
+        button.isHidden = true
+        return button
     }()
     
     private let quantityTitleLabel: UILabel = {
@@ -265,8 +275,10 @@ class CreateNewProductViewController: UIViewController {
         topCategoryLabel.textColor = .white
         topCategoryLabel.text = viewModel?.productCategory
         topTextField.text = viewModel?.productName
-        addImageImage.image = viewModel?.productImage
-        isImageChanged = true
+        if viewModel?.productImage != nil {
+            addImageImage.image = viewModel?.productImage
+            isImageChanged = true
+        }
         isCategorySelected = true
         bottomTextField.text = viewModel?.productDescription
         userCommentText = viewModel?.userComment ?? ""
@@ -368,7 +380,7 @@ class CreateNewProductViewController: UIViewController {
         selectUnitsBigView.addSubviews([tableview])
         quantityView.addSubviews([quantityLabel])
         topCategoryView.addSubviews([topCategoryLabel, topCategoryPencilImage])
-        textfieldView.addSubviews([checkmarkImage, topTextField, bottomTextField, addImageImage])
+        textfieldView.addSubviews([checkmarkImage, topTextField, bottomTextField, addImageImage, removeImageButton])
         saveButtonView.addSubview(saveLabel)
         
         topClearView.snp.makeConstraints { make in
@@ -427,6 +439,12 @@ class CreateNewProductViewController: UIViewController {
             make.right.equalToSuperview().inset(8)
             make.centerY.equalToSuperview()
             make.width.height.equalTo(40)
+        }
+        
+        removeImageButton.snp.makeConstraints { make in
+            make.top.equalTo(addImageImage).offset(-8)
+            make.trailing.equalTo(addImageImage).offset(8)
+            make.width.height.equalTo(16)
         }
         
         quantityTitleLabel.snp.makeConstraints { make in
@@ -668,6 +686,12 @@ extension CreateNewProductViewController {
         if tempTranslation.y >= 100 {
             hidePanel()
         }
+    }
+    
+    @objc
+    private func removeImageTapped() {
+        addImageImage.image = R.image.addImage()
+        isImageChanged = false
     }
 }
 
