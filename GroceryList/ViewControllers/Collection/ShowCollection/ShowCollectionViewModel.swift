@@ -9,7 +9,7 @@ import Foundation
 
 struct ShowCollectionModel {
     var collection: CollectionModel
-    var recipeCount: Int
+    var recipes: [Recipe]
     var select: Bool
 }
 
@@ -37,13 +37,20 @@ final class ShowCollectionViewModel {
         self.recipe = recipe
         
         updateCollection()
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateCollection),
+                                               name: .collectionsSaved,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateCollection),
+                                               name: .recieptsDownladedAnsSaved,
+                                               object: nil)
     }
     
     func createCollectionTapped() {
-        router?.goToCreateNewCollection { [weak self] in
-            self?.updateCollection()
-            self?.updateData?()
-        }
+        saveChanges()
+        router?.goToCreateNewCollection { }
     }
     
     func getNumberOfRows() -> Int {
@@ -58,7 +65,7 @@ final class ShowCollectionViewModel {
         guard let collection = collections[safe: index] else {
             return 0
         }
-        return collection.recipeCount
+        return collection.recipes.count
     }
     
     func isSelect(by index: Int) -> Bool {
@@ -73,7 +80,51 @@ final class ShowCollectionViewModel {
         updateData?()
     }
     
+    func deleteCollection(by index: Int) {
+        let collection = collections[index].collection
+        let recipes = collections[index].recipes
+        CoreDataManager.shared.deleteCollection(by: collection.id)
+        
+        guard let miscellaneous = self.collections.first(where: {
+            $0.collection.id == UserDefaultsManager.miscellaneousCollectionId })?.collection else {
+            return
+        }
+        
+        var updateRecipes: [Recipe] = []
+        recipes.forEach { recipe in
+            var updateRecipe = recipe
+            let hasDefaultRecipe = updateRecipe.hasDefaultCollection()
+            updateRecipe.localCollection?.removeAll(where: { $0.id == collection.id })
+            let remainingCollections = updateRecipe.localCollection?.filter({ !$0.isDefault }) ?? []
+            if remainingCollections.isEmpty && !hasDefaultRecipe {
+                updateRecipe.localCollection?.append(miscellaneous)
+            }
+            updateRecipes.append(updateRecipe)
+        }
+        
+        CoreDataManager.shared.saveRecipes(recipes: updateRecipes)
+        self.collections.remove(at: index)
+        self.updateData?()
+    }
+    
+    func canMove(by indexPath: IndexPath) -> Bool {
+        return indexPath.row == 0 || indexPath.row == getNumberOfRows() - 1
+    }
+    
+    func swapCategories(from firstIndex: Int, to secondIndex: Int) {
+        let swapItem = collections.remove(at: firstIndex)
+        collections.insert(swapItem, at: secondIndex)
+    }
+    
     func saveChanges() {
+        guard viewState == .select else {
+            saveEditCollections()
+            return
+        }
+        saveSelectCollections()
+    }
+    
+    private func saveSelectCollections() {
         let selectCollections = collections.filter({ $0.select }).map({ $0.collection })
         guard var recipe else {
             selectedCollection?(selectCollections)
@@ -84,6 +135,22 @@ final class ShowCollectionViewModel {
         selectedCollection?(selectCollections)
     }
     
+    private func saveEditCollections() {
+        var updateCollections: [CollectionModel] = []
+        let editCollections = collections.map { $0.collection }
+        editCollections.enumerated().forEach { index, collection in
+            if collection.index != index {
+                updateCollections.append(CollectionModel(id: collection.id,
+                                                         index: index,
+                                                         title: collection.title))
+            }
+        }
+        if !updateCollections.isEmpty {
+            CoreDataManager.shared.saveCollection(collections: updateCollections)
+        }
+    }
+    
+    @objc
     private func updateCollection() {
         self.collections.removeAll()
         guard let dbCollections = CoreDataManager.shared.getAllCollection(),
@@ -96,15 +163,9 @@ final class ShowCollectionViewModel {
             }
             self.collections.append(
                 ShowCollectionModel(collection: collection,
-                                    recipeCount: collectionRecipes.count,
+                                    recipes: collectionRecipes,
                                     select: recipe?.localCollection?.contains(where: { $0.id == collection.id }) ?? false))
         }
-        
-        guard let miscellaneousIndex = self.collections.firstIndex(where: {
-            $0.collection.id == UserDefaultsManager.miscellaneousCollectionId }) else {
-            return
-        }
-        
-        self.collections.append(self.collections.remove(at: miscellaneousIndex))
+        self.updateData?()
     }
 }

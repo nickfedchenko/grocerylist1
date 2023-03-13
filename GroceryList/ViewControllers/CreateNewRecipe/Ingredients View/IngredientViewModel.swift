@@ -23,27 +23,11 @@ final class IngredientViewModel {
     }
     
     var productQuantityCount: Double? {
-        guard let stringArray = productDescriptionQuantity?.components(separatedBy: .decimalDigits.inverted)
-                                                           .filter({ !$0.isEmpty }),
-              let lastCount = stringArray.first else {
-            return nil
-        }
-        return Double(lastCount)
+        return Double(currentSelectedUnit.stepValue)
     }
     
-    private var productDescriptionQuantity: String? {
-        guard let description = currentProduct?.description else {
-            return nil
-        }
-        if description.contains(where: { "," == $0 }),
-           let firstIndex = description.firstIndex(of: ",") {
-            let quantityStr = description[firstIndex..<description.endIndex]
-            return String(quantityStr)
-        }
-        return currentProduct?.description
-    }
     private var arrayOfProductsByCategories: [DBNetworkProduct]?
-    private var currentProduct: Product?
+    private var categoryTitle = ""
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
     private var currentSelectedUnit: UnitSystem = .gram
     private var selectedUnitSystemArray: [UnitSystem] {
@@ -76,7 +60,20 @@ final class IngredientViewModel {
                                                      .sorted(by: { $0.title ?? "" > $1.title ?? "" })
     }
     
-    func save(ingredient: Ingredient) {
+    func save(title: String, quantity: Double,
+              quantityStr: String?, description: String?) {
+        let product = getProduct(title: title)
+        let ingredient = Ingredient(id: UUID().integer,
+                                    product: product,
+                                    quantity: quantity,
+                                    isNamed: false,
+                                    unit: MarketUnitClass(id: UUID().integer,
+                                                          title: currentSelectedUnit.rawValue,
+                                                          shortTitle: currentSelectedUnit.rawValue,
+                                                          isOnlyForMarket: false),
+                                    description: description,
+                                    quantityStr: quantityStr)
+        
         ingredientCallback?(ingredient)
     }
     
@@ -84,6 +81,7 @@ final class IngredientViewModel {
         guard let controller = router?.prepareSelectCategoryController(model: nil, compl: { [weak self] newCategoryName in
             guard let self = self else { return }
             self.delegate?.categoryChange(title: newCategoryName)
+            self.categoryTitle = newCategoryName
         }) else {
             return
         }
@@ -115,7 +113,8 @@ final class IngredientViewModel {
         }
         
         guard let product = product else {
-            delegate?.categoryChange(title: "Select Category")
+            delegate?.categoryChange(title: R.string.localizable.selectCategory())
+            categoryTitle = R.string.localizable.selectCategory()
             return
         }
         getAllInformation(product: product)
@@ -123,29 +122,23 @@ final class IngredientViewModel {
     
     func getAllInformation(product: DBNetworkProduct) {
         let title = product.marketCategory
-        let shouldSelectUnit: MarketUnitClass.MarketUnitPrepared = .init(rawValue: Int(product.defaultMarketUnitID)) ?? .gram
+        let shouldSelectUnit: MarketUnitClass.MarketUnitPrepared =
+            .init(rawValue: Int(product.defaultMarketUnitID)) ?? .gram
         let properSelectedUnit: UnitSystem = {
             switch shouldSelectUnit {
-            case .bottle:
-                return .bottle
-            case .gram:
-                return isMetricSystem ? .gram : .ozz
-            case .kilogram:
-                return isMetricSystem ? .kilogram : .lbс
-            case .litter:
-                return isMetricSystem ? .liter : .pt
-            case .millilitre:
-                return isMetricSystem ? .mililiter : .fluidOz
-            case .pack:
-                return .pack
-            case .piece:
-                return .piece
-            case .tin:
-                return .can
+            case .bottle:       return .bottle
+            case .gram:         return isMetricSystem ? .gram : .ozz
+            case .kilogram:     return isMetricSystem ? .kilogram : .lbс
+            case .litter:       return isMetricSystem ? .liter : .pt
+            case .millilitre:   return isMetricSystem ? .mililiter : .fluidOz
+            case .pack:         return .pack
+            case .piece:        return .piece
+            case .tin:          return .can
             }
         }()
         currentSelectedUnit = properSelectedUnit
-        delegate?.categoryChange(title: title ?? "Select Category")
+        delegate?.categoryChange(title: title ?? R.string.localizable.selectCategory())
+        categoryTitle = title ?? R.string.localizable.selectCategory()
         delegate?.unitChange(currentSelectedUnit)
     }
     
@@ -156,5 +149,23 @@ final class IngredientViewModel {
     func cellSelected(at ind: Int) {
         let step = selectedUnitSystemArray[ind]
         delegate?.unitChange(step)
+    }
+    
+    private func getProduct(title: String) -> NetworkProductModel {
+        return NetworkProductModel(
+            id: UUID().integer,
+            title: title,
+            marketCategory: getMarketCategory(),
+            units: [],
+            photo: "",
+            marketUnit: nil
+        )
+        
+    }
+    
+    private func getMarketCategory() -> MarketCategory {
+        let title = categoryTitle == R.string.localizable.selectCategory() ? R.string.localizable.other()
+                                                                           : categoryTitle
+        return MarketCategory(id: UUID().integer, title: title)
     }
 }

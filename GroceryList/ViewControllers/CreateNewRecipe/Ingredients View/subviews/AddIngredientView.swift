@@ -9,6 +9,7 @@ import UIKit
 
 protocol AddIngredientViewDelegate: AnyObject {
     func productInput(title: String?)
+    func quantityInput()
 }
 
 class AddIngredientView: UIView {
@@ -32,6 +33,7 @@ class AddIngredientView: UIView {
         textField.font = UIFont.SFPro.semibold(size: 17).font
         textField.textColor = .black
         textField.tintColor = .black
+        textField.placeholder = R.string.localizable.name()
         return textField
     }()
     
@@ -41,7 +43,7 @@ class AddIngredientView: UIView {
         textView.font = UIFont.SFPro.medium(size: 15).font
         textView.textColor = .black
         textView.tintColor = .black
-        textView.setPlaceholder(placeholder: "Note")
+        textView.setPlaceholder(placeholder: R.string.localizable.note())
         textView.isScrollEnabled = false
         textView.textContainer.maximumNumberOfLines = 10
         return textView
@@ -52,8 +54,9 @@ class AddIngredientView: UIView {
         textField.delegate = self
         textField.font = UIFont.SFPro.bold(size: 15).font
         textField.textColor = UIColor(hex: "#D6600A")
-        textField.placeholder = "Quantity"
+        textField.placeholder = R.string.localizable.quantity1()
         textField.tintColor = .black
+        textField.textAlignment = .right
         return textField
     }()
     
@@ -143,6 +146,12 @@ extension AddIngredientView: UITextFieldDelegate {
             quantityTextField.becomeFirstResponder()
         }
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == quantityTextField {
+            delegate?.quantityInput()
+        }
     }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {

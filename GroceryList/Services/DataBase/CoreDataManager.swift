@@ -123,13 +123,11 @@ class CoreDataManager {
     
     // MARK: - NetworkProducts
     
-    func createNetworkProduct(product: NetworkProductModel) {
+    func createNetworkProduct(product: NetworkProductModel, context: NSManagedObjectContext) {
         guard getNetworkProduct(id: product.id) == nil else {
-            updateNetworkProduct(product: product)
+            updateNetworkProduct(product: product, context: context)
             return
         }
-        
-        let context = coreData.taskContext
         let fetchRequest: NSFetchRequest<DBNetworkProduct> = DBNetworkProduct.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
         
@@ -138,7 +136,6 @@ class CoreDataManager {
         object.id = Int64(product.id)
         object.marketCategory = product.marketCategory?.title
         object.photo = product.photo
-        try? context.save()
     }
     
     func getNetworkProduct(id: Int) -> DBNetworkProduct? {
@@ -150,8 +147,7 @@ class CoreDataManager {
         return object
     }
     
-    func updateNetworkProduct(product: NetworkProductModel) {
-        let context = coreData.taskContext
+    func updateNetworkProduct(product: NetworkProductModel, context: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<DBNetworkProduct> = DBNetworkProduct.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
         if let object = try? context.fetch(fetchRequest).first {
@@ -160,7 +156,6 @@ class CoreDataManager {
             object.marketCategory = product.marketCategory?.title
             object.photo = product.photo
         }
-        try? context.save()
     }
     
     func getAllNetworkProducts() -> [DBNetworkProduct]? {
@@ -387,23 +382,32 @@ class CoreDataManager {
     }
     
     // MARK: - Collection
-    func saveCollection(_ collection: CollectionModel) {
-        let context = coreData.container.viewContext
-        let object = DBCollection(context: context)
-        object.id = Int64(collection.id)
-        object.title = collection.title
-        try? context.save()
+    func saveCollection(collections: [CollectionModel]) {
+        let asyncContext = coreData.viewContext
+        let _ = collections.map { DBCollection.prepare(fromPlainModel: $0, context: asyncContext)}
+        guard asyncContext.hasChanges else { return }
+        asyncContext.perform {
+            do {
+                try asyncContext.save()
+                NotificationCenter.default.post(name: .collectionsSaved, object: nil)
+            } catch let error {
+                print(error)
+                asyncContext.rollback()
+            }
+        }
     }
     
     func getAllCollection() -> [DBCollection]? {
         let fetchRequest: NSFetchRequest<DBCollection> = DBCollection.fetchRequest()
+        let sort = NSSortDescriptor(key: "index", ascending: true)
+        fetchRequest.sortDescriptors = [sort]
         guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
             return nil
         }
         return object
     }
     
-    func deleteCollection(by id: UUID) {
+    func deleteCollection(by id: Int) {
         let context = coreData.container.viewContext
         let fetchRequest: NSFetchRequest<DBCollection> = DBCollection.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
@@ -441,9 +445,12 @@ extension CoreDataManager: CoredataSyncProtocol {
     }
     
     func saveProducts(products: [NetworkProductModel]) {
+        let asyncContext = coreData.taskContext
         products.forEach { product in
-            createNetworkProduct(product: product)
+            createNetworkProduct(product: product, context: asyncContext)
         }
+        try? asyncContext.save()
+        NotificationCenter.default.post(name: .productsDownladedAnsSaved, object: nil)
         // TODO: после миграции раскомментировать
 //        let asyncContext = coreData.taskContext
 //        let _ = products.map { DBNetworkProduct.prepare(fromProduct: $0, using: asyncContext) }

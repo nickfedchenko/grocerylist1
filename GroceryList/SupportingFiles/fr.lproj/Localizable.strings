@@ -33,6 +33,7 @@
 "changeColor"               = "changer de couleur";
 "sort"                      = "Trier par";
 "byCategory"                = "Par catégorie";
+"byRecipe"                  = "Par recette";
 "byTime"                    = "Ajouté au fil du temps";
 "byAlphabet"                = "Alphabétique";
 "copy"                      = "Sauvegarder dans la gallerie";
@@ -49,6 +50,7 @@
 "Name"                      = "Nom";
 "AddNote"                   = "Note jointe";
 "Quantity"                  = "quantité (facultatif)";
+"Quantity1"                 = "quantité";
 "pieces"                    = "pièces";
 "Category"                  = "catégorie";
 "SelectCategory"            = "choisissez la catégorie";
@@ -200,3 +202,12 @@
 "Preparation Steps"             = "Etapes de préparation";
 "Add Step"                      = "Ajouter une étape";
 "Complete"                      = "Compléter";
+
+"Miscellaneous"                 = "Divers";
+"Note"                          = "Note";
+"Collections"                   = "Collection";
+"SelectOneOrMoreCollections"    = "Sélectionnez une ou plusieurs collections où votre recette sera stockée. Vous pouvez créer une nouvelle collection.";
+
+"Add recipes to favorites"      = "Ajouter des recettes aux favoris";
+"Share recipes"                 = "Partager des recettes";
+"AdjustNumberOfServings"        = "Ajustez le nombre de portions et ajoutez des ingrédients à votre liste de courses";

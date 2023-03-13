@@ -21,6 +21,8 @@ final class IngredientForCreateRecipeView: IngredientView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        servingLabel.textColor = UIColor(hex: "#D6600A")
     }
     
     required init?(coder: NSCoder) {
@@ -28,7 +30,7 @@ final class IngredientForCreateRecipeView: IngredientView {
     }
     
     func setDescription(_ description: String?) {
-        guard let description else {
+        guard let description, !description.isEmpty else {
             return
         }
         descriptionLabel.text = description

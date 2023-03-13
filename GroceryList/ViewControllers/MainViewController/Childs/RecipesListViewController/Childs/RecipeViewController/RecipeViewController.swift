@@ -307,7 +307,7 @@ final class RecipeViewController: UIViewController {
 }
 
 extension RecipeViewController: RecipeServingSelectorDelegate {
-    func servingChangedTo(count: Int) {
+    func servingChangedTo(count: Double) {
         let servings = viewModel.getIngredientsSizeAccordingToServings(servings: count)
         updateIngredientsCount(by: servings)
     }

@@ -78,9 +78,11 @@ protocol ViewControllerFactoryProtocol {
     func createSharingListController(router: RootRouter,
                                      listToShare: GroceryListsModel,
                                      users: [User]) -> UIViewController
-    func createCreateNewRecipeViewController(router: RootRouter) -> UIViewController
+    func createCreateNewRecipeViewController(router: RootRouter,
+                                             compl: @escaping (Recipe) -> Void) -> UIViewController
     func createCreateNewRecipeStepTwoViewController(router: RootRouter,
-                                                    recipe: CreateNewRecipeStepOne) -> UIViewController
+                                                    recipe: CreateNewRecipeStepOne,
+                                                    compl: @escaping (Recipe) -> Void) -> UIViewController
     func createPreparationStepViewController(stepNumber: Int,
                                              compl: @escaping (String) -> Void) -> UIViewController
     func createCreateNewCollectionViewController(compl: @escaping () -> Void) -> UIViewController
@@ -88,7 +90,8 @@ protocol ViewControllerFactoryProtocol {
                                             state: ShowCollectionViewController.ShowCollectionState,
                                             recipe: Recipe?,
                                             compl: (([CollectionModel]) -> Void)?) -> UIViewController
-    func createIngredientViewController(router: RootRouter) -> UIViewController
+    func createIngredientViewController(router: RootRouter,
+                                        compl: @escaping (Ingredient) -> Void) -> UIViewController
 }
 
 // MARK: - Factory
@@ -380,19 +383,23 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createCreateNewRecipeViewController(router: RootRouter) -> UIViewController {
+    func createCreateNewRecipeViewController(router: RootRouter,
+                                             compl: @escaping (Recipe) -> Void) -> UIViewController {
         let viewController = CreateNewRecipeStepOneViewController()
         let viewModel = CreateNewRecipeStepOneViewModel()
         viewModel.router = router
+        viewModel.competeRecipe = compl
         viewController.viewModel = viewModel
         return viewController
     }
     
     func createCreateNewRecipeStepTwoViewController(router: RootRouter,
-                                                    recipe: CreateNewRecipeStepOne) -> UIViewController {
+                                                    recipe: CreateNewRecipeStepOne,
+                                                    compl: @escaping (Recipe) -> Void) -> UIViewController {
         let viewController = CreateNewRecipeStepTwoViewController()
         let viewModel = CreateNewRecipeStepTwoViewModel(recipe: recipe)
         viewModel.router = router
+        viewModel.compete = compl
         viewController.viewModel = viewModel
         return viewController
     }
@@ -426,10 +433,12 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createIngredientViewController(router: RootRouter) -> UIViewController {
+    func createIngredientViewController(router: RootRouter,
+                                        compl: @escaping (Ingredient) -> Void) -> UIViewController {
         let viewController = IngredientViewController()
         let viewModel = IngredientViewModel()
         viewModel.router = router
+        viewModel.ingredientCallback = compl
         viewController.viewModel = viewModel
         return viewController
     }

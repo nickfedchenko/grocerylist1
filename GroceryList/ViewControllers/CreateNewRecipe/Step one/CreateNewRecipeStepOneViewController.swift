@@ -101,7 +101,8 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
             self?.servingsView.textField.becomeFirstResponder()
         }
         collectionView.buttonPressed = { [weak self] in
-            self?.viewModel?.openCollection()
+            (self?.isVisibleKeyboard ?? false) ? self?.dismissKeyboard()
+                                               : self?.viewModel?.openCollection()
         }
             
         photoView.imageTapped = { [weak self] in

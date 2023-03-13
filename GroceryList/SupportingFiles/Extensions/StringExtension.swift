@@ -26,6 +26,11 @@ extension String {
         formatter.numberStyle = .decimal
         return formatter.number(from: self)?.intValue
     }
+    
+    var asDouble: Double? {
+        let newStr = self.replacingOccurrences(of: ",", with: ".", options: .literal, range: nil)
+        return Double(newStr)
+    }
 }
 
 extension String {

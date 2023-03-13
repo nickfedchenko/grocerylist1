@@ -75,18 +75,26 @@ class MainScreenDataManager: DataSourceProtocol {
         // заполнение дефолтных секций
         if !UserDefaultsManager.isFillingDefaultCollection {
             let breakfast = CollectionModel(id: AdditionalTag.EatingTime.breakfast.rawValue,
-                                            title: RecipeSectionsModel.RecipeSectionType.breakfast.title)
-            let dinner = CollectionModel(id: AdditionalTag.EatingTime.dinner.rawValue,
-                                         title: RecipeSectionsModel.RecipeSectionType.dinner.title)
+                                            index: 0,
+                                            title: RecipeSectionsModel.RecipeSectionType.breakfast.title,
+                                            isDefault: true)
             let lunch = CollectionModel(id: AdditionalTag.EatingTime.lunch.rawValue,
-                                        title: RecipeSectionsModel.RecipeSectionType.lunch.title)
+                                        index: 1,
+                                        title: RecipeSectionsModel.RecipeSectionType.lunch.title,
+                                        isDefault: true)
+            let dinner = CollectionModel(id: AdditionalTag.EatingTime.dinner.rawValue,
+                                         index: 2,
+                                         title: RecipeSectionsModel.RecipeSectionType.dinner.title,
+                                         isDefault: true)
             let snack = CollectionModel(id: AdditionalTag.EatingTime.snack.rawValue,
-                                        title: RecipeSectionsModel.RecipeSectionType.snacks.title)
-            let miscellaneous = CollectionModel(id: UUID().integer, title: "Miscellaneous")
+                                        index: 3,
+                                        title: RecipeSectionsModel.RecipeSectionType.snacks.title,
+                                        isDefault: true)
+            let miscellaneous = CollectionModel(id: UUID().integer, index: 4,
+                                                title: R.string.localizable.miscellaneous(),
+                                                isDefault: false)
             UserDefaultsManager.miscellaneousCollectionId = miscellaneous.id
-            [breakfast, dinner, lunch, snack, miscellaneous].forEach { collection in
-                CoreDataManager.shared.saveCollection(collection)
-            }
+            CoreDataManager.shared.saveCollection(collections: [breakfast, lunch, dinner, snack, miscellaneous])
             UserDefaultsManager.isFillingDefaultCollection = true
         }
 
@@ -279,7 +287,9 @@ class MainScreenDataManager: DataSourceProtocol {
     }
     
     func updateMiscellaneousSection() {
-        guard let miscellaneousIndex = recipesSections.firstIndex(where: { $0.sectionType == .custom("Miscellaneous") }) else {
+        guard let miscellaneousIndex = recipesSections.firstIndex(where: {
+            $0.sectionType == .custom(R.string.localizable.miscellaneous())
+        }) else {
             return
         }
         

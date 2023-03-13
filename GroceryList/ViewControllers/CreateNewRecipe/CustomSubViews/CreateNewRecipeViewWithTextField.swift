@@ -86,7 +86,10 @@ final class CreateNewRecipeViewWithTextField: UIView {
         }
         contentView.layer.borderWidth = state.borderWidth
         contentView.layer.borderColor = state.borderColor.cgColor
-        textField.placeholder = state.placeholder
+        textField.attributedPlaceholder = NSAttributedString(
+            string: state.placeholder,
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "#777777")]
+        )
     }
     
     private func makeConstraints() {

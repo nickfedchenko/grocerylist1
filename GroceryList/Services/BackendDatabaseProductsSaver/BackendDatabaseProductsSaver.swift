@@ -49,7 +49,7 @@ class BackendDatabaseProductsSaver {
     
     func transformNetworkModelsToCoreData() {
         DispatchQueue.main.async {
-            self.arrayOfProducts.forEach({ CoreDataManager.shared.createNetworkProduct(product: $0) })
+            CoreDataManager.shared.saveProducts(products: self.arrayOfProducts)
         }
     }
 }

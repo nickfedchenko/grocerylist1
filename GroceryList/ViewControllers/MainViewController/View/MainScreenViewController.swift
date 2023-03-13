@@ -95,12 +95,22 @@ class MainScreenViewController: UIViewController {
             self?.updateImageConstraint()
         }
         
-        viewModel?.addCustomCollection = { [weak self] in
+        viewModel?.updateRecipeCollection = { [weak self] in
             guard Apphud.hasActiveSubscription() else { return }
-            self?.presentationMode = .recipes
-            self?.modeChanged(to: .recipes)
             DispatchQueue.main.async {
+                self?.presentationMode = .recipes
+                self?.modeChanged(to: .recipes)
                 self?.recipesCollectionView.reloadData()
+            }
+        }
+        
+        viewModel?.addCustomRecipe = { [weak self] recipe in
+            DispatchQueue.main.async {
+                let recipeViewModel = RecipeScreenViewModel(recipe: recipe)
+                recipeViewModel.router = self?.viewModel?.router
+                let view = RecipeViewController(with: recipeViewModel,
+                                                backButtonTitle: R.string.localizable.back())
+                self?.navigationController?.pushViewController(view, animated: true)
             }
         }
         

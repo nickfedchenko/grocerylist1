@@ -184,14 +184,18 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func goToCreateNewRecipe() {
-        let controller = viewControllerFactory.createCreateNewRecipeViewController(router: self)
+    func goToCreateNewRecipe(compl: @escaping (Recipe) -> Void) {
+        let controller = viewControllerFactory.createCreateNewRecipeViewController(
+            router: self,
+            compl: compl)
         navigationPushViewController(controller, animated: true)
     }
     
-    func goToCreateNewRecipeStepTwo(recipe: CreateNewRecipeStepOne) {
-        let controller = viewControllerFactory.createCreateNewRecipeStepTwoViewController(router: self,
-                                                                                          recipe: recipe)
+    func goToCreateNewRecipeStepTwo(recipe: CreateNewRecipeStepOne, compl: @escaping (Recipe) -> Void) {
+        let controller = viewControllerFactory.createCreateNewRecipeStepTwoViewController(
+            router: self,
+            recipe: recipe,
+            compl: compl)
         navigationPushViewController(controller, animated: true)
     }
     
@@ -219,8 +223,9 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func goToIngredient() {
-        let controller = viewControllerFactory.createIngredientViewController(router: self)
+    func goToIngredient(compl: @escaping (Ingredient) -> Void) {
+        let controller = viewControllerFactory.createIngredientViewController(router: self,
+                                                                              compl: compl)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
     }

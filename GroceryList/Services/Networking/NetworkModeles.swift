@@ -55,13 +55,14 @@ struct Recipe: Codable {
     let isDraft: Bool
     let createdAt: Date
     var localCollection: [CollectionModel]?
+    var localImage: Data?
 
     enum CodingKeys: String, CodingKey {
         case id, title
         case description
         case cookingTime, totalServings, dishWeight, dishWeightType
         case countries, instructions, ingredients, eatingTags, dishTypeTags, processingTypeTags, additionalTags, dietTags, exceptionTags, photo, isDraft, createdAt
-        case localCollection
+        case localCollection, localImage
     }
     
     init?(from dbModel: DBRecipe) {
@@ -90,12 +91,50 @@ struct Recipe: Codable {
         isDraft = dbModel.isDraft
         createdAt = dbModel.createdAt ?? Date()
         localCollection = (try? JSONDecoder().decode([CollectionModel].self, from: dbModel.localCollection ?? Data())) ?? []
+        localImage = dbModel.localImage
+    }
+    
+    init?(title: String, totalServings: Int,
+          localCollection: [CollectionModel]?, localImage: Data?,
+          cookingTime: Int?, description: String?,
+          ingredients: [Ingredient], instructions: [String]?) {
+        self.id = UUID().integer
+        self.title = title
+        self.totalServings = totalServings
+        self.localCollection = localCollection
+        self.localImage = localImage
+        
+        self.cookingTime = cookingTime
+        self.description = description ?? ""
+        self.ingredients = ingredients
+        self.instructions = instructions
+        
+        photo = ""
+        createdAt = Date()
+        dishWeight = nil
+        dishWeightType = nil
+        countries = []
+        eatingTags = []
+        dishTypeTags = []
+        processingTypeTags = []
+        additionalTags = []
+        dietTags = []
+        exceptionTags = []
+        isDraft = false
+    }
+    
+    func hasDefaultCollection() -> Bool {
+        var hasDefaultCollection = false
+        localCollection?.forEach({
+            if $0.isDefault { hasDefaultCollection = true }
+        })
+        return hasDefaultCollection
     }
 }
 
 // MARK: - AdditionalTag
 struct AdditionalTag: Codable {
-    enum EatingTime: Int {
+    enum EatingTime: Int, CaseIterable {
         case breakfast = 8
         case dinner = 10
         case lunch = 9
@@ -119,6 +158,7 @@ struct Ingredient: Codable {
     let isNamed: Bool
     let unit: MarketUnitClass?
     var description: String?
+    var quantityStr: String?
 }
 
 // MARK: - MarketUnitClass
