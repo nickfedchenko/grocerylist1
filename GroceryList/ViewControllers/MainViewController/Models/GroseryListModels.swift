@@ -216,5 +216,6 @@ enum TypeOfCell {
     case purchased
     case sortedByAlphabet
     case sortedByDate
+    case sortedByRecipe
     case normal
 }

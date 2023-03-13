@@ -82,8 +82,10 @@ final class ShowCollectionCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         minusButton.isHidden = true
+        trashButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
         iconImageView.snp.updateConstraints { $0.leading.equalToSuperview().offset(20) }
         countLabel.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-31) }
+        bgView.snp.updateConstraints { $0.leading.trailing.equalToSuperview().offset(0) }
     }
     
     override func didAddSubview(_ subview: UIView) {
@@ -99,7 +101,7 @@ final class ShowCollectionCell: UITableViewCell {
             
         imageView.snp.makeConstraints {
             $0.height.width.equalTo(40)
-            $0.leading.centerY.equalToSuperview()
+            $0.centerY.equalToSuperview()
         }
     }
     

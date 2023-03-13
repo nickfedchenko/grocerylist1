@@ -141,7 +141,7 @@ class CoreDataManager {
     func getNetworkProduct(id: Int) -> DBNetworkProduct? {
         let fetchRequest: NSFetchRequest<DBNetworkProduct> = DBNetworkProduct.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
-        guard let object = try? coreData.container.viewContext.fetch(fetchRequest).first else {
+        guard let object = try? coreData.container.newBackgroundContext().fetch(fetchRequest).first else {
             return nil
         }
         return object

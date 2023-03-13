@@ -242,6 +242,7 @@ class ProductsViewController: UIViewController {
             
             // свайпы
             cell.swipeToPinchAction = {
+                AmplitudeManager.shared.logEvent(.core, properties: [.value: .itemDelete])
                 self?.viewModel?.delete(product: child)
             }
             
@@ -397,6 +398,7 @@ extension ProductsViewController: UICollectionViewDelegate {
                     self?.viewModel?.updatePurchasedStatus(product: product)
                 }
             } else {
+                AmplitudeManager.shared.logEvent(.core, properties: [.value: .itemChecked])
                 let color = viewModel?.getColorForForeground()
                 cell?.addCheckmark(color: color) { [weak self] in
                     self?.viewModel?.updatePurchasedStatus(product: product)
@@ -413,7 +415,7 @@ extension ProductsViewController: UICollectionViewDelegate {
         // проверка на тип сортировки для отключения возможности схлопывания ячеек при сортировке по алфавиту
         switch item {
         case .parent(let parent):
-            guard parent.typeOFCell != .sortedByAlphabet && parent.typeOFCell != .sortedByDate else {
+            guard parent.typeOFCell != .sortedByAlphabet else {
                 return false
             }
         default:
@@ -484,6 +486,7 @@ extension ProductsViewController {
     
     @objc
     private func addItemViewTapped () {
+        AmplitudeManager.shared.logEvent(.core, properties: [.value: .itemAdd])
         tapPressAction()
         viewModel?.addNewProductTapped()
     }

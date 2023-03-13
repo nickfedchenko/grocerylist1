@@ -148,6 +148,7 @@ final class IngredientViewModel {
     
     func cellSelected(at ind: Int) {
         let step = selectedUnitSystemArray[ind]
+        currentSelectedUnit = step
         delegate?.unitChange(step)
     }
     

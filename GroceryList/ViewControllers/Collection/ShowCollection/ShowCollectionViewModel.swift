@@ -26,6 +26,7 @@ final class ShowCollectionViewModel {
         collections.isEmpty
     }
     
+    var editCollections: [CollectionModel] = []
     var viewState: ShowCollectionViewController.ShowCollectionState
     var updateData: (() -> Void)?
     
@@ -40,17 +41,17 @@ final class ShowCollectionViewModel {
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateCollection),
-                                               name: .collectionsSaved,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updateCollection),
                                                name: .recieptsDownladedAnsSaved,
                                                object: nil)
     }
     
     func createCollectionTapped() {
-        saveChanges()
-        router?.goToCreateNewCollection { }
+        editCollections = collections.map { $0.collection }
+        router?.goToCreateNewCollection(collections: editCollections,
+                                        compl: { [weak self] updateCollections in
+            self?.editCollections = updateCollections
+            self?.updateCollection()
+        })
     }
     
     func getNumberOfRows() -> Int {
@@ -84,26 +85,31 @@ final class ShowCollectionViewModel {
         let collection = collections[index].collection
         let recipes = collections[index].recipes
         CoreDataManager.shared.deleteCollection(by: collection.id)
+        editCollections.removeAll { $0.id == collection.id }
+        collections.remove(at: index)
         
         guard let miscellaneous = self.collections.first(where: {
             $0.collection.id == UserDefaultsManager.miscellaneousCollectionId })?.collection else {
+            self.updateData?()
             return
         }
         
-        var updateRecipes: [Recipe] = []
-        recipes.forEach { recipe in
-            var updateRecipe = recipe
-            let hasDefaultRecipe = updateRecipe.hasDefaultCollection()
-            updateRecipe.localCollection?.removeAll(where: { $0.id == collection.id })
-            let remainingCollections = updateRecipe.localCollection?.filter({ !$0.isDefault }) ?? []
-            if remainingCollections.isEmpty && !hasDefaultRecipe {
-                updateRecipe.localCollection?.append(miscellaneous)
+        DispatchQueue.main.async {
+            var updateRecipes: [Recipe] = []
+            recipes.forEach { recipe in
+                var updateRecipe = recipe
+                let hasDefaultRecipe = updateRecipe.hasDefaultCollection()
+                updateRecipe.localCollection?.removeAll(where: { $0.id == collection.id })
+                let remainingCollections = updateRecipe.localCollection?.filter({ !$0.isDefault }) ?? []
+                if remainingCollections.isEmpty && !hasDefaultRecipe {
+                    updateRecipe.localCollection?.append(miscellaneous)
+                    self.collections[self.collections.count - 1].recipes.append(updateRecipe)
+                }
+                updateRecipes.append(updateRecipe)
             }
-            updateRecipes.append(updateRecipe)
+            CoreDataManager.shared.saveRecipes(recipes: updateRecipes)
         }
-        
-        CoreDataManager.shared.saveRecipes(recipes: updateRecipes)
-        self.collections.remove(at: index)
+
         self.updateData?()
     }
     
@@ -146,18 +152,27 @@ final class ShowCollectionViewModel {
             }
         }
         if !updateCollections.isEmpty {
-            CoreDataManager.shared.saveCollection(collections: updateCollections)
+            DispatchQueue.main.async {
+                CoreDataManager.shared.saveCollection(collections: updateCollections)
+            }
         }
     }
     
     @objc
     private func updateCollection() {
+        var recipes: [Recipe] = []
+        if editCollections.isEmpty {
+            guard let dbCollections = CoreDataManager.shared.getAllCollection(),
+                  let dbRecipes = CoreDataManager.shared.getAllRecipes() else { return }
+            recipes = dbRecipes.compactMap { Recipe(from: $0) }
+            editCollections = dbCollections.compactMap { CollectionModel(from: $0) }
+        } else {
+            recipes = Array(Set(collections.flatMap { $0.recipes }))
+        }
+        
         self.collections.removeAll()
-        guard let dbCollections = CoreDataManager.shared.getAllCollection(),
-              let dbRecipes = CoreDataManager.shared.getAllRecipes() else { return }
-        let recipes = dbRecipes.compactMap { Recipe(from: $0) }
-        let collections = dbCollections.compactMap { CollectionModel(from: $0) }
-        collections.forEach { collection in
+        editCollections.sort { $0.index < $1.index }
+        editCollections.forEach { collection in
             let collectionRecipes = recipes.filter {
                 $0.localCollection?.contains(where: { collection.id == $0.id }) ?? false
             }

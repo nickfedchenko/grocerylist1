@@ -90,6 +90,7 @@ final class RecipeMainImageView: UIView {
     }()
     
     private let cookingTimeBadge = CookingTimeBadge()
+    lazy var promptingView = UIView()
     
     private let shareRecipeButton: UIButton = {
         let button = UIButton(type: .system)
@@ -103,6 +104,7 @@ final class RecipeMainImageView: UIView {
         super.init(frame: frame)
         setupSubviews()
         isUserInteractionEnabled = true
+        promptingView.isHidden = true
         setupActions()
     }
     
@@ -120,23 +122,76 @@ final class RecipeMainImageView: UIView {
     }
     
     func setupFor(recipe: Recipe) {
+        cookingTimeBadge.setCookingTime(time: recipe.cookingTime)
         if let imageUrl = URL(string: recipe.photo) {
             mainImage.kf.setImage(with: imageUrl)
+            return
         }
         if let imageData = recipe.localImage,
            let image = UIImage(data: imageData) {
             mainImage.image = image
         }
-        cookingTimeBadge.setCookingTime(time: recipe.cookingTime)
+        
+    }
+    
+    func showPromptingView() {
+        let favoriteLabel = UILabel()
+        let shareLabel = UILabel()
+        let favoriteImage = UIImageView(image: R.image.promptingFavorites())
+        let shareImage = UIImageView(image: R.image.promptingShare())
+        [favoriteLabel, shareLabel].forEach {
+            $0.textColor = UIColor(hex: "#2E2E2E")
+            $0.font = UIFont.SFPro.semibold(size: 16).font
+            $0.textAlignment = .center
+        }
+        favoriteLabel.text = R.string.localizable.addRecipesToFavorites()
+        shareLabel.text = R.string.localizable.shareRecipes()
+
+        promptingView.isHidden = false
+        promptingView.backgroundColor = .black.withAlphaComponent(0.2)
+        promptingView.addSubviews([favoriteImage, shareImage])
+        favoriteImage.addSubview(favoriteLabel)
+        shareImage.addSubview(shareLabel)
+        
+        favoriteImage.snp.makeConstraints {
+            $0.bottom.equalTo(addToFavoritesButton.snp.top).offset(-3)
+            $0.leading.equalTo(addToFavoritesButton).offset(-7)
+            $0.width.equalTo(303)
+            $0.height.equalTo(66)
+        }
+        
+        shareImage.snp.makeConstraints {
+            $0.trailing.equalTo(shareRecipeButton.snp.leading).offset(-6)
+            $0.centerY.equalTo(shareRecipeButton)
+            $0.width.equalTo(217)
+            $0.height.equalTo(46)
+        }
+        
+        favoriteLabel.snp.makeConstraints {
+            $0.leading.top.equalToSuperview().offset(12)
+            $0.trailing.equalToSuperview().offset(-12)
+            $0.height.equalTo(22)
+        }
+        
+        shareLabel.snp.makeConstraints {
+            $0.leading.top.equalToSuperview().offset(12)
+            $0.trailing.equalToSuperview().offset(-32)
+            $0.height.equalTo(22)
+        }
     }
     
     private func setupSubviews() {
         addSubview(mainImage)
-        mainImage.addSubview(addToFavoritesButton)
         mainImage.addSubview(cookingTimeBadge)
+        mainImage.addSubview(promptingView)
+        mainImage.addSubview(addToFavoritesButton)
         mainImage.addSubview(shareRecipeButton)
         
         mainImage.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        promptingView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
