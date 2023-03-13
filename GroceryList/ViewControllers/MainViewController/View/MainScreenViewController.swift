@@ -96,7 +96,7 @@ class MainScreenViewController: UIViewController {
         }
         
         viewModel?.updateRecipeCollection = { [weak self] in
-//            guard Apphud.hasActiveSubscription() else { return }
+            guard Apphud.hasActiveSubscription() else { return }
             DispatchQueue.main.async {
                 self?.presentationMode = .recipes
                 self?.modeChanged(to: .recipes)
@@ -483,10 +483,13 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
     }
     
     func modeChanged(to mode: MainScreenPresentationMode) {
-//        guard Apphud.hasActiveSubscription() else {
-//            showPaywall()
-//            return
-//        }
+        if mode == .recipes {
+            AmplitudeManager.shared.logEvent(.recipes, properties: [.value: .recipeSection])
+        }
+        guard Apphud.hasActiveSubscription() else {
+            showPaywall()
+            return
+        }
         presentationMode = mode
         if mode == .lists {
             showListsCollection()
@@ -498,7 +501,6 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
             bottomCreateListView.isHidden = false
             
         } else {
-            AmplitudeManager.shared.logEvent(.recipes, properties: [.value: .recipeSection])
             showRecipesCollection()
             bottomCreateListView.isHidden = true
         }
