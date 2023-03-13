@@ -70,8 +70,9 @@ class ProductsSettingsViewModel {
     func isChecmarkActive(at ind: Int) -> Bool {
         if ind == 1 { return model.isFavorite }
         if ind == 4 { return model.typeOfSorting == SortingType.category.rawValue }
-        if ind == 5 { return model.typeOfSorting == SortingType.time.rawValue }
-        if ind == 6 { return model.typeOfSorting == SortingType.alphabet.rawValue }
+        if ind == 5 { return model.typeOfSorting == SortingType.recipe.rawValue }
+        if ind == 6 { return model.typeOfSorting == SortingType.time.rawValue }
+        if ind == 7 { return model.typeOfSorting == SortingType.alphabet.rawValue }
         return false
     }
     
@@ -97,18 +98,21 @@ class ProductsSettingsViewModel {
             model.typeOfSorting = SortingType.category.rawValue
             savePatametrs()
         case 5:
-            model.typeOfSorting = SortingType.time.rawValue
+            model.typeOfSorting = SortingType.recipe.rawValue
             savePatametrs()
         case 6:
-            model.typeOfSorting = SortingType.alphabet.rawValue
+            model.typeOfSorting = SortingType.time.rawValue
             savePatametrs()
         case 7:
-            UIImageWriteToSavedPhotosAlbum(snapshot, self, nil, nil)
+            model.typeOfSorting = SortingType.alphabet.rawValue
+            savePatametrs()
         case 8:
-            router?.showPrintVC(image: snapshot)
+            UIImageWriteToSavedPhotosAlbum(snapshot, self, nil, nil)
         case 9:
-            router?.showActivityVC(image: [snapshot])
+            router?.showPrintVC(image: snapshot)
         case 10:
+            router?.showActivityVC(image: [snapshot])
+        case 11:
             CoreDataManager.shared.removeList(model.id)
             delegate?.dismissController()
         default:
@@ -130,6 +134,7 @@ extension ProductsSettingsViewModel {
         case changeColor
         case sort
         case byCategory
+        case byRecipe
         case byTime
         case byAlphabet
         case copy
@@ -149,6 +154,8 @@ extension ProductsSettingsViewModel {
                 return UIImage(named: "Sort")
             case .byCategory:
                 return UIImage(named: "Category")
+            case .byRecipe:
+                return UIImage(named: "Time")
             case .byTime:
                 return UIImage(named: "Time")
             case .byAlphabet:
@@ -166,7 +173,7 @@ extension ProductsSettingsViewModel {
         
         var isInset: Bool {
             switch self {
-            case .byTime, .byAlphabet, .byCategory:
+            case .byTime, .byAlphabet, .byCategory, .byRecipe:
                 return true
             default:
                 return false

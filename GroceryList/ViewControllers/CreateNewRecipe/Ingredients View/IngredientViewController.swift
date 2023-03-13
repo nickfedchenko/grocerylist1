@@ -14,7 +14,7 @@ final class IngredientViewController: UIViewController {
     private lazy var saveButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(hex: "#1A645A")
-        button.setTitle("SAVE", for: .normal)
+        button.setTitle(R.string.localizable.save().uppercased(), for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         return button
@@ -40,7 +40,7 @@ final class IngredientViewController: UIViewController {
         setupContentView()
         makeConstraints()
         updateSaveButton(isActive: false)
-        categoryIsActive(false, categoryTitle: "Category")
+        categoryIsActive(false, categoryTitle: R.string.localizable.category())
         quantityView.setActive(false)
         
         NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardAppear),
@@ -149,7 +149,7 @@ final class IngredientViewController: UIViewController {
 
 extension IngredientViewController: IngredientViewModelDelegate {
     func categoryChange(title: String) {
-        categoryIsActive(title == "Select Category", categoryTitle: title)
+        categoryIsActive(title == R.string.localizable.selectCategory(), categoryTitle: title)
     }
     
     func unitChange(_ unit: UnitSystem) {

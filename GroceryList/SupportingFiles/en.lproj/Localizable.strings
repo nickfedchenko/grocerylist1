@@ -34,6 +34,7 @@
 "changeColor"               = "ChangeColor";
 "sort"                      = "Sort";
 "byCategory"                = "By category";
+"byRecipe"                  = "By recipe";
 "byTime"                    = "By time";
 "byAlphabet"                = "Alphabetically";
 "copy"                      = "Save to Photo";
@@ -51,6 +52,7 @@
 "Name"                      = "Name";
 "AddNote"                   = "Add note, quantity (optional)";
 "Quantity"                  = "Quantity (optional)";
+"Quantity1"                 = "Quantity";
 "pieces"                    = "pieces";
 "Category"                  = "Category";
 "SelectCategory"            = "Select сategory";
@@ -229,3 +231,12 @@
 "Preparation Steps"             = "Preparation Steps";
 "Add Step"                      = "Add Step";
 "Complete"                      = "Complete";
+
+"Miscellaneous"                 = "Miscellaneous";
+"Note"                          = "Note";
+"Collections"                   = "Collections";
+"SelectOneOrMoreCollections"    = "Select one or more collections where your recipe will be stored. You can create a new collection.";
+
+"Add recipes to favorites"      = "Add recipes to favorites";
+"Share recipes"                 = "Share recipes";
+"AdjustNumberOfServings"        = "Adjust the number of servings and add ingredients to your shopping list";

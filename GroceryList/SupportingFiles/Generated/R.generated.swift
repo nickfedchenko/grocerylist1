@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 184 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 193 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -108,6 +108,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var addStep: RswiftResources.StringResource { .init(key: "Add Step", tableName: "Localizable", source: source, developmentValue: "Add Step", comment: nil) }
 
+      /// en translation: Add recipes to favorites
+      ///
+      /// Key: Add recipes to favorites
+      ///
+      /// Locales: en, ru, fr, de
+      var addRecipesToFavorites: RswiftResources.StringResource { .init(key: "Add recipes to favorites", tableName: "Localizable", source: source, developmentValue: "Add recipes to favorites", comment: nil) }
+
       /// en translation: Add Item
       ///
       /// Key: AddItem
@@ -135,6 +142,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var addedEarlier: RswiftResources.StringResource { .init(key: "AddedEarlier", tableName: "Localizable", source: source, developmentValue: "Added earlier", comment: nil) }
+
+      /// en translation: Adjust the number of servings and add ingredients to your shopping list
+      ///
+      /// Key: AdjustNumberOfServings
+      ///
+      /// Locales: en, ru, fr, de
+      var adjustNumberOfServings: RswiftResources.StringResource { .init(key: "AdjustNumberOfServings", tableName: "Localizable", source: source, developmentValue: "Adjust the number of servings and add ingredients to your shopping list", comment: nil) }
 
       /// en translation: Alcohol
       ///
@@ -219,6 +233,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var collection: RswiftResources.StringResource { .init(key: "Collection", tableName: "Localizable", source: source, developmentValue: "Collection", comment: nil) }
+
+      /// en translation: Collections
+      ///
+      /// Key: Collections
+      ///
+      /// Locales: en, ru, fr, de
+      var collections: RswiftResources.StringResource { .init(key: "Collections", tableName: "Localizable", source: source, developmentValue: "Collections", comment: nil) }
 
       /// en translation: Complete
       ///
@@ -486,6 +507,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var milk: RswiftResources.StringResource { .init(key: "Milk", tableName: "Localizable", source: source, developmentValue: "Dairy products", comment: nil) }
 
+      /// en translation: Miscellaneous
+      ///
+      /// Key: Miscellaneous
+      ///
+      /// Locales: en, ru, fr, de
+      var miscellaneous: RswiftResources.StringResource { .init(key: "Miscellaneous", tableName: "Localizable", source: source, developmentValue: "Miscellaneous", comment: nil) }
+
       /// en translation: Monthly
       ///
       /// Key: Monthly
@@ -541,6 +569,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var noInternet: RswiftResources.StringResource { .init(key: "NoInternet", tableName: "Localizable", source: source, developmentValue: "No internet connection", comment: nil) }
+
+      /// en translation: Note
+      ///
+      /// Key: Note
+      ///
+      /// Locales: en, ru, fr, de
+      var note: RswiftResources.StringResource { .init(key: "Note", tableName: "Localizable", source: source, developmentValue: "Note", comment: nil) }
 
       /// en translation: Optional
       ///
@@ -646,6 +681,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var quantityUnits: RswiftResources.StringResource { .init(key: "Quantity Units", tableName: "Localizable", source: source, developmentValue: "Quantity Units", comment: nil) }
+
+      /// en translation: Quantity
+      ///
+      /// Key: Quantity1
+      ///
+      /// Locales: en, ru, fr, de
+      var quantity1: RswiftResources.StringResource { .init(key: "Quantity1", tableName: "Localizable", source: source, developmentValue: "Quantity", comment: nil) }
 
       /// en translation: Quick add recipe ingredients into your lists
       ///
@@ -773,6 +815,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var selectCategory: RswiftResources.StringResource { .init(key: "SelectCategory", tableName: "Localizable", source: source, developmentValue: "Select сategory", comment: nil) }
 
+      /// en translation: Select one or more collections where your recipe will be stored. You can create a new collection.
+      ///
+      /// Key: SelectOneOrMoreCollections
+      ///
+      /// Locales: en, ru, fr, de
+      var selectOneOrMoreCollections: RswiftResources.StringResource { .init(key: "SelectOneOrMoreCollections", tableName: "Localizable", source: source, developmentValue: "Select one or more collections where your recipe will be stored. You can create a new collection.", comment: nil) }
+
       /// en translation: Send Invitation
       ///
       /// Key: Send Invitation
@@ -870,6 +919,13 @@ struct _R {
       ///
       /// Locales: en, ru
       var settingsScreenName: RswiftResources.StringResource { .init(key: "Settings.ScreenName", tableName: "Localizable", source: source, developmentValue: "Screen Name", comment: nil) }
+
+      /// en translation: Share recipes
+      ///
+      /// Key: Share recipes
+      ///
+      /// Locales: en, ru, fr, de
+      var shareRecipes: RswiftResources.StringResource { .init(key: "Share recipes", tableName: "Localizable", source: source, developmentValue: "Share recipes", comment: nil) }
 
       /// en translation: Shared
       ///
@@ -1052,6 +1108,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var byCategory: RswiftResources.StringResource { .init(key: "byCategory", tableName: "Localizable", source: source, developmentValue: "By category", comment: nil) }
+
+      /// en translation: By recipe
+      ///
+      /// Key: byRecipe
+      ///
+      /// Locales: en, ru, fr, de
+      var byRecipe: RswiftResources.StringResource { .init(key: "byRecipe", tableName: "Localizable", source: source, developmentValue: "By recipe", comment: nil) }
 
       /// en translation: By time
       ///

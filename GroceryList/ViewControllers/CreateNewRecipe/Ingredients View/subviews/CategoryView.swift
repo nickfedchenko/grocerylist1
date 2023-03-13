@@ -19,7 +19,7 @@ class CategoryView: UIView {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 16).font
         label.textColor = UIColor(hex: "#777777")
-        label.text = "Category"
+        label.text = R.string.localizable.category()
         return label
     }()
     

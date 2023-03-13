@@ -46,6 +46,7 @@ class ProductsDataManager {
         guard !products.isEmpty else { return }
         if typeOfSorting == .category { createArrayWithSections() }
         if typeOfSorting == .alphabet { createArraySortedByAlphabet() }
+        if typeOfSorting == .recipe { createArraySortedByTime() }
         if typeOfSorting == .time { createArraySortedByTime() }
         shouldSaveExpanding = true
     }

@@ -279,8 +279,8 @@ extension ShowCollectionViewController: UIGestureRecognizerDelegate {
 extension ShowCollectionViewController.ShowCollectionState {
     var title: String {
         switch self {
-        case .select: return "Select one or more collections where your recipe will be stored. You can create a new collection."
-        case .edit: return "Collections"
+        case .select: return R.string.localizable.selectOneOrMoreCollections()
+        case .edit: return R.string.localizable.collections()
         }
     }
     

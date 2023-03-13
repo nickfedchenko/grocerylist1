@@ -90,8 +90,9 @@ class MainScreenDataManager: DataSourceProtocol {
                                         index: 3,
                                         title: RecipeSectionsModel.RecipeSectionType.snacks.title,
                                         isDefault: true)
-            let miscellaneous = CollectionModel(id: UUID().integer, index: 4, title: "Miscellaneous",
-                                                isDefault: true)
+            let miscellaneous = CollectionModel(id: UUID().integer, index: 4,
+                                                title: R.string.localizable.miscellaneous(),
+                                                isDefault: false)
             UserDefaultsManager.miscellaneousCollectionId = miscellaneous.id
             CoreDataManager.shared.saveCollection(collections: [breakfast, lunch, dinner, snack, miscellaneous])
             UserDefaultsManager.isFillingDefaultCollection = true
@@ -286,7 +287,9 @@ class MainScreenDataManager: DataSourceProtocol {
     }
     
     func updateMiscellaneousSection() {
-        guard let miscellaneousIndex = recipesSections.firstIndex(where: { $0.sectionType == .custom("Miscellaneous") }) else {
+        guard let miscellaneousIndex = recipesSections.firstIndex(where: {
+            $0.sectionType == .custom(R.string.localizable.miscellaneous())
+        }) else {
             return
         }
         

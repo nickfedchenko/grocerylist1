@@ -27,7 +27,7 @@ final class CreateNewCollectionViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 16).font
         label.textColor = UIColor(hex: "#777777")
-        label.text = "Create Collection"
+        label.text = R.string.localizable.createCollection()
         return label
     }()
     
@@ -50,7 +50,7 @@ final class CreateNewCollectionViewController: UIViewController {
     private lazy var saveButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(hex: "#1A645A")
-        button.setTitle("SAVE", for: .normal)
+        button.setTitle(R.string.localizable.save().uppercased(), for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         return button

@@ -22,7 +22,7 @@ class QuantityView: UIView {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 15).font
         label.textColor = UIColor(hex: "#777777")
-        label.text = "Quantity"
+        label.text = R.string.localizable.quantity1()
         return label
     }()
     

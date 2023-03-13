@@ -8,12 +8,12 @@
 import UIKit
 
 protocol RecipeServingSelectorDelegate: AnyObject {
-    func servingChangedTo(count: Int)
+    func servingChangedTo(count: Double)
 }
 
 final class RecipeServingSelector: UIView {
     weak var delegate: RecipeServingSelectorDelegate?
-    private var currentCount = 1 {
+    private var currentCount: Double = 1 {
         didSet {
             updateLabel()
         }
@@ -59,7 +59,7 @@ final class RecipeServingSelector: UIView {
     }
     
     func setCountInitially(to count: Int) {
-        currentCount = count
+        currentCount = Double(count)
     }
     
     private func updateLabel() {
@@ -123,11 +123,11 @@ final class RecipeServingSelector: UIView {
         switch sender {
         case minusButton:
             if currentCount > 1 {
-                currentCount -= 1
+                currentCount -= 0.5
                 delegate?.servingChangedTo(count: currentCount)
             }
         case plusButton:
-            currentCount += 1
+            currentCount += 0.5
             delegate?.servingChangedTo(count: currentCount)
         default:
             return

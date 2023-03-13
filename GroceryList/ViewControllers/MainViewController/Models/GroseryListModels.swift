@@ -206,6 +206,7 @@ enum SectionType: String {
 
 enum SortingType: Int {
     case category
+    case recipe
     case time
     case alphabet
 }

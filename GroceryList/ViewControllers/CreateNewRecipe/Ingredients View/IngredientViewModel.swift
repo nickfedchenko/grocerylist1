@@ -113,8 +113,8 @@ final class IngredientViewModel {
         }
         
         guard let product = product else {
-            delegate?.categoryChange(title: "Select Category")
-            categoryTitle = "Select Category"
+            delegate?.categoryChange(title: R.string.localizable.selectCategory())
+            categoryTitle = R.string.localizable.selectCategory()
             return
         }
         getAllInformation(product: product)
@@ -137,8 +137,8 @@ final class IngredientViewModel {
             }
         }()
         currentSelectedUnit = properSelectedUnit
-        delegate?.categoryChange(title: title ?? "Select Category")
-        categoryTitle = title ?? "Select Category"
+        delegate?.categoryChange(title: title ?? R.string.localizable.selectCategory())
+        categoryTitle = title ?? R.string.localizable.selectCategory()
         delegate?.unitChange(currentSelectedUnit)
     }
     
@@ -164,7 +164,8 @@ final class IngredientViewModel {
     }
     
     private func getMarketCategory() -> MarketCategory {
-        let title = categoryTitle == "Select Category" ? R.string.localizable.other() : categoryTitle
+        let title = categoryTitle == R.string.localizable.selectCategory() ? R.string.localizable.other()
+                                                                           : categoryTitle
         return MarketCategory(id: UUID().integer, title: title)
     }
 }

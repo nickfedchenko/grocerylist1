@@ -17,6 +17,13 @@ class CoreDataStorage {
         return taskContext
     }()
     
+    lazy var viewContext: NSManagedObjectContext = {
+        let context = context
+        context.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
+        context.automaticallyMergesChangesFromParent = true
+        return context
+    }()
+    
     lazy var container: NSPersistentContainer = {
         let container = NSPersistentContainer(name: containerName)
         container.loadPersistentStores(completionHandler: { (_, error) in

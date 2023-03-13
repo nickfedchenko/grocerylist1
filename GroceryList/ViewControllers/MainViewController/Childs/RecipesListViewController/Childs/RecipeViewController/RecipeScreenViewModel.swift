@@ -10,7 +10,7 @@ import Foundation
 protocol RecipeScreenViewModelProtocol {
     func getNumberOfIngredients() -> Int
     func getRecipeTitle() -> String
-    func getIngredientsSizeAccordingToServings(servings: Int) -> [String]
+    func getIngredientsSizeAccordingToServings(servings: Double) -> [String]
     func getContentInsetHeight() -> CGFloat
     func unit(unitID: Int?) -> UnitSystem?
     func convertValue() -> Double
@@ -59,11 +59,11 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
         }
     }
     
-    func getIngredientsSizeAccordingToServings(servings: Int) -> [String] {
+    func getIngredientsSizeAccordingToServings(servings: Double) -> [String] {
         var titles: [String] = []
         for ingredient in recipe.ingredients {
             let defaultValue = ingredient.quantity / Double(recipe.totalServings)
-            var targetValue = defaultValue * Double(servings)
+            var targetValue = defaultValue * servings
             var unitTitle = ingredient.unit?.shortTitle ?? ""
             if let unit = unit(unitID: ingredient.unit?.id) {
                 targetValue *= convertValue()
