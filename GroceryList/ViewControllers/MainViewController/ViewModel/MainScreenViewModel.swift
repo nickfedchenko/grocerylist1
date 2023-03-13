@@ -13,7 +13,7 @@ class MainScreenViewModel {
     
     weak var router: RootRouter?
     var reloadDataCallBack: (() -> Void)?
-    var addCustomCollection: (() -> Void)?
+    var updateRecipeCollection: (() -> Void)?
     var addCustomRecipe: ((Recipe) -> Void)?
     var updateCells:((Set<GroceryListsModel>) -> Void)?
     var dataSource: DataSourceProtocol?
@@ -108,10 +108,7 @@ class MainScreenViewModel {
     }
     
     func createNewCollectionTapped() {
-        router?.goToCreateNewCollection(compl: { [weak self] in
-            self?.updateRecipesSection()
-            self?.addCustomCollection?()
-        })
+        router?.goToCreateNewCollection(compl: { })
     }
     
     func showCollection() {
@@ -212,11 +209,24 @@ class MainScreenViewModel {
             name: .sharedListDownloadedAndSaved,
             object: nil
         )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateCollections),
+            name: .collectionsSaved,
+            object: nil
+        )
     }
     
     @objc
     private func sharedListDownloaded() {
         guard let dataSource = dataSource else { return }
         updateCells?(dataSource.updateListOfModels())
+    }
+    
+    @objc
+    private func updateCollections() {
+        updateRecipesSection()
+        updateRecipeCollection?()
     }
 }

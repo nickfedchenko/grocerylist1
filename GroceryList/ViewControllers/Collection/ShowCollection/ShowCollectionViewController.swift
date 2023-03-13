@@ -82,6 +82,7 @@ final class ShowCollectionViewController: UIViewController {
     private func setup() {
         let swipeDownRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
         swipeDownRecognizer.direction = .down
+        swipeDownRecognizer.delegate = self
         contentView.addGestureRecognizer(swipeDownRecognizer)
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(doneButtonAction))
@@ -100,6 +101,12 @@ final class ShowCollectionViewController: UIViewController {
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(state == .select ? 24 : 30)
         }
+        
+        tableView.isEditing = state == .edit
+        if state == .edit {
+            tableView.allowsSelectionDuringEditing = true
+            tableView.semanticContentAttribute = .forceRightToLeft
+        }
     }
     
     private func calculateContentViewHeight() {
@@ -113,6 +120,7 @@ final class ShowCollectionViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.contentInset.bottom = 203
+        tableView.rowHeight = 66
         tableView.register(classCell: ShowCollectionCell.self)
     }
     
@@ -193,15 +201,26 @@ extension ShowCollectionViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.reusableCell(classCell: ShowCollectionCell.self, indexPath: indexPath)
-        
+        guard let viewModel else { return cell }
         if indexPath.row == 0 {
             cell.configureCreateCollection()
         } else {
-            cell.configure(title: viewModel?.getCollectionTitle(by: indexPath.row - 1),
-                           count: viewModel?.getRecipeCount(by: indexPath.row - 1))
-            cell.configure(isSelect: viewModel?.isSelect(by: indexPath.row - 1) ?? false)
+            cell.configure(title: viewModel.getCollectionTitle(by: indexPath.row - 1),
+                           count: viewModel.getRecipeCount(by: indexPath.row - 1))
+            cell.configure(isSelect: viewModel.isSelect(by: indexPath.row - 1))
         }
 
+        let isFirstLastCell = viewModel.canMove(by: indexPath)
+        guard state == .edit && !isFirstLastCell else {
+            return cell
+        }
+        cell.updateConstraintsForEditState()
+        cell.deleteTapped = {
+            tableView.beginUpdates()
+            viewModel.deleteCollection(by: indexPath.row - 1)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.endUpdates()
+        }
         return cell
     }
 }
@@ -212,7 +231,41 @@ extension ShowCollectionViewController: UITableViewDelegate {
             viewModel?.createCollectionTapped()
             return
         }
+        guard state == .select else {
+            return
+        }
         viewModel?.updateSelect(by: indexPath.row - 1)
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        let isFirstLastCell = viewModel?.canMove(by: indexPath) ?? false
+        return state == .edit && !isFirstLastCell
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        let isFirstLastCell = viewModel?.canMove(by: indexPath) ?? false
+        return state == .edit && !isFirstLastCell
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        .none
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   moveRowAt sourceIndexPath: IndexPath,
+                   to destinationIndexPath: IndexPath) {
+        viewModel?.swapCategories(from: sourceIndexPath.row - 1, to: destinationIndexPath.row - 1)
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath,
+                   toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        let isFirstLastCell = viewModel?.canMove(by: proposedDestinationIndexPath) ?? false
+        if isFirstLastCell {
+            return sourceIndexPath
+        }
+        return proposedDestinationIndexPath
     }
 }
 

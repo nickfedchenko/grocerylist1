@@ -63,7 +63,10 @@ extension DBRecipe {
         } else if !UserDefaults.standard.bool(forKey: "Recipe\(model.id)") {
             var collections: [CollectionModel] = []
             model.eatingTags.forEach { tag in
-                collections.append(CollectionModel(id: tag.id, title: tag.title))
+                collections.append(CollectionModel(id: tag.id,
+                                                   index: 1000 + tag.id,
+                                                   title: tag.title,
+                                                   isDefault: true))
             }
             recipe.localCollection = try? JSONEncoder().encode(collections)
             UserDefaults.standard.setValue(true, forKey: "Recipe\(model.id)")

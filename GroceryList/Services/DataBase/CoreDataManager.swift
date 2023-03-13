@@ -387,23 +387,32 @@ class CoreDataManager {
     }
     
     // MARK: - Collection
-    func saveCollection(_ collection: CollectionModel) {
-        let context = coreData.container.viewContext
-        let object = DBCollection(context: context)
-        object.id = Int64(collection.id)
-        object.title = collection.title
-        try? context.save()
+    func saveCollection(collections: [CollectionModel]) {
+        let asyncContext = coreData.taskContext
+        let _ = collections.map { DBCollection.prepare(fromPlainModel: $0, context: asyncContext)}
+        guard asyncContext.hasChanges else { return }
+        asyncContext.perform {
+            do {
+                try asyncContext.save()
+                NotificationCenter.default.post(name: .collectionsSaved, object: nil)
+            } catch let error {
+                print(error)
+                asyncContext.rollback()
+            }
+        }
     }
     
     func getAllCollection() -> [DBCollection]? {
         let fetchRequest: NSFetchRequest<DBCollection> = DBCollection.fetchRequest()
+        let sort = NSSortDescriptor(key: "index", ascending: true)
+        fetchRequest.sortDescriptors = [sort]
         guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
             return nil
         }
         return object
     }
     
-    func deleteCollection(by id: UUID) {
+    func deleteCollection(by id: Int) {
         let context = coreData.container.viewContext
         let fetchRequest: NSFetchRequest<DBCollection> = DBCollection.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")

@@ -122,11 +122,19 @@ struct Recipe: Codable {
         exceptionTags = []
         isDraft = false
     }
+    
+    func hasDefaultCollection() -> Bool {
+        var hasDefaultCollection = false
+        localCollection?.forEach({
+            if $0.isDefault { hasDefaultCollection = true }
+        })
+        return hasDefaultCollection
+    }
 }
 
 // MARK: - AdditionalTag
 struct AdditionalTag: Codable {
-    enum EatingTime: Int {
+    enum EatingTime: Int, CaseIterable {
         case breakfast = 8
         case dinner = 10
         case lunch = 9

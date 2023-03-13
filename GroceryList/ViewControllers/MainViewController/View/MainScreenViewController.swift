@@ -95,11 +95,11 @@ class MainScreenViewController: UIViewController {
             self?.updateImageConstraint()
         }
         
-        viewModel?.addCustomCollection = { [weak self] in
+        viewModel?.updateRecipeCollection = { [weak self] in
             guard Apphud.hasActiveSubscription() else { return }
-            self?.presentationMode = .recipes
-            self?.modeChanged(to: .recipes)
             DispatchQueue.main.async {
+                self?.presentationMode = .recipes
+                self?.modeChanged(to: .recipes)
                 self?.recipesCollectionView.reloadData()
             }
         }

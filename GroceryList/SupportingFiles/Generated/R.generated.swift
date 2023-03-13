@@ -1378,7 +1378,7 @@ struct _R {
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 135 images.
+  /// This `_R.image` struct is generated, and contains static references to 137 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1436,6 +1436,9 @@ struct _R {
     /// Image `Copy`.
     var copy: RswiftResources.ImageResource { .init(name: "Copy", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `DeleteCollection`.
+    var deleteCollection: RswiftResources.ImageResource { .init(name: "DeleteCollection", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `FolderIcon`.
     var folderIcon: RswiftResources.ImageResource { .init(name: "FolderIcon", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -1447,6 +1450,9 @@ struct _R {
 
     /// Image `Print`.
     var print: RswiftResources.ImageResource { .init(name: "Print", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Rearrange`.
+    var rearrange: RswiftResources.ImageResource { .init(name: "Rearrange", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Recipe`.
     var recipe: RswiftResources.ImageResource { .init(name: "Recipe", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

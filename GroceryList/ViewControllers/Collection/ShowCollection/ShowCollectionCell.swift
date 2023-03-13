@@ -9,6 +9,8 @@ import UIKit
 
 final class ShowCollectionCell: UITableViewCell {
     
+    var deleteTapped: (() -> Void)?
+    
     private lazy var bgView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
@@ -50,13 +52,55 @@ final class ShowCollectionCell: UITableViewCell {
         return imageView
     }()
     
+    private lazy var minusButton: UIButton = {
+        let button = UIButton()
+        button.setImage(R.image.deleteCollection(), for: .normal)
+        button.addTarget(self, action: #selector(minusButtonTapped), for: .touchUpInside)
+        button.isHidden = true
+        return button
+    }()
+    
+    private lazy var trashButton: UIButton = {
+        let button = UIButton()
+        button.setImage(R.image.swipeToDelete(), for: .normal)
+        button.addTarget(self, action: #selector(trashButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private var isShowTrashButton = false
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.contentView.autoresizingMask = .flexibleHeight
         setup()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        minusButton.isHidden = true
+        iconImageView.snp.updateConstraints { $0.leading.equalToSuperview().offset(20) }
+        countLabel.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-31) }
+    }
+    
+    override func didAddSubview(_ subview: UIView) {
+        super.didAddSubview(subview)
+        if !subview.description.contains("Reorder") {
+            return
+        }
+        (subview.subviews.first as? UIImageView)?.removeFromSuperview()
+
+        let imageView = UIImageView()
+        imageView.image = R.image.rearrange()
+        subview.addSubview(imageView)
+            
+        imageView.snp.makeConstraints {
+            $0.height.width.equalTo(40)
+            $0.leading.centerY.equalToSuperview()
+        }
     }
     
     func configureCreateCollection() {
@@ -77,10 +121,22 @@ final class ShowCollectionCell: UITableViewCell {
         iconImageView.image = isSelect ? R.image.menuFolder() : R.image.collection()
         selectView.isHidden = !isSelect
     }
+    
+    func updateConstraintsForEditState() {
+        iconImageView.snp.updateConstraints { $0.leading.equalToSuperview().offset(68) }
+        countLabel.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-68) }
+        minusButton.isHidden = false
+        minusButton.snp.makeConstraints {
+            $0.height.width.equalTo(40)
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-20)
+        }
+    }
 
     private func setup() {
         self.selectionStyle = .none
         self.backgroundColor = .clear
+        trashButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
         
         makeConstraints()
     }
@@ -89,13 +145,61 @@ final class ShowCollectionCell: UITableViewCell {
         separatorView.isHidden = !isVisible
     }
     
+    @objc
+    private func minusButtonTapped() {
+        isShowTrashButton.toggle()
+        guard isShowTrashButton else {
+            hideTrash()
+            return
+        }
+        showTrash()
+    }
+    
+    @objc
+    private func trashButtonTapped() {
+        isShowTrashButton = false
+        hideTrash { self.deleteTapped?() }
+    }
+    
+    private func showTrash() {
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            guard let self = self else { return }
+            self.trashButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.bgView.snp.updateConstraints {
+                $0.leading.equalToSuperview().offset(65)
+            }
+            self.layoutIfNeeded()
+        }
+    }
+    
+    private func hideTrash(completion: (() -> Void)? = nil) {
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            guard let self = self else { return }
+            self.trashButton.transform = CGAffineTransform(scaleX: 0, y: 1)
+            self.bgView.snp.updateConstraints {
+                $0.leading.trailing.equalToSuperview().offset(0)
+            }
+            self.layoutIfNeeded()
+        } completion: { _ in
+            completion?()
+        }
+    }
+    
     private func makeConstraints() {
-        self.addSubview(bgView)
-        bgView.addSubviews([separatorView, selectView, iconImageView, collectionLabel, countLabel])
+        self.addSubviews([separatorView, trashButton, bgView])
+        bgView.addSubviews([selectView, iconImageView, collectionLabel, countLabel,
+                            minusButton])
         
         bgView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().offset(0)
+            $0.top.equalToSuperview()
             $0.height.equalTo(66)
+        }
+        
+        trashButton.snp.makeConstraints {
+            $0.height.equalTo(bgView)
+            $0.leading.equalToSuperview().offset(-1)
+            $0.width.equalTo(72)
         }
         
         separatorView.snp.makeConstraints {
