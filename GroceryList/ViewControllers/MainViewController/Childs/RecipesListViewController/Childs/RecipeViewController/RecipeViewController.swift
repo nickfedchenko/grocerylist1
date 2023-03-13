@@ -223,6 +223,7 @@ final class RecipeViewController: UIViewController {
     }
     
     private func setupPromptingView() {
+        promptingView.isHidden = true
         if !UserDefaultsManager.isShowRecipePrompting {
             overlayView.backgroundColor = .black.withAlphaComponent(0.2)
             let tapOnView = UITapGestureRecognizer(target: self, action: #selector(promptingTapped))
@@ -363,7 +364,7 @@ final class RecipeViewController: UIViewController {
             instructionsStack.addArrangedSubview($0)
         }
         
-        overlayView.snp.makeConstraints { $0.edges.equalToSuperview() }
+        overlayView.snp.makeConstraints { $0.edges.equalTo(self.view) }
         promptingView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
 }

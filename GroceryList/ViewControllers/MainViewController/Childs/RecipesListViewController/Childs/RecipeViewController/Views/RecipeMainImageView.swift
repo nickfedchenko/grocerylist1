@@ -122,14 +122,16 @@ final class RecipeMainImageView: UIView {
     }
     
     func setupFor(recipe: Recipe) {
+        cookingTimeBadge.setCookingTime(time: recipe.cookingTime)
         if let imageUrl = URL(string: recipe.photo) {
             mainImage.kf.setImage(with: imageUrl)
+            return
         }
         if let imageData = recipe.localImage,
            let image = UIImage(data: imageData) {
             mainImage.image = image
         }
-        cookingTimeBadge.setCookingTime(time: recipe.cookingTime)
+        
     }
     
     func showPromptingView() {

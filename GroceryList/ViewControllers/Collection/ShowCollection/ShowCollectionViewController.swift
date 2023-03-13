@@ -69,6 +69,7 @@ final class ShowCollectionViewController: UIViewController {
         
         viewModel?.updateData = { [weak self] in
             DispatchQueue.main.async {
+                self?.calculateContentViewHeight()
                 self?.tableView.reloadData()
             }
         }

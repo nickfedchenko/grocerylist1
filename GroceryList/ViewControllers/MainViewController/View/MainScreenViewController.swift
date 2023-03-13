@@ -96,7 +96,7 @@ class MainScreenViewController: UIViewController {
         }
         
         viewModel?.updateRecipeCollection = { [weak self] in
-            guard Apphud.hasActiveSubscription() else { return }
+//            guard Apphud.hasActiveSubscription() else { return }
             DispatchQueue.main.async {
                 self?.presentationMode = .recipes
                 self?.modeChanged(to: .recipes)

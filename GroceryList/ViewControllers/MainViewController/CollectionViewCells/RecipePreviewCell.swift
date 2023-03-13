@@ -47,14 +47,15 @@ final class RecipePreviewCell: UICollectionViewCell {
     }
     
     func configure(with recipe: Recipe) {
+        titleLabel.text = recipe.title
         if let photoUrl = URL(string: recipe.photo) {
             mainImage.kf.setImage(with: photoUrl)
+            return
         }
         if let imageData = recipe.localImage,
            let image = UIImage(data: imageData) {
             mainImage.image = image
         }
-        titleLabel.text = recipe.title
     }
     
     override func layoutSubviews() {
