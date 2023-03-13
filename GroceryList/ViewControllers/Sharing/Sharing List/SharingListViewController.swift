@@ -238,6 +238,7 @@ extension SharingListViewController: UITableViewDelegate {
         guard let cell = tableView.cellForRow(at: indexPath) as? SendInvitationCell else {
             return
         }
+        AmplitudeManager.shared.logEvent(.sharing, properties: [.value: .sendInvite])
         viewModel?.shareListTapped()
     }
     

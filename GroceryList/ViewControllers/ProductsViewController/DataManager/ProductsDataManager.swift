@@ -236,10 +236,12 @@ class ProductsDataManager {
         }
         
         if products.contains(where: { $0.fromRecipeTitle != nil }) {
-            newArray.append(contentsOf: recipesDict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByDate) }))
+            newArray.append(contentsOf: recipesDict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByRecipe) }))
         }
         
-        newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByDate) }))
+        if !(dict[R.string.localizable.other()]?.isEmpty ?? true) {
+            newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByRecipe) }))
+        }
  
         // Все что куплено
         if products.contains(where: { $0.isPurchased }) {

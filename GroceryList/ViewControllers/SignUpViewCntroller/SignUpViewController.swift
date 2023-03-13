@@ -242,6 +242,7 @@ class SignUpViewController: UIViewController {
     
     @objc
     private func signInWithApplePressed() {
+        AmplitudeManager.shared.logEvent(.sharing, properties: [.value: .signInEmail])
         viewModel?.signWithApplePressed()
     }
 }

@@ -321,6 +321,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 
                 // Удаление и закрепление ячейки
                 cell.swipeDeleteAction = {
+                    AmplitudeManager.shared.logEvent(.core, properties: [.value: .listDelete])
                     viewModel.deleteCell(with: model)
                 }
                 
@@ -382,6 +383,7 @@ extension MainScreenViewController {
     
     @objc
     private func createListAction() {
+        AmplitudeManager.shared.logEvent(.core, properties: [.value: .listCreate])
         viewModel?.createNewListTapped()
     }
     
@@ -496,6 +498,7 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
             bottomCreateListView.isHidden = false
             
         } else {
+            AmplitudeManager.shared.logEvent(.recipes, properties: [.value: .recipeSection])
             showRecipesCollection()
             bottomCreateListView.isHidden = true
         }

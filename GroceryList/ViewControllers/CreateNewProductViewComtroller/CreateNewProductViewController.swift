@@ -293,6 +293,7 @@ class CreateNewProductViewController: UIViewController {
     // MARK: - ButtonActions
     @objc
     private func plusButtonAction() {
+        AmplitudeManager.shared.logEvent(.createItem, properties: [.value: .itemQuantityButtons])
         quantityCount += quantityValueStep
         quantityLabel.text = getDecimalString()
         setupText()
@@ -301,6 +302,7 @@ class CreateNewProductViewController: UIViewController {
 
     @objc
     private func minusButtonAction() {
+        AmplitudeManager.shared.logEvent(.createItem, properties: [.value: .itemQuantityButtons])
         guard quantityCount > 1 else {
             return quantityNotAvailable()
         }
@@ -666,6 +668,7 @@ extension CreateNewProductViewController {
     
     @objc
     private func tapOnCategoryAction() {
+        AmplitudeManager.shared.logEvent(.core, properties: [.value: .categoryChange])
         viewModel?.goToSelectCategoryVC()
     }
     
@@ -690,6 +693,7 @@ extension CreateNewProductViewController {
     
     @objc
     private func removeImageTapped() {
+        AmplitudeManager.shared.logEvent(.createItem, properties: [.value: .photoDelete])
         addImageImage.image = R.image.addImage()
         isImageChanged = false
     }
@@ -740,6 +744,7 @@ extension CreateNewProductViewController: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableview.cellForRow(at: indexPath)
         cell?.isSelected = true
+        AmplitudeManager.shared.logEvent(.createItem, properties: [.value: .itemUnitsButton])
         hideTableview(cell: cell)
         selectUnitLabel.text = viewModel?.getTitleForCell(at: indexPath.row)
         bottomTextField.text = ""
