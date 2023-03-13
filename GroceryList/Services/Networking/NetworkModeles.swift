@@ -39,7 +39,7 @@ struct AllRecipesResponse: Codable {
 }
 
 // MARK: - Recipe
-struct Recipe: Codable {
+struct Recipe: Codable, Hashable, Equatable {
     let id: Int
     let title, description: String
     let cookingTime: Int?
@@ -129,6 +129,14 @@ struct Recipe: Codable {
             if $0.isDefault { hasDefaultCollection = true }
         })
         return hasDefaultCollection
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (left: Recipe, right: Recipe) -> Bool {
+        return left.id == right.id
     }
 }
 

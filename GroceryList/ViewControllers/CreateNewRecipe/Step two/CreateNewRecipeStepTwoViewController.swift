@@ -91,7 +91,8 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
             guard let self else { return }
             var serving = ""
             if ingredient.quantity == 0 {
-                serving = ingredient.quantityStr ?? R.string.localizable.byTaste()
+                let quantityStr = ingredient.quantityStr ?? ""
+                serving = quantityStr.isEmpty ? R.string.localizable.byTaste() : quantityStr
             } else {
                 serving = "\(ingredient.quantity) \(ingredient.unit?.title.localized ?? "")"
             }

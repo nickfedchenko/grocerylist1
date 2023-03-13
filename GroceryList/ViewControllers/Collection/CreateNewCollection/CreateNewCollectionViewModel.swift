@@ -9,7 +9,9 @@ import Foundation
 
 final class CreateNewCollectionViewModel {
     
-    var updateUICallBack: (() -> Void)?
+    var updateUICallBack: (([CollectionModel]) -> Void)?
+    
+    var editCollections: [CollectionModel] = []
     
     func save(_ title: String?) {
         guard let title else {
@@ -18,9 +20,12 @@ final class CreateNewCollectionViewModel {
         
         let newCollection = CollectionModel(id: UUID().integer, index: 0, title: title)
         
+        if editCollections.isEmpty {
+            let dbCollections = CoreDataManager.shared.getAllCollection() ?? []
+            editCollections = dbCollections.compactMap { CollectionModel(from: $0) }
+        }
+        
         var updateCollections: [CollectionModel] = []
-        let dbCollections = CoreDataManager.shared.getAllCollection() ?? []
-        var editCollections = dbCollections.compactMap { CollectionModel(from: $0) }
         editCollections.forEach { collection in
             updateCollections.append(CollectionModel(id: collection.id,
                                                      index: collection.index + 1,
@@ -29,6 +34,6 @@ final class CreateNewCollectionViewModel {
         }
         updateCollections.append(newCollection)
         CoreDataManager.shared.saveCollection(collections: updateCollections)
-//        updateUICallBack?()
+        updateUICallBack?(updateCollections)
     }
 }

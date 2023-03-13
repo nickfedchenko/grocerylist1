@@ -206,8 +206,10 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func goToCreateNewCollection(compl: @escaping () -> Void) {
-        let controller = viewControllerFactory.createCreateNewCollectionViewController(compl: compl)
+    func goToCreateNewCollection(collections: [CollectionModel] = [],
+                                 compl: @escaping ([CollectionModel]) -> Void) {
+        let controller = viewControllerFactory.createCreateNewCollectionViewController(collections: collections,
+                                                                                       compl: compl)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
     }

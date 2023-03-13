@@ -101,7 +101,7 @@ final class ShowCollectionCell: UITableViewCell {
             
         imageView.snp.makeConstraints {
             $0.height.width.equalTo(40)
-            $0.leading.centerY.equalToSuperview()
+            $0.centerY.equalToSuperview()
         }
     }
     

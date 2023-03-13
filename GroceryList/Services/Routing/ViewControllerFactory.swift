@@ -85,7 +85,8 @@ protocol ViewControllerFactoryProtocol {
                                                     compl: @escaping (Recipe) -> Void) -> UIViewController
     func createPreparationStepViewController(stepNumber: Int,
                                              compl: @escaping (String) -> Void) -> UIViewController
-    func createCreateNewCollectionViewController(compl: @escaping () -> Void) -> UIViewController
+    func createCreateNewCollectionViewController(collections: [CollectionModel],
+                                                 compl: @escaping ([CollectionModel]) -> Void) -> UIViewController
     func createShowCollectionViewController(router: RootRouter,
                                             state: ShowCollectionViewController.ShowCollectionState,
                                             recipe: Recipe?,
@@ -413,10 +414,12 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createCreateNewCollectionViewController(compl: @escaping () -> Void) -> UIViewController {
+    func createCreateNewCollectionViewController(collections: [CollectionModel] = [],
+                                                 compl: @escaping ([CollectionModel]) -> Void) -> UIViewController {
         let viewController = CreateNewCollectionViewController()
         let viewModel = CreateNewCollectionViewModel()
         viewModel.updateUICallBack = compl
+        viewModel.editCollections = collections
         viewController.viewModel = viewModel
         return viewController
     }

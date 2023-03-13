@@ -24,7 +24,7 @@ class MainScreenViewModel {
     
     func getRecipeModel(for indexPath: IndexPath) -> Recipe? {
         guard let dataSource = dataSource else { return nil }
-        let model = dataSource.recipesSections[indexPath.section].recipes[indexPath.item]
+        let model = dataSource.recipesSections[safe: indexPath.section]?.recipes[safe: indexPath.item]
         return model
     }
     
@@ -108,7 +108,7 @@ class MainScreenViewModel {
     }
     
     func createNewCollectionTapped() {
-        router?.goToCreateNewCollection(compl: { })
+        router?.goToCreateNewCollection(compl: { _ in })
     }
     
     func showCollection() {
