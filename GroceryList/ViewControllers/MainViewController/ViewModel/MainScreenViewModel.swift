@@ -115,6 +115,10 @@ class MainScreenViewModel {
         router?.goToShowCollection(state: .edit)
     }
     
+    func showSearchProductsInList() {
+        router?.goToSearchInList()
+    }
+    
     // setup cells
     func getNameOfList(at ind: IndexPath) -> String {
         return model[ind.section].lists[ind.row].name ?? "No name"

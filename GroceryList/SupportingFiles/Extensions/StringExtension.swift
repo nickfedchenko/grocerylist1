@@ -59,4 +59,9 @@ extension String {
         }
         return result
     }
+    
+    func smartContains(_ other: String) -> Bool {
+        let array : [String] = other.lowercased().components(separatedBy: " ").filter { !$0.isEmpty }
+        return array.allSatisfy { (self.lowercased().range(of: $0) != nil) }
+    }
 }
