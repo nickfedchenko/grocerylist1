@@ -171,8 +171,8 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: false)
     }
     
-    func goToSharingPopUp() {
-        let controller = viewControllerFactory.createSharingPopUpController(router: self)
+    func goToSharingPopUp(compl: (() -> Void)? = nil) {
+        let controller = viewControllerFactory.createSharingPopUpController(router: self, compl: compl)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
     }
@@ -228,6 +228,12 @@ final class RootRouter: RootRouterProtocol {
     func goToIngredient(compl: @escaping (Ingredient) -> Void) {
         let controller = viewControllerFactory.createIngredientViewController(router: self,
                                                                               compl: compl)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
+    }
+    
+    func goToSearchInList() {
+        let controller = viewControllerFactory.createSearchInList(router: self)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
     }

@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 193 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 195 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -458,6 +458,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var likeTheApp: RswiftResources.StringResource { .init(key: "Like the app?", tableName: "Localizable", source: source, developmentValue: "Like the app?", comment: nil) }
 
+      /// en translation: Lists
+      ///
+      /// Key: Lists
+      ///
+      /// Locales: en, ru, fr, de
+      var lists: RswiftResources.StringResource { .init(key: "Lists", tableName: "Localizable", source: source, developmentValue: "Lists", comment: nil) }
+
       /// en translation: Loading
       ///
       /// Key: Loading
@@ -800,6 +807,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var searcInCategory: RswiftResources.StringResource { .init(key: "SearcInCategory", tableName: "Localizable", source: source, developmentValue: "Search in Category", comment: nil) }
+
+      /// en translation: Search in 
+      ///
+      /// Key: Search in 
+      ///
+      /// Locales: en, ru, fr, de
+      var searchIn: RswiftResources.StringResource { .init(key: "Search in ", tableName: "Localizable", source: source, developmentValue: "Search in ", comment: nil) }
 
       /// en translation: Select list
       ///
@@ -1441,7 +1455,7 @@ struct _R {
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 142 images.
+  /// This `_R.image` struct is generated, and contains static references to 143 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1558,6 +1572,9 @@ struct _R {
 
     /// Image `Web`.
     var web: RswiftResources.ImageResource { .init(name: "Web", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `X-markInput`.
+    var xMarkInput: RswiftResources.ImageResource { .init(name: "X-markInput", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `addItemImage`.
     var addItemImage: RswiftResources.ImageResource { .init(name: "addItemImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

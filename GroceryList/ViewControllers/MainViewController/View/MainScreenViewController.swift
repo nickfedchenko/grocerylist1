@@ -96,7 +96,7 @@ class MainScreenViewController: UIViewController {
         }
         
         viewModel?.updateRecipeCollection = { [weak self] in
-            guard Apphud.hasActiveSubscription() else { return }
+//            guard Apphud.hasActiveSubscription() else { return }
             DispatchQueue.main.async {
                 self?.presentationMode = .recipes
                 self?.modeChanged(to: .recipes)
@@ -113,8 +113,8 @@ class MainScreenViewController: UIViewController {
                 self?.navigationController?.pushViewController(view, animated: true)
             }
         }
-        
-        viewModel?.updateCells = { setOfLists in
+            
+            viewModel?.updateCells = { setOfLists in
             self.reloadItems(lists: setOfLists)
             self.updateImageConstraint()
 
@@ -511,6 +511,10 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
             paywall.modalPresentationStyle = .fullScreen
             present(paywall, animated: true)
         }
+    }
+    
+    func searchButtonTapped() {
+        viewModel?.showSearchProductsInList()
     }
 }
 

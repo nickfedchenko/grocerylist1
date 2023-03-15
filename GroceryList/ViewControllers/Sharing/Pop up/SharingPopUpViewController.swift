@@ -10,6 +10,7 @@ import UIKit
 final class SharingPopUpViewController: UIViewController {
     
     weak var router: RootRouter?
+    var registerComp: (() -> Void)?
     
     private lazy var contentView: UIView = {
         let view = UIView()
@@ -66,6 +67,7 @@ final class SharingPopUpViewController: UIViewController {
     @objc
     private func registerButtonPressed() {
         self.dismiss(animated: true) {
+            self.registerComp?()
             self.router?.goToSettingsController(animated: false)
             self.router?.goToSignUpController()
         }
