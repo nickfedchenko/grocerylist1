@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SearchInListCell: UITableViewCell {
+final class SearchInListCell: UICollectionViewCell {
     
     var listTapped: (() -> Void)?
     var shareTapped: (() -> Void)?
@@ -39,11 +39,13 @@ final class SearchInListCell: UITableViewCell {
         return stackView
     }()
     
+    private let shadowOneView = UIView()
+    private let shadowTwoView = UIView()
+    
     private var listViewColor: UIColor = .white
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.contentView.autoresizingMask = .flexibleHeight
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setup()
     }
     
@@ -83,11 +85,11 @@ final class SearchInListCell: UITableViewCell {
     }
 
     private func setup() {
-        self.selectionStyle = .none
         self.backgroundColor = .clear
         containerView.backgroundColor = .white
         containerView.layer.cornerRadius = 8
         containerView.clipsToBounds = true
+        setupShadowView()
         
         let tapOnListView = UITapGestureRecognizer(target: self, action: #selector(tapOnList))
         listView.addGestureRecognizer(tapOnListView)
@@ -120,8 +122,23 @@ final class SearchInListCell: UITableViewCell {
         return arrayOfImageUrls
     }
     
+    private func setupShadowView() {
+        [shadowOneView, shadowTwoView].forEach { shadowView in
+            shadowView.backgroundColor = .white
+            shadowView.layer.cornerRadius = 8
+        }
+        shadowOneView.addCustomShadow(color: UIColor(hex: "#484848"),
+                                      opacity: 0.15,
+                                      radius: 1,
+                                      offset: .init(width: 0, height: 0.5))
+        shadowTwoView.addCustomShadow(color: UIColor(hex: "#858585"),
+                                      opacity: 0.1,
+                                      radius: 6,
+                                      offset: .init(width: 0, height: 6))
+    }
+    
     private func makeConstraints() {
-        self.addSubview(containerView)
+        self.addSubviews([shadowOneView, shadowTwoView, containerView])
         containerView.addSubviews([listView, productStackView])
         listView.addSubviews([listTitleLabel, countLabel, sharingView])
         
@@ -129,7 +146,7 @@ final class SearchInListCell: UITableViewCell {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-8)
         }
         
         listView.snp.makeConstraints {
@@ -161,6 +178,10 @@ final class SearchInListCell: UITableViewCell {
             $0.trailing.equalToSuperview()
             $0.top.equalToSuperview()
             $0.bottom.equalToSuperview()
+        }
+        
+        [shadowOneView, shadowTwoView].forEach { shadowView in
+            shadowView.snp.makeConstraints { $0.edges.equalTo(productStackView) }
         }
     }
 }
