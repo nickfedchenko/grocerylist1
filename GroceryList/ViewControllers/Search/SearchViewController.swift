@@ -9,9 +9,23 @@ import UIKit
 
 class SearchViewController: UIViewController {
 
-    private let navView = UIView()
+    lazy var searchTextField: UITextField = {
+        let textField = UITextField()
+        textField.font = UIFont.SFPro.medium(size: 16).font
+        textField.tintColor = UIColor(hex: "#1A645A")
+        textField.backgroundColor = .clear
+        textField.textColor = .black
+        return textField
+    }()
     
-    private let iconImageView = UIImageView(image: R.image.searchButtonImage())
+    lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
+        collectionView.contentInset.top = 142
+        collectionView.contentInsetAdjustmentBehavior = .never
+        return collectionView
+    }()
+    
     private lazy var searchView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
@@ -26,6 +40,7 @@ class SearchViewController: UIViewController {
         button.titleLabel?.font = UIFont.SFProRounded.bold(size: 15).font
         button.setTitleColor(UIColor(hex: "#1A645A"), for: .normal)
         button.addTarget(self, action: #selector(tappedCancelButton), for: .touchUpInside)
+        button.setContentCompressionResistancePriority(.init(1000), for: .horizontal)
         return button
     }()
     
@@ -37,27 +52,39 @@ class SearchViewController: UIViewController {
         return button
     }()
     
-    lazy var searchTextField: UITextField = {
-        let textField = UITextField()
-        textField.font = UIFont.SFPro.medium(size: 16).font
-        textField.tintColor = UIColor(hex: "#1A645A")
-        textField.backgroundColor = .clear
-        textField.textColor = .black
-        return textField
+    private lazy var layout: UICollectionViewCompositionalLayout = {
+        let size = NSCollectionLayoutSize(
+            widthDimension: NSCollectionLayoutDimension.fractionalWidth(1),
+            heightDimension: NSCollectionLayoutDimension.estimated(64)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: size)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 1)
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 8
+
+        let headerFooterSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(0)
+        )
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerFooterSize,
+            elementKind: "SectionHeaderElementKind",
+            alignment: .top
+        )
+        section.boundarySupplementaryItems = [sectionHeader]
+        return UICollectionViewCompositionalLayout(section: section)
     }()
     
-    lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.backgroundColor = .clear
-        tableView.showsVerticalScrollIndicator = false
-        tableView.separatorStyle = .none
-        tableView.estimatedRowHeight = UITableView.automaticDimension
-        return tableView
-    }()
+    private let navigationView = UIView()
+    private let topSafeAreaView = UIView()
+    private let iconImageView = UIImageView(image: R.image.searchButtonImage())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardAppear),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,9 +95,9 @@ class SearchViewController: UIViewController {
         
         searchView.transform = CGAffineTransform(scaleX: 0, y: 1)
             .translatedBy(x: self.view.bounds.width - 100,
-                          y: navView.bounds.midY)
+                          y: navigationView.bounds.midY)
         iconImageView.transform = CGAffineTransform(translationX: self.view.bounds.width - 96,
-                                                    y: navView.bounds.midY - 4)
+                                                    y: navigationView.bounds.midY - 4)
         
         UIView.animate(withDuration: 0.4) {
             self.searchView.alpha = 1.0
@@ -92,12 +119,14 @@ class SearchViewController: UIViewController {
     func setup() {
         self.view.backgroundColor = UIColor(hex: "#E5F5F3")
         searchTextField.becomeFirstResponder()
+        navigationView.backgroundColor = UIColor(hex: "#E5F5F3").withAlphaComponent(0.9)
+        topSafeAreaView.backgroundColor = UIColor(hex: "#E5F5F3").withAlphaComponent(0.9)
         
-        setupTableView()
+        setupCollectionView()
         makeConstraints()
     }
     
-    func setupTableView() { }
+    func setupCollectionView() { }
     
     @objc
     func tappedCancelButton() { }
@@ -111,31 +140,50 @@ class SearchViewController: UIViewController {
         crossCleanerButton.isHidden = !isVisible
     }
     
+    @objc
+    private func onKeyboardAppear(notification: NSNotification) {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+    }
+    
+    @objc
+    private func dismissKeyboard() {
+        guard let gestureRecognizers = self.view.gestureRecognizers else {
+            return
+        }
+        gestureRecognizers.forEach { $0.isEnabled = false }
+        self.view.endEditing(true)
+    }
+    
     private func makeConstraints() {
-        self.view.addSubviews([tableView, navView])
-        navView.addSubviews([searchView, iconImageView, searchTextField, crossCleanerButton, cancelButton])
+        self.view.addSubviews([collectionView, topSafeAreaView, navigationView])
+        navigationView.addSubviews([searchView, iconImageView, searchTextField, crossCleanerButton, cancelButton])
         
-        navView.snp.makeConstraints {
+        topSafeAreaView.snp.makeConstraints {
+            $0.leading.trailing.top.equalToSuperview()
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(10)
+        }
+        
+        navigationView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(10)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(60)
         }
         
-        tableView.snp.makeConstraints {
-            $0.top.equalTo(navView.snp.bottom).offset(-20)
-            $0.leading.trailing.bottom.equalToSuperview()
+        collectionView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
         searchView.snp.makeConstraints {
-            $0.top.equalTo(navView)
+            $0.top.equalTo(navigationView)
             $0.leading.equalToSuperview().offset(20)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(40)
         }
         
         iconImageView.snp.makeConstraints {
-            $0.centerY.equalTo(searchView)
-            $0.leading.equalTo(searchView)
+            $0.leading.centerY.equalTo(searchView)
             $0.width.height.equalTo(40)
         }
         

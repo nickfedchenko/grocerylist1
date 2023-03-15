@@ -95,6 +95,7 @@ protocol ViewControllerFactoryProtocol {
     func createIngredientViewController(router: RootRouter,
                                         compl: @escaping (Ingredient) -> Void) -> UIViewController
     func createSearchInList(router: RootRouter) -> UIViewController
+    func createSearchInRecipe(router: RootRouter, title: String) -> UIViewController
 }
 
 // MARK: - Factory
@@ -453,6 +454,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createSearchInList(router: RootRouter) -> UIViewController {
         let viewController = SearchInListViewController()
         let viewModel = SearchInListViewModel()
+        viewModel.router = router
+        viewController.viewModel = viewModel
+        return viewController
+    }
+    
+    func createSearchInRecipe(router: RootRouter, title: String) -> UIViewController {
+        let viewController = SearchInRecipeViewController()
+        let viewModel = SearchInRecipeViewModel(placeholder: title)
         viewModel.router = router
         viewController.viewModel = viewModel
         return viewController
