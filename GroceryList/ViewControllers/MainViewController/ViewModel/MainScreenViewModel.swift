@@ -120,7 +120,7 @@ class MainScreenViewModel {
     }
     
     func showSearchProductsInRecipe() {
-        router?.goToSearchInRecipe(title: "Рецептах")
+        router?.goToSearchInRecipe()
     }
     
     // setup cells

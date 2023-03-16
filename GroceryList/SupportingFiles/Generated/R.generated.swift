@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 195 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 197 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -156,6 +156,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var alcohol: RswiftResources.StringResource { .init(key: "Alcohol", tableName: "Localizable", source: source, developmentValue: "Alcohol", comment: nil) }
+
+      /// en translation: Recipes
+      ///
+      /// Key: AllRecipes
+      ///
+      /// Locales: en, ru, fr, de
+      var allRecipes: RswiftResources.StringResource { .init(key: "AllRecipes", tableName: "Localizable", source: source, developmentValue: "Recipes", comment: nil) }
 
       /// en translation: Alphabetical sorting
       ///
@@ -814,6 +821,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var searchIn: RswiftResources.StringResource { .init(key: "Search in ", tableName: "Localizable", source: source, developmentValue: "Search in ", comment: nil) }
+
+      /// en translation: Search in all recipes
+      ///
+      /// Key: Search in all recipes
+      ///
+      /// Locales: en, ru, fr, de
+      var searchInAllRecipes: RswiftResources.StringResource { .init(key: "Search in all recipes", tableName: "Localizable", source: source, developmentValue: "Search in all recipes", comment: nil) }
 
       /// en translation: Select list
       ///

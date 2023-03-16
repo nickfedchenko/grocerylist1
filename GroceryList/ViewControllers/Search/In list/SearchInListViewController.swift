@@ -78,9 +78,6 @@ extension SearchInListViewController: UICollectionViewDelegate {
 extension SearchInListViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         setCleanerButton(isVisible: (textField.text?.count ?? 0) >= 3)
-        guard (textField.text?.count ?? 0) >= 3 else {
-            return
-        }
         viewModel?.search(text: textField.text)
     }
     

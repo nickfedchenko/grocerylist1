@@ -95,7 +95,8 @@ protocol ViewControllerFactoryProtocol {
     func createIngredientViewController(router: RootRouter,
                                         compl: @escaping (Ingredient) -> Void) -> UIViewController
     func createSearchInList(router: RootRouter) -> UIViewController
-    func createSearchInRecipe(router: RootRouter, title: String) -> UIViewController
+    func createSearchInRecipe(router: RootRouter, section: RecipeSectionsModel?) -> UIViewController
+    func createRecipeScreen(router: RootRouter, recipe: Recipe) -> UIViewController
 }
 
 // MARK: - Factory
@@ -459,11 +460,19 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSearchInRecipe(router: RootRouter, title: String) -> UIViewController {
+    func createSearchInRecipe(router: RootRouter, section: RecipeSectionsModel?) -> UIViewController {
         let viewController = SearchInRecipeViewController()
-        let viewModel = SearchInRecipeViewModel(placeholder: title)
+        let viewModel = SearchInRecipeViewModel(section: section)
         viewModel.router = router
         viewController.viewModel = viewModel
+        return viewController
+    }
+    
+    func createRecipeScreen(router: RootRouter, recipe: Recipe) -> UIViewController {
+        let viewModel = RecipeScreenViewModel(recipe: recipe)
+        viewModel.router = router
+        let viewController = RecipeViewController(with: viewModel,
+                                                  backButtonTitle: R.string.localizable.recipes())
         return viewController
     }
 }

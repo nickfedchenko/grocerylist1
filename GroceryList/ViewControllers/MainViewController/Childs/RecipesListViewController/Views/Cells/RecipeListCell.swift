@@ -23,6 +23,7 @@ final class RecipeListCell: UICollectionViewCell {
         image.layer.maskedCorners = [.layerMinXMinYCorner]
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
+        image.backgroundColor = .white
         return image
     }()
     
@@ -80,6 +81,11 @@ final class RecipeListCell: UICollectionViewCell {
         }
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        mainImage.image = nil
+    }
+    
     private func setupActions() {
         addToCartButton.addAction(
             UIAction { [weak self] _ in
@@ -113,6 +119,7 @@ final class RecipeListCell: UICollectionViewCell {
         mainImage.snp.makeConstraints { make in
             make.top.leading.bottom.equalToSuperview()
             make.width.equalTo(96)
+            make.height.equalTo(64)
         }
         
         titleLabel.snp.makeConstraints { make in
