@@ -8,7 +8,7 @@
 import UIKit
 
 final class RecipesListViewController: UIViewController {
-    var router: RootRouter?
+    weak var router: RootRouter?
     private var section: RecipeSectionsModel
     
     var currentlySelectedIndex: Int = -1
@@ -129,7 +129,7 @@ extension RecipesListViewController: RecipesListHeaderViewDelegate {
     }
     
     func searchButtonTapped() {
-        print("search tapped")
+        router?.goToSearchInRecipe(title: section.sectionType.title)
     }
 }
 

@@ -113,8 +113,8 @@ class MainScreenViewController: UIViewController {
                 self?.navigationController?.pushViewController(view, animated: true)
             }
         }
-        
-        viewModel?.updateCells = { setOfLists in
+            
+            viewModel?.updateCells = { setOfLists in
             self.reloadItems(lists: setOfLists)
             self.updateImageConstraint()
 
@@ -511,6 +511,14 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
             paywall.modalPresentationStyle = .fullScreen
             present(paywall, animated: true)
         }
+    }
+    
+    func searchButtonTapped() {
+        guard presentationMode == .lists else {
+            viewModel?.showSearchProductsInRecipe()
+            return
+        }
+        viewModel?.showSearchProductsInList()
     }
 }
 
