@@ -129,7 +129,7 @@ extension RecipesListViewController: RecipesListHeaderViewDelegate {
     }
     
     func searchButtonTapped() {
-        router?.goToSearchInRecipe(title: section.sectionType.title)
+        router?.goToSearchInRecipe(section: section)
     }
 }
 

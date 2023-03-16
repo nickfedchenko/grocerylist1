@@ -524,7 +524,7 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
 
 extension MainScreenViewController: RecipesFolderHeaderDelegate {
     func headerTapped(at index: Int) {
-        guard let section = viewModel?.dataSource?.recipesSections[index] else { return }
+        guard let section = viewModel?.dataSource?.recipesSections[safe: index] else { return }
         viewModel?.router?.goToRecipes(for: section)
     }
 }

@@ -238,10 +238,15 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func goToSearchInRecipe(title: String) {
-        let controller = viewControllerFactory.createSearchInRecipe(router: self, title: title)
+    func goToSearchInRecipe(section: RecipeSectionsModel? = nil) {
+        let controller = viewControllerFactory.createSearchInRecipe(router: self, section: section)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
+    }
+    
+    func goToRecipe(recipe: Recipe) {
+        let controller = viewControllerFactory.createRecipeScreen(router: self, recipe: recipe)
+        navigationPushViewController(controller, animated: true)
     }
     
     // алерты / активити и принтер
