@@ -91,7 +91,7 @@ class ProductListCell: UICollectionViewListCell {
             }
         }
         
-        if !description.isEmpty {
+        if !description.isEmpty || isRecipe {
             viewWithDescription.isHidden = false
         }
     }
