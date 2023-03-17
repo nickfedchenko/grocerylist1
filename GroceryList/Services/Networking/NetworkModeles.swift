@@ -13,11 +13,17 @@ struct GetAllProductsResponse: Codable {
     let data: [NetworkProductModel]
 }
 
+struct GetAllItemsResponse: Codable {
+    let error: Bool
+    let messages: [String]
+    let data: [NetworkProductModel]
+}
+
 struct NetworkProductModel: Codable {
     let id: Int
     let title: String
     let marketCategory: MarketCategory?
-    let units: [Unit]
+    let units: [Unit]?
     let photo: String
     let marketUnit: MarketUnitClass?
 }
@@ -204,7 +210,7 @@ struct MarketUnitClass: Codable {
 
     let id: Int
     let title, shortTitle: String
-    let isOnlyForMarket: Bool
+    let isOnlyForMarket: Bool?
     var step: MarketUnitPrepared? {
         print("Id for step instance  =  \(id)")
         return MarketUnitPrepared(rawValue: id)

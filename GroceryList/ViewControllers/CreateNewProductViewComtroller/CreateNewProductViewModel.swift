@@ -23,7 +23,7 @@ class CreateNewProductViewModel {
     weak var router: RootRouter?
     var model: GroceryListsModel?
     private var colorManager = ColorManager()
-    var arrayOfProductsByCategories: [DBNetworkProduct]?
+    var arrayOfProductsByCategories: [DBNetProduct]?
     var isMetricSystem = UserDefaultsManager.isMetricSystem
     var currentSelectedUnit: UnitSystem = .gram
     var currentProduct: Product?
@@ -177,7 +177,7 @@ class CreateNewProductViewModel {
             return
         }
         name = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        var product: DBNetworkProduct?
+        var product: DBNetProduct?
         for productDB in arrayOfProductsByCategories {
             guard let title = productDB.title?.lowercased()
                                               .getTitleWithout(symbols: ["(", ")"]) else {
@@ -189,7 +189,7 @@ class CreateNewProductViewModel {
                 break
             }
             
-            if title.contains(name) {
+            if title.smartContains(name) {
                 product = productDB
             }
         }
@@ -201,7 +201,7 @@ class CreateNewProductViewModel {
         getAllInformation(product: product)
     }
     
-    func getAllInformation(product: DBNetworkProduct) {
+    func getAllInformation(product: DBNetProduct) {
         let imageUrl = product.photo ?? ""
         print("Product id \(product.id)")
         let title = product.marketCategory

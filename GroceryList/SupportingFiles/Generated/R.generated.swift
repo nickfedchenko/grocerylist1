@@ -437,12 +437,12 @@ struct _R {
       /// Locales: en, ru, fr, de
       var iHaveAccount: RswiftResources.StringResource { .init(key: "IHaveAccount", tableName: "Localizable", source: source, developmentValue: "I have an account", comment: nil) }
 
-      /// en translation: Imperial (U.S.)
+      /// en translation: U.S. standard
       ///
       /// Key: Imperial
       ///
       /// Locales: en, ru, fr, de
-      var imperial: RswiftResources.StringResource { .init(key: "Imperial", tableName: "Localizable", source: source, developmentValue: "Imperial (U.S.)", comment: nil) }
+      var imperial: RswiftResources.StringResource { .init(key: "Imperial", tableName: "Localizable", source: source, developmentValue: "U.S. standard", comment: nil) }
 
       /// en translation: Ingredients
       ///

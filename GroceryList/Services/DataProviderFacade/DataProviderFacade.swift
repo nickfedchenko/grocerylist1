@@ -10,6 +10,7 @@ import Foundation
 protocol DataSyncProtocol {
     func updateProducts()
     func updateRecipes()
+    func updateItems()
     var  domainSyncManager: CoredataSyncProtocol? { get }
 }
 
@@ -42,6 +43,17 @@ extension DataProviderFacade: DataSyncProtocol {
                 print(error)
             case let .success(recipesResponse):
                 self?.saveRecipesInPersistentStore(recipes: recipesResponse)
+            }
+        }
+    }
+    
+    func updateItems() {
+        networkManager.getAllItems { [weak self] result in
+            switch result {
+            case let .failure(error):
+                print(error)
+            case let .success(itemsResponse):
+                self?.saveProductsInPersistentStore(products: itemsResponse.data)
             }
         }
     }

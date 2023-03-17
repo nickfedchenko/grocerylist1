@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3324426029C33A95006F4388 /* DBNetProduct+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3324425E29C33A95006F4388 /* DBNetProduct+CoreDataClass.swift */; };
+		3324426129C33A95006F4388 /* DBNetProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3324425F29C33A95006F4388 /* DBNetProduct+CoreDataProperties.swift */; };
 		3328AD86299CF40800187B57 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3328AD85299CF40800187B57 /* SharingView.swift */; };
 		334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */; };
 		334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */; };
@@ -123,7 +125,6 @@
 		B35F0F632937975200C19891 /* MeashureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F0F622937975200C19891 /* MeashureManager.swift */; };
 		B360918F2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */; };
 		B36091902927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */; };
-		B3673EB72938F70B002D9262 /* BackendDatabaseProductsSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3673EB62938F70B002D9262 /* BackendDatabaseProductsSaver.swift */; };
 		B36933F8291A97D900AFFAA6 /* MainScreenTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */; };
 		B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933F9291AAC2C00AFFAA6 /* CellState.swift */; };
 		B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */; };
@@ -236,6 +237,8 @@
 /* Begin PBXFileReference section */
 		025222570B015E69FF5973D3 /* Pods_GroceryList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GroceryList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		262EB22BC930A385DC81E51C /* Pods-GroceryList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroceryList.release.xcconfig"; path = "Target Support Files/Pods-GroceryList/Pods-GroceryList.release.xcconfig"; sourceTree = "<group>"; };
+		3324425E29C33A95006F4388 /* DBNetProduct+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBNetProduct+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3324425F29C33A95006F4388 /* DBNetProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBNetProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3328AD85299CF40800187B57 /* SharingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingView.swift; sourceTree = "<group>"; };
 		334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingPopUpViewController.swift; sourceTree = "<group>"; };
 		334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewController.swift; sourceTree = "<group>"; };
@@ -360,7 +363,6 @@
 		B35F0F622937975200C19891 /* MeashureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeashureManager.swift; sourceTree = "<group>"; };
 		B360918B2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBGroceryListModel+CoreDataClass.swift"; sourceTree = "<group>"; };
-		B3673EB62938F70B002D9262 /* BackendDatabaseProductsSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendDatabaseProductsSaver.swift; sourceTree = "<group>"; };
 		B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenTopCell.swift; sourceTree = "<group>"; };
 		B36933F9291AAC2C00AFFAA6 /* CellState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellState.swift; sourceTree = "<group>"; };
 		B36933FF291BA55100AFFAA6 /* CreateNewListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListViewController.swift; sourceTree = "<group>"; };
@@ -873,6 +875,8 @@
 		B33DFD1E291A676400AC7403 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
+				3324425E29C33A95006F4388 /* DBNetProduct+CoreDataClass.swift */,
+				3324425F29C33A95006F4388 /* DBNetProduct+CoreDataProperties.swift */,
 				3368FD7729B7348100D97291 /* DBCollection+CoreDataClass.swift */,
 				3368FD7829B7348100D97291 /* DBCollection+CoreDataProperties.swift */,
 				B371CCA7299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift */,
@@ -1090,14 +1094,6 @@
 			path = MeashureManager;
 			sourceTree = "<group>";
 		};
-		B3673EB52938F6CD002D9262 /* BackendDatabaseProductsSaver */ = {
-			isa = PBXGroup;
-			children = (
-				B3673EB62938F70B002D9262 /* BackendDatabaseProductsSaver.swift */,
-			);
-			path = BackendDatabaseProductsSaver;
-			sourceTree = "<group>";
-		};
 		B36933FB291AAC3A00AFFAA6 /* CellModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1284,7 +1280,6 @@
 				B3AD42D32991061D0043A37F /* SocketManager */,
 				B3329594298A6475002DF1EE /* Ampllitude */,
 				38817890293BEC7E0094344D /* DataProviderFacade */,
-				B3673EB52938F6CD002D9262 /* BackendDatabaseProductsSaver */,
 				B3777E212938E4CC0074BE38 /* HapticManader */,
 				B3777E1E2938D8050074BE38 /* InternetConnection */,
 				B3802313292BC7B70039EDE0 /* UserDefaultsManager */,
@@ -1748,6 +1743,7 @@
 				846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */,
 				383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */,
 				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
+				3324426029C33A95006F4388 /* DBNetProduct+CoreDataClass.swift in Sources */,
 				B35F0F632937975200C19891 /* MeashureManager.swift in Sources */,
 				B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */,
 				334BAE55299E700B005F52F5 /* Table+CollectionExtension.swift in Sources */,
@@ -1760,7 +1756,6 @@
 				B3329598298A8F19002DF1EE /* NotificationsExtension.swift in Sources */,
 				383C77FD2940ED0F0030AE78 /* AddProductsSelectionListController.swift in Sources */,
 				339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */,
-				B3673EB72938F70B002D9262 /* BackendDatabaseProductsSaver.swift in Sources */,
 				337719AC29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift in Sources */,
 				B36AF9552915410400944E9D /* InstructionCell.swift in Sources */,
 				B34EACA8293500C000FBD0E0 /* CreateNewCategoryViewController.swift in Sources */,
@@ -1795,6 +1790,7 @@
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
+				3324426129C33A95006F4388 /* DBNetProduct+CoreDataProperties.swift in Sources */,
 				B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */,
 				3379B65E29B9B3580080923A /* QuantityView.swift in Sources */,
 				844FC6392978612B008173AA /* OnboardingReviewController.swift in Sources */,

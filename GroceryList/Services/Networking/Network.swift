@@ -12,10 +12,12 @@ import UIKit
 protocol NetworkDataProvider {
     func getAllProducts(completion: @escaping GetAllProductsResult)
     func getAllRecipes(completion: @escaping AllDishesResult)
+    func getAllItems(completion: @escaping GetAllItemsResult)
 }
 
 typealias GetAllProductsResult = (Result<[NetworkProductModel], AFError>) -> Void
 typealias AllDishesResult = (Result<[Recipe], AFError>) -> Void
+typealias GetAllItemsResult = (Result<GetAllItemsResponse, AFError>) -> Void
 typealias CreateUserResult = (Result<CreateUserResponse, AFError>) -> Void
 typealias ChangeUserNameResult = (Result<ChangeUsernameResponse, AFError>) -> Void
 typealias MailExistsResult = (Result<MailExistResponse, AFError>) -> Void
@@ -37,6 +39,7 @@ typealias UpdateGroceryListResult = (Result<UpdateGroceryListResponse, AFError>)
 enum RequestGenerator: Codable {
     case getProducts
     case getReciepts
+    case getItems
     case createUser(email: String, password: String)
     case logIn(email: String, password: String)
     case updateUsername(userToken: String, newName: String)
@@ -65,6 +68,8 @@ enum RequestGenerator: Codable {
             return requestCreator(basicURL:getUrlForProducts(), method: .get, needsToken: false) { _ in }
         case .getReciepts:
             return requestCreator(basicURL: getUrlForReciepts(), method: .get, needsToken: false) { _ in }
+        case .getItems:
+            return requestCreator(basicURL: getUrlForItems(), method: .get) { _ in }
         case .logIn(let email, let password):
             return requestCreator(basicURL: "https://newketo.finanse.space/api/user/login", method: .post) { components in
                 injectEmailAndPassword(in: &components, email: email, password: password)
@@ -213,6 +218,15 @@ enum RequestGenerator: Codable {
             return "https://newketo.finanse.space/storage/json/dish_\(currentLocale.rawValue).json.gz"
         } else {
             return "https://newketo.finanse.space/storage/json/dish_it.json.gz"
+        }
+    }
+    
+    private func getUrlForItems() -> String {
+        guard let locale = Locale.current.languageCode else { return "" }
+        if let currentLocale = CurrentLocale(rawValue: locale) {
+            return "https://ketodietapplication.site/api/items?langCode=\(currentLocale.rawValue)"
+        } else {
+            return "https://ketodietapplication.site/api/items?langCode=en"
         }
     }
     
@@ -403,6 +417,10 @@ extension NetworkEngine: NetworkDataProvider {
     
     func getAllRecipes(completion: @escaping AllDishesResult) {
         performDecodableRequest(request: .getReciepts, completion: completion)
+    }
+    
+    func getAllItems(completion: @escaping GetAllItemsResult) {
+        performDecodableRequest(request: .getItems, completion: completion)
     }
     /// регистрация юзера
     func createUser(email: String, password: String, completion: @escaping CreateUserResult) {
