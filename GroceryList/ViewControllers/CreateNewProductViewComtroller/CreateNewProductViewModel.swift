@@ -5,6 +5,7 @@
 //  Created by Шамиль Моллачиев on 25.11.2022.
 //
 
+import ApphudSDK
 import Foundation
 import Kingfisher
 import UIKit
@@ -27,6 +28,7 @@ class CreateNewProductViewModel {
     var isMetricSystem = UserDefaultsManager.isMetricSystem
     var currentSelectedUnit: UnitSystem = .gram
     var currentProduct: Product?
+    private let network = NetworkEngine()
     
     init() {
         arrayOfProductsByCategories = CoreDataManager.shared.getAllNetworkProducts()?
@@ -107,10 +109,9 @@ class CreateNewProductViewModel {
         
         for unit in selectedUnitSystemArray where descriptionQuantity.contains(unit.rawValue.localized) {
             currentSelectedUnit = unit
-            return unit.rawValue.localized
         }
         
-        return nil
+        return currentSelectedUnit.rawValue.localized
     }
     
     var productStepValue: Double {
@@ -156,9 +157,11 @@ class CreateNewProductViewModel {
         let product = Product(listId: model.id, name: productName, isPurchased: false, dateOfCreation: Date(),
                               category: categoryName, isFavorite: false, imageData: imageData, description: description)
         CoreDataManager.shared.createProduct(product: currentProduct ?? product)
-        idsOfChangedProducts.insert(product.id)
+        idsOfChangedProducts.insert(currentProduct?.id ?? product.id)
         idsOfChangedLists.insert(model.id)
         valueChangedCallback?(currentProduct ?? product)
+        
+        sendUserProduct(category: categoryName, product: productName)
     }
     
     func getBackgroundColor() -> UIColor {
@@ -234,5 +237,38 @@ class CreateNewProductViewModel {
         }()
         currentSelectedUnit = properSelectedUnit
         delegate?.selectCategory(text: title ?? "other".localized, imageURL: imageUrl, defaultSelectedUnit: currentSelectedUnit)
+    }
+    
+    private func sendUserProduct(category: String, product: String) {
+        var userToken = Apphud.userID()
+        var productId: String?
+        var categoryId: String?
+        let product = product.trimmingCharacters(in: .whitespaces)
+        
+        if let user = UserAccountManager.shared.getUser() {
+            userToken = user.token
+        }
+        
+        if let product = arrayOfProductsByCategories?.first(where: { $0.title?.lowercased() == product.lowercased() }) {
+            productId = "\(product.id)"
+        }
+        
+        if let userCategory = CoreDataManager.shared.getAllCategories()?.first(where: { category == $0.name }) {
+            categoryId = "\(userCategory.id)"
+        }
+
+        let userProduct = UserProduct(userToken: userToken,
+                                      itemId: productId,
+                                      itemTitle: product,
+                                      categoryId: categoryId,
+                                      categoryTitle: category)
+        
+        network.userProduct(userToken: userToken,
+                            product: userProduct) { result in
+            switch result {
+            case .failure(let error):       print(error)
+            case .success(let response):    print(response)
+            }
+        }
     }
 }

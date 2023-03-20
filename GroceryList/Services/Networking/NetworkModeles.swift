@@ -218,3 +218,17 @@ struct MarketUnitClass: Codable {
     }
     
 }
+
+struct UserProduct: Codable {
+    let userToken: String
+    let itemId: String?
+    let itemTitle: String
+    let categoryId: String?
+    let categoryTitle: String
+}
+
+struct UserProductResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var success: Bool?
+}
