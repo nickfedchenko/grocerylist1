@@ -64,6 +64,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return true
     }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        AmplitudeManager.shared.logEvent(.listsChanged,
+                                         properties: [.count: "\(idsOfChangedLists.count)"])
+        AmplitudeManager.shared.logEvent(.itemsChanged,
+                                         properties: [.count: "\(idsOfChangedProducts.count)"])
+    }
 }
 
 extension AppDelegate {

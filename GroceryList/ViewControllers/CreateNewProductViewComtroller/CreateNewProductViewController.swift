@@ -293,7 +293,7 @@ class CreateNewProductViewController: UIViewController {
     // MARK: - ButtonActions
     @objc
     private func plusButtonAction() {
-        AmplitudeManager.shared.logEvent(.createItem, properties: [.value: .itemQuantityButtons])
+        AmplitudeManager.shared.logEvent(.itemQuantityButtons)
         quantityCount += quantityValueStep
         quantityLabel.text = getDecimalString()
         setupText()
@@ -302,7 +302,7 @@ class CreateNewProductViewController: UIViewController {
 
     @objc
     private func minusButtonAction() {
-        AmplitudeManager.shared.logEvent(.createItem, properties: [.value: .itemQuantityButtons])
+        AmplitudeManager.shared.logEvent(.itemQuantityButtons)
         guard quantityCount > 1 else {
             return quantityNotAvailable()
         }
@@ -555,7 +555,7 @@ extension CreateNewProductViewController: UITextFieldDelegate {
         selectUnitsView.backgroundColor = UIColor(hex: "#D2D5DA")
         quantityCount = 0
         quantityLabel.text = "0"
-        bottomTextField.text = ""
+        bottomTextField.text = userCommentText
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -585,6 +585,7 @@ extension CreateNewProductViewController: UITextFieldDelegate {
         }
         
         if textField == bottomTextField {
+            AmplitudeManager.shared.logEvent(.secondInputManual)
             userCommentText = finalText
         }
         
@@ -663,12 +664,13 @@ extension CreateNewProductViewController {
     
     @objc
     private func tapOnAddImageAction() {
+        AmplitudeManager.shared.logEvent(.photoAdd)
         pickImage()
     }
     
     @objc
     private func tapOnCategoryAction() {
-        AmplitudeManager.shared.logEvent(.core, properties: [.value: .categoryChange])
+        AmplitudeManager.shared.logEvent(.categoryChange)
         viewModel?.goToSelectCategoryVC()
     }
     
@@ -693,7 +695,7 @@ extension CreateNewProductViewController {
     
     @objc
     private func removeImageTapped() {
-        AmplitudeManager.shared.logEvent(.createItem, properties: [.value: .photoDelete])
+        AmplitudeManager.shared.logEvent(.photoDelete)
         addImageImage.image = R.image.addImage()
         isImageChanged = false
     }
@@ -744,7 +746,7 @@ extension CreateNewProductViewController: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableview.cellForRow(at: indexPath)
         cell?.isSelected = true
-        AmplitudeManager.shared.logEvent(.createItem, properties: [.value: .itemUnitsButton])
+        AmplitudeManager.shared.logEvent(.itemUnitsButton)
         hideTableview(cell: cell)
         selectUnitLabel.text = viewModel?.getTitleForCell(at: indexPath.row)
         bottomTextField.text = ""

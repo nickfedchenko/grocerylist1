@@ -169,6 +169,7 @@ class CoreDataManager {
     
     // MARK: - GroceryList
     func saveList(list: GroceryListsModel) {
+        idsOfChangedLists.insert(list.id)
         guard getList(list: list.id.uuidString) == nil else {
             updateList(list)
             return
@@ -230,6 +231,7 @@ class CoreDataManager {
             context.delete(object)
         }
         try? context.save()
+        idsOfChangedLists.insert(id)
     }
     
     func removeSharedLists() {

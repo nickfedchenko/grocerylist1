@@ -7,12 +7,6 @@
 
 import UIKit
 
-struct SharedUser {
-    let id: Int
-    var photo: UIImage
-    var name: String?
-}
-
 protocol SharingListViewModelDelegate: AnyObject {
     func openShareController(with urlToShare: String)
 }
@@ -43,6 +37,8 @@ final class SharingListViewModel {
     }
     
     func shareListTapped() {
+        idsOfChangedLists.insert(listToShareModel.id)
+        AmplitudeManager.shared.logEvent(.sendInvite)
         SharedListManager.shared.shareGroceryList(listModel: listToShareModel) { [weak self] deepLink in
             DispatchQueue.main.async {
                 self?.delegate?.openShareController(with: deepLink)
@@ -62,9 +58,7 @@ final class SharingListViewModel {
     }
     
     func getPhoto(by index: Int) -> String? {
-        
         return sharedUsers[index].avatar
-      //  return sharedUsers[safe: index]?.photo ?? UIImage()
     }
     
     func getName(by index: Int) -> String {

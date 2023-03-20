@@ -135,7 +135,7 @@ class SignUpViewModel {
     func sighUpPressed() {
         switch state {
         case .signUp:
-            AmplitudeManager.shared.logEvent(.sharing, properties: [.value: .signInEmail])
+            AmplitudeManager.shared.logEvent(.signInEmail, properties: [.accountType: .email])
             signUpUser()
         case .signIn:
             signInUser()
@@ -232,6 +232,7 @@ class SignUpViewModel {
         UserAccountManager.shared.saveUser(user: userModel)
         SharedListManager.shared.connectToListAfterRegistration()
         SocketManager.shared.connect()
+        AmplitudeManager.shared.logEvent(.registerFromLink)
         router?.pop()
     }
     

@@ -120,6 +120,7 @@ final class RecipeServingSelector: UIView {
     
     @objc
     private func servingCountChange(sender: UIButton) {
+        AmplitudeManager.shared.logEvent(.recipeServingChange)
         switch sender {
         case minusButton:
             if currentCount > 1 {
