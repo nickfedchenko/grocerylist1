@@ -406,6 +406,10 @@ class AlternativePaywallViewController: UIViewController {
                 self?.alertOk(title: "Error", message: error.localizedDescription)
             }
             
+            if let duration = self?.getDuration(from: selectedProduct) {
+                AmplitudeManager.shared.logEvent(.subscribtionBuy, properties: [.subscribtionType: duration])
+            }
+
             if let subscription = result.subscription, subscription.isActive() {
                 self?.dismiss(animated: true)
             } else if let purchase = result.nonRenewingPurchase, purchase.isActive() {
@@ -444,7 +448,23 @@ class AlternativePaywallViewController: UIViewController {
     
     @objc
     private func closeButtonAction() {
+        AmplitudeManager.shared.logEvent(.paywallClose)
         self.dismiss(animated: true)
+    }
+    
+    private func getDuration(from product: ApphudProduct) -> String? {
+        guard let skProduct = product.skProduct else { return nil }
+        switch skProduct.subscriptionPeriod?.unit {
+        case .year: return .yearly
+        case .month: return .monthly
+        case .day:
+            if skProduct.subscriptionPeriod?.numberOfUnits == 7 {
+                return .weekly
+            } else {
+                return nil
+            }
+        default: return nil
+        }
     }
 }
 

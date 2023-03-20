@@ -156,6 +156,8 @@ class CreateNewProductViewModel {
         let product = Product(listId: model.id, name: productName, isPurchased: false, dateOfCreation: Date(),
                               category: categoryName, isFavorite: false, imageData: imageData, description: description)
         CoreDataManager.shared.createProduct(product: currentProduct ?? product)
+        idsOfChangedProducts.insert(product.id)
+        idsOfChangedLists.insert(model.id)
         valueChangedCallback?(currentProduct ?? product)
     }
     

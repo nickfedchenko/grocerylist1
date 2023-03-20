@@ -84,6 +84,7 @@ struct GroceryListsModel: Hashable, Codable {
         typeOfSorting = Int(dbModel.typeOfSorting)
         guard let prods = dbModel.products?.allObjects as? [DBProduct] else { return nil }
         products = prods.compactMap({ Product(from: $0) })
+        isFavorite = dbModel.isFavorite
         sharedId = dbModel.sharedListId ?? ""
         isShared = dbModel.isShared
         isSharedListOwner = dbModel.isSharedListOwner

@@ -78,6 +78,7 @@ class MainScreenViewController: UIViewController {
     
     private let contextMenu = MainScreenMenuView()
     private var menuTapRecognizer = UITapGestureRecognizer()
+    private var initAnalytic = false
     
     // MARK: - Lifecycle
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -144,6 +145,14 @@ class MainScreenViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         bottomCreateListView.startAnimating()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !initAnalytic {
+            viewModel?.analytic()
+            initAnalytic.toggle()
+        }
     }
     
     // MARK: - Functions
@@ -321,7 +330,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 
                 // Удаление и закрепление ячейки
                 cell.swipeDeleteAction = {
-                    AmplitudeManager.shared.logEvent(.core, properties: [.value: .listDelete])
+                    AmplitudeManager.shared.logEvent(.listDelete)
                     viewModel.deleteCell(with: model)
                 }
                 
@@ -383,7 +392,7 @@ extension MainScreenViewController {
     
     @objc
     private func createListAction() {
-        AmplitudeManager.shared.logEvent(.core, properties: [.value: .listCreate])
+        AmplitudeManager.shared.logEvent(.listCreate, properties: [.source: presentationMode == .lists ? .mainScreen : .recipe])
         viewModel?.createNewListTapped()
     }
     
@@ -484,7 +493,7 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
     
     func modeChanged(to mode: MainScreenPresentationMode) {
         if mode == .recipes {
-            AmplitudeManager.shared.logEvent(.recipes, properties: [.value: .recipeSection])
+            AmplitudeManager.shared.logEvent(.recipeSection)
         }
         guard Apphud.hasActiveSubscription() else {
             showPaywall()

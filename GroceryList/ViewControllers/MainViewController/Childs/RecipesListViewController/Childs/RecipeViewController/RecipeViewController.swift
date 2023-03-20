@@ -205,6 +205,7 @@ final class RecipeViewController: UIViewController {
         let dataSource = SelectListDataManager()
         let viewModel = SelectListViewModel(dataSource: dataSource)
         addProductsVC.viewModel = viewModel
+        addProductsVC.delegate = self
         present(addProductsVC, animated: false)
     }
     
@@ -407,7 +408,14 @@ extension RecipeViewController: RecipeMainImageViewDelegate {
         if isFavorite {
             UserDefaultsManager.favoritesRecipeIds.removeAll(where: { $0 == viewModel.recipe.id })
         } else {
+            AmplitudeManager.shared.logEvent(.recipeAddFavorites)
             UserDefaultsManager.favoritesRecipeIds.append(viewModel.recipe.id)
         }
+    }
+}
+
+extension RecipeViewController: AddProductsSelectionListControllerDelegate {
+    func ingredientsSuccessfullyAdded() {
+        AmplitudeManager.shared.logEvent(.recipeAddToList)
     }
 }
