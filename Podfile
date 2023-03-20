@@ -15,6 +15,9 @@ target 'GroceryList' do
   pod 'R.swift'
   pod 'GzipSwift'
   pod 'PusherSwift', '~> 8.0'
+
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Crashlytics'
   
   # Pods for GroceryList
 

@@ -48,6 +48,7 @@
 		3379B65C29B9B3030080923A /* AddIngredientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65B29B9B3030080923A /* AddIngredientView.swift */; };
 		3379B65E29B9B3580080923A /* QuantityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65D29B9B3580080923A /* QuantityView.swift */; };
 		3380D1B429C2D1E500A57F25 /* AllRecipesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3380D1B329C2D1E500A57F25 /* AllRecipesCell.swift */; };
+		33897D1329C87F11009C6932 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33897D1229C87F11009C6932 /* GoogleService-Info.plist */; };
 		338EB6B429C1BACC00D6A03F /* SearchInRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */; };
 		338EB6B629C1BEED00D6A03F /* SearchInRecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338EB6B529C1BEED00D6A03F /* SearchInRecipeViewModel.swift */; };
 		339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339C1AEA299A67DD0092F93E /* InfoMessageView.swift */; };
@@ -278,6 +279,7 @@
 		3379B65B29B9B3030080923A /* AddIngredientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIngredientView.swift; sourceTree = "<group>"; };
 		3379B65D29B9B3580080923A /* QuantityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityView.swift; sourceTree = "<group>"; };
 		3380D1B329C2D1E500A57F25 /* AllRecipesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRecipesCell.swift; sourceTree = "<group>"; };
+		33897D1229C87F11009C6932 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInRecipeViewController.swift; sourceTree = "<group>"; };
 		338EB6B529C1BEED00D6A03F /* SearchInRecipeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInRecipeViewModel.swift; sourceTree = "<group>"; };
 		339C1AEA299A67DD0092F93E /* InfoMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMessageView.swift; sourceTree = "<group>"; };
@@ -1265,6 +1267,7 @@
 				B33EFF17290FF02900AD9BEE /* Assets.xcassets */,
 				B33EFF19290FF02900AD9BEE /* LaunchScreen.storyboard */,
 				B33EFF1C290FF02900AD9BEE /* Info.plist */,
+				33897D1229C87F11009C6932 /* GoogleService-Info.plist */,
 				B36C75F02911266800709721 /* Localizable.strings */,
 			);
 			path = SupportingFiles;
@@ -1552,7 +1555,8 @@
 				B33EFF08290FF02800AD9BEE /* Frameworks */,
 				B33EFF09290FF02800AD9BEE /* Resources */,
 				D16B002746908D53B9512E9C /* [CP] Embed Pods Frameworks */,
-				B37A2CF12911062C003C01AD /* ShellScript */,
+				B37A2CF12911062C003C01AD /* Run Script */,
+				33897D1429C885D9009C6932 /* FirebaseCrashlytics */,
 			);
 			buildRules = (
 			);
@@ -1621,6 +1625,7 @@
 				B3981C63297A89E800206DB7 /* SF Pro Text Semibold.otf in Resources */,
 				B3981C5A297A86F200206DB7 /* SF Pro Rounded Regular.otf in Resources */,
 				B3C3FA4929115F510011EC0A /* SF Pro Display Semibold.otf in Resources */,
+				33897D1329C87F11009C6932 /* GoogleService-Info.plist in Resources */,
 				B315F9E3298939E60009CEB8 /* SF Pro Text Black.otf in Resources */,
 				B3981C62297A89E800206DB7 /* SF Pro Text Regular.otf in Resources */,
 			);
@@ -1629,6 +1634,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		33897D1429C885D9009C6932 /* FirebaseCrashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = FirebaseCrashlytics;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
 		33F25A9A0204D8D97E00524C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
@@ -1672,7 +1697,7 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ $ACTION != \"indexbuild\" ]; then\n    \"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/$TARGET_NAME/SupportingFiles/Generated/R.generated.swift\"\nfi\n";
 		};
-		B37A2CF12911062C003C01AD /* ShellScript */ = {
+		B37A2CF12911062C003C01AD /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
 			files = (
@@ -1681,6 +1706,7 @@
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -2075,6 +2101,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 20;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = S93MCWMH29;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
