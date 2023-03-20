@@ -35,6 +35,7 @@ typealias FetchGroceryListUsersResult = (Result<FetchGroceryListUsersResponse, A
 typealias GroceryListUserDeleteResult = (Result<GroceryListUserDeleteResponse, AFError>) -> Void
 typealias ShareGroceryListResult = (Result<ShareGroceryListResponse, AFError>) -> Void
 typealias UpdateGroceryListResult = (Result<UpdateGroceryListResponse, AFError>) -> Void
+typealias UserProductResult = (Result<UserProductResponse, AFError>) -> Void
 
 enum RequestGenerator: Codable {
     case getProducts
@@ -56,6 +57,7 @@ enum RequestGenerator: Codable {
     case groceryListUserDelete(userToken: String, listId: String)
     case shareGroceryList(userToken: String, listId: String?)
     case updateGroceryList(userToken: String, listId: String)
+    case userProduct
     
     private var bearerToken: String {
         return "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
@@ -145,6 +147,9 @@ enum RequestGenerator: Codable {
             }
         case .uploadAvatar:
             fatalError("use multiformRequestObject")
+        case .userProduct:
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/item",
+                                  method: .post) { _ in }
         }
     }
     
@@ -368,10 +373,10 @@ final class NetworkEngine {
                 }
             }
     }
-    
-    private func performDecodableRequestSend<T: Decodable>(
+
+    private func performDecodableRequestSend<T: Decodable, P: Encodable>(
         request: RequestGenerator,
-        listModel: GroceryListsModel,
+        params: P,
         completion: @escaping ((Result<T, AFError>) -> Void)
     ) {
         let decoder = createDecoder()
@@ -381,7 +386,7 @@ final class NetworkEngine {
         ]
         
         guard let url = request.request.url else { return }
-        AF.request(url, method: .post, parameters: ["grocery_list": listModel],
+        AF.request(url, method: .post, parameters: params,
                    encoder: JSONParameterEncoder.default, headers: headers, interceptor: nil, requestModifier: nil)
         .validate()
         .responseData { result in
@@ -491,12 +496,28 @@ extension NetworkEngine: NetworkDataProvider {
     
     ///   зашарить список
     func shareGroceryList(userToken: String, listId: String?, listModel: GroceryListsModel, completion: @escaping ShareGroceryListResult) {
-        performDecodableRequestSend(request: .shareGroceryList(userToken: userToken, listId: listId), listModel: listModel, completion: completion)
+        let param = ["grocery_list": listModel]
+        performDecodableRequestSend(request: .shareGroceryList(userToken: userToken, listId: listId), params: param, completion: completion)
     }
     
     ///   зашарить список
     func updateGroceryList(userToken: String, listId: String, listModel: GroceryListsModel, completion: @escaping UpdateGroceryListResult) {
-        performDecodableRequestSend(request: .updateGroceryList(userToken: userToken, listId: listId), listModel: listModel, completion: completion)
+        let param = ["grocery_list": listModel]
+        performDecodableRequestSend(request: .updateGroceryList(userToken: userToken, listId: listId), params: param, completion: completion)
+    }
+    
+    ///   товар, который пользователь добавляет в список
+    func userProduct(userToken: String, product: UserProduct, completion: @escaping UserProductResult) {
+        let params = ["userToken": product.userToken,
+                      "itemId": product.itemId,
+                      "itemTitle": product.itemTitle,
+                      "categoryId": product.categoryId,
+                      "categoryTitle": product.categoryTitle
+        ]
+
+        performDecodableRequestSend(request: .userProduct,
+                                    params: params,
+                                    completion: completion)
     }
 }
 
