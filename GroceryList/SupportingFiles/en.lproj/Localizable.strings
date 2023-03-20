@@ -99,13 +99,16 @@
 "bottle"                    = "bottle";
 "other"                     = "Other";
 
+"gallon"                    = "gal";
+"quart"                     = "qt";
+
 "preferencies"              = "Preferencies";
 "Problems?"                 = "A problem? Contact us!";
 "DoYouLikeApp?"             = "Do you like the app? Tell us!";
 "Haptic Feedback"           = "Haptic Feedback";
 "Quantity Units"            = "Quantity Units";
 "Metric"                    = "Metric";
-"Imperial"                  = "Imperial (U.S.)";
+"Imperial"                  = "U.S. standard";
 
 "Warning"                   = "Warning";
 "NoInternet"                = "No internet connection";

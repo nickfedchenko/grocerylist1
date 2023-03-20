@@ -60,7 +60,9 @@ class CreateNewProductViewModel {
         UnitSystem.can,
         UnitSystem.bottle,
         UnitSystem.pack,
-        UnitSystem.piece
+        UnitSystem.piece,
+        UnitSystem.gallon,
+        UnitSystem.quart
     ]
 
     var productCategory: String? {
