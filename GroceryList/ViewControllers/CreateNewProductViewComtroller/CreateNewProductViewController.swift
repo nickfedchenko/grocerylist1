@@ -282,12 +282,18 @@ class CreateNewProductViewController: UIViewController {
         isCategorySelected = true
         bottomTextField.text = viewModel?.productDescription
         userCommentText = viewModel?.userComment ?? ""
-        quantityCount += viewModel?.productQuantityCount ?? 0
-        quantityLabel.text = getDecimalString()
-        selectUnitLabel.text = viewModel?.productQuantityUnit
-        quantityValueStep = viewModel?.productStepValue ?? 1
         readyToSave()
-        quantityAvailable()
+        quantityCount = viewModel?.productQuantityCount ?? 0
+        
+        if viewModel?.productQuantityCount == nil {
+            quantityNotAvailable()
+            selectUnitLabel.text = viewModel?.currentSelectedUnit.rawValue.localized
+        } else {
+            quantityLabel.text = getDecimalString()
+            selectUnitLabel.text = viewModel?.productQuantityUnit
+            quantityValueStep = viewModel?.productStepValue ?? 1
+            quantityAvailable()
+        }
     }
     
     // MARK: - ButtonActions
@@ -580,12 +586,10 @@ extension CreateNewProductViewController: UITextFieldDelegate {
                 topCategoryView.backgroundColor = UIColor(hex: "#D2D5DA")
                 topCategoryLabel.text = "Category".localized
                 quantityNotAvailable()
-                
             }
         }
         
         if textField == bottomTextField {
-            AmplitudeManager.shared.logEvent(.secondInputManual)
             userCommentText = finalText
         }
         
@@ -614,6 +618,26 @@ extension CreateNewProductViewController: UITextFieldDelegate {
         }
 
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        guard textField == bottomTextField else {
+            return
+        }
+        AmplitudeManager.shared.logEvent(.secondInputManual)
+        let endOfDocument = textField.endOfDocument
+        DispatchQueue.main.async {
+            textField.selectedTextRange = textField.textRange(from: endOfDocument, to: endOfDocument)
+        }
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        guard textField == bottomTextField else {
+            return
+        }
+        if (bottomTextField.text?.isEmpty ?? true) {
+            userCommentText = ""
+        }
     }
 }
 
@@ -682,6 +706,7 @@ extension CreateNewProductViewController {
         if isImageChanged { image = addImageImage.image }
         let description = bottomTextField.text ?? ""
         viewModel?.saveProduct(categoryName: categoryName, productName: productName, image: image, description: description)
+        
         hidePanel()
     }
     
@@ -787,21 +812,12 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         topCategoryLabel.textColor = .white
         topCategoryLabel.text = text
         isCategorySelected = !text.isEmpty
-
-        if let viewModel = viewModel, let defaultSelectedUnit = defaultSelectedUnit {
-            if let index = viewModel.isMetricSystem ? viewModel.arrayForMetricSystem.firstIndex(of: defaultSelectedUnit)
-                                                    : viewModel.arrayForImperalSystem.firstIndex(of: defaultSelectedUnit) {
-                tableView(tableview, didSelectRowAt: IndexPath(row: index, section: 0))
-            }
-        }
         
         if isCategorySelected {
             readyToSave()
-            quantityAvailable()
         } else {
             deselectCategory()
             notReadyToSave()
-            quantityNotAvailable()
             return
         }
         

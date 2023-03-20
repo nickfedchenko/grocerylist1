@@ -109,10 +109,9 @@ class CreateNewProductViewModel {
         
         for unit in selectedUnitSystemArray where descriptionQuantity.contains(unit.rawValue.localized) {
             currentSelectedUnit = unit
-            return unit.rawValue.localized
         }
         
-        return nil
+        return currentSelectedUnit.rawValue.localized
     }
     
     var productStepValue: Double {
