@@ -23,6 +23,9 @@ enum UnitSystem: String, CaseIterable {
     case pack
     case bottle
     
+    case gallon
+    case quart
+    
     var stepValue: Int {
         switch self {
         case .ozz:
@@ -48,6 +51,10 @@ enum UnitSystem: String, CaseIterable {
         case .bottle:
             return 1
         case .can:
+            return 1
+        case .gallon:
+            return 1
+        case .quart:
             return 1
         }
     }

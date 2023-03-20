@@ -25,12 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerForNotifications()
         syncService.updateProducts()
         syncService.updateRecipes()
+        syncService.updateItems()
         SocketManager.shared.connect()
-        
-        // TODO: убрать при следующий релизах/когда будет добавлена миграция
-        CoreDataManager.shared.updateProductsAfterRemoval = {
-            self.syncService.updateProducts()
-        }
         
         let window = UIWindow(frame: UIScreen.main.bounds)
         

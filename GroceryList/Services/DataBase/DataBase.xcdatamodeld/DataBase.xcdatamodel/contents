@@ -27,6 +27,18 @@
         <attribute name="typeOfSorting" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="products" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DBProduct" inverseName="list" inverseEntity="DBProduct"/>
     </entity>
+    <entity name="DBNetProduct" representedClassName=".DBNetProduct" syncable="YES">
+        <attribute name="defaultMarketUnitID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="marketCategory" optional="YES" attributeType="String"/>
+        <attribute name="photo" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
     <entity name="DBNetworkProduct" representedClassName=".DBNetworkProduct" syncable="YES">
         <attribute name="defaultMarketUnitID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>

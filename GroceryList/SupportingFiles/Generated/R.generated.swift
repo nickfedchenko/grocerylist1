@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 197 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 199 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -437,12 +437,12 @@ struct _R {
       /// Locales: en, ru, fr, de
       var iHaveAccount: RswiftResources.StringResource { .init(key: "IHaveAccount", tableName: "Localizable", source: source, developmentValue: "I have an account", comment: nil) }
 
-      /// en translation: Imperial (U.S.)
+      /// en translation: U.S. standard
       ///
       /// Key: Imperial
       ///
       /// Locales: en, ru, fr, de
-      var imperial: RswiftResources.StringResource { .init(key: "Imperial", tableName: "Localizable", source: source, developmentValue: "Imperial (U.S.)", comment: nil) }
+      var imperial: RswiftResources.StringResource { .init(key: "Imperial", tableName: "Localizable", source: source, developmentValue: "U.S. standard", comment: nil) }
 
       /// en translation: Ingredients
       ///
@@ -1207,6 +1207,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var fluidOz: RswiftResources.StringResource { .init(key: "fluidOz", tableName: "Localizable", source: source, developmentValue: "fl oz", comment: nil) }
 
+      /// en translation: gal
+      ///
+      /// Key: gallon
+      ///
+      /// Locales: en, ru, fr, de
+      var gallon: RswiftResources.StringResource { .init(key: "gallon", tableName: "Localizable", source: source, developmentValue: "gal", comment: nil) }
+
       /// en translation: g
       ///
       /// Key: gram
@@ -1339,6 +1346,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var pt: RswiftResources.StringResource { .init(key: "pt", tableName: "Localizable", source: source, developmentValue: "pt", comment: nil) }
+
+      /// en translation: qt
+      ///
+      /// Key: quart
+      ///
+      /// Locales: en, ru, fr, de
+      var quart: RswiftResources.StringResource { .init(key: "quart", tableName: "Localizable", source: source, developmentValue: "qt", comment: nil) }
 
       /// en translation: Recipe Creation
       ///
