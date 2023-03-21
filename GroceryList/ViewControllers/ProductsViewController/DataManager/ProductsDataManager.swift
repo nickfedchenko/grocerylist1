@@ -46,6 +46,7 @@ class ProductsDataManager {
         guard !products.isEmpty else { return }
         if typeOfSorting == .category { createArrayWithSections() }
         if typeOfSorting == .alphabet { createArraySortedByAlphabet() }
+        if typeOfSorting == .recipe { createArraySortedByRecipe() }
         if typeOfSorting == .time { createArraySortedByTime() }
         shouldSaveExpanding = true
     }
@@ -184,6 +185,81 @@ class ProductsDataManager {
         dataSourceArray = newArray
     }
     
+    // MARK: - Сортировка по рецепту
+    // swiftlint:disable:next function_body_length
+    private func createArraySortedByRecipe() {
+        var dict: [ String: [Product] ] = [:]
+        dict[R.string.localizable.other()] = []
+        
+        var dictPurchased: [ String: [Product] ] = [:]
+        dictPurchased["Purchased".localized] = []
+        
+        var dictFavorite: [ String: [Product] ] = [:]
+        dictFavorite["Favorite"] = []
+        
+        var recipesDict: [String: [Product]] = [:]
+        
+        // тип сортировки
+        let products = products.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
+        products.forEach({ product in
+            guard !product.isPurchased else {
+                dictPurchased["Purchased".localized]?.append(product)
+                return
+            }
+            
+            guard !product.isFavorite  else {
+                dictFavorite["Favorite"]?.append(product)
+                return
+            }
+            
+            guard product.fromRecipeTitle != nil else {
+                dict[R.string.localizable.other()]?.append(product)
+                return
+            }
+            
+            guard let recipeTitle = product.fromRecipeTitle else {
+                return
+            }
+            let dicTitle = R.string.localizable.recipe().getTitleWithout(symbols: [" "]) + ": " + recipeTitle
+            if recipesDict[dicTitle] != nil {
+                recipesDict[dicTitle]?.append(product)
+            } else {
+                recipesDict[dicTitle] = [product]
+            }
+        })
+        
+        var newArray: [Category] = []
+        
+        // Избранное
+        if products.contains(where: { $0.isFavorite && !$0.isPurchased }) {
+            newArray.append(contentsOf: dictFavorite.map({ Category(name: $0.key, products: $0.value, typeOFCell: .favorite) }))
+        }
+        
+        if products.contains(where: { $0.fromRecipeTitle != nil }) {
+            newArray.append(contentsOf: recipesDict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByRecipe) }))
+        }
+        
+        if !(dict[R.string.localizable.other()]?.isEmpty ?? true) {
+            newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByRecipe) }))
+        }
+ 
+        // Все что куплено
+        if products.contains(where: { $0.isPurchased }) {
+            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value, typeOFCell: .purchased) }))
+        }
+        
+        // Сохранение параметра свернутости развернутости списка
+        guard shouldSaveExpanding else { return dataSourceArray = newArray }
+        for (ind, newValue) in newArray.enumerated() {
+            dataSourceArray.forEach({ oldValue in
+                if newValue.name == oldValue.name {
+                    newArray[ind].isExpanded = oldValue.isExpanded
+                }
+            })
+        }
+        dataSourceArray = newArray
+    }
+    
     // MARK: - Сортировка по секциям
     private func createArrayWithSections() {
         var dict: [ String: [Product] ] = [:]
@@ -246,6 +322,11 @@ class ProductsDataManager {
         var newProduct = product
         newProduct.isFavorite = !product.isFavorite
         CoreDataManager.shared.createProduct(product: newProduct)
+        createDataSourceArray()
+    }
+    
+    func updateImage(for product: Product) {
+        CoreDataManager.shared.createProduct(product: product)
         createDataSourceArray()
     }
     

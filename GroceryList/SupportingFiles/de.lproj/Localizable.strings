@@ -33,6 +33,7 @@
 "changeColor"               = "Farbe ändern";
 "sort"                      = "Sortieren";
 "byCategory"                = "Nach Kategorie";
+"byRecipe"                  = "Nach Rezept";
 "byTime"                    = "Mit der Zeit hinzugefügt";
 "byAlphabet"                = "alphabetisch";
 "copy"                      = "In Galerie speichern";
@@ -49,6 +50,7 @@
 "Name"                      = "Name";
 "AddNote"                   = "Notiz hinzufügen";
 "Quantity"                  = "Menge (optional)";
+"Quantity1"                 = "Menge";
 "pieces"                    = "Stücke";
 "Category"                  = "Kategorie";
 "SelectCategory"            = "Kategorie wählen";
@@ -176,3 +178,36 @@
 "Shared"                        = "Geteilt";
 "Send Invitation"               = "Einladung senden";
 "Hello! Here is a great app"    = "Hallo! Hier ist eine großartige App für gemeinsames Einkaufen und Rezepte!";
+
+// context menu
+"createRecipe"                  = "Rezept erstellen";
+"importRecipe"                  = "Webrezepte importieren";
+"createCollection"              = "Sammlung erstellen";
+
+"recipeCreation"                = "Rezepterstellung";
+"Step 1 of 2"                   = "Schritt 1 von 2";
+"Required"                      = "Erforderlich";
+"Optional"                      = "fakultativ";
+"Collection"                    = "Sammlung";
+"Photo"                         = "Foto";
+"You can add photo"             = "Sie können dem Rezept jederzeit später ein Foto hinzufügen";
+
+"Step"                          = "Schritt";
+"Step 1"                        = "Schritt 1";
+"Step 2 of 2"                   = "Schritt 2 von 2";
+"Preparation Time (minutes)"    = "Zubereitungszeit (Minuten)";
+"Description"                   = "Beschreibung";
+"Required (minimum 2)"          = "Erforderlich (mindestens 2)";
+"Add Ingredient"                = "Zutat hinzufügen";
+"Preparation Steps"             = "Vorbereitungsschritte";
+"Add Step"                      = "Schritt hinzufügen";
+"Complete"                      = "Komplett";
+
+"Miscellaneous"                 = "Diverses";
+"Note"                          = "Beachten";
+"Collections"                   = "Sammlung";
+"SelectOneOrMoreCollections"    = "Wählen Sie eine oder mehrere Sammlungen aus, in denen Ihr Rezept gespeichert werden soll. Sie können eine neue Sammlung erstellen.";
+
+"Add recipes to favorites"      = "Rezepte zu Favoriten hinzufügen";
+"Share recipes"                 = "Rezepte teilen";
+"AdjustNumberOfServings"        = "Legen Sie die Anzahl der Portionen fest und fügen Sie die Zutaten zur Einkaufsliste hinzu";

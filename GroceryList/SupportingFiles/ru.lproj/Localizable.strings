@@ -33,6 +33,7 @@
 "changeColor"               = "Изменить цвет";
 "sort"                      = "Отсортировать";
 "byCategory"                = "По категории";
+"byRecipe"                  = "По рецепту";
 "byTime"                    = "По времени добавления";
 "byAlphabet"                = "По алфавиту";
 "copy"                      = "Сохранить в Галерею";
@@ -49,6 +50,7 @@
 "Name"                      = "Название";
 "AddNote"                   = "Добавить заметку";
 "Quantity"                  = "Количество (опционально)";
+"Quantity1"                 = "Количество";
 "pieces"                    = "штук";
 "Category"                  = "Категория";
 "SelectCategory"            = "Выберите категорию";
@@ -200,5 +202,38 @@
 "Settings.Account.Delete"       = "Удалить";
 
 "ResetPassword.EnterNewPassw"   = "Введите новый пароль";
-"ResetPassword.LinkInactive"    = "Эта ссылка может быть использована только один раз и становится неактивной через 1 час. \NПожалуйста, сбросьте пароль еще раз.";
+"ResetPassword.LinkInactive"    = "Эта ссылка может быть использована только один раз и становится неактивной через 1 час. \nПожалуйста, сбросьте пароль еще раз.";
 "ResetPassword.ChangePassword"  = "Cменить пароль";
+
+// context menu
+"createRecipe"                  = "Создать рецепт";
+"importRecipe"                  = "Скачать рецепт из интернета";
+"createCollection"              = "Создать коллекцию";
+
+"recipeCreation"                = "Создание рецептов";
+"Step 1 of 2"                   = "Шаг 1 из 2";
+"Required"                      = "Обязательно";
+"Optional"                      = "Необязательно";
+"Collection"                    = "Коллекция";
+"Photo"                         = "Фото";
+"You can add photo"             = "Вы можете добавить фото в рецепт в любое время позже";
+
+"Step"                          = "Шаг";
+"Step 1"                        = "Шаг 1 ";
+"Step 2 of 2"                   = "Шаг 2 из 2";
+"Preparation Time (minutes)"    = "Время подготовки (в минутах)";
+"Description"                   = "Описание";
+"Required (minimum 2)"          = "Обязательно (минимум 2)";
+"Add Ingredient"                = "Добавить ингредиент";
+"Preparation Steps"             = "Шаги приготовления";
+"Add Step"                      = "Добавить шаг";
+"Complete"                      = "Завершить";
+
+"Miscellaneous"                 = "Разное";
+"Note"                          = "Комментарий";
+"Collections"                   = "Коллекции";
+"SelectOneOrMoreCollections"    = "Выберите одну или несколько коллекций, в которых будет храниться ваш рецепт. Вы можете создать новую коллекцию.";
+
+"Add recipes to favorites"      = "Добавляйте рецепты в избранное";
+"Share recipes"                 = "Делитесь рецептами";
+"AdjustNumberOfServings"        = "Настройте количество порций и добавьте ингредиенты в список покупок";

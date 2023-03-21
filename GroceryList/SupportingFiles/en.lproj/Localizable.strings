@@ -34,6 +34,7 @@
 "changeColor"               = "ChangeColor";
 "sort"                      = "Sort";
 "byCategory"                = "By category";
+"byRecipe"                  = "By recipe";
 "byTime"                    = "By time";
 "byAlphabet"                = "Alphabetically";
 "copy"                      = "Save to Photo";
@@ -51,6 +52,7 @@
 "Name"                      = "Name";
 "AddNote"                   = "Add note, quantity (optional)";
 "Quantity"                  = "Quantity (optional)";
+"Quantity1"                 = "Quantity";
 "pieces"                    = "pieces";
 "Category"                  = "Category";
 "SelectCategory"            = "Select сategory";
@@ -205,3 +207,36 @@
 "ResetPassword.EnterNewPassw"   = "Enter new password";
 "ResetPassword.LinkInactive"    = "This link can be used only once and will become inactive in 1 hour. \nPlease reset again.";
 "ResetPassword.ChangePassword"  = "Change password";
+
+// context menu
+"createRecipe"                  = "Create Recipe";
+"importRecipe"                  = "Import Web Recipes";
+"createCollection"              = "Create Collection";
+
+"recipeCreation"                = "Recipe Creation";
+"Step 1 of 2"                   = "Step 1 of 2";
+"Required"                      = "Required";
+"Optional"                      = "Optional";
+"Collection"                    = "Collection";
+"Photo"                         = "Photo";
+"You can add photo"             = "You can add photo to the recipe at any time later";
+
+"Step"                          = "Step";
+"Step 1"                        = "Step 1";
+"Step 2 of 2"                   = "Step 2 of 2";
+"Preparation Time (minutes)"    = "Preparation Time (minutes)";
+"Description"                   = "Description";
+"Required (minimum 2)"          = "Required (minimum 2)";
+"Add Ingredient"                = "Add Ingredient";
+"Preparation Steps"             = "Preparation Steps";
+"Add Step"                      = "Add Step";
+"Complete"                      = "Complete";
+
+"Miscellaneous"                 = "Miscellaneous";
+"Note"                          = "Note";
+"Collections"                   = "Collections";
+"SelectOneOrMoreCollections"    = "Select one or more collections where your recipe will be stored. You can create a new collection.";
+
+"Add recipes to favorites"      = "Add recipes to favorites";
+"Share recipes"                 = "Share recipes";
+"AdjustNumberOfServings"        = "Adjust the number of servings and add ingredients to your shopping list";

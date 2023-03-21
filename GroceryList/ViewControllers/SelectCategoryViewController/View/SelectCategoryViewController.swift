@@ -356,6 +356,10 @@ extension SelectCategoryViewController: SelectCategoryViewModelDelegate {
     }
     
     func dismissController() {
-        navigationController?.popToRootViewController(animated: true)
+        guard navigationController == nil else {
+            navigationController?.popToRootViewController(animated: true)
+            return
+        }
+        self.dismiss(animated: true)
     }
 }

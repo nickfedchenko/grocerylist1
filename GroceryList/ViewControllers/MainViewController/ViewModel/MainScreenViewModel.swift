@@ -13,6 +13,8 @@ class MainScreenViewModel {
     
     weak var router: RootRouter?
     var reloadDataCallBack: (() -> Void)?
+    var updateRecipeCollection: (() -> Void)?
+    var addCustomRecipe: ((Recipe) -> Void)?
     var updateCells:((Set<GroceryListsModel>) -> Void)?
     var dataSource: DataSourceProtocol?
     
@@ -22,7 +24,7 @@ class MainScreenViewModel {
     
     func getRecipeModel(for indexPath: IndexPath) -> Recipe? {
         guard let dataSource = dataSource else { return nil }
-        let model = dataSource.recipesSections[indexPath.section].recipes[indexPath.item]
+        let model = dataSource.recipesSections[safe: indexPath.section]?.recipes[safe: indexPath.item]
         return model
     }
     
@@ -38,6 +40,10 @@ class MainScreenViewModel {
     
     func updateFavorites() {
         dataSource?.updateFavoritesSection()
+    }
+    
+    func updateCustomSection() {
+        dataSource?.updateCustomSection()
     }
     
     // user
@@ -93,6 +99,20 @@ class MainScreenViewModel {
         }
         let users = SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
         router?.goToSharingList(listToShare: model, users: users)
+    }
+    
+    func createNewRecipeTapped() {
+        router?.goToCreateNewRecipe(compl: { [weak self] recipe in
+            self?.addCustomRecipe?(recipe)
+        })
+    }
+    
+    func createNewCollectionTapped() {
+        router?.goToCreateNewCollection(compl: { _ in })
+    }
+    
+    func showCollection() {
+        router?.goToShowCollection(state: .edit)
     }
     
     // setup cells
@@ -189,11 +209,24 @@ class MainScreenViewModel {
             name: .sharedListDownloadedAndSaved,
             object: nil
         )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateCollections),
+            name: .collectionsSaved,
+            object: nil
+        )
     }
     
     @objc
     private func sharedListDownloaded() {
         guard let dataSource = dataSource else { return }
         updateCells?(dataSource.updateListOfModels())
+    }
+    
+    @objc
+    private func updateCollections() {
+        updateRecipesSection()
+        updateRecipeCollection?()
     }
 }

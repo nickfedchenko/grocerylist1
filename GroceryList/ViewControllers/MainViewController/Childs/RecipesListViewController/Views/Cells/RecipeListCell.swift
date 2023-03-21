@@ -49,6 +49,11 @@ final class RecipeListCell: UICollectionViewCell {
         titleLabel.text = recipe.title
         if let url = URL(string: recipe.photo) {
             mainImage.kf.setImage(with: url)
+            return
+        }
+        if let imageData = recipe.localImage,
+           let image = UIImage(data: imageData) {
+            mainImage.image = image
         }
     }
     

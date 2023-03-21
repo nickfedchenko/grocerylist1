@@ -76,12 +76,7 @@ class HeaderListCell: UICollectionViewListCell {
             titleLabel.text = "AlphabeticalSorted".localized
             coloredViewForSorting.backgroundColor = color
             coloredViewForSorting.isHidden = false
-        case .sortedByDate:
-            checkmarkView.isHidden = true
-            titleLabel.text = text// "AddedEarlier".localized
-            coloredViewForSorting.backgroundColor = color
-            coloredViewForSorting.isHidden = false
-        case .normal:
+        case .normal, .sortedByRecipe, .sortedByDate:
             titleLabel.text = text
             if isExpand {
                 collapsedColoredView.backgroundColor = color

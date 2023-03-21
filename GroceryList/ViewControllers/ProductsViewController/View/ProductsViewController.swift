@@ -76,6 +76,8 @@ class ProductsViewController: UIViewController {
     }()
     
     private let messageView = InfoMessageView()
+    private let productImageView = ProductImageView()
+    private var imagePicker = UIImagePickerController()
     private var taprecognizer = UITapGestureRecognizer()
     
     private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
@@ -87,6 +89,7 @@ class ProductsViewController: UIViewController {
         setupCollectionView()
         setupController()
         setupInfoMessage()
+        setupProductImageView()
         addRecognizer()
         viewModel?.valueChangedCallback = { [weak self] in
             self?.reloadData()
@@ -118,6 +121,33 @@ class ProductsViewController: UIViewController {
         messageView.updateView()
         messageView.snp.updateConstraints {
             $0.top.equalToSuperview().offset(collectionView.contentSize.height + 4)
+        }
+    }
+    
+    private func setupProductImageView() {
+        productImageView.isHidden = true
+        
+        productImageView.galleryAction = { [weak self] in
+            self?.pickImage()
+        }
+        
+        productImageView.deleteImageAction = { [weak self] in
+            self?.viewModel?.updateImage(nil)
+            self?.productImageView.setVisibilityView(hidden: true)
+            self?.viewModel?.selectedProduct = nil
+        }
+        
+        productImageView.closeAction = { [weak self] in
+            self?.productImageView.setVisibilityView(hidden: true)
+            self?.viewModel?.selectedProduct = nil
+        }
+        
+        productImageView.updatePurchaseStatusAction = { [weak self] status in
+            guard var selectedProduct = self?.viewModel?.selectedProduct else {
+                return
+            }
+            selectedProduct.isPurchased = !status
+            self?.viewModel?.updatePurchasedStatus(product: selectedProduct)
         }
     }
     
@@ -165,11 +195,12 @@ class ProductsViewController: UIViewController {
         }
         
         UserDefaultsManager.countInfoMessage += 1
-        UIView.animate(withDuration: 0.5) { self.messageView.isHidden = true }
+        messageView.fadeOut()
         taprecognizer.isEnabled = false
     }
     
     // MARK: - CollectionView
+    // swiftlint: disable function_body_length
     func setupCollectionView() {
         collectionView.contentInset.bottom = 120
         
@@ -198,8 +229,20 @@ class ProductsViewController: UIViewController {
                            isPurchased: child.isPurchased, image: image, description: description,
                            isRecipe: child.fromRecipeTitle != nil)
             
+            // картинка
+            if image != nil {
+                cell.tapImageAction = { [weak self] in
+                    self?.productImageView.configuration(product: child, textColor: textColor)
+                    self?.viewModel?.selectedProduct = child
+                    self?.productImageView.updateContentViewFrame(.init(x: cell.frame.maxX,
+                                                                        y: cell.frame.minY))
+                    self?.productImageView.setVisibilityView(hidden: false)
+                }
+            }
+            
             // свайпы
             cell.swipeToPinchAction = {
+                AmplitudeManager.shared.logEvent(.core, properties: [.value: .itemDelete])
                 self?.viewModel?.delete(product: child)
             }
             
@@ -276,7 +319,7 @@ class ProductsViewController: UIViewController {
     // MARK: - Constraints
     
     private func setupConstraints() {
-        view.addSubviews([collectionView, navigationView, addItemView])
+        view.addSubviews([collectionView, navigationView, addItemView, productImageView])
         navigationView.addSubviews([arrowBackButton, nameOfListLabel, contextMenuButton])
         addItemView.addSubviews([plusImage, addItemLabel])
         collectionView.addSubview(messageView)
@@ -330,6 +373,10 @@ class ProductsViewController: UIViewController {
             make.centerX.equalTo(self.view)
             make.top.equalToSuperview().offset(collectionView.contentSize.height + 4)
         }
+        
+        productImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 }
 
@@ -351,6 +398,7 @@ extension ProductsViewController: UICollectionViewDelegate {
                     self?.viewModel?.updatePurchasedStatus(product: product)
                 }
             } else {
+                AmplitudeManager.shared.logEvent(.core, properties: [.value: .itemChecked])
                 let color = viewModel?.getColorForForeground()
                 cell?.addCheckmark(color: color) { [weak self] in
                     self?.viewModel?.updatePurchasedStatus(product: product)
@@ -367,7 +415,7 @@ extension ProductsViewController: UICollectionViewDelegate {
         // проверка на тип сортировки для отключения возможности схлопывания ячеек при сортировке по алфавиту
         switch item {
         case .parent(let parent):
-            guard parent.typeOFCell != .sortedByAlphabet && parent.typeOFCell != .sortedByDate else {
+            guard parent.typeOFCell != .sortedByAlphabet else {
                 return false
             }
         default:
@@ -438,7 +486,27 @@ extension ProductsViewController {
     
     @objc
     private func addItemViewTapped () {
+        AmplitudeManager.shared.logEvent(.core, properties: [.value: .itemAdd])
         tapPressAction()
         viewModel?.addNewProductTapped()
+    }
+}
+
+extension ProductsViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func pickImage() {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .savedPhotosAlbum
+            imagePicker.allowsEditing = false
+            imagePicker.modalPresentationStyle = .pageSheet
+            present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        self.dismiss(animated: true, completion: nil)
+        let image = info[.originalImage] as? UIImage
+        productImageView.updateImage(image)
+        viewModel?.updateImage(image)
     }
 }

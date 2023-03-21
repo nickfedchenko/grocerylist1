@@ -19,6 +19,8 @@ protocol MainScreenTopCellDelegate: AnyObject {
 class MainScreenTopCell: UICollectionViewCell {
     
     var settingsTapped: (() -> Void)?
+    var contextMenuTapped: (() -> Void)?
+    var sortCollectionTapped: (() -> Void)?
     weak var delegate: MainScreenTopCellDelegate?
     
     override init(frame: CGRect) {
@@ -32,6 +34,9 @@ class MainScreenTopCell: UICollectionViewCell {
     
     func configure(with mode: MainScreenPresentationMode) {
         segmentControl.selectedSegmentIndex = mode == .recipes ? 1 : 0
+        sortButton.snp.updateConstraints {
+            $0.width.height.equalTo(mode == .recipes ? 40 : 0)
+        }
     }
     
     func setupUser(photo: UIImage?, name: String?) {
@@ -49,6 +54,16 @@ class MainScreenTopCell: UICollectionViewCell {
     @objc
     private func settingsButtonAction() {
         settingsTapped?()
+    }
+    
+    @objc
+    private func menuButtonAction() {
+        contextMenuTapped?()
+    }
+    
+    @objc
+    private func sortButtonAction() {
+        sortCollectionTapped?()
     }
     
     private lazy var settingsButton: UIButton = {
@@ -72,8 +87,22 @@ class MainScreenTopCell: UICollectionViewCell {
     private lazy var searchButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(searchButtonAction), for: .touchUpInside)
-        button.setImage(UIImage(named: "searchButtonImage"), for: .normal)
+        button.setImage(R.image.searchButtonImage(), for: .normal)
         button.alpha = 0
+        return button
+    }()
+    
+    private lazy var menuButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(menuButtonAction), for: .touchUpInside)
+        button.setImage(R.image.contextMenuPlus(), for: .normal)
+        return button
+    }()
+    
+    private lazy var sortButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(sortButtonAction), for: .touchUpInside)
+        button.setImage(R.image.sortRecipeMenu(), for: .normal)
         return button
     }()
     
@@ -86,7 +115,8 @@ class MainScreenTopCell: UICollectionViewCell {
     
     // MARK: - UI
     private func setupConstraints() {
-        contentView.addSubviews([settingsButton, userNameLabel, searchButton, segmentControl])
+        contentView.addSubviews([settingsButton, userNameLabel, searchButton,
+                                 menuButton, sortButton, segmentControl])
         settingsButton.snp.makeConstraints { make in
             make.width.height.equalTo(32)
             make.left.equalTo(28)
@@ -97,7 +127,19 @@ class MainScreenTopCell: UICollectionViewCell {
             make.leading.equalTo(settingsButton.snp.trailing).offset(10)
             make.centerY.equalTo(settingsButton)
             make.height.equalTo(24)
-            make.trailing.equalTo(searchButton.snp.leading).offset(-10)
+            make.trailing.equalTo(menuButton.snp.leading).offset(-10)
+        }
+        
+        menuButton.snp.makeConstraints { make in
+            make.trailing.equalTo(sortButton.snp.leading).inset(-8)
+            make.centerY.equalTo(settingsButton)
+            make.width.height.equalTo(40)
+        }
+        
+        sortButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(28)
+            make.centerY.equalTo(settingsButton)
+            make.width.height.equalTo(0)
         }
         
         searchButton.snp.makeConstraints { make in
@@ -122,5 +164,8 @@ extension MainScreenTopCell: CustomSegmentedControlViewDelegate {
             self.segmentControl.selectedSegmentIndex = selectedSegmentIndex == 1 ? 0 : 1
         }
         delegate?.modeChanged(to: selectedSegmentIndex == 0 ? .lists : .recipes)
+        sortButton.snp.updateConstraints {
+            $0.width.height.equalTo(selectedSegmentIndex == 0 ? 40 : 0)
+        }
     }
 }

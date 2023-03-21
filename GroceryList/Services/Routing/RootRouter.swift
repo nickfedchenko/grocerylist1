@@ -132,7 +132,7 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: false)
     }
     
-    func goCreateNewProductController(model: GroceryListsModel, product: Product? = nil, compl: @escaping (Product) -> Void) {
+    func goCreateNewProductController(model: GroceryListsModel?, product: Product? = nil, compl: @escaping (Product) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewProductController(model: model, product: product,
                                                                                       router: self,
                                                                                       compl: compl) else { return }
@@ -181,6 +181,54 @@ final class RootRouter: RootRouterProtocol {
         let controller = viewControllerFactory.createSharingListController(router: self,
                                                                            listToShare: listToShare,
                                                                            users: users)
+        navigationPresent(controller, animated: true)
+    }
+    
+    func goToCreateNewRecipe(compl: @escaping (Recipe) -> Void) {
+        let controller = viewControllerFactory.createCreateNewRecipeViewController(
+            router: self,
+            compl: compl)
+        navigationPushViewController(controller, animated: true)
+    }
+    
+    func goToCreateNewRecipeStepTwo(recipe: CreateNewRecipeStepOne, compl: @escaping (Recipe) -> Void) {
+        let controller = viewControllerFactory.createCreateNewRecipeStepTwoViewController(
+            router: self,
+            recipe: recipe,
+            compl: compl)
+        navigationPushViewController(controller, animated: true)
+    }
+    
+    func goToPreparationStep(stepNumber: Int, compl: @escaping (String) -> Void) {
+        let controller = viewControllerFactory.createPreparationStepViewController(stepNumber: stepNumber,
+                                                                                   compl: compl)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
+    }
+    
+    func goToCreateNewCollection(collections: [CollectionModel] = [],
+                                 compl: @escaping ([CollectionModel]) -> Void) {
+        let controller = viewControllerFactory.createCreateNewCollectionViewController(collections: collections,
+                                                                                       compl: compl)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
+    }
+    
+    func goToShowCollection(state: ShowCollectionViewController.ShowCollectionState,
+                            recipe: Recipe? = nil,
+                            compl: (([CollectionModel]) -> Void)? = nil) {
+        let controller = viewControllerFactory.createShowCollectionViewController(router: self,
+                                                                                  state: state,
+                                                                                  recipe: recipe,
+                                                                                  compl: compl)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
+    }
+    
+    func goToIngredient(compl: @escaping (Ingredient) -> Void) {
+        let controller = viewControllerFactory.createIngredientViewController(router: self,
+                                                                              compl: compl)
+        controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
     }
     
@@ -244,7 +292,7 @@ final class RootRouter: RootRouterProtocol {
         return controller
     }
     
-    func prepareSelectCategoryController(model: GroceryListsModel, compl: @escaping (String) -> Void) -> UIViewController {
+    func prepareSelectCategoryController(model: GroceryListsModel?, compl: @escaping (String) -> Void) -> UIViewController {
         guard let controller = viewControllerFactory.createSelectCategoryController(
             model: model,
             router: self,
@@ -254,7 +302,7 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func prepareCreateNewCategoryController(
-        model: GroceryListsModel,
+        model: GroceryListsModel?,
         newCategoryInd: Int,
         compl: @escaping (CategoryModel) -> Void
     ) -> UIViewController {

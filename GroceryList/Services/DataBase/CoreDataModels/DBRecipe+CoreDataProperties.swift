@@ -16,7 +16,7 @@ extension DBRecipe {
         return NSFetchRequest<DBRecipe>(entityName: "DBRecipe")
     }
 
-    @NSManaged public var id: Int32
+    @NSManaged public var id: Int64
     @NSManaged public var title: String?
     @NSManaged public var recipeDescription: String?
     @NSManaged public var cookingTime: Int32
@@ -35,10 +35,12 @@ extension DBRecipe {
     @NSManaged public var isDraft: Bool
     @NSManaged public var createdAt: Date?
     @NSManaged public var ingredients: Data?
+    @NSManaged public var localCollection: Data?
+    @NSManaged public var localImage: Data?
     
     static func prepare(fromPlainModel model: Recipe, context: NSManagedObjectContext) -> DBRecipe {
         let recipe = DBRecipe(context: context)
-        recipe.id = Int32(model.id)
+        recipe.id = Int64(model.id)
         recipe.title = model.title
         recipe.cookingTime = Int32(model.cookingTime ?? -1)
         recipe.totalServings = Int16(model.totalServings)
@@ -56,6 +58,20 @@ extension DBRecipe {
         recipe.isDraft = model.isDraft
         recipe.createdAt = model.createdAt
         recipe.ingredients = try? JSONEncoder().encode(model.ingredients)
+        if let localCollection = model.localCollection {
+            recipe.localCollection = try? JSONEncoder().encode(localCollection)
+        } else if !UserDefaults.standard.bool(forKey: "Recipe\(model.id)") {
+            var collections: [CollectionModel] = []
+            model.eatingTags.forEach { tag in
+                collections.append(CollectionModel(id: tag.id,
+                                                   index: 1000 + tag.id,
+                                                   title: tag.title,
+                                                   isDefault: true))
+            }
+            recipe.localCollection = try? JSONEncoder().encode(collections)
+            UserDefaults.standard.setValue(true, forKey: "Recipe\(model.id)")
+        }
+        recipe.localImage = model.localImage
         return recipe
     }
     

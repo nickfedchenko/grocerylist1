@@ -74,6 +74,7 @@ final class MoreRecipeCell: UICollectionViewCell {
             make.top.equalTo(titleLabel.snp.bottom).offset(4)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(18)
+            make.bottom.equalToSuperview().offset(-26)
         }
     }
     

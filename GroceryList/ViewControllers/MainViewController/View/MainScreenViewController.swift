@@ -24,7 +24,6 @@ class MainScreenViewController: UIViewController {
         collectionView.register(classCell: MoreRecipeCell.self)
         collectionView.registerHeader(classHeader: RecipesFolderHeader.self)
         collectionView.contentInset.bottom = 10
-        collectionView.contentInset.right = 10
         collectionView.dataSource = self
         collectionView.alpha = 0
         collectionView.backgroundColor = .clear
@@ -40,17 +39,11 @@ class MainScreenViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
         collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
-        collectionView.register(GroceryCollectionViewCell.self,
-                                forCellWithReuseIdentifier: "GroceryCollectionViewCell")
-        collectionView.register(EmptyColoredCell.self,
-                                forCellWithReuseIdentifier: "EmptyColoredCell")
-        collectionView.register(InstructionCell.self,
-                                forCellWithReuseIdentifier: "InstructionCell")
-        collectionView.register(MainScreenTopCell.self,
-                                forCellWithReuseIdentifier: "MainScreenTopCell")
-        collectionView.register(GroceryCollectionViewHeader.self,
-                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: "GroceryCollectionViewHeader")
+        collectionView.register(classCell: GroceryCollectionViewCell.self)
+        collectionView.register(classCell: EmptyColoredCell.self)
+        collectionView.register(classCell: InstructionCell.self)
+        collectionView.register(classCell: MainScreenTopCell.self)
+        collectionView.registerHeader(classHeader: GroceryCollectionViewHeader.self)
         return collectionView
     }()
     
@@ -83,6 +76,9 @@ class MainScreenViewController: UIViewController {
         return imageView
     }()
     
+    private let contextMenu = MainScreenMenuView()
+    private var menuTapRecognizer = UITapGestureRecognizer()
+    
     // MARK: - Lifecycle
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
@@ -93,9 +89,29 @@ class MainScreenViewController: UIViewController {
         setupConstraints()
         addRecognizer()
         createTableViewDataSource()
+        setupContextMenu()
         viewModel?.reloadDataCallBack = { [weak self] in
             self?.reloadData()
             self?.updateImageConstraint()
+        }
+        
+        viewModel?.updateRecipeCollection = { [weak self] in
+            guard Apphud.hasActiveSubscription() else { return }
+            DispatchQueue.main.async {
+                self?.presentationMode = .recipes
+                self?.modeChanged(to: .recipes)
+                self?.recipesCollectionView.reloadData()
+            }
+        }
+        
+        viewModel?.addCustomRecipe = { [weak self] recipe in
+            DispatchQueue.main.async {
+                let recipeViewModel = RecipeScreenViewModel(recipe: recipe)
+                recipeViewModel.router = self?.viewModel?.router
+                let view = RecipeViewController(with: recipeViewModel,
+                                                backButtonTitle: R.string.localizable.back())
+                self?.navigationController?.pushViewController(view, animated: true)
+            }
         }
         
         viewModel?.updateCells = { setOfLists in
@@ -117,6 +133,7 @@ class MainScreenViewController: UIViewController {
         viewModel?.reloadDataFromStorage()
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             self?.viewModel?.updateFavorites()
+            self?.viewModel?.updateCustomSection()
             DispatchQueue.main.async {
                 self?.recipesCollectionView.reloadData()
             }
@@ -164,10 +181,26 @@ class MainScreenViewController: UIViewController {
         }
     }
     
+    private func setupContextMenu() {
+        contextMenu.isHidden = true
+        
+        contextMenu.selectedState = { [weak self] state in
+            self?.contextMenu.fadeOut {
+                switch state {
+                case .createRecipe:
+                    self?.viewModel?.createNewRecipeTapped()
+                case .createCollection:
+                    self?.viewModel?.createNewCollectionTapped()
+                }
+                self?.contextMenu.removeSelected()
+            }
+        }
+    }
+    
     // MARK: - UI
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
-        view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView])
+        view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView, contextMenu])
         bottomCreateListView.addSubviews([plusImage, createListLabel])
         collectionView.addSubview(foodImage)
         collectionView.snp.makeConstraints { make in
@@ -206,6 +239,13 @@ class MainScreenViewController: UIViewController {
             make.height.equalTo(400)
             make.centerX.equalToSuperview()
         }
+        
+        contextMenu.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(10)
+            make.trailing.equalToSuperview().offset(-68)
+            make.height.equalTo(contextMenu.requiredHeight)
+            make.width.equalTo(254)
+        }
     }
 }
 
@@ -221,7 +261,10 @@ extension MainScreenViewController: UICollectionViewDelegate {
         } else {
             if indexPath.section != 0 && indexPath.row != (viewModel?.dataSource?.recipeCount ?? 10) - 1 {
                 guard let model = viewModel?.dataSource?.recipesSections[indexPath.section].recipes[indexPath.item] else { return }
-                let view = RecipeViewController(with: RecipeScreenViewModel(recipe: model), backButtonTitle: R.string.localizable.back())
+                let recipeViewModel = RecipeScreenViewModel(recipe: model)
+                recipeViewModel.router = viewModel?.router
+                let view = RecipeViewController(with: recipeViewModel,
+                                                backButtonTitle: R.string.localizable.back())
                 navigationController?.pushViewController(view, animated: true)
             }
         }
@@ -239,6 +282,10 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 let cell = self.collectionView.reusableCell(classCell: MainScreenTopCell.self, indexPath: indexPath)
                 cell.settingsTapped = { [weak self] in
                     self?.viewModel?.settingsTapped()
+                }
+                cell.contextMenuTapped = { [weak self] in
+                    self?.contextMenu.fadeIn()
+                    self?.menuTapRecognizer.isEnabled = true
                 }
                 cell.delegate = self
                 cell.configure(with: self.presentationMode)
@@ -274,6 +321,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 
                 // Удаление и закрепление ячейки
                 cell.swipeDeleteAction = {
+                    AmplitudeManager.shared.logEvent(.core, properties: [.value: .listDelete])
                     viewModel.deleteCell(with: model)
                 }
                 
@@ -320,12 +368,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
         array.forEach({ if snapshot.sectionIdentifier(containingItem: $0) != nil { snapshot.reloadItems([$0]) } })
         
         collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollView.contentOffset.x = 0.0
-    }
-    
+    }    
 }
 
 // MARK: - CreateListAction
@@ -333,11 +376,21 @@ extension MainScreenViewController {
     private func addRecognizer() {
         let firstRecognizer = UITapGestureRecognizer(target: self, action: #selector(createListAction))
         bottomCreateListView.addGestureRecognizer(firstRecognizer)
+        
+        menuTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(menuTapAction))
+        self.view.addGestureRecognizer(menuTapRecognizer)
     }
     
     @objc
     private func createListAction() {
+        AmplitudeManager.shared.logEvent(.core, properties: [.value: .listCreate])
         viewModel?.createNewListTapped()
+    }
+    
+    @objc
+    private func menuTapAction() {
+        contextMenu.fadeOut()
+        menuTapRecognizer.isEnabled = false
     }
 }
 
@@ -358,8 +411,16 @@ extension MainScreenViewController: UICollectionViewDataSource {
             topCell.settingsTapped = { [weak self] in
                 self?.viewModel?.settingsTapped()
             }
+            topCell.contextMenuTapped = { [weak self] in
+                self?.contextMenu.fadeIn()
+                self?.menuTapRecognizer.isEnabled = true
+            }
+            topCell.sortCollectionTapped = { [weak self] in
+                self?.viewModel?.showCollection()
+            }
+            
             topCell.delegate = self
-            topCell.configure(with: presentationMode)
+            topCell.configure(with: .recipes)
             topCell.setupUser(photo: self.viewModel?.userPhoto,
                               name: self.viewModel?.userName)
             return topCell
@@ -386,7 +447,7 @@ extension MainScreenViewController: UICollectionViewDataSource {
                         at indexPath: IndexPath) -> UICollectionReusableView {
         guard indexPath.section > 0,
               let header = collectionView.reusableHeader(classHeader: RecipesFolderHeader.self, indexPath: indexPath),
-              let sectionModel = viewModel?.dataSource?.recipesSections[indexPath.section] else {
+              let sectionModel = viewModel?.dataSource?.recipesSections[safe: indexPath.section] else {
             return UICollectionReusableView()
         }
         header.configure(with: sectionModel, at: indexPath.section)
@@ -422,6 +483,9 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
     }
     
     func modeChanged(to mode: MainScreenPresentationMode) {
+        if mode == .recipes {
+            AmplitudeManager.shared.logEvent(.recipes, properties: [.value: .recipeSection])
+        }
         guard Apphud.hasActiveSubscription() else {
             showPaywall()
             return
@@ -438,7 +502,6 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
             
         } else {
             showRecipesCollection()
-            recipesCollectionView.reloadSections(IndexSet(integer: 0))
             bottomCreateListView.isHidden = true
         }
     }

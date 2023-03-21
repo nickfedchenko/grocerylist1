@@ -12,12 +12,12 @@ struct RecipeSectionsModel {
         case recipePreview
     }
     
-    enum RecipeSectionType: String {
+    enum RecipeSectionType: Equatable {
         case breakfast, lunch, dinner, snacks, none, favorites
+        case custom(String)
         
         var title: String {
             switch self {
-                
             case .breakfast:
                 return R.string.localizable.breakfast()
             case .lunch:
@@ -30,6 +30,8 @@ struct RecipeSectionsModel {
                 return "NoneType"
             case .favorites:
                 return R.string.localizable.favorites()
+            case .custom(let title):
+                return title
             }
         }
     }
@@ -121,8 +123,8 @@ struct Product: Hashable, Equatable, Codable {
         return lhs.name == rhs.name &&
         lhs.dateOfCreation == rhs.dateOfCreation &&
         lhs.category == rhs.category && lhs.isPurchased == rhs.isPurchased &&
-        lhs.id == rhs.id && lhs.isFavorite == rhs.isFavorite
-        && lhs.description == rhs.description 
+        lhs.id == rhs.id && lhs.isFavorite == rhs.isFavorite &&
+        lhs.description == rhs.description && lhs.imageData == rhs.imageData
     }
     
     init?(from dbProduct: DBProduct) {
@@ -204,6 +206,7 @@ enum SectionType: String {
 
 enum SortingType: Int {
     case category
+    case recipe
     case time
     case alphabet
 }
@@ -213,5 +216,6 @@ enum TypeOfCell {
     case purchased
     case sortedByAlphabet
     case sortedByDate
+    case sortedByRecipe
     case normal
 }

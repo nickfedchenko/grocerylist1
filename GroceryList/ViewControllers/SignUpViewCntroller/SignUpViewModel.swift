@@ -135,6 +135,7 @@ class SignUpViewModel {
     func sighUpPressed() {
         switch state {
         case .signUp:
+            AmplitudeManager.shared.logEvent(.sharing, properties: [.value: .signInEmail])
             signUpUser()
         case .signIn:
             signInUser()

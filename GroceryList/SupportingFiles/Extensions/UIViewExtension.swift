@@ -136,3 +136,26 @@ extension UIView {
         self.layer.insertSublayer(gradient, at: 0)
     }
 }
+
+extension UIView {
+    func fadeIn(duration: TimeInterval = 0.3,
+                delay: TimeInterval = 0.0) {
+        self.alpha = 0.0
+        UIView.animate(withDuration: duration, delay: delay, options: .curveEaseIn, animations: {
+            self.isHidden = false
+            self.alpha = 1.0
+        })
+    }
+
+    func fadeOut(duration: TimeInterval = 0.3,
+                 delay: TimeInterval = 0.0, completion: (() -> Void)? = nil) {
+        self.alpha = 1.0
+        
+        UIView.animate(withDuration: duration, delay: delay, options: .curveEaseOut) {
+            self.alpha = 0.0
+        } completion: { _ in
+            self.isHidden = true
+            completion?()
+        }
+    }
+}

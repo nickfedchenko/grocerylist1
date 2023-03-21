@@ -33,6 +33,10 @@ class AmplitudeManager {
 
 enum EventName: String {
     case feedbackScreenOpen = "FeedbackScreenOpen"
+    case core = "Core"
+    case createItem = "CreateItem"
+    case sharing = "Sharing"
+    case recipes = "Recipes"
 }
 
 typealias PropertyKey = String
@@ -44,4 +48,17 @@ typealias PropertyValue = String
 extension PropertyValue {
     static let like = "like"
     static let dislike = "dislike"
+    static let itemAdd = "item_add"
+    static let itemChecked = "item_checked"
+    static let itemDelete = "item_delete"
+    static let listCreate = "list_create"
+    static let listDelete = "list_delete"
+    static let categoryChange = "category_change"
+    static let categoryNew = "category_new"
+    static let photoDelete = "photo_delete"
+    static let itemQuantityButtons = "item_quantity_buttons"
+    static let itemUnitsButton = "item_units_button"
+    static let signInEmail = "sign_in_email"
+    static let sendInvite = "send_invite"
+    static let recipeSection = "recipe_section"
 }

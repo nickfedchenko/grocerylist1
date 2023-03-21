@@ -20,6 +20,17 @@ extension String {
         else { return value }
         return NSLocalizedString(self, bundle: bundle, comment: "")
     }
+    
+    var asInt: Int? {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.number(from: self)?.intValue
+    }
+    
+    var asDouble: Double? {
+        let newStr = self.replacingOccurrences(of: ",", with: ".", options: .literal, range: nil)
+        return Double(newStr)
+    }
 }
 
 extension String {

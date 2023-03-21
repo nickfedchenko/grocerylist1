@@ -18,6 +18,7 @@ final class RecipePreviewCell: UICollectionViewCell {
         image.layer.maskedCorners = [.layerMinXMinYCorner]
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
+        image.backgroundColor = .white
         return image
     }()
     
@@ -40,11 +41,21 @@ final class RecipePreviewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        mainImage.image = nil
+    }
+    
     func configure(with recipe: Recipe) {
+        titleLabel.text = recipe.title
         if let photoUrl = URL(string: recipe.photo) {
             mainImage.kf.setImage(with: photoUrl)
+            return
         }
-        titleLabel.text = recipe.title
+        if let imageData = recipe.localImage,
+           let image = UIImage(data: imageData) {
+            mainImage.image = image
+        }
     }
     
     override func layoutSubviews() {
@@ -72,6 +83,7 @@ final class RecipePreviewCell: UICollectionViewCell {
             make.top.equalTo(mainImage.snp.bottom).offset(4)
             make.leading.trailing.equalToSuperview().inset(8)
             make.bottom.equalToSuperview().inset(8)
+            make.height.equalTo(36)
         }
         
     }
