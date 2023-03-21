@@ -18,7 +18,6 @@ class CreateNewProductViewController: UIViewController {
         didSet { removeImageButton.isHidden = !isImageChanged }
     }
     private var userCommentText = ""
-
     private var quantityValueStep: Double = 1
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -88,6 +87,8 @@ class CreateNewProductViewController: UIViewController {
             string: "Name".localized,
             attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "#D2D5DA")]
         )
+        textfield.autocorrectionType = .no
+        textfield.spellCheckingType = .no
         return textfield
     }()
     
@@ -239,16 +240,25 @@ class CreateNewProductViewController: UIViewController {
         label.text = "Save".localized.uppercased()
         return label
     }()
-
+    
+    private let predictiveTextView = PredictiveTextView()
+    private var predictiveTextViewHeight = 86
+    
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupPredictiveTextView()
         setupConstraints()
         addKeyboardNotifications()
         setupBackgroundColor()
         addRecognizers()
         setupTableView()
         setupProduct()
+        
+        viewModel?.productsChangedCallback = { [weak self] titles in
+            guard let self else { return }
+            self.predictiveTextView.configure(texts: titles)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -296,6 +306,16 @@ class CreateNewProductViewController: UIViewController {
         }
     }
     
+    private func setupPredictiveTextView() {
+        // проверка какой эксперимент
+        let isExpWithPredictiveText = Int.random(in: 0...1) == 1
+        guard isExpWithPredictiveText else {
+            predictiveTextViewHeight = 0
+            return
+        }
+        predictiveTextView.delegate = self
+    }
+    
     // MARK: - ButtonActions
     @objc
     private func plusButtonAction() {
@@ -305,7 +325,7 @@ class CreateNewProductViewController: UIViewController {
         setupText()
         quantityAvailable()
     }
-
+    
     @objc
     private func minusButtonAction() {
         AmplitudeManager.shared.logEvent(.itemQuantityButtons)
@@ -314,7 +334,7 @@ class CreateNewProductViewController: UIViewController {
         }
         quantityCount -= quantityValueStep
         quantityLabel.text = getDecimalString()
-                             
+        
         setupText()
     }
     
@@ -369,8 +389,17 @@ class CreateNewProductViewController: UIViewController {
         }
     }
     
-    // MARK: - swipeDown
+    func updatePredictiveViewConstraints(isVisible: Bool) {
+        let height = isVisible ? predictiveTextViewHeight : 0
+        predictiveTextView.snp.updateConstraints { $0.height.equalTo(height) }
+        contentView.snp.updateConstraints { $0.height.equalTo(268 + height) }
+        UIView.animate(withDuration: 0.3) { [ weak self ] in
+            guard let self = self else { return }
+            self.view.layoutIfNeeded()
+        }
+    }
     
+    // MARK: - swipeDown
     private func hidePanel() {
         topTextField.resignFirstResponder()
         updateConstr(with: -400, alpha: 0)
@@ -378,12 +407,15 @@ class CreateNewProductViewController: UIViewController {
             self.dismiss(animated: false, completion: nil)
         }
     }
-    // MARK: - Constraints
+}
+
+// MARK: - Constraints
+extension CreateNewProductViewController {
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         selectUnitsBigView.transform = CGAffineTransform(scaleX: 1, y: 0)
         view.addSubviews([contentView, topClearView, selectUnitsBackgroundView, selectUnitsBigView])
-        contentView.addSubviews([saveButtonView, topCategoryView, textfieldView, quantityTitleLabel, quantityView, minusButton, plusButton, selectUnitsView])
+        contentView.addSubviews([saveButtonView, topCategoryView, textfieldView, quantityTitleLabel, quantityView, minusButton, plusButton, selectUnitsView, predictiveTextView])
         selectUnitsView.addSubviews([whiteArrowForSelectUnit, selectUnitLabel])
         selectUnitsBigView.addSubviews([tableview])
         quantityView.addSubviews([quantityLabel])
@@ -399,7 +431,7 @@ class CreateNewProductViewController: UIViewController {
         contentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(-268)
-            make.height.equalTo(268)
+            make.height.equalTo(268 + predictiveTextViewHeight)
         }
         
         topCategoryView.snp.makeConstraints { make in
@@ -516,12 +548,19 @@ class CreateNewProductViewController: UIViewController {
         }
         
         saveButtonView.snp.makeConstraints { make in
-            make.bottom.right.left.equalToSuperview()
+            make.right.left.equalToSuperview()
             make.height.equalTo(64)
         }
         
         saveLabel.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
+        }
+        
+        predictiveTextView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(saveButtonView.snp.bottom)
+            make.bottom.equalToSuperview()
+            make.height.equalTo(predictiveTextViewHeight)
         }
     }
 }
@@ -621,6 +660,7 @@ extension CreateNewProductViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        updatePredictiveViewConstraints(isVisible: topTextField == textField)
         guard textField == bottomTextField else {
             return
         }
@@ -834,5 +874,12 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     func presentController(controller: UIViewController?) {
         guard let controller else { return }
         navigationController?.pushViewController(controller, animated: true)
+    }
+}
+
+extension CreateNewProductViewController: PredictiveTextViewDelegate {
+    func selectTitle(_ title: String) {
+        topTextField.text = title
+        viewModel?.checkIsProductFromCategory(name: title)
     }
 }

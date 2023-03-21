@@ -221,7 +221,7 @@ class MainScreenViewModel {
             let favoriteProducts = list.products.filter { $0.isFavorite }
             selectedItemsCount += purchasedProducts.count
             unselectedItemsCount += nonPurchasedProducts.count
-            favoriteListsCount += favoriteProducts.count
+            favoriteItemsCount += favoriteProducts.count
             if list.isFavorite {
                 favoriteListsCount += 1
             }

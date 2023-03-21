@@ -75,6 +75,13 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         updateNextButton(isActive: false)
         makeConstraints()
         
+        valueChanged()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardAppear),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    private func valueChanged() {
         viewModel?.preparationStepChanged = { [weak self] description in
             guard let self else { return }
             self.setupStepView(stepNumber: self.stepNumber, description: description)
@@ -112,9 +119,6 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
                 $0.height.equalTo(self.ingredientsView.requiredHeight)
             }
         }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardAppear),
-                                               name: UIResponder.keyboardWillShowNotification, object: nil)
     }
     
     private func setupCustomView() {
