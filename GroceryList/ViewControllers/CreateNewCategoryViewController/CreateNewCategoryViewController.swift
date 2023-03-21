@@ -247,7 +247,7 @@ extension CreateNewCategoryViewController {
     
     @objc
     private func saveAction() {
-        AmplitudeManager.shared.logEvent(.core, properties: [.value: .categoryNew])
+        AmplitudeManager.shared.logEvent(.categoryNew)
         let text = textField.text ?? ""
         viewModel?.saveNewCategory(name: text)
         hidePanel()

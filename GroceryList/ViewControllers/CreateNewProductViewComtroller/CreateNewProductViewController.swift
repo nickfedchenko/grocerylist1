@@ -282,18 +282,24 @@ class CreateNewProductViewController: UIViewController {
         isCategorySelected = true
         bottomTextField.text = viewModel?.productDescription
         userCommentText = viewModel?.userComment ?? ""
-        quantityCount += viewModel?.productQuantityCount ?? 0
-        quantityLabel.text = getDecimalString()
-        selectUnitLabel.text = viewModel?.productQuantityUnit
-        quantityValueStep = viewModel?.productStepValue ?? 1
         readyToSave()
-        quantityAvailable()
+        quantityCount = viewModel?.productQuantityCount ?? 0
+        
+        if viewModel?.productQuantityCount == nil {
+            quantityNotAvailable()
+            selectUnitLabel.text = viewModel?.currentSelectedUnit.rawValue.localized
+        } else {
+            quantityLabel.text = getDecimalString()
+            selectUnitLabel.text = viewModel?.productQuantityUnit
+            quantityValueStep = viewModel?.productStepValue ?? 1
+            quantityAvailable()
+        }
     }
     
     // MARK: - ButtonActions
     @objc
     private func plusButtonAction() {
-        AmplitudeManager.shared.logEvent(.createItem, properties: [.value: .itemQuantityButtons])
+        AmplitudeManager.shared.logEvent(.itemQuantityButtons)
         quantityCount += quantityValueStep
         quantityLabel.text = getDecimalString()
         setupText()
@@ -302,7 +308,7 @@ class CreateNewProductViewController: UIViewController {
 
     @objc
     private func minusButtonAction() {
-        AmplitudeManager.shared.logEvent(.createItem, properties: [.value: .itemQuantityButtons])
+        AmplitudeManager.shared.logEvent(.itemQuantityButtons)
         guard quantityCount > 1 else {
             return quantityNotAvailable()
         }
@@ -555,7 +561,7 @@ extension CreateNewProductViewController: UITextFieldDelegate {
         selectUnitsView.backgroundColor = UIColor(hex: "#D2D5DA")
         quantityCount = 0
         quantityLabel.text = "0"
-        bottomTextField.text = ""
+        bottomTextField.text = userCommentText
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -580,7 +586,6 @@ extension CreateNewProductViewController: UITextFieldDelegate {
                 topCategoryView.backgroundColor = UIColor(hex: "#D2D5DA")
                 topCategoryLabel.text = "Category".localized
                 quantityNotAvailable()
-                
             }
         }
         
@@ -613,6 +618,26 @@ extension CreateNewProductViewController: UITextFieldDelegate {
         }
 
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        guard textField == bottomTextField else {
+            return
+        }
+        AmplitudeManager.shared.logEvent(.secondInputManual)
+        let endOfDocument = textField.endOfDocument
+        DispatchQueue.main.async {
+            textField.selectedTextRange = textField.textRange(from: endOfDocument, to: endOfDocument)
+        }
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        guard textField == bottomTextField else {
+            return
+        }
+        if (bottomTextField.text?.isEmpty ?? true) {
+            userCommentText = ""
+        }
     }
 }
 
@@ -663,12 +688,13 @@ extension CreateNewProductViewController {
     
     @objc
     private func tapOnAddImageAction() {
+        AmplitudeManager.shared.logEvent(.photoAdd)
         pickImage()
     }
     
     @objc
     private func tapOnCategoryAction() {
-        AmplitudeManager.shared.logEvent(.core, properties: [.value: .categoryChange])
+        AmplitudeManager.shared.logEvent(.categoryChange)
         viewModel?.goToSelectCategoryVC()
     }
     
@@ -680,6 +706,7 @@ extension CreateNewProductViewController {
         if isImageChanged { image = addImageImage.image }
         let description = bottomTextField.text ?? ""
         viewModel?.saveProduct(categoryName: categoryName, productName: productName, image: image, description: description)
+        
         hidePanel()
     }
     
@@ -693,7 +720,7 @@ extension CreateNewProductViewController {
     
     @objc
     private func removeImageTapped() {
-        AmplitudeManager.shared.logEvent(.createItem, properties: [.value: .photoDelete])
+        AmplitudeManager.shared.logEvent(.photoDelete)
         addImageImage.image = R.image.addImage()
         isImageChanged = false
     }
@@ -744,7 +771,7 @@ extension CreateNewProductViewController: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableview.cellForRow(at: indexPath)
         cell?.isSelected = true
-        AmplitudeManager.shared.logEvent(.createItem, properties: [.value: .itemUnitsButton])
+        AmplitudeManager.shared.logEvent(.itemUnitsButton)
         hideTableview(cell: cell)
         selectUnitLabel.text = viewModel?.getTitleForCell(at: indexPath.row)
         bottomTextField.text = ""
@@ -785,21 +812,12 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         topCategoryLabel.textColor = .white
         topCategoryLabel.text = text
         isCategorySelected = !text.isEmpty
-
-        if let viewModel = viewModel, let defaultSelectedUnit = defaultSelectedUnit {
-            if let index = viewModel.isMetricSystem ? viewModel.arrayForMetricSystem.firstIndex(of: defaultSelectedUnit)
-                                                    : viewModel.arrayForImperalSystem.firstIndex(of: defaultSelectedUnit) {
-                tableView(tableview, didSelectRowAt: IndexPath(row: index, section: 0))
-            }
-        }
         
         if isCategorySelected {
             readyToSave()
-            quantityAvailable()
         } else {
             deselectCategory()
             notReadyToSave()
-            quantityNotAvailable()
             return
         }
         

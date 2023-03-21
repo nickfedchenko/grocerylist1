@@ -26,7 +26,7 @@ final class IngredientViewModel {
         return Double(currentSelectedUnit.stepValue)
     }
     
-    private var arrayOfProductsByCategories: [DBNetworkProduct]?
+    private var arrayOfProductsByCategories: [DBNetProduct]?
     private var categoryTitle = ""
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
     private var currentSelectedUnit: UnitSystem = .gram
@@ -95,7 +95,7 @@ final class IngredientViewModel {
             return
         }
         name = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        var product: DBNetworkProduct?
+        var product: DBNetProduct?
         for productDB in arrayOfProductsByCategories {
             guard let title = productDB.title?.lowercased()
                                               .getTitleWithout(symbols: ["(", ")"]) else {
@@ -107,7 +107,7 @@ final class IngredientViewModel {
                 break
             }
             
-            if title.contains(name) {
+            if title.smartContains(name) {
                 product = productDB
             }
         }
@@ -120,7 +120,7 @@ final class IngredientViewModel {
         getAllInformation(product: product)
     }
     
-    func getAllInformation(product: DBNetworkProduct) {
+    func getAllInformation(product: DBNetProduct) {
         let title = product.marketCategory
         let shouldSelectUnit: MarketUnitClass.MarketUnitPrepared =
             .init(rawValue: Int(product.defaultMarketUnitID)) ?? .gram

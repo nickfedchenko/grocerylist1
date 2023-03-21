@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 193 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 199 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -156,6 +156,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var alcohol: RswiftResources.StringResource { .init(key: "Alcohol", tableName: "Localizable", source: source, developmentValue: "Alcohol", comment: nil) }
+
+      /// en translation: Recipes
+      ///
+      /// Key: AllRecipes
+      ///
+      /// Locales: en, ru, fr, de
+      var allRecipes: RswiftResources.StringResource { .init(key: "AllRecipes", tableName: "Localizable", source: source, developmentValue: "Recipes", comment: nil) }
 
       /// en translation: Alphabetical sorting
       ///
@@ -430,12 +437,12 @@ struct _R {
       /// Locales: en, ru, fr, de
       var iHaveAccount: RswiftResources.StringResource { .init(key: "IHaveAccount", tableName: "Localizable", source: source, developmentValue: "I have an account", comment: nil) }
 
-      /// en translation: Imperial (U.S.)
+      /// en translation: U.S. standard
       ///
       /// Key: Imperial
       ///
       /// Locales: en, ru, fr, de
-      var imperial: RswiftResources.StringResource { .init(key: "Imperial", tableName: "Localizable", source: source, developmentValue: "Imperial (U.S.)", comment: nil) }
+      var imperial: RswiftResources.StringResource { .init(key: "Imperial", tableName: "Localizable", source: source, developmentValue: "U.S. standard", comment: nil) }
 
       /// en translation: Ingredients
       ///
@@ -457,6 +464,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var likeTheApp: RswiftResources.StringResource { .init(key: "Like the app?", tableName: "Localizable", source: source, developmentValue: "Like the app?", comment: nil) }
+
+      /// en translation: Lists
+      ///
+      /// Key: Lists
+      ///
+      /// Locales: en, ru, fr, de
+      var lists: RswiftResources.StringResource { .init(key: "Lists", tableName: "Localizable", source: source, developmentValue: "Lists", comment: nil) }
 
       /// en translation: Loading
       ///
@@ -800,6 +814,20 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var searcInCategory: RswiftResources.StringResource { .init(key: "SearcInCategory", tableName: "Localizable", source: source, developmentValue: "Search in Category", comment: nil) }
+
+      /// en translation: Search in 
+      ///
+      /// Key: Search in 
+      ///
+      /// Locales: en, ru, fr, de
+      var searchIn: RswiftResources.StringResource { .init(key: "Search in ", tableName: "Localizable", source: source, developmentValue: "Search in ", comment: nil) }
+
+      /// en translation: Search in all recipes
+      ///
+      /// Key: Search in all recipes
+      ///
+      /// Locales: en, ru, fr, de
+      var searchInAllRecipes: RswiftResources.StringResource { .init(key: "Search in all recipes", tableName: "Localizable", source: source, developmentValue: "Search in all recipes", comment: nil) }
 
       /// en translation: Select list
       ///
@@ -1179,6 +1207,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var fluidOz: RswiftResources.StringResource { .init(key: "fluidOz", tableName: "Localizable", source: source, developmentValue: "fl oz", comment: nil) }
 
+      /// en translation: gal
+      ///
+      /// Key: gallon
+      ///
+      /// Locales: en, ru, fr, de
+      var gallon: RswiftResources.StringResource { .init(key: "gallon", tableName: "Localizable", source: source, developmentValue: "gal", comment: nil) }
+
       /// en translation: g
       ///
       /// Key: gram
@@ -1312,6 +1347,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var pt: RswiftResources.StringResource { .init(key: "pt", tableName: "Localizable", source: source, developmentValue: "pt", comment: nil) }
 
+      /// en translation: qt
+      ///
+      /// Key: quart
+      ///
+      /// Locales: en, ru, fr, de
+      var quart: RswiftResources.StringResource { .init(key: "quart", tableName: "Localizable", source: source, developmentValue: "qt", comment: nil) }
+
       /// en translation: Recipe Creation
       ///
       /// Key: recipeCreation
@@ -1441,7 +1483,7 @@ struct _R {
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 142 images.
+  /// This `_R.image` struct is generated, and contains static references to 143 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1558,6 +1600,9 @@ struct _R {
 
     /// Image `Web`.
     var web: RswiftResources.ImageResource { .init(name: "Web", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `X-markInput`.
+    var xMarkInput: RswiftResources.ImageResource { .init(name: "X-markInput", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `addItemImage`.
     var addItemImage: RswiftResources.ImageResource { .init(name: "addItemImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -1942,9 +1987,12 @@ struct _R {
     }
   }
 
-  /// This `_R.file` struct is generated, and contains static references to 16 resource files.
+  /// This `_R.file` struct is generated, and contains static references to 17 resource files.
   struct file {
     let bundle: Foundation.Bundle
+
+    /// Resource file `GoogleService-Info.plist`.
+    var googleServiceInfoPlist: RswiftResources.FileResource { .init(name: "GoogleService-Info", pathExtension: "plist", bundle: bundle, locale: LocaleReference.none) }
 
     /// Resource file `SF Pro Display Bold.otf`.
     var sfProDisplayBoldOtf: RswiftResources.FileResource { .init(name: "SF Pro Display Bold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }

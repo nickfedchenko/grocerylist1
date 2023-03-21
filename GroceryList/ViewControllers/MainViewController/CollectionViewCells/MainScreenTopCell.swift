@@ -14,6 +14,7 @@ enum MainScreenPresentationMode {
 
 protocol MainScreenTopCellDelegate: AnyObject {
     func modeChanged(to mode: MainScreenPresentationMode)
+    func searchButtonTapped()
 }
 
 class MainScreenTopCell: UICollectionViewCell {
@@ -48,7 +49,7 @@ class MainScreenTopCell: UICollectionViewCell {
     
     @objc
     private func searchButtonAction() {
-        print("search button pressed")
+        delegate?.searchButtonTapped()
     }
     
     @objc
@@ -88,7 +89,6 @@ class MainScreenTopCell: UICollectionViewCell {
         let button = UIButton()
         button.addTarget(self, action: #selector(searchButtonAction), for: .touchUpInside)
         button.setImage(R.image.searchButtonImage(), for: .normal)
-        button.alpha = 0
         return button
     }()
     
@@ -131,7 +131,7 @@ class MainScreenTopCell: UICollectionViewCell {
         }
         
         menuButton.snp.makeConstraints { make in
-            make.trailing.equalTo(sortButton.snp.leading).inset(-8)
+            make.trailing.equalTo(searchButton.snp.leading).inset(-8)
             make.centerY.equalTo(settingsButton)
             make.width.height.equalTo(40)
         }
@@ -143,7 +143,7 @@ class MainScreenTopCell: UICollectionViewCell {
         }
         
         searchButton.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(28)
+            make.trailing.equalTo(sortButton.snp.leading).inset(-8)
             make.centerY.equalTo(settingsButton)
             make.width.height.equalTo(40)
         }

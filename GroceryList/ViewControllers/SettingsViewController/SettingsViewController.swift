@@ -232,6 +232,7 @@ extension SettingsViewController {
     
     @objc
     private func contactUsAction(_ recognizer: UIPanGestureRecognizer) {
+        AmplitudeManager.shared.logEvent(.problemTell)
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self

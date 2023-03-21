@@ -17,18 +17,10 @@ protocol CoredataSyncProtocol {
 class CoreDataManager {
     let coreData: CoreDataStorage
     static let shared = CoreDataManager()
-    var updateProductsAfterRemoval: (() -> Void)?
     
     private init() {
         coreData = CoreDataStorage()
         
-        // TODO: убрать при следующий релизах/когда будет добавлена миграция
-        if !UserDefaults.standard.bool(forKey: "fix_DBNetworkProduct1") {
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "DBNetworkProduct")
-            deleteEntitiesOfType(request: request)
-            updateProductsAfterRemoval?()
-            UserDefaults.standard.set(true, forKey: "fix_DBNetworkProduct1")
-        }
     }
     
     // MARK: - Products
@@ -128,18 +120,18 @@ class CoreDataManager {
             updateNetworkProduct(product: product, context: context)
             return
         }
-        let fetchRequest: NSFetchRequest<DBNetworkProduct> = DBNetworkProduct.fetchRequest()
+        let fetchRequest: NSFetchRequest<DBNetProduct> = DBNetProduct.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
         
-        let object = DBNetworkProduct(context: context)
+        let object = DBNetProduct(context: context)
         object.title = product.title
         object.id = Int64(product.id)
         object.marketCategory = product.marketCategory?.title
         object.photo = product.photo
     }
     
-    func getNetworkProduct(id: Int) -> DBNetworkProduct? {
-        let fetchRequest: NSFetchRequest<DBNetworkProduct> = DBNetworkProduct.fetchRequest()
+    func getNetworkProduct(id: Int) -> DBNetProduct? {
+        let fetchRequest: NSFetchRequest<DBNetProduct> = DBNetProduct.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
         guard let object = try? coreData.container.newBackgroundContext().fetch(fetchRequest).first else {
             return nil
@@ -148,7 +140,7 @@ class CoreDataManager {
     }
     
     func updateNetworkProduct(product: NetworkProductModel, context: NSManagedObjectContext) {
-        let fetchRequest: NSFetchRequest<DBNetworkProduct> = DBNetworkProduct.fetchRequest()
+        let fetchRequest: NSFetchRequest<DBNetProduct> = DBNetProduct.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
         if let object = try? context.fetch(fetchRequest).first {
             object.title = product.title
@@ -158,8 +150,8 @@ class CoreDataManager {
         }
     }
     
-    func getAllNetworkProducts() -> [DBNetworkProduct]? {
-        let fetchRequest: NSFetchRequest<DBNetworkProduct> = DBNetworkProduct.fetchRequest()
+    func getAllNetworkProducts() -> [DBNetProduct]? {
+        let fetchRequest: NSFetchRequest<DBNetProduct> = DBNetProduct.fetchRequest()
         guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
             return nil
         }
@@ -177,6 +169,7 @@ class CoreDataManager {
     
     // MARK: - GroceryList
     func saveList(list: GroceryListsModel) {
+        idsOfChangedLists.insert(list.id)
         guard getList(list: list.id.uuidString) == nil else {
             updateList(list)
             return
@@ -238,6 +231,7 @@ class CoreDataManager {
             context.delete(object)
         }
         try? context.save()
+        idsOfChangedLists.insert(id)
     }
     
     func removeSharedLists() {
@@ -446,22 +440,15 @@ extension CoreDataManager: CoredataSyncProtocol {
     
     func saveProducts(products: [NetworkProductModel]) {
         let asyncContext = coreData.taskContext
-        products.forEach { product in
-            createNetworkProduct(product: product, context: asyncContext)
+        let _ = products.map { DBNetProduct.prepare(fromProduct: $0, using: asyncContext) }
+        guard asyncContext.hasChanges else { return }
+        asyncContext.perform {
+            do {
+                try asyncContext.save()
+                NotificationCenter.default.post(name: .productsDownladedAnsSaved, object: nil)
+            } catch {
+                asyncContext.rollback()
+            }
         }
-        try? asyncContext.save()
-        NotificationCenter.default.post(name: .productsDownladedAnsSaved, object: nil)
-        // TODO: после миграции раскомментировать
-//        let asyncContext = coreData.taskContext
-//        let _ = products.map { DBNetworkProduct.prepare(fromProduct: $0, using: asyncContext) }
-//        guard asyncContext.hasChanges else { return }
-//        asyncContext.perform {
-//            do {
-//                try asyncContext.save()
-//                NotificationCenter.default.post(name: .productsDownladedAnsSaved, object: nil)
-//            } catch {
-//                asyncContext.rollback()
-//            }
-//        }
     }
 }

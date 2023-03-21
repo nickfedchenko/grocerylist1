@@ -171,8 +171,8 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: false)
     }
     
-    func goToSharingPopUp() {
-        let controller = viewControllerFactory.createSharingPopUpController(router: self)
+    func goToSharingPopUp(compl: (() -> Void)? = nil) {
+        let controller = viewControllerFactory.createSharingPopUpController(router: self, compl: compl)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
     }
@@ -230,6 +230,23 @@ final class RootRouter: RootRouterProtocol {
                                                                               compl: compl)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
+    }
+    
+    func goToSearchInList() {
+        let controller = viewControllerFactory.createSearchInList(router: self)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
+    }
+    
+    func goToSearchInRecipe(section: RecipeSectionsModel? = nil) {
+        let controller = viewControllerFactory.createSearchInRecipe(router: self, section: section)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
+    }
+    
+    func goToRecipe(recipe: Recipe) {
+        let controller = viewControllerFactory.createRecipeScreen(router: self, recipe: recipe)
+        navigationPushViewController(controller, animated: true)
     }
     
     // алерты / активити и принтер

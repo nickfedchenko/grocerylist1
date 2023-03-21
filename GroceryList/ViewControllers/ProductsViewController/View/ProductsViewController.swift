@@ -242,12 +242,16 @@ class ProductsViewController: UIViewController {
             
             // свайпы
             cell.swipeToPinchAction = {
-                AmplitudeManager.shared.logEvent(.core, properties: [.value: .itemDelete])
+                AmplitudeManager.shared.logEvent(.itemDelete)
+                idsOfChangedProducts.insert(child.id)
+                idsOfChangedLists.insert(child.listId)
                 self?.viewModel?.delete(product: child)
             }
             
             guard !child.isPurchased else { return }
             cell.swipeToDeleteAction = {
+                idsOfChangedProducts.insert(child.id)
+                idsOfChangedLists.insert(child.listId)
                 self?.viewModel?.updateFavoriteStatus(for: child)
             }
         }
@@ -393,12 +397,17 @@ extension ProductsViewController: UICollectionViewDelegate {
             print(category)
         case .child(let product):
             let cell = collectionView.cellForItem(at: indexPath) as? ProductListCell
+            idsOfChangedProducts.insert(product.id)
+            idsOfChangedLists.insert(product.listId)
             if product.isPurchased {
                 cell?.removeCheckmark { [weak self] in
                     self?.viewModel?.updatePurchasedStatus(product: product)
                 }
             } else {
-                AmplitudeManager.shared.logEvent(.core, properties: [.value: .itemChecked])
+                AmplitudeManager.shared.logEvent(.itemChecked)
+                if product.fromRecipeTitle != nil {
+                    AmplitudeManager.shared.logEvent(.itemCheckedFromRecipe)
+                }
                 let color = viewModel?.getColorForForeground()
                 cell?.addCheckmark(color: color) { [weak self] in
                     self?.viewModel?.updatePurchasedStatus(product: product)
@@ -486,7 +495,7 @@ extension ProductsViewController {
     
     @objc
     private func addItemViewTapped () {
-        AmplitudeManager.shared.logEvent(.core, properties: [.value: .itemAdd])
+        AmplitudeManager.shared.logEvent(.itemAdd)
         tapPressAction()
         viewModel?.addNewProductTapped()
     }

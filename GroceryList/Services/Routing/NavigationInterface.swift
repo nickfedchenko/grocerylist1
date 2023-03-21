@@ -51,6 +51,14 @@ extension NavigationInterface {
         }
     }
     
+    func navigationDismiss() {
+        if let presented = topViewController {
+            DispatchQueue.main.async {
+                presented.dismiss(animated: true)
+            }
+        }
+    }
+    
     func navigationPushViewController(_ viewController: UIViewController, animated: Bool) {
         navigationController?.pushViewController(viewController, animated: animated)
     }

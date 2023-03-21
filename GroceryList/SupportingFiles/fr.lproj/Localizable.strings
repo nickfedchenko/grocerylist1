@@ -96,13 +96,16 @@
 "bottle"                    = "Bouteille";
 "other"                     = "autre";
 
+"gallon"                    = "gal";
+"quart"                     = "qt";
+
 "preferencies"              = "Préférences";
 "Problems?"                 = "problèmes?";
 "DoYouLikeApp?"             = "aimez-vous l'application";
 "Haptic Feedback"           = "retour haptique";
 "Quantity Units"            = "unités de mesure";
 "Metric"                    = "Métrique";
-"Imperial"                  = "Impérial";
+"Imperial"                  = "Norme U.S.";
 
 "Warning"                   = "avertissement";
 "NoInternet"                = "Pas d'Internet";
@@ -211,3 +214,8 @@
 "Add recipes to favorites"      = "Ajouter des recettes aux favoris";
 "Share recipes"                 = "Partager des recettes";
 "AdjustNumberOfServings"        = "Ajustez le nombre de portions et ajoutez des ingrédients à votre liste de courses";
+
+"Search in "                    = "Rechercher dans ";
+"Lists"                         = "les listes";
+"AllRecipes"                    = "les recettes";
+"Search in all recipes"         = "Rechercher dans toutes les recettes";

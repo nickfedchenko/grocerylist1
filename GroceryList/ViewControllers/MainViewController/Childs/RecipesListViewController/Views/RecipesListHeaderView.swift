@@ -42,8 +42,6 @@ final class RecipesListHeaderView: UIView {
         let button = UIButton(type: .system)
         button.setImage(R.image.searchButtonImage(), for: .normal)
         button.tintColor = UIColor(hex: "1A645A")
-        // TODO: - Fix when adds search functionality
-        button.alpha = 0
         return button
     }()
     

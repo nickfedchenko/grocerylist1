@@ -7,6 +7,7 @@
 
 import Amplitude
 import ApphudSDK
+import Firebase
 import UIKit
 import UserNotifications
 
@@ -20,17 +21,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Apphud.start(apiKey: "app_UumawTKYjWf9iUejoRkxntPLZQa7eq")
         _ = AmplitudeManager.shared
+        FirebaseApp.configure()
         AppDelegate.activateFonts(withExtension: "ttf")
         AppDelegate.activateFonts(withExtension: "otf")
         registerForNotifications()
         syncService.updateProducts()
         syncService.updateRecipes()
+        syncService.updateItems()
         SocketManager.shared.connect()
-        
-        // TODO: убрать при следующий релизах/когда будет добавлена миграция
-        CoreDataManager.shared.updateProductsAfterRemoval = {
-            self.syncService.updateProducts()
-        }
         
         let window = UIWindow(frame: UIScreen.main.bounds)
         
@@ -67,6 +65,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }
         return true
+    }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        AmplitudeManager.shared.logEvent(.listsChanged,
+                                         properties: [.count: "\(idsOfChangedLists.count)"])
+        AmplitudeManager.shared.logEvent(.itemsChanged,
+                                         properties: [.count: "\(idsOfChangedProducts.count)"])
     }
 }
 
