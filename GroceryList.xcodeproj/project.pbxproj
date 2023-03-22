@@ -55,6 +55,7 @@
 		33D912BE29A342AA00C32117 /* NumberExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D912BD29A342AA00C32117 /* NumberExtensions.swift */; };
 		33D912C029A396A900C32117 /* MoreRecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D912BF29A396A900C32117 /* MoreRecipeCell.swift */; };
 		33E544A929C98C27008D84F8 /* PredictiveTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E544A829C98C27008D84F8 /* PredictiveTextView.swift */; };
+		33E544AC29CA1122008D84F8 /* FeatureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E544AB29CA1122008D84F8 /* FeatureManager.swift */; };
 		33F8253729C050DC00B349D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253629C050DC00B349D5 /* SearchViewController.swift */; };
 		33F8253929C0559000B349D5 /* SearchInListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253829C0559000B349D5 /* SearchInListViewModel.swift */; };
 		33F8253B29C0632700B349D5 /* SearchInListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253A29C0632700B349D5 /* SearchInListViewController.swift */; };
@@ -287,6 +288,7 @@
 		33D912BD29A342AA00C32117 /* NumberExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberExtensions.swift; sourceTree = "<group>"; };
 		33D912BF29A396A900C32117 /* MoreRecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreRecipeCell.swift; sourceTree = "<group>"; };
 		33E544A829C98C27008D84F8 /* PredictiveTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictiveTextView.swift; sourceTree = "<group>"; };
+		33E544AB29CA1122008D84F8 /* FeatureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureManager.swift; sourceTree = "<group>"; };
 		33F8253629C050DC00B349D5 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		33F8253829C0559000B349D5 /* SearchInListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewModel.swift; sourceTree = "<group>"; };
 		33F8253A29C0632700B349D5 /* SearchInListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewController.swift; sourceTree = "<group>"; };
@@ -646,6 +648,14 @@
 				3380D1B329C2D1E500A57F25 /* AllRecipesCell.swift */,
 			);
 			path = "In recipe";
+			sourceTree = "<group>";
+		};
+		33E544AA29CA1107008D84F8 /* Feature Manager */ = {
+			isa = PBXGroup;
+			children = (
+				33E544AB29CA1122008D84F8 /* FeatureManager.swift */,
+			);
+			path = "Feature Manager";
 			sourceTree = "<group>";
 		};
 		33F8253529C050B700B349D5 /* Search */ = {
@@ -1293,6 +1303,7 @@
 				B37A2CD52910EE84003C01AD /* Routing */,
 				B3179EA4291E304700455419 /* ColorManager */,
 				B35F0F642937975900C19891 /* MeashureManager */,
+				33E544AA29CA1107008D84F8 /* Feature Manager */,
 				B371CCAF299E36BB00E0E197 /* KeychainManager.swift */,
 			);
 			path = Services;
@@ -1748,6 +1759,7 @@
 				B315F9DE2989339A0009CEB8 /* CheckmarkCompositionView.swift in Sources */,
 				B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */,
 				B347690B291D23800045A287 /* ProductsSettingsViewModel.swift in Sources */,
+				33E544AC29CA1122008D84F8 /* FeatureManager.swift in Sources */,
 				B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */,
 				B34EAC9E2934EE0100FBD0E0 /* SelectCategoryDataSource.swift in Sources */,
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,

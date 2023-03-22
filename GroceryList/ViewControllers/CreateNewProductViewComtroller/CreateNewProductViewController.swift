@@ -87,8 +87,6 @@ class CreateNewProductViewController: UIViewController {
             string: "Name".localized,
             attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "#D2D5DA")]
         )
-        textfield.autocorrectionType = .no
-        textfield.spellCheckingType = .no
         return textfield
     }()
     
@@ -254,11 +252,6 @@ class CreateNewProductViewController: UIViewController {
         addRecognizers()
         setupTableView()
         setupProduct()
-        
-        viewModel?.productsChangedCallback = { [weak self] titles in
-            guard let self else { return }
-            self.predictiveTextView.configure(texts: titles)
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -307,12 +300,17 @@ class CreateNewProductViewController: UIViewController {
     }
     
     private func setupPredictiveTextView() {
-        // проверка какой эксперимент
-        let isExpWithPredictiveText = Int.random(in: 0...1) == 1
-        guard isExpWithPredictiveText else {
+        guard FeatureManager.shared.isActivePredictiveText else {
             predictiveTextViewHeight = 0
             return
         }
+        
+        viewModel?.productsChangedCallback = { [weak self] titles in
+            guard let self else { return }
+            self.predictiveTextView.configure(texts: titles)
+        }
+        topTextField.autocorrectionType = .no
+        topTextField.spellCheckingType = .no
         predictiveTextView.delegate = self
     }
     
@@ -393,7 +391,7 @@ class CreateNewProductViewController: UIViewController {
         let height = isVisible ? predictiveTextViewHeight : 0
         predictiveTextView.snp.updateConstraints { $0.height.equalTo(height) }
         contentView.snp.updateConstraints { $0.height.equalTo(268 + height) }
-        UIView.animate(withDuration: 0.3) { [ weak self ] in
+        UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self = self else { return }
             self.view.layoutIfNeeded()
         }
@@ -430,7 +428,7 @@ extension CreateNewProductViewController {
         
         contentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(-268)
+            make.bottom.equalToSuperview().inset(-268 - predictiveTextViewHeight)
             make.height.equalTo(268 + predictiveTextViewHeight)
         }
         
@@ -879,6 +877,7 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
 
 extension CreateNewProductViewController: PredictiveTextViewDelegate {
     func selectTitle(_ title: String) {
+        AmplitudeManager.shared.logEvent(.itemPredictAdd)
         topTextField.text = title
         viewModel?.checkIsProductFromCategory(name: title)
     }

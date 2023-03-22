@@ -225,10 +225,8 @@ class CreateNewProductViewModel {
     
     func getAllInformation(product: DBNetProduct) {
         let imageUrl = product.photo ?? ""
-        print("Product id \(product.id)")
         let title = product.marketCategory
         let unitId = product.defaultMarketUnitID
-        print("рит = \(unitId)")
         let shouldSelectUnit: MarketUnitClass.MarketUnitPrepared = .init(rawValue: Int(product.defaultMarketUnitID)) ?? .gram
         let properSelectedUnit: UnitSystem = {
             switch shouldSelectUnit {

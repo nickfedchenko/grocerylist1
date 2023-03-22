@@ -26,22 +26,23 @@ final class PredictiveTextView: UIView {
     }()
     
     private lazy var layout: UICollectionViewCompositionalLayout = {
-        let estimatedHeight: CGFloat = 29
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(1),
-                                              heightDimension: .absolute(estimatedHeight))
+        let estimatedWeight: CGFloat = 12
+        let height: CGFloat = 29
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(estimatedWeight),
+                                              heightDimension: .absolute(height))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(0),
                                                          top: .fixed(12),
                                                          trailing: .fixed(8),
                                                          bottom: .fixed(0))
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .estimated(estimatedHeight))
+                                               heightDimension: .estimated(height))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 8,
-                                                      leading: 20,
-                                                      bottom: 0,
-                                                      trailing: 0)
+        group.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(20),
+                                                          top: .fixed(0),
+                                                          trailing: .fixed(0),
+                                                          bottom: .fixed(0))
         
         let section = NSCollectionLayoutSection(group: group)
         let layout = UICollectionViewCompositionalLayout(section: section)

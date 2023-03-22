@@ -18,6 +18,7 @@ target 'GroceryList' do
 
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
+  pod 'Firebase/RemoteConfig'
   
   # Pods for GroceryList
 

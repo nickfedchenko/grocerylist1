@@ -24,6 +24,9 @@ final class IngredientViewController: UIViewController {
     private let categoryView = CategoryView()
     private let ingredientView = AddIngredientView()
     private let quantityView = QuantityView()
+    private let predictiveTextView = PredictiveTextView()
+    private var predictiveTextViewHeight = 86
+    private var viewDidLayout = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,12 +35,20 @@ final class IngredientViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        categoryView.makeCustomRound(topLeft: 4, topRight: 40, bottomLeft: 0, bottomRight: 0)
+        categoryView.makeCustomRound(topLeft: 4, topRight: 40, bottomLeft: 0, bottomRight: 4)
+        if !viewDidLayout {
+            ingredientView.productTextField.becomeFirstResponder()
+            viewDidLayout.toggle()
+        }
     }
     
     private func setup() {
+        let tapOnView = UITapGestureRecognizer(target: self, action: #selector(tappedOnView))
+        self.view.addGestureRecognizer(tapOnView)
+        
         viewModel?.delegate = self
         setupContentView()
+        setupPredictiveTextView()
         makeConstraints()
         updateSaveButton(isActive: false)
         categoryIsActive(false, categoryTitle: R.string.localizable.category())
@@ -53,10 +64,24 @@ final class IngredientViewController: UIViewController {
         categoryView.delegate = self
         ingredientView.delegate = self
         quantityView.delegate = self
-        ingredientView.productTextField.becomeFirstResponder()
         
         let swipeDownRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
         contentView.addGestureRecognizer(swipeDownRecognizer)
+    }
+    
+    private func setupPredictiveTextView() {
+        guard FeatureManager.shared.isActivePredictiveText else {
+            predictiveTextViewHeight = 0
+            return
+        }
+        
+        viewModel?.productsChangedCallback = { [weak self] titles in
+            guard let self else { return }
+            self.predictiveTextView.configure(texts: titles)
+        }
+        ingredientView.productTextField.autocorrectionType = .no
+        ingredientView.productTextField.spellCheckingType = .no
+        predictiveTextView.delegate = self
     }
     
     private func updateSaveButton(isActive: Bool) {
@@ -83,7 +108,9 @@ final class IngredientViewController: UIViewController {
         let value = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         guard let keyboardFrame = value?.cgRectValue else { return }
         let height = Double(keyboardFrame.height)
-        updateConstraints(with: height, alpha: 0.2)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.updateConstraints(with: height, alpha: 0.2)
+        }
     }
     
     @objc
@@ -94,13 +121,28 @@ final class IngredientViewController: UIViewController {
         }
     }
     
+    @objc
+    private func tappedOnView() {
+        hidePanel()
+    }
+    
     private func updateConstraints(with inset: Double, alpha: Double) {
-        UIView.animate(withDuration: 0.3) { [weak self] in
+        UIView.animate(withDuration: 0.4) { [weak self] in
             guard let self = self else { return }
             self.contentView.snp.updateConstraints {
                 $0.bottom.equalToSuperview().inset(inset)
             }
             self.view.backgroundColor = .black.withAlphaComponent(alpha)
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func updatePredictiveViewConstraints(isVisible: Bool) {
+        let height = isVisible ? predictiveTextViewHeight : 0
+        predictiveTextView.snp.updateConstraints { $0.height.equalTo(height) }
+        contentView.snp.updateConstraints { $0.height.greaterThanOrEqualTo(220 + height) }
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
             self.view.layoutIfNeeded()
         }
     }
@@ -114,12 +156,12 @@ final class IngredientViewController: UIViewController {
     
     private func makeConstraints() {
         self.view.addSubview(contentView)
-        contentView.addSubviews([categoryView, ingredientView, quantityView, saveButton])
+        contentView.addSubviews([categoryView, ingredientView, quantityView, saveButton, predictiveTextView])
         
         contentView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(220)
-            $0.bottom.equalToSuperview().inset(-268)
+            $0.height.greaterThanOrEqualTo(220 + predictiveTextViewHeight)
+            $0.bottom.equalToSuperview().inset(-268 - predictiveTextViewHeight)
         }
         
         categoryView.snp.makeConstraints {
@@ -141,8 +183,15 @@ final class IngredientViewController: UIViewController {
         
         saveButton.snp.makeConstraints {
             $0.top.equalTo(quantityView.snp.bottom).offset(16)
-            $0.bottom.leading.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(64)
+        }
+        
+        predictiveTextView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(saveButton.snp.bottom)
+            $0.bottom.equalToSuperview()
+            $0.height.equalTo(predictiveTextViewHeight)
         }
     }
 }
@@ -175,6 +224,10 @@ extension IngredientViewController: AddIngredientViewDelegate {
         quantityView.setActive(false)
         quantityView.quantityCount = 0
     }
+    
+    func isFirstResponderProductTextField(_ flag: Bool) {
+        updatePredictiveViewConstraints(isVisible: flag)
+    }
 }
 
 extension IngredientViewController: QuantityViewDelegate {
@@ -192,6 +245,14 @@ extension IngredientViewController: QuantityViewDelegate {
     
     func cellSelected(at index: Int) {
         viewModel?.cellSelected(at: index)
+    }
+}
+
+extension IngredientViewController: PredictiveTextViewDelegate {
+    func selectTitle(_ title: String) {
+        AmplitudeManager.shared.logEvent(.itemPredictAdd)
+        ingredientView.productTextField.text = title
+        viewModel?.checkIsProductFromCategory(name: title)
     }
 }
 
