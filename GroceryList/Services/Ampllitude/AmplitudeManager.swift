@@ -28,7 +28,10 @@ class AmplitudeManager {
     func logEvent(_ event: EventName, properties: [String: String]? = nil) {
         logEvent(event.rawValue, properties: properties)
     }
-
+    
+    func setUserProperty(properties: [AnyHashable: Any]) {
+        Amplitude.instance().setUserProperties(properties)
+    }
 }
 
 enum EventName: String {

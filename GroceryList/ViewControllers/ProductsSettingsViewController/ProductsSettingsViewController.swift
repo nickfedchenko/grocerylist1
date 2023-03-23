@@ -113,8 +113,8 @@ class ProductsSettingsViewController: UIViewController {
        
         contentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(-602)
-            make.height.equalTo(602)
+            make.bottom.equalToSuperview().inset(-700)
+            make.height.equalTo(700)
         }
         
         pinchView.snp.makeConstraints { make in
@@ -181,7 +181,16 @@ extension ProductsSettingsViewController: UITableViewDelegate, UITableViewDataSo
         let isInset = viewModel.getInset(at: indexPath.row)
         let separatorColor = viewModel.getSeparatirLineColor()
         let isCheckmark = viewModel.isChecmarkActive(at: indexPath.row)
+        let isSwitchActive = viewModel.isSwitchActive(at: indexPath.row)
+        if isSwitchActive {
+            let switchValue = viewModel.isShowImage()
+            let color = viewModel.getTextColor()
+            cell.setupSwitch(isVisible: isSwitchActive, value: switchValue, tintColor: color)
+        }
         cell.setupCell(imageForCell: image, text: text, inset: isInset, separatorColor: separatorColor, isCheckmarkActive: isCheckmark)
+        cell.switchValueChanged = { isOn in
+            viewModel.imageMatching(isOn: isOn)
+        }
         cell.selectionStyle = .none
         return cell
     }

@@ -61,7 +61,8 @@ class ProductsViewModel {
     }
     
     func settingsTapped(with snapshot: UIImage?) {
-        router?.goProductsSettingsVC(snapshot: snapshot, model: model, compl: { [weak self] updatedModel, products in
+        router?.goProductsSettingsVC(snapshot: snapshot, listByText: getListByText(), model: model,
+                                     compl: { [weak self] updatedModel, products in
             self?.model = updatedModel
             self?.appendToDataSourceProducts(products: products)
             self?.dataSource.typeOfSorting = SortingType(rawValue: self?.model.typeOfSorting ?? 0) ?? .category
@@ -130,5 +131,25 @@ class ProductsViewModel {
             guard self.model.isShared else { return }
             SharedListManager.shared.updateGroceryList(listId: self.model.id.uuidString)
         }
+    }
+    
+    private func getListByText() -> String {
+        var list = ""
+        let newLine = "\n"
+        let tab = "  • "
+        let buy = "Купить".uppercased() + newLine + newLine
+        list += buy
+        
+        arrayWithSections.forEach { category in
+            list += category.name.uppercased() + newLine
+            category.products.map { product in
+                return tab + product.name.firstCharacterUpperCase() + newLine
+            }.forEach { title in
+                list += title
+            }
+            list += newLine
+        }
+        
+        return list
     }
 }

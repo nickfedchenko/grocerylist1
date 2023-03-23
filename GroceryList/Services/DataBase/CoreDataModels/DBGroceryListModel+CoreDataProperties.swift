@@ -26,6 +26,7 @@ extension DBGroceryListModel {
     @NSManaged public var sharedListId: String?
     @NSManaged public var isShared: Bool
     @NSManaged public var isSharedListOwner: Bool
+    @NSManaged public var isShowImage: Int16
 
 }
 

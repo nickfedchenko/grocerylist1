@@ -15,7 +15,7 @@ class CreateNewProductViewController: UIViewController {
     private var isCategorySelected = false
     private var quantityCount: Double = 0
     private var isImageChanged = false {
-        didSet { removeImageButton.isHidden = !isImageChanged }
+        didSet { setupRemoveImage() }
     }
     private var userCommentText = ""
     private var quantityValueStep: Double = 1
@@ -252,6 +252,7 @@ class CreateNewProductViewController: UIViewController {
         addRecognizers()
         setupTableView()
         setupProduct()
+        setupImage(isVisible: viewModel?.isVisibleImage ?? UserDefaultsManager.isShowImage)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -312,6 +313,18 @@ class CreateNewProductViewController: UIViewController {
         topTextField.autocorrectionType = .no
         topTextField.spellCheckingType = .no
         predictiveTextView.delegate = self
+    }
+    
+    private func setupImage(isVisible: Bool) {
+        addImageImage.isHidden = !isVisible
+    }
+    
+    private func setupRemoveImage() {
+        guard !addImageImage.isHidden else {
+            removeImageButton.isHidden = true
+            return
+        }
+        removeImageButton.isHidden = !isImageChanged
     }
     
     // MARK: - ButtonActions

@@ -13,22 +13,24 @@ class DomainModelsToLocalTransformer {
         print("DomainModelsToLocalTransformer")
     }
     
-    func transformCoreDataModelToModel(_ model: DBGroceryListModel) -> GroceryListsModel {
-        let id = model.id ?? UUID()
-        let date = model.dateOfCreation ?? Date()
-        let color = model.color
-        let sortType = Int(model.typeOfSorting)
-        let products = model.products?.allObjects as? [DBProduct]
+    func transformCoreDataModelToModel(_ dbModel: DBGroceryListModel) -> GroceryListsModel {
+        let id = dbModel.id ?? UUID()
+        let date = dbModel.dateOfCreation ?? Date()
+        let color = dbModel.color
+        let sortType = Int(dbModel.typeOfSorting)
+        let products = dbModel.products?.allObjects as? [DBProduct]
         let prod = products?.map({ transformCoreDataProducts(product: $0) }) ?? []
-        let isShared = model.isShared
-        let sharedId = model.sharedListId ?? ""
-        let isSharedListOwner = model.isSharedListOwner
+        let isShared = dbModel.isShared
+        let sharedId = dbModel.sharedListId ?? ""
+        let isSharedListOwner = dbModel.isSharedListOwner
+        let isShowImage = PictureMatchingState(rawValue: dbModel.isShowImage) ?? .nothing
         
         return GroceryListsModel(id: id, dateOfCreation: date,
-                                 name: model.name, color: Int(color),
-                                 isFavorite: model.isFavorite, products: prod,
+                                 name: dbModel.name, color: Int(color),
+                                 isFavorite: dbModel.isFavorite, products: prod,
                                  typeOfSorting: sortType, isShared: isShared,
-                                 sharedId: sharedId, isSharedListOwner: isSharedListOwner)
+                                 sharedId: sharedId, isSharedListOwner: isSharedListOwner,
+                                 isShowImage: isShowImage)
     }
     
     func transformCoreDataProducts(product: DBProduct?) -> Product {
