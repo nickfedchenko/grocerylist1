@@ -22,8 +22,8 @@ protocol ViewControllerFactoryProtocol {
     ) -> UIViewController?
     func createProductsSettingsController(
         snapshot: UIImage?,
+        listByText: String,
         model: GroceryListsModel,
-        
         router: RootRouter,
         compl: @escaping (GroceryListsModel, [Product]) -> Void
     ) -> UIViewController?
@@ -240,12 +240,13 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
     func createProductsSettingsController(
         snapshot: UIImage?,
+        listByText: String,
         model: GroceryListsModel,
         router: RootRouter,
         compl: @escaping (GroceryListsModel, [Product]) -> Void
     ) -> UIViewController? {
         let viewController = ProductsSettingsViewController()
-        let viewModel = ProductsSettingsViewModel(model: model, snapshot: snapshot)
+        let viewModel = ProductsSettingsViewModel(model: model, snapshot: snapshot, listByText: listByText)
         viewModel.delegate = viewController
         viewModel.valueChangedCallback = compl
         viewController.viewModel = viewModel

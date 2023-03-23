@@ -193,6 +193,7 @@ class CoreDataManager {
         object.isShared = list.isShared
         object.sharedListId = list.sharedId
         object.isSharedListOwner = list.isSharedListOwner
+        object.isShowImage = list.isShowImage.rawValue
         try? context.save()
     }
     
@@ -219,6 +220,7 @@ class CoreDataManager {
             object.typeOfSorting = Int64(list.typeOfSorting)
             object.isShared = list.isShared
             object.sharedListId = list.sharedId
+            object.isShowImage = list.isShowImage.rawValue
         }
         try? context.save()
     }

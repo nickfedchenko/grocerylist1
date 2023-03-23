@@ -10,8 +10,11 @@ import UIKit
 
 class ProductSettingsTableViewCell: UITableViewCell {
     
+    var switchValueChanged: ((Bool) -> Void)?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        imageSwitch.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
         setupConstraints()
     }
     
@@ -27,7 +30,8 @@ class ProductSettingsTableViewCell: UITableViewCell {
         separatorLine.snp.updateConstraints { make in
             make.left.equalToSuperview().inset(20)
         }
-        
+        imageSwitch.isHidden = true
+        checkmarkImage.isHidden = true
         label.textColor = .black
     }
     
@@ -50,6 +54,14 @@ class ProductSettingsTableViewCell: UITableViewCell {
         separatorLine.backgroundColor = separatorColor
         image.image = imageForCell
         label.text = text
+    }
+    
+    func setupSwitch(isVisible: Bool, value: Bool, tintColor: UIColor) {
+        imageSwitch.isHidden = !isVisible
+        if isVisible {
+            imageSwitch.isOn = value
+            imageSwitch.onTintColor = tintColor
+        }
     }
     
     private let image: UIImageView = {
@@ -79,10 +91,21 @@ class ProductSettingsTableViewCell: UITableViewCell {
         return imageView
     }()
     
+    private let imageSwitch: UISwitch = {
+        let imageSwitch = UISwitch()
+        imageSwitch.isHidden = true
+        return imageSwitch
+    }()
+    
+    @objc
+    private func switchChanged() {
+        switchValueChanged?(imageSwitch.isOn)
+    }
+    
     // MARK: - UI
     private func setupConstraints() {
         backgroundColor = .clear
-        contentView.addSubviews([image, label, separatorLine, checkmarkImage])
+        contentView.addSubviews([image, label, separatorLine, checkmarkImage, imageSwitch])
         
         image.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
@@ -107,6 +130,11 @@ class ProductSettingsTableViewCell: UITableViewCell {
             make.right.equalToSuperview().inset(30)
             make.centerY.equalToSuperview()
             make.height.width.equalTo(20)
+        }
+        
+        imageSwitch.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(20)
+            make.centerY.equalToSuperview()
         }
     }
     

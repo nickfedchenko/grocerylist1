@@ -126,9 +126,10 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
-    func goProductsSettingsVC(snapshot: UIImage?, model: GroceryListsModel, compl: @escaping (GroceryListsModel, [Product]) -> Void) {
-        guard let controller = viewControllerFactory.createProductsSettingsController(snapshot: snapshot, model: model, router: self,
-                                                                                   compl: compl) else { return }
+    func goProductsSettingsVC(snapshot: UIImage?, listByText: String, model: GroceryListsModel,
+                              compl: @escaping (GroceryListsModel, [Product]) -> Void) {
+        guard let controller = viewControllerFactory.createProductsSettingsController(
+            snapshot: snapshot, listByText: listByText, model: model, router: self, compl: compl) else { return }
         navigationPresent(controller, animated: false)
     }
     

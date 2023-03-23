@@ -46,8 +46,7 @@ final class FeatureManager {
     }
     
     private func predictiveTextFeature(_ value: String) {
-//        AmplitudeManager.shared.logEvent(<#T##event: EventName##EventName#>)
         isActivePredictiveText = value == "exp1_1"
+        AmplitudeManager.shared.setUserProperty(properties: ["user_type": isActivePredictiveText ? "1" : "2"])
     }
-    
 }

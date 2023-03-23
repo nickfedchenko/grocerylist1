@@ -10,11 +10,12 @@ import UIKit
 
 class SettingsParametrView: UIView {
     
+    var switchValueChanged: ((Bool) -> Void)?
+    
     init() {
         super.init(frame: .zero)
         switchView.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
         setupConstraints()
-        updateSwitcher()
     }
     
     required init?(coder: NSCoder) {
@@ -22,13 +23,13 @@ class SettingsParametrView: UIView {
     }
     
     func setupView(text: String, unitSustemText: String? = nil,
-                   isHaptickView: Bool = false, isAttrHidden: Bool = false,
+                   isSwitchView: Bool = false, isAttrHidden: Bool = false,
                    titleColor: UIColor = .titleColor) {
         
         if let unitSustemText {
             unitSystemLabel.text = unitSustemText
         }
-        if isHaptickView {
+        if isSwitchView {
             rightChevron.isHidden = true
             switchView.isHidden = false
         }
@@ -42,8 +43,8 @@ class SettingsParametrView: UIView {
         textLabel.textColor = titleColor
     }
     
-    func updateSwitcher() {
-        switchView.isOn = UserDefaultsManager.isHapticOn
+    func updateSwitcher(isOn: Bool) {
+        switchView.isOn = isOn
     }
     
     private let textLabel: UILabel = {
@@ -82,7 +83,7 @@ class SettingsParametrView: UIView {
     
     @objc
     private func switchChanged() {
-        UserDefaultsManager.isHapticOn = switchView.isOn
+        switchValueChanged?(switchView.isOn)
     }
     
     private func setupConstraints() {

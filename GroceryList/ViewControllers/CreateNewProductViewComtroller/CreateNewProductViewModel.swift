@@ -122,6 +122,17 @@ class CreateNewProductViewModel {
         Double(currentSelectedUnit.stepValue)
     }
     
+    var isVisibleImage: Bool {
+        guard let model else {
+            return UserDefaultsManager.isShowImage
+        }
+        switch model.isShowImage {
+        case .nothing:      return UserDefaultsManager.isShowImage
+        case .switchOn:     return true
+        case .switchOff:    return false
+        }
+    }
+    
     private var productDescriptionQuantity: String? {
         guard let description = currentProduct?.description else {
             return nil
