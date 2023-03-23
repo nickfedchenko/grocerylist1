@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Apphud.start(apiKey: "app_UumawTKYjWf9iUejoRkxntPLZQa7eq")
         _ = AmplitudeManager.shared
         FirebaseApp.configure()
+        FeatureManager.shared.activeFeatures()
         AppDelegate.activateFonts(withExtension: "ttf")
         AppDelegate.activateFonts(withExtension: "otf")
         registerForNotifications()

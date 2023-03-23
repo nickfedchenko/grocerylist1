@@ -25,14 +25,18 @@ class CreateNewProductViewModel {
     var model: GroceryListsModel?
     private var colorManager = ColorManager()
     var arrayOfProductsByCategories: [DBNetProduct]?
+    var arrayOfUserProducts: [DBProduct]?
     var isMetricSystem = UserDefaultsManager.isMetricSystem
     var currentSelectedUnit: UnitSystem = .gram
     var currentProduct: Product?
+    var productsChangedCallback: (([String]) -> Void)?
     private let network = NetworkEngine()
     
     init() {
         arrayOfProductsByCategories = CoreDataManager.shared.getAllNetworkProducts()?
-                                                     .sorted(by: { $0.title ?? "" > $1.title ?? "" })
+            .sorted(by: { $0.title ?? "" < $1.title ?? "" })
+        arrayOfUserProducts = CoreDataManager.shared.getAllProducts()?
+            .sorted(by: { $0.name ?? "" < $1.name ?? "" })
     }
     
     var selectedUnitSystemArray: [UnitSystem] {
@@ -66,7 +70,7 @@ class CreateNewProductViewModel {
         UnitSystem.gallon,
         UnitSystem.quart
     ]
-
+    
     var productCategory: String? {
         currentProduct?.category
     }
@@ -95,7 +99,7 @@ class CreateNewProductViewModel {
     
     var productQuantityCount: Double? {
         guard let stringArray = productDescriptionQuantity?.components(separatedBy: .decimalDigits.inverted)
-                                                           .filter({ !$0.isEmpty }),
+            .filter({ !$0.isEmpty }),
               let lastCount = stringArray.first else {
             return nil
         }
@@ -180,26 +184,37 @@ class CreateNewProductViewModel {
     
     func checkIsProductFromCategory(name: String?) {
         guard let arrayOfProductsByCategories,
-              var name = name?.lowercased() else {
+              let name = name?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else {
+            productsChangedCallback?([])
             return
         }
-        name = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        var productTitles: [String] = []
         var product: DBNetProduct?
         for productDB in arrayOfProductsByCategories {
             guard let title = productDB.title?.lowercased()
-                                              .getTitleWithout(symbols: ["(", ")"]) else {
+                .getTitleWithout(symbols: ["(", ")"]) else {
                 return
             }
             
             guard title != name else {
                 product = productDB
+                if name.count > 1, title.count < 40 {
+                    productTitles.append(title)
+                }
                 break
             }
             
             if title.smartContains(name) {
                 product = productDB
+                if name.count > 1, title.count < 40 {
+                    productTitles.append(title)
+                }
             }
         }
+        
+        productTitles += getUserProduct(name: name)
+        productTitles = sortTitle(by: name, titles: productTitles)
+        productsChangedCallback?(productTitles)
         
         guard let product = product else {
             delegate?.selectCategory(text: "other".localized, imageURL: "", defaultSelectedUnit: nil)
@@ -210,10 +225,8 @@ class CreateNewProductViewModel {
     
     func getAllInformation(product: DBNetProduct) {
         let imageUrl = product.photo ?? ""
-        print("Product id \(product.id)")
         let title = product.marketCategory
         let unitId = product.defaultMarketUnitID
-        print("рит = \(unitId)")
         let shouldSelectUnit: MarketUnitClass.MarketUnitPrepared = .init(rawValue: Int(product.defaultMarketUnitID)) ?? .gram
         let properSelectedUnit: UnitSystem = {
             switch shouldSelectUnit {
@@ -239,6 +252,29 @@ class CreateNewProductViewModel {
         delegate?.selectCategory(text: title ?? "other".localized, imageURL: imageUrl, defaultSelectedUnit: currentSelectedUnit)
     }
     
+    private func getUserProduct(name: String) -> [String] {
+        var productTitles: [String] = []
+        if let arrayOfUserProducts {
+            arrayOfUserProducts.forEach { product in
+                if name.count > 1, let productName = product.name,
+                   productName.smartContains(name), productName.count < 30 {
+                    productTitles.append(productName)
+                }
+            }
+        }
+        return productTitles
+    }
+    
+    private func sortTitle(by name: String, titles: [String]) -> [String] {
+        var titles = titles
+        let titleByLetter = titles.filter { $0.prefix(3).lowercased() == name.prefix(3).lowercased() }
+        titleByLetter.forEach { title in
+            titles.removeAll { $0 == title }
+        }
+        
+        return titleByLetter + titles
+    }
+    
     private func sendUserProduct(category: String, product: String) {
         var userToken = Apphud.userID()
         var productId: String?
@@ -256,7 +292,7 @@ class CreateNewProductViewModel {
         if let userCategory = CoreDataManager.shared.getAllCategories()?.first(where: { category == $0.name }) {
             categoryId = "\(userCategory.id)"
         }
-
+        
         let userProduct = UserProduct(userToken: userToken,
                                       itemId: productId,
                                       itemTitle: product,

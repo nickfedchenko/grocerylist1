@@ -91,26 +91,7 @@ final class SharingView: UIView {
             firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
             return
         }
-        switch images.count {
-        case 1:
-            activeImageViews = [firstImageView]
-            firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
-        case 3:
-            activeImageViews = [thirdImageView, secondImageView, firstImageView]
-            secondImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-42) }
-            thirdImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-70) }
-            thirdImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
-        case 4:
-            activeImageViews = allImageViews.reversed()
-            secondImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-32) }
-            thirdImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-50) }
-            fourthImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-68) }
-            fourthImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
-        default:
-            activeImageViews = [secondImageView, firstImageView]
-            secondImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-44) }
-            secondImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
-        }
+        updateActiveImageViewsConstraints(imageCount: images.count)
         
         activeImageViews.enumerated().forEach { index, imageView in
             imageView.isHidden = false
@@ -138,6 +119,29 @@ final class SharingView: UIView {
             countLabel.text = "\(images.count - 1)"
             firstImageView.image = nil
             firstImageView.backgroundColor = UIColor(hex: "#00D6A3")
+        }
+    }
+    
+    private func updateActiveImageViewsConstraints(imageCount: Int) {
+        switch imageCount {
+        case 1:
+            activeImageViews = [firstImageView]
+            firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
+        case 3:
+            activeImageViews = [thirdImageView, secondImageView, firstImageView]
+            secondImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-42) }
+            thirdImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-70) }
+            thirdImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
+        case 4:
+            activeImageViews = allImageViews.reversed()
+            secondImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-32) }
+            thirdImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-50) }
+            fourthImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-68) }
+            fourthImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
+        default:
+            activeImageViews = [secondImageView, firstImageView]
+            secondImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-44) }
+            secondImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
         }
     }
     

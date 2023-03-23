@@ -55,7 +55,7 @@ enum EventName: String {
     case photoDelete = "photo_delete"
     case itemQuantityButtons = "item_quantity_buttons"
     case itemUnitsButton = "item_units_button"
-    case itemPredictAdd = "item_predict_add" // нет этого функционала - нажал на предложенное слово в предикт наборе
+    case itemPredictAdd = "item_predict_add"
     
     // Sharing
     case signInEmail = "sign_in_email"

@@ -5,7 +5,6 @@
 //  Created by Хандымаа Чульдум on 16.02.2023.
 //
 
-
 import Kingfisher
 import UIKit
 

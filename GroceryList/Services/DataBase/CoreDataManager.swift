@@ -113,6 +113,14 @@ class CoreDataManager {
         try? context.save()
     }
     
+    func getAllProducts() -> [DBProduct]? {
+        let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
+            return nil
+        }
+        return object
+    }
+    
     // MARK: - NetworkProducts
     
     func createNetworkProduct(product: NetworkProductModel, context: NSManagedObjectContext) {
