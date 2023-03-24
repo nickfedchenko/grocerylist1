@@ -195,22 +195,21 @@ class CreateNewProductViewModel {
     
     func checkIsProductFromCategory(name: String?) {
         guard let arrayOfProductsByCategories,
-              let name = name?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else {
+              let name = name?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+                                           .getTitleWithout(symbols: ["(", ")"]) else {
             productsChangedCallback?([])
             return
         }
         var productTitles: [String] = []
         var product: DBNetProduct?
         for productDB in arrayOfProductsByCategories {
-            guard let title = productDB.title?.lowercased()
-                .getTitleWithout(symbols: ["(", ")"]) else {
-                return
-            }
+            guard let productTitle = productDB.title else { return }
+            let title = productTitle.lowercased().getTitleWithout(symbols: ["(", ")"])
             
             guard title != name else {
                 product = productDB
                 if name.count > 1, title.count < 40 {
-                    productTitles.append(title)
+                    productTitles.append(productTitle)
                 }
                 break
             }
@@ -218,7 +217,7 @@ class CreateNewProductViewModel {
             if title.smartContains(name) {
                 product = productDB
                 if name.count > 1, title.count < 40 {
-                    productTitles.append(title)
+                    productTitles.append(productTitle)
                 }
             }
         }
@@ -226,6 +225,10 @@ class CreateNewProductViewModel {
         productTitles += getUserProduct(name: name)
         productTitles = sortTitle(by: name, titles: productTitles)
         productsChangedCallback?(productTitles)
+        
+        if let updateProduct = arrayOfProductsByCategories.first(where: { $0.title == productTitles.first }) {
+            product = updateProduct
+        }
         
         guard let product = product else {
             delegate?.selectCategory(text: "other".localized, imageURL: "", defaultSelectedUnit: nil)
@@ -238,6 +241,7 @@ class CreateNewProductViewModel {
         let imageUrl = product.photo ?? ""
         let title = product.marketCategory
         let unitId = product.defaultMarketUnitID
+        let productTitle = product.title
         let shouldSelectUnit: MarketUnitClass.MarketUnitPrepared = .init(rawValue: Int(product.defaultMarketUnitID)) ?? .gram
         let properSelectedUnit: UnitSystem = {
             switch shouldSelectUnit {
@@ -277,8 +281,9 @@ class CreateNewProductViewModel {
     }
     
     private func sortTitle(by name: String, titles: [String]) -> [String] {
+        let count = name.count
         var titles = titles
-        let titleByLetter = titles.filter { $0.prefix(3).lowercased() == name.prefix(3).lowercased() }
+        let titleByLetter = titles.filter { $0.prefix(count).lowercased() == name.prefix(count).lowercased() }
         titleByLetter.forEach { title in
             titles.removeAll { $0 == title }
         }

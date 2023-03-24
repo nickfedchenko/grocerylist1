@@ -51,6 +51,7 @@
 		33897D1329C87F11009C6932 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33897D1229C87F11009C6932 /* GoogleService-Info.plist */; };
 		338EB6B429C1BACC00D6A03F /* SearchInRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */; };
 		338EB6B629C1BEED00D6A03F /* SearchInRecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338EB6B529C1BEED00D6A03F /* SearchInRecipeViewModel.swift */; };
+		3391163329CD96E700881E1D /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3391163229CD96E700881E1D /* ActivityIndicatorView.swift */; };
 		339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339C1AEA299A67DD0092F93E /* InfoMessageView.swift */; };
 		33D912BE29A342AA00C32117 /* NumberExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D912BD29A342AA00C32117 /* NumberExtensions.swift */; };
 		33D912C029A396A900C32117 /* MoreRecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D912BF29A396A900C32117 /* MoreRecipeCell.swift */; };
@@ -284,6 +285,7 @@
 		33897D1229C87F11009C6932 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInRecipeViewController.swift; sourceTree = "<group>"; };
 		338EB6B529C1BEED00D6A03F /* SearchInRecipeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInRecipeViewModel.swift; sourceTree = "<group>"; };
+		3391163229CD96E700881E1D /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
 		339C1AEA299A67DD0092F93E /* InfoMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMessageView.swift; sourceTree = "<group>"; };
 		33D912BD29A342AA00C32117 /* NumberExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberExtensions.swift; sourceTree = "<group>"; };
 		33D912BF29A396A900C32117 /* MoreRecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreRecipeCell.swift; sourceTree = "<group>"; };
@@ -1168,6 +1170,7 @@
 			isa = PBXGroup;
 			children = (
 				B36AF9402913D37300944E9D /* CustomSegmentControl.swift */,
+				3391163229CD96E700881E1D /* ActivityIndicatorView.swift */,
 			);
 			path = CustomUiElements;
 			sourceTree = "<group>";
@@ -1885,6 +1888,7 @@
 				B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */,
 				389DCF4E2946534300DB9382 /* RecipeServingSelector.swift in Sources */,
 				B381EF31299BAA4800DCDE40 /* EnterNewPasswordViewController.swift in Sources */,
+				3391163329CD96E700881E1D /* ActivityIndicatorView.swift in Sources */,
 				B381EF18299A02A100DCDE40 /* DomainUser+CoreDataClass.swift in Sources */,
 				3379B65529B9AEC10080923A /* IngredientViewController.swift in Sources */,
 				846600E9294A024800D85415 /* DBRecipe+CoreDataClass.swift in Sources */,

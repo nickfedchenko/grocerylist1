@@ -131,7 +131,7 @@ class SettingsViewController: UIViewController {
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
-        view.addSubviews([preferenciesLabel, closeButton, profileView, unitsView,
+        view.addSubviews([preferenciesLabel, closeButton, profileView, unitsView, likeAppView,
                           hapticView, showProductImageView, contactUsView, selectUnitsView,
                           registerView])
         
@@ -169,15 +169,15 @@ class SettingsViewController: UIViewController {
             make.height.equalTo(54)
         }
         
-//        likeAppView.snp.makeConstraints { make in
-//            make.left.right.equalToSuperview().inset(20)
-//            make.top.equalTo(hapticView.snp.bottom)
-//            make.height.equalTo(54)
-//        }
+        likeAppView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(20)
+            make.top.equalTo(showProductImageView.snp.bottom)
+            make.height.equalTo(54)
+        }
         
         contactUsView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
-            make.top.equalTo(showProductImageView.snp.bottom)
+            make.top.equalTo(likeAppView.snp.bottom)
             make.height.equalTo(54)
         }
         

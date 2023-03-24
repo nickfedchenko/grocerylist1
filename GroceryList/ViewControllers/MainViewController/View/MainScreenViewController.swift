@@ -76,6 +76,7 @@ class MainScreenViewController: UIViewController {
         return imageView
     }()
     
+    private let activityView = ActivityIndicatorView()
     private let contextMenu = MainScreenMenuView()
     private var menuTapRecognizer = UITapGestureRecognizer()
     private var initAnalytic = false
@@ -91,6 +92,45 @@ class MainScreenViewController: UIViewController {
         addRecognizer()
         createTableViewDataSource()
         setupContextMenu()
+        viewModelChanges()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.collectionView.reloadData()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard var snapshot = collectionViewDataSource?.snapshot() else { return }
+        snapshot.deleteAllItems()
+        collectionViewDataSource?.apply(snapshot)
+        viewModel?.reloadDataFromStorage()
+        updateRecipeCollectionView()
+        updateImageConstraint()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        bottomCreateListView.startAnimating()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !initAnalytic {
+            viewModel?.analytic()
+            initAnalytic.toggle()
+        }
+    }
+    
+    // MARK: - Functions
+    private func createAttributedString(title: String, color: UIColor = .white) -> NSAttributedString {
+        NSAttributedString(string: title, attributes: [
+            .font: UIFont.SFPro.bold(size: 18).font ?? UIFont(),
+            .foregroundColor: color
+        ])
+    }
+    
+    private func viewModelChanges() {
         viewModel?.reloadDataCallBack = { [weak self] in
             self?.reloadData()
             self?.updateImageConstraint()
@@ -114,53 +154,19 @@ class MainScreenViewController: UIViewController {
                 self?.navigationController?.pushViewController(view, animated: true)
             }
         }
-            
-            viewModel?.updateCells = { setOfLists in
+        
+        viewModel?.updateCells = { setOfLists in
             self.reloadItems(lists: setOfLists)
             self.updateImageConstraint()
-
+            
         }
-    
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            self.collectionView.reloadData()
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        guard var snapshot = collectionViewDataSource?.snapshot() else { return }
-        snapshot.deleteAllItems()
-        collectionViewDataSource?.apply(snapshot)
-        viewModel?.reloadDataFromStorage()
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            self?.viewModel?.updateFavorites()
-            self?.viewModel?.updateCustomSection()
+        
+        viewModel?.updateRecipeLoaded = { [weak self] in
             DispatchQueue.main.async {
+                self?.activityView.removeFromView()
                 self?.recipesCollectionView.reloadData()
             }
         }
-        updateImageConstraint()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        bottomCreateListView.startAnimating()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if !initAnalytic {
-            viewModel?.analytic()
-            initAnalytic.toggle()
-        }
-    }
-    
-    // MARK: - Functions
-    private func createAttributedString(title: String, color: UIColor = .white) -> NSAttributedString {
-        NSAttributedString(string: title, attributes: [
-            .font: UIFont.SFPro.bold(size: 18).font ?? UIFont(),
-            .foregroundColor: color
-        ])
     }
     
     private func updateImageConstraint() {
@@ -192,7 +198,7 @@ class MainScreenViewController: UIViewController {
     
     private func setupContextMenu() {
         contextMenu.isHidden = true
-        
+        menuTapRecognizer.isEnabled = false
         contextMenu.selectedState = { [weak self] state in
             self?.contextMenu.fadeOut {
                 switch state {
@@ -206,10 +212,25 @@ class MainScreenViewController: UIViewController {
         }
     }
     
+    private func updateRecipeCollectionView() {
+        if InternetConnection.isConnected() {
+            activityView.show(for: recipesCollectionView)
+        } else {
+            activityView.removeFromView()
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                self?.viewModel?.updateFavorites()
+                self?.viewModel?.updateCustomSection()
+                DispatchQueue.main.async {
+                    self?.recipesCollectionView.reloadData()
+                }
+            }
+        }
+    }
+    
     // MARK: - UI
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
-        view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView, contextMenu])
+        view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView, contextMenu, activityView])
         bottomCreateListView.addSubviews([plusImage, createListLabel])
         collectionView.addSubview(foodImage)
         collectionView.snp.makeConstraints { make in
@@ -226,6 +247,31 @@ class MainScreenViewController: UIViewController {
             make.leading.equalTo(collectionView.snp.trailing)
         }
         
+        bottomCreateListViewMakeConstraints()
+        
+        foodImage.snp.makeConstraints { make in
+            make.bottom.equalTo(collectionView.contentSize.height)
+            make.left.right.equalToSuperview().inset(20)
+            make.height.equalTo(400)
+            make.centerX.equalToSuperview()
+        }
+        
+        contextMenu.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(10)
+            make.trailing.equalToSuperview().offset(-68)
+            make.height.equalTo(contextMenu.requiredHeight)
+            make.width.equalTo(254)
+        }
+        
+        activityView.snp.makeConstraints { make in
+            make.width.equalTo(self.view.bounds.width)
+            make.top.equalTo(collectionView).offset(97)
+            make.bottom.equalToSuperview()
+            make.leading.equalTo(collectionView.snp.trailing)
+        }
+    }
+    
+    private func bottomCreateListViewMakeConstraints() {
         bottomCreateListView.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
             make.height.equalTo(86)
@@ -240,20 +286,6 @@ class MainScreenViewController: UIViewController {
         createListLabel.snp.makeConstraints { make in
             make.left.equalTo(plusImage.snp.right).inset(-8)
             make.centerY.equalTo(plusImage)
-        }
-        
-        foodImage.snp.makeConstraints { make in
-            make.bottom.equalTo(collectionView.contentSize.height)
-            make.left.right.equalToSuperview().inset(20)
-            make.height.equalTo(400)
-            make.centerX.equalToSuperview()
-        }
-        
-        contextMenu.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(10)
-            make.trailing.equalToSuperview().offset(-68)
-            make.height.equalTo(contextMenu.requiredHeight)
-            make.width.equalTo(254)
         }
     }
 }
@@ -455,10 +487,13 @@ extension MainScreenViewController: UICollectionViewDataSource {
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
         guard indexPath.section > 0,
-              let header = collectionView.reusableHeader(classHeader: RecipesFolderHeader.self, indexPath: indexPath),
-              let sectionModel = viewModel?.dataSource?.recipesSections[safe: indexPath.section] else {
+                let header = collectionView.reusableHeader(classHeader: RecipesFolderHeader.self, indexPath: indexPath) else {
             return UICollectionReusableView()
         }
+        guard let sectionModel = viewModel?.dataSource?.recipesSections[safe: indexPath.section] else {
+            return header
+        }
+        
         header.configure(with: sectionModel, at: indexPath.section)
         header.delegate = self
         return header

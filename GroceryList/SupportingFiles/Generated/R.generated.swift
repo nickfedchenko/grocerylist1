@@ -262,12 +262,12 @@ struct _R {
       /// Locales: en, ru, fr, de
       var create: RswiftResources.StringResource { .init(key: "Create", tableName: "Localizable", source: source, developmentValue: "Create", comment: nil) }
 
-      /// en translation: CreateList
+      /// en translation: Create List
       ///
       /// Key: CreateList
       ///
       /// Locales: en, ru, fr, de
-      var createList: RswiftResources.StringResource { .init(key: "CreateList", tableName: "Localizable", source: source, developmentValue: "CreateList", comment: nil) }
+      var createList: RswiftResources.StringResource { .init(key: "CreateList", tableName: "Localizable", source: source, developmentValue: "Create List", comment: nil) }
 
       /// en translation: Create lists with one touch Products are automatically categorized. No more running around the supermarket
       ///

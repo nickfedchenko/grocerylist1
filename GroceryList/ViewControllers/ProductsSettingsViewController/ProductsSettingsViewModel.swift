@@ -112,6 +112,7 @@ class ProductsSettingsViewModel {
         case TableViewContent.copy.rawValue...TableViewContent.print.rawValue:
             sendSnapshot(at: ind)
         case TableViewContent.send.rawValue:
+            AmplitudeManager.shared.logEvent(.listSendedText)
             router?.showActivityVC(image: [listByText])
         case TableViewContent.delete.rawValue:
             CoreDataManager.shared.removeList(model.id)
