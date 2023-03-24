@@ -199,7 +199,7 @@ class SharedListManager {
             localList.isShared = true
             localList.sharedId = sharedModel.groceryListId
             localList.isSharedListOwner = sharedModel.isOwner
-            localList.isShowImage = sharedList.isShowImage
+            localList.isShowImage = sharedList.isShowImage ?? .nothing
             arrayOfLists.append(localList)
         }
 
@@ -239,7 +239,7 @@ class SharedListManager {
                                  products: arrayOfProducts,
                                  typeOfSorting: sharedList.typeOfSorting,
                                  isSharedListOwner: sharedList.isSharedListOwner,
-                                 isShowImage: sharedList.isShowImage)
+                                 isShowImage: sharedList.isShowImage ?? .nothing)
     }
 
     /// трансформим временную модель в постоянную

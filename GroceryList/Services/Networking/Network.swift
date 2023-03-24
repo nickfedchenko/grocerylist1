@@ -73,66 +73,66 @@ enum RequestGenerator: Codable {
         case .getItems:
             return requestCreator(basicURL: getUrlForItems(), method: .get) { _ in }
         case .logIn(let email, let password):
-            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/login", method: .post) { components in
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/login", method: .post) { components in
                 injectEmailAndPassword(in: &components, email: email, password: password)
             }
         case .createUser(let email, let password):
-            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/register", method: .post) { components in
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/register", method: .post) { components in
                 injectEmailAndPassword(in: &components, email: email, password: password)
             }
         case .updateUsername(let userToken, let newName):
-            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/name", method: .post) { components in
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/name", method: .post) { components in
                 injectUserTokenAndNewName(in: &components, userToken: userToken, newName: newName)
             }
         case .checkEmail(email: let email):
-            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/email", method: .get) { components in
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/email", method: .get) { components in
                 injectEmail(in: &components, email: email)
             }
         case .resendVerification(let email):
-            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/register/resend", method: .post) { components in
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/register/resend", method: .post) { components in
                 injectEmail(in: &components, email: email)
             }
         case .passwordReset(let email):
-            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/password/request", method: .post) { components in
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/password/request", method: .post) { components in
                 injectEmail(in: &components, email: email)
             }
         case .updatePassword(let newPassword, let resetToken):
-            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/password/update", method: .post) { components in
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/password/update", method: .post) { components in
                 injectNewPasswordAndResetToken(in: &components, newPassword: newPassword, resetToken: resetToken)
             }
         case .deleteUser(userToken: let userToken):
-            return requestCreator(basicURL: "https://newketo.finanse.space/api/user/delete", method: .post) { components in
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/delete", method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
             }
         case .groceryListRelease(userToken: let userToken, sharingToken: let sharingToken):
-            return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/release", method: .post) { components in
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/groceryList/release", method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectSharingToken(in: &components, sharingToken: sharingToken)
             }
         case .groceryListDelete(userToken: let userToken, listId: let listId):
-            return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/delete", method: .post) { components in
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/groceryList/delete", method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectListId(in: &components, listId: listId)
             }
         case .fetchMyGroceryLists(userToken: let userToken):
-            return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/fetch",
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/groceryList/fetch",
                                   method: .get) { components in
                 injectUserToken(in: &components, userToken: userToken)
             }
         case .fetchGroceryListUsers(userToken: let userToken, listId: let listId):
-            return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/fetch/users",
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/groceryList/fetch/users",
                                   method: .get) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectListId(in: &components, listId: listId)
             }
         case .groceryListUserDelete(userToken: let userToken, listId: let listId):
-            return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/users/delete",
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/groceryList/users/delete",
                                   method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectListId(in: &components, listId: listId)
             }
         case .shareGroceryList(userToken: let userToken, listId: let listId):
-            return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/share",
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/groceryList/share",
                                   method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 if let listId = listId {
@@ -140,7 +140,7 @@ enum RequestGenerator: Codable {
                 }
             }
         case .updateGroceryList(userToken: let userToken, listId: let listId):
-            return requestCreator(basicURL: "https://newketo.finanse.space/api/groceryList/update",
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/groceryList/update",
                                   method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectListId(in: &components, listId: listId)
@@ -157,7 +157,7 @@ enum RequestGenerator: Codable {
     var multiformRequestObject: (MultipartFormData, URL) {
         switch self {
         case .uploadAvatar(let token, let data):
-            guard var components = URLComponents(string: "https://newketo.finanse.space/api/user/avatar") else {
+            guard var components = URLComponents(string: "https://ketodietapplication.site/api/user/avatar") else {
                 fatalError("Error With Creating Components")
             }
             
@@ -366,6 +366,7 @@ final class NetworkEngine {
                     
                 } else {
                     guard let dataModel = try? decoder.decode(T.self, from: data) else {
+                        print("\(T.self)")
                         print("errModel")
                         return
                     }
@@ -398,6 +399,7 @@ final class NetworkEngine {
             }
             
             guard let dataModel = try? decoder.decode(T.self, from: data) else {
+                print("\(T.self)")
                 print("errModel")
                 return
             }
