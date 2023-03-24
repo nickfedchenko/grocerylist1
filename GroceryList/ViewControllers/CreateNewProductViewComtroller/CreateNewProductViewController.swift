@@ -864,6 +864,12 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         topCategoryLabel.text = text
         isCategorySelected = !text.isEmpty
         
+        if !imageURL.isEmpty, let defaultSelectedUnit {
+            selectUnitLabel.text = defaultSelectedUnit.rawValue.localized
+        } else {
+            selectUnitLabel.text = UnitSystem.piece.rawValue
+        }
+        
         if isCategorySelected {
             readyToSave()
         } else {
