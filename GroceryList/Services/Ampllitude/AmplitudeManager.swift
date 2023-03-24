@@ -51,6 +51,7 @@ enum EventName: String {
     case listDelete = "list_delete"
     case categoryChange = "category_change"
     case categoryNew = "category_new"
+    case listSendedText = "Shoppinglist_Sended_text"
     
     // CreateItem
     case photoAdd = "photo_add"

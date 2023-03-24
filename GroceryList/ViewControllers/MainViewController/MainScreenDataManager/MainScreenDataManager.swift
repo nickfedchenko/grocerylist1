@@ -11,6 +11,7 @@ protocol DataSourceProtocol {
     var imageHeight: ImageHeight { get set }
     var dataSourceArray: [SectionModel] { get set }
     var dataChangedCallBack: (() -> Void)? { get set }
+    var recipeUpdate: (() -> Void)? { get set }
     var setOfModelsToUpdate: Set<GroceryListsModel> { get set }
     @discardableResult func updateListOfModels() -> Set<GroceryListsModel>
     func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel>
@@ -25,6 +26,7 @@ protocol DataSourceProtocol {
 class MainScreenDataManager: DataSourceProtocol {
     
     var dataChangedCallBack: (() -> Void)?
+    var recipeUpdate: (() -> Void)?
     var setOfModelsToUpdate: Set<GroceryListsModel> = []
     var recipesSections: [RecipeSectionsModel] = []
     
@@ -154,6 +156,7 @@ class MainScreenDataManager: DataSourceProtocol {
     @objc
     private func recieptsLoaded() {
         makeRecipesSections()
+        recipeUpdate?()
     }
     
     private func createWorkingArray() {
