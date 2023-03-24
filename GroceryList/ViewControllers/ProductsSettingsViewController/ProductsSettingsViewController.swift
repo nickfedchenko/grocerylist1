@@ -42,7 +42,7 @@ class ProductsSettingsViewController: UIViewController {
     // MARK: - swipeDown
     
     private func hidePanel(compl: (() -> Void)?) {
-        updateConstr(with: -602, alpha: 0)
+        updateConstr(with: -700, alpha: 0)
        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.dismiss(animated: false, completion: compl)
