@@ -251,8 +251,8 @@ class CreateNewProductViewController: UIViewController {
         setupBackgroundColor()
         addRecognizers()
         setupTableView()
-        setupProduct()
         setupImage(isVisible: viewModel?.isVisibleImage ?? UserDefaultsManager.isShowImage)
+        setupProduct()
     }
     
     override func viewDidAppear(_ animated: Bool) {
