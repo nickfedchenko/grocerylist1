@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 199 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 200 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -262,12 +262,12 @@ struct _R {
       /// Locales: en, ru, fr, de
       var create: RswiftResources.StringResource { .init(key: "Create", tableName: "Localizable", source: source, developmentValue: "Create", comment: nil) }
 
-      /// en translation: CreateList
+      /// en translation: Create List
       ///
       /// Key: CreateList
       ///
       /// Locales: en, ru, fr, de
-      var createList: RswiftResources.StringResource { .init(key: "CreateList", tableName: "Localizable", source: source, developmentValue: "CreateList", comment: nil) }
+      var createList: RswiftResources.StringResource { .init(key: "CreateList", tableName: "Localizable", source: source, developmentValue: "Create List", comment: nil) }
 
       /// en translation: Create lists with one touch Products are automatically categorized. No more running around the supermarket
       ///
@@ -1305,6 +1305,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var password: RswiftResources.StringResource { .init(key: "password", tableName: "Localizable", source: source, developmentValue: "Password", comment: nil) }
 
+      /// en translation: Picture matching
+      ///
+      /// Key: pictureMatching
+      ///
+      /// Locales: en, ru, fr, de
+      var pictureMatching: RswiftResources.StringResource { .init(key: "pictureMatching", tableName: "Localizable", source: source, developmentValue: "Picture matching", comment: nil) }
+
       /// en translation: pc
       ///
       /// Key: piece
@@ -1483,7 +1490,7 @@ struct _R {
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 143 images.
+  /// This `_R.image` struct is generated, and contains static references to 146 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1510,6 +1517,9 @@ struct _R {
 
     /// Image `#reciept`.
     var reciept: RswiftResources.ImageResource { .init(name: "#reciept", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `#trash`.
+    var trash: RswiftResources.ImageResource { .init(name: "#trash", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `#whiteCross`.
     var whiteCross: RswiftResources.ImageResource { .init(name: "#whiteCross", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -1595,6 +1605,9 @@ struct _R {
     /// Image `Time`.
     var time: RswiftResources.ImageResource { .init(name: "Time", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `Trash_red`.
+    var trash_red: RswiftResources.ImageResource { .init(name: "Trash_red", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `ViewUnderRegisterButton`.
     var viewUnderRegisterButton: RswiftResources.ImageResource { .init(name: "ViewUnderRegisterButton", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -1627,6 +1640,9 @@ struct _R {
 
     /// Image `camera`.
     var camera: RswiftResources.ImageResource { .init(name: "camera", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `carrot_image`.
+    var carrot_image: RswiftResources.ImageResource { .init(name: "carrot_image", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `cart`.
     var cart: RswiftResources.ImageResource { .init(name: "cart", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

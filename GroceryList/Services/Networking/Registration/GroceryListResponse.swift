@@ -83,6 +83,7 @@ struct SharedGroceryList: Codable {
     var sharedId: String?
     var isShared: Bool? = false
     var isSharedListOwner: Bool
+    var isShowImage: PictureMatchingState? = .nothing
 }
 
 struct SharedProduct: Codable {

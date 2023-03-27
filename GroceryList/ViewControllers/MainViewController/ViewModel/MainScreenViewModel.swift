@@ -14,6 +14,7 @@ class MainScreenViewModel {
     weak var router: RootRouter?
     var reloadDataCallBack: (() -> Void)?
     var updateRecipeCollection: (() -> Void)?
+    var updateRecipeLoaded: (() -> Void)?
     var addCustomRecipe: ((Recipe) -> Void)?
     var updateCells:((Set<GroceryListsModel>) -> Void)?
     var dataSource: DataSourceProtocol?
@@ -69,6 +70,9 @@ class MainScreenViewModel {
         self.dataSource = dataSource
         self.dataSource?.dataChangedCallBack = { [weak self] in
             self?.reloadDataCallBack?()
+        }
+        self.dataSource?.recipeUpdate = { [weak self] in
+            self?.updateRecipeLoaded?()
         }
         addObserver()
         downloadMySharedLists()
@@ -221,7 +225,7 @@ class MainScreenViewModel {
             let favoriteProducts = list.products.filter { $0.isFavorite }
             selectedItemsCount += purchasedProducts.count
             unselectedItemsCount += nonPurchasedProducts.count
-            favoriteListsCount += favoriteProducts.count
+            favoriteItemsCount += favoriteProducts.count
             if list.isFavorite {
                 favoriteListsCount += 1
             }

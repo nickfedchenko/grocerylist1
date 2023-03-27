@@ -36,9 +36,23 @@ class SettingsViewController: UIViewController {
         return view
     }()
     
-    private let hapticView: SettingsParametrView = {
+    private lazy var hapticView: SettingsParametrView = {
         let view = SettingsParametrView()
-        view.setupView(text: "Haptic Feedback".localized, isHaptickView: true)
+        view.setupView(text: "Haptic Feedback".localized, isSwitchView: true)
+        view.updateSwitcher(isOn: UserDefaultsManager.isHapticOn)
+        view.switchValueChanged = { switchValue in
+            UserDefaultsManager.isHapticOn = switchValue
+        }
+        return view
+    }()
+    
+    private lazy var showProductImageView: SettingsParametrView = {
+        let view = SettingsParametrView()
+        view.setupView(text: R.string.localizable.pictureMatching(), isSwitchView: true)
+        view.updateSwitcher(isOn: UserDefaultsManager.isShowImage)
+        view.switchValueChanged = { switchValue in
+            UserDefaultsManager.isShowImage = switchValue
+        }
         return view
     }()
     
@@ -117,8 +131,9 @@ class SettingsViewController: UIViewController {
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
-        view.addSubviews([preferenciesLabel, closeButton, profileView, unitsView,
-                          hapticView, contactUsView, selectUnitsView, registerView])
+        view.addSubviews([preferenciesLabel, closeButton, profileView, unitsView, likeAppView,
+                          hapticView, showProductImageView, contactUsView, selectUnitsView,
+                          registerView])
         
         preferenciesLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
@@ -148,15 +163,21 @@ class SettingsViewController: UIViewController {
             make.height.equalTo(54)
         }
         
-//        likeAppView.snp.makeConstraints { make in
-//            make.left.right.equalToSuperview().inset(20)
-//            make.top.equalTo(hapticView.snp.bottom)
-//            make.height.equalTo(54)
-//        }
+        showProductImageView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(20)
+            make.top.equalTo(hapticView.snp.bottom)
+            make.height.equalTo(54)
+        }
+        
+        likeAppView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(20)
+            make.top.equalTo(showProductImageView.snp.bottom)
+            make.height.equalTo(54)
+        }
         
         contactUsView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
-            make.top.equalTo(hapticView.snp.bottom)
+            make.top.equalTo(likeAppView.snp.bottom)
             make.height.equalTo(54)
         }
         

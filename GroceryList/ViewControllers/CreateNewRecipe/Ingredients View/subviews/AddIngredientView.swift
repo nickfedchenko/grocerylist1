@@ -10,6 +10,7 @@ import UIKit
 protocol AddIngredientViewDelegate: AnyObject {
     func productInput(title: String?)
     func quantityInput()
+    func isFirstResponderProductTextField(_ flag: Bool)
 }
 
 class AddIngredientView: UIView {
@@ -149,6 +150,7 @@ extension AddIngredientView: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        delegate?.isFirstResponderProductTextField(textField == productTextField)
         if textField == quantityTextField {
             delegate?.quantityInput()
         }
@@ -163,6 +165,7 @@ extension AddIngredientView: UITextFieldDelegate {
 
 extension AddIngredientView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
+        delegate?.isFirstResponderProductTextField(false)
         descriptionTextView.checkPlaceholder()
     }
     

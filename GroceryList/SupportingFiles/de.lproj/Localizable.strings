@@ -37,6 +37,7 @@
 "byTime"                    = "Mit der Zeit hinzugefügt";
 "byAlphabet"                = "alphabetisch";
 "copy"                      = "In Galerie speichern";
+"pictureMatching"           = "Bildanpassung";
 "print"                     = "Siegel";
 "send"                      = "Schicken";
 "delete"                    = "Löschen";

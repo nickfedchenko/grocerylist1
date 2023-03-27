@@ -16,7 +16,7 @@
 //"AddRecipes"                = "Add recipes to the collection and shopping list from the Internet";
 "Grocery Lists"             = "Grocery Lists";
 "Recipes"                   = "Recipes";
-"CreateList"                = "CreateList";
+"CreateList"                = "Create List";
 //"Supermarket"               = "Supermarket";
 "today"                     = "Today";
 "week"                      = "Previous 7 days";
@@ -37,6 +37,7 @@
 "byRecipe"                  = "By recipe";
 "byTime"                    = "By time";
 "byAlphabet"                = "Alphabetically";
+"pictureMatching"           = "Picture matching";
 "copy"                      = "Save to Photo";
 "print"                     = "Print";
 "send"                      = "Send";

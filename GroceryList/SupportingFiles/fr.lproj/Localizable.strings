@@ -37,6 +37,7 @@
 "byTime"                    = "Ajouté au fil du temps";
 "byAlphabet"                = "Alphabétique";
 "copy"                      = "Sauvegarder dans la gallerie";
+"pictureMatching"           = "Correspondance d'image";
 "print"                     = "joint";
 "send"                      = "Envoyer";
 "delete"                    = "Éteindre";

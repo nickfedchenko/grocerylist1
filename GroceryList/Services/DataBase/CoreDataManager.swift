@@ -113,6 +113,14 @@ class CoreDataManager {
         try? context.save()
     }
     
+    func getAllProducts() -> [DBProduct]? {
+        let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
+            return nil
+        }
+        return object
+    }
+    
     // MARK: - NetworkProducts
     
     func createNetworkProduct(product: NetworkProductModel, context: NSManagedObjectContext) {
@@ -185,6 +193,7 @@ class CoreDataManager {
         object.isShared = list.isShared
         object.sharedListId = list.sharedId
         object.isSharedListOwner = list.isSharedListOwner
+        object.isShowImage = list.isShowImage.rawValue
         try? context.save()
     }
     
@@ -211,6 +220,7 @@ class CoreDataManager {
             object.typeOfSorting = Int64(list.typeOfSorting)
             object.isShared = list.isShared
             object.sharedListId = list.sharedId
+            object.isShowImage = list.isShowImage.rawValue
         }
         try? context.save()
     }

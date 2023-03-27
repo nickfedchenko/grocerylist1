@@ -28,7 +28,10 @@ class AmplitudeManager {
     func logEvent(_ event: EventName, properties: [String: String]? = nil) {
         logEvent(event.rawValue, properties: properties)
     }
-
+    
+    func setUserProperty(properties: [AnyHashable: Any]) {
+        Amplitude.instance().setUserProperties(properties)
+    }
 }
 
 enum EventName: String {
@@ -48,6 +51,7 @@ enum EventName: String {
     case listDelete = "list_delete"
     case categoryChange = "category_change"
     case categoryNew = "category_new"
+    case listSendedText = "Shoppinglist_Sended_text"
     
     // CreateItem
     case photoAdd = "photo_add"
@@ -55,7 +59,7 @@ enum EventName: String {
     case photoDelete = "photo_delete"
     case itemQuantityButtons = "item_quantity_buttons"
     case itemUnitsButton = "item_units_button"
-    case itemPredictAdd = "item_predict_add" // нет этого функционала - нажал на предложенное слово в предикт наборе
+    case itemPredictAdd = "item_predict_add"
     
     // Sharing
     case signInEmail = "sign_in_email"

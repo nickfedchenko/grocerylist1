@@ -67,6 +67,7 @@ struct GroceryListsModel: Hashable, Codable {
     var sharedId: String = ""
     var isShared: Bool = false
     var isSharedListOwner: Bool = false
+    var isShowImage: PictureMatchingState = .nothing
     
     static func == (lhs: GroceryListsModel, rhs: GroceryListsModel) -> Bool {
         lhs.id == rhs.id
@@ -88,12 +89,13 @@ struct GroceryListsModel: Hashable, Codable {
         sharedId = dbModel.sharedListId ?? ""
         isShared = dbModel.isShared
         isSharedListOwner = dbModel.isSharedListOwner
+        isShowImage = PictureMatchingState(rawValue: dbModel.isShowImage) ?? .nothing
     }
     
     init(id: UUID = UUID(), dateOfCreation: Date,
          name: String? = nil, color: Int, isFavorite: Bool = false,
          products: [Product], typeOfSorting: Int, isShared: Bool = false,
-         sharedId: String = "", isSharedListOwner: Bool = false) {
+         sharedId: String = "", isSharedListOwner: Bool = false, isShowImage: PictureMatchingState = .nothing) {
         self.dateOfCreation = dateOfCreation
         self.color = color
         self.products = products
@@ -104,6 +106,7 @@ struct GroceryListsModel: Hashable, Codable {
         self.isShared = isShared
         self.sharedId = sharedId
         self.isSharedListOwner = isSharedListOwner
+        self.isShowImage = isShowImage
     }
 }
 
@@ -223,4 +226,10 @@ enum TypeOfCell {
     case sortedByDate
     case sortedByRecipe
     case normal
+}
+
+enum PictureMatchingState: Int16, Codable {
+    case nothing
+    case switchOn
+    case switchOff
 }

@@ -213,7 +213,6 @@ class ProductsViewController: UIViewController {
             
             let color = self?.viewModel?.getColorForForeground()
             let bcgColor = self?.viewModel?.getColorForBackground()
-            print("header name is \(parent.name)")
             cell.setupCell(text: parent.name, color: color, bcgColor: bcgColor,
                            isExpand: parent.isExpanded, typeOfCell: parent.typeOFCell)
         }
@@ -391,10 +390,8 @@ extension ProductsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let model = dataSource?.itemIdentifier(for: indexPath) else { return }
-        
         switch model {
-        case .parent(let category):
-            print(category)
+        case .parent: break
         case .child(let product):
             let cell = collectionView.cellForItem(at: indexPath) as? ProductListCell
             idsOfChangedProducts.insert(product.id)

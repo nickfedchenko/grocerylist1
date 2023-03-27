@@ -235,7 +235,7 @@ extension SharingListViewController: UITableViewDataSource {
 
 extension SharingListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? SendInvitationCell else {
+        guard tableView.cellForRow(at: indexPath) as? SendInvitationCell != nil else {
             return
         }
         viewModel?.shareListTapped()

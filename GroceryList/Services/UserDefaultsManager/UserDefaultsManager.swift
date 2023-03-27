@@ -127,6 +127,15 @@ class UserDefaultsManager {
         }
     }
     
+    static var isShowImage: Bool {
+        get {
+            return !UserDefaults.standard.bool(forKey: "isShowImage")
+        }
+        set {
+            UserDefaults.standard.set(!newValue, forKey: "isShowImage")
+        }
+    }
+    
     private static func setValue<T>(value: T, for key: UDKeys) {
         UserDefaults.standard.set(value, forKey: key.rawValue)
     }
