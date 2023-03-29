@@ -63,15 +63,16 @@ final class RootRouter: RootRouterProtocol {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         goToOnboarding()
+        openResetPassword(token: "F")
     }
     
     func openResetPassword(token: String) {
         guard let resetModel = ResetPasswordModelManager.shared.getResetPasswordModel() else { return }
         if resetModel.resetToken == token && Date() < (resetModel.dateOfExpiration + 3600) {
-            goToSettingsController()
+            goToSettingsController(animated: false)
             goToEnterNewPasswordController()
         } else {
-            goToSettingsController()
+            goToSettingsController(animated: false)
             goToPasswordExpiredController()
         }
     }
@@ -158,12 +159,12 @@ final class RootRouter: RootRouterProtocol {
     
     func goToPasswordExpiredController() {
         guard let controller = viewControllerFactory.createPasswordExpiredController(router: self) else { return }
-        navigationPushViewController(controller, animated: true)
+        navigationPushViewController(controller, animated: false)
     }
     
     func goToEnterNewPasswordController() {
         guard let controller = viewControllerFactory.createEnterNewPasswordController(router: self) else { return }
-        navigationPushViewController(controller, animated: true)
+        navigationPushViewController(controller, animated: false)
     }
     
     func goToPaswordResetController(email: String, passwordResetedCompl: @escaping (() -> Void)) {
