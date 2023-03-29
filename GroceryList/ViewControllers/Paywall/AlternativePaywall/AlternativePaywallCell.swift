@@ -145,7 +145,8 @@ class AlternativePaywallCell: UICollectionViewCell {
         if isTopCell { mostPopularView.isHidden = false }
         priceLabel.text = price
         periodLabel.text = period
-        descriptionLabel.text = description
+        perWeekLabel.text = "/ " + period.lowercased()
+        descriptionLabel.text = price
     }
 
     // MARK: - UI
