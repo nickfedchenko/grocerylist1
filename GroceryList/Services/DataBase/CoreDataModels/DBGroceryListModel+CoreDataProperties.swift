@@ -28,21 +28,18 @@ extension DBGroceryListModel {
     @NSManaged public var isSharedListOwner: Bool
     @NSManaged public var isShowImage: Int16
 
-}
-
-// MARK: Generated accessors for products
-extension DBGroceryListModel {
-
-    @objc(addProductsObject:)
-    @NSManaged public func addToProducts(_ value: DBProduct)
-
-    @objc(removeProductsObject:)
-    @NSManaged public func removeFromProducts(_ value: DBProduct)
-
-    @objc(addProducts:)
-    @NSManaged public func addToProducts(_ values: NSSet)
-
-    @objc(removeProducts:)
-    @NSManaged public func removeFromProducts(_ values: NSSet)
-
+    static func prepare(fromPlainModel model: GroceryListsModel, context: NSManagedObjectContext) -> DBGroceryListModel {
+        let object = DBGroceryListModel(context: context)
+        object.id = model.id
+        object.isFavorite = model.isFavorite
+        object.color = Int64(model.color)
+        object.name = model.name
+        object.dateOfCreation = model.dateOfCreation
+        object.typeOfSorting = Int64(model.typeOfSorting)
+        object.isShared = model.isShared
+        object.sharedListId = model.sharedId
+        object.isSharedListOwner = model.isSharedListOwner
+        object.isShowImage = model.isShowImage.rawValue
+        return object
+    }
 }

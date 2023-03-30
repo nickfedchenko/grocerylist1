@@ -45,6 +45,10 @@ final class ShowCollectionViewModel {
                                                object: nil)
     }
     
+    deinit {
+        print("ShowCollectionViewModel deinited")
+    }
+    
     func createCollectionTapped() {
         editCollections = collections.map { $0.collection }
         router?.goToCreateNewCollection(collections: editCollections,
@@ -169,7 +173,7 @@ final class ShowCollectionViewModel {
         } else {
             recipes = Array(Set(collections.flatMap { $0.recipes }))
         }
-        
+
         self.collections.removeAll()
         editCollections.sort { $0.index < $1.index }
         editCollections.forEach { collection in
