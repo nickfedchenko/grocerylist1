@@ -231,7 +231,7 @@ final class IngredientViewModel {
             productId = "\(product.id)"
         }
         
-        if let userCategory = CoreDataManager.shared.getAllCategories()?.first(where: { categoryTitle == $0.name }) {
+        if let userCategory = CoreDataManager.shared.getUserCategories()?.first(where: { categoryTitle == $0.name }) {
             categoryId = "\(userCategory.id)"
         }
         

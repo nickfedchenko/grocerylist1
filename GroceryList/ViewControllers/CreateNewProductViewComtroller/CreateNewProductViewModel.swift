@@ -305,8 +305,8 @@ class CreateNewProductViewModel {
             productId = "\(product.id)"
         }
         
-        if let userCategory = CoreDataManager.shared.getAllCategories()?.first(where: { category == $0.name }) {
-            categoryId = "\(userCategory.id)"
+        if let category = CoreDataManager.shared.getDefaultCategories()?.first(where: { category == $0.name }) {
+            categoryId = "\(category.id)"
         }
         
         let userProduct = UserProduct(userToken: userToken,
