@@ -209,8 +209,8 @@ class SelectCategoryViewController: UIViewController {
         arrowBackButton.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(28)
             make.centerY.equalToSuperview()
-            make.width.equalTo(17)
-            make.height.equalTo(24)
+            make.width.equalTo(44)
+            make.height.equalTo(44)
         }
         
         titleCenterLabel.snp.makeConstraints { make in
@@ -219,8 +219,8 @@ class SelectCategoryViewController: UIViewController {
         
         addButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(26)
-            make.width.equalTo(20)
-            make.height.equalTo(20)
+            make.width.equalTo(44)
+            make.height.equalTo(44)
             make.centerY.equalToSuperview()
         }
         
