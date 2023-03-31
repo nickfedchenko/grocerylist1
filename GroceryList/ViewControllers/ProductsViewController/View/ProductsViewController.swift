@@ -336,7 +336,7 @@ class ProductsViewController: UIViewController {
         arrowBackButton.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(16)
             make.bottom.equalToSuperview().offset(-5)
-            make.height.width.equalTo(40)
+            make.height.width.equalTo(44)
         }
         
         nameOfListLabel.snp.makeConstraints { make in

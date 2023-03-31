@@ -16,6 +16,7 @@ protocol RecipeScreenViewModelProtocol {
     func convertValue() -> Double
     func haveCollections() -> Bool
     func showCollection()
+    var updateCollection: (() -> Void)? { get set }
     var recipe: Recipe { get }
 }
 
@@ -29,6 +30,7 @@ final class RecipeScreenViewModel {
     
     weak var router: RootRouter?
     
+    var updateCollection: (() -> Void)?
     private(set) var recipe: Recipe
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
     private var recipeUnit: RecipeUnit?
@@ -113,7 +115,9 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
     }
     
     func showCollection() {
-        router?.goToShowCollection(state: .select, recipe: recipe)
+        router?.goToShowCollection(state: .select, recipe: recipe, updateUI: { [weak self] in
+            self?.updateCollection?()
+        })
     }
     
     @objc

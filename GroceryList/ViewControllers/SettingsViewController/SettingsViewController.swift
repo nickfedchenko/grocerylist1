@@ -143,7 +143,7 @@ class SettingsViewController: UIViewController {
         closeButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(31)
             make.centerY.equalTo(preferenciesLabel)
-            make.height.width.equalTo(18)
+            make.height.width.equalTo(40)
         }
         
         profileView.snp.makeConstraints { make in

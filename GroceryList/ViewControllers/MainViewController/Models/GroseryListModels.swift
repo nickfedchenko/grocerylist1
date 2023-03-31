@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 struct RecipeSectionsModel {
     enum RecipeCellType {
         case topMenuCell
@@ -38,7 +39,32 @@ struct RecipeSectionsModel {
     
     var cellType: RecipeCellType
     var sectionType: RecipeSectionType
-    var recipes: [Recipe]
+    var recipes: [ShortRecipeModel]
+}
+
+struct ShortRecipeModel {
+    let id: Int
+    let title: String
+    let photo: String
+    var ingredients: [Ingredient]?
+    var localCollection: [CollectionModel]?
+    var localImage: Data?
+    
+    init?(withCollection dbModel: DBRecipe) {
+        id = Int(dbModel.id)
+        title = dbModel.title ?? ""
+        photo = dbModel.photo ?? ""
+        localCollection = (try? JSONDecoder().decode([CollectionModel].self, from: dbModel.localCollection ?? Data()))
+        localImage = dbModel.localImage
+    }
+    
+    init?(withIngredients dbModel: DBRecipe) {
+        id = Int(dbModel.id)
+        title = dbModel.title ?? ""
+        photo = dbModel.photo ?? ""
+        ingredients = (try? JSONDecoder().decode([Ingredient].self, from: dbModel.ingredients ?? Data()))
+        localImage = dbModel.localImage
+    }
 }
 
 struct SectionModel: Hashable {

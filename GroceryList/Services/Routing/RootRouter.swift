@@ -217,10 +217,12 @@ final class RootRouter: RootRouterProtocol {
     
     func goToShowCollection(state: ShowCollectionViewController.ShowCollectionState,
                             recipe: Recipe? = nil,
+                            updateUI: (() -> Void)? = nil,
                             compl: (([CollectionModel]) -> Void)? = nil) {
         let controller = viewControllerFactory.createShowCollectionViewController(router: self,
                                                                                   state: state,
                                                                                   recipe: recipe,
+                                                                                  updateUI: updateUI,
                                                                                   compl: compl)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
