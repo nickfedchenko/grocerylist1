@@ -202,7 +202,7 @@ extension IngredientViewController: IngredientViewModelDelegate {
     }
     
     func unitChange(_ unit: UnitSystem) {
-        quantityView.setUnit(title: unit.rawValue.localized)
+        quantityView.setUnit(title: unit.title)
         quantityView.setQuantityValueStep(unit.stepValue)
         quantityView.setActive(true)
     }
@@ -236,7 +236,7 @@ extension IngredientViewController: QuantityViewDelegate {
     }
     
     func getUnitsNumberOfCells() -> Int {
-        viewModel?.getNumberOfCells() ?? 0
+        viewModel?.getNumberOfCells ?? 0
     }
     
     func getTitleForCell(at index: Int) -> String? {

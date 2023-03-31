@@ -21,7 +21,7 @@ class SelectCategoryDataSource {
     init() {
         usersCategories = CoreDataManager.shared.getUserCategories() ?? []
         defaultCategories = CoreDataManager.shared.getDefaultCategories() ?? []
-        defaultCategories.removeAll { $0.name ?? "" == "other".localized }
+        defaultCategories.removeAll { $0.name ?? "" == R.string.localizable.other() }
         transformCoreDataModels()
         categories = allCategories
         arrayUpdatedCallback?()

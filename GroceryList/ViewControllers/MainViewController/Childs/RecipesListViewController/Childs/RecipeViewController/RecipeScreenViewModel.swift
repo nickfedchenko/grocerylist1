@@ -67,7 +67,7 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
             var unitTitle = ingredient.unit?.shortTitle ?? ""
             if let unit = unit(unitID: ingredient.unit?.id) {
                 targetValue *= convertValue()
-                unitTitle = unit.rawValue.localized
+                unitTitle = unit.title
             }
             
             let unitName = unitTitle

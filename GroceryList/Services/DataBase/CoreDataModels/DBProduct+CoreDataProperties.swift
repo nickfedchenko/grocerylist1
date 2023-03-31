@@ -27,4 +27,5 @@ extension DBProduct {
     @NSManaged public var userDescription: String?
     @NSManaged public var list: DBGroceryListModel?
     @NSManaged public var fromRecipeTitle: String?
+    @NSManaged public var unitId: Int16
 }

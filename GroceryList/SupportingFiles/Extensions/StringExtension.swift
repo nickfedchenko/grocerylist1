@@ -64,4 +64,8 @@ extension String {
         let array : [String] = other.lowercased().components(separatedBy: " ").filter { !$0.isEmpty }
         return array.allSatisfy { (self.lowercased().range(of: $0) != nil) }
     }
+    
+    func prepareForSearch() -> String {
+        return self.lowercased().trimmingCharacters(in: .whitespacesAndNewlines).getTitleWithout(symbols: ["(", ")"])
+    }
 }
