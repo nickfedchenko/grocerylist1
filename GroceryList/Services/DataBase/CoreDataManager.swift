@@ -48,6 +48,7 @@ class CoreDataManager {
         object.image = product.imageData
         object.userDescription = product.description
         object.fromRecipeTitle = product.fromRecipeTitle
+        object.unitId = Int16(product.unitId?.rawValue ?? 0)
         do {
             try context.save()
         } catch let error {

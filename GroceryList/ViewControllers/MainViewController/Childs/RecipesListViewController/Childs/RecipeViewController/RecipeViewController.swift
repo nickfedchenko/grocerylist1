@@ -82,7 +82,7 @@ final class RecipeViewController: UIViewController {
             var unitTitle = ingredient.unit?.shortTitle ?? ""
             if let unit = viewModel.unit(unitID: ingredient.unit?.id) {
                 quantity *= viewModel.convertValue()
-                unitTitle = unit.rawValue.localized
+                unitTitle = unit.title
             }
             let unitCount = quantity
             let unitName = unitTitle

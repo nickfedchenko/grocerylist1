@@ -12,42 +12,46 @@ import UIKit
 
 protocol CreateNewProductViewModelDelegate: AnyObject {
     func presentController(controller: UIViewController?)
-    func selectCategory(text: String, imageURL: String, defaultSelectedUnit: UnitSystem?)
+    func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?)
     func deselectCategory()
     func setupController(step: Int)
 }
 
 class CreateNewProductViewModel {
     
-    var valueChangedCallback: ((Product) -> Void)?
     weak var delegate: CreateNewProductViewModelDelegate?
     weak var router: RootRouter?
+    
+    var valueChangedCallback: ((Product) -> Void)?
+    var productsChangedCallback: (([String]) -> Void)?
+    
     var model: GroceryListsModel?
-    private var colorManager = ColorManager()
-    var arrayOfProductsByCategories: [DBNetProduct]?
-    var arrayOfUserProducts: [DBProduct]?
-    var isMetricSystem = UserDefaultsManager.isMetricSystem
     var currentSelectedUnit: UnitSystem = .gram
     var currentProduct: Product?
-    var productsChangedCallback: (([String]) -> Void)?
+    
     private let network = NetworkEngine()
+    private var colorManager = ColorManager()
+    private var networkProducts: [DBNetProduct]?
+    private var userProducts: [DBProduct]?
+    private var networkProductTitles: [String] = []
+    private var userProductTitles: [String] = []
+    private var isMetricSystem = UserDefaultsManager.isMetricSystem
     
     init() {
-        arrayOfProductsByCategories = CoreDataManager.shared.getAllNetworkProducts()?
+        networkProducts = CoreDataManager.shared.getAllNetworkProducts()?
             .sorted(by: { $0.title ?? "" < $1.title ?? "" })
-        arrayOfUserProducts = CoreDataManager.shared.getAllProducts()?
+        userProducts = CoreDataManager.shared.getAllProducts()?
             .sorted(by: { $0.name ?? "" < $1.name ?? "" })
+        
+        networkProductTitles = networkProducts?.compactMap({ $0.title }) ?? []
+        userProductTitles = userProducts?.compactMap({ $0.name }) ?? []
     }
     
     var selectedUnitSystemArray: [UnitSystem] {
-        if isMetricSystem {
-            return arrayForMetricSystem
-        } else {
-            return arrayForImperalSystem
-        }
+        isMetricSystem ? arrayForMetricSystem : arrayForImperalSystem
     }
     
-    var arrayForMetricSystem: [UnitSystem] = [
+    private var arrayForMetricSystem: [UnitSystem] = [
         UnitSystem.gram,
         UnitSystem.kilogram,
         UnitSystem.liter,
@@ -58,7 +62,7 @@ class CreateNewProductViewModel {
         UnitSystem.piece
     ]
     
-    var arrayForImperalSystem: [UnitSystem] = [
+    private var arrayForImperalSystem: [UnitSystem] = [
         UnitSystem.ozz,
         UnitSystem.lbс,
         UnitSystem.pt,
@@ -111,11 +115,11 @@ class CreateNewProductViewModel {
             return nil
         }
         
-        for unit in selectedUnitSystemArray where descriptionQuantity.contains(unit.rawValue.localized) {
+        for unit in selectedUnitSystemArray where descriptionQuantity.contains(unit.title) {
             currentSelectedUnit = unit
         }
         
-        return currentSelectedUnit.rawValue.localized
+        return currentSelectedUnit.title
     }
     
     var productStepValue: Double {
@@ -150,32 +154,41 @@ class CreateNewProductViewModel {
     }
     
     func getTitleForCell(at ind: Int) -> String {
-        selectedUnitSystemArray[ind].rawValue.localized
+        selectedUnitSystemArray[ind].title
     }
     
     func cellSelected(at ind: Int) {
-        let step = selectedUnitSystemArray[ind].stepValue
+        currentSelectedUnit = selectedUnitSystemArray[ind]
+        let step = currentSelectedUnit.stepValue
         delegate?.setupController(step: step)
     }
     
     func saveProduct(categoryName: String, productName: String, image: UIImage?, description: String) {
         guard let model else { return }
-        print(categoryName, productName)
         var imageData: Data?
         if isVisibleImage, let image { imageData = image.jpegData(compressionQuality: 0.5) }
+        let product: Product
         
-        currentProduct?.name = productName
-        currentProduct?.category = categoryName
-        currentProduct?.imageData = imageData
-        currentProduct?.description = description
+        if var currentProduct {
+            currentProduct.name = productName
+            currentProduct.category = categoryName
+            currentProduct.imageData = imageData
+            currentProduct.description = description
+            currentProduct.unitId = currentSelectedUnit
+            product = currentProduct
+        } else {
+            product = Product(listId: model.id, name: productName,
+                              isPurchased: false, dateOfCreation: Date(),
+                              category: categoryName, isFavorite: false,
+                              imageData: imageData, description: description,
+                              unitId: currentSelectedUnit)
+        }
         
-        let product = Product(listId: model.id, name: productName, isPurchased: false, dateOfCreation: Date(),
-                              category: categoryName, isFavorite: false, imageData: imageData, description: description)
-        CoreDataManager.shared.createProduct(product: currentProduct ?? product)
-        idsOfChangedProducts.insert(currentProduct?.id ?? product.id)
+        CoreDataManager.shared.createProduct(product: product)
+        valueChangedCallback?(product)
+        
+        idsOfChangedProducts.insert(product.id)
         idsOfChangedLists.insert(model.id)
-        valueChangedCallback?(currentProduct ?? product)
-        
         sendUserProduct(category: categoryName, product: productName)
     }
     
@@ -188,98 +201,90 @@ class CreateNewProductViewModel {
         guard let model else { return }
         let controller = router?.prepareSelectCategoryController(model: model, compl: { [weak self] newCategoryName in
             guard let self = self else { return }
-            self.delegate?.selectCategory(text: newCategoryName, imageURL: "", defaultSelectedUnit: nil)
+            self.delegate?.selectCategory(text: newCategoryName, imageURL: "", imageData: nil, defaultSelectedUnit: nil)
         })
         delegate?.presentController(controller: controller)
     }
     
     func checkIsProductFromCategory(name: String?) {
-        guard let arrayOfProductsByCategories,
-              let name = name?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-                                           .getTitleWithout(symbols: ["(", ")"]) else {
+        guard let name = name?.prepareForSearch() else {
             productsChangedCallback?([])
             return
         }
-        var productTitles: [String] = []
-        var product: DBNetProduct?
-        for productDB in arrayOfProductsByCategories {
-            guard let productTitle = productDB.title else { return }
-            let title = productTitle.lowercased().getTitleWithout(symbols: ["(", ")"])
-            
-            guard title != name else {
-                product = productDB
-                if name.count > 1 {
-                    productTitles.append(productTitle)
-                }
+        let userProductTitles = search(name: name, by: userProductTitles)
+        let networkProductTitles = search(name: name, by: networkProductTitles)
+        if name.count > 1 {
+            let titles = Array(Set(userProductTitles + networkProductTitles))
+            let productTitles = sortTitle(by: name, titles: titles)
+            productsChangedCallback?(productTitles)
+        } else {
+            productsChangedCallback?([])
+        }
+        
+        if userProductTitles.contains(where: { $0.prepareForSearch().smartContains(name) }),
+           let product = userProducts?.first(where: { $0.name?.prepareForSearch().smartContains(name) ?? false }) {
+            getInformation(userProduct: product)
+            return
+        }
+        
+        if networkProductTitles.contains(where: { $0.prepareForSearch().smartContains(name) }),
+           let product = networkProducts?.first(where: { $0.title?.prepareForSearch().smartContains(name) ?? false }) {
+            getInformation(networkProduct: product)
+            return
+        }
+        
+        delegate?.selectCategory(text: "other".localized, imageURL: "", imageData: nil, defaultSelectedUnit: nil)
+    }
+    
+    private func search(name: String, by titles: [String]) -> [String] {
+        var resultTitles: [String] = []
+        
+        for title in titles {
+            let searchTitle = title.prepareForSearch()
+            guard searchTitle != name else {
+                resultTitles.append(title)
                 break
             }
             
-            if title.smartContains(name) {
-                product = productDB
-                if name.count > 1 {
-                    productTitles.append(productTitle)
-                }
+            if searchTitle.smartContains(name) {
+                resultTitles.append(title)
             }
         }
         
-        productTitles += getUserProduct(name: name)
-        productTitles = sortTitle(by: name, titles: productTitles)
-        productsChangedCallback?(productTitles)
-        
-        if let updateProduct = arrayOfProductsByCategories.first(where: { $0.title == productTitles.first }) {
-            product = updateProduct
-        }
-        
-        guard let product = product else {
-            delegate?.selectCategory(text: "other".localized, imageURL: "", defaultSelectedUnit: nil)
-            return
-        }
-        getAllInformation(product: product)
+        return resultTitles
     }
     
-    func getAllInformation(product: DBNetProduct) {
-        let imageUrl = product.photo ?? ""
-        let title = product.marketCategory
-        let unitId = product.defaultMarketUnitID
-        let productTitle = product.title
-        let shouldSelectUnit: MarketUnitClass.MarketUnitPrepared = .init(rawValue: Int(product.defaultMarketUnitID)) ?? .gram
+    private func getInformation(networkProduct: DBNetProduct) {
+        let imageUrl = networkProduct.photo ?? ""
+        let title = networkProduct.marketCategory ?? R.string.localizable.other()
+        let marketId = Int(networkProduct.defaultMarketUnitID)
+        let shouldSelectUnit: MarketUnitClass.MarketUnitPrepared = .init(rawValue: marketId ) ?? .gram
         let properSelectedUnit: UnitSystem = {
             switch shouldSelectUnit {
-            case .bottle:
-                return .bottle
-            case .gram:
-                return isMetricSystem ? .gram : .ozz
-            case .kilogram:
-                return isMetricSystem ? .kilogram : .lbс
-            case .litter:
-                return isMetricSystem ? .liter : .pt
-            case .millilitre:
-                return isMetricSystem ? .mililiter : .fluidOz
-            case .pack:
-                return .pack
-            case .piece:
-                return .piece
-            case .tin:
-                return .can
+            case .bottle:       return .bottle
+            case .gram:         return isMetricSystem ? .gram : .ozz
+            case .kilogram:     return isMetricSystem ? .kilogram : .lbс
+            case .litter:       return isMetricSystem ? .liter : .pt
+            case .millilitre:   return isMetricSystem ? .mililiter : .fluidOz
+            case .pack:         return .pack
+            case .piece:        return .piece
+            case .tin:          return .can
             }
         }()
         currentSelectedUnit = properSelectedUnit
-        delegate?.selectCategory(text: title ?? "other".localized, imageURL: imageUrl, defaultSelectedUnit: currentSelectedUnit)
+        delegate?.selectCategory(text: title, imageURL: imageUrl, imageData: nil, defaultSelectedUnit: currentSelectedUnit)
     }
     
-    private func getUserProduct(name: String) -> [String] {
-        var productTitles: [String] = []
-        if let arrayOfUserProducts {
-            arrayOfUserProducts.forEach { product in
-                if name.count > 1, let productName = product.name,
-                   productName.smartContains(name) {
-                    productTitles.append(productName)
-                }
-            }
-        }
-        return productTitles
+    private func getInformation(userProduct: DBProduct) {
+        let imageData = userProduct.image
+        let title = userProduct.category ?? R.string.localizable.other()
+        let defaultUnit: UnitSystem = isMetricSystem ? .gram : .ozz
+        let shouldSelectUnit: UnitSystem = .init(rawValue: Int(userProduct.unitId)) ?? defaultUnit
+        currentSelectedUnit = shouldSelectUnit
+        delegate?.selectCategory(text: title, imageURL: "", imageData: imageData, defaultSelectedUnit: currentSelectedUnit)
     }
     
+    /// сортировка: вперед выносим названия совпадающие с поиском, далее по алфавиту
     private func sortTitle(by name: String, titles: [String]) -> [String] {
         let count = name.count
         var titles = titles
@@ -291,6 +296,7 @@ class CreateNewProductViewModel {
         return titleByLetter + titles
     }
     
+    /// отправка созданного продуктов на сервер (метод для аналитики)
     private func sendUserProduct(category: String, product: String) {
         var userToken = Apphud.userID()
         var productId: String?
@@ -301,7 +307,7 @@ class CreateNewProductViewModel {
             userToken = user.token
         }
         
-        if let product = arrayOfProductsByCategories?.first(where: { $0.title?.lowercased() == product.lowercased() }) {
+        if let product = networkProducts?.first(where: { $0.title?.lowercased() == product.lowercased() }) {
             productId = "\(product.id)"
         }
         
