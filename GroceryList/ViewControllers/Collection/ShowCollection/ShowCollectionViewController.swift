@@ -80,6 +80,10 @@ final class ShowCollectionViewController: UIViewController {
         showContentView()
     }
     
+    deinit {
+        print("ShowCollectionViewController deinited")
+    }
+    
     private func setup() {
         let swipeDownRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
         swipeDownRecognizer.direction = .down

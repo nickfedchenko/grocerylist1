@@ -155,8 +155,11 @@ class MainScreenDataManager: DataSourceProtocol {
     
     @objc
     private func recieptsLoaded() {
-        makeRecipesSections()
-        recipeUpdate?()
+        DispatchQueue.main.async { [weak self] in
+            self?.makeRecipesSections()
+            self?.recipeUpdate?()
+        }
+      
     }
     
     private func createWorkingArray() {
@@ -246,10 +249,10 @@ class MainScreenDataManager: DataSourceProtocol {
     
     func updateFavoritesSection() {
         guard let allRecipes: [DBRecipe] = CoreDataManager.shared.getAllRecipes() else { return }
-        let plainRecipes = allRecipes.compactMap { Recipe(from: $0) }
-        let favorites = plainRecipes.filter { UserDefaultsManager.favoritesRecipeIds.contains($0.id) }
+        let domainFavorites = allRecipes.filter { UserDefaultsManager.favoritesRecipeIds.contains(Int($0.id)) }
+        let favorites = domainFavorites.compactMap { Recipe(from: $0) }
         let favoritesSection = RecipeSectionsModel(cellType: .recipePreview, sectionType: .favorites, recipes: favorites)
-        
+
         guard let index = recipesSections.firstIndex(where: { $0.sectionType == .favorites }) else {
             if !favorites.isEmpty {
                 recipesSections.insert(favoritesSection, at: 1)
@@ -260,7 +263,7 @@ class MainScreenDataManager: DataSourceProtocol {
             recipesSections.remove(at: index)
             return
         }
-        
+
         recipesSections[index] = favoritesSection
     }
     

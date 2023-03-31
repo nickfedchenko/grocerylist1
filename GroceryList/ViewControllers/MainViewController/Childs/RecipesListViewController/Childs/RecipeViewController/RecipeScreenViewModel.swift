@@ -118,12 +118,15 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
     
     @objc
     private func updateRecipe() {
-        guard let dbRecipe = CoreDataManager.shared.getRecipe(by: self.recipe.id),
-              let updateRecipe = Recipe(from: dbRecipe) else {
-            return
+        DispatchQueue.main.async {
+            guard let dbRecipe = CoreDataManager.shared.getRecipe(by: self.recipe.id),
+                  let updateRecipe = Recipe(from: dbRecipe) else {
+                return
+            }
+            
+            self.recipe = updateRecipe
         }
-        
-        self.recipe = updateRecipe
+      
     }
 }
 
