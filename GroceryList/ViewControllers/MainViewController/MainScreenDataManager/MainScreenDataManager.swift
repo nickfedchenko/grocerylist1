@@ -250,7 +250,7 @@ class MainScreenDataManager: DataSourceProtocol {
     func updateFavoritesSection() {
         guard let allRecipes: [DBRecipe] = CoreDataManager.shared.getAllRecipes() else { return }
         let domainFavorites = allRecipes.filter { UserDefaultsManager.favoritesRecipeIds.contains(Int($0.id)) }
-        let favorites = domainFavorites.compactMap { Recipe(from: $0) }
+        let favorites = domainFavorites.compactMap { ShortRecipeModel(withCollection: $0) }
         let favoritesSection = RecipeSectionsModel(cellType: .recipePreview, sectionType: .favorites, recipes: favorites)
 
         guard let index = recipesSections.firstIndex(where: { $0.sectionType == .favorites }) else {
@@ -271,8 +271,8 @@ class MainScreenDataManager: DataSourceProtocol {
         guard let allCollection = CoreDataManager.shared.getAllCollection(),
               let allRecipes = CoreDataManager.shared.getAllRecipes() else { return }
         
-        let plainRecipes = allRecipes.compactMap { Recipe(from: $0) }
         let customCollection = allCollection.compactMap { CollectionModel(from: $0) }
+        let plainRecipes = allRecipes.compactMap { ShortRecipeModel(withCollection: $0) }
         
         customCollection.forEach { collection in
             let recipes = plainRecipes.filter {

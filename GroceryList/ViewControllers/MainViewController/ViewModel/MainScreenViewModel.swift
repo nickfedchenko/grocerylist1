@@ -23,7 +23,7 @@ class MainScreenViewModel {
         return dataSource?.dataSourceArray ?? []
     }
     
-    func getRecipeModel(for indexPath: IndexPath) -> Recipe? {
+    func getRecipeModel(for indexPath: IndexPath) -> ShortRecipeModel? {
         guard let dataSource = dataSource else { return nil }
         let model = dataSource.recipesSections[safe: indexPath.section]?.recipes[safe: indexPath.item]
         return model
@@ -116,7 +116,10 @@ class MainScreenViewModel {
     }
     
     func showCollection() {
-        router?.goToShowCollection(state: .edit)
+        router?.goToShowCollection(state: .edit, updateUI: { [weak self] in
+            self?.updateRecipesSection()
+            self?.updateRecipeCollection?()
+        })
     }
     
     func showSearchProductsInList() {
@@ -125,6 +128,15 @@ class MainScreenViewModel {
     
     func showSearchProductsInRecipe() {
         router?.goToSearchInRecipe()
+    }
+    
+    func showRecipe(by indexPath: IndexPath) {
+        guard let recipeId = dataSource?.recipesSections[indexPath.section].recipes[indexPath.item].id,
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
+              var model = Recipe(from: dbRecipe) else {
+            return
+        }
+        router?.goToRecipe(recipe: model)
     }
     
     // setup cells
@@ -260,24 +272,11 @@ class MainScreenViewModel {
             name: .sharedListDownloadedAndSaved,
             object: nil
         )
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(updateCollections),
-            name: .collectionsSaved,
-            object: nil
-        )
     }
     
     @objc
     private func sharedListDownloaded() {
         guard let dataSource = dataSource else { return }
         updateCells?(dataSource.updateListOfModels())
-    }
-    
-    @objc
-    private func updateCollections() {
-        updateRecipesSection()
-        updateRecipeCollection?()
     }
 }

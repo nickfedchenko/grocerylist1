@@ -7,16 +7,11 @@
 
 import Foundation
 
-struct ShowCollectionModel {
-    var collection: CollectionModel
-    var recipes: [Recipe]
-    var select: Bool
-}
-
 final class ShowCollectionViewModel {
     
     weak var router: RootRouter?
     var selectedCollection: (([CollectionModel]) -> Void)?
+    var updateUI: (() -> Void)?
     
     var necessaryHeight: Double {
         collections.isEmpty ? 0 : Double(collections.count * 64 + 64)
@@ -32,17 +27,13 @@ final class ShowCollectionViewModel {
     
     private var collections: [ShowCollectionModel] = []
     private var recipe: Recipe?
+    private var changedCollection = false
     
     init(state: ShowCollectionViewController.ShowCollectionState, recipe: Recipe?) {
         viewState = state
         self.recipe = recipe
         
         updateCollection()
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updateCollection),
-                                               name: .recieptsDownladedAnsSaved,
-                                               object: nil)
     }
     
     deinit {
@@ -55,6 +46,7 @@ final class ShowCollectionViewModel {
                                         compl: { [weak self] updateCollections in
             self?.editCollections = updateCollections
             self?.updateCollection()
+            self?.changedCollection = true
         })
     }
     
@@ -83,11 +75,12 @@ final class ShowCollectionViewModel {
     func updateSelect(by index: Int) {
         collections[index].select.toggle()
         updateData?()
+        changedCollection = true
     }
     
     func deleteCollection(by index: Int) {
         let collection = collections[index].collection
-        let recipes = collections[index].recipes
+        let recipeIds = collections[index].recipes
         CoreDataManager.shared.deleteCollection(by: collection.id)
         editCollections.removeAll { $0.id == collection.id }
         collections.remove(at: index)
@@ -100,21 +93,24 @@ final class ShowCollectionViewModel {
         
         DispatchQueue.main.async {
             var updateRecipes: [Recipe] = []
-            recipes.forEach { recipe in
-                var updateRecipe = recipe
-                let hasDefaultRecipe = updateRecipe.hasDefaultCollection()
-                updateRecipe.localCollection?.removeAll(where: { $0.id == collection.id })
-                let remainingCollections = updateRecipe.localCollection?.filter({ !$0.isDefault }) ?? []
-                if remainingCollections.isEmpty && !hasDefaultRecipe {
-                    updateRecipe.localCollection?.append(miscellaneous)
-                    self.collections[self.collections.count - 1].recipes.append(updateRecipe)
+            recipeIds.forEach { recipeId in
+                if let dbRecipe = CoreDataManager.shared.getRecipe(by: Int(recipeId.id)),
+                   var updateRecipe = Recipe(from: dbRecipe) {
+                    let hasDefaultRecipe = updateRecipe.hasDefaultCollection()
+                    updateRecipe.localCollection?.removeAll(where: { $0.id == collection.id })
+                    let remainingCollections = updateRecipe.localCollection?.filter({ !$0.isDefault }) ?? []
+                    if remainingCollections.isEmpty && !hasDefaultRecipe {
+                        updateRecipe.localCollection?.append(miscellaneous)
+                        self.collections[self.collections.count - 1].recipes.append(recipeId)
+                    }
+                    updateRecipes.append(updateRecipe)
                 }
-                updateRecipes.append(updateRecipe)
             }
             CoreDataManager.shared.saveRecipes(recipes: updateRecipes)
         }
-
+        
         self.updateData?()
+        changedCollection = true
     }
     
     func canMove(by indexPath: IndexPath) -> Bool {
@@ -134,6 +130,13 @@ final class ShowCollectionViewModel {
         saveSelectCollections()
     }
     
+    func dismissView() {
+        if changedCollection {
+            updateUI?()
+        }
+        router?.navigationDismiss()
+    }
+    
     private func saveSelectCollections() {
         let selectCollections = collections.filter({ $0.select }).map({ $0.collection })
         guard var recipe else {
@@ -143,6 +146,7 @@ final class ShowCollectionViewModel {
         recipe.localCollection = selectCollections
         CoreDataManager.shared.saveRecipes(recipes: [recipe])
         selectedCollection?(selectCollections)
+        changedCollection = true
     }
     
     private func saveEditCollections() {
@@ -156,6 +160,7 @@ final class ShowCollectionViewModel {
             }
         }
         if !updateCollections.isEmpty {
+            changedCollection = true
             DispatchQueue.main.async {
                 CoreDataManager.shared.saveCollection(collections: updateCollections)
             }
@@ -164,26 +169,26 @@ final class ShowCollectionViewModel {
     
     @objc
     private func updateCollection() {
-        var recipes: [Recipe] = []
+        var recipeIds: [ShowCollectionModel.Recipe] = []
         if editCollections.isEmpty {
             guard let dbCollections = CoreDataManager.shared.getAllCollection(),
                   let dbRecipes = CoreDataManager.shared.getAllRecipes() else { return }
-            recipes = dbRecipes.compactMap { Recipe(from: $0) }
+            recipeIds = dbRecipes.compactMap { ShowCollectionModel.Recipe(from: $0) }
             editCollections = dbCollections.compactMap { CollectionModel(from: $0) }
         } else {
-            recipes = Array(Set(collections.flatMap { $0.recipes }))
+            recipeIds = Array(Set(collections.flatMap { $0.recipes }))
         }
 
         self.collections.removeAll()
         editCollections.sort { $0.index < $1.index }
         editCollections.forEach { collection in
-            let collectionRecipes = recipes.filter {
+            let collectionRecipes = recipeIds.filter {
                 $0.localCollection?.contains(where: { collection.id == $0.id }) ?? false
             }
-            self.collections.append(
-                ShowCollectionModel(collection: collection,
-                                    recipes: collectionRecipes,
-                                    select: recipe?.localCollection?.contains(where: { $0.id == collection.id }) ?? false))
+            let isSelect = recipe?.localCollection?.contains(where: { $0.id == collection.id }) ?? false
+            self.collections.append(ShowCollectionModel(collection: collection,
+                                                        recipes: collectionRecipes,
+                                                        select: isSelect))
         }
         self.updateData?()
     }

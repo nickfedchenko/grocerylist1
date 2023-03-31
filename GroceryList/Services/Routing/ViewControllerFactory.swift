@@ -91,6 +91,7 @@ protocol ViewControllerFactoryProtocol {
     func createShowCollectionViewController(router: RootRouter,
                                             state: ShowCollectionViewController.ShowCollectionState,
                                             recipe: Recipe?,
+                                            updateUI: (() -> Void)?,
                                             compl: (([CollectionModel]) -> Void)?) -> UIViewController
     func createIngredientViewController(router: RootRouter,
                                         compl: @escaping (Ingredient) -> Void) -> UIViewController
@@ -434,11 +435,13 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createShowCollectionViewController(router: RootRouter,
                                             state: ShowCollectionViewController.ShowCollectionState,
                                             recipe: Recipe?,
+                                            updateUI: (() -> Void)?,
                                             compl: (([CollectionModel]) -> Void)?) -> UIViewController {
         let viewController = ShowCollectionViewController()
         let viewModel = ShowCollectionViewModel(state: state, recipe: recipe)
         viewModel.router = router
         viewModel.selectedCollection = compl
+        viewModel.updateUI = updateUI
         viewController.viewModel = viewModel
         return viewController
     }

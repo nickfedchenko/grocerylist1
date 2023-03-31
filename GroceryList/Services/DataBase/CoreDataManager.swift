@@ -348,7 +348,6 @@ class CoreDataManager {
         asyncContext.perform {
             do {
                 try asyncContext.save()
-                NotificationCenter.default.post(name: .collectionsSaved, object: nil)
             } catch let error {
                 print(error)
                 asyncContext.rollback()

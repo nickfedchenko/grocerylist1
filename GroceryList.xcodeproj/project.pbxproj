@@ -19,6 +19,7 @@
 		334BAE5B299E734A005F52F5 /* SendInvitationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE5A299E734A005F52F5 /* SendInvitationCell.swift */; };
 		3354818729D52E9C0097F528 /* DBNetCategory+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3354818529D52E9C0097F528 /* DBNetCategory+CoreDataClass.swift */; };
 		3354818829D52E9C0097F528 /* DBNetCategory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3354818629D52E9C0097F528 /* DBNetCategory+CoreDataProperties.swift */; };
+		3354818A29D6D0F80097F528 /* ShowCollectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3354818929D6D0F70097F528 /* ShowCollectionModel.swift */; };
 		335519C229ACC00F00AD2B77 /* ProductImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519C129ACC00F00AD2B77 /* ProductImageView.swift */; };
 		335519C429AE26CE00AD2B77 /* MainScreenMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519C329AE26CE00AD2B77 /* MainScreenMenuView.swift */; };
 		335519C729AF1AE600AD2B77 /* CreateNewRecipeStepOneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519C629AF1AE600AD2B77 /* CreateNewRecipeStepOneViewController.swift */; };
@@ -255,6 +256,7 @@
 		334BAE5A299E734A005F52F5 /* SendInvitationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendInvitationCell.swift; sourceTree = "<group>"; };
 		3354818529D52E9C0097F528 /* DBNetCategory+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBNetCategory+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3354818629D52E9C0097F528 /* DBNetCategory+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBNetCategory+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3354818929D6D0F70097F528 /* ShowCollectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowCollectionModel.swift; sourceTree = "<group>"; };
 		335519C129ACC00F00AD2B77 /* ProductImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductImageView.swift; sourceTree = "<group>"; };
 		335519C329AE26CE00AD2B77 /* MainScreenMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenMenuView.swift; sourceTree = "<group>"; };
 		335519C629AF1AE600AD2B77 /* CreateNewRecipeStepOneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeStepOneViewController.swift; sourceTree = "<group>"; };
@@ -610,6 +612,7 @@
 		3379B64B29B7559F0080923A /* ShowCollection */ = {
 			isa = PBXGroup;
 			children = (
+				3354818929D6D0F70097F528 /* ShowCollectionModel.swift */,
 				3379B64D29B755E80080923A /* ShowCollectionViewController.swift */,
 				3379B64F29B756230080923A /* ShowCollectionViewModel.swift */,
 				3379B65129B870A70080923A /* ShowCollectionCell.swift */,
@@ -1802,6 +1805,7 @@
 				B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */,
 				B3C3FA4B291161D80011EC0A /* FirstOnboardingView.swift in Sources */,
 				B32767C829A608A500DD9D20 /* SharedListManager.swift in Sources */,
+				3354818A29D6D0F80097F528 /* ShowCollectionModel.swift in Sources */,
 				3368FD7929B7348100D97291 /* DBCollection+CoreDataClass.swift in Sources */,
 				B3329598298A8F19002DF1EE /* NotificationsExtension.swift in Sources */,
 				383C77FD2940ED0F0030AE78 /* AddProductsSelectionListController.swift in Sources */,
@@ -2148,7 +2152,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.92;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ksens.shopp;
+				PRODUCT_BUNDLE_IDENTIFIER = test123;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -2185,7 +2189,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.92;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ksens.shopp;
+				PRODUCT_BUNDLE_IDENTIFIER = test123;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

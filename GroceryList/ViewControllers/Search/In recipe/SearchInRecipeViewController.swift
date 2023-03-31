@@ -107,7 +107,7 @@ extension SearchInRecipeViewController: RecipeListCellDelegate {
     func didTapToButProductsAtRecipe(at index: Int) {
         let recipeTitle = viewModel?.getRecipe(by: index)?.title
         currentlySelectedIndex = index
-        let products: [Product] = viewModel?.getRecipe(by: index)?.ingredients.map {
+        let products: [Product] = viewModel?.getRecipe(by: index)?.ingredients?.map({
             let netProduct = $0.product
             let product = Product(name: netProduct.title,
                                   isPurchased: false,
@@ -117,7 +117,7 @@ extension SearchInRecipeViewController: RecipeListCellDelegate {
                                   description: $0.description ?? "",
                                   fromRecipeTitle: recipeTitle)
             return product
-        } ?? []
+        }) ?? []
 
         let viewController = AddProductsSelectionListController(with: products)
         viewController.contentViewHeigh = 700
