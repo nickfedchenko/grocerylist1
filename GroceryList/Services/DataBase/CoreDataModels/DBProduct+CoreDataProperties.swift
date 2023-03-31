@@ -41,6 +41,7 @@ extension DBProduct {
         dbProduct.image = model.imageData
         dbProduct.userDescription = model.description
         dbProduct.fromRecipeTitle = model.fromRecipeTitle
+        dbProduct.unitId = Int16(model.unitId?.rawValue ?? 0)
         return dbProduct
     }
 }

@@ -126,7 +126,7 @@ class ProductsViewModel {
     }
     
     private func updateList() {
-        DispatchQueue.global().async { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             guard self.model.isShared else { return }
             SharedListManager.shared.updateGroceryList(listId: self.model.id.uuidString)

@@ -70,6 +70,7 @@ class MainScreenTopCell: UICollectionViewCell {
     private lazy var settingsButton: UIButton = {
         let button = UIButton()
         button.setImage(R.image.profile_icon(), for: .normal)
+        button.addTarget(self, action: #selector(settingsButtonAction), for: .touchUpInside)
         button.imageView?.contentMode = .scaleAspectFill
         button.layer.cornerRadius = 16
         return button
