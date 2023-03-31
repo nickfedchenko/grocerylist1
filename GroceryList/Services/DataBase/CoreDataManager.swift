@@ -417,10 +417,9 @@ extension CoreDataManager: CoredataSyncProtocol {
     
     func saveCategories(categories: [NetworkCategory]) {
         let asyncContext = coreData.taskContext
-        let _ = categories.map { DBNetCategory.prepare(from: $0, using: asyncContext) }
-        guard asyncContext.hasChanges else { return }
         asyncContext.perform {
             do {
+                let _ = categories.map { DBNetCategory.prepare(from: $0, using: asyncContext) }
                 try asyncContext.save()
             } catch {
                 asyncContext.rollback()
