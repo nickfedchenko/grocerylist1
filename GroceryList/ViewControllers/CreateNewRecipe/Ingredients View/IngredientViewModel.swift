@@ -113,7 +113,7 @@ final class IngredientViewModel {
             
             guard title != name else {
                 product = productDB
-                if name.count > 1, title.count < 40 {
+                if name.count > 1 {
                     productTitles.append(productTitle)
                 }
                 break
@@ -121,7 +121,7 @@ final class IngredientViewModel {
             
             if title.smartContains(name) {
                 product = productDB
-                if name.count > 1, title.count < 40 {
+                if name.count > 1 {
                     productTitles.append(productTitle)
                 }
             }
@@ -198,7 +198,7 @@ final class IngredientViewModel {
         if let arrayOfUserProducts {
             arrayOfUserProducts.forEach { product in
                 if name.count > 1, let productName = product.name,
-                   productName.smartContains(name), productName.count < 30 {
+                   productName.smartContains(name) {
                     productTitles.append(productName)
                 }
             }

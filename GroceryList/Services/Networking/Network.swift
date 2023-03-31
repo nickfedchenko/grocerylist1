@@ -77,7 +77,7 @@ enum RequestGenerator: Codable {
                 injectEmailAndPassword(in: &components, email: email, password: password)
             }
         case .createUser(let email, let password):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/register", method: .post) { components in
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/register", method: .post) { components in
                 injectEmailAndPassword(in: &components, email: email, password: password)
             }
         case .updateUsername(let userToken, let newName):
@@ -85,11 +85,11 @@ enum RequestGenerator: Codable {
                 injectUserTokenAndNewName(in: &components, userToken: userToken, newName: newName)
             }
         case .checkEmail(email: let email):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/email", method: .get) { components in
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/email", method: .get) { components in
                 injectEmail(in: &components, email: email)
             }
         case .resendVerification(let email):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/register/resend", method: .post) { components in
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/register/resend", method: .post) { components in
                 injectEmail(in: &components, email: email)
             }
         case .passwordReset(let email):

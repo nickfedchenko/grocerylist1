@@ -16,6 +16,7 @@ final class PredictiveTextView: UIView {
     weak var delegate: PredictiveTextViewDelegate?
     
     private lazy var collectionView: UICollectionView = {
+        layout.configuration.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(classCell: PredictiveTextCell.self)
         collectionView.backgroundColor = .clear
@@ -50,7 +51,10 @@ final class PredictiveTextView: UIView {
     }()
     
     private var texts: [String] = [] {
-        didSet { collectionView.reloadData() }
+        didSet {
+            collectionView.reloadData()
+            collectionView.collectionViewLayout.invalidateLayout()
+        }
     }
     
     override init(frame: CGRect) {
@@ -143,11 +147,13 @@ final private class PredictiveTextCell: UICollectionViewCell {
     
     private func makeConstraints() {
         contentView.addSubview(titleLabel)
+        let width = UIScreen.main.bounds.width - 50
         
         titleLabel.snp.makeConstraints {
             $0.leading.top.equalToSuperview().offset(6)
             $0.height.equalTo(17)
             $0.center.equalToSuperview()
+            $0.width.lessThanOrEqualTo(width)
         }
     }
 }

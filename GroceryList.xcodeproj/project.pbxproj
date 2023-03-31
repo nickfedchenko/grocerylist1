@@ -1326,7 +1326,6 @@
 			isa = PBXGroup;
 			children = (
 				B381EF2F299BAA2400DCDE40 /* EnterNewPasswordController */,
-				B381EF29299B904A00DCDE40 /* PasswordExpiredController */,
 				B315F9E4298A3F0A0009CEB8 /* WriteReviewController */,
 				B3D858462939D43B00CCE230 /* Paywall */,
 				B37A2CDD2911027E003C01AD /* Onboarding */,
@@ -1344,6 +1343,7 @@
 				B3B45E582934BFEA00D60E82 /* SelectCategoryViewController */,
 				B34EACA62935007400FBD0E0 /* CreateNewCategoryViewController */,
 				B3777E172938BE790074BE38 /* SettingsViewController */,
+				B381EF29299B904A00DCDE40 /* PasswordExpiredController */,
 				B3F7C9C529963EEA0081B245 /* PasswordResetViewController */,
 				B3F7C9B82993A0F70081B245 /* SignUpViewCntroller */,
 				B381EF1E299B5AFD00DCDE40 /* AccountViewController */,
