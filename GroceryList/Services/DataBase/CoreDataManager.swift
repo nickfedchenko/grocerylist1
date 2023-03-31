@@ -12,6 +12,7 @@ import UIKit
 protocol CoredataSyncProtocol {
     func saveRecipes(recipes: [Recipe])
     func saveProducts(products: [NetworkProductModel])
+    func saveCategories(categories: [NetworkCategory])
 }
 
 class CoreDataManager {
@@ -267,8 +268,16 @@ class CoreDataManager {
         try? context.save()
     }
     
-    func getAllCategories() -> [DBCategories]? {
+    func getUserCategories() -> [DBCategories]? {
         let fetchRequest: NSFetchRequest<DBCategories> = DBCategories.fetchRequest()
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
+            return nil
+        }
+        return object
+    }
+    
+    func getDefaultCategories() -> [DBNetCategory]? {
+        let fetchRequest: NSFetchRequest<DBNetCategory> = DBNetCategory.fetchRequest()
         guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
             return nil
         }
@@ -456,6 +465,19 @@ extension CoreDataManager: CoredataSyncProtocol {
             do {
                 try asyncContext.save()
                 NotificationCenter.default.post(name: .productsDownladedAnsSaved, object: nil)
+            } catch {
+                asyncContext.rollback()
+            }
+        }
+    }
+    
+    func saveCategories(categories: [NetworkCategory]) {
+        let asyncContext = coreData.taskContext
+        let _ = categories.map { DBNetCategory.prepare(from: $0, using: asyncContext) }
+        guard asyncContext.hasChanges else { return }
+        asyncContext.perform {
+            do {
+                try asyncContext.save()
             } catch {
                 asyncContext.rollback()
             }

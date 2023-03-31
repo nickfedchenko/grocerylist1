@@ -9,88 +9,79 @@ import Foundation
 
 class SelectCategoryDataSource {
     
+    var arrayUpdatedCallback: (() -> Void)?
+    
+    private var usersCategories: [DBCategories]
+    private var defaultCategories:  [DBNetCategory]
+    
+    private var allCategories: [CategoryModel] = []
+    private var categories: [CategoryModel] = []
+    private var selectedCategory: String?
+    
     init() {
-        arrayOfUsersCategories = CoreDataManager.shared.getAllCategories()
+        usersCategories = CoreDataManager.shared.getUserCategories() ?? []
+        defaultCategories = CoreDataManager.shared.getDefaultCategories() ?? []
+        defaultCategories.removeAll { $0.name ?? "" == "other".localized }
         transformCoreDataModels()
-        defaultCategoriesArray.sort(by: { $0.name < $1.name })
-        arrayOfCategories = defaultCategoriesArray
+        categories = allCategories
         arrayUpdatedCallback?()
     }
     
-    var arrayUpdatedCallback: (() -> Void)?
-    var arrayOfUsersCategories: [DBCategories]? = []
-    var arrayOfCategories: [CategoryModel] = []
-    private var selectedCategoryInd: Int? = 0
-       
-    var defaultCategoriesArray:  [CategoryModel] = [
-        CategoryModel(ind: 1, name: "Alcohol".localized), CategoryModel(ind: 2, name: "Grocery".localized),
-        CategoryModel(ind: 3, name: "ReadyFood".localized), CategoryModel(ind: 4, name: "Frozen".localized),
-        CategoryModel(ind: 5, name: "HealtyFood".localized), CategoryModel(ind: 6, name: "WorldCitchen".localized),
-        CategoryModel(ind: 7, name: "Milk".localized), CategoryModel(ind: 8, name: "Drinks".localized),
-        CategoryModel(ind: 9, name: "FruitsAndVegetables".localized), CategoryModel(ind: 10, name: "Fish".localized),
-        CategoryModel(ind: 11, name: "Sweet".localized), CategoryModel(ind: 12, name: "Bread".localized),
-        CategoryModel(ind: 13, name: "Tea".localized), CategoryModel(ind: 14, name: "Meat".localized),
-        CategoryModel(ind: 15, name: "other".localized), CategoryModel(ind: 14, name: "Baby".localized),
-        CategoryModel(ind: 15, name: "Health & Beauty".localized), CategoryModel(ind: 14, name: "Home, Garden & Patio".localized),
-        CategoryModel(ind: 15, name: "Household & Cleaning".localized), CategoryModel(ind: 14, name: "Pet Care".localized),
-        CategoryModel(ind: 14, name: "Stationery".localized)
-    ]
-    
     func transformCoreDataModels() {
-        arrayOfUsersCategories?.forEach({
-            let category = CategoryModel(ind: Int($0.id), name: $0.name ?? "")
-            defaultCategoriesArray.append(category)
-        })
+        allCategories += usersCategories.compactMap({ CategoryModel(ind: Int($0.id), name: $0.name ?? "") })
+        allCategories += defaultCategories.compactMap({ CategoryModel(ind: Int($0.id), name: $0.name ?? "") })
+        allCategories.sort(by: { $0.name < $1.name })
     }
     
     func getCategory(at ind: Int) -> CategoryModel {
-        arrayOfCategories[ind]
+        categories[ind]
     }
     
     func isSelected(at ind: Int) -> Bool {
-        arrayOfCategories[ind].isSelected
+        categories[ind].isSelected
     }
     
     func getNumberOfCategories() -> Int {
-        arrayOfCategories.count
+        categories.count
     }
     
     func getNewCategoryInd() -> Int {
-        return defaultCategoriesArray.count + 1
+        return categories.count + 1
     }
     
     func addNewCategory(category: CategoryModel) {
         print(category.ind)
-        defaultCategoriesArray.append(category)
-        defaultCategoriesArray.sort(by: { $0.name < $1.name })
-        arrayOfCategories = defaultCategoriesArray
+        allCategories.append(category)
+        allCategories.sort(by: { $0.name < $1.name })
+        categories = allCategories
         arrayUpdatedCallback?()
     }
     
     func selectCell(at ind: Int) {
-        for ind in arrayOfCategories.indices {
-            arrayOfCategories[ind].isSelected = false
+        for index in categories.indices {
+            categories[index].isSelected = index == ind
         }
-        arrayOfCategories[ind].isSelected = true
-        selectedCategoryInd = arrayOfCategories[ind].ind
+        
+        selectedCategory = categories[ind].name
     }
     
     func filterArray(word: String) {
-      arrayOfCategories = defaultCategoriesArray.filter({ category in
+        categories = allCategories.filter({ category in
           return category.name.lowercased().contains(word.lowercased())
         })
-        
+
         if word.isEmpty {
-            arrayOfCategories = defaultCategoriesArray
+            categories = allCategories
+        }
+
+        for (index, category) in categories.enumerated() where category.name == selectedCategory {
+            categories[index].isSelected = true
+        }
+
+        if categories.isEmpty {
+            categories = allCategories
         }
         
-        for (index, category) in arrayOfCategories.enumerated() where category.ind == selectedCategoryInd {
-                arrayOfCategories[index].isSelected = true
-        }
-        
-        if arrayOfCategories.isEmpty {
-            arrayOfCategories = defaultCategoriesArray
-        }
         arrayUpdatedCallback?()
     }
 }

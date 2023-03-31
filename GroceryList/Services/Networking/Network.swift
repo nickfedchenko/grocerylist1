@@ -13,11 +13,14 @@ protocol NetworkDataProvider {
     func getAllProducts(completion: @escaping GetAllProductsResult)
     func getAllRecipes(completion: @escaping AllDishesResult)
     func getAllItems(completion: @escaping GetAllItemsResult)
+    func getProductCategories(completion: @escaping GetCategoriesResult)
+    func getItemCategories(completion: @escaping GetCategoriesResult)
 }
 
 typealias GetAllProductsResult = (Result<[NetworkProductModel], AFError>) -> Void
 typealias AllDishesResult = (Result<[Recipe], AFError>) -> Void
 typealias GetAllItemsResult = (Result<GetAllItemsResponse, AFError>) -> Void
+typealias GetCategoriesResult = (Result<GetCategoriesResponse, AFError>) -> Void
 typealias CreateUserResult = (Result<CreateUserResponse, AFError>) -> Void
 typealias ChangeUserNameResult = (Result<ChangeUsernameResponse, AFError>) -> Void
 typealias MailExistsResult = (Result<MailExistResponse, AFError>) -> Void
@@ -41,6 +44,8 @@ enum RequestGenerator: Codable {
     case getProducts
     case getReciepts
     case getItems
+    case getProductCategories
+    case getItemCategories
     case createUser(email: String, password: String)
     case logIn(email: String, password: String)
     case updateUsername(userToken: String, newName: String)
@@ -72,6 +77,10 @@ enum RequestGenerator: Codable {
             return requestCreator(basicURL: getUrlForReciepts(), method: .get, needsToken: false) { _ in }
         case .getItems:
             return requestCreator(basicURL: getUrlForItems(), method: .get) { _ in }
+        case .getProductCategories:
+            return requestCreator(basicURL: getUrlForProductCategories(), method: .get) { _ in }
+        case .getItemCategories:
+            return requestCreator(basicURL: getUrlForItemCategories(), method: .get) { _ in }
         case .logIn(let email, let password):
             return requestCreator(basicURL: "https://ketodietapplication.site/api/user/login", method: .post) { components in
                 injectEmailAndPassword(in: &components, email: email, password: password)
@@ -232,6 +241,24 @@ enum RequestGenerator: Codable {
             return "https://ketodietapplication.site/api/items?langCode=\(currentLocale.rawValue)"
         } else {
             return "https://ketodietapplication.site/api/items?langCode=en"
+        }
+    }
+    
+    private func getUrlForProductCategories() -> String {
+        guard let locale = Locale.current.languageCode else { return "" }
+        if let currentLocale = CurrentLocale(rawValue: locale) {
+            return "https://ketodietapplication.site/api/product/categories?langCode=\(currentLocale.rawValue)"
+        } else {
+            return "https://ketodietapplication.site/api/product/categories?langCode=en"
+        }
+    }
+    
+    private func getUrlForItemCategories() -> String {
+        guard let locale = Locale.current.languageCode else { return "" }
+        if let currentLocale = CurrentLocale(rawValue: locale) {
+            return "https://ketodietapplication.site/api/items/categories?langCode=\(currentLocale.rawValue)"
+        } else {
+            return "https://ketodietapplication.site/api/items/categories?langCode=en"
         }
     }
     
@@ -429,6 +456,15 @@ extension NetworkEngine: NetworkDataProvider {
     func getAllItems(completion: @escaping GetAllItemsResult) {
         performDecodableRequest(request: .getItems, completion: completion)
     }
+    
+    func getProductCategories(completion: @escaping GetCategoriesResult) {
+        performDecodableRequest(request: .getProductCategories, completion: completion)
+    }
+    
+    func getItemCategories(completion: @escaping GetCategoriesResult) {
+        performDecodableRequest(request: .getItemCategories, completion: completion)
+    }
+    
     /// регистрация юзера
     func createUser(email: String, password: String, completion: @escaping CreateUserResult) {
         performDecodableRequest(request: .createUser(email: email, password: password), completion: completion)
