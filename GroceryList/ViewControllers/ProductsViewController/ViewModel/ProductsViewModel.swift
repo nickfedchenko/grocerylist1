@@ -38,6 +38,14 @@ class ProductsViewModel {
         return dataSource.dataSourceArray
     }
     
+    var isVisibleImage: Bool {
+        switch model.isShowImage {
+        case .nothing:      return UserDefaultsManager.isShowImage
+        case .switchOn:     return true
+        case .switchOff:    return false
+        }
+    }
+    
     func getColorForBackground() -> UIColor {
         colorManager.getGradient(index: model.color).1
     }

@@ -56,7 +56,7 @@ class ProductListCell: UICollectionViewListCell {
     }
     
     func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?,
-                   isPurchased: Bool, image: Data?, description: String, isRecipe: Bool) {
+                   isPurchased: Bool, description: String, isRecipe: Bool) {
         contentView.backgroundColor = bcgColor
         checkmarkImage.image = isPurchased ? getImageWithColor(color: textColor) : UIImage(named: "emptyCheckmark")
         guard let text = text else { return }
@@ -82,6 +82,17 @@ class ProductListCell: UICollectionViewListCell {
             secondDescriptionLabel.textColor = textColor
         }
         
+        if !description.isEmpty || isRecipe {
+            viewWithDescription.isHidden = false
+        }
+    }
+    
+    func setupImage(isVisible: Bool, image: Data?) {
+        imageView.isHidden = !isVisible
+        guard isVisible else {
+            return
+        }
+        
         if let image = image {
             DispatchQueue.global().async {
                 let image = UIImage(data: image)
@@ -89,10 +100,6 @@ class ProductListCell: UICollectionViewListCell {
                     self.imageView.image = image
                 }
             }
-        }
-        
-        if !description.isEmpty || isRecipe {
-            viewWithDescription.isHidden = false
         }
     }
     

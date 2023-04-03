@@ -64,6 +64,8 @@ class CoreDataManager {
             object.isFavorite = product.isFavorite
             object.fromRecipeTitle = product.fromRecipeTitle
             object.userDescription = product.description
+            object.unitId = Int16(product.unitId?.rawValue ?? 0)
+            object.isUserImage = product.isUserImage ?? false
         }
         
         try? context.save()

@@ -47,9 +47,10 @@ class DomainModelsToLocalTransformer {
         let imageData = product.image
         let description = product.userDescription ?? ""
         let fromRecipeTitle = product.fromRecipeTitle
+        let isUserImage = product.isUserImage
         
         return Product(id: id, listId: listId, name: name, isPurchased: isPurchased,
-                       dateOfCreation: dateOfCreation, category: category, isFavorite: isFavorite, imageData: imageData, description: description, fromRecipeTitle: fromRecipeTitle)
+                       dateOfCreation: dateOfCreation, category: category, isFavorite: isFavorite, imageData: imageData, description: description, fromRecipeTitle: fromRecipeTitle, isUserImage: isUserImage)
     }
     
 }

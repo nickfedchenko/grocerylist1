@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Kingfisher
 
 protocol DataSyncProtocol {
     func updateProducts()
@@ -32,7 +33,6 @@ extension DataProviderFacade: DataSyncProtocol {
                 print(error)
             case let .success(productsResponse):
                 self?.saveProductsInPersistentStore(products: productsResponse)
-                
             }
         }
     }
@@ -85,6 +85,16 @@ extension DataProviderFacade: DataSyncProtocol {
     
     private func saveProductsInPersistentStore(products: [NetworkProductModel]) {
         domainSyncManager?.saveProducts(products: products)
+        let cache = ImageCache.default
+        cache.memoryStorage.config.totalCostLimit = 1024 * 1024 * 10
+        cache.diskStorage.config.sizeLimit = 1024 * 1024 * 100
+        DispatchQueue.main.async {
+            products.forEach {
+                if let url = URL(string: $0.photo) {
+                    KingfisherManager.shared.retrieveImage(with: url) { _ in }
+                }
+            }
+        }
     }
     
     private func saveCategoriesPersistentStore(type: String, categories: [NetworkCategory]) {
