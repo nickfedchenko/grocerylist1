@@ -163,10 +163,12 @@ class CreateNewProductViewModel {
         delegate?.setupController(step: step)
     }
     
-    func saveProduct(categoryName: String, productName: String, image: UIImage?, description: String) {
+    func saveProduct(categoryName: String, productName: String, description: String, image: UIImage?, isUserImage: Bool) {
         guard let model else { return }
         var imageData: Data?
-        if isVisibleImage, let image { imageData = image.jpegData(compressionQuality: 0.5) }
+        if let image {
+            imageData = image.jpegData(compressionQuality: 0.5)
+        }
         let product: Product
         
         if var currentProduct {
@@ -181,7 +183,7 @@ class CreateNewProductViewModel {
                               isPurchased: false, dateOfCreation: Date(),
                               category: categoryName, isFavorite: false,
                               imageData: imageData, description: description,
-                              unitId: currentSelectedUnit)
+                              unitId: currentSelectedUnit, isUserImage: isUserImage)
         }
         
         CoreDataManager.shared.createProduct(product: product)
@@ -255,7 +257,8 @@ class CreateNewProductViewModel {
     }
     
     private func getInformation(networkProduct: DBNetProduct) {
-        let imageUrl = networkProduct.photo ?? ""
+        let photoUrl = networkProduct.photo ?? ""
+        let imageUrl = isVisibleImage ? photoUrl : ""
         let title = networkProduct.marketCategory ?? R.string.localizable.other()
         let marketId = Int(networkProduct.defaultMarketUnitID)
         let shouldSelectUnit: MarketUnitClass.MarketUnitPrepared = .init(rawValue: marketId ) ?? .gram

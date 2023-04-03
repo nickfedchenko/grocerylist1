@@ -17,6 +17,7 @@ class CreateNewProductViewController: UIViewController {
     private var isImageChanged = false {
         didSet { setupRemoveImage() }
     }
+    private var isUserImage = false
     private var userCommentText = ""
     private var quantityValueStep: Double = 1
     
@@ -251,7 +252,6 @@ class CreateNewProductViewController: UIViewController {
         setupBackgroundColor()
         addRecognizers()
         setupTableView()
-        setupImage(isVisible: viewModel?.isVisibleImage ?? UserDefaultsManager.isShowImage)
         setupProduct()
     }
     
@@ -315,15 +315,7 @@ class CreateNewProductViewController: UIViewController {
         predictiveTextView.delegate = self
     }
     
-    private func setupImage(isVisible: Bool) {
-        addImageImage.isHidden = !isVisible
-    }
-    
     private func setupRemoveImage() {
-        guard !addImageImage.isHidden else {
-            removeImageButton.isHidden = true
-            return
-        }
         removeImageButton.isHidden = !isImageChanged
     }
     
@@ -756,7 +748,8 @@ extension CreateNewProductViewController {
         var image: UIImage?
         if isImageChanged { image = addImageImage.image }
         let description = bottomTextField.text ?? ""
-        viewModel?.saveProduct(categoryName: categoryName, productName: productName, image: image, description: description)
+        viewModel?.saveProduct(categoryName: categoryName, productName: productName, description: description,
+                               image: image, isUserImage: isUserImage)
         
         hidePanel()
     }
@@ -794,6 +787,7 @@ extension CreateNewProductViewController: UINavigationControllerDelegate, UIImag
         let image = info[.originalImage] as? UIImage
         addImageImage.image = image
         isImageChanged = true
+        isUserImage = true
     }
 }
 

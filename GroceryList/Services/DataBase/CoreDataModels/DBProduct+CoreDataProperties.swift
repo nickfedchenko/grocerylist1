@@ -28,6 +28,7 @@ extension DBProduct {
     @NSManaged public var list: DBGroceryListModel?
     @NSManaged public var fromRecipeTitle: String?
     @NSManaged public var unitId: Int16
+    @NSManaged public var isUserImage: Bool
     
     static func prepare(fromPlainModel model: Product, context: NSManagedObjectContext) -> DBProduct {
         let dbProduct = DBProduct(context: context)
@@ -42,6 +43,7 @@ extension DBProduct {
         dbProduct.userDescription = model.description
         dbProduct.fromRecipeTitle = model.fromRecipeTitle
         dbProduct.unitId = Int16(model.unitId?.rawValue ?? 0)
+        dbProduct.isUserImage = model.isUserImage ?? false
         return dbProduct
     }
 }
