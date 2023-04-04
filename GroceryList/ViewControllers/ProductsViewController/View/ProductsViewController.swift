@@ -225,8 +225,11 @@ class ProductsViewController: UIViewController {
           
             let description = child.description
             cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name,
-                           isPurchased: child.isPurchased, image: image, description: description,
+                           isPurchased: child.isPurchased, description: description,
                            isRecipe: child.fromRecipeTitle != nil)
+            let isVisibleImageBySettings = self?.viewModel?.isVisibleImage ?? true
+            let isUserImage = (child.isUserImage ?? false) ? true : isVisibleImageBySettings
+            cell.setupImage(isVisible: isUserImage, image: image)
             
             // картинка
             if image != nil {
