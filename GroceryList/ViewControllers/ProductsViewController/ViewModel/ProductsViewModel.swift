@@ -119,6 +119,32 @@ class ProductsViewModel {
         })
     }
     
+    func getSharingState() -> SharingView.SharingState {
+        model.isShared ? .added : .invite
+    }
+    
+    func getShareImages() -> [String?] {
+        var arrayOfImageUrls: [String?] = []
+        
+        if let newUsers = SharedListManager.shared.sharedListsUsers[model.sharedId] {
+            newUsers.forEach { user in
+                if user.token != UserAccountManager.shared.getUser()?.token {
+                    arrayOfImageUrls.append(user.avatar)
+                }
+            }
+        }
+        return arrayOfImageUrls
+    }
+    
+    func sharingTapped() {
+        guard UserAccountManager.shared.getUser() != nil else {
+            router?.goToSharingPopUp()
+            return
+        }
+        let users = SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
+        router?.goToSharingList(listToShare: model, users: users)
+    }
+    
     private func addObserver() {
         NotificationCenter.default.addObserver(
             self,
