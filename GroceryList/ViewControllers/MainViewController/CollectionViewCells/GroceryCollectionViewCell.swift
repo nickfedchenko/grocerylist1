@@ -143,7 +143,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         }
         
         sharingView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-16)
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
         }
