@@ -70,6 +70,7 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="unitId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="userDescription" optional="YES" attributeType="String"/>
+        <attribute name="userToken" optional="YES" attributeType="String"/>
         <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBGroceryListModel" inverseName="products" inverseEntity="DBGroceryListModel"/>
         <uniquenessConstraints>
             <uniquenessConstraint>

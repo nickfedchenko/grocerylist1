@@ -187,9 +187,10 @@ extension ProductsSettingsViewController: UITableViewDelegate, UITableViewDataSo
             let color = viewModel.getTextColor()
             cell.setupSwitch(isVisible: isSwitchActive, value: switchValue, tintColor: color)
         }
-        cell.setupCell(imageForCell: image, text: text, inset: isInset, separatorColor: separatorColor, isCheckmarkActive: isCheckmark)
-        cell.switchValueChanged = { isOn in
-            viewModel.imageMatching(isOn: isOn)
+        cell.setupCell(imageForCell: image, text: text, inset: isInset, separatorColor: separatorColor,
+                       isCheckmarkActive: isCheckmark)
+        cell.switchValueChanged = { [weak self] isOn in
+            self?.viewModel?.imageMatching(isOn: isOn)
         }
         cell.selectionStyle = .none
         return cell

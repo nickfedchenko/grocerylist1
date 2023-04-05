@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 201 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 202 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -1158,6 +1158,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var byTime: RswiftResources.StringResource { .init(key: "byTime", tableName: "Localizable", source: source, developmentValue: "By time", comment: nil) }
 
+      /// en translation: By Users
+      ///
+      /// Key: byUsers
+      ///
+      /// Locales: en, ru, fr, de
+      var byUsers: RswiftResources.StringResource { .init(key: "byUsers", tableName: "Localizable", source: source, developmentValue: "By Users", comment: nil) }
+
       /// en translation: can
       ///
       /// Key: can
@@ -1497,7 +1504,7 @@ struct _R {
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 147 images.
+  /// This `_R.image` struct is generated, and contains static references to 149 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1644,6 +1651,9 @@ struct _R {
 
     /// Image `btn_next`.
     var btn_next: RswiftResources.ImageResource { .init(name: "btn_next", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `byUsers`.
+    var byUsers: RswiftResources.ImageResource { .init(name: "byUsers", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `camera`.
     var camera: RswiftResources.ImageResource { .init(name: "camera", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -1803,6 +1813,9 @@ struct _R {
 
     /// Image `productShelf`.
     var productShelf: RswiftResources.ImageResource { .init(name: "productShelf", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `product_empty_checkmark`.
+    var product_empty_checkmark: RswiftResources.ImageResource { .init(name: "product_empty_checkmark", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `profileImage`.
     var profileImage: RswiftResources.ImageResource { .init(name: "profileImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

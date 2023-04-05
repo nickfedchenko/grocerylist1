@@ -32,6 +32,7 @@
 "pinch"                     = "Stylo";
 "changeColor"               = "changer de couleur";
 "sort"                      = "Trier par";
+"byUsers"                   = "Par les utilisateurs";
 "byCategory"                = "Par catégorie";
 "byRecipe"                  = "Par recette";
 "byTime"                    = "Ajouté au fil du temps";

@@ -126,14 +126,40 @@ class ProductsViewModel {
     func getShareImages() -> [String?] {
         var arrayOfImageUrls: [String?] = []
         
-        if let newUsers = SharedListManager.shared.sharedListsUsers[model.sharedId] {
-            newUsers.forEach { user in
-                if user.token != UserAccountManager.shared.getUser()?.token {
-                    arrayOfImageUrls.append(user.avatar)
-                }
+        getSharedListsUsers().forEach { user in
+            if user.token != UserAccountManager.shared.getUser()?.token {
+                arrayOfImageUrls.append(user.avatar)
             }
         }
         return arrayOfImageUrls
+    }
+    
+    func getUserImage(by userToken: String?, isPurchased: Bool) -> String? {
+        guard let userToken else {
+            return nil
+        }
+        
+        if !isPurchased, model.typeOfSorting == SortingType.user.rawValue {
+            return nil
+        }
+        
+        var userImageUrl: String?
+        getSharedListsUsers().forEach { user in
+            if user.token != UserAccountManager.shared.getUser()?.token && user.token == userToken {
+                userImageUrl = user.avatar ?? ""
+            }
+        }
+        return userImageUrl
+    }
+    
+    func getUserImage(by userName: String) -> String? {
+        var userImageUrl: String?
+        getSharedListsUsers().forEach { user in
+            if user.username == userName || user.email == userName {
+                userImageUrl = user.avatar ?? ""
+            }
+        }
+        return userImageUrl
     }
     
     func sharingTapped() {
@@ -165,6 +191,10 @@ class ProductsViewModel {
             guard self.model.isShared else { return }
             SharedListManager.shared.updateGroceryList(listId: self.model.id.uuidString)
         }
+    }
+    
+    private func getSharedListsUsers() -> [User] {
+        return SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
     }
     
     private func getListByText() -> String {
