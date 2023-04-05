@@ -32,6 +32,7 @@
 "pinch"                     = "Stift";
 "changeColor"               = "Farbe ändern";
 "sort"                      = "Sortieren";
+"byUsers"                   = "Nach Benutzern";
 "byCategory"                = "Nach Kategorie";
 "byRecipe"                  = "Nach Rezept";
 "byTime"                    = "Mit der Zeit hinzugefügt";

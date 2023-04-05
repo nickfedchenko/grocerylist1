@@ -225,15 +225,18 @@ class ProductsViewController: UIViewController {
         collectionView.backgroundColor = .clear
         
         // MARK: Cell registration
-        let headerCellRegistration = UICollectionView.CellRegistration<HeaderListCell, Category> { [ weak self ](cell, _, parent) in
+        let headerCellRegistration = UICollectionView.CellRegistration<HeaderListCell, Category> { [weak self] (cell, _, parent) in
             
             let color = self?.viewModel?.getColorForForeground()
             let bcgColor = self?.viewModel?.getColorForBackground()
             cell.setupCell(text: parent.name, color: color, bcgColor: bcgColor,
                            isExpand: parent.isExpanded, typeOfCell: parent.typeOFCell)
+            if parent.typeOFCell == .sortedByUser {
+                cell.setupUserImage(image: self?.viewModel?.getUserImage(by: parent.name), color: color)
+            }
         }
     
-        let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { [ weak self ] (cell, _, child) in
+        let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { [weak self] (cell, _, child) in
             
             let bcgColor = self?.viewModel?.getColorForBackground()
             let textColor = self?.viewModel?.getColorForForeground()
@@ -246,7 +249,7 @@ class ProductsViewController: UIViewController {
             let isVisibleImageBySettings = self?.viewModel?.isVisibleImage ?? true
             let isUserImage = (child.isUserImage ?? false) ? true : isVisibleImageBySettings
             cell.setupImage(isVisible: isUserImage, image: image)
-            
+            cell.setupUserImage(image: self?.viewModel?.getUserImage(by: child.userToken, isPurchased: child.isPurchased))
             // картинка
             if image != nil {
                 cell.tapImageAction = { [weak self] in
@@ -259,7 +262,7 @@ class ProductsViewController: UIViewController {
             }
             
             // свайпы
-            cell.swipeToPinchAction = {
+            cell.swipeToPinchAction = { [weak self] in
                 AmplitudeManager.shared.logEvent(.itemDelete)
                 idsOfChangedProducts.insert(child.id)
                 idsOfChangedLists.insert(child.listId)
@@ -267,7 +270,7 @@ class ProductsViewController: UIViewController {
             }
             
             guard !child.isPurchased else { return }
-            cell.swipeToDeleteAction = {
+            cell.swipeToDeleteAction = { [weak self] in
                 idsOfChangedProducts.insert(child.id)
                 idsOfChangedLists.insert(child.listId)
                 self?.viewModel?.updateFavoriteStatus(for: child)

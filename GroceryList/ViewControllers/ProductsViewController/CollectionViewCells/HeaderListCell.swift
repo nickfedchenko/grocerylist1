@@ -5,6 +5,7 @@
 //  Created by Шамиль Моллачиев on 14.11.2022.
 //
 
+import Kingfisher
 import SnapKit
 import UIKit
 
@@ -27,6 +28,11 @@ class HeaderListCell: UICollectionViewListCell {
         coloredView.backgroundColor = .clear
         titleLabel.textColor = .white
         collapsedColoredView.backgroundColor = .clear
+        userImageView.image = nil
+        userImageView.layer.borderColor = UIColor.clear.cgColor
+        collapsedColoredView.snp.updateConstraints {
+            $0.right.equalTo(titleLabel.snp.right).inset(-26)
+        }
     }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
@@ -76,25 +82,42 @@ class HeaderListCell: UICollectionViewListCell {
             titleLabel.text = "AlphabeticalSorted".localized
             coloredViewForSorting.backgroundColor = color
             coloredViewForSorting.isHidden = false
-        case .normal, .sortedByRecipe, .sortedByDate:
+        case .normal, .sortedByRecipe, .sortedByDate, .sortedByUser:
             titleLabel.text = text
-            if isExpand {
-                collapsedColoredView.backgroundColor = color
-            } else {
-                collapsedColoredView.backgroundColor = color
+            collapsedColoredView.backgroundColor = color
+            if !isExpand {
                 coloredView.backgroundColor = color
             }
         }
         
         checkmarkView.tintColor = color
-        
-        if isExpand {
-            checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
-        } else {
-            checkmarkView.transform = CGAffineTransform(rotationAngle: .pi * 2)
-        }
+        checkmarkView.transform = CGAffineTransform(rotationAngle: isExpand ? -.pi : .pi * 2)
         
         containerView.backgroundColor = bcgColor
+    }
+    
+    func setupUserImage(image: String?, color: UIColor?) {
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async {
+                self.setupUserImage(image: image, color: color)
+            }
+            return
+        }
+        
+        guard let image else { return }
+        userImageView.isHidden = false
+        userImageView.layer.borderColor = color?.cgColor
+        collapsedColoredView.snp.updateConstraints { $0.right.equalTo(titleLabel.snp.right).inset(-44) }
+        guard let url = URL(string: image) else {
+            let image = R.image.profile_icon()
+            return userImageView.image = image
+        }
+        let size = CGSize(width: 30, height: 30)
+        userImageView.kf.setImage(with: url, placeholder: nil,
+                                  options: [.processor(DownsamplingImageProcessor(size: size)),
+                                            .scaleFactor(UIScreen.main.scale),
+                                            .cacheOriginalImage])
+        
     }
     
     private let containerView: UIView = {
@@ -154,11 +177,23 @@ class HeaderListCell: UICollectionViewListCell {
         return imageView
     }()
     
+    private let userImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.borderWidth = 1.5
+        imageView.layer.cornerRadius = 16
+        imageView.layer.masksToBounds = true
+        imageView.image = nil
+        imageView.isHidden = true
+        return imageView
+    }()
+    
     // MARK: - UI
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         contentView.addSubviews([containerView])
-        containerView.addSubviews([coloredView, collapsedColoredView, coloredViewForSorting, titleLabel, checkmarkView, pinchView])
+        containerView.addSubviews([coloredView, collapsedColoredView, coloredViewForSorting,
+                                   titleLabel, checkmarkView, pinchView, userImageView])
         coloredViewForSorting.addSubview(checkmarkForSorting)
         
         containerView.snp.makeConstraints { make in
@@ -207,6 +242,12 @@ class HeaderListCell: UICollectionViewListCell {
             make.left.equalToSuperview().inset(28)
             make.centerY.equalTo(coloredView.snp.centerY)
             make.width.equalTo(26)
+        }
+        
+        userImageView.snp.makeConstraints { make in
+            make.centerY.equalTo(collapsedColoredView)
+            make.trailing.equalTo(collapsedColoredView).offset(0)
+            make.width.height.equalTo(32)
         }
     }
 }

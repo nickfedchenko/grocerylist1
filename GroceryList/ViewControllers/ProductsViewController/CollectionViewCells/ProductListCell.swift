@@ -5,6 +5,7 @@
 //  Created by Шамиль Моллачиев on 14.11.2022.
 //
 
+import Kingfisher
 import SnapKit
 import UIKit
 
@@ -14,14 +15,6 @@ class ProductListCell: UICollectionViewListCell {
     var swipeToDeleteAction: (() -> Void)?
     var tapImageAction: (() -> Void)?
     private var state: CellState = .normal
-    
-    private let shadowView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 8
-        view.addCustomShadow(color: UIColor(hex: "#484848"), radius: 1, offset: CGSize(width: 0, height: 0.5))
-        return view
-    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -101,6 +94,34 @@ class ProductListCell: UICollectionViewListCell {
                 }
             }
         }
+    }
+    
+    func setupUserImage(image: String?) {
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async {
+                self.setupUserImage(image: image)
+            }
+            return
+        }
+        
+        guard let image else {
+            userImageView.image = nil
+            userImageView.isHidden = true
+            userImageView.snp.updateConstraints { $0.trailing.equalTo(checkmarkView).offset(0) }
+            return
+        }
+        userImageView.isHidden = false
+        userImageView.snp.updateConstraints { $0.trailing.equalTo(checkmarkView).offset(26) }
+        guard let url = URL(string: image) else {
+            let image = R.image.profile_icon()
+            return userImageView.image = image
+        }
+        let size = CGSize(width: 30, height: 30)
+        userImageView.kf.setImage(with: url, placeholder: nil,
+                                  options: [.processor(DownsamplingImageProcessor(size: size)),
+                                            .scaleFactor(UIScreen.main.scale),
+                                            .cacheOriginalImage])
+        
     }
     
     func addCheckmark(color: UIColor?, compl: @escaping (() -> Void) ) {
@@ -216,11 +237,36 @@ class ProductListCell: UICollectionViewListCell {
         return label
     }()
     
+    private let userImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 16
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
+    
+    private let checkmarkView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 20
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
+    private let shadowView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 8
+        view.addCustomShadow(color: UIColor(hex: "#484848"), radius: 1, offset: CGSize(width: 0, height: 0.5))
+        return view
+    }()
+    
     // MARK: - UI
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         contentView.addSubviews([leftButton, rightButton, shadowView, contentViews])
-        contentViews.addSubviews([nameLabel, checkmarkImage, whiteCheckmarkImage, imageView, viewWithDescription])
+        contentViews.addSubviews([userImageView, nameLabel, checkmarkView, checkmarkImage, whiteCheckmarkImage,
+                                  imageView, viewWithDescription])
         viewWithDescription.addSubviews([firstDescriptionLabel, secondDescriptionLabel])
         
         shadowView.snp.makeConstraints { make in
@@ -251,21 +297,32 @@ class ProductListCell: UICollectionViewListCell {
             make.height.equalTo(17)
         }
         
+        checkmarkView.snp.makeConstraints { make in
+            make.center.equalTo(checkmarkImage)
+            make.width.height.equalTo(36)
+        }
+        
         checkmarkImage.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(8)
+            make.left.equalToSuperview().inset(10)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(28)
+        }
+        
+        userImageView.snp.makeConstraints { make in
+            make.trailing.equalTo(checkmarkView).offset(26)
             make.centerY.equalToSuperview()
             make.width.height.equalTo(32)
         }
         
         nameLabel.snp.makeConstraints { make in
-            make.left.equalTo(checkmarkImage.snp.right).inset(-12)
+            make.leading.equalTo(userImageView.snp.trailing).offset(8)
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().inset(8)
         }
         
         whiteCheckmarkImage.snp.makeConstraints { make in
-            make.centerY.centerX.equalTo(checkmarkImage)
-            make.width.height.equalTo(17)
+            make.center.equalTo(checkmarkImage)
+            make.width.height.equalTo(14)
         }
         
         rightButton.snp.makeConstraints { make in

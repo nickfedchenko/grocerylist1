@@ -66,6 +66,7 @@ class CoreDataManager {
             object.userDescription = product.description
             object.unitId = Int16(product.unitId?.rawValue ?? 0)
             object.isUserImage = product.isUserImage ?? false
+            object.userToken = product.userToken
         }
         
         try? context.save()
