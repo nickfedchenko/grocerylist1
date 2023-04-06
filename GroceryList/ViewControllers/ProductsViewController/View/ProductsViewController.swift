@@ -56,19 +56,30 @@ class ProductsViewController: UIViewController {
         view.layer.cornerRadius = 32
         view.layer.masksToBounds = true
         view.layer.maskedCorners = [.layerMinXMinYCorner]
+        view.layer.borderColor = UIColor.white.withAlphaComponent(0.8).cgColor
+        view.layer.borderWidth = 2
+        view.addCustomShadow(color: UIColor(hex: "#484848"), offset: CGSize(width: 0, height: 0.5))
+        return view
+    }()
+    
+    private let plusView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 16
+        view.layer.masksToBounds = true
+        view.backgroundColor = .white
         return view
     }()
     
     private let plusImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "whitePlusImage")
+        imageView.image = R.image.sharing_plus()
         return imageView
     }()
     
     private let addItemLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFProRounded.semibold(size: 18).font
+        label.font = UIFont.SFProRounded.semibold(size: 17).font
         label.textColor = .white
         label.numberOfLines = 2
         label.text = "AddItem".localized
@@ -107,6 +118,7 @@ class ProductsViewController: UIViewController {
         nameOfListLabel.text = viewModel?.getNameOfList()
         view.backgroundColor = viewModel?.getColorForBackground()
         addItemView.backgroundColor = viewModel?.getColorForForeground()
+        plusImage.image = R.image.sharing_plus()?.withTintColor(viewModel?.getColorForForeground() ?? .black)
         nameOfListLabel.textColor = viewModel?.getColorForForeground()
         navigationView.backgroundColor = viewModel?.getColorForBackground()
         collectionView.reloadData()
@@ -157,9 +169,10 @@ class ProductsViewController: UIViewController {
         guard let viewModel else { return }
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(sharingViewPressed))
         sharingView.addGestureRecognizer(tapRecognizer)
-        sharingView.configureForProductsView(color: UIColor(hex: "#1A645A"),
-                                             state: viewModel.getSharingState(),
-                                             images: viewModel.getShareImages())
+        sharingView.configure(state: viewModel.getSharingState(),
+                              viewState: .products,
+                              color: UIColor(hex: "#1A645A"),
+                              images: viewModel.getShareImages())
     }
     
     deinit {
@@ -345,7 +358,7 @@ class ProductsViewController: UIViewController {
     private func setupConstraints() {
         view.addSubviews([collectionView, navigationView, addItemView, productImageView])
         navigationView.addSubviews([arrowBackButton, nameOfListLabel, contextMenuButton, sharingView])
-        addItemView.addSubviews([plusImage, addItemLabel])
+        addItemView.addSubviews([plusView, plusImage, addItemLabel])
         collectionView.addSubview(messageView)
         
         navigationView.snp.makeConstraints { make in
@@ -357,14 +370,19 @@ class ProductsViewController: UIViewController {
         setupNavigationViewConstraints()
         
         addItemView.snp.makeConstraints { make in
-            make.right.bottom.equalToSuperview()
-            make.height.equalTo(82)
-            make.width.equalTo(self.view.frame.width / 2)
+            make.trailing.bottom.equalToSuperview().offset(4)
+            make.height.equalTo(84)
+            make.width.equalTo(self.view.frame.width / 2 + 2)
+        }
+        
+        plusView.snp.makeConstraints { make in
+            make.top.left.equalToSuperview().inset(16)
+            make.width.height.equalTo(32)
         }
         
         plusImage.snp.makeConstraints { make in
-            make.top.left.equalToSuperview().inset(20)
-            make.width.height.equalTo(24)
+            make.center.equalTo(plusView)
+            make.width.height.equalTo(32)
         }
         
         addItemLabel.snp.makeConstraints { make in

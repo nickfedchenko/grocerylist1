@@ -15,6 +15,11 @@ final class SharingView: UIView {
         case added
     }
     
+    enum ViewState {
+        case main
+        case products
+    }
+    
     private lazy var firstImageView: UIImageView = createImageView()
     private lazy var secondImageView: UIImageView = createImageView()
     private lazy var thirdImageView: UIImageView = createImageView()
@@ -55,7 +60,7 @@ final class SharingView: UIView {
         updateAllImageViewsConstraints()
     }
     
-    func configure(state: SharingState, images: [String?] = []) {
+    func configure(state: SharingState, viewState: ViewState, color: UIColor, images: [String?] = []) {
         self.state = state
         allImageViews.forEach {
             $0.image = nil
@@ -66,22 +71,7 @@ final class SharingView: UIView {
             firstImageView.image = R.image.profile_add()
             firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
         case .added:
-            configureImages(images)
-        }
-    }
-    
-    func configureForProductsView(color: UIColor, state: SharingState, images: [String?] = []) {
-        self.state = state
-        allImageViews.forEach {
-            $0.image = nil
-        }
-        switch state {
-        case .invite:
-            firstImageView.isHidden = false
-            firstImageView.image = R.image.profile_add()?.withTintColor(color)
-            firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
-        case .added:
-            configureImagesForProductsView(images, color: color)
+            configureImages(images, color: color, viewState: viewState)
         }
     }
     
@@ -98,25 +88,7 @@ final class SharingView: UIView {
         return imageView
     }
     
-    private func configureImages(_ images: [String?]) {
-        updateAllImageViewsConstraints()
-        guard !images.isEmpty else {
-            firstImageView.isHidden = false
-            firstImageView.image = R.image.profile_intited()
-            firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
-            return
-        }
-        updateActiveImageViewsConstraints(imageCount: images.count)
-        setupImage(imageUrl: images)
-        
-        if images.count > 4 {
-            countLabel.text = "\(images.count - 1)"
-            firstImageView.image = nil
-            firstImageView.backgroundColor = UIColor(hex: "#00D6A3")
-        }
-    }
-    
-    private func configureImagesForProductsView(_ images: [String?], color: UIColor) {
+    private func configureImages(_ images: [String?], color: UIColor, viewState: ViewState) {
         updateAllImageViewsConstraints()
         guard !images.isEmpty else {
             secondImageView.isHidden = false
@@ -129,17 +101,19 @@ final class SharingView: UIView {
         updateActiveImageViewsConstraints(imageCount: count)
         
         let plusImageView = activeImageViews.removeFirst()
-        plusImageView.image = R.image.sharing_plus()?.withTintColor(color)
-        plusImageView.backgroundColor = .white
+        plusImageView.image = R.image.sharing_plus()?.withTintColor(viewState == .products ? color : .white)
+        plusImageView.backgroundColor = viewState == .products ? .white : color
         configureImageView(plusImageView)
-        
-        setupImage(imageUrl: images)
         
         if images.count >= 3 {
             countLabel.text = "\(images.count - 1)"
-            firstImageView.image = nil
-            firstImageView.backgroundColor = color
+            let countImageView = activeImageViews.removeLast()
+            countImageView.image = nil
+            countImageView.backgroundColor = color
+            configureImageView(countImageView)
         }
+        
+        setupImage(imageUrl: images)
     }
     
     private func setupImage(imageUrl: [String?]) {
