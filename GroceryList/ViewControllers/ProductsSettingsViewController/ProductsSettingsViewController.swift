@@ -11,6 +11,7 @@ import UIKit
 class ProductsSettingsViewController: UIViewController {
     
     var viewModel: ProductsSettingsViewModel?
+    private var didLayoutSubviews = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,16 @@ class ProductsSettingsViewController: UIViewController {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(doneButtonPressed))
         tapRecognizer.delegate = self
         self.view.addGestureRecognizer(tapRecognizer)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if !didLayoutSubviews {
+            let isScrollEnabled = self.view.frame.height < 700
+            tableview.isScrollEnabled = isScrollEnabled
+            contentView.snp.updateConstraints { $0.height.equalTo(isScrollEnabled ? 600 : 700) }
+            didLayoutSubviews.toggle()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
