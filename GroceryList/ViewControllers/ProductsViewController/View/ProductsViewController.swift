@@ -157,9 +157,10 @@ class ProductsViewController: UIViewController {
         guard let viewModel else { return }
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(sharingViewPressed))
         sharingView.addGestureRecognizer(tapRecognizer)
-        sharingView.configureForProductsView(color: UIColor(hex: "#1A645A"),
-                                             state: viewModel.getSharingState(),
-                                             images: viewModel.getShareImages())
+        sharingView.configure(state: viewModel.getSharingState(),
+                              viewState: .products,
+                              color: UIColor(hex: "#1A645A"),
+                              images: viewModel.getShareImages())
     }
     
     deinit {

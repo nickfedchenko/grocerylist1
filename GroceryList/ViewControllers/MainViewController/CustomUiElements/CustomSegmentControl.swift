@@ -129,7 +129,7 @@ private class ViewWithButton: UIView {
     lazy var button: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
-        button.titleLabel?.font = R.font.sfProRoundedBold(size: 18)
+        button.titleLabel?.font = R.font.sfProRoundedBold(size: 17)
         return button
     }()
     

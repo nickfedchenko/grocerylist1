@@ -66,6 +66,8 @@ final class SearchInListCell: UICollectionViewCell {
         countLabel.text = "\(doneProducts.count) / \(list.products.count)"
         
         sharingView.configure(state: list.isShared ? .added : .invite,
+                              viewState: .main,
+                              color: listViewColor,
                               images: getShareImages(list))
     }
     
