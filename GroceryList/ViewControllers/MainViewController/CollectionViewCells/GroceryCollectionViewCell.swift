@@ -85,8 +85,8 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func setupSharing(state: SharingView.SharingState, image: [String?]) {
-        sharingView.configure(state: state, images: image)
+    func setupSharing(state: SharingView.SharingState, color: UIColor, image: [String?]) {
+        sharingView.configure(state: state, viewState: .main, color: color, images: image)
     }
     
     private let contentViews: UIView = {

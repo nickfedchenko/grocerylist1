@@ -79,7 +79,7 @@ class MainScreenTopCell: UICollectionViewCell {
     private lazy var userNameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(hex: "#1A645A")
-        label.font = UIFont.SFProRounded.semibold(size: 18).font
+        label.font = UIFont.SFProRounded.semibold(size: 17).font
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.8
         return label
