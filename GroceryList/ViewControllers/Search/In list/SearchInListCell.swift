@@ -175,7 +175,7 @@ final class SearchInListCell: UICollectionViewCell {
         }
         
         sharingView.snp.makeConstraints {
-            $0.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-16)
             $0.top.equalToSuperview()
             $0.bottom.equalToSuperview()
         }

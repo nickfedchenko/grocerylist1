@@ -29,6 +29,7 @@ extension DBProduct {
     @NSManaged public var fromRecipeTitle: String?
     @NSManaged public var unitId: Int16
     @NSManaged public var isUserImage: Bool
+    @NSManaged public var userToken: String?
     
     static func prepare(fromPlainModel model: Product, context: NSManagedObjectContext) -> DBProduct {
         let dbProduct = DBProduct(context: context)
@@ -44,6 +45,7 @@ extension DBProduct {
         dbProduct.fromRecipeTitle = model.fromRecipeTitle
         dbProduct.unitId = Int16(model.unitId?.rawValue ?? 0)
         dbProduct.isUserImage = model.isUserImage ?? false
+        dbProduct.userToken = model.userToken
         return dbProduct
     }
 }

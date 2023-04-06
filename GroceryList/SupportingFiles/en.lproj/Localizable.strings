@@ -33,6 +33,7 @@
 "pinch"                     = "Fix";
 "changeColor"               = "ChangeColor";
 "sort"                      = "Sort";
+"byUsers"                   = "By Users";
 "byCategory"                = "By category";
 "byRecipe"                  = "By recipe";
 "byTime"                    = "By time";
