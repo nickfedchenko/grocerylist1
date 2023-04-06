@@ -1178,6 +1178,7 @@
 		B36AF9482913FA5B00944E9D /* CustomUiElements */ = {
 			isa = PBXGroup;
 			children = (
+				B34BB809292D1C4600748E8E /* ShimmerView.swift */,
 				B36AF9402913D37300944E9D /* CustomSegmentControl.swift */,
 				3391163229CD96E700881E1D /* ActivityIndicatorView.swift */,
 			);
@@ -1205,7 +1206,6 @@
 			children = (
 				B36AF9382913C5DC00944E9D /* MainScreenViewController.swift */,
 				B32767C429A5F33100DD9D20 /* MainScreenCollectionViewLayout.swift */,
-				B34BB809292D1C4600748E8E /* ShimmerView.swift */,
 				335519C329AE26CE00AD2B77 /* MainScreenMenuView.swift */,
 			);
 			path = View;

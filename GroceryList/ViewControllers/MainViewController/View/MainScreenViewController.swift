@@ -47,17 +47,22 @@ class MainScreenViewController: UIViewController {
         return collectionView
     }()
     
-    private let bottomCreateListView: ShimmerView = {
-        let view = ShimmerView()
-        view.backgroundColor = .white.withAlphaComponent(0.9)
+    private let bottomCreateListView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 32
+        view.layer.masksToBounds = true
+        view.layer.maskedCorners = [.layerMinXMinYCorner]
+        view.backgroundColor = .white
+        view.layer.borderColor = UIColor(hex: "#EBFEFE").cgColor
+        view.layer.borderWidth = 2
+        view.addCustomShadow(color: UIColor(hex: "#484848"), offset: CGSize(width: 0, height: 0.5))
         return view
     }()
     
     private let plusImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "#plusImage")
-        imageView.blink()
+        imageView.image = R.image.new_createList()
         return imageView
     }()
     
@@ -66,6 +71,7 @@ class MainScreenViewController: UIViewController {
         label.font = UIFont.SFProRounded.semibold(size: 18).font
         label.textColor = UIColor(hex: "#31635A")
         label.text = "CreateList".localized
+        label.numberOfLines = 2
         return label
     }()
     
@@ -107,11 +113,6 @@ class MainScreenViewController: UIViewController {
         viewModel?.reloadDataFromStorage()
         updateRecipeCollectionView()
         updateImageConstraint()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        bottomCreateListView.startAnimating()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -237,7 +238,7 @@ class MainScreenViewController: UIViewController {
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(10)
             make.width.equalTo(view.snp.width)
             make.leading.equalToSuperview()
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.equalToSuperview()
         }
         
         recipesCollectionView.snp.makeConstraints { make in
@@ -273,18 +274,19 @@ class MainScreenViewController: UIViewController {
     
     private func bottomCreateListViewMakeConstraints() {
         bottomCreateListView.snp.makeConstraints { make in
-            make.left.right.bottom.equalToSuperview()
-            make.height.equalTo(86)
+            make.trailing.bottom.equalToSuperview()
+            make.height.equalTo(82)
+            make.width.equalTo(self.view.frame.width / 2)
         }
         
         plusImage.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(38)
-            make.top.equalToSuperview().inset(24)
-            make.height.width.equalTo(24)
+            make.left.top.equalToSuperview().inset(16)
+            make.height.width.equalTo(32)
         }
         
         createListLabel.snp.makeConstraints { make in
-            make.left.equalTo(plusImage.snp.right).inset(-8)
+            make.left.equalTo(plusImage.snp.right).inset(-12)
+            make.right.equalToSuperview().inset(8)
             make.centerY.equalTo(plusImage)
         }
     }
