@@ -39,6 +39,7 @@ class SharedListManager {
 
     func connectToListAfterRegistration() {
         if let user = UserAccountManager.shared.getUser() {
+            fetchMyGroceryLists()
             tokens.forEach { connectToList(userToken: user.token, token: $0) }
         }
     }
