@@ -79,4 +79,15 @@ extension UIFont {
             }
         }
     }
+    
+    enum SFCompactDisplay {
+        case semibold(size: CGFloat)
+        
+        var font: UIFont! {
+            switch self {
+            case .semibold(let size):
+                return R.font.sfCompactDisplaySemibold(size: size)
+            }
+        }
+    }
 }

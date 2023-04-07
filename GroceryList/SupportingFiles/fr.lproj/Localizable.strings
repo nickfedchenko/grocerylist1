@@ -189,6 +189,7 @@
 "importRecipe"                  = "Importer des recettes Web";
 "createCollection"              = "Créer une collection";
 
+// Создание рецепта
 "recipeCreation"                = "Création de recettes";
 "Step 1 of 2"                   = "Étape 1 de 2";
 "Required"                      = "Requis";
@@ -208,6 +209,7 @@
 "Add Step"                      = "Ajouter une étape";
 "Complete"                      = "Compléter";
 
+// Коллекция/папка с рецептами
 "Miscellaneous"                 = "Divers";
 "Note"                          = "Note";
 "Collections"                   = "Collection";
@@ -218,7 +220,15 @@
 "Share recipes"                 = "Partager des recettes";
 "AdjustNumberOfServings"        = "Ajustez le nombre de portions et ajoutez des ingrédients à votre liste de courses";
 
+// Поиск
 "Search in "                    = "Rechercher dans ";
 "Lists"                         = "les listes";
 "AllRecipes"                    = "les recettes";
 "Search in all recipes"         = "Rechercher dans toutes les recettes";
+
+// Редактирование продукта в списке
+"edit"                          = "Modifier";
+"copyTabBar"                    = "Copie";
+"move"                          = "Déplacer";
+"clearAll"                      = "Tout effacer";
+"itemSelected"                  = "élément sélectionné";

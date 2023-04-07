@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 202 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 207 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -1179,12 +1179,26 @@ struct _R {
       /// Locales: en, ru, fr, de
       var changeColor: RswiftResources.StringResource { .init(key: "changeColor", tableName: "Localizable", source: source, developmentValue: "ChangeColor", comment: nil) }
 
+      /// en translation: Clear All
+      ///
+      /// Key: clearAll
+      ///
+      /// Locales: en, ru, fr, de
+      var clearAll: RswiftResources.StringResource { .init(key: "clearAll", tableName: "Localizable", source: source, developmentValue: "Clear All", comment: nil) }
+
       /// en translation: Save to Photo
       ///
       /// Key: copy
       ///
       /// Locales: en, ru, fr, de
       var copy: RswiftResources.StringResource { .init(key: "copy", tableName: "Localizable", source: source, developmentValue: "Save to Photo", comment: nil) }
+
+      /// en translation: Copy
+      ///
+      /// Key: copyTabBar
+      ///
+      /// Locales: en, ru, fr, de
+      var copyTabBar: RswiftResources.StringResource { .init(key: "copyTabBar", tableName: "Localizable", source: source, developmentValue: "Copy", comment: nil) }
 
       /// en translation: Create Collection
       ///
@@ -1206,6 +1220,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var delete: RswiftResources.StringResource { .init(key: "delete", tableName: "Localizable", source: source, developmentValue: "Delete", comment: nil) }
+
+      /// en translation: Edit
+      ///
+      /// Key: edit
+      ///
+      /// Locales: en, ru, fr, de
+      var edit: RswiftResources.StringResource { .init(key: "edit", tableName: "Localizable", source: source, developmentValue: "Edit", comment: nil) }
 
       /// en translation: E-mail
       ///
@@ -1242,6 +1263,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var importRecipe: RswiftResources.StringResource { .init(key: "importRecipe", tableName: "Localizable", source: source, developmentValue: "Import Web Recipes", comment: nil) }
 
+      /// en translation: item selected
+      ///
+      /// Key: itemSelected
+      ///
+      /// Locales: en, ru, fr, de
+      var itemSelected: RswiftResources.StringResource { .init(key: "itemSelected", tableName: "Localizable", source: source, developmentValue: "item selected", comment: nil) }
+
       /// en translation: kg
       ///
       /// Key: kilogram
@@ -1276,6 +1304,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var min: RswiftResources.StringResource { .init(key: "min", tableName: "Localizable", source: source, developmentValue: "min", comment: nil) }
+
+      /// en translation: Move
+      ///
+      /// Key: move
+      ///
+      /// Locales: en, ru, fr, de
+      var move: RswiftResources.StringResource { .init(key: "move", tableName: "Localizable", source: source, developmentValue: "Move", comment: nil) }
 
       /// en translation: Ok
       ///
@@ -1504,7 +1539,7 @@ struct _R {
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 150 images.
+  /// This `_R.image` struct is generated, and contains static references to 156 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1565,14 +1600,23 @@ struct _R {
     /// Image `Copy`.
     var copy: RswiftResources.ImageResource { .init(name: "Copy", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `Copy_TabBar`.
+    var copy_TabBar: RswiftResources.ImageResource { .init(name: "Copy_TabBar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `DeleteCollection`.
     var deleteCollection: RswiftResources.ImageResource { .init(name: "DeleteCollection", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `DeselectAll_TabBar`.
+    var deselectAll_TabBar: RswiftResources.ImageResource { .init(name: "DeselectAll_TabBar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `FolderIcon`.
     var folderIcon: RswiftResources.ImageResource { .init(name: "FolderIcon", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `MenuFolder`.
     var menuFolder: RswiftResources.ImageResource { .init(name: "MenuFolder", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Move_TabBar`.
+    var move_TabBar: RswiftResources.ImageResource { .init(name: "Move_TabBar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Pin`.
     var pin: RswiftResources.ImageResource { .init(name: "Pin", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -1594,6 +1638,9 @@ struct _R {
 
     /// Image `ReviewProducts`.
     var reviewProducts: RswiftResources.ImageResource { .init(name: "ReviewProducts", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `SelectAll_TabBar`.
+    var selectAll_TabBar: RswiftResources.ImageResource { .init(name: "SelectAll_TabBar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Send`.
     var send: RswiftResources.ImageResource { .init(name: "Send", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -1618,6 +1665,9 @@ struct _R {
 
     /// Image `Time`.
     var time: RswiftResources.ImageResource { .init(name: "Time", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Trash_TabBar`.
+    var trash_TabBar: RswiftResources.ImageResource { .init(name: "Trash_TabBar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Trash_red`.
     var trash_red: RswiftResources.ImageResource { .init(name: "Trash_red", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -1690,6 +1740,9 @@ struct _R {
 
     /// Image `contextualMenu`.
     var contextualMenu: RswiftResources.ImageResource { .init(name: "contextualMenu", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `editCell`.
+    var editCell: RswiftResources.ImageResource { .init(name: "editCell", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `emptyCheckmark`.
     var emptyCheckmark: RswiftResources.ImageResource { .init(name: "emptyCheckmark", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -1967,9 +2020,12 @@ struct _R {
     }
   }
 
-  /// This `_R.font` struct is generated, and contains static references to 16 fonts.
+  /// This `_R.font` struct is generated, and contains static references to 17 fonts.
   struct font: Sequence {
     let bundle: Foundation.Bundle
+
+    /// Font `SFCompactDisplay-Semibold`.
+    var sfCompactDisplaySemibold: RswiftResources.FontResource { .init(name: "SFCompactDisplay-Semibold", bundle: bundle, filename: "SF-Compact-Display-Semibold.otf") }
 
     /// Font `SFProDisplay-Bold`.
     var sfProDisplayBold: RswiftResources.FontResource { .init(name: "SFProDisplay-Bold", bundle: bundle, filename: "SF Pro Display Bold.otf") }
@@ -2020,7 +2076,7 @@ struct _R {
     var sfProTextSemibold: RswiftResources.FontResource { .init(name: "SFProText-Semibold", bundle: bundle, filename: "SF Pro Text Semibold.otf") }
 
     func makeIterator() -> IndexingIterator<[RswiftResources.FontResource]> {
-      [sfProDisplayBold, sfProDisplayHeavy, sfProDisplayMedium, sfProDisplayRegular, sfProDisplaySemibold, sfProRoundedBold, sfProRoundedHeavy, sfProRoundedMedium, sfProRoundedRegular, sfProRoundedSemibold, sfProTextBlack, sfProTextBold, sfProTextHeavy, sfProTextMedium, sfProTextRegular, sfProTextSemibold].makeIterator()
+      [sfCompactDisplaySemibold, sfProDisplayBold, sfProDisplayHeavy, sfProDisplayMedium, sfProDisplayRegular, sfProDisplaySemibold, sfProRoundedBold, sfProRoundedHeavy, sfProRoundedMedium, sfProRoundedRegular, sfProRoundedSemibold, sfProTextBlack, sfProTextBold, sfProTextHeavy, sfProTextMedium, sfProTextRegular, sfProTextSemibold].makeIterator()
     }
     func validate() throws {
       for font in self {
@@ -2029,7 +2085,7 @@ struct _R {
     }
   }
 
-  /// This `_R.file` struct is generated, and contains static references to 17 resource files.
+  /// This `_R.file` struct is generated, and contains static references to 18 resource files.
   struct file {
     let bundle: Foundation.Bundle
 
@@ -2083,6 +2139,9 @@ struct _R {
 
     /// Resource file `SF Pro Text Semibold.otf`.
     var sfProTextSemiboldOtf: RswiftResources.FileResource { .init(name: "SF Pro Text Semibold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
+
+    /// Resource file `SF-Compact-Display-Semibold.otf`.
+    var sfCompactDisplaySemiboldOtf: RswiftResources.FileResource { .init(name: "SF-Compact-Display-Semibold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
   }
 
   /// This `_R.storyboard` struct is generated, and contains static references to 1 storyboards.
