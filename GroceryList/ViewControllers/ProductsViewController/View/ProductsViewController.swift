@@ -8,6 +8,8 @@
 import SnapKit
 import UIKit
 
+// swiftlint:disable file_length
+// swiftlint:disable type_body_length
 class ProductsViewController: UIViewController {
     
     enum Section: Hashable {
@@ -26,10 +28,8 @@ class ProductsViewController: UIViewController {
         .darkContent
     }
 
-    private let navigationView: UIView = {
-        let view = UIView()
-        return view
-    }()
+    private let navigationView = UIView()
+    private let editView = UIView()
     
     private lazy var arrowBackButton: UIButton = {
         let button = UIButton()
@@ -44,10 +44,27 @@ class ProductsViewController: UIViewController {
         return label
     }()
     
+    private lazy var editCellButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(editCellButtonPressed), for: .touchUpInside)
+        button.setImage(R.image.editCell(), for: .normal)
+        return button
+    }()
+    
     private lazy var contextMenuButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(contextMenuButtonPressed), for: .touchUpInside)
         button.setImage(UIImage(named: "contextMenu"), for: .normal)
+        return button
+    }()
+    
+    private lazy var cancelEditButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(cancelEditButtonPressed), for: .touchUpInside)
+        button.setTitle(R.string.localizable.cancel(), for: .normal)
+        button.setTitleColor(UIColor(hex: "#7E19FF"), for: .normal)
+        button.titleLabel?.font = UIFont.SFPro.semibold(size: 16).font
+        button.isHidden = true
         return button
     }()
     
@@ -89,6 +106,7 @@ class ProductsViewController: UIViewController {
     private let messageView = InfoMessageView()
     private let productImageView = ProductImageView()
     private let sharingView = SharingView()
+    private let editTabBarView = EditTabBarView()
     private var imagePicker = UIImagePickerController()
     private var taprecognizer = UITapGestureRecognizer()
     
@@ -115,13 +133,22 @@ class ProductsViewController: UIViewController {
     }
     
     private func setupController() {
+        let colorForForeground = viewModel?.getColorForForeground() ?? .black
+        let colorForBackground = viewModel?.getColorForBackground()
         nameOfListLabel.text = viewModel?.getNameOfList()
-        view.backgroundColor = viewModel?.getColorForBackground()
-        addItemView.backgroundColor = viewModel?.getColorForForeground()
-        plusImage.image = R.image.sharing_plus()?.withTintColor(viewModel?.getColorForForeground() ?? .black)
-        nameOfListLabel.textColor = viewModel?.getColorForForeground()
-        navigationView.backgroundColor = viewModel?.getColorForBackground()
+        view.backgroundColor = colorForBackground
+        navigationView.backgroundColor = colorForBackground
+        editView.backgroundColor = colorForBackground
+        
+        addItemView.backgroundColor = colorForForeground
+        plusImage.image = R.image.sharing_plus()?.withTintColor(colorForForeground)
+        editCellButton.setImage(R.image.editCell()?.withTintColor(colorForForeground), for: .normal)
+        arrowBackButton.setImage(R.image.greenArrowBack()?.withTintColor(colorForForeground), for: .normal)
+        contextMenuButton.setImage(R.image.contextMenu()?.withTintColor(colorForForeground), for: .normal)
+        nameOfListLabel.textColor = colorForForeground
+        
         collectionView.reloadData()
+        editTabBarView.delegate = self
     }
     
     private func setupInfoMessage() {
@@ -171,7 +198,7 @@ class ProductsViewController: UIViewController {
         sharingView.addGestureRecognizer(tapRecognizer)
         sharingView.configure(state: viewModel.getSharingState(),
                               viewState: .products,
-                              color: UIColor(hex: "#1A645A"),
+                              color: viewModel.getColorForForeground(),
                               images: viewModel.getShareImages())
     }
     
@@ -190,6 +217,29 @@ class ProductsViewController: UIViewController {
     private func contextMenuButtonPressed() {
         let snapshot = makeSnapshot()
         viewModel?.settingsTapped(with: snapshot)
+    }
+    
+    @objc
+    private func editCellButtonPressed() {
+        let window = UIApplication.shared.windows.first
+        let bottomPadding = window?.safeAreaInsets.bottom ?? 0
+        let editTabBarHeight = 72 + bottomPadding
+        editView.snp.updateConstraints { $0.height.equalTo(47) }
+        editTabBarView.snp.updateConstraints { $0.height.equalTo(editTabBarHeight) }
+        cancelEditButton.isHidden = false
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc
+    private func cancelEditButtonPressed() {
+        editView.snp.updateConstraints { $0.height.equalTo(0) }
+        editTabBarView.snp.updateConstraints { $0.height.equalTo(0) }
+        cancelEditButton.isHidden = true
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
     }
     
     @objc
@@ -356,19 +406,72 @@ class ProductsViewController: UIViewController {
     
     // MARK: - Constraints
     private func setupConstraints() {
-        view.addSubviews([collectionView, navigationView, addItemView, productImageView])
-        navigationView.addSubviews([arrowBackButton, nameOfListLabel, contextMenuButton, sharingView])
+        view.addSubviews([collectionView, navigationView, addItemView, productImageView, editView, editTabBarView])
+        navigationView.addSubviews([arrowBackButton, nameOfListLabel, contextMenuButton, sharingView, editCellButton])
+        editView.addSubviews([cancelEditButton])
         addItemView.addSubviews([plusView, plusImage, addItemLabel])
         collectionView.addSubview(messageView)
         
+        setupNavigationViewConstraints()
+        setupEditViewConstraints()
+        setupAddItemConstraints()
+        
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(navigationView.snp.bottom)
+            make.left.right.bottom.equalToSuperview()
+        }
+        
+        messageView.snp.makeConstraints { make in
+            make.width.equalTo(264)
+            make.centerX.equalTo(self.view)
+            make.top.equalToSuperview().offset(collectionView.contentSize.height + 4)
+        }
+        
+        productImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    private func setupNavigationViewConstraints() {
         navigationView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             make.right.left.equalToSuperview()
             make.height.equalTo(84)
         }
         
-        setupNavigationViewConstraints()
+        arrowBackButton.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(16)
+            make.top.equalToSuperview()
+            make.height.width.equalTo(44)
+        }
         
+        nameOfListLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(24)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(arrowBackButton.snp.bottom).offset(12)
+            make.height.equalTo(24)
+        }
+        
+        contextMenuButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(20)
+            make.top.equalToSuperview()
+            make.height.width.equalTo(40)
+        }
+        
+        editCellButton.snp.makeConstraints { make in
+            make.trailing.equalTo(contextMenuButton.snp.leading).inset(-4)
+            make.centerY.equalTo(contextMenuButton)
+            make.height.width.equalTo(40)
+        }
+        
+        sharingView.snp.makeConstraints { make in
+            make.trailing.equalTo(editCellButton.snp.leading).offset(-4)
+            make.top.equalTo(contextMenuButton)
+            make.height.equalTo(44)
+        }
+    }
+    
+    private func setupAddItemConstraints() {
         addItemView.snp.makeConstraints { make in
             make.trailing.bottom.equalToSuperview().offset(4)
             make.height.equalTo(84)
@@ -390,50 +493,24 @@ class ProductsViewController: UIViewController {
             make.centerY.equalTo(plusImage)
             make.right.equalToSuperview().inset(5)
         }
-        
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(navigationView.snp.bottom)
-            make.left.right.bottom.equalToSuperview()
-        }
-        
-        messageView.snp.makeConstraints { make in
-            make.width.equalTo(264)
-            make.centerX.equalTo(self.view)
-            make.top.equalToSuperview().offset(collectionView.contentSize.height + 4)
-        }
-        
-        productImageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
     }
     
-    private func setupNavigationViewConstraints() {
-        arrowBackButton.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(16)
-            make.top.equalToSuperview()
-            make.height.width.equalTo(44)
+    private func setupEditViewConstraints() {
+        editView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalTo(navigationView)
+            make.height.equalTo(0)
         }
         
-        nameOfListLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(24)
-            make.centerX.equalToSuperview()
-            make.top.equalTo(arrowBackButton.snp.bottom).offset(12)
-            make.height.equalTo(24)
+        cancelEditButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(12)
+            make.trailing.equalToSuperview().offset(-20)
         }
         
-        contextMenuButton.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(20)
-            make.top.equalToSuperview()
-            make.height.width.equalTo(40)
-        }
-        
-        sharingView.snp.makeConstraints { make in
-            make.trailing.equalTo(contextMenuButton.snp.leading).offset(-4)
-            make.centerY.equalTo(contextMenuButton)
-            make.height.equalTo(44)
+        editTabBarView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(0)
         }
     }
-    
 }
 
 // MARK: - CellTapped
@@ -568,4 +645,27 @@ extension ProductsViewController: UINavigationControllerDelegate, UIImagePickerC
         productImageView.updateImage(image)
         viewModel?.updateImage(image)
     }
+}
+
+extension ProductsViewController: EditTabBarViewDelegate {
+    func tappedSelectAll() {
+        
+    }
+    
+    func tappedMove() {
+        
+    }
+    
+    func tappedCopy() {
+        
+    }
+    
+    func tappedDelete() {
+        
+    }
+    
+    func tappedClearAll() {
+        
+    }
+    
 }

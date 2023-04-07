@@ -218,6 +218,7 @@
 "importRecipe"                  = "Import Web Recipes";
 "createCollection"              = "Create Collection";
 
+// Создание рецепта
 "recipeCreation"                = "Recipe Creation";
 "Step 1 of 2"                   = "Step 1 of 2";
 "Required"                      = "Required";
@@ -237,6 +238,7 @@
 "Add Step"                      = "Add Step";
 "Complete"                      = "Complete";
 
+// Коллекция/папка с рецептами
 "Miscellaneous"                 = "Miscellaneous";
 "Note"                          = "Note";
 "Collections"                   = "Collections";
@@ -247,7 +249,15 @@
 "Share recipes"                 = "Share recipes";
 "AdjustNumberOfServings"        = "Adjust the number of servings and add ingredients to your shopping list";
 
+// Поиск
 "Search in "                    = "Search in ";
 "Lists"                         = "Lists";
 "AllRecipes"                    = "Recipes";
 "Search in all recipes"         = "Search in all recipes";
+
+// Редактирование продукта в списке
+"edit"                          = "Edit";
+"copyTabBar"                    = "Copy";
+"move"                          = "Move";
+"clearAll"                      = "Clear All";
+"itemSelected"                  = "item selected";
