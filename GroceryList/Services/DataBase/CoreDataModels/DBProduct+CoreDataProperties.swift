@@ -27,4 +27,21 @@ extension DBProduct {
     @NSManaged public var userDescription: String?
     @NSManaged public var list: DBGroceryListModel?
     @NSManaged public var fromRecipeTitle: String?
+    @NSManaged public var unitId: Int16
+    
+    static func prepare(fromPlainModel model: Product, context: NSManagedObjectContext) -> DBProduct {
+        let dbProduct = DBProduct(context: context)
+        dbProduct.isPurchased = model.isPurchased
+        dbProduct.name = model.name
+        dbProduct.dateOfCreation = model.dateOfCreation
+        dbProduct.id = model.id
+        dbProduct.listId = model.listId
+        dbProduct.category = model.category
+        dbProduct.isFavorite = model.isFavorite
+        dbProduct.image = model.imageData
+        dbProduct.userDescription = model.description
+        dbProduct.fromRecipeTitle = model.fromRecipeTitle
+        dbProduct.unitId = Int16(model.unitId?.rawValue ?? 0)
+        return dbProduct
+    }
 }

@@ -301,12 +301,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
             viewModel?.cellTapped(with: model)
         } else {
             if indexPath.section != 0 && indexPath.row != (viewModel?.dataSource?.recipeCount ?? 10) - 1 {
-                guard let model = viewModel?.dataSource?.recipesSections[indexPath.section].recipes[indexPath.item] else { return }
-                let recipeViewModel = RecipeScreenViewModel(recipe: model)
-                recipeViewModel.router = viewModel?.router
-                let view = RecipeViewController(with: recipeViewModel,
-                                                backButtonTitle: R.string.localizable.back())
-                navigationController?.pushViewController(view, animated: true)
+                viewModel?.showRecipe(by: indexPath)
             }
         }
     }

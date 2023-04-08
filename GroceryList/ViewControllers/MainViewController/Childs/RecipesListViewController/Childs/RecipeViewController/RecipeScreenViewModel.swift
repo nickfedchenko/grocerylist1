@@ -16,6 +16,7 @@ protocol RecipeScreenViewModelProtocol {
     func convertValue() -> Double
     func haveCollections() -> Bool
     func showCollection()
+    var updateCollection: (() -> Void)? { get set }
     var recipe: Recipe { get }
 }
 
@@ -29,6 +30,7 @@ final class RecipeScreenViewModel {
     
     weak var router: RootRouter?
     
+    var updateCollection: (() -> Void)?
     private(set) var recipe: Recipe
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
     private var recipeUnit: RecipeUnit?
@@ -67,7 +69,7 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
             var unitTitle = ingredient.unit?.shortTitle ?? ""
             if let unit = unit(unitID: ingredient.unit?.id) {
                 targetValue *= convertValue()
-                unitTitle = unit.rawValue.localized
+                unitTitle = unit.title
             }
             
             let unitName = unitTitle
@@ -113,17 +115,22 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
     }
     
     func showCollection() {
-        router?.goToShowCollection(state: .select, recipe: recipe)
+        router?.goToShowCollection(state: .select, recipe: recipe, updateUI: { [weak self] in
+            self?.updateCollection?()
+        })
     }
     
     @objc
     private func updateRecipe() {
-        guard let dbRecipe = CoreDataManager.shared.getRecipe(by: self.recipe.id),
-              let updateRecipe = Recipe(from: dbRecipe) else {
-            return
+        DispatchQueue.main.async {
+            guard let dbRecipe = CoreDataManager.shared.getRecipe(by: self.recipe.id),
+                  let updateRecipe = Recipe(from: dbRecipe) else {
+                return
+            }
+            
+            self.recipe = updateRecipe
         }
-        
-        self.recipe = updateRecipe
+      
     }
 }
 

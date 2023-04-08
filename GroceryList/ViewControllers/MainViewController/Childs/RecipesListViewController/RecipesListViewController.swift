@@ -114,12 +114,12 @@ extension RecipesListViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let recipe = section.recipes[indexPath.item]
-        let viewModel = RecipeScreenViewModel(recipe: recipe)
-        viewModel.router = router
-        let viewController = RecipeViewController(with: viewModel,
-                                                  backButtonTitle: R.string.localizable.recipes())
-        navigationController?.pushViewController(viewController, animated: true)
+        let recipeId = section.recipes[indexPath.item].id
+        guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
+              let model = Recipe(from: dbRecipe) else {
+            return
+        }
+        router?.goToRecipe(recipe: model)
     }
 }
 
@@ -135,10 +135,15 @@ extension RecipesListViewController: RecipesListHeaderViewDelegate {
 
 extension RecipesListViewController: RecipeListCellDelegate {
     func didTapToButProductsAtRecipe(at index: Int) {
-        let recipeTitle = section.recipes[index].title
+        let recipeId = section.recipes[index].id        
+        guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
+              let model = ShortRecipeModel(withIngredients: dbRecipe) else {
+            return
+        }
+        let recipeTitle = model.title
         currentlySelectedIndex = index
         print("added recipeTitle in product \(recipeTitle)")
-        let products: [Product] = section.recipes[index].ingredients.map {
+        let products: [Product] = model.ingredients?.map({
             let netProduct = $0.product
             let product = Product(
                 name: netProduct.title,
@@ -150,8 +155,8 @@ extension RecipesListViewController: RecipeListCellDelegate {
                 fromRecipeTitle: recipeTitle
             )
             return product
-        }
-        
+        }) ?? []
+
         let viewController = AddProductsSelectionListController(with: products)
         viewController.contentViewHeigh = 700
         viewController.modalPresentationStyle = .overCurrentContext

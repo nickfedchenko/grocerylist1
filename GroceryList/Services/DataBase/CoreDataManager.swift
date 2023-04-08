@@ -12,6 +12,7 @@ import UIKit
 protocol CoredataSyncProtocol {
     func saveRecipes(recipes: [Recipe])
     func saveProducts(products: [NetworkProductModel])
+    func saveCategories(categories: [NetworkCategory])
 }
 
 class CoreDataManager {
@@ -35,24 +36,9 @@ class CoreDataManager {
         fetchRequest.predicate = NSPredicate(format: "\(#keyPath(DBGroceryListModel.id)) = '\(product.listId)'")
         guard let list = try? context.fetch(fetchRequest).first else { return }
         
-        let object = DBProduct(context: context)
+        let object = DBProduct.prepare(fromPlainModel: product, context: context)
         object.list = list
-        object.isPurchased = product.isPurchased
-        object.name = product.name
-        object.dateOfCreation = product.dateOfCreation
-        object.id = product.id
-        object.listId = product.listId
-        object.category = product.category
-        object.isFavorite = product.isFavorite
-        object.image = product.imageData
-        object.userDescription = product.description
-        object.fromRecipeTitle = product.fromRecipeTitle
-        do {
-            try context.save()
-        } catch let error {
-            print(error)
-            context.rollback()
-        }
+        try? context.save()
     }
     
     func getProduct(id: UUID) -> DBProduct? {
@@ -79,12 +65,8 @@ class CoreDataManager {
             object.fromRecipeTitle = product.fromRecipeTitle
             object.userDescription = product.description
         }
-        do {
-            try context.save()
-        } catch let error {
-            print(error)
-            context.rollback()
-        }
+        
+        try? context.save()
     }
     
     func getProducts(for listId: String) -> [DBProduct] {
@@ -122,41 +104,6 @@ class CoreDataManager {
     }
     
     // MARK: - NetworkProducts
-    
-    func createNetworkProduct(product: NetworkProductModel, context: NSManagedObjectContext) {
-        guard getNetworkProduct(id: product.id) == nil else {
-            updateNetworkProduct(product: product, context: context)
-            return
-        }
-        let fetchRequest: NSFetchRequest<DBNetProduct> = DBNetProduct.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
-        
-        let object = DBNetProduct(context: context)
-        object.title = product.title
-        object.id = Int64(product.id)
-        object.marketCategory = product.marketCategory?.title
-        object.photo = product.photo
-    }
-    
-    func getNetworkProduct(id: Int) -> DBNetProduct? {
-        let fetchRequest: NSFetchRequest<DBNetProduct> = DBNetProduct.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
-        guard let object = try? coreData.container.newBackgroundContext().fetch(fetchRequest).first else {
-            return nil
-        }
-        return object
-    }
-    
-    func updateNetworkProduct(product: NetworkProductModel, context: NSManagedObjectContext) {
-        let fetchRequest: NSFetchRequest<DBNetProduct> = DBNetProduct.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
-        if let object = try? context.fetch(fetchRequest).first {
-            object.title = product.title
-            object.id = Int64(product.id)
-            object.marketCategory = product.marketCategory?.title
-            object.photo = product.photo
-        }
-    }
     
     func getAllNetworkProducts() -> [DBNetProduct]? {
         let fetchRequest: NSFetchRequest<DBNetProduct> = DBNetProduct.fetchRequest()
@@ -267,8 +214,16 @@ class CoreDataManager {
         try? context.save()
     }
     
-    func getAllCategories() -> [DBCategories]? {
+    func getUserCategories() -> [DBCategories]? {
         let fetchRequest: NSFetchRequest<DBCategories> = DBCategories.fetchRequest()
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
+            return nil
+        }
+        return object
+    }
+    
+    func getDefaultCategories() -> [DBNetCategory]? {
+        let fetchRequest: NSFetchRequest<DBNetCategory> = DBNetCategory.fetchRequest()
         guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
             return nil
         }
@@ -393,7 +348,6 @@ class CoreDataManager {
         asyncContext.perform {
             do {
                 try asyncContext.save()
-                NotificationCenter.default.post(name: .collectionsSaved, object: nil)
             } catch let error {
                 print(error)
                 asyncContext.rollback()
@@ -435,10 +389,9 @@ class CoreDataManager {
 extension CoreDataManager: CoredataSyncProtocol {
     func saveRecipes(recipes: [Recipe]) {
         let asyncContext = coreData.taskContext
-        let _ = recipes.map { DBRecipe.prepare(fromPlainModel: $0, context: asyncContext)}
-        guard asyncContext.hasChanges else { return }
         asyncContext.perform {
             do {
+                let _ = recipes.map { DBRecipe.prepare(fromPlainModel: $0, context: asyncContext)}
                 try asyncContext.save()
                 NotificationCenter.default.post(name: .recieptsDownladedAnsSaved, object: nil)
             } catch let error {
@@ -450,12 +403,23 @@ extension CoreDataManager: CoredataSyncProtocol {
     
     func saveProducts(products: [NetworkProductModel]) {
         let asyncContext = coreData.taskContext
-        let _ = products.map { DBNetProduct.prepare(fromProduct: $0, using: asyncContext) }
-        guard asyncContext.hasChanges else { return }
         asyncContext.perform {
             do {
+                let _ = products.map { DBNetProduct.prepare(fromProduct: $0, using: asyncContext) }
                 try asyncContext.save()
                 NotificationCenter.default.post(name: .productsDownladedAnsSaved, object: nil)
+            } catch {
+                asyncContext.rollback()
+            }
+        }
+    }
+    
+    func saveCategories(categories: [NetworkCategory]) {
+        let asyncContext = coreData.taskContext
+        asyncContext.perform {
+            do {
+                let _ = categories.map { DBNetCategory.prepare(from: $0, using: asyncContext) }
+                try asyncContext.save()
             } catch {
                 asyncContext.rollback()
             }

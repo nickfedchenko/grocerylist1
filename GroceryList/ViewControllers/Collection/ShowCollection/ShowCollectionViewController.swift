@@ -75,9 +75,13 @@ final class ShowCollectionViewController: UIViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         showContentView()
+    }
+    
+    deinit {
+        print("ShowCollectionViewController deinited")
     }
     
     private func setup() {
@@ -120,7 +124,6 @@ final class ShowCollectionViewController: UIViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.contentInset.bottom = 203
         tableView.rowHeight = 66
         tableView.register(classCell: ShowCollectionCell.self)
     }
@@ -140,9 +143,9 @@ final class ShowCollectionViewController: UIViewController {
     
     private func hideContentView() {
         viewModel?.saveChanges()
-        updateConstraints(with: contentViewHeight, alpha: 0)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            self.dismiss(animated: false)
+        updateConstraints(with: 900, alpha: 0)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+            self?.viewModel?.dismissView()
         }
     }
     
@@ -151,10 +154,9 @@ final class ShowCollectionViewController: UIViewController {
     }
     
     private func updateConstraints(with inset: Double, alpha: Double) {
-        UIView.animate(withDuration: 0.3) { [ weak self ] in
+        UIView.animate(withDuration: 0.3) { [weak self] in
             self?.view.backgroundColor = .black.withAlphaComponent(alpha)
             self?.contentView.snp.updateConstraints { $0.bottom.equalToSuperview().offset(inset) }
-            
             self?.view.layoutIfNeeded()
         }
     }
@@ -216,9 +218,9 @@ extension ShowCollectionViewController: UITableViewDataSource {
             return cell
         }
         cell.updateConstraintsForEditState()
-        cell.deleteTapped = {
+        cell.deleteTapped = { [weak self] in
             tableView.beginUpdates()
-            viewModel.deleteCollection(by: indexPath.row - 1)
+            self?.viewModel?.deleteCollection(by: indexPath.row - 1)
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()
         }

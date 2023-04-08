@@ -20,7 +20,7 @@ final class IngredientViewModel {
     var ingredientCallback: ((Ingredient) -> Void)?
     var productsChangedCallback: (([String]) -> Void)?
     
-    func getNumberOfCells() -> Int {
+    var getNumberOfCells: Int {
         selectedUnitSystemArray.count
     }
     
@@ -29,8 +29,10 @@ final class IngredientViewModel {
     }
     
     private let network = NetworkEngine()
-    private var arrayOfProductsByCategories: [DBNetProduct]?
-    private var arrayOfUserProducts: [DBProduct]?
+    private var networkProducts: [DBNetProduct]?
+    private var userProducts: [DBProduct]?
+    private var networkProductTitles: [String] = []
+    private var userProductTitles: [String] = []
     private var categoryTitle = ""
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
     private var currentSelectedUnit: UnitSystem = .gram
@@ -62,10 +64,13 @@ final class IngredientViewModel {
     ]
     
     init() {
-        arrayOfProductsByCategories = CoreDataManager.shared.getAllNetworkProducts()?
-                                                     .sorted(by: { $0.title ?? "" > $1.title ?? "" })
-        arrayOfUserProducts = CoreDataManager.shared.getAllProducts()?
-                                             .sorted(by: { $0.name ?? "" > $1.name ?? "" })
+        networkProducts = CoreDataManager.shared.getAllNetworkProducts()?
+            .sorted(by: { $0.title ?? "" < $1.title ?? "" })
+        userProducts = CoreDataManager.shared.getAllProducts()?
+            .sorted(by: { $0.name ?? "" < $1.name ?? "" })
+        
+        networkProductTitles = networkProducts?.compactMap({ $0.title }) ?? []
+        userProductTitles = userProducts?.compactMap({ $0.name }) ?? []
     }
     
     func save(title: String, quantity: Double,
@@ -76,8 +81,8 @@ final class IngredientViewModel {
                                     quantity: quantity,
                                     isNamed: false,
                                     unit: MarketUnitClass(id: UUID().integer,
-                                                          title: currentSelectedUnit.rawValue,
-                                                          shortTitle: currentSelectedUnit.rawValue,
+                                                          title: currentSelectedUnit.title,
+                                                          shortTitle: currentSelectedUnit.title,
                                                           isOnlyForMarket: false),
                                     description: description,
                                     quantityStr: quantityStr)
@@ -99,74 +104,38 @@ final class IngredientViewModel {
     }
     
     func checkIsProductFromCategory(name: String?) {
-        guard let arrayOfProductsByCategories,
-              let name = name?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-                                           .getTitleWithout(symbols: ["(", ")"]) else {
+        guard let name = name?.prepareForSearch() else {
             productsChangedCallback?([])
             return
         }
-        var productTitles: [String] = []
-        var product: DBNetProduct?
-        for productDB in arrayOfProductsByCategories {
-            guard let productTitle = productDB.title else { return }
-            let title = productTitle.lowercased().getTitleWithout(symbols: ["(", ")"])
-            
-            guard title != name else {
-                product = productDB
-                if name.count > 1 {
-                    productTitles.append(productTitle)
-                }
-                break
-            }
-            
-            if title.smartContains(name) {
-                product = productDB
-                if name.count > 1 {
-                    productTitles.append(productTitle)
-                }
-            }
+        let userProductTitles = search(name: name, by: userProductTitles)
+        let networkProductTitles = search(name: name, by: networkProductTitles)
+        if name.count > 1 {
+            let titles = Array(Set(userProductTitles + networkProductTitles))
+            let productTitles = sortTitle(by: name, titles: titles)
+            productsChangedCallback?(productTitles)
+        } else {
+            productsChangedCallback?([])
         }
         
-        productTitles += getUserProduct(name: name)
-        productTitles = sortTitle(by: name, titles: productTitles)
-        productsChangedCallback?(productTitles)
-        
-        if let updateProduct = arrayOfProductsByCategories.first(where: { $0.title == productTitles.first }) {
-            product = updateProduct
-        }
-        
-        guard let product = product else {
-            delegate?.categoryChange(title: R.string.localizable.selectCategory())
-            categoryTitle = R.string.localizable.selectCategory()
+        if userProductTitles.contains(where: { $0.prepareForSearch().smartContains(name) }),
+           let product = userProducts?.first(where: { $0.name?.prepareForSearch().smartContains(name) ?? false }) {
+            getInformation(userProduct: product)
             return
         }
-        getAllInformation(product: product)
-    }
-    
-    func getAllInformation(product: DBNetProduct) {
-        let title = product.marketCategory
-        let shouldSelectUnit: MarketUnitClass.MarketUnitPrepared =
-            .init(rawValue: Int(product.defaultMarketUnitID)) ?? .gram
-        let properSelectedUnit: UnitSystem = {
-            switch shouldSelectUnit {
-            case .bottle:       return .bottle
-            case .gram:         return isMetricSystem ? .gram : .ozz
-            case .kilogram:     return isMetricSystem ? .kilogram : .lbс
-            case .litter:       return isMetricSystem ? .liter : .pt
-            case .millilitre:   return isMetricSystem ? .mililiter : .fluidOz
-            case .pack:         return .pack
-            case .piece:        return .piece
-            case .tin:          return .can
-            }
-        }()
-        currentSelectedUnit = properSelectedUnit
-        delegate?.categoryChange(title: title ?? R.string.localizable.selectCategory())
-        categoryTitle = title ?? R.string.localizable.selectCategory()
-        delegate?.unitChange(currentSelectedUnit)
+        
+        if networkProductTitles.contains(where: { $0.prepareForSearch().smartContains(name) }),
+           let product = networkProducts?.first(where: { $0.title?.prepareForSearch().smartContains(name) ?? false }) {
+            getInformation(networkProduct: product)
+            return
+        }
+        
+        delegate?.categoryChange(title: R.string.localizable.selectCategory())
+        categoryTitle = R.string.localizable.selectCategory()
     }
     
     func getTitleForCell(at ind: Int) -> String {
-        selectedUnitSystemArray[ind].rawValue.localized
+        selectedUnitSystemArray[ind].title
     }
     
     func cellSelected(at ind: Int) {
@@ -184,7 +153,6 @@ final class IngredientViewModel {
             photo: "",
             marketUnit: nil
         )
-        
     }
     
     private func getMarketCategory() -> MarketCategory {
@@ -193,19 +161,57 @@ final class IngredientViewModel {
         return MarketCategory(id: UUID().integer, title: title)
     }
     
-    private func getUserProduct(name: String) -> [String] {
-        var productTitles: [String] = []
-        if let arrayOfUserProducts {
-            arrayOfUserProducts.forEach { product in
-                if name.count > 1, let productName = product.name,
-                   productName.smartContains(name) {
-                    productTitles.append(productName)
-                }
+    private func search(name: String, by titles: [String]) -> [String] {
+        var resultTitles: [String] = []
+        
+        for title in titles {
+            let searchTitle = title.prepareForSearch()
+            guard searchTitle != name else {
+                resultTitles.append(title)
+                break
+            }
+            
+            if searchTitle.smartContains(name) {
+                resultTitles.append(title)
             }
         }
-        return productTitles
+        
+        return resultTitles
     }
     
+    private func getInformation(networkProduct: DBNetProduct) {
+        let title = networkProduct.marketCategory ?? R.string.localizable.selectCategory()
+        let marketId = Int(networkProduct.defaultMarketUnitID)
+        let shouldSelectUnit: MarketUnitClass.MarketUnitPrepared = .init(rawValue: marketId ) ?? .gram
+        let properSelectedUnit: UnitSystem = {
+            switch shouldSelectUnit {
+            case .bottle:       return .bottle
+            case .gram:         return isMetricSystem ? .gram : .ozz
+            case .kilogram:     return isMetricSystem ? .kilogram : .lbс
+            case .litter:       return isMetricSystem ? .liter : .pt
+            case .millilitre:   return isMetricSystem ? .mililiter : .fluidOz
+            case .pack:         return .pack
+            case .piece:        return .piece
+            case .tin:          return .can
+            }
+        }()
+        currentSelectedUnit = properSelectedUnit
+        delegate?.categoryChange(title: title)
+        categoryTitle = title
+        delegate?.unitChange(currentSelectedUnit)
+    }
+    
+    private func getInformation(userProduct: DBProduct) {
+        let title = userProduct.category ?? R.string.localizable.selectCategory()
+        let defaultUnit: UnitSystem = isMetricSystem ? .gram : .ozz
+        let shouldSelectUnit: UnitSystem = .init(rawValue: Int(userProduct.unitId)) ?? defaultUnit
+        currentSelectedUnit = shouldSelectUnit
+        delegate?.categoryChange(title: title)
+        categoryTitle = title
+        delegate?.unitChange(currentSelectedUnit)
+    }
+    
+    /// сортировка: вперед выносим названия совпадающие с поиском, далее по алфавиту
     private func sortTitle(by name: String, titles: [String]) -> [String] {
         let count = name.count
         var titles = titles
@@ -217,6 +223,7 @@ final class IngredientViewModel {
         return titleByLetter + titles
     }
     
+    /// отправка созданного продуктов на сервер (метод для аналитики)
     private func sendUserProduct(product: String) {
         var userToken = Apphud.userID()
         var productId: String?
@@ -227,12 +234,12 @@ final class IngredientViewModel {
             userToken = user.token
         }
         
-        if let product = arrayOfProductsByCategories?.first(where: { $0.title?.lowercased() == product.lowercased() }) {
+        if let product = networkProducts?.first(where: { $0.title?.lowercased() == product.lowercased() }) {
             productId = "\(product.id)"
         }
         
-        if let userCategory = CoreDataManager.shared.getAllCategories()?.first(where: { categoryTitle == $0.name }) {
-            categoryId = "\(userCategory.id)"
+        if let category = CoreDataManager.shared.getDefaultCategories()?.first(where: { categoryTitle == $0.name }) {
+            categoryId = "\(category.id)"
         }
         
         let userProduct = UserProduct(userToken: userToken,

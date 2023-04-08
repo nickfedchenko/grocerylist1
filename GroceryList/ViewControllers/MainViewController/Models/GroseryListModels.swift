@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 struct RecipeSectionsModel {
     enum RecipeCellType {
         case topMenuCell
@@ -38,7 +39,32 @@ struct RecipeSectionsModel {
     
     var cellType: RecipeCellType
     var sectionType: RecipeSectionType
-    var recipes: [Recipe]
+    var recipes: [ShortRecipeModel]
+}
+
+struct ShortRecipeModel {
+    let id: Int
+    let title: String
+    let photo: String
+    var ingredients: [Ingredient]?
+    var localCollection: [CollectionModel]?
+    var localImage: Data?
+    
+    init?(withCollection dbModel: DBRecipe) {
+        id = Int(dbModel.id)
+        title = dbModel.title ?? ""
+        photo = dbModel.photo ?? ""
+        localCollection = (try? JSONDecoder().decode([CollectionModel].self, from: dbModel.localCollection ?? Data()))
+        localImage = dbModel.localImage
+    }
+    
+    init?(withIngredients dbModel: DBRecipe) {
+        id = Int(dbModel.id)
+        title = dbModel.title ?? ""
+        photo = dbModel.photo ?? ""
+        ingredients = (try? JSONDecoder().decode([Ingredient].self, from: dbModel.ingredients ?? Data()))
+        localImage = dbModel.localImage
+    }
 }
 
 struct SectionModel: Hashable {
@@ -122,6 +148,7 @@ struct Product: Hashable, Equatable, Codable {
     var imageData: Data?
     var description: String
     var fromRecipeTitle: String?
+    var unitId: UnitSystem?
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -132,7 +159,8 @@ struct Product: Hashable, Equatable, Codable {
         lhs.dateOfCreation == rhs.dateOfCreation &&
         lhs.category == rhs.category && lhs.isPurchased == rhs.isPurchased &&
         lhs.id == rhs.id && lhs.isFavorite == rhs.isFavorite &&
-        lhs.description == rhs.description && lhs.imageData == rhs.imageData
+        lhs.description == rhs.description && lhs.imageData == rhs.imageData &&
+        lhs.unitId == rhs.unitId
     }
     
     init?(from dbProduct: DBProduct) {
@@ -146,21 +174,21 @@ struct Product: Hashable, Equatable, Codable {
         imageData = dbProduct.image
         description = dbProduct.userDescription ?? ""
         fromRecipeTitle = dbProduct.fromRecipeTitle
+        unitId = UnitSystem(rawValue: Int(dbProduct.unitId))
     }
     
-    init(
-        id: UUID = UUID(),
-        listId: UUID = UUID(),
-        name: String,
-        isPurchased: Bool,
-        dateOfCreation: Date,
-        category: String,
-        isFavorite: Bool,
-        isSelected: Bool = false,
-        imageData: Data? = nil,
-        description: String,
-        fromRecipeTitle: String? = nil
-    ) {
+    init(id: UUID = UUID(),
+         listId: UUID = UUID(),
+         name: String,
+         isPurchased: Bool,
+         dateOfCreation: Date,
+         category: String,
+         isFavorite: Bool,
+         isSelected: Bool = false,
+         imageData: Data? = nil,
+         description: String,
+         fromRecipeTitle: String? = nil,
+         unitId: UnitSystem? = nil) {
         self.id = id
         self.listId = listId
         self.name = name
@@ -172,6 +200,7 @@ struct Product: Hashable, Equatable, Codable {
         self.description = description
         self.isSelected = isSelected
         self.fromRecipeTitle = fromRecipeTitle
+        self.unitId = unitId
     }
 }
 

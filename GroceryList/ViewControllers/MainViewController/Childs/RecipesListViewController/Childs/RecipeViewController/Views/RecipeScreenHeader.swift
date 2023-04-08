@@ -34,9 +34,9 @@ final class RecipeScreenHeader: UIView {
     private let collectionButton: UIButton = {
         let button = UIButton()
         button.setImage(R.image.recipePlus(), for: .normal)
-        button.tintColor = UIColor(hex: "0C695E")
         button.titleLabel?.font = UIFont.SFProRounded.bold(size: 15).font
-        button.setTitle("Add to collection", for: .normal)
+        button.setTitleColor(UIColor(hex: "0C695E"), for: .normal)
+        button.semanticContentAttribute = .forceRightToLeft
         return button
     }()
     
@@ -89,7 +89,7 @@ final class RecipeScreenHeader: UIView {
     func setCollectionButton(_ isMissingFromCollections: Bool) {
         collectionButton.setImage(isMissingFromCollections ? R.image.recipePlus() : R.image.sortRecipeMenu(),
                                   for: .normal)
-        collectionButton.setTitle(isMissingFromCollections ? "Add to collection" : nil,
+        collectionButton.setTitle(isMissingFromCollections ? R.string.localizable.addToCollection() : nil,
                                   for: .normal)
     }
     
@@ -147,7 +147,7 @@ final class RecipeScreenHeader: UIView {
         }
         
         collectionButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(2)
+            make.centerY.equalTo(backButton)
             make.trailing.equalToSuperview().offset(-20)
             make.height.equalTo(40)
         }

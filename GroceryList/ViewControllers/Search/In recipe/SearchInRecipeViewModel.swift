@@ -23,9 +23,9 @@ final class SearchInRecipeViewModel {
     
     private(set) var placeholder = ""
     private var section: RecipeSectionsModel?
-    private var recipes: [Recipe] = []
+    private var recipes: [ShortRecipeModel] = []
     private var searchText = ""
-    private var editableRecipes: [Recipe] = [] {
+    private var editableRecipes: [ShortRecipeModel] = [] {
         didSet { updateData?() }
     }
     
@@ -42,8 +42,8 @@ final class SearchInRecipeViewModel {
     func search(text: String?) {
         editableRecipes.removeAll()
         
-        var filteredRecipes: [Recipe] = []
-        var filteredRecipesWithIngredient: [Recipe] = []
+        var filteredRecipes: [ShortRecipeModel] = []
+        var filteredRecipesWithIngredient: [ShortRecipeModel] = []
         guard let text = text?.lowercased().trimmingCharacters(in: .whitespaces),
               text.count >= 3 else {
             searchText = ""
@@ -53,7 +53,7 @@ final class SearchInRecipeViewModel {
         
         filteredRecipes = recipes.filter { $0.title.smartContains(text) }
         recipes.forEach { recipe in
-            if recipe.ingredients.contains(where: { $0.product.title.smartContains(text) }) {
+            if recipe.ingredients?.contains(where: { $0.product.title.smartContains(text) }) ?? false {
                 filteredRecipesWithIngredient.append(recipe)
             }
         }
@@ -64,7 +64,7 @@ final class SearchInRecipeViewModel {
         editableRecipes = filteredRecipes + filteredRecipesWithIngredient
     }
     
-    func getRecipe(by index: Int) -> Recipe? {
+    func getRecipe(by index: Int) -> ShortRecipeModel? {
         editableRecipes[safe: index]
     }
     
@@ -75,12 +75,16 @@ final class SearchInRecipeViewModel {
         search(text: searchText)
     }
     
-    func showRecipe(_ recipe: Recipe) {
+    func showRecipe(_ recipe: ShortRecipeModel) {
+        guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipe.id),
+              let recipe = Recipe(from: dbRecipe) else {
+            return
+        }
         router?.goToRecipe(recipe: recipe)
     }
     
     private func getAllRecipe() {
         guard let dbRecipes = CoreDataManager.shared.getAllRecipes() else { return }
-        recipes = dbRecipes.compactMap { Recipe(from: $0) }
+        recipes = dbRecipes.compactMap { ShortRecipeModel(withIngredients: $0) }
     }
 }

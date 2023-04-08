@@ -211,6 +211,7 @@
 "Note"                          = "Beachten";
 "Collections"                   = "Sammlung";
 "SelectOneOrMoreCollections"    = "Wählen Sie eine oder mehrere Sammlungen aus, in denen Ihr Rezept gespeichert werden soll. Sie können eine neue Sammlung erstellen.";
+"Add to collection"             = "Zur Kollektion hinzufügen";
 
 "Add recipes to favorites"      = "Rezepte zu Favoriten hinzufügen";
 "Share recipes"                 = "Rezepte teilen";

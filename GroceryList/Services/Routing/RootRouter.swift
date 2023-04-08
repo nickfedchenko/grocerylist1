@@ -68,10 +68,10 @@ final class RootRouter: RootRouterProtocol {
     func openResetPassword(token: String) {
         guard let resetModel = ResetPasswordModelManager.shared.getResetPasswordModel() else { return }
         if resetModel.resetToken == token && Date() < (resetModel.dateOfExpiration + 3600) {
-            goToSettingsController()
+            goToSettingsController(animated: false)
             goToEnterNewPasswordController()
         } else {
-            goToSettingsController()
+            goToSettingsController(animated: false)
             goToPasswordExpiredController()
         }
     }
@@ -158,12 +158,12 @@ final class RootRouter: RootRouterProtocol {
     
     func goToPasswordExpiredController() {
         guard let controller = viewControllerFactory.createPasswordExpiredController(router: self) else { return }
-        navigationPushViewController(controller, animated: true)
+        navigationPushViewController(controller, animated: false)
     }
     
     func goToEnterNewPasswordController() {
         guard let controller = viewControllerFactory.createEnterNewPasswordController(router: self) else { return }
-        navigationPushViewController(controller, animated: true)
+        navigationPushViewController(controller, animated: false)
     }
     
     func goToPaswordResetController(email: String, passwordResetedCompl: @escaping (() -> Void)) {
@@ -217,10 +217,12 @@ final class RootRouter: RootRouterProtocol {
     
     func goToShowCollection(state: ShowCollectionViewController.ShowCollectionState,
                             recipe: Recipe? = nil,
+                            updateUI: (() -> Void)? = nil,
                             compl: (([CollectionModel]) -> Void)? = nil) {
         let controller = viewControllerFactory.createShowCollectionViewController(router: self,
                                                                                   state: state,
                                                                                   recipe: recipe,
+                                                                                  updateUI: updateUI,
                                                                                   compl: compl)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)

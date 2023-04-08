@@ -29,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         syncService.updateProducts()
         syncService.updateRecipes()
         syncService.updateItems()
+        syncService.updateCategories()
         SocketManager.shared.connect()
         
         let window = UIWindow(frame: UIScreen.main.bounds)

@@ -35,6 +35,9 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
     
     private lazy var backLabel: UILabel = {
         let label = UILabel()
+        let tapOnLabel = UITapGestureRecognizer(target: self, action: #selector(backButtonTapped))
+        label.addGestureRecognizer(tapOnLabel)
+        label.isUserInteractionEnabled = true
         label.font = UIFont.SFProRounded.semibold(size: 17).font
         label.textColor = UIColor(hex: "#1A645A")
         label.text = R.string.localizable.recipes()

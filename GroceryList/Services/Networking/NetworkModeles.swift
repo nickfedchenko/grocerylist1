@@ -19,6 +19,12 @@ struct GetAllItemsResponse: Codable {
     let data: [NetworkProductModel]
 }
 
+struct GetCategoriesResponse: Codable {
+    let error: Bool
+    let messages: [String]
+    let data: [NetworkCategory]
+}
+
 struct NetworkProductModel: Codable {
     let id: Int
     let title: String
@@ -231,4 +237,11 @@ struct UserProductResponse: Codable {
     var error: Bool
     var messages: [String]
     var success: Bool?
+}
+
+// MARK: - Category
+struct NetworkCategory: Codable {
+    let id: Int
+    let title: String
+    var netId: String?
 }

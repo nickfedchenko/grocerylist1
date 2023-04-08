@@ -69,8 +69,8 @@ class MainScreenTopCell: UICollectionViewCell {
     
     private lazy var settingsButton: UIButton = {
         let button = UIButton()
-        button.addTarget(self, action: #selector(settingsButtonAction), for: .touchUpInside)
         button.setImage(R.image.profile_icon(), for: .normal)
+        button.addTarget(self, action: #selector(settingsButtonAction), for: .touchUpInside)
         button.imageView?.contentMode = .scaleAspectFill
         button.layer.cornerRadius = 16
         return button
@@ -81,7 +81,7 @@ class MainScreenTopCell: UICollectionViewCell {
         label.textColor = UIColor(hex: "#1A645A")
         label.font = UIFont.SFProRounded.semibold(size: 18).font
         label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.5
+        label.minimumScaleFactor = 0.8
         return label
     }()
     
@@ -113,13 +113,28 @@ class MainScreenTopCell: UICollectionViewCell {
         return control
     }()
     
+    private lazy var profileView: UIView = {
+        let view = UIView()
+        let tapOnView = UITapGestureRecognizer(target: self, action: #selector(settingsButtonAction))
+        view.addGestureRecognizer(tapOnView)
+        return view
+    }()
+    
     // MARK: - UI
     private func setupConstraints() {
-        contentView.addSubviews([settingsButton, userNameLabel, searchButton,
-                                 menuButton, sortButton, segmentControl])
+        contentView.addSubviews([profileView, searchButton, menuButton, sortButton, segmentControl])
+        profileView.addSubviews([settingsButton, userNameLabel])
+
+        profileView.snp.makeConstraints { make in
+            make.left.equalTo(24)
+            make.top.equalToSuperview()
+            make.height.equalTo(38)
+            make.trailing.lessThanOrEqualTo(menuButton.snp.leading).offset(-10)
+        }
+        
         settingsButton.snp.makeConstraints { make in
             make.width.height.equalTo(32)
-            make.left.equalTo(28)
+            make.left.equalTo(4)
             make.top.equalToSuperview()
         }
         
@@ -127,7 +142,7 @@ class MainScreenTopCell: UICollectionViewCell {
             make.leading.equalTo(settingsButton.snp.trailing).offset(10)
             make.centerY.equalTo(settingsButton)
             make.height.equalTo(24)
-            make.trailing.equalTo(menuButton.snp.leading).offset(-10)
+            make.trailing.equalToSuperview()
         }
         
         menuButton.snp.makeConstraints { make in
@@ -152,9 +167,7 @@ class MainScreenTopCell: UICollectionViewCell {
             make.left.right.equalToSuperview().inset(22)
             make.top.equalTo(settingsButton.snp.bottom).inset(-16)
             make.height.equalTo(48)
-            
         }
-        
     }
 }
 

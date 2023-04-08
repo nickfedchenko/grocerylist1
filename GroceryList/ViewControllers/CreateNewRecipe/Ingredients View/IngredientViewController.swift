@@ -44,6 +44,7 @@ final class IngredientViewController: UIViewController {
     
     private func setup() {
         let tapOnView = UITapGestureRecognizer(target: self, action: #selector(tappedOnView))
+        tapOnView.delegate = self
         self.view.addGestureRecognizer(tapOnView)
         
         viewModel?.delegate = self
@@ -202,7 +203,7 @@ extension IngredientViewController: IngredientViewModelDelegate {
     }
     
     func unitChange(_ unit: UnitSystem) {
-        quantityView.setUnit(title: unit.rawValue.localized)
+        quantityView.setUnit(title: unit.title)
         quantityView.setQuantityValueStep(unit.stepValue)
         quantityView.setActive(true)
     }
@@ -218,6 +219,7 @@ extension IngredientViewController: AddIngredientViewDelegate {
     func productInput(title: String?) {
         viewModel?.checkIsProductFromCategory(name: title)
         updateSaveButton(isActive: !(title?.isEmpty ?? true))
+        quantityView.setActive(!(title?.isEmpty ?? true))
     }
     
     func quantityInput() {
@@ -236,7 +238,7 @@ extension IngredientViewController: QuantityViewDelegate {
     }
     
     func getUnitsNumberOfCells() -> Int {
-        viewModel?.getNumberOfCells() ?? 0
+        viewModel?.getNumberOfCells ?? 0
     }
     
     func getTitleForCell(at index: Int) -> String? {
@@ -253,6 +255,11 @@ extension IngredientViewController: PredictiveTextViewDelegate {
         AmplitudeManager.shared.logEvent(.itemPredictAdd)
         ingredientView.productTextField.text = title
         viewModel?.checkIsProductFromCategory(name: title)
+    }
+}
+extension IngredientViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return !(touch.view?.isDescendant(of: self.contentView) ?? false)
     }
 }
 

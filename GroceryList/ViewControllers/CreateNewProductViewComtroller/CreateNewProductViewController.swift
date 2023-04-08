@@ -291,7 +291,7 @@ class CreateNewProductViewController: UIViewController {
         
         if viewModel?.productQuantityCount == nil {
             quantityNotAvailable()
-            selectUnitLabel.text = viewModel?.currentSelectedUnit.rawValue.localized
+            selectUnitLabel.text = viewModel?.currentSelectedUnit.title
         } else {
             quantityLabel.text = getDecimalString()
             selectUnitLabel.text = viewModel?.productQuantityUnit
@@ -858,16 +858,16 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         isCategorySelected = false
     }
     
-    func selectCategory(text: String, imageURL: String, defaultSelectedUnit: UnitSystem?) {
+    func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?) {
         topCategoryView.backgroundColor = UIColor(hex: "#80C980")
         topCategoryLabel.textColor = .white
         topCategoryLabel.text = text
         isCategorySelected = !text.isEmpty
         
-        if !imageURL.isEmpty, let defaultSelectedUnit {
-            selectUnitLabel.text = defaultSelectedUnit.rawValue.localized
+        if let defaultSelectedUnit {
+            selectUnitLabel.text = defaultSelectedUnit.title
         } else {
-            selectUnitLabel.text = UnitSystem.piece.rawValue
+            selectUnitLabel.text = UnitSystem.piece.title
         }
         
         if isCategorySelected {
@@ -875,6 +875,12 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         } else {
             deselectCategory()
             notReadyToSave()
+            return
+        }
+        
+        if let imageData {
+            addImageImage.image = UIImage(data: imageData)
+            isImageChanged = true
             return
         }
         

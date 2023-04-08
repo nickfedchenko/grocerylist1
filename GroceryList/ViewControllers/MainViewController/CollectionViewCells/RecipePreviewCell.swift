@@ -46,7 +46,7 @@ final class RecipePreviewCell: UICollectionViewCell {
         mainImage.image = nil
     }
     
-    func configure(with recipe: Recipe) {
+    func configure(with recipe: ShortRecipeModel) {
         titleLabel.text = recipe.title
         if let photoUrl = URL(string: recipe.photo) {
             mainImage.kf.setImage(with: photoUrl)

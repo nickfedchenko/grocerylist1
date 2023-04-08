@@ -240,6 +240,7 @@
 "Note"                          = "Note";
 "Collections"                   = "Collections";
 "SelectOneOrMoreCollections"    = "Select one or more collections where your recipe will be stored. You can create a new collection.";
+"Add to collection"             = "Add to collection";
 
 "Add recipes to favorites"      = "Add recipes to favorites";
 "Share recipes"                 = "Share recipes";

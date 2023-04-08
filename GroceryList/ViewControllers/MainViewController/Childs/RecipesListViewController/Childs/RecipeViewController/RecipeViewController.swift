@@ -8,7 +8,7 @@
 import UIKit
 
 final class RecipeViewController: UIViewController {
-    let viewModel: RecipeScreenViewModelProtocol
+    var viewModel: RecipeScreenViewModelProtocol
     var backButtonTitle: String
     private var isFavorite: Bool {
         UserDefaultsManager.favoritesRecipeIds.contains(viewModel.recipe.id)
@@ -82,7 +82,7 @@ final class RecipeViewController: UIViewController {
             var unitTitle = ingredient.unit?.shortTitle ?? ""
             if let unit = viewModel.unit(unitID: ingredient.unit?.id) {
                 quantity *= viewModel.convertValue()
-                unitTitle = unit.rawValue.localized
+                unitTitle = unit.title
             }
             let unitCount = quantity
             let unitName = unitTitle
@@ -161,6 +161,11 @@ final class RecipeViewController: UIViewController {
         configureContent()
         setupActions()
         setupPromptingView()
+        
+        viewModel.updateCollection = { [weak self] in
+            guard let self else { return }
+            self.header.setCollectionButton(!self.viewModel.haveCollections())
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
