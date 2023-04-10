@@ -30,6 +30,14 @@ class ProductSettingsTableViewCell: UITableViewCell {
         separatorLine.snp.updateConstraints { make in
             make.left.equalToSuperview().inset(20)
         }
+        label.snp.removeConstraints()
+        label.snp.makeConstraints { make in
+            make.left.equalTo(image.snp.right).inset(-8)
+            make.right.equalToSuperview().inset(20)
+            make.centerY.equalToSuperview()
+        }
+        image.isHidden = false
+        sharingView.isHidden = true
         imageSwitch.isHidden = true
         checkmarkImage.isHidden = true
         label.textColor = .black
@@ -61,6 +69,21 @@ class ProductSettingsTableViewCell: UITableViewCell {
         if isVisible {
             imageSwitch.isOn = value
             imageSwitch.onTintColor = tintColor
+        }
+    }
+    
+    func setupShareView(isVisible: Bool, users: [String?], tintColor: UIColor) {
+        sharingView.isHidden = !isVisible
+        if isVisible {
+            sharingView.configure(state: .added, viewState: .productsSettings,
+                                  color: tintColor, images: users)
+            image.isHidden = isVisible
+            label.snp.removeConstraints()
+            label.snp.makeConstraints { make in
+                make.left.equalTo(sharingView.snp.right).inset(-8)
+                make.right.equalToSuperview().inset(20)
+                make.centerY.equalToSuperview()
+            }
         }
     }
     
@@ -97,6 +120,8 @@ class ProductSettingsTableViewCell: UITableViewCell {
         return imageSwitch
     }()
     
+    private let sharingView = SharingView()
+    
     @objc
     private func switchChanged() {
         switchValueChanged?(imageSwitch.isOn)
@@ -105,7 +130,7 @@ class ProductSettingsTableViewCell: UITableViewCell {
     // MARK: - UI
     private func setupConstraints() {
         backgroundColor = .clear
-        contentView.addSubviews([image, label, separatorLine, checkmarkImage, imageSwitch])
+        contentView.addSubviews([image, label, separatorLine, checkmarkImage, imageSwitch, sharingView])
         
         image.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
@@ -135,6 +160,12 @@ class ProductSettingsTableViewCell: UITableViewCell {
         imageSwitch.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(20)
             make.centerY.equalToSuperview()
+        }
+        
+        sharingView.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(8)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(40)
         }
     }
     

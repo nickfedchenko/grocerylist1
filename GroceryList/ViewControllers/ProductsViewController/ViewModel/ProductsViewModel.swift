@@ -10,6 +10,7 @@ import UIKit
 
 protocol ProductsViewModelDelegate: AnyObject {
     func updateController()
+    func editProduct()
 }
 
 class ProductsViewModel {
@@ -78,7 +79,17 @@ class ProductsViewModel {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self?.updateList()
             }
+        }, editCompl: { [weak self] content in
+            guard let self else { return }
+            switch content {
+            case .edit:
+                self.delegate?.editProduct()
+            case .share:
+                self.router?.goToSharingList(listToShare: self.model, users: self.getSharedListsUsers())
+            default: break
+            }
         })
+        
     }
     
     func updatePurchasedStatus(product: Product) {

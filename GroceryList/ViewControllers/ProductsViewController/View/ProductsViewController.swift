@@ -604,6 +604,10 @@ extension ProductsViewController: ProductsViewModelDelegate {
         setupController()
         reloadData()
     }
+    
+    func editProduct() {
+        editCellButtonPressed()
+    }
 }
 
 extension ProductsViewController {
