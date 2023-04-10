@@ -25,7 +25,8 @@ protocol ViewControllerFactoryProtocol {
         listByText: String,
         model: GroceryListsModel,
         router: RootRouter,
-        compl: @escaping (GroceryListsModel, [Product]) -> Void
+        compl: @escaping (GroceryListsModel, [Product]) -> Void,
+        editCompl: ((ProductsSettingsViewModel.TableViewContent) -> Void)?
     ) -> UIViewController?
     func createActivityController(image: [Any]) -> UIViewController?
     func createPrintController(image: UIImage) -> UIPrintInteractionController?
@@ -244,12 +245,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         listByText: String,
         model: GroceryListsModel,
         router: RootRouter,
-        compl: @escaping (GroceryListsModel, [Product]) -> Void
+        compl: @escaping (GroceryListsModel, [Product]) -> Void,
+        editCompl: ((ProductsSettingsViewModel.TableViewContent) -> Void)?
     ) -> UIViewController? {
         let viewController = ProductsSettingsViewController()
         let viewModel = ProductsSettingsViewModel(model: model, snapshot: snapshot, listByText: listByText)
         viewModel.delegate = viewController
         viewModel.valueChangedCallback = compl
+        viewModel.editCallback = editCompl
         viewController.viewModel = viewModel
         viewModel.router = router
         return viewController
