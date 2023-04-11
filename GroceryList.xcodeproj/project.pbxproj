@@ -50,6 +50,10 @@
 		3379B65A29B9B2ED0080923A /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65929B9B2ED0080923A /* CategoryView.swift */; };
 		3379B65C29B9B3030080923A /* AddIngredientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65B29B9B3030080923A /* AddIngredientView.swift */; };
 		3379B65E29B9B3580080923A /* QuantityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65D29B9B3580080923A /* QuantityView.swift */; };
+		337E79C829E51B2D00668578 /* EditSelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79C729E51B2D00668578 /* EditSelectListViewController.swift */; };
+		337E79CA29E51D6200668578 /* AddListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79C929E51D6200668578 /* AddListView.swift */; };
+		337E79CC29E547D600668578 /* EditDeleteAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79CB29E547D600668578 /* EditDeleteAlertView.swift */; };
+		337E79CE29E595F700668578 /* ViewWithOverriddenPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79CD29E595F700668578 /* ViewWithOverriddenPoint.swift */; };
 		3380D1B429C2D1E500A57F25 /* AllRecipesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3380D1B329C2D1E500A57F25 /* AllRecipesCell.swift */; };
 		33897D1329C87F11009C6932 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33897D1229C87F11009C6932 /* GoogleService-Info.plist */; };
 		338EB6B429C1BACC00D6A03F /* SearchInRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */; };
@@ -289,6 +293,10 @@
 		3379B65929B9B2ED0080923A /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		3379B65B29B9B3030080923A /* AddIngredientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIngredientView.swift; sourceTree = "<group>"; };
 		3379B65D29B9B3580080923A /* QuantityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityView.swift; sourceTree = "<group>"; };
+		337E79C729E51B2D00668578 /* EditSelectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSelectListViewController.swift; sourceTree = "<group>"; };
+		337E79C929E51D6200668578 /* AddListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListView.swift; sourceTree = "<group>"; };
+		337E79CB29E547D600668578 /* EditDeleteAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDeleteAlertView.swift; sourceTree = "<group>"; };
+		337E79CD29E595F700668578 /* ViewWithOverriddenPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWithOverriddenPoint.swift; sourceTree = "<group>"; };
 		3380D1B329C2D1E500A57F25 /* AllRecipesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRecipesCell.swift; sourceTree = "<group>"; };
 		33897D1229C87F11009C6932 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInRecipeViewController.swift; sourceTree = "<group>"; };
@@ -649,6 +657,7 @@
 				3379B65929B9B2ED0080923A /* CategoryView.swift */,
 				3379B65B29B9B3030080923A /* AddIngredientView.swift */,
 				3379B65D29B9B3580080923A /* QuantityView.swift */,
+				337E79CD29E595F700668578 /* ViewWithOverriddenPoint.swift */,
 			);
 			path = subviews;
 			sourceTree = "<group>";
@@ -1005,6 +1014,8 @@
 				335519C129ACC00F00AD2B77 /* ProductImageView.swift */,
 				339C1AEA299A67DD0092F93E /* InfoMessageView.swift */,
 				33C8DB8429DFCE95009F4760 /* EditTabBarView.swift */,
+				337E79CB29E547D600668578 /* EditDeleteAlertView.swift */,
+				337E79C729E51B2D00668578 /* EditSelectListViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1183,9 +1194,11 @@
 		B36AF9482913FA5B00944E9D /* CustomUiElements */ = {
 			isa = PBXGroup;
 			children = (
+				3328AD85299CF40800187B57 /* SharingView.swift */,
 				B34BB809292D1C4600748E8E /* ShimmerView.swift */,
 				B36AF9402913D37300944E9D /* CustomSegmentControl.swift */,
 				3391163229CD96E700881E1D /* ActivityIndicatorView.swift */,
+				337E79C929E51D6200668578 /* AddListView.swift */,
 			);
 			path = CustomUiElements;
 			sourceTree = "<group>";
@@ -1198,7 +1211,6 @@
 				383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */,
 				B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */,
 				B36AF9442913DEC700944E9D /* GroceryCollectionViewCell.swift */,
-				3328AD85299CF40800187B57 /* SharingView.swift */,
 				B36AF9522915403600944E9D /* EmptyColoredCell.swift */,
 				B36AF9542915410400944E9D /* InstructionCell.swift */,
 				B36AF94C2913FAD000944E9D /* GroceryCollectionViewHeader.swift */,
@@ -1855,6 +1867,7 @@
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
 				3324426129C33A95006F4388 /* DBNetProduct+CoreDataProperties.swift in Sources */,
 				B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */,
+				337E79CA29E51D6200668578 /* AddListView.swift in Sources */,
 				3379B65E29B9B3580080923A /* QuantityView.swift in Sources */,
 				844FC6392978612B008173AA /* OnboardingReviewController.swift in Sources */,
 				334BAE57299E7305005F52F5 /* SharedCell.swift in Sources */,
@@ -1927,10 +1940,12 @@
 				B371CCB2299F7B0200E0E197 /* GroceryListResponse.swift in Sources */,
 				3380D1B429C2D1E500A57F25 /* AllRecipesCell.swift in Sources */,
 				3368FD6E29B700F300D97291 /* UUIDExtension.swift in Sources */,
+				337E79CE29E595F700668578 /* ViewWithOverriddenPoint.swift in Sources */,
 				B32767CB29A6387100DD9D20 /* DomainModelsToLocalTransformer.swift in Sources */,
 				B36D18ED291A2CF4005EE32D /* CoreDataManager.swift in Sources */,
 				337719AE29B1A669000791BD /* CreateNewRecipeViewWithButton.swift in Sources */,
 				B34BB80F292E389B00748E8E /* SelectListViewModel.swift in Sources */,
+				337E79CC29E547D600668578 /* EditDeleteAlertView.swift in Sources */,
 				B3D8584A293A1A2A00CCE230 /* PaywallCell.swift in Sources */,
 				338EB6B629C1BEED00D6A03F /* SearchInRecipeViewModel.swift in Sources */,
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,
@@ -1946,6 +1961,7 @@
 				3368FD6529B60CD000D97291 /* PreparationStepViewModel.swift in Sources */,
 				33F8254229C18FCE00B349D5 /* UIStackViewExtension.swift in Sources */,
 				3368FD6329B5F89C00D97291 /* PreparationStepViewController.swift in Sources */,
+				337E79C829E51B2D00668578 /* EditSelectListViewController.swift in Sources */,
 				B3F7C9C1299510140081B245 /* RedAlertView.swift in Sources */,
 				B3F7C9C329961FF40081B245 /* RegistrationState.swift in Sources */,
 				B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */,

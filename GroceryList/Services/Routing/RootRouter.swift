@@ -253,6 +253,14 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
+    func goToEditSelectList(products: [Product], contentViewHeigh: CGFloat,
+                            delegate: EditSelectListDelegate, state: EditSelectListViewController.State) {
+        let controller = viewControllerFactory.createEditSelectListController(
+            router: self, products: products, contentViewHeigh: contentViewHeigh,
+            delegate: delegate, state: state)
+        navigationPresent(controller, style: .automatic, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }

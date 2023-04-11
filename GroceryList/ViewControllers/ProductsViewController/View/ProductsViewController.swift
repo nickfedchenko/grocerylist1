@@ -109,6 +109,7 @@ class ProductsViewController: UIViewController {
     private let editTabBarView = EditTabBarView()
     private var imagePicker = UIImagePickerController()
     private var taprecognizer = UITapGestureRecognizer()
+    private var cellState: CellState = .normal
     
     private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
     
@@ -221,8 +222,8 @@ class ProductsViewController: UIViewController {
     
     @objc
     private func editCellButtonPressed() {
-        let window = UIApplication.shared.windows.first
-        let bottomPadding = window?.safeAreaInsets.bottom ?? 0
+        let safeAreaBottom = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0
+        let bottomPadding = safeAreaBottom == 0 ? 12 : safeAreaBottom
         let editTabBarHeight = 72 + bottomPadding
         editView.snp.updateConstraints { $0.height.equalTo(47) }
         editTabBarView.snp.updateConstraints { $0.height.equalTo(editTabBarHeight) }
@@ -230,16 +231,22 @@ class ProductsViewController: UIViewController {
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.view.layoutIfNeeded()
         }
+        cellState = .edit
+        viewModel?.resetEditProducts()
+        collectionView.reloadData()
     }
     
     @objc
     private func cancelEditButtonPressed() {
+        cellState = .normal
         editView.snp.updateConstraints { $0.height.equalTo(0) }
         editTabBarView.snp.updateConstraints { $0.height.equalTo(0) }
         cancelEditButton.isHidden = true
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.view.layoutIfNeeded()
         }
+        editTabBarView.setCountSelectedItems(0)
+        collectionView.reloadData()
     }
     
     @objc
@@ -304,15 +311,18 @@ class ProductsViewController: UIViewController {
             let bcgColor = self?.viewModel?.getColorForBackground()
             let textColor = self?.viewModel?.getColorForForeground()
             let image = child.imageData
-          
             let description = child.description
+            let isVisibleImageBySettings = self?.viewModel?.isVisibleImage ?? UserDefaultsManager.isShowImage
+            let isUserImage = (child.isUserImage ?? false) ? true : isVisibleImageBySettings
+            let isEditCell = self?.viewModel?.editProducts.contains(where: { $0.id == child.id }) ?? false
+            
+            cell.setState(state: self?.cellState ?? .normal)
             cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name,
                            isPurchased: child.isPurchased, description: description,
                            isRecipe: child.fromRecipeTitle != nil)
-            let isVisibleImageBySettings = self?.viewModel?.isVisibleImage ?? true
-            let isUserImage = (child.isUserImage ?? false) ? true : isVisibleImageBySettings
             cell.setupImage(isVisible: isUserImage, image: image)
             cell.setupUserImage(image: self?.viewModel?.getUserImage(by: child.userToken, isPurchased: child.isPurchased))
+            cell.updateEditCheckmark(isSelect: isEditCell)
             // картинка
             if image != nil {
                 cell.tapImageAction = { [weak self] in
@@ -515,15 +525,23 @@ class ProductsViewController: UIViewController {
 
 // MARK: - CellTapped
 extension ProductsViewController: UICollectionViewDelegate {
-    
-    // чекмарк о покупке
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         guard let model = dataSource?.itemIdentifier(for: indexPath) else { return }
         switch model {
         case .parent: break
         case .child(let product):
             let cell = collectionView.cellForItem(at: indexPath) as? ProductListCell
+            guard cellState != .edit else {
+                // редактирование ячеек
+                viewModel?.updateEditProduct(product)
+                let isEditCell = viewModel?.editProducts.contains(where: { $0.id == product.id }) ?? false
+                cell?.updateEditCheckmark(isSelect: isEditCell)
+                editTabBarView.setCountSelectedItems(viewModel?.editProducts.count ?? 0)
+                editTabBarView.isSelectAll(viewModel?.isSelectedAllProductsForEditing ?? false)
+                return
+            }
+            
+            // чекмарк о покупке
             idsOfChangedProducts.insert(product.id)
             idsOfChangedLists.insert(product.listId)
             if product.isPurchased {
@@ -608,6 +626,10 @@ extension ProductsViewController: ProductsViewModelDelegate {
     func editProduct() {
         editCellButtonPressed()
     }
+    
+    func updateUIEditTab() {
+        editTabBarView.setCountSelectedItems(viewModel?.editProducts.count ?? 0)
+    }
 }
 
 extension ProductsViewController {
@@ -643,7 +665,8 @@ extension ProductsViewController: UINavigationControllerDelegate, UIImagePickerC
         }
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         self.dismiss(animated: true, completion: nil)
         let image = info[.originalImage] as? UIImage
         productImageView.updateImage(image)
@@ -653,23 +676,37 @@ extension ProductsViewController: UINavigationControllerDelegate, UIImagePickerC
 
 extension ProductsViewController: EditTabBarViewDelegate {
     func tappedSelectAll() {
-        
+        viewModel?.addAllProductsToEdit()
+        collectionView.reloadData()
     }
     
     func tappedMove() {
-        
+        viewModel?.showListView(contentViewHeigh: self.view.frame.height - 60, state: .move, delegate: self)
     }
     
     func tappedCopy() {
-        
+        viewModel?.showListView(contentViewHeigh: self.view.frame.height - 60, state: .copy, delegate: self)
     }
     
     func tappedDelete() {
-        
+        viewModel?.deleteProducts()
+        cancelEditButtonPressed()
     }
     
     func tappedClearAll() {
-        
+        viewModel?.resetEditProducts()
+        collectionView.reloadData()
     }
     
+}
+
+extension ProductsViewController: EditSelectListDelegate {
+    func productsSuccessfullyMoved() {
+        viewModel?.moveProducts()
+        cancelEditButtonPressed()
+    }
+    
+    func productsSuccessfullyCopied() {
+        cancelEditButtonPressed()
+    }
 }

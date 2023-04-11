@@ -9,8 +9,7 @@ import UIKit
 
 class ProductsDataManager {
     
-    private var shouldSaveExpanding: Bool = false
-    private var users: [User] = []
+    var dataChangedCallBack: (() -> Void)?
     var products: [Product] {
         getProducts()
     }
@@ -21,6 +20,15 @@ class ProductsDataManager {
             createDataSourceArray()
         }
     }
+    var dataSourceArray: [Category] = [] {
+        didSet {
+            dataChangedCallBack?()
+        }
+    }
+    
+    private(set) var editProducts: [Product] = []
+    private var shouldSaveExpanding: Bool = false
+    private var users: [User] = []
 
     init (products: [Product], typeOfSorting: SortingType,
           groceryListId: String) {
@@ -29,20 +37,6 @@ class ProductsDataManager {
         if let domainList = CoreDataManager.shared.getList(list: groceryListId),
             let sharedId = domainList.sharedListId {
             users = SharedListManager.shared.sharedListsUsers[sharedId] ?? []
-        }
-    }
-    
-    private func getProducts() -> [Product] {
-        guard let domainList = CoreDataManager.shared.getList(list: groceryListId) else { return [] }
-        let localList = DomainModelsToLocalTransformer().transformCoreDataModelToModel(domainList)
-        return localList.products
-    }
-    
-    var dataChangedCallBack: (() -> Void)?
-    
-    var dataSourceArray: [Category] = [] {
-        didSet {
-            dataChangedCallBack?()
         }
     }
 
@@ -61,6 +55,54 @@ class ProductsDataManager {
         createDataSourceArray()
     }
     
+    func updatePurchasedStatus(for product: Product) {
+        var newProduct = product
+        newProduct.isPurchased = !product.isPurchased
+        CoreDataManager.shared.createProduct(product: newProduct)
+        createDataSourceArray()
+    }
+    
+    func updateFavoriteStatus(for product: Product) {
+        var newProduct = product
+        newProduct.isFavorite = !product.isFavorite
+        CoreDataManager.shared.createProduct(product: newProduct)
+        createDataSourceArray()
+    }
+    
+    func updateImage(for product: Product) {
+        CoreDataManager.shared.createProduct(product: product)
+        createDataSourceArray()
+    }
+    
+    func delete(product: Product) {
+        CoreDataManager.shared.removeProduct(product: product)
+        if products.isEmpty { dataSourceArray = [] }
+        createDataSourceArray()
+    }
+    
+    func updateEditProduct(_ product: Product) {
+        if editProducts.contains(where: { $0.id == product.id }) {
+            editProducts.removeAll { $0.id == product.id }
+            return
+        }
+        editProducts.append(product)
+    }
+    
+    func resetEditProduct() {
+        editProducts.removeAll()
+    }
+    
+    func addEditAllProducts() {
+        editProducts.removeAll()
+        editProducts = products
+    }
+    
+    private func getProducts() -> [Product] {
+        guard let domainList = CoreDataManager.shared.getList(list: groceryListId) else { return [] }
+        let localList = DomainModelsToLocalTransformer().transformCoreDataModelToModel(domainList)
+        return localList.products
+    }
+    
     // MARK: - Сортировка по алфавиту
     private func createArraySortedByAlphabet() {
         let products = products.sorted(by: { $0.name < $1.name })
@@ -68,7 +110,8 @@ class ProductsDataManager {
         
         // сортировкa
         products.forEach({ product in
-            guard !product.isPurchased || product.isFavorite else { return }
+            guard !product.isPurchased else { return }
+            guard !product.isFavorite else { return }
 
             if dict["alphabeticalSorted"] != nil {
                 dict["alphabeticalSorted"]?.append(product)
@@ -106,7 +149,8 @@ class ProductsDataManager {
         
         // сортировкa
         products.forEach({ product in
-            guard !product.isPurchased || product.isFavorite else { return }
+            guard !product.isPurchased else { return }
+            guard !product.isFavorite else { return }
             
             guard product.fromRecipeTitle == nil else {
                 guard let recipeTitle = product.fromRecipeTitle else {
@@ -160,7 +204,8 @@ class ProductsDataManager {
 
         // сортировкa
         products.forEach({ product in
-            guard !product.isPurchased || product.isFavorite else { return }
+            guard !product.isPurchased else { return }
+            guard !product.isFavorite else { return }
             
             guard product.fromRecipeTitle != nil else {
                 dict[R.string.localizable.other()]?.append(product)
@@ -210,7 +255,8 @@ class ProductsDataManager {
         
         // сортировкa
         products.forEach({ product in
-            guard !product.isPurchased || product.isFavorite else { return }
+            guard !product.isPurchased else { return }
+            guard !product.isFavorite else { return }
 
             if dict[product.category] != nil {
                 dict[product.category]?.append(product)
@@ -248,7 +294,8 @@ class ProductsDataManager {
         dictWithoutUser[keyDictWithoutUser] = []
         
         products.forEach({ product in
-            guard !product.isPurchased || product.isFavorite else { return }
+            guard !product.isPurchased else { return }
+            guard !product.isFavorite else { return }
             
             guard !(product.userToken == "0") else {
                 dictWithoutUser[keyDictWithoutUser]?.append(product)
@@ -290,31 +337,6 @@ class ProductsDataManager {
         }
         
         saveExpanding(newArray: newArray)
-    }
-    
-    func updatePurchasedStatus(for product: Product) {
-        var newProduct = product
-        newProduct.isPurchased = !product.isPurchased
-        CoreDataManager.shared.createProduct(product: newProduct)
-        createDataSourceArray()
-    }
-    
-    func updateFavoriteStatus(for product: Product) {
-        var newProduct = product
-        newProduct.isFavorite = !product.isFavorite
-        CoreDataManager.shared.createProduct(product: newProduct)
-        createDataSourceArray()
-    }
-    
-    func updateImage(for product: Product) {
-        CoreDataManager.shared.createProduct(product: product)
-        createDataSourceArray()
-    }
-    
-    func delete(product: Product) {
-        CoreDataManager.shared.removeProduct(product: product)
-        if products.isEmpty { dataSourceArray = [] }
-        createDataSourceArray()
     }
     
     private func getDictionaryPurchased(by products: [Product]) -> [String: [Product]] {

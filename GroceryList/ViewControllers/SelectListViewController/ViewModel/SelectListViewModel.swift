@@ -34,10 +34,24 @@ class SelectListViewModel: MainScreenViewModel {
     func shouldAdd(to list: GroceryListsModel, products: [Product]) {
         products.forEach { product in
             var newProduct = product
+            newProduct.id = UUID()
             newProduct.listId = list.id
             CoreDataManager.shared.createProduct(product: newProduct)
         }
         SharedListManager.shared.updateGroceryList(listId: list.id.uuidString)
+    }
+    
+    // MARK: - Edit product cell
+    func saveCopiedProduct(to list: GroceryListsModel, products: [Product]) {
+        products.forEach { product in
+            let newProduct = Product(listId: list.id, name: product.name,
+                                     isPurchased: false,
+                                     dateOfCreation: Date(),
+                                     category: product.category,
+                                     isFavorite: false, isSelected: false,
+                                     description: product.description)
+            CoreDataManager.shared.createProduct(product: newProduct)
+        }
     }
     
     func controllerDissmissed() {
