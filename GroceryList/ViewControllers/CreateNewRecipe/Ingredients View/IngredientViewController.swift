@@ -20,7 +20,7 @@ final class IngredientViewController: UIViewController {
         return button
     }()
     
-    private let contentView = ContentViewForIngredient()
+    private let contentView = ViewWithOverriddenPoint()
     private let categoryView = CategoryView()
     private let ingredientView = AddIngredientView()
     private let quantityView = QuantityView()
@@ -261,20 +261,4 @@ extension IngredientViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         return !(touch.view?.isDescendant(of: self.contentView) ?? false)
     }
-}
-
-final class ContentViewForIngredient: UIView {
-     override func point(inside point: CGPoint,
-                         with event: UIEvent?) -> Bool {
-         let inside = super.point(inside: point, with: event)
-         if !inside {
-             for subview in subviews {
-                 let pointInSubview = subview.convert(point, from: self)
-                 if subview.point(inside: pointInSubview, with: event) {
-                     return true
-                 }
-             }
-         }
-         return inside
-     }
 }

@@ -47,34 +47,6 @@ class MainScreenViewController: UIViewController {
         return collectionView
     }()
     
-    private let bottomCreateListView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 32
-        view.layer.masksToBounds = true
-        view.layer.maskedCorners = [.layerMinXMinYCorner]
-        view.backgroundColor = .white
-        view.layer.borderColor = UIColor(hex: "#EBFEFE").cgColor
-        view.layer.borderWidth = 2
-        view.addCustomShadow(color: UIColor(hex: "#484848"), offset: CGSize(width: 0, height: 0.5))
-        return view
-    }()
-    
-    private let plusImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = R.image.new_createList()
-        return imageView
-    }()
-    
-    private let createListLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFProRounded.semibold(size: 18).font
-        label.textColor = UIColor(hex: "#31635A")
-        label.text = "CreateList".localized
-        label.numberOfLines = 2
-        return label
-    }()
-    
     private let foodImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -82,6 +54,7 @@ class MainScreenViewController: UIViewController {
         return imageView
     }()
     
+    private let bottomCreateListView = AddListView()
     private let activityView = ActivityIndicatorView()
     private let contextMenu = MainScreenMenuView()
     private var menuTapRecognizer = UITapGestureRecognizer()
@@ -232,7 +205,6 @@ class MainScreenViewController: UIViewController {
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
         view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView, contextMenu, activityView])
-        bottomCreateListView.addSubviews([plusImage, createListLabel])
         collectionView.addSubview(foodImage)
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(10)
@@ -248,7 +220,11 @@ class MainScreenViewController: UIViewController {
             make.leading.equalTo(collectionView.snp.trailing)
         }
         
-        bottomCreateListViewMakeConstraints()
+        bottomCreateListView.snp.makeConstraints { make in
+            make.trailing.bottom.equalToSuperview()
+            make.height.equalTo(82)
+            make.width.equalTo(self.view.frame.width / 2)
+        }
         
         foodImage.snp.makeConstraints { make in
             make.bottom.equalTo(collectionView.contentSize.height)
@@ -269,25 +245,6 @@ class MainScreenViewController: UIViewController {
             make.top.equalTo(collectionView).offset(97)
             make.bottom.equalToSuperview()
             make.leading.equalTo(collectionView.snp.trailing)
-        }
-    }
-    
-    private func bottomCreateListViewMakeConstraints() {
-        bottomCreateListView.snp.makeConstraints { make in
-            make.trailing.bottom.equalToSuperview()
-            make.height.equalTo(82)
-            make.width.equalTo(self.view.frame.width / 2)
-        }
-        
-        plusImage.snp.makeConstraints { make in
-            make.left.top.equalToSuperview().inset(16)
-            make.height.width.equalTo(32)
-        }
-        
-        createListLabel.snp.makeConstraints { make in
-            make.left.equalTo(plusImage.snp.right).inset(-12)
-            make.right.equalToSuperview().inset(8)
-            make.centerY.equalTo(plusImage)
         }
     }
 }

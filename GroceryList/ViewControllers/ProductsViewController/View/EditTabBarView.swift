@@ -15,7 +15,7 @@ protocol EditTabBarViewDelegate: AnyObject {
     func tappedClearAll()
 }
 
-final class EditTabBarView: UIView {
+final class EditTabBarView: ViewWithOverriddenPoint {
 
     weak var delegate: EditTabBarViewDelegate?
     
@@ -34,6 +34,7 @@ final class EditTabBarView: UIView {
     }()
     
     private let countItemSelectedView = UIView()
+    private let deleteAlertView = EditDeleteAlertView()
     private let selectAllView = EditTabBarItemView(state: .selectAll(isSelect: true))
     private let moveView = EditTabBarItemView(state: .move)
     private let copyView = EditTabBarItemView(state: .copy)
@@ -55,10 +56,20 @@ final class EditTabBarView: UIView {
     func setCountSelectedItems(_ count: Int) {
         guard count > 0 else {
             updateItemSelectedViewConstraint(with: 2, alpha: 0)
+            allItemView.forEach {
+                $0.setColor($0.state.deselectColor)
+                if $0 != selectAllView {
+                    $0.isUserInteractionEnabled = false
+                }
+            }
             return
         }
         countItemSelectedLabel.text = "\(count) " + R.string.localizable.itemSelected()
         updateItemSelectedViewConstraint(with: 36, alpha: 1)
+        allItemView.forEach {
+            $0.setColor($0.state.selectColor)
+            $0.isUserInteractionEnabled = true
+        }
     }
     
     func isSelectAll(_ isSelectAll: Bool) {
@@ -71,8 +82,20 @@ final class EditTabBarView: UIView {
         allItemView.forEach {
             $0.delegate = self
             stackView.addArrangedSubview($0)
+            if $0 != selectAllView {
+                $0.isUserInteractionEnabled = false
+            }
         }
         
+        deleteAlertView.deleteTapped = { [weak self] in
+            self?.delegate?.tappedDelete()
+            self?.updateDeleteAlertViewConstraint(with: 0)
+        }
+        
+        deleteAlertView.cancelTapped = { [weak self] in
+            self?.updateDeleteAlertViewConstraint(with: 0)
+        }
+
         makeConstraints()
     }
     
@@ -86,8 +109,17 @@ final class EditTabBarView: UIView {
         }
     }
     
+    private func updateDeleteAlertViewConstraint(with height: Double) {
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            self?.deleteAlertView.snp.updateConstraints {
+                $0.height.equalTo(height)
+            }
+            self?.layoutIfNeeded()
+        }
+    }
+    
     private func makeConstraints() {
-        self.addSubviews([stackView, countItemSelectedView])
+        self.addSubviews([stackView, countItemSelectedView, deleteAlertView])
         countItemSelectedView.addSubview(countItemSelectedLabel)
         
         stackView.snp.makeConstraints {
@@ -109,6 +141,11 @@ final class EditTabBarView: UIView {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(24)
         }
+        
+        deleteAlertView.snp.makeConstraints {
+            $0.leading.centerX.bottom.equalToSuperview()
+            $0.height.equalTo(0)
+        }
     }
 }
 
@@ -124,7 +161,7 @@ extension EditTabBarView: EditTabBarItemViewDelegate {
             isSelectAll(isSelect)
         case .move:     delegate?.tappedMove()
         case .copy:     delegate?.tappedCopy()
-        case .delete:   delegate?.tappedDelete()
+        case .delete:   updateDeleteAlertViewConstraint(with: 224)
         }
     }
 }
@@ -139,7 +176,7 @@ private final class EditTabBarItemView: UIView {
     
     var titleLabel = UILabel()
     var imageView = UIImageView()
-    var state: EditTabBarItemState = .selectAll(isSelect: true) {
+    var state: EditTabBarItemState {
         didSet {
             titleLabel.text = state.title
             imageView.image = state.image
@@ -154,6 +191,7 @@ private final class EditTabBarItemView: UIView {
     }
     
     required init?(coder aDecoder: NSCoder) {
+        state = .selectAll(isSelect: true)
         super.init(coder: aDecoder)
     }
     

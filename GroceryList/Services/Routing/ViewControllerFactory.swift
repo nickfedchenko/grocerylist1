@@ -99,6 +99,9 @@ protocol ViewControllerFactoryProtocol {
     func createSearchInList(router: RootRouter) -> UIViewController
     func createSearchInRecipe(router: RootRouter, section: RecipeSectionsModel?) -> UIViewController
     func createRecipeScreen(router: RootRouter, recipe: Recipe) -> UIViewController
+    func createEditSelectListController(router: RootRouter, products: [Product], contentViewHeigh: CGFloat,
+                                        delegate: EditSelectListDelegate,
+                                        state: EditSelectListViewController.State) -> UIViewController
 }
 
 // MARK: - Factory
@@ -480,6 +483,19 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.router = router
         let viewController = RecipeViewController(with: viewModel,
                                                   backButtonTitle: R.string.localizable.recipes())
+        return viewController
+    }
+    
+    func createEditSelectListController(router: RootRouter, products: [Product], contentViewHeigh: CGFloat,
+                                        delegate: EditSelectListDelegate,
+                                        state: EditSelectListViewController.State) -> UIViewController {
+        let viewController = EditSelectListViewController(with: products, state: state)
+        let dataSource = SelectListDataManager()
+        let viewModel = SelectListViewModel(dataSource: dataSource)
+        viewModel.router = router
+        viewController.contentViewHeigh = contentViewHeigh
+        viewController.viewModel = viewModel
+        viewController.delegate = delegate
         return viewController
     }
 }

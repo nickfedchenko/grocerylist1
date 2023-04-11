@@ -14,6 +14,104 @@ class ProductListCell: UICollectionViewListCell {
     var swipeToPinchAction: (() -> Void)?
     var swipeToDeleteAction: (() -> Void)?
     var tapImageAction: (() -> Void)?
+    
+    private let contentViews: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 8
+        view.addCustomShadow(color: UIColor(hex: "#858585"), radius: 6, offset: CGSize(width: 0, height: 4))
+        return view
+    }()
+    
+    private let checkmarkImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "emptyCheckmark")
+        return imageView
+    }()
+    
+    private let whiteCheckmarkImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "whiteCheckmark")
+        return imageView
+    }()
+    
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.medium(size: 16).font
+        label.textColor = .black
+        return label
+    }()
+    
+    private lazy var leftButton: UIButton = {
+        let imageView = UIButton()
+        imageView.setImage(UIImage(named: "greenPinchImage"), for: .normal)
+        imageView.addTarget(self, action: #selector(pinchPressed), for: .touchUpInside)
+        return imageView
+    }()
+    
+    private lazy var rightButton: UIButton = {
+        let imageView = UIButton()
+        imageView.setImage(UIImage(named: "redDeleteImage"), for: .normal)
+        imageView.addTarget(self, action: #selector(deletePressed), for: .touchUpInside)
+        return imageView
+    }()
+    
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 8
+        imageView.layer.masksToBounds = true
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
+    private let viewWithDescription: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.isHidden = true
+        return view
+    }()
+    
+    private let firstDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.medium(size: 16).font
+        label.textColor = .black
+        return label
+    }()
+    
+    private let secondDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.regular(size: 14).font
+        label.textColor = .black
+        return label
+    }()
+    
+    private let userImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 16
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
+    
+    private let checkmarkView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 20
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
+    private let shadowView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 8
+        view.addCustomShadow(color: UIColor(hex: "#484848"), radius: 1, offset: CGSize(width: 0, height: 0.5))
+        return view
+    }()
+    
     private var state: CellState = .normal
     
     override init(frame: CGRect) {
@@ -45,15 +143,19 @@ class ProductListCell: UICollectionViewListCell {
         secondDescriptionLabel.attributedText = NSAttributedString(string: "")
         secondDescriptionLabel.textColor = .black
         viewWithDescription.isHidden = true
+        whiteCheckmarkImage.image = R.image.whiteCheckmark()
         clearTheCell()
+    }
+    
+    func setState(state: CellState) {
+        self.state = state
     }
     
     func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?,
                    isPurchased: Bool, description: String, isRecipe: Bool) {
         contentView.backgroundColor = bcgColor
-        checkmarkImage.image = isPurchased ? getImageWithColor(color: textColor) : UIImage(named: "emptyCheckmark")
         guard let text = text else { return }
-        
+        setupCheckmarkImage(isPurchased: isPurchased, color: textColor, isRecipe: isRecipe)
         nameLabel.attributedText = NSAttributedString(string: text)
         firstDescriptionLabel.attributedText = NSAttributedString(string: text)
         secondDescriptionLabel.text = description
@@ -63,10 +165,6 @@ class ProductListCell: UICollectionViewListCell {
                                                        color: UIColor(hex: "#58B368"))
             recipe.append(NSAttributedString(string: description))
             secondDescriptionLabel.attributedText = recipe
-            if !isPurchased {
-                checkmarkImage.image = UIImage(named: "emptyCheckmark")?.withTintColor(UIColor(hex: "#58B368"))
-            }
-
         }
         
         if isPurchased {
@@ -162,104 +260,34 @@ class ProductListCell: UICollectionViewListCell {
         return image.rounded(radius: 100)
     }
     
-    private let contentViews: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 8
-        view.addCustomShadow(color: UIColor(hex: "#858585"), radius: 6, offset: CGSize(width: 0, height: 4))
-        return view
-    }()
+    func updateEditCheckmark(isSelect: Bool) {
+        guard state == .edit else { return }
+        
+        guard isSelect else {
+            self.checkmarkImage.image = R.image.emptyCheckmark()?.withTintColor(UIColor(hex: "#6319FF"))
+            return
+        }
+        self.checkmarkImage.image = self.getImageWithColor(color: UIColor(hex: "#6319FF"))
+    }
     
-    private let checkmarkImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "emptyCheckmark")
-        return imageView
-    }()
-    
-    private let whiteCheckmarkImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "whiteCheckmark")
-        return imageView
-    }()
-    
-    private let nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.medium(size: 16).font
-        label.textColor = .black
-        return label
-    }()
-    
-    private lazy var leftButton: UIButton = {
-        let imageView = UIButton()
-        imageView.setImage(UIImage(named: "greenPinchImage"), for: .normal)
-        imageView.addTarget(self, action: #selector(pinchPressed), for: .touchUpInside)
-        return imageView
-    }()
-    
-    private lazy var rightButton: UIButton = {
-        let imageView = UIButton()
-        imageView.setImage(UIImage(named: "redDeleteImage"), for: .normal)
-        imageView.addTarget(self, action: #selector(deletePressed), for: .touchUpInside)
-        return imageView
-    }()
-    
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 8
-        imageView.layer.masksToBounds = true
-        imageView.isUserInteractionEnabled = true
-        return imageView
-    }()
-    
-    private let viewWithDescription: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.isHidden = true
-        return view
-    }()
-    
-    private let firstDescriptionLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.medium(size: 16).font
-        label.textColor = .black
-        label.text = "dfdf"
-        return label
-    }()
-    
-    private let secondDescriptionLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.regular(size: 14).font
-        label.textColor = .black
-        label.text = "dfdkf"
-        return label
-    }()
-    
-    private let userImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 16
-        imageView.layer.masksToBounds = true
-        return imageView
-    }()
-    
-    private let checkmarkView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 20
-        view.layer.masksToBounds = true
-        return view
-    }()
-    
-    private let shadowView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 8
-        view.addCustomShadow(color: UIColor(hex: "#484848"), radius: 1, offset: CGSize(width: 0, height: 0.5))
-        return view
-    }()
+    private func setupCheckmarkImage(isPurchased: Bool, color: UIColor?, isRecipe: Bool) {
+        guard state != .edit else {
+            whiteCheckmarkImage.snp.updateConstraints { $0.width.height.equalTo(8) }
+            whiteCheckmarkImage.image = getImageWithColor(color: .white)
+            
+            checkmarkImage.image = R.image.emptyCheckmark()?.withTintColor(UIColor(hex: "#6319FF"))
+            return
+        }
+        
+        whiteCheckmarkImage.snp.updateConstraints { $0.width.height.equalTo(14) }
+        whiteCheckmarkImage.image = R.image.whiteCheckmark()
+        if isPurchased {
+            checkmarkImage.image = getImageWithColor(color: color)
+        } else {
+            let emptyCheckmarkColor = UIColor(hex: isRecipe ? "#58B368" : "#ACB4B4")
+            checkmarkImage.image = R.image.emptyCheckmark()?.withTintColor(emptyCheckmarkColor)
+        }
+    }
     
     // MARK: - UI
     // swiftlint:disable:next function_body_length

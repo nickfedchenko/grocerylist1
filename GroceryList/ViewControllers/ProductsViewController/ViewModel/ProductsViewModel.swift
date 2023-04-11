@@ -11,17 +11,19 @@ import UIKit
 protocol ProductsViewModelDelegate: AnyObject {
     func updateController()
     func editProduct()
+    func updateUIEditTab()
 }
 
 class ProductsViewModel {
     
     weak var router: RootRouter?
-    private var colorManager = ColorManager()
+    weak var delegate: ProductsViewModelDelegate?
     var valueChangedCallback: (() -> Void)?
     var model: GroceryListsModel
     var dataSource: ProductsDataManager
-    weak var delegate: ProductsViewModelDelegate?
     var selectedProduct: Product?
+    
+    private var colorManager = ColorManager()
     
     init(model: GroceryListsModel, dataSource: ProductsDataManager) {
         self.dataSource = dataSource
@@ -39,12 +41,20 @@ class ProductsViewModel {
         return dataSource.dataSourceArray
     }
     
+    var editProducts: [Product] {
+        return dataSource.editProducts
+    }
+    
     var isVisibleImage: Bool {
         switch model.isShowImage {
         case .nothing:      return UserDefaultsManager.isShowImage
         case .switchOn:     return true
         case .switchOff:    return false
         }
+    }
+    
+    var isSelectedAllProductsForEditing: Bool {
+        dataSource.products.count == dataSource.editProducts.count
     }
     
     func getColorForBackground() -> UIColor {
@@ -180,6 +190,42 @@ class ProductsViewModel {
         }
         let users = SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
         router?.goToSharingList(listToShare: model, users: users)
+    }
+    
+    func resetEditProducts() {
+        dataSource.resetEditProduct()
+        delegate?.updateUIEditTab()
+    }
+    
+    func addAllProductsToEdit() {
+        dataSource.addEditAllProducts()
+        delegate?.updateUIEditTab()
+    }
+    
+    func updateEditProduct(_ product: Product) {
+        dataSource.updateEditProduct(product)
+    }
+    
+    func showListView(contentViewHeigh: CGFloat,
+                      state: EditSelectListViewController.State,
+                      delegate: EditSelectListDelegate) {
+        router?.goToEditSelectList(products: editProducts,
+                                   contentViewHeigh: contentViewHeigh,
+                                   delegate: delegate,
+                                   state: state)
+    }
+    
+    func moveProducts() {
+        deleteProducts()
+    }
+    
+    func deleteProducts() {
+        editProducts.forEach {
+            dataSource.delete(product: $0)
+        }
+        resetEditProducts()
+        delegate?.updateUIEditTab()
+        updateList()
     }
     
     private func addObserver() {

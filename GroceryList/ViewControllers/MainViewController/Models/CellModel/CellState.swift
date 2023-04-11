@@ -9,6 +9,7 @@ import Foundation
 
 enum CellState {
     case normal
+    case edit
     case swipedRight
     case swipedLeft
 }

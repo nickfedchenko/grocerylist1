@@ -55,6 +55,7 @@ class CoreDataManager {
         let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
         if let object = try? context.fetch(fetchRequest).first {
+            object.listId = product.listId
             object.isPurchased = product.isPurchased
             object.name = product.name
             object.userDescription = product.description

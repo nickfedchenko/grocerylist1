@@ -24,7 +24,7 @@ class SelectListViewController: UIViewController {
     // MARK: - UI
     private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
     
-    private let contentView: UIView = {
+    let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#E8F5F3")
         view.layer.cornerRadius = 20
@@ -76,7 +76,7 @@ class SelectListViewController: UIViewController {
         return label
     }()
     
-    private lazy var closeButton: UIButton = {
+    lazy var closeButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(closeButtonAction), for: .touchUpInside)
         button.setImage(UIImage(named: "closeButtonCross"), for: .normal)
