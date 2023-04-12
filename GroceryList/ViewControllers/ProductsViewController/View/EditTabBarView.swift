@@ -64,7 +64,7 @@ final class EditTabBarView: ViewWithOverriddenPoint {
             }
             return
         }
-        countItemSelectedLabel.text = "\(count) " + R.string.localizable.itemSelected()
+        countItemSelectedLabel.text = R.string.localizable.itemSelected("\(count)")
         updateItemSelectedViewConstraint(with: 36, alpha: 1)
         allItemView.forEach {
             $0.setColor($0.state.selectColor)
@@ -178,8 +178,22 @@ private final class EditTabBarItemView: UIView {
     var imageView = UIImageView()
     var state: EditTabBarItemState {
         didSet {
-            titleLabel.text = state.title
-            imageView.image = state.image
+            switch state {
+            case .selectAll:
+                titleLabel.text = state.title
+                let expandTransform: CGAffineTransform = CGAffineTransformMakeScale(1.1, 1.1)
+                UIView.transition(with: self.imageView, duration: 0.1,
+                                  options: .transitionCrossDissolve, animations: {
+                    self.imageView.image = self.state.image
+                    self.imageView.transform = expandTransform
+                }, completion: { _ in
+                    UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 0.4,
+                                   initialSpringVelocity: 0.2, options: .curveEaseOut, animations: {
+                        self.imageView.transform = CGAffineTransformInvert(expandTransform)
+                    }, completion: nil)
+                })
+            default: break
+            }
         }
     }
     
@@ -203,12 +217,22 @@ private final class EditTabBarItemView: UIView {
     private func setup() {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedOnView))
         self.addGestureRecognizer(tapRecognizer)
+
+        titleLabel.text = state.title
         
-        titleLabel.font = UIFont.SFCompactDisplay.semibold(size: 14).font
+        if let locale = Locale.current.languageCode,
+           let currentLocale = CurrentLocale(rawValue: locale),
+           (currentLocale == .fr || currentLocale == .ru || currentLocale == .de) {
+            titleLabel.font = UIFont.SFCompactDisplay.medium(size: 13).font
+            titleLabel.allowsDefaultTighteningForTruncation = true
+            titleLabel.setMaximumLineHeight(value: 12)
+        } else {
+            titleLabel.font = UIFont.SFCompactDisplay.semibold(size: 14).font
+        }
+
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 2
         
-        titleLabel.text = state.title
         imageView.image = state.image
         
         setColor(state.deselectColor)
@@ -246,7 +270,7 @@ private enum EditTabBarItemState {
     var title: String {
         switch self {
         case .selectAll(let isSelect):
-            return isSelect ? R.string.localizable.selectAll() : R.string.localizable.clearAll()
+            return isSelect ? R.string.localizable.selectAllTabBar() : R.string.localizable.clearAll()
         case .move:         return R.string.localizable.move()
         case .copy:         return R.string.localizable.copyTabBar()
         case .delete:       return R.string.localizable.delete()
@@ -279,5 +303,19 @@ private enum EditTabBarItemState {
         case .delete, .move, .copy:
             return UIColor(hex: "#ACB4B4")
         }
+    }
+}
+
+extension UILabel {
+    func setMaximumLineHeight(value: CGFloat) {
+        guard let textString = text else { return }
+        let attributedString = NSMutableAttributedString(string: textString)
+        let paragraphStyle = NSMutableParagraphStyle()
+        
+        paragraphStyle.maximumLineHeight = value
+        attributedString.addAttribute(.paragraphStyle,
+                                      value: paragraphStyle,
+                                      range: NSRange(location: 0, length: attributedString.length))
+        attributedText = attributedString
     }
 }

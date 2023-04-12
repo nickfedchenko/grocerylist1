@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 207 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 212 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -213,6 +213,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var breakfast: RswiftResources.StringResource { .init(key: "Breakfast", tableName: "Localizable", source: source, developmentValue: "Breakfast", comment: nil) }
 
+      /// en translation: Buy
+      ///
+      /// Key: Buy
+      ///
+      /// Locales: en, ru, fr, de
+      var buy: RswiftResources.StringResource { .init(key: "Buy", tableName: "Localizable", source: source, developmentValue: "Buy", comment: nil) }
+
       /// en translation: Cancel
       ///
       /// Key: Cancel
@@ -261,6 +268,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var complete: RswiftResources.StringResource { .init(key: "Complete", tableName: "Localizable", source: source, developmentValue: "Complete", comment: nil) }
+
+      /// en translation: Copy to...
+      ///
+      /// Key: Copy to...
+      ///
+      /// Locales: en, ru, fr, de
+      var copyTo: RswiftResources.StringResource { .init(key: "Copy to...", tableName: "Localizable", source: source, developmentValue: "Copy to...", comment: nil) }
 
       /// en translation: Create
       ///
@@ -548,6 +562,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var mostPopular: RswiftResources.StringResource { .init(key: "MostPopular", tableName: "Localizable", source: source, developmentValue: "Most Popular", comment: nil) }
+
+      /// en translation: Move to...
+      ///
+      /// Key: Move to...
+      ///
+      /// Locales: en, ru, fr, de
+      var moveTo: RswiftResources.StringResource { .init(key: "Move to...", tableName: "Localizable", source: source, developmentValue: "Move to...", comment: nil) }
 
       /// en translation: Name
       ///
@@ -1067,6 +1088,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var tea: RswiftResources.StringResource { .init(key: "Tea", tableName: "Localizable", source: source, developmentValue: "Tea and coffee", comment: nil) }
 
+      /// en translation: Are you sure you want to permanently delete these tasks?
+      ///
+      /// Key: WantDeleteTheseTasks?
+      ///
+      /// Locales: en, ru, fr, de
+      var wantDeleteTheseTasks: RswiftResources.StringResource { .init(key: "WantDeleteTheseTasks?", tableName: "Localizable", source: source, developmentValue: "Are you sure you want to permanently delete these tasks?", comment: nil) }
+
       /// en translation: Warning
       ///
       /// Key: Warning
@@ -1263,12 +1291,12 @@ struct _R {
       /// Locales: en, ru, fr, de
       var importRecipe: RswiftResources.StringResource { .init(key: "importRecipe", tableName: "Localizable", source: source, developmentValue: "Import Web Recipes", comment: nil) }
 
-      /// en translation: item selected
+      /// en translation: %@ item selected
       ///
       /// Key: itemSelected
       ///
       /// Locales: en, ru, fr, de
-      var itemSelected: RswiftResources.StringResource { .init(key: "itemSelected", tableName: "Localizable", source: source, developmentValue: "item selected", comment: nil) }
+      var itemSelected: RswiftResources.StringResource1<String> { .init(key: "itemSelected", tableName: "Localizable", source: source, developmentValue: "%@ item selected", comment: nil) }
 
       /// en translation: kg
       ///
@@ -1451,6 +1479,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var selectAll: RswiftResources.StringResource { .init(key: "selectAll", tableName: "Localizable", source: source, developmentValue: "Select All", comment: nil) }
+
+      /// en translation: Select All
+      ///
+      /// Key: selectAllTabBar
+      ///
+      /// Locales: en, ru, fr, de
+      var selectAllTabBar: RswiftResources.StringResource { .init(key: "selectAllTabBar", tableName: "Localizable", source: source, developmentValue: "Select All", comment: nil) }
 
       /// en translation: Send
       ///
@@ -2021,9 +2056,12 @@ struct _R {
     }
   }
 
-  /// This `_R.font` struct is generated, and contains static references to 17 fonts.
+  /// This `_R.font` struct is generated, and contains static references to 18 fonts.
   struct font: Sequence {
     let bundle: Foundation.Bundle
+
+    /// Font `SFCompactDisplay-Medium`.
+    var sfCompactDisplayMedium: RswiftResources.FontResource { .init(name: "SFCompactDisplay-Medium", bundle: bundle, filename: "SF-Compact-Display-Medium.otf") }
 
     /// Font `SFCompactDisplay-Semibold`.
     var sfCompactDisplaySemibold: RswiftResources.FontResource { .init(name: "SFCompactDisplay-Semibold", bundle: bundle, filename: "SF-Compact-Display-Semibold.otf") }
@@ -2077,7 +2115,7 @@ struct _R {
     var sfProTextSemibold: RswiftResources.FontResource { .init(name: "SFProText-Semibold", bundle: bundle, filename: "SF Pro Text Semibold.otf") }
 
     func makeIterator() -> IndexingIterator<[RswiftResources.FontResource]> {
-      [sfCompactDisplaySemibold, sfProDisplayBold, sfProDisplayHeavy, sfProDisplayMedium, sfProDisplayRegular, sfProDisplaySemibold, sfProRoundedBold, sfProRoundedHeavy, sfProRoundedMedium, sfProRoundedRegular, sfProRoundedSemibold, sfProTextBlack, sfProTextBold, sfProTextHeavy, sfProTextMedium, sfProTextRegular, sfProTextSemibold].makeIterator()
+      [sfCompactDisplayMedium, sfCompactDisplaySemibold, sfProDisplayBold, sfProDisplayHeavy, sfProDisplayMedium, sfProDisplayRegular, sfProDisplaySemibold, sfProRoundedBold, sfProRoundedHeavy, sfProRoundedMedium, sfProRoundedRegular, sfProRoundedSemibold, sfProTextBlack, sfProTextBold, sfProTextHeavy, sfProTextMedium, sfProTextRegular, sfProTextSemibold].makeIterator()
     }
     func validate() throws {
       for font in self {
@@ -2086,7 +2124,7 @@ struct _R {
     }
   }
 
-  /// This `_R.file` struct is generated, and contains static references to 18 resource files.
+  /// This `_R.file` struct is generated, and contains static references to 19 resource files.
   struct file {
     let bundle: Foundation.Bundle
 
@@ -2140,6 +2178,9 @@ struct _R {
 
     /// Resource file `SF Pro Text Semibold.otf`.
     var sfProTextSemiboldOtf: RswiftResources.FileResource { .init(name: "SF Pro Text Semibold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
+
+    /// Resource file `SF-Compact-Display-Medium.otf`.
+    var sfCompactDisplayMediumOtf: RswiftResources.FileResource { .init(name: "SF-Compact-Display-Medium", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
 
     /// Resource file `SF-Compact-Display-Semibold.otf`.
     var sfCompactDisplaySemiboldOtf: RswiftResources.FileResource { .init(name: "SF-Compact-Display-Semibold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }

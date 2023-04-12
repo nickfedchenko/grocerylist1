@@ -258,7 +258,7 @@ class ProductsViewModel {
         var list = ""
         let newLine = "\n"
         let tab = "  • "
-        let buy = "Купить".uppercased() + newLine + newLine
+        let buy = R.string.localizable.buy().uppercased() + newLine + newLine
         list += buy
         
         arrayWithSections.forEach { category in

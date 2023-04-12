@@ -20,8 +20,8 @@ final class EditSelectListViewController: SelectListViewController {
         
         var title: String {
             switch self {
-            case .move: return "Move to..."
-            case .copy: return "Copy to..."
+            case .move: return R.string.localizable.moveTo()
+            case .copy: return R.string.localizable.copyTo()
             }
         }
     }
