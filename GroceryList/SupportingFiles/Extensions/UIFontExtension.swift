@@ -82,11 +82,14 @@ extension UIFont {
     
     enum SFCompactDisplay {
         case semibold(size: CGFloat)
+        case medium(size: CGFloat)
         
         var font: UIFont! {
             switch self {
             case .semibold(let size):
                 return R.font.sfCompactDisplaySemibold(size: size)
+            case .medium(let size):
+                return R.font.sfCompactDisplayMedium(size: size)
             }
         }
     }

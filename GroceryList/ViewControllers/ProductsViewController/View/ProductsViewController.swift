@@ -533,11 +533,14 @@ extension ProductsViewController: UICollectionViewDelegate {
             let cell = collectionView.cellForItem(at: indexPath) as? ProductListCell
             guard cellState != .edit else {
                 // редактирование ячеек
-                viewModel?.updateEditProduct(product)
-                let isEditCell = viewModel?.editProducts.contains(where: { $0.id == product.id }) ?? false
+                guard let viewModel else { return }
+                viewModel.updateEditProduct(product)
+                let isEditCell = viewModel.editProducts.contains(where: { $0.id == product.id })
                 cell?.updateEditCheckmark(isSelect: isEditCell)
-                editTabBarView.setCountSelectedItems(viewModel?.editProducts.count ?? 0)
-                editTabBarView.isSelectAll(viewModel?.isSelectedAllProductsForEditing ?? false)
+                editTabBarView.setCountSelectedItems(viewModel.editProducts.count)
+                if viewModel.isSelectedAllProductsForEditing || viewModel.editProducts.count == 0 {
+                    editTabBarView.isSelectAll(viewModel.isSelectedAllProductsForEditing)
+                }
                 return
             }
             

@@ -54,6 +54,7 @@
 		337E79CA29E51D6200668578 /* AddListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79C929E51D6200668578 /* AddListView.swift */; };
 		337E79CC29E547D600668578 /* EditDeleteAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79CB29E547D600668578 /* EditDeleteAlertView.swift */; };
 		337E79CE29E595F700668578 /* ViewWithOverriddenPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79CD29E595F700668578 /* ViewWithOverriddenPoint.swift */; };
+		337E79D029E6C23900668578 /* SF-Compact-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 337E79CF29E6C23900668578 /* SF-Compact-Display-Medium.otf */; };
 		3380D1B429C2D1E500A57F25 /* AllRecipesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3380D1B329C2D1E500A57F25 /* AllRecipesCell.swift */; };
 		33897D1329C87F11009C6932 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33897D1229C87F11009C6932 /* GoogleService-Info.plist */; };
 		338EB6B429C1BACC00D6A03F /* SearchInRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */; };
@@ -297,6 +298,7 @@
 		337E79C929E51D6200668578 /* AddListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListView.swift; sourceTree = "<group>"; };
 		337E79CB29E547D600668578 /* EditDeleteAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDeleteAlertView.swift; sourceTree = "<group>"; };
 		337E79CD29E595F700668578 /* ViewWithOverriddenPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWithOverriddenPoint.swift; sourceTree = "<group>"; };
+		337E79CF29E6C23900668578 /* SF-Compact-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Display-Medium.otf"; sourceTree = "<group>"; };
 		3380D1B329C2D1E500A57F25 /* AllRecipesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRecipesCell.swift; sourceTree = "<group>"; };
 		33897D1229C87F11009C6932 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInRecipeViewController.swift; sourceTree = "<group>"; };
@@ -1418,6 +1420,7 @@
 		B37A2CF229111BFB003C01AD /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				337E79CF29E6C23900668578 /* SF-Compact-Display-Medium.otf */,
 				33C8DB8629DFE873009F4760 /* SF-Compact-Display-Semibold.otf */,
 				B315F9E2298939E60009CEB8 /* SF Pro Text Black.otf */,
 				B3981C5C297A89E800206DB7 /* SF Pro Text Bold.otf */,
@@ -1656,6 +1659,7 @@
 				B33EFF1B290FF02900AD9BEE /* LaunchScreen.storyboard in Resources */,
 				B3981C57297A86EC00206DB7 /* SF Pro Rounded Heavy.otf in Resources */,
 				B3981C61297A89E800206DB7 /* SF Pro Text Bold.otf in Resources */,
+				337E79D029E6C23900668578 /* SF-Compact-Display-Medium.otf in Resources */,
 				B36C75EE2911266800709721 /* Localizable.strings in Resources */,
 				B37A2CF6291125CA003C01AD /* SF Pro Display Medium.otf in Resources */,
 				B36AF9472913E94100944E9D /* SF Pro Display Regular.otf in Resources */,

@@ -14,7 +14,7 @@ final class EditDeleteAlertView: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Are you sure you want to permanently delete these tasks?"
+        label.text = R.string.localizable.wantDeleteTheseTasks()
         label.numberOfLines = 0
         label.textAlignment = .center
         label.font = UIFont.SFPro.regular(size: 17).font

@@ -60,6 +60,7 @@
 "Create"                    = "Erstellen";
 "NewCategory"               = "Neue Kategorie";
 "Long press on an Item"     = "Langes Drücken auf ein Element, kehrt zur Bearbeitung zurück";
+"Buy"                       = "Kaufen";
 
 "Alcohol"                   = "Alkohol";
 "Grocery"                   = "Lebensmittelgeschäft";
@@ -228,7 +229,11 @@
 
 // Редактирование продукта в списке
 "edit"                          = "Bearbeiten";
+"selectAllTabBar"               = "Alles\nauswählen";
 "copyTabBar"                    = "Kopieren";
 "move"                          = "Bewegen";
-"clearAll"                      = "Alles löschen";
-"itemSelected"                  = "artikel ausgewählt";
+"clearAll"                      = "Alles\nlöschen";
+"itemSelected"                  = "%@ artikel ausgewählt";
+"WantDeleteTheseTasks?"         = "Sind Sie sicher, dass Sie diese Aufgaben dauerhaft löschen möchten?";
+"Move to..."                    = "Umzug nach...";
+"Copy to..."                    = "Kopieren nach...";
