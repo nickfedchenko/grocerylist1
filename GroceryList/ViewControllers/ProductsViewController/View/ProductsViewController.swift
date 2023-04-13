@@ -149,6 +149,8 @@ class ProductsViewController: UIViewController {
         
         collectionView.reloadData()
         editTabBarView.delegate = self
+        
+        setupSharingView()
     }
     
     private func setupInfoMessage() {
@@ -194,8 +196,6 @@ class ProductsViewController: UIViewController {
     
     private func setupSharingView() {
         guard let viewModel else { return }
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(sharingViewPressed))
-        sharingView.addGestureRecognizer(tapRecognizer)
         sharingView.configure(state: viewModel.getSharingState(),
                               viewState: .products,
                               color: viewModel.getColorForForeground(),
@@ -661,6 +661,9 @@ extension ProductsViewController {
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
         collectionView.addGestureRecognizer(longPressGesture)
+        
+        let tapSharingRecognizer = UITapGestureRecognizer(target: self, action: #selector(sharingViewPressed))
+        sharingView.addGestureRecognizer(tapSharingRecognizer)
         
         if UserDefaultsManager.countInfoMessage < 4 {
             taprecognizer = UITapGestureRecognizer(target: self, action: #selector(tapPressAction))
