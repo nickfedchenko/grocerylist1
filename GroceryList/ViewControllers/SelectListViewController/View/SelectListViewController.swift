@@ -219,19 +219,22 @@ extension SelectListViewController: UICollectionViewDelegate {
     private func createTableViewDataSource() {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
                                                                       cellProvider: { [weak self] _, indexPath, model in
-
-                let cell = self?.collectionView.dequeueReusableCell(withReuseIdentifier: "SelectListCollectionCell",
-                                                                   for: indexPath) as? SelectListCollectionCell
-                guard let viewModel = self?.viewModel else { return UICollectionViewCell() }
-                let name = viewModel.getNameOfList(at: indexPath)
-                let isTopRouned = viewModel.isTopRounded(at: indexPath)
-                let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
-                let numberOfItems = viewModel.getnumberOfProductsInside(at: indexPath)
-                let color = viewModel.getBGColor(at: indexPath)
-                cell?.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
-                                isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
-              
-                return cell
+            
+            let cell = self?.collectionView.dequeueReusableCell(withReuseIdentifier: "SelectListCollectionCell",
+                                                                for: indexPath) as? SelectListCollectionCell
+            guard let viewModel = self?.viewModel else { return UICollectionViewCell() }
+            let name = viewModel.getNameOfList(at: indexPath)
+            let isTopRouned = viewModel.isTopRounded(at: indexPath)
+            let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
+            let numberOfItems = viewModel.getnumberOfProductsInside(at: indexPath)
+            let color = viewModel.getBGColor(at: indexPath)
+            cell?.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
+                            isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
+            cell?.setupSharing(state: viewModel.getSharingState(model),
+                              color: color,
+                              image: viewModel.getShareImages(model))
+            
+            return cell
         })
         addHeaderToCollectionView()
     }

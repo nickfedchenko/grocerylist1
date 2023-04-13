@@ -17,7 +17,7 @@ protocol NetworkDataProvider {
     func getItemCategories(completion: @escaping GetCategoriesResult)
 }
 
-typealias GetAllProductsResult = (Result<[NetworkProductModel], AFError>) -> Void
+typealias GetAllProductsResult = (Result<GetAllProductsResponse, AFError>) -> Void
 typealias AllDishesResult = (Result<[Recipe], AFError>) -> Void
 typealias GetAllItemsResult = (Result<GetAllItemsResponse, AFError>) -> Void
 typealias GetCategoriesResult = (Result<GetCategoriesResponse, AFError>) -> Void
@@ -72,7 +72,7 @@ enum RequestGenerator: Codable {
     var request: URLRequest {
         switch self {
         case .getProducts:
-            return requestCreator(basicURL:getUrlForProducts(), method: .get, needsToken: false) { _ in }
+            return requestCreator(basicURL: getUrlForProducts(), method: .get) { _ in }
         case .getReciepts:
             return requestCreator(basicURL: getUrlForReciepts(), method: .get, needsToken: false) { _ in }
         case .getItems:
@@ -220,9 +220,9 @@ enum RequestGenerator: Codable {
     private func getUrlForProducts() -> String {
         guard let locale = Locale.current.languageCode else { return "" }
         if let currentLocale = CurrentLocale(rawValue: locale) {
-            return "https://newketo.finanse.space/storage/json/products_\(currentLocale.rawValue).json.gz"
+            return "https://ketodietapplication.site/api/fetchBasicAndDished?langCode=\(currentLocale.rawValue)"
         } else {
-            return "https://newketo.finanse.space/storage/json/products_en.json.gz"
+            return "https://ketodietapplication.site/api/fetchBasicAndDished?langCode=en"
         }
     }
     
@@ -393,6 +393,7 @@ final class NetworkEngine {
                     
                 } else {
                     guard let dataModel = try? decoder.decode(T.self, from: data) else {
+                        data.printJSON()
                         print("\(T.self)")
                         print("errModel")
                         return
@@ -562,4 +563,12 @@ extension NetworkEngine: NetworkDataProvider {
 struct SharedList: Codable {
     var hello: String
     var param: String
+}
+
+extension Data {
+    func printJSON() {
+        if let JSONString = String(data: self, encoding: String.Encoding.utf8) {
+            print(JSONString)
+        }
+    }
 }
