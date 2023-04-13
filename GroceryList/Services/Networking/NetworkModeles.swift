@@ -28,6 +28,7 @@ struct GetCategoriesResponse: Codable {
 struct NetworkProductModel: Codable {
     let id: Int
     let title: String
+    let productTypeId: Int?
     let marketCategory: MarketCategory?
     let units: [Unit]?
     let photo: String

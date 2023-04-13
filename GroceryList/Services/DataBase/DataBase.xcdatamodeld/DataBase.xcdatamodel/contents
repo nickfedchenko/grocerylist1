@@ -38,24 +38,18 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="DBNetProduct" representedClassName=".DBNetProduct" syncable="YES">
+    <entity name="DBNewNetProduct" representedClassName=".DBNewNetProduct" syncable="YES">
         <attribute name="defaultMarketUnitID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="marketCategory" optional="YES" attributeType="String"/>
         <attribute name="photo" optional="YES" attributeType="String"/>
+        <attribute name="productTypeId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
-    </entity>
-    <entity name="DBNetworkProduct" representedClassName=".DBNetworkProduct" syncable="YES">
-        <attribute name="defaultMarketUnitID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="marketCategory" optional="YES" attributeType="String"/>
-        <attribute name="photo" optional="YES" attributeType="String"/>
-        <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
     <entity name="DBProduct" representedClassName=".DBProduct" syncable="YES">
         <attribute name="category" optional="YES" attributeType="String"/>
