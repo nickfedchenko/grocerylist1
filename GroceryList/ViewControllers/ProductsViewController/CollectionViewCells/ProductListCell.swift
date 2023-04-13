@@ -60,7 +60,7 @@ class ProductListCell: UICollectionViewListCell {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 8
         imageView.layer.masksToBounds = true
         imageView.isUserInteractionEnabled = true
