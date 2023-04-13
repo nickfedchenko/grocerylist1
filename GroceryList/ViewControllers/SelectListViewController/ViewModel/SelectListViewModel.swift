@@ -52,6 +52,17 @@ class SelectListViewModel: MainScreenViewModel {
                                      description: product.description)
             CoreDataManager.shared.createProduct(product: newProduct)
         }
+        
+        router?.popToRoot()
+        router?.goProductsVC(model: list, compl: { })
+    }
+    
+    func createNewListWithEditModeTapped() {
+        router?.goCreateNewList(compl: { [weak self] _, _ in
+            guard let list = self?.dataSource?.updateListOfModels() else { return }
+            self?.updateCells?(list)
+            self?.dataSource?.setOfModelsToUpdate = []
+        })
     }
     
     func controllerDissmissed() {

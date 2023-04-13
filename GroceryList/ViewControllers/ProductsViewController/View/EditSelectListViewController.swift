@@ -81,7 +81,7 @@ final class EditSelectListViewController: SelectListViewController {
     
     @objc
     private func createListAction() {
-        viewModel?.createNewListTapped()
+        viewModel?.createNewListWithEditModeTapped()
     }
     
     private func makeConstraints() {
