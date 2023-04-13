@@ -139,7 +139,6 @@ class ProductsViewController: UIViewController {
         nameOfListLabel.text = viewModel?.getNameOfList()
         view.backgroundColor = colorForBackground
         navigationView.backgroundColor = colorForBackground
-        editView.backgroundColor = colorForBackground
         
         addItemView.backgroundColor = colorForForeground
         plusImage.image = R.image.sharing_plus()?.withTintColor(colorForForeground)
@@ -228,9 +227,24 @@ class ProductsViewController: UIViewController {
         editView.snp.updateConstraints { $0.height.equalTo(47) }
         editTabBarView.snp.updateConstraints { $0.height.equalTo(editTabBarHeight) }
         cancelEditButton.isHidden = false
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.view.layoutIfNeeded()
-        }
+        cancelEditButton.alpha = 0
+        
+        let expandTransform: CGAffineTransform = CGAffineTransformMakeScale(1.05, 1.05)
+        UIView.transition(with: self.cancelEditButton, duration: 0.1,
+                          options: .transitionCrossDissolve, animations: { [weak self] in
+            self?.cancelEditButton.transform = expandTransform
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.6, delay: 0.0, usingSpringWithDamping: 0.4,
+                           initialSpringVelocity: 0.2, options: .curveEaseOut, animations: { [weak self] in
+                self?.editCellButton.alpha = 0
+                self?.arrowBackButton.alpha = 0
+                self?.contextMenuButton.alpha = 0
+                self?.sharingView.alpha = 0
+                self?.cancelEditButton.alpha = 1
+                self?.cancelEditButton.transform = CGAffineTransformInvert(expandTransform)
+                self?.view.layoutIfNeeded()
+            }, completion: nil)
+        })
         cellState = .edit
         viewModel?.resetEditProducts()
         collectionView.reloadData()
@@ -242,7 +256,11 @@ class ProductsViewController: UIViewController {
         editView.snp.updateConstraints { $0.height.equalTo(0) }
         editTabBarView.snp.updateConstraints { $0.height.equalTo(0) }
         cancelEditButton.isHidden = true
-        UIView.animate(withDuration: 0.3) { [weak self] in
+        UIView.animate(withDuration: 0.4) { [weak self] in
+            self?.editCellButton.alpha = 1
+            self?.arrowBackButton.alpha = 1
+            self?.contextMenuButton.alpha = 1
+            self?.sharingView.alpha = 1
             self?.view.layoutIfNeeded()
         }
         editTabBarView.setCountSelectedItems(0)
@@ -512,8 +530,9 @@ class ProductsViewController: UIViewController {
         }
         
         cancelEditButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(12)
+            make.top.equalToSuperview()
             make.trailing.equalToSuperview().offset(-20)
+            make.height.equalTo(40)
         }
         
         editTabBarView.snp.makeConstraints { make in
