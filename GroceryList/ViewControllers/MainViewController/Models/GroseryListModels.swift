@@ -162,7 +162,8 @@ struct Product: Hashable, Equatable, Codable {
         lhs.category == rhs.category && lhs.isPurchased == rhs.isPurchased &&
         lhs.id == rhs.id && lhs.isFavorite == rhs.isFavorite &&
         lhs.description == rhs.description && lhs.imageData == rhs.imageData &&
-        lhs.unitId == rhs.unitId && lhs.isUserImage == rhs.isUserImage
+        lhs.unitId == rhs.unitId && lhs.isUserImage == rhs.isUserImage &&
+        lhs.userToken == rhs.userToken
     }
     
     init?(from dbProduct: DBProduct) {

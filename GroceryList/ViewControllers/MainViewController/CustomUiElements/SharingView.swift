@@ -18,6 +18,7 @@ final class SharingView: UIView {
     enum ViewState {
         case main
         case products
+        case productsSettings
     }
     
     private lazy var firstImageView: UIImageView = createImageView()
@@ -68,9 +69,13 @@ final class SharingView: UIView {
         switch state {
         case .invite:
             firstImageView.isHidden = false
-            firstImageView.image = R.image.profile_add()
+            firstImageView.image = R.image.profile_add()?.withTintColor(viewState == .products ? color : .white)
             firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
         case .added:
+            if viewState == .productsSettings {
+                configureImages(images, color: color)
+                return
+            }
             configureImages(images, color: color, viewState: viewState)
         }
     }
@@ -92,7 +97,7 @@ final class SharingView: UIView {
         updateAllImageViewsConstraints()
         guard !images.isEmpty else {
             secondImageView.isHidden = false
-            secondImageView.image = R.image.profile_intited()
+            secondImageView.image = R.image.profile_intited()?.withTintColor(viewState == .products ? color : .white)
             secondImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
             return
         }
@@ -114,6 +119,24 @@ final class SharingView: UIView {
         }
         
         setupImage(imageUrl: images)
+    }
+    
+    private func configureImages(_ images: [String?], color: UIColor) {
+        updateAllImageViewsConstraints()
+        guard !images.isEmpty else {
+            firstImageView.isHidden = false
+            firstImageView.image = R.image.profile_intited()?.withTintColor(.black)
+            firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
+            return
+        }
+        updateActiveImageViewsConstraints(imageCount: images.count)
+        setupImage(imageUrl: images)
+        
+        if images.count > 4 {
+            countLabel.text = "\(images.count - 1)"
+            firstImageView.image = nil
+            firstImageView.backgroundColor = color
+        }
     }
     
     private func setupImage(imageUrl: [String?]) {

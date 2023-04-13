@@ -127,9 +127,10 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goProductsSettingsVC(snapshot: UIImage?, listByText: String, model: GroceryListsModel,
-                              compl: @escaping (GroceryListsModel, [Product]) -> Void) {
+                              compl: @escaping (GroceryListsModel, [Product]) -> Void,
+                              editCompl: ((ProductsSettingsViewModel.TableViewContent) -> Void)?) {
         guard let controller = viewControllerFactory.createProductsSettingsController(
-            snapshot: snapshot, listByText: listByText, model: model, router: self, compl: compl) else { return }
+            snapshot: snapshot, listByText: listByText, model: model, router: self, compl: compl, editCompl: editCompl) else { return }
         navigationPresent(controller, animated: false)
     }
     
@@ -250,6 +251,14 @@ final class RootRouter: RootRouterProtocol {
     func goToRecipe(recipe: Recipe) {
         let controller = viewControllerFactory.createRecipeScreen(router: self, recipe: recipe)
         navigationPushViewController(controller, animated: true)
+    }
+    
+    func goToEditSelectList(products: [Product], contentViewHeigh: CGFloat,
+                            delegate: EditSelectListDelegate, state: EditSelectListViewController.State) {
+        let controller = viewControllerFactory.createEditSelectListController(
+            router: self, products: products, contentViewHeigh: contentViewHeigh,
+            delegate: delegate, state: state)
+        navigationPresent(controller, style: .automatic, animated: true)
     }
     
     // алерты / активити и принтер

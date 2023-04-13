@@ -60,6 +60,7 @@
 "Create"                    = "Erstellen";
 "NewCategory"               = "Neue Kategorie";
 "Long press on an Item"     = "Langes Drücken auf ein Element, kehrt zur Bearbeitung zurück";
+"Buy"                       = "Kaufen";
 
 "Alcohol"                   = "Alkohol";
 "Grocery"                   = "Lebensmittelgeschäft";
@@ -189,6 +190,7 @@
 "importRecipe"                  = "Webrezepte importieren";
 "createCollection"              = "Sammlung erstellen";
 
+// Создание рецепта
 "recipeCreation"                = "Rezepterstellung";
 "Step 1 of 2"                   = "Schritt 1 von 2";
 "Required"                      = "Erforderlich";
@@ -208,6 +210,7 @@
 "Add Step"                      = "Schritt hinzufügen";
 "Complete"                      = "Komplett";
 
+// Коллекция/папка с рецептами
 "Miscellaneous"                 = "Diverses";
 "Note"                          = "Beachten";
 "Collections"                   = "Sammlung";
@@ -218,7 +221,19 @@
 "Share recipes"                 = "Rezepte teilen";
 "AdjustNumberOfServings"        = "Legen Sie die Anzahl der Portionen fest und fügen Sie die Zutaten zur Einkaufsliste hinzu";
 
+// Поиск
 "Search in "                    = "Suche in ";
 "Lists"                         = "Listen";
 "AllRecipes"                    = "Rezepten";
 "Search in all recipes"         = "Suche in allen Rezepten";
+
+// Редактирование продукта в списке
+"edit"                          = "Bearbeiten";
+"selectAllTabBar"               = "Alles\nauswählen";
+"copyTabBar"                    = "Kopieren";
+"move"                          = "Bewegen";
+"clearAll"                      = "Alles\nlöschen";
+"itemSelected"                  = "%@ artikel ausgewählt";
+"WantDeleteTheseTasks?"         = "Sind Sie sicher, dass Sie diese Aufgaben dauerhaft löschen möchten?";
+"Move to..."                    = "Umzug nach...";
+"Copy to..."                    = "Kopieren nach...";

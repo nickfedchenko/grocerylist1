@@ -80,11 +80,15 @@ class SharedListManager {
         var list = transform(sharedList: response.groceryList)
         list.sharedId = response.groceryList.sharedId ?? ""
         removeProductsIfNeeded(list: list)
-
+        
         CoreDataManager.shared.saveList(list: list)
-
+        
+        list.products.forEach { product in
+            CoreDataManager.shared.createProduct(product: product)
+        }
+        
         appendToUsersDict(id: list.sharedId, users: response.listUsers)
-
+        
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
 

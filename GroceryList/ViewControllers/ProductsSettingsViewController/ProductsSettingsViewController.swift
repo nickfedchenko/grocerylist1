@@ -28,9 +28,9 @@ class ProductsSettingsViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if !didLayoutSubviews {
-            let isScrollEnabled = self.view.frame.height < 700
+            let isScrollEnabled = self.view.frame.height < 750
             tableview.isScrollEnabled = isScrollEnabled
-            contentView.snp.updateConstraints { $0.height.equalTo(isScrollEnabled ? 600 : 700) }
+            contentView.snp.updateConstraints { $0.height.equalTo(isScrollEnabled ? 600 : 750) }
             didLayoutSubviews.toggle()
         }
     }
@@ -53,7 +53,7 @@ class ProductsSettingsViewController: UIViewController {
     // MARK: - swipeDown
     
     private func hidePanel(compl: (() -> Void)?) {
-        updateConstr(with: -700, alpha: 0)
+        updateConstr(with: -750, alpha: 0)
        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.dismiss(animated: false, completion: compl)
@@ -124,8 +124,8 @@ class ProductsSettingsViewController: UIViewController {
        
         contentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(-700)
-            make.height.equalTo(700)
+            make.bottom.equalToSuperview().inset(-750)
+            make.height.equalTo(750)
         }
         
         pinchView.snp.makeConstraints { make in
@@ -191,15 +191,23 @@ extension ProductsSettingsViewController: UITableViewDelegate, UITableViewDataSo
         let text = viewModel.getText(at: indexPath.row)
         let isInset = viewModel.getInset(at: indexPath.row)
         let separatorColor = viewModel.getSeparatirLineColor()
+        let color = viewModel.getTextColor()
         let isCheckmark = viewModel.isChecmarkActive(at: indexPath.row)
         let isSwitchActive = viewModel.isSwitchActive(at: indexPath.row)
-        if isSwitchActive {
-            let switchValue = viewModel.isShowImage()
-            let color = viewModel.getTextColor()
-            cell.setupSwitch(isVisible: isSwitchActive, value: switchValue, tintColor: color)
-        }
+        let isShare = viewModel.isSharedList(at: indexPath.row)
         cell.setupCell(imageForCell: image, text: text, inset: isInset, separatorColor: separatorColor,
                        isCheckmarkActive: isCheckmark)
+        
+        if isSwitchActive {
+            let switchValue = viewModel.isShowImage()
+            cell.setupSwitch(isVisible: isSwitchActive, value: switchValue, tintColor: color)
+        }
+        
+        if isShare {
+            let users = viewModel.getShareImages()
+            cell.setupShareView(isVisible: isShare, users: users, tintColor: color)
+        }
+        
         cell.switchValueChanged = { [weak self] isOn in
             self?.viewModel?.imageMatching(isOn: isOn)
         }
@@ -223,10 +231,8 @@ extension ProductsSettingsViewController: ProductSettingsViewDelegate {
         tableview.reloadData()
     }
     
-    func dismissController() {
-        hidePanel {[weak self] in
-            self?.viewModel?.controllerDissmised()
-        }
+    func dismissController(comp: @escaping (() -> Void)) {
+        hidePanel { comp() }
     }
 }
 

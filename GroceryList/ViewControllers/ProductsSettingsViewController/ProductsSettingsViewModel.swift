@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol ProductSettingsViewDelegate: AnyObject {
-    func dismissController()
+    func dismissController(comp: @escaping (() -> Void))
     func reloadController()
 }
 
@@ -18,6 +18,7 @@ class ProductsSettingsViewModel {
     weak var router: RootRouter?
     weak var delegate: ProductSettingsViewDelegate?
     var valueChangedCallback: ((GroceryListsModel, [Product]) -> Void)?
+    var editCallback: ((TableViewContent) -> Void)?
     
     private var colorManager = ColorManager()
     private var snapshot: UIImage?
@@ -39,7 +40,11 @@ class ProductsSettingsViewModel {
     }
     
     func getImage(at ind: Int) -> UIImage? {
-        if ind == 2 { return getImageWithColor(color: getTextColor(), size: CGSize(width: 28, height: 28))?.rounded(radius: 100)}
+        guard let content = allContent[safe: ind] else { return nil }
+        if content == .changeColor {
+            return getImageWithColor(color: getTextColor(),
+                                     size: CGSize(width: 28, height: 28))?.rounded(radius: 100)
+        }
         return allContent[ind].image
     }
     
@@ -75,12 +80,13 @@ class ProductsSettingsViewModel {
     
     func isChecmarkActive(at ind: Int) -> Bool {
         guard let content = allContent[safe: ind] else { return false }
-        if content == TableViewContent.pinch { return model.isFavorite }
-        if content == TableViewContent.byUsers { return model.typeOfSorting == SortingType.user.rawValue }
-        if content == TableViewContent.byCategory { return model.typeOfSorting == SortingType.category.rawValue }
-        if content == TableViewContent.byTime { return model.typeOfSorting == SortingType.time.rawValue }
-        if content == TableViewContent.byRecipe { return model.typeOfSorting == SortingType.recipe.rawValue }
-        if content == TableViewContent.byAlphabet { return model.typeOfSorting == SortingType.alphabet.rawValue }
+        if content == .pinch { return model.isFavorite }
+        if content == .byUsers { return model.typeOfSorting == SortingType.user.rawValue }
+        if content == .byCategory { return model.typeOfSorting == SortingType.category.rawValue }
+        if content == .byTime { return model.typeOfSorting == SortingType.time.rawValue }
+        if content == .byRecipe { return model.typeOfSorting == SortingType.recipe.rawValue }
+        if content == .byAlphabet { return model.typeOfSorting == SortingType.alphabet.rawValue }
+        if content == .share { return model.isShared }
         return false
     }
     
@@ -94,7 +100,25 @@ class ProductsSettingsViewModel {
     
     func isSwitchActive(at ind: Int) -> Bool {
         guard let content = allContent[safe: ind] else { return false }
-        return content == TableViewContent.imageMatching
+        return content == .imageMatching
+    }
+    
+    func isSharedList(at ind: Int) -> Bool {
+        guard let content = allContent[safe: ind] else { return false }
+        return content == .share && model.isShared
+    }
+    
+    func getShareImages() -> [String?] {
+        var arrayOfImageUrls: [String?] = []
+        guard let newUsers = SharedListManager.shared.sharedListsUsers[model.sharedId] else {
+            return arrayOfImageUrls
+        }
+        newUsers.forEach { user in
+            if user.token != UserAccountManager.shared.getUser()?.token {
+                arrayOfImageUrls.append(user.avatar)
+            }
+        }
+        return arrayOfImageUrls
     }
     
     func cellSelected(at ind: Int) {
@@ -106,6 +130,10 @@ class ProductsSettingsViewModel {
                 self?.copiedProducts = products
                 self?.savePatametrs()
             }
+        case .edit:
+            delegate?.dismissController(comp: { [weak self] in
+                self?.editCallback?(.edit)
+            })
         case .pinch:
             model.isFavorite = !model.isFavorite
             savePatametrs()
@@ -117,6 +145,10 @@ class ProductsSettingsViewModel {
             }
         case .byUsers, .byCategory, .byTime, .byRecipe, .byAlphabet:
             typeOfSorting(content)
+        case .share:
+            delegate?.dismissController(comp: { [weak self] in
+                self?.editCallback?(.share)
+            })
         case .copy, .print:
             sendSnapshot(content)
         case .send:
@@ -124,7 +156,9 @@ class ProductsSettingsViewModel {
             router?.showActivityVC(image: [listByText])
         case .delete:
             CoreDataManager.shared.removeList(model.id)
-            delegate?.dismissController()
+            delegate?.dismissController(comp: { [weak self] in
+                self?.controllerDissmised()
+            })
         default: return
         }
     }
@@ -134,7 +168,7 @@ class ProductsSettingsViewModel {
         savePatametrs()
     }
     
-    private func typeOfSorting(_ content: ProductsSettingsViewModel.TableViewContent) {
+    private func typeOfSorting(_ content: TableViewContent) {
         switch content {
         case .byUsers:
             model.typeOfSorting = SortingType.user.rawValue
@@ -151,7 +185,7 @@ class ProductsSettingsViewModel {
         savePatametrs()
     }
     
-    private func sendSnapshot(_ content: ProductsSettingsViewModel.TableViewContent) {
+    private func sendSnapshot(_ content: TableViewContent) {
         guard let snapshot = snapshot else { return }
         switch content {
         case .copy:
@@ -182,6 +216,7 @@ class ProductsSettingsViewModel {
 extension ProductsSettingsViewModel {
     enum TableViewContent: Int, CaseIterable {
         case rename
+        case edit
         case pinch
         case changeColor
         case sort
@@ -191,6 +226,7 @@ extension ProductsSettingsViewModel {
         case byRecipe
         case byAlphabet
         case imageMatching
+        case share
         case copy
         case print
         case send
@@ -199,6 +235,7 @@ extension ProductsSettingsViewModel {
         var image: UIImage? {
             switch self {
             case .rename:           return R.image.rename()
+            case .edit:             return R.image.editCell()
             case .pinch:            return R.image.pin()
             case .changeColor:      return R.image.color()
             case .sort:             return R.image.sort()
@@ -208,6 +245,7 @@ extension ProductsSettingsViewModel {
             case .byTime:           return R.image.time()
             case .byAlphabet:       return R.image.abC()
             case .imageMatching:    return R.image.carrot_image()
+            case .share:            return R.image.profile_add()?.withTintColor(.black)
             case .copy:             return R.image.copy()
             case .print:            return R.image.print()
             case .send:             return R.image.send()
@@ -218,6 +256,7 @@ extension ProductsSettingsViewModel {
         var title: String {
             switch self {
             case .rename:           return R.string.localizable.rename()
+            case .edit:             return R.string.localizable.edit()
             case .pinch:            return R.string.localizable.pinch()
             case .changeColor:      return R.string.localizable.changeColor()
             case .sort:             return R.string.localizable.sort()
@@ -227,6 +266,7 @@ extension ProductsSettingsViewModel {
             case .byTime:           return R.string.localizable.byTime()
             case .byAlphabet:       return R.string.localizable.byAlphabet()
             case .imageMatching:    return R.string.localizable.pictureMatching()
+            case .share:            return R.string.localizable.shared()
             case .copy:             return R.string.localizable.copy()
             case .print:            return R.string.localizable.print()
             case .send:             return R.string.localizable.send()
