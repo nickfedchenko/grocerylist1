@@ -32,7 +32,7 @@ extension DataProviderFacade: DataSyncProtocol {
             case let .failure(error):
                 print(error)
             case let .success(productsResponse):
-                self?.saveProductsInPersistentStore(products: productsResponse)
+                self?.saveProductsInPersistentStore(products: productsResponse.data)
             }
         }
     }

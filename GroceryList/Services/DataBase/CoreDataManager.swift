@@ -22,6 +22,8 @@ class CoreDataManager {
     private init() {
         coreData = CoreDataStorage()
         
+        // удаление старой базы продуктов с сервера
+        deleteOldEntities()
     }
     
     // MARK: - Products
@@ -109,8 +111,8 @@ class CoreDataManager {
     
     // MARK: - NetworkProducts
     
-    func getAllNetworkProducts() -> [DBNetProduct]? {
-        let fetchRequest: NSFetchRequest<DBNetProduct> = DBNetProduct.fetchRequest()
+    func getAllNetworkProducts() -> [DBNewNetProduct]? {
+        let fetchRequest: NSFetchRequest<DBNewNetProduct> = DBNewNetProduct.fetchRequest()
         guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
             return nil
         }
@@ -388,6 +390,15 @@ class CoreDataManager {
         }
         return object
     }
+    
+    private func deleteOldEntities() {
+        let oldEntityNames = ["DBNetworkProduct", "DBNetProduct"]
+        oldEntityNames.forEach { oldEntityName in
+            if coreData.container.managedObjectModel.entities.contains(where: { $0.name == oldEntityName }) {
+                delete(entityName: oldEntityName)
+            }
+        }
+    }
 }
 
 extension CoreDataManager: CoredataSyncProtocol {
@@ -409,7 +420,7 @@ extension CoreDataManager: CoredataSyncProtocol {
         let asyncContext = coreData.taskContext
         asyncContext.perform {
             do {
-                let _ = products.map { DBNetProduct.prepare(fromProduct: $0, using: asyncContext) }
+                let _ = products.map { DBNewNetProduct.prepare(fromProduct: $0, using: asyncContext) }
                 try asyncContext.save()
                 NotificationCenter.default.post(name: .productsDownladedAnsSaved, object: nil)
             } catch {

@@ -31,19 +31,26 @@ class CreateNewProductViewModel {
     
     private let network = NetworkEngine()
     private var colorManager = ColorManager()
-    private var networkProducts: [DBNetProduct]?
+    private var networkBaseProducts: [DBNewNetProduct]?
+    private var networkDishesProducts: [DBNewNetProduct]?
     private var userProducts: [DBProduct]?
-    private var networkProductTitles: [String] = []
+    private var networkBaseProductTitles: [String] = []
+    private var networkDishesProductTitles: [String] = []
     private var userProductTitles: [String] = []
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
     
     init() {
-        networkProducts = CoreDataManager.shared.getAllNetworkProducts()?
+        networkBaseProducts = CoreDataManager.shared.getAllNetworkProducts()?
+            .filter({ $0.productTypeId == 1 || $0.productTypeId == -1 })
+            .sorted(by: { $0.title ?? "" < $1.title ?? "" })
+        networkDishesProducts = CoreDataManager.shared.getAllNetworkProducts()?
+            .filter({ $0.productTypeId == 3 })
             .sorted(by: { $0.title ?? "" < $1.title ?? "" })
         userProducts = CoreDataManager.shared.getAllProducts()?
             .sorted(by: { $0.name ?? "" < $1.name ?? "" })
         
-        networkProductTitles = networkProducts?.compactMap({ $0.title }) ?? []
+        networkBaseProductTitles = networkBaseProducts?.compactMap({ $0.title }) ?? []
+        networkDishesProductTitles = networkDishesProducts?.compactMap({ $0.title }) ?? []
         userProductTitles = userProducts?.compactMap({ $0.name }) ?? []
     }
     
@@ -214,11 +221,13 @@ class CreateNewProductViewModel {
             return
         }
         let userProductTitles = search(name: name, by: userProductTitles)
-        let networkProductTitles = search(name: name, by: networkProductTitles)
+        let networkProductTitles = search(name: name, by: networkBaseProductTitles)
+        let networkDishesProductTitles = search(name: name, by: networkDishesProductTitles)
         if name.count > 1 {
             let titles = Array(Set(userProductTitles + networkProductTitles))
             let productTitles = sortTitle(by: name, titles: titles)
-            productsChangedCallback?(productTitles)
+            let dishesTitle = sortTitle(by: name, titles: networkDishesProductTitles)
+            productsChangedCallback?(productTitles + dishesTitle)
         } else {
             productsChangedCallback?([])
         }
@@ -230,7 +239,13 @@ class CreateNewProductViewModel {
         }
         
         if networkProductTitles.contains(where: { $0.prepareForSearch().smartContains(name) }),
-           let product = networkProducts?.first(where: { $0.title?.prepareForSearch().smartContains(name) ?? false }) {
+           let product = networkBaseProducts?.first(where: { $0.title?.prepareForSearch().smartContains(name) ?? false }) {
+            getInformation(networkProduct: product)
+            return
+        }
+        
+        if networkDishesProductTitles.contains(where: { $0.prepareForSearch().smartContains(name) }),
+           let product = networkDishesProducts?.first(where: { $0.title?.prepareForSearch().smartContains(name) ?? false }) {
             getInformation(networkProduct: product)
             return
         }
@@ -256,7 +271,7 @@ class CreateNewProductViewModel {
         return resultTitles
     }
     
-    private func getInformation(networkProduct: DBNetProduct) {
+    private func getInformation(networkProduct: DBNewNetProduct) {
         let photoUrl = networkProduct.photo ?? ""
         let imageUrl = isVisibleImage ? photoUrl : ""
         let title = networkProduct.marketCategory ?? R.string.localizable.other()
@@ -310,7 +325,7 @@ class CreateNewProductViewModel {
             userToken = user.token
         }
         
-        if let product = networkProducts?.first(where: { $0.title?.lowercased() == product.lowercased() }) {
+        if let product = networkBaseProducts?.first(where: { $0.title?.lowercased() == product.lowercased() }) {
             productId = "\(product.id)"
         }
         
