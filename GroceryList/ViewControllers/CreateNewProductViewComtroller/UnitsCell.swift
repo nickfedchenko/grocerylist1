@@ -10,8 +10,15 @@ import UIKit
 
 class UnitsCell: UITableViewCell {
     
+    enum UnitsState {
+        case unit
+        case anyStore
+        case newStore
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        newStoreButton.isHidden = true
         setupConstraints()
     }
     
@@ -23,37 +30,72 @@ class UnitsCell: UITableViewCell {
         didSet {
             if isSelected {
                 titleLabel.textColor = .white
-                contentView.backgroundColor = UIColor(hex: "#31635A")
+                contentView.backgroundColor = color
             } else {
-                titleLabel.textColor = UIColor(hex: "#31635A")
-                contentView.backgroundColor = .white
+                titleLabel.textColor = state != .anyStore ? color : .white
+                contentView.backgroundColor = state != .anyStore ? .white : UIColor(hex: "#ACB4B4")
             }
         }
     }
     
-    func setupCell(title: String, isSelected: Bool) {
+    var state: UnitsState = .unit
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        newStoreButton.isHidden = true
+        titleLabel.isHidden = false
+        self.backgroundColor = .white
+        titleLabel.textColor = color
+    }
+    
+    func setupCell(title: String, isSelected: Bool, color: UIColor) {
         titleLabel.text = title
+        titleLabel.textColor = color
+        separatorLine.backgroundColor = color
+        self.color = color
+    }
+    
+    // MARK: store cell
+    func setupAnyStore(color: UIColor) {
+        titleLabel.text = "Any store"
+        titleLabel.textColor = .white
+        separatorLine.backgroundColor = color
+    }
+    
+    func setupNewStore(color: UIColor) {
+        separatorLine.backgroundColor = color
+        titleLabel.isHidden = true
+        newStoreButton.isHidden = false
+        newStoreButton.isUserInteractionEnabled = false
+        newStoreButton.setTitle(" " + "New Store", for: .normal)
+        newStoreButton.setTitleColor(color, for: .normal)
+        newStoreButton.setImage(R.image.marker()?.withTintColor(color), for: .normal)
+        newStoreButton.imageView?.contentMode = .scaleAspectFit
+        newStoreButton.titleLabel?.font = UIFont.SFPro.semibold(size: 17).font
         
+        let lineView = UIView(frame: CGRect(x: 0, y: newStoreButton.frame.size.height,
+                                            width: newStoreButton.frame.size.width + 2, height: 1))
+        lineView.backgroundColor = color
+        newStoreButton.addSubview(lineView)
     }
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.medium(size: 16).font
+        label.font = UIFont.SFPro.semibold(size: 17).font
         label.textColor = .black
         label.text = "AddItem".localized
         return label
     }()
     
-    private let separatorLine: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(hex: "#31635A")
-        return view
-    }()
+    private let newStoreButton = UIButton()
+    
+    private let separatorLine = UIView()
+    private var color: UIColor = .clear
     
     // MARK: - UI
     private func setupConstraints() {
         backgroundColor = .white
-        contentView.addSubviews([titleLabel, separatorLine])
+        contentView.addSubviews([newStoreButton, titleLabel, separatorLine])
         
         titleLabel.snp.makeConstraints { make in
             make.centerY.centerX.equalToSuperview()
@@ -62,6 +104,11 @@ class UnitsCell: UITableViewCell {
         separatorLine.snp.makeConstraints { make in
             make.height.equalTo(1)
             make.right.bottom.left.equalToSuperview()
+        }
+        
+        newStoreButton.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.height.equalTo(20)
         }
     }
     

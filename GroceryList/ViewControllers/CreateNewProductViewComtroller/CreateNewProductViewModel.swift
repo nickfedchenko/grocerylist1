@@ -13,8 +13,8 @@ import UIKit
 protocol CreateNewProductViewModelDelegate: AnyObject {
     func presentController(controller: UIViewController?)
     func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?)
-    func deselectCategory()
-    func setupController(step: Int)
+    func deselectCategory() // потом убрать
+    func setupController(step: Int) // потом убрать
 }
 
 class CreateNewProductViewModel {
@@ -56,6 +56,10 @@ class CreateNewProductViewModel {
     
     var selectedUnitSystemArray: [UnitSystem] {
         isMetricSystem ? arrayForMetricSystem : arrayForImperalSystem
+    }
+    
+    var stores: [String] {
+        ["test1", "test2", "test3"]
     }
     
     private var arrayForMetricSystem: [UnitSystem] = [
@@ -142,6 +146,14 @@ class CreateNewProductViewModel {
         case .switchOn:     return true
         case .switchOff:    return false
         }
+    }
+    
+    var getColorForBackground: UIColor {
+        colorManager.getGradient(index: model?.color ?? 0).1
+    }
+    
+    var getColorForForeground: UIColor {
+        colorManager.getGradient(index: model?.color ?? 0).0
     }
     
     private var productDescriptionQuantity: String? {

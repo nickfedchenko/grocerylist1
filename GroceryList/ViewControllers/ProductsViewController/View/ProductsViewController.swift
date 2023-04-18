@@ -269,7 +269,8 @@ class ProductsViewController: UIViewController {
     
     @objc
     private func longPressAction(_ recognizer: UILongPressGestureRecognizer) {
-        guard recognizer.state == .began else {
+        guard cellState == .normal,
+              recognizer.state == .began else {
             return
         }
         tapPressAction()
