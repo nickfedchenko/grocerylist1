@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3328AD86299CF40800187B57 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3328AD85299CF40800187B57 /* SharingView.swift */; };
+		333E2D2A29EEAE5700F705E7 /* CreateNewStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2929EEAE5700F705E7 /* CreateNewStoreViewController.swift */; };
+		333E2D2D29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2C29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift */; };
 		334009EB29E98A0800A04978 /* NameOfProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009EA29E98A0800A04978 /* NameOfProductView.swift */; };
 		334009ED29E98AB800A04978 /* CreateNewProductButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009EC29E98AB700A04978 /* CreateNewProductButtonView.swift */; };
 		334009EF29E9950000A04978 /* StoreOfProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009EE29E9950000A04978 /* StoreOfProductView.swift */; };
@@ -255,6 +257,8 @@
 		025222570B015E69FF5973D3 /* Pods_GroceryList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GroceryList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		262EB22BC930A385DC81E51C /* Pods-GroceryList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroceryList.release.xcconfig"; path = "Target Support Files/Pods-GroceryList/Pods-GroceryList.release.xcconfig"; sourceTree = "<group>"; };
 		3328AD85299CF40800187B57 /* SharingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingView.swift; sourceTree = "<group>"; };
+		333E2D2929EEAE5700F705E7 /* CreateNewStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewStoreViewController.swift; sourceTree = "<group>"; };
+		333E2D2C29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewStoreViewModel.swift; sourceTree = "<group>"; };
 		334009EA29E98A0800A04978 /* NameOfProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameOfProductView.swift; sourceTree = "<group>"; };
 		334009EC29E98AB700A04978 /* CreateNewProductButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProductButtonView.swift; sourceTree = "<group>"; };
 		334009EE29E9950000A04978 /* StoreOfProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreOfProductView.swift; sourceTree = "<group>"; };
@@ -520,6 +524,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		333E2D2B29EEAE7500F705E7 /* CreateNewStore */ = {
+			isa = PBXGroup;
+			children = (
+				333E2D2929EEAE5700F705E7 /* CreateNewStoreViewController.swift */,
+				333E2D2C29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift */,
+			);
+			path = CreateNewStore;
+			sourceTree = "<group>";
+		};
 		334009E929E9828600A04978 /* subView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1386,6 +1399,7 @@
 				B3D204592930EFC200599A01 /* CreateNewProductViewComtroller */,
 				B3B45E582934BFEA00D60E82 /* SelectCategoryViewController */,
 				B34EACA62935007400FBD0E0 /* CreateNewCategoryViewController */,
+				333E2D2B29EEAE7500F705E7 /* CreateNewStore */,
 				B3777E172938BE790074BE38 /* SettingsViewController */,
 				B381EF29299B904A00DCDE40 /* PasswordExpiredController */,
 				B3F7C9C529963EEA0081B245 /* PasswordResetViewController */,
@@ -1936,6 +1950,7 @@
 				B3777E192938BEA80074BE38 /* SettingsViewController.swift in Sources */,
 				B315F9E12989373A0009CEB8 /* TryForFreeView.swift in Sources */,
 				B3F7C9B429939E0B0081B245 /* SignUpViewController.swift in Sources */,
+				333E2D2D29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift in Sources */,
 				B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */,
 				33F8253E29C0859D00B349D5 /* SearchInListCell.swift in Sources */,
 				334009EF29E9950000A04978 /* StoreOfProductView.swift in Sources */,
@@ -1980,6 +1995,7 @@
 				B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */,
 				334BAE59299E7333005F52F5 /* TitleCell.swift in Sources */,
 				B3C3FA4F291175390011EC0A /* UIImageViewExtension.swift in Sources */,
+				333E2D2A29EEAE5700F705E7 /* CreateNewStoreViewController.swift in Sources */,
 				3368FD6529B60CD000D97291 /* PreparationStepViewModel.swift in Sources */,
 				33F8254229C18FCE00B349D5 /* UIStackViewExtension.swift in Sources */,
 				3368FD6329B5F89C00D97291 /* PreparationStepViewController.swift in Sources */,

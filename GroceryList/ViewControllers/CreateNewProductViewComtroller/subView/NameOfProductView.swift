@@ -250,6 +250,7 @@ extension NameOfProductView: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         delegate?.isFirstResponderProductTextField(textField == productTextField)
         if textField == descriptionTextField {
+            AmplitudeManager.shared.logEvent(.secondInputManual)
             guard !(descriptionTextField.text?.isEmpty ?? true) else {
                 return
             }

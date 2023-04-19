@@ -57,10 +57,10 @@ class CreateNewProductButtonView: ViewWithOverriddenPoint {
         shortView.isUserInteractionEnabled = enabled
     }
     
-    func setupColor(_ color: UIColor) {
-        activeColor = color
-        longView.configureColor(color)
-        shortView.configureColor(color)
+    func setupColor(backgroundColor: UIColor, tintColor: UIColor) {
+        activeColor = tintColor
+        longView.configureColor(backgroundColor: backgroundColor, tintColor: tintColor)
+        shortView.configureColor(backgroundColor: backgroundColor, tintColor: tintColor)
     }
     
     @objc
@@ -97,6 +97,13 @@ class ProductButtonView: UIView {
         return textField
     }()
     
+    var shadowViews: [UIView] {
+        [shadowOneView, shadowTwoView]
+    }
+    
+    private let shadowOneView = UIView()
+    private let shadowTwoView = UIView()
+    
     init(title: String) {
         super.init(frame: .zero)
         
@@ -116,26 +123,42 @@ class ProductButtonView: UIView {
         titleTextField.text = title
     }
     
-    func configureColor(_ color: UIColor) {
-        self.layer.borderColor = color.cgColor
-        titleTextField.textColor = color
-        titleTextField.tintColor = color
+    func configureColor(backgroundColor: UIColor, tintColor: UIColor) {
+        shadowViews.forEach {
+            $0.backgroundColor = backgroundColor
+        }
+        
+        shadowTwoView.layer.borderColor = tintColor.cgColor
+        titleTextField.textColor = tintColor
+        titleTextField.tintColor = tintColor
     }
     
     func configureBorder(width: CGFloat = 1, radius: CGFloat = 8) {
-        self.layer.cornerRadius = radius
-        self.layer.borderWidth = width
+        shadowViews.forEach {
+            $0.layer.cornerRadius = radius
+            $0.layer.borderWidth = width
+        }
     }
     
     private func setup() {
+        shadowOneView.addCustomShadow(color: UIColor(hex: "#858585"), opacity: 0.1,
+                                      radius: 6, offset: .init(width: 0, height: 4))
+        shadowTwoView.addCustomShadow(color: UIColor(hex: "#484848"), opacity: 0.15,
+                                      radius: 1, offset: .init(width: 0, height: 0.5))
+        
         makeConstraints()
     }
     
     private func makeConstraints() {
-        self.addSubview(titleTextField)
+        self.addSubviews(shadowViews)
+        shadowTwoView.addSubview(titleTextField)
+        
+        shadowViews.forEach {
+            $0.snp.makeConstraints { $0.edges.equalToSuperview() }
+        }
         
         titleTextField.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
     }
 }

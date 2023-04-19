@@ -9,7 +9,8 @@ import UIKit
 
 protocol QuantityOfProductViewDelegate: AnyObject {
     func unitSelected(_ unit: UnitSystem)
-    func updateQuantityValue(_ quantity: Int)
+    func updateQuantityValue(_ quantity: Double)
+    func isFirstResponderProductTextField(_ flag: Bool)
 }
 
 final class QuantityOfProductView: CreateNewProductButtonView {
@@ -51,27 +52,29 @@ final class QuantityOfProductView: CreateNewProductButtonView {
         return button
     }()
     
-    private var quantity = 0 {
+    private var bgColor: UIColor = .clear
+    private var quantity: Double = 0 {
         didSet {
-            longView.titleTextField.text = "\(quantity)"
+            longView.titleTextField.text = getDecimalString(quantity)
             delegate?.updateQuantityValue(quantity)
         }
     }
-    private var quantityValueStep = 1
+    private var quantityValueStep: Double = 1
     private var defaultUnit: UnitSystem = .piece
     private var currentUnit: UnitSystem? {
         didSet {
             if let currentUnit {
                 updateUnit(unitTitle: currentUnit.title, isActive: true)
-                updateQuantity(unitStep: "\(currentUnit.stepValue)")
-                quantityValueStep = currentUnit.stepValue
+                updateQuantity(unitStep: Double(currentUnit.stepValue))
+                quantityValueStep = Double(currentUnit.stepValue)
                 delegate?.unitSelected(currentUnit)
-                quantity = currentUnit.stepValue
+                quantity = Double(currentUnit.stepValue)
             }
         }
     }
     
-    override init(longTitle: String = R.string.localizable.quantity1(), shortTitle: String = "units") {
+    override init(longTitle: String = R.string.localizable.quantity1(),
+                  shortTitle: String = R.string.localizable.units()) {
         super.init(longTitle: longTitle, shortTitle: shortTitle)
     }
     
@@ -82,6 +85,8 @@ final class QuantityOfProductView: CreateNewProductButtonView {
     override func setup() {
         super.setup()
         longView.isTitleEnableUserInteraction(true)
+        longView.titleTextField.keyboardType = .decimalPad
+        longView.titleTextField.delegate = self
         
         let tapOnUnitsBackgroundView = UITapGestureRecognizer(target: self, action: #selector(tappedOnUnitsBackgroundView))
         unitsBackgroundView.addGestureRecognizer(tapOnUnitsBackgroundView)
@@ -91,15 +96,19 @@ final class QuantityOfProductView: CreateNewProductButtonView {
         plusButton.layer.borderWidth = 1
     }
     
-    override func setupColor(_ color: UIColor) {
-        super.setupColor(color)
-        unitsTableView.layer.borderColor = color.cgColor
+    override func setupColor(backgroundColor: UIColor, tintColor: UIColor) {
+        super.setupColor(backgroundColor: backgroundColor, tintColor: tintColor)
+        bgColor = backgroundColor
+        unitsTableView.layer.borderColor = tintColor.cgColor
         
-        minusButton.setImage(R.image.black_Minus()?.withTintColor(color), for: .normal)
-        plusButton.setImage(R.image.black_Plus()?.withTintColor(color), for: .normal)
+        minusButton.setImage(R.image.black_Minus()?.withTintColor(tintColor), for: .normal)
+        plusButton.setImage(R.image.black_Plus()?.withTintColor(tintColor), for: .normal)
         
-        minusButton.layer.borderColor = color.cgColor
-        plusButton.layer.borderColor = color.cgColor
+        minusButton.layer.borderColor = tintColor.cgColor
+        plusButton.layer.borderColor = tintColor.cgColor
+        
+        minusButton.addCustomShadow(color: tintColor, opacity: 0.1, radius: 5, offset: .init(width: 0, height: 4))
+        plusButton.addCustomShadow(color: tintColor, opacity: 0.1, radius: 5, offset: .init(width: 0, height: 4))
     }
     
     override func shortViewTapped() {
@@ -132,19 +141,31 @@ final class QuantityOfProductView: CreateNewProductButtonView {
         }
     }
     
+    func setupCurrentQuantity(unit: UnitSystem, value: Double) {
+        currentUnit = unit
+        quantity = value
+        updateQuantityButtons(isActive: true)
+        longView.shadowViews.forEach { $0.layer.shadowOpacity = 0 }
+        shortView.shadowViews.forEach { $0.layer.shadowOpacity = 0 }
+    }
+    
     func reset() {
         quantity = 0
         updateQuantityButtons(isActive: false)
         updateUnit(isActive: false)
+        longView.shadowViews.forEach { $0.layer.shadowOpacity = 0.12 }
+        shortView.shadowViews.forEach { $0.layer.shadowOpacity = 0.12 }
     }
     
     func setDefaultUnit(_ unit: UnitSystem) {
         defaultUnit = unit
         updateUnit(unitTitle: unit.title, isActive: false)
+        shortView.shadowViews.forEach { $0.layer.shadowOpacity = 0 }
     }
     
     @objc
     private func plusButtonAction() {
+        AmplitudeManager.shared.logEvent(.itemQuantityButtons)
         if currentUnit == nil {
             currentUnit = defaultUnit
             quantity = 0
@@ -156,6 +177,7 @@ final class QuantityOfProductView: CreateNewProductButtonView {
 
     @objc
     private func minusButtonAction() {
+        AmplitudeManager.shared.logEvent(.itemQuantityButtons)
         guard currentUnit != nil else { return }
         if quantity - quantityValueStep <= 0 {
             quantity = 0
@@ -180,7 +202,10 @@ final class QuantityOfProductView: CreateNewProductButtonView {
                 
                 minusButton.backgroundColor = .clear
                 plusButton.backgroundColor = .clear
-                longView.backgroundColor = .clear
+                longView.shadowViews.forEach {
+                    $0.backgroundColor = bgColor
+                    $0.layer.shadowOpacity = 0.12
+                }
                 
                 longView.titleTextField.textColor = activeColor
             }
@@ -192,7 +217,10 @@ final class QuantityOfProductView: CreateNewProductButtonView {
             
             minusButton.backgroundColor = activeColor
             plusButton.backgroundColor = activeColor
-            longView.backgroundColor = .white
+            longView.shadowViews.forEach {
+                $0.backgroundColor = .white
+                $0.layer.shadowOpacity = 0
+            }
             
             longView.titleTextField.textColor = .black
         }
@@ -202,14 +230,19 @@ final class QuantityOfProductView: CreateNewProductButtonView {
         if let unitTitle {
             shortView.titleTextField.text = unitTitle
         }
-        shortView.backgroundColor = isActive ? activeColor : .clear
+        
+        shortView.shadowViews.forEach {
+            $0.backgroundColor = isActive ? activeColor : .clear
+        }
         shortView.titleTextField.textColor = isActive ? .white : activeColor
     }
     
-    private func updateQuantity(unitStep: String) {
-        longView.backgroundColor = .white
+    private func updateQuantity(unitStep: Double) {
+        longView.shadowViews.forEach {
+            $0.backgroundColor = .white
+        }
         longView.titleTextField.textColor = .black
-        longView.titleTextField.text = unitStep
+        longView.titleTextField.text = getDecimalString(unitStep)
     }
     
     private func hideTableView(isHide: Bool, cell: UITableViewCell? = nil) {
@@ -222,6 +255,10 @@ final class QuantityOfProductView: CreateNewProductButtonView {
             self?.unitsTableView.snp.updateConstraints { $0.height.equalTo(isHide ? 0 : 320) }
             self?.layoutIfNeeded()
         }
+    }
+    
+    private func getDecimalString(_ value: Double) -> String {
+        String(format: "%.\(value.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", value)
     }
 }
 
@@ -242,12 +279,40 @@ extension QuantityOfProductView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = unitsTableView.cellForRow(at: indexPath)
         cell?.isSelected = true
+        AmplitudeManager.shared.logEvent(.itemUnitsButton)
         hideTableView(isHide: true, cell: cell)
         currentUnit = systemUnits[indexPath.row]
+        shortView.shadowViews.forEach { $0.layer.shadowOpacity = 0 }
         updateQuantityButtons(isActive: true)
     }
         
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 40
+    }
+}
+
+extension QuantityOfProductView: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == longView.titleTextField {
+            if longView.titleTextField.text == R.string.localizable.quantity1() {
+                longView.titleTextField.text = ""
+            }
+            longView.shadowViews.forEach { $0.layer.shadowOpacity = 0 }
+        }
+        delegate?.isFirstResponderProductTextField(false)
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField == longView.titleTextField,
+            let quantity = textField.text?.asDouble {
+            delegate?.updateQuantityValue(quantity)
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == longView.titleTextField,
+           textField.text?.isEmpty ?? true {
+            longView.titleTextField.text = R.string.localizable.quantity1()
+        }
     }
 }

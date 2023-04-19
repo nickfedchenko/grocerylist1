@@ -15,6 +15,7 @@ protocol CreateNewProductViewModelDelegate: AnyObject {
     func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?)
     func deselectCategory() // потом убрать
     func setupController(step: Int) // потом убрать
+    func newStore(name: String)
 }
 
 class CreateNewProductViewModel {
@@ -27,6 +28,7 @@ class CreateNewProductViewModel {
     
     var model: GroceryListsModel?
     var currentSelectedUnit: UnitSystem = .gram
+    var stores: [String] = []
     var currentProduct: Product?
     
     private let network = NetworkEngine()
@@ -52,14 +54,13 @@ class CreateNewProductViewModel {
         networkBaseProductTitles = networkBaseProducts?.compactMap({ $0.title }) ?? []
         networkDishesProductTitles = networkDishesProducts?.compactMap({ $0.title }) ?? []
         userProductTitles = userProducts?.compactMap({ $0.name }) ?? []
+        
+//        stores = CoreDataManager.shared.getAllStores()?.compactMap({ $0.title }) ?? []
+        stores = ["test1", "test2", "test3"]
     }
     
     var selectedUnitSystemArray: [UnitSystem] {
         isMetricSystem ? arrayForMetricSystem : arrayForImperalSystem
-    }
-    
-    var stores: [String] {
-        ["test1", "test2", "test3"]
     }
     
     private var arrayForMetricSystem: [UnitSystem] = [
@@ -106,23 +107,33 @@ class CreateNewProductViewModel {
     }
     
     var userComment: String? {
-        guard let quantity = productDescriptionQuantity else {
+        guard let quantity = getProductDescriptionQuantity() else {
             return productDescription
         }
-        return productDescription?.replacingOccurrences(of: quantity, with: "")
+        var userComment = productDescription?.replacingOccurrences(of: quantity, with: "")
+        
+        if userComment?.last == "," {
+            userComment?.removeLast()
+        }
+        
+        if userComment?.first == "," {
+            userComment?.removeFirst()
+        }
+        
+        return userComment
     }
     
     var productQuantityCount: Double? {
-        guard let stringArray = productDescriptionQuantity?.components(separatedBy: .decimalDigits.inverted)
-            .filter({ !$0.isEmpty }),
+        guard let stringArray = getProductDescriptionQuantity()?.components(separatedBy: .decimalDigits.inverted)
+                                                           .filter({ !$0.isEmpty }),
               let lastCount = stringArray.first else {
             return nil
         }
         return Double(lastCount)
     }
     
-    var productQuantityUnit: String? {
-        guard let descriptionQuantity = productDescriptionQuantity else {
+    var productQuantityUnit: UnitSystem? {
+        guard let descriptionQuantity = getProductDescriptionQuantity() else {
             return nil
         }
         
@@ -130,7 +141,7 @@ class CreateNewProductViewModel {
             currentSelectedUnit = unit
         }
         
-        return currentSelectedUnit.title
+        return currentSelectedUnit
     }
     
     var productStepValue: Double {
@@ -148,24 +159,23 @@ class CreateNewProductViewModel {
         }
     }
     
+    var productStore: String? {
+        currentProduct?.store
+    }
+    
+    var productCost: String? {
+        guard let cost = currentProduct?.cost else {
+            return nil
+        }
+        return String(format: "%.\(cost.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", cost)
+    }
+    
     var getColorForBackground: UIColor {
         colorManager.getGradient(index: model?.color ?? 0).1
     }
     
     var getColorForForeground: UIColor {
         colorManager.getGradient(index: model?.color ?? 0).0
-    }
-    
-    private var productDescriptionQuantity: String? {
-        guard let description = currentProduct?.description else {
-            return nil
-        }
-        if description.contains(where: { "," == $0 }),
-           let firstIndex = description.firstIndex(of: ",") {
-            let quantityStr = description[firstIndex..<description.endIndex]
-            return String(quantityStr)
-        }
-        return currentProduct?.description
     }
     
     func getNumberOfCells() -> Int {
@@ -182,7 +192,8 @@ class CreateNewProductViewModel {
         delegate?.setupController(step: step)
     }
     
-    func saveProduct(categoryName: String, productName: String, description: String, image: UIImage?, isUserImage: Bool) {
+    func saveProduct(categoryName: String, productName: String, description: String,
+                     image: UIImage?, isUserImage: Bool, store: String?, cost: Double?) {
         guard let model else { return }
         var imageData: Data?
         if let image {
@@ -196,13 +207,16 @@ class CreateNewProductViewModel {
             currentProduct.imageData = imageData
             currentProduct.description = description
             currentProduct.unitId = currentSelectedUnit
+            currentProduct.store = store
+            currentProduct.cost = cost
             product = currentProduct
         } else {
             product = Product(listId: model.id, name: productName,
                               isPurchased: false, dateOfCreation: Date(),
                               category: categoryName, isFavorite: false,
                               imageData: imageData, description: description,
-                              unitId: currentSelectedUnit, isUserImage: isUserImage)
+                              unitId: currentSelectedUnit, isUserImage: isUserImage,
+                              store: store, cost: cost)
         }
         
         CoreDataManager.shared.createProduct(product: product)
@@ -213,6 +227,7 @@ class CreateNewProductViewModel {
         sendUserProduct(category: categoryName, product: productName)
     }
     
+    // потом убрать
     func getBackgroundColor() -> UIColor {
         guard let colorInd = model?.color else { return UIColor.white}
         return colorManager.getGradient(index: colorInd).1
@@ -225,6 +240,13 @@ class CreateNewProductViewModel {
             self.delegate?.selectCategory(text: newCategoryName, imageURL: "", imageData: nil, defaultSelectedUnit: nil)
         })
         delegate?.presentController(controller: controller)
+    }
+    
+    func goToCreateNewStore() {
+        router?.goToCreateStore(model: model, compl: { [weak self] store in
+            self?.stores.append(store?.title ?? "")
+            self?.delegate?.newStore(name: store?.title ?? "")
+        })
     }
     
     func checkIsProductFromCategory(name: String?) {
@@ -358,5 +380,30 @@ class CreateNewProductViewModel {
             case .success(let response):    print(response)
             }
         }
+    }
+    
+    // достаем из описания продукта часть с количеством
+    private func getProductDescriptionQuantity() -> String? {
+        guard let description = currentProduct?.description else {
+            return nil
+        }
+        
+        guard description.contains(where: { "," == $0 }) else {
+            return currentProduct?.description
+        }
+        
+        let allSubstring = description.components(separatedBy: ",")
+        var quantityString: String?
+        
+        allSubstring.forEach { substring in
+            UnitSystem.allCases.forEach { unit in
+                if substring.trimmingCharacters(in: .whitespacesAndNewlines)
+                            .smartContains(unit.title) {
+                    quantityString = substring
+                }
+            }
+            
+        }
+        return quantityString
     }
 }

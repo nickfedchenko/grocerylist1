@@ -62,6 +62,13 @@
 "Long press on an Item"     = "Langes Drücken auf ein Element, kehrt zur Bearbeitung zurück";
 "Buy"                       = "Kaufen";
 
+"Store"                     = "Speichern";
+"cost"                      = "Kosten";
+"Any store"                 = "Beliebiges Geschäft";
+"Create a new store"        = "Einen neuen Shop erstellen";
+"New Store"                 = "Neuer Laden";
+"units"                     = "Maßeinheit";
+
 "Alcohol"                   = "Alkohol";
 "Grocery"                   = "Lebensmittelgeschäft";
 "ReadyFood"                 = "Fertiges Essen";

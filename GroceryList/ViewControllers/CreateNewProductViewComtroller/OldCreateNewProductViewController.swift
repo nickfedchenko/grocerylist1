@@ -288,14 +288,14 @@ class OldCreateNewProductViewController: UIViewController {
         bottomTextField.text = viewModel?.productDescription
         userCommentText = viewModel?.userComment ?? ""
         readyToSave()
-        quantityCount = viewModel?.productQuantityCount ?? 0
+        quantityCount = Double(viewModel?.productQuantityCount ?? 0)
         
         if viewModel?.productQuantityCount == nil {
             quantityNotAvailable()
             selectUnitLabel.text = viewModel?.currentSelectedUnit.title
         } else {
             quantityLabel.text = getDecimalString()
-            selectUnitLabel.text = viewModel?.productQuantityUnit
+//            selectUnitLabel.text = viewModel?.productQuantityUnit
             quantityValueStep = viewModel?.productStepValue ?? 1
             quantityAvailable()
         }
@@ -749,8 +749,8 @@ extension OldCreateNewProductViewController {
         var image: UIImage?
         if isImageChanged { image = addImageImage.image }
         let description = bottomTextField.text ?? ""
-        viewModel?.saveProduct(categoryName: categoryName, productName: productName, description: description,
-                               image: image, isUserImage: isUserImage)
+//        viewModel?.saveProduct(categoryName: categoryName, productName: productName, description: description,
+//                               image: image, isUserImage: isUserImage)
         
         hidePanel()
     }
@@ -893,6 +893,8 @@ extension OldCreateNewProductViewController: CreateNewProductViewModelDelegate {
         guard let controller else { return }
         navigationController?.pushViewController(controller, animated: true)
     }
+    
+    func newStore(name: String) { }
 }
 
 extension OldCreateNewProductViewController: PredictiveTextViewDelegate {

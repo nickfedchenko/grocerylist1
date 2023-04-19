@@ -102,6 +102,8 @@ protocol ViewControllerFactoryProtocol {
     func createEditSelectListController(router: RootRouter, products: [Product], contentViewHeigh: CGFloat,
                                         delegate: EditSelectListDelegate,
                                         state: EditSelectListViewController.State) -> UIViewController
+    func createNewStoreController(router: RootRouter, model: GroceryListsModel?,
+                                  compl: @escaping (Store?) -> Void) -> UIViewController
 }
 
 // MARK: - Factory
@@ -155,6 +157,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         router: RootRouter,
         compl: @escaping (Product) -> Void
     ) -> UIViewController? {
+//        let viewController = OldCreateNewProductViewController()
         let viewController = CreateNewProductViewController()
         let viewModel = CreateNewProductViewModel()
         viewModel.valueChangedCallback = compl
@@ -496,6 +499,18 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewController.contentViewHeigh = contentViewHeigh
         viewController.viewModel = viewModel
         viewController.delegate = delegate
+        return viewController
+    }
+    
+    func createNewStoreController(router: RootRouter, model: GroceryListsModel?,
+                                  compl: @escaping (Store?) -> Void) -> UIViewController {
+        let viewController = CreateNewStoreViewController()
+        let viewModel = CreateNewStoreViewModel(model: model, newModelInd: -1)
+        viewModel.storeCreatedCallBack = compl
+        viewController.viewModel = viewModel
+        viewController.storeViewModel = viewModel
+        viewModel.delegate = viewController
+        viewModel.router = router
         return viewController
     }
 }

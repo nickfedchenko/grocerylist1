@@ -9,14 +9,26 @@ import UIKit
 
 protocol StoreOfProductViewDelegate: AnyObject {
     func tappedNewStore()
+    func isFirstResponderProductTextField(_ flag: Bool)
 }
 
 final class StoreOfProductView: CreateNewProductButtonView {
     
     weak var delegate: StoreOfProductViewDelegate?
+    var storeTitle: String? {
+        let title = longView.titleTextField.text
+        return title == R.string.localizable.store() ? nil : title
+    }
+    var cost: Double? {
+        let currencySymbol = currency.trimmingCharacters(in: .whitespacesAndNewlines)
+        var cost = shortView.titleTextField.text?.replacingOccurrences(of: currencySymbol, with: "") ?? ""
+        let costValue = cost.asDouble
+        return cost == R.string.localizable.cost() ? nil : costValue
+    }
+    
     var stores: [String] = [] {
         didSet {
-            stores.insert("Any store", at: 0)
+            stores.insert(R.string.localizable.anyStore(), at: 0)
             stores.append("")
             storeTableView.reloadData()
         }
@@ -38,18 +50,12 @@ final class StoreOfProductView: CreateNewProductButtonView {
         return tableview
     }()
     
-    private lazy var currencyLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
-        label.textColor = .black
-        return label
-    }()
-    
+    private var currency = ""
     private var storeTableViewHeight: Int {
-        stores.count * 40 > 320 ? 320 : stores.count * 40
+        stores.count * 40 > 280 ? 280 : stores.count * 40
     }
     
-    override init(longTitle: String = "Store", shortTitle: String = "cost") {
+    override init(longTitle: String = R.string.localizable.store(), shortTitle: String = R.string.localizable.cost()) {
         super.init(longTitle: longTitle, shortTitle: shortTitle)
     }
     
@@ -68,9 +74,9 @@ final class StoreOfProductView: CreateNewProductButtonView {
         shortView.titleTextField.keyboardType = .decimalPad
     }
     
-    override func setupColor(_ color: UIColor) {
-        super.setupColor(color)
-        storeTableView.layer.borderColor = color.cgColor
+    override func setupColor(backgroundColor: UIColor, tintColor: UIColor) {
+        super.setupColor(backgroundColor: backgroundColor, tintColor: tintColor)
+        storeTableView.layer.borderColor = tintColor.cgColor
         storeTableView.layer.borderWidth = 1
     }
     
@@ -80,13 +86,8 @@ final class StoreOfProductView: CreateNewProductButtonView {
     
     override func makeConstraints() {
         super.makeConstraints()
-        self.addSubviews([currencyLabel, storeBackgroundView, storeTableView])
-        
-        currencyLabel.snp.makeConstraints {
-            $0.trailing.equalTo(shortView.titleTextField.snp.leading)
-            $0.top.bottom.equalTo(shortView.titleTextField)
-        }
-        
+        self.addSubviews([storeBackgroundView, storeTableView])
+
         storeBackgroundView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(84)
@@ -100,17 +101,69 @@ final class StoreOfProductView: CreateNewProductButtonView {
         
     }
     
+    func setStore(name: String) {
+        longView.titleTextField.text = name
+        longView.shadowViews.forEach {
+            $0.layer.shadowOpacity = 0
+        }
+    }
+    
+    func setCost(value: String) {
+        shortView.titleTextField.text = value
+        shortView.shadowViews.forEach {
+            $0.layer.shadowOpacity = 0
+        }
+        updateCost(isActive: false)
+    }
+    
+    func reset() {
+        longView.titleTextField.text = R.string.localizable.store()
+        shortView.titleTextField.text = R.string.localizable.cost()
+        longView.shadowViews.forEach {
+            $0.layer.shadowOpacity = 0.12
+        }
+        shortView.shadowViews.forEach {
+            $0.layer.shadowOpacity = 0.12
+        }
+    }
+    
     @objc
     private func tappedOnStoreBackgroundView() {
         hideTableView(isHide: true)
     }
     
     private func updateCost(isActive: Bool) {
-        shortView.backgroundColor = isActive ? .white : nil
+        shortView.shadowViews.forEach {
+            $0.backgroundColor = isActive ? .white : nil
+        }
+        
         shortView.titleTextField.textColor = isActive ? .black : activeColor
-        currencyLabel.font = isActive ? UIFont.SFPro.semibold(size: 17).font : UIFont.SFPro.regular(size: 17).font
-        currencyLabel.textColor = isActive ? .black : activeColor
-        currencyLabel.text = (Locale.current.currencySymbol ?? "") + (isActive ? " " : "")
+        
+        currency = ""
+        currency = (Locale.current.currencySymbol ?? "") + (isActive ? " " : "")
+        let currencySymbol = currency.trimmingCharacters(in: .whitespacesAndNewlines)
+        var cost = shortView.titleTextField.text?.replacingOccurrences(of: currencySymbol, with: "") ?? ""
+        cost = cost.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if !isActive, cost.isEmpty {
+            shortView.titleTextField.text = R.string.localizable.cost()
+            shortView.shadowViews.forEach {
+                $0.layer.shadowOpacity = 0.12
+            }
+            return
+        }
+        
+        if let currencyFont = isActive ? UIFont.SFPro.semibold(size: 17).font : UIFont.SFPro.regular(size: 17).font {
+            let currencyAttr = NSMutableAttributedString(string: currency,
+                                                         attributes: [.font: currencyFont])
+            let costAttr = NSAttributedString(string: cost,
+                                              attributes: [.font: UIFont.SFPro.semibold(size: 17).font ?? .systemFont(ofSize: 17)])
+            currencyAttr.append(costAttr)
+            shortView.titleTextField.attributedText = currencyAttr
+            shortView.shadowViews.forEach {
+                $0.layer.shadowOpacity = 0
+            }
+        }
     }
     
     private func updateStore(store: String) {
@@ -168,6 +221,7 @@ extension StoreOfProductView: UITableViewDelegate {
         }
         
         hideTableView(isHide: true, cell: cell)
+        longView.shadowViews.forEach { $0.layer.shadowOpacity = 0 }
         let store = stores[indexPath.row]
         updateStore(store: store)
     }
@@ -179,13 +233,18 @@ extension StoreOfProductView: UITableViewDelegate {
 
 extension StoreOfProductView: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        updateCost(isActive: true)
-        if textField.text == "cost" {
+        guard textField == shortView.titleTextField else { return }
+        if textField.text == R.string.localizable.cost() {
             textField.text = ""
         }
+        updateCost(isActive: true)
+        delegate?.isFirstResponderProductTextField(false)
+        let newPosition = textField.endOfDocument
+        textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        guard textField == shortView.titleTextField else { return true }
         updateCost(isActive: false)
         return true
     }

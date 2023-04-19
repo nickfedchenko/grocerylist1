@@ -57,7 +57,7 @@ class UnitsCell: UITableViewCell {
     
     // MARK: store cell
     func setupAnyStore(color: UIColor) {
-        titleLabel.text = "Any store"
+        titleLabel.text = R.string.localizable.anyStore()
         titleLabel.textColor = .white
         separatorLine.backgroundColor = color
     }
@@ -67,7 +67,7 @@ class UnitsCell: UITableViewCell {
         titleLabel.isHidden = true
         newStoreButton.isHidden = false
         newStoreButton.isUserInteractionEnabled = false
-        newStoreButton.setTitle(" " + "New Store", for: .normal)
+        newStoreButton.setTitle(" " + R.string.localizable.newStore(), for: .normal)
         newStoreButton.setTitleColor(color, for: .normal)
         newStoreButton.setImage(R.image.marker()?.withTintColor(color), for: .normal)
         newStoreButton.imageView?.contentMode = .scaleAspectFit
