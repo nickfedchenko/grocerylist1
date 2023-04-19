@@ -294,10 +294,6 @@ extension CreateNewProductViewController: UINavigationControllerDelegate, UIImag
 }
 
 extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
-    func deselectCategory() { } // потом убрать
-    
-    func setupController(step: Int) { } // потом убрать
-    
     func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?) {
         updateCategory(isActive: true, categoryTitle: text)
         productView.setImage(imageURL: imageURL, imageData: imageData)

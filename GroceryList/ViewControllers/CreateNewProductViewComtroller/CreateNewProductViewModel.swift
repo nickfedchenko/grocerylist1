@@ -13,8 +13,6 @@ import UIKit
 protocol CreateNewProductViewModelDelegate: AnyObject {
     func presentController(controller: UIViewController?)
     func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?)
-    func deselectCategory() // потом убрать
-    func setupController(step: Int) // потом убрать
     func newStore(name: String)
 }
 
@@ -186,12 +184,6 @@ class CreateNewProductViewModel {
         selectedUnitSystemArray[ind].title
     }
     
-    func cellSelected(at ind: Int) {
-        currentSelectedUnit = selectedUnitSystemArray[ind]
-        let step = currentSelectedUnit.stepValue
-        delegate?.setupController(step: step)
-    }
-    
     func saveProduct(categoryName: String, productName: String, description: String,
                      image: UIImage?, isUserImage: Bool, store: String?, cost: Double?) {
         guard let model else { return }
@@ -225,12 +217,6 @@ class CreateNewProductViewModel {
         idsOfChangedProducts.insert(product.id)
         idsOfChangedLists.insert(model.id)
         sendUserProduct(category: categoryName, product: productName)
-    }
-    
-    // потом убрать
-    func getBackgroundColor() -> UIColor {
-        guard let colorInd = model?.color else { return UIColor.white}
-        return colorManager.getGradient(index: colorInd).1
     }
     
     func goToSelectCategoryVC() {
