@@ -13,7 +13,7 @@ import UIKit
 protocol CreateNewProductViewModelDelegate: AnyObject {
     func presentController(controller: UIViewController?)
     func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?)
-    func newStore(name: String)
+    func newStore(store: Store)
 }
 
 class CreateNewProductViewModel {
@@ -26,7 +26,7 @@ class CreateNewProductViewModel {
     
     var model: GroceryListsModel?
     var currentSelectedUnit: UnitSystem = .gram
-    var stores: [String] = []
+    var stores: [Store] = []
     var currentProduct: Product?
     
     private let network = NetworkEngine()
@@ -53,8 +53,9 @@ class CreateNewProductViewModel {
         networkDishesProductTitles = networkDishesProducts?.compactMap({ $0.title }) ?? []
         userProductTitles = userProducts?.compactMap({ $0.name }) ?? []
         
-//        stores = CoreDataManager.shared.getAllStores()?.compactMap({ $0.title }) ?? []
-        stores = ["test1", "test2", "test3"]
+        stores = CoreDataManager.shared.getAllStores()?
+            .sorted(by: { $0.createdAt ?? Date() > $1.createdAt ?? Date() })
+            .compactMap({ Store(from: $0) }) ?? []
     }
     
     var selectedUnitSystemArray: [UnitSystem] {
@@ -118,7 +119,7 @@ class CreateNewProductViewModel {
             userComment?.removeFirst()
         }
         
-        return userComment
+        return userComment?.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     var productQuantityCount: Double? {
@@ -157,7 +158,7 @@ class CreateNewProductViewModel {
         }
     }
     
-    var productStore: String? {
+    var productStore: Store? {
         currentProduct?.store
     }
     
@@ -185,7 +186,7 @@ class CreateNewProductViewModel {
     }
     
     func saveProduct(categoryName: String, productName: String, description: String,
-                     image: UIImage?, isUserImage: Bool, store: String?, cost: Double?) {
+                     image: UIImage?, isUserImage: Bool, store: Store?, cost: Double?) {
         guard let model else { return }
         var imageData: Data?
         if let image {
@@ -230,8 +231,10 @@ class CreateNewProductViewModel {
     
     func goToCreateNewStore() {
         router?.goToCreateStore(model: model, compl: { [weak self] store in
-            self?.stores.append(store?.title ?? "")
-            self?.delegate?.newStore(name: store?.title ?? "")
+            if let store {
+                self?.stores.append(store)
+                self?.delegate?.newStore(store: store)
+            }
         })
     }
     

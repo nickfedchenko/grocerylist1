@@ -129,7 +129,7 @@ class CreateNewProductViewController: UIViewController {
                                               value: quantityValue)
         }
         if let store = viewModel?.productStore {
-            storeView.setStore(name: store)
+            storeView.setStore(store: store)
         }
         if let cost = viewModel?.productCost {
             storeView.setCost(value: cost)
@@ -156,7 +156,7 @@ class CreateNewProductViewController: UIViewController {
                                description: productView.descriptionTitle ?? "",
                                image: productView.productImage,
                                isUserImage: isUserImage,
-                               store: storeView.storeTitle, cost: storeView.cost)
+                               store: storeView.store, cost: storeView.cost)
         hidePanel()
     }
     
@@ -304,10 +304,10 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         }
     }
     
-    func newStore(name: String) {
+    func newStore(store: Store) {
         isShowNewStoreView = false
         storeView.stores = viewModel?.stores ?? []
-        storeView.setStore(name: name)
+        storeView.setStore(store: store)
     }
     
     func presentController(controller: UIViewController?) {

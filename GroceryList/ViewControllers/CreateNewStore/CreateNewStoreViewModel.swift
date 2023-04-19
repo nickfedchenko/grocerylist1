@@ -13,7 +13,7 @@ class CreateNewStoreViewModel: CreateNewCategoryViewModel {
     
     func saveNewStore(name: String) {
         let newStore = Store(title: name)
-//        CoreDataManager.shared.saveStore(category: newStore)
+        CoreDataManager.shared.saveStore(newStore)
         storeCreatedCallBack?(newStore)
     }
     

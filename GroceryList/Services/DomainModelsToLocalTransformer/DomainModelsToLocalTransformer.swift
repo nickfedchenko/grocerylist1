@@ -49,9 +49,11 @@ class DomainModelsToLocalTransformer {
         let fromRecipeTitle = product.fromRecipeTitle
         let isUserImage = product.isUserImage
         let userToken = product.userToken
+        let store = (try? JSONDecoder().decode(Store.self, from: product.store ?? Data()))
+        let cost = product.cost == -1 ? nil : product.cost
         return Product(id: id, listId: listId, name: name, isPurchased: isPurchased,
                        dateOfCreation: dateOfCreation, category: category, isFavorite: isFavorite, imageData: imageData,
                        description: description, fromRecipeTitle: fromRecipeTitle,
-                       isUserImage: isUserImage, userToken: userToken)
+                       isUserImage: isUserImage, userToken: userToken, store: store, cost: cost)
     }
 }

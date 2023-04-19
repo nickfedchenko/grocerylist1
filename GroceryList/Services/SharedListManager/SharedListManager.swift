@@ -284,6 +284,8 @@ class SharedListManager {
                        description: sharedProduct.description ?? "",
                        fromRecipeTitle: sharedProduct.fromRecipeTitle,
                        isUserImage: sharedProduct.isUserImage,
-                       userToken: userToken)
+                       userToken: userToken,
+                       store: sharedProduct.store,
+                       cost: sharedProduct.cost)
     }
 }
