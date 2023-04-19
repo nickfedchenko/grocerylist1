@@ -12,6 +12,7 @@ import Foundation
 class AmplitudeManager {
     
     private init() {
+        Amplitude.instance().trackingSessionEvents = true
         Amplitude.instance().initializeApiKey("b199f09c9cddea79687c52f8a0c77e6b", userId: Apphud.userID())
     }
     

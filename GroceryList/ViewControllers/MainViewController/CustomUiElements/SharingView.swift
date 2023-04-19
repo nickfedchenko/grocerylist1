@@ -15,6 +15,12 @@ final class SharingView: UIView {
         case added
     }
     
+    enum ViewState {
+        case main
+        case products
+        case productsSettings
+    }
+    
     private lazy var firstImageView: UIImageView = createImageView()
     private lazy var secondImageView: UIImageView = createImageView()
     private lazy var thirdImageView: UIImageView = createImageView()
@@ -55,7 +61,7 @@ final class SharingView: UIView {
         updateAllImageViewsConstraints()
     }
     
-    func configure(state: SharingState, images: [String?] = []) {
+    func configure(state: SharingState, viewState: ViewState, color: UIColor, images: [String?] = []) {
         self.state = state
         allImageViews.forEach {
             $0.image = nil
@@ -63,10 +69,14 @@ final class SharingView: UIView {
         switch state {
         case .invite:
             firstImageView.isHidden = false
-            firstImageView.image = R.image.profile_add()
+            firstImageView.image = R.image.profile_add()?.withTintColor(viewState == .products ? color : .white)
             firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
         case .added:
-            configureImages(images)
+            if viewState == .productsSettings {
+                configureImages(images, color: color)
+                return
+            }
+            configureImages(images, color: color, viewState: viewState)
         }
     }
     
@@ -83,23 +93,57 @@ final class SharingView: UIView {
         return imageView
     }
     
-    private func configureImages(_ images: [String?]) {
+    private func configureImages(_ images: [String?], color: UIColor, viewState: ViewState) {
+        updateAllImageViewsConstraints()
+        guard !images.isEmpty else {
+            secondImageView.isHidden = false
+            secondImageView.image = R.image.profile_intited()?.withTintColor(viewState == .products ? color : .white)
+            secondImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
+            return
+        }
+        
+        let count = images.count >= 3 ? 3 : images.count + 1
+        updateActiveImageViewsConstraints(imageCount: count)
+        
+        let plusImageView = activeImageViews.removeFirst()
+        plusImageView.image = R.image.sharing_plus()?.withTintColor(viewState == .products ? color : .white)
+        plusImageView.backgroundColor = viewState == .products ? .white : color
+        configureImageView(plusImageView)
+        
+        if images.count >= 3 {
+            countLabel.text = "\(images.count - 1)"
+            let countImageView = activeImageViews.removeLast()
+            countImageView.image = nil
+            countImageView.backgroundColor = color
+            configureImageView(countImageView)
+        }
+        
+        setupImage(imageUrl: images)
+    }
+    
+    private func configureImages(_ images: [String?], color: UIColor) {
         updateAllImageViewsConstraints()
         guard !images.isEmpty else {
             firstImageView.isHidden = false
-            firstImageView.image = R.image.profile_intited()
+            firstImageView.image = R.image.profile_intited()?.withTintColor(.black)
             firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
             return
         }
         updateActiveImageViewsConstraints(imageCount: images.count)
+        setupImage(imageUrl: images)
         
+        if images.count > 4 {
+            countLabel.text = "\(images.count - 1)"
+            firstImageView.image = nil
+            firstImageView.backgroundColor = color
+        }
+    }
+    
+    private func setupImage(imageUrl: [String?]) {
         activeImageViews.enumerated().forEach { index, imageView in
-            imageView.isHidden = false
-            imageView.layer.borderColor = UIColor.white.withAlphaComponent(0.6).cgColor
-            imageView.layer.borderWidth = 2
-            imageView.layer.cornerRadius = 16
+            configureImageView(imageView)
             
-            guard let userAvatarUrl = images[index],
+            guard let userAvatarUrl = imageUrl[index],
                   let url = URL(string: userAvatarUrl) else {
                 return imageView.image = R.image.profile_icon()
             }
@@ -112,14 +156,14 @@ final class SharingView: UIView {
                     .scaleFactor(UIScreen.main.scale),
                     .cacheOriginalImage
                 ])
-
         }
-        
-        if images.count > 4 {
-            countLabel.text = "\(images.count - 1)"
-            firstImageView.image = nil
-            firstImageView.backgroundColor = UIColor(hex: "#00D6A3")
-        }
+    }
+    
+    private func configureImageView(_ imageView: UIImageView) {
+        imageView.isHidden = false
+        imageView.layer.borderColor = UIColor.white.withAlphaComponent(0.6).cgColor
+        imageView.layer.borderWidth = 2
+        imageView.layer.cornerRadius = 16
     }
     
     private func updateActiveImageViewsConstraints(imageCount: Int) {
@@ -129,18 +173,18 @@ final class SharingView: UIView {
             firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
         case 3:
             activeImageViews = [thirdImageView, secondImageView, firstImageView]
-            secondImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-42) }
-            thirdImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-70) }
+            secondImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-26) }
+            thirdImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-54) }
             thirdImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
         case 4:
             activeImageViews = allImageViews.reversed()
-            secondImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-32) }
-            thirdImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-50) }
-            fourthImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-68) }
+            secondImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-16) }
+            thirdImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-36) }
+            fourthImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-52) }
             fourthImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
         default:
             activeImageViews = [secondImageView, firstImageView]
-            secondImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-44) }
+            secondImageView.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-28) }
             secondImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
         }
     }
@@ -152,7 +196,7 @@ final class SharingView: UIView {
         allImageViews.forEach { imageView in
             imageView.snp.makeConstraints {
                 $0.centerY.equalToSuperview()
-                $0.trailing.equalToSuperview().offset(-16)
+                $0.trailing.equalToSuperview()
                 $0.height.width.equalTo(32)
             }
         }
@@ -169,7 +213,7 @@ final class SharingView: UIView {
             
             imageView.snp.makeConstraints {
                 $0.centerY.equalToSuperview()
-                $0.trailing.equalToSuperview().offset(-16)
+                $0.trailing.equalToSuperview()
                 $0.height.width.equalTo(32)
             }
             imageView.layer.borderColor = UIColor.clear.cgColor

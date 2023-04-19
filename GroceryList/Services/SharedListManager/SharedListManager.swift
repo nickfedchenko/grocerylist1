@@ -39,6 +39,7 @@ class SharedListManager {
 
     func connectToListAfterRegistration() {
         if let user = UserAccountManager.shared.getUser() {
+            fetchMyGroceryLists()
             tokens.forEach { connectToList(userToken: user.token, token: $0) }
         }
     }
@@ -79,11 +80,15 @@ class SharedListManager {
         var list = transform(sharedList: response.groceryList)
         list.sharedId = response.groceryList.sharedId ?? ""
         removeProductsIfNeeded(list: list)
-
+        
         CoreDataManager.shared.saveList(list: list)
-
+        
+        list.products.forEach { product in
+            CoreDataManager.shared.createProduct(product: product)
+        }
+        
         appendToUsersDict(id: list.sharedId, users: response.listUsers)
-
+        
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
 
@@ -111,7 +116,7 @@ class SharedListManager {
     // MARK: - отписка от списка
     func unsubscribeFromGroceryList(listId: String) {
         guard let user = UserAccountManager.shared.getUser() else { return }
-        NetworkEngine().groceryListUserDelete(userToken: user.token,
+        network.groceryListUserDelete(userToken: user.token,
                                               listId: listId) { result in
             switch result {
             case .failure(let error):
@@ -125,7 +130,7 @@ class SharedListManager {
     // MARK: - Delete grocery list
     func deleteGroceryList(listId: String) {
         guard let user = UserAccountManager.shared.getUser() else { return }
-        NetworkEngine().groceryListDelete(userToken: user.token,
+        network.groceryListDelete(userToken: user.token,
                                               listId: listId) { result in
             switch result {
             case .failure(let error):
@@ -154,12 +159,18 @@ class SharedListManager {
     // MARK: - Update grocery list
     func updateGroceryList(listId: String) {
         guard let domainList = CoreDataManager.shared.getList(list: listId) else { return }
-        let localList = modelTransformer.transformCoreDataModelToModel(domainList)
+        var localList = modelTransformer.transformCoreDataModelToModel(domainList)
 
         guard let user = UserAccountManager.shared.getUser(),
               localList.isShared == true else { return }
 
-        NetworkEngine().updateGroceryList(userToken: user.token,
+        localList.products.enumerated().forEach { index, product in
+            if product.userToken == nil {
+                localList.products[index].userToken = user.token
+            }
+        }
+        
+        network.updateGroceryList(userToken: user.token,
                                           listId: localList.sharedId, listModel: localList) { result in
             switch result {
             case .failure(let error):
@@ -175,6 +186,14 @@ class SharedListManager {
     func shareGroceryList(listModel: GroceryListsModel, compl: ((String) -> Void)?) {
         guard let user = UserAccountManager.shared.getUser() else { return }
         let sharedId = listModel.sharedId.isEmpty ? nil : listModel.sharedId
+        
+        var listModel = listModel
+        listModel.products.enumerated().forEach { index, product in
+            if product.userToken == nil {
+                listModel.products[index].userToken = user.token
+            }
+        }
+        
         network.shareGroceryList(userToken: user.token,
                                  listId: sharedId, listModel: listModel) { [weak self] result in
             switch result {
@@ -212,12 +231,12 @@ class SharedListManager {
             }
         }
         UserDefaultsManager.coldStartState = 2
-        print(sharedListsUsers)
+        
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
 
     private func appendToUsersDict(id: String, users: [User]) {
-            sharedListsUsers[id] = users
+        sharedListsUsers[id] = users
     }
 
     /// трансформим временную модель в постоянную
@@ -238,6 +257,8 @@ class SharedListManager {
                                  isFavorite: sharedList.isFavorite,
                                  products: arrayOfProducts,
                                  typeOfSorting: sharedList.typeOfSorting,
+                                 isShared: sharedList.isShared ?? true,
+                                 sharedId: sharedList.sharedId ?? "",
                                  isSharedListOwner: sharedList.isSharedListOwner,
                                  isShowImage: sharedList.isShowImage ?? .nothing)
     }
@@ -245,6 +266,12 @@ class SharedListManager {
     /// трансформим временную модель в постоянную
     private func transform(sharedProduct: SharedProduct) -> Product {
         let dateOfProductCreation = Date(timeIntervalSinceReferenceDate: sharedProduct.dateOfCreation)
+        var userToken = sharedProduct.userToken ?? "0"
+        if let product = CoreDataManager.shared.getProduct(id: sharedProduct.id),
+           let token = product.userToken {
+            userToken = token
+        }
+        
         return Product(id: sharedProduct.id,
                        listId: sharedProduct.listId,
                        name: sharedProduct.name,
@@ -255,6 +282,8 @@ class SharedListManager {
                        isSelected: sharedProduct.isSelected,
                        imageData: sharedProduct.imageData,
                        description: sharedProduct.description ?? "",
-                       fromRecipeTitle: sharedProduct.fromRecipeTitle)
+                       fromRecipeTitle: sharedProduct.fromRecipeTitle,
+                       isUserImage: sharedProduct.isUserImage,
+                       userToken: userToken)
     }
 }

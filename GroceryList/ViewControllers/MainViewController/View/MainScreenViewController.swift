@@ -47,28 +47,6 @@ class MainScreenViewController: UIViewController {
         return collectionView
     }()
     
-    private let bottomCreateListView: ShimmerView = {
-        let view = ShimmerView()
-        view.backgroundColor = .white.withAlphaComponent(0.9)
-        return view
-    }()
-    
-    private let plusImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "#plusImage")
-        imageView.blink()
-        return imageView
-    }()
-    
-    private let createListLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFProRounded.semibold(size: 18).font
-        label.textColor = UIColor(hex: "#31635A")
-        label.text = "CreateList".localized
-        return label
-    }()
-    
     private let foodImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -76,6 +54,7 @@ class MainScreenViewController: UIViewController {
         return imageView
     }()
     
+    private let bottomCreateListView = AddListView()
     private let activityView = ActivityIndicatorView()
     private let contextMenu = MainScreenMenuView()
     private var menuTapRecognizer = UITapGestureRecognizer()
@@ -107,11 +86,6 @@ class MainScreenViewController: UIViewController {
         viewModel?.reloadDataFromStorage()
         updateRecipeCollectionView()
         updateImageConstraint()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        bottomCreateListView.startAnimating()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -231,13 +205,12 @@ class MainScreenViewController: UIViewController {
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
         view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView, contextMenu, activityView])
-        bottomCreateListView.addSubviews([plusImage, createListLabel])
         collectionView.addSubview(foodImage)
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(10)
             make.width.equalTo(view.snp.width)
             make.leading.equalToSuperview()
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.equalToSuperview()
         }
         
         recipesCollectionView.snp.makeConstraints { make in
@@ -247,7 +220,11 @@ class MainScreenViewController: UIViewController {
             make.leading.equalTo(collectionView.snp.trailing)
         }
         
-        bottomCreateListViewMakeConstraints()
+        bottomCreateListView.snp.makeConstraints { make in
+            make.trailing.bottom.equalToSuperview()
+            make.height.equalTo(82)
+            make.width.equalTo(self.view.frame.width / 2)
+        }
         
         foodImage.snp.makeConstraints { make in
             make.bottom.equalTo(collectionView.contentSize.height)
@@ -268,24 +245,6 @@ class MainScreenViewController: UIViewController {
             make.top.equalTo(collectionView).offset(97)
             make.bottom.equalToSuperview()
             make.leading.equalTo(collectionView.snp.trailing)
-        }
-    }
-    
-    private func bottomCreateListViewMakeConstraints() {
-        bottomCreateListView.snp.makeConstraints { make in
-            make.left.right.bottom.equalToSuperview()
-            make.height.equalTo(86)
-        }
-        
-        plusImage.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(38)
-            make.top.equalToSuperview().inset(24)
-            make.height.width.equalTo(24)
-        }
-        
-        createListLabel.snp.makeConstraints { make in
-            make.left.equalTo(plusImage.snp.right).inset(-8)
-            make.centerY.equalTo(plusImage)
         }
     }
 }
@@ -353,7 +312,9 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 let color = viewModel.getBGColor(at: indexPath)
                 cell.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
                                 isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
-                cell.setupSharing(state: viewModel.getSharingState(model), image: viewModel.getShareImages(model))
+                cell.setupSharing(state: viewModel.getSharingState(model),
+                                  color: color,
+                                  image: viewModel.getShareImages(model))
                 
                 // Удаление и закрепление ячейки
                 cell.swipeDeleteAction = {

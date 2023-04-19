@@ -66,6 +66,8 @@ final class SearchInListCell: UICollectionViewCell {
         countLabel.text = "\(doneProducts.count) / \(list.products.count)"
         
         sharingView.configure(state: list.isShared ? .added : .invite,
+                              viewState: .main,
+                              color: listViewColor,
                               images: getShareImages(list))
     }
     
@@ -175,7 +177,7 @@ final class SearchInListCell: UICollectionViewCell {
         }
         
         sharingView.snp.makeConstraints {
-            $0.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-16)
             $0.top.equalToSuperview()
             $0.bottom.equalToSuperview()
         }

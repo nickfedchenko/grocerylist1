@@ -9,34 +9,43 @@ import Foundation
 import UIKit
 
 protocol ProductSettingsViewDelegate: AnyObject {
-    func dismissController()
+    func dismissController(comp: @escaping (() -> Void))
     func reloadController()
 }
 
 class ProductsSettingsViewModel {
+    
+    weak var router: RootRouter?
+    weak var delegate: ProductSettingsViewDelegate?
+    var valueChangedCallback: ((GroceryListsModel, [Product]) -> Void)?
+    var editCallback: ((TableViewContent) -> Void)?
+    
+    private var colorManager = ColorManager()
     private var snapshot: UIImage?
     private var listByText = ""
     private var model: GroceryListsModel
-    weak var router: RootRouter?
-    var valueChangedCallback: ((GroceryListsModel, [Product]) -> Void)?
-    weak var delegate: ProductSettingsViewDelegate?
     private var copiedProducts: [Product] = []
-    
-    private var colorManager = ColorManager()
+    private var allContent: [TableViewContent] = []
    
     init(model: GroceryListsModel, snapshot: UIImage?, listByText: String) {
         self.model = model
         self.snapshot = snapshot
         self.listByText = listByText
+        
+        allContent = getContentOnSharedList()
     }
     
     func getNumberOfCells() -> Int {
-        return TableViewContent.allCases.count
+        return allContent.count
     }
     
     func getImage(at ind: Int) -> UIImage? {
-        if ind == 2 { return getImageWithColor(color: getTextColor(), size: CGSize(width: 28, height: 28))?.rounded(radius: 100)}
-        return TableViewContent.allCases[ind].image
+        guard let content = allContent[safe: ind] else { return nil }
+        if content == .changeColor {
+            return getImageWithColor(color: getTextColor(),
+                                     size: CGSize(width: 28, height: 28))?.rounded(radius: 100)
+        }
+        return allContent[ind].image
     }
     
     func getImageWithColor(color: UIColor, size: CGSize) -> UIImage? {
@@ -50,11 +59,11 @@ class ProductsSettingsViewModel {
     }
     
     func getText(at ind: Int) -> String? {
-        return TableViewContent.allCases[ind].title
+        return allContent[ind].title
     }
     
     func getInset(at ind: Int) -> Bool {
-        return TableViewContent.allCases[ind].isInset
+        return allContent[ind].isInset
     }
     
     func getTextColor() -> UIColor {
@@ -70,11 +79,14 @@ class ProductsSettingsViewModel {
     }
     
     func isChecmarkActive(at ind: Int) -> Bool {
-        if ind == TableViewContent.pinch.rawValue { return model.isFavorite }
-        if ind == TableViewContent.byCategory.rawValue { return model.typeOfSorting == SortingType.category.rawValue }
-        if ind == TableViewContent.byTime.rawValue { return model.typeOfSorting == SortingType.time.rawValue }
-        if ind == TableViewContent.byRecipe.rawValue { return model.typeOfSorting == SortingType.recipe.rawValue }
-        if ind == TableViewContent.byAlphabet.rawValue { return model.typeOfSorting == SortingType.alphabet.rawValue }
+        guard let content = allContent[safe: ind] else { return false }
+        if content == .pinch { return model.isFavorite }
+        if content == .byUsers { return model.typeOfSorting == SortingType.user.rawValue }
+        if content == .byCategory { return model.typeOfSorting == SortingType.category.rawValue }
+        if content == .byTime { return model.typeOfSorting == SortingType.time.rawValue }
+        if content == .byRecipe { return model.typeOfSorting == SortingType.recipe.rawValue }
+        if content == .byAlphabet { return model.typeOfSorting == SortingType.alphabet.rawValue }
+        if content == .share { return model.isShared }
         return false
     }
     
@@ -87,38 +99,67 @@ class ProductsSettingsViewModel {
     }
     
     func isSwitchActive(at ind: Int) -> Bool {
-        ind == TableViewContent.imageMatching.rawValue
+        guard let content = allContent[safe: ind] else { return false }
+        return content == .imageMatching
+    }
+    
+    func isSharedList(at ind: Int) -> Bool {
+        guard let content = allContent[safe: ind] else { return false }
+        return content == .share && model.isShared
+    }
+    
+    func getShareImages() -> [String?] {
+        var arrayOfImageUrls: [String?] = []
+        guard let newUsers = SharedListManager.shared.sharedListsUsers[model.sharedId] else {
+            return arrayOfImageUrls
+        }
+        newUsers.forEach { user in
+            if user.token != UserAccountManager.shared.getUser()?.token {
+                arrayOfImageUrls.append(user.avatar)
+            }
+        }
+        return arrayOfImageUrls
     }
     
     func cellSelected(at ind: Int) {
-        switch ind {
-        case TableViewContent.rename.rawValue:
+        guard let content = allContent[safe: ind] else { return }
+        switch content {
+        case .rename:
             router?.presentCreateNewList(model: model) { [weak self] newModel, products  in
                 self?.model = newModel
                 self?.copiedProducts = products
                 self?.savePatametrs()
             }
-        case TableViewContent.pinch.rawValue:
+        case .edit:
+            delegate?.dismissController(comp: { [weak self] in
+                self?.editCallback?(.edit)
+            })
+        case .pinch:
             model.isFavorite = !model.isFavorite
             savePatametrs()
-        case TableViewContent.changeColor.rawValue:
+        case .changeColor:
             router?.presentCreateNewList(model: model) { [weak self] newModel, products  in
                 self?.model = newModel
                 self?.copiedProducts = products
                 self?.savePatametrs()
             }
-        case TableViewContent.sort.rawValue...TableViewContent.byAlphabet.rawValue:
-            typeOfSorting(at: ind)
-        case TableViewContent.copy.rawValue...TableViewContent.print.rawValue:
-            sendSnapshot(at: ind)
-        case TableViewContent.send.rawValue:
+        case .byUsers, .byCategory, .byTime, .byRecipe, .byAlphabet:
+            typeOfSorting(content)
+        case .share:
+            delegate?.dismissController(comp: { [weak self] in
+                self?.editCallback?(.share)
+            })
+        case .copy, .print:
+            sendSnapshot(content)
+        case .send:
             AmplitudeManager.shared.logEvent(.listSendedText)
             router?.showActivityVC(image: [listByText])
-        case TableViewContent.delete.rawValue:
+        case .delete:
             CoreDataManager.shared.removeList(model.id)
-            delegate?.dismissController()
-        default:
-            print("")
+            delegate?.dismissController(comp: { [weak self] in
+                self?.controllerDissmised()
+            })
+        default: return
         }
     }
     
@@ -127,35 +168,42 @@ class ProductsSettingsViewModel {
         savePatametrs()
     }
     
-    private func typeOfSorting(at ind: Int) {
-        switch ind {
-        case TableViewContent.byCategory.rawValue:
+    private func typeOfSorting(_ content: TableViewContent) {
+        switch content {
+        case .byUsers:
+            model.typeOfSorting = SortingType.user.rawValue
+        case .byCategory:
             model.typeOfSorting = SortingType.category.rawValue
-            savePatametrs()
-        case TableViewContent.byTime.rawValue:
+        case .byTime:
             model.typeOfSorting = SortingType.time.rawValue
-            savePatametrs()
-        case TableViewContent.byRecipe.rawValue:
+        case .byRecipe:
             model.typeOfSorting = SortingType.recipe.rawValue
-            savePatametrs()
-        case TableViewContent.byAlphabet.rawValue:
+        case .byAlphabet:
             model.typeOfSorting = SortingType.alphabet.rawValue
-            savePatametrs()
+        default: return
+        }
+        savePatametrs()
+    }
+    
+    private func sendSnapshot(_ content: TableViewContent) {
+        guard let snapshot = snapshot else { return }
+        switch content {
+        case .copy:
+            UIImageWriteToSavedPhotosAlbum(snapshot, self, nil, nil)
+        case .print:
+            router?.showPrintVC(image: snapshot)
         default:
             print("")
         }
     }
     
-    private func sendSnapshot(at ind: Int) {
-        guard let snapshot = snapshot else { return }
-        switch ind {
-        case TableViewContent.copy.rawValue:
-            UIImageWriteToSavedPhotosAlbum(snapshot, self, nil, nil)
-        case TableViewContent.print.rawValue:
-            router?.showPrintVC(image: snapshot)
-        default:
-            print("")
+    private func getContentOnSharedList() -> [TableViewContent] {
+        var allContent = TableViewContent.allCases
+        guard model.isShared else {
+            allContent.removeAll { $0 == .byUsers }
+            return allContent
         }
+        return allContent
     }
     
     private func savePatametrs() {
@@ -168,14 +216,17 @@ class ProductsSettingsViewModel {
 extension ProductsSettingsViewModel {
     enum TableViewContent: Int, CaseIterable {
         case rename
+        case edit
         case pinch
         case changeColor
         case sort
+        case byUsers
         case byCategory
         case byTime
         case byRecipe
         case byAlphabet
         case imageMatching
+        case share
         case copy
         case print
         case send
@@ -184,14 +235,17 @@ extension ProductsSettingsViewModel {
         var image: UIImage? {
             switch self {
             case .rename:           return R.image.rename()
+            case .edit:             return R.image.editCell()
             case .pinch:            return R.image.pin()
             case .changeColor:      return R.image.color()
             case .sort:             return R.image.sort()
+            case .byUsers:          return R.image.byUsers()
             case .byCategory:       return R.image.category()
             case .byRecipe:         return R.image.sortRecipe()
             case .byTime:           return R.image.time()
             case .byAlphabet:       return R.image.abC()
             case .imageMatching:    return R.image.carrot_image()
+            case .share:            return R.image.profile_add()?.withTintColor(.black)
             case .copy:             return R.image.copy()
             case .print:            return R.image.print()
             case .send:             return R.image.send()
@@ -202,14 +256,17 @@ extension ProductsSettingsViewModel {
         var title: String {
             switch self {
             case .rename:           return R.string.localizable.rename()
+            case .edit:             return R.string.localizable.edit()
             case .pinch:            return R.string.localizable.pinch()
             case .changeColor:      return R.string.localizable.changeColor()
             case .sort:             return R.string.localizable.sort()
+            case .byUsers:          return R.string.localizable.byUsers()
             case .byCategory:       return R.string.localizable.byCategory()
             case .byRecipe:         return R.string.localizable.byRecipe()
             case .byTime:           return R.string.localizable.byTime()
             case .byAlphabet:       return R.string.localizable.byAlphabet()
             case .imageMatching:    return R.string.localizable.pictureMatching()
+            case .share:            return R.string.localizable.shared()
             case .copy:             return R.string.localizable.copy()
             case .print:            return R.string.localizable.print()
             case .send:             return R.string.localizable.send()
@@ -219,7 +276,7 @@ extension ProductsSettingsViewModel {
         
         var isInset: Bool {
             switch self {
-            case .byTime, .byAlphabet, .byCategory, .byRecipe:
+            case .byTime, .byAlphabet, .byCategory, .byRecipe, .byUsers:
                 return true
             default:
                 return false

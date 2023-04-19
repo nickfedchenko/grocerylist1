@@ -85,8 +85,8 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func setupSharing(state: SharingView.SharingState, image: [String?]) {
-        sharingView.configure(state: state, images: image)
+    func setupSharing(state: SharingView.SharingState, color: UIColor, image: [String?]) {
+        sharingView.configure(state: state, viewState: .main, color: color, images: image)
     }
     
     private let contentViews: UIView = {
@@ -143,7 +143,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         }
         
         sharingView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-16)
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
         }

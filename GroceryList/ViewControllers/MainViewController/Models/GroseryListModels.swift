@@ -149,6 +149,8 @@ struct Product: Hashable, Equatable, Codable {
     var description: String
     var fromRecipeTitle: String?
     var unitId: UnitSystem?
+    var isUserImage: Bool? = false
+    var userToken: String?
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -160,7 +162,8 @@ struct Product: Hashable, Equatable, Codable {
         lhs.category == rhs.category && lhs.isPurchased == rhs.isPurchased &&
         lhs.id == rhs.id && lhs.isFavorite == rhs.isFavorite &&
         lhs.description == rhs.description && lhs.imageData == rhs.imageData &&
-        lhs.unitId == rhs.unitId
+        lhs.unitId == rhs.unitId && lhs.isUserImage == rhs.isUserImage &&
+        lhs.userToken == rhs.userToken
     }
     
     init?(from dbProduct: DBProduct) {
@@ -175,20 +178,17 @@ struct Product: Hashable, Equatable, Codable {
         description = dbProduct.userDescription ?? ""
         fromRecipeTitle = dbProduct.fromRecipeTitle
         unitId = UnitSystem(rawValue: Int(dbProduct.unitId))
+        isUserImage = dbProduct.isUserImage
+        userToken = dbProduct.userToken
     }
     
-    init(id: UUID = UUID(),
-         listId: UUID = UUID(),
-         name: String,
-         isPurchased: Bool,
-         dateOfCreation: Date,
-         category: String,
-         isFavorite: Bool,
-         isSelected: Bool = false,
-         imageData: Data? = nil,
-         description: String,
+    init(id: UUID = UUID(), listId: UUID = UUID(),
+         name: String, isPurchased: Bool,
+         dateOfCreation: Date, category: String,
+         isFavorite: Bool, isSelected: Bool = false,
+         imageData: Data? = nil, description: String,
          fromRecipeTitle: String? = nil,
-         unitId: UnitSystem? = nil) {
+         unitId: UnitSystem? = nil, isUserImage: Bool? = false, userToken: String? = nil) {
         self.id = id
         self.listId = listId
         self.name = name
@@ -201,6 +201,8 @@ struct Product: Hashable, Equatable, Codable {
         self.isSelected = isSelected
         self.fromRecipeTitle = fromRecipeTitle
         self.unitId = unitId
+        self.isUserImage = isUserImage
+        self.userToken = userToken
     }
 }
 
@@ -246,6 +248,7 @@ enum SortingType: Int {
     case recipe
     case time
     case alphabet
+    case user
 }
 
 enum TypeOfCell {
@@ -254,6 +257,7 @@ enum TypeOfCell {
     case sortedByAlphabet
     case sortedByDate
     case sortedByRecipe
+    case sortedByUser
     case normal
 }
 

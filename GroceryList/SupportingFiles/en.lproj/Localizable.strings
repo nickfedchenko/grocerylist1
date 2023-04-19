@@ -33,6 +33,7 @@
 "pinch"                     = "Fix";
 "changeColor"               = "ChangeColor";
 "sort"                      = "Sort";
+"byUsers"                   = "By Users";
 "byCategory"                = "By category";
 "byRecipe"                  = "By recipe";
 "byTime"                    = "By time";
@@ -61,6 +62,7 @@
 "Create"                    = "Create";
 "NewCategory"               = "NewCategory";
 "Long press on an Item"     = "Long press on an Item, returns to editing";
+"Buy"                       = "Buy";
 
 "Alcohol"                   = "Alcohol";
 "Grocery"                   = "Grocery";
@@ -217,6 +219,7 @@
 "importRecipe"                  = "Import Web Recipes";
 "createCollection"              = "Create Collection";
 
+// Создание рецепта
 "recipeCreation"                = "Recipe Creation";
 "Step 1 of 2"                   = "Step 1 of 2";
 "Required"                      = "Required";
@@ -236,6 +239,7 @@
 "Add Step"                      = "Add Step";
 "Complete"                      = "Complete";
 
+// Коллекция/папка с рецептами
 "Miscellaneous"                 = "Miscellaneous";
 "Note"                          = "Note";
 "Collections"                   = "Collections";
@@ -246,7 +250,19 @@
 "Share recipes"                 = "Share recipes";
 "AdjustNumberOfServings"        = "Adjust the number of servings and add ingredients to your shopping list";
 
+// Поиск
 "Search in "                    = "Search in ";
 "Lists"                         = "Lists";
 "AllRecipes"                    = "Recipes";
 "Search in all recipes"         = "Search in all recipes";
+
+// Редактирование продукта в списке
+"edit"                          = "Edit";
+"selectAllTabBar"               = "Select All";
+"copyTabBar"                    = "Copy";
+"move"                          = "Move";
+"clearAll"                      = "Clear All";
+"itemSelected"                  = "%@ item selected";
+"WantDeleteTheseTasks?"         = "Are you sure you want to permanently delete these tasks?";
+"Move to..."                    = "Move to...";
+"Copy to..."                    = "Copy to...";

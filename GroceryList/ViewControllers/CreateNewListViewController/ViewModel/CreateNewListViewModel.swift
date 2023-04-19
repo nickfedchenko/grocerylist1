@@ -27,7 +27,6 @@ class CreateNewListViewModel {
         if var model = model {
             model.name = nameOfList
             model.color = numberOfColor
-            model.typeOfSorting = isSortByCategory ? 0 : 2
             CoreDataManager.shared.saveList(list: model)
             copiedProducts.forEach({ saveCopiedProduct(product: $0, listId: model.id) })
             model.products = newSavedProducts
@@ -36,7 +35,8 @@ class CreateNewListViewModel {
         }
         let typeOfSorting = isSortByCategory ? 0 : 2
         var list = GroceryListsModel(id: UUID(), dateOfCreation: Date(),
-                                     name: nameOfList, color: numberOfColor, isFavorite: false, products: [], typeOfSorting: typeOfSorting)
+                                     name: nameOfList, color: numberOfColor, isFavorite: false, products: [],
+                                     typeOfSorting: typeOfSorting)
         CoreDataManager.shared.saveList(list: list)
         UserDefaultsManager.coldStartState = 2
         

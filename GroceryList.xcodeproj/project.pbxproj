@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3324426029C33A95006F4388 /* DBNetProduct+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3324425E29C33A95006F4388 /* DBNetProduct+CoreDataClass.swift */; };
-		3324426129C33A95006F4388 /* DBNetProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3324425F29C33A95006F4388 /* DBNetProduct+CoreDataProperties.swift */; };
 		3328AD86299CF40800187B57 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3328AD85299CF40800187B57 /* SharingView.swift */; };
 		334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */; };
 		334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */; };
@@ -50,12 +48,21 @@
 		3379B65A29B9B2ED0080923A /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65929B9B2ED0080923A /* CategoryView.swift */; };
 		3379B65C29B9B3030080923A /* AddIngredientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65B29B9B3030080923A /* AddIngredientView.swift */; };
 		3379B65E29B9B3580080923A /* QuantityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65D29B9B3580080923A /* QuantityView.swift */; };
+		337E79C829E51B2D00668578 /* EditSelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79C729E51B2D00668578 /* EditSelectListViewController.swift */; };
+		337E79CA29E51D6200668578 /* AddListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79C929E51D6200668578 /* AddListView.swift */; };
+		337E79CC29E547D600668578 /* EditDeleteAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79CB29E547D600668578 /* EditDeleteAlertView.swift */; };
+		337E79CE29E595F700668578 /* ViewWithOverriddenPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79CD29E595F700668578 /* ViewWithOverriddenPoint.swift */; };
+		337E79D029E6C23900668578 /* SF-Compact-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 337E79CF29E6C23900668578 /* SF-Compact-Display-Medium.otf */; };
+		337E79D329E7ED3E00668578 /* DBNewNetProduct+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79D129E7ED3E00668578 /* DBNewNetProduct+CoreDataClass.swift */; };
+		337E79D429E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79D229E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift */; };
 		3380D1B429C2D1E500A57F25 /* AllRecipesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3380D1B329C2D1E500A57F25 /* AllRecipesCell.swift */; };
 		33897D1329C87F11009C6932 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33897D1229C87F11009C6932 /* GoogleService-Info.plist */; };
 		338EB6B429C1BACC00D6A03F /* SearchInRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */; };
 		338EB6B629C1BEED00D6A03F /* SearchInRecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338EB6B529C1BEED00D6A03F /* SearchInRecipeViewModel.swift */; };
 		3391163329CD96E700881E1D /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3391163229CD96E700881E1D /* ActivityIndicatorView.swift */; };
 		339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339C1AEA299A67DD0092F93E /* InfoMessageView.swift */; };
+		33C8DB8529DFCE95009F4760 /* EditTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C8DB8429DFCE95009F4760 /* EditTabBarView.swift */; };
+		33C8DB8729DFE873009F4760 /* SF-Compact-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33C8DB8629DFE873009F4760 /* SF-Compact-Display-Semibold.otf */; };
 		33D912BE29A342AA00C32117 /* NumberExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D912BD29A342AA00C32117 /* NumberExtensions.swift */; };
 		33D912C029A396A900C32117 /* MoreRecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D912BF29A396A900C32117 /* MoreRecipeCell.swift */; };
 		33E544A929C98C27008D84F8 /* PredictiveTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E544A829C98C27008D84F8 /* PredictiveTextView.swift */; };
@@ -168,8 +175,6 @@
 		B3777E1D2938CBF40074BE38 /* SettingsParametrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E1C2938CBF40074BE38 /* SettingsParametrView.swift */; };
 		B3777E202938D8210074BE38 /* InternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E1F2938D8210074BE38 /* InternetConnection.swift */; };
 		B3777E232938E4E90074BE38 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E222938E4E90074BE38 /* HapticManager.swift */; };
-		B3777E2A2938F41F0074BE38 /* DBNetworkProduct+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E282938F41F0074BE38 /* DBNetworkProduct+CoreDataClass.swift */; };
-		B3777E2B2938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E292938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift */; };
 		B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD62910EE93003C01AD /* NavigationInterface.swift */; };
 		B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD72910EE93003C01AD /* RootRouter.swift */; };
 		B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CD82910EE93003C01AD /* ViewControllerFactory.swift */; };
@@ -244,8 +249,6 @@
 /* Begin PBXFileReference section */
 		025222570B015E69FF5973D3 /* Pods_GroceryList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GroceryList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		262EB22BC930A385DC81E51C /* Pods-GroceryList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroceryList.release.xcconfig"; path = "Target Support Files/Pods-GroceryList/Pods-GroceryList.release.xcconfig"; sourceTree = "<group>"; };
-		3324425E29C33A95006F4388 /* DBNetProduct+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBNetProduct+CoreDataClass.swift"; sourceTree = "<group>"; };
-		3324425F29C33A95006F4388 /* DBNetProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBNetProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3328AD85299CF40800187B57 /* SharingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingView.swift; sourceTree = "<group>"; };
 		334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingPopUpViewController.swift; sourceTree = "<group>"; };
 		334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewController.swift; sourceTree = "<group>"; };
@@ -287,12 +290,21 @@
 		3379B65929B9B2ED0080923A /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		3379B65B29B9B3030080923A /* AddIngredientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIngredientView.swift; sourceTree = "<group>"; };
 		3379B65D29B9B3580080923A /* QuantityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityView.swift; sourceTree = "<group>"; };
+		337E79C729E51B2D00668578 /* EditSelectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSelectListViewController.swift; sourceTree = "<group>"; };
+		337E79C929E51D6200668578 /* AddListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListView.swift; sourceTree = "<group>"; };
+		337E79CB29E547D600668578 /* EditDeleteAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDeleteAlertView.swift; sourceTree = "<group>"; };
+		337E79CD29E595F700668578 /* ViewWithOverriddenPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWithOverriddenPoint.swift; sourceTree = "<group>"; };
+		337E79CF29E6C23900668578 /* SF-Compact-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Display-Medium.otf"; sourceTree = "<group>"; };
+		337E79D129E7ED3E00668578 /* DBNewNetProduct+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBNewNetProduct+CoreDataClass.swift"; sourceTree = "<group>"; };
+		337E79D229E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBNewNetProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3380D1B329C2D1E500A57F25 /* AllRecipesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRecipesCell.swift; sourceTree = "<group>"; };
 		33897D1229C87F11009C6932 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInRecipeViewController.swift; sourceTree = "<group>"; };
 		338EB6B529C1BEED00D6A03F /* SearchInRecipeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInRecipeViewModel.swift; sourceTree = "<group>"; };
 		3391163229CD96E700881E1D /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
 		339C1AEA299A67DD0092F93E /* InfoMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMessageView.swift; sourceTree = "<group>"; };
+		33C8DB8429DFCE95009F4760 /* EditTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTabBarView.swift; sourceTree = "<group>"; };
+		33C8DB8629DFE873009F4760 /* SF-Compact-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Display-Semibold.otf"; sourceTree = "<group>"; };
 		33D912BD29A342AA00C32117 /* NumberExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberExtensions.swift; sourceTree = "<group>"; };
 		33D912BF29A396A900C32117 /* MoreRecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreRecipeCell.swift; sourceTree = "<group>"; };
 		33E544A829C98C27008D84F8 /* PredictiveTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictiveTextView.swift; sourceTree = "<group>"; };
@@ -414,8 +426,6 @@
 		B3777E1C2938CBF40074BE38 /* SettingsParametrView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsParametrView.swift; sourceTree = "<group>"; };
 		B3777E1F2938D8210074BE38 /* InternetConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetConnection.swift; sourceTree = "<group>"; };
 		B3777E222938E4E90074BE38 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
-		B3777E282938F41F0074BE38 /* DBNetworkProduct+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBNetworkProduct+CoreDataClass.swift"; sourceTree = "<group>"; };
-		B3777E292938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBNetworkProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B37A2CD62910EE93003C01AD /* NavigationInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationInterface.swift; sourceTree = "<group>"; };
 		B37A2CD72910EE93003C01AD /* RootRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
 		B37A2CD82910EE93003C01AD /* ViewControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
@@ -645,6 +655,7 @@
 				3379B65929B9B2ED0080923A /* CategoryView.swift */,
 				3379B65B29B9B3030080923A /* AddIngredientView.swift */,
 				3379B65D29B9B3580080923A /* QuantityView.swift */,
+				337E79CD29E595F700668578 /* ViewWithOverriddenPoint.swift */,
 			);
 			path = subviews;
 			sourceTree = "<group>";
@@ -898,10 +909,10 @@
 		B33DFD1E291A676400AC7403 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
+				337E79D129E7ED3E00668578 /* DBNewNetProduct+CoreDataClass.swift */,
+				337E79D229E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift */,
 				3354818529D52E9C0097F528 /* DBNetCategory+CoreDataClass.swift */,
 				3354818629D52E9C0097F528 /* DBNetCategory+CoreDataProperties.swift */,
-				3324425E29C33A95006F4388 /* DBNetProduct+CoreDataClass.swift */,
-				3324425F29C33A95006F4388 /* DBNetProduct+CoreDataProperties.swift */,
 				3368FD7729B7348100D97291 /* DBCollection+CoreDataClass.swift */,
 				3368FD7829B7348100D97291 /* DBCollection+CoreDataProperties.swift */,
 				B371CCA7299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift */,
@@ -912,8 +923,6 @@
 				846600E8294A024800D85415 /* DBRecipe+CoreDataProperties.swift */,
 				B360918C2927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift */,
 				B3FECE4229375AA80077F8EF /* DBCategories+CoreDataClass.swift */,
-				B3777E282938F41F0074BE38 /* DBNetworkProduct+CoreDataClass.swift */,
-				B3777E292938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift */,
 				B3FECE4129375AA80077F8EF /* DBCategories+CoreDataProperties.swift */,
 				B3777E132937CBB30074BE38 /* DBProduct+CoreDataClass.swift */,
 				B3777E142937CBB30074BE38 /* DBProduct+CoreDataProperties.swift */,
@@ -1000,6 +1009,9 @@
 				B3476901291D010D0045A287 /* ProductsViewController.swift */,
 				335519C129ACC00F00AD2B77 /* ProductImageView.swift */,
 				339C1AEA299A67DD0092F93E /* InfoMessageView.swift */,
+				33C8DB8429DFCE95009F4760 /* EditTabBarView.swift */,
+				337E79CB29E547D600668578 /* EditDeleteAlertView.swift */,
+				337E79C729E51B2D00668578 /* EditSelectListViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1178,8 +1190,11 @@
 		B36AF9482913FA5B00944E9D /* CustomUiElements */ = {
 			isa = PBXGroup;
 			children = (
+				3328AD85299CF40800187B57 /* SharingView.swift */,
+				B34BB809292D1C4600748E8E /* ShimmerView.swift */,
 				B36AF9402913D37300944E9D /* CustomSegmentControl.swift */,
 				3391163229CD96E700881E1D /* ActivityIndicatorView.swift */,
+				337E79C929E51D6200668578 /* AddListView.swift */,
 			);
 			path = CustomUiElements;
 			sourceTree = "<group>";
@@ -1192,7 +1207,6 @@
 				383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */,
 				B36933F7291A97D900AFFAA6 /* MainScreenTopCell.swift */,
 				B36AF9442913DEC700944E9D /* GroceryCollectionViewCell.swift */,
-				3328AD85299CF40800187B57 /* SharingView.swift */,
 				B36AF9522915403600944E9D /* EmptyColoredCell.swift */,
 				B36AF9542915410400944E9D /* InstructionCell.swift */,
 				B36AF94C2913FAD000944E9D /* GroceryCollectionViewHeader.swift */,
@@ -1205,7 +1219,6 @@
 			children = (
 				B36AF9382913C5DC00944E9D /* MainScreenViewController.swift */,
 				B32767C429A5F33100DD9D20 /* MainScreenCollectionViewLayout.swift */,
-				B34BB809292D1C4600748E8E /* ShimmerView.swift */,
 				335519C329AE26CE00AD2B77 /* MainScreenMenuView.swift */,
 			);
 			path = View;
@@ -1401,6 +1414,8 @@
 		B37A2CF229111BFB003C01AD /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				337E79CF29E6C23900668578 /* SF-Compact-Display-Medium.otf */,
+				33C8DB8629DFE873009F4760 /* SF-Compact-Display-Semibold.otf */,
 				B315F9E2298939E60009CEB8 /* SF Pro Text Black.otf */,
 				B3981C5C297A89E800206DB7 /* SF Pro Text Bold.otf */,
 				B3981C5F297A89E800206DB7 /* SF Pro Text Heavy.otf */,
@@ -1638,12 +1653,14 @@
 				B33EFF1B290FF02900AD9BEE /* LaunchScreen.storyboard in Resources */,
 				B3981C57297A86EC00206DB7 /* SF Pro Rounded Heavy.otf in Resources */,
 				B3981C61297A89E800206DB7 /* SF Pro Text Bold.otf in Resources */,
+				337E79D029E6C23900668578 /* SF-Compact-Display-Medium.otf in Resources */,
 				B36C75EE2911266800709721 /* Localizable.strings in Resources */,
 				B37A2CF6291125CA003C01AD /* SF Pro Display Medium.otf in Resources */,
 				B36AF9472913E94100944E9D /* SF Pro Display Regular.otf in Resources */,
 				B37A2CF429111C41003C01AD /* SF Pro Display Heavy.otf in Resources */,
 				B3981C64297A89E800206DB7 /* SF Pro Text Heavy.otf in Resources */,
 				B33EFF18290FF02900AD9BEE /* Assets.xcassets in Resources */,
+				33C8DB8729DFE873009F4760 /* SF-Compact-Display-Semibold.otf in Resources */,
 				B36AF93D2913CEE900944E9D /* SF Pro Display Bold.otf in Resources */,
 				B3981C58297A86EE00206DB7 /* SF Pro Rounded Medium.otf in Resources */,
 				B3981C56297A86EA00206DB7 /* SF Pro Rounded Bold.otf in Resources */,
@@ -1781,6 +1798,7 @@
 				335519C729AF1AE600AD2B77 /* CreateNewRecipeStepOneViewController.swift in Sources */,
 				B381EF1A299A08ED00DCDE40 /* SettingsProfileView.swift in Sources */,
 				B3F7C9BA2994BF830081B245 /* SignUpViewForTyping.swift in Sources */,
+				33C8DB8529DFCE95009F4760 /* EditTabBarView.swift in Sources */,
 				383C77F3293F799E0030AE78 /* RecipesListViewController.swift in Sources */,
 				B371CCAC299C998700E0E197 /* ResetPasswordModelManager.swift in Sources */,
 				3367C78C299F30E8008B39A5 /* SharingHeaderView.swift in Sources */,
@@ -1796,7 +1814,6 @@
 				846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */,
 				383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */,
 				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
-				3324426029C33A95006F4388 /* DBNetProduct+CoreDataClass.swift in Sources */,
 				B35F0F632937975200C19891 /* MeashureManager.swift in Sources */,
 				B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */,
 				334BAE55299E700B005F52F5 /* Table+CollectionExtension.swift in Sources */,
@@ -1815,7 +1832,6 @@
 				B34EACA8293500C000FBD0E0 /* CreateNewCategoryViewController.swift in Sources */,
 				B381EF22299B5B2500DCDE40 /* AccountViewModel.swift in Sources */,
 				335519D029B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift in Sources */,
-				B3777E2B2938F41F0074BE38 /* DBNetworkProduct+CoreDataProperties.swift in Sources */,
 				389DCF432945CDFA00DB9382 /* RecipeViewController.swift in Sources */,
 				B35F0F612937972700C19891 /* UnitSystemModel.swift in Sources */,
 				338EB6B429C1BACC00D6A03F /* SearchInRecipeViewController.swift in Sources */,
@@ -1845,8 +1861,9 @@
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
-				3324426129C33A95006F4388 /* DBNetProduct+CoreDataProperties.swift in Sources */,
+				337E79D429E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift in Sources */,
 				B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */,
+				337E79CA29E51D6200668578 /* AddListView.swift in Sources */,
 				3379B65E29B9B3580080923A /* QuantityView.swift in Sources */,
 				844FC6392978612B008173AA /* OnboardingReviewController.swift in Sources */,
 				334BAE57299E7305005F52F5 /* SharedCell.swift in Sources */,
@@ -1919,10 +1936,12 @@
 				B371CCB2299F7B0200E0E197 /* GroceryListResponse.swift in Sources */,
 				3380D1B429C2D1E500A57F25 /* AllRecipesCell.swift in Sources */,
 				3368FD6E29B700F300D97291 /* UUIDExtension.swift in Sources */,
+				337E79CE29E595F700668578 /* ViewWithOverriddenPoint.swift in Sources */,
 				B32767CB29A6387100DD9D20 /* DomainModelsToLocalTransformer.swift in Sources */,
 				B36D18ED291A2CF4005EE32D /* CoreDataManager.swift in Sources */,
 				337719AE29B1A669000791BD /* CreateNewRecipeViewWithButton.swift in Sources */,
 				B34BB80F292E389B00748E8E /* SelectListViewModel.swift in Sources */,
+				337E79CC29E547D600668578 /* EditDeleteAlertView.swift in Sources */,
 				B3D8584A293A1A2A00CCE230 /* PaywallCell.swift in Sources */,
 				338EB6B629C1BEED00D6A03F /* SearchInRecipeViewModel.swift in Sources */,
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,
@@ -1930,7 +1949,6 @@
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
 				B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */,
 				B3777E1D2938CBF40074BE38 /* SettingsParametrView.swift in Sources */,
-				B3777E2A2938F41F0074BE38 /* DBNetworkProduct+CoreDataClass.swift in Sources */,
 				B37A2CEB2911034D003C01AD /* StringExtension.swift in Sources */,
 				B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */,
 				334BAE59299E7333005F52F5 /* TitleCell.swift in Sources */,
@@ -1938,6 +1956,8 @@
 				3368FD6529B60CD000D97291 /* PreparationStepViewModel.swift in Sources */,
 				33F8254229C18FCE00B349D5 /* UIStackViewExtension.swift in Sources */,
 				3368FD6329B5F89C00D97291 /* PreparationStepViewController.swift in Sources */,
+				337E79C829E51B2D00668578 /* EditSelectListViewController.swift in Sources */,
+				337E79D329E7ED3E00668578 /* DBNewNetProduct+CoreDataClass.swift in Sources */,
 				B3F7C9C1299510140081B245 /* RedAlertView.swift in Sources */,
 				B3F7C9C329961FF40081B245 /* RegistrationState.swift in Sources */,
 				B36933FA291AAC2C00AFFAA6 /* CellState.swift in Sources */,

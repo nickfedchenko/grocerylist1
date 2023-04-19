@@ -34,7 +34,7 @@ class SocketManager: PusherDelegate {
         let myChannel = pusher.subscribe(chanelName)
         
         myChannel.bind(eventName: "updated", eventCallback: { (event: PusherEvent) -> Void in
-            SharedListManager.shared.fetchMyGroceryLists()
+//            SharedListManager.shared.fetchMyGroceryLists()
             if let data: Data = event.data?.data(using: .utf8) {
                 guard let decoded = try? JSONDecoder().decode(SocketResponse.self, from: data) else { return }
                 SharedListManager.shared.saveListFromSocket(response: decoded)
@@ -43,7 +43,7 @@ class SocketManager: PusherDelegate {
         })
         
         myChannel.bind(eventName: "delete", eventCallback: { (event: PusherEvent) -> Void in
-            SharedListManager.shared.fetchMyGroceryLists()
+//            SharedListManager.shared.fetchMyGroceryLists()
             if let data: Data = event.data?.data(using: .utf8) {
                 guard let decoded = try? JSONDecoder().decode(SocketResponse.self, from: data) else { return }
                 SharedListManager.shared.saveListFromSocket(response: decoded)
@@ -73,18 +73,19 @@ class SocketManager: PusherDelegate {
     }
     
     func failedToSubscribeToChannel(name: String, response: URLResponse?, data: String?, error: NSError?) {
-        print(name, data, error)
+        print(name, data ?? "data nil", error?.localizedDescription ?? "error nil")
     }
     
     func receivedError(error: PusherError) {
         let message = error.message
+        print("error message: " + message)
         if let code = error.code {
             print(code)
         }
     }
     
     func failedToDecryptEvent(eventName: String, channelName: String, data: String?) {
-        print(eventName, channelName, data)
+        print(eventName, channelName, data ?? "data nil")
     }
     
 }

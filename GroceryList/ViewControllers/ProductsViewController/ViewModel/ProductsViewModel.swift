@@ -10,17 +10,20 @@ import UIKit
 
 protocol ProductsViewModelDelegate: AnyObject {
     func updateController()
+    func editProduct()
+    func updateUIEditTab()
 }
 
 class ProductsViewModel {
     
     weak var router: RootRouter?
-    private var colorManager = ColorManager()
+    weak var delegate: ProductsViewModelDelegate?
     var valueChangedCallback: (() -> Void)?
     var model: GroceryListsModel
     var dataSource: ProductsDataManager
-    weak var delegate: ProductsViewModelDelegate?
     var selectedProduct: Product?
+    
+    private var colorManager = ColorManager()
     
     init(model: GroceryListsModel, dataSource: ProductsDataManager) {
         self.dataSource = dataSource
@@ -36,6 +39,22 @@ class ProductsViewModel {
     
     var arrayWithSections: [Category] {
         return dataSource.dataSourceArray
+    }
+    
+    var editProducts: [Product] {
+        return dataSource.editProducts
+    }
+    
+    var isVisibleImage: Bool {
+        switch model.isShowImage {
+        case .nothing:      return UserDefaultsManager.isShowImage
+        case .switchOn:     return true
+        case .switchOff:    return false
+        }
+    }
+    
+    var isSelectedAllProductsForEditing: Bool {
+        dataSource.products.count == dataSource.editProducts.count
     }
     
     func getColorForBackground() -> UIColor {
@@ -70,7 +89,17 @@ class ProductsViewModel {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self?.updateList()
             }
+        }, editCompl: { [weak self] content in
+            guard let self else { return }
+            switch content {
+            case .edit:
+                self.delegate?.editProduct()
+            case .share:
+                self.router?.goToSharingList(listToShare: self.model, users: self.getSharedListsUsers())
+            default: break
+            }
         })
+        
     }
     
     func updatePurchasedStatus(product: Product) {
@@ -111,6 +140,94 @@ class ProductsViewModel {
         })
     }
     
+    func getSharingState() -> SharingView.SharingState {
+        model.isShared ? .added : .invite
+    }
+    
+    func getShareImages() -> [String?] {
+        var arrayOfImageUrls: [String?] = []
+        
+        getSharedListsUsers().forEach { user in
+            if user.token != UserAccountManager.shared.getUser()?.token {
+                arrayOfImageUrls.append(user.avatar)
+            }
+        }
+        return arrayOfImageUrls
+    }
+    
+    func getUserImage(by userToken: String?, isPurchased: Bool) -> String? {
+        guard let userToken else {
+            return nil
+        }
+        
+        if !isPurchased, model.typeOfSorting == SortingType.user.rawValue {
+            return nil
+        }
+        
+        var userImageUrl: String?
+        getSharedListsUsers().forEach { user in
+            if user.token != UserAccountManager.shared.getUser()?.token && user.token == userToken {
+                userImageUrl = user.avatar ?? ""
+            }
+        }
+        return userImageUrl
+    }
+    
+    func getUserImage(by userName: String) -> String? {
+        var userImageUrl: String?
+        getSharedListsUsers().forEach { user in
+            if user.username == userName || user.email == userName {
+                userImageUrl = user.avatar ?? ""
+            }
+        }
+        return userImageUrl
+    }
+    
+    func sharingTapped() {
+        guard UserAccountManager.shared.getUser() != nil else {
+            router?.goToSharingPopUp()
+            return
+        }
+        let users = SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
+        router?.goToSharingList(listToShare: model, users: users)
+    }
+    
+    func resetEditProducts() {
+        dataSource.resetEditProduct()
+        delegate?.updateUIEditTab()
+    }
+    
+    func addAllProductsToEdit() {
+        dataSource.addEditAllProducts()
+        delegate?.updateUIEditTab()
+    }
+    
+    func updateEditProduct(_ product: Product) {
+        dataSource.updateEditProduct(product)
+    }
+    
+    func showListView(contentViewHeigh: CGFloat,
+                      state: EditSelectListViewController.State,
+                      delegate: EditSelectListDelegate) {
+        router?.goToEditSelectList(products: editProducts,
+                                   contentViewHeigh: contentViewHeigh,
+                                   delegate: delegate,
+                                   state: state)
+    }
+    
+    func moveProducts() {
+        deleteProducts()
+    }
+    
+    func deleteProducts() {
+        editProducts.forEach {
+            dataSource.delete(product: $0)
+        }
+        resetEditProducts()
+        delegate?.updateUIEditTab()
+        updateList()
+    }
+    
     private func addObserver() {
         NotificationCenter.default.addObserver(
             self,
@@ -133,11 +250,15 @@ class ProductsViewModel {
         }
     }
     
+    private func getSharedListsUsers() -> [User] {
+        return SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
+    }
+    
     private func getListByText() -> String {
         var list = ""
         let newLine = "\n"
         let tab = "  • "
-        let buy = "Купить".uppercased() + newLine + newLine
+        let buy = R.string.localizable.buy().uppercased() + newLine + newLine
         list += buy
         
         arrayWithSections.forEach { category in

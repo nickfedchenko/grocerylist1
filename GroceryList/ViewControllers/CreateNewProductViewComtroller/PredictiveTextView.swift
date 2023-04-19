@@ -71,7 +71,7 @@ final class PredictiveTextView: UIView {
     }
     
     private func setup() {
-        self.backgroundColor = UIColor(hex: "#D1D5DB")
+        self.backgroundColor = #colorLiteral(red: 0.805165112, green: 0.8200982809, blue: 0.8198366165, alpha: 1)
         makeConstraints()
     }
     

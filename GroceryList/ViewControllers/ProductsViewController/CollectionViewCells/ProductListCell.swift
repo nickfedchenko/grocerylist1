@@ -5,6 +5,7 @@
 //  Created by Шамиль Моллачиев on 14.11.2022.
 //
 
+import Kingfisher
 import SnapKit
 import UIKit
 
@@ -13,126 +14,6 @@ class ProductListCell: UICollectionViewListCell {
     var swipeToPinchAction: (() -> Void)?
     var swipeToDeleteAction: (() -> Void)?
     var tapImageAction: (() -> Void)?
-    private var state: CellState = .normal
-    
-    private let shadowView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 8
-        view.addCustomShadow(color: UIColor(hex: "#484848"), radius: 1, offset: CGSize(width: 0, height: 0.5))
-        return view
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.clipsToBounds = false
-        self.layer.masksToBounds = false
-        rightButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
-        leftButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
-        setupConstraints()
-        addGestureRecognizers()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        let attrs = super.preferredLayoutAttributesFitting(layoutAttributes)
-        attrs.bounds.size.height = 56
-        return attrs
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        nameLabel.textColor = .black
-        nameLabel.attributedText = NSAttributedString(string: "")
-        firstDescriptionLabel.attributedText = NSAttributedString(string: "")
-        firstDescriptionLabel.textColor = .black
-        secondDescriptionLabel.attributedText = NSAttributedString(string: "")
-        secondDescriptionLabel.textColor = .black
-        viewWithDescription.isHidden = true
-        clearTheCell()
-    }
-    
-    func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?,
-                   isPurchased: Bool, image: Data?, description: String, isRecipe: Bool) {
-        contentView.backgroundColor = bcgColor
-        checkmarkImage.image = isPurchased ? getImageWithColor(color: textColor) : UIImage(named: "emptyCheckmark")
-        guard let text = text else { return }
-        
-        nameLabel.attributedText = NSAttributedString(string: text)
-        firstDescriptionLabel.attributedText = NSAttributedString(string: text)
-        secondDescriptionLabel.text = description
-        
-        if isRecipe {
-            let recipe = "Recipe".localized.attributed(font: UIFont.SFProRounded.bold(size: 14).font,
-                                                       color: UIColor(hex: "#58B368"))
-            recipe.append(NSAttributedString(string: description))
-            secondDescriptionLabel.attributedText = recipe
-            if !isPurchased {
-                checkmarkImage.image = UIImage(named: "emptyCheckmark")?.withTintColor(UIColor(hex: "#58B368"))
-            }
-
-        }
-        
-        if isPurchased {
-            nameLabel.textColor = textColor
-            firstDescriptionLabel.textColor = textColor
-            secondDescriptionLabel.textColor = textColor
-        }
-        
-        if let image = image {
-            DispatchQueue.global().async {
-                let image = UIImage(data: image)
-                DispatchQueue.main.async {
-                    self.imageView.image = image
-                }
-            }
-        }
-        
-        if !description.isEmpty || isRecipe {
-            viewWithDescription.isHidden = false
-        }
-    }
-    
-    func addCheckmark(color: UIColor?, compl: @escaping (() -> Void) ) {
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            guard let self = self else { return }
-            self.checkmarkImage.image = self.getImageWithColor(color: color)
-            self.nameLabel.attributedText = self.nameLabel.text?.strikeThrough()
-            self.firstDescriptionLabel.attributedText = self.firstDescriptionLabel.text?.strikeThrough()
-            self.layoutIfNeeded()
-        } completion: { _ in
-            compl()
-        }
-    }
-    
-    func removeCheckmark(compl: @escaping (() -> Void) ) {
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            guard let self = self else { return }
-            self.checkmarkImage.image = UIImage(named: "emptyCheckmark")
-            guard let text = self.nameLabel.text else { return }
-            self.nameLabel.attributedText = NSAttributedString(string: text)
-            self.nameLabel.textColor = .black
-            self.layoutIfNeeded()
-        } completion: { _ in
-            compl()
-        }
-    }
-    
-    func getImageWithColor(color: UIColor?) -> UIImage? {
-        let size = CGSize(width: 28, height: 28)
-        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        guard let color = color else { return nil }
-        color.setFill()
-        UIRectFill(rect)
-        let image: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        guard let image = image else { return nil }
-        return image.rounded(radius: 100)
-    }
     
     private let contentViews: UIView = {
         let view = UIView()
@@ -179,7 +60,7 @@ class ProductListCell: UICollectionViewListCell {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 8
         imageView.layer.masksToBounds = true
         imageView.isUserInteractionEnabled = true
@@ -197,7 +78,6 @@ class ProductListCell: UICollectionViewListCell {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
         label.textColor = .black
-        label.text = "dfdf"
         return label
     }()
     
@@ -205,15 +85,216 @@ class ProductListCell: UICollectionViewListCell {
         let label = UILabel()
         label.font = UIFont.SFPro.regular(size: 14).font
         label.textColor = .black
-        label.text = "dfdkf"
         return label
     }()
+    
+    private let userImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 16
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
+    
+    private let checkmarkView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 20
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
+    private let shadowView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 8
+        view.addCustomShadow(color: UIColor(hex: "#484848"), radius: 1, offset: CGSize(width: 0, height: 0.5))
+        return view
+    }()
+    
+    private var state: CellState = .normal
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.clipsToBounds = false
+        self.layer.masksToBounds = false
+        rightButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        leftButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        setupConstraints()
+        addGestureRecognizers()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        let attrs = super.preferredLayoutAttributesFitting(layoutAttributes)
+        attrs.bounds.size.height = 56
+        return attrs
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        nameLabel.textColor = .black
+        nameLabel.attributedText = NSAttributedString(string: "")
+        firstDescriptionLabel.attributedText = NSAttributedString(string: "")
+        firstDescriptionLabel.textColor = .black
+        secondDescriptionLabel.attributedText = NSAttributedString(string: "")
+        secondDescriptionLabel.textColor = .black
+        viewWithDescription.isHidden = true
+        whiteCheckmarkImage.image = R.image.whiteCheckmark()
+        clearTheCell()
+    }
+    
+    func setState(state: CellState) {
+        self.state = state
+    }
+    
+    func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?,
+                   isPurchased: Bool, description: String, isRecipe: Bool) {
+        contentView.backgroundColor = bcgColor
+        guard let text = text else { return }
+        setupCheckmarkImage(isPurchased: isPurchased, color: textColor, isRecipe: isRecipe)
+        nameLabel.attributedText = NSAttributedString(string: text)
+        firstDescriptionLabel.attributedText = NSAttributedString(string: text)
+        secondDescriptionLabel.text = description
+        
+        if isRecipe {
+            let recipe = "Recipe".localized.attributed(font: UIFont.SFProRounded.bold(size: 14).font,
+                                                       color: UIColor(hex: "#58B368"))
+            recipe.append(NSAttributedString(string: description))
+            secondDescriptionLabel.attributedText = recipe
+        }
+        
+        if isPurchased {
+            nameLabel.textColor = textColor
+            firstDescriptionLabel.textColor = textColor
+            secondDescriptionLabel.textColor = textColor
+        }
+        
+        if !description.isEmpty || isRecipe {
+            viewWithDescription.isHidden = false
+        }
+    }
+    
+    func setupImage(isVisible: Bool, image: Data?) {
+        imageView.isHidden = !isVisible
+        guard isVisible else {
+            return
+        }
+        
+        if let image = image {
+            DispatchQueue.global().async {
+                let image = UIImage(data: image)
+                DispatchQueue.main.async {
+                    self.imageView.image = image
+                }
+            }
+        }
+    }
+    
+    func setupUserImage(image: String?) {
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async {
+                self.setupUserImage(image: image)
+            }
+            return
+        }
+        
+        guard let image else {
+            userImageView.image = nil
+            userImageView.isHidden = true
+            userImageView.snp.updateConstraints { $0.trailing.equalTo(checkmarkView).offset(0) }
+            return
+        }
+        userImageView.isHidden = false
+        userImageView.snp.updateConstraints { $0.trailing.equalTo(checkmarkView).offset(26) }
+        guard let url = URL(string: image) else {
+            let image = R.image.profile_icon()
+            return userImageView.image = image
+        }
+        let size = CGSize(width: 30, height: 30)
+        userImageView.kf.setImage(with: url, placeholder: nil,
+                                  options: [.processor(DownsamplingImageProcessor(size: size)),
+                                            .scaleFactor(UIScreen.main.scale),
+                                            .cacheOriginalImage])
+        
+    }
+    
+    func addCheckmark(color: UIColor?, compl: @escaping (() -> Void) ) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            self.checkmarkImage.image = self.getImageWithColor(color: color)
+            self.nameLabel.attributedText = self.nameLabel.text?.strikeThrough()
+            self.firstDescriptionLabel.attributedText = self.firstDescriptionLabel.text?.strikeThrough()
+            self.layoutIfNeeded()
+        } completion: { _ in
+            compl()
+        }
+    }
+    
+    func removeCheckmark(compl: @escaping (() -> Void) ) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            self.checkmarkImage.image = UIImage(named: "emptyCheckmark")
+            guard let text = self.nameLabel.text else { return }
+            self.nameLabel.attributedText = NSAttributedString(string: text)
+            self.nameLabel.textColor = .black
+            self.layoutIfNeeded()
+        } completion: { _ in
+            compl()
+        }
+    }
+    
+    func getImageWithColor(color: UIColor?) -> UIImage? {
+        let size = CGSize(width: 28, height: 28)
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        guard let color = color else { return nil }
+        color.setFill()
+        UIRectFill(rect)
+        let image: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        guard let image = image else { return nil }
+        return image.rounded(radius: 100)
+    }
+    
+    func updateEditCheckmark(isSelect: Bool) {
+        guard state == .edit else { return }
+        
+        guard isSelect else {
+            self.checkmarkImage.image = R.image.emptyCheckmark()?.withTintColor(UIColor(hex: "#6319FF"))
+            return
+        }
+        self.checkmarkImage.image = self.getImageWithColor(color: UIColor(hex: "#6319FF"))
+    }
+    
+    private func setupCheckmarkImage(isPurchased: Bool, color: UIColor?, isRecipe: Bool) {
+        guard state != .edit else {
+            whiteCheckmarkImage.snp.updateConstraints { $0.width.height.equalTo(8) }
+            whiteCheckmarkImage.image = getImageWithColor(color: .white)
+            
+            checkmarkImage.image = R.image.emptyCheckmark()?.withTintColor(UIColor(hex: "#6319FF"))
+            return
+        }
+        
+        whiteCheckmarkImage.snp.updateConstraints { $0.width.height.equalTo(14) }
+        whiteCheckmarkImage.image = R.image.whiteCheckmark()
+        if isPurchased {
+            checkmarkImage.image = getImageWithColor(color: color)
+        } else {
+            let emptyCheckmarkColor = UIColor(hex: isRecipe ? "#58B368" : "#ACB4B4")
+            checkmarkImage.image = R.image.emptyCheckmark()?.withTintColor(emptyCheckmarkColor)
+        }
+    }
     
     // MARK: - UI
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         contentView.addSubviews([leftButton, rightButton, shadowView, contentViews])
-        contentViews.addSubviews([nameLabel, checkmarkImage, whiteCheckmarkImage, imageView, viewWithDescription])
+        contentViews.addSubviews([userImageView, nameLabel, checkmarkView, checkmarkImage, whiteCheckmarkImage,
+                                  imageView, viewWithDescription])
         viewWithDescription.addSubviews([firstDescriptionLabel, secondDescriptionLabel])
         
         shadowView.snp.makeConstraints { make in
@@ -244,21 +325,32 @@ class ProductListCell: UICollectionViewListCell {
             make.height.equalTo(17)
         }
         
+        checkmarkView.snp.makeConstraints { make in
+            make.center.equalTo(checkmarkImage)
+            make.width.height.equalTo(36)
+        }
+        
         checkmarkImage.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(8)
+            make.left.equalToSuperview().inset(10)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(28)
+        }
+        
+        userImageView.snp.makeConstraints { make in
+            make.trailing.equalTo(checkmarkView).offset(26)
             make.centerY.equalToSuperview()
             make.width.height.equalTo(32)
         }
         
         nameLabel.snp.makeConstraints { make in
-            make.left.equalTo(checkmarkImage.snp.right).inset(-12)
+            make.leading.equalTo(userImageView.snp.trailing).offset(8)
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().inset(8)
         }
         
         whiteCheckmarkImage.snp.makeConstraints { make in
-            make.centerY.centerX.equalTo(checkmarkImage)
-            make.width.height.equalTo(17)
+            make.center.equalTo(checkmarkImage)
+            make.width.height.equalTo(14)
         }
         
         rightButton.snp.makeConstraints { make in
