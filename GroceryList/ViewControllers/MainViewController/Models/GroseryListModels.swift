@@ -151,6 +151,8 @@ struct Product: Hashable, Equatable, Codable {
     var unitId: UnitSystem?
     var isUserImage: Bool? = false
     var userToken: String?
+    var store: String?
+    var cost: Double?
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -163,7 +165,7 @@ struct Product: Hashable, Equatable, Codable {
         lhs.id == rhs.id && lhs.isFavorite == rhs.isFavorite &&
         lhs.description == rhs.description && lhs.imageData == rhs.imageData &&
         lhs.unitId == rhs.unitId && lhs.isUserImage == rhs.isUserImage &&
-        lhs.userToken == rhs.userToken
+        lhs.userToken == rhs.userToken && lhs.store == rhs.store
     }
     
     init?(from dbProduct: DBProduct) {
@@ -180,6 +182,8 @@ struct Product: Hashable, Equatable, Codable {
         unitId = UnitSystem(rawValue: Int(dbProduct.unitId))
         isUserImage = dbProduct.isUserImage
         userToken = dbProduct.userToken
+//        store = dbProduct.store
+//        cost = dbProduct.cost
     }
     
     init(id: UUID = UUID(), listId: UUID = UUID(),
@@ -188,7 +192,8 @@ struct Product: Hashable, Equatable, Codable {
          isFavorite: Bool, isSelected: Bool = false,
          imageData: Data? = nil, description: String,
          fromRecipeTitle: String? = nil,
-         unitId: UnitSystem? = nil, isUserImage: Bool? = false, userToken: String? = nil) {
+         unitId: UnitSystem? = nil, isUserImage: Bool? = false,
+         userToken: String? = nil, store: String? = nil, cost: Double? = nil) {
         self.id = id
         self.listId = listId
         self.name = name
@@ -203,6 +208,8 @@ struct Product: Hashable, Equatable, Codable {
         self.unitId = unitId
         self.isUserImage = isUserImage
         self.userToken = userToken
+        self.store = store
+        self.cost = cost
     }
 }
 
@@ -226,6 +233,21 @@ class Category: Hashable, Equatable {
     static func == (lhs: Category, rhs: Category) -> Bool {
         return lhs.name == rhs.name 
     }
+}
+
+struct Store: Hashable, Equatable, Codable {
+    var id: UUID
+    var title: String
+    
+    init(title: String) {
+        self.id = UUID()
+        self.title = title
+    }
+    
+//    init?(from dbStore: DBStore) {
+//        id = dbStore.id ?? UUID()
+//        title = dbStore.title ?? ""
+//    }
 }
 
 enum CellType {

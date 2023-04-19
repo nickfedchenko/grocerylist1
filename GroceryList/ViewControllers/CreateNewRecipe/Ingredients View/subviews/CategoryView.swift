@@ -14,6 +14,9 @@ protocol CategoryViewDelegate: AnyObject {
 class CategoryView: UIView {
     
     weak var delegate: CategoryViewDelegate?
+    var categoryTitle: String? {
+        categoryLabel.text
+    }
     
     private lazy var categoryLabel: UILabel = {
         let label = UILabel()
@@ -44,6 +47,21 @@ class CategoryView: UIView {
         categoryLabel.text = category
         categoryLabel.textColor = textColor
         categoryButton.setImage(R.image.whitePencil()?.withTintColor(textColor), for: .normal)
+    }
+    
+    func setCategoryInProduct(_ category: String?, backgroundColor: UIColor) {
+        self.backgroundColor = backgroundColor
+        categoryLabel.text = category
+        categoryLabel.textColor = .white
+        categoryButton.setImage(R.image.whitePencil()?.withTintColor(.white), for: .normal)
+    }
+    
+    func setupColor(viewColor: UIColor?, buttonTintColor: UIColor? = nil) {
+        self.backgroundColor = viewColor
+        if let buttonTintColor {
+            categoryButton.setImage(R.image.whitePencil()?.withTintColor(buttonTintColor), for: .normal)
+            categoryLabel.textColor = buttonTintColor
+        }
     }
     
     private func setup() {

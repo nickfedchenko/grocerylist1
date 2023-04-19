@@ -38,6 +38,17 @@ class CreateNewCategoryViewController: UIViewController {
         print("create new list deinited")
     }
     
+    func setupStore() {
+        topCategoryLabel.text = R.string.localizable.createANewStore()
+        topCategoryPencilImage.image = R.image.newStore()
+        
+        textField.attributedPlaceholder = NSAttributedString(
+            string: R.string.localizable.newStore(),
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "#D2D5DA")]
+        )
+        textField.layer.borderWidth = 1
+    }
+    
     private func setupTextFieldParametrs() {
         textField.delegate = self
         textField.becomeFirstResponder()
@@ -45,6 +56,8 @@ class CreateNewCategoryViewController: UIViewController {
     
     private func setupBackgroundColor() {
         contentView.backgroundColor = viewModel?.getBackgroundColor()
+        topCategoryView.backgroundColor = viewModel?.getForegroundColor()
+        textField.layer.borderColor = viewModel?.getForegroundColor().cgColor
     }
     
     // MARK: - Keyboard
@@ -74,7 +87,7 @@ class CreateNewCategoryViewController: UIViewController {
     
     // MARK: - swipeDown
     
-    private func hidePanel() {
+    func hidePanel() {
         textField.resignFirstResponder()
         updateConstr(with: -400, alpha: 0)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
@@ -83,7 +96,7 @@ class CreateNewCategoryViewController: UIViewController {
     }
     
     // MARK: - UI
-    private let contentView: UIView = {
+    let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#F9FBEB")
         return view
@@ -112,7 +125,7 @@ class CreateNewCategoryViewController: UIViewController {
         return imageView
     }()
 
-    private let textField: UITextField = {
+    let textField: UITextField = {
         let textfield = UITextField()
         textfield.font = UIFont.SFPro.medium(size: 17).font
         textfield.textColor = .black
@@ -206,12 +219,12 @@ class CreateNewCategoryViewController: UIViewController {
 // MARK: - Textfield
 extension CreateNewCategoryViewController: UITextFieldDelegate {
     
-    private func readyToSave() {
+    func readyToSave() {
         saveButtonView.isUserInteractionEnabled = true
-        saveButtonView.backgroundColor = UIColor(hex: "#6FB16F")
+        saveButtonView.backgroundColor = viewModel?.getForegroundColor()
     }
     
-    private func notReadyToSave() {
+    func notReadyToSave() {
         saveButtonView.isUserInteractionEnabled = false
         saveButtonView.backgroundColor = UIColor(hex: "#D2D5DA")
     }
@@ -246,7 +259,7 @@ extension CreateNewCategoryViewController {
     }
     
     @objc
-    private func saveAction() {
+    func saveAction() {
         AmplitudeManager.shared.logEvent(.categoryNew)
         let text = textField.text ?? ""
         viewModel?.saveNewCategory(name: text)
@@ -254,7 +267,7 @@ extension CreateNewCategoryViewController {
     }
     
     @objc
-    private func swipeDownAction(_ recognizer: UIPanGestureRecognizer) {
+    func swipeDownAction(_ recognizer: UIPanGestureRecognizer) {
         let tempTranslation = recognizer.translation(in: contentView)
         if tempTranslation.y >= 100 {
             hidePanel()

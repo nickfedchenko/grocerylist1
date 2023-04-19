@@ -351,7 +351,7 @@ class ProductsDataManager {
     private func getDictionaryFavorite(by products: [Product]) -> [String: [Product]] {
         var dictFavorite: [String: [Product]] = [:]
         dictFavorite["Favorite"] = []
-        let favoriteProducts = products.filter { $0.isFavorite }
+        let favoriteProducts = products.filter { $0.isFavorite && !$0.isPurchased }
         favoriteProducts.forEach { dictFavorite["Favorite"]?.append($0) }
         
         return dictFavorite

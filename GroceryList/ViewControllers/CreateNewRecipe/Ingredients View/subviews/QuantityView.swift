@@ -304,7 +304,7 @@ extension QuantityView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.reusableCell(classCell: UnitsCell.self, indexPath: indexPath)
         let title = delegate?.getTitleForCell(at: indexPath.row) ?? ""
-        cell.setupCell(title: title, isSelected: false)
+        cell.setupCell(title: title, isSelected: false, color: UIColor(hex: "#31635A"))
         return cell
     }
     

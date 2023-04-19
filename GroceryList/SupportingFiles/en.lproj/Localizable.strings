@@ -64,6 +64,13 @@
 "Long press on an Item"     = "Long press on an Item, returns to editing";
 "Buy"                       = "Buy";
 
+"Store"                     = "Store";
+"cost"                      = "cost";
+"Any store"                 = "Any store";
+"Create a new store"        = "Create a new store";
+"New Store"                 = "New Store";
+"units"                     = "units";
+
 "Alcohol"                   = "Alcohol";
 "Grocery"                   = "Grocery";
 "ReadyFood"                 = "Ready-made food";
