@@ -53,6 +53,14 @@ class ProductsViewModel {
         }
     }
     
+    var totalCost: Double? {
+        dataSource.getTotalCost()
+    }
+    
+    var isVisibleCost: Bool {
+        model.isVisibleCost
+    }
+    
     var isSelectedAllProductsForEditing: Bool {
         dataSource.products.count == dataSource.editProducts.count
     }
@@ -226,6 +234,12 @@ class ProductsViewModel {
         resetEditProducts()
         delegate?.updateUIEditTab()
         updateList()
+    }
+    
+    func updateCostVisible(_ isVisible: Bool) {
+        model.isVisibleCost = isVisible
+        CoreDataManager.shared.saveList(list: model)
+        dataSource.createDataSourceArray()
     }
     
     private func addObserver() {

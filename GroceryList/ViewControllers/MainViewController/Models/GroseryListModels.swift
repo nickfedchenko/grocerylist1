@@ -94,6 +94,7 @@ struct GroceryListsModel: Hashable, Codable {
     var isShared: Bool = false
     var isSharedListOwner: Bool = false
     var isShowImage: PictureMatchingState = .nothing
+    var isVisibleCost: Bool = false
     
     static func == (lhs: GroceryListsModel, rhs: GroceryListsModel) -> Bool {
         lhs.id == rhs.id
@@ -121,7 +122,8 @@ struct GroceryListsModel: Hashable, Codable {
     init(id: UUID = UUID(), dateOfCreation: Date,
          name: String? = nil, color: Int, isFavorite: Bool = false,
          products: [Product], typeOfSorting: Int, isShared: Bool = false,
-         sharedId: String = "", isSharedListOwner: Bool = false, isShowImage: PictureMatchingState = .nothing) {
+         sharedId: String = "", isSharedListOwner: Bool = false, isShowImage: PictureMatchingState = .nothing,
+         isVisibleCost: Bool = false) {
         self.dateOfCreation = dateOfCreation
         self.color = color
         self.products = products
@@ -133,6 +135,7 @@ struct GroceryListsModel: Hashable, Codable {
         self.sharedId = sharedId
         self.isSharedListOwner = isSharedListOwner
         self.isShowImage = isShowImage
+        self.isVisibleCost = isVisibleCost
     }
 }
 
@@ -153,6 +156,7 @@ struct Product: Hashable, Equatable, Codable {
     var userToken: String?
     var store: Store?
     var cost: Double?
+    var isVisibleСost: Bool = false // не нужно сохранять в базу, нужно чтобы показать цену
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -165,7 +169,8 @@ struct Product: Hashable, Equatable, Codable {
         lhs.id == rhs.id && lhs.isFavorite == rhs.isFavorite &&
         lhs.description == rhs.description && lhs.imageData == rhs.imageData &&
         lhs.unitId == rhs.unitId && lhs.isUserImage == rhs.isUserImage &&
-        lhs.userToken == rhs.userToken && lhs.store == rhs.store
+        lhs.userToken == rhs.userToken && lhs.store == rhs.store &&
+        lhs.cost == rhs.cost && lhs.isVisibleСost == rhs.isVisibleСost
     }
     
     init?(from dbProduct: DBProduct) {
@@ -193,7 +198,7 @@ struct Product: Hashable, Equatable, Codable {
          imageData: Data? = nil, description: String,
          fromRecipeTitle: String? = nil,
          unitId: UnitSystem? = nil, isUserImage: Bool? = false,
-         userToken: String? = nil, store: Store? = nil, cost: Double? = nil) {
+         userToken: String? = nil, store: Store? = nil, cost: Double? = nil, isVisibleСost: Bool = false) {
         self.id = id
         self.listId = listId
         self.name = name
@@ -210,28 +215,33 @@ struct Product: Hashable, Equatable, Codable {
         self.userToken = userToken
         self.store = store
         self.cost = cost
+        self.isVisibleСost = isVisibleСost
     }
 }
 
 class Category: Hashable, Equatable {
     
-    init(name: String, products: [Product], isExpanded: Bool = true, typeOFCell: TypeOfCell ) {
+    init(name: String, products: [Product], cost: Double? = nil, isVisibleCost: Bool = false, isExpanded: Bool = true, typeOFCell: TypeOfCell) {
         self.name = name
         self.isExpanded = isExpanded
         self.products = products
         self.typeOFCell = typeOFCell
+        self.cost = cost
+        self.isVisibleCost = isVisibleCost
     }
     var name: String
     var isExpanded: Bool = true
     var products: [Product]
     var typeOFCell: TypeOfCell
+    var cost: Double?
+    var isVisibleCost: Bool = false
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
     }
     
     static func == (lhs: Category, rhs: Category) -> Bool {
-        return lhs.name == rhs.name 
+        return lhs.name == rhs.name && lhs.cost == rhs.cost && lhs.isVisibleCost == rhs.isVisibleCost
     }
 }
 
@@ -284,6 +294,7 @@ enum TypeOfCell {
     case sortedByRecipe
     case sortedByUser
     case normal
+    case displayCostSwitch
 }
 
 enum PictureMatchingState: Int16, Codable {

@@ -149,6 +149,7 @@ class CoreDataManager {
         object.sharedListId = list.sharedId
         object.isSharedListOwner = list.isSharedListOwner
         object.isShowImage = list.isShowImage.rawValue
+        object.isVisibleCost = list.isVisibleCost
         try? context.save()
     }
     
@@ -176,6 +177,7 @@ class CoreDataManager {
             object.isShared = list.isShared
             object.sharedListId = list.sharedId
             object.isShowImage = list.isShowImage.rawValue
+            object.isVisibleCost = list.isVisibleCost
         }
         try? context.save()
     }

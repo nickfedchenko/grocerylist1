@@ -27,6 +27,7 @@ extension DBGroceryListModel {
     @NSManaged public var isShared: Bool
     @NSManaged public var isSharedListOwner: Bool
     @NSManaged public var isShowImage: Int16
+    @NSManaged public var isVisibleCost: Bool
 
     static func prepare(fromPlainModel model: GroceryListsModel, context: NSManagedObjectContext) -> DBGroceryListModel {
         let object = DBGroceryListModel(context: context)
@@ -40,6 +41,7 @@ extension DBGroceryListModel {
         object.sharedListId = model.sharedId
         object.isSharedListOwner = model.isSharedListOwner
         object.isShowImage = model.isShowImage.rawValue
+        object.isVisibleCost = model.isVisibleCost
         return object
     }
 }

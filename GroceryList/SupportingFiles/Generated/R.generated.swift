@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 218 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 221 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -331,6 +331,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var dinner: RswiftResources.StringResource { .init(key: "Dinner", tableName: "Localizable", source: source, developmentValue: "Dinner", comment: nil) }
+
+      /// en translation: Display cost and store
+      ///
+      /// Key: Display cost and store
+      ///
+      /// Locales: en, ru, fr, de
+      var displayCostAndStore: RswiftResources.StringResource { .init(key: "Display cost and store", tableName: "Localizable", source: source, developmentValue: "Display cost and store", comment: nil) }
 
       /// en translation: Do you like the app? Tell us!
       ///
@@ -731,6 +738,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var purchased: RswiftResources.StringResource { .init(key: "Purchased", tableName: "Localizable", source: source, developmentValue: "Purchased", comment: nil) }
 
+      /// en translation: Purchased Cost: 
+      ///
+      /// Key: Purchased Cost: 
+      ///
+      /// Locales: en, ru, fr, de
+      var purchasedCost: RswiftResources.StringResource { .init(key: "Purchased Cost: ", tableName: "Localizable", source: source, developmentValue: "Purchased Cost: ", comment: nil) }
+
       /// en translation: Quantity (optional)
       ///
       /// Key: Quantity
@@ -1115,6 +1129,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var tea: RswiftResources.StringResource { .init(key: "Tea", tableName: "Localizable", source: source, developmentValue: "Tea and coffee", comment: nil) }
+
+      /// en translation: Total Cost: 
+      ///
+      /// Key: Total Cost: 
+      ///
+      /// Locales: en, ru, fr, de
+      var totalCost: RswiftResources.StringResource { .init(key: "Total Cost: ", tableName: "Localizable", source: source, developmentValue: "Total Cost: ", comment: nil) }
 
       /// en translation: Are you sure you want to permanently delete these tasks?
       ///
@@ -1616,7 +1637,7 @@ struct _R {
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 160 images.
+  /// This `_R.image` struct is generated, and contains static references to 161 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1655,6 +1676,9 @@ struct _R {
 
     /// Image `AppleImage`.
     var appleImage: RswiftResources.ImageResource { .init(name: "AppleImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Bank Card`.
+    var bankCard: RswiftResources.ImageResource { .init(name: "Bank Card", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Category`.
     var category: RswiftResources.ImageResource { .init(name: "Category", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

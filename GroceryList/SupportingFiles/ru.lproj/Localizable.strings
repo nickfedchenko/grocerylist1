@@ -68,6 +68,9 @@
 "Create a new store"        = "Создать новый магазин";
 "New Store"                 = "Новый магазин";
 "units"                     = "ед. изм.";
+"Display cost and store"    = "Включить цены и магазины";
+"Total Cost: "              = "Общая стоимость: ";
+"Purchased Cost: "          = "Стоимость покупки: ";
 
 "Alcohol"                   = "Алкоголь";
 "Grocery"                   = "Бакалея";

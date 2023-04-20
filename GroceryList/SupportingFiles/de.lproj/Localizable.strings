@@ -68,6 +68,9 @@
 "Create a new store"        = "Einen neuen Shop erstellen";
 "New Store"                 = "Neuer Laden";
 "units"                     = "Maßeinheit";
+"Display cost and store"    = "Kosten und Shop anzeigen";
+"Total Cost: "              = "Gesamtkosten: ";
+"Purchased Cost: "          = "Anschaffungskosten: ";
 
 "Alcohol"                   = "Alkohol";
 "Grocery"                   = "Lebensmittelgeschäft";

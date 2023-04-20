@@ -70,6 +70,9 @@
 "Create a new store"        = "Create a new store";
 "New Store"                 = "New Store";
 "units"                     = "units";
+"Display cost and store"    = "Display cost and store";
+"Total Cost: "              = "Total Cost: ";
+"Purchased Cost: "          = "Purchased Cost: ";
 
 "Alcohol"                   = "Alcohol";
 "Grocery"                   = "Grocery";
