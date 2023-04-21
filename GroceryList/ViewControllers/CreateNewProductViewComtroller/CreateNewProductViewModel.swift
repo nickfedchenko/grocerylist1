@@ -358,9 +358,13 @@ class CreateNewProductViewModel {
     
     /// отправка созданного продуктов на сервер (метод для аналитики)
     private func sendUserProduct(category: String, product: String) {
+        var isProductFromBase = false
+        var isCategoryFromBase = false
         var userToken = Apphud.userID()
         var productId: String?
         var categoryId: String?
+        var productType: String?
+        var productCategoryName: String?
         let product = product.trimmingCharacters(in: .whitespaces)
         
         if let user = UserAccountManager.shared.getUser() {
@@ -369,17 +373,29 @@ class CreateNewProductViewModel {
         
         if let product = networkBaseProducts?.first(where: { $0.title?.lowercased() == product.lowercased() }) {
             productId = "\(product.id)"
+            productType = getProductType(productTypeId: product.productTypeId)
+            productCategoryName = product.marketCategory
+            isProductFromBase = true
         }
         
         if let category = CoreDataManager.shared.getDefaultCategories()?.first(where: { category == $0.name }) {
             categoryId = "\(category.id)"
+            isCategoryFromBase = productCategoryName == category.name
+        }
+
+        guard !(isProductFromBase && isCategoryFromBase) else {
+            return
         }
         
         let userProduct = UserProduct(userToken: userToken,
-                                      itemId: productId,
-                                      itemTitle: product,
+                                      country: countryName(),
+                                      lang: Locale.current.languageCode,
+                                      modelType: productType,
+                                      modelId: productId,
+                                      modelTitle: product,
                                       categoryId: categoryId,
-                                      categoryTitle: category)
+                                      categoryTitle: category,
+                                      new: true)
         
         network.userProduct(userToken: userToken,
                             product: userProduct) { result in
@@ -387,6 +403,25 @@ class CreateNewProductViewModel {
             case .failure(let error):       print(error)
             case .success(let response):    print(response)
             }
+        }
+    }
+    
+    private func countryName() -> String? {
+        guard let countryCode = Locale.current.regionCode else {
+            return nil
+        }
+        if let name = (Locale.current as NSLocale).displayName(forKey: .countryCode, value: countryCode) {
+            return name
+        } else {
+            return countryCode
+        }
+    }
+    
+    private func getProductType(productTypeId: Int16) -> String {
+        switch productTypeId {
+        case -1:    return "item"
+        case 1:     return "product"
+        default: return "product"
         }
     }
     
