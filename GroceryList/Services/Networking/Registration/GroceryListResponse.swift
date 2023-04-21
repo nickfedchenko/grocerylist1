@@ -100,4 +100,6 @@ struct SharedProduct: Codable {
     var fromRecipeTitle: String?
     var isUserImage: Bool? = false
     var userToken: String?
+    var store: Store?
+    var cost: Double?
 }

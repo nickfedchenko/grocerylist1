@@ -10,6 +10,8 @@
 		3328AD86299CF40800187B57 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3328AD85299CF40800187B57 /* SharingView.swift */; };
 		333E2D2A29EEAE5700F705E7 /* CreateNewStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2929EEAE5700F705E7 /* CreateNewStoreViewController.swift */; };
 		333E2D2D29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2C29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift */; };
+		333E2D3029EFC2E000F705E7 /* DBStore+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2E29EFC2E000F705E7 /* DBStore+CoreDataClass.swift */; };
+		333E2D3129EFC2E000F705E7 /* DBStore+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2F29EFC2E000F705E7 /* DBStore+CoreDataProperties.swift */; };
 		334009EB29E98A0800A04978 /* NameOfProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009EA29E98A0800A04978 /* NameOfProductView.swift */; };
 		334009ED29E98AB800A04978 /* CreateNewProductButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009EC29E98AB700A04978 /* CreateNewProductButtonView.swift */; };
 		334009EF29E9950000A04978 /* StoreOfProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009EE29E9950000A04978 /* StoreOfProductView.swift */; };
@@ -258,6 +260,8 @@
 		3328AD85299CF40800187B57 /* SharingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingView.swift; sourceTree = "<group>"; };
 		333E2D2929EEAE5700F705E7 /* CreateNewStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewStoreViewController.swift; sourceTree = "<group>"; };
 		333E2D2C29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewStoreViewModel.swift; sourceTree = "<group>"; };
+		333E2D2E29EFC2E000F705E7 /* DBStore+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBStore+CoreDataClass.swift"; sourceTree = "<group>"; };
+		333E2D2F29EFC2E000F705E7 /* DBStore+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBStore+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		334009EA29E98A0800A04978 /* NameOfProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameOfProductView.swift; sourceTree = "<group>"; };
 		334009EC29E98AB700A04978 /* CreateNewProductButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProductButtonView.swift; sourceTree = "<group>"; };
 		334009EE29E9950000A04978 /* StoreOfProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreOfProductView.swift; sourceTree = "<group>"; };
@@ -942,6 +946,8 @@
 		B33DFD1E291A676400AC7403 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
+				333E2D2E29EFC2E000F705E7 /* DBStore+CoreDataClass.swift */,
+				333E2D2F29EFC2E000F705E7 /* DBStore+CoreDataProperties.swift */,
 				337E79D129E7ED3E00668578 /* DBNewNetProduct+CoreDataClass.swift */,
 				337E79D229E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift */,
 				3354818529D52E9C0097F528 /* DBNetCategory+CoreDataClass.swift */,
@@ -1852,6 +1858,7 @@
 				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
 				B35F0F632937975200C19891 /* MeashureManager.swift in Sources */,
 				B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */,
+				333E2D3129EFC2E000F705E7 /* DBStore+CoreDataProperties.swift in Sources */,
 				334BAE55299E700B005F52F5 /* Table+CollectionExtension.swift in Sources */,
 				B3693402291BA62F00AFFAA6 /* CreateNewListViewModel.swift in Sources */,
 				B3777E202938D8210074BE38 /* InternetConnection.swift in Sources */,
@@ -2017,6 +2024,7 @@
 				B315F9D72988FF270009CEB8 /* AlternativePaywallCell.swift in Sources */,
 				335519C429AE26CE00AD2B77 /* MainScreenMenuView.swift in Sources */,
 				38F49043294771A500529D1F /* InstructionView.swift in Sources */,
+				333E2D3029EFC2E000F705E7 /* DBStore+CoreDataClass.swift in Sources */,
 				B3AD42D72991135E0043A37F /* CurrentLocale.swift in Sources */,
 				844FC63B2978B825008173AA /* ReviewCell.swift in Sources */,
 				B30573BD29222D4500CA8BDE /* ProductListCell.swift in Sources */,

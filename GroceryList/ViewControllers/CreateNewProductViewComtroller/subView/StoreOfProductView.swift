@@ -15,21 +15,21 @@ protocol StoreOfProductViewDelegate: AnyObject {
 final class StoreOfProductView: CreateNewProductButtonView {
     
     weak var delegate: StoreOfProductViewDelegate?
-    var storeTitle: String? {
-        let title = longView.titleTextField.text
-        return title == R.string.localizable.store() ? nil : title
+    var store: Store? {
+        currentStore
     }
     var cost: Double? {
         let currencySymbol = currency.trimmingCharacters(in: .whitespacesAndNewlines)
         var cost = shortView.titleTextField.text?.replacingOccurrences(of: currencySymbol, with: "") ?? ""
+        cost = cost.trimmingCharacters(in: .whitespacesAndNewlines)
         let costValue = cost.asDouble
         return cost == R.string.localizable.cost() ? nil : costValue
     }
     
-    var stores: [String] = [] {
+    var stores: [Store] = [] {
         didSet {
-            stores.insert(R.string.localizable.anyStore(), at: 0)
-            stores.append("")
+            stores.insert(Store(title: R.string.localizable.anyStore()), at: 0)
+            stores.append(Store(title: ""))
             storeTableView.reloadData()
         }
     }
@@ -50,6 +50,7 @@ final class StoreOfProductView: CreateNewProductButtonView {
         return tableview
     }()
     
+    private var currentStore: Store?
     private var currency = ""
     private var storeTableViewHeight: Int {
         stores.count * 40 > 280 ? 280 : stores.count * 40
@@ -101,11 +102,12 @@ final class StoreOfProductView: CreateNewProductButtonView {
         
     }
     
-    func setStore(name: String) {
-        longView.titleTextField.text = name
+    func setStore(store: Store) {
+        longView.titleTextField.text = store.title
         longView.shadowViews.forEach {
             $0.layer.shadowOpacity = 0
         }
+        currentStore = store
     }
     
     func setCost(value: String) {
@@ -171,6 +173,9 @@ final class StoreOfProductView: CreateNewProductButtonView {
     }
     
     private func hideTableView(isHide: Bool, cell: UITableViewCell? = nil) {
+        if !isHide {
+            storeTableView.reloadData()
+        }
         storeBackgroundView.snp.updateConstraints { $0.height.equalTo(isHide ? 0 : 700) }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             cell?.isSelected = false
@@ -201,8 +206,9 @@ extension StoreOfProductView: UITableViewDataSource {
             cell.setupNewStore(color: activeColor)
             return cell
         }
-        let title = stores[indexPath.row]
+        let title = stores[indexPath.row].title
         cell.setupCell(title: title, isSelected: false, color: activeColor)
+        cell.isSelected = currentStore == stores[indexPath.row]
         return cell
     }
 }
@@ -210,8 +216,11 @@ extension StoreOfProductView: UITableViewDataSource {
 extension StoreOfProductView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = storeTableView.cellForRow(at: indexPath)
+        let store = stores[indexPath.row]
+        currentStore = store
         if indexPath.row != 0 || indexPath.row != stores.count - 1 {
             cell?.isSelected = true
+            storeTableView.reloadData()
         }
         
         if indexPath.row == stores.count - 1 {
@@ -222,8 +231,7 @@ extension StoreOfProductView: UITableViewDelegate {
         
         hideTableView(isHide: true, cell: cell)
         longView.shadowViews.forEach { $0.layer.shadowOpacity = 0 }
-        let store = stores[indexPath.row]
-        updateStore(store: store)
+        updateStore(store: store.title)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

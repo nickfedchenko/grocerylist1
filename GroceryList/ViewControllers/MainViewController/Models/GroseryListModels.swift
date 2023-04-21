@@ -151,7 +151,7 @@ struct Product: Hashable, Equatable, Codable {
     var unitId: UnitSystem?
     var isUserImage: Bool? = false
     var userToken: String?
-    var store: String?
+    var store: Store?
     var cost: Double?
     
     func hash(into hasher: inout Hasher) {
@@ -182,8 +182,8 @@ struct Product: Hashable, Equatable, Codable {
         unitId = UnitSystem(rawValue: Int(dbProduct.unitId))
         isUserImage = dbProduct.isUserImage
         userToken = dbProduct.userToken
-//        store = dbProduct.store
-//        cost = dbProduct.cost
+        store = (try? JSONDecoder().decode(Store.self, from: dbProduct.store ?? Data()))
+        cost = dbProduct.cost == -1 ? nil : dbProduct.cost
     }
     
     init(id: UUID = UUID(), listId: UUID = UUID(),
@@ -193,7 +193,7 @@ struct Product: Hashable, Equatable, Codable {
          imageData: Data? = nil, description: String,
          fromRecipeTitle: String? = nil,
          unitId: UnitSystem? = nil, isUserImage: Bool? = false,
-         userToken: String? = nil, store: String? = nil, cost: Double? = nil) {
+         userToken: String? = nil, store: Store? = nil, cost: Double? = nil) {
         self.id = id
         self.listId = listId
         self.name = name
@@ -238,16 +238,19 @@ class Category: Hashable, Equatable {
 struct Store: Hashable, Equatable, Codable {
     var id: UUID
     var title: String
+    var createdAt: Date
     
     init(title: String) {
         self.id = UUID()
+        self.createdAt = Date()
         self.title = title
     }
     
-//    init?(from dbStore: DBStore) {
-//        id = dbStore.id ?? UUID()
-//        title = dbStore.title ?? ""
-//    }
+    init?(from dbStore: DBStore) {
+        id = dbStore.id ?? UUID()
+        title = dbStore.title ?? ""
+        createdAt = dbStore.createdAt ?? Date()
+    }
 }
 
 enum CellType {
