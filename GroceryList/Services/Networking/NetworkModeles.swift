@@ -228,10 +228,14 @@ struct MarketUnitClass: Codable {
 
 struct UserProduct: Codable {
     let userToken: String
-    let itemId: String?
-    let itemTitle: String
+    let country: String?
+    let lang: String?
+    let modelType: String?
+    let modelId: String?
+    let modelTitle: String
     let categoryId: String?
     let categoryTitle: String
+    let new: Bool
 }
 
 struct UserProductResponse: Codable {
