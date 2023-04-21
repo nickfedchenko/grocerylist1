@@ -258,6 +258,7 @@ extension SettingsViewController {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.setToRecipients(["ksennn.vasko0222@yandex.ru"])
+            mail.setSubject("Version \(Bundle.main.appVersionLong)(\(Bundle.main.appBuild))")
             mail.setMessageBody("<p>Hey! I have some questions!</p>", isHTML: true)
             present(mail, animated: true)
         } else {

@@ -38,6 +38,9 @@ class MainScreenTopCell: UICollectionViewCell {
         sortButton.snp.updateConstraints {
             $0.width.height.equalTo(mode == .recipes ? 40 : 0)
         }
+        menuButton.snp.updateConstraints {
+            $0.width.height.equalTo(mode == .recipes ? 40 : 0)
+        }
     }
     
     func setupUser(photo: UIImage?, name: String?) {
@@ -148,7 +151,7 @@ class MainScreenTopCell: UICollectionViewCell {
         menuButton.snp.makeConstraints { make in
             make.trailing.equalTo(searchButton.snp.leading).inset(-8)
             make.centerY.equalTo(settingsButton)
-            make.width.height.equalTo(40)
+            make.width.height.equalTo(0)
         }
         
         sortButton.snp.makeConstraints { make in
@@ -178,6 +181,9 @@ extension MainScreenTopCell: CustomSegmentedControlViewDelegate {
         }
         delegate?.modeChanged(to: selectedSegmentIndex == 0 ? .lists : .recipes)
         sortButton.snp.updateConstraints {
+            $0.width.height.equalTo(selectedSegmentIndex == 0 ? 40 : 0)
+        }
+        menuButton.snp.updateConstraints {
             $0.width.height.equalTo(selectedSegmentIndex == 0 ? 40 : 0)
         }
     }

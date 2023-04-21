@@ -57,7 +57,7 @@ class MainScreenViewController: UIViewController {
     private let bottomCreateListView = AddListView()
     private let activityView = ActivityIndicatorView()
     private let contextMenu = MainScreenMenuView()
-    private var menuTapRecognizer = UITapGestureRecognizer()
+    private let contextMenuBackgroundView = UIView()
     private var initAnalytic = false
     
     // MARK: - Lifecycle
@@ -172,7 +172,7 @@ class MainScreenViewController: UIViewController {
     
     private func setupContextMenu() {
         contextMenu.isHidden = true
-        menuTapRecognizer.isEnabled = false
+        contextMenuBackgroundView.isHidden = true
         contextMenu.selectedState = { [weak self] state in
             self?.contextMenu.fadeOut {
                 switch state {
@@ -204,7 +204,8 @@ class MainScreenViewController: UIViewController {
     // MARK: - UI
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
-        view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView, contextMenu, activityView])
+        view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView,
+                        activityView, contextMenuBackgroundView, contextMenu])
         collectionView.addSubview(foodImage)
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(10)
@@ -231,6 +232,10 @@ class MainScreenViewController: UIViewController {
             make.left.right.equalToSuperview().inset(20)
             make.height.equalTo(400)
             make.centerX.equalToSuperview()
+        }
+        
+        contextMenuBackgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         
         contextMenu.snp.makeConstraints { make in
@@ -277,10 +282,6 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 let cell = self.collectionView.reusableCell(classCell: MainScreenTopCell.self, indexPath: indexPath)
                 cell.settingsTapped = { [weak self] in
                     self?.viewModel?.settingsTapped()
-                }
-                cell.contextMenuTapped = { [weak self] in
-                    self?.contextMenu.fadeIn()
-                    self?.menuTapRecognizer.isEnabled = true
                 }
                 cell.delegate = self
                 cell.configure(with: self.presentationMode)
@@ -374,8 +375,8 @@ extension MainScreenViewController {
         let firstRecognizer = UITapGestureRecognizer(target: self, action: #selector(createListAction))
         bottomCreateListView.addGestureRecognizer(firstRecognizer)
         
-        menuTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(menuTapAction))
-        self.view.addGestureRecognizer(menuTapRecognizer)
+        let menuTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(menuTapAction))
+        contextMenuBackgroundView.addGestureRecognizer(menuTapRecognizer)
     }
     
     @objc
@@ -387,7 +388,7 @@ extension MainScreenViewController {
     @objc
     private func menuTapAction() {
         contextMenu.fadeOut()
-        menuTapRecognizer.isEnabled = false
+        contextMenuBackgroundView.isHidden = true
     }
 }
 
@@ -410,7 +411,7 @@ extension MainScreenViewController: UICollectionViewDataSource {
             }
             topCell.contextMenuTapped = { [weak self] in
                 self?.contextMenu.fadeIn()
-                self?.menuTapRecognizer.isEnabled = true
+                self?.contextMenuBackgroundView.isHidden = false
             }
             topCell.sortCollectionTapped = { [weak self] in
                 self?.viewModel?.showCollection()
@@ -486,10 +487,10 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
         if mode == .recipes {
             AmplitudeManager.shared.logEvent(.recipeSection)
         }
-        guard Apphud.hasActiveSubscription() else {
-            showPaywall()
-            return
-        }
+//        guard Apphud.hasActiveSubscription() else {
+//            showPaywall()
+//            return
+//        }
         presentationMode = mode
         if mode == .lists {
             showListsCollection()
