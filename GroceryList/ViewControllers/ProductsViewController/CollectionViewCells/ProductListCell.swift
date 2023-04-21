@@ -64,6 +64,7 @@ class ProductListCell: UICollectionViewListCell {
         imageView.layer.cornerRadius = 8
         imageView.layer.masksToBounds = true
         imageView.isUserInteractionEnabled = true
+        imageView.backgroundColor = .white
         return imageView
     }()
     
@@ -112,6 +113,7 @@ class ProductListCell: UICollectionViewListCell {
         return view
     }()
     
+    private let costView = CostOfProductListView()
     private var state: CellState = .normal
     
     override init(frame: CGRect) {
@@ -128,12 +130,6 @@ class ProductListCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        let attrs = super.preferredLayoutAttributesFitting(layoutAttributes)
-        attrs.bounds.size.height = 56
-        return attrs
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         nameLabel.textColor = .black
@@ -144,6 +140,7 @@ class ProductListCell: UICollectionViewListCell {
         secondDescriptionLabel.textColor = .black
         viewWithDescription.isHidden = true
         whiteCheckmarkImage.image = R.image.whiteCheckmark()
+        secondDescriptionLabel.snp.updateConstraints { $0.bottom.equalToSuperview().inset(6) }
         clearTheCell()
     }
     
@@ -222,6 +219,19 @@ class ProductListCell: UICollectionViewListCell {
         
     }
     
+    func setupCost(isVisible: Bool, isAddNewLine: Bool, color: UIColor?, storeTitle: String?, costValue: Double?) {
+        costView.isHidden = !isVisible
+        guard isVisible else {
+            return
+        }
+        costView.configureColor(color ?? UIColor(hex: "#58B168"))
+        costView.configureStore(title: storeTitle)
+        costView.configureCost(value: costValue)
+        secondDescriptionLabel.snp.updateConstraints {
+            $0.bottom.equalToSuperview().inset(isAddNewLine ? 16 : 6)
+        }
+    }
+    
     func addCheckmark(color: UIColor?, compl: @escaping (() -> Void) ) {
         UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self = self else { return }
@@ -294,7 +304,7 @@ class ProductListCell: UICollectionViewListCell {
     private func setupConstraints() {
         contentView.addSubviews([leftButton, rightButton, shadowView, contentViews])
         contentViews.addSubviews([userImageView, nameLabel, checkmarkView, checkmarkImage, whiteCheckmarkImage,
-                                  imageView, viewWithDescription])
+                                  imageView, viewWithDescription, costView])
         viewWithDescription.addSubviews([firstDescriptionLabel, secondDescriptionLabel])
         
         shadowView.snp.makeConstraints { make in
@@ -303,7 +313,8 @@ class ProductListCell: UICollectionViewListCell {
         
         contentViews.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(16)
-            make.top.bottom.equalToSuperview().inset(4)
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview().inset(8)
         }
         
         viewWithDescription.snp.makeConstraints { make in
@@ -315,12 +326,13 @@ class ProductListCell: UICollectionViewListCell {
         
         firstDescriptionLabel.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.top.equalTo(checkmarkImage.snp.top)
+            make.top.equalToSuperview().offset(6)
             make.height.equalTo(17)
         }
         
         secondDescriptionLabel.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
+            make.top.equalTo(firstDescriptionLabel.snp.bottom)
+            make.left.equalToSuperview()
             make.bottom.equalToSuperview().inset(6)
             make.height.equalTo(17)
         }
@@ -344,7 +356,7 @@ class ProductListCell: UICollectionViewListCell {
         
         nameLabel.snp.makeConstraints { make in
             make.leading.equalTo(userImageView.snp.trailing).offset(8)
-            make.centerY.equalToSuperview()
+            make.centerY.equalTo(checkmarkView)
             make.right.equalToSuperview().inset(8)
         }
         
@@ -369,6 +381,12 @@ class ProductListCell: UICollectionViewListCell {
             make.right.equalToSuperview().inset(8)
             make.centerY.equalToSuperview()
             make.width.height.equalTo(40)
+        }
+        
+        costView.snp.makeConstraints { make in
+            make.right.equalToSuperview()
+            make.bottom.equalToSuperview().inset(-4)
+            make.height.equalTo(16)
         }
     }
 }

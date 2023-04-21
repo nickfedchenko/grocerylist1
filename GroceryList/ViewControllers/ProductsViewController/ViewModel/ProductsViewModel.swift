@@ -12,6 +12,7 @@ protocol ProductsViewModelDelegate: AnyObject {
     func updateController()
     func editProduct()
     func updateUIEditTab()
+    func scrollToNewProduct(indexPath: IndexPath)
 }
 
 class ProductsViewModel {
@@ -51,6 +52,14 @@ class ProductsViewModel {
         case .switchOn:     return true
         case .switchOff:    return false
         }
+    }
+    
+    var totalCost: Double? {
+        dataSource.getTotalCost()
+    }
+    
+    var isVisibleCost: Bool {
+        model.isVisibleCost
     }
     
     var isSelectedAllProductsForEditing: Bool {
@@ -135,8 +144,12 @@ class ProductsViewModel {
     
     func addNewProductTapped(_ product: Product? = nil) {
         router?.goCreateNewProductController(model: model, product: product, compl: { [weak self] product in
-            self?.dataSource.appendCopiedProducts(product: [product])
-            self?.updateList()
+            guard let self else {
+                return
+            }
+            self.dataSource.appendCopiedProducts(product: [product])
+            self.delegate?.scrollToNewProduct(indexPath: self.dataSource.getIndexPath(for: product))
+            self.updateList()
         })
     }
     
@@ -226,6 +239,12 @@ class ProductsViewModel {
         resetEditProducts()
         delegate?.updateUIEditTab()
         updateList()
+    }
+    
+    func updateCostVisible(_ isVisible: Bool) {
+        model.isVisibleCost = isVisible
+        CoreDataManager.shared.saveList(list: model)
+        dataSource.createDataSourceArray()
     }
     
     private func addObserver() {

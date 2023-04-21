@@ -12,6 +12,8 @@
 		333E2D2D29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2C29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift */; };
 		333E2D3029EFC2E000F705E7 /* DBStore+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2E29EFC2E000F705E7 /* DBStore+CoreDataClass.swift */; };
 		333E2D3129EFC2E000F705E7 /* DBStore+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2F29EFC2E000F705E7 /* DBStore+CoreDataProperties.swift */; };
+		333E2D3329F00CF100F705E7 /* CostOfProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D3229F00CF100F705E7 /* CostOfProductListView.swift */; };
+		333E2D3529F1226D00F705E7 /* DisplayCostListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D3429F1226D00F705E7 /* DisplayCostListCell.swift */; };
 		334009EB29E98A0800A04978 /* NameOfProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009EA29E98A0800A04978 /* NameOfProductView.swift */; };
 		334009ED29E98AB800A04978 /* CreateNewProductButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009EC29E98AB700A04978 /* CreateNewProductButtonView.swift */; };
 		334009EF29E9950000A04978 /* StoreOfProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009EE29E9950000A04978 /* StoreOfProductView.swift */; };
@@ -262,6 +264,8 @@
 		333E2D2C29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewStoreViewModel.swift; sourceTree = "<group>"; };
 		333E2D2E29EFC2E000F705E7 /* DBStore+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBStore+CoreDataClass.swift"; sourceTree = "<group>"; };
 		333E2D2F29EFC2E000F705E7 /* DBStore+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBStore+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		333E2D3229F00CF100F705E7 /* CostOfProductListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostOfProductListView.swift; sourceTree = "<group>"; };
+		333E2D3429F1226D00F705E7 /* DisplayCostListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayCostListCell.swift; sourceTree = "<group>"; };
 		334009EA29E98A0800A04978 /* NameOfProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameOfProductView.swift; sourceTree = "<group>"; };
 		334009EC29E98AB700A04978 /* CreateNewProductButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProductButtonView.swift; sourceTree = "<group>"; };
 		334009EE29E9950000A04978 /* StoreOfProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreOfProductView.swift; sourceTree = "<group>"; };
@@ -849,6 +853,8 @@
 			children = (
 				B30573BA29222BE700CA8BDE /* HeaderListCell.swift */,
 				B30573BC29222D4400CA8BDE /* ProductListCell.swift */,
+				333E2D3429F1226D00F705E7 /* DisplayCostListCell.swift */,
+				333E2D3229F00CF100F705E7 /* CostOfProductListView.swift */,
 			);
 			path = CollectionViewCells;
 			sourceTree = "<group>";
@@ -1834,6 +1840,7 @@
 				B34EAC9E2934EE0100FBD0E0 /* SelectCategoryDataSource.swift in Sources */,
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
 				B3FECE4429375AA80077F8EF /* DBCategories+CoreDataClass.swift in Sources */,
+				333E2D3329F00CF100F705E7 /* CostOfProductListView.swift in Sources */,
 				334BAE5B299E734A005F52F5 /* SendInvitationCell.swift in Sources */,
 				33D912BE29A342AA00C32117 /* NumberExtensions.swift in Sources */,
 				335519C729AF1AE600AD2B77 /* CreateNewRecipeStepOneViewController.swift in Sources */,
@@ -1982,6 +1989,7 @@
 				3380D1B429C2D1E500A57F25 /* AllRecipesCell.swift in Sources */,
 				3368FD6E29B700F300D97291 /* UUIDExtension.swift in Sources */,
 				337E79CE29E595F700668578 /* ViewWithOverriddenPoint.swift in Sources */,
+				333E2D3529F1226D00F705E7 /* DisplayCostListCell.swift in Sources */,
 				B32767CB29A6387100DD9D20 /* DomainModelsToLocalTransformer.swift in Sources */,
 				B36D18ED291A2CF4005EE32D /* CoreDataManager.swift in Sources */,
 				337719AE29B1A669000791BD /* CreateNewRecipeViewWithButton.swift in Sources */,

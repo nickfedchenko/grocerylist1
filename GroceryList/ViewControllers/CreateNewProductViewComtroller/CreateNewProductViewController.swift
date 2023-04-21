@@ -35,7 +35,6 @@ class CreateNewProductViewController: UIViewController {
     private var isShowNewStoreView = false
     private var viewDidLayout = false
     private let inactiveColor = UIColor(hex: "#ACB4B4")
-    private var quantity: Double = 0
     private var unit: UnitSystem = .piece
     
     override func viewDidLoad() {
@@ -50,6 +49,15 @@ class CreateNewProductViewController: UIViewController {
             productView.productTextField.becomeFirstResponder()
             setupCurrentProduct()
             viewDidLayout.toggle()
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        let touch = touches.first
+        guard let location = touch?.location(in: self.contentView) else { return }
+        if !storeView.shortView.frame.contains(location) {
+            storeView.tappedOutsideCostView()
         }
     }
     
@@ -78,6 +86,9 @@ class CreateNewProductViewController: UIViewController {
         storeView.delegate = self
         quantityView.delegate = self
         
+        if let store = viewModel?.getDefaultStore() {
+            storeView.setStore(store: store)
+        }
         storeView.stores = viewModel?.stores ?? []
         quantityView.systemUnits = viewModel?.selectedUnitSystemArray ?? []
     }
@@ -134,6 +145,7 @@ class CreateNewProductViewController: UIViewController {
         if let cost = viewModel?.productCost {
             storeView.setCost(value: cost)
         }
+        viewModel?.setCostOfProductPerUnit()
     }
     
     private func updateCategory(isActive: Bool, categoryTitle: String) {
@@ -156,7 +168,7 @@ class CreateNewProductViewController: UIViewController {
                                description: productView.descriptionTitle ?? "",
                                image: productView.productImage,
                                isUserImage: isUserImage,
-                               store: storeView.store, cost: storeView.cost)
+                               store: storeView.store, quantity: quantityView.quantity)
         hidePanel()
     }
     
@@ -353,6 +365,14 @@ extension CreateNewProductViewController: StoreOfProductViewDelegate {
         isShowNewStoreView = true
         viewModel?.goToCreateNewStore()
     }
+    
+    func updateCost(_ cost: Double?) {
+        guard let cost, quantityView.quantity > 0 else {
+            viewModel?.costOfProductPerUnit = cost
+            return
+        }
+        viewModel?.costOfProductPerUnit = cost / quantityView.quantity
+    }
 }
 
 extension CreateNewProductViewController: QuantityOfProductViewDelegate {
@@ -361,8 +381,15 @@ extension CreateNewProductViewController: QuantityOfProductViewDelegate {
     }
     
     func updateQuantityValue(_ quantity: Double) {
-        self.quantity = quantity
         let quantityString = String(format: "%.\(quantity.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", quantity)
         productView.setQuantity(quantity > 0 ? "\(quantityString) \(unit.title)" : "")
+    }
+    
+    func tappedMinusPlusButtons(_ quantity: Double) {
+        guard let costOfProductPerUnit = viewModel?.costOfProductPerUnit else {
+            return
+        }
+        let cost = quantity * costOfProductPerUnit
+        storeView.setCost(value: "\(cost)")
     }
 }

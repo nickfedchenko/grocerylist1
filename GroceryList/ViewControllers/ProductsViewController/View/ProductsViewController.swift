@@ -103,6 +103,7 @@ class ProductsViewController: UIViewController {
         return label
     }()
     
+    private let totalCostLabel = UILabel()
     private let messageView = InfoMessageView()
     private let productImageView = ProductImageView()
     private let sharingView = SharingView()
@@ -151,6 +152,7 @@ class ProductsViewController: UIViewController {
         editTabBarView.delegate = self
         
         setupSharingView()
+        updateTotalCost(isVisible: viewModel?.isVisibleCost ?? false)
     }
     
     private func setupInfoMessage() {
@@ -200,6 +202,36 @@ class ProductsViewController: UIViewController {
                               viewState: .products,
                               color: viewModel.getColorForForeground(),
                               images: viewModel.getShareImages())
+    }
+    
+    private func updateTotalCost(isVisible: Bool) {
+        guard let viewModel else { return }
+        totalCostLabel.isHidden = !isVisible
+        totalCostLabel.snp.updateConstraints { $0.height.equalTo(isVisible ? 19 : 0) }
+        guard isVisible else { return }
+        
+        totalCostLabel.textAlignment = .right
+        let color = viewModel.getColorForForeground()
+        let title = R.string.localizable.totalCost()
+        let currency = (Locale.current.currencySymbol ?? "")
+        var cost = ""
+        if let totalCost = viewModel.totalCost {
+            cost = "\(totalCost)"
+        } else {
+            cost = "---"
+        }
+        
+        let titleFont = UIFont.SFPro.medium(size: 16).font ?? .systemFont(ofSize: 16)
+        let costFont = UIFont.SFPro.semibold(size: 16).font ?? .systemFont(ofSize: 16)
+        
+        let titleAttr = NSMutableAttributedString(string: title,
+                                                  attributes: [.font: titleFont,
+                                                               .foregroundColor: color])
+        let costAttr = NSAttributedString(string: cost + " " + currency,
+                                          attributes: [.font: costFont,
+                                                       .foregroundColor: color])
+        titleAttr.append(costAttr)
+        totalCostLabel.attributedText = titleAttr
     }
     
     deinit {
@@ -304,6 +336,16 @@ class ProductsViewController: UIViewController {
         viewModel?.sharingTapped()
     }
     
+    private func updateCost(isVisibleCost: Bool) {
+        viewModel?.updateCostVisible(isVisibleCost)
+        navigationView.snp.updateConstraints { $0.height.equalTo(84 + (isVisibleCost ? 19 : 0)) }
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+        updateTotalCost(isVisible: isVisibleCost)
+        reloadData()
+    }
+    
     // MARK: - CollectionView
     // swiftlint: disable function_body_length
     func setupCollectionView() {
@@ -312,40 +354,60 @@ class ProductsViewController: UIViewController {
         // MARK: Configure collection view
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         // MARK: Cell registration
         let headerCellRegistration = UICollectionView.CellRegistration<HeaderListCell, Category> { [weak self] (cell, _, parent) in
             
             let color = self?.viewModel?.getColorForForeground()
             let bcgColor = self?.viewModel?.getColorForBackground()
+            let isVisibleCost = self?.viewModel?.isVisibleCost ?? false
             cell.setupCell(text: parent.name, color: color, bcgColor: bcgColor,
                            isExpand: parent.isExpanded, typeOfCell: parent.typeOFCell)
+            cell.setupTotalCost(isVisible: isVisibleCost, color: color,
+                                purchasedCost: parent.cost, typeOfCell: parent.typeOFCell)
             if parent.typeOFCell == .sortedByUser {
                 cell.setupUserImage(image: self?.viewModel?.getUserImage(by: parent.name), color: color)
             }
         }
     
+        let displayCellRegistration = UICollectionView.CellRegistration<DisplayCostListCell, Category> { [weak self] (cell, _, _) in
+            
+            let color = self?.viewModel?.getColorForForeground()
+            let isVisibleCost = self?.viewModel?.isVisibleCost ?? false
+            cell.configureSwitch(isVisibleCost: isVisibleCost, tintColor: color)
+            cell.changedSwitchValue = { [weak self] switchValue in
+                self?.updateCost(isVisibleCost: switchValue)
+            }
+        }
+        
         let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { [weak self] (cell, _, child) in
             
+            let color = self?.viewModel?.getColorForForeground()
             let bcgColor = self?.viewModel?.getColorForBackground()
-            let textColor = self?.viewModel?.getColorForForeground()
+            let isVisibleCost = self?.viewModel?.isVisibleCost ?? false
             let image = child.imageData
             let description = child.description
             let isVisibleImageBySettings = self?.viewModel?.isVisibleImage ?? UserDefaultsManager.isShowImage
             let isUserImage = (child.isUserImage ?? false) ? true : isVisibleImageBySettings
             let isEditCell = self?.viewModel?.editProducts.contains(where: { $0.id == child.id }) ?? false
+            let storeTitle = child.store?.title ?? ""
+            let newLine = (description.count + storeTitle.count) > 30 && isVisibleCost
+            let productCost = self?.calculateCost(quantity: child.quantity, cost: child.cost)
             
             cell.setState(state: self?.cellState ?? .normal)
-            cell.setupCell(bcgColor: bcgColor, textColor: textColor, text: child.name,
+            cell.setupCell(bcgColor: bcgColor, textColor: color, text: child.name,
                            isPurchased: child.isPurchased, description: description,
                            isRecipe: child.fromRecipeTitle != nil)
             cell.setupImage(isVisible: isUserImage, image: image)
             cell.setupUserImage(image: self?.viewModel?.getUserImage(by: child.userToken, isPurchased: child.isPurchased))
             cell.updateEditCheckmark(isSelect: isEditCell)
+            cell.setupCost(isVisible: isVisibleCost, isAddNewLine: newLine, color: color,
+                           storeTitle: child.store?.title, costValue: productCost)
             // картинка
             if image != nil {
                 cell.tapImageAction = { [weak self] in
-                    self?.productImageView.configuration(product: child, textColor: textColor)
+                    self?.productImageView.configuration(product: child, textColor: color)
                     self?.viewModel?.selectedProduct = child
                     self?.productImageView.updateContentViewFrame(.init(x: cell.frame.maxX,
                                                                         y: cell.frame.minY))
@@ -372,9 +434,16 @@ class ProductsViewController: UIViewController {
         // MARK: Initialize data source
         dataSource = UICollectionViewDiffableDataSource<Section, DataItem>(collectionView: collectionView) { (collectionView, indexPath, listItem) ->
             UICollectionViewCell? in
-            
+                        
             switch listItem {
             case .parent(let parent):
+                if parent.typeOFCell == .displayCostSwitch {
+                    let cell = collectionView.dequeueConfiguredReusableCell(using: displayCellRegistration,
+                                                                            for: indexPath,
+                                                                            item: parent)
+                    return cell
+                }
+                
                 let cell = collectionView.dequeueConfiguredReusableCell(using: headerCellRegistration,
                                                                         for: indexPath,
                                                                         item: parent)
@@ -412,7 +481,9 @@ class ProductsViewController: UIViewController {
             }
         }
         self.dataSource.apply(sectionSnapshot, to: .main, animatingDifferences: true)
+        
         setupInfoMessage()
+        updateTotalCost(isVisible: viewModel.isVisibleCost)
     }
     
     private func makeSnapshot() -> UIImage? {
@@ -433,10 +504,25 @@ class ProductsViewController: UIViewController {
         return layout
     }
     
+    private func calculateCost(quantity: Double?, cost: Double?) -> Double? {
+        guard let cost else {
+            return nil
+        }
+        
+        if let quantity {
+            if quantity == 0 {
+                return cost
+            }
+            return quantity * cost
+        } else {
+            return cost
+        }
+    }
+    
     // MARK: - Constraints
     private func setupConstraints() {
         view.addSubviews([collectionView, navigationView, addItemView, productImageView, editView, editTabBarView])
-        navigationView.addSubviews([arrowBackButton, nameOfListLabel, contextMenuButton, sharingView, editCellButton])
+        navigationView.addSubviews([arrowBackButton, nameOfListLabel, contextMenuButton, sharingView, editCellButton, totalCostLabel])
         editView.addSubviews([cancelEditButton])
         addItemView.addSubviews([plusView, plusImage, addItemLabel])
         collectionView.addSubview(messageView)
@@ -465,7 +551,7 @@ class ProductsViewController: UIViewController {
         navigationView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             make.right.left.equalToSuperview()
-            make.height.equalTo(84)
+            make.height.equalTo(84 + 19)
         }
         
         arrowBackButton.snp.makeConstraints { make in
@@ -497,6 +583,13 @@ class ProductsViewController: UIViewController {
             make.trailing.equalTo(editCellButton.snp.leading).offset(-4)
             make.top.equalTo(contextMenuButton)
             make.height.equalTo(44)
+        }
+        
+        totalCostLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+            make.top.equalTo(nameOfListLabel.snp.bottom).offset(4)
+            make.height.equalTo(19)
         }
     }
     
@@ -652,6 +745,12 @@ extension ProductsViewController: ProductsViewModelDelegate {
     
     func updateUIEditTab() {
         editTabBarView.setCountSelectedItems(viewModel?.editProducts.count ?? 0)
+    }
+    
+    func scrollToNewProduct(indexPath: IndexPath) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            self.collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: true)
+        }
     }
 }
 

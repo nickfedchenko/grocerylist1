@@ -28,6 +28,7 @@ class ProductsDataManager {
     
     private(set) var editProducts: [Product] = []
     private var shouldSaveExpanding: Bool = false
+    private var isVisibleCost: Bool = false
     private var users: [User] = []
 
     init (products: [Product], typeOfSorting: SortingType,
@@ -97,10 +98,47 @@ class ProductsDataManager {
         editProducts = products
     }
     
+    func getTotalCost() -> Double? {
+        let products = dataSourceArray.flatMap { $0.products }
+        let cost = products.compactMap { calculateCost(quantity: $0.quantity, cost: $0.cost) }
+        guard !cost.isEmpty else {
+            return nil
+        }
+        return cost.reduce(0, +)
+    }
+    
+    func getPurchasedCost() -> Double? {
+        let cost = products.filter({ $0.isPurchased })
+                           .compactMap { calculateCost(quantity: $0.quantity, cost: $0.cost) }
+        guard !cost.isEmpty else {
+            return nil
+        }
+        return cost.reduce(0, +)
+    }
+    
     private func getProducts() -> [Product] {
         guard let domainList = CoreDataManager.shared.getList(list: groceryListId) else { return [] }
         let localList = DomainModelsToLocalTransformer().transformCoreDataModelToModel(domainList)
+        isVisibleCost = localList.isVisibleCost
         return localList.products
+    }
+    
+    func getIndexPath(for newProduct: Product) -> IndexPath {
+        var index = 0
+        for category in dataSourceArray {
+            if category.isExpanded {
+                for product in category.products {
+                    if product.id == newProduct.id {
+                        index += 1
+                        print(index)
+                        return IndexPath(row: index, section: 0)
+                    }
+                    index += 1
+                }
+            }
+            index += 1
+        }
+        return IndexPath(row: 0, section: 0)
     }
     
     // MARK: - Сортировка по алфавиту
@@ -134,9 +172,12 @@ class ProductsDataManager {
      
         // Все что куплено
         if products.contains(where: { $0.isPurchased }) {
-            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value, typeOFCell: .purchased) }))
+            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value,
+                                                                     cost: getPurchasedCost(), isVisibleCost: isVisibleCost,
+                                                                     typeOFCell: .purchased) }))
         }
         
+        newArray.append(Category(name: "", products: [], typeOFCell: .displayCostSwitch))
         saveExpanding(newArray: newArray)
     }
     
@@ -189,9 +230,12 @@ class ProductsDataManager {
  
         // Все что куплено
         if products.contains(where: { $0.isPurchased }) {
-            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value, typeOFCell: .purchased) }))
+            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value,
+                                                                     cost: getPurchasedCost(), isVisibleCost: isVisibleCost,
+                                                                     typeOFCell: .purchased) }))
         }
         
+        newArray.append(Category(name: "", products: [], typeOFCell: .displayCostSwitch))
         saveExpanding(newArray: newArray)
     }
     
@@ -242,9 +286,12 @@ class ProductsDataManager {
  
         // Все что куплено
         if products.contains(where: { $0.isPurchased }) {
-            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value, typeOFCell: .purchased) }))
+            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value,
+                                                                     cost: getPurchasedCost(), isVisibleCost: isVisibleCost,
+                                                                     typeOFCell: .purchased) }))
         }
         
+        newArray.append(Category(name: "", products: [], typeOFCell: .displayCostSwitch))
         saveExpanding(newArray: newArray)
     }
     
@@ -279,9 +326,12 @@ class ProductsDataManager {
         
         // Все что куплено
         if products.contains(where: { $0.isPurchased }) {
-            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value, typeOFCell: .purchased) }))
+            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value,
+                                                                     cost: getPurchasedCost(), isVisibleCost: isVisibleCost,
+                                                                     typeOFCell: .purchased) }))
         }
         
+        newArray.append(Category(name: "", products: [], typeOFCell: .displayCostSwitch))
         saveExpanding(newArray: newArray)
     }
     
@@ -333,9 +383,12 @@ class ProductsDataManager {
         }
         // Все что куплено
         if products.contains(where: { $0.isPurchased }) {
-            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value, typeOFCell: .purchased) }))
+            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value,
+                                                                     cost: getPurchasedCost(), isVisibleCost: isVisibleCost,
+                                                                     typeOFCell: .purchased) }))
         }
         
+        newArray.append(Category(name: "", products: [], typeOFCell: .displayCostSwitch))
         saveExpanding(newArray: newArray)
     }
     
@@ -375,5 +428,20 @@ class ProductsDataManager {
             return nil
         }
         return user.username ?? user.email
+    }
+    
+    private func calculateCost(quantity: Double?, cost: Double?) -> Double? {
+        guard let cost else {
+            return nil
+        }
+        
+        if let quantity {
+            if quantity == 0 {
+                return cost
+            }
+            return quantity * cost
+        } else {
+            return cost
+        }
     }
 }

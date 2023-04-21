@@ -28,6 +28,7 @@ class CreateNewProductViewModel {
     var currentSelectedUnit: UnitSystem = .gram
     var stores: [Store] = []
     var currentProduct: Product?
+    var costOfProductPerUnit: Double?
     
     private let network = NetworkEngine()
     private var colorManager = ColorManager()
@@ -38,6 +39,7 @@ class CreateNewProductViewModel {
     private var networkDishesProductTitles: [String] = []
     private var userProductTitles: [String] = []
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
+    private var defaultStore: Store?
     
     init() {
         networkBaseProducts = CoreDataManager.shared.getAllNetworkProducts()?
@@ -123,12 +125,16 @@ class CreateNewProductViewModel {
     }
     
     var productQuantityCount: Double? {
-        guard let stringArray = getProductDescriptionQuantity()?.components(separatedBy: .decimalDigits.inverted)
-                                                           .filter({ !$0.isEmpty }),
-              let lastCount = stringArray.first else {
-            return nil
+        guard let quantity = currentProduct?.quantity else {
+            guard let stringArray = getProductDescriptionQuantity()?.components(separatedBy: .decimalDigits.inverted)
+                                                               .filter({ !$0.isEmpty }),
+                  let lastCount = stringArray.first else {
+                return nil
+            }
+            return Double(lastCount)
         }
-        return Double(lastCount)
+        
+        return quantity
     }
     
     var productQuantityUnit: UnitSystem? {
@@ -185,8 +191,19 @@ class CreateNewProductViewModel {
         selectedUnitSystemArray[ind].title
     }
     
+    func getDefaultStore() -> Store? {
+        let modelStores = model?.products.compactMap({ $0.store })
+                                         .sorted(by: { $0.createdAt > $1.createdAt }) ?? []
+        defaultStore = modelStores.first
+        return defaultStore
+    }
+    
+    func setCostOfProductPerUnit() {
+        costOfProductPerUnit = currentProduct?.cost
+    }
+    
     func saveProduct(categoryName: String, productName: String, description: String,
-                     image: UIImage?, isUserImage: Bool, store: Store?, cost: Double?) {
+                     image: UIImage?, isUserImage: Bool, store: Store?, quantity: Double?) {
         guard let model else { return }
         var imageData: Data?
         if let image {
@@ -201,7 +218,8 @@ class CreateNewProductViewModel {
             currentProduct.description = description
             currentProduct.unitId = currentSelectedUnit
             currentProduct.store = store
-            currentProduct.cost = cost
+            currentProduct.cost = costOfProductPerUnit ?? -1
+            currentProduct.quantity = quantity == 0 ? nil : quantity
             product = currentProduct
         } else {
             product = Product(listId: model.id, name: productName,
@@ -209,7 +227,8 @@ class CreateNewProductViewModel {
                               category: categoryName, isFavorite: false,
                               imageData: imageData, description: description,
                               unitId: currentSelectedUnit, isUserImage: isUserImage,
-                              store: store, cost: cost)
+                              store: store, cost: costOfProductPerUnit ?? -1,
+                              quantity: quantity == 0 ? nil : quantity)
         }
         
         CoreDataManager.shared.createProduct(product: product)

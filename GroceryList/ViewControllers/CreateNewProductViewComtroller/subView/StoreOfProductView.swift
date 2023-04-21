@@ -10,6 +10,7 @@ import UIKit
 protocol StoreOfProductViewDelegate: AnyObject {
     func tappedNewStore()
     func isFirstResponderProductTextField(_ flag: Bool)
+    func updateCost(_ cost: Double?)
 }
 
 final class StoreOfProductView: CreateNewProductButtonView {
@@ -50,7 +51,9 @@ final class StoreOfProductView: CreateNewProductButtonView {
         return tableview
     }()
     
+    private var bgColor: UIColor?
     private var currentStore: Store?
+    private var isActiveCostView = false
     private var currency = ""
     private var storeTableViewHeight: Int {
         stores.count * 40 > 280 ? 280 : stores.count * 40
@@ -73,10 +76,12 @@ final class StoreOfProductView: CreateNewProductButtonView {
         
         shortView.titleTextField.delegate = self
         shortView.titleTextField.keyboardType = .decimalPad
+        shortView.titleTextField.addTarget(self, action: #selector(changedCostValue), for: .editingChanged)
     }
     
     override func setupColor(backgroundColor: UIColor, tintColor: UIColor) {
         super.setupColor(backgroundColor: backgroundColor, tintColor: tintColor)
+        bgColor = backgroundColor
         storeTableView.layer.borderColor = tintColor.cgColor
         storeTableView.layer.borderWidth = 1
     }
@@ -129,24 +134,37 @@ final class StoreOfProductView: CreateNewProductButtonView {
         }
     }
     
+    func tappedOutsideCostView() {
+        guard isActiveCostView else {
+            return
+        }
+        updateCost(isActive: false)
+    }
+    
     @objc
     private func tappedOnStoreBackgroundView() {
         hideTableView(isHide: true)
     }
     
+    @objc
+    private func changedCostValue() {
+        delegate?.updateCost(getCostString().asDouble)
+    }
+    
     private func updateCost(isActive: Bool) {
+        isActiveCostView = isActive
         shortView.shadowViews.forEach {
-            $0.backgroundColor = isActive ? .white : nil
+            $0.backgroundColor = isActive ? .white : bgColor
         }
         
         shortView.titleTextField.textColor = isActive ? .black : activeColor
         
         currency = ""
         currency = (Locale.current.currencySymbol ?? "") + (isActive ? " " : "")
-        let currencySymbol = currency.trimmingCharacters(in: .whitespacesAndNewlines)
-        var cost = shortView.titleTextField.text?.replacingOccurrences(of: currencySymbol, with: "") ?? ""
-        cost = cost.trimmingCharacters(in: .whitespacesAndNewlines)
-        
+        var cost = getCostString()
+        if !isActive {
+            cost = String(format: "%.2f", cost.asDouble ?? 0)
+        }
         if !isActive, cost.isEmpty {
             shortView.titleTextField.text = R.string.localizable.cost()
             shortView.shadowViews.forEach {
@@ -166,6 +184,18 @@ final class StoreOfProductView: CreateNewProductButtonView {
                 $0.layer.shadowOpacity = 0
             }
         }
+        
+        DispatchQueue.main.async {
+            let textField = self.shortView.titleTextField
+            let newPosition = textField.endOfDocument
+            textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)
+        }
+    }
+    
+    private func getCostString() -> String {
+        let currencySymbol = currency.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cost = shortView.titleTextField.text?.replacingOccurrences(of: currencySymbol, with: "") ?? ""
+        return cost.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     private func updateStore(store: String) {
@@ -219,7 +249,6 @@ extension StoreOfProductView: UITableViewDelegate {
         let store = stores[indexPath.row]
         currentStore = store
         if indexPath.row != 0 || indexPath.row != stores.count - 1 {
-            cell?.isSelected = true
             storeTableView.reloadData()
         }
         
@@ -247,8 +276,19 @@ extension StoreOfProductView: UITextFieldDelegate {
         }
         updateCost(isActive: true)
         delegate?.isFirstResponderProductTextField(false)
-        let newPosition = textField.endOfDocument
-        textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)
+    }
+    
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+        guard textField == shortView.titleTextField,
+              let text = textField.text else { return true }
+        let newLength = text.count + string.count - range.length
+        guard isActiveCostView else {
+            updateCost(isActive: true)
+            return newLength < 10
+        }
+        return newLength < 10
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {

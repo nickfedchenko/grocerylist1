@@ -72,6 +72,7 @@ class CoreDataManager {
             object.userToken = product.userToken
             object.store = try? JSONEncoder().encode(product.store)
             object.cost = product.cost ?? -1
+            object.quantity = product.quantity ?? -1
         }
         
         try? context.save()
@@ -149,6 +150,7 @@ class CoreDataManager {
         object.sharedListId = list.sharedId
         object.isSharedListOwner = list.isSharedListOwner
         object.isShowImage = list.isShowImage.rawValue
+        object.isVisibleCost = list.isVisibleCost
         try? context.save()
     }
     
@@ -176,6 +178,7 @@ class CoreDataManager {
             object.isShared = list.isShared
             object.sharedListId = list.sharedId
             object.isShowImage = list.isShowImage.rawValue
+            object.isVisibleCost = list.isVisibleCost
         }
         try? context.save()
     }
