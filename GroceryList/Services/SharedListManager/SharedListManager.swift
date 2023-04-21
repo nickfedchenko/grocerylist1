@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Kingfisher
 
 class SharedListManager {
 
@@ -241,6 +242,14 @@ class SharedListManager {
 
     private func appendToUsersDict(id: String, users: [User]) {
         sharedListsUsers[id] = users
+        DispatchQueue.main.async {
+            users.forEach {
+                if let stringUrl = $0.avatar,
+                   let url = URL(string: stringUrl) {
+                    KingfisherManager.shared.retrieveImage(with: url) { _ in }
+                }
+            }
+        }
     }
 
     /// трансформим временную модель в постоянную
