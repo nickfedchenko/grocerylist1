@@ -431,6 +431,10 @@ class ProductsDataManager {
     }
     
     private func calculateCost(quantity: Double?, cost: Double?) -> Double? {
+        guard quantity != 0 && cost != 0 else {
+            return nil
+        }
+        
         guard let cost else {
             return nil
         }

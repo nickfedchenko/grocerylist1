@@ -132,6 +132,7 @@ class SharedListManager {
 
     // MARK: - Delete grocery list
     func deleteGroceryList(listId: String) {
+        let listId = listId == "-1" ? "" : listId
         guard let user = UserAccountManager.shared.getUser() else { return }
         network.groceryListDelete(userToken: user.token,
                                               listId: listId) { result in

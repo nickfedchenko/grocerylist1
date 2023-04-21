@@ -35,6 +35,21 @@ struct FetchMyGroceryListsItems: Codable {
     enum CodingKeys: String, CodingKey {
         case groceryListId = "grocery_list_id", isOwner = "is_owner", createdAt = "created_at", groceryList = "grocery_list", users = "users"
     }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let listId = try container.decode(String.self, forKey: .groceryListId)
+        groceryListId = listId == "" ? "-1" : listId
+        isOwner = try container.decode(Bool.self, forKey: .isOwner)
+        createdAt = try container.decode(String.self, forKey: .createdAt)
+        users = try container.decode([User].self, forKey: .users)
+
+        if let groceryList = try? container.decode(SharedGroceryList.self, forKey: .groceryList) {
+            self.groceryList = groceryList
+        } else {
+            groceryList = SharedGroceryList()
+        }
+    }
 }
 
 struct GroceryList: Codable {
@@ -84,6 +99,20 @@ struct SharedGroceryList: Codable {
     var isShared: Bool? = false
     var isSharedListOwner: Bool
     var isShowImage: PictureMatchingState? = .nothing
+    
+    init() {
+        id = UUID()
+        dateOfCreation = 0
+        name = ""
+        color = 1
+        isFavorite = false
+        products = []
+        typeOfSorting = 0
+        sharedId = nil
+        isShared = false
+        isSharedListOwner = false
+        isShowImage = nil
+    }
 }
 
 struct SharedProduct: Codable {
