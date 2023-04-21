@@ -72,6 +72,7 @@ class CoreDataManager {
             object.userToken = product.userToken
             object.store = try? JSONEncoder().encode(product.store)
             object.cost = product.cost ?? -1
+            object.quantity = product.quantity ?? -1
         }
         
         try? context.save()

@@ -156,6 +156,7 @@ struct Product: Hashable, Equatable, Codable {
     var userToken: String?
     var store: Store?
     var cost: Double?
+    var quantity: Double?
     var isVisibleСost: Bool = false // не нужно сохранять в базу, нужно чтобы показать цену
     
     func hash(into hasher: inout Hasher) {
@@ -170,7 +171,8 @@ struct Product: Hashable, Equatable, Codable {
         lhs.description == rhs.description && lhs.imageData == rhs.imageData &&
         lhs.unitId == rhs.unitId && lhs.isUserImage == rhs.isUserImage &&
         lhs.userToken == rhs.userToken && lhs.store == rhs.store &&
-        lhs.cost == rhs.cost && lhs.isVisibleСost == rhs.isVisibleСost
+        lhs.cost == rhs.cost && lhs.quantity == rhs.quantity &&
+        lhs.isVisibleСost == rhs.isVisibleСost
     }
     
     init?(from dbProduct: DBProduct) {
@@ -190,6 +192,7 @@ struct Product: Hashable, Equatable, Codable {
         let storeFromDB = (try? JSONDecoder().decode(Store.self, from: dbProduct.store ?? Data()))
         store = storeFromDB?.title == "" ? nil : storeFromDB
         cost = dbProduct.cost == -1 ? nil : dbProduct.cost
+        quantity = dbProduct.quantity == -1 ? nil : dbProduct.quantity
     }
     
     init(id: UUID = UUID(), listId: UUID = UUID(),
@@ -199,7 +202,8 @@ struct Product: Hashable, Equatable, Codable {
          imageData: Data? = nil, description: String,
          fromRecipeTitle: String? = nil,
          unitId: UnitSystem? = nil, isUserImage: Bool? = false,
-         userToken: String? = nil, store: Store? = nil, cost: Double? = nil, isVisibleСost: Bool = false) {
+         userToken: String? = nil, store: Store? = nil, cost: Double? = nil,
+         quantity: Double? = nil, isVisibleСost: Bool = false) {
         self.id = id
         self.listId = listId
         self.name = name
@@ -216,6 +220,7 @@ struct Product: Hashable, Equatable, Codable {
         self.userToken = userToken
         self.store = store
         self.cost = cost
+        self.quantity = quantity
         self.isVisibleСost = isVisibleСost
     }
     
@@ -236,6 +241,7 @@ struct Product: Hashable, Equatable, Codable {
         case userToken
         case store
         case cost
+        case quantity
     }
     
     init(from decoder: Decoder) throws {
@@ -261,6 +267,12 @@ struct Product: Hashable, Equatable, Codable {
             cost = Double(costInt)
         } else if let costDouble = try? container.decode(Double.self, forKey: .cost) {
             cost = costDouble
+        }
+        
+        if let quantityInt = try? container.decode(Int.self, forKey: .quantity) {
+            quantity = Double(quantityInt)
+        } else if let quantityDouble = try? container.decode(Double.self, forKey: .quantity) {
+            quantity = quantityDouble
         }
     }
 }

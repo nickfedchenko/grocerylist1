@@ -393,6 +393,7 @@ class ProductsViewController: UIViewController {
             let isEditCell = self?.viewModel?.editProducts.contains(where: { $0.id == child.id }) ?? false
             let storeTitle = child.store?.title ?? ""
             let newLine = (description.count + storeTitle.count) > 30 && isVisibleCost
+            let productCost = self?.calculateCost(quantity: child.quantity, cost: child.cost)
             
             cell.setState(state: self?.cellState ?? .normal)
             cell.setupCell(bcgColor: bcgColor, textColor: color, text: child.name,
@@ -402,7 +403,7 @@ class ProductsViewController: UIViewController {
             cell.setupUserImage(image: self?.viewModel?.getUserImage(by: child.userToken, isPurchased: child.isPurchased))
             cell.updateEditCheckmark(isSelect: isEditCell)
             cell.setupCost(isVisible: isVisibleCost, isAddNewLine: newLine, color: color,
-                           storeTitle: child.store?.title, costValue: child.cost)
+                           storeTitle: child.store?.title, costValue: productCost)
             // картинка
             if image != nil {
                 cell.tapImageAction = { [weak self] in
@@ -501,6 +502,21 @@ class ProductsViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout.list(using: layoutConfig)
         layout.collectionView?.backgroundColor = .white
         return layout
+    }
+    
+    private func calculateCost(quantity: Double?, cost: Double?) -> Double? {
+        guard let cost else {
+            return nil
+        }
+        
+        if let quantity {
+            if quantity == 0 {
+                return cost
+            }
+            return quantity * cost
+        } else {
+            return cost
+        }
     }
     
     // MARK: - Constraints

@@ -32,6 +32,7 @@ extension DBProduct {
     @NSManaged public var userToken: String?
     @NSManaged public var cost: Double
     @NSManaged public var store: Data?
+    @NSManaged public var quantity: Double
     
     static func prepare(fromPlainModel model: Product, context: NSManagedObjectContext) -> DBProduct {
         let dbProduct = DBProduct(context: context)
@@ -50,6 +51,7 @@ extension DBProduct {
         dbProduct.userToken = model.userToken
         dbProduct.store = try? JSONEncoder().encode(model.store) 
         dbProduct.cost = model.cost ?? -1
+        dbProduct.quantity = model.quantity ?? -1
         return dbProduct
     }
 }

@@ -100,7 +100,7 @@ class ProductsDataManager {
     
     func getTotalCost() -> Double? {
         let products = dataSourceArray.flatMap { $0.products }
-        let cost = products.compactMap { $0.cost }
+        let cost = products.compactMap { calculateCost(quantity: $0.quantity, cost: $0.cost) }
         guard !cost.isEmpty else {
             return nil
         }
@@ -108,7 +108,8 @@ class ProductsDataManager {
     }
     
     func getPurchasedCost() -> Double? {
-        let cost = products.filter({ $0.isPurchased }).compactMap { $0.cost }
+        let cost = products.filter({ $0.isPurchased })
+                           .compactMap { calculateCost(quantity: $0.quantity, cost: $0.cost) }
         guard !cost.isEmpty else {
             return nil
         }
@@ -427,5 +428,20 @@ class ProductsDataManager {
             return nil
         }
         return user.username ?? user.email
+    }
+    
+    private func calculateCost(quantity: Double?, cost: Double?) -> Double? {
+        guard let cost else {
+            return nil
+        }
+        
+        if let quantity {
+            if quantity == 0 {
+                return cost
+            }
+            return quantity * cost
+        } else {
+            return cost
+        }
     }
 }

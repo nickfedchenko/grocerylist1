@@ -10,6 +10,7 @@ import UIKit
 protocol StoreOfProductViewDelegate: AnyObject {
     func tappedNewStore()
     func isFirstResponderProductTextField(_ flag: Bool)
+    func updateCost(_ cost: Double?)
 }
 
 final class StoreOfProductView: CreateNewProductButtonView {
@@ -75,6 +76,7 @@ final class StoreOfProductView: CreateNewProductButtonView {
         
         shortView.titleTextField.delegate = self
         shortView.titleTextField.keyboardType = .decimalPad
+        shortView.titleTextField.addTarget(self, action: #selector(changedCostValue), for: .editingChanged)
     }
     
     override func setupColor(backgroundColor: UIColor, tintColor: UIColor) {
@@ -144,6 +146,11 @@ final class StoreOfProductView: CreateNewProductButtonView {
         hideTableView(isHide: true)
     }
     
+    @objc
+    private func changedCostValue() {
+        delegate?.updateCost(getCostString().asDouble)
+    }
+    
     private func updateCost(isActive: Bool) {
         isActiveCostView = isActive
         shortView.shadowViews.forEach {
@@ -154,9 +161,7 @@ final class StoreOfProductView: CreateNewProductButtonView {
         
         currency = ""
         currency = (Locale.current.currencySymbol ?? "") + (isActive ? " " : "")
-        let currencySymbol = currency.trimmingCharacters(in: .whitespacesAndNewlines)
-        var cost = shortView.titleTextField.text?.replacingOccurrences(of: currencySymbol, with: "") ?? ""
-        cost = cost.trimmingCharacters(in: .whitespacesAndNewlines)
+        var cost = getCostString()
         if !isActive {
             cost = String(format: "%.2f", cost.asDouble ?? 0)
         }
@@ -185,6 +190,12 @@ final class StoreOfProductView: CreateNewProductButtonView {
             let newPosition = textField.endOfDocument
             textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)
         }
+    }
+    
+    private func getCostString() -> String {
+        let currencySymbol = currency.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cost = shortView.titleTextField.text?.replacingOccurrences(of: currencySymbol, with: "") ?? ""
+        return cost.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     private func updateStore(store: String) {

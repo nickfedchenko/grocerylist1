@@ -272,9 +272,11 @@ class SharedListManager {
         let dateOfProductCreation = Date(timeIntervalSinceReferenceDate: sharedProduct.dateOfCreation)
         var userToken = sharedProduct.userToken ?? "0"
         var cost = -1.0
+        var quantity = -1.0
         var store: Store? = Store(title: "")
         if let product = CoreDataManager.shared.getProduct(id: sharedProduct.id) {
             cost = product.cost
+            quantity = product.quantity
             store = (try? JSONDecoder().decode(Store.self, from: product.store ?? Data()))
             if let token = product.userToken {
                 userToken = token
@@ -295,6 +297,7 @@ class SharedListManager {
                        isUserImage: sharedProduct.isUserImage,
                        userToken: userToken,
                        store: sharedProduct.store ?? store,
-                       cost: sharedProduct.cost ?? cost)
+                       cost: sharedProduct.cost ?? cost,
+                       quantity: sharedProduct.quantity ?? quantity)
     }
 }

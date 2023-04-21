@@ -11,6 +11,7 @@ protocol QuantityOfProductViewDelegate: AnyObject {
     func unitSelected(_ unit: UnitSystem)
     func updateQuantityValue(_ quantity: Double)
     func isFirstResponderProductTextField(_ flag: Bool)
+    func tappedMinusPlusButtons(_ quantity: Double)
 }
 
 final class QuantityOfProductView: CreateNewProductButtonView {
@@ -53,7 +54,7 @@ final class QuantityOfProductView: CreateNewProductButtonView {
     }()
     
     private var bgColor: UIColor = .clear
-    private var quantity: Double = 0 {
+    private(set) var quantity: Double = 0 {
         didSet {
             longView.titleTextField.text = getDecimalString(quantity)
             delegate?.updateQuantityValue(quantity)
@@ -87,6 +88,7 @@ final class QuantityOfProductView: CreateNewProductButtonView {
         longView.isTitleEnableUserInteraction(true)
         longView.titleTextField.keyboardType = .decimalPad
         longView.titleTextField.delegate = self
+        longView.titleTextField.addTarget(self, action: #selector(changedQuantityValue), for: .editingChanged)
         
         let tapOnUnitsBackgroundView = UITapGestureRecognizer(target: self, action: #selector(tappedOnUnitsBackgroundView))
         unitsBackgroundView.addGestureRecognizer(tapOnUnitsBackgroundView)
@@ -173,6 +175,7 @@ final class QuantityOfProductView: CreateNewProductButtonView {
         quantity += quantityValueStep
         updateQuantityButtons(isActive: true)
         updateUnit(isActive: true)
+        delegate?.tappedMinusPlusButtons(quantity)
     }
 
     @objc
@@ -183,15 +186,25 @@ final class QuantityOfProductView: CreateNewProductButtonView {
             quantity = 0
             updateQuantityButtons(isActive: false)
             updateUnit(isActive: false)
+            delegate?.tappedMinusPlusButtons(quantity)
             return
         }
         quantity -= quantityValueStep
         updateQuantityButtons(isActive: true)
+        delegate?.tappedMinusPlusButtons(quantity)
     }
     
     @objc
     private func tappedOnUnitsBackgroundView() {
         hideTableView(isHide: true)
+    }
+    
+    @objc
+    private func changedQuantityValue() {
+        guard let newQuantity = longView.titleTextField.text?.asDouble else {
+            return
+        }
+        quantity = newQuantity
     }
     
     private func updateQuantityButtons(isActive: Bool) {
