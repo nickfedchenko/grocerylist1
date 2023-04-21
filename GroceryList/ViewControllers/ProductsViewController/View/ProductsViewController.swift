@@ -730,6 +730,12 @@ extension ProductsViewController: ProductsViewModelDelegate {
     func updateUIEditTab() {
         editTabBarView.setCountSelectedItems(viewModel?.editProducts.count ?? 0)
     }
+    
+    func scrollToNewProduct(indexPath: IndexPath) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            self.collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: true)
+        }
+    }
 }
 
 extension ProductsViewController {

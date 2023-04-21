@@ -12,6 +12,7 @@ protocol ProductsViewModelDelegate: AnyObject {
     func updateController()
     func editProduct()
     func updateUIEditTab()
+    func scrollToNewProduct(indexPath: IndexPath)
 }
 
 class ProductsViewModel {
@@ -143,8 +144,12 @@ class ProductsViewModel {
     
     func addNewProductTapped(_ product: Product? = nil) {
         router?.goCreateNewProductController(model: model, product: product, compl: { [weak self] product in
-            self?.dataSource.appendCopiedProducts(product: [product])
-            self?.updateList()
+            guard let self else {
+                return
+            }
+            self.dataSource.appendCopiedProducts(product: [product])
+            self.delegate?.scrollToNewProduct(indexPath: self.dataSource.getIndexPath(for: product))
+            self.updateList()
         })
     }
     

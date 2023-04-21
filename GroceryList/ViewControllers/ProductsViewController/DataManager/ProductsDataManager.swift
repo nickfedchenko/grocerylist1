@@ -122,6 +122,24 @@ class ProductsDataManager {
         return localList.products
     }
     
+    func getIndexPath(for newProduct: Product) -> IndexPath {
+        var index = 0
+        for category in dataSourceArray {
+            if category.isExpanded {
+                for product in category.products {
+                    if product.id == newProduct.id {
+                        index += 1
+                        print(index)
+                        return IndexPath(row: index, section: 0)
+                    }
+                    index += 1
+                }
+            }
+            index += 1
+        }
+        return IndexPath(row: 0, section: 0)
+    }
+    
     // MARK: - Сортировка по алфавиту
     private func createArraySortedByAlphabet() {
         let products = products.sorted(by: { $0.name < $1.name })

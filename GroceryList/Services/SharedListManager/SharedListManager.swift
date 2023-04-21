@@ -78,7 +78,9 @@ class SharedListManager {
     // MARK: - отписка от списка
     func saveListFromSocket(response: SocketResponse) {
         var list = transform(sharedList: response.groceryList)
+        let dbList = CoreDataManager.shared.getList(list: list.id.uuidString)
         list.sharedId = response.groceryList.sharedId ?? ""
+        list.isVisibleCost = dbList?.isVisibleCost ?? false
         removeProductsIfNeeded(list: list)
         
         CoreDataManager.shared.saveList(list: list)
@@ -215,10 +217,12 @@ class SharedListManager {
             appendToUsersDict(id: sharedModel.groceryListId, users: sharedModel.users)
             let sharedList = sharedModel.groceryList
             var localList = transform(sharedList: sharedList)
+            let dbList = CoreDataManager.shared.getList(list: localList.id.uuidString)
             localList.isShared = true
             localList.sharedId = sharedModel.groceryListId
             localList.isSharedListOwner = sharedModel.isOwner
             localList.isShowImage = sharedList.isShowImage ?? .nothing
+            localList.isVisibleCost = dbList?.isVisibleCost ?? false
             arrayOfLists.append(localList)
         }
 
@@ -231,7 +235,7 @@ class SharedListManager {
             }
         }
         UserDefaultsManager.coldStartState = 2
-        
+
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
 
@@ -267,9 +271,14 @@ class SharedListManager {
     private func transform(sharedProduct: SharedProduct) -> Product {
         let dateOfProductCreation = Date(timeIntervalSinceReferenceDate: sharedProduct.dateOfCreation)
         var userToken = sharedProduct.userToken ?? "0"
-        if let product = CoreDataManager.shared.getProduct(id: sharedProduct.id),
-           let token = product.userToken {
-            userToken = token
+        var cost = -1.0
+        var store: Store? = Store(title: "")
+        if let product = CoreDataManager.shared.getProduct(id: sharedProduct.id) {
+            cost = product.cost
+            store = (try? JSONDecoder().decode(Store.self, from: product.store ?? Data()))
+            if let token = product.userToken {
+                userToken = token
+            }
         }
         
         return Product(id: sharedProduct.id,
@@ -285,7 +294,7 @@ class SharedListManager {
                        fromRecipeTitle: sharedProduct.fromRecipeTitle,
                        isUserImage: sharedProduct.isUserImage,
                        userToken: userToken,
-                       store: sharedProduct.store,
-                       cost: sharedProduct.cost)
+                       store: sharedProduct.store ?? store,
+                       cost: sharedProduct.cost ?? cost)
     }
 }

@@ -53,6 +53,15 @@ class CreateNewProductViewController: UIViewController {
         }
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        let touch = touches.first
+        guard let location = touch?.location(in: self.contentView) else { return }
+        if !storeView.shortView.frame.contains(location) {
+            storeView.tappedOutsideCostView()
+        }
+    }
+    
     private func setup() {
         let tapOnView = UITapGestureRecognizer(target: self, action: #selector(tappedOnView))
         tapOnView.delegate = self
@@ -78,6 +87,9 @@ class CreateNewProductViewController: UIViewController {
         storeView.delegate = self
         quantityView.delegate = self
         
+        if let store = viewModel?.getDefaultStore() {
+            storeView.setStore(store: store)
+        }
         storeView.stores = viewModel?.stores ?? []
         quantityView.systemUnits = viewModel?.selectedUnitSystemArray ?? []
     }

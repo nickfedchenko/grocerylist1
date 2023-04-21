@@ -38,6 +38,7 @@ class CreateNewProductViewModel {
     private var networkDishesProductTitles: [String] = []
     private var userProductTitles: [String] = []
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
+    private var defaultStore: Store?
     
     init() {
         networkBaseProducts = CoreDataManager.shared.getAllNetworkProducts()?
@@ -185,6 +186,13 @@ class CreateNewProductViewModel {
         selectedUnitSystemArray[ind].title
     }
     
+    func getDefaultStore() -> Store? {
+        let modelStores = model?.products.compactMap({ $0.store })
+                                         .sorted(by: { $0.createdAt > $1.createdAt }) ?? []
+        defaultStore = modelStores.first
+        return defaultStore
+    }
+    
     func saveProduct(categoryName: String, productName: String, description: String,
                      image: UIImage?, isUserImage: Bool, store: Store?, cost: Double?) {
         guard let model else { return }
@@ -201,7 +209,7 @@ class CreateNewProductViewModel {
             currentProduct.description = description
             currentProduct.unitId = currentSelectedUnit
             currentProduct.store = store
-            currentProduct.cost = cost
+            currentProduct.cost = cost ?? -1
             product = currentProduct
         } else {
             product = Product(listId: model.id, name: productName,
@@ -209,7 +217,7 @@ class CreateNewProductViewModel {
                               category: categoryName, isFavorite: false,
                               imageData: imageData, description: description,
                               unitId: currentSelectedUnit, isUserImage: isUserImage,
-                              store: store, cost: cost)
+                              store: store, cost: cost ?? -1)
         }
         
         CoreDataManager.shared.createProduct(product: product)

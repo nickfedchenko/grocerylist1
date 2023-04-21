@@ -64,6 +64,7 @@ class ProductListCell: UICollectionViewListCell {
         imageView.layer.cornerRadius = 8
         imageView.layer.masksToBounds = true
         imageView.isUserInteractionEnabled = true
+        imageView.backgroundColor = .white
         return imageView
     }()
     

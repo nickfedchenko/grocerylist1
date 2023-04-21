@@ -306,7 +306,17 @@ extension QuantityOfProductView: UITextFieldDelegate {
         if textField == longView.titleTextField,
             let quantity = textField.text?.asDouble {
             delegate?.updateQuantityValue(quantity)
+        } else {
+            delegate?.updateQuantityValue(0)
         }
+    }
+    
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+        guard let text = longView.titleTextField.text else { return true }
+        let newLength = text.count + string.count - range.length
+        return newLength < 6
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
