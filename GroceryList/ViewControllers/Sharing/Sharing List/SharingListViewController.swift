@@ -146,7 +146,9 @@ final class SharingListViewController: UIViewController {
             activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop,
                                                 UIActivity.ActivityType.addToReadingList]
 
-            self.present(activityVC, animated: true, completion: nil)
+            self.present(activityVC, animated: true) {
+                self.viewModel?.showCustomReview()
+            }
         }
     }
     

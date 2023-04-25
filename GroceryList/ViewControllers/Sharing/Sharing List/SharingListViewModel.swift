@@ -46,6 +46,10 @@ final class SharingListViewModel {
         }
     }
     
+    func showCustomReview() {
+        router?.goReviewController()
+    }
+    
     func getSection() -> Int {
         return sharedFriendsIsEmpty ? 2 : 3
     }
