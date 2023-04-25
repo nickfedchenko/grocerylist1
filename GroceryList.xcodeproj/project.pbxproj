@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		3328AD86299CF40800187B57 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3328AD85299CF40800187B57 /* SharingView.swift */; };
+		333E2D2A29EEAE5700F705E7 /* CreateNewStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2929EEAE5700F705E7 /* CreateNewStoreViewController.swift */; };
+		333E2D2D29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2C29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift */; };
+		333E2D3029EFC2E000F705E7 /* DBStore+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2E29EFC2E000F705E7 /* DBStore+CoreDataClass.swift */; };
+		333E2D3129EFC2E000F705E7 /* DBStore+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2F29EFC2E000F705E7 /* DBStore+CoreDataProperties.swift */; };
+		333E2D3329F00CF100F705E7 /* CostOfProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D3229F00CF100F705E7 /* CostOfProductListView.swift */; };
+		333E2D3529F1226D00F705E7 /* DisplayCostListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D3429F1226D00F705E7 /* DisplayCostListCell.swift */; };
+		334009EB29E98A0800A04978 /* NameOfProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009EA29E98A0800A04978 /* NameOfProductView.swift */; };
+		334009ED29E98AB800A04978 /* CreateNewProductButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009EC29E98AB700A04978 /* CreateNewProductButtonView.swift */; };
+		334009EF29E9950000A04978 /* StoreOfProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009EE29E9950000A04978 /* StoreOfProductView.swift */; };
+		334009F129E9956800A04978 /* QuantityOfProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009F029E9956800A04978 /* QuantityOfProductView.swift */; };
 		334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */; };
 		334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */; };
 		334BAE53299E6606005F52F5 /* SharingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE52299E6606005F52F5 /* SharingListViewModel.swift */; };
@@ -35,6 +45,7 @@
 		3368FD6E29B700F300D97291 /* UUIDExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD6D29B700F300D97291 /* UUIDExtension.swift */; };
 		3368FD7929B7348100D97291 /* DBCollection+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD7729B7348100D97291 /* DBCollection+CoreDataClass.swift */; };
 		3368FD7A29B7348100D97291 /* DBCollection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD7829B7348100D97291 /* DBCollection+CoreDataProperties.swift */; };
+		336A112729F2D1F4008CFF33 /* BundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336A112629F2D1F4008CFF33 /* BundleExtension.swift */; };
 		337719AA29B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719A929B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift */; };
 		337719AC29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719AB29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift */; };
 		337719AE29B1A669000791BD /* CreateNewRecipeViewWithButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719AD29B1A669000791BD /* CreateNewRecipeViewWithButton.swift */; };
@@ -55,6 +66,7 @@
 		337E79D029E6C23900668578 /* SF-Compact-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 337E79CF29E6C23900668578 /* SF-Compact-Display-Medium.otf */; };
 		337E79D329E7ED3E00668578 /* DBNewNetProduct+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79D129E7ED3E00668578 /* DBNewNetProduct+CoreDataClass.swift */; };
 		337E79D429E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79D229E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift */; };
+		337E79D629E974A500668578 /* CreateNewProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79D529E974A500668578 /* CreateNewProductViewController.swift */; };
 		3380D1B429C2D1E500A57F25 /* AllRecipesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3380D1B329C2D1E500A57F25 /* AllRecipesCell.swift */; };
 		33897D1329C87F11009C6932 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33897D1229C87F11009C6932 /* GoogleService-Info.plist */; };
 		338EB6B429C1BACC00D6A03F /* SearchInRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */; };
@@ -224,7 +236,6 @@
 		B3C3FA4F291175390011EC0A /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C3FA4E291175390011EC0A /* UIImageViewExtension.swift */; };
 		B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C3FA50291261870011EC0A /* UIScreenExtension.swift */; };
 		B3D20456292F6C0600599A01 /* SelectProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D20455292F6C0600599A01 /* SelectProductCell.swift */; };
-		B3D2045B2930F00A00599A01 /* CreateNewProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D2045A2930F00A00599A01 /* CreateNewProductViewController.swift */; };
 		B3D2045D2930F49C00599A01 /* CreateNewProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D2045C2930F49B00599A01 /* CreateNewProductViewModel.swift */; };
 		B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D858472939D45000CCE230 /* PaywallViewController.swift */; };
 		B3D8584A293A1A2A00CCE230 /* PaywallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D85849293A1A2A00CCE230 /* PaywallCell.swift */; };
@@ -250,6 +261,16 @@
 		025222570B015E69FF5973D3 /* Pods_GroceryList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GroceryList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		262EB22BC930A385DC81E51C /* Pods-GroceryList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroceryList.release.xcconfig"; path = "Target Support Files/Pods-GroceryList/Pods-GroceryList.release.xcconfig"; sourceTree = "<group>"; };
 		3328AD85299CF40800187B57 /* SharingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingView.swift; sourceTree = "<group>"; };
+		333E2D2929EEAE5700F705E7 /* CreateNewStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewStoreViewController.swift; sourceTree = "<group>"; };
+		333E2D2C29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewStoreViewModel.swift; sourceTree = "<group>"; };
+		333E2D2E29EFC2E000F705E7 /* DBStore+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBStore+CoreDataClass.swift"; sourceTree = "<group>"; };
+		333E2D2F29EFC2E000F705E7 /* DBStore+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBStore+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		333E2D3229F00CF100F705E7 /* CostOfProductListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostOfProductListView.swift; sourceTree = "<group>"; };
+		333E2D3429F1226D00F705E7 /* DisplayCostListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayCostListCell.swift; sourceTree = "<group>"; };
+		334009EA29E98A0800A04978 /* NameOfProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameOfProductView.swift; sourceTree = "<group>"; };
+		334009EC29E98AB700A04978 /* CreateNewProductButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProductButtonView.swift; sourceTree = "<group>"; };
+		334009EE29E9950000A04978 /* StoreOfProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreOfProductView.swift; sourceTree = "<group>"; };
+		334009F029E9956800A04978 /* QuantityOfProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityOfProductView.swift; sourceTree = "<group>"; };
 		334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingPopUpViewController.swift; sourceTree = "<group>"; };
 		334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewController.swift; sourceTree = "<group>"; };
 		334BAE52299E6606005F52F5 /* SharingListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewModel.swift; sourceTree = "<group>"; };
@@ -277,6 +298,7 @@
 		3368FD6D29B700F300D97291 /* UUIDExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDExtension.swift; sourceTree = "<group>"; };
 		3368FD7729B7348100D97291 /* DBCollection+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBCollection+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3368FD7829B7348100D97291 /* DBCollection+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBCollection+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		336A112629F2D1F4008CFF33 /* BundleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtension.swift; sourceTree = "<group>"; };
 		337719A929B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeStepTwoViewController.swift; sourceTree = "<group>"; };
 		337719AB29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeStepTwoViewModel.swift; sourceTree = "<group>"; };
 		337719AD29B1A669000791BD /* CreateNewRecipeViewWithButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeViewWithButton.swift; sourceTree = "<group>"; };
@@ -297,6 +319,7 @@
 		337E79CF29E6C23900668578 /* SF-Compact-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Display-Medium.otf"; sourceTree = "<group>"; };
 		337E79D129E7ED3E00668578 /* DBNewNetProduct+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBNewNetProduct+CoreDataClass.swift"; sourceTree = "<group>"; };
 		337E79D229E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBNewNetProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		337E79D529E974A500668578 /* CreateNewProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProductViewController.swift; sourceTree = "<group>"; };
 		3380D1B329C2D1E500A57F25 /* AllRecipesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRecipesCell.swift; sourceTree = "<group>"; };
 		33897D1229C87F11009C6932 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInRecipeViewController.swift; sourceTree = "<group>"; };
@@ -474,7 +497,6 @@
 		B3C3FA4E291175390011EC0A /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		B3C3FA50291261870011EC0A /* UIScreenExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScreenExtension.swift; sourceTree = "<group>"; };
 		B3D20455292F6C0600599A01 /* SelectProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProductCell.swift; sourceTree = "<group>"; };
-		B3D2045A2930F00A00599A01 /* CreateNewProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProductViewController.swift; sourceTree = "<group>"; };
 		B3D2045C2930F49B00599A01 /* CreateNewProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProductViewModel.swift; sourceTree = "<group>"; };
 		B3D858472939D45000CCE230 /* PaywallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewController.swift; sourceTree = "<group>"; };
 		B3D85849293A1A2A00CCE230 /* PaywallCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallCell.swift; sourceTree = "<group>"; };
@@ -510,6 +532,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		333E2D2B29EEAE7500F705E7 /* CreateNewStore */ = {
+			isa = PBXGroup;
+			children = (
+				333E2D2929EEAE5700F705E7 /* CreateNewStoreViewController.swift */,
+				333E2D2C29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift */,
+			);
+			path = CreateNewStore;
+			sourceTree = "<group>";
+		};
+		334009E929E9828600A04978 /* subView */ = {
+			isa = PBXGroup;
+			children = (
+				33E544A829C98C27008D84F8 /* PredictiveTextView.swift */,
+				334009EA29E98A0800A04978 /* NameOfProductView.swift */,
+				334009EC29E98AB700A04978 /* CreateNewProductButtonView.swift */,
+				334009EE29E9950000A04978 /* StoreOfProductView.swift */,
+				334009F029E9956800A04978 /* QuantityOfProductView.swift */,
+			);
+			path = subView;
+			sourceTree = "<group>";
+		};
 		334BAE4B299DF88F005F52F5 /* Sharing */ = {
 			isa = PBXGroup;
 			children = (
@@ -812,6 +855,8 @@
 			children = (
 				B30573BA29222BE700CA8BDE /* HeaderListCell.swift */,
 				B30573BC29222D4400CA8BDE /* ProductListCell.swift */,
+				333E2D3429F1226D00F705E7 /* DisplayCostListCell.swift */,
+				333E2D3229F00CF100F705E7 /* CostOfProductListView.swift */,
 			);
 			path = CollectionViewCells;
 			sourceTree = "<group>";
@@ -909,6 +954,8 @@
 		B33DFD1E291A676400AC7403 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
+				333E2D2E29EFC2E000F705E7 /* DBStore+CoreDataClass.swift */,
+				333E2D2F29EFC2E000F705E7 /* DBStore+CoreDataProperties.swift */,
 				337E79D129E7ED3E00668578 /* DBNewNetProduct+CoreDataClass.swift */,
 				337E79D229E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift */,
 				3354818529D52E9C0097F528 /* DBNetCategory+CoreDataClass.swift */,
@@ -1364,6 +1411,7 @@
 				B3D204592930EFC200599A01 /* CreateNewProductViewComtroller */,
 				B3B45E582934BFEA00D60E82 /* SelectCategoryViewController */,
 				B34EACA62935007400FBD0E0 /* CreateNewCategoryViewController */,
+				333E2D2B29EEAE7500F705E7 /* CreateNewStore */,
 				B3777E172938BE790074BE38 /* SettingsViewController */,
 				B381EF29299B904A00DCDE40 /* PasswordExpiredController */,
 				B3F7C9C529963EEA0081B245 /* PasswordResetViewController */,
@@ -1407,6 +1455,7 @@
 				3368FD6D29B700F300D97291 /* UUIDExtension.swift */,
 				334BAE54299E700B005F52F5 /* Table+CollectionExtension.swift */,
 				33F8254129C18FCE00B349D5 /* UIStackViewExtension.swift */,
+				336A112629F2D1F4008CFF33 /* BundleExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1513,11 +1562,11 @@
 		B3D204592930EFC200599A01 /* CreateNewProductViewComtroller */ = {
 			isa = PBXGroup;
 			children = (
-				B3D2045A2930F00A00599A01 /* CreateNewProductViewController.swift */,
+				337E79D529E974A500668578 /* CreateNewProductViewController.swift */,
 				B3D2045C2930F49B00599A01 /* CreateNewProductViewModel.swift */,
 				B35F0F5E293788AF00C19891 /* UnitsCell.swift */,
 				B35F0F602937972700C19891 /* UnitSystemModel.swift */,
-				33E544A829C98C27008D84F8 /* PredictiveTextView.swift */,
+				334009E929E9828600A04978 /* subView */,
 			);
 			path = CreateNewProductViewComtroller;
 			sourceTree = "<group>";
@@ -1787,16 +1836,19 @@
 				33F8253B29C0632700B349D5 /* SearchInListViewController.swift in Sources */,
 				B315F9DE2989339A0009CEB8 /* CheckmarkCompositionView.swift in Sources */,
 				B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */,
+				337E79D629E974A500668578 /* CreateNewProductViewController.swift in Sources */,
 				B347690B291D23800045A287 /* ProductsSettingsViewModel.swift in Sources */,
 				33E544AC29CA1122008D84F8 /* FeatureManager.swift in Sources */,
 				B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */,
 				B34EAC9E2934EE0100FBD0E0 /* SelectCategoryDataSource.swift in Sources */,
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
 				B3FECE4429375AA80077F8EF /* DBCategories+CoreDataClass.swift in Sources */,
+				333E2D3329F00CF100F705E7 /* CostOfProductListView.swift in Sources */,
 				334BAE5B299E734A005F52F5 /* SendInvitationCell.swift in Sources */,
 				33D912BE29A342AA00C32117 /* NumberExtensions.swift in Sources */,
 				335519C729AF1AE600AD2B77 /* CreateNewRecipeStepOneViewController.swift in Sources */,
 				B381EF1A299A08ED00DCDE40 /* SettingsProfileView.swift in Sources */,
+				334009F129E9956800A04978 /* QuantityOfProductView.swift in Sources */,
 				B3F7C9BA2994BF830081B245 /* SignUpViewForTyping.swift in Sources */,
 				33C8DB8529DFCE95009F4760 /* EditTabBarView.swift in Sources */,
 				383C77F3293F799E0030AE78 /* RecipesListViewController.swift in Sources */,
@@ -1816,6 +1868,7 @@
 				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
 				B35F0F632937975200C19891 /* MeashureManager.swift in Sources */,
 				B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */,
+				333E2D3129EFC2E000F705E7 /* DBStore+CoreDataProperties.swift in Sources */,
 				334BAE55299E700B005F52F5 /* Table+CollectionExtension.swift in Sources */,
 				B3693402291BA62F00AFFAA6 /* CreateNewListViewModel.swift in Sources */,
 				B3777E202938D8210074BE38 /* InternetConnection.swift in Sources */,
@@ -1887,7 +1940,6 @@
 				B30573BB29222BE700CA8BDE /* HeaderListCell.swift in Sources */,
 				3379B64E29B755E80080923A /* ShowCollectionViewController.swift in Sources */,
 				B37A2CE92911034D003C01AD /* UIViewControllerExtension.swift in Sources */,
-				B3D2045B2930F00A00599A01 /* CreateNewProductViewController.swift in Sources */,
 				B3F7C9BE29950D6D0081B245 /* SignUpWithAppleButton.swift in Sources */,
 				B3D8584C293A405E00CCE230 /* PaywallModel.swift in Sources */,
 				B3179EAB291E3DAE00455419 /* ProductsDataManager.swift in Sources */,
@@ -1905,13 +1957,16 @@
 				33F8254029C1648800B349D5 /* SearchInListProductView.swift in Sources */,
 				33D912C029A396A900C32117 /* MoreRecipeCell.swift in Sources */,
 				B34EACA42934F05800FBD0E0 /* CategoryModel.swift in Sources */,
+				334009EB29E98A0800A04978 /* NameOfProductView.swift in Sources */,
 				B3F7C9B629939E2D0081B245 /* SignUpViewModel.swift in Sources */,
 				B37A2CDF29110290003C01AD /* OnboardingViewController.swift in Sources */,
 				B3777E192938BEA80074BE38 /* SettingsViewController.swift in Sources */,
 				B315F9E12989373A0009CEB8 /* TryForFreeView.swift in Sources */,
 				B3F7C9B429939E0B0081B245 /* SignUpViewController.swift in Sources */,
+				333E2D2D29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift in Sources */,
 				B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */,
 				33F8253E29C0859D00B349D5 /* SearchInListCell.swift in Sources */,
+				334009EF29E9950000A04978 /* StoreOfProductView.swift in Sources */,
 				B381EF20299B5B1A00DCDE40 /* AccountViewController.swift in Sources */,
 				3354818729D52E9C0097F528 /* DBNetCategory+CoreDataClass.swift in Sources */,
 				B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */,
@@ -1937,6 +1992,7 @@
 				3380D1B429C2D1E500A57F25 /* AllRecipesCell.swift in Sources */,
 				3368FD6E29B700F300D97291 /* UUIDExtension.swift in Sources */,
 				337E79CE29E595F700668578 /* ViewWithOverriddenPoint.swift in Sources */,
+				333E2D3529F1226D00F705E7 /* DisplayCostListCell.swift in Sources */,
 				B32767CB29A6387100DD9D20 /* DomainModelsToLocalTransformer.swift in Sources */,
 				B36D18ED291A2CF4005EE32D /* CoreDataManager.swift in Sources */,
 				337719AE29B1A669000791BD /* CreateNewRecipeViewWithButton.swift in Sources */,
@@ -1953,6 +2009,7 @@
 				B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */,
 				334BAE59299E7333005F52F5 /* TitleCell.swift in Sources */,
 				B3C3FA4F291175390011EC0A /* UIImageViewExtension.swift in Sources */,
+				333E2D2A29EEAE5700F705E7 /* CreateNewStoreViewController.swift in Sources */,
 				3368FD6529B60CD000D97291 /* PreparationStepViewModel.swift in Sources */,
 				33F8254229C18FCE00B349D5 /* UIStackViewExtension.swift in Sources */,
 				3368FD6329B5F89C00D97291 /* PreparationStepViewController.swift in Sources */,
@@ -1973,15 +2030,18 @@
 				B36933F8291A97D900AFFAA6 /* MainScreenTopCell.swift in Sources */,
 				B34EAC9C2934E95E00FBD0E0 /* SelectCategoryCell.swift in Sources */,
 				B3F7C9C729963F0A0081B245 /* PasswordResetViewController.swift in Sources */,
+				336A112729F2D1F4008CFF33 /* BundleExtension.swift in Sources */,
 				B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */,
 				B3476909291D21730045A287 /* ProductsSettingsViewController.swift in Sources */,
 				B315F9D72988FF270009CEB8 /* AlternativePaywallCell.swift in Sources */,
 				335519C429AE26CE00AD2B77 /* MainScreenMenuView.swift in Sources */,
 				38F49043294771A500529D1F /* InstructionView.swift in Sources */,
+				333E2D3029EFC2E000F705E7 /* DBStore+CoreDataClass.swift in Sources */,
 				B3AD42D72991135E0043A37F /* CurrentLocale.swift in Sources */,
 				844FC63B2978B825008173AA /* ReviewCell.swift in Sources */,
 				B30573BD29222D4500CA8BDE /* ProductListCell.swift in Sources */,
 				B34EACAA293501E100FBD0E0 /* CreateNewCategoryViewModel.swift in Sources */,
+				334009ED29E98AB800A04978 /* CreateNewProductButtonView.swift in Sources */,
 				B36AF9392913C5DC00944E9D /* MainScreenViewController.swift in Sources */,
 				B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */,
 				386CFAC7299542BE00B4AD76 /* R.generated.swift in Sources */,

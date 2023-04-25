@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Kingfisher
 
 class SharedListManager {
 
@@ -78,7 +79,9 @@ class SharedListManager {
     // MARK: - отписка от списка
     func saveListFromSocket(response: SocketResponse) {
         var list = transform(sharedList: response.groceryList)
+        let dbList = CoreDataManager.shared.getList(list: list.id.uuidString)
         list.sharedId = response.groceryList.sharedId ?? ""
+        list.isVisibleCost = dbList?.isVisibleCost ?? false
         removeProductsIfNeeded(list: list)
         
         CoreDataManager.shared.saveList(list: list)
@@ -129,6 +132,7 @@ class SharedListManager {
 
     // MARK: - Delete grocery list
     func deleteGroceryList(listId: String) {
+        let listId = listId == "-1" ? "" : listId
         guard let user = UserAccountManager.shared.getUser() else { return }
         network.groceryListDelete(userToken: user.token,
                                               listId: listId) { result in
@@ -215,10 +219,12 @@ class SharedListManager {
             appendToUsersDict(id: sharedModel.groceryListId, users: sharedModel.users)
             let sharedList = sharedModel.groceryList
             var localList = transform(sharedList: sharedList)
+            let dbList = CoreDataManager.shared.getList(list: localList.id.uuidString)
             localList.isShared = true
             localList.sharedId = sharedModel.groceryListId
             localList.isSharedListOwner = sharedModel.isOwner
             localList.isShowImage = sharedList.isShowImage ?? .nothing
+            localList.isVisibleCost = dbList?.isVisibleCost ?? false
             arrayOfLists.append(localList)
         }
 
@@ -231,12 +237,20 @@ class SharedListManager {
             }
         }
         UserDefaultsManager.coldStartState = 2
-        
+
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
 
     private func appendToUsersDict(id: String, users: [User]) {
         sharedListsUsers[id] = users
+        DispatchQueue.main.async {
+            users.forEach {
+                if let stringUrl = $0.avatar,
+                   let url = URL(string: stringUrl) {
+                    KingfisherManager.shared.retrieveImage(with: url) { _ in }
+                }
+            }
+        }
     }
 
     /// трансформим временную модель в постоянную
@@ -267,9 +281,16 @@ class SharedListManager {
     private func transform(sharedProduct: SharedProduct) -> Product {
         let dateOfProductCreation = Date(timeIntervalSinceReferenceDate: sharedProduct.dateOfCreation)
         var userToken = sharedProduct.userToken ?? "0"
-        if let product = CoreDataManager.shared.getProduct(id: sharedProduct.id),
-           let token = product.userToken {
-            userToken = token
+        var cost = -1.0
+        var quantity = -1.0
+        var store: Store? = Store(title: "")
+        if let product = CoreDataManager.shared.getProduct(id: sharedProduct.id) {
+            cost = product.cost
+            quantity = product.quantity
+            store = (try? JSONDecoder().decode(Store.self, from: product.store ?? Data()))
+            if let token = product.userToken {
+                userToken = token
+            }
         }
         
         return Product(id: sharedProduct.id,
@@ -284,6 +305,9 @@ class SharedListManager {
                        description: sharedProduct.description ?? "",
                        fromRecipeTitle: sharedProduct.fromRecipeTitle,
                        isUserImage: sharedProduct.isUserImage,
-                       userToken: userToken)
+                       userToken: userToken,
+                       store: sharedProduct.store ?? store,
+                       cost: sharedProduct.cost ?? cost,
+                       quantity: sharedProduct.quantity ?? quantity)
     }
 }

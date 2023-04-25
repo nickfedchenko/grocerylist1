@@ -157,7 +157,7 @@ enum RequestGenerator: Codable {
         case .uploadAvatar:
             fatalError("use multiformRequestObject")
         case .userProduct:
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/item",
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/item2",
                                   method: .post) { _ in }
         }
     }
@@ -393,7 +393,7 @@ final class NetworkEngine {
                     
                 } else {
                     guard let dataModel = try? decoder.decode(T.self, from: data) else {
-                        data.printJSON()
+//                        data.printJSON()
                         print("\(T.self)")
                         print("errModel")
                         return
@@ -547,15 +547,8 @@ extension NetworkEngine: NetworkDataProvider {
     
     ///   товар, который пользователь добавляет в список
     func userProduct(userToken: String, product: UserProduct, completion: @escaping UserProductResult) {
-        let params = ["userToken": product.userToken,
-                      "itemId": product.itemId,
-                      "itemTitle": product.itemTitle,
-                      "categoryId": product.categoryId,
-                      "categoryTitle": product.categoryTitle
-        ]
-
         performDecodableRequestSend(request: .userProduct,
-                                    params: params,
+                                    params: product,
                                     completion: completion)
     }
 }

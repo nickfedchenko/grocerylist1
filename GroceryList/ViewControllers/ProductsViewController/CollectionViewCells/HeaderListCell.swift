@@ -11,115 +11,6 @@ import UIKit
 
 class HeaderListCell: UICollectionViewListCell {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupConstraints()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        pinchView.isHidden = true
-        checkmarkView.isHidden = false
-        coloredViewForSorting.isHidden = true
-        coloredView.backgroundColor = .clear
-        titleLabel.textColor = .white
-        collapsedColoredView.backgroundColor = .clear
-        userImageView.image = nil
-        userImageView.layer.borderColor = UIColor.clear.cgColor
-        collapsedColoredView.snp.updateConstraints {
-            $0.right.equalTo(titleLabel.snp.right).inset(-26)
-        }
-    }
-    
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        let attrs = super.preferredLayoutAttributesFitting(layoutAttributes)
-        attrs.bounds.size.height = 52
-        return attrs
-    }
-    
-    func collapsing(color: UIColor?, isPurchased: Bool) {
-        UIView.animate(withDuration: 0.5) {
-            self.checkmarkView.transform = CGAffineTransform(rotationAngle: .pi * 2)
-            self.checkmarkView.tintColor = .white
-            self.pinchView.tintColor = .white
-            if !isPurchased {
-                self.coloredView.backgroundColor = color
-            } else {
-                self.checkmarkView.tintColor = color
-            }
-        }
-    }
-    
-    func expanding(color: UIColor?, isPurchased: Bool) {
-        UIView.animate(withDuration: 0.5) {
-            self.checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
-            self.checkmarkView.tintColor = color
-            self.pinchView.tintColor = color
-            if !isPurchased {
-                self.coloredView.backgroundColor = .clear
-            }
-        }
-    }
-    
-    func setupCell(text: String?, color: UIColor?, bcgColor: UIColor?, isExpand: Bool, typeOfCell: TypeOfCell) {
-        switch typeOfCell {
-        case .favorite:
-            titleLabel.text = ""
-            pinchView.isHidden = false
-            pinchView.tintColor = color
-            if !isExpand { coloredView.backgroundColor = color }
-        case .purchased:
-            coloredView.backgroundColor = .white
-            titleLabel.textColor = color
-            titleLabel.text = text
-            collapsedColoredView.backgroundColor = .clear
-        case .sortedByAlphabet:
-            checkmarkView.isHidden = true
-            titleLabel.text = "AlphabeticalSorted".localized
-            coloredViewForSorting.backgroundColor = color
-            coloredViewForSorting.isHidden = false
-        case .normal, .sortedByRecipe, .sortedByDate, .sortedByUser:
-            titleLabel.text = text
-            collapsedColoredView.backgroundColor = color
-            if !isExpand {
-                coloredView.backgroundColor = color
-            }
-        }
-        
-        checkmarkView.tintColor = color
-        checkmarkView.transform = CGAffineTransform(rotationAngle: isExpand ? -.pi : .pi * 2)
-        
-        containerView.backgroundColor = bcgColor
-    }
-    
-    func setupUserImage(image: String?, color: UIColor?) {
-        guard Thread.isMainThread else {
-            DispatchQueue.main.async {
-                self.setupUserImage(image: image, color: color)
-            }
-            return
-        }
-        
-        guard let image else { return }
-        userImageView.isHidden = false
-        userImageView.layer.borderColor = color?.cgColor
-        collapsedColoredView.snp.updateConstraints { $0.right.equalTo(titleLabel.snp.right).inset(-44) }
-        guard let url = URL(string: image) else {
-            let image = R.image.profile_icon()
-            return userImageView.image = image
-        }
-        let size = CGSize(width: 30, height: 30)
-        userImageView.kf.setImage(with: url, placeholder: nil,
-                                  options: [.processor(DownsamplingImageProcessor(size: size)),
-                                            .scaleFactor(UIScreen.main.scale),
-                                            .cacheOriginalImage])
-        
-    }
-    
     private let containerView: UIView = {
         let view = UIView()
         return view
@@ -188,28 +79,183 @@ class HeaderListCell: UICollectionViewListCell {
         return imageView
     }()
     
+    private let purchasedCostLabel = UILabel()
+    private var purchasedCostHeight = 0
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.backgroundColor = .clear
+        self.contentView.backgroundColor = .clear
+        self.backgroundConfiguration = .clear()
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        pinchView.isHidden = true
+        checkmarkView.isHidden = false
+        coloredViewForSorting.isHidden = true
+        coloredView.backgroundColor = .clear
+        titleLabel.textColor = .white
+        collapsedColoredView.backgroundColor = .clear
+        userImageView.image = nil
+        userImageView.layer.borderColor = UIColor.clear.cgColor
+        collapsedColoredView.snp.updateConstraints {
+            $0.right.equalTo(titleLabel.snp.right).inset(-26)
+        }
+        purchasedCostLabel.isHidden = true
+        purchasedCostLabel.snp.updateConstraints {
+            $0.top.equalTo(coloredView.snp.bottom).offset(0)
+            $0.height.equalTo(0)
+        }
+    }
+    
+    func collapsing(color: UIColor?, isPurchased: Bool) {
+        UIView.animate(withDuration: 0.5) {
+            self.checkmarkView.transform = CGAffineTransform(rotationAngle: .pi * 2)
+            self.checkmarkView.tintColor = .white
+            self.pinchView.tintColor = .white
+            if !isPurchased {
+                self.coloredView.backgroundColor = color
+            } else {
+                self.checkmarkView.tintColor = color
+            }
+        }
+    }
+    
+    func expanding(color: UIColor?, isPurchased: Bool) {
+        UIView.animate(withDuration: 0.5) {
+            self.checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
+            self.checkmarkView.tintColor = color
+            self.pinchView.tintColor = color
+            if !isPurchased {
+                self.coloredView.backgroundColor = .clear
+            }
+        }
+    }
+    
+    func setupCell(text: String?, color: UIColor?, bcgColor: UIColor?, isExpand: Bool, typeOfCell: TypeOfCell) {
+        switch typeOfCell {
+        case .favorite:
+            titleLabel.text = ""
+            pinchView.isHidden = false
+            pinchView.tintColor = color
+            if !isExpand { coloredView.backgroundColor = color }
+        case .purchased:
+            coloredView.backgroundColor = .white
+            titleLabel.textColor = color
+            titleLabel.text = text
+            collapsedColoredView.backgroundColor = .clear
+        case .sortedByAlphabet:
+            checkmarkView.isHidden = true
+            titleLabel.text = "AlphabeticalSorted".localized
+            coloredViewForSorting.backgroundColor = color
+            coloredViewForSorting.isHidden = false
+        case .normal, .sortedByRecipe, .sortedByDate, .sortedByUser:
+            titleLabel.text = text
+            collapsedColoredView.backgroundColor = color
+            if !isExpand {
+                coloredView.backgroundColor = color
+            }
+        case .displayCostSwitch: return
+        }
+        
+        checkmarkView.tintColor = color
+        checkmarkView.transform = CGAffineTransform(rotationAngle: isExpand ? -.pi : .pi * 2)
+        containerView.backgroundColor = .clear
+    }
+    
+    func setupUserImage(image: String?, color: UIColor?) {
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async {
+                self.setupUserImage(image: image, color: color)
+            }
+            return
+        }
+        
+        guard let image else { return }
+        userImageView.isHidden = false
+        userImageView.layer.borderColor = color?.cgColor
+        collapsedColoredView.snp.updateConstraints { $0.right.equalTo(titleLabel.snp.right).inset(-44) }
+        guard let url = URL(string: image) else {
+            let image = R.image.profile_icon()
+            return userImageView.image = image
+        }
+        let size = CGSize(width: 30, height: 30)
+        userImageView.kf.setImage(with: url, placeholder: nil,
+                                  options: [.processor(DownsamplingImageProcessor(size: size)),
+                                            .scaleFactor(UIScreen.main.scale),
+                                            .cacheOriginalImage])
+        
+    }
+    
+    func setupTotalCost(isVisible: Bool, color: UIColor?, purchasedCost: Double?, typeOfCell: TypeOfCell) {
+        guard isVisible, typeOfCell == .purchased else {
+            purchasedCostLabel.isHidden = true
+            purchasedCostLabel.snp.updateConstraints {
+                $0.top.equalTo(coloredView.snp.bottom).offset(0)
+                $0.height.equalTo(0)
+            }
+            return
+        }
+        
+        let title = R.string.localizable.purchasedCost()
+        let currency = (Locale.current.currencySymbol ?? "")
+        var cost = ""
+        if let totalCost = purchasedCost {
+            cost = "\(totalCost)"
+        } else {
+            cost = "---"
+        }
+        
+        let titleFont = UIFont.SFPro.medium(size: 16).font ?? .systemFont(ofSize: 16)
+        let costFont = UIFont.SFPro.semibold(size: 16).font ?? .systemFont(ofSize: 16)
+        
+        let titleAttr = NSMutableAttributedString(string: title,
+                                                  attributes: [.font: titleFont,
+                                                               .foregroundColor: color ?? .black])
+        let costAttr = NSAttributedString(string: cost + " " + currency,
+                                          attributes: [.font: costFont,
+                                                       .foregroundColor: color ?? .black])
+        titleAttr.append(costAttr)
+        purchasedCostLabel.attributedText = titleAttr
+        purchasedCostLabel.textAlignment = .right
+        purchasedCostLabel.isHidden = false
+        purchasedCostLabel.snp.updateConstraints {
+            $0.top.equalTo(coloredView.snp.bottom).offset(8)
+            $0.height.equalTo(19)
+        }
+        purchasedCostHeight = 25
+    }
+    
     // MARK: - UI
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         contentView.addSubviews([containerView])
         containerView.addSubviews([coloredView, collapsedColoredView, coloredViewForSorting,
-                                   titleLabel, checkmarkView, pinchView, userImageView])
+                                   titleLabel, checkmarkView, pinchView, userImageView, purchasedCostLabel])
         coloredViewForSorting.addSubview(checkmarkForSorting)
         
         containerView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+            make.height.equalTo(56 + purchasedCostHeight).priority(999)
         }
         
         coloredView.snp.makeConstraints { make in
-            make.left.right.bottom.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.top.equalToSuperview().inset(8)
+            make.height.equalTo(40)
         }
         
         collapsedColoredView.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.right.equalTo(titleLabel.snp.right).inset(-26)
             make.height.equalTo(32)
-            make.bottom.equalToSuperview().inset(4)
+            make.bottom.equalTo(coloredView)
         }
         
         coloredViewForSorting.snp.makeConstraints { make in
@@ -248,6 +294,14 @@ class HeaderListCell: UICollectionViewListCell {
             make.centerY.equalTo(collapsedColoredView)
             make.trailing.equalTo(collapsedColoredView).offset(0)
             make.width.height.equalTo(32)
+        }
+        
+        purchasedCostLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+            make.top.equalTo(coloredView.snp.bottom).offset(8)
+            make.height.equalTo(19)
+            make.bottom.equalToSuperview().offset(-8)
         }
     }
 }

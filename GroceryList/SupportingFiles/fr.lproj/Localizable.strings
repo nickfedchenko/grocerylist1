@@ -62,6 +62,16 @@
 "Long press on an Item"     = "Appuyez longuement sur un élément, revient à l'édition";
 "Buy"                       = "Acheter";
 
+"Store"                     = "Stocker";
+"cost"                      = "coût";
+"Any store"                 = "Tout magasin";
+"Create a new store"        = "Créer un nouveau magasin";
+"New Store"                 = "Nouveau Magasin";
+"units"                     = "unité";
+"Display cost and store"    = "Afficher le coût et le magasin";
+"Total Cost: "              = "Coût total: ";
+"Purchased Cost: "          = "Coût d'achat: ";
+
 "Alcohol"                   = "alcool";
 "Grocery"                   = "épicerie";
 "ReadyFood"                 = "plat cuisiné";

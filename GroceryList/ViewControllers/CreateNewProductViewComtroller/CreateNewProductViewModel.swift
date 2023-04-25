@@ -13,8 +13,7 @@ import UIKit
 protocol CreateNewProductViewModelDelegate: AnyObject {
     func presentController(controller: UIViewController?)
     func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?)
-    func deselectCategory()
-    func setupController(step: Int)
+    func newStore(store: Store)
 }
 
 class CreateNewProductViewModel {
@@ -27,7 +26,9 @@ class CreateNewProductViewModel {
     
     var model: GroceryListsModel?
     var currentSelectedUnit: UnitSystem = .gram
+    var stores: [Store] = []
     var currentProduct: Product?
+    var costOfProductPerUnit: Double?
     
     private let network = NetworkEngine()
     private var colorManager = ColorManager()
@@ -38,6 +39,7 @@ class CreateNewProductViewModel {
     private var networkDishesProductTitles: [String] = []
     private var userProductTitles: [String] = []
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
+    private var defaultStore: Store?
     
     init() {
         networkBaseProducts = CoreDataManager.shared.getAllNetworkProducts()?
@@ -52,6 +54,10 @@ class CreateNewProductViewModel {
         networkBaseProductTitles = networkBaseProducts?.compactMap({ $0.title }) ?? []
         networkDishesProductTitles = networkDishesProducts?.compactMap({ $0.title }) ?? []
         userProductTitles = userProducts?.compactMap({ $0.name }) ?? []
+        
+        stores = CoreDataManager.shared.getAllStores()?
+            .sorted(by: { $0.createdAt ?? Date() > $1.createdAt ?? Date() })
+            .compactMap({ Store(from: $0) }) ?? []
     }
     
     var selectedUnitSystemArray: [UnitSystem] {
@@ -102,23 +108,37 @@ class CreateNewProductViewModel {
     }
     
     var userComment: String? {
-        guard let quantity = productDescriptionQuantity else {
+        guard let quantity = getProductDescriptionQuantity() else {
             return productDescription
         }
-        return productDescription?.replacingOccurrences(of: quantity, with: "")
+        var userComment = productDescription?.replacingOccurrences(of: quantity, with: "")
+        
+        if userComment?.last == "," {
+            userComment?.removeLast()
+        }
+        
+        if userComment?.first == "," {
+            userComment?.removeFirst()
+        }
+        
+        return userComment?.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     var productQuantityCount: Double? {
-        guard let stringArray = productDescriptionQuantity?.components(separatedBy: .decimalDigits.inverted)
-            .filter({ !$0.isEmpty }),
-              let lastCount = stringArray.first else {
-            return nil
+        guard let quantity = currentProduct?.quantity else {
+            guard let stringArray = getProductDescriptionQuantity()?.components(separatedBy: .decimalDigits.inverted)
+                                                               .filter({ !$0.isEmpty }),
+                  let lastCount = stringArray.first else {
+                return nil
+            }
+            return Double(lastCount)
         }
-        return Double(lastCount)
+        
+        return quantity
     }
     
-    var productQuantityUnit: String? {
-        guard let descriptionQuantity = productDescriptionQuantity else {
+    var productQuantityUnit: UnitSystem? {
+        guard let descriptionQuantity = getProductDescriptionQuantity() else {
             return nil
         }
         
@@ -126,7 +146,7 @@ class CreateNewProductViewModel {
             currentSelectedUnit = unit
         }
         
-        return currentSelectedUnit.title
+        return currentSelectedUnit
     }
     
     var productStepValue: Double {
@@ -144,16 +164,23 @@ class CreateNewProductViewModel {
         }
     }
     
-    private var productDescriptionQuantity: String? {
-        guard let description = currentProduct?.description else {
+    var productStore: Store? {
+        currentProduct?.store
+    }
+    
+    var productCost: String? {
+        guard let cost = currentProduct?.cost else {
             return nil
         }
-        if description.contains(where: { "," == $0 }),
-           let firstIndex = description.firstIndex(of: ",") {
-            let quantityStr = description[firstIndex..<description.endIndex]
-            return String(quantityStr)
-        }
-        return currentProduct?.description
+        return String(format: "%.\(cost.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", cost)
+    }
+    
+    var getColorForBackground: UIColor {
+        colorManager.getGradient(index: model?.color ?? 0).1
+    }
+    
+    var getColorForForeground: UIColor {
+        colorManager.getGradient(index: model?.color ?? 0).0
     }
     
     func getNumberOfCells() -> Int {
@@ -164,13 +191,19 @@ class CreateNewProductViewModel {
         selectedUnitSystemArray[ind].title
     }
     
-    func cellSelected(at ind: Int) {
-        currentSelectedUnit = selectedUnitSystemArray[ind]
-        let step = currentSelectedUnit.stepValue
-        delegate?.setupController(step: step)
+    func getDefaultStore() -> Store? {
+        let modelStores = model?.products.compactMap({ $0.store })
+                                         .sorted(by: { $0.createdAt > $1.createdAt }) ?? []
+        defaultStore = modelStores.first
+        return defaultStore
     }
     
-    func saveProduct(categoryName: String, productName: String, description: String, image: UIImage?, isUserImage: Bool) {
+    func setCostOfProductPerUnit() {
+        costOfProductPerUnit = currentProduct?.cost
+    }
+    
+    func saveProduct(categoryName: String, productName: String, description: String,
+                     image: UIImage?, isUserImage: Bool, store: Store?, quantity: Double?) {
         guard let model else { return }
         var imageData: Data?
         if let image {
@@ -184,13 +217,18 @@ class CreateNewProductViewModel {
             currentProduct.imageData = imageData
             currentProduct.description = description
             currentProduct.unitId = currentSelectedUnit
+            currentProduct.store = store
+            currentProduct.cost = costOfProductPerUnit ?? -1
+            currentProduct.quantity = quantity == 0 ? nil : quantity
             product = currentProduct
         } else {
             product = Product(listId: model.id, name: productName,
                               isPurchased: false, dateOfCreation: Date(),
                               category: categoryName, isFavorite: false,
                               imageData: imageData, description: description,
-                              unitId: currentSelectedUnit, isUserImage: isUserImage)
+                              unitId: currentSelectedUnit, isUserImage: isUserImage,
+                              store: store, cost: costOfProductPerUnit ?? -1,
+                              quantity: quantity == 0 ? nil : quantity)
         }
         
         CoreDataManager.shared.createProduct(product: product)
@@ -201,11 +239,6 @@ class CreateNewProductViewModel {
         sendUserProduct(category: categoryName, product: productName)
     }
     
-    func getBackgroundColor() -> UIColor {
-        guard let colorInd = model?.color else { return UIColor.white}
-        return colorManager.getGradient(index: colorInd).1
-    }
-    
     func goToSelectCategoryVC() {
         guard let model else { return }
         let controller = router?.prepareSelectCategoryController(model: model, compl: { [weak self] newCategoryName in
@@ -213,6 +246,15 @@ class CreateNewProductViewModel {
             self.delegate?.selectCategory(text: newCategoryName, imageURL: "", imageData: nil, defaultSelectedUnit: nil)
         })
         delegate?.presentController(controller: controller)
+    }
+    
+    func goToCreateNewStore() {
+        router?.goToCreateStore(model: model, compl: { [weak self] store in
+            if let store {
+                self?.stores.append(store)
+                self?.delegate?.newStore(store: store)
+            }
+        })
     }
     
     func checkIsProductFromCategory(name: String?) {
@@ -316,9 +358,13 @@ class CreateNewProductViewModel {
     
     /// отправка созданного продуктов на сервер (метод для аналитики)
     private func sendUserProduct(category: String, product: String) {
+        var isProductFromBase = false
+        var isCategoryFromBase = false
         var userToken = Apphud.userID()
         var productId: String?
         var categoryId: String?
+        var productType: String?
+        var productCategoryName: String?
         let product = product.trimmingCharacters(in: .whitespaces)
         
         if let user = UserAccountManager.shared.getUser() {
@@ -327,17 +373,29 @@ class CreateNewProductViewModel {
         
         if let product = networkBaseProducts?.first(where: { $0.title?.lowercased() == product.lowercased() }) {
             productId = "\(product.id)"
+            productType = getProductType(productTypeId: product.productTypeId)
+            productCategoryName = product.marketCategory
+            isProductFromBase = true
         }
         
         if let category = CoreDataManager.shared.getDefaultCategories()?.first(where: { category == $0.name }) {
             categoryId = "\(category.id)"
+            isCategoryFromBase = productCategoryName == category.name
+        }
+
+        guard !(isProductFromBase && isCategoryFromBase) else {
+            return
         }
         
         let userProduct = UserProduct(userToken: userToken,
-                                      itemId: productId,
-                                      itemTitle: product,
+                                      country: countryName(),
+                                      lang: Locale.current.languageCode,
+                                      modelType: productType,
+                                      modelId: productId,
+                                      modelTitle: product,
                                       categoryId: categoryId,
-                                      categoryTitle: category)
+                                      categoryTitle: category,
+                                      new: true)
         
         network.userProduct(userToken: userToken,
                             product: userProduct) { result in
@@ -346,5 +404,49 @@ class CreateNewProductViewModel {
             case .success(let response):    print(response)
             }
         }
+    }
+    
+    private func countryName() -> String? {
+        guard let countryCode = Locale.current.regionCode else {
+            return nil
+        }
+        if let name = (Locale.current as NSLocale).displayName(forKey: .countryCode, value: countryCode) {
+            return name
+        } else {
+            return countryCode
+        }
+    }
+    
+    private func getProductType(productTypeId: Int16) -> String {
+        switch productTypeId {
+        case -1:    return "item"
+        case 1:     return "product"
+        default: return "product"
+        }
+    }
+    
+    // достаем из описания продукта часть с количеством
+    private func getProductDescriptionQuantity() -> String? {
+        guard let description = currentProduct?.description else {
+            return nil
+        }
+        
+        guard description.contains(where: { "," == $0 }) else {
+            return currentProduct?.description
+        }
+        
+        let allSubstring = description.components(separatedBy: ",")
+        var quantityString: String?
+        
+        allSubstring.forEach { substring in
+            UnitSystem.allCases.forEach { unit in
+                if substring.trimmingCharacters(in: .whitespacesAndNewlines)
+                            .smartContains(unit.title) {
+                    quantityString = substring
+                }
+            }
+            
+        }
+        return quantityString
     }
 }

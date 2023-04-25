@@ -261,6 +261,15 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, style: .automatic, animated: true)
     }
     
+    func goToCreateStore(model: GroceryListsModel?,
+                         compl: @escaping (Store?) -> Void) {
+        let controller = viewControllerFactory.createNewStoreController(router: self,
+                                                                        model: model,
+                                                                        compl: compl)
+        controller.modalPresentationStyle = .overCurrentContext
+        navigationPresent(controller, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }

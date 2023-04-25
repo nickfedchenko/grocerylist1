@@ -70,6 +70,9 @@ class CoreDataManager {
             object.unitId = Int16(product.unitId?.rawValue ?? 0)
             object.isUserImage = product.isUserImage ?? false
             object.userToken = product.userToken
+            object.store = try? JSONEncoder().encode(product.store)
+            object.cost = product.cost ?? -1
+            object.quantity = product.quantity ?? -1
         }
         
         try? context.save()
@@ -147,6 +150,7 @@ class CoreDataManager {
         object.sharedListId = list.sharedId
         object.isSharedListOwner = list.isSharedListOwner
         object.isShowImage = list.isShowImage.rawValue
+        object.isVisibleCost = list.isVisibleCost
         try? context.save()
     }
     
@@ -174,6 +178,7 @@ class CoreDataManager {
             object.isShared = list.isShared
             object.sharedListId = list.sharedId
             object.isShowImage = list.isShowImage.rawValue
+            object.isVisibleCost = list.isVisibleCost
         }
         try? context.save()
     }
@@ -309,7 +314,6 @@ class CoreDataManager {
     
     
     // MARK: - ResetPasswordModel
-    
     lazy var resetPasswordModelRequest: NSFetchRequest = {
         return NSFetchRequest<NSFetchRequestResult>(entityName: "DomainResetPasswordModel")
     }()
@@ -399,6 +403,24 @@ class CoreDataManager {
             }
         }
     }
+    
+    // MARK: - Store {
+    func saveStore(_ store: Store) {
+        let context = coreData.container.viewContext
+        let object = DBStore(context: context)
+        object.id = store.id
+        object.title = store.title
+        try? context.save()
+    }
+    
+    func getAllStores() -> [DBStore]? {
+        let fetchRequest: NSFetchRequest<DBStore> = DBStore.fetchRequest()
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
+            return nil
+        }
+        return object
+    }
+    
 }
 
 extension CoreDataManager: CoredataSyncProtocol {

@@ -69,7 +69,7 @@ final class SharingView: UIView {
         switch state {
         case .invite:
             firstImageView.isHidden = false
-            firstImageView.image = R.image.profile_add()?.withTintColor(viewState == .products ? color : .white)
+            configurePlusImage(imageView: firstImageView, color: color, viewState: viewState)
             firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
         case .added:
             if viewState == .productsSettings {
@@ -97,7 +97,7 @@ final class SharingView: UIView {
         updateAllImageViewsConstraints()
         guard !images.isEmpty else {
             secondImageView.isHidden = false
-            secondImageView.image = R.image.profile_intited()?.withTintColor(viewState == .products ? color : .white)
+            configurePlusImage(imageView: secondImageView, color: color, viewState: viewState)
             secondImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
             return
         }
@@ -106,9 +106,7 @@ final class SharingView: UIView {
         updateActiveImageViewsConstraints(imageCount: count)
         
         let plusImageView = activeImageViews.removeFirst()
-        plusImageView.image = R.image.sharing_plus()?.withTintColor(viewState == .products ? color : .white)
-        plusImageView.backgroundColor = viewState == .products ? .white : color
-        configureImageView(plusImageView)
+        configurePlusImage(imageView: plusImageView, color: color, viewState: viewState)
         
         if images.count >= 3 {
             countLabel.text = "\(images.count - 1)"
@@ -157,6 +155,12 @@ final class SharingView: UIView {
                     .cacheOriginalImage
                 ])
         }
+    }
+    
+    private func configurePlusImage(imageView: UIImageView, color: UIColor, viewState: ViewState) {
+        imageView.image = R.image.sharing_plus()?.withTintColor(viewState == .products ? color : .white)
+        imageView.backgroundColor = viewState == .products ? .white : color
+        configureImageView(imageView)
     }
     
     private func configureImageView(_ imageView: UIImageView) {

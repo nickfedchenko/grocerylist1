@@ -35,6 +35,21 @@ struct FetchMyGroceryListsItems: Codable {
     enum CodingKeys: String, CodingKey {
         case groceryListId = "grocery_list_id", isOwner = "is_owner", createdAt = "created_at", groceryList = "grocery_list", users = "users"
     }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let listId = try container.decode(String.self, forKey: .groceryListId)
+        groceryListId = listId == "" ? "-1" : listId
+        isOwner = try container.decode(Bool.self, forKey: .isOwner)
+        createdAt = try container.decode(String.self, forKey: .createdAt)
+        users = try container.decode([User].self, forKey: .users)
+
+        if let groceryList = try? container.decode(SharedGroceryList.self, forKey: .groceryList) {
+            self.groceryList = groceryList
+        } else {
+            groceryList = SharedGroceryList()
+        }
+    }
 }
 
 struct GroceryList: Codable {
@@ -84,6 +99,20 @@ struct SharedGroceryList: Codable {
     var isShared: Bool? = false
     var isSharedListOwner: Bool
     var isShowImage: PictureMatchingState? = .nothing
+    
+    init() {
+        id = UUID()
+        dateOfCreation = 0
+        name = ""
+        color = 1
+        isFavorite = false
+        products = []
+        typeOfSorting = 0
+        sharedId = nil
+        isShared = false
+        isSharedListOwner = false
+        isShowImage = nil
+    }
 }
 
 struct SharedProduct: Codable {
@@ -100,4 +129,56 @@ struct SharedProduct: Codable {
     var fromRecipeTitle: String?
     var isUserImage: Bool? = false
     var userToken: String?
+    var store: Store?
+    var cost: Double?
+    var quantity: Double?
+    
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case listId
+        case name
+        case isPurchased
+        case dateOfCreation
+        case category
+        case isFavorite
+        case isSelected
+        case imageData
+        case description
+        case fromRecipeTitle
+        case isUserImage
+        case userToken
+        case store
+        case cost
+        case quantity
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
+        listId = try container.decode(UUID.self, forKey: .listId)
+        name = try container.decode(String.self, forKey: .name)
+        isPurchased = try container.decode(Bool.self, forKey: .isPurchased)
+        dateOfCreation = try container.decode(Double.self, forKey: .dateOfCreation)
+        category = try container.decode(String.self, forKey: .category)
+        isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
+        isSelected = try container.decode(Bool.self, forKey: .isSelected)
+        imageData = try? container.decode(Data.self, forKey: .imageData)
+        description = try? container.decode(String.self, forKey: .description)
+        fromRecipeTitle = try? container.decode(String.self, forKey: .fromRecipeTitle)
+        isUserImage = try? container.decode(Bool.self, forKey: .isUserImage)
+        userToken = try? container.decode(String.self, forKey: .userToken)
+        store = try? container.decode(Store.self, forKey: .store)
+        
+        if let costInt = try? container.decode(Int.self, forKey: .cost) {
+            cost = Double(costInt)
+        } else if let costDouble = try? container.decode(Double.self, forKey: .cost) {
+            cost = costDouble
+        }
+        
+        if let quantityInt = try? container.decode(Int.self, forKey: .quantity) {
+            quantity = Double(quantityInt)
+        } else if let quantityDouble = try? container.decode(Double.self, forKey: .quantity) {
+            quantity = quantityDouble
+        }
+    }
 }
