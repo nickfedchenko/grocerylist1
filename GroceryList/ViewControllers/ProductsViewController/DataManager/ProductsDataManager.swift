@@ -322,7 +322,8 @@ class ProductsDataManager {
         }
         
         // Все что не избрано и не куплено
-        newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .normal) }).sorted(by: { $0.name < $1.name }))
+        newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .normal) })
+                                        .sorted(by: { $0.name < $1.name }))
         
         // Все что куплено
         if products.contains(where: { $0.isPurchased }) {
@@ -403,9 +404,9 @@ class ProductsDataManager {
     
     private func getDictionaryFavorite(by products: [Product]) -> [String: [Product]] {
         var dictFavorite: [String: [Product]] = [:]
-        dictFavorite["Favorite"] = []
+        dictFavorite["DictionaryFavorite"] = []
         let favoriteProducts = products.filter { $0.isFavorite && !$0.isPurchased }
-        favoriteProducts.forEach { dictFavorite["Favorite"]?.append($0) }
+        favoriteProducts.forEach { dictFavorite["DictionaryFavorite"]?.append($0) }
         
         return dictFavorite
     }

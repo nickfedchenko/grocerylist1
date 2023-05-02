@@ -14,6 +14,7 @@ class SharedListManager {
     var router: RootRouter?
     private var network: NetworkEngine
     private var modelTransformer: DomainModelsToLocalTransformer
+    private var newListId: String?
     private var tokens: [String] {
         get { UserDefaultsManager.userTokens ?? [] }
         set { UserDefaultsManager.userTokens = newValue }
@@ -54,6 +55,9 @@ class SharedListManager {
                 print(error)
             case .success(let result):
                 print(result)
+                if let listId = result.id {
+                    self.newListId = listId
+                }
                 DispatchQueue.main.async { [weak self] in
                     self?.fetchMyGroceryLists()
                 }
@@ -70,6 +74,11 @@ class SharedListManager {
                 print(error)
             case .success(let response):
                 self.transformSharedModelsToLocal(response: response)
+                if let newListId = self.newListId,
+                   let dbModel = CoreDataManager.shared.getList(list: newListId) {
+                    let model = DomainModelsToLocalTransformer().transformCoreDataModelToModel(dbModel)
+                    self.router?.goProductsVC(model: model, compl: { })
+                }
             }
         }
     }

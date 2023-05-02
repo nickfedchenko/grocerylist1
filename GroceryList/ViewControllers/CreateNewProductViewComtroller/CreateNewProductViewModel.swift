@@ -236,7 +236,10 @@ class CreateNewProductViewModel {
         
         idsOfChangedProducts.insert(product.id)
         idsOfChangedLists.insert(model.id)
+        
+#if RELEASE
         sendUserProduct(category: categoryName, product: productName)
+#endif
     }
     
     func goToSelectCategoryVC() {

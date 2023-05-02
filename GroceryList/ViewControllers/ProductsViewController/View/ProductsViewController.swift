@@ -165,7 +165,7 @@ class ProductsViewController: UIViewController {
         messageView.isHidden = UserDefaultsManager.countInfoMessage >= 4 || (viewModel?.arrayWithSections.isEmpty ?? true)
         messageView.updateView()
         messageView.snp.updateConstraints {
-            $0.top.equalToSuperview().offset(collectionView.contentSize.height + 4)
+            $0.top.equalToSuperview().offset(collectionView.contentSize.height - 85)
         }
     }
     
@@ -543,7 +543,7 @@ class ProductsViewController: UIViewController {
         messageView.snp.makeConstraints { make in
             make.width.equalTo(264)
             make.centerX.equalTo(self.view)
-            make.top.equalToSuperview().offset(collectionView.contentSize.height + 4)
+            make.top.equalToSuperview().offset(collectionView.contentSize.height - 85)
         }
         
         productImageView.snp.makeConstraints { make in
@@ -752,6 +752,9 @@ extension ProductsViewController: ProductsViewModelDelegate {
     }
     
     func scrollToNewProduct(indexPath: IndexPath) {
+        if collectionView.indexPathsForVisibleItems.contains(indexPath) {
+            return
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: true)
         }

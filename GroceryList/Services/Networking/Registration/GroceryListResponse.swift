@@ -11,6 +11,7 @@ struct GroceryListReleaseResponse: Codable {
     var error: Bool
     var messages: [String]
     var success: Bool?
+    var id: String?
 }
 
 struct GroceryListDeleteResponse: Codable {
