@@ -111,13 +111,13 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goReviewController() {
-        guard !UserDefaultsManager.isReviewShowed, UserDefaultsManager.isFirstListCreated else { return }
+        guard !UserDefaultsManager.isReviewShowedAfterSharing else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self = self else { return }
             guard let controller = self.viewControllerFactory.createReviewController(router: self) else { return }
             self.navigationPresent(controller, animated: false)
         }
-        UserDefaultsManager.isReviewShowed = true
+        UserDefaultsManager.isReviewShowedAfterSharing = true
     }
     
     func goProductsVC(model: GroceryListsModel, compl: @escaping () -> Void) {

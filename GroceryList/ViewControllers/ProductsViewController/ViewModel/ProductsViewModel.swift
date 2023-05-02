@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import StoreKit
 import UIKit
 
 protocol ProductsViewModelDelegate: AnyObject {
@@ -80,7 +81,7 @@ class ProductsViewModel {
     
     func goBackButtonPressed() {
         router?.pop()
-        router?.goReviewController()
+        showRequest()
     }
     
     func getCellIndex(with category: Category) -> Int {
@@ -291,5 +292,16 @@ class ProductsViewModel {
         }
         
         return list
+    }
+    
+    private func showRequest() {
+        guard !UserDefaultsManager.isNativeRateUsShowed, UserDefaultsManager.isFirstListCreated else {
+            return
+        }
+        
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+        SKStoreReviewController.requestReview(in: scene)
+        
+        UserDefaultsManager.isNativeRateUsShowed = true
     }
 }

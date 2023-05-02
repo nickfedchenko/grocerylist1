@@ -48,6 +48,24 @@ class UserDefaultsManager {
         }
     }
     
+    static var isReviewShowedAfterSharing: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "isReviewShowedAfterSharing")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isReviewShowedAfterSharing")
+        }
+    }
+    
+    static var isNativeRateUsShowed: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "isNativeRateUsShowed")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isNativeRateUsShowed")
+        }
+    }
+    
     static var isFirstListCreated: Bool {
         get {
             return UserDefaults.standard.bool(forKey: "isFirstListCreated")

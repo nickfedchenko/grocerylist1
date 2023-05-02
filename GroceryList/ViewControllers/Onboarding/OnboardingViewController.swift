@@ -93,8 +93,8 @@ class OnboardingViewController: UIViewController {
         }
         
         if currentVC > 2 {
-//            router?.popToRootFromOnboarding()
-            router?.showReviewRequestController()
+            router?.popToRootFromOnboarding()
+//            router?.showReviewRequestController()
             return
         }
         
