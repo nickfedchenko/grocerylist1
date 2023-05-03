@@ -85,11 +85,12 @@ class SharedListManager {
 
     var sharedListsUsers: [String: [User]] = [:]
 
-    // MARK: - отписка от списка
+    // MARK: - сохранение листа из сокета
     func saveListFromSocket(response: SocketResponse) {
         var list = transform(sharedList: response.groceryList)
         let dbList = CoreDataManager.shared.getList(list: list.id.uuidString)
-        list.sharedId = response.groceryList.sharedId ?? ""
+        list.isShared = true
+        list.sharedId = response.listId
         list.isVisibleCost = dbList?.isVisibleCost ?? false
         removeProductsIfNeeded(list: list)
         
@@ -99,8 +100,14 @@ class SharedListManager {
             CoreDataManager.shared.createProduct(product: product)
         }
         
-        appendToUsersDict(id: list.sharedId, users: response.listUsers)
+        appendToUsersDict(id: response.listId, users: response.listUsers)
         
+        NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
+    }
+    
+    // MARK: - удаление листа из сокета
+    func deleteListFromSocket(response: SocketDeleteResponse) {
+        CoreDataManager.shared.removeSharedList(by: response.listId)
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
 
