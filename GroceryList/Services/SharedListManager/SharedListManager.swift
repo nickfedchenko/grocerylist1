@@ -74,11 +74,7 @@ class SharedListManager {
                 print(error)
             case .success(let response):
                 self.transformSharedModelsToLocal(response: response)
-                if let newListId = self.newListId,
-                   let dbModel = CoreDataManager.shared.getList(list: newListId) {
-                    let model = DomainModelsToLocalTransformer().transformCoreDataModelToModel(dbModel)
-                    self.router?.goProductsVC(model: model, compl: { })
-                }
+                self.showProductViewController()
             }
         }
     }
@@ -266,6 +262,16 @@ class SharedListManager {
                     KingfisherManager.shared.retrieveImage(with: url) { _ in }
                 }
             }
+        }
+    }
+    
+    private func showProductViewController() {
+        if !(self.router?.topViewController is ProductsViewController),
+           let newListId = self.newListId,
+           let dbModel = CoreDataManager.shared.getList(list: newListId) {
+            let model = DomainModelsToLocalTransformer().transformCoreDataModelToModel(dbModel)
+            self.router?.popToRoot()
+            self.router?.goProductsVC(model: model, compl: { })
         }
     }
 

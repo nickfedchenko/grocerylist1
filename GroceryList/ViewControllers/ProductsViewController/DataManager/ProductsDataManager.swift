@@ -150,6 +150,7 @@ class ProductsDataManager {
         products.forEach({ product in
             guard !product.isPurchased else { return }
             guard !product.isFavorite else { return }
+            guard product.category != "Purchased".localized else { return }
 
             if dict["alphabeticalSorted"] != nil {
                 dict["alphabeticalSorted"]?.append(product)
@@ -192,6 +193,7 @@ class ProductsDataManager {
         products.forEach({ product in
             guard !product.isPurchased else { return }
             guard !product.isFavorite else { return }
+            guard product.category != "Purchased".localized else { return }
             
             guard product.fromRecipeTitle == nil else {
                 guard let recipeTitle = product.fromRecipeTitle else {
@@ -250,6 +252,7 @@ class ProductsDataManager {
         products.forEach({ product in
             guard !product.isPurchased else { return }
             guard !product.isFavorite else { return }
+            guard product.category != "Purchased".localized else { return }
             
             guard product.fromRecipeTitle != nil else {
                 dict[R.string.localizable.other()]?.append(product)
@@ -304,6 +307,7 @@ class ProductsDataManager {
         products.forEach({ product in
             guard !product.isPurchased else { return }
             guard !product.isFavorite else { return }
+            guard product.category != "Purchased".localized else { return }
 
             if dict[product.category] != nil {
                 dict[product.category]?.append(product)
@@ -347,6 +351,7 @@ class ProductsDataManager {
         products.forEach({ product in
             guard !product.isPurchased else { return }
             guard !product.isFavorite else { return }
+            guard product.category != "Purchased".localized else { return }
             
             guard !(product.userToken == "0") else {
                 dictWithoutUser[keyDictWithoutUser]?.append(product)
@@ -396,9 +401,8 @@ class ProductsDataManager {
     private func getDictionaryPurchased(by products: [Product]) -> [String: [Product]] {
         var dictPurchased: [String: [Product]] = [:]
         dictPurchased["Purchased".localized] = []
-        let purchasedProducts = products.filter { $0.isPurchased }
+        let purchasedProducts = products.filter { $0.isPurchased || $0.category == "Purchased".localized }
         purchasedProducts.forEach { dictPurchased["Purchased".localized]?.append($0) }
-
         return dictPurchased
     }
     
