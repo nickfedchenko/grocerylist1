@@ -55,6 +55,7 @@ class IngredientView: UIView {
     private func setupAppearance() {
         backgroundColor = .white
         layer.cornerRadius = 8
+        layer.cornerCurve = .continuous
     }
     
     func setTitle(title: String) {

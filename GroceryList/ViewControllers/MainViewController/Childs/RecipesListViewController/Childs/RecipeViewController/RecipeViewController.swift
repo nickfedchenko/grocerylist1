@@ -63,6 +63,7 @@ final class RecipeViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setImage(R.image.addToCartFilled(), for: .normal)
         button.layer.cornerRadius = 8
+        button.layer.cornerCurve = .continuous
         button.clipsToBounds = true
         button.backgroundColor = UIColor(hex: "1A645A")
         return button

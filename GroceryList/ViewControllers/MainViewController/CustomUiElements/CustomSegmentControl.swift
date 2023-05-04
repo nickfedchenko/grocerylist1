@@ -17,6 +17,7 @@ final class CustomSegmentedControlView: UIView {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#CDE8E4")
         view.layer.cornerRadius = 16
+        view.layer.cornerCurve = .continuous
         return view
     }()
     
@@ -64,13 +65,17 @@ final class CustomSegmentedControlView: UIView {
         buttonViews.forEach {
             stackView.addArrangedSubview($0)
         }
-        
+        selectedSegmentIndex = 0
         makeConstraints()
     }
     
     @objc
     private func buttonAction(_ sender: UIButton) {
+        guard selectedSegmentIndex != sender.tag else {
+            return
+        }
         delegate?.segmentChanged(sender.tag)
+        selectedSegmentIndex = sender.tag
     }
     
     private func makeConstraints() {
@@ -114,14 +119,15 @@ private class ViewWithButton: UIView {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 14
+        view.layer.cornerCurve = .continuous
         view.addCustomShadow(opacity: 0.04, radius: 1, offset: CGSize(width: 0, height: 3))
         return view
     }()
     
     lazy var backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
         view.layer.cornerRadius = 14
+        view.layer.cornerCurve = .continuous
         view.addCustomShadow(radius: 4, offset: CGSize(width: 0, height: 3))
         return view
     }()
@@ -144,7 +150,9 @@ private class ViewWithButton: UIView {
     
     func configureState(state: ViewWithButtonState) {
         button.setTitleColor(state.titleColor, for: .normal)
-        backgroundView.backgroundColor = state.backgroundColor
+        UIView.animate(withDuration: 0.3) {
+            self.backgroundView.backgroundColor = state.backgroundColor
+        }
         shadowView.backgroundColor = state.backgroundColor
     }
     

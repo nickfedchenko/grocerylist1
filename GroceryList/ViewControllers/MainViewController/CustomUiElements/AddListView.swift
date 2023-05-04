@@ -36,6 +36,7 @@ final class AddListView: UIView {
     
     private func setup() {
         self.layer.cornerRadius = 32
+        self.layer.cornerCurve = .continuous
         self.layer.masksToBounds = true
         self.layer.maskedCorners = [.layerMinXMinYCorner]
         self.backgroundColor = .white

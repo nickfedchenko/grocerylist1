@@ -149,8 +149,10 @@ class ProductsViewModel {
                 return
             }
             self.dataSource.appendCopiedProducts(product: [product])
-            self.delegate?.scrollToNewProduct(indexPath: self.dataSource.getIndexPath(for: product))
             self.updateList()
+            if self.arrayWithSections.count != 0 {
+                self.delegate?.scrollToNewProduct(indexPath: self.dataSource.getIndexPath(for: product))
+            }
         })
     }
     
