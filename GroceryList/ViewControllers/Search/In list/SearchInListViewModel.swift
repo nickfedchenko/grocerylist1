@@ -73,7 +73,12 @@ final class SearchInListViewModel {
             return
         }
         let users = SharedListManager.shared.sharedListsUsers[list.sharedId] ?? []
-        router?.goToSharingList(listToShare: list, users: users)
+        var shareModel = list
+        if let dbModel = CoreDataManager.shared.getList(list: list.id.uuidString),
+            let model = GroceryListsModel(from: dbModel) {
+            shareModel = model
+        }
+        router?.goToSharingList(listToShare: shareModel, users: users)
     }
     
     func updatePurchasedStatus(product: Product) {
