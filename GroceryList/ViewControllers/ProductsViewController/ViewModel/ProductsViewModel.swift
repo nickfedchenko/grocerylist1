@@ -131,6 +131,15 @@ class ProductsViewModel {
         valueChangedCallback?()
     }
     
+    func updateNameOfList(_ name: String) {
+        model.name = name
+        CoreDataManager.shared.saveList(list: model)
+        delegate?.updateController()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.updateList()
+        }
+    }
+    
     func delete(product: Product) {
         dataSource.delete(product: product)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
