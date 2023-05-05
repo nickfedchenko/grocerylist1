@@ -303,7 +303,11 @@ class ProductsViewModel {
         list += buy
         
         arrayWithSections.forEach { category in
-            list += category.name.uppercased() + newLine
+            var categoryName = category.name
+            if categoryName == "DictionaryFavorite" {
+                categoryName = R.string.localizable.favorites()
+            }
+            list += categoryName.uppercased() + newLine
             category.products.map { product in
                 return tab + product.name.firstCharacterUpperCase() + newLine
             }.forEach { title in
