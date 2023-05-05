@@ -487,10 +487,12 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
         if mode == .recipes {
             AmplitudeManager.shared.logEvent(.recipeSection)
         }
-//        guard Apphud.hasActiveSubscription() else {
-//            showPaywall()
-//            return
-//        }
+#if RELEASE
+        guard Apphud.hasActiveSubscription() else {
+            showPaywall()
+            return
+        }
+#endif
         presentationMode = mode
         if mode == .lists {
             showListsCollection()

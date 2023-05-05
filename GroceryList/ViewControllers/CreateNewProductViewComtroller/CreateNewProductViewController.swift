@@ -82,6 +82,7 @@ class CreateNewProductViewController: UIViewController {
         
         setupColor()
         setupPredictiveTextView()
+        categoryView.delegate = self
         productView.delegate = self
         storeView.delegate = self
         quantityView.delegate = self
@@ -325,6 +326,12 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     func presentController(controller: UIViewController?) {
         guard let controller else { return }
         navigationController?.pushViewController(controller, animated: true)
+    }
+}
+
+extension CreateNewProductViewController: CategoryViewDelegate {
+    func categoryTapped() {
+        tappedOnCategoryView()
     }
 }
 
