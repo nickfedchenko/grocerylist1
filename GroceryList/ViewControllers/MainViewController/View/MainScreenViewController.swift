@@ -486,8 +486,8 @@ extension MainScreenViewController: TopMainScreenViewDelegate {
             showRecipesCollection()
             bottomCreateListView.isHidden = true
         }
-        collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        recipesCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        recipesCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         updateTopView(offset: 0)
     }
     
@@ -541,8 +541,9 @@ extension MainScreenViewController: TopMainScreenViewDelegate {
         if offset > 20 {
             let window = UIApplication.shared.windows.first
             let topPadding = window?.safeAreaInsets.top ?? 0
+            let offset = topPadding > 24 ? topPadding : 44
             topMainView.snp.updateConstraints {
-                $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(-topPadding)
+                $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(-offset)
             }
         } else {
             topMainView.snp.updateConstraints {

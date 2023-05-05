@@ -152,7 +152,9 @@ class ProductsViewController: UIViewController {
         editTabBarView.delegate = self
         
         setupSharingView()
-        updateTotalCost(isVisible: viewModel?.isVisibleCost ?? false)
+        let isVisibleCost = viewModel?.isVisibleCost ?? false
+        updateTotalCost(isVisible: isVisibleCost)
+        navigationView.snp.updateConstraints { $0.height.equalTo(84 + (isVisibleCost ? 19 : 0)) }
     }
     
     private func setupInfoMessage() {
@@ -536,7 +538,7 @@ class ProductsViewController: UIViewController {
         setupAddItemConstraints()
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(navigationView.snp.bottom)
+            make.top.equalTo(navigationView.snp.bottom).offset(-4)
             make.left.right.bottom.equalToSuperview()
         }
         
@@ -555,7 +557,7 @@ class ProductsViewController: UIViewController {
         navigationView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             make.right.left.equalToSuperview()
-            make.height.equalTo(84 + 19)
+            make.height.equalTo(84)
         }
         
         arrowBackButton.snp.makeConstraints { make in
