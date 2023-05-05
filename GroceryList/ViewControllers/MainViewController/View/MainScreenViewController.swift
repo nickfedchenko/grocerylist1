@@ -89,6 +89,7 @@ class MainScreenViewController: UIViewController {
         viewModel?.reloadDataFromStorage()
         updateRecipeCollectionView()
         updateImageConstraint()
+        topMainView.setupUser(photo: viewModel?.userPhoto, name: viewModel?.userName)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -135,7 +136,8 @@ class MainScreenViewController: UIViewController {
         viewModel?.updateCells = { setOfLists in
             self.reloadItems(lists: setOfLists)
             self.updateImageConstraint()
-            
+            self.topMainView.setupUser(photo: self.viewModel?.userPhoto,
+                                       name: self.viewModel?.userName)
         }
         
         viewModel?.updateRecipeLoaded = { [weak self] in

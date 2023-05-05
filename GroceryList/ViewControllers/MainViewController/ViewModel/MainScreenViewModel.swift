@@ -48,15 +48,8 @@ class MainScreenViewModel {
     }
     
     // user
-    var userPhoto: UIImage? {
-        guard let user = UserAccountManager.shared.getUser() else {
-            return R.image.profile_noreg()
-        }
-        
-        guard let avatarAsData = user.avatarAsData else {
-            return R.image.profile_icon()
-        }
-        return UIImage(data: avatarAsData)
+    var userPhoto: String? {
+        UserAccountManager.shared.getUser()?.avatar
     }
     
     var userName: String? {

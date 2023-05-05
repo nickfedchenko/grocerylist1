@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 04.05.2023.
 //
 
+import Kingfisher
 import UIKit
 
 enum MainScreenPresentationMode {
@@ -24,7 +25,7 @@ final class TopMainScreenView: UIView {
     weak var delegate: TopMainScreenViewDelegate?
     
     private lazy var settingsButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .custom)
         button.setImage(R.image.profile_icon(), for: .normal)
         button.addTarget(self, action: #selector(settingsButtonAction), for: .touchUpInside)
         button.imageView?.contentMode = .scaleAspectFill
@@ -120,11 +121,30 @@ final class TopMainScreenView: UIView {
         }
     }
     
-    func setupUser(photo: UIImage?, name: String?) {
-        settingsButton.setImage(photo, for: .normal)
-        userNameLabel.text = name
-        
+    func setupUser(photo: String?, name: String?) {
         settingsButton.clipsToBounds = UserAccountManager.shared.getUser() != nil
+        
+        if UserAccountManager.shared.getUser() == nil {
+            userNameLabel.text = ""
+            settingsButton.setImage(R.image.profile_noreg(), for: .normal)
+            return
+        }
+        guard let userAvatarUrl = photo,
+              let url = URL(string: userAvatarUrl) else {
+            return settingsButton.setImage(R.image.profile_icon(), for: .normal)
+        }
+        
+        KingfisherManager.shared.retrieveImage(with: url, options: nil, progressBlock: nil,
+                                               completionHandler: { result in
+            switch result {
+            case .success(let image):
+                print(image)
+                self.settingsButton.setImage(image.image, for: .normal)
+            case .failure: break
+            }
+        })
+
+        userNameLabel.text = name
     }
     
     @objc
