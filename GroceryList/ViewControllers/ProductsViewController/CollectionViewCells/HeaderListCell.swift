@@ -116,25 +116,30 @@ class HeaderListCell: UICollectionViewListCell {
     
     func collapsing(color: UIColor?, isPurchased: Bool) {
         UIView.animate(withDuration: 0.5) {
-            self.checkmarkView.transform = CGAffineTransform(rotationAngle: .pi * 2)
-            self.checkmarkView.tintColor = .white
-            self.pinchView.tintColor = .white
             if !isPurchased {
                 self.coloredView.backgroundColor = color
             } else {
                 self.checkmarkView.tintColor = color
             }
         }
+        
+        UIView.animate(withDuration: 0.25, delay: .zero, options: .curveEaseOut) {
+            self.checkmarkView.transform = CGAffineTransform(rotationAngle: .pi * 2)
+            self.checkmarkView.tintColor = .white
+            self.pinchView.tintColor = .white
+        }
     }
     
     func expanding(color: UIColor?, isPurchased: Bool) {
         UIView.animate(withDuration: 0.5) {
-            self.checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
-            self.checkmarkView.tintColor = color
-            self.pinchView.tintColor = color
             if !isPurchased {
                 self.coloredView.backgroundColor = .clear
             }
+        }
+        UIView.animate(withDuration: 0.25, delay: .zero, options: .curveEaseOut) {
+            self.checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
+            self.checkmarkView.tintColor = color
+            self.pinchView.tintColor = color
         }
     }
     

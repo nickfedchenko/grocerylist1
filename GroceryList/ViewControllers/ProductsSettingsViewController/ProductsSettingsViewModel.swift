@@ -149,7 +149,7 @@ class ProductsSettingsViewModel {
             delegate?.dismissController(comp: { [weak self] in
                 self?.editCallback?(.share)
             })
-        case .copy, .print:
+        case .print:
             sendSnapshot(content)
         case .send:
             AmplitudeManager.shared.logEvent(.listSendedText)
@@ -188,8 +188,6 @@ class ProductsSettingsViewModel {
     private func sendSnapshot(_ content: TableViewContent) {
         guard let snapshot = snapshot else { return }
         switch content {
-        case .copy:
-            UIImageWriteToSavedPhotosAlbum(snapshot, self, nil, nil)
         case .print:
             router?.showPrintVC(image: snapshot)
         default:
@@ -227,7 +225,6 @@ extension ProductsSettingsViewModel {
         case byAlphabet
         case imageMatching
         case share
-        case copy
         case print
         case send
         case delete
@@ -246,7 +243,6 @@ extension ProductsSettingsViewModel {
             case .byAlphabet:       return R.image.abC()
             case .imageMatching:    return R.image.carrot_image()
             case .share:            return R.image.profile_add()?.withTintColor(.black)
-            case .copy:             return R.image.copy()
             case .print:            return R.image.print()
             case .send:             return R.image.send()
             case .delete:           return R.image.trash_red()
@@ -267,7 +263,6 @@ extension ProductsSettingsViewModel {
             case .byAlphabet:       return R.string.localizable.byAlphabet()
             case .imageMatching:    return R.string.localizable.pictureMatching()
             case .share:            return R.string.localizable.shared()
-            case .copy:             return R.string.localizable.copy()
             case .print:            return R.string.localizable.print()
             case .send:             return R.string.localizable.send()
             case .delete:           return R.string.localizable.delete()

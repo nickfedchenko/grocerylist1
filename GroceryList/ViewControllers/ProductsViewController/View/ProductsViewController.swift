@@ -594,8 +594,8 @@ class ProductsViewController: UIViewController {
         
         sharingView.snp.makeConstraints { make in
             make.trailing.equalTo(editCellButton.snp.leading).offset(-4)
-            make.top.equalTo(contextMenuButton)
-            make.height.equalTo(44)
+            make.centerY.equalTo(editCellButton)
+            make.height.equalTo(40)
         }
         
         totalCostLabel.snp.makeConstraints { make in
