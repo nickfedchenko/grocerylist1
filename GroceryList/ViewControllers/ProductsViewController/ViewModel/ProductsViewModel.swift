@@ -105,7 +105,12 @@ class ProductsViewModel {
             case .edit:
                 self.delegate?.editProduct()
             case .share:
-                self.router?.goToSharingList(listToShare: self.model, users: self.getSharedListsUsers())
+                var shareModel = self.model
+                if let dbModel = CoreDataManager.shared.getList(list: self.model.id.uuidString),
+                    let model = GroceryListsModel(from: dbModel) {
+                    shareModel = model
+                }
+                self.router?.goToSharingList(listToShare: shareModel, users: self.getSharedListsUsers())
             default: break
             }
         })
@@ -131,6 +136,15 @@ class ProductsViewModel {
         valueChangedCallback?()
     }
     
+    func updateNameOfList(_ name: String) {
+        model.name = name
+        CoreDataManager.shared.saveList(list: model)
+        delegate?.updateController()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.updateList()
+        }
+    }
+    
     func delete(product: Product) {
         dataSource.delete(product: product)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -149,8 +163,10 @@ class ProductsViewModel {
                 return
             }
             self.dataSource.appendCopiedProducts(product: [product])
-            self.delegate?.scrollToNewProduct(indexPath: self.dataSource.getIndexPath(for: product))
             self.updateList()
+            if self.arrayWithSections.count != 0 {
+                self.delegate?.scrollToNewProduct(indexPath: self.dataSource.getIndexPath(for: product))
+            }
         })
     }
     
@@ -203,7 +219,12 @@ class ProductsViewModel {
             return
         }
         let users = SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
-        router?.goToSharingList(listToShare: model, users: users)
+        var shareModel = model
+        if let dbModel = CoreDataManager.shared.getList(list: model.id.uuidString),
+            let model = GroceryListsModel(from: dbModel) {
+            shareModel = model
+        }
+        router?.goToSharingList(listToShare: shareModel, users: users)
     }
     
     func resetEditProducts() {
@@ -282,7 +303,11 @@ class ProductsViewModel {
         list += buy
         
         arrayWithSections.forEach { category in
-            list += category.name.uppercased() + newLine
+            var categoryName = category.name
+            if categoryName == "DictionaryFavorite" {
+                categoryName = R.string.localizable.favorites()
+            }
+            list += categoryName.uppercased() + newLine
             category.products.map { product in
                 return tab + product.name.firstCharacterUpperCase() + newLine
             }.forEach { title in

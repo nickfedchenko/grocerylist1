@@ -87,6 +87,7 @@ final class StoreOfProductView: CreateNewProductButtonView {
     }
     
     override func longViewTapped() {
+        AmplitudeManager.shared.logEvent(.shopStoreBtn)
         hideTableView(isHide: false)
     }
     
@@ -253,11 +254,12 @@ extension StoreOfProductView: UITableViewDelegate {
         }
         
         if indexPath.row == stores.count - 1 {
+            AmplitudeManager.shared.logEvent(.shopNewShop)
             delegate?.tappedNewStore()
             hideTableView(isHide: true, cell: cell)
             return
         }
-        
+        AmplitudeManager.shared.logEvent(.shopShopSelectet)
         hideTableView(isHide: true, cell: cell)
         longView.shadowViews.forEach { $0.layer.shadowOpacity = 0 }
         updateStore(store: store.title)
@@ -271,6 +273,7 @@ extension StoreOfProductView: UITableViewDelegate {
 extension StoreOfProductView: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         guard textField == shortView.titleTextField else { return }
+        AmplitudeManager.shared.logEvent(.shopCostBtn)
         if textField.text == R.string.localizable.cost() {
             textField.text = ""
         }

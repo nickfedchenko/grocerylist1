@@ -69,7 +69,8 @@ final class SharingView: UIView {
         switch state {
         case .invite:
             firstImageView.isHidden = false
-            configurePlusImage(imageView: firstImageView, color: color, viewState: viewState)
+            configurePlusImage(imageView: firstImageView, color: color,
+                               viewState: viewState, imagesIsEmpty: true)
             firstImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
         case .added:
             if viewState == .productsSettings {
@@ -97,7 +98,8 @@ final class SharingView: UIView {
         updateAllImageViewsConstraints()
         guard !images.isEmpty else {
             secondImageView.isHidden = false
-            configurePlusImage(imageView: secondImageView, color: color, viewState: viewState)
+            configurePlusImage(imageView: secondImageView, color: color,
+                               viewState: viewState, imagesIsEmpty: true)
             secondImageView.snp.makeConstraints { $0.leading.equalToSuperview().offset(12) }
             return
         }
@@ -106,7 +108,8 @@ final class SharingView: UIView {
         updateActiveImageViewsConstraints(imageCount: count)
         
         let plusImageView = activeImageViews.removeFirst()
-        configurePlusImage(imageView: plusImageView, color: color, viewState: viewState)
+        configurePlusImage(imageView: plusImageView, color: color,
+                           viewState: viewState, imagesIsEmpty: false)
         
         if images.count >= 3 {
             countLabel.text = "\(images.count - 1)"
@@ -157,9 +160,18 @@ final class SharingView: UIView {
         }
     }
     
-    private func configurePlusImage(imageView: UIImageView, color: UIColor, viewState: ViewState) {
-        imageView.image = R.image.sharing_plus()?.withTintColor(viewState == .products ? color : .white)
+    private func configurePlusImage(imageView: UIImageView, color: UIColor,
+                                    viewState: ViewState, imagesIsEmpty: Bool) {
+        var image = R.image.sharing_plus()
+        if state == .invite || imagesIsEmpty {
+            image = viewState == .products ? R.image.profile_add() : R.image.sharing_plus()
+        }
+        imageView.image = image?.withTintColor(viewState == .products ? color : .white)
         imageView.backgroundColor = viewState == .products ? .white : color
+        guard image != R.image.profile_add() else {
+            imageView.backgroundColor = .clear
+            return
+        }
         configureImageView(imageView)
     }
     
@@ -168,6 +180,7 @@ final class SharingView: UIView {
         imageView.layer.borderColor = UIColor.white.withAlphaComponent(0.6).cgColor
         imageView.layer.borderWidth = 2
         imageView.layer.cornerRadius = 16
+        imageView.layer.cornerCurve = .continuous
     }
     
     private func updateActiveImageViewsConstraints(imageCount: Int) {

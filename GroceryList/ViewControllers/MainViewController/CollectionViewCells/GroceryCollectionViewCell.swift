@@ -40,6 +40,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         }
         state = .normal
         contentViews.layer.cornerRadius = 0
+        contentViews.layer.cornerCurve = .continuous
         sharingView.clearView()
         self.layoutIfNeeded()
     }
@@ -70,17 +71,20 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         }
         if isBottomRounded && isTopRounded {
             contentViews.layer.cornerRadius = 8
+            contentViews.layer.cornerCurve = .continuous
             contentViews.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]
             return
         }
         
         if isBottomRounded {
             contentViews.layer.cornerRadius = 8
+            contentViews.layer.cornerCurve = .continuous
             contentViews.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         }
         
         if isTopRounded {
             contentViews.layer.cornerRadius = 8
+            contentViews.layer.cornerCurve = .continuous
             contentViews.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         }
     }

@@ -82,6 +82,46 @@ enum EventName: String {
     case problemTell = "problem_tell"
     case paywallClose = "paywall_close"
     case subscribtionBuy = "subscribtion_buy"
+    
+    // EditList
+    case editList = "edit_list"
+    case editCheckItem = "edit_check_item"
+    case editSelectAllItems = "edit_select_all_items"
+    case editMoveItems = "edit_move_items"
+    case editCopyItems = "edit_copy_items"
+    case editDeleteItems = "edit_delete_items"
+    case editDeselectAll = "edit_deselect_all"
+    case editDeleteDone = "edit_delete_done"
+    
+    // ListSettings
+    case setFix = "set_fix"
+    case setRename = "set_rename"
+    case inputRename = "input_rename"
+    case setInvite = "set_invite"
+    case setSortCategory = "set_sort_category"
+    case setSortTime = "set_sort_time"
+    case setSortRecipe = "set_sort_recipe"
+    case setSortAbc = "set_sort_abc"
+    case setColor = "set_color"
+    case setAutoimageToggle = "set_autoimage_toggle"
+    case setSendAsText = "set_send_as_text"
+    case setPrint = "set_print"
+    case setDelete = "set_delete"
+    
+    // ShopPrice
+    case shopPriceToggle = "shop_price_toggle"
+    case shopStoreBtn = "shop_store_btn"
+    case shopCostBtn = "shop_cost_btn"
+    case shopShopSelectet = "shop_shop_selectet"
+    case shopNewShop = "shop_new_shop"
+    case shopSaveNewShop = "shop_save_new_shop"
+    case shopSavePrice = "shop_save_price"
+    
+    // Preferences
+    case prefUnits = "pref_units"
+    case prefHapticToggle = "pref_haptic_toggle"
+    case prefPictureToggle = "pref_picture_toggle"
+    case prefLike = "pref_like"
 }
 
 typealias PropertyKey = String
@@ -91,6 +131,7 @@ extension PropertyKey {
     static let source = "source"
     static let subscribtionType = "subscribtion type"
     static let count = "count"
+    static let isActive = "isActive"
 }
 
 typealias PropertyValue = String
@@ -105,6 +146,9 @@ extension PropertyValue {
     static let yearly = "yearly"
     static let monthly = "monthly"
     static let weekly = "weekly"
+    
+    static let yes = "yes"
+    static let no = "no"
 }
 
 var idsOfChangedLists = Set<UUID>()

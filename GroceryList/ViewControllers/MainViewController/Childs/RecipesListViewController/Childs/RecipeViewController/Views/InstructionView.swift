@@ -15,6 +15,7 @@ final class InstructionView: UIView {
         label.font = R.font.sfProTextMedium(size: 16)
         label.textColor = .white
         label.layer.cornerRadius = 4
+        label.layer.cornerCurve = .continuous
         label.clipsToBounds = true
         return label
     }()

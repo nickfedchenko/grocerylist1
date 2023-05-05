@@ -20,6 +20,7 @@ class CreateNewProductViewController: UIViewController {
         button.setTitle(R.string.localizable.save().uppercased(), for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        button.isUserInteractionEnabled = false
         return button
     }()
     
@@ -48,6 +49,7 @@ class CreateNewProductViewController: UIViewController {
         if !viewDidLayout {
             productView.productTextField.becomeFirstResponder()
             setupCurrentProduct()
+            updateStoreView(isVisible: viewModel?.isVisibleStore ?? true)
             viewDidLayout.toggle()
         }
     }
@@ -82,6 +84,7 @@ class CreateNewProductViewController: UIViewController {
         
         setupColor()
         setupPredictiveTextView()
+        categoryView.delegate = self
         productView.delegate = self
         storeView.delegate = self
         quantityView.delegate = self
@@ -230,6 +233,16 @@ class CreateNewProductViewController: UIViewController {
         }
     }
     
+    private func updateStoreView(isVisible: Bool) {
+        storeView.isHidden = !isVisible
+        let height = (isVisible ? 280 : 220) + predictiveTextViewHeight
+        contentView.snp.updateConstraints { $0.height.greaterThanOrEqualTo(height) }
+        storeView.snp.updateConstraints {
+            $0.top.equalTo(productView.snp.bottom).offset(isVisible ? 20 : 0)
+            $0.height.equalTo(isVisible ? 40 : 0)
+        }
+    }
+    
     private func makeConstraints() {
         self.view.addSubview(contentView)
         contentView.addSubviews([saveButton, categoryView, productView, storeView, quantityView, predictiveTextView])
@@ -325,6 +338,12 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     func presentController(controller: UIViewController?) {
         guard let controller else { return }
         navigationController?.pushViewController(controller, animated: true)
+    }
+}
+
+extension CreateNewProductViewController: CategoryViewDelegate {
+    func categoryTapped() {
+        tappedOnCategoryView()
     }
 }
 
