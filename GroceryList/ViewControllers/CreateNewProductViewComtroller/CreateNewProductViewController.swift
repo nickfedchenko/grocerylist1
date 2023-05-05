@@ -20,6 +20,7 @@ class CreateNewProductViewController: UIViewController {
         button.setTitle(R.string.localizable.save().uppercased(), for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        button.isUserInteractionEnabled = false
         return button
     }()
     

@@ -125,6 +125,7 @@ class ProductsSettingsViewModel {
         guard let content = allContent[safe: ind] else { return }
         switch content {
         case .rename:
+            AmplitudeManager.shared.logEvent(.setRename)
             router?.presentCreateNewList(model: model) { [weak self] newModel, products  in
                 self?.model = newModel
                 self?.copiedProducts = products
@@ -135,9 +136,11 @@ class ProductsSettingsViewModel {
                 self?.editCallback?(.edit)
             })
         case .pinch:
+            AmplitudeManager.shared.logEvent(.setFix)
             model.isFavorite = !model.isFavorite
             savePatametrs()
         case .changeColor:
+            AmplitudeManager.shared.logEvent(.setColor)
             router?.presentCreateNewList(model: model) { [weak self] newModel, products  in
                 self?.model = newModel
                 self?.copiedProducts = products
@@ -146,15 +149,18 @@ class ProductsSettingsViewModel {
         case .byUsers, .byCategory, .byTime, .byRecipe, .byAlphabet:
             typeOfSorting(content)
         case .share:
+            AmplitudeManager.shared.logEvent(.setInvite)
             delegate?.dismissController(comp: { [weak self] in
                 self?.editCallback?(.share)
             })
         case .print:
+            AmplitudeManager.shared.logEvent(.setPrint)
             sendSnapshot(content)
         case .send:
             AmplitudeManager.shared.logEvent(.listSendedText)
             router?.showActivityVC(image: [listByText])
         case .delete:
+            AmplitudeManager.shared.logEvent(.setDelete)
             CoreDataManager.shared.removeList(model.id)
             delegate?.dismissController(comp: { [weak self] in
                 self?.controllerDissmised()
@@ -164,6 +170,7 @@ class ProductsSettingsViewModel {
     }
     
     func imageMatching(isOn: Bool) {
+        AmplitudeManager.shared.logEvent(.setAutoimageToggle, properties: [.isActive: isOn ? .yes : .no])
         model.isShowImage = isOn ? .switchOn : .switchOff
         savePatametrs()
     }
@@ -173,12 +180,16 @@ class ProductsSettingsViewModel {
         case .byUsers:
             model.typeOfSorting = SortingType.user.rawValue
         case .byCategory:
+            AmplitudeManager.shared.logEvent(.setSortCategory)
             model.typeOfSorting = SortingType.category.rawValue
         case .byTime:
+            AmplitudeManager.shared.logEvent(.setSortTime)
             model.typeOfSorting = SortingType.time.rawValue
         case .byRecipe:
+            AmplitudeManager.shared.logEvent(.setSortRecipe)
             model.typeOfSorting = SortingType.recipe.rawValue
         case .byAlphabet:
+            AmplitudeManager.shared.logEvent(.setSortAbc)
             model.typeOfSorting = SortingType.alphabet.rawValue
         default: return
         }

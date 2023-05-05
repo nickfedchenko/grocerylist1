@@ -234,6 +234,9 @@ class CreateNewProductViewModel {
                               store: store, cost: costOfProductPerUnit ?? -1,
                               quantity: quantity == 0 ? nil : quantity)
         }
+        if costOfProductPerUnit != nil {
+            AmplitudeManager.shared.logEvent(.shopSavePrice)
+        }
         
         CoreDataManager.shared.createProduct(product: product)
         valueChangedCallback?(product)
