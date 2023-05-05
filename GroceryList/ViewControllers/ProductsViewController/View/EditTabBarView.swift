@@ -88,6 +88,7 @@ final class EditTabBarView: ViewWithOverriddenPoint {
         }
         
         deleteAlertView.deleteTapped = { [weak self] in
+            AmplitudeManager.shared.logEvent(.editDeleteDone)
             self?.delegate?.tappedDelete()
             self?.updateDeleteAlertViewConstraint(with: 0)
         }
@@ -154,14 +155,22 @@ extension EditTabBarView: EditTabBarItemViewDelegate {
         switch state {
         case .selectAll(let isSelect):
             if isSelect {
+                AmplitudeManager.shared.logEvent(.editSelectAllItems)
                 delegate?.tappedSelectAll()
             } else {
+                AmplitudeManager.shared.logEvent(.editDeselectAll)
                 delegate?.tappedClearAll()
             }
             isSelectAll(isSelect)
-        case .move:     delegate?.tappedMove()
-        case .copy:     delegate?.tappedCopy()
-        case .delete:   updateDeleteAlertViewConstraint(with: 224)
+        case .move:
+            AmplitudeManager.shared.logEvent(.editMoveItems)
+            delegate?.tappedMove()
+        case .copy:
+            AmplitudeManager.shared.logEvent(.editCopyItems)
+            delegate?.tappedCopy()
+        case .delete:
+            AmplitudeManager.shared.logEvent(.editDeleteItems)
+            updateDeleteAlertViewConstraint(with: 224)
         }
     }
 }

@@ -41,6 +41,7 @@ class SettingsViewController: UIViewController {
         view.setupView(text: "Haptic Feedback".localized, isSwitchView: true)
         view.updateSwitcher(isOn: UserDefaultsManager.isHapticOn)
         view.switchValueChanged = { switchValue in
+            AmplitudeManager.shared.logEvent(.prefHapticToggle, properties: [.isActive: switchValue ? .yes : .no])
             UserDefaultsManager.isHapticOn = switchValue
         }
         return view
@@ -51,6 +52,7 @@ class SettingsViewController: UIViewController {
         view.setupView(text: R.string.localizable.pictureMatching(), isSwitchView: true)
         view.updateSwitcher(isOn: UserDefaultsManager.isShowImage)
         view.switchValueChanged = { switchValue in
+            AmplitudeManager.shared.logEvent(.prefPictureToggle, properties: [.isActive: switchValue ? .yes : .no])
             UserDefaultsManager.isShowImage = switchValue
         }
         return view
@@ -232,6 +234,7 @@ extension SettingsViewController {
     
     @objc
     private func unitsViewAction(_ recognizer: UIPanGestureRecognizer) {
+        AmplitudeManager.shared.logEvent(.prefUnits)
         UIView.animate(withDuration: 0.3, delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0.0,
@@ -244,6 +247,7 @@ extension SettingsViewController {
     
     @objc
     private func likeAppViewAction(_ recognizer: UIPanGestureRecognizer) {
+        AmplitudeManager.shared.logEvent(.prefLike)
         guard let
                 url = URL(string: "itms-apps://itunes.apple.com/app/id1659848939?action=write-review"),
               UIApplication.shared.canOpenURL(url)

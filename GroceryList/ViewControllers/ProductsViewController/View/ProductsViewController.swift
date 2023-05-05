@@ -262,6 +262,7 @@ class ProductsViewController: UIViewController {
     
     @objc
     private func editCellButtonPressed() {
+        AmplitudeManager.shared.logEvent(.editList)
         let safeAreaBottom = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0
         let bottomPadding = safeAreaBottom == 0 ? 12 : safeAreaBottom
         let editTabBarHeight = 72 + bottomPadding
@@ -342,6 +343,7 @@ class ProductsViewController: UIViewController {
     
     @objc
     private func sharingViewPressed() {
+        AmplitudeManager.shared.logEvent(.setInvite)
         viewModel?.sharingTapped()
     }
     
@@ -386,6 +388,7 @@ class ProductsViewController: UIViewController {
             let isVisibleCost = self?.viewModel?.isVisibleCost ?? false
             cell.configureSwitch(isVisibleCost: isVisibleCost, tintColor: color)
             cell.changedSwitchValue = { [weak self] switchValue in
+                AmplitudeManager.shared.logEvent(.shopPriceToggle, properties: [.isActive: switchValue ? .yes : .no])
                 self?.updateCost(isVisibleCost: switchValue)
             }
         }
@@ -660,6 +663,7 @@ extension ProductsViewController: UICollectionViewDelegate {
             guard cellState != .edit else {
                 // редактирование ячеек
                 guard let viewModel else { return }
+                AmplitudeManager.shared.logEvent(.editCheckItem)
                 viewModel.updateEditProduct(product)
                 let isEditCell = viewModel.editProducts.contains(where: { $0.id == product.id })
                 cell?.updateEditCheckmark(isSelect: isEditCell)
@@ -820,6 +824,7 @@ extension ProductsViewController: UITextFieldDelegate {
         guard textField == nameOfListTextField else {
             return
         }
+        AmplitudeManager.shared.logEvent(.inputRename)
         updateNameList(isEdit: true)
     }
     
