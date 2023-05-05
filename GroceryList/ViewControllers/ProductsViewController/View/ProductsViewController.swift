@@ -38,10 +38,17 @@ class ProductsViewController: UIViewController {
         return button
     }()
     
-    private let nameOfListLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 22).font
-        return label
+    private lazy var nameOfListTextField: UITextField = {
+        let textField = UITextField()
+        textField.font = UIFont.SFPro.semibold(size: 22).font
+        textField.tintColor = .black
+        textField.returnKeyType = .done
+        textField.layer.cornerRadius = 8
+        textField.layer.cornerCurve = .continuous
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.clear.cgColor
+        textField.delegate = self
+        return textField
     }()
     
     private lazy var editCellButton: UIButton = {
@@ -137,7 +144,7 @@ class ProductsViewController: UIViewController {
     private func setupController() {
         let colorForForeground = viewModel?.getColorForForeground() ?? .black
         let colorForBackground = viewModel?.getColorForBackground()
-        nameOfListLabel.text = viewModel?.getNameOfList()
+        nameOfListTextField.text = viewModel?.getNameOfList()
         view.backgroundColor = colorForBackground
         navigationView.backgroundColor = colorForBackground
         
@@ -146,13 +153,15 @@ class ProductsViewController: UIViewController {
         editCellButton.setImage(R.image.editCell()?.withTintColor(colorForForeground), for: .normal)
         arrowBackButton.setImage(R.image.greenArrowBack()?.withTintColor(colorForForeground), for: .normal)
         contextMenuButton.setImage(R.image.contextMenu()?.withTintColor(colorForForeground), for: .normal)
-        nameOfListLabel.textColor = colorForForeground
+        nameOfListTextField.textColor = colorForForeground
         
         collectionView.reloadData()
         editTabBarView.delegate = self
         
         setupSharingView()
-        updateTotalCost(isVisible: viewModel?.isVisibleCost ?? false)
+        let isVisibleCost = viewModel?.isVisibleCost ?? false
+        updateTotalCost(isVisible: isVisibleCost)
+        navigationView.snp.updateConstraints { $0.height.equalTo(84 + (isVisibleCost ? 19 : 0)) }
     }
     
     private func setupInfoMessage() {
@@ -526,7 +535,7 @@ class ProductsViewController: UIViewController {
     // MARK: - Constraints
     private func setupConstraints() {
         view.addSubviews([collectionView, navigationView, addItemView, productImageView, editView, editTabBarView])
-        navigationView.addSubviews([arrowBackButton, nameOfListLabel, contextMenuButton, sharingView, editCellButton, totalCostLabel])
+        navigationView.addSubviews([arrowBackButton, nameOfListTextField, contextMenuButton, sharingView, editCellButton, totalCostLabel])
         editView.addSubviews([cancelEditButton])
         addItemView.addSubviews([plusView, plusImage, addItemLabel])
         collectionView.addSubview(messageView)
@@ -536,7 +545,7 @@ class ProductsViewController: UIViewController {
         setupAddItemConstraints()
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(navigationView.snp.bottom)
+            make.top.equalTo(navigationView.snp.bottom).offset(-4)
             make.left.right.bottom.equalToSuperview()
         }
         
@@ -555,7 +564,7 @@ class ProductsViewController: UIViewController {
         navigationView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             make.right.left.equalToSuperview()
-            make.height.equalTo(84 + 19)
+            make.height.equalTo(84)
         }
         
         arrowBackButton.snp.makeConstraints { make in
@@ -564,11 +573,11 @@ class ProductsViewController: UIViewController {
             make.height.width.equalTo(44)
         }
         
-        nameOfListLabel.snp.makeConstraints { make in
+        nameOfListTextField.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(24)
             make.centerX.equalToSuperview()
-            make.top.equalTo(arrowBackButton.snp.bottom).offset(12)
-            make.height.equalTo(24)
+            make.top.equalTo(arrowBackButton.snp.bottom).offset(6)
+            make.height.equalTo(36)
         }
         
         contextMenuButton.snp.makeConstraints { make in
@@ -592,7 +601,7 @@ class ProductsViewController: UIViewController {
         totalCostLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
-            make.top.equalTo(nameOfListLabel.snp.bottom).offset(4)
+            make.top.equalTo(nameOfListTextField.snp.bottom).offset(4)
             make.height.equalTo(19)
         }
     }
@@ -803,6 +812,37 @@ extension ProductsViewController: UINavigationControllerDelegate, UIImagePickerC
         let image = info[.originalImage] as? UIImage
         productImageView.updateImage(image)
         viewModel?.updateImage(image)
+    }
+}
+
+extension ProductsViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        guard textField == nameOfListTextField else {
+            return
+        }
+        updateNameList(isEdit: true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        updateNameList(isEdit: false)
+        nameOfListTextField.resignFirstResponder()
+        return true
+    }
+    
+    private func updateNameList(isEdit: Bool) {
+        nameOfListTextField.snp.updateConstraints { make in
+            make.leading.equalToSuperview().offset(isEdit ? 16 : 24)
+        }
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.view.layoutIfNeeded()
+            self?.nameOfListTextField.backgroundColor = isEdit ? .white : .clear
+            self?.nameOfListTextField.layer.borderColor = (isEdit ? UIColor(hex: "#D1DBDB") : .clear).cgColor
+            self?.nameOfListTextField.paddingLeft(inset: isEdit ? 8 : 0)
+        }
+        
+        if !isEdit {
+            viewModel?.updateNameOfList(nameOfListTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "")
+        }
     }
 }
 

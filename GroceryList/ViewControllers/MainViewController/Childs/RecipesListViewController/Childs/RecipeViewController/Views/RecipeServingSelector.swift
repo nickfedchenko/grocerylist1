@@ -23,6 +23,7 @@ final class RecipeServingSelector: UIView {
         let button = UIButton(type: .system)
         button.setImage(R.image.minusButton(), for: .normal)
         button.layer.cornerRadius = 8
+        button.layer.cornerCurve = .continuous
         button.clipsToBounds = true
         button.backgroundColor = UIColor(hex: "1A645A")
         return button
@@ -32,6 +33,7 @@ final class RecipeServingSelector: UIView {
         let button = UIButton(type: .system)
         button.setImage(R.image.plusButton(), for: .normal)
         button.layer.cornerRadius = 8
+        button.layer.cornerCurve = .continuous
         button.clipsToBounds = true
         button.backgroundColor = UIColor(hex: "1A645A")
         return button
@@ -82,6 +84,7 @@ final class RecipeServingSelector: UIView {
         backgroundColor = .white
         clipsToBounds = true
         layer.cornerRadius = 8
+        layer.cornerCurve = .continuous
         layer.borderWidth = 1
         layer.borderColor = UIColor(hex: "617774").cgColor
     }

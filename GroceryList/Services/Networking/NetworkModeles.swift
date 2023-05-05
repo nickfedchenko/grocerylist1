@@ -236,6 +236,7 @@ struct UserProduct: Codable {
     let categoryId: String?
     let categoryTitle: String
     let new: Bool
+    let version: String
 }
 
 struct UserProductResponse: Codable {

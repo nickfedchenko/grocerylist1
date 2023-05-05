@@ -13,7 +13,9 @@ class MainScreenViewController: UIViewController {
    
     var viewModel: MainScreenViewModel?
     var collectionViewLayoutManager = MainScreenCollectionViewLayout()
-    private var presentationMode: MainScreenPresentationMode = .lists
+    private var presentationMode: MainScreenPresentationMode = .lists {
+        didSet { topMainView.configure(with: presentationMode) }
+    }
     private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroceryListsModel>?
   
     private lazy var recipesCollectionView: UICollectionView = {
@@ -54,6 +56,7 @@ class MainScreenViewController: UIViewController {
         return imageView
     }()
     
+    private let topMainView = TopMainScreenView()
     private let bottomCreateListView = AddListView()
     private let activityView = ActivityIndicatorView()
     private let contextMenu = MainScreenMenuView()
@@ -72,7 +75,7 @@ class MainScreenViewController: UIViewController {
         createTableViewDataSource()
         setupContextMenu()
         viewModelChanges()
-        
+        setupTopMainView()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             self.collectionView.reloadData()
         }
@@ -186,6 +189,13 @@ class MainScreenViewController: UIViewController {
         }
     }
     
+    private func setupTopMainView() {
+        topMainView.setupUser(photo: self.viewModel?.userPhoto,
+                              name: self.viewModel?.userName)
+        topMainView.delegate = self
+        topMainView.configure(with: .lists)
+    }
+    
     private func updateRecipeCollectionView() {
         if InternetConnection.isConnected() {
             activityView.show(for: recipesCollectionView)
@@ -204,7 +214,7 @@ class MainScreenViewController: UIViewController {
     // MARK: - UI
     private func setupConstraints() {
         view.backgroundColor = UIColor(hex: "#E8F5F3")
-        view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView,
+        view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView, topMainView,
                         activityView, contextMenuBackgroundView, contextMenu])
         collectionView.addSubview(foodImage)
         collectionView.snp.makeConstraints { make in
@@ -251,6 +261,12 @@ class MainScreenViewController: UIViewController {
             make.bottom.equalToSuperview()
             make.leading.equalTo(collectionView.snp.trailing)
         }
+        
+        topMainView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            make.height.equalTo(113)
+        }
     }
 }
 
@@ -280,13 +296,6 @@ extension MainScreenViewController: UICollectionViewDelegate {
                 // top view with switcher
             case .topMenu:
                 let cell = self.collectionView.reusableCell(classCell: MainScreenTopCell.self, indexPath: indexPath)
-                cell.settingsTapped = { [weak self] in
-                    self?.viewModel?.settingsTapped()
-                }
-                cell.delegate = self
-                cell.configure(with: self.presentationMode)
-                cell.setupUser(photo: self.viewModel?.userPhoto,
-                                name: self.viewModel?.userName)
                 return cell
                 
                 // empty cell in bottom of collection
@@ -366,7 +375,11 @@ extension MainScreenViewController: UICollectionViewDelegate {
         array.forEach({ if snapshot.sectionIdentifier(containingItem: $0) != nil { snapshot.reloadItems([$0]) } })
         
         collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
-    }    
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+          updateTopView(offset: scrollView.contentOffset.y)
+    }
 }
 
 // MARK: - CreateListAction
@@ -406,21 +419,6 @@ extension MainScreenViewController: UICollectionViewDataSource {
                          cellForItemAt indexPath: IndexPath ) -> UICollectionViewCell {
         guard !(indexPath.section == 0) else {
             let topCell = collectionView.reusableCell(classCell: MainScreenTopCell.self, indexPath: indexPath)
-            topCell.settingsTapped = { [weak self] in
-                self?.viewModel?.settingsTapped()
-            }
-            topCell.contextMenuTapped = { [weak self] in
-                self?.contextMenu.fadeIn()
-                self?.contextMenuBackgroundView.isHidden = false
-            }
-            topCell.sortCollectionTapped = { [weak self] in
-                self?.viewModel?.showCollection()
-            }
-            
-            topCell.delegate = self
-            topCell.configure(with: .recipes)
-            topCell.setupUser(photo: self.viewModel?.userPhoto,
-                              name: self.viewModel?.userName)
             return topCell
         }
         
@@ -457,8 +455,63 @@ extension MainScreenViewController: UICollectionViewDataSource {
     }
 }
 
-// MARK: - Swapping collections logic
-extension MainScreenViewController: MainScreenTopCellDelegate {
+extension MainScreenViewController: RecipesFolderHeaderDelegate {
+    func headerTapped(at index: Int) {
+        guard let section = viewModel?.dataSource?.recipesSections[safe: index] else { return }
+        viewModel?.router?.goToRecipes(for: section)
+    }
+}
+
+extension MainScreenViewController: TopMainScreenViewDelegate {
+    func modeChanged(to mode: MainScreenPresentationMode) {
+        if mode == .recipes {
+            AmplitudeManager.shared.logEvent(.recipeSection)
+        }
+#if RELEASE
+        guard Apphud.hasActiveSubscription() else {
+            showPaywall()
+            return
+        }
+#endif
+        presentationMode = mode
+        if mode == .lists {
+            showListsCollection()
+            if let item = collectionViewDataSource?.itemIdentifier(for: IndexPath(item: 0, section: 0)),
+               var snapshot = collectionViewDataSource?.snapshot() {
+                snapshot.reloadItems([item])
+                collectionViewDataSource?.apply(snapshot)
+            }
+            bottomCreateListView.isHidden = false
+        } else {
+            showRecipesCollection()
+            bottomCreateListView.isHidden = true
+        }
+        collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        recipesCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        updateTopView(offset: 0)
+    }
+    
+    func searchButtonTapped() {
+        guard presentationMode == .lists else {
+            viewModel?.showSearchProductsInRecipe()
+            return
+        }
+        viewModel?.showSearchProductsInList()
+    }
+    
+    func settingsTapped() {
+        viewModel?.settingsTapped()
+    }
+    
+    func contextMenuTapped() {
+        contextMenu.fadeIn()
+        contextMenuBackgroundView.isHidden = false
+    }
+    
+    func sortCollectionTapped() {
+        viewModel?.showCollection()
+    }
+    
     private func showRecipesCollection() {
         collectionView.snp.updateConstraints { make in
             make.leading.equalToSuperview().inset(-view.bounds.width)
@@ -483,29 +536,19 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
         }
     }
     
-    func modeChanged(to mode: MainScreenPresentationMode) {
-        if mode == .recipes {
-            AmplitudeManager.shared.logEvent(.recipeSection)
-        }
-#if RELEASE
-        guard Apphud.hasActiveSubscription() else {
-            showPaywall()
-            return
-        }
-#endif
-        presentationMode = mode
-        if mode == .lists {
-            showListsCollection()
-            if let item = collectionViewDataSource?.itemIdentifier(for: IndexPath(item: 0, section: 0)),
-               var snapshot = collectionViewDataSource?.snapshot() {
-                snapshot.reloadItems([item])
-                collectionViewDataSource?.apply(snapshot)
+    private func updateTopView(offset: CGFloat) {
+        topMainView.isScrolledView(offset)
+        if offset > 20 {
+            let window = UIApplication.shared.windows.first
+            let topPadding = window?.safeAreaInsets.top ?? 0
+            let offset = topPadding > 24 ? topPadding : 44
+            topMainView.snp.updateConstraints {
+                $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(-offset)
             }
-            bottomCreateListView.isHidden = false
-            
         } else {
-            showRecipesCollection()
-            bottomCreateListView.isHidden = true
+            topMainView.snp.updateConstraints {
+                $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            }
         }
     }
     
@@ -514,20 +557,5 @@ extension MainScreenViewController: MainScreenTopCellDelegate {
             paywall.modalPresentationStyle = .fullScreen
             present(paywall, animated: true)
         }
-    }
-    
-    func searchButtonTapped() {
-        guard presentationMode == .lists else {
-            viewModel?.showSearchProductsInRecipe()
-            return
-        }
-        viewModel?.showSearchProductsInList()
-    }
-}
-
-extension MainScreenViewController: RecipesFolderHeaderDelegate {
-    func headerTapped(at index: Int) {
-        guard let section = viewModel?.dataSource?.recipesSections[safe: index] else { return }
-        viewModel?.router?.goToRecipes(for: section)
     }
 }

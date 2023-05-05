@@ -131,6 +131,15 @@ class ProductsViewModel {
         valueChangedCallback?()
     }
     
+    func updateNameOfList(_ name: String) {
+        model.name = name
+        CoreDataManager.shared.saveList(list: model)
+        delegate?.updateController()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.updateList()
+        }
+    }
+    
     func delete(product: Product) {
         dataSource.delete(product: product)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -149,8 +158,10 @@ class ProductsViewModel {
                 return
             }
             self.dataSource.appendCopiedProducts(product: [product])
-            self.delegate?.scrollToNewProduct(indexPath: self.dataSource.getIndexPath(for: product))
             self.updateList()
+            if self.arrayWithSections.count != 0 {
+                self.delegate?.scrollToNewProduct(indexPath: self.dataSource.getIndexPath(for: product))
+            }
         })
     }
     

@@ -168,6 +168,7 @@ final class SharingView: UIView {
         imageView.layer.borderColor = UIColor.white.withAlphaComponent(0.6).cgColor
         imageView.layer.borderWidth = 2
         imageView.layer.cornerRadius = 16
+        imageView.layer.cornerCurve = .continuous
     }
     
     private func updateActiveImageViewsConstraints(imageCount: Int) {

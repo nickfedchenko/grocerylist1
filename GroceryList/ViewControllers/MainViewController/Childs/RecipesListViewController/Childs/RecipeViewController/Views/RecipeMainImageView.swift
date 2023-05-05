@@ -46,6 +46,7 @@ final class CookingTimeBadge: UIView {
         backgroundColor = UIColor(hex: "547771").withAlphaComponent(0.8)
         clipsToBounds = true
         layer.cornerRadius = 4
+        layer.cornerCurve = .continuous
     }
     
     private func setupSubviews() {
@@ -75,6 +76,7 @@ final class RecipeMainImageView: UIView {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 12
+        imageView.layer.cornerCurve = .continuous
         imageView.contentMode = .scaleAspectFill
         imageView.isUserInteractionEnabled = true
         imageView.backgroundColor = .white
