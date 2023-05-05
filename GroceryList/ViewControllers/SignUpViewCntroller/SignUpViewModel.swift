@@ -159,7 +159,7 @@ class SignUpViewModel {
         
         // проверяем есть ли в кейчейне данные, если нет то это первый вход и переходим регаться
         guard let emailData = KeyChainManager.load(key: .email),
-              let passwordData = KeyChainManager.load(key: .email) else {
+              let passwordData = KeyChainManager.load(key: .password) else {
             createAccountAndLogIn(email: email)
             return
         }
@@ -184,7 +184,9 @@ class SignUpViewModel {
     
     /// сохраняем почту и логин в кейчейн и регистрируемся
     func createAccountAndLogIn(email: String?) {
-        guard let email = email else { return }
+        guard let email = email else {
+            return
+        }
         let password = UUID().uuidString
         
         KeyChainManager.save(key: .email, data: email.data(using: .utf8) ?? Data())
@@ -255,7 +257,7 @@ class SignUpViewModel {
     }
     
     private func checkMail(text: String, compl: ((Bool) -> Void)?) {
-        guard state == .signUp else { return }
+//        guard state == .signUp else { return }
         network.checkEmail(email: text) { [weak self] result in
             switch result {
             case .failure(let error):
