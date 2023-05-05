@@ -48,6 +48,7 @@ class CreateNewProductViewController: UIViewController {
         if !viewDidLayout {
             productView.productTextField.becomeFirstResponder()
             setupCurrentProduct()
+            updateStoreView(isVisible: viewModel?.isVisibleStore ?? true)
             viewDidLayout.toggle()
         }
     }
@@ -228,6 +229,16 @@ class CreateNewProductViewController: UIViewController {
         UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self = self else { return }
             self.view.layoutIfNeeded()
+        }
+    }
+    
+    private func updateStoreView(isVisible: Bool) {
+        storeView.isHidden = !isVisible
+        let height = (isVisible ? 280 : 220) + predictiveTextViewHeight
+        contentView.snp.updateConstraints { $0.height.greaterThanOrEqualTo(height) }
+        storeView.snp.updateConstraints {
+            $0.top.equalTo(productView.snp.bottom).offset(isVisible ? 20 : 0)
+            $0.height.equalTo(isVisible ? 40 : 0)
         }
     }
     

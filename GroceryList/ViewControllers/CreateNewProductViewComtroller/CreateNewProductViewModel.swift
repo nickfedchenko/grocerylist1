@@ -164,6 +164,10 @@ class CreateNewProductViewModel {
         }
     }
     
+    var isVisibleStore: Bool {
+        return model?.isVisibleCost ?? true
+    }
+    
     var productStore: Store? {
         currentProduct?.store
     }
