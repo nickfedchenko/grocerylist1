@@ -71,11 +71,7 @@ final class CustomSegmentedControlView: UIView {
     
     @objc
     private func buttonAction(_ sender: UIButton) {
-        guard selectedSegmentIndex != sender.tag else {
-            return
-        }
         delegate?.segmentChanged(sender.tag)
-        selectedSegmentIndex = sender.tag
     }
     
     private func makeConstraints() {

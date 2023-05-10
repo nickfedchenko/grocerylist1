@@ -77,6 +77,7 @@ class SettingsViewModel {
         guard let imageData = image?.jpegData(compressionQuality: 1), var user = user else { return }
      
         user.avatarAsData = imageData
+        self.user?.avatarAsData = imageData
         UserAccountManager.shared.saveUser(user: user)
         network.uploadAvatar(userToken: user.token, imageData: imageData) { result in
             switch result {

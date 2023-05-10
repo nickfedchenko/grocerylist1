@@ -269,6 +269,10 @@ class ProductsViewModel {
         dataSource.createDataSourceArray()
     }
     
+    func showPaywall() {
+        router?.showAlternativePaywallVC()
+    }
+    
     private func addObserver() {
         NotificationCenter.default.addObserver(
             self,

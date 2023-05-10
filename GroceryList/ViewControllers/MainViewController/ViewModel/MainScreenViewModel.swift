@@ -48,8 +48,9 @@ class MainScreenViewModel {
     }
     
     // user
-    var userPhoto: String? {
-        UserAccountManager.shared.getUser()?.avatar
+    var userPhoto: (url: String?, data: Data?) {
+        (UserAccountManager.shared.getUser()?.avatar,
+         UserAccountManager.shared.getUser()?.avatarAsData)
     }
     
     var userName: String? {
@@ -139,7 +140,7 @@ class MainScreenViewModel {
     
     func getBGColor(at ind: IndexPath) -> UIColor {
         let colorInd = model[ind.section].lists[ind.row].color
-        return colorManager.getGradient(index: colorInd).0
+        return colorManager.getGradient(index: colorInd).medium
     }
     
     func getBGColorForEmptyCell(at ind: IndexPath) -> UIColor {
