@@ -63,6 +63,7 @@ final class MainScreenMenuView: UIView {
     
     private func setup() {
         self.layer.cornerRadius = 12
+        self.layer.cornerCurve = .continuous
         self.clipsToBounds = true
         
         MainMenuState.allCases.forEach { state in

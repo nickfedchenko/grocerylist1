@@ -202,6 +202,16 @@ class CoreDataManager {
         idsOfChangedLists.insert(id)
     }
     
+    func removeSharedList(by sharedListId: String) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "sharedListId = '\(sharedListId)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
     func removeSharedLists() {
         let context = coreData.container.viewContext
         let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()

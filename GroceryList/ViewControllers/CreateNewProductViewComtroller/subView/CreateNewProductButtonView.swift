@@ -12,14 +12,12 @@ class CreateNewProductButtonView: ViewWithOverriddenPoint {
     lazy var longView: ProductButtonView = {
         let view = ProductButtonView(title: longTitle)
         view.configureBorder()
-        view.addShadowForView()
         return view
     }()
     
     lazy var shortView: ProductButtonView = {
         let view = ProductButtonView(title: shortTitle)
         view.configureBorder()
-        view.addShadowForView()
         return view
     }()
     

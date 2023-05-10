@@ -125,6 +125,7 @@ class ProductsSettingsViewModel {
         guard let content = allContent[safe: ind] else { return }
         switch content {
         case .rename:
+            AmplitudeManager.shared.logEvent(.setRename)
             router?.presentCreateNewList(model: model) { [weak self] newModel, products  in
                 self?.model = newModel
                 self?.copiedProducts = products
@@ -135,9 +136,11 @@ class ProductsSettingsViewModel {
                 self?.editCallback?(.edit)
             })
         case .pinch:
+            AmplitudeManager.shared.logEvent(.setFix)
             model.isFavorite = !model.isFavorite
             savePatametrs()
         case .changeColor:
+            AmplitudeManager.shared.logEvent(.setColor)
             router?.presentCreateNewList(model: model) { [weak self] newModel, products  in
                 self?.model = newModel
                 self?.copiedProducts = products
@@ -146,15 +149,18 @@ class ProductsSettingsViewModel {
         case .byUsers, .byCategory, .byTime, .byRecipe, .byAlphabet:
             typeOfSorting(content)
         case .share:
+            AmplitudeManager.shared.logEvent(.setInvite)
             delegate?.dismissController(comp: { [weak self] in
                 self?.editCallback?(.share)
             })
-        case .copy, .print:
+        case .print:
+            AmplitudeManager.shared.logEvent(.setPrint)
             sendSnapshot(content)
         case .send:
             AmplitudeManager.shared.logEvent(.listSendedText)
             router?.showActivityVC(image: [listByText])
         case .delete:
+            AmplitudeManager.shared.logEvent(.setDelete)
             CoreDataManager.shared.removeList(model.id)
             delegate?.dismissController(comp: { [weak self] in
                 self?.controllerDissmised()
@@ -164,6 +170,7 @@ class ProductsSettingsViewModel {
     }
     
     func imageMatching(isOn: Bool) {
+        AmplitudeManager.shared.logEvent(.setAutoimageToggle, properties: [.isActive: isOn ? .yes : .no])
         model.isShowImage = isOn ? .switchOn : .switchOff
         savePatametrs()
     }
@@ -173,12 +180,16 @@ class ProductsSettingsViewModel {
         case .byUsers:
             model.typeOfSorting = SortingType.user.rawValue
         case .byCategory:
+            AmplitudeManager.shared.logEvent(.setSortCategory)
             model.typeOfSorting = SortingType.category.rawValue
         case .byTime:
+            AmplitudeManager.shared.logEvent(.setSortTime)
             model.typeOfSorting = SortingType.time.rawValue
         case .byRecipe:
+            AmplitudeManager.shared.logEvent(.setSortRecipe)
             model.typeOfSorting = SortingType.recipe.rawValue
         case .byAlphabet:
+            AmplitudeManager.shared.logEvent(.setSortAbc)
             model.typeOfSorting = SortingType.alphabet.rawValue
         default: return
         }
@@ -188,8 +199,6 @@ class ProductsSettingsViewModel {
     private func sendSnapshot(_ content: TableViewContent) {
         guard let snapshot = snapshot else { return }
         switch content {
-        case .copy:
-            UIImageWriteToSavedPhotosAlbum(snapshot, self, nil, nil)
         case .print:
             router?.showPrintVC(image: snapshot)
         default:
@@ -227,7 +236,6 @@ extension ProductsSettingsViewModel {
         case byAlphabet
         case imageMatching
         case share
-        case copy
         case print
         case send
         case delete
@@ -246,7 +254,6 @@ extension ProductsSettingsViewModel {
             case .byAlphabet:       return R.image.abC()
             case .imageMatching:    return R.image.carrot_image()
             case .share:            return R.image.profile_add()?.withTintColor(.black)
-            case .copy:             return R.image.copy()
             case .print:            return R.image.print()
             case .send:             return R.image.send()
             case .delete:           return R.image.trash_red()
@@ -267,7 +274,6 @@ extension ProductsSettingsViewModel {
             case .byAlphabet:       return R.string.localizable.byAlphabet()
             case .imageMatching:    return R.string.localizable.pictureMatching()
             case .share:            return R.string.localizable.shared()
-            case .copy:             return R.string.localizable.copy()
             case .print:            return R.string.localizable.print()
             case .send:             return R.string.localizable.send()
             case .delete:           return R.string.localizable.delete()

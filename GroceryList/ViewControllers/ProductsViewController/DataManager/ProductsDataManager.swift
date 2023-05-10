@@ -150,6 +150,7 @@ class ProductsDataManager {
         products.forEach({ product in
             guard !product.isPurchased else { return }
             guard !product.isFavorite else { return }
+            guard product.category != "Purchased".localized else { return }
 
             if dict["alphabeticalSorted"] != nil {
                 dict["alphabeticalSorted"]?.append(product)
@@ -192,6 +193,7 @@ class ProductsDataManager {
         products.forEach({ product in
             guard !product.isPurchased else { return }
             guard !product.isFavorite else { return }
+            guard product.category != "Purchased".localized else { return }
             
             guard product.fromRecipeTitle == nil else {
                 guard let recipeTitle = product.fromRecipeTitle else {
@@ -250,6 +252,7 @@ class ProductsDataManager {
         products.forEach({ product in
             guard !product.isPurchased else { return }
             guard !product.isFavorite else { return }
+            guard product.category != "Purchased".localized else { return }
             
             guard product.fromRecipeTitle != nil else {
                 dict[R.string.localizable.other()]?.append(product)
@@ -304,6 +307,7 @@ class ProductsDataManager {
         products.forEach({ product in
             guard !product.isPurchased else { return }
             guard !product.isFavorite else { return }
+            guard product.category != "Purchased".localized else { return }
 
             if dict[product.category] != nil {
                 dict[product.category]?.append(product)
@@ -322,7 +326,8 @@ class ProductsDataManager {
         }
         
         // Все что не избрано и не куплено
-        newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .normal) }).sorted(by: { $0.name < $1.name }))
+        newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .normal) })
+                                        .sorted(by: { $0.name < $1.name }))
         
         // Все что куплено
         if products.contains(where: { $0.isPurchased }) {
@@ -346,6 +351,7 @@ class ProductsDataManager {
         products.forEach({ product in
             guard !product.isPurchased else { return }
             guard !product.isFavorite else { return }
+            guard product.category != "Purchased".localized else { return }
             
             guard !(product.userToken == "0") else {
                 dictWithoutUser[keyDictWithoutUser]?.append(product)
@@ -395,17 +401,16 @@ class ProductsDataManager {
     private func getDictionaryPurchased(by products: [Product]) -> [String: [Product]] {
         var dictPurchased: [String: [Product]] = [:]
         dictPurchased["Purchased".localized] = []
-        let purchasedProducts = products.filter { $0.isPurchased }
+        let purchasedProducts = products.filter { $0.isPurchased || $0.category == "Purchased".localized }
         purchasedProducts.forEach { dictPurchased["Purchased".localized]?.append($0) }
-
         return dictPurchased
     }
     
     private func getDictionaryFavorite(by products: [Product]) -> [String: [Product]] {
         var dictFavorite: [String: [Product]] = [:]
-        dictFavorite["Favorite"] = []
+        dictFavorite["DictionaryFavorite"] = []
         let favoriteProducts = products.filter { $0.isFavorite && !$0.isPurchased }
-        favoriteProducts.forEach { dictFavorite["Favorite"]?.append($0) }
+        favoriteProducts.forEach { dictFavorite["DictionaryFavorite"]?.append($0) }
         
         return dictFavorite
     }

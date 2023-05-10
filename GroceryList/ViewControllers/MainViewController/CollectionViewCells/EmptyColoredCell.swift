@@ -22,6 +22,7 @@ class EmptyColoredCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         contentViews.layer.cornerRadius = 0
+        contentViews.layer.cornerCurve = .continuous
         self.layoutIfNeeded()
     }
     
@@ -30,17 +31,20 @@ class EmptyColoredCell: UICollectionViewCell {
 
         if isBottomRounded && isTopRounded {
             contentViews.layer.cornerRadius = 8
+            contentViews.layer.cornerCurve = .continuous
             contentViews.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]
             return
         }
         
         if isBottomRounded {
             contentViews.layer.cornerRadius = 8
+            contentViews.layer.cornerCurve = .continuous
             contentViews.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         }
         
         if isTopRounded {
             contentViews.layer.cornerRadius = 8
+            contentViews.layer.cornerCurve = .continuous
             contentViews.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         }
     }

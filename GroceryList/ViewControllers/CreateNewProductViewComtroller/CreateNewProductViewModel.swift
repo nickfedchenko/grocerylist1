@@ -164,6 +164,10 @@ class CreateNewProductViewModel {
         }
     }
     
+    var isVisibleStore: Bool {
+        return model?.isVisibleCost ?? true
+    }
+    
     var productStore: Store? {
         currentProduct?.store
     }
@@ -230,13 +234,19 @@ class CreateNewProductViewModel {
                               store: store, cost: costOfProductPerUnit ?? -1,
                               quantity: quantity == 0 ? nil : quantity)
         }
+        if costOfProductPerUnit != nil {
+            AmplitudeManager.shared.logEvent(.shopSavePrice)
+        }
         
         CoreDataManager.shared.createProduct(product: product)
         valueChangedCallback?(product)
         
         idsOfChangedProducts.insert(product.id)
         idsOfChangedLists.insert(model.id)
+        
+#if RELEASE
         sendUserProduct(category: categoryName, product: productName)
+#endif
     }
     
     func goToSelectCategoryVC() {
@@ -358,13 +368,10 @@ class CreateNewProductViewModel {
     
     /// отправка созданного продуктов на сервер (метод для аналитики)
     private func sendUserProduct(category: String, product: String) {
-        var isProductFromBase = false
-        var isCategoryFromBase = false
         var userToken = Apphud.userID()
         var productId: String?
         var categoryId: String?
         var productType: String?
-        var productCategoryName: String?
         let product = product.trimmingCharacters(in: .whitespaces)
         
         if let user = UserAccountManager.shared.getUser() {
@@ -374,17 +381,10 @@ class CreateNewProductViewModel {
         if let product = networkBaseProducts?.first(where: { $0.title?.lowercased() == product.lowercased() }) {
             productId = "\(product.id)"
             productType = getProductType(productTypeId: product.productTypeId)
-            productCategoryName = product.marketCategory
-            isProductFromBase = true
         }
         
         if let category = CoreDataManager.shared.getDefaultCategories()?.first(where: { category == $0.name }) {
             categoryId = "\(category.id)"
-            isCategoryFromBase = productCategoryName == category.name
-        }
-
-        guard !(isProductFromBase && isCategoryFromBase) else {
-            return
         }
         
         let userProduct = UserProduct(userToken: userToken,
@@ -395,7 +395,8 @@ class CreateNewProductViewModel {
                                       modelTitle: product,
                                       categoryId: categoryId,
                                       categoryTitle: category,
-                                      new: true)
+                                      new: true,
+                                      version: "\(Bundle.main.appVersionLong)(\(Bundle.main.appBuild))")
         
         network.userProduct(userToken: userToken,
                             product: userProduct) { result in

@@ -12,6 +12,7 @@ class CreateNewStoreViewModel: CreateNewCategoryViewModel {
     var storeCreatedCallBack: ((Store?) -> Void)?
     
     func saveNewStore(name: String) {
+        AmplitudeManager.shared.logEvent(.shopSaveNewShop)
         let newStore = Store(title: name)
         CoreDataManager.shared.saveStore(newStore)
         storeCreatedCallBack?(newStore)

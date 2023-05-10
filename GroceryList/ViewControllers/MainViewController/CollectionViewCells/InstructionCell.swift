@@ -24,6 +24,7 @@ class InstructionCell: UICollectionViewCell {
         view.backgroundColor = .lightGray
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 8
+        view.layer.cornerCurve = .continuous
         view.layer.masksToBounds = true
         return view
     }()

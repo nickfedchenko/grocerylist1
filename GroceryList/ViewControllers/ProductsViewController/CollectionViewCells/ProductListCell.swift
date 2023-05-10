@@ -378,7 +378,7 @@ class ProductListCell: UICollectionViewListCell {
         }
         
         imageView.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(8)
+            make.right.equalToSuperview().inset(3)
             make.centerY.equalToSuperview()
             make.width.height.equalTo(40)
         }

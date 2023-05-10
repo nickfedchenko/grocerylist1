@@ -14,6 +14,7 @@ class SharedListManager {
     var router: RootRouter?
     private var network: NetworkEngine
     private var modelTransformer: DomainModelsToLocalTransformer
+    private var newListId: String?
     private var tokens: [String] {
         get { UserDefaultsManager.userTokens ?? [] }
         set { UserDefaultsManager.userTokens = newValue }
@@ -54,6 +55,9 @@ class SharedListManager {
                 print(error)
             case .success(let result):
                 print(result)
+                if let listId = result.id {
+                    self.newListId = listId
+                }
                 DispatchQueue.main.async { [weak self] in
                     self?.fetchMyGroceryLists()
                 }
@@ -70,17 +74,19 @@ class SharedListManager {
                 print(error)
             case .success(let response):
                 self.transformSharedModelsToLocal(response: response)
+                self.showProductViewController()
             }
         }
     }
 
     var sharedListsUsers: [String: [User]] = [:]
 
-    // MARK: - отписка от списка
+    // MARK: - сохранение листа из сокета
     func saveListFromSocket(response: SocketResponse) {
         var list = transform(sharedList: response.groceryList)
         let dbList = CoreDataManager.shared.getList(list: list.id.uuidString)
-        list.sharedId = response.groceryList.sharedId ?? ""
+        list.isShared = true
+        list.sharedId = response.listId
         list.isVisibleCost = dbList?.isVisibleCost ?? false
         removeProductsIfNeeded(list: list)
         
@@ -90,8 +96,14 @@ class SharedListManager {
             CoreDataManager.shared.createProduct(product: product)
         }
         
-        appendToUsersDict(id: list.sharedId, users: response.listUsers)
+        appendToUsersDict(id: response.listId, users: response.listUsers)
         
+        NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
+    }
+    
+    // MARK: - удаление листа из сокета
+    func deleteListFromSocket(response: SocketDeleteResponse) {
+        CoreDataManager.shared.removeSharedList(by: response.listId)
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
 
@@ -250,6 +262,16 @@ class SharedListManager {
                     KingfisherManager.shared.retrieveImage(with: url) { _ in }
                 }
             }
+        }
+    }
+    
+    private func showProductViewController() {
+        if !(self.router?.topViewController is ProductsViewController),
+           let newListId = self.newListId,
+           let dbModel = CoreDataManager.shared.getList(list: newListId) {
+            let model = DomainModelsToLocalTransformer().transformCoreDataModelToModel(dbModel)
+            self.router?.popToRoot()
+            self.router?.goProductsVC(model: model, compl: { })
         }
     }
 

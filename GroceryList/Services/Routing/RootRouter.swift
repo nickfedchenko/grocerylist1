@@ -62,7 +62,9 @@ final class RootRouter: RootRouterProtocol {
         
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
+#if RELEASE
         goToOnboarding()
+#endif
     }
     
     func openResetPassword(token: String) {

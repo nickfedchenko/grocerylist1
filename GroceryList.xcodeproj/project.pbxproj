@@ -46,6 +46,7 @@
 		3368FD7929B7348100D97291 /* DBCollection+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD7729B7348100D97291 /* DBCollection+CoreDataClass.swift */; };
 		3368FD7A29B7348100D97291 /* DBCollection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD7829B7348100D97291 /* DBCollection+CoreDataProperties.swift */; };
 		336A112729F2D1F4008CFF33 /* BundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336A112629F2D1F4008CFF33 /* BundleExtension.swift */; };
+		33725E1B2A03828700EE8635 /* TopMainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33725E1A2A03828700EE8635 /* TopMainScreenView.swift */; };
 		337719AA29B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719A929B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift */; };
 		337719AC29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719AB29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift */; };
 		337719AE29B1A669000791BD /* CreateNewRecipeViewWithButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719AD29B1A669000791BD /* CreateNewRecipeViewWithButton.swift */; };
@@ -107,7 +108,6 @@
 		844FC63B2978B825008173AA /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FC63A2978B825008173AA /* ReviewCell.swift */; };
 		846600E9294A024800D85415 /* DBRecipe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846600E7294A024800D85415 /* DBRecipe+CoreDataClass.swift */; };
 		846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846600E8294A024800D85415 /* DBRecipe+CoreDataProperties.swift */; };
-		849346D429BF830A00E75C1C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 849346D329BF830A00E75C1C /* StoreKit.framework */; };
 		B30573BB29222BE700CA8BDE /* HeaderListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573BA29222BE700CA8BDE /* HeaderListCell.swift */; };
 		B30573BD29222D4500CA8BDE /* ProductListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573BC29222D4400CA8BDE /* ProductListCell.swift */; };
 		B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573C62923A11000CA8BDE /* ProductSettingsTableViewCell.swift */; };
@@ -299,6 +299,7 @@
 		3368FD7729B7348100D97291 /* DBCollection+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBCollection+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3368FD7829B7348100D97291 /* DBCollection+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBCollection+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		336A112629F2D1F4008CFF33 /* BundleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtension.swift; sourceTree = "<group>"; };
+		33725E1A2A03828700EE8635 /* TopMainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopMainScreenView.swift; sourceTree = "<group>"; };
 		337719A929B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeStepTwoViewController.swift; sourceTree = "<group>"; };
 		337719AB29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeStepTwoViewModel.swift; sourceTree = "<group>"; };
 		337719AD29B1A669000791BD /* CreateNewRecipeViewWithButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeViewWithButton.swift; sourceTree = "<group>"; };
@@ -366,7 +367,6 @@
 		844FC63A2978B825008173AA /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
 		846600E7294A024800D85415 /* DBRecipe+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBRecipe+CoreDataClass.swift"; sourceTree = "<group>"; };
 		846600E8294A024800D85415 /* DBRecipe+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DBRecipe+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		849346D329BF830A00E75C1C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		B30573BA29222BE700CA8BDE /* HeaderListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderListCell.swift; sourceTree = "<group>"; };
 		B30573BC29222D4400CA8BDE /* ProductListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCell.swift; sourceTree = "<group>"; };
 		B30573C62923A11000CA8BDE /* ProductSettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSettingsTableViewCell.swift; sourceTree = "<group>"; };
@@ -525,7 +525,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF84F46FAFBAF3BBEEB5E7C0 /* Pods_GroceryList.framework in Frameworks */,
-				849346D429BF830A00E75C1C /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -844,7 +843,6 @@
 		9BCFA37A03FAA44487B60585 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				849346D329BF830A00E75C1C /* StoreKit.framework */,
 				025222570B015E69FF5973D3 /* Pods_GroceryList.framework */,
 			);
 			name = Frameworks;
@@ -1237,6 +1235,7 @@
 		B36AF9482913FA5B00944E9D /* CustomUiElements */ = {
 			isa = PBXGroup;
 			children = (
+				33725E1A2A03828700EE8635 /* TopMainScreenView.swift */,
 				3328AD85299CF40800187B57 /* SharingView.swift */,
 				B34BB809292D1C4600748E8E /* ShimmerView.swift */,
 				B36AF9402913D37300944E9D /* CustomSegmentControl.swift */,
@@ -1943,6 +1942,7 @@
 				B3F7C9BE29950D6D0081B245 /* SignUpWithAppleButton.swift in Sources */,
 				B3D8584C293A405E00CCE230 /* PaywallModel.swift in Sources */,
 				B3179EAB291E3DAE00455419 /* ProductsDataManager.swift in Sources */,
+				33725E1B2A03828700EE8635 /* TopMainScreenView.swift in Sources */,
 				335519CE29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift in Sources */,
 				B37A2CE72911034D003C01AD /* UIColorExtension.swift in Sources */,
 				3368FD6829B6DA0300D97291 /* CreateNewCollectionViewController.swift in Sources */,
@@ -2212,9 +2212,9 @@
 				CODE_SIGN_ENTITLEMENTS = GroceryList/GroceryList.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 28;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = S93MCWMH29;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Grocery list";
@@ -2231,8 +2231,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.94;
-				PRODUCT_BUNDLE_IDENTIFIER = test123;
+				MARKETING_VERSION = 1.96.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ksens.shopp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -2251,7 +2251,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 24;
-				DEVELOPMENT_TEAM = S93MCWMH29;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Grocery list";
@@ -2268,8 +2268,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.94;
-				PRODUCT_BUNDLE_IDENTIFIER = test123;
+				MARKETING_VERSION = 1.96.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ksens.shopp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
