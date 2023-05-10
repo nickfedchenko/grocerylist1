@@ -140,7 +140,7 @@ class MainScreenViewModel {
     
     func getBGColor(at ind: IndexPath) -> UIColor {
         let colorInd = model[ind.section].lists[ind.row].color
-        return colorManager.getGradient(index: colorInd).medium
+        return colorManager.getGradient(index: colorInd).0
     }
     
     func getBGColorForEmptyCell(at ind: IndexPath) -> UIColor {
