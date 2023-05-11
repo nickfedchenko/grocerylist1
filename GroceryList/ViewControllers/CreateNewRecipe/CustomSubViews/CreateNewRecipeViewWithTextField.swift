@@ -32,7 +32,7 @@ final class CreateNewRecipeViewWithTextField: UIView {
         let textField = UITextField()
         textField.delegate = self
         textField.font = UIFont.SFPro.medium(size: 16).font
-        textField.tintColor = UIColor(hex: "#1A645A")
+        textField.tintColor = R.color.primaryDark()
         return textField
     }()
     

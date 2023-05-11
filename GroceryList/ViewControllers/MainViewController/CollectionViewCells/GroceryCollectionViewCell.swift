@@ -136,7 +136,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
     
     // MARK: - UI
     private func setupConstraints() {
-        backgroundColor = UIColor(hex: "#E8F5F3")
+        backgroundColor = R.color.background()
         contentView.addSubviews([leftButton, rightButton, contentViews])
         contentViews.addSubviews([nameLabel, countLabel, sharingView])
         

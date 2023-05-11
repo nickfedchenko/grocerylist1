@@ -180,11 +180,11 @@ class CreateNewProductViewModel {
     }
     
     var getColorForBackground: UIColor {
-        colorManager.getGradient(index: model?.color ?? 0).1
+        colorManager.getGradient(index: model?.color ?? 0).light
     }
     
     var getColorForForeground: UIColor {
-        colorManager.getGradient(index: model?.color ?? 0).0
+        colorManager.getGradient(index: model?.color ?? 0).medium
     }
     
     func getNumberOfCells() -> Int {

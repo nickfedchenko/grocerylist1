@@ -1629,12 +1629,42 @@ struct _R {
     }
   }
 
-  /// This `_R.color` struct is generated, and contains static references to 1 colors.
+  /// This `_R.color` struct is generated, and contains static references to 11 colors.
   struct color {
     let bundle: Foundation.Bundle
 
     /// Color `AccentColor`.
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
+
+    /// Color `DarkGray`.
+    var darkGray: RswiftResources.ColorResource { .init(name: "DarkGray", path: [], bundle: bundle) }
+
+    /// Color `LightGray`.
+    var lightGray: RswiftResources.ColorResource { .init(name: "LightGray", path: [], bundle: bundle) }
+
+    /// Color `PrimaryDark`.
+    var primaryDark: RswiftResources.ColorResource { .init(name: "PrimaryDark", path: [], bundle: bundle) }
+
+    /// Color `action`.
+    var action: RswiftResources.ColorResource { .init(name: "action", path: [], bundle: bundle) }
+
+    /// Color `attention`.
+    var attention: RswiftResources.ColorResource { .init(name: "attention", path: [], bundle: bundle) }
+
+    /// Color `background`.
+    var background: RswiftResources.ColorResource { .init(name: "background", path: [], bundle: bundle) }
+
+    /// Color `black`.
+    var black: RswiftResources.ColorResource { .init(name: "black", path: [], bundle: bundle) }
+
+    /// Color `edit`.
+    var edit: RswiftResources.ColorResource { .init(name: "edit", path: [], bundle: bundle) }
+
+    /// Color `mediumGray`.
+    var mediumGray: RswiftResources.ColorResource { .init(name: "mediumGray", path: [], bundle: bundle) }
+
+    /// Color `primaryLight`.
+    var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
   /// This `_R.image` struct is generated, and contains static references to 161 images.

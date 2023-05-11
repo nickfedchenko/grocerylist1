@@ -35,7 +35,7 @@ final class SharingListViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProRounded.semibold(size: 17).font
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = R.color.primaryDark()
         label.text = "Sync With Family & Friends".localized
         label.numberOfLines = 0
         return label

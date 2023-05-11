@@ -49,11 +49,11 @@ class SelectProductViewModel {
     }
     
     func getColorForBackground() -> UIColor {
-        colorManager.getGradient(index: model.color).1
+        colorManager.getGradient(index: model.color).light
     }
     
     func getForegroundColor() -> UIColor {
-        colorManager.getGradient(index: model.color).0
+        colorManager.getGradient(index: model.color).medium
     }
     
     func getNumberOfCell() -> Int {

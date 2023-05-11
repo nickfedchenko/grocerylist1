@@ -147,8 +147,8 @@ class QuantityView: UIView {
             return
         }
         self.isActive = isActive
-        let color = UIColor(hex: isActive ? "#1A645A" : "#D1D5DB")
-        quantityBackgroundView.layer.borderColor = color.cgColor
+        let color = isActive ? R.color.primaryDark() : R.color.lightGray()
+        quantityBackgroundView.layer.borderColor = color?.cgColor
         unitsView.backgroundColor = color
         quantityTextField.textColor = color
         minusButton.setImage(isActive ? R.image.minusActive() : R.image.minusInactive(), for: .normal)

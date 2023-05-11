@@ -17,12 +17,12 @@ class PasswordExpiredViewController: UIViewController {
             string: R.string.localizable.preferencies(),
             attributes: [
                 .font: UIFont.SFProRounded.semibold(size: 17).font ?? .systemFont(ofSize: 15),
-                .foregroundColor: UIColor(hex: "1A645A")
+                .foregroundColor: R.color.primaryDark() ?? UIColor(hex: "#045C5C")
             ]
         )
         button.imageEdgeInsets.left = -17
         button.setImage(R.image.greenArrowBack(), for: .normal)
-        button.tintColor = UIColor(hex: "1A645A")
+        button.tintColor = R.color.primaryDark()
         button.setAttributedTitle(attrTitle, for: .normal)
         button.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         return button
@@ -47,7 +47,7 @@ class PasswordExpiredViewController: UIViewController {
     private let linkInactiveLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProDisplay.medium(size: 20).font
-        label.textColor = UIColor(hex: "#617774")
+        label.textColor = R.color.darkGray()
         label.text = R.string.localizable.resetPasswordLinkInactive()
         label.numberOfLines = 8
         return label

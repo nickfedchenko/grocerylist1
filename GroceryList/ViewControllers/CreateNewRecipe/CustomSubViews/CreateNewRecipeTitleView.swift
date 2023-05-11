@@ -16,7 +16,7 @@ final class CreateNewRecipeTitleView: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProRounded.bold(size: 22).font
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = R.color.primaryDark()
         label.text = R.string.localizable.recipeCreation()
         return label
     }()
@@ -24,7 +24,7 @@ final class CreateNewRecipeTitleView: UIView {
     private lazy var stepLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProRounded.semibold(size: 17).font
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = R.color.primaryDark()
         return label
     }()
     

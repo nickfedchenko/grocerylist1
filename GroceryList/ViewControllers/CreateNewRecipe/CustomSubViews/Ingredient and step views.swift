@@ -60,7 +60,7 @@ final class StepForCreateRecipeView: UIView {
     private lazy var stepLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProRounded.medium(size: 16).font
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = R.color.primaryDark()
         return label
     }()
     

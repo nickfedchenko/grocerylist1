@@ -25,7 +25,7 @@ final class RecipeServingSelector: UIView {
         button.layer.cornerRadius = 8
         button.layer.cornerCurve = .continuous
         button.clipsToBounds = true
-        button.backgroundColor = UIColor(hex: "1A645A")
+        button.backgroundColor = R.color.primaryDark()
         return button
     }()
     
@@ -35,14 +35,14 @@ final class RecipeServingSelector: UIView {
         button.layer.cornerRadius = 8
         button.layer.cornerCurve = .continuous
         button.clipsToBounds = true
-        button.backgroundColor = UIColor(hex: "1A645A")
+        button.backgroundColor = R.color.primaryDark()
         return button
     }()
     
     private let servingsLabel: UILabel = {
         let label = UILabel()
         label.font = R.font.sfProTextSemibold(size: 17)
-        label.textColor = UIColor(hex: "1A645A")
+        label.textColor = R.color.primaryDark()
         label.numberOfLines = 1
         label.textAlignment = .center
         label.text = "1 " + R.string.localizable.servings1()
@@ -86,7 +86,7 @@ final class RecipeServingSelector: UIView {
         layer.cornerRadius = 8
         layer.cornerCurve = .continuous
         layer.borderWidth = 1
-        layer.borderColor = UIColor(hex: "617774").cgColor
+        layer.borderColor = R.color.darkGray()?.cgColor
     }
     
     private func setupSubviews() {

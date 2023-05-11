@@ -68,11 +68,15 @@ class ProductsViewModel {
     }
     
     func getColorForBackground() -> UIColor {
-        colorManager.getGradient(index: model.color).1
+        colorManager.getGradient(index: model.color).light
     }
     
     func getColorForForeground() -> UIColor {
-        colorManager.getGradient(index: model.color).0
+        colorManager.getGradient(index: model.color).medium
+    }
+    
+    func getDarkColor() -> UIColor {
+        colorManager.getGradient(index: model.color).dark
     }
     
     func getNameOfList() -> String {

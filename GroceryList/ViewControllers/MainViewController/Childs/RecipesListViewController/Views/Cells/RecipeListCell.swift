@@ -42,7 +42,7 @@ final class RecipeListCell: UICollectionViewCell {
         button.setImage(R.image.addToCart(), for: .normal)
         button.setImage(R.image.addToCartFilled(), for: .selected
         )
-        button.tintColor = UIColor(hex: "1A645A")
+        button.tintColor = R.color.primaryDark()
         return button
     }()
     

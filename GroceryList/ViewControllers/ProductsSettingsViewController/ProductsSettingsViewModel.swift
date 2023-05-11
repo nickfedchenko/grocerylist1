@@ -67,11 +67,11 @@ class ProductsSettingsViewModel {
     }
     
     func getTextColor() -> UIColor {
-        colorManager.getGradient(index: model.color).0
+        colorManager.getGradient(index: model.color).medium
     }
     
     func getSeparatirLineColor() -> UIColor {
-        colorManager.getGradient(index: model.color).1
+        colorManager.getGradient(index: model.color).light
     }
     
     func controllerDissmised() {

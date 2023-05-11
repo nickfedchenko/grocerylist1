@@ -40,7 +40,7 @@ class MainScreenViewController: UIViewController {
         collectionView.contentInset.bottom = 60
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
-        collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
+        collectionView.backgroundColor = R.color.background()
         collectionView.register(classCell: GroceryCollectionViewCell.self)
         collectionView.register(classCell: EmptyColoredCell.self)
         collectionView.register(classCell: InstructionCell.self)
@@ -217,7 +217,7 @@ class MainScreenViewController: UIViewController {
     
     // MARK: - UI
     private func setupConstraints() {
-        view.backgroundColor = UIColor(hex: "#E8F5F3")
+        view.backgroundColor = R.color.background()
         view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView, topMainView,
                         activityView, contextMenuBackgroundView, contextMenu])
         collectionView.addSubview(foodImage)

@@ -58,11 +58,11 @@ class CreateNewListViewModel {
     }
     
     func getTextFieldColor(at ind: Int) -> UIColor {
-        colorManager.getGradient(index: ind).0
+        colorManager.getGradient(index: ind).medium
     }
     
     func getBackgroundColor(at ind: Int) -> UIColor {
-        colorManager.getGradient(index: ind).1
+        colorManager.getGradient(index: ind).light
     }
     
     func pickItemTapped(height: Double) {

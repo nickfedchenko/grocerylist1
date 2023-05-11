@@ -34,7 +34,7 @@ final class ShowCollectionViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProRounded.semibold(size: 17).font
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = R.color.primaryDark()
         label.numberOfLines = 0
         return label
     }()
@@ -42,7 +42,7 @@ final class ShowCollectionViewController: UIViewController {
     private lazy var doneButton: UIButton = {
         let button = UIButton()
         button.setTitle("Done".localized, for: .normal)
-        button.setTitleColor(UIColor(hex: "#1A645A"), for: .normal)
+        button.setTitleColor(R.color.primaryDark(), for: .normal)
         button.titleLabel?.font = UIFont.SFPro.bold(size: 18).font
         button.addTarget(self, action: #selector(doneButtonAction), for: .touchUpInside)
         return button

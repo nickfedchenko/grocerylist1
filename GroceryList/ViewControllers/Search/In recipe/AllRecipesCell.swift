@@ -16,7 +16,7 @@ final class AllRecipesCell: UICollectionViewCell {
         button.backgroundColor = UIColor(hex: "#F2FAF9")
         button.setTitle("Search in all recipes", for: .normal)
         button.titleLabel?.font = UIFont.SFPro.semibold(size: 16).font
-        button.setTitleColor(UIColor(hex: "#1A645A"), for: .normal)
+        button.setTitleColor(R.color.primaryDark(), for: .normal)
         button.addTarget(self, action: #selector(allRecipeButtonTapped), for: .touchUpInside)
         return button
     }()

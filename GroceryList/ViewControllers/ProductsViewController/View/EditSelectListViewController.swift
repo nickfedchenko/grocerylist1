@@ -72,7 +72,7 @@ final class EditSelectListViewController: SelectListViewController {
         
         closeButton.setImage(nil, for: .normal)
         closeButton.setTitle(R.string.localizable.cancel(), for: .normal)
-        closeButton.setTitleColor(UIColor(hex: "#7E19FF"), for: .normal)
+        closeButton.setTitleColor(R.color.edit(), for: .normal)
         closeButton.titleLabel?.font = UIFont.SFPro.semibold(size: 16).font
         
         let firstRecognizer = UITapGestureRecognizer(target: self, action: #selector(createListAction))

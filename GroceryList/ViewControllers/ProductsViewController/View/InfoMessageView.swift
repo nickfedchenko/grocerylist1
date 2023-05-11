@@ -38,7 +38,7 @@ final class InfoMessageView: UIView {
     
     private lazy var infoView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#85F3D5")
+        view.backgroundColor = R.color.action()
         view.layer.cornerRadius = 10
         view.addShadowForView(radius: 22, height: 3)
         return view
@@ -92,7 +92,7 @@ final class InfoMessageView: UIView {
         let shape = CAShapeLayer()
         shape.name = shapeName
         shape.path = path
-        shape.fillColor = UIColor(hex: "#85F3D5").cgColor
+        shape.fillColor = R.color.action()?.cgColor
         self.layer.addSublayer(shape)
     }
     

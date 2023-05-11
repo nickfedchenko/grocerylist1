@@ -26,14 +26,14 @@ final class ShowCollectionCell: UITableViewCell {
     
     private lazy var selectView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#85F3D5")
+        view.backgroundColor = R.color.action()
         return view
     }()
     
     private lazy var collectionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProRounded.bold(size: 18).font
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = R.color.primaryDark()
         return label
     }()
     

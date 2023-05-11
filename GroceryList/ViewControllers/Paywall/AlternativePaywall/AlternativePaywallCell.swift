@@ -79,14 +79,14 @@ class AlternativePaywallCell: UICollectionViewCell {
     private let priceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProDisplay.bold(size: 19).font
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = R.color.primaryDark()
         return label
     }()
     
     private let perWeekLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 13).font
-        label.textColor = UIColor(hex: "#617774")
+        label.textColor = R.color.darkGray()
         label.text = "/WEEK".localized.lowercased()
         return label
     }()
@@ -94,7 +94,7 @@ class AlternativePaywallCell: UICollectionViewCell {
     private let periodLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.bold(size: 17).font
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = R.color.primaryDark()
         label.text = "Year"
         return label
     }()
@@ -102,7 +102,7 @@ class AlternativePaywallCell: UICollectionViewCell {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 13).font
-        label.textColor = UIColor(hex: "#617774")
+        label.textColor = R.color.darkGray()
         label.text = "$43.54"
         return label
     }()
@@ -132,13 +132,13 @@ class AlternativePaywallCell: UICollectionViewCell {
     }
     
     private func selectCell() {
-        containerView.layer.borderColor = UIColor(hex: "#1A645A").cgColor
-        threeDaysFreeLabel.textColor = UIColor(hex: "#1A645A")
+        containerView.layer.borderColor = R.color.primaryDark()?.cgColor
+        threeDaysFreeLabel.textColor = R.color.primaryDark()
     }
     
     private func deselectCell() {
         containerView.layer.borderColor = UIColor.white.cgColor
-        threeDaysFreeLabel.textColor = UIColor(hex: "#617774")
+        threeDaysFreeLabel.textColor = R.color.darkGray()
     }
     
     func setupCell(isTopCell: Bool = false, price: String, description: String, period: String) {

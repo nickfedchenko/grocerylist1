@@ -124,7 +124,7 @@ class SelectCategoryViewController: UIViewController {
     private func setupController() {
         view.backgroundColor = viewModel?.getBackgroundColor()
         navigationView.backgroundColor = viewModel?.getBackgroundColor().withAlphaComponent(0.9)
-        searchView.backgroundColor = UIColor(hex: "#D1D5DB")
+        searchView.backgroundColor = R.color.lightGray()
         titleCenterLabel.textColor = viewModel?.getForegroundColor()
     }
     

@@ -59,7 +59,7 @@ final class SearchInListCell: UICollectionViewCell {
     }
     
     func configureList(_ list: GroceryListsModel) {
-        listViewColor = ColorManager().getGradient(index: list.color).0
+        listViewColor = ColorManager().getGradient(index: list.color).medium
         listView.backgroundColor = listViewColor
         listTitleLabel.text = list.name
         let doneProducts = list.products.filter { $0.isPurchased }

@@ -58,7 +58,7 @@ class EmptyColoredCell: UICollectionViewCell {
     
     // MARK: - UI
     private func setupConstraints() {
-        backgroundColor = UIColor(hex: "#E8F5F3")
+        backgroundColor = R.color.background()
         self.addSubviews([contentViews])
         contentViews.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)

@@ -15,7 +15,7 @@ final class YourEmailView: UIView {
     private let emailTitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
-        label.textColor = UIColor(hex: "#617774")
+        label.textColor = R.color.darkGray()
         label.text = R.string.localizable.yourEmail()
         return label
     }()
