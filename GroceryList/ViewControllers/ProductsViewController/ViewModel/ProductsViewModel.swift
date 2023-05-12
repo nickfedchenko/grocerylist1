@@ -5,6 +5,7 @@
 //  Created by Шамиль Моллачиев on 10.11.2022.
 //
 
+import ApphudSDK
 import Foundation
 import StoreKit
 import UIKit
@@ -60,7 +61,12 @@ class ProductsViewModel {
     }
     
     var isVisibleCost: Bool {
-        model.isVisibleCost
+#if RELEASE
+        guard Apphud.hasActiveSubscription() else {
+            return false
+        }
+#endif
+        return model.isVisibleCost
     }
     
     var isSelectedAllProductsForEditing: Bool {
@@ -98,7 +104,6 @@ class ProductsViewModel {
                                      compl: { [weak self] updatedModel, products in
             self?.model = updatedModel
             self?.appendToDataSourceProducts(products: products)
-            self?.dataSource.typeOfSorting = SortingType(rawValue: self?.model.typeOfSorting ?? 0) ?? .category
             self?.delegate?.updateController()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self?.updateList()
@@ -119,6 +124,14 @@ class ProductsViewModel {
             }
         })
         
+    }
+    
+    func sortTapped(sortType: ProductsSortViewModel.SortType) {
+        router?.goToProductSort(model: model, sortType: sortType, compl: { [weak self] updatedModel in
+            self?.model = updatedModel
+            self?.dataSource.typeOfSorting = SortingType(rawValue: self?.model.typeOfSorting ?? 0) ?? .category
+            self?.delegate?.updateController()
+        })
     }
     
     func updatePurchasedStatus(product: Product) {
@@ -314,6 +327,9 @@ class ProductsViewModel {
             var categoryName = category.name
             if categoryName == "DictionaryFavorite" {
                 categoryName = R.string.localizable.favorites()
+            }
+            if categoryName == "alphabeticalSorted" {
+                categoryName = "AlphabeticalSorted".localized
             }
             list += categoryName.uppercased() + newLine
             category.products.map { product in

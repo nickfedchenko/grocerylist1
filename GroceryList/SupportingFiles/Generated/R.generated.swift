@@ -1667,7 +1667,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 161 images.
+  /// This `_R.image` struct is generated, and contains static references to 163 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1785,6 +1785,9 @@ struct _R {
     /// Image `SettingsEmptyAvatar`.
     var settingsEmptyAvatar: RswiftResources.ImageResource { .init(name: "SettingsEmptyAvatar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `Shops`.
+    var shops: RswiftResources.ImageResource { .init(name: "Shops", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `SignUpAcceptChackmark`.
     var signUpAcceptChackmark: RswiftResources.ImageResource { .init(name: "SignUpAcceptChackmark", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -1793,6 +1796,9 @@ struct _R {
 
     /// Image `Sort`.
     var sort: RswiftResources.ImageResource { .init(name: "Sort", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Sort Filter`.
+    var sortFilter: RswiftResources.ImageResource { .init(name: "Sort Filter", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `SortRecipeMenu`.
     var sortRecipeMenu: RswiftResources.ImageResource { .init(name: "SortRecipeMenu", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

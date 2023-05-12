@@ -91,7 +91,7 @@ final class IngredientViewController: UIViewController {
     }
     
     private func categoryIsActive(_ isActive: Bool, categoryTitle: String) {
-        let color = isActive ? (R.color.primaryDark() ??  UIColor(hex: "#045C5C")) : UIColor(hex: "#777777")
+        let color = isActive ? (R.color.primaryDark() ?? UIColor(hex: "#045C5C")) : UIColor(hex: "#777777")
         categoryView.setCategory(categoryTitle, textColor: color)
     }
     

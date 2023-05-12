@@ -11,6 +11,8 @@ import UIKit
 
 class HeaderListCell: UICollectionViewListCell {
     
+    var tapSortPurchased: (() -> Void)?
+    
     private let containerView: UIView = {
         let view = UIView()
         return view
@@ -79,6 +81,13 @@ class HeaderListCell: UICollectionViewListCell {
         return imageView
     }()
     
+    private lazy var sortButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(sortButtonPressed), for: .touchUpInside)
+        button.setImage(R.image.sort()?.withTintColor(.white), for: .normal)
+        return button
+    }()
+    
     private let purchasedCostLabel = UILabel()
     private var purchasedCostHeight = 0
     
@@ -138,12 +147,17 @@ class HeaderListCell: UICollectionViewListCell {
         }
         UIView.animate(withDuration: 0.25, delay: .zero, options: .curveEaseOut) {
             self.checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
-            self.checkmarkView.tintColor = color
+            self.checkmarkView.tintColor = isPurchased ? .white : color
             self.pinchView.tintColor = color
         }
     }
     
     func setupCell(text: String?, color: UIColor?, bcgColor: UIColor?, isExpand: Bool, typeOfCell: TypeOfCell) {
+        checkmarkView.tintColor = color
+        checkmarkView.transform = CGAffineTransform(rotationAngle: isExpand ? -.pi : .pi * 2)
+        containerView.backgroundColor = .clear
+        sortButton.isHidden = typeOfCell != .purchased
+
         switch typeOfCell {
         case .favorite:
             titleLabel.text = ""
@@ -151,10 +165,11 @@ class HeaderListCell: UICollectionViewListCell {
             pinchView.tintColor = color
             if !isExpand { coloredView.backgroundColor = color }
         case .purchased:
-            coloredView.backgroundColor = .white
-            titleLabel.textColor = color
+            coloredView.backgroundColor = color
+            titleLabel.textColor = .white
             titleLabel.text = text
-            collapsedColoredView.backgroundColor = .clear
+            collapsedColoredView.backgroundColor = color
+            checkmarkView.tintColor = .white
         case .sortedByAlphabet:
             checkmarkView.isHidden = true
             titleLabel.text = "AlphabeticalSorted".localized
@@ -168,10 +183,6 @@ class HeaderListCell: UICollectionViewListCell {
             }
         case .displayCostSwitch: return
         }
-        
-        checkmarkView.tintColor = color
-        checkmarkView.transform = CGAffineTransform(rotationAngle: isExpand ? -.pi : .pi * 2)
-        containerView.backgroundColor = .clear
     }
     
     func setupUserImage(image: String?, color: UIColor?) {
@@ -237,12 +248,18 @@ class HeaderListCell: UICollectionViewListCell {
         purchasedCostHeight = 25
     }
     
+    @objc
+    private func sortButtonPressed() {
+        tapSortPurchased?()
+    }
+    
     // MARK: - UI
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         contentView.addSubviews([containerView])
         containerView.addSubviews([coloredView, collapsedColoredView, coloredViewForSorting,
-                                   titleLabel, checkmarkView, pinchView, userImageView, purchasedCostLabel])
+                                   titleLabel, checkmarkView, pinchView, userImageView,
+                                   purchasedCostLabel, sortButton])
         coloredViewForSorting.addSubview(checkmarkForSorting)
         
         containerView.snp.makeConstraints { make in
@@ -286,6 +303,12 @@ class HeaderListCell: UICollectionViewListCell {
             make.right.equalToSuperview().inset(30)
             make.width.equalTo(19)
             make.height.equalTo(11)
+            make.centerY.equalTo(coloredView.snp.centerY)
+        }
+        
+        sortButton.snp.makeConstraints { make in
+            make.trailing.equalTo(checkmarkView.snp.leading).offset(-16)
+            make.width.height.equalTo(40)
             make.centerY.equalTo(coloredView.snp.centerY)
         }
         

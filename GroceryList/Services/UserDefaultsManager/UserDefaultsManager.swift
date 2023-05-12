@@ -154,6 +154,15 @@ class UserDefaultsManager {
         }
     }
     
+    static var isAscendingOrder: Bool {
+        get {
+            return !UserDefaults.standard.bool(forKey: "isAscendingOrder")
+        }
+        set {
+            UserDefaults.standard.set(!newValue, forKey: "isAscendingOrder")
+        }
+    }
+    
     private static func setValue<T>(value: T, for key: UDKeys) {
         UserDefaults.standard.set(value, forKey: key.rawValue)
     }

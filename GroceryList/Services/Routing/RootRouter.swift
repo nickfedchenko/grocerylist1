@@ -272,6 +272,12 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func goToProductSort(model: GroceryListsModel, sortType: ProductsSortViewModel.SortType, compl: ((GroceryListsModel) -> Void)?) {
+        let controller = viewControllerFactory.createProductsSortController(model: model, sortType: sortType,
+                                                                            updateModel: compl, router: self)
+        navigationPresent(controller, animated: false)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
