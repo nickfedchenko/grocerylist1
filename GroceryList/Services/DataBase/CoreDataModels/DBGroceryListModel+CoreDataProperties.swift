@@ -28,6 +28,9 @@ extension DBGroceryListModel {
     @NSManaged public var isSharedListOwner: Bool
     @NSManaged public var isShowImage: Int16
     @NSManaged public var isVisibleCost: Bool
+    @NSManaged public var typeOfSortingPurchased: Int64
+    @NSManaged public var isAscendingOrder: Bool
+    @NSManaged public var isAscendingOrderPurchased: Int16
 
     static func prepare(fromPlainModel model: GroceryListsModel, context: NSManagedObjectContext) -> DBGroceryListModel {
         let object = DBGroceryListModel(context: context)

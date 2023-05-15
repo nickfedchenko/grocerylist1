@@ -265,7 +265,7 @@ class ProductsViewController: UIViewController {
     
     @objc
     private func sortButtonPressed() {
-        viewModel?.sortTapped(sortType: .products)
+        viewModel?.sortTapped(productType: .products)
     }
     
     @objc
@@ -390,7 +390,7 @@ class ProductsViewController: UIViewController {
             }
             
             cell.tapSortPurchased = { [weak self] in
-                self?.viewModel?.sortTapped(sortType: .purchased)
+                self?.viewModel?.sortTapped(productType: .purchased)
             }
         }
     
@@ -731,7 +731,7 @@ extension ProductsViewController: UICollectionViewDelegate {
             // для схлопывыания Куплено
             if parent.typeOFCell == .purchased {
                 isPurchased = true
-                var row = indexPath.row + 1
+                var row = indexPath.row
                 let array = viewModel?.arrayWithSections
                 while row <= (array?.count ?? 0) {
                     let index = IndexPath(row: row, section: 0)

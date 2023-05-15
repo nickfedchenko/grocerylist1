@@ -49,11 +49,7 @@ class ProductsViewModel {
     }
     
     var isVisibleImage: Bool {
-        switch model.isShowImage {
-        case .nothing:      return UserDefaultsManager.isShowImage
-        case .switchOn:     return true
-        case .switchOff:    return false
-        }
+        model.isShowImage.getBool(defaultValue: UserDefaultsManager.isShowImage)
     }
     
     var totalCost: Double? {
@@ -126,10 +122,22 @@ class ProductsViewModel {
         
     }
     
-    func sortTapped(sortType: ProductsSortViewModel.SortType) {
-        router?.goToProductSort(model: model, sortType: sortType, compl: { [weak self] updatedModel in
+    func sortTapped(productType: ProductsSortViewModel.ProductType) {
+        router?.goToProductSort(model: model, productType: productType,
+                                compl: { [weak self] updatedModel in
             self?.model = updatedModel
-            self?.dataSource.typeOfSorting = SortingType(rawValue: self?.model.typeOfSorting ?? 0) ?? .category
+            var sortingType = SortingType(rawValue: self?.model.typeOfSorting ?? 0) ?? .category
+            switch productType {
+            case .products:
+                self?.dataSource.isAscendingOrder = updatedModel.isAscendingOrder
+                self?.dataSource.typeOfSorting = sortingType
+            case .purchased:
+                sortingType = SortingType(rawValue: self?.model.typeOfSortingPurchased ?? 0) ?? .category
+                let isAscendingOrder = updatedModel.isAscendingOrderPurchased
+                                                   .getBool(defaultValue: updatedModel.isAscendingOrder)
+                self?.dataSource.isAscendingOrderPurchased = isAscendingOrder
+                self?.dataSource.typeOfSortingPurchased = sortingType
+            }
             self?.delegate?.updateController()
         })
     }

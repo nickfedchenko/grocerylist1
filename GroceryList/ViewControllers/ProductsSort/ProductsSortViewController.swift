@@ -73,7 +73,7 @@ class ProductsSortViewController: UIViewController {
         setupConstraints()
 
         sortLabel.text = viewModel?.title
-        if !UserDefaultsManager.isAscendingOrder {
+        if (viewModel?.getIsAscendingOrder() ?? true) {
             sortButton.transform = CGAffineTransform(rotationAngle: -.pi)
         }
         
@@ -129,8 +129,8 @@ class ProductsSortViewController: UIViewController {
     
     @objc
     private func sortButtonPressed() {
-        UserDefaultsManager.isAscendingOrder = !UserDefaultsManager.isAscendingOrder
-        if UserDefaultsManager.isAscendingOrder {
+        viewModel?.toggleIsAscendingOrder()
+        if (viewModel?.getIsAscendingOrder() ?? true) {
             ascendingOrder()
         } else {
             descendingOrder()

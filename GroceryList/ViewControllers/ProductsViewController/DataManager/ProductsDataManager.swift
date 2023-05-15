@@ -26,6 +26,8 @@ class ProductsDataManager {
             createDataSourceArray()
         }
     }
+    var isAscendingOrder = true
+    var isAscendingOrderPurchased = true
     var dataSourceArray: [Category] = [] {
         didSet {
             dataChangedCallBack?()
@@ -41,9 +43,13 @@ class ProductsDataManager {
           groceryListId: String) {
         self.typeOfSorting = typeOfSorting
         self.groceryListId = groceryListId
-        if let domainList = CoreDataManager.shared.getList(list: groceryListId),
-            let sharedId = domainList.sharedListId {
-            users = SharedListManager.shared.sharedListsUsers[sharedId] ?? []
+        if let domainList = CoreDataManager.shared.getList(list: groceryListId) {
+            typeOfSortingPurchased = SortingType(rawValue: Int(domainList.typeOfSortingPurchased)) ?? .category
+            isAscendingOrder = domainList.isAscendingOrder
+            isAscendingOrderPurchased = getIsAscendingOrderPurchased(domainList.isAscendingOrderPurchased)
+            if let sharedId = domainList.sharedListId {
+                users = SharedListManager.shared.sharedListsUsers[sharedId] ?? []
+            }
         }
     }
 
@@ -143,7 +149,8 @@ class ProductsDataManager {
     }
     
     private func createSortedProducts() {
-        let products = getSortedProductsInOrder()
+        let products = getSortedProductsInOrder(products: products, isAscendingOrder: isAscendingOrder,
+                                                typeOfSorting: typeOfSorting)
         var newArray: [Category] = []
         
         // Избранное
@@ -172,8 +179,9 @@ class ProductsDataManager {
         saveExpanding(newArray: newArray)
     }
     
-    private func getSortedProductsInOrder() -> [Product] {
-        guard UserDefaultsManager.isAscendingOrder else {
+    private func getSortedProductsInOrder(products: [Product],
+                                          isAscendingOrder: Bool, typeOfSorting: SortingType) -> [Product] {
+        guard isAscendingOrder else {
             switch typeOfSorting {
             case .category, .time, .user:
                 return products.sorted(by: { $0.dateOfCreation > $1.dateOfCreation })
@@ -202,15 +210,15 @@ class ProductsDataManager {
     (base: [String: [Product]], other: [String: [Product]]) {
         var baseDict: [String: [Product]] = [:]
         var otherDict: [String: [Product]] = [:]
-        let sortProducts = getProducts(products: products, isPurchased: isPurchased)
         let typeOfSort = isPurchased ? typeOfSortingPurchased : typeOfSorting
+        let sortProducts = getProducts(products: products, isPurchased: isPurchased)
         
         sortProducts.forEach({ product in
             switch typeOfSort {
             case .category:
                 baseDict.add(product, toArrayOn: product.category)
             case .alphabet:
-                baseDict.add(product, toArrayOn: "alphabeticalPurchasedSorted")
+                baseDict.add(product, toArrayOn: "alphabeticalSorted")
             case .time:
                 if let recipeTitle = product.fromRecipeTitle {
                     baseDict.add(product, toArrayOn: recipeTitle)
@@ -243,8 +251,12 @@ class ProductsDataManager {
     }
     
     private func getProducts(products: [Product], isPurchased: Bool) -> [Product] {
-        return isPurchased ? products.filter { $0.isPurchased || $0.category == "Purchased".localized }
-                           : filteredProducts(products: products)
+        guard isPurchased else {
+            return filteredProducts(products: products)
+        }
+        let purchasedProducts = products.filter { $0.isPurchased || $0.category == "Purchased".localized }
+        return getSortedProductsInOrder(products: purchasedProducts, isAscendingOrder: isAscendingOrderPurchased,
+                                        typeOfSorting: typeOfSortingPurchased)
     }
     
     private func filteredProducts(products: [Product]) -> [Product] {
@@ -267,17 +279,13 @@ class ProductsDataManager {
         case .store:        typeOFCell = .normal
         }
         
-        categories = dict.map({ Category(name: getCategoryName(name: $0.key, isPurchased: isPurchased),
-                                         products: $0.value, typeOFCell: typeOFCell) })
-        
-        guard UserDefaultsManager.isAscendingOrder else {
+        categories = dict.map({ Category(name: $0.key, products: $0.value,
+                                         typeOFCell: typeOFCell) })
+        let isAscendingOrder = isPurchased ? isAscendingOrderPurchased : isAscendingOrder
+        guard isAscendingOrder else {
             return categories.sorted(by: { $0.name > $1.name })
         }
         return categories.sorted(by: { $0.name < $1.name })
-    }
-    
-    private func getCategoryName(name: String, isPurchased: Bool) -> String {
-        return isPurchased ? " " + name : name
     }
     
     /// Сохранение параметра свернутости развернутости списка
@@ -291,6 +299,13 @@ class ProductsDataManager {
             })
         }
         dataSourceArray = newArray
+    }
+    
+    private func getIsAscendingOrderPurchased(_ dbIsAscendingOrderPurchased: Int16) -> Bool {
+        guard let isAscendingOrder = BoolWithNilForCD(rawValue: dbIsAscendingOrderPurchased) else {
+            return isAscendingOrder
+        }
+        return isAscendingOrder.getBool(defaultValue: self.isAscendingOrder)
     }
     
     private func getUserName(by token: String) -> String? {

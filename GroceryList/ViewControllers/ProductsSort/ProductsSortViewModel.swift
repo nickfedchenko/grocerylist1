@@ -12,16 +12,16 @@ class ProductsSortViewModel: ProductsSettingsViewModel {
     
     var updateModel: ((GroceryListsModel) -> Void)?
     var title: String {
-        sortType.title
+        productType.title
     }
     
     private var model: GroceryListsModel
     private var allContent = TableViewContent.allCases
-    private var sortType: SortType
+    private var productType: ProductType
     
-    init(model: GroceryListsModel, sortType: SortType) {
+    init(model: GroceryListsModel, productType: ProductType) {
         self.model = model
-        self.sortType = sortType
+        self.productType = productType
         super.init(model: model, snapshot: nil, listByText: "")
         
         allContent = getContentOnSharedList()
@@ -41,33 +41,27 @@ class ProductsSortViewModel: ProductsSettingsViewModel {
     
     override func isCheckmarkActive(at ind: Int) -> Bool {
         guard let content = allContent[safe: ind] else { return false }
+        let typeOfSorting = productType == .products ? model.typeOfSorting
+        : model.typeOfSortingPurchased
         switch content {
-        case .byUsers: return model.typeOfSorting == SortingType.user.rawValue
-        case .byCategory: return model.typeOfSorting == SortingType.category.rawValue
-        case .byTime: return model.typeOfSorting == SortingType.time.rawValue
-        case .byRecipe: return model.typeOfSorting == SortingType.recipe.rawValue
-        case .byAlphabet: return model.typeOfSorting == SortingType.alphabet.rawValue
-        case .byStore: return model.typeOfSorting == SortingType.store.rawValue
+        case .byUsers:      return typeOfSorting == SortingType.user.rawValue
+        case .byCategory:   return typeOfSorting == SortingType.category.rawValue
+        case .byTime:       return typeOfSorting == SortingType.time.rawValue
+        case .byRecipe:     return typeOfSorting == SortingType.recipe.rawValue
+        case .byAlphabet:   return typeOfSorting == SortingType.alphabet.rawValue
+        case .byStore:      return typeOfSorting == SortingType.store.rawValue
         }
     }
     
     override func cellSelected(at ind: Int) {
         guard let content = allContent[safe: ind] else { return }
+        var sortingType: SortingType = .category
         switch content {
-        case .byUsers:
-            model.typeOfSorting = SortingType.user.rawValue
-        case .byCategory:
-            AmplitudeManager.shared.logEvent(.setSortCategory)
-            model.typeOfSorting = SortingType.category.rawValue
-        case .byTime:
-            AmplitudeManager.shared.logEvent(.setSortTime)
-            model.typeOfSorting = SortingType.time.rawValue
-        case .byRecipe:
-            AmplitudeManager.shared.logEvent(.setSortRecipe)
-            model.typeOfSorting = SortingType.recipe.rawValue
-        case .byAlphabet:
-            AmplitudeManager.shared.logEvent(.setSortAbc)
-            model.typeOfSorting = SortingType.alphabet.rawValue
+        case .byCategory:   sortingType = .category
+        case .byAlphabet:   sortingType = .alphabet
+        case .byTime:       sortingType = .time
+        case .byRecipe:     sortingType = .recipe
+        case .byUsers:      sortingType = .user
         case .byStore:
 #if RELEASE
             guard Apphud.hasActiveSubscription() else {
@@ -75,8 +69,15 @@ class ProductsSortViewModel: ProductsSettingsViewModel {
                 return
             }
 #endif
-            model.typeOfSorting = SortingType.store.rawValue
+            sortingType = .store
         }
+        
+        if productType == .products {
+            model.typeOfSorting = sortingType.rawValue
+        } else {
+            model.typeOfSortingPurchased = sortingType.rawValue
+        }
+        
         savePatametrs()
     }
     
@@ -86,6 +87,27 @@ class ProductsSortViewModel: ProductsSettingsViewModel {
     
     func showPaywall() {
         router?.showAlternativePaywallVC()
+    }
+    
+    func toggleIsAscendingOrder() {
+        switch productType {
+        case .products:
+            model.isAscendingOrder = !model.isAscendingOrder
+        case .purchased:
+            let isAscendingOrder = getIsAscendingOrder()
+            let isAscendingOrderPurchased: BoolWithNilForCD = !isAscendingOrder ? .itsTrue : .itsFalse
+            model.isAscendingOrderPurchased = isAscendingOrderPurchased
+        }
+        savePatametrs()
+    }
+    
+    func getIsAscendingOrder() -> Bool {
+        switch productType {
+        case .products:
+            return model.isAscendingOrder
+        case .purchased:
+            return model.isAscendingOrderPurchased.getBool(defaultValue: model.isAscendingOrder)
+        }
     }
     
     private func getContentOnSharedList() -> [TableViewContent] {
@@ -114,7 +136,7 @@ class ProductsSortViewModel: ProductsSettingsViewModel {
 }
 
 extension ProductsSortViewModel {
-    enum SortType {
+    enum ProductType {
         case products
         case purchased
         

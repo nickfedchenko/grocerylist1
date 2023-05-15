@@ -87,11 +87,7 @@ class ProductsSettingsViewModel {
     func switchValue(at ind: Int) -> Bool {
         guard let content = allContent[safe: ind] else { return false }
         if content == .imageMatching {
-            switch model.isShowImage {
-            case .nothing:      return UserDefaultsManager.isShowImage
-            case .switchOff:    return false
-            case .switchOn:     return true
-            }
+            return model.isShowImage.getBool(defaultValue: UserDefaultsManager.isShowImage)
         }
         if content == .storeAndCost {
 #if RELEASE
@@ -158,7 +154,7 @@ class ProductsSettingsViewModel {
             savePatametrs()
         case .imageMatching:
             AmplitudeManager.shared.logEvent(.setAutoimageToggle, properties: [.isActive: isOn ? .yes : .no])
-            model.isShowImage = isOn ? .switchOn : .switchOff
+            model.isShowImage = isOn ? .itsTrue : .itsFalse
             savePatametrs()
         default: break
         }

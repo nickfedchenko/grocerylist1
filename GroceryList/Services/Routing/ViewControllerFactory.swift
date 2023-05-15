@@ -104,7 +104,7 @@ protocol ViewControllerFactoryProtocol {
                                         state: EditSelectListViewController.State) -> UIViewController
     func createNewStoreController(router: RootRouter, model: GroceryListsModel?,
                                   compl: @escaping (Store?) -> Void) -> UIViewController
-    func createProductsSortController(model: GroceryListsModel, sortType: ProductsSortViewModel.SortType,
+    func createProductsSortController(model: GroceryListsModel, productType: ProductsSortViewModel.ProductType,
                                       updateModel: ((GroceryListsModel) -> Void)?,
                                       router: RootRouter) -> UIViewController
 }
@@ -517,11 +517,11 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createProductsSortController(model: GroceryListsModel, sortType: ProductsSortViewModel.SortType,
+    func createProductsSortController(model: GroceryListsModel, productType: ProductsSortViewModel.ProductType,
                                       updateModel: ((GroceryListsModel) -> Void)?,
                                       router: RootRouter) -> UIViewController {
         let viewController = ProductsSortViewController()
-        let viewModel = ProductsSortViewModel(model: model, sortType: sortType)
+        let viewModel = ProductsSortViewModel(model: model, productType: productType)
         viewModel.router = router
         viewModel.delegate = viewController
         viewModel.updateModel = updateModel

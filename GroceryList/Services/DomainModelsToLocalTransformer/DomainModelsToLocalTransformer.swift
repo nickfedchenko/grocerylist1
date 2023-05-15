@@ -24,14 +24,20 @@ class DomainModelsToLocalTransformer {
         let isShared = dbModel.isShared
         let sharedId = dbModel.sharedListId ?? ""
         let isSharedListOwner = dbModel.isSharedListOwner
-        let isShowImage = PictureMatchingState(rawValue: dbModel.isShowImage) ?? .nothing
-        
+        let isShowImage = BoolWithNilForCD(rawValue: dbModel.isShowImage) ?? .nothing
+        let typeOfSortingPurchased = Int(dbModel.typeOfSortingPurchased)
+        let isAscendingOrder = dbModel.isAscendingOrder
+        let isAscendingOrderPurchased = BoolWithNilForCD(rawValue: dbModel.isAscendingOrderPurchased) ?? .nothing
         return GroceryListsModel(id: id, dateOfCreation: date,
                                  name: dbModel.name, color: Int(color),
                                  isFavorite: dbModel.isFavorite, products: prod,
                                  typeOfSorting: sortType, isShared: isShared,
                                  sharedId: sharedId, isSharedListOwner: isSharedListOwner,
-                                 isShowImage: isShowImage, isVisibleCost: dbModel.isVisibleCost)
+                                 isShowImage: isShowImage,
+                                 typeOfSortingPurchased: typeOfSortingPurchased,
+                                 isAscendingOrder: isAscendingOrder,
+                                 isAscendingOrderPurchased: isAscendingOrderPurchased,
+                                 isVisibleCost: dbModel.isVisibleCost)
     }
     
     func transformCoreDataProducts(product: DBProduct?, isVisibleCost: Bool) -> Product {
