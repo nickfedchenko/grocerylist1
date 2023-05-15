@@ -37,6 +37,7 @@
 "byRecipe"                  = "Nach Rezept";
 "byTime"                    = "Mit der Zeit hinzugefügt";
 "byAlphabet"                = "alphabetisch";
+"byStore"                   = "Nach Geschäft";
 "copy"                      = "In Galerie speichern";
 "pictureMatching"           = "Bildanpassung";
 "print"                     = "Siegel";
@@ -61,6 +62,8 @@
 "NewCategory"               = "Neue Kategorie";
 "Long press on an Item"     = "Langes Drücken auf ein Element, kehrt zur Bearbeitung zurück";
 "Buy"                       = "Kaufen";
+"Sorting"                   = "Sortierung";
+"Purchased"                 = "Kaufen";
 
 "Store"                     = "Speichern";
 "cost"                      = "Kosten";

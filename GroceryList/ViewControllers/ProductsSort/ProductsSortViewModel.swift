@@ -142,8 +142,8 @@ extension ProductsSortViewModel {
         
         var title: String {
             switch self {
-            case .products:     return "Сортировка"
-            case .purchased:    return "Купленные"
+            case .products:     return R.string.localizable.sorting()
+            case .purchased:    return R.string.localizable.purchased()
             }
         }
     }
@@ -174,7 +174,7 @@ extension ProductsSortViewModel {
             case .byRecipe:         return R.string.localizable.byRecipe()
             case .byTime:           return R.string.localizable.byTime()
             case .byAlphabet:       return R.string.localizable.byAlphabet()
-            case .byStore:          return "По магазинам"
+            case .byStore:          return R.string.localizable.byStore()
             }
         }
     }
