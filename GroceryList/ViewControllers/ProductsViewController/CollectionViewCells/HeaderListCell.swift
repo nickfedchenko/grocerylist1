@@ -167,7 +167,7 @@ class HeaderListCell: UICollectionViewListCell {
         case .purchased:
             coloredView.backgroundColor = color
             titleLabel.textColor = .white
-            titleLabel.text = text
+            titleLabel.text = text?.trimmingCharacters(in: .whitespaces)
             collapsedColoredView.backgroundColor = color
             checkmarkView.tintColor = .white
         case .sortedByAlphabet:
@@ -176,7 +176,7 @@ class HeaderListCell: UICollectionViewListCell {
             coloredViewForSorting.backgroundColor = color
             coloredViewForSorting.isHidden = false
         case .normal, .sortedByRecipe, .sortedByDate, .sortedByUser:
-            titleLabel.text = text
+            titleLabel.text = text?.trimmingCharacters(in: .whitespaces)
             collapsedColoredView.backgroundColor = color
             if !isExpand {
                 coloredView.backgroundColor = color

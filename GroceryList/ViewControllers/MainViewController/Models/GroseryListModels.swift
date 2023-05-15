@@ -90,6 +90,9 @@ struct GroceryListsModel: Hashable, Codable {
     var isFavorite: Bool = false
     var products: [Product]
     var typeOfSorting: Int
+    var typeOfSortingPurchased: Int
+    var isAscendingOrder = true
+    var isAscendingOrderPurchased = true
     var sharedId: String = ""
     var isShared: Bool = false
     var isSharedListOwner: Bool = false
@@ -117,6 +120,9 @@ struct GroceryListsModel: Hashable, Codable {
         isShared = dbModel.isShared
         isSharedListOwner = dbModel.isSharedListOwner
         isShowImage = PictureMatchingState(rawValue: dbModel.isShowImage) ?? .nothing
+        typeOfSortingPurchased = 1
+        isAscendingOrder = true
+        isAscendingOrderPurchased = true
     }
     
     init(id: UUID = UUID(), dateOfCreation: Date,
@@ -136,6 +142,9 @@ struct GroceryListsModel: Hashable, Codable {
         self.isSharedListOwner = isSharedListOwner
         self.isShowImage = isShowImage
         self.isVisibleCost = isVisibleCost
+        typeOfSortingPurchased = 1
+        isAscendingOrder = true
+        isAscendingOrderPurchased = true
     }
 }
 
@@ -342,6 +351,7 @@ enum SortingType: Int {
     case time
     case alphabet
     case user
+    case store
 }
 
 enum TypeOfCell {
