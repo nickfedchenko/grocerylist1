@@ -24,7 +24,7 @@ final class EditDeleteAlertView: UIView {
     
     private lazy var deleteButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(hex: "#DF0404")
+        button.backgroundColor = R.color.attention()
         button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
         button.setTitle(R.string.localizable.delete(), for: .normal)
         button.setTitleColor(.white, for: .normal)

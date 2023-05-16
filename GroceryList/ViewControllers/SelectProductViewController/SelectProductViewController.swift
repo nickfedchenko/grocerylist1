@@ -71,7 +71,7 @@ class SelectProductViewController: UIViewController {
 
     private let contentView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#E8F5F3")
+        view.backgroundColor = R.color.background()
         view.layer.cornerRadius = 20
         view.layer.masksToBounds = true
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]

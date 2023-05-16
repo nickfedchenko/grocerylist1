@@ -17,12 +17,12 @@ class AccountViewController: UIViewController {
             string: R.string.localizable.preferencies(),
             attributes: [
                 .font: UIFont.SFProRounded.semibold(size: 17).font ?? .systemFont(ofSize: 15),
-                .foregroundColor: UIColor(hex: "1A645A")
+                .foregroundColor: R.color.primaryDark() ?? UIColor(hex: "#045C5C")
             ]
         )
         button.imageEdgeInsets.left = -17
         button.setImage(R.image.greenArrowBack(), for: .normal)
-        button.tintColor = UIColor(hex: "1A645A")
+        button.tintColor = R.color.primaryDark()
         button.setAttributedTitle(attrTitle, for: .normal)
         button.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         return button
@@ -40,7 +40,7 @@ class AccountViewController: UIViewController {
         let view = SettingsParametrView()
         view.setupView(text: R.string.localizable.settingsAccountDeleteAccount(),
                        isAttrHidden: true,
-                       titleColor: UIColor(hex: "#DF0404"))
+                       titleColor: R.color.attention() ?? UIColor(hex: "#DF0404"))
         return view
     }()
     

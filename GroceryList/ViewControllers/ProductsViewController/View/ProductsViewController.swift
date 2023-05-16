@@ -70,7 +70,7 @@ class ProductsViewController: UIViewController {
         let button = UIButton()
         button.addTarget(self, action: #selector(cancelEditButtonPressed), for: .touchUpInside)
         button.setTitle(R.string.localizable.cancel(), for: .normal)
-        button.setTitleColor(UIColor(hex: "#7E19FF"), for: .normal)
+        button.setTitleColor(R.color.edit(), for: .normal)
         button.titleLabel?.font = UIFont.SFPro.semibold(size: 16).font
         button.isHidden = true
         return button
@@ -145,16 +145,18 @@ class ProductsViewController: UIViewController {
     private func setupController() {
         let colorForForeground = viewModel?.getColorForForeground() ?? .black
         let colorForBackground = viewModel?.getColorForBackground()
+        let darkColor = viewModel?.getDarkColor() ?? .black
         nameOfListTextField.text = viewModel?.getNameOfList()
         view.backgroundColor = colorForBackground
         navigationView.backgroundColor = colorForBackground
         
-        addItemView.backgroundColor = colorForForeground
-        plusImage.image = R.image.sharing_plus()?.withTintColor(colorForForeground)
+        addItemView.backgroundColor = darkColor
+        plusImage.image = R.image.sharing_plus()?.withTintColor(darkColor)
+        nameOfListTextField.textColor = darkColor
+        
         editCellButton.setImage(R.image.editCell()?.withTintColor(colorForForeground), for: .normal)
         arrowBackButton.setImage(R.image.greenArrowBack()?.withTintColor(colorForForeground), for: .normal)
         contextMenuButton.setImage(R.image.contextMenu()?.withTintColor(colorForForeground), for: .normal)
-        nameOfListTextField.textColor = colorForForeground
         
         collectionView.reloadData()
         editTabBarView.delegate = self

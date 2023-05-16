@@ -26,7 +26,7 @@ enum CreateNewRecipeViewState {
         switch self {
         case .required: return UIColor(hex: "#62D3B4")
         case .optional: return UIColor(hex: "#B3EFDE")
-        case .used:     return UIColor(hex: "#1A645A")
+        case .used:     return R.color.primaryDark() ?? UIColor(hex: "#045C5C")
         case .filled:   return UIColor(hex: "#B3EFDE")
         }
     }

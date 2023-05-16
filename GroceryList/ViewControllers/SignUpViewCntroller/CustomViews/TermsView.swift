@@ -28,7 +28,7 @@ class TermsView: UIView {
     private let text: UILabel = {
         let label = UILabel()
         label.font = .SFPro.medium(size: 14).font
-        label.textColor = UIColor(hex: "#617774")
+        label.textColor = R.color.darkGray()
         label.textAlignment = .left
         label.text = R.string.localizable.signUpTerms()
         label.numberOfLines = 0

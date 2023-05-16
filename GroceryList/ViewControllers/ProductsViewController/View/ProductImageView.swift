@@ -86,7 +86,7 @@ final class ProductImageView: UIView {
     
     private lazy var galleryButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(hex: "#D1D5DB").withAlphaComponent(0.5)
+        button.backgroundColor = R.color.lightGray()?.withAlphaComponent(0.5)
         button.layer.cornerRadius = 4
         button.clipsToBounds = true
         button.setImage(R.image.gallery(), for: .normal)
@@ -96,7 +96,7 @@ final class ProductImageView: UIView {
     
     private lazy var deleteButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(hex: "#D1D5DB").withAlphaComponent(0.5)
+        button.backgroundColor = R.color.lightGray()?.withAlphaComponent(0.5)
         button.layer.cornerRadius = 4
         button.clipsToBounds = true
         button.setImage(R.image.trash_can(), for: .normal)

@@ -15,7 +15,7 @@ final class CustomSegmentedControlView: UIView {
     
     private lazy var backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#CDE8E4")
+        view.backgroundColor = R.color.primaryLight()
         view.layer.cornerRadius = 16
         view.layer.cornerCurve = .continuous
         return view
@@ -96,10 +96,10 @@ private class ViewWithButton: UIView {
         case select
         case unselect
         
-        var titleColor: UIColor {
+        var titleColor: UIColor? {
             switch self {
-            case .select: return UIColor(hex: "#1A645A")
-            case .unselect: return UIColor(hex: "#617774")
+            case .select: return R.color.primaryDark()
+            case .unselect: return R.color.darkGray()
             }
         }
         

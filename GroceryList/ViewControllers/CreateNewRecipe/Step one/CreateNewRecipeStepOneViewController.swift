@@ -39,7 +39,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         label.addGestureRecognizer(tapOnLabel)
         label.isUserInteractionEnabled = true
         label.font = UIFont.SFProRounded.semibold(size: 17).font
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = R.color.primaryDark()
         label.text = R.string.localizable.recipes()
         return label
     }()
@@ -121,7 +121,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
     }
     
     private func updateNextButton(isActive: Bool) {
-        nextButton.backgroundColor = UIColor(hex: isActive ? "#1A645A" : "#D8ECE9")
+        nextButton.backgroundColor = isActive ? R.color.primaryDark() : UIColor(hex: "#D8ECE9")
         nextButton.layer.shadowOpacity = isActive ? 0.15 : 0
         nextButton.isUserInteractionEnabled = isActive
     }

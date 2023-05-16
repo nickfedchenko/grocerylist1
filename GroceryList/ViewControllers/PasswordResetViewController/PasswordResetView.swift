@@ -42,7 +42,7 @@ final class PasswordResetView: UIView {
         let button = UIButton()
         button.setTitle(R.string.localizable.close(), for: .normal)
         button.titleLabel?.font = UIFont.SFPro.semibold(size: 20).font
-        button.setTitleColor(UIColor(hex: "#617774"), for: .normal)
+        button.setTitleColor(R.color.darkGray(), for: .normal)
         button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         button.backgroundColor = .clear
         return button

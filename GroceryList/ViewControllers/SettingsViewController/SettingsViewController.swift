@@ -132,7 +132,7 @@ class SettingsViewController: UIViewController {
     
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        view.backgroundColor = UIColor(hex: "#E8F5F3")
+        view.backgroundColor = R.color.background()
         view.addSubviews([preferenciesLabel, closeButton, profileView, unitsView, likeAppView,
                           hapticView, showProductImageView, contactUsView, selectUnitsView,
                           registerView])

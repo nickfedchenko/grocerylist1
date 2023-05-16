@@ -69,7 +69,7 @@ class PaywallViewController: UIViewController {
             string: "Restore purchases",
             attributes: [
                 .font: R.font.sfProTextSemibold(size: 17) ?? .systemFont(ofSize: 17),
-                .foregroundColor: UIColor(hex: "#1A645A"),
+                .foregroundColor: R.color.primaryDark() ?? UIColor(hex: "#045C5C"),
                 .underlineStyle: NSUnderlineStyle.single.rawValue,
                 .paragraphStyle: style
             ]

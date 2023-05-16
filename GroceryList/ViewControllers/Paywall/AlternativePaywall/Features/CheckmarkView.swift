@@ -19,7 +19,7 @@ final class CheckmarkView: UIView {
     
     private lazy var titleLabel: UILabel = {
         var view = UILabel()
-        view.textColor = UIColor(hex: "#617774")
+        view.textColor = R.color.darkGray()
         view.font = R.font.sfProTextSemibold(size: 15)
         view.text = "Fdfdf"
         view.numberOfLines = 0

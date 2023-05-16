@@ -25,7 +25,7 @@ final class OnboardingReviewController: UIViewController {
     private let subtitle: UILabel = {
         let label = UILabel()
         label.font = R.font.sfProDisplayBold(size: 17)
-        label.textColor = UIColor(hex: "1A645A")
+        label.textColor = R.color.primaryDark()
         label.textAlignment = .center
         label.text = R.string.localizable.reviewSubtitle()
         label.numberOfLines = 0

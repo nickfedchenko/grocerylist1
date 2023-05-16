@@ -34,7 +34,7 @@ final class CreateNewCollectionViewController: UIViewController {
     private lazy var textField: UITextField = {
         let textField = UITextField()
         textField.delegate = self
-        textField.tintColor = UIColor(hex: "#1A645A")
+        textField.tintColor = R.color.primaryDark()
         textField.font = UIFont.SFPro.semibold(size: 17).font
         textField.textColor = .black
         return textField
@@ -49,7 +49,7 @@ final class CreateNewCollectionViewController: UIViewController {
     
     private lazy var saveButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(hex: "#1A645A")
+        button.backgroundColor = R.color.primaryDark()
         button.setTitle(R.string.localizable.save().uppercased(), for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
@@ -86,7 +86,7 @@ final class CreateNewCollectionViewController: UIViewController {
     }
     
     private func updateSaveButton(isActive: Bool) {
-        saveButton.backgroundColor = UIColor(hex: isActive ? "#1A645A" : "#D8ECE9")
+        saveButton.backgroundColor = isActive ? R.color.primaryDark() : UIColor(hex: "#D8ECE9")
         saveButton.isUserInteractionEnabled = isActive
     }
     

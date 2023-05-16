@@ -55,7 +55,7 @@ class ProductSettingsTableViewCell: UITableViewCell {
         }
         
         if text == "delete".localized {
-            label.textColor = UIColor(hex: "#DF0404")
+            label.textColor = R.color.attention()
         }
         
         checkmarkImage.isHidden = !isCheckmarkActive

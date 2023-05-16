@@ -159,7 +159,7 @@ class ProductListCell: UICollectionViewListCell {
         
         if isRecipe {
             let recipe = "Recipe".localized.attributed(font: UIFont.SFProRounded.bold(size: 14).font,
-                                                       color: UIColor(hex: "#58B368"))
+                                                       color: textColor ?? UIColor(hex: "#58B368"))
             recipe.append(NSAttributedString(string: description))
             secondDescriptionLabel.attributedText = recipe
         }
@@ -294,7 +294,7 @@ class ProductListCell: UICollectionViewListCell {
         if isPurchased {
             checkmarkImage.image = getImageWithColor(color: color)
         } else {
-            let emptyCheckmarkColor = UIColor(hex: isRecipe ? "#58B368" : "#ACB4B4")
+            let emptyCheckmarkColor = UIColor(hex: "#ACB4B4")
             checkmarkImage.image = R.image.emptyCheckmark()?.withTintColor(emptyCheckmarkColor)
         }
     }

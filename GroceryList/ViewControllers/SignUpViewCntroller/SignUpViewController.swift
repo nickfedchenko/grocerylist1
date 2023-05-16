@@ -18,12 +18,12 @@ class SignUpViewController: UIViewController {
             string: R.string.localizable.preferencies(),
             attributes: [
                 .font: UIFont.SFProRounded.semibold(size: 17).font ?? .systemFont(ofSize: 15),
-                .foregroundColor: UIColor(hex: "1A645A")
+                .foregroundColor: R.color.primaryDark() ?? UIColor(hex: "#045C5C")
             ]
         )
         button.imageEdgeInsets.left = -17
         button.setImage(R.image.greenArrowBack(), for: .normal)
-        button.tintColor = UIColor(hex: "1A645A")
+        button.tintColor = R.color.primaryDark()
         button.setAttributedTitle(attrTitle, for: .normal)
         button.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         return button
@@ -32,7 +32,7 @@ class SignUpViewController: UIViewController {
     private let bigTitle: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProRounded.bold(size: 22).font
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = R.color.primaryDark()
         return label
     }()
     
@@ -102,7 +102,7 @@ class SignUpViewController: UIViewController {
         
         let attributedTitle = NSAttributedString(string: R.string.localizable.resetPassword(), attributes: [
             .font: UIFont.SFProDisplay.regular(size: 20).font ?? UIFont(),
-            .foregroundColor: UIColor(hex: "#617774"),
+            .foregroundColor: R.color.darkGray() ?? UIColor(hex: "#537979"),
             .underlineStyle: NSUnderlineStyle.single.rawValue
         ])
         button.setAttributedTitle(attributedTitle, for: .normal)
@@ -289,7 +289,7 @@ extension SignUpViewController: SignUpViewModelDelegate {
         case true:
             signUpButton.backgroundColor = UIColor(hex: "#19645A")
         case false:
-            signUpButton.backgroundColor = UIColor(hex: "#617774")
+            signUpButton.backgroundColor = R.color.darkGray()
         }
     }
     
