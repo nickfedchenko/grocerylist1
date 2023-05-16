@@ -121,7 +121,11 @@ final class TopMainScreenView: UIView {
         }
     }
     
-    func setupUser(photo: String?, name: String?) {
+    func setupName(name: String?) {
+        userNameLabel.text = name
+    }
+    
+    func setupImage(photo: String?, photoAsData: Data?) {
         settingsButton.clipsToBounds = UserAccountManager.shared.getUser() != nil
         
         if UserAccountManager.shared.getUser() == nil {
@@ -129,6 +133,12 @@ final class TopMainScreenView: UIView {
             settingsButton.setImage(R.image.profile_noreg(), for: .normal)
             return
         }
+        
+        if let photoAsData {
+            settingsButton.setImage(UIImage(data: photoAsData), for: .normal)
+            return
+        }
+        
         guard let userAvatarUrl = photo,
               let url = URL(string: userAvatarUrl) else {
             return settingsButton.setImage(R.image.profile_icon(), for: .normal)
@@ -143,8 +153,6 @@ final class TopMainScreenView: UIView {
             case .failure: break
             }
         })
-
-        userNameLabel.text = name
     }
     
     @objc
@@ -172,25 +180,7 @@ final class TopMainScreenView: UIView {
         self.addSubviews([profileView, searchButton, menuButton, sortButton, blurView, segmentControl])
         profileView.addSubviews([settingsButton, userNameLabel])
 
-        profileView.snp.makeConstraints {
-            $0.leading.equalTo(24)
-            $0.trailing.lessThanOrEqualTo(menuButton.snp.leading).offset(-10)
-            $0.bottom.equalTo(segmentControl.snp.top).offset(-14)
-            $0.height.equalTo(32)
-        }
-        
-        settingsButton.snp.makeConstraints {
-            $0.leading.equalTo(4)
-            $0.top.equalToSuperview()
-            $0.width.height.equalTo(32)
-        }
-        
-        userNameLabel.snp.makeConstraints {
-            $0.leading.equalTo(settingsButton.snp.trailing).offset(10)
-            $0.trailing.equalToSuperview()
-            $0.centerY.equalTo(settingsButton)
-            $0.height.equalTo(24)
-        }
+        setupProfileConstraints()
         
         menuButton.snp.makeConstraints {
             $0.trailing.equalTo(searchButton.snp.leading).inset(-8)
@@ -223,11 +213,32 @@ final class TopMainScreenView: UIView {
             $0.height.equalTo(0)
         }
     }
+    
+    private func setupProfileConstraints() {
+        profileView.snp.makeConstraints {
+            $0.leading.equalTo(24)
+            $0.trailing.lessThanOrEqualTo(menuButton.snp.leading).offset(-10)
+            $0.bottom.equalTo(segmentControl.snp.top).offset(-14)
+            $0.height.equalTo(32)
+        }
+        
+        settingsButton.snp.makeConstraints {
+            $0.leading.equalTo(4)
+            $0.top.equalToSuperview()
+            $0.width.height.equalTo(32)
+        }
+        
+        userNameLabel.snp.makeConstraints {
+            $0.leading.equalTo(settingsButton.snp.trailing).offset(10)
+            $0.trailing.equalToSuperview()
+            $0.centerY.equalTo(settingsButton)
+            $0.height.equalTo(24)
+        }
+    }
 }
 
 extension TopMainScreenView: CustomSegmentedControlViewDelegate {
     func segmentChanged(_ selectedSegmentIndex: Int) {
-        segmentControl.selectedSegmentIndex = selectedSegmentIndex == 1 ? 0 : 1
         delegate?.modeChanged(to: selectedSegmentIndex == 0 ? .lists : .recipes)
     }
 }

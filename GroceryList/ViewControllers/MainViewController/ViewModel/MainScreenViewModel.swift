@@ -48,8 +48,9 @@ class MainScreenViewModel {
     }
     
     // user
-    var userPhoto: String? {
-        UserAccountManager.shared.getUser()?.avatar
+    var userPhoto: (url: String?, data: Data?) {
+        (UserAccountManager.shared.getUser()?.avatar,
+         UserAccountManager.shared.getUser()?.avatarAsData)
     }
     
     var userName: String? {

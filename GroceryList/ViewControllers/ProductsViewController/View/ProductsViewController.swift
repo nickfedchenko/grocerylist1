@@ -5,6 +5,7 @@
 //  Created by Шамиль Моллачиев on 10.11.2022.
 //
 
+import ApphudSDK
 import SnapKit
 import UIKit
 
@@ -389,6 +390,13 @@ class ProductsViewController: UIViewController {
             cell.configureSwitch(isVisibleCost: isVisibleCost, tintColor: color)
             cell.changedSwitchValue = { [weak self] switchValue in
                 AmplitudeManager.shared.logEvent(.shopPriceToggle, properties: [.isActive: switchValue ? .yes : .no])
+#if RELEASE
+                guard Apphud.hasActiveSubscription() else {
+                    self?.viewModel?.showPaywall()
+                    cell.configureSwitch(isVisibleCost: isVisibleCost, tintColor: color)
+                    return
+                }
+#endif
                 self?.updateCost(isVisibleCost: switchValue)
             }
         }

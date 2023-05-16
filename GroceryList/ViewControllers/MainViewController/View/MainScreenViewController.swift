@@ -89,7 +89,8 @@ class MainScreenViewController: UIViewController {
         viewModel?.reloadDataFromStorage()
         updateRecipeCollectionView()
         updateImageConstraint()
-        topMainView.setupUser(photo: viewModel?.userPhoto, name: viewModel?.userName)
+        topMainView.setupName(name: viewModel?.userName)
+        topMainView.setupImage(photo: viewModel?.userPhoto.url, photoAsData: viewModel?.userPhoto.data)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -133,11 +134,12 @@ class MainScreenViewController: UIViewController {
             }
         }
         
-        viewModel?.updateCells = { setOfLists in
-            self.reloadItems(lists: setOfLists)
-            self.updateImageConstraint()
-            self.topMainView.setupUser(photo: self.viewModel?.userPhoto,
-                                       name: self.viewModel?.userName)
+        viewModel?.updateCells = { [weak self] setOfLists in
+            self?.reloadItems(lists: setOfLists)
+            self?.updateImageConstraint()
+            self?.topMainView.setupName(name: self?.viewModel?.userName)
+            self?.topMainView.setupImage(photo: self?.viewModel?.userPhoto.url,
+                                         photoAsData: self?.viewModel?.userPhoto.data)
         }
         
         viewModel?.updateRecipeLoaded = { [weak self] in
@@ -192,8 +194,8 @@ class MainScreenViewController: UIViewController {
     }
     
     private func setupTopMainView() {
-        topMainView.setupUser(photo: self.viewModel?.userPhoto,
-                              name: self.viewModel?.userName)
+        topMainView.setupName(name: viewModel?.userName)
+        topMainView.setupImage(photo: viewModel?.userPhoto.url, photoAsData: viewModel?.userPhoto.data)
         topMainView.delegate = self
         topMainView.configure(with: .lists)
     }
@@ -469,6 +471,7 @@ extension MainScreenViewController: TopMainScreenViewDelegate {
         if mode == .recipes {
             AmplitudeManager.shared.logEvent(.recipeSection)
         }
+        guard presentationMode != mode else { return }
 #if RELEASE
         guard Apphud.hasActiveSubscription() else {
             showPaywall()

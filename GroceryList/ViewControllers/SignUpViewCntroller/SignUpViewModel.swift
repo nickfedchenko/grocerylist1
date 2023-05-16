@@ -259,21 +259,24 @@ class SignUpViewModel {
     private func checkMail(text: String, compl: ((Bool) -> Void)?) {
 //        guard state == .signUp else { return }
         network.checkEmail(email: text) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .failure(let error):
                 print(error)
-                self?.delegate?.showNoInternet()
+                self.delegate?.showNoInternet()
             case .success(let model):
-                self?.delegate?.hideNoInternet()
+                self.delegate?.hideNoInternet()
                 if model.isExist {
-                    self?.delegate?.showEmailTaken()
-                    self?.isEmailValidated = false
+                    if self.state == .signUp {
+                        self.delegate?.showEmailTaken()
+                        self.isEmailValidated = false
+                    }
                     DispatchQueue.main.async {
                         compl?(true)
                     }
                 } else {
-                    self?.delegate?.hideEmailTaken()
-                    self?.isEmailValidated = true
+                    self.delegate?.hideEmailTaken()
+                    self.isEmailValidated = true
                     DispatchQueue.main.async {
                         compl?(false)
                     }
