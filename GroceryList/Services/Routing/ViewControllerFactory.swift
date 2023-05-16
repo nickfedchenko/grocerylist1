@@ -30,7 +30,7 @@ protocol ViewControllerFactoryProtocol {
     ) -> UIViewController?
     func createActivityController(image: [Any]) -> UIViewController?
     func createPrintController(image: UIImage) -> UIPrintInteractionController?
-    func createAlertController(title: String, message: String) -> UIAlertController?
+    func createAlertController(title: String, message: String, _ completion: (() -> Void)?) -> UIAlertController?
     func createSelectListController(
         height: Double,
         router: RootRouter,
@@ -365,9 +365,13 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createAlertController(title: String, message: String) -> UIAlertController? {
+    func createAlertController(title: String, message: String,
+                               _ completion: (() -> Void)? = nil) -> UIAlertController? {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "Ok", style: .default)
+        let alertAction = UIAlertAction(title: "Ok", style: .default) { _ in
+            completion?()
+        }
+        
         alert.addAction(alertAction)
         return alert
     }

@@ -64,6 +64,11 @@
 "Buy"                       = "Kaufen";
 "Sorting"                   = "Sortierung";
 "Purchased"                 = "Kaufen";
+"autoCategoryTitleOn"       = "Sie können die Kategorie verfeinern ";
+"autoCategoryDescOn"        = "oder eine eigene erstellen. Ihre Auswahl wird gespeichert und gilt in Zukunft";
+"autoCategoryDescOff"       = "Sie können eine Produktkategorie auswählen oder eine eigene erstellen. In Zukunft wird Ihre Auswahl gespeichert und die Produkte in den Listen werden bestellt";
+
+
 
 "Store"                     = "Speichern";
 "cost"                      = "Kosten";

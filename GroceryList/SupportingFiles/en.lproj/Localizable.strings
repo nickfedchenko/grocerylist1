@@ -66,6 +66,9 @@
 "Buy"                       = "Buy";
 "Sorting"                   = "Sorting";
 "Purchased"                 = "Purchased";
+"autoCategoryTitleOn"       = "You can refine the category";
+"autoCategoryDescOn"        = "or create your own. Your choice will be saved and will apply in the future";
+"autoCategoryDescOff"       = "You can choose a product category or create your own. In the future, your choice will be saved, and the products in the lists will be ordered";
 
 "Store"                     = "Store";
 "cost"                      = "cost";

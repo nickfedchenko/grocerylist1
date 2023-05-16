@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 223 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 226 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -1200,6 +1200,27 @@ struct _R {
       /// Locales: en, ru
       var yourEmail: RswiftResources.StringResource { .init(key: "YourEmail", tableName: "Localizable", source: source, developmentValue: "Your e-mail:", comment: nil) }
 
+      /// en translation: You can choose a product category or create your own. In the future, your choice will be saved, and the products in the lists will be ordered
+      ///
+      /// Key: autoCategoryDescOff
+      ///
+      /// Locales: en, ru, fr, de
+      var autoCategoryDescOff: RswiftResources.StringResource { .init(key: "autoCategoryDescOff", tableName: "Localizable", source: source, developmentValue: "You can choose a product category or create your own. In the future, your choice will be saved, and the products in the lists will be ordered", comment: nil) }
+
+      /// en translation: or create your own. Your choice will be saved and will apply in the future
+      ///
+      /// Key: autoCategoryDescOn
+      ///
+      /// Locales: en, ru, fr, de
+      var autoCategoryDescOn: RswiftResources.StringResource { .init(key: "autoCategoryDescOn", tableName: "Localizable", source: source, developmentValue: "or create your own. Your choice will be saved and will apply in the future", comment: nil) }
+
+      /// en translation: You can refine the category
+      ///
+      /// Key: autoCategoryTitleOn
+      ///
+      /// Locales: en, ru, fr, de
+      var autoCategoryTitleOn: RswiftResources.StringResource { .init(key: "autoCategoryTitleOn", tableName: "Localizable", source: source, developmentValue: "You can refine the category", comment: nil) }
+
       /// en translation: bottle
       ///
       /// Key: bottle
@@ -1681,7 +1702,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 163 images.
+  /// This `_R.image` struct is generated, and contains static references to 165 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1849,6 +1870,12 @@ struct _R {
 
     /// Image `addToFavUnselected`.
     var addToFavUnselected: RswiftResources.ImageResource { .init(name: "addToFavUnselected", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `autocategoryInfo`.
+    var autocategoryInfo: RswiftResources.ImageResource { .init(name: "autocategoryInfo", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `autocategoryOk`.
+    var autocategoryOk: RswiftResources.ImageResource { .init(name: "autocategoryOk", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `basket`.
     var basket: RswiftResources.ImageResource { .init(name: "basket", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

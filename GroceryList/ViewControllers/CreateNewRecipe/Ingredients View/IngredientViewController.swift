@@ -71,11 +71,6 @@ final class IngredientViewController: UIViewController {
     }
     
     private func setupPredictiveTextView() {
-        guard FeatureManager.shared.isActivePredictiveText else {
-            predictiveTextViewHeight = 0
-            return
-        }
-        
         viewModel?.productsChangedCallback = { [weak self] titles in
             guard let self else { return }
             self.predictiveTextView.configure(texts: titles)

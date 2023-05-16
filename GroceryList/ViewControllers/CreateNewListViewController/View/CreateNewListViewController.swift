@@ -24,6 +24,7 @@ class CreateNewListViewController: UIViewController {
         setupConstraints()
         addKeyboardNotifications()
         addRecognizers()
+        setupFeature()
         setupControllerIfModelExist()
         setupCollectionView()
     }
@@ -40,6 +41,14 @@ class CreateNewListViewController: UIViewController {
     private func setupTextFieldParametrs() {
         textfield.delegate = self
         textfield.becomeFirstResponder()
+    }
+    
+    /// эксперимент с автокатегориями
+    private func setupFeature() {
+        guard let isActiveAutoCategory = FeatureManager.shared.isActiveAutoCategory else {
+            return
+        }
+        switchView.isOn = isActiveAutoCategory
     }
     
     private func setupControllerIfModelExist() {
