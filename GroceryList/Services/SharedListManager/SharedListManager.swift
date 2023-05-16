@@ -88,6 +88,10 @@ class SharedListManager {
         list.isShared = true
         list.sharedId = response.listId
         list.isVisibleCost = dbList?.isVisibleCost ?? false
+        list.isAutomaticCategory = dbList?.isAutomaticCategory ?? true
+        list.typeOfSortingPurchased = Int(dbList?.typeOfSortingPurchased ?? 0)
+        list.isAscendingOrderPurchased = BoolWithNilForCD(rawValue: dbList?.isAscendingOrderPurchased ?? 0) ?? .nothing
+        list.isAscendingOrder = dbList?.isAscendingOrder ?? true
         removeProductsIfNeeded(list: list)
         
         CoreDataManager.shared.saveList(list: list)
@@ -237,6 +241,10 @@ class SharedListManager {
             localList.isSharedListOwner = sharedModel.isOwner
             localList.isShowImage = sharedList.isShowImage ?? .nothing
             localList.isVisibleCost = dbList?.isVisibleCost ?? false
+            localList.isAutomaticCategory = dbList?.isAutomaticCategory ?? true
+            localList.typeOfSortingPurchased = Int(dbList?.typeOfSortingPurchased ?? 0)
+            localList.isAscendingOrderPurchased = BoolWithNilForCD(rawValue: dbList?.isAscendingOrderPurchased ?? 0) ?? .nothing
+            localList.isAscendingOrder = dbList?.isAscendingOrder ?? true
             arrayOfLists.append(localList)
         }
 
@@ -320,7 +328,7 @@ class SharedListManager {
                        name: sharedProduct.name,
                        isPurchased: sharedProduct.isPurchased,
                        dateOfCreation: dateOfProductCreation,
-                       category: sharedProduct.category,
+                       category: sharedProduct.category ?? "",
                        isFavorite: sharedProduct.isFavorite,
                        isSelected: sharedProduct.isSelected,
                        imageData: sharedProduct.imageData,

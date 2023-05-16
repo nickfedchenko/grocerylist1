@@ -154,6 +154,7 @@ class CoreDataManager {
         object.typeOfSortingPurchased = Int64(list.typeOfSortingPurchased)
         object.isAscendingOrder = list.isAscendingOrder
         object.isAscendingOrderPurchased = list.isAscendingOrderPurchased.rawValue
+        object.isAutomaticCategory = list.isAutomaticCategory
         try? context.save()
     }
     
@@ -185,6 +186,7 @@ class CoreDataManager {
             object.typeOfSortingPurchased = Int64(list.typeOfSortingPurchased)
             object.isAscendingOrder = list.isAscendingOrder
             object.isAscendingOrderPurchased = list.isAscendingOrderPurchased.rawValue
+            object.isAutomaticCategory = list.isAutomaticCategory
         }
         try? context.save()
     }

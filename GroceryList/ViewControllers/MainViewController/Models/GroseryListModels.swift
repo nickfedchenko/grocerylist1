@@ -89,6 +89,7 @@ struct GroceryListsModel: Hashable, Codable {
     var color: Int
     var isFavorite: Bool = false
     var products: [Product]
+    var isAutomaticCategory: Bool = true
     var typeOfSorting: Int
     var typeOfSortingPurchased: Int
     var isAscendingOrder = true
@@ -123,15 +124,17 @@ struct GroceryListsModel: Hashable, Codable {
         typeOfSortingPurchased = Int(dbModel.typeOfSortingPurchased)
         isAscendingOrder = dbModel.isAscendingOrder
         isAscendingOrderPurchased = BoolWithNilForCD(rawValue: dbModel.isAscendingOrderPurchased) ?? .nothing
+        isAutomaticCategory = dbModel.isAutomaticCategory
     }
     
     init(id: UUID = UUID(), dateOfCreation: Date,
          name: String? = nil, color: Int, isFavorite: Bool = false,
-         products: [Product], typeOfSorting: Int, isShared: Bool = false,
-         sharedId: String = "", isSharedListOwner: Bool = false, isShowImage: BoolWithNilForCD = .nothing,
+         products: [Product], isAutomaticCategory: Bool = true,
+         typeOfSorting: Int, isShared: Bool = false,
+         sharedId: String = "", isSharedListOwner: Bool = false,
+         isShowImage: BoolWithNilForCD = .nothing,
          typeOfSortingPurchased: Int = 1,
-         isAscendingOrder: Bool = true,
-         isAscendingOrderPurchased: BoolWithNilForCD = .nothing,
+         isAscendingOrder: Bool = true, isAscendingOrderPurchased: BoolWithNilForCD = .nothing,
          isVisibleCost: Bool = false) {
         self.dateOfCreation = dateOfCreation
         self.color = color
@@ -148,6 +151,7 @@ struct GroceryListsModel: Hashable, Codable {
         self.typeOfSortingPurchased = typeOfSortingPurchased
         self.isAscendingOrder = isAscendingOrder
         self.isAscendingOrderPurchased = isAscendingOrderPurchased
+        self.isAutomaticCategory = isAutomaticCategory
     }
 }
 
@@ -368,6 +372,7 @@ enum TypeOfCell {
     case sortedByUser
     case normal
     case displayCostSwitch
+    case withoutCategory
 }
 
 enum BoolWithNilForCD: Int16, Codable {

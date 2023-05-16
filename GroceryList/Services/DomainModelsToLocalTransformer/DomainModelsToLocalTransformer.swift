@@ -28,9 +28,11 @@ class DomainModelsToLocalTransformer {
         let typeOfSortingPurchased = Int(dbModel.typeOfSortingPurchased)
         let isAscendingOrder = dbModel.isAscendingOrder
         let isAscendingOrderPurchased = BoolWithNilForCD(rawValue: dbModel.isAscendingOrderPurchased) ?? .nothing
+        let isAutomaticCategory = dbModel.isAutomaticCategory
         return GroceryListsModel(id: id, dateOfCreation: date,
                                  name: dbModel.name, color: Int(color),
                                  isFavorite: dbModel.isFavorite, products: prod,
+                                 isAutomaticCategory: isAutomaticCategory,
                                  typeOfSorting: sortType, isShared: isShared,
                                  sharedId: sharedId, isSharedListOwner: isSharedListOwner,
                                  isShowImage: isShowImage,

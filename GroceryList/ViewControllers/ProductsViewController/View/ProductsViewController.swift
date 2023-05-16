@@ -722,12 +722,13 @@ extension ProductsViewController: UICollectionViewDelegate {
         var isPurchased = false
         var items: [ProductsViewController.DataItem] = []
         var indexPaths: [IndexPath] = []
-        // проверка на тип сортировки для отключения возможности схлопывания ячеек при сортировке по алфавиту
+        // проверка на тип сортировки
         switch item {
         case .parent(let parent):
-            guard parent.typeOFCell != .sortedByAlphabet else {
-                return false
-            }
+            // отключения возможности схлопывания ячеек при сортировке по алфавиту и без категорий
+            guard parent.typeOFCell != .sortedByAlphabet else { return false }
+            guard parent.typeOFCell != .withoutCategory else { return false }
+            
             items.append(item)
             indexPaths.append(indexPath)
             
@@ -735,7 +736,7 @@ extension ProductsViewController: UICollectionViewDelegate {
             if parent.typeOFCell == .purchased {
                 viewModel?.isExpandedPurchased.toggle()
                 isPurchased = true
-                var sections = viewModel?.sectionIndexPaths ?? []
+                let sections = viewModel?.sectionIndexPaths ?? []
                 var purchasedSectionIndex = sections.firstIndex(of: indexPath.row) ?? 0
                 while purchasedSectionIndex < sections.endIndex {
                     let section = sections[purchasedSectionIndex]
