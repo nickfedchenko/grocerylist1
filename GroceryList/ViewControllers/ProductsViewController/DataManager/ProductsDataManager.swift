@@ -148,6 +148,23 @@ class ProductsDataManager {
         return IndexPath(row: 0, section: 0)
     }
     
+    func getSectionIndex() -> [Int] {
+        var index = 0
+        var sectionIndices: [Int] = []
+        for category in dataSourceArray {
+            sectionIndices.append(index)
+            if category.isExpanded {
+                for _ in category.products {
+                    index += 1
+                }
+            }
+            index += 1
+        }
+        // удаляем последний номер секции, так как отвечает за показ цены
+        sectionIndices.removeLast()
+        return sectionIndices
+    }
+    
     private func createSortedProducts() {
         let products = getSortedProductsInOrder(products: products, isAscendingOrder: isAscendingOrder,
                                                 typeOfSorting: typeOfSorting)

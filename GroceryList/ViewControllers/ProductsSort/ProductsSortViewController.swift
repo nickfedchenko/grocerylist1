@@ -74,6 +74,8 @@ class ProductsSortViewController: UIViewController {
 
         sortLabel.text = viewModel?.title
         if (viewModel?.getIsAscendingOrder() ?? true) {
+            sortButton.transform = CGAffineTransform(rotationAngle: .pi * 2)
+        } else {
             sortButton.transform = CGAffineTransform(rotationAngle: -.pi)
         }
         

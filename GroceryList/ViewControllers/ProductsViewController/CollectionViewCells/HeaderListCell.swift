@@ -44,6 +44,7 @@ class HeaderListCell: UICollectionViewListCell {
         view.layer.cornerRadius = 20
         view.layer.maskedCorners = [.layerMaxXMinYCorner]
         view.layer.masksToBounds = true
+        view.layer.cornerCurve = .continuous
         view.isHidden = true
         return view
     }()
@@ -57,7 +58,7 @@ class HeaderListCell: UICollectionViewListCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
+        label.font = UIFont.SFPro.semibold(size: 15).font
         label.textColor = .white
         return label
     }()
@@ -76,6 +77,7 @@ class HeaderListCell: UICollectionViewListCell {
         imageView.layer.borderWidth = 1.5
         imageView.layer.cornerRadius = 16
         imageView.layer.masksToBounds = true
+        imageView.layer.cornerCurve = .continuous
         imageView.image = nil
         imageView.isHidden = true
         return imageView
@@ -110,6 +112,7 @@ class HeaderListCell: UICollectionViewListCell {
         coloredViewForSorting.isHidden = true
         coloredView.backgroundColor = .clear
         titleLabel.textColor = .white
+        titleLabel.font = UIFont.SFPro.semibold(size: 15).font
         collapsedColoredView.backgroundColor = .clear
         userImageView.image = nil
         userImageView.layer.borderColor = UIColor.clear.cgColor
@@ -120,6 +123,9 @@ class HeaderListCell: UICollectionViewListCell {
         purchasedCostLabel.snp.updateConstraints {
             $0.top.equalTo(coloredView.snp.bottom).offset(0)
             $0.height.equalTo(0)
+        }
+        titleLabel.snp.updateConstraints { make in
+            make.centerY.equalTo(collapsedColoredView.snp.centerY)
         }
     }
     
@@ -165,9 +171,13 @@ class HeaderListCell: UICollectionViewListCell {
             pinchView.tintColor = color
             if !isExpand { coloredView.backgroundColor = color }
         case .purchased:
+            titleLabel.font = UIFont.SFPro.semibold(size: 18).font
             coloredView.backgroundColor = color
             titleLabel.textColor = .white
-            titleLabel.text = text?.trimmingCharacters(in: .whitespaces)
+            titleLabel.text = text
+            titleLabel.snp.updateConstraints { make in
+                make.centerY.equalTo(collapsedColoredView.snp.centerY).offset(-5)
+            }
             collapsedColoredView.backgroundColor = color
             checkmarkView.tintColor = .white
         case .sortedByAlphabet:
@@ -176,7 +186,7 @@ class HeaderListCell: UICollectionViewListCell {
             coloredViewForSorting.backgroundColor = color
             coloredViewForSorting.isHidden = false
         case .normal, .sortedByRecipe, .sortedByDate, .sortedByUser:
-            titleLabel.text = text?.trimmingCharacters(in: .whitespaces)
+            titleLabel.text = text
             collapsedColoredView.backgroundColor = color
             if !isExpand {
                 coloredView.backgroundColor = color
@@ -264,7 +274,7 @@ class HeaderListCell: UICollectionViewListCell {
         
         containerView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            make.height.equalTo(56 + purchasedCostHeight).priority(999)
+            make.height.equalTo(56 + purchasedCostHeight).priority(1000)
         }
         
         coloredView.snp.makeConstraints { make in

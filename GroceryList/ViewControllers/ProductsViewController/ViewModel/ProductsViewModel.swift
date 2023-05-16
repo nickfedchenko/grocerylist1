@@ -25,6 +25,7 @@ class ProductsViewModel {
     var model: GroceryListsModel
     var dataSource: ProductsDataManager
     var selectedProduct: Product?
+    var isExpandedPurchased = true
     
     private var colorManager = ColorManager()
     
@@ -42,6 +43,10 @@ class ProductsViewModel {
     
     var arrayWithSections: [Category] {
         return dataSource.dataSourceArray
+    }
+    
+    var sectionIndexPaths: [Int] {
+        dataSource.getSectionIndex()
     }
     
     var editProducts: [Product] {

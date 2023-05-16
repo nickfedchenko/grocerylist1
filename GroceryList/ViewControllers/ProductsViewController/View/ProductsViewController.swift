@@ -83,6 +83,7 @@ class ProductsViewController: UIViewController {
         view.layer.maskedCorners = [.layerMinXMinYCorner]
         view.layer.borderColor = UIColor.white.withAlphaComponent(0.8).cgColor
         view.layer.borderWidth = 2
+        view.layer.cornerCurve = .continuous
         view.addCustomShadow(color: UIColor(hex: "#484848"), offset: CGSize(width: 0, height: 0.5))
         return view
     }()
@@ -91,6 +92,7 @@ class ProductsViewController: UIViewController {
         let view = UIView()
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
+        view.layer.cornerCurve = .continuous
         view.backgroundColor = .white
         return view
     }()
@@ -150,7 +152,7 @@ class ProductsViewController: UIViewController {
         view.backgroundColor = colorForBackground
         navigationView.backgroundColor = colorForBackground
         
-        addItemView.backgroundColor = darkColor
+        addItemView.backgroundColor = darkColor.withAlphaComponent(0.95)
         plusImage.image = R.image.sharing_plus()?.withTintColor(darkColor)
         nameOfListTextField.textColor = darkColor
         
@@ -728,18 +730,21 @@ extension ProductsViewController: UICollectionViewDelegate {
             }
             items.append(item)
             indexPaths.append(indexPath)
+            
             // для схлопывыания Куплено
             if parent.typeOFCell == .purchased {
+                viewModel?.isExpandedPurchased.toggle()
                 isPurchased = true
-                var row = indexPath.row
-                let array = viewModel?.arrayWithSections
-                while row <= (array?.count ?? 0) {
-                    let index = IndexPath(row: row, section: 0)
+                var sections = viewModel?.sectionIndexPaths ?? []
+                var purchasedSectionIndex = sections.firstIndex(of: indexPath.row) ?? 0
+                while purchasedSectionIndex < sections.endIndex {
+                    let section = sections[purchasedSectionIndex]
+                    let index = IndexPath(row: section, section: 0)
                     if let item = dataSource.itemIdentifier(for: index) {
                         indexPaths.append(index)
                         items.append(item)
                     }
-                    row += 1
+                    purchasedSectionIndex += 1
                 }
             }
         default:
@@ -749,9 +754,19 @@ extension ProductsViewController: UICollectionViewDelegate {
         let sectionSnapshot = snap.snapshot(of: item, includingParent: false)
         let hasChildren = sectionSnapshot.items.count > 0
         
-        if hasChildren || isPurchased {
+        if hasChildren {
+            if snap.isExpanded(item) {
+                switchModelAndSetupParametr(item: item, isExpanded: false, indexPath: indexPath)
+                snap.collapse([item])
+            } else {
+                switchModelAndSetupParametr(item: item, isExpanded: true, indexPath: indexPath)
+                snap.expand([item])
+            }
+            self.dataSource.apply(snap, to: .main)
+        }
+        if isPurchased {
             items.enumerated().forEach { index, item in
-                if snap.isExpanded(item) {
+                if (viewModel?.isExpandedPurchased ?? true) {
                     switchModelAndSetupParametr(item: item, isExpanded: false, indexPath: indexPaths[index])
                     snap.collapse([item])
                 } else {
