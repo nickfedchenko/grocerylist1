@@ -11,6 +11,8 @@ import UIKit
 
 class HeaderListCell: UICollectionViewListCell {
     
+    var tapSortPurchased: (() -> Void)?
+    
     private let containerView: UIView = {
         let view = UIView()
         return view
@@ -42,6 +44,7 @@ class HeaderListCell: UICollectionViewListCell {
         view.layer.cornerRadius = 20
         view.layer.maskedCorners = [.layerMaxXMinYCorner]
         view.layer.masksToBounds = true
+        view.layer.cornerCurve = .continuous
         view.isHidden = true
         return view
     }()
@@ -55,7 +58,7 @@ class HeaderListCell: UICollectionViewListCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 17).font
+        label.font = UIFont.SFPro.semibold(size: 15).font
         label.textColor = .white
         return label
     }()
@@ -74,9 +77,17 @@ class HeaderListCell: UICollectionViewListCell {
         imageView.layer.borderWidth = 1.5
         imageView.layer.cornerRadius = 16
         imageView.layer.masksToBounds = true
+        imageView.layer.cornerCurve = .continuous
         imageView.image = nil
         imageView.isHidden = true
         return imageView
+    }()
+    
+    private lazy var sortButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(sortButtonPressed), for: .touchUpInside)
+        button.setImage(R.image.sort()?.withTintColor(.white), for: .normal)
+        return button
     }()
     
     private let purchasedCostLabel = UILabel()
@@ -101,6 +112,7 @@ class HeaderListCell: UICollectionViewListCell {
         coloredViewForSorting.isHidden = true
         coloredView.backgroundColor = .clear
         titleLabel.textColor = .white
+        titleLabel.font = UIFont.SFPro.semibold(size: 15).font
         collapsedColoredView.backgroundColor = .clear
         userImageView.image = nil
         userImageView.layer.borderColor = UIColor.clear.cgColor
@@ -111,6 +123,9 @@ class HeaderListCell: UICollectionViewListCell {
         purchasedCostLabel.snp.updateConstraints {
             $0.top.equalTo(coloredView.snp.bottom).offset(0)
             $0.height.equalTo(0)
+        }
+        titleLabel.snp.updateConstraints { make in
+            make.centerY.equalTo(collapsedColoredView.snp.centerY)
         }
     }
     
@@ -138,12 +153,17 @@ class HeaderListCell: UICollectionViewListCell {
         }
         UIView.animate(withDuration: 0.25, delay: .zero, options: .curveEaseOut) {
             self.checkmarkView.transform = CGAffineTransform(rotationAngle: -.pi )
-            self.checkmarkView.tintColor = color
+            self.checkmarkView.tintColor = isPurchased ? .white : color
             self.pinchView.tintColor = color
         }
     }
     
     func setupCell(text: String?, color: UIColor?, bcgColor: UIColor?, isExpand: Bool, typeOfCell: TypeOfCell) {
+        checkmarkView.tintColor = color
+        checkmarkView.transform = CGAffineTransform(rotationAngle: isExpand ? -.pi : .pi * 2)
+        containerView.backgroundColor = .clear
+        sortButton.isHidden = typeOfCell != .purchased
+
         switch typeOfCell {
         case .favorite:
             titleLabel.text = ""
@@ -151,10 +171,15 @@ class HeaderListCell: UICollectionViewListCell {
             pinchView.tintColor = color
             if !isExpand { coloredView.backgroundColor = color }
         case .purchased:
-            coloredView.backgroundColor = .white
-            titleLabel.textColor = color
+            titleLabel.font = UIFont.SFPro.semibold(size: 18).font
+            coloredView.backgroundColor = color
+            titleLabel.textColor = .white
             titleLabel.text = text
-            collapsedColoredView.backgroundColor = .clear
+            titleLabel.snp.updateConstraints { make in
+                make.centerY.equalTo(collapsedColoredView.snp.centerY).offset(-5)
+            }
+            collapsedColoredView.backgroundColor = color
+            checkmarkView.tintColor = .white
         case .sortedByAlphabet:
             checkmarkView.isHidden = true
             titleLabel.text = "AlphabeticalSorted".localized
@@ -168,10 +193,6 @@ class HeaderListCell: UICollectionViewListCell {
             }
         case .displayCostSwitch: return
         }
-        
-        checkmarkView.tintColor = color
-        checkmarkView.transform = CGAffineTransform(rotationAngle: isExpand ? -.pi : .pi * 2)
-        containerView.backgroundColor = .clear
     }
     
     func setupUserImage(image: String?, color: UIColor?) {
@@ -237,17 +258,23 @@ class HeaderListCell: UICollectionViewListCell {
         purchasedCostHeight = 25
     }
     
+    @objc
+    private func sortButtonPressed() {
+        tapSortPurchased?()
+    }
+    
     // MARK: - UI
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         contentView.addSubviews([containerView])
         containerView.addSubviews([coloredView, collapsedColoredView, coloredViewForSorting,
-                                   titleLabel, checkmarkView, pinchView, userImageView, purchasedCostLabel])
+                                   titleLabel, checkmarkView, pinchView, userImageView,
+                                   purchasedCostLabel, sortButton])
         coloredViewForSorting.addSubview(checkmarkForSorting)
         
         containerView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            make.height.equalTo(56 + purchasedCostHeight).priority(999)
+            make.height.equalTo(56 + purchasedCostHeight).priority(1000)
         }
         
         coloredView.snp.makeConstraints { make in
@@ -286,6 +313,12 @@ class HeaderListCell: UICollectionViewListCell {
             make.right.equalToSuperview().inset(30)
             make.width.equalTo(19)
             make.height.equalTo(11)
+            make.centerY.equalTo(coloredView.snp.centerY)
+        }
+        
+        sortButton.snp.makeConstraints { make in
+            make.trailing.equalTo(checkmarkView.snp.leading).offset(-16)
+            make.width.height.equalTo(40)
             make.centerY.equalTo(coloredView.snp.centerY)
         }
         

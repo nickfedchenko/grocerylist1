@@ -53,7 +53,7 @@ enum UnitSystem: Int, Codable, CaseIterable {
         case .piece:        return R.string.localizable.piece()
         case .lbс:          return R.string.localizable.lbс()
         case .pt:           return R.string.localizable.pt()
-        case .gram:         return R.string.localizable.gram ()
+        case .gram:         return R.string.localizable.gram()
         case .kilogram:     return R.string.localizable.kilogram()
         case .liter:        return R.string.localizable.liter()
         case .mililiter:    return R.string.localizable.mililiter()

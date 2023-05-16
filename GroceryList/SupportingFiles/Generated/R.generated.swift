@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 221 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 223 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -1053,6 +1053,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var snacks: RswiftResources.StringResource { .init(key: "Snacks", tableName: "Localizable", source: source, developmentValue: "Snacks", comment: nil) }
 
+      /// en translation: Sorting
+      ///
+      /// Key: Sorting
+      ///
+      /// Locales: en, ru, fr, de
+      var sorting: RswiftResources.StringResource { .init(key: "Sorting", tableName: "Localizable", source: source, developmentValue: "Sorting", comment: nil) }
+
       /// en translation: Stationery
       ///
       /// Key: Stationery
@@ -1227,6 +1234,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var byRecipe: RswiftResources.StringResource { .init(key: "byRecipe", tableName: "Localizable", source: source, developmentValue: "By recipe", comment: nil) }
+
+      /// en translation: By store
+      ///
+      /// Key: byStore
+      ///
+      /// Locales: en, ru, fr, de
+      var byStore: RswiftResources.StringResource { .init(key: "byStore", tableName: "Localizable", source: source, developmentValue: "By store", comment: nil) }
 
       /// en translation: By time
       ///
@@ -1667,7 +1681,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 161 images.
+  /// This `_R.image` struct is generated, and contains static references to 163 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1785,6 +1799,9 @@ struct _R {
     /// Image `SettingsEmptyAvatar`.
     var settingsEmptyAvatar: RswiftResources.ImageResource { .init(name: "SettingsEmptyAvatar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `Shops`.
+    var shops: RswiftResources.ImageResource { .init(name: "Shops", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `SignUpAcceptChackmark`.
     var signUpAcceptChackmark: RswiftResources.ImageResource { .init(name: "SignUpAcceptChackmark", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -1793,6 +1810,9 @@ struct _R {
 
     /// Image `Sort`.
     var sort: RswiftResources.ImageResource { .init(name: "Sort", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Sort Filter`.
+    var sortFilter: RswiftResources.ImageResource { .init(name: "Sort Filter", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `SortRecipeMenu`.
     var sortRecipeMenu: RswiftResources.ImageResource { .init(name: "SortRecipeMenu", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

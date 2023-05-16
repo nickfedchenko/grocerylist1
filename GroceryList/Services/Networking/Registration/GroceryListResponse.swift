@@ -99,7 +99,7 @@ struct SharedGroceryList: Codable {
     var sharedId: String?
     var isShared: Bool? = false
     var isSharedListOwner: Bool
-    var isShowImage: PictureMatchingState? = .nothing
+    var isShowImage: BoolWithNilForCD? = .nothing
     
     init() {
         id = UUID()

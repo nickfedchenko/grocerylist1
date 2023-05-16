@@ -44,6 +44,7 @@ extension UIView {
         let mask = CAShapeLayer()
         mask.path = path.cgPath
         layer.mask = mask
+        layer.cornerCurve = .continuous
     }
     
     func addShadowForView(radius: CGFloat = 2, height: Int = 0 ) {

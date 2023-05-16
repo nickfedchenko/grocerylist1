@@ -38,6 +38,7 @@
 "byRecipe"                  = "By recipe";
 "byTime"                    = "By time";
 "byAlphabet"                = "Alphabetically";
+"byStore"                   = "By store";
 "pictureMatching"           = "Picture matching";
 "copy"                      = "Save to Photo";
 "print"                     = "Print";
@@ -63,6 +64,8 @@
 "NewCategory"               = "NewCategory";
 "Long press on an Item"     = "Long press on an Item, returns to editing";
 "Buy"                       = "Buy";
+"Sorting"                   = "Sorting";
+"Purchased"                 = "Purchased";
 
 "Store"                     = "Store";
 "cost"                      = "cost";

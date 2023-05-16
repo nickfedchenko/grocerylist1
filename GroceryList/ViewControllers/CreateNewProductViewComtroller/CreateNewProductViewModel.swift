@@ -157,11 +157,7 @@ class CreateNewProductViewModel {
         guard let model else {
             return UserDefaultsManager.isShowImage
         }
-        switch model.isShowImage {
-        case .nothing:      return UserDefaultsManager.isShowImage
-        case .switchOn:     return true
-        case .switchOff:    return false
-        }
+        return model.isShowImage.getBool(defaultValue: UserDefaultsManager.isShowImage)
     }
     
     var isVisibleStore: Bool {

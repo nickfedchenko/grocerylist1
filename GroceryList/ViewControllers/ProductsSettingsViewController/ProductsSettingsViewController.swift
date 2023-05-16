@@ -11,7 +11,51 @@ import UIKit
 class ProductsSettingsViewController: UIViewController {
     
     var viewModel: ProductsSettingsViewModel?
-    private var didLayoutSubviews = false
+    
+    private let contentView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 20
+        view.layer.masksToBounds = true
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    private let pinchView: UIView = {
+        let view = UIView()
+        view.backgroundColor = R.color.mediumGray()
+        view.layer.cornerRadius = 2
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
+    private let parametrsLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.semibold(size: 22).font
+        label.text = "Parametrs".localized
+        return label
+    }()
+    
+    private lazy var doneButton: UIButton = {
+        let button = UIButton()
+        let attributedTitle = NSAttributedString(string: "Done".localized, attributes: [
+            .font: UIFont.SFPro.semibold(size: 18).font ?? UIFont(),
+            .foregroundColor: UIColor.white
+        ])
+        button.addTarget(self, action: #selector(doneButtonPressed), for: .touchUpInside)
+        button.setAttributedTitle(attributedTitle, for: .normal)
+        button.layer.cornerRadius = 20
+        button.layer.masksToBounds = true
+        button.layer.maskedCorners = [.layerMinXMaxYCorner]
+        return button
+    }()
+    
+    private let tableview: UITableView = {
+        let tableview = UITableView()
+        tableview.showsVerticalScrollIndicator = false
+        tableview.estimatedRowHeight = UITableView.automaticDimension
+        return tableview
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,20 +63,11 @@ class ProductsSettingsViewController: UIViewController {
         addRecognizers()
         setupTableView()
         parametrsLabel.textColor = viewModel?.getTextColor()
+        doneButton.backgroundColor = viewModel?.getColor()
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(doneButtonPressed))
         tapRecognizer.delegate = self
         self.view.addGestureRecognizer(tapRecognizer)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if !didLayoutSubviews {
-            let isScrollEnabled = self.view.frame.height < 750
-            tableview.isScrollEnabled = isScrollEnabled
-            contentView.snp.updateConstraints { $0.height.equalTo(isScrollEnabled ? 600 : 750) }
-            didLayoutSubviews.toggle()
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -53,7 +88,7 @@ class ProductsSettingsViewController: UIViewController {
     // MARK: - swipeDown
     
     private func hidePanel(compl: (() -> Void)?) {
-        updateConstr(with: -750, alpha: 0)
+        updateConstr(with: -570, alpha: 0)
        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.dismiss(animated: false, completion: compl)
@@ -61,61 +96,18 @@ class ProductsSettingsViewController: UIViewController {
     }
     
     private func showPanel() {
-        updateConstr(with: 0, alpha: 0.5)
+        updateConstr(with: 0, alpha: 0.25)
     }
     
     func updateConstr(with inset: Double, alpha: Double) {
         UIView.animate(withDuration: 0.3) { [ weak self ] in
-            self?.view.backgroundColor = .black.withAlphaComponent(alpha)
+            self?.view.backgroundColor = UIColor(hex: "285454").withAlphaComponent(alpha)
             self?.contentView.snp.updateConstraints { make in
                 make.bottom.equalToSuperview().inset(inset)
             }
             self?.view.layoutIfNeeded()
         }
     }
-    
-    // MARK: - UI
-    private let contentView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 20
-        view.layer.masksToBounds = true
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        view.backgroundColor = .white
-        return view
-    }()
-    
-    private let pinchView: UIView = {
-        let view = UIView()
-        view.backgroundColor = #colorLiteral(red: 0.5402887464, green: 0.5452626944, blue: 0.5623689294, alpha: 1)
-        view.layer.cornerRadius = 2
-        view.layer.masksToBounds = true
-        return view
-    }()
-    
-    private let parametrsLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.semibold(size: 18).font
-        label.text = "Parametrs".localized
-        return label
-    }()
-    
-    private lazy var doneButton: UIButton = {
-        let button = UIButton()
-        let attributedTitle = NSAttributedString(string: "Done".localized, attributes: [
-            .font: UIFont.SFPro.semibold(size: 16).font ?? UIFont(),
-            .foregroundColor: UIColor(hex: "#000000")
-        ])
-        button.addTarget(self, action: #selector(doneButtonPressed), for: .touchUpInside)
-        button.setAttributedTitle(attributedTitle, for: .normal)
-        return button
-    }()
-    
-    private let tableview: UITableView = {
-        let tableview = UITableView()
-        tableview.showsVerticalScrollIndicator = false
-        tableview.estimatedRowHeight = UITableView.automaticDimension
-        return tableview
-    }()
 
     // MARK: - Constraints
     private func setupConstraints() {
@@ -124,8 +116,8 @@ class ProductsSettingsViewController: UIViewController {
        
         contentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(-750)
-            make.height.equalTo(750)
+            make.bottom.equalToSuperview().inset(-570)
+            make.height.equalTo(570)
         }
         
         pinchView.snp.makeConstraints { make in
@@ -136,18 +128,19 @@ class ProductsSettingsViewController: UIViewController {
         }
         
         parametrsLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(pinchView.snp.bottom).offset(14)
+            make.leading.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(27)
         }
         
         doneButton.snp.makeConstraints { make in
-            make.centerY.equalTo(parametrsLabel)
-            make.right.equalToSuperview().inset(20)
+            make.top.trailing.equalToSuperview()
+            make.width.equalTo(100)
+            make.height.equalTo(48)
         }
         
         tableview.snp.makeConstraints { make in
-            make.top.equalTo(parametrsLabel.snp.bottom).inset(-20)
-            make.bottom.equalToSuperview().inset(20)
+            make.top.equalTo(parametrsLabel.snp.bottom).inset(-18)
+            make.bottom.equalToSuperview()
             make.left.right.equalToSuperview()
         }
     }
@@ -178,6 +171,7 @@ extension ProductsSettingsViewController: UITableViewDelegate, UITableViewDataSo
         tableview.isScrollEnabled = false
         tableview.separatorStyle = .none
         tableview.register(ProductSettingsTableViewCell.self, forCellReuseIdentifier: "ProductSettingsTableViewCell")
+        tableview.rowHeight = 44
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -189,17 +183,17 @@ extension ProductsSettingsViewController: UITableViewDelegate, UITableViewDataSo
                 as? ProductSettingsTableViewCell, let viewModel = viewModel else { return UITableViewCell() }
         let image = viewModel.getImage(at: indexPath.row)
         let text = viewModel.getText(at: indexPath.row)
-        let isInset = viewModel.getInset(at: indexPath.row)
-        let separatorColor = viewModel.getSeparatirLineColor()
-        let color = viewModel.getTextColor()
-        let isCheckmark = viewModel.isChecmarkActive(at: indexPath.row)
+        let separatorColor = viewModel.getSeparatorLineColor()
+        let color = viewModel.getColor()
+        let checkmarkColor = viewModel.getTextColor()
+        let isCheckmark = viewModel.isCheckmarkActive(at: indexPath.row)
         let isSwitchActive = viewModel.isSwitchActive(at: indexPath.row)
         let isShare = viewModel.isSharedList(at: indexPath.row)
-        cell.setupCell(imageForCell: image, text: text, inset: isInset, separatorColor: separatorColor,
-                       isCheckmarkActive: isCheckmark)
+        cell.setupCell(imageForCell: image, text: text, separatorColor: separatorColor,
+                       checkmarkColor: checkmarkColor, isCheckmarkActive: isCheckmark)
         
         if isSwitchActive {
-            let switchValue = viewModel.isShowImage()
+            let switchValue = viewModel.switchValue(at: indexPath.row)
             cell.setupSwitch(isVisible: isSwitchActive, value: switchValue, tintColor: color)
         }
         
@@ -209,7 +203,7 @@ extension ProductsSettingsViewController: UITableViewDelegate, UITableViewDataSo
         }
         
         cell.switchValueChanged = { [weak self] isOn in
-            self?.viewModel?.imageMatching(isOn: isOn)
+            self?.viewModel?.changeSwitchValue(at: indexPath.row, isOn: isOn)
         }
         cell.selectionStyle = .none
         return cell
@@ -228,6 +222,7 @@ extension ProductsSettingsViewController: ProductSettingsViewDelegate {
 
     func reloadController() {
         parametrsLabel.textColor = viewModel?.getTextColor()
+        doneButton.backgroundColor = viewModel?.getColor()
         tableview.reloadData()
     }
     

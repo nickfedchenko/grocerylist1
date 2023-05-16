@@ -20,6 +20,14 @@ class ProductsDataManager {
             createDataSourceArray()
         }
     }
+    var typeOfSortingPurchased: SortingType = .category {
+        didSet {
+            shouldSaveExpanding = false
+            createDataSourceArray()
+        }
+    }
+    var isAscendingOrder = true
+    var isAscendingOrderPurchased = true
     var dataSourceArray: [Category] = [] {
         didSet {
             dataChangedCallBack?()
@@ -35,20 +43,20 @@ class ProductsDataManager {
           groceryListId: String) {
         self.typeOfSorting = typeOfSorting
         self.groceryListId = groceryListId
-        if let domainList = CoreDataManager.shared.getList(list: groceryListId),
-            let sharedId = domainList.sharedListId {
-            users = SharedListManager.shared.sharedListsUsers[sharedId] ?? []
+        if let domainList = CoreDataManager.shared.getList(list: groceryListId) {
+            typeOfSortingPurchased = SortingType(rawValue: Int(domainList.typeOfSortingPurchased)) ?? .category
+            isAscendingOrder = domainList.isAscendingOrder
+            isAscendingOrderPurchased = getIsAscendingOrderPurchased(domainList.isAscendingOrderPurchased)
+            if let sharedId = domainList.sharedListId {
+                users = SharedListManager.shared.sharedListsUsers[sharedId] ?? []
+            }
         }
     }
 
     func createDataSourceArray() {
         if products.isEmpty { dataSourceArray = [] }
         guard !products.isEmpty else { return }
-        if typeOfSorting == .user { createArraySortedByUsers() }
-        if typeOfSorting == .category { createArrayWithSections() }
-        if typeOfSorting == .alphabet { createArraySortedByAlphabet() }
-        if typeOfSorting == .recipe { createArraySortedByRecipe() }
-        if typeOfSorting == .time { createArraySortedByTime() }
+        createSortedProducts()
         shouldSaveExpanding = true
     }
     
@@ -130,7 +138,6 @@ class ProductsDataManager {
                 for product in category.products {
                     if product.id == newProduct.id {
                         index += 1
-                        print(index)
                         return IndexPath(row: index, section: 0)
                     }
                     index += 1
@@ -141,269 +148,70 @@ class ProductsDataManager {
         return IndexPath(row: 0, section: 0)
     }
     
-    // MARK: - Сортировка по алфавиту
-    private func createArraySortedByAlphabet() {
-        let products = products.sorted(by: { $0.name < $1.name })
-        var dict: [ String: [Product] ] = [:]
-        
-        // сортировкa
-        products.forEach({ product in
-            guard !product.isPurchased else { return }
-            guard !product.isFavorite else { return }
-            guard product.category != "Purchased".localized else { return }
-
-            if dict["alphabeticalSorted"] != nil {
-                dict["alphabeticalSorted"]?.append(product)
-            } else {
-                dict["alphabeticalSorted"] = [product]
-            }
-        })
-        
-        var newArray: [Category] = []
-        let dictPurchased = getDictionaryPurchased(by: products)
-        let dictFavorite = getDictionaryFavorite(by: products)
-        
-        // Избранное
-        if products.contains(where: { $0.isFavorite && !$0.isPurchased }) {
-            newArray.append(contentsOf: dictFavorite.map({ Category(name: $0.key, products: $0.value, typeOFCell: .favorite) }))
-        }
-        
-        // Все что не избрано и не куплено
-        newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByAlphabet) }))
-     
-        // Все что куплено
-        if products.contains(where: { $0.isPurchased }) {
-            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value,
-                                                                     cost: getPurchasedCost(), isVisibleCost: isVisibleCost,
-                                                                     typeOFCell: .purchased) }))
-        }
-        
-        newArray.append(Category(name: "", products: [], typeOFCell: .displayCostSwitch))
-        saveExpanding(newArray: newArray)
-    }
-    
-    // MARK: - Сортировка по Дате добавления
-    private func createArraySortedByTime() {
-        let products = products.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
-        let idForDict = R.string.localizable.addedEarlier()
-        var dict: [ String: [Product] ] = [:]
-        var recipesDict: [String: [Product]] = [:]
-        
-        // сортировкa
-        products.forEach({ product in
-            guard !product.isPurchased else { return }
-            guard !product.isFavorite else { return }
-            guard product.category != "Purchased".localized else { return }
-            
-            guard product.fromRecipeTitle == nil else {
-                guard let recipeTitle = product.fromRecipeTitle else {
-                    return
+    func getSectionIndex() -> [Int] {
+        var index = 0
+        var sectionIndices: [Int] = []
+        for category in dataSourceArray {
+            sectionIndices.append(index)
+            if category.isExpanded {
+                for _ in category.products {
+                    index += 1
                 }
-                if recipesDict[recipeTitle] != nil {
-                    recipesDict[recipeTitle]?.append(product)
-                } else {
-                    recipesDict[recipeTitle] = [product]
-                }
-                return
             }
-            
-            if dict[idForDict] != nil {
-                dict[idForDict]?.append(product)
-            } else {
-                dict[idForDict] = [product]
-            }
-        })
-        
+            index += 1
+        }
+        // удаляем последний номер секции, так как отвечает за показ цены
+        sectionIndices.removeLast()
+        return sectionIndices
+    }
+    
+    private func createSortedProducts() {
+        let products = getSortedProductsInOrder(products: products, isAscendingOrder: isAscendingOrder,
+                                                typeOfSorting: typeOfSorting)
         var newArray: [Category] = []
-        let dictPurchased = getDictionaryPurchased(by: products)
-        let dictFavorite = getDictionaryFavorite(by: products)
         
         // Избранное
+        let dictFavorite = getDictionaryFavorite(by: products)
         if products.contains(where: { $0.isFavorite && !$0.isPurchased }) {
             newArray.append(contentsOf: dictFavorite.map({ Category(name: $0.key, products: $0.value, typeOFCell: .favorite) }))
         }
         
-        newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByDate) })
-                                        .sorted(by: { $0.name < $1.name }))
+        // Сортировка продуктов
+        let dict = getDictionaryProducts(by: products, isPurchased: false)
+        newArray.append(contentsOf: getSortCategory(dict: dict.base, isPurchased: false))
+        newArray.append(contentsOf: getSortCategory(dict: dict.other, isPurchased: false))
         
-        if products.contains(where: { $0.fromRecipeTitle != nil }) {
-            newArray.append(contentsOf: recipesDict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByDate) }))
-        }
- 
         // Все что куплено
+        let dictPurchased = getDictionaryProducts(by: products, isPurchased: true)
         if products.contains(where: { $0.isPurchased }) {
-            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value,
-                                                                     cost: getPurchasedCost(), isVisibleCost: isVisibleCost,
-                                                                     typeOFCell: .purchased) }))
+            newArray.append(Category(name: "Purchased".localized, products: [],
+                                     cost: getPurchasedCost(),
+                                     isVisibleCost: isVisibleCost, typeOFCell: .purchased))
+            
+            newArray.append(contentsOf: getSortCategory(dict: dictPurchased.base, isPurchased: true))
+            newArray.append(contentsOf: getSortCategory(dict: dictPurchased.other, isPurchased: true))
         }
         
         newArray.append(Category(name: "", products: [], typeOFCell: .displayCostSwitch))
         saveExpanding(newArray: newArray)
     }
     
-    // MARK: - Сортировка по рецепту
-    private func createArraySortedByRecipe() {
-        let products = products.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
-        var recipesDict: [String: [Product]] = [:]
-        var dict: [ String: [Product] ] = [:]
-        dict[R.string.localizable.other()] = []
-
-        // сортировкa
-        products.forEach({ product in
-            guard !product.isPurchased else { return }
-            guard !product.isFavorite else { return }
-            guard product.category != "Purchased".localized else { return }
-            
-            guard product.fromRecipeTitle != nil else {
-                dict[R.string.localizable.other()]?.append(product)
-                return
+    private func getSortedProductsInOrder(products: [Product],
+                                          isAscendingOrder: Bool, typeOfSorting: SortingType) -> [Product] {
+        guard isAscendingOrder else {
+            switch typeOfSorting {
+            case .category, .time, .user:
+                return products.sorted(by: { $0.dateOfCreation > $1.dateOfCreation })
+            case .alphabet, .recipe, .store:
+                return products.sorted(by: { $0.name > $1.name })
             }
-            
-            guard let recipeTitle = product.fromRecipeTitle else {
-                return
-            }
-            let dicTitle = R.string.localizable.recipe().getTitleWithout(symbols: [" "]) + ": " + recipeTitle
-            if recipesDict[dicTitle] != nil {
-                recipesDict[dicTitle]?.append(product)
-            } else {
-                recipesDict[dicTitle] = [product]
-            }
-        })
-        
-        var newArray: [Category] = []
-        let dictPurchased = getDictionaryPurchased(by: products)
-        let dictFavorite = getDictionaryFavorite(by: products)
-        
-        // Избранное
-        if products.contains(where: { $0.isFavorite && !$0.isPurchased }) {
-            newArray.append(contentsOf: dictFavorite.map({ Category(name: $0.key, products: $0.value, typeOFCell: .favorite) }))
         }
-        
-        if products.contains(where: { $0.fromRecipeTitle != nil }) {
-            newArray.append(contentsOf: recipesDict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByRecipe) }))
+        switch typeOfSorting {
+        case .category, .time, .user:
+            return products.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
+        case .alphabet, .recipe, .store:
+            return products.sorted(by: { $0.name < $1.name })
         }
-        
-        if !(dict[R.string.localizable.other()]?.isEmpty ?? true) {
-            newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByRecipe) }))
-        }
- 
-        // Все что куплено
-        if products.contains(where: { $0.isPurchased }) {
-            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value,
-                                                                     cost: getPurchasedCost(), isVisibleCost: isVisibleCost,
-                                                                     typeOFCell: .purchased) }))
-        }
-        
-        newArray.append(Category(name: "", products: [], typeOFCell: .displayCostSwitch))
-        saveExpanding(newArray: newArray)
-    }
-    
-    // MARK: - Сортировка по секциям
-    private func createArrayWithSections() {
-        let products = products.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
-        var dict: [ String: [Product] ] = [:]
-        
-        // сортировкa
-        products.forEach({ product in
-            guard !product.isPurchased else { return }
-            guard !product.isFavorite else { return }
-            guard product.category != "Purchased".localized else { return }
-
-            if dict[product.category] != nil {
-                dict[product.category]?.append(product)
-            } else {
-                dict[product.category] = [product]
-            }
-        })
-        
-        var newArray: [Category] = []
-        let dictPurchased = getDictionaryPurchased(by: products)
-        let dictFavorite = getDictionaryFavorite(by: products)
-        
-        // Избранное
-        if products.contains(where: { $0.isFavorite && !$0.isPurchased }) {
-            newArray.append(contentsOf: dictFavorite.map({ Category(name: $0.key, products: $0.value, typeOFCell: .favorite) }))
-        }
-        
-        // Все что не избрано и не куплено
-        newArray.append(contentsOf: dict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .normal) })
-                                        .sorted(by: { $0.name < $1.name }))
-        
-        // Все что куплено
-        if products.contains(where: { $0.isPurchased }) {
-            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value,
-                                                                     cost: getPurchasedCost(), isVisibleCost: isVisibleCost,
-                                                                     typeOFCell: .purchased) }))
-        }
-        
-        newArray.append(Category(name: "", products: [], typeOFCell: .displayCostSwitch))
-        saveExpanding(newArray: newArray)
-    }
-    
-    // MARK: - Сортировка по пользователям
-    private func createArraySortedByUsers() {
-        let products = products.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
-        let keyDictWithoutUser = R.string.localizable.addedEarlier()
-        var dictWithoutUser: [String: [Product]] = [:]
-        var usersDict: [String: [Product]] = [:]
-        dictWithoutUser[keyDictWithoutUser] = []
-        
-        products.forEach({ product in
-            guard !product.isPurchased else { return }
-            guard !product.isFavorite else { return }
-            guard product.category != "Purchased".localized else { return }
-            
-            guard !(product.userToken == "0") else {
-                dictWithoutUser[keyDictWithoutUser]?.append(product)
-                return
-            }
-            
-            guard let userToken = product.userToken,
-                  let dicTitle = getUserName(by: userToken) else {
-                return
-            }
-            
-            if usersDict[dicTitle] != nil {
-                usersDict[dicTitle]?.append(product)
-            } else {
-                usersDict[dicTitle] = [product]
-            }
-        })
-        
-        var newArray: [Category] = []
-        let dictPurchased = getDictionaryPurchased(by: products)
-        let dictFavorite = getDictionaryFavorite(by: products)
-        
-        // Избранное
-        if products.contains(where: { $0.isFavorite && !$0.isPurchased }) {
-            newArray.append(contentsOf: dictFavorite.map({ Category(name: $0.key, products: $0.value, typeOFCell: .favorite) }))
-        }
-        // Пользователи
-        if products.contains(where: { $0.userToken != nil }) {
-            newArray.append(contentsOf: usersDict.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByUser) })
-                                                 .sorted(by: { $0.name < $1.name }))
-        }
-        // Ранее добавленные пользователи, когда не было данной фичи
-        if !(dictWithoutUser[keyDictWithoutUser]?.isEmpty ?? true) {
-            newArray.append(contentsOf: dictWithoutUser.map({ Category(name: $0.key, products: $0.value, typeOFCell: .sortedByUser) }))
-        }
-        // Все что куплено
-        if products.contains(where: { $0.isPurchased }) {
-            newArray.append(contentsOf: dictPurchased.map({ Category(name: $0.key, products: $0.value,
-                                                                     cost: getPurchasedCost(), isVisibleCost: isVisibleCost,
-                                                                     typeOFCell: .purchased) }))
-        }
-        
-        newArray.append(Category(name: "", products: [], typeOFCell: .displayCostSwitch))
-        saveExpanding(newArray: newArray)
-    }
-    
-    private func getDictionaryPurchased(by products: [Product]) -> [String: [Product]] {
-        var dictPurchased: [String: [Product]] = [:]
-        dictPurchased["Purchased".localized] = []
-        let purchasedProducts = products.filter { $0.isPurchased || $0.category == "Purchased".localized }
-        purchasedProducts.forEach { dictPurchased["Purchased".localized]?.append($0) }
-        return dictPurchased
     }
     
     private func getDictionaryFavorite(by products: [Product]) -> [String: [Product]] {
@@ -413,6 +221,88 @@ class ProductsDataManager {
         favoriteProducts.forEach { dictFavorite["DictionaryFavorite"]?.append($0) }
         
         return dictFavorite
+    }
+    
+    private func getDictionaryProducts(by products: [Product], isPurchased: Bool) ->
+    (base: [String: [Product]], other: [String: [Product]]) {
+        var baseDict: [String: [Product]] = [:]
+        var otherDict: [String: [Product]] = [:]
+        let typeOfSort = isPurchased ? typeOfSortingPurchased : typeOfSorting
+        let sortProducts = getProducts(products: products, isPurchased: isPurchased)
+        
+        sortProducts.forEach({ product in
+            switch typeOfSort {
+            case .category:
+                baseDict.add(product, toArrayOn: product.category)
+            case .alphabet:
+                baseDict.add(product, toArrayOn: "alphabeticalSorted")
+            case .time:
+                if let recipeTitle = product.fromRecipeTitle {
+                    baseDict.add(product, toArrayOn: recipeTitle)
+                } else {
+                    otherDict.add(product, toArrayOn: R.string.localizable.addedEarlier())
+                }
+            case .recipe:
+                if let recipeTitle = product.fromRecipeTitle {
+                    let dicTitle = R.string.localizable.recipe().getTitleWithout(symbols: [" "]) + ": " + recipeTitle
+                    baseDict.add(product, toArrayOn: dicTitle)
+                } else {
+                    otherDict.add(product, toArrayOn: R.string.localizable.other())
+                }
+            case .user:
+                if !(product.userToken == "0"), let userToken = product.userToken,
+                    let dicTitle = getUserName(by: userToken) {
+                    baseDict.add(product, toArrayOn: dicTitle)
+                } else {
+                    otherDict.add(product, toArrayOn: R.string.localizable.addedEarlier())
+                }
+            case .store:
+                if let storeTitle = product.store?.title {
+                    baseDict.add(product, toArrayOn: storeTitle)
+                } else {
+                    otherDict.add(product, toArrayOn: R.string.localizable.other())
+                }
+            }
+        })
+        return (baseDict, otherDict)
+    }
+    
+    private func getProducts(products: [Product], isPurchased: Bool) -> [Product] {
+        guard isPurchased else {
+            return filteredProducts(products: products)
+        }
+        let purchasedProducts = products.filter { $0.isPurchased || $0.category == "Purchased".localized }
+        return getSortedProductsInOrder(products: purchasedProducts, isAscendingOrder: isAscendingOrderPurchased,
+                                        typeOfSorting: typeOfSortingPurchased)
+    }
+    
+    private func filteredProducts(products: [Product]) -> [Product] {
+        var products = products.filter { !$0.isPurchased }
+        products = products.filter { !$0.isFavorite }
+        products = products.filter { $0.category != "Purchased".localized }
+        return products
+    }
+    
+    private func getSortCategory(dict: [String: [Product]], isPurchased: Bool) -> [Category] {
+        let typeOfSort = isPurchased ? typeOfSortingPurchased : typeOfSorting
+        var categories: [Category] = []
+        var typeOFCell: TypeOfCell = .normal
+        switch typeOfSort {
+        case .category:     typeOFCell = .normal
+        case .recipe:       typeOFCell = .sortedByRecipe
+        case .time:         typeOFCell = .sortedByDate
+        case .alphabet:     typeOFCell = .sortedByAlphabet
+        case .user:         typeOFCell = .sortedByUser
+        case .store:        typeOFCell = .normal
+        }
+        
+        categories = dict.map({ Category(name: $0.key, products: $0.value,
+                                         typeOFCell: typeOFCell) })
+        let isAscendingOrder = isPurchased ? isAscendingOrderPurchased : isAscendingOrder
+        guard isAscendingOrder else {
+            return categories.sorted(by: { $0.name > $1.name })
+        }
+        return categories.sorted(by: { $0.name < $1.name })
     }
     
     /// Сохранение параметра свернутости развернутости списка
@@ -426,6 +316,13 @@ class ProductsDataManager {
             })
         }
         dataSourceArray = newArray
+    }
+    
+    private func getIsAscendingOrderPurchased(_ dbIsAscendingOrderPurchased: Int16) -> Bool {
+        guard let isAscendingOrder = BoolWithNilForCD(rawValue: dbIsAscendingOrderPurchased) else {
+            return isAscendingOrder
+        }
+        return isAscendingOrder.getBool(defaultValue: self.isAscendingOrder)
     }
     
     private func getUserName(by token: String) -> String? {

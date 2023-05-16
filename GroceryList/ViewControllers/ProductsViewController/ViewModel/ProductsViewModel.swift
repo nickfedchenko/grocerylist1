@@ -5,6 +5,7 @@
 //  Created by Шамиль Моллачиев on 10.11.2022.
 //
 
+import ApphudSDK
 import Foundation
 import StoreKit
 import UIKit
@@ -24,6 +25,7 @@ class ProductsViewModel {
     var model: GroceryListsModel
     var dataSource: ProductsDataManager
     var selectedProduct: Product?
+    var isExpandedPurchased = true
     
     private var colorManager = ColorManager()
     
@@ -43,16 +45,16 @@ class ProductsViewModel {
         return dataSource.dataSourceArray
     }
     
+    var sectionIndexPaths: [Int] {
+        dataSource.getSectionIndex()
+    }
+    
     var editProducts: [Product] {
         return dataSource.editProducts
     }
     
     var isVisibleImage: Bool {
-        switch model.isShowImage {
-        case .nothing:      return UserDefaultsManager.isShowImage
-        case .switchOn:     return true
-        case .switchOff:    return false
-        }
+        model.isShowImage.getBool(defaultValue: UserDefaultsManager.isShowImage)
     }
     
     var totalCost: Double? {
@@ -60,7 +62,12 @@ class ProductsViewModel {
     }
     
     var isVisibleCost: Bool {
-        model.isVisibleCost
+#if RELEASE
+        guard Apphud.hasActiveSubscription() else {
+            return false
+        }
+#endif
+        return model.isVisibleCost
     }
     
     var isSelectedAllProductsForEditing: Bool {
@@ -98,7 +105,6 @@ class ProductsViewModel {
                                      compl: { [weak self] updatedModel, products in
             self?.model = updatedModel
             self?.appendToDataSourceProducts(products: products)
-            self?.dataSource.typeOfSorting = SortingType(rawValue: self?.model.typeOfSorting ?? 0) ?? .category
             self?.delegate?.updateController()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self?.updateList()
@@ -119,6 +125,26 @@ class ProductsViewModel {
             }
         })
         
+    }
+    
+    func sortTapped(productType: ProductsSortViewModel.ProductType) {
+        router?.goToProductSort(model: model, productType: productType,
+                                compl: { [weak self] updatedModel in
+            self?.model = updatedModel
+            var sortingType = SortingType(rawValue: self?.model.typeOfSorting ?? 0) ?? .category
+            switch productType {
+            case .products:
+                self?.dataSource.isAscendingOrder = updatedModel.isAscendingOrder
+                self?.dataSource.typeOfSorting = sortingType
+            case .purchased:
+                sortingType = SortingType(rawValue: self?.model.typeOfSortingPurchased ?? 0) ?? .category
+                let isAscendingOrder = updatedModel.isAscendingOrderPurchased
+                                                   .getBool(defaultValue: updatedModel.isAscendingOrder)
+                self?.dataSource.isAscendingOrderPurchased = isAscendingOrder
+                self?.dataSource.typeOfSortingPurchased = sortingType
+            }
+            self?.delegate?.updateController()
+        })
     }
     
     func updatePurchasedStatus(product: Product) {
@@ -314,6 +340,9 @@ class ProductsViewModel {
             var categoryName = category.name
             if categoryName == "DictionaryFavorite" {
                 categoryName = R.string.localizable.favorites()
+            }
+            if categoryName == "alphabeticalSorted" {
+                categoryName = "AlphabeticalSorted".localized
             }
             list += categoryName.uppercased() + newLine
             category.products.map { product in

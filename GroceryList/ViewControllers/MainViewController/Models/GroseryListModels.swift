@@ -90,10 +90,13 @@ struct GroceryListsModel: Hashable, Codable {
     var isFavorite: Bool = false
     var products: [Product]
     var typeOfSorting: Int
+    var typeOfSortingPurchased: Int
+    var isAscendingOrder = true
+    var isAscendingOrderPurchased: BoolWithNilForCD = .nothing
     var sharedId: String = ""
     var isShared: Bool = false
     var isSharedListOwner: Bool = false
-    var isShowImage: PictureMatchingState = .nothing
+    var isShowImage: BoolWithNilForCD = .nothing
     var isVisibleCost: Bool = false
     
     static func == (lhs: GroceryListsModel, rhs: GroceryListsModel) -> Bool {
@@ -116,13 +119,19 @@ struct GroceryListsModel: Hashable, Codable {
         sharedId = dbModel.sharedListId ?? ""
         isShared = dbModel.isShared
         isSharedListOwner = dbModel.isSharedListOwner
-        isShowImage = PictureMatchingState(rawValue: dbModel.isShowImage) ?? .nothing
+        isShowImage = BoolWithNilForCD(rawValue: dbModel.isShowImage) ?? .nothing
+        typeOfSortingPurchased = Int(dbModel.typeOfSortingPurchased)
+        isAscendingOrder = dbModel.isAscendingOrder
+        isAscendingOrderPurchased = BoolWithNilForCD(rawValue: dbModel.isAscendingOrderPurchased) ?? .nothing
     }
     
     init(id: UUID = UUID(), dateOfCreation: Date,
          name: String? = nil, color: Int, isFavorite: Bool = false,
          products: [Product], typeOfSorting: Int, isShared: Bool = false,
-         sharedId: String = "", isSharedListOwner: Bool = false, isShowImage: PictureMatchingState = .nothing,
+         sharedId: String = "", isSharedListOwner: Bool = false, isShowImage: BoolWithNilForCD = .nothing,
+         typeOfSortingPurchased: Int = 1,
+         isAscendingOrder: Bool = true,
+         isAscendingOrderPurchased: BoolWithNilForCD = .nothing,
          isVisibleCost: Bool = false) {
         self.dateOfCreation = dateOfCreation
         self.color = color
@@ -136,6 +145,9 @@ struct GroceryListsModel: Hashable, Codable {
         self.isSharedListOwner = isSharedListOwner
         self.isShowImage = isShowImage
         self.isVisibleCost = isVisibleCost
+        self.typeOfSortingPurchased = typeOfSortingPurchased
+        self.isAscendingOrder = isAscendingOrder
+        self.isAscendingOrderPurchased = isAscendingOrderPurchased
     }
 }
 
@@ -299,7 +311,9 @@ class Category: Hashable, Equatable {
     }
     
     static func == (lhs: Category, rhs: Category) -> Bool {
-        return lhs.name == rhs.name && lhs.cost == rhs.cost && lhs.isVisibleCost == rhs.isVisibleCost
+        return lhs.name == rhs.name && lhs.products == rhs.products &&
+        lhs.isExpanded == rhs.isExpanded && lhs.typeOFCell == rhs.typeOFCell &&
+        lhs.cost == rhs.cost && lhs.isVisibleCost == rhs.isVisibleCost
     }
 }
 
@@ -342,6 +356,7 @@ enum SortingType: Int {
     case time
     case alphabet
     case user
+    case store
 }
 
 enum TypeOfCell {
@@ -355,8 +370,16 @@ enum TypeOfCell {
     case displayCostSwitch
 }
 
-enum PictureMatchingState: Int16, Codable {
+enum BoolWithNilForCD: Int16, Codable {
     case nothing
-    case switchOn
-    case switchOff
+    case itsTrue
+    case itsFalse
+    
+    func getBool(defaultValue: Bool) -> Bool {
+        switch self {
+        case .nothing:  return defaultValue
+        case .itsTrue:  return true
+        case .itsFalse: return false
+        }
+    }
 }

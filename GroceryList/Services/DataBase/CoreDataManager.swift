@@ -151,6 +151,9 @@ class CoreDataManager {
         object.isSharedListOwner = list.isSharedListOwner
         object.isShowImage = list.isShowImage.rawValue
         object.isVisibleCost = list.isVisibleCost
+        object.typeOfSortingPurchased = Int64(list.typeOfSortingPurchased)
+        object.isAscendingOrder = list.isAscendingOrder
+        object.isAscendingOrderPurchased = list.isAscendingOrderPurchased.rawValue
         try? context.save()
     }
     
@@ -179,6 +182,9 @@ class CoreDataManager {
             object.sharedListId = list.sharedId
             object.isShowImage = list.isShowImage.rawValue
             object.isVisibleCost = list.isVisibleCost
+            object.typeOfSortingPurchased = Int64(list.typeOfSortingPurchased)
+            object.isAscendingOrder = list.isAscendingOrder
+            object.isAscendingOrderPurchased = list.isAscendingOrderPurchased.rawValue
         }
         try? context.save()
     }
