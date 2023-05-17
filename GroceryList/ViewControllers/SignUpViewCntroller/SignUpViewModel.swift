@@ -156,11 +156,14 @@ class SignUpViewModel {
     
     /// юзер прошел сайн виз эпл, пора его регать или входить в акк
     func signWithAppleSucceed(email: String?, appleId: String) {
+        // сохраняем старые данные в новый вид
+        resaveInCorrectForm(appleId: appleId)
         
         // проверяем есть ли в кейчейне данные, если нет то это первый вход и переходим регаться
         guard let emailData = KeyChainManager.load(key: .email),
-              let passwordData = KeyChainManager.load(key: .password) else {
-            createAccountAndLogIn(email: email)
+              let passwordData = KeyChainManager.load(appleId: appleId,
+                                                      email: String(decoding: emailData, as: UTF8.self)) else {
+            createAccountAndLogIn(email: email, appleId: appleId)
             return
         }
         
@@ -172,7 +175,7 @@ class SignUpViewModel {
         // если занята то переходим в функцию регистрации
         checkMail(text: email) { [weak self] isMailExist in
             guard isMailExist else {
-                self?.createAccountAndLogIn(email: email)
+                self?.createAccountAndLogIn(email: email, appleId: appleId)
                 return
             }
             // если почта занята то проверка прошла и входим
@@ -183,19 +186,34 @@ class SignUpViewModel {
     }
     
     /// сохраняем почту и логин в кейчейн и регистрируемся
-    func createAccountAndLogIn(email: String?) {
+    func createAccountAndLogIn(email: String?, appleId: String) {
         guard let email = email else {
             return
         }
         let password = UUID().uuidString
         
-        KeyChainManager.save(key: .email, data: email.data(using: .utf8) ?? Data())
-        KeyChainManager.save(key: .password, data: password.data(using: .utf8) ?? Data())
-    
+        let saveStatus = KeyChainManager.save(password: password.data(using: .utf8) ?? Data(),
+                                              appleId: appleId, email: email)
+        
         emailParameters.text = email
         passwordParameters.text = password
         
         signUpUser()
+    }
+    
+    /// обновляем сохранение кейчейн в правильном виде
+    private func resaveInCorrectForm(appleId: String) {
+        guard let emailData = KeyChainManager.load(key: .email),
+              let passwordData = KeyChainManager.load(key: .password) else {
+            return
+        }
+        let email = String(decoding: emailData, as: UTF8.self)
+        
+        // сохранили в новый вид
+        let saveStatus = KeyChainManager.save(password: passwordData, appleId: appleId, email: email)
+        
+        // удалили старые пароль из кейчейн
+        let deletePasswordStatus = KeyChainManager.deletePassword(key: .password)
     }
     
     // MARK: - Validation
