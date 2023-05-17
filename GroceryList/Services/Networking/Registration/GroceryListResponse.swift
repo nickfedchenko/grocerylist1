@@ -122,7 +122,7 @@ struct SharedProduct: Codable {
     var name: String
     var isPurchased: Bool
     var dateOfCreation: Double
-    var category: String
+    var category: String?
     var isFavorite: Bool
     var isSelected = false
     var imageData: Data?
@@ -160,7 +160,7 @@ struct SharedProduct: Codable {
         name = try container.decode(String.self, forKey: .name)
         isPurchased = try container.decode(Bool.self, forKey: .isPurchased)
         dateOfCreation = try container.decode(Double.self, forKey: .dateOfCreation)
-        category = try container.decode(String.self, forKey: .category)
+        category = try? container.decode(String.self, forKey: .category)
         isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
         isSelected = try container.decode(Bool.self, forKey: .isSelected)
         imageData = try? container.decode(Data.self, forKey: .imageData)

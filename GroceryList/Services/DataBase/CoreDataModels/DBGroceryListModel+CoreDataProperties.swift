@@ -31,6 +31,7 @@ extension DBGroceryListModel {
     @NSManaged public var typeOfSortingPurchased: Int64
     @NSManaged public var isAscendingOrder: Bool
     @NSManaged public var isAscendingOrderPurchased: Int16
+    @NSManaged public var isAutomaticCategory: Bool
 
     static func prepare(fromPlainModel model: GroceryListsModel, context: NSManagedObjectContext) -> DBGroceryListModel {
         let object = DBGroceryListModel(context: context)
@@ -45,6 +46,10 @@ extension DBGroceryListModel {
         object.isSharedListOwner = model.isSharedListOwner
         object.isShowImage = model.isShowImage.rawValue
         object.isVisibleCost = model.isVisibleCost
+        object.typeOfSortingPurchased = Int64(model.typeOfSortingPurchased)
+        object.isAscendingOrder = model.isAscendingOrder
+        object.isAscendingOrderPurchased = model.isAscendingOrderPurchased.rawValue
+        object.isAutomaticCategory = model.isAutomaticCategory
         return object
     }
 }

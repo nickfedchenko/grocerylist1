@@ -297,7 +297,7 @@ class ProductsDataManager {
         }
         
         categories = dict.map({ Category(name: $0.key, products: $0.value,
-                                         typeOFCell: typeOFCell) })
+                                         typeOFCell: $0.key == "" ? .withoutCategory : typeOFCell) })
         let isAscendingOrder = isPurchased ? isAscendingOrderPurchased : isAscendingOrder
         guard isAscendingOrder else {
             return categories.sorted(by: { $0.name > $1.name })

@@ -210,7 +210,7 @@ class CreateNewProductViewModel {
             imageData = image.jpegData(compressionQuality: 0.5)
         }
         let product: Product
-        
+        let categoryName = categoryName == R.string.localizable.category() ? "" : categoryName
         if var currentProduct {
             currentProduct.name = productName
             currentProduct.category = categoryName
@@ -297,8 +297,9 @@ class CreateNewProductViewModel {
             getInformation(networkProduct: product)
             return
         }
-        
-        delegate?.selectCategory(text: "other".localized, imageURL: "", imageData: nil, defaultSelectedUnit: nil)
+        let isAutomaticCategory = model?.isAutomaticCategory ?? true
+        let title = isAutomaticCategory ? R.string.localizable.other() : ""
+        delegate?.selectCategory(text: title, imageURL: "", imageData: nil, defaultSelectedUnit: nil)
     }
     
     private func search(name: String, by titles: [String]) -> [String] {
@@ -322,7 +323,9 @@ class CreateNewProductViewModel {
     private func getInformation(networkProduct: DBNewNetProduct) {
         let photoUrl = networkProduct.photo ?? ""
         let imageUrl = isVisibleImage ? photoUrl : ""
-        let title = networkProduct.marketCategory ?? R.string.localizable.other()
+        let isAutomaticCategory = model?.isAutomaticCategory ?? true
+        let categoryTitle = networkProduct.marketCategory ?? R.string.localizable.other()
+        let title = isAutomaticCategory ? categoryTitle : ""
         let marketId = Int(networkProduct.defaultMarketUnitID)
         let shouldSelectUnit: MarketUnitClass.MarketUnitPrepared = .init(rawValue: marketId ) ?? .gram
         let properSelectedUnit: UnitSystem = {
@@ -343,7 +346,9 @@ class CreateNewProductViewModel {
     
     private func getInformation(userProduct: DBProduct) {
         let imageData = userProduct.image
-        let title = userProduct.category ?? R.string.localizable.other()
+        let isAutomaticCategory = model?.isAutomaticCategory ?? true
+        let categoryTitle = userProduct.category ?? R.string.localizable.other()
+        let title = isAutomaticCategory ? categoryTitle : ""
         let defaultUnit: UnitSystem = isMetricSystem ? .gram : .ozz
         let shouldSelectUnit: UnitSystem = .init(rawValue: Int(userProduct.unitId)) ?? defaultUnit
         currentSelectedUnit = shouldSelectUnit

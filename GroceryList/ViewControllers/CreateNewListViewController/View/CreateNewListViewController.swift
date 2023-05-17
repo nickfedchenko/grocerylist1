@@ -48,7 +48,7 @@ class CreateNewListViewController: UIViewController {
         selectedColor = model.color
         contentView.backgroundColor = viewModel?.getBackgroundColor(at: selectedColor)
         textfield.backgroundColor = viewModel?.getTextFieldColor(at: selectedColor)
-        switchView.isOn = model.typeOfSorting == SortingType.category.rawValue
+        switchView.isOn = model.isAutomaticCategory
         textfield.text = model.name
         closeButtonView.backgroundColor = viewModel?.getBackgroundColor(at: selectedColor)
     }
@@ -389,7 +389,7 @@ extension CreateNewListViewController {
     
     @objc
     private func saveAction() {
-        viewModel?.savePressed(nameOfList: textfield.text, numberOfColor: selectedColor, isSortByCategory: switchView.isOn)
+        viewModel?.savePressed(nameOfList: textfield.text, numberOfColor: selectedColor, isAutomaticCategory: switchView.isOn)
         hidePanel()
     }
     

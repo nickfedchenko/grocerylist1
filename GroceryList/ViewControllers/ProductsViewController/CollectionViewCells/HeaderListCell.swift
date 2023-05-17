@@ -127,6 +127,9 @@ class HeaderListCell: UICollectionViewListCell {
         titleLabel.snp.updateConstraints { make in
             make.centerY.equalTo(collapsedColoredView.snp.centerY)
         }
+        containerView.snp.updateConstraints { make in
+            make.height.equalTo(56 + purchasedCostHeight).priority(1000)
+        }
     }
     
     func collapsing(color: UIColor?, isPurchased: Bool) {
@@ -190,6 +193,12 @@ class HeaderListCell: UICollectionViewListCell {
             collapsedColoredView.backgroundColor = color
             if !isExpand {
                 coloredView.backgroundColor = color
+            }
+        case .withoutCategory:
+            titleLabel.text = ""
+            checkmarkView.isHidden = true
+            containerView.snp.updateConstraints { make in
+                make.height.equalTo(10 + purchasedCostHeight).priority(1000)
             }
         case .displayCostSwitch: return
         }
@@ -293,7 +302,7 @@ class HeaderListCell: UICollectionViewListCell {
         coloredViewForSorting.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.right.equalTo(checkmarkForSorting.snp.right).inset(-18)
-            make.bottom.equalToSuperview().inset(4)
+            make.height.equalTo(40)
             make.top.equalToSuperview().inset(12)
         }
         
@@ -339,7 +348,6 @@ class HeaderListCell: UICollectionViewListCell {
             make.trailing.equalToSuperview().offset(-24)
             make.top.equalTo(coloredView.snp.bottom).offset(8)
             make.height.equalTo(19)
-            make.bottom.equalToSuperview().offset(-8)
         }
     }
 }

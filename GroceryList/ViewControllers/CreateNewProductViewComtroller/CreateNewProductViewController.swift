@@ -320,7 +320,7 @@ extension CreateNewProductViewController: UINavigationControllerDelegate, UIImag
 
 extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?) {
-        updateCategory(isActive: true, categoryTitle: text)
+        updateCategory(isActive: !text.isEmpty, categoryTitle: text)
         productView.setImage(imageURL: imageURL, imageData: imageData)
         quantityView.setDefaultUnit(defaultSelectedUnit ?? .piece)
         
