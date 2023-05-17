@@ -107,6 +107,7 @@ protocol ViewControllerFactoryProtocol {
     func createProductsSortController(model: GroceryListsModel, productType: ProductsSortViewModel.ProductType,
                                       updateModel: ((GroceryListsModel) -> Void)?,
                                       router: RootRouter) -> UIViewController
+    func createFeedbackController(router: RootRouter) -> UIViewController
 }
 
 // MARK: - Factory
@@ -529,6 +530,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.router = router
         viewModel.delegate = viewController
         viewModel.updateModel = updateModel
+        viewController.viewModel = viewModel
+        return viewController
+    }
+    
+    func createFeedbackController(router: RootRouter) -> UIViewController {
+        let viewController = FeedbackViewController()
+        let viewModel = FeedbackViewModel()
+        viewModel.router = router
         viewController.viewModel = viewModel
         return viewController
     }

@@ -24,6 +24,15 @@ class UserDefaultsManager {
         }
     }
     
+    static var firstLaunchDate: Date? {
+        get {
+            return UserDefaults.standard.object(forKey: "firstLaunchDate") as? Date
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "firstLaunchDate")
+        }
+    }
+    
     static var coldStartState: Int {
         get {
             return UserDefaults.standard.integer(forKey: "coldStartState")

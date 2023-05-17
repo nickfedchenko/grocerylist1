@@ -282,3 +282,11 @@
 "WantDeleteTheseTasks?"         = "Are you sure you want to permanently delete these tasks?";
 "Move to..."                    = "Move to...";
 "Copy to..."                    = "Copy to...";
+
+// Feedback
+"Your experience"               = "Tell us how was your experience of shopping with Grocery List App?";
+"How can we improve?"           = "How can we improve?";
+"Give Suggestions"              = "Give Suggestions";
+"Thanks for your feedback"      = "Thanks for your feedback";
+"You can also write a review"   = "You can also write a review. \n We will be very pleased";
+"No Thanks"                     = "No Thanks";

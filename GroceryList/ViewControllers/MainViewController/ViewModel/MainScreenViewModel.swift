@@ -133,6 +133,12 @@ class MainScreenViewModel {
         router?.goToRecipe(recipe: model)
     }
     
+    func showFeedback() {
+        if FeedbackManager.shared.isShowFeedbackScreen() {
+            router?.goToFeedback()
+        }
+    }
+    
     // setup cells
     func getNameOfList(at ind: IndexPath) -> String {
         return model[ind.section].lists[ind.row].name ?? "No name"

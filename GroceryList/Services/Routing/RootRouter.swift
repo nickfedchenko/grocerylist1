@@ -75,6 +75,7 @@ final class RootRouter: RootRouterProtocol {
         if UserDefaultsManager.shouldShowOnboarding {
             guard let onboardingController = viewControllerFactory.createOnboardingController(router: self) else { return }
             navigationPushViewController(onboardingController, animated: false)
+            UserDefaultsManager.firstLaunchDate = Date()
             FeatureManager.shared.activeFeaturesOnFirstLaunch()
         }
     }
@@ -267,6 +268,12 @@ final class RootRouter: RootRouterProtocol {
         let controller = viewControllerFactory.createProductsSortController(model: model, productType: productType,
                                                                             updateModel: compl, router: self)
         navigationPresent(controller, animated: false)
+    }
+    
+    func goToFeedback() {
+        let controller = viewControllerFactory.createFeedbackController(router: self)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
     }
     
     // алерты / активити и принтер

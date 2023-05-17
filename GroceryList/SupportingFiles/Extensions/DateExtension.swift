@@ -26,4 +26,8 @@ extension Date {
     var previousMonth: Date {
         return Calendar.current.date(byAdding: .month, value: -1, to: self) ?? self
     }
+    
+    func days(sinceDate: Date) -> Int? {
+        return Calendar.current.dateComponents([.day], from: sinceDate, to: self).day
+    }
 }

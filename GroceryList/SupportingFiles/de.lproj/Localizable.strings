@@ -255,3 +255,11 @@
 "WantDeleteTheseTasks?"         = "Sind Sie sicher, dass Sie diese Aufgaben dauerhaft löschen möchten?";
 "Move to..."                    = "Umzug nach...";
 "Copy to..."                    = "Kopieren nach...";
+
+// Feedback
+"Your experience"               = "Erzählen Sie uns, wie Sie mit der Einkaufslisten-App eingekauft haben?";
+"How can we improve?"           = "Wie können wir uns verbessern?";
+"Give Suggestions"              = "Vorschläge machen";
+"Thanks for your feedback"      = "Danke für Ihr Feedback";
+"You can also write a review"   = "Sie können auch eine Bewertung schreiben. \n Wir werden uns sehr freuen";
+"No Thanks"                     = "Nein Danke";

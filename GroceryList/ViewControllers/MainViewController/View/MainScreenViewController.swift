@@ -98,6 +98,7 @@ class MainScreenViewController: UIViewController {
         if !initAnalytic {
             viewModel?.analytic()
             initAnalytic.toggle()
+            viewModel?.showFeedback()
         }
     }
     

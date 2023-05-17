@@ -253,3 +253,11 @@
 "WantDeleteTheseTasks?"         = "Êtes-vous sûr de vouloir supprimer définitivement ces tâches?";
 "Move to..."                    = "Déménagez...";
 "Copy to..."                    = "Copier vers...";
+
+// Feedback
+"Your experience"               = "Dites-nous comment s'est passée votre expérience de magasinage avec l'application de liste d'épicerie?";
+"How can we improve?"           = "Comment pouvons-nous nous améliorer?";
+"Give Suggestions"              = "Donner des Suggestions";
+"Thanks for your feedback"      = "Merci pour vos commentaires";
+"You can also write a review"   = "Vous pouvez également écrire un commentaire. \n Nous serons très heureux";
+"No Thanks"                     = "Non Merci";
