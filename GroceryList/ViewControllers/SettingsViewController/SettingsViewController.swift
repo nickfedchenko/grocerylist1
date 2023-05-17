@@ -41,7 +41,7 @@ class SettingsViewController: UIViewController {
         view.setupView(text: "Haptic Feedback".localized, isSwitchView: true)
         view.updateSwitcher(isOn: UserDefaultsManager.isHapticOn)
         view.switchValueChanged = { switchValue in
-            AmplitudeManager.shared.logEvent(.prefHapticToggle, properties: [.isActive: switchValue ? .yes : .no])
+            AmplitudeManager.shared.logEvent(.prefHapticToggle, properties: [.isActive: switchValue ? .yes : .valueNo])
             UserDefaultsManager.isHapticOn = switchValue
         }
         return view
@@ -52,7 +52,7 @@ class SettingsViewController: UIViewController {
         view.setupView(text: R.string.localizable.pictureMatching(), isSwitchView: true)
         view.updateSwitcher(isOn: UserDefaultsManager.isShowImage)
         view.switchValueChanged = { switchValue in
-            AmplitudeManager.shared.logEvent(.prefPictureToggle, properties: [.isActive: switchValue ? .yes : .no])
+            AmplitudeManager.shared.logEvent(.prefPictureToggle, properties: [.isActive: switchValue ? .yes : .valueNo])
             UserDefaultsManager.isShowImage = switchValue
         }
         return view

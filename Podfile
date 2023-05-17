@@ -20,6 +20,8 @@ target 'GroceryList' do
   pod 'Firebase/Crashlytics'
   pod 'Firebase/RemoteConfig'
   
+  pod 'NVActivityIndicatorView'
+  
   # Pods for GroceryList
 
 end

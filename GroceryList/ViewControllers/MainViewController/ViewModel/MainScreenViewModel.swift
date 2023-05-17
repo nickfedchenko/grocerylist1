@@ -17,10 +17,36 @@ class MainScreenViewModel {
     var updateRecipeLoaded: (() -> Void)?
     var addCustomRecipe: ((Recipe) -> Void)?
     var updateCells:((Set<GroceryListsModel>) -> Void)?
+    var showSynchronizationActivity: ((Bool) -> Void)?
     var dataSource: DataSourceProtocol?
     
     var model: [SectionModel] {
         return dataSource?.dataSourceArray ?? []
+    }
+    // user
+    var userPhoto: (url: String?, data: Data?) {
+        (UserAccountManager.shared.getUser()?.avatar,
+         UserAccountManager.shared.getUser()?.avatarAsData)
+    }
+    
+    var userName: String? {
+        UserAccountManager.shared.getUser()?.username
+    }
+    
+    private var colorManager = ColorManager()
+    private let groupForSavingSharedUser = DispatchGroup()
+    private var startTime: Date?
+    
+    init(dataSource: DataSourceProtocol) {
+        self.dataSource = dataSource
+        self.dataSource?.dataChangedCallBack = { [weak self] in
+            self?.reloadDataCallBack?()
+        }
+        self.dataSource?.recipeUpdate = { [weak self] in
+            self?.updateRecipeLoaded?()
+        }
+        addObserver()
+        downloadMySharedLists()
     }
     
     func getRecipeModel(for indexPath: IndexPath) -> ShortRecipeModel? {
@@ -45,31 +71,6 @@ class MainScreenViewModel {
     
     func updateCustomSection() {
         dataSource?.updateCustomSection()
-    }
-    
-    // user
-    var userPhoto: (url: String?, data: Data?) {
-        (UserAccountManager.shared.getUser()?.avatar,
-         UserAccountManager.shared.getUser()?.avatarAsData)
-    }
-    
-    var userName: String? {
-        UserAccountManager.shared.getUser()?.username
-    }
-    
-    private var colorManager = ColorManager()
-    private let groupForSavingSharedUser = DispatchGroup()
-    
-    init(dataSource: DataSourceProtocol) {
-        self.dataSource = dataSource
-        self.dataSource?.dataChangedCallBack = { [weak self] in
-            self?.reloadDataCallBack?()
-        }
-        self.dataSource?.recipeUpdate = { [weak self] in
-            self?.updateRecipeLoaded?()
-        }
-        addObserver()
-        downloadMySharedLists()
     }
     
     // routing
@@ -272,11 +273,31 @@ class MainScreenViewModel {
             name: .sharedListDownloadedAndSaved,
             object: nil
         )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(sharedListLoading),
+            name: .sharedListLoading,
+            object: nil
+        )
     }
     
     @objc
     private func sharedListDownloaded() {
         guard let dataSource = dataSource else { return }
         updateCells?(dataSource.updateListOfModels())
+        showSynchronizationActivity?(false)
+        if let startTime {
+            let time = Double(Date().timeIntervalSince(startTime))
+            AmplitudeManager.shared.logEvent(.sharedListLoading,
+                                             properties: [.time: String(format: "%.2f", time)])
+            self.startTime = nil
+        }
+    }
+    
+    @objc
+    private func sharedListLoading() {
+        showSynchronizationActivity?(true)
+        startTime = Date()
     }
 }

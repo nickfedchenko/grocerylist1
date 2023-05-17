@@ -402,7 +402,7 @@ class ProductsViewController: UIViewController {
             let isVisibleCost = self?.viewModel?.isVisibleCost ?? false
             cell.configureSwitch(isVisibleCost: isVisibleCost, tintColor: color)
             cell.changedSwitchValue = { [weak self] switchValue in
-                AmplitudeManager.shared.logEvent(.shopPriceToggle, properties: [.isActive: switchValue ? .yes : .no])
+                AmplitudeManager.shared.logEvent(.shopPriceToggle, properties: [.isActive: switchValue ? .yes : .valueNo])
 #if RELEASE
                 guard Apphud.hasActiveSubscription() else {
                     self?.viewModel?.showPaywall()
