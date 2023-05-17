@@ -12,6 +12,27 @@ class UserDefaultsManager {
         case favoriteRecipes
     }
     
+    static var shouldShowOnboarding: Bool {
+        get {
+            guard let shouldShow = UserDefaults.standard.value(forKey: "shouldShowOnboarding") as? Bool else {
+                return true
+            }
+            return shouldShow
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "shouldShowOnboarding")
+        }
+    }
+    
+    static var firstLaunchDate: Date? {
+        get {
+            return UserDefaults.standard.object(forKey: "firstLaunchDate") as? Date
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "firstLaunchDate")
+        }
+    }
+    
     static var coldStartState: Int {
         get {
             return UserDefaults.standard.integer(forKey: "coldStartState")
@@ -151,6 +172,27 @@ class UserDefaultsManager {
         }
         set {
             UserDefaults.standard.set(!newValue, forKey: "isShowImage")
+        }
+    }
+    
+    static var countAutoCategoryInfo: Int {
+        get {
+            return UserDefaults.standard.integer(forKey: "countAutoCategoryInfo")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "countAutoCategoryInfo")
+        }
+    }
+    
+    static var isActiveAutoCategory: Bool? {
+        get {
+            guard let shouldShow = UserDefaults.standard.value(forKey: "isActiveAutoCategory") as? Bool else {
+                return nil
+            }
+            return shouldShow
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isActiveAutoCategory")
         }
     }
     

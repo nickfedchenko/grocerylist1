@@ -20,6 +20,8 @@
 		334009ED29E98AB800A04978 /* CreateNewProductButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009EC29E98AB700A04978 /* CreateNewProductButtonView.swift */; };
 		334009EF29E9950000A04978 /* StoreOfProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009EE29E9950000A04978 /* StoreOfProductView.swift */; };
 		334009F129E9956800A04978 /* QuantityOfProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009F029E9956800A04978 /* QuantityOfProductView.swift */; };
+		3342C9BB2A1460900010DA4A /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3342C9BA2A1460900010DA4A /* FeedbackViewModel.swift */; };
+		3342C9BD2A146D290010DA4A /* FeedbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3342C9BC2A146D290010DA4A /* FeedbackManager.swift */; };
 		334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */; };
 		334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */; };
 		334BAE53299E6606005F52F5 /* SharingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE52299E6606005F52F5 /* SharingListViewModel.swift */; };
@@ -54,6 +56,10 @@
 		337719AE29B1A669000791BD /* CreateNewRecipeViewWithButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719AD29B1A669000791BD /* CreateNewRecipeViewWithButton.swift */; };
 		337719B129B1B552000791BD /* CreateNewRecipeViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719B029B1B552000791BD /* CreateNewRecipeViewState.swift */; };
 		337719B729B2051E000791BD /* Ingredient and step views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719B629B2051E000791BD /* Ingredient and step views.swift */; };
+		33796E5D2A136F14009AD385 /* AutoCategoryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33796E5C2A136F14009AD385 /* AutoCategoryInfoView.swift */; };
+		33796E5F2A139457009AD385 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33796E5E2A139457009AD385 /* UIDeviceExtension.swift */; };
+		33796E612A139F5D009AD385 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33796E602A139F5D009AD385 /* FeedbackViewController.swift */; };
+		33796E642A13A25A009AD385 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33796E632A13A25A009AD385 /* FeedbackView.swift */; };
 		3379B64E29B755E80080923A /* ShowCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B64D29B755E80080923A /* ShowCollectionViewController.swift */; };
 		3379B65029B756230080923A /* ShowCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B64F29B756230080923A /* ShowCollectionViewModel.swift */; };
 		3379B65229B870A70080923A /* ShowCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65129B870A70080923A /* ShowCollectionCell.swift */; };
@@ -277,6 +283,8 @@
 		334009EC29E98AB700A04978 /* CreateNewProductButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProductButtonView.swift; sourceTree = "<group>"; };
 		334009EE29E9950000A04978 /* StoreOfProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreOfProductView.swift; sourceTree = "<group>"; };
 		334009F029E9956800A04978 /* QuantityOfProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityOfProductView.swift; sourceTree = "<group>"; };
+		3342C9BA2A1460900010DA4A /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
+		3342C9BC2A146D290010DA4A /* FeedbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackManager.swift; sourceTree = "<group>"; };
 		334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingPopUpViewController.swift; sourceTree = "<group>"; };
 		334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewController.swift; sourceTree = "<group>"; };
 		334BAE52299E6606005F52F5 /* SharingListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewModel.swift; sourceTree = "<group>"; };
@@ -311,6 +319,10 @@
 		337719AD29B1A669000791BD /* CreateNewRecipeViewWithButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeViewWithButton.swift; sourceTree = "<group>"; };
 		337719B029B1B552000791BD /* CreateNewRecipeViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeViewState.swift; sourceTree = "<group>"; };
 		337719B629B2051E000791BD /* Ingredient and step views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ingredient and step views.swift"; sourceTree = "<group>"; };
+		33796E5C2A136F14009AD385 /* AutoCategoryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCategoryInfoView.swift; sourceTree = "<group>"; };
+		33796E5E2A139457009AD385 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
+		33796E602A139F5D009AD385 /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
+		33796E632A13A25A009AD385 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
 		3379B64D29B755E80080923A /* ShowCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowCollectionViewController.swift; sourceTree = "<group>"; };
 		3379B64F29B756230080923A /* ShowCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowCollectionViewModel.swift; sourceTree = "<group>"; };
 		3379B65129B870A70080923A /* ShowCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowCollectionCell.swift; sourceTree = "<group>"; };
@@ -557,6 +569,7 @@
 				334009EC29E98AB700A04978 /* CreateNewProductButtonView.swift */,
 				334009EE29E9950000A04978 /* StoreOfProductView.swift */,
 				334009F029E9956800A04978 /* QuantityOfProductView.swift */,
+				33796E5C2A136F14009AD385 /* AutoCategoryInfoView.swift */,
 			);
 			path = subView;
 			sourceTree = "<group>";
@@ -668,6 +681,16 @@
 				337719AB29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift */,
 			);
 			path = "Step two";
+			sourceTree = "<group>";
+		};
+		33796E622A139F71009AD385 /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				3342C9BA2A1460900010DA4A /* FeedbackViewModel.swift */,
+				33796E602A139F5D009AD385 /* FeedbackViewController.swift */,
+				33796E632A13A25A009AD385 /* FeedbackView.swift */,
+			);
+			path = Feedback;
 			sourceTree = "<group>";
 		};
 		3379B64B29B7559F0080923A /* ShowCollection */ = {
@@ -1395,6 +1418,7 @@
 				B35F0F642937975900C19891 /* MeashureManager */,
 				33E544AA29CA1107008D84F8 /* Feature Manager */,
 				B371CCAF299E36BB00E0E197 /* KeychainManager.swift */,
+				3342C9BC2A146D290010DA4A /* FeedbackManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1417,6 +1441,7 @@
 				B3D858462939D43B00CCE230 /* Paywall */,
 				B37A2CDD2911027E003C01AD /* Onboarding */,
 				B36933FC291BA4CE00AFFAA6 /* MainViewController */,
+				33796E622A139F71009AD385 /* Feedback */,
 				33F8253529C050B700B349D5 /* Search */,
 				334BAE4B299DF88F005F52F5 /* Sharing */,
 				3379B64C29B755B20080923A /* Collection */,
@@ -1476,6 +1501,7 @@
 				33F8254129C18FCE00B349D5 /* UIStackViewExtension.swift */,
 				336A112629F2D1F4008CFF33 /* BundleExtension.swift */,
 				3320531D2A0E6CAB00E19EA8 /* DictionaryExtension.swift */,
+				33796E5E2A139457009AD385 /* UIDeviceExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1915,6 +1941,7 @@
 				337719B129B1B552000791BD /* CreateNewRecipeViewState.swift in Sources */,
 				383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */,
 				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,
+				3342C9BD2A146D290010DA4A /* FeedbackManager.swift in Sources */,
 				386CFACE2995A4CA00B4AD76 /* ContentViewConstants.swift in Sources */,
 				B371CCA9299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift in Sources */,
 				3368FD6A29B6E0BF00D97291 /* CreateNewCollectionViewModel.swift in Sources */,
@@ -1968,8 +1995,10 @@
 				33725E1B2A03828700EE8635 /* TopMainScreenView.swift in Sources */,
 				335519CE29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift in Sources */,
 				B37A2CE72911034D003C01AD /* UIColorExtension.swift in Sources */,
+				33796E642A13A25A009AD385 /* FeedbackView.swift in Sources */,
 				3368FD6829B6DA0300D97291 /* CreateNewCollectionViewController.swift in Sources */,
 				B371CCB0299E36BB00E0E197 /* KeychainManager.swift in Sources */,
+				33796E5D2A136F14009AD385 /* AutoCategoryInfoView.swift in Sources */,
 				B36AF9532915403600944E9D /* EmptyColoredCell.swift in Sources */,
 				335519C929AF1AF000AD2B77 /* CreateNewRecipeStepOneViewModel.swift in Sources */,
 				335519CC29B04E5900AD2B77 /* CreateNewRecipeTitleView.swift in Sources */,
@@ -2028,6 +2057,7 @@
 				B315F9E8298A3FF30009CEB8 /* WriteReviewViewModel.swift in Sources */,
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
 				B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */,
+				33796E612A139F5D009AD385 /* FeedbackViewController.swift in Sources */,
 				B3777E1D2938CBF40074BE38 /* SettingsParametrView.swift in Sources */,
 				B37A2CEB2911034D003C01AD /* StringExtension.swift in Sources */,
 				B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */,
@@ -2045,8 +2075,10 @@
 				B3476904291D017B0045A287 /* ProductsViewModel.swift in Sources */,
 				B3802315292BC7DA0039EDE0 /* UserDefaultsManager.swift in Sources */,
 				B3329596298A667E002DF1EE /* AmplitudeManager.swift in Sources */,
+				33796E5F2A139457009AD385 /* UIDeviceExtension.swift in Sources */,
 				B3777E232938E4E90074BE38 /* HapticManager.swift in Sources */,
 				3328AD86299CF40800187B57 /* SharingView.swift in Sources */,
+				3342C9BB2A1460900010DA4A /* FeedbackViewModel.swift in Sources */,
 				3368FD7A29B7348100D97291 /* DBCollection+CoreDataProperties.swift in Sources */,
 				B381EF17299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift in Sources */,
 				38F4903F2946DC6A00529D1F /* IngredientView.swift in Sources */,

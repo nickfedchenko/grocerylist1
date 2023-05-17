@@ -263,6 +263,21 @@ class CreateNewProductViewModel {
         })
     }
     
+    func showAutoCategoryAlert() {
+        var title = ""
+        var message = ""
+        if (FeatureManager.shared.isActiveAutoCategory ?? true) {
+            title = R.string.localizable.autoCategoryTitleOn()
+            message = R.string.localizable.autoCategoryDescOn()
+        } else {
+            message = R.string.localizable.autoCategoryDescOff()
+            
+        }
+        router?.showAlertVC(title: title, message: message, completion: {
+            UserDefaultsManager.countInfoMessage = 11
+        })
+    }
+    
     func checkIsProductFromCategory(name: String?) {
         guard let name = name?.prepareForSearch() else {
             productsChangedCallback?([])

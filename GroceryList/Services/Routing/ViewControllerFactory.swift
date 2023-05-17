@@ -30,7 +30,7 @@ protocol ViewControllerFactoryProtocol {
     ) -> UIViewController?
     func createActivityController(image: [Any]) -> UIViewController?
     func createPrintController(image: UIImage) -> UIPrintInteractionController?
-    func createAlertController(title: String, message: String) -> UIAlertController?
+    func createAlertController(title: String, message: String, _ completion: (() -> Void)?) -> UIAlertController?
     func createSelectListController(
         height: Double,
         router: RootRouter,
@@ -107,6 +107,7 @@ protocol ViewControllerFactoryProtocol {
     func createProductsSortController(model: GroceryListsModel, productType: ProductsSortViewModel.ProductType,
                                       updateModel: ((GroceryListsModel) -> Void)?,
                                       router: RootRouter) -> UIViewController
+    func createFeedbackController(router: RootRouter) -> UIViewController
 }
 
 // MARK: - Factory
@@ -365,9 +366,13 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createAlertController(title: String, message: String) -> UIAlertController? {
+    func createAlertController(title: String, message: String,
+                               _ completion: (() -> Void)? = nil) -> UIAlertController? {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "Ok", style: .default)
+        let alertAction = UIAlertAction(title: "Ok", style: .default) { _ in
+            completion?()
+        }
+        
         alert.addAction(alertAction)
         return alert
     }
@@ -525,6 +530,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.router = router
         viewModel.delegate = viewController
         viewModel.updateModel = updateModel
+        viewController.viewModel = viewModel
+        return viewController
+    }
+    
+    func createFeedbackController(router: RootRouter) -> UIViewController {
+        let viewController = FeedbackViewController()
+        let viewModel = FeedbackViewModel()
+        viewModel.router = router
         viewController.viewModel = viewModel
         return viewController
     }

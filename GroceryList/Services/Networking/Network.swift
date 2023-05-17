@@ -39,6 +39,7 @@ typealias GroceryListUserDeleteResult = (Result<GroceryListUserDeleteResponse, A
 typealias ShareGroceryListResult = (Result<ShareGroceryListResponse, AFError>) -> Void
 typealias UpdateGroceryListResult = (Result<UpdateGroceryListResponse, AFError>) -> Void
 typealias UserProductResult = (Result<UserProductResponse, AFError>) -> Void
+typealias FeedbackResult = (Result<FeedbackResponse, AFError>) -> Void
 
 enum RequestGenerator: Codable {
     case getProducts
@@ -63,6 +64,7 @@ enum RequestGenerator: Codable {
     case shareGroceryList(userToken: String, listId: String?)
     case updateGroceryList(userToken: String, listId: String)
     case userProduct
+    case feedback
     
     private var bearerToken: String {
         return "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
@@ -158,6 +160,9 @@ enum RequestGenerator: Codable {
             fatalError("use multiformRequestObject")
         case .userProduct:
             return requestCreator(basicURL: "https://ketodietapplication.site/api/item2",
+                                  method: .post) { _ in }
+        case .feedback:
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/feedback",
                                   method: .post) { _ in }
         }
     }
@@ -549,6 +554,13 @@ extension NetworkEngine: NetworkDataProvider {
     func userProduct(userToken: String, product: UserProduct, completion: @escaping UserProductResult) {
         performDecodableRequestSend(request: .userProduct,
                                     params: product,
+                                    completion: completion)
+    }
+    
+    ///   фидбек от пользователей
+    func sendFeedback(feedback: Feedback, completion: @escaping FeedbackResult) {
+        performDecodableRequestSend(request: .feedback,
+                                    params: feedback,
                                     completion: completion)
     }
 }

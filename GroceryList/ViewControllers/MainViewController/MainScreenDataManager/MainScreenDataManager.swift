@@ -163,9 +163,11 @@ class MainScreenDataManager: DataSourceProtocol {
     }
     
     private func createWorkingArray() {
-        if coldStartState == .initial {
-            CoreDataManager.shared.saveList(list: GroceryListsModel(dateOfCreation: Date(), name: "Supermarket".localized, color: 0, isFavorite: true, products: [], typeOfSorting: 0))
+        if coldStartState == .initial && !UserDefaultsManager.shouldShowOnboarding {
+            let isAutomaticCategory = FeatureManager.shared.isActiveAutoCategory ?? true
+            CoreDataManager.shared.saveList(list: GroceryListsModel(dateOfCreation: Date(), name: "Supermarket".localized, color: 0, isFavorite: true, products: [], isAutomaticCategory: isAutomaticCategory, typeOfSorting: 0))
             coldStartState = .firstItemAdded
+            transformedModels = coreDataModels.map({ modelTransformer.transformCoreDataModelToModel($0) })
         }
         createDataSourceArray()
     }
