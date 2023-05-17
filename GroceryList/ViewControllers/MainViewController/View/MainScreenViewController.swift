@@ -59,6 +59,7 @@ class MainScreenViewController: UIViewController {
     private let topMainView = TopMainScreenView()
     private let bottomCreateListView = AddListView()
     private let activityView = ActivityIndicatorView()
+    private let synchronizationActivityView = SynchronizationActivityView()
     private let contextMenu = MainScreenMenuView()
     private let contextMenuBackgroundView = UIView()
     private var initAnalytic = false
@@ -147,6 +148,17 @@ class MainScreenViewController: UIViewController {
             DispatchQueue.main.async {
                 self?.activityView.removeFromView()
                 self?.recipesCollectionView.reloadData()
+            }
+        }
+        
+        viewModel?.showSynchronizationActivity = { [weak self] isShow in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                if isShow {
+                    self.synchronizationActivityView.show(for: self.view)
+                } else {
+                    self.synchronizationActivityView.removeFromView()
+                }
             }
         }
     }
@@ -249,6 +261,16 @@ class MainScreenViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
+        topMainView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            make.height.equalTo(113)
+        }
+        
+        setupConstraintsAdditionalViews()
+    }
+    
+    private func setupConstraintsAdditionalViews() {
         contextMenuBackgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -265,12 +287,6 @@ class MainScreenViewController: UIViewController {
             make.top.equalTo(collectionView).offset(97)
             make.bottom.equalToSuperview()
             make.leading.equalTo(collectionView.snp.trailing)
-        }
-        
-        topMainView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            make.height.equalTo(113)
         }
     }
 }

@@ -153,7 +153,7 @@ class ProductsSettingsViewModel {
             model.isVisibleCost = !model.isVisibleCost
             savePatametrs()
         case .imageMatching:
-            AmplitudeManager.shared.logEvent(.setAutoimageToggle, properties: [.isActive: isOn ? .yes : .no])
+            AmplitudeManager.shared.logEvent(.setAutoimageToggle, properties: [.isActive: isOn ? .yes : .valueNo])
             model.isShowImage = isOn ? .itsTrue : .itsFalse
             savePatametrs()
         default: break

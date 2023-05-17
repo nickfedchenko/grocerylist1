@@ -161,7 +161,6 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         router: RootRouter,
         compl: @escaping (Product) -> Void
     ) -> UIViewController? {
-//        let viewController = OldCreateNewProductViewController()
         let viewController = CreateNewProductViewController()
         let viewModel = CreateNewProductViewModel()
         viewModel.valueChangedCallback = compl

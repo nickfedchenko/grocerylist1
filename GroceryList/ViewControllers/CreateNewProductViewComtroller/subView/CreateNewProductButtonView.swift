@@ -92,6 +92,8 @@ class ProductButtonView: UIView {
         textField.textAlignment = .center
         textField.layer.shadowOpacity = 0
         textField.isUserInteractionEnabled = false
+        textField.adjustsFontSizeToFitWidth = true
+        textField.minimumFontSize = 10
         return textField
     }()
     

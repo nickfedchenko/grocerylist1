@@ -15,6 +15,7 @@ class SharedListManager {
     private var network: NetworkEngine
     private var modelTransformer: DomainModelsToLocalTransformer
     private var newListId: String?
+    private var isNewListId = false
     private var tokens: [String] {
         get { UserDefaultsManager.userTokens ?? [] }
         set { UserDefaultsManager.userTokens = newValue }
@@ -48,8 +49,10 @@ class SharedListManager {
 
     /// подписываемся на лист
     private func connectToList(userToken: String, token: String) {
+        NotificationCenter.default.post(name: .sharedListLoading, object: nil)
+        isNewListId = true
         network.groceryListRelease(userToken: userToken,
-                                           sharingToken: token) { result in
+                                   sharingToken: token) { result in
             switch result {
             case .failure(let error):
                 print(error)
@@ -103,6 +106,10 @@ class SharedListManager {
         appendToUsersDict(id: response.listId, users: response.listUsers)
         
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
+        if isNewListId {
+            self.newListId = list.id.uuidString
+            showProductViewController()
+        }
     }
     
     // MARK: - удаление листа из сокета
@@ -280,6 +287,8 @@ class SharedListManager {
             let model = DomainModelsToLocalTransformer().transformCoreDataModelToModel(dbModel)
             self.router?.popToRoot()
             self.router?.goProductsVC(model: model, compl: { })
+            self.newListId = nil
+            isNewListId = false
         }
     }
 
