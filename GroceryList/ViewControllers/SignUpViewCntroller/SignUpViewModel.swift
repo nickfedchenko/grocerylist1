@@ -192,6 +192,7 @@ class SignUpViewModel {
         }
         let password = UUID().uuidString
         
+        KeyChainManager.save(key: .email, data: email.data(using: .utf8) ?? Data())
         let saveStatus = KeyChainManager.save(password: password.data(using: .utf8) ?? Data(),
                                               appleId: appleId, email: email)
         
