@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 232 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 234 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -521,6 +521,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var likeTheApp: RswiftResources.StringResource { .init(key: "Like the app?", tableName: "Localizable", source: source, developmentValue: "Like the app?", comment: nil) }
 
+      /// en translation: List
+      ///
+      /// Key: List
+      ///
+      /// Locales: en, ru, fr, de
+      var list: RswiftResources.StringResource { .init(key: "List", tableName: "Localizable", source: source, developmentValue: "List", comment: nil) }
+
       /// en translation: Lists
       ///
       /// Key: Lists
@@ -681,6 +688,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var organizeRecepts: RswiftResources.StringResource { .init(key: "OrganizeRecepts", tableName: "Localizable", source: source, developmentValue: "Replenished collections of recipes in the app\nWrite down and organize your recipes", comment: nil) }
+
+      /// en translation: Pantry
+      ///
+      /// Key: Pantry
+      ///
+      /// Locales: en, ru, fr, de
+      var pantry: RswiftResources.StringResource { .init(key: "Pantry", tableName: "Localizable", source: source, developmentValue: "Pantry", comment: nil) }
 
       /// en translation: List parameters
       ///
@@ -1744,7 +1758,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 170 images.
+  /// This `_R.image` struct is generated, and contains static references to 176 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -2048,6 +2062,12 @@ struct _R {
     /// Image `hand_white`.
     var hand_white: RswiftResources.ImageResource { .init(name: "hand_white", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `list_tabbar_active`.
+    var list_tabbar_active: RswiftResources.ImageResource { .init(name: "list_tabbar_active", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `list_tabbar_inactive`.
+    var list_tabbar_inactive: RswiftResources.ImageResource { .init(name: "list_tabbar_inactive", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `logo`.
     var logo: RswiftResources.ImageResource { .init(name: "logo", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -2074,6 +2094,12 @@ struct _R {
 
     /// Image `orangeCircle`.
     var orangeCircle: RswiftResources.ImageResource { .init(name: "orangeCircle", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `pantry_tabbar_active`.
+    var pantry_tabbar_active: RswiftResources.ImageResource { .init(name: "pantry_tabbar_active", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `pantry_tabbar_inactive`.
+    var pantry_tabbar_inactive: RswiftResources.ImageResource { .init(name: "pantry_tabbar_inactive", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `paywallBackground`.
     var paywallBackground: RswiftResources.ImageResource { .init(name: "paywallBackground", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -2134,6 +2160,12 @@ struct _R {
 
     /// Image `purchasedCheckmark`.
     var purchasedCheckmark: RswiftResources.ImageResource { .init(name: "purchasedCheckmark", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `recipe_tabbar_active`.
+    var recipe_tabbar_active: RswiftResources.ImageResource { .init(name: "recipe_tabbar_active", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `recipe_tabbar_inactive`.
+    var recipe_tabbar_inactive: RswiftResources.ImageResource { .init(name: "recipe_tabbar_inactive", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `redDeleteImage`.
     var redDeleteImage: RswiftResources.ImageResource { .init(name: "redDeleteImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

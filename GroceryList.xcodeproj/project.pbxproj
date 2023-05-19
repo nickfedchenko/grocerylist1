@@ -82,6 +82,10 @@
 		338EB6B629C1BEED00D6A03F /* SearchInRecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338EB6B529C1BEED00D6A03F /* SearchInRecipeViewModel.swift */; };
 		3391163329CD96E700881E1D /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3391163229CD96E700881E1D /* ActivityIndicatorView.swift */; };
 		339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339C1AEA299A67DD0092F93E /* InfoMessageView.swift */; };
+		33A51B872A163C7A00BE11C1 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A51B862A163C7A00BE11C1 /* MainTabBarController.swift */; };
+		33A51B892A163C9500BE11C1 /* CustomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A51B882A163C9500BE11C1 /* CustomTransition.swift */; };
+		33A51B8B2A163FBF00BE11C1 /* ViewControllerFactoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A51B8A2A163FBF00BE11C1 /* ViewControllerFactoryProtocol.swift */; };
+		33A51B8D2A17171400BE11C1 /* MainTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A51B8C2A17171400BE11C1 /* MainTabBarViewModel.swift */; };
 		33A73F1D2A0CD2D300844610 /* ProductsSortViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A73F1C2A0CD2D300844610 /* ProductsSortViewController.swift */; };
 		33C8DB8529DFCE95009F4760 /* EditTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C8DB8429DFCE95009F4760 /* EditTabBarView.swift */; };
 		33C8DB8729DFE873009F4760 /* SF-Compact-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33C8DB8629DFE873009F4760 /* SF-Compact-Display-Semibold.otf */; };
@@ -345,6 +349,10 @@
 		338EB6B529C1BEED00D6A03F /* SearchInRecipeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInRecipeViewModel.swift; sourceTree = "<group>"; };
 		3391163229CD96E700881E1D /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
 		339C1AEA299A67DD0092F93E /* InfoMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMessageView.swift; sourceTree = "<group>"; };
+		33A51B862A163C7A00BE11C1 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		33A51B882A163C9500BE11C1 /* CustomTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTransition.swift; sourceTree = "<group>"; };
+		33A51B8A2A163FBF00BE11C1 /* ViewControllerFactoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactoryProtocol.swift; sourceTree = "<group>"; };
+		33A51B8C2A17171400BE11C1 /* MainTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewModel.swift; sourceTree = "<group>"; };
 		33A73F1C2A0CD2D300844610 /* ProductsSortViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsSortViewController.swift; sourceTree = "<group>"; };
 		33C8DB8429DFCE95009F4760 /* EditTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTabBarView.swift; sourceTree = "<group>"; };
 		33C8DB8629DFE873009F4760 /* SF-Compact-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Display-Semibold.otf"; sourceTree = "<group>"; };
@@ -742,6 +750,16 @@
 				3380D1B329C2D1E500A57F25 /* AllRecipesCell.swift */,
 			);
 			path = "In recipe";
+			sourceTree = "<group>";
+		};
+		33A51B852A163C4200BE11C1 /* Main Tab Bar */ = {
+			isa = PBXGroup;
+			children = (
+				33A51B8C2A17171400BE11C1 /* MainTabBarViewModel.swift */,
+				33A51B862A163C7A00BE11C1 /* MainTabBarController.swift */,
+				33A51B882A163C9500BE11C1 /* CustomTransition.swift */,
+			);
+			path = "Main Tab Bar";
 			sourceTree = "<group>";
 		};
 		33A73F1B2A0CD2AB00844610 /* ProductsSort */ = {
@@ -1428,6 +1446,7 @@
 			children = (
 				B37A2CD62910EE93003C01AD /* NavigationInterface.swift */,
 				B37A2CD72910EE93003C01AD /* RootRouter.swift */,
+				33A51B8A2A163FBF00BE11C1 /* ViewControllerFactoryProtocol.swift */,
 				B37A2CD82910EE93003C01AD /* ViewControllerFactory.swift */,
 			);
 			path = Routing;
@@ -1436,10 +1455,9 @@
 		B37A2CDC29110263003C01AD /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				B381EF2F299BAA2400DCDE40 /* EnterNewPasswordController */,
-				B315F9E4298A3F0A0009CEB8 /* WriteReviewController */,
 				B3D858462939D43B00CCE230 /* Paywall */,
 				B37A2CDD2911027E003C01AD /* Onboarding */,
+				33A51B852A163C4200BE11C1 /* Main Tab Bar */,
 				B36933FC291BA4CE00AFFAA6 /* MainViewController */,
 				33796E622A139F71009AD385 /* Feedback */,
 				33F8253529C050B700B349D5 /* Search */,
@@ -1460,6 +1478,8 @@
 				B381EF29299B904A00DCDE40 /* PasswordExpiredController */,
 				B3F7C9C529963EEA0081B245 /* PasswordResetViewController */,
 				B3F7C9B82993A0F70081B245 /* SignUpViewCntroller */,
+				B381EF2F299BAA2400DCDE40 /* EnterNewPasswordController */,
+				B315F9E4298A3F0A0009CEB8 /* WriteReviewController */,
 				B381EF1E299B5AFD00DCDE40 /* AccountViewController */,
 			);
 			path = ViewControllers;
@@ -1887,6 +1907,7 @@
 				33E544AC29CA1122008D84F8 /* FeatureManager.swift in Sources */,
 				B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */,
 				B34EAC9E2934EE0100FBD0E0 /* SelectCategoryDataSource.swift in Sources */,
+				33A51B8B2A163FBF00BE11C1 /* ViewControllerFactoryProtocol.swift in Sources */,
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
 				B3FECE4429375AA80077F8EF /* DBCategories+CoreDataClass.swift in Sources */,
 				333E2D3329F00CF100F705E7 /* CostOfProductListView.swift in Sources */,
@@ -1909,6 +1930,7 @@
 				B315F9DC29892EA00009CEB8 /* CheckmarkView.swift in Sources */,
 				840C189F2978D2230006F975 /* Int+Extensions.swift in Sources */,
 				B381EF1D299A573500DCDE40 /* UserAccountManager.swift in Sources */,
+				33A51B8D2A17171400BE11C1 /* MainTabBarViewModel.swift in Sources */,
 				B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */,
 				846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */,
 				383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */,
@@ -1939,6 +1961,7 @@
 				334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */,
 				337719AA29B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift in Sources */,
 				337719B129B1B552000791BD /* CreateNewRecipeViewState.swift in Sources */,
+				33A51B872A163C7A00BE11C1 /* MainTabBarController.swift in Sources */,
 				383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */,
 				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,
 				3342C9BD2A146D290010DA4A /* FeedbackManager.swift in Sources */,
@@ -2054,6 +2077,7 @@
 				B3D8584A293A1A2A00CCE230 /* PaywallCell.swift in Sources */,
 				338EB6B629C1BEED00D6A03F /* SearchInRecipeViewModel.swift in Sources */,
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,
+				33A51B892A163C9500BE11C1 /* CustomTransition.swift in Sources */,
 				B315F9E8298A3FF30009CEB8 /* WriteReviewViewModel.swift in Sources */,
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
 				B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */,

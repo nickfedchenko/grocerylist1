@@ -287,3 +287,7 @@
 "Thanks for your feedback"      = "Спасибо за ваш отзыв";
 "You can also write a review"   = "Вы также можете написать отзыв. \n Мы будем очень рады";
 "No Thanks"                     = "Нет, спасибо";
+
+// Tab Bar
+"List"                          = "Список";
+"Pantry"                        = "Кладовая";

@@ -1,12 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "new_createList.svg",
+      "filename" : "recipe_tabbar_inactive.svg",
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "template-rendering-intent" : "original"
   }
 }
