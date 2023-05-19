@@ -290,3 +290,7 @@
 "Thanks for your feedback"      = "Thanks for your feedback";
 "You can also write a review"   = "You can also write a review. \n We will be very pleased";
 "No Thanks"                     = "No Thanks";
+
+// Tab Bar
+"List"                          = "List";
+"Pantry"                        = "Pantry";

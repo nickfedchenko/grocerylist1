@@ -13,6 +13,8 @@ final class AddListView: UIView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = R.image.new_createList()
+        imageView.layer.cornerRadius = 16
+        imageView.layer.cornerCurve = .continuous
         return imageView
     }()
     
@@ -34,10 +36,50 @@ final class AddListView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setColor(background: UIColor?, title: UIColor? = .white,
+                  imageBg: UIColor? = .white, image: UIColor?) {
+        self.backgroundColor = background
+        createListLabel.textColor = title
+        plusImage.backgroundColor = imageBg
+        plusImage.image = R.image.new_createList()?.withTintColor(image ?? .black)
+    }
+    
+    func updateView(isRightHanded: Bool) {
+        self.layer.cornerRadius = 32
+        self.layer.cornerCurve = .continuous
+        
+        guard isRightHanded else {
+            self.layer.maskedCorners = [.layerMaxXMinYCorner]
+            createListLabel.textAlignment = .right
+            plusImage.snp.remakeConstraints {
+                $0.top.equalToSuperview().offset(16)
+                $0.height.width.equalTo(32)
+                $0.trailing.equalToSuperview().offset(-16)
+            }
+            createListLabel.snp.remakeConstraints {
+                $0.centerY.equalTo(plusImage)
+                $0.trailing.equalTo(plusImage.snp.leading).offset(-12)
+                $0.leading.equalToSuperview().offset(8)
+            }
+           return
+        }
+        self.layer.maskedCorners = [.layerMinXMinYCorner]
+        createListLabel.textAlignment = .left
+        plusImage.snp.remakeConstraints {
+            $0.top.equalToSuperview().offset(16)
+            $0.height.width.equalTo(32)
+            $0.leading.equalToSuperview().offset(16)
+        }
+        createListLabel.snp.remakeConstraints {
+            $0.centerY.equalTo(plusImage)
+            $0.leading.equalTo(plusImage.snp.trailing).offset(12)
+            $0.trailing.equalToSuperview().offset(8)
+        }
+    }
+    
     private func setup() {
         self.layer.cornerRadius = 32
         self.layer.cornerCurve = .continuous
-        self.layer.masksToBounds = true
         self.layer.maskedCorners = [.layerMinXMinYCorner]
         self.backgroundColor = .white
         self.layer.borderColor = UIColor(hex: "#EBFEFE").cgColor
@@ -50,15 +92,16 @@ final class AddListView: UIView {
     private func makeConstraints() {
         self.addSubviews([plusImage, createListLabel])
         
-        plusImage.snp.makeConstraints { make in
-            make.left.top.equalToSuperview().inset(16)
-            make.height.width.equalTo(32)
+        plusImage.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(16)
+            $0.height.width.equalTo(32)
+            $0.leading.equalToSuperview().offset(16)
         }
         
-        createListLabel.snp.makeConstraints { make in
-            make.left.equalTo(plusImage.snp.right).inset(-12)
-            make.right.equalToSuperview().inset(8)
-            make.centerY.equalTo(plusImage)
+        createListLabel.snp.makeConstraints {
+            $0.centerY.equalTo(plusImage)
+            $0.leading.equalTo(plusImage.snp.trailing).offset(12)
+            $0.trailing.equalToSuperview().offset(-8)
         }
     }
 }
