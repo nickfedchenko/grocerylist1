@@ -33,11 +33,11 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createListController(router: RootRouter) -> UIViewController {
-        let viewController = MainScreenViewController()
-        let dataSource = MainScreenDataManager()
-        let viewModel = MainScreenViewModel(dataSource: dataSource)
-        viewController.viewModel = viewModel
+        let dataSource = ListDataSource()
+        let viewModel = ListViewModel(dataSource: dataSource)
         viewModel.router = router
+        
+        let viewController = ListViewController(viewModel: viewModel)
         return viewController
     }
     
@@ -51,11 +51,11 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createRecipeController(router: RootRouter) -> UIViewController {
-        let viewController = MainScreenViewController()
-        let dataSource = MainScreenDataManager()
-        let viewModel = MainScreenViewModel(dataSource: dataSource)
-        viewController.viewModel = viewModel
+        let dataSource = MainRecipeDataSource()
+        let viewModel = MainRecipeViewModel(dataSource: dataSource)
         viewModel.router = router
+        
+        let viewController = MainRecipeViewController(viewModel: viewModel)
         return viewController
     }
     
@@ -106,8 +106,8 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSelectListController(height: Double, router: RootRouter,
-        setOfSelectedProd: Set<Product>, compl: @escaping (Set<Product>) -> Void) -> UIViewController? {
+    func createSelectListController(height: Double, router: RootRouter, setOfSelectedProd: Set<Product>,
+                                    compl: @escaping (Set<Product>) -> Void) -> UIViewController? {
         let viewController = SelectListViewController()
         let dataSource = SelectListDataManager()
         let viewModel = SelectListViewModel(dataSource: dataSource)
