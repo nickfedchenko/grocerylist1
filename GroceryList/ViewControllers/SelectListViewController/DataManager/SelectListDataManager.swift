@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SelectListDataManager: MainScreenDataManager {
+class SelectListDataManager: ListDataSource {
     
     override func createDataSourceArray() {
        

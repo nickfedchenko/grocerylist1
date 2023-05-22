@@ -133,6 +133,7 @@ class SelectListViewController: UIViewController {
     }
 
     // MARK: - Constraints
+    // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         view.backgroundColor = .clear
         view.addSubviews([contentView, dismissRecognizerView])
@@ -226,7 +227,7 @@ extension SelectListViewController: UICollectionViewDelegate {
             let name = viewModel.getNameOfList(at: indexPath)
             let isTopRouned = viewModel.isTopRounded(at: indexPath)
             let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
-            let numberOfItems = viewModel.getnumberOfProductsInside(at: indexPath)
+            let numberOfItems = viewModel.getNumberOfProductsInside(at: indexPath)
             let color = viewModel.getBGColor(at: indexPath)
             cell?.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
                             isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)

@@ -54,7 +54,6 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
 
     }
     
-    
     private func addObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(receptsLoaded),
                                                name: .recieptsDownladedAnsSaved, object: nil)
@@ -134,4 +133,3 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
         }
     }
 }
-

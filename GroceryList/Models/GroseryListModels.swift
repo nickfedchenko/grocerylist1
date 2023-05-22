@@ -395,7 +395,6 @@ enum ColdStartState: Int {
     case coldStartFinished
 }
 
-
 enum ImageHeight {
     case empty
     case min

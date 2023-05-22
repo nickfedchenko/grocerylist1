@@ -195,7 +195,7 @@ extension MainTabBarController: UITabBarControllerDelegate {
         if viewController is ListViewController {
             navView.configure(with: .list)
         }
-        if viewController is MainScreenViewController {
+        if viewController is PantryViewController {
             navView.configure(with: .pantry)
         }
         if viewController is MainRecipeViewController {

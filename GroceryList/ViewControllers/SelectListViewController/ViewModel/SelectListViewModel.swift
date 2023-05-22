@@ -13,7 +13,7 @@ protocol SelectListViewModelDelegate: AnyObject {
     func dismissController()
 }
 
-class SelectListViewModel: MainScreenViewModel {
+class SelectListViewModel: ListViewModel {
     
     var selectedProductsCompl: ((Set<Product>) -> Void)?
     weak var delegate: SelectListViewModelDelegate?
@@ -59,9 +59,9 @@ class SelectListViewModel: MainScreenViewModel {
     
     func createNewListWithEditModeTapped() {
         router?.goCreateNewList(compl: { [weak self] _, _ in
-            guard let list = self?.dataSource?.updateListOfModels() else { return }
+            guard let list = self?.dataSource.updateListOfModels() else { return }
             self?.updateCells?(list)
-            self?.dataSource?.setOfModelsToUpdate = []
+            self?.dataSource.setOfModelsToUpdate = []
         })
     }
     

@@ -5,7 +5,6 @@
 //  Created by Хандымаа Чульдум on 18.05.2023.
 //
 
-
 import UIKit
 
 final class CustomTransition: NSObject, UIViewControllerAnimatedTransitioning {
@@ -51,12 +50,12 @@ final class CustomTransition: NSObject, UIViewControllerAnimatedTransitioning {
         }
     }
     
-    private func getIndex(forViewController vc: UIViewController) -> Int? {
-        guard let vcs = self.viewControllers else { return nil }
-        for (index, thisVC) in vcs.enumerated() {
-            if thisVC == vc {
-                return index
-            }
+    private func getIndex(forViewController viewController: UIViewController) -> Int? {
+        guard let viewControllers = self.viewControllers else {
+            return nil
+        }
+        for (index, thisVC) in viewControllers.enumerated() where thisVC == viewController {
+            return index
         }
         return nil
     }

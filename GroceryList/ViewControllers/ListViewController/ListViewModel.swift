@@ -8,17 +8,17 @@
 import Kingfisher
 import UIKit
 
-final class ListViewModel {
+class ListViewModel {
     
     weak var router: RootRouter?
-    var dataSource: ListDataSourceProtocol?
+    var dataSource: ListDataSourceProtocol
     
     var reloadDataCallBack: (() -> Void)?
     var updateCells:((Set<GroceryListsModel>) -> Void)?
     var showSynchronizationActivity: ((Bool) -> Void)?
     
     var model: [SectionModel] {
-        return dataSource?.dataSourceArray ?? []
+        return dataSource.dataSourceArray
     }
     
     private var colorManager = ColorManager()
@@ -27,7 +27,7 @@ final class ListViewModel {
     
     init(dataSource: ListDataSourceProtocol) {
         self.dataSource = dataSource
-        self.dataSource?.dataChangedCallBack = { [weak self] in
+        self.dataSource.dataChangedCallBack = { [weak self] in
             self?.reloadDataCallBack?()
         }
 
@@ -89,9 +89,9 @@ final class ListViewModel {
     }
     
     func deleteCell(with model: GroceryListsModel) {
-        guard let list = dataSource?.deleteList(with: model) else { return }
+        let list = dataSource.deleteList(with: model)
         updateCells?(list)
-        dataSource?.setOfModelsToUpdate = []
+        dataSource.setOfModelsToUpdate = []
         
         guard model.sharedId != "" else { return }
         SharedListManager.shared.deleteGroceryList(listId: model.sharedId)
@@ -99,9 +99,9 @@ final class ListViewModel {
     }
     
     func addOrDeleteFromFavorite(with model: GroceryListsModel) {
-        guard let list = dataSource?.addOrDeleteFromFavorite(with: model) else { return }
+        let list = dataSource.addOrDeleteFromFavorite(with: model)
         updateCells?(list)
-        dataSource?.setOfModelsToUpdate = []
+        dataSource.setOfModelsToUpdate = []
         SharedListManager.shared.updateGroceryList(listId: model.id.uuidString)
     }
     
@@ -119,11 +119,11 @@ final class ListViewModel {
     }
     
     func reloadDataFromStorage() {
-        dataSource?.updateListOfModels()
+        dataSource.updateListOfModels()
     }
     
     func getImageHeight() -> ImageHeight {
-        dataSource?.imageHeight ?? .empty
+        dataSource.imageHeight
     }
     
     // MARK: - Shared List Functions
@@ -142,7 +142,6 @@ final class ListViewModel {
     
     @objc
     private func sharedListDownloaded() {
-        guard let dataSource = dataSource else { return }
         updateCells?(dataSource.updateListOfModels())
         showSynchronizationActivity?(false)
         if let startTime {
