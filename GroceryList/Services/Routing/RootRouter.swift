@@ -296,13 +296,13 @@ final class RootRouter: RootRouterProtocol {
     func showDefaultPaywallVC() {
         guard let controller = viewControllerFactory.createPaywallController() else { return }
         guard !Apphud.hasActiveSubscription() else { return }
-        navigationPresent(controller, style: .fullScreen, animated: true)
+        navigationPresent(controller, animated: true)
     }
     
     func showAlternativePaywallVC() {
         guard let controller = viewControllerFactory.createAlternativePaywallController() else { return }
         guard !Apphud.hasActiveSubscription() else { return }
-        navigationPresent(controller, style: .fullScreen, animated: true)
+        navigationPresent(controller, animated: true)
     }
     
     func showReviewRequestController() {

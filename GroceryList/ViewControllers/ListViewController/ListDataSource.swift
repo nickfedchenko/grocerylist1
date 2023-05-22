@@ -1,13 +1,13 @@
 //
-//  ColdStartDataSource.swift
+//  ListDataSource.swift
 //  GroceryList
 //
-//  Created by Шамиль Моллачиев on 04.11.2022.
+//  Created by Хандымаа Чульдум on 19.05.2023.
 //
 
-import UIKit
+import Foundation
 
-protocol DataSourceProtocol {
+protocol ListDataSourceProtocol {
     var imageHeight: ImageHeight { get set }
     var dataSourceArray: [SectionModel] { get set }
     var dataChangedCallBack: (() -> Void)? { get set }
@@ -16,22 +16,14 @@ protocol DataSourceProtocol {
     @discardableResult func updateListOfModels() -> Set<GroceryListsModel>
     func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel>
     func addOrDeleteFromFavorite(with model: GroceryListsModel) -> Set<GroceryListsModel>
-    var recipesSections: [RecipeSectionsModel] { get set }
-    var recipeCount: Int { get }
-    func makeRecipesSections()
-    func updateFavoritesSection()
-    func updateCustomSection()
 }
 
-class MainScreenDataManager: DataSourceProtocol {
+final class ListDataSource: ListDataSourceProtocol {
     
     var dataChangedCallBack: (() -> Void)?
     var recipeUpdate: (() -> Void)?
     var setOfModelsToUpdate: Set<GroceryListsModel> = []
-    var recipesSections: [RecipeSectionsModel] = []
-    
-    var recipeCount: Int { 12 }
-    
+
     var imageHeight: ImageHeight = .empty {
         didSet {
           print("image height is \(imageHeight)")
@@ -61,7 +53,6 @@ class MainScreenDataManager: DataSourceProtocol {
     }
     
     private var modelTransformer: DomainModelsToLocalTransformer
-    private let topCellID = UUID()
     
     private var coreDataModels: [DBGroceryListModel] {
         guard let models = CoreDataManager.shared.getAllLists() else { return [] }
@@ -71,35 +62,6 @@ class MainScreenDataManager: DataSourceProtocol {
     init() {
         modelTransformer = DomainModelsToLocalTransformer()
         createWorkingArray()
-        makeRecipesSections()
-        addObserver()
-        
-        // заполнение дефолтных секций
-        if !UserDefaultsManager.isFillingDefaultCollection {
-            let breakfast = CollectionModel(id: AdditionalTag.EatingTime.breakfast.rawValue,
-                                            index: 0,
-                                            title: RecipeSectionsModel.RecipeSectionType.breakfast.title,
-                                            isDefault: true)
-            let lunch = CollectionModel(id: AdditionalTag.EatingTime.lunch.rawValue,
-                                        index: 1,
-                                        title: RecipeSectionsModel.RecipeSectionType.lunch.title,
-                                        isDefault: true)
-            let dinner = CollectionModel(id: AdditionalTag.EatingTime.dinner.rawValue,
-                                         index: 2,
-                                         title: RecipeSectionsModel.RecipeSectionType.dinner.title,
-                                         isDefault: true)
-            let snack = CollectionModel(id: AdditionalTag.EatingTime.snack.rawValue,
-                                        index: 3,
-                                        title: RecipeSectionsModel.RecipeSectionType.snacks.title,
-                                        isDefault: true)
-            let miscellaneous = CollectionModel(id: UUID().integer, index: 4,
-                                                title: R.string.localizable.miscellaneous(),
-                                                isDefault: false)
-            UserDefaultsManager.miscellaneousCollectionId = miscellaneous.id
-            CoreDataManager.shared.saveCollection(collections: [breakfast, lunch, dinner, snack, miscellaneous])
-            UserDefaultsManager.isFillingDefaultCollection = true
-        }
-
     }
     
     func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel> {
@@ -143,25 +105,7 @@ class MainScreenDataManager: DataSourceProtocol {
             setOfModelsToUpdate.insert(lastElement)
         })
     }
-    
-    private func addObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(recieptsLoaded),
-            name: .recieptsDownladedAnsSaved,
-            object: nil
-        )
-    }
-    
-    @objc
-    private func recieptsLoaded() {
-        DispatchQueue.main.async { [weak self] in
-            self?.makeRecipesSections()
-            self?.recipeUpdate?()
-        }
-      
-    }
-    
+
     private func createWorkingArray() {
         if coldStartState == .initial && !UserDefaultsManager.shouldShowOnboarding {
             let isAutomaticCategory = FeatureManager.shared.isActiveAutoCategory ?? true
@@ -186,9 +130,6 @@ class MainScreenDataManager: DataSourceProtocol {
         
         // секции - у нас их ограниченое количество
         var finalArray: [SectionModel] = []
-        let list = GroceryListsModel(id: topCellID, dateOfCreation: Date(), name: "k",
-                                     color: 0, isFavorite: false, products: [], typeOfSorting: 0)
-        let topSection = SectionModel(id: 0, cellType: .topMenu, sectionType: .empty, lists: [list])
         var favoriteSection = SectionModel(id: 1, cellType: .usual, sectionType: .favorite, lists: [])
         var todaySection = SectionModel(id: 2, cellType: .usual, sectionType: .today, lists: [])
         var weekSection = SectionModel(id: 3, cellType: .usual, sectionType: .week, lists: [])
@@ -203,7 +144,7 @@ class MainScreenDataManager: DataSourceProtocol {
             todaySection = SectionModel(id: 2, cellType: .usual, sectionType: .today, lists: [])
         }
 
-        // сортировка всеъ моделек и раскидывание по секциям
+        // сортировка всех моделек и раскидывание по секциям
         transformedModels?.filter({ $0.isFavorite == true }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ favoriteSection.lists.append($0) })
 
         transformedModels?.filter({ Calendar.current.isDateInToday($0.dateOfCreation) && !$0.isFavorite }).sorted(by: { $0.dateOfCreation > $1.dateOfCreation }).forEach({ todaySection.lists.append($0) })
@@ -229,7 +170,7 @@ class MainScreenDataManager: DataSourceProtocol {
         if monthSection.lists.isEmpty { monthSection = emptyMonthSection }
       
       
-        let sections: [SectionModel] = [topSection, favoriteSection, todaySection, weekSection, monthSection]
+        let sections: [SectionModel] = [favoriteSection, todaySection, weekSection, monthSection]
         
         // защита от краша при наличии пустой секции
         sections.filter({ $0.lists != [] }).forEach({ finalArray.append($0) })
@@ -239,70 +180,5 @@ class MainScreenDataManager: DataSourceProtocol {
     
     func isDateInWeek(date: Date) -> Bool {
         Calendar.current.isDate(Date(), equalTo: date, toGranularity: .weekOfYear)
-    }
-    
-    /// MARK: - Recipes part
-    
-    func makeRecipesSections() {
-        recipesSections = [.init(cellType: .topMenuCell, sectionType: .none, recipes: [])]
-        updateFavoritesSection()
-        updateCustomSection()
-    }
-    
-    func updateFavoritesSection() {
-        guard let allRecipes: [DBRecipe] = CoreDataManager.shared.getAllRecipes() else { return }
-        let domainFavorites = allRecipes.filter { UserDefaultsManager.favoritesRecipeIds.contains(Int($0.id)) }
-        let favorites = domainFavorites.compactMap { ShortRecipeModel(withCollection: $0) }
-        let favoritesSection = RecipeSectionsModel(cellType: .recipePreview, sectionType: .favorites, recipes: favorites)
-
-        guard let index = recipesSections.firstIndex(where: { $0.sectionType == .favorites }) else {
-            if !favorites.isEmpty {
-                recipesSections.insert(favoritesSection, at: 1)
-            }
-            return
-        }
-        if favorites.isEmpty {
-            recipesSections.remove(at: index)
-            return
-        }
-
-        recipesSections[index] = favoritesSection
-    }
-    
-    func updateCustomSection() {
-        guard let allCollection = CoreDataManager.shared.getAllCollection(),
-              let allRecipes = CoreDataManager.shared.getAllRecipes() else { return }
-        
-        let customCollection = allCollection.compactMap { CollectionModel(from: $0) }
-        let plainRecipes = allRecipes.compactMap { ShortRecipeModel(withCollection: $0) }
-        
-        customCollection.forEach { collection in
-            let recipes = plainRecipes.filter {
-                $0.localCollection?.contains(where: { collection.id == $0.id }) ?? false
-            }
-            let customSection = RecipeSectionsModel(cellType: .recipePreview,
-                                                    sectionType: .custom(collection.title),
-                                                    recipes: recipes.shuffled())
-
-            guard let index = recipesSections.firstIndex(where: { $0.sectionType == .custom(collection.title) }) else {
-                recipesSections.append(customSection)
-                return
-            }
-            recipesSections[index] = customSection
-        }
-        
-        updateMiscellaneousSection()
-    }
-    
-    func updateMiscellaneousSection() {
-        guard let miscellaneousIndex = recipesSections.firstIndex(where: {
-            $0.sectionType == .custom(R.string.localizable.miscellaneous())
-        }) else {
-            return
-        }
-        
-        if recipesSections[miscellaneousIndex].recipes.isEmpty {
-            recipesSections.remove(at: miscellaneousIndex)
-        }
     }
 }

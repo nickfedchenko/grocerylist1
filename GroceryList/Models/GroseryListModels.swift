@@ -388,3 +388,16 @@ enum BoolWithNilForCD: Int16, Codable {
         }
     }
 }
+
+enum ColdStartState: Int {
+    case initial
+    case firstItemAdded
+    case coldStartFinished
+}
+
+
+enum ImageHeight {
+    case empty
+    case min
+    case middle
+}

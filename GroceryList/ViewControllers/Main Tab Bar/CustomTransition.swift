@@ -10,8 +10,8 @@ import UIKit
 
 final class CustomTransition: NSObject, UIViewControllerAnimatedTransitioning {
     
-    let viewControllers: [UIViewController]?
-    let transitionDuration: Double = 0.5
+    private let viewControllers: [UIViewController]?
+    private let transitionDuration: Double = 0.5
     
     init(viewControllers: [UIViewController]?) {
         self.viewControllers = viewControllers
@@ -22,17 +22,14 @@ final class CustomTransition: NSObject, UIViewControllerAnimatedTransitioning {
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        
-        guard
-            let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
-            let fromView = fromVC.view,
-            let fromIndex = getIndex(forViewController: fromVC),
-            let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to),
-            let toView = toVC.view,
-            let toIndex = getIndex(forViewController: toVC)
-            else {
-                transitionContext.completeTransition(false)
-                return
+        guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
+              let fromView = fromVC.view,
+              let fromIndex = getIndex(forViewController: fromVC),
+              let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to),
+              let toView = toVC.view,
+              let toIndex = getIndex(forViewController: toVC) else {
+            transitionContext.completeTransition(false)
+            return
         }
         
         let frame = transitionContext.initialFrame(for: fromVC)
@@ -54,10 +51,12 @@ final class CustomTransition: NSObject, UIViewControllerAnimatedTransitioning {
         }
     }
     
-    func getIndex(forViewController vc: UIViewController) -> Int? {
+    private func getIndex(forViewController vc: UIViewController) -> Int? {
         guard let vcs = self.viewControllers else { return nil }
         for (index, thisVC) in vcs.enumerated() {
-            if thisVC == vc { return index }
+            if thisVC == vc {
+                return index
+            }
         }
         return nil
     }
