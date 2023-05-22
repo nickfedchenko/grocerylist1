@@ -17,7 +17,7 @@ protocol MainNavigationViewDelegate: AnyObject {
 
 final class MainNavigationView: UIView {
 
-    var delegate: MainNavigationViewDelegate?
+    weak var delegate: MainNavigationViewDelegate?
     
     private lazy var settingsButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -85,6 +85,9 @@ final class MainNavigationView: UIView {
         searchButton.snp.updateConstraints {
             $0.width.height.equalTo(mode == .pantry ? 0 : 40)
         }
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.layoutIfNeeded()
+        }
     }
     
     func setupName(name: String?) {
@@ -140,8 +143,7 @@ final class MainNavigationView: UIView {
     private func sortButtonAction() {
         delegate?.sortCollectionTapped()
     }
-    
-    
+        
     private func setupConstraints() {
         self.addSubviews([profileView, searchButton, menuButton, sortButton])
         profileView.addSubviews([settingsButton, userNameLabel])

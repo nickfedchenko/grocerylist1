@@ -13,12 +13,13 @@ protocol ListDataSourceProtocol {
     var dataChangedCallBack: (() -> Void)? { get set }
     var recipeUpdate: (() -> Void)? { get set }
     var setOfModelsToUpdate: Set<GroceryListsModel> { get set }
-    @discardableResult func updateListOfModels() -> Set<GroceryListsModel>
+    @discardableResult
+    func updateListOfModels() -> Set<GroceryListsModel>
     func deleteList(with model: GroceryListsModel) -> Set<GroceryListsModel>
     func addOrDeleteFromFavorite(with model: GroceryListsModel) -> Set<GroceryListsModel>
 }
 
-final class ListDataSource: ListDataSourceProtocol {
+class ListDataSource: ListDataSourceProtocol {
     
     var dataChangedCallBack: (() -> Void)?
     var recipeUpdate: (() -> Void)?
@@ -127,7 +128,6 @@ final class ListDataSource: ListDataSourceProtocol {
         let monthSecond = GroceryListsModel(dateOfCreation: Date(), color: 1, products: [], typeOfSorting: 0)
         let monthThird = GroceryListsModel(dateOfCreation: Date(), color: 2, products: [], typeOfSorting: 0)
         
-        
         // секции - у нас их ограниченое количество
         var finalArray: [SectionModel] = []
         var favoriteSection = SectionModel(id: 1, cellType: .usual, sectionType: .favorite, lists: [])
@@ -153,23 +153,20 @@ final class ListDataSource: ListDataSourceProtocol {
       
         transformedModels?.filter({ !isDateInWeek(date: $0.dateOfCreation) && !Calendar.current.isDateInToday($0.dateOfCreation) && !$0.isFavorite }).forEach({ monthSection.lists.append($0) })
         
-       
         // проверка на пустые секции - если такие есть то автоматом заполняются шаблонными ячейками
         let emptyTodaySection = SectionModel(id: 2, cellType: .empty, sectionType: .today, lists: [todayFirst])
         let emptyWeekSection = SectionModel(id: 3, cellType: .empty, sectionType: .week, lists: [weekFirst, weekSecond])
         let emptyMonthSection = SectionModel(id: 4, cellType: .empty, sectionType: .month, lists: [monthFirst, monthSecond, monthThird])
     
         if !monthSection.lists.isEmpty { imageHeight = .empty }
-        if !weekSection.lists.isEmpty  && monthSection.lists.isEmpty { imageHeight = .min }
-        if weekSection.lists.isEmpty  && monthSection.lists.isEmpty { imageHeight = .middle }
-        
-        
+        if !weekSection.lists.isEmpty && monthSection.lists.isEmpty { imageHeight = .min }
+        if weekSection.lists.isEmpty && monthSection.lists.isEmpty { imageHeight = .middle }
+                
         // если нижестоящая секция не пустая - то в секции ниже не добавляются пустые шаблоны
         if todaySection.lists.isEmpty && weekSection.lists.isEmpty && monthSection.lists.isEmpty { todaySection = emptyTodaySection }
         if weekSection.lists.isEmpty && monthSection.lists.isEmpty { weekSection = emptyWeekSection }
         if monthSection.lists.isEmpty { monthSection = emptyMonthSection }
-      
-      
+            
         let sections: [SectionModel] = [favoriteSection, todaySection, weekSection, monthSection]
         
         // защита от краша при наличии пустой секции

@@ -9,6 +9,7 @@ import ApphudSDK
 import SnapKit
 import UIKit
 
+// swiftlint:disable:next type_body_length
 class AlternativePaywallViewController: UIViewController {
   
     private var products: [ApphudProduct] = []

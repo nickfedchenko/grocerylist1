@@ -42,11 +42,11 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createPantryController(router: RootRouter) -> UIViewController {
-        let viewController = MainScreenViewController()
-        let dataSource = MainScreenDataManager()
-        let viewModel = MainScreenViewModel(dataSource: dataSource)
-        viewController.viewModel = viewModel
+        let dataSource = PantryDataSource()
+        let viewModel = PantryViewModel(dataSource: dataSource)
         viewModel.router = router
+        
+        let viewController = PantryViewController(viewModel: viewModel)
         return viewController
     }
     

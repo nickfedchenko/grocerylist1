@@ -5,8 +5,6 @@
 //  Created by Хандымаа Чульдум on 19.05.2023.
 //
 
-import UIKit
-
 import ApphudSDK
 import SnapKit
 import UIKit
