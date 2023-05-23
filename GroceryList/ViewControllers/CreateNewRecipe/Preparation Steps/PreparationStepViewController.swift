@@ -26,7 +26,7 @@ final class PreparationStepViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 16).font
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = R.color.primaryDark()
         return label
     }()
     
@@ -45,7 +45,7 @@ final class PreparationStepViewController: UIViewController {
     
     private lazy var saveButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(hex: "#1A645A")
+        button.backgroundColor = R.color.primaryDark()
         button.setTitle(R.string.localizable.save().uppercased(), for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
@@ -82,7 +82,7 @@ final class PreparationStepViewController: UIViewController {
     }
     
     private func updateSaveButton(isActive: Bool) {
-        saveButton.backgroundColor = UIColor(hex: isActive ? "#1A645A" : "#D8ECE9")
+        saveButton.backgroundColor = isActive ? R.color.primaryDark() : UIColor(hex: "#D8ECE9")
         saveButton.isUserInteractionEnabled = isActive
     }
     

@@ -36,7 +36,7 @@ final class TopMainScreenView: UIView {
     
     private lazy var userNameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = UIColor(hex: "#617774")
         label.font = UIFont.SFProRounded.semibold(size: 17).font
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.8

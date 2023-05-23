@@ -12,7 +12,7 @@ final class SharingHeaderView: UITableViewHeaderFooterView {
     private lazy var titleLabel: UILabel = {
         var label = UILabel()
         label.font = UIFont.SFProRounded.semibold(size: 17).font
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = R.color.primaryDark()
         return label
     }()
     

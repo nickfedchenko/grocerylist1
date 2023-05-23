@@ -141,6 +141,13 @@ final class QuantityOfProductView: CreateNewProductButtonView {
             $0.leading.trailing.bottom.equalTo(shortView)
             $0.height.equalTo(0)
         }
+        
+        longView.titleTextField.snp.removeConstraints()
+        longView.titleTextField.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.leading.equalToSuperview().offset(40)
+            $0.trailing.equalToSuperview().offset(-40)
+        }
     }
     
     func setupCurrentQuantity(unit: UnitSystem, value: Double) {

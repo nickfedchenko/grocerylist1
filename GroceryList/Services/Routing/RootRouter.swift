@@ -21,18 +21,6 @@ protocol RootRouterProtocol: NavigationInterface {
 
 final class RootRouter: RootRouterProtocol {
     
-    private var shouldShowOnboarding: Bool {
-        get {
-            guard let shouldShow = UserDefaults.standard.value(forKey: "shouldShowOnboarding") as? Bool else {
-                return true
-            }
-            return shouldShow
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "shouldShowOnboarding")
-        }
-    }
-    
     var navigationController: UINavigationController? {
         didSet {
             navigationController?.isNavigationBarHidden = true
@@ -62,9 +50,8 @@ final class RootRouter: RootRouterProtocol {
         
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
-#if RELEASE
+        
         goToOnboarding()
-#endif
     }
     
     func openResetPassword(token: String) {
@@ -84,9 +71,11 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goToOnboarding() {
-        if shouldShowOnboarding {
+        if UserDefaultsManager.shouldShowOnboarding {
             guard let onboardingController = viewControllerFactory.createOnboardingController(router: self) else { return }
             navigationPushViewController(onboardingController, animated: false)
+            UserDefaultsManager.firstLaunchDate = Date()
+            FeatureManager.shared.activeFeaturesOnFirstLaunch()
         }
     }
 
@@ -95,8 +84,9 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func popToRootFromOnboarding() {
+        UserDefaultsManager.coldStartState = 0
         navigationPopToRootViewController(animated: true)
-        shouldShowOnboarding = false
+        UserDefaultsManager.shouldShowOnboarding = false
     }
     
     func goCreateNewList(compl: @escaping (GroceryListsModel, [Product]) -> Void) {
@@ -272,6 +262,19 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func goToProductSort(model: GroceryListsModel, productType: ProductsSortViewModel.ProductType,
+                         compl: ((GroceryListsModel) -> Void)?) {
+        let controller = viewControllerFactory.createProductsSortController(model: model, productType: productType,
+                                                                            updateModel: compl, router: self)
+        navigationPresent(controller, animated: false)
+    }
+    
+    func goToFeedback() {
+        let controller = viewControllerFactory.createFeedbackController(router: self)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
@@ -283,8 +286,9 @@ final class RootRouter: RootRouterProtocol {
         controller.present(animated: true, completionHandler: nil)
     }
     
-    func showAlertVC(title: String, message: String) {
-        guard let controller = viewControllerFactory.createAlertController(title: title, message: message ) else { return }
+    func showAlertVC(title: String, message: String, completion: (() -> Void)? = nil) {
+        guard let controller = viewControllerFactory.createAlertController(title: title, message: message,
+                                                                           completion) else { return }
         topViewController?.present(controller, animated: true, completion: nil)
     }
     

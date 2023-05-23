@@ -26,7 +26,7 @@ class SelectListViewController: UIViewController {
     
     let contentView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#E8F5F3")
+        view.backgroundColor = R.color.background()
         view.layer.cornerRadius = 20
         view.layer.masksToBounds = true
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -35,7 +35,7 @@ class SelectListViewController: UIViewController {
     
     private let topView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#E8F5F3")
+        view.backgroundColor = R.color.background()
         return view
     }()
     
@@ -47,7 +47,7 @@ class SelectListViewController: UIViewController {
     
     private let selectListTopView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#E8F5F3")
+        view.backgroundColor = R.color.background()
         view.isHidden = true
         return view
     }()
@@ -208,7 +208,7 @@ extension SelectListViewController: UICollectionViewDelegate {
     
     private func setupCollectionView() {
         collectionView.delegate = self
-        collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
+        collectionView.backgroundColor = R.color.background()
         collectionView.register(SelectListCollectionCell.self,
                                 forCellWithReuseIdentifier: "SelectListCollectionCell")
         collectionView.register(GroceryCollectionViewHeader.self,

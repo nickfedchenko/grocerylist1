@@ -48,16 +48,16 @@ class SelectCategoryViewModel {
    
     func getBackgroundColor() -> UIColor {
         guard let model else {
-            return colorManager.getGradient(index: 2).1
+            return colorManager.getGradient(index: 2).light
         }
-        return colorManager.getGradient(index: model.color).1
+        return colorManager.getGradient(index: model.color).light
     }
     
     func getForegroundColor() -> UIColor {
         guard let model else {
-            return colorManager.getGradient(index: 2).0
+            return colorManager.getGradient(index: 2).medium
         }
-        return colorManager.getGradient(index: model.color).0
+        return colorManager.getGradient(index: model.color).medium
     }
     
     func getTitleText(at ind: Int) -> String? {

@@ -226,6 +226,14 @@ struct MarketUnitClass: Codable {
     
 }
 
+// MARK: - Category
+struct NetworkCategory: Codable {
+    let id: Int
+    let title: String
+    var netId: String?
+}
+
+// MARK: - Продукты пользователя
 struct UserProduct: Codable {
     let userToken: String
     let country: String?
@@ -245,9 +253,17 @@ struct UserProductResponse: Codable {
     var success: Bool?
 }
 
-// MARK: - Category
-struct NetworkCategory: Codable {
-    let id: Int
-    let title: String
-    var netId: String?
+// MARK: - Feedback
+struct Feedback: Codable {
+    let userToken: String
+    let stars: Int
+    let totalLists: Int
+    let isAutoCategory: Bool
+    let text: String?
+}
+
+struct FeedbackResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var data: [String]
 }

@@ -36,7 +36,10 @@ class SocketManager: PusherDelegate {
         myChannel.bind(eventName: "updated", eventCallback: { (event: PusherEvent) -> Void in
 //            SharedListManager.shared.fetchMyGroceryLists()
             if let data: Data = event.data?.data(using: .utf8) {
-                guard let decoded = try? JSONDecoder().decode(SocketResponse.self, from: data) else { return }
+                guard let decoded = try? JSONDecoder().decode(SocketResponse.self, from: data) else {
+                    print("errModel")
+                    return
+                }
                 SharedListManager.shared.saveListFromSocket(response: decoded)
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
             }
@@ -45,7 +48,10 @@ class SocketManager: PusherDelegate {
         myChannel.bind(eventName: "delete", eventCallback: { (event: PusherEvent) -> Void in
 //            SharedListManager.shared.fetchMyGroceryLists()
             if let data: Data = event.data?.data(using: .utf8) {
-                guard let decoded = try? JSONDecoder().decode(SocketDeleteResponse.self, from: data) else { return }
+                guard let decoded = try? JSONDecoder().decode(SocketDeleteResponse.self, from: data) else {
+                    print("errModel")
+                    return
+                }
                 SharedListManager.shared.deleteListFromSocket(response: decoded)
             }
         })

@@ -35,7 +35,7 @@ final class SharingPopUpViewController: UIViewController {
         button.setTitle("REGISTER".localized.capitalized, for: .normal)
         button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 18).font
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(hex: "#1A645A")
+        button.backgroundColor = R.color.primaryDark()
         button.layer.cornerRadius = 8
         button.addDefaultShadowForPopUp()
         button.addTarget(self, action: #selector(registerButtonPressed), for: .touchUpInside)
@@ -46,7 +46,7 @@ final class SharingPopUpViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Cancel".localized, for: .normal)
         button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 17).font
-        button.setTitleColor(UIColor(hex: "#1A645A"), for: .normal)
+        button.setTitleColor(R.color.primaryDark(), for: .normal)
         button.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
         return button
     }()

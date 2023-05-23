@@ -37,6 +37,7 @@
 "byRecipe"                  = "Nach Rezept";
 "byTime"                    = "Mit der Zeit hinzugefügt";
 "byAlphabet"                = "alphabetisch";
+"byStore"                   = "Nach Geschäft";
 "copy"                      = "In Galerie speichern";
 "pictureMatching"           = "Bildanpassung";
 "print"                     = "Siegel";
@@ -61,6 +62,13 @@
 "NewCategory"               = "Neue Kategorie";
 "Long press on an Item"     = "Langes Drücken auf ein Element, kehrt zur Bearbeitung zurück";
 "Buy"                       = "Kaufen";
+"Sorting"                   = "Sortierung";
+"Purchased"                 = "Kaufen";
+"autoCategoryTitleOn"       = "Sie können die Kategorie verfeinern ";
+"autoCategoryDescOn"        = "oder eine eigene erstellen. Ihre Auswahl wird gespeichert und gilt in Zukunft";
+"autoCategoryDescOff"       = "Sie können eine Produktkategorie auswählen oder eine eigene erstellen. In Zukunft wird Ihre Auswahl gespeichert und die Produkte in den Listen werden bestellt";
+
+
 
 "Store"                     = "Speichern";
 "cost"                      = "Kosten";
@@ -247,3 +255,11 @@
 "WantDeleteTheseTasks?"         = "Sind Sie sicher, dass Sie diese Aufgaben dauerhaft löschen möchten?";
 "Move to..."                    = "Umzug nach...";
 "Copy to..."                    = "Kopieren nach...";
+
+// Feedback
+"Your experience"               = "Erzählen Sie uns, wie Sie mit der Einkaufslisten-App eingekauft haben?";
+"How can we improve?"           = "Wie können wir uns verbessern?";
+"Give Suggestions"              = "Vorschläge machen";
+"Thanks for your feedback"      = "Danke für Ihr Feedback";
+"You can also write a review"   = "Sie können auch eine Bewertung schreiben. \n Wir werden uns sehr freuen";
+"No Thanks"                     = "Nein Danke";

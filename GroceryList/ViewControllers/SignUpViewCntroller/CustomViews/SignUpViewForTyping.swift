@@ -69,7 +69,7 @@ class SignUpViewForTyping: UIView {
     }
     
     func field(isCorrect: Bool) {
-        bottomLineView.backgroundColor = isCorrect ? UIColor(hex: "#F4FFF5") : UIColor(hex: "#DF0404")
+        bottomLineView.backgroundColor = isCorrect ? UIColor(hex: "#F4FFF5") : R.color.attention()
     }
     
     private func setupView(type: SignUpViewTextfieldType) {

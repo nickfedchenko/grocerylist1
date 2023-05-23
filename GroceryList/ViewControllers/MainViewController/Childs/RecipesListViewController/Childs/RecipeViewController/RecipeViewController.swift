@@ -65,7 +65,7 @@ final class RecipeViewController: UIViewController {
         button.layer.cornerRadius = 8
         button.layer.cornerCurve = .continuous
         button.clipsToBounds = true
-        button.backgroundColor = UIColor(hex: "1A645A")
+        button.backgroundColor = R.color.primaryDark()
         return button
     }()
     

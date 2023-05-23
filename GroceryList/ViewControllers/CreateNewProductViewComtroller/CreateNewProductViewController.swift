@@ -30,6 +30,7 @@ class CreateNewProductViewController: UIViewController {
     private let storeView = StoreOfProductView()
     private let quantityView = QuantityOfProductView()
     private let predictiveTextView = PredictiveTextView()
+    private let autoCategoryView = AutoCategoryInfoView()
     private var imagePicker = UIImagePickerController()
     private var predictiveTextViewHeight = 86
     private var isUserImage = false
@@ -84,6 +85,7 @@ class CreateNewProductViewController: UIViewController {
         
         setupColor()
         setupPredictiveTextView()
+        setupAutoCategoryView()
         categoryView.delegate = self
         productView.delegate = self
         storeView.delegate = self
@@ -109,13 +111,8 @@ class CreateNewProductViewController: UIViewController {
         saveButton.backgroundColor = inactiveColor
     }
     
-    /// устанавливаем предиктивный ввод (вкл/выкл данная фича)
+    /// устанавливаем предиктивный ввод
     private func setupPredictiveTextView() {
-        guard FeatureManager.shared.isActivePredictiveText else {
-            predictiveTextViewHeight = 0
-            return
-        }
-        
         viewModel?.productsChangedCallback = { [weak self] titles in
             guard let self else { return }
             self.predictiveTextView.configure(texts: titles)
@@ -123,6 +120,40 @@ class CreateNewProductViewController: UIViewController {
         productView.productTextField.autocorrectionType = .no
         productView.productTextField.spellCheckingType = .no
         predictiveTextView.delegate = self
+    }
+    
+    /// устанавливаем автокатегорию
+    private func setupAutoCategoryView() {
+        guard FeatureManager.shared.isActiveAutoCategory != nil else {
+            autoCategoryView.isHidden = true
+            return
+        }
+        
+        guard !UIDevice.isSE else {
+            autoCategoryView.isHidden = true
+            if UserDefaultsManager.countInfoMessage < 10 {
+                viewModel?.showAutoCategoryAlert()
+            }
+            return
+        }
+        
+        autoCategoryView.isHidden = UserDefaultsManager.countInfoMessage >= 10
+        autoCategoryView.tappedOk = { [weak self] in
+            UserDefaultsManager.countInfoMessage = 11
+            self?.autoCategoryHideTap()
+        }
+        autoCategoryView.tappedOnView = { [weak self] in
+            self?.autoCategoryHideTap()
+        }
+    }
+    
+    private func autoCategoryHideTap() {
+        guard !autoCategoryView.isHidden else {
+            return
+        }
+        
+        UserDefaultsManager.countInfoMessage += 1
+        autoCategoryView.fadeOut()
     }
     
     /// если продукт открыт для редактирования, то заполняем поля
@@ -245,7 +276,8 @@ class CreateNewProductViewController: UIViewController {
     
     private func makeConstraints() {
         self.view.addSubview(contentView)
-        contentView.addSubviews([saveButton, categoryView, productView, storeView, quantityView, predictiveTextView])
+        contentView.addSubviews([saveButton, categoryView, productView, storeView, quantityView,
+                                 predictiveTextView, autoCategoryView])
         
         contentView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
@@ -283,11 +315,22 @@ class CreateNewProductViewController: UIViewController {
             $0.height.equalTo(64)
         }
         
+        makeFeatureConstraints()
+    }
+    
+    private func makeFeatureConstraints() {
         predictiveTextView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(saveButton.snp.bottom)
             $0.bottom.equalToSuperview()
             $0.height.equalTo(predictiveTextViewHeight)
+        }
+        
+        autoCategoryView.snp.makeConstraints {
+            $0.bottom.equalTo(categoryView.snp.top).offset(4)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.width.equalTo(335)
+            $0.height.equalTo(162)
         }
     }
 }
@@ -320,7 +363,7 @@ extension CreateNewProductViewController: UINavigationControllerDelegate, UIImag
 
 extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?) {
-        updateCategory(isActive: true, categoryTitle: text)
+        updateCategory(isActive: !text.isEmpty, categoryTitle: text)
         productView.setImage(imageURL: imageURL, imageData: imageData)
         quantityView.setDefaultUnit(defaultSelectedUnit ?? .piece)
         
@@ -343,6 +386,7 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
 
 extension CreateNewProductViewController: CategoryViewDelegate {
     func categoryTapped() {
+        autoCategoryHideTap()
         tappedOnCategoryView()
     }
 }

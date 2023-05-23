@@ -52,10 +52,10 @@ class ProductsViewController: UIViewController {
         return textField
     }()
     
-    private lazy var editCellButton: UIButton = {
+    private lazy var sortButton: UIButton = {
         let button = UIButton()
-        button.addTarget(self, action: #selector(editCellButtonPressed), for: .touchUpInside)
-        button.setImage(R.image.editCell(), for: .normal)
+        button.addTarget(self, action: #selector(sortButtonPressed), for: .touchUpInside)
+        button.setImage(R.image.sort(), for: .normal)
         return button
     }()
     
@@ -70,7 +70,7 @@ class ProductsViewController: UIViewController {
         let button = UIButton()
         button.addTarget(self, action: #selector(cancelEditButtonPressed), for: .touchUpInside)
         button.setTitle(R.string.localizable.cancel(), for: .normal)
-        button.setTitleColor(UIColor(hex: "#7E19FF"), for: .normal)
+        button.setTitleColor(R.color.edit(), for: .normal)
         button.titleLabel?.font = UIFont.SFPro.semibold(size: 16).font
         button.isHidden = true
         return button
@@ -83,6 +83,7 @@ class ProductsViewController: UIViewController {
         view.layer.maskedCorners = [.layerMinXMinYCorner]
         view.layer.borderColor = UIColor.white.withAlphaComponent(0.8).cgColor
         view.layer.borderWidth = 2
+        view.layer.cornerCurve = .continuous
         view.addCustomShadow(color: UIColor(hex: "#484848"), offset: CGSize(width: 0, height: 0.5))
         return view
     }()
@@ -91,6 +92,7 @@ class ProductsViewController: UIViewController {
         let view = UIView()
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
+        view.layer.cornerCurve = .continuous
         view.backgroundColor = .white
         return view
     }()
@@ -145,16 +147,18 @@ class ProductsViewController: UIViewController {
     private func setupController() {
         let colorForForeground = viewModel?.getColorForForeground() ?? .black
         let colorForBackground = viewModel?.getColorForBackground()
+        let darkColor = viewModel?.getDarkColor() ?? .black
         nameOfListTextField.text = viewModel?.getNameOfList()
         view.backgroundColor = colorForBackground
         navigationView.backgroundColor = colorForBackground
         
-        addItemView.backgroundColor = colorForForeground
-        plusImage.image = R.image.sharing_plus()?.withTintColor(colorForForeground)
-        editCellButton.setImage(R.image.editCell()?.withTintColor(colorForForeground), for: .normal)
+        addItemView.backgroundColor = darkColor.withAlphaComponent(0.95)
+        plusImage.image = R.image.sharing_plus()?.withTintColor(darkColor)
+        nameOfListTextField.textColor = darkColor
+        
+        sortButton.setImage(R.image.sort()?.withTintColor(colorForForeground), for: .normal)
         arrowBackButton.setImage(R.image.greenArrowBack()?.withTintColor(colorForForeground), for: .normal)
         contextMenuButton.setImage(R.image.contextMenu()?.withTintColor(colorForForeground), for: .normal)
-        nameOfListTextField.textColor = colorForForeground
         
         collectionView.reloadData()
         editTabBarView.delegate = self
@@ -262,6 +266,11 @@ class ProductsViewController: UIViewController {
     }
     
     @objc
+    private func sortButtonPressed() {
+        viewModel?.sortTapped(productType: .products)
+    }
+    
+    @objc
     private func editCellButtonPressed() {
         AmplitudeManager.shared.logEvent(.editList)
         let safeAreaBottom = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0
@@ -279,7 +288,7 @@ class ProductsViewController: UIViewController {
         }, completion: { _ in
             UIView.animate(withDuration: 0.6, delay: 0.0, usingSpringWithDamping: 0.4,
                            initialSpringVelocity: 0.2, options: .curveEaseOut, animations: { [weak self] in
-                self?.editCellButton.alpha = 0
+                self?.sortButton.alpha = 0
                 self?.arrowBackButton.alpha = 0
                 self?.contextMenuButton.alpha = 0
                 self?.sharingView.alpha = 0
@@ -300,7 +309,7 @@ class ProductsViewController: UIViewController {
         editTabBarView.snp.updateConstraints { $0.height.equalTo(0) }
         cancelEditButton.isHidden = true
         UIView.animate(withDuration: 0.4) { [weak self] in
-            self?.editCellButton.alpha = 1
+            self?.sortButton.alpha = 1
             self?.arrowBackButton.alpha = 1
             self?.contextMenuButton.alpha = 1
             self?.sharingView.alpha = 1
@@ -381,6 +390,10 @@ class ProductsViewController: UIViewController {
             if parent.typeOFCell == .sortedByUser {
                 cell.setupUserImage(image: self?.viewModel?.getUserImage(by: parent.name), color: color)
             }
+            
+            cell.tapSortPurchased = { [weak self] in
+                self?.viewModel?.sortTapped(productType: .purchased)
+            }
         }
     
         let displayCellRegistration = UICollectionView.CellRegistration<DisplayCostListCell, Category> { [weak self] (cell, _, _) in
@@ -389,7 +402,7 @@ class ProductsViewController: UIViewController {
             let isVisibleCost = self?.viewModel?.isVisibleCost ?? false
             cell.configureSwitch(isVisibleCost: isVisibleCost, tintColor: color)
             cell.changedSwitchValue = { [weak self] switchValue in
-                AmplitudeManager.shared.logEvent(.shopPriceToggle, properties: [.isActive: switchValue ? .yes : .no])
+                AmplitudeManager.shared.logEvent(.shopPriceToggle, properties: [.isActive: switchValue ? .yes : .valueNo])
 #if RELEASE
                 guard Apphud.hasActiveSubscription() else {
                     self?.viewModel?.showPaywall()
@@ -546,7 +559,7 @@ class ProductsViewController: UIViewController {
     // MARK: - Constraints
     private func setupConstraints() {
         view.addSubviews([collectionView, navigationView, addItemView, productImageView, editView, editTabBarView])
-        navigationView.addSubviews([arrowBackButton, nameOfListTextField, contextMenuButton, sharingView, editCellButton, totalCostLabel])
+        navigationView.addSubviews([arrowBackButton, nameOfListTextField, contextMenuButton, sharingView, sortButton, totalCostLabel])
         editView.addSubviews([cancelEditButton])
         addItemView.addSubviews([plusView, plusImage, addItemLabel])
         collectionView.addSubview(messageView)
@@ -597,15 +610,15 @@ class ProductsViewController: UIViewController {
             make.height.width.equalTo(40)
         }
         
-        editCellButton.snp.makeConstraints { make in
-            make.trailing.equalTo(contextMenuButton.snp.leading).inset(-4)
+        sharingView.snp.makeConstraints { make in
+            make.trailing.equalTo(contextMenuButton.snp.leading).offset(-8)
             make.centerY.equalTo(contextMenuButton)
-            make.height.width.equalTo(40)
+            make.height.equalTo(40)
         }
         
-        sharingView.snp.makeConstraints { make in
-            make.trailing.equalTo(editCellButton.snp.leading).offset(-4)
-            make.centerY.equalTo(editCellButton)
+        sortButton.snp.makeConstraints { make in
+            make.trailing.equalTo(sharingView.snp.leading).offset(4)
+            make.centerY.equalTo(sharingView)
             make.height.equalTo(40)
         }
         
@@ -706,12 +719,34 @@ extension ProductsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         var snap = dataSource.snapshot(for: .main)
         guard let item = dataSource.itemIdentifier(for: indexPath) else { return false }
-        
-        // проверка на тип сортировки для отключения возможности схлопывания ячеек при сортировке по алфавиту
+        var isPurchased = false
+        var items: [ProductsViewController.DataItem] = []
+        var indexPaths: [IndexPath] = []
+        // проверка на тип сортировки
         switch item {
         case .parent(let parent):
-            guard parent.typeOFCell != .sortedByAlphabet else {
-                return false
+            // отключения возможности схлопывания ячеек при сортировке по алфавиту и без категорий
+            guard parent.typeOFCell != .sortedByAlphabet else { return false }
+            guard parent.typeOFCell != .withoutCategory else { return false }
+            
+            items.append(item)
+            indexPaths.append(indexPath)
+            
+            // для схлопывыания Куплено
+            if parent.typeOFCell == .purchased {
+                viewModel?.isExpandedPurchased.toggle()
+                isPurchased = true
+                let sections = viewModel?.sectionIndexPaths ?? []
+                var purchasedSectionIndex = sections.firstIndex(of: indexPath.row) ?? 0
+                while purchasedSectionIndex < sections.endIndex {
+                    let section = sections[purchasedSectionIndex]
+                    let index = IndexPath(row: section, section: 0)
+                    if let item = dataSource.itemIdentifier(for: index) {
+                        indexPaths.append(index)
+                        items.append(item)
+                    }
+                    purchasedSectionIndex += 1
+                }
             }
         default:
             print("")
@@ -727,6 +762,18 @@ extension ProductsViewController: UICollectionViewDelegate {
             } else {
                 switchModelAndSetupParametr(item: item, isExpanded: true, indexPath: indexPath)
                 snap.expand([item])
+            }
+            self.dataSource.apply(snap, to: .main)
+        }
+        if isPurchased {
+            items.enumerated().forEach { index, item in
+                if (viewModel?.isExpandedPurchased ?? true) {
+                    switchModelAndSetupParametr(item: item, isExpanded: false, indexPath: indexPaths[index])
+                    snap.collapse([item])
+                } else {
+                    switchModelAndSetupParametr(item: item, isExpanded: true, indexPath: indexPaths[index])
+                    snap.expand([item])
+                }
             }
             self.dataSource.apply(snap, to: .main)
         }

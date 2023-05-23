@@ -28,12 +28,12 @@ final class RecipesListHeaderView: UIView {
             string: R.string.localizable.recipes(),
             attributes: [
                 .font: R.font.sfProRoundedBold(size: 15) ?? .systemFont(ofSize: 15),
-                .foregroundColor: UIColor(hex: "1A645A")
+                .foregroundColor: R.color.primaryDark() ?? UIColor(hex: "#045C5C")
             ]
         )
         button.imageEdgeInsets.right = 11
         button.setImage(R.image.greenArrowBack(), for: .normal)
-        button.tintColor = UIColor(hex: "1A645A")
+        button.tintColor = R.color.primaryDark()
         button.setAttributedTitle(attrTitle, for: .normal)
         return button
     }()
@@ -41,14 +41,14 @@ final class RecipesListHeaderView: UIView {
     private let searchButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(R.image.searchButtonImage(), for: .normal)
-        button.tintColor = UIColor(hex: "1A645A")
+        button.tintColor = R.color.primaryDark()
         return button
     }()
     
     private let title: UILabel = {
         let label = UILabel()
         label.font = R.font.sfProRoundedBold(size: 22)
-        label.textColor = UIColor(hex: "1A645A")
+        label.textColor = R.color.primaryDark()
         label.numberOfLines = 1
         return label
     }()

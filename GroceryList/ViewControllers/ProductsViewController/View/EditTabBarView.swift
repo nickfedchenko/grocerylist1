@@ -29,7 +29,7 @@ final class EditTabBarView: ViewWithOverriddenPoint {
     private lazy var countItemSelectedLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFCompactDisplay.semibold(size: 14).font
-        label.textColor = UIColor(hex: "#7E19FF")
+        label.textColor = R.color.edit()
         return label
     }()
     
@@ -299,16 +299,16 @@ private enum EditTabBarItemState {
     var selectColor: UIColor {
         switch self {
         case .selectAll, .move, .copy:
-            return UIColor(hex: "#7E19FF")
+            return R.color.edit() ?? UIColor(hex: "#7E19FF")
         case .delete:
-            return UIColor(hex: "#DF0404")
+            return R.color.attention() ?? UIColor(hex: "#DF0404")
         }
     }
     
     var deselectColor: UIColor {
         switch self {
         case .selectAll:
-            return UIColor(hex: "#7E19FF")
+            return R.color.edit() ?? UIColor(hex: "#7E19FF")
         case .delete, .move, .copy:
             return UIColor(hex: "#ACB4B4")
         }

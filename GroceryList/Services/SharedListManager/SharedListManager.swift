@@ -15,6 +15,7 @@ class SharedListManager {
     private var network: NetworkEngine
     private var modelTransformer: DomainModelsToLocalTransformer
     private var newListId: String?
+    private var isNewListId = false
     private var tokens: [String] {
         get { UserDefaultsManager.userTokens ?? [] }
         set { UserDefaultsManager.userTokens = newValue }
@@ -48,8 +49,10 @@ class SharedListManager {
 
     /// подписываемся на лист
     private func connectToList(userToken: String, token: String) {
+        NotificationCenter.default.post(name: .sharedListLoading, object: nil)
+        isNewListId = true
         network.groceryListRelease(userToken: userToken,
-                                           sharingToken: token) { result in
+                                   sharingToken: token) { result in
             switch result {
             case .failure(let error):
                 print(error)
@@ -88,6 +91,10 @@ class SharedListManager {
         list.isShared = true
         list.sharedId = response.listId
         list.isVisibleCost = dbList?.isVisibleCost ?? false
+        list.isAutomaticCategory = dbList?.isAutomaticCategory ?? true
+        list.typeOfSortingPurchased = Int(dbList?.typeOfSortingPurchased ?? 0)
+        list.isAscendingOrderPurchased = BoolWithNilForCD(rawValue: dbList?.isAscendingOrderPurchased ?? 0) ?? .nothing
+        list.isAscendingOrder = dbList?.isAscendingOrder ?? true
         removeProductsIfNeeded(list: list)
         
         CoreDataManager.shared.saveList(list: list)
@@ -99,6 +106,10 @@ class SharedListManager {
         appendToUsersDict(id: response.listId, users: response.listUsers)
         
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
+        if isNewListId {
+            self.newListId = list.id.uuidString
+            showProductViewController()
+        }
     }
     
     // MARK: - удаление листа из сокета
@@ -237,6 +248,10 @@ class SharedListManager {
             localList.isSharedListOwner = sharedModel.isOwner
             localList.isShowImage = sharedList.isShowImage ?? .nothing
             localList.isVisibleCost = dbList?.isVisibleCost ?? false
+            localList.isAutomaticCategory = dbList?.isAutomaticCategory ?? true
+            localList.typeOfSortingPurchased = Int(dbList?.typeOfSortingPurchased ?? 0)
+            localList.isAscendingOrderPurchased = BoolWithNilForCD(rawValue: dbList?.isAscendingOrderPurchased ?? 0) ?? .nothing
+            localList.isAscendingOrder = dbList?.isAscendingOrder ?? true
             arrayOfLists.append(localList)
         }
 
@@ -272,6 +287,8 @@ class SharedListManager {
             let model = DomainModelsToLocalTransformer().transformCoreDataModelToModel(dbModel)
             self.router?.popToRoot()
             self.router?.goProductsVC(model: model, compl: { })
+            self.newListId = nil
+            isNewListId = false
         }
     }
 
@@ -320,7 +337,7 @@ class SharedListManager {
                        name: sharedProduct.name,
                        isPurchased: sharedProduct.isPurchased,
                        dateOfCreation: dateOfProductCreation,
-                       category: sharedProduct.category,
+                       category: sharedProduct.category ?? "",
                        isFavorite: sharedProduct.isFavorite,
                        isSelected: sharedProduct.isSelected,
                        imageData: sharedProduct.imageData,

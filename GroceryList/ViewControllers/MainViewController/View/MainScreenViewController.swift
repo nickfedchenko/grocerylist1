@@ -40,7 +40,7 @@ class MainScreenViewController: UIViewController {
         collectionView.contentInset.bottom = 60
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
-        collectionView.backgroundColor = UIColor(hex: "#E8F5F3")
+        collectionView.backgroundColor = R.color.background()
         collectionView.register(classCell: GroceryCollectionViewCell.self)
         collectionView.register(classCell: EmptyColoredCell.self)
         collectionView.register(classCell: InstructionCell.self)
@@ -59,6 +59,7 @@ class MainScreenViewController: UIViewController {
     private let topMainView = TopMainScreenView()
     private let bottomCreateListView = AddListView()
     private let activityView = ActivityIndicatorView()
+    private let synchronizationActivityView = SynchronizationActivityView()
     private let contextMenu = MainScreenMenuView()
     private let contextMenuBackgroundView = UIView()
     private var initAnalytic = false
@@ -98,6 +99,7 @@ class MainScreenViewController: UIViewController {
         if !initAnalytic {
             viewModel?.analytic()
             initAnalytic.toggle()
+            viewModel?.showFeedback()
         }
     }
     
@@ -146,6 +148,17 @@ class MainScreenViewController: UIViewController {
             DispatchQueue.main.async {
                 self?.activityView.removeFromView()
                 self?.recipesCollectionView.reloadData()
+            }
+        }
+        
+        viewModel?.showSynchronizationActivity = { [weak self] isShow in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                if isShow {
+                    self.synchronizationActivityView.show(for: self.view)
+                } else {
+                    self.synchronizationActivityView.removeFromView()
+                }
             }
         }
     }
@@ -217,7 +230,7 @@ class MainScreenViewController: UIViewController {
     
     // MARK: - UI
     private func setupConstraints() {
-        view.backgroundColor = UIColor(hex: "#E8F5F3")
+        view.backgroundColor = R.color.background()
         view.addSubviews([collectionView, bottomCreateListView, recipesCollectionView, topMainView,
                         activityView, contextMenuBackgroundView, contextMenu])
         collectionView.addSubview(foodImage)
@@ -248,6 +261,16 @@ class MainScreenViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
+        topMainView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            make.height.equalTo(113)
+        }
+        
+        setupConstraintsAdditionalViews()
+    }
+    
+    private func setupConstraintsAdditionalViews() {
         contextMenuBackgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -264,12 +287,6 @@ class MainScreenViewController: UIViewController {
             make.top.equalTo(collectionView).offset(97)
             make.bottom.equalToSuperview()
             make.leading.equalTo(collectionView.snp.trailing)
-        }
-        
-        topMainView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            make.height.equalTo(113)
         }
     }
 }

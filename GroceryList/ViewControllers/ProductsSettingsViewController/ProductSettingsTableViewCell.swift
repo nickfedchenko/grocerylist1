@@ -43,25 +43,34 @@ class ProductSettingsTableViewCell: UITableViewCell {
         label.textColor = .black
     }
     
-    func setupCell(imageForCell: UIImage?, text: String?, inset: Bool,
-                   separatorColor: UIColor, isCheckmarkActive: Bool) {
-        if inset {
-            image.snp.updateConstraints { make in
-                make.left.equalToSuperview().inset(40)
-            }
-            separatorLine.snp.updateConstraints { make in
-                make.left.equalToSuperview().inset(40)
-            }
-        }
-        
+    func setupCell(imageForCell: UIImage?, text: String?,
+                   separatorColor: UIColor, checkmarkColor: UIColor, isCheckmarkActive: Bool) {
         if text == "delete".localized {
-            label.textColor = UIColor(hex: "#DF0404")
+            label.textColor = R.color.attention()
         }
-        
+        if isCheckmarkActive {
+            checkmarkImage.image = checkmarkImage.image?.withTintColor(checkmarkColor)
+        }
         checkmarkImage.isHidden = !isCheckmarkActive
         separatorLine.backgroundColor = separatorColor
         image.image = imageForCell
         label.text = text
+    }
+    
+    func setupSortCell(text: String?, imageForCell: UIImage?, separatorColor: UIColor,
+                       checkmarkColor: UIColor, isCheckmarkActive: Bool) {
+        separatorLine.backgroundColor = separatorColor
+        checkmarkImage.isHidden = !isCheckmarkActive
+        if isCheckmarkActive {
+            checkmarkImage.image = checkmarkImage.image?.withTintColor(checkmarkColor)
+            image.image = imageForCell?.withTintColor(checkmarkColor)
+            label.textColor = checkmarkColor
+            label.text = text
+        } else {
+            label.textColor = R.color.darkGray()
+            label.text = text
+            image.image = imageForCell?.withTintColor(R.color.darkGray() ?? UIColor(hex: "537979"))
+        }
     }
     
     func setupSwitch(isVisible: Bool, value: Bool, tintColor: UIColor) {
@@ -145,7 +154,7 @@ class ProductSettingsTableViewCell: UITableViewCell {
         }
         
         separatorLine.snp.makeConstraints { make in
-            make.height.equalTo(1)
+            make.height.equalTo(2)
             make.right.equalToSuperview()
             make.left.equalToSuperview().inset(20)
             make.bottom.equalToSuperview()

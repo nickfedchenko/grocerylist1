@@ -12,7 +12,7 @@ class SearchViewController: UIViewController {
     lazy var searchTextField: UITextField = {
         let textField = UITextField()
         textField.font = UIFont.SFPro.medium(size: 16).font
-        textField.tintColor = UIColor(hex: "#1A645A")
+        textField.tintColor = R.color.primaryDark()
         textField.backgroundColor = .clear
         textField.textColor = .black
         return textField
@@ -40,7 +40,7 @@ class SearchViewController: UIViewController {
         button.backgroundColor = .clear
         button.setTitle(R.string.localizable.cancel(), for: .normal)
         button.titleLabel?.font = UIFont.SFProRounded.bold(size: 15).font
-        button.setTitleColor(UIColor(hex: "#1A645A"), for: .normal)
+        button.setTitleColor(R.color.primaryDark(), for: .normal)
         button.addTarget(self, action: #selector(tappedCancelButton), for: .touchUpInside)
         button.setContentCompressionResistancePriority(.init(1000), for: .horizontal)
         return button

@@ -23,7 +23,7 @@ final class SendInvitationCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 15).font
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = R.color.primaryDark()
         label.text = "Hello! Here is a great app".localized
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true

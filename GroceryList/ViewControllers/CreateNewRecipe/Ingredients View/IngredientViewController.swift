@@ -13,7 +13,7 @@ final class IngredientViewController: UIViewController {
     
     private lazy var saveButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(hex: "#1A645A")
+        button.backgroundColor = R.color.primaryDark()
         button.setTitle(R.string.localizable.save().uppercased(), for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
@@ -71,11 +71,6 @@ final class IngredientViewController: UIViewController {
     }
     
     private func setupPredictiveTextView() {
-        guard FeatureManager.shared.isActivePredictiveText else {
-            predictiveTextViewHeight = 0
-            return
-        }
-        
         viewModel?.productsChangedCallback = { [weak self] titles in
             guard let self else { return }
             self.predictiveTextView.configure(texts: titles)
@@ -86,12 +81,12 @@ final class IngredientViewController: UIViewController {
     }
     
     private func updateSaveButton(isActive: Bool) {
-        saveButton.backgroundColor = UIColor(hex: isActive ? "#1A645A" : "#D1D5DB")
+        saveButton.backgroundColor = isActive ? R.color.primaryDark() : R.color.lightGray()
         saveButton.isUserInteractionEnabled = isActive
     }
     
     private func categoryIsActive(_ isActive: Bool, categoryTitle: String) {
-        let color = UIColor(hex: isActive ? "#1A645A" : "#777777")
+        let color = isActive ? (R.color.primaryDark() ?? UIColor(hex: "#045C5C")) : UIColor(hex: "#777777")
         categoryView.setCategory(categoryTitle, textColor: color)
     }
     

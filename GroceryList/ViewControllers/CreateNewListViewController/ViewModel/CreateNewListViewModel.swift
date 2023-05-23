@@ -23,20 +23,21 @@ class CreateNewListViewModel {
     var copiedProducts: Set<Product> = []
     var newSavedProducts: [Product] = []
    
-    func savePressed(nameOfList: String?, numberOfColor: Int, isSortByCategory: Bool) {
+    func savePressed(nameOfList: String?, numberOfColor: Int, isAutomaticCategory: Bool) {
         if var model = model {
             model.name = nameOfList
             model.color = numberOfColor
-            CoreDataManager.shared.saveList(list: model)
             copiedProducts.forEach({ saveCopiedProduct(product: $0, listId: model.id) })
             model.products = newSavedProducts
+            model.isAutomaticCategory = isAutomaticCategory
+            CoreDataManager.shared.saveList(list: model)
             valueChangedCallback?(model, newSavedProducts)
             return
         }
-        let typeOfSorting = isSortByCategory ? 0 : 2
+        let isAutomaticCategory = isAutomaticCategory
         var list = GroceryListsModel(id: UUID(), dateOfCreation: Date(),
                                      name: nameOfList, color: numberOfColor, isFavorite: false, products: [],
-                                     typeOfSorting: typeOfSorting)
+                                     isAutomaticCategory: isAutomaticCategory, typeOfSorting: 0)
         CoreDataManager.shared.saveList(list: list)
         UserDefaultsManager.coldStartState = 2
         
@@ -58,11 +59,11 @@ class CreateNewListViewModel {
     }
     
     func getTextFieldColor(at ind: Int) -> UIColor {
-        colorManager.getGradient(index: ind).0
+        colorManager.getGradient(index: ind).medium
     }
     
     func getBackgroundColor(at ind: Int) -> UIColor {
-        colorManager.getGradient(index: ind).1
+        colorManager.getGradient(index: ind).light
     }
     
     func pickItemTapped(height: Double) {

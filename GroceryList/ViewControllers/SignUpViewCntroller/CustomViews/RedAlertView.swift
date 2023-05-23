@@ -15,7 +15,7 @@ class RedAlertView: UIView {
     private let textLabel: UILabel = {
         let label = UILabel()
         label.font = .SFProRounded.semibold(size: 14).font
-        label.textColor = UIColor(hex: "#DF0404")
+        label.textColor = R.color.attention()
         return label
     }()
     

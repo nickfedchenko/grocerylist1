@@ -102,7 +102,7 @@ class SignUpViewModel {
         case .email:
             emailParameters.text = text
             emailParameters.isValidated = isCorrect
-          
+            
             isEmailValidated = isCorrect
             if isCorrect {
                 checkMail(text: text, compl: nil)
@@ -110,7 +110,7 @@ class SignUpViewModel {
         default:
             passwordParameters.text = text
             passwordParameters.isValidated = isCorrect
-           
+            
             isPasswordValidated = isCorrect
         }
     }
@@ -123,7 +123,7 @@ class SignUpViewModel {
             delegate?.resingPasswordViewFirstResp()
         }
     }
- 
+    
     // MARK: - AcceptTerms
     func terms(isTermsAccepted: Bool) {
         self.isTermsValidated = isTermsAccepted
@@ -156,46 +156,75 @@ class SignUpViewModel {
     
     /// юзер прошел сайн виз эпл, пора его регать или входить в акк
     func signWithAppleSucceed(email: String?, appleId: String) {
+        // сохраняем старые данные в новый вид
+        resaveInCorrectForm(appleId: appleId)
         
         // проверяем есть ли в кейчейне данные, если нет то это первый вход и переходим регаться
-        guard let emailData = KeyChainManager.load(key: .email),
-              let passwordData = KeyChainManager.load(key: .password) else {
-            createAccountAndLogIn(email: email)
-            return
-        }
-        
-        // если данные есть
-        let email = String(decoding: emailData, as: UTF8.self)
-        let password = String(decoding: passwordData, as: UTF8.self)
-        
-        // тут чекаем что почта занята - на случай если юзер удалил акк
-        // если занята то переходим в функцию регистрации
-        checkMail(text: email) { [weak self] isMailExist in
-            guard isMailExist else {
-                self?.createAccountAndLogIn(email: email)
+        let cridentials = KeyChainManager.loadCridentials(userID: appleId)
+        switch cridentials {
+        case .success(let cridentials):
+            guard
+                let savedEmail = cridentials["email"],
+                let password = cridentials["password"] else {
+                createAccountAndLogIn(email: email, appleId: appleId)
                 return
             }
-            // если почта занята то проверка прошла и входим
-            self?.emailParameters.text = email
-            self?.passwordParameters.text = password
-            self?.signInUser()
+            checkMail(text: savedEmail) { [weak self] isMailExist in
+                guard isMailExist else {
+                    if self?.state == .signUp {
+                        self?.createAccountAndLogIn(email: savedEmail, appleId: appleId)
+                    } else {
+                        self?.delegate?.underlineEmail(isValid: false)
+                        self?.delegate?.underlinePassword(isValid: false)
+                    }
+                    return
+                }
+                // если почта занята то проверка прошла и входим
+                self?.emailParameters.text = savedEmail
+                self?.passwordParameters.text = password
+                self?.signInUser()
+            }
+        case .failure(let error):
+            switch error {
+            case .noCridentialsSavedForProvidedUser:
+                createAccountAndLogIn(email: email, appleId: appleId)
+                return
+            case .errorRetrievingSensitivedata:
+                createAccountAndLogIn(email: email, appleId: appleId)
+                return
+            default:
+                delegate?.underlineEmail(isValid: false)
+                delegate?.underlinePassword(isValid: false)
+                
+            }
         }
     }
     
     /// сохраняем почту и логин в кейчейн и регистрируемся
-    func createAccountAndLogIn(email: String?) {
+    func createAccountAndLogIn(email: String?, appleId: String) {
         guard let email = email else {
             return
         }
         let password = UUID().uuidString
-        
-        KeyChainManager.save(key: .email, data: email.data(using: .utf8) ?? Data())
-        KeyChainManager.save(key: .password, data: password.data(using: .utf8) ?? Data())
+        let result = KeyChainManager.saveCridentials(password: password, userdID: appleId, email: email)
+        switch result {
+        case .success(let success):
+            if success == noErr {
+                emailParameters.text = email
+                passwordParameters.text = password
+                signUpUser()
+            } else {
+                delegate?.underlinePassword(isValid: false)
+                delegate?.underlineEmail(isValid: false)
+            }
+        case .failure(let failure):
+            print(failure.description)
+        }
+    }
     
-        emailParameters.text = email
-        passwordParameters.text = password
-        
-        signUpUser()
+    /// обновляем сохранение кейчейн в правильном виде
+    private func resaveInCorrectForm(appleId: String) {
+        KeyChainManager.migrateOldCridentialsIfNeeded(for: appleId)
     }
     
     // MARK: - Validation
@@ -208,11 +237,12 @@ class SignUpViewModel {
                 self?.delegate?.showNoInternet()
             case .success(let response):
                 self?.delegate?.hideNoInternet()
+                print(response)
                 self?.saveUserModel(userModel: response.user)
             }
         }
     }
-   
+    
     private func signInUser() {
         network.logIn(email: emailParameters.text, password: passwordParameters.text) { [weak self] result in
             switch result {
@@ -222,9 +252,12 @@ class SignUpViewModel {
             case .success(let response):
                 self?.delegate?.hideNoInternet()
                 if response.error {
+                    print(response)
                     self?.delegate?.underlinePassword(isValid: false)
                 }
-                guard let user = response.user else { return }
+                guard let user = response.user else {
+                    return
+                }
                 self?.saveUserModel(userModel: user)
             }
         }
@@ -257,7 +290,7 @@ class SignUpViewModel {
     }
     
     private func checkMail(text: String, compl: ((Bool) -> Void)?) {
-//        guard state == .signUp else { return }
+        //        guard state == .signUp else { return }
         network.checkEmail(email: text) { [weak self] result in
             guard let self = self else { return }
             switch result {

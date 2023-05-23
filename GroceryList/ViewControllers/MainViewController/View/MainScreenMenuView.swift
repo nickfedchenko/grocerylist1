@@ -83,7 +83,7 @@ final class MainScreenMenuView: UIView {
     
     func markAsSelected(_ state: MainMenuState) {
         stackView.arrangedSubviews.forEach { view in
-            view.backgroundColor = view.tag == state.rawValue ? UIColor(hex: "#85F3D5") : .white
+            view.backgroundColor = view.tag == state.rawValue ? R.color.action() : .white
         }
     }
     
@@ -114,7 +114,7 @@ private final class MainScreenMenuSubView: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProRounded.semibold(size: 17).font
-        label.textColor = UIColor(hex: "#1A645A")
+        label.textColor = R.color.primaryDark()
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.5
         return label

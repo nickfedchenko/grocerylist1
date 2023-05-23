@@ -70,6 +70,7 @@ enum EventName: String {
     case sharedUsersMaxCount = "shared_users_max_count"
     case sharedDeleteUser = "shared_delete_user"    // нет этого функционала - Юзер нажал на перестать делиться
     case registerFromLink = "register_from_link"
+    case sharedListLoading = "SharedListLoading"
     
     // Recipes
     case recipeSection = "recipe_section"
@@ -132,6 +133,7 @@ extension PropertyKey {
     static let subscribtionType = "subscribtion type"
     static let count = "count"
     static let isActive = "isActive"
+    static let time = "Time"
 }
 
 typealias PropertyValue = String
@@ -148,7 +150,7 @@ extension PropertyValue {
     static let weekly = "weekly"
     
     static let yes = "yes"
-    static let no = "no"
+    static let valueNo = "no"
 }
 
 var idsOfChangedLists = Set<UUID>()
