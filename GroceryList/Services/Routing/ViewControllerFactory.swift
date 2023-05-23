@@ -20,9 +20,6 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let listVC = createListController(router: router)
         let pantryVC = createPantryController(router: router)
         let recipeVC = createRecipeController(router: router)
-        listVC.setTabBarItem(state: .list)
-        pantryVC.setTabBarItem(state: .pantry)
-        recipeVC.setTabBarItem(state: .recipe)
         let viewControllers = [listVC, pantryVC, recipeVC]
         let viewModel = MainTabBarViewModel(isRightHanded: isRightHanded, viewControllers: viewControllers)
         viewModel.router = router

@@ -17,7 +17,6 @@ final class MainTabBarViewModel {
     weak var recipeDelegate: MainTabBarViewModelDelegate?
     
     private var isRightHanded: Bool
-    private let disableVCs = [StopperViewController(), StopperViewController()]
     private let viewControllers: [UIViewController]
     
     var initialViewController: UIViewController? {
@@ -44,14 +43,10 @@ final class MainTabBarViewModel {
     }
     
     func getViewControllers() -> [UIViewController] {
-        if isRightHanded {
-            return viewControllers + disableVCs
-        } else {
-            return disableVCs + viewControllers
-        }
+        viewControllers
     }
     
-    func tappedAddItem(state: MainTabBarController.Items) {
+    func tappedAddItem(state: TabBarItemView.Item) {
         switch state {
         case .list:
             router?.goCreateNewList(compl: { [weak self] model, _  in

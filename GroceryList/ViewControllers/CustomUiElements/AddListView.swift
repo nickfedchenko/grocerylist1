@@ -22,7 +22,7 @@ final class AddListView: UIView {
         let label = UILabel()
         label.font = UIFont.SFProRounded.semibold(size: 18).font
         label.textColor = UIColor(hex: "#31635A")
-        label.text = "CreateList".localized
+        label.text = R.string.localizable.list()
         label.numberOfLines = 2
         return label
     }()
@@ -73,7 +73,7 @@ final class AddListView: UIView {
         createListLabel.snp.remakeConstraints {
             $0.centerY.equalTo(plusImage)
             $0.leading.equalTo(plusImage.snp.trailing).offset(12)
-            $0.trailing.equalToSuperview().offset(8)
+            $0.trailing.equalToSuperview().offset(-8)
         }
     }
     

@@ -44,21 +44,4 @@ extension UIViewController {
             for: .normal)
         navigationItem.backBarButtonItem = backItem
     }
-    
-    func setTabBarItem(state: MainTabBarController.Items) {
-        let tabBarItem = UITabBarItem(title: state.title, image: state.image,
-                                      selectedImage: state.selectImage)
-        let font = UIFont.SFProRounded.medium(size: 13).font ?? UIFont()
-        let color = R.color.darkGray() ?? .black
-        let selectedColor = R.color.primaryDark() ?? .black
-        let selectedAttributes = [NSAttributedString.Key.font: font, .foregroundColor: selectedColor]
-        let normalAttributes = [NSAttributedString.Key.font: font, .foregroundColor: color]
-        
-        tabBarItem.imageInsets = state.imageInsets
-        tabBarItem.titlePositionAdjustment = state.titleOffset
-        tabBarItem.setTitleTextAttributes(normalAttributes, for: .normal)
-        tabBarItem.setTitleTextAttributes(selectedAttributes, for: .selected)
-        
-        self.tabBarItem = tabBarItem
-    }
 }
