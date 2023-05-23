@@ -14,21 +14,20 @@ protocol MainTabBarControllerRecipeDelegate: AnyObject {
 
 final class MainTabBarController: UITabBarController {
     
-    enum Items {
-        case list
-        case pantry
-        case recipe
-    }
-    
     weak var recipeDelegate: MainTabBarControllerRecipeDelegate?
     
     private var viewModel: MainTabBarViewModel
     private let contextMenu = MainScreenMenuView()
-    private let addItem = AddListView()
+    private let customTabBar = CustomTabBarView()
     private var navView = MainNavigationView()
     private var navBackgroundView = UIView()
     private let contextMenuBackgroundView = UIView()
     private var initAnalytic = false
+    private var didLayoutSubviews = false
+    
+    private var tabBarHeight: Int {
+        UIView.safeAreaTop > 0 ? 90 : 60
+    }
     
     init(viewModel: MainTabBarViewModel) {
         self.viewModel = viewModel
@@ -43,11 +42,18 @@ final class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         setupTabBar()
         setupCustomNavBar()
-        setupAddItem()
         setupContextMenu()
-        makeConstraints()
-        updateAddItemConstraints()
+        
         self.selectedViewController = viewModel.initialViewController
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if !didLayoutSubviews {
+            makeConstraints()
+            customTabBar.layoutIfNeeded()
+            didLayoutSubviews = true
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,6 +72,9 @@ final class MainTabBarController: UITabBarController {
     
     private func setupTabBar() {
         viewModel.recipeDelegate = self
+        tabBar.removeFromSuperview()
+        customTabBar.delegate = self
+        
         self.delegate = self
         self.tabBar.backgroundColor = .white
         self.tabBar.unselectedItemTintColor = R.color.darkGray()
@@ -79,12 +88,6 @@ final class MainTabBarController: UITabBarController {
         navView.delegate = self
         navView.configure(with: .list)
         updateUserInfo()
-    }
-    
-    private func setupAddItem() {
-        addItem.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapAddItem)))
-        addItem.setColor(background: R.color.primaryDark(),
-                         image: R.color.primaryDark())
     }
     
     private func setupContextMenu() {
@@ -113,9 +116,11 @@ final class MainTabBarController: UITabBarController {
                            photoAsData: viewModel.userPhoto.data)
     }
     
-    @objc
-    private func tapAddItem() {
-        viewModel.tappedAddItem(state: .list)
+    private func updateNavView() {
+        let itemTag = selectedIndex
+        if let item = TabBarItemView.Item(rawValue: itemTag) {
+            navView.configure(with: item)
+        }
     }
     
     @objc
@@ -124,27 +129,8 @@ final class MainTabBarController: UITabBarController {
         contextMenuBackgroundView.isHidden = true
     }
     
-    /// метод  для будущих изменений, возможно будет в настройках свитч для левшей)
-    /// переместит кнопку Создания листа влево/вправо в зависимости от isRightHanded
-    private func updateAddItemConstraints() {
-        self.viewControllers = viewModel.getViewControllers()
-        addItem.updateView(isRightHanded: viewModel.getIsRightHanded())
-        
-        guard viewModel.getIsRightHanded() else {
-            addItem.snp.updateConstraints {
-                $0.trailing.equalToSuperview().offset(-235)
-                $0.leading.equalToSuperview().offset(-5)
-            }
-            return
-        }
-        addItem.snp.updateConstraints {
-            $0.leading.equalToSuperview().offset(235)
-            $0.trailing.equalToSuperview().offset(5)
-        }
-    }
-    
     private func makeConstraints() {
-        self.tabBar.addSubview(addItem)
+        self.view.addSubview(customTabBar)
         self.view.addSubviews([navBackgroundView, navView, contextMenuBackgroundView, contextMenu])
         
         navBackgroundView.snp.makeConstraints {
@@ -158,11 +144,9 @@ final class MainTabBarController: UITabBarController {
             $0.height.equalTo(44)
         }
         
-        addItem.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(235)
-            $0.trailing.equalToSuperview().offset(5)
-            $0.top.equalToSuperview().offset(-1)
-            $0.bottom.equalToSuperview().offset(5)
+        customTabBar.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(tabBarHeight)
         }
         
         contextMenu.snp.makeConstraints { make in
@@ -183,38 +167,6 @@ extension MainTabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController,
                           animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return CustomTransition(viewControllers: tabBarController.viewControllers)
-    }
-    
-    func tabBarController(_ tabBarController: UITabBarController,
-                          shouldSelect viewController: UIViewController) -> Bool {
-#if RELEASE
-        if (viewController is MainRecipeViewController) && !Apphud.hasActiveSubscription() {
-            return false
-        }
-#endif
-        if viewController is ListViewController {
-            navView.configure(with: .list)
-        }
-        if viewController is PantryViewController {
-            navView.configure(with: .pantry)
-        }
-        if viewController is MainRecipeViewController {
-            navView.configure(with: .recipe)
-        }
-        return !(viewController is StopperViewController)
-    }
-    
-    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        guard let selectedIndex = self.tabBar.items?.firstIndex(of: item) else {
-            return
-        }
-        
-#if RELEASE
-        let recipeIndex = viewModel.getIsRightHanded() ? 2 : 4
-        if selectedIndex == recipeIndex && !Apphud.hasActiveSubscription() {
-            viewModel.showPaywall()
-        }
-#endif
     }
 }
 
@@ -241,49 +193,28 @@ extension MainTabBarController: MainNavigationViewDelegate {
     }
 }
 
+extension MainTabBarController: CustomTabBarViewDelegate {
+    func tabSelected(at index: Int) {
+#if RELEASE
+        let recipeIndex = TabBarItemView.Item.recipe.rawValue
+        if index == recipeIndex && !Apphud.hasActiveSubscription() {
+            viewModel.showPaywall()
+            return
+        }
+#endif
+        selectedIndex = index
+        customTabBar.updateItems(by: index)
+        updateNavView()
+    }
+    
+    func tabAddItem() {
+        viewModel.tappedAddItem(state: .list)
+    }
+}
+
+
 extension MainTabBarController: MainTabBarViewModelDelegate {
     func updateRecipeUI(_ recipe: Recipe?) {
         recipeDelegate?.updateRecipeUI(recipe)
     }
 }
-
-extension MainTabBarController.Items {
-    var title: String {
-        switch self {
-        case .list:     return R.string.localizable.list()
-        case .pantry:   return R.string.localizable.pantry()
-        case .recipe:   return R.string.localizable.recipe().trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-    }
-    
-    var image: UIImage? {
-        switch self {
-        case .list:     return R.image.list_tabbar_inactive()
-        case .pantry:   return R.image.pantry_tabbar_inactive()
-        case .recipe:   return R.image.recipe_tabbar_inactive()
-        }
-    }
-    
-    var selectImage: UIImage? {
-        switch self {
-        case .list:     return R.image.list_tabbar_active()
-        case .pantry:   return R.image.pantry_tabbar_active()
-        case .recipe:   return R.image.recipe_tabbar_active()
-        }
-    }
-    
-    var imageInsets: UIEdgeInsets {
-        return UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
-    }
-    
-    var titleOffset: UIOffset {
-        switch self {
-        case .list:     return UIOffset(horizontal: 15, vertical: 8)
-        case .pantry:   return UIOffset(horizontal: 0, vertical: 8)
-        case .recipe:   return UIOffset(horizontal: -15, vertical: 8)
-        }
-    }
-}
-
-// Заглушка для таб бара
-final class StopperViewController: UIViewController { }

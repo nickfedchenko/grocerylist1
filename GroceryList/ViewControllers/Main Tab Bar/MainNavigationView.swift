@@ -75,7 +75,7 @@ final class MainNavigationView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with mode: MainTabBarController.Items) {
+    func configure(with mode: TabBarItemView.Item) {
         sortButton.snp.updateConstraints {
             $0.width.height.equalTo(mode == .recipe ? 40 : 0)
         }

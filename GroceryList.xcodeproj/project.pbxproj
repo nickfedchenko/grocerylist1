@@ -84,6 +84,9 @@
 		338EB6B429C1BACC00D6A03F /* SearchInRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */; };
 		338EB6B629C1BEED00D6A03F /* SearchInRecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338EB6B529C1BEED00D6A03F /* SearchInRecipeViewModel.swift */; };
 		3391163329CD96E700881E1D /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3391163229CD96E700881E1D /* ActivityIndicatorView.swift */; };
+		33995D202A1C5C88003FECAE /* PantryStarterPackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */; };
+		33995D232A1CC1DE003FECAE /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */; };
+		33995D252A1CC501003FECAE /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D242A1CC501003FECAE /* TabBarItemView.swift */; };
 		339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339C1AEA299A67DD0092F93E /* InfoMessageView.swift */; };
 		33A51B872A163C7A00BE11C1 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A51B862A163C7A00BE11C1 /* MainTabBarController.swift */; };
 		33A51B892A163C9500BE11C1 /* CustomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A51B882A163C9500BE11C1 /* CustomTransition.swift */; };
@@ -357,6 +360,9 @@
 		338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInRecipeViewController.swift; sourceTree = "<group>"; };
 		338EB6B529C1BEED00D6A03F /* SearchInRecipeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInRecipeViewModel.swift; sourceTree = "<group>"; };
 		3391163229CD96E700881E1D /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
+		33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryStarterPackViewController.swift; sourceTree = "<group>"; };
+		33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
+		33995D242A1CC501003FECAE /* TabBarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		339C1AEA299A67DD0092F93E /* InfoMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMessageView.swift; sourceTree = "<group>"; };
 		33A51B862A163C7A00BE11C1 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		33A51B882A163C9500BE11C1 /* CustomTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTransition.swift; sourceTree = "<group>"; };
@@ -599,6 +605,7 @@
 				332340982A1B91C100609813 /* PantryViewModel.swift */,
 				332340962A1B91B300609813 /* PantryViewController.swift */,
 				3323409A2A1B91CB00609813 /* PantryDataSource.swift */,
+				33995D212A1C5C91003FECAE /* StarterPack */,
 			);
 			path = Pantry;
 			sourceTree = "<group>";
@@ -795,11 +802,29 @@
 			path = "In recipe";
 			sourceTree = "<group>";
 		};
+		33995D212A1C5C91003FECAE /* StarterPack */ = {
+			isa = PBXGroup;
+			children = (
+				33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */,
+			);
+			path = StarterPack;
+			sourceTree = "<group>";
+		};
+		33995D262A1CC59A003FECAE /* Tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */,
+				33995D242A1CC501003FECAE /* TabBarItemView.swift */,
+			);
+			path = Tabbar;
+			sourceTree = "<group>";
+		};
 		33A51B852A163C4200BE11C1 /* Main Tab Bar */ = {
 			isa = PBXGroup;
 			children = (
 				33A51B8C2A17171400BE11C1 /* MainTabBarViewModel.swift */,
 				33A51B862A163C7A00BE11C1 /* MainTabBarController.swift */,
+				33995D262A1CC59A003FECAE /* Tabbar */,
 				332340912A1B31CC00609813 /* MainNavigationView.swift */,
 				33A51B882A163C9500BE11C1 /* CustomTransition.swift */,
 				335519C329AE26CE00AD2B77 /* MainScreenMenuView.swift */,
@@ -1463,12 +1488,12 @@
 			children = (
 				B3D858462939D43B00CCE230 /* Paywall */,
 				B37A2CDD2911027E003C01AD /* Onboarding */,
+				33796E622A139F71009AD385 /* Feedback */,
 				33A51B852A163C4200BE11C1 /* Main Tab Bar */,
 				33A51B8E2A176C8800BE11C1 /* ListViewController */,
 				33A51B952A17747400BE11C1 /* MainRecipeViewController */,
 				383C77F4293F79D60030AE78 /* RecipesListViewController */,
 				332340952A1B918300609813 /* Pantry */,
-				33796E622A139F71009AD385 /* Feedback */,
 				33F8253529C050B700B349D5 /* Search */,
 				334BAE4B299DF88F005F52F5 /* Sharing */,
 				3379B64C29B755B20080923A /* Collection */,
@@ -1988,6 +2013,7 @@
 				33F8253729C050DC00B349D5 /* SearchViewController.swift in Sources */,
 				B315F9EA298A4AFF0009CEB8 /* ReviewSelectableView.swift in Sources */,
 				389DCF452945CE9A00DB9382 /* RecipeScreenViewModel.swift in Sources */,
+				33995D252A1CC501003FECAE /* TabBarItemView.swift in Sources */,
 				B3AD42DA299117980043A37F /* RegistrationResponse.swift in Sources */,
 				389DCF4A29461B2000DB9382 /* RecipeMainImageView.swift in Sources */,
 				B315F9E6298A3F420009CEB8 /* WriteReviewViewController.swift in Sources */,
@@ -1998,6 +2024,7 @@
 				33E544A929C98C27008D84F8 /* PredictiveTextView.swift in Sources */,
 				3379B65029B756230080923A /* ShowCollectionViewModel.swift in Sources */,
 				3368FD6C29B6F9F700D97291 /* CollectionModel.swift in Sources */,
+				33995D202A1C5C88003FECAE /* PantryStarterPackViewController.swift in Sources */,
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
@@ -2149,6 +2176,7 @@
 				B360918F2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */,
 				B3D20456292F6C0600599A01 /* SelectProductCell.swift in Sources */,
 				38817892293BEC8E0094344D /* DataProviderFacade.swift in Sources */,
+				33995D232A1CC1DE003FECAE /* CustomTabBarView.swift in Sources */,
 				B381EF2A299B977700DCDE40 /* TermsView.swift in Sources */,
 				B381EF24299B660D00DCDE40 /* LogOutView.swift in Sources */,
 			);
