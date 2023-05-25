@@ -75,7 +75,7 @@ final class MainNavigationView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with mode: TabBarItemView.Item) {
+    func configure(with mode: TabBarItemView.Item, animate: Bool = true) {
         sortButton.snp.updateConstraints {
             $0.width.height.equalTo(mode == .recipe ? 40 : 0)
         }
@@ -85,8 +85,11 @@ final class MainNavigationView: UIView {
         searchButton.snp.updateConstraints {
             $0.width.height.equalTo(mode == .pantry ? 0 : 40)
         }
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.layoutIfNeeded()
+        
+        if animate {
+            UIView.animate(withDuration: 0.3) { [weak self] in
+                self?.layoutIfNeeded()
+            }
         }
     }
     

@@ -267,3 +267,8 @@
 // Tab Bar
 "List"                          = "Liste";
 "Pantry"                        = "Pantry";
+
+// Pantry & Stocks
+"Pantry & Stocks"               = "Speisekammer & Vorräte";
+"PantryEnterStocks"             = "Speisekammer\n& Vorräte";
+"PantryStarterPackDescription"  = "Sie können eine detailliertere Beschreibung, Menge, Marke und Foto hinzufügen\n\nSie können die Vorratsliste mit jeder Einkaufsliste verbinden und die fertigen Artikel werden automatisch darin angezeigt\n\nSie können flexibel automatische Statusänderungen einrichten und die Ware endet in festgelegten Intervallen\n\nLaden Sie Ihre Familie ein, Ihren Haushalt zu teilen. Die Vorräte werden aufgefüllt, der Kühlschrank wird voll und alles wird in bester Ordnung sein!";

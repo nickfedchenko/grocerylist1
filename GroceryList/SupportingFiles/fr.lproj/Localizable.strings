@@ -265,3 +265,8 @@
 // Tab Bar
 "List"                          = "Liste";
 "Pantry"                        = "Cellier";
+
+// Pantry & Stocks
+"Pantry & Stocks"               = "Cellier et Stocks";
+"PantryEnterStocks"             = "Cellier\net Stocks";
+"PantryStarterPackDescription"  = "Vous pouvez ajouter une description plus détaillée, la quantité, la marque et la photo\n\nVous pouvez connecter la liste de garde-manger à n'importe quelle liste de courses et les articles finis y apparaîtront automatiquement\n\nVous pouvez configurer de manière flexible des changements d'état automatiques et les marchandises se termineront à des intervalles spécifiés\n\nInvitez votre famille à partager votre foyer. Les stocks seront réapprovisionnés, le réfrigérateur sera plein et tout sera en parfait état!";
