@@ -294,3 +294,8 @@
 // Tab Bar
 "List"                          = "List";
 "Pantry"                        = "Pantry";
+
+// Pantry & Stocks
+"Pantry & Stocks"               = "Pantry & Stocks";
+"PantryEnterStocks"             = "Pantry\n& Stocks";
+"PantryStarterPackDescription"  = "You can add a more detailed description, quantity, brand and photo\n\nYou can connect the pantry list to any shopping list and the finished items will automatically appear in it\n\nYou can flexibly set up automatic status changes and the goods will end at specified intervals\n\nInvite your family to share your household. Stocks will be replenished, the refrigerator will be full and everything will be in perfect order!";

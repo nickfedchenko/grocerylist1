@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 234 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 237 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -695,6 +695,27 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var pantry: RswiftResources.StringResource { .init(key: "Pantry", tableName: "Localizable", source: source, developmentValue: "Pantry", comment: nil) }
+
+      /// en translation: Pantry & Stocks
+      ///
+      /// Key: Pantry & Stocks
+      ///
+      /// Locales: en, ru, fr, de
+      var pantryStocks: RswiftResources.StringResource { .init(key: "Pantry & Stocks", tableName: "Localizable", source: source, developmentValue: "Pantry & Stocks", comment: nil) }
+
+      /// en translation: Pantry & Stocks
+      ///
+      /// Key: PantryEnterStocks
+      ///
+      /// Locales: en, ru, fr, de
+      var pantryEnterStocks: RswiftResources.StringResource { .init(key: "PantryEnterStocks", tableName: "Localizable", source: source, developmentValue: "Pantry\n& Stocks", comment: nil) }
+
+      /// en translation: You can add a more detailed description, quantity, brand and photo  You can connect the pantry list to any shopping list and the finished items will automatically appear in it  You can flexibly set up automatic status changes and the goods will end at specified intervals  Invite your family to share your household. Stocks will be replenished, the refrigerator will be full and everything will be in perfect order!
+      ///
+      /// Key: PantryStarterPackDescription
+      ///
+      /// Locales: en, ru, fr, de
+      var pantryStarterPackDescription: RswiftResources.StringResource { .init(key: "PantryStarterPackDescription", tableName: "Localizable", source: source, developmentValue: "You can add a more detailed description, quantity, brand and photo\n\nYou can connect the pantry list to any shopping list and the finished items will automatically appear in it\n\nYou can flexibly set up automatic status changes and the goods will end at specified intervals\n\nInvite your family to share your household. Stocks will be replenished, the refrigerator will be full and everything will be in perfect order!", comment: nil) }
 
       /// en translation: List parameters
       ///
@@ -1758,7 +1779,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 176 images.
+  /// This `_R.image` struct is generated, and contains static references to 180 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -2095,6 +2116,12 @@ struct _R {
     /// Image `orangeCircle`.
     var orangeCircle: RswiftResources.ImageResource { .init(name: "orangeCircle", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `pantry_context_menu`.
+    var pantry_context_menu: RswiftResources.ImageResource { .init(name: "pantry_context_menu", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `pantry_move`.
+    var pantry_move: RswiftResources.ImageResource { .init(name: "pantry_move", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `pantry_tabbar_active`.
     var pantry_tabbar_active: RswiftResources.ImageResource { .init(name: "pantry_tabbar_active", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -2247,6 +2274,12 @@ struct _R {
 
     /// Image `star_inactive`.
     var star_inactive: RswiftResources.ImageResource { .init(name: "star_inactive", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `starterpack_icon`.
+    var starterpack_icon: RswiftResources.ImageResource { .init(name: "starterpack_icon", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `starterpack_pantry`.
+    var starterpack_pantry: RswiftResources.ImageResource { .init(name: "starterpack_pantry", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `swipeTeDeleteFromFavorite`.
     var swipeTeDeleteFromFavorite: RswiftResources.ImageResource { .init(name: "swipeTeDeleteFromFavorite", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

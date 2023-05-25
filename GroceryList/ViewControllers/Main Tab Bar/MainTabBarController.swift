@@ -86,7 +86,7 @@ final class MainTabBarController: UITabBarController {
         navBackgroundView.backgroundColor = R.color.background()?.withAlphaComponent(0.9)
         navView.backgroundColor = .clear
         navView.delegate = self
-        navView.configure(with: .list)
+        navView.configure(with: .list, animate: false)
         updateUserInfo()
     }
     
@@ -211,7 +211,6 @@ extension MainTabBarController: CustomTabBarViewDelegate {
         viewModel.tappedAddItem(state: .list)
     }
 }
-
 
 extension MainTabBarController: MainTabBarViewModelDelegate {
     func updateRecipeUI(_ recipe: Recipe?) {

@@ -12,3 +12,9 @@ extension Array {
         return indices.contains(index) ? self[index] : nil
     }
 }
+
+extension Int {
+    var asString: String {
+        return "\(self)"
+    }
+}
