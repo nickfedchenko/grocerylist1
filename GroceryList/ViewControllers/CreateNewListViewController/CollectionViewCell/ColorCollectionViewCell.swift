@@ -10,6 +10,8 @@ import UIKit
 
 class ColorCollectionViewCell: UICollectionViewCell {
     
+    var isGroceryListCell = true
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupConstraints()
@@ -81,7 +83,7 @@ class ColorCollectionViewCell: UICollectionViewCell {
         }
         
         backgroundColorView.snp.makeConstraints { make in
-            make.left.right.top.bottom.equalToSuperview().inset(4)
+            make.edges.equalToSuperview().inset(isGroceryListCell ? 4 : 0)
         }
         
         roundColorView.snp.makeConstraints { make in

@@ -165,11 +165,12 @@ extension PantryViewController: PantryCellDelegate {
             collectionView.updateInteractiveMovementTargetPosition(gestureLocation)
         case .ended:
             cell.removeDragAndDropShadow()
-            collectionView.endInteractiveMovement()            
+            collectionView.endInteractiveMovement()
         default:
             cell.removeDragAndDropShadow()
             collectionView.cancelInteractiveMovement()
         }
+        
     }
     
     func tapContextMenu() {

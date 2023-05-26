@@ -208,7 +208,10 @@ extension MainTabBarController: CustomTabBarViewDelegate {
     }
     
     func tabAddItem() {
-        viewModel.tappedAddItem(state: .list)
+        let itemTag = selectedIndex
+        if let item = TabBarItemView.Item(rawValue: itemTag) {
+            viewModel.tappedAddItem(state: item)
+        }
     }
 }
 

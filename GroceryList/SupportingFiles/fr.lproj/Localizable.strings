@@ -270,3 +270,17 @@
 "Pantry & Stocks"               = "Cellier et Stocks";
 "PantryEnterStocks"             = "Cellier\net Stocks";
 "PantryStarterPackDescription"  = "Vous pouvez ajouter une description plus détaillée, la quantité, la marque et la photo\n\nVous pouvez connecter la liste de garde-manger à n'importe quelle liste de courses et les articles finis y apparaîtront automatiquement\n\nVous pouvez configurer de manière flexible des changements d'état automatiques et les marchandises se termineront à des intervalles spécifiés\n\nInvitez votre famille à partager votre foyer. Les stocks seront réapprovisionnés, le réfrigérateur sera plein et tout sera en parfait état!";
+"Baby"                          = "Bébé";
+"Medications"                   = "Médicaments";
+"Cooking supplies"              = "Fournitures de cuisine";
+"Car"                           = "Voiture";
+"Tools"                         = "Outils";
+"Handiwork"                     = "Travail manuel";
+"Subscriptions"                 = "Abonnements";
+"Sport"                         = "Sport";
+"Gifts"                         = "Cadeaux";
+
+"List name"                     = "Nom de la liste";
+"Icon"                          = "Icône";
+"Synchronize stock list"        = "Synchroniser la liste de stock avec la liste de courses";
+"Food automatically appear"     = "Les aliments ou les marchandises épuisés apparaîtront automatiquement dans la liste de courses sélectionnée";

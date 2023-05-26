@@ -440,6 +440,13 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createPantryStarterPackController() -> UIViewController {
         return PantryStarterPackViewController()
     }
+    
+    func createCreateNewPantryController(router: RootRouter) -> UIViewController {
+        let viewModel = CreateNewPantryViewModel()
+        viewModel.router = router
+        let viewController = CreateNewPantryViewController(viewModel: viewModel)
+        return viewController
+    }
 }
 
 class MyNavigationController: UINavigationController {

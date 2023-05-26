@@ -13,6 +13,7 @@ struct PantryModel: Hashable {
     var color: Int
     var icon: Data?
     var stock: [Stock]
+    var synchronizedLists: [UUID]
     
     var dateOfCreation: Date
     var sharedId: String = ""
@@ -22,14 +23,17 @@ struct PantryModel: Hashable {
     var isShowImage: BoolWithNilForCD = .nothing
     var isVisibleCost: Bool = false
     
-    init(id: UUID = UUID(), name: String, color: Int, icon: Data? = nil, stock: [Stock],
-         dateOfCreation: Date, sharedId: String, isShared: Bool,
-         isSharedListOwner: Bool, isShowImage: BoolWithNilForCD, isVisibleCost: Bool) {
+    init(id: UUID = UUID(), name: String, color: Int, icon: Data? = nil,
+         stock: [Stock] = [], synchronizedLists: [UUID] = [],
+         dateOfCreation: Date = Date(), sharedId: String = "", isShared: Bool = false,
+         isSharedListOwner: Bool = false, isShowImage: BoolWithNilForCD = .nothing,
+         isVisibleCost: Bool = false) {
         self.id = id
         self.name = name
         self.color = color
         self.icon = icon
         self.stock = stock
+        self.synchronizedLists = synchronizedLists
         self.dateOfCreation = dateOfCreation
         self.sharedId = sharedId
         self.isShared = isShared
