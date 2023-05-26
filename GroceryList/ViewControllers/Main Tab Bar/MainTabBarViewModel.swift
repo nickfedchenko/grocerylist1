@@ -48,12 +48,12 @@ final class MainTabBarViewModel {
     
     func tappedAddItem(state: TabBarItemView.Item) {
         switch state {
-        case .list:
+        case .list, .recipe:
             router?.goCreateNewList(compl: { [weak self] model, _  in
                 self?.router?.goProductsVC(model: model, compl: { })
             })
-        case .pantry: break
-        case .recipe: break
+        case .pantry:
+            router?.goToCreateNewPantry()
         }
     }
     
