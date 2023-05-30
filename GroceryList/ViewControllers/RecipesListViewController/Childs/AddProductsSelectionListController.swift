@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol AddProductsSelectionListControllerDelegate: AnyObject {
+protocol AddProductsSelectionListDelegate: AnyObject {
     func ingredientsSuccessfullyAdded()
 }
 
 final class AddProductsSelectionListController: SelectListViewController {
     var productsToAdd: [Product]
-    weak var delegate: AddProductsSelectionListControllerDelegate?
+    weak var delegate: AddProductsSelectionListDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()

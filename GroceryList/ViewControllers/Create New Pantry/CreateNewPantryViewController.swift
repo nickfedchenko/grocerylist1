@@ -84,7 +84,7 @@ class CreateNewPantryViewController: UIViewController {
         return imageView
     }()
     
-    private let selectListButton: UIButton = {
+    private lazy var selectListButton: UIButton = {
         var button = UIButton()
         button.setTitle(R.string.localizable.selectList(), for: .normal)
         button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 17).font
@@ -94,7 +94,18 @@ class CreateNewPantryViewController: UIViewController {
         button.layer.borderWidth = 1
         button.contentEdgeInsets.left = 10
         button.contentEdgeInsets.right = 10
+        button.addTarget(self, action: #selector(selectListButtonTapped), for: .touchUpInside)
         return button
+    }()
+    
+    private lazy var activeLinkedImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = .white
+        imageView.layer.cornerRadius = 7
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.borderWidth = 1
+        imageView.isHidden = true
+        return imageView
     }()
     
     private lazy var saveButton: UIButton = {
@@ -110,6 +121,7 @@ class CreateNewPantryViewController: UIViewController {
     private let templateView = PantryListTemplateView()
     private let iconView = IconSubView()
     private let sharingView = SharingView()
+    private var contentViewHeigh: Double = 700
     
     init(viewModel: CreateNewPantryViewModel) {
         self.viewModel = viewModel
@@ -164,6 +176,11 @@ class CreateNewPantryViewController: UIViewController {
                                  synchronizedLists: [])
         hidePanel()
     }
+    
+    @objc
+    private func selectListButtonTapped() {
+        viewModel.showSelectList(by: self, contentViewHeigh: contentViewHeigh)
+    }
 
     @objc
     private func keyboardWillShow(_ notification: NSNotification) {
@@ -173,6 +190,8 @@ class CreateNewPantryViewController: UIViewController {
         }
         let height = Double(keyboardFrame.height)
         updateBottomConstraint(view: contentView, with: -height)
+        updateTemplateViewConstraint()
+        contentViewHeigh = height + contentView.frame.height
     }
     
     @objc
@@ -197,9 +216,20 @@ class CreateNewPantryViewController: UIViewController {
         }
     }
     
+    private func updateTemplateViewConstraint(isVisible: Bool = true) {
+        templateView.snp.updateConstraints { make in
+            make.top.equalToSuperview().offset(isVisible ? 0 : self.view.frame.height)
+        }
+        UIView.animate(withDuration: isVisible ? 2 : 0,
+                       delay: isVisible ? 0.3 : 0) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+    
     private func hidePanel() {
         nameTextField.resignFirstResponder()
         updateBottomConstraint(view: contentView, with: 400)
+        updateTemplateViewConstraint(isVisible: false)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.dismiss(animated: false, completion: nil)
         }
@@ -208,12 +238,13 @@ class CreateNewPantryViewController: UIViewController {
     private func makeConstraints() {
         self.view.addSubviews([templateView, contentView])
         contentView.addSubviews([nameView, colorCollectionView, infoTitleLabel, infoDescriptionLabel,
-                                 synchronizeImageView, selectListButton, saveButton])
+                                 synchronizeImageView, selectListButton, activeLinkedImageView, saveButton])
         nameView.addSubviews([iconView, nameTextField, sharingView])
         
         templateView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(contentView.snp.top).offset(50)
+            $0.top.equalToSuperview().offset(self.view.frame.height)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(400)
         }
         
         contentView.snp.makeConstraints {
@@ -287,6 +318,11 @@ class CreateNewPantryViewController: UIViewController {
             $0.trailing.equalTo(infoTitleLabel)
             $0.height.equalTo(39)
         }
+        
+        activeLinkedImageView.snp.makeConstraints {
+            $0.trailing.top.equalTo(selectListButton)
+            $0.height.width.equalTo(14)
+        }
     }
 }
 
@@ -302,10 +338,19 @@ extension CreateNewPantryViewController: CreateNewPantryViewModelDelegate {
         selectListButton.layer.borderColor = theme.medium.cgColor
         selectListButton.setTitleColor(theme.dark, for: .normal)
         synchronizeImageView.image = R.image.pantry_synchronize()?.withTintColor(theme.medium)
+        activeLinkedImageView.image = R.image.activeSynchronize()?.withTintColor(theme.dark)
+        
+        if saveButton.isUserInteractionEnabled {
+            saveButton.backgroundColor = theme.dark
+        }
     }
     
     func selectedIcon(_ icon: UIImage?) {
         iconView.configure(icon: icon)
+    }
+    
+    func updateSelectListButton(isLinked: Bool) {
+        activeLinkedImageView.isHidden = !isLinked
     }
 }
 

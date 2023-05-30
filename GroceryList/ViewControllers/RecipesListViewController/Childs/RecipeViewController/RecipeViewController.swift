@@ -420,7 +420,7 @@ extension RecipeViewController: RecipeMainImageViewDelegate {
     }
 }
 
-extension RecipeViewController: AddProductsSelectionListControllerDelegate {
+extension RecipeViewController: AddProductsSelectionListDelegate {
     func ingredientsSuccessfullyAdded() {
         AmplitudeManager.shared.logEvent(.recipeAddToList)
     }

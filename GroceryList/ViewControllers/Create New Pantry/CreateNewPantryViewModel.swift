@@ -10,6 +10,7 @@ import UIKit
 protocol CreateNewPantryViewModelDelegate: AnyObject {
     func updateColor()
     func selectedIcon(_ icon: UIImage?)
+    func updateSelectListButton(isLinked: Bool)
 }
  
 final class CreateNewPantryViewModel {
@@ -88,6 +89,21 @@ final class CreateNewPantryViewModel {
         selectIconViewController.modalPresentationStyle = .overCurrentContext
         selectIconViewController.modalTransitionStyle = .crossDissolve
         viewController.present(selectIconViewController, animated: true)
+    }
+    
+    func showSelectList(by viewController: UIViewController, contentViewHeigh: Double) {
+        let dataSource = SelectListDataManager()
+        let viewModel = SelectListViewModel(dataSource: dataSource)
+        let selectListToSynchronize = SelectListToSynchronizeViewController()
+        selectListToSynchronize.viewModel = viewModel
+        selectListToSynchronize.contentViewHeigh = contentViewHeigh
+        selectListToSynchronize.selectedModelIds = []
+        selectListToSynchronize.updateUI = { [weak self] uuids in
+            self?.delegate?.updateSelectListButton(isLinked: !uuids.isEmpty)
+        }
+        selectListToSynchronize.modalPresentationStyle = .overCurrentContext
+        selectListToSynchronize.modalTransitionStyle = .crossDissolve
+        viewController.present(selectListToSynchronize, animated: true)
     }
     
     func savePantryList(name: String?, icon: UIImage?,

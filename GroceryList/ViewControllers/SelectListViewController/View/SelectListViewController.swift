@@ -22,7 +22,7 @@ class SelectListViewController: UIViewController {
     }
 
     // MARK: - UI
-    private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
+    private(set) lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
     
     let contentView: UIView = {
         let view = UIView()
@@ -119,6 +119,42 @@ class SelectListViewController: UIViewController {
         }
     }
     
+    func createTableViewDataSource() {
+        collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
+                                                                      cellProvider: { [weak self] _, indexPath, model in
+            
+            let cell = self?.collectionView.dequeueReusableCell(withReuseIdentifier: "SelectListCollectionCell",
+                                                                for: indexPath) as? SelectListCollectionCell
+            guard let viewModel = self?.viewModel else { return UICollectionViewCell() }
+            let name = viewModel.getNameOfList(at: indexPath)
+            let isTopRouned = viewModel.isTopRounded(at: indexPath)
+            let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
+            let numberOfItems = viewModel.getNumberOfProductsInside(at: indexPath)
+            let color = viewModel.getBGColor(at: indexPath)
+            cell?.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
+                            isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
+            cell?.setupSharing(state: viewModel.getSharingState(model),
+                              color: color,
+                              image: viewModel.getShareImages(model))
+            
+            return cell
+        })
+        addHeaderToCollectionView()
+    }
+    
+    func addHeaderToCollectionView() {
+        collectionViewDataSource?.supplementaryViewProvider = { [weak self]  collectionView, kind, indexPath in
+            guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                                      withReuseIdentifier: "GroceryCollectionViewHeader",
+                                                                                      for: indexPath) as? GroceryCollectionViewHeader else { return nil }
+            
+            guard let model = self?.collectionViewDataSource?.itemIdentifier(for: indexPath) else { return nil }
+            guard let section = self?.collectionViewDataSource?.snapshot().sectionIdentifier(containingItem: model) else { return nil }
+            sectionHeader.setupHeader(sectionType: section.sectionType)
+            return sectionHeader
+        }
+    }
+    
     // MARK: - Constraints
     private func updateConstr(with inset: Double, compl: (() -> Void)?) {
         UIView.animate(withDuration: 0.3) { [weak self] in
@@ -129,6 +165,15 @@ class SelectListViewController: UIViewController {
             self.view.layoutIfNeeded()
         } completion: { _ in
             compl?()
+        }
+    }
+    
+    func hidePanel() {
+        self.view.backgroundColor = .clear
+        updateConstr(with: -contentViewHeigh) {
+            self.dismiss(animated: true, completion: { [weak self] in
+                self?.viewModel?.controllerDissmissed()
+            })
         }
     }
 
@@ -217,42 +262,6 @@ extension SelectListViewController: UICollectionViewDelegate {
                                 withReuseIdentifier: "GroceryCollectionViewHeader")
     }
     
-    private func createTableViewDataSource() {
-        collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
-                                                                      cellProvider: { [weak self] _, indexPath, model in
-            
-            let cell = self?.collectionView.dequeueReusableCell(withReuseIdentifier: "SelectListCollectionCell",
-                                                                for: indexPath) as? SelectListCollectionCell
-            guard let viewModel = self?.viewModel else { return UICollectionViewCell() }
-            let name = viewModel.getNameOfList(at: indexPath)
-            let isTopRouned = viewModel.isTopRounded(at: indexPath)
-            let isBottomRounded = viewModel.isBottomRounded(at: indexPath)
-            let numberOfItems = viewModel.getNumberOfProductsInside(at: indexPath)
-            let color = viewModel.getBGColor(at: indexPath)
-            cell?.setupCell(nameOfList: name, bckgColor: color, isTopRounded: isTopRouned,
-                            isBottomRounded: isBottomRounded, numberOfItemsInside: numberOfItems, isFavorite: model.isFavorite)
-            cell?.setupSharing(state: viewModel.getSharingState(model),
-                              color: color,
-                              image: viewModel.getShareImages(model))
-            
-            return cell
-        })
-        addHeaderToCollectionView()
-    }
-    
-    private func addHeaderToCollectionView() {
-        collectionViewDataSource?.supplementaryViewProvider = { [weak self]  collectionView, kind, indexPath in
-            guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                                      withReuseIdentifier: "GroceryCollectionViewHeader",
-                                                                                      for: indexPath) as? GroceryCollectionViewHeader else { return nil }
-            
-            guard let model = self?.collectionViewDataSource?.itemIdentifier(for: indexPath) else { return nil }
-            guard let section = self?.collectionViewDataSource?.snapshot().sectionIdentifier(containingItem: model) else { return nil }
-            sectionHeader.setupHeader(sectionType: section.sectionType)
-            return sectionHeader
-        }
-    }
-    
     // ReloadData
     private func reloadData() {
         var snapshot = NSDiffableDataSourceSnapshot<SectionModel, GroceryListsModel>()
@@ -322,15 +331,6 @@ extension SelectListViewController {
         let tempTranslation = recognizer.translation(in: contentView)
         if tempTranslation.y >= 100 {
             hidePanel()
-        }
-    }
-    
-    private func hidePanel() {
-        self.view.backgroundColor = .clear
-        updateConstr(with: -contentViewHeigh) {
-            self.dismiss(animated: true, completion: { [weak self] in
-                self?.viewModel?.controllerDissmissed()
-            })
         }
     }
 }
