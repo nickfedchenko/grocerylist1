@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 249 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 251 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -654,6 +654,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var monthly: RswiftResources.StringResource { .init(key: "Monthly", tableName: "Localizable", source: source, developmentValue: "Monthly", comment: nil) }
 
+      /// en translation: More 
+      ///
+      /// Key: More
+      ///
+      /// Locales: en, ru, fr, de
+      var more: RswiftResources.StringResource { .init(key: "More", tableName: "Localizable", source: source, developmentValue: "More ", comment: nil) }
+
       /// en translation: Most Popular
       ///
       /// Key: MostPopular
@@ -1003,6 +1010,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var searchInAllRecipes: RswiftResources.StringResource { .init(key: "Search in all recipes", tableName: "Localizable", source: source, developmentValue: "Search in all recipes", comment: nil) }
+
+      /// en translation: Select Icon
+      ///
+      /// Key: Select Icon
+      ///
+      /// Locales: en, ru, fr, de
+      var selectIcon: RswiftResources.StringResource { .init(key: "Select Icon", tableName: "Localizable", source: source, developmentValue: "Select Icon", comment: nil) }
 
       /// en translation: Select list
       ///
@@ -2521,7 +2535,7 @@ struct _R {
     }
   }
 
-  /// This `_R.file` struct is generated, and contains static references to 19 resource files.
+  /// This `_R.file` struct is generated, and contains static references to 20 resource files.
   struct file {
     let bundle: Foundation.Bundle
 
@@ -2581,6 +2595,9 @@ struct _R {
 
     /// Resource file `SF-Compact-Display-Semibold.otf`.
     var sfCompactDisplaySemiboldOtf: RswiftResources.FileResource { .init(name: "SF-Compact-Display-Semibold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
+
+    /// Resource file `defaults_icon.bundle`.
+    var defaults_iconBundle: RswiftResources.FileResource { .init(name: "defaults_icon", pathExtension: "bundle", bundle: bundle, locale: LocaleReference.none) }
   }
 
   /// This `_R.storyboard` struct is generated, and contains static references to 1 storyboards.

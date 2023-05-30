@@ -129,8 +129,7 @@ class CreateNewPantryViewController: UIViewController {
         updateColor()
         makeConstraints()
         
-        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
-        contentView.addGestureRecognizer(panRecognizer)
+        addRecognizer()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -150,6 +149,14 @@ class CreateNewPantryViewController: UIViewController {
         saveButton.isUserInteractionEnabled = isActive
     }
     
+    private func addRecognizer() {
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
+        contentView.addGestureRecognizer(panRecognizer)
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOnIconView))
+        iconView.addGestureRecognizer(tapRecognizer)
+    }
+    
     @objc
     private func saveButtonTapped() {
         viewModel.savePantryList(name: nameTextField.text,
@@ -165,7 +172,7 @@ class CreateNewPantryViewController: UIViewController {
             return
         }
         let height = Double(keyboardFrame.height)
-        updateContentViewConstraint(with: height)
+        updateBottomConstraint(view: contentView, with: -height)
     }
     
     @objc
@@ -176,9 +183,14 @@ class CreateNewPantryViewController: UIViewController {
         }
     }
     
-    func updateContentViewConstraint(with inset: Double) {
-        contentView.snp.updateConstraints { make in
-            make.bottom.equalToSuperview().inset(inset)
+    @objc
+    private func tapOnIconView() {
+        viewModel.showAllIcons(by: self, icon: iconView.icon)
+    }
+    
+    private func updateBottomConstraint(view: UIView, with offset: Double) {
+        view.snp.updateConstraints { make in
+            make.bottom.equalToSuperview().offset(offset)
         }
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.view.layoutIfNeeded()
@@ -187,7 +199,7 @@ class CreateNewPantryViewController: UIViewController {
     
     private func hidePanel() {
         nameTextField.resignFirstResponder()
-        updateContentViewConstraint(with: -400)
+        updateBottomConstraint(view: contentView, with: 400)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.dismiss(animated: false, completion: nil)
         }
@@ -290,6 +302,10 @@ extension CreateNewPantryViewController: CreateNewPantryViewModelDelegate {
         selectListButton.layer.borderColor = theme.medium.cgColor
         selectListButton.setTitleColor(theme.dark, for: .normal)
         synchronizeImageView.image = R.image.pantry_synchronize()?.withTintColor(theme.medium)
+    }
+    
+    func selectedIcon(_ icon: UIImage?) {
+        iconView.configure(icon: icon)
     }
 }
 
