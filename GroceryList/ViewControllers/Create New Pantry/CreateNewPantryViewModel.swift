@@ -9,6 +9,7 @@ import UIKit
 
 protocol CreateNewPantryViewModelDelegate: AnyObject {
     func updateColor()
+    func selectedIcon(_ icon: UIImage?)
 }
  
 final class CreateNewPantryViewModel {
@@ -75,6 +76,18 @@ final class CreateNewPantryViewModel {
     
     func selectedTemplate(by index: Int) -> PantryListTemplate {
         return pantryListTemplates[index]
+    }
+    
+    func showAllIcons(by viewController: UIViewController, icon: UIImage?) {
+        let selectIconViewController = SelectIconViewController()
+        selectIconViewController.icon = icon
+        selectIconViewController.updateColor(theme: selectedTheme)
+        selectIconViewController.selectedIcon = { [weak self] icon in
+            self?.delegate?.selectedIcon(icon)
+        }
+        selectIconViewController.modalPresentationStyle = .overCurrentContext
+        selectIconViewController.modalTransitionStyle = .crossDissolve
+        viewController.present(selectIconViewController, animated: true)
     }
     
     func savePantryList(name: String?, icon: UIImage?,

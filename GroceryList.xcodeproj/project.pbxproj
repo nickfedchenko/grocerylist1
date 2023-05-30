@@ -26,6 +26,10 @@
 		334009F129E9956800A04978 /* QuantityOfProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009F029E9956800A04978 /* QuantityOfProductView.swift */; };
 		3342C9BB2A1460900010DA4A /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3342C9BA2A1460900010DA4A /* FeedbackViewModel.swift */; };
 		3342C9BD2A146D290010DA4A /* FeedbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3342C9BC2A146D290010DA4A /* FeedbackManager.swift */; };
+		334764462A24B747008F4834 /* SelectIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764452A24B747008F4834 /* SelectIconView.swift */; };
+		334764482A24EE48008F4834 /* SelectIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764472A24EE48008F4834 /* SelectIconViewController.swift */; };
+		3347644A2A257D17008F4834 /* defaults_icon.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 334764492A257D17008F4834 /* defaults_icon.bundle */; };
+		3347644D2A258E49008F4834 /* IconCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */; };
 		334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */; };
 		334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */; };
 		334BAE53299E6606005F52F5 /* SharingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE52299E6606005F52F5 /* SharingListViewModel.swift */; };
@@ -309,6 +313,10 @@
 		334009F029E9956800A04978 /* QuantityOfProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityOfProductView.swift; sourceTree = "<group>"; };
 		3342C9BA2A1460900010DA4A /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
 		3342C9BC2A146D290010DA4A /* FeedbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackManager.swift; sourceTree = "<group>"; };
+		334764452A24B747008F4834 /* SelectIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIconView.swift; sourceTree = "<group>"; };
+		334764472A24EE48008F4834 /* SelectIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIconViewController.swift; sourceTree = "<group>"; };
+		334764492A257D17008F4834 /* defaults_icon.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = defaults_icon.bundle; sourceTree = "<group>"; };
+		3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCollectionViewCell.swift; sourceTree = "<group>"; };
 		334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingPopUpViewController.swift; sourceTree = "<group>"; };
 		334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewController.swift; sourceTree = "<group>"; };
 		334BAE52299E6606005F52F5 /* SharingListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewModel.swift; sourceTree = "<group>"; };
@@ -646,6 +654,16 @@
 				33796E5C2A136F14009AD385 /* AutoCategoryInfoView.swift */,
 			);
 			path = subView;
+			sourceTree = "<group>";
+		};
+		3347644B2A2582EB008F4834 /* Select Icon */ = {
+			isa = PBXGroup;
+			children = (
+				334764472A24EE48008F4834 /* SelectIconViewController.swift */,
+				334764452A24B747008F4834 /* SelectIconView.swift */,
+				3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */,
+			);
+			path = "Select Icon";
 			sourceTree = "<group>";
 		};
 		334BAE4B299DF88F005F52F5 /* Sharing */ = {
@@ -1186,6 +1204,7 @@
 		B33EFF0D290FF02800AD9BEE /* GroceryList */ = {
 			isa = PBXGroup;
 			children = (
+				334764492A257D17008F4834 /* defaults_icon.bundle */,
 				386CFACF2995BA4D00B4AD76 /* GroceryList.entitlements */,
 				840C18A0297FC5130006F975 /* GroceryListRelease.entitlements */,
 				B37A2CD42910EE77003C01AD /* Services */,
@@ -1539,6 +1558,7 @@
 				383C77F4293F79D60030AE78 /* RecipesListViewController */,
 				332340952A1B918300609813 /* Pantry */,
 				33995D302A1F9694003FECAE /* Create New Pantry */,
+				3347644B2A2582EB008F4834 /* Select Icon */,
 				33F8253529C050B700B349D5 /* Search */,
 				334BAE4B299DF88F005F52F5 /* Sharing */,
 				3379B64C29B755B20080923A /* Collection */,
@@ -1856,6 +1876,7 @@
 				B3981C64297A89E800206DB7 /* SF Pro Text Heavy.otf in Resources */,
 				B33EFF18290FF02900AD9BEE /* Assets.xcassets in Resources */,
 				33C8DB8729DFE873009F4760 /* SF-Compact-Display-Semibold.otf in Resources */,
+				3347644A2A257D17008F4834 /* defaults_icon.bundle in Resources */,
 				B36AF93D2913CEE900944E9D /* SF Pro Display Bold.otf in Resources */,
 				B3981C58297A86EE00206DB7 /* SF Pro Rounded Medium.otf in Resources */,
 				B3981C56297A86EA00206DB7 /* SF Pro Rounded Bold.otf in Resources */,
@@ -2010,6 +2031,7 @@
 				B315F9DC29892EA00009CEB8 /* CheckmarkView.swift in Sources */,
 				840C189F2978D2230006F975 /* Int+Extensions.swift in Sources */,
 				B381EF1D299A573500DCDE40 /* UserAccountManager.swift in Sources */,
+				334764482A24EE48008F4834 /* SelectIconViewController.swift in Sources */,
 				33A51B8D2A17171400BE11C1 /* MainTabBarViewModel.swift in Sources */,
 				B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */,
 				846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */,
@@ -2074,6 +2096,7 @@
 				33995D202A1C5C88003FECAE /* PantryStarterPackViewController.swift in Sources */,
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
+				3347644D2A258E49008F4834 /* IconCollectionViewCell.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
 				337E79D429E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift in Sources */,
 				B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */,
@@ -2201,6 +2224,7 @@
 				3328AD86299CF40800187B57 /* SharingView.swift in Sources */,
 				3342C9BB2A1460900010DA4A /* FeedbackViewModel.swift in Sources */,
 				33995D292A1D0824003FECAE /* PantryCell.swift in Sources */,
+				334764462A24B747008F4834 /* SelectIconView.swift in Sources */,
 				3368FD7A29B7348100D97291 /* DBCollection+CoreDataProperties.swift in Sources */,
 				B381EF17299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift in Sources */,
 				38F4903F2946DC6A00529D1F /* IngredientView.swift in Sources */,

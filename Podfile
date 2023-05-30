@@ -21,6 +21,7 @@ target 'GroceryList' do
   pod 'Firebase/RemoteConfig'
   
   pod 'NVActivityIndicatorView'
+  pod 'SFSafeSymbols', '~> 4.1.1'
   
   # Pods for GroceryList
 

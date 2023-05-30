@@ -34,6 +34,8 @@ final class IconSubView: UIView {
     
     private let iconImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .white
         return imageView
     }()
     
@@ -90,6 +92,10 @@ final class IconSubView: UIView {
             capitalLetterLabel.text = name.first?.uppercased()
             return
         }
+        configure(icon: icon)
+    }
+    
+    func configure(icon: UIImage?) {
         iconImageView.image = icon
         titleLabel.isHidden = true
         dashImageView.isHidden = true
