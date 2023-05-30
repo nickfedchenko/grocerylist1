@@ -30,6 +30,7 @@
 		334764482A24EE48008F4834 /* SelectIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764472A24EE48008F4834 /* SelectIconViewController.swift */; };
 		3347644A2A257D17008F4834 /* defaults_icon.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 334764492A257D17008F4834 /* defaults_icon.bundle */; };
 		3347644D2A258E49008F4834 /* IconCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */; };
+		3347644F2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347644E2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift */; };
 		334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */; };
 		334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */; };
 		334BAE53299E6606005F52F5 /* SharingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE52299E6606005F52F5 /* SharingListViewModel.swift */; };
@@ -317,6 +318,7 @@
 		334764472A24EE48008F4834 /* SelectIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIconViewController.swift; sourceTree = "<group>"; };
 		334764492A257D17008F4834 /* defaults_icon.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = defaults_icon.bundle; sourceTree = "<group>"; };
 		3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCollectionViewCell.swift; sourceTree = "<group>"; };
+		3347644E2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListToSynchronizeViewController.swift; sourceTree = "<group>"; };
 		334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingPopUpViewController.swift; sourceTree = "<group>"; };
 		334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewController.swift; sourceTree = "<group>"; };
 		334BAE52299E6606005F52F5 /* SharingListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewModel.swift; sourceTree = "<group>"; };
@@ -656,14 +658,23 @@
 			path = subView;
 			sourceTree = "<group>";
 		};
-		3347644B2A2582EB008F4834 /* Select Icon */ = {
+		3347644B2A2582EB008F4834 /* Select Icon for pantry */ = {
 			isa = PBXGroup;
 			children = (
 				334764472A24EE48008F4834 /* SelectIconViewController.swift */,
 				334764452A24B747008F4834 /* SelectIconView.swift */,
 				3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */,
 			);
-			path = "Select Icon";
+			path = "Select Icon for pantry";
+			sourceTree = "<group>";
+		};
+		334764502A261193008F4834 /* Child */ = {
+			isa = PBXGroup;
+			children = (
+				3347644B2A2582EB008F4834 /* Select Icon for pantry */,
+				3347644E2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift */,
+			);
+			path = Child;
 			sourceTree = "<group>";
 		};
 		334BAE4B299DF88F005F52F5 /* Sharing */ = {
@@ -864,6 +875,7 @@
 		33995D302A1F9694003FECAE /* Create New Pantry */ = {
 			isa = PBXGroup;
 			children = (
+				334764502A261193008F4834 /* Child */,
 				33995D332A1F96C7003FECAE /* CreateNewPantryViewModel.swift */,
 				33995D312A1F96BE003FECAE /* CreateNewPantryViewController.swift */,
 				33995D352A1F9F86003FECAE /* subViews */,
@@ -1558,7 +1570,6 @@
 				383C77F4293F79D60030AE78 /* RecipesListViewController */,
 				332340952A1B918300609813 /* Pantry */,
 				33995D302A1F9694003FECAE /* Create New Pantry */,
-				3347644B2A2582EB008F4834 /* Select Icon */,
 				33F8253529C050B700B349D5 /* Search */,
 				334BAE4B299DF88F005F52F5 /* Sharing */,
 				3379B64C29B755B20080923A /* Collection */,
@@ -2238,6 +2249,7 @@
 				335519C429AE26CE00AD2B77 /* MainScreenMenuView.swift in Sources */,
 				38F49043294771A500529D1F /* InstructionView.swift in Sources */,
 				333E2D3029EFC2E000F705E7 /* DBStore+CoreDataClass.swift in Sources */,
+				3347644F2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift in Sources */,
 				B3AD42D72991135E0043A37F /* CurrentLocale.swift in Sources */,
 				844FC63B2978B825008173AA /* ReviewCell.swift in Sources */,
 				B30573BD29222D4500CA8BDE /* ProductListCell.swift in Sources */,

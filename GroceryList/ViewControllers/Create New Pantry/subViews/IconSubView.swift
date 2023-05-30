@@ -96,7 +96,7 @@ final class IconSubView: UIView {
     }
     
     func configure(icon: UIImage?) {
-        iconImageView.image = icon
+        iconImageView.image = icon?.withTintColor(.white)
         titleLabel.isHidden = true
         dashImageView.isHidden = true
         dotsView.isHidden = true
@@ -127,7 +127,8 @@ final class IconSubView: UIView {
         }
         
         iconImageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.center.equalToSuperview()
+            $0.height.width.equalTo(32)
         }
         
         dotsView.snp.makeConstraints {
@@ -139,7 +140,7 @@ final class IconSubView: UIView {
         dotsImageView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.height.equalTo(2)
-            $0.height.equalTo(6)
+            $0.width.equalTo(6)
         }
     }
 }

@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 251 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 252 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -1018,6 +1018,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var selectIcon: RswiftResources.StringResource { .init(key: "Select Icon", tableName: "Localizable", source: source, developmentValue: "Select Icon", comment: nil) }
 
+      /// en translation: Select List to Synchronize
+      ///
+      /// Key: Select List to Synchronize
+      ///
+      /// Locales: en, ru, fr, de
+      var selectListToSynchronize: RswiftResources.StringResource { .init(key: "Select List to Synchronize", tableName: "Localizable", source: source, developmentValue: "Select List to Synchronize", comment: nil) }
+
       /// en translation: Select list
       ///
       /// Key: Select list
@@ -1877,7 +1884,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 192 images.
+  /// This `_R.image` struct is generated, and contains static references to 194 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -2058,6 +2065,9 @@ struct _R {
     /// Image `X-markInput`.
     var xMarkInput: RswiftResources.ImageResource { .init(name: "X-markInput", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `activeSynchronize`.
+    var activeSynchronize: RswiftResources.ImageResource { .init(name: "activeSynchronize", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `addItemImage`.
     var addItemImage: RswiftResources.ImageResource { .init(name: "addItemImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -2207,6 +2217,9 @@ struct _R {
 
     /// Image `hand_white`.
     var hand_white: RswiftResources.ImageResource { .init(name: "hand_white", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `inactiveSynchronize`.
+    var inactiveSynchronize: RswiftResources.ImageResource { .init(name: "inactiveSynchronize", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `list_tabbar_active`.
     var list_tabbar_active: RswiftResources.ImageResource { .init(name: "list_tabbar_active", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

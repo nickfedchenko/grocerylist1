@@ -28,7 +28,7 @@ final class PantryListTemplateView: UIView {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.contentInset.bottom = 100
+        collectionView.contentInset.bottom = 300
         collectionView.contentInset.top = 12
         return collectionView
     }()

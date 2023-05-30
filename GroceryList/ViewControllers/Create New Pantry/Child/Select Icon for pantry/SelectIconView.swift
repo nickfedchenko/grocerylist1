@@ -173,14 +173,14 @@ final class SelectIconView: UIView {
         defaultCollectionView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.leading.equalToSuperview().offset(43)
-            $0.width.equalTo(344)
+            $0.width.equalToSuperview().multipliedBy(0.78)
             $0.bottom.equalToSuperview().offset(-16)
         }
         
         moreCollectionView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.leading.equalTo(defaultCollectionView.snp.trailing).offset(129)
-            $0.width.equalTo(344)
+            $0.width.equalToSuperview().multipliedBy(0.78)
             $0.bottom.equalToSuperview().offset(-16)
         }
     }
