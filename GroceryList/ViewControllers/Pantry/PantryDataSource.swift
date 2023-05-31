@@ -9,6 +9,8 @@ import Foundation
 
 final class PantryDataSource {
     
+    var reloadData: (() -> Void)?
+    
     private var pantries: [PantryModel] = []
     
     init() {
@@ -27,15 +29,6 @@ final class PantryDataSource {
                         isShowImage: .itsTrue, isVisibleCost: false),
             PantryModel(name: "test3", color: 4, icon: icon, stock: [], dateOfCreation: Date(),
                         sharedId: "", isShared: false, isSharedListOwner: false,
-                        isShowImage: .itsTrue, isVisibleCost: false),
-            PantryModel(name: "eree", color: 6, icon: icon, stock: [], dateOfCreation: Date(),
-                        sharedId: "", isShared: false, isSharedListOwner: false,
-                        isShowImage: .itsTrue, isVisibleCost: false),
-            PantryModel(name: "xcvxcvxcv", color: 9, icon: icon, stock: [], dateOfCreation: Date(),
-                        sharedId: "", isShared: false, isSharedListOwner: false,
-                        isShowImage: .itsTrue, isVisibleCost: false),
-            PantryModel(name: "fgjfgj", color: 11, icon: icon, stock: [], dateOfCreation: Date(),
-                        sharedId: "", isShared: false, isSharedListOwner: false,
                         isShowImage: .itsTrue, isVisibleCost: false)
         ]
     }
@@ -48,8 +41,21 @@ final class PantryDataSource {
         pantries = updatedPantries
     }
     
+    func addPantry(_ pantry: PantryModel) {
+        if pantries.contains(where: { $0.id == pantry.id }) {
+            pantries.removeAll { pantry.id == $0.id }
+        }
+        pantries.append(pantry)
+        reloadData?()
+    }
+    
     func movePantry(source: Int, destination: Int) {
         let item = pantries.remove(at: source)
         pantries.insert(item, at: destination)
+    }
+    
+    func delete(pantry: PantryModel) {
+        pantries.removeAll { pantry.id == $0.id }
+        reloadData?()
     }
 }

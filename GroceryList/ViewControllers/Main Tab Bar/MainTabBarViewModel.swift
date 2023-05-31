@@ -9,12 +9,13 @@ import UIKit
 
 protocol MainTabBarViewModelDelegate: AnyObject {
     func updateRecipeUI(_ recipe: Recipe?)
+    func updatePantryUI(_ pantry: PantryModel)
 }
 
 final class MainTabBarViewModel {
     
     weak var router: RootRouter?
-    weak var recipeDelegate: MainTabBarViewModelDelegate?
+    weak var delegate: MainTabBarViewModelDelegate?
     
     private var isRightHanded: Bool
     private let viewControllers: [UIViewController]
@@ -53,25 +54,27 @@ final class MainTabBarViewModel {
                 self?.router?.goProductsVC(model: model, compl: { })
             })
         case .pantry:
-            router?.goToCreateNewPantry()
+            router?.goToCreateNewPantry(currentPantry: nil, updateUI: { [weak self] pantry in
+                self?.delegate?.updatePantryUI(pantry)
+            })
         }
     }
     
     func createNewRecipeTapped() {
         router?.goToCreateNewRecipe(compl: { [weak self] recipe in
-            self?.recipeDelegate?.updateRecipeUI(recipe)
+            self?.delegate?.updateRecipeUI(recipe)
         })
     }
     
     func createNewCollectionTapped() {
         router?.goToCreateNewCollection(compl: { [weak self] _ in
-            self?.recipeDelegate?.updateRecipeUI(nil)
+            self?.delegate?.updateRecipeUI(nil)
         })
     }
     
     func showCollection() {
         router?.goToShowCollection(state: .edit, updateUI: { [weak self] in
-            self?.recipeDelegate?.updateRecipeUI(nil)
+            self?.delegate?.updateRecipeUI(nil)
         })
     }
     

@@ -9,12 +9,13 @@ import UIKit
 
 protocol PantryCellDelegate: AnyObject {
     func tapMoveButton(gesture: UILongPressGestureRecognizer)
-    func tapContextMenu()
+    func tapContextMenu(point: CGPoint, cell: PantryCell)
+    func tapSharing(cell: PantryCell)
 }
 
 final class PantryCell: UICollectionViewCell {
     
-    struct PantryCellModel {
+    struct CellModel {
         let theme: Theme
         let name: String
         let icon: UIImage?
@@ -76,7 +77,7 @@ final class PantryCell: UICollectionViewCell {
         clearCell()
     }
     
-    func configure(_ cellModel: PantryCellModel) {
+    func configure(_ cellModel: CellModel) {
         topColorView.backgroundColor = cellModel.theme.medium
         if let icon = cellModel.icon {
             iconImageView.image = icon.withTintColor(.white)
@@ -87,7 +88,7 @@ final class PantryCell: UICollectionViewCell {
         }
         
         nameLabel.text = cellModel.name
-        sharingView.configure(state: cellModel.sharingState, viewState: .main,
+        sharingView.configure(state: cellModel.sharingState, viewState: .pantry,
                               color: cellModel.theme.medium, images: cellModel.sharingUser)
         
         bottomColorContainer.backgroundColor = cellModel.theme.medium
@@ -133,9 +134,12 @@ final class PantryCell: UICollectionViewCell {
         bottomWhiteView.layer.cornerRadius = 8
         bottomWhiteView.layer.maskedCorners = [.layerMinXMinYCorner]
         
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture))
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressOnMoveButton))
         moveImageView.isUserInteractionEnabled = true
         moveImageView.addGestureRecognizer(longPressGesture)
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOnSharingView))
+        sharingView.addGestureRecognizer(tapRecognizer)
     }
     
     private func clearCell() {
@@ -151,13 +155,18 @@ final class PantryCell: UICollectionViewCell {
     }
     
     @objc
-    private func handleLongPressGesture(_ gesture: UILongPressGestureRecognizer) {        
+    private func longPressOnMoveButton(_ gesture: UILongPressGestureRecognizer) {        
         delegate?.tapMoveButton(gesture: gesture)
     }
     
     @objc
     private func tappedContextMenuButton() {
-        delegate?.tapContextMenu()
+        delegate?.tapContextMenu(point: contextMenuButton.center, cell: self)
+    }
+    
+    @objc
+    private func tapOnSharingView() {
+        delegate?.tapSharing(cell: self)
     }
     
     private func makeConstraints() {

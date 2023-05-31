@@ -12,7 +12,7 @@ protocol CustomTabBarViewDelegate: AnyObject {
     func tabAddItem()
 }
 
-final class CustomTabBarView: UIView {
+final class CustomTabBarView: ViewWithOverriddenPoint {
     
     weak var delegate: CustomTabBarViewDelegate?
     
