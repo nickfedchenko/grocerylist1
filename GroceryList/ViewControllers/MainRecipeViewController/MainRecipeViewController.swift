@@ -23,8 +23,8 @@ final class MainRecipeViewController: UIViewController {
         collectionView.register(classCell: RecipePreviewCell.self)
         collectionView.register(classCell: MoreRecipeCell.self)
         collectionView.registerHeader(classHeader: RecipesFolderHeader.self)
-        collectionView.contentInset.bottom = 10
-        collectionView.contentInset.top = UIView.safeAreaTop
+        collectionView.contentInset.bottom = 20
+        collectionView.contentInset.top = topContentInset
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
@@ -34,6 +34,10 @@ final class MainRecipeViewController: UIViewController {
     private var collectionViewLayoutManager = MainRecipeCollectionViewLayout()
     private let activityView = ActivityIndicatorView()
     private var isShowFirstViewWillAppear = false
+    private var topContentInset: CGFloat {
+        let topSafeArea = UIView.safeAreaTop
+        return topSafeArea > 24 ? topSafeArea : topSafeArea + 44
+    }
 
     init(viewModel: MainRecipeViewModel) {
         self.viewModel = viewModel

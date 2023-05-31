@@ -31,6 +31,7 @@
 		3347644A2A257D17008F4834 /* defaults_icon.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 334764492A257D17008F4834 /* defaults_icon.bundle */; };
 		3347644D2A258E49008F4834 /* IconCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */; };
 		3347644F2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347644E2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift */; };
+		334764522A264B4F008F4834 /* PantryEditMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764512A264B4F008F4834 /* PantryEditMenuView.swift */; };
 		334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */; };
 		334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */; };
 		334BAE53299E6606005F52F5 /* SharingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE52299E6606005F52F5 /* SharingListViewModel.swift */; };
@@ -319,6 +320,7 @@
 		334764492A257D17008F4834 /* defaults_icon.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = defaults_icon.bundle; sourceTree = "<group>"; };
 		3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCollectionViewCell.swift; sourceTree = "<group>"; };
 		3347644E2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListToSynchronizeViewController.swift; sourceTree = "<group>"; };
+		334764512A264B4F008F4834 /* PantryEditMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryEditMenuView.swift; sourceTree = "<group>"; };
 		334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingPopUpViewController.swift; sourceTree = "<group>"; };
 		334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewController.swift; sourceTree = "<group>"; };
 		334BAE52299E6606005F52F5 /* SharingListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewModel.swift; sourceTree = "<group>"; };
@@ -630,6 +632,7 @@
 				332340962A1B91B300609813 /* PantryViewController.swift */,
 				33995D2C2A1DACB1003FECAE /* PantryCollectionViewLayout.swift */,
 				3323409A2A1B91CB00609813 /* PantryDataSource.swift */,
+				334764512A264B4F008F4834 /* PantryEditMenuView.swift */,
 				33995D272A1D0806003FECAE /* Cell */,
 				33995D212A1C5C91003FECAE /* StarterPack */,
 			);
@@ -2106,6 +2109,7 @@
 				3368FD6C29B6F9F700D97291 /* CollectionModel.swift in Sources */,
 				33995D202A1C5C88003FECAE /* PantryStarterPackViewController.swift in Sources */,
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
+				334764522A264B4F008F4834 /* PantryEditMenuView.swift in Sources */,
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
 				3347644D2A258E49008F4834 /* IconCollectionViewCell.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,

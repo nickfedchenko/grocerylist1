@@ -277,8 +277,9 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func goToCreateNewPantry() {
-        let controller = viewControllerFactory.createCreateNewPantryController(router: self)
+    func goToCreateNewPantry(currentPantry: PantryModel?, updateUI: @escaping ((PantryModel) -> Void)) {
+        let controller = viewControllerFactory.createCreateNewPantryController(currentPantry: currentPantry,
+                                                                               updateUI: updateUI, router: self)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
     }

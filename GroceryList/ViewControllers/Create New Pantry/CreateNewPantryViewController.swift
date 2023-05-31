@@ -138,6 +138,7 @@ class CreateNewPantryViewController: UIViewController {
         nameTextField.becomeFirstResponder()
         
         setupTemplates()
+        setupCurrentPantry()
         updateColor()
         makeConstraints()
         
@@ -145,6 +146,23 @@ class CreateNewPantryViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    private func setupCurrentPantry() {
+        guard let pantry = viewModel.currentPantry else {
+            return
+        }
+        var pantryIcon: UIImage?
+        if let iconData = pantry.icon, let icon = UIImage(data: iconData) {
+            pantryIcon = icon
+        }
+        iconView.configure(icon: pantryIcon,
+                           name: pantry.name)
+        nameTextField.text = pantry.name
+        activeLinkedImageView.isHidden = pantry.synchronizedLists.isEmpty
+        colorCollectionView.selectItem(at: IndexPath(row: pantry.color, section: 0),
+                                       animated: false, scrollPosition: .left)
+        
     }
     
     private func setupTemplates() {
@@ -172,8 +190,7 @@ class CreateNewPantryViewController: UIViewController {
     @objc
     private func saveButtonTapped() {
         viewModel.savePantryList(name: nameTextField.text,
-                                 icon: iconView.icon,
-                                 synchronizedLists: [])
+                                 icon: iconView.icon)
         hidePanel()
     }
     

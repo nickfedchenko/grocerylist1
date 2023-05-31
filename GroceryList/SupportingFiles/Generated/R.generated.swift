@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 252 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 253 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -373,6 +373,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var drinks: RswiftResources.StringResource { .init(key: "Drinks", tableName: "Localizable", source: source, developmentValue: "Drinks", comment: nil) }
+
+      /// en translation: Edit List
+      ///
+      /// Key: Edit List
+      ///
+      /// Locales: en, ru, fr, de
+      var editList: RswiftResources.StringResource { .init(key: "Edit List", tableName: "Localizable", source: source, developmentValue: "Edit List", comment: nil) }
 
       /// en translation: This e-mail is already taken
       ///
@@ -1884,7 +1891,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 194 images.
+  /// This `_R.image` struct is generated, and contains static references to 195 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1974,6 +1981,9 @@ struct _R {
 
     /// Image `Handiwork`.
     var handiwork: RswiftResources.ImageResource { .init(name: "Handiwork", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `List Settings`.
+    var listSettings: RswiftResources.ImageResource { .init(name: "List Settings", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Marker`.
     var marker: RswiftResources.ImageResource { .init(name: "Marker", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

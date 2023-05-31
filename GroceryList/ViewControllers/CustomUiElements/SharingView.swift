@@ -19,6 +19,7 @@ final class SharingView: UIView {
         case main
         case products
         case productsSettings
+        case pantry
     }
     
     private lazy var firstImageView: UIImageView = createImageView()
@@ -163,10 +164,18 @@ final class SharingView: UIView {
     private func configurePlusImage(imageView: UIImageView, color: UIColor,
                                     viewState: ViewState, imagesIsEmpty: Bool) {
         var image = R.image.sharing_plus()
+        var tintColor: UIColor = .white
         if state == .invite || imagesIsEmpty {
-            image = viewState == .products ? R.image.profile_add() : R.image.sharing_plus()
+            switch viewState {
+            case .main, .productsSettings:      image = R.image.sharing_plus()
+            case .products, .pantry:            image = R.image.profile_add()
+            }
         }
-        imageView.image = image?.withTintColor(viewState == .products ? color : .white)
+        switch viewState {
+        case .main, .productsSettings, .pantry: tintColor = .white
+        case .products:                         tintColor = color
+        }
+        imageView.image = image?.withTintColor(tintColor)
         imageView.backgroundColor = viewState == .products ? .white : color
         guard image != R.image.profile_add() else {
             imageView.backgroundColor = .clear
