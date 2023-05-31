@@ -160,3 +160,25 @@ extension UIView {
         }
     }
 }
+
+extension UIView {
+    static var safeAreaBottom: CGFloat {
+        if let window = UIApplication.shared.keyWindowInConnectedScenes {
+            return window.safeAreaInsets.bottom
+        }
+         return 0
+    }
+
+    static var safeAreaTop: CGFloat {
+        if let window = UIApplication.shared.keyWindowInConnectedScenes {
+            return window.safeAreaInsets.top
+        }
+         return 0
+    }
+}
+
+extension UIApplication {
+    var keyWindowInConnectedScenes: UIWindow? {
+        return windows.first(where: { $0.isKeyWindow })
+    }
+}

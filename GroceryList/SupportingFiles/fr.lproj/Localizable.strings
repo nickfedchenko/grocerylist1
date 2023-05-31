@@ -261,3 +261,7 @@
 "Thanks for your feedback"      = "Merci pour vos commentaires";
 "You can also write a review"   = "Vous pouvez également écrire un commentaire. \n Nous serons très heureux";
 "No Thanks"                     = "Non Merci";
+
+// Tab Bar
+"List"                          = "Liste";
+"Pantry"                        = "Cellier";

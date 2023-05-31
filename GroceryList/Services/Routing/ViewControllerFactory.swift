@@ -7,111 +7,6 @@
 
 import UIKit
 
-protocol ViewControllerFactoryProtocol {
-    func createOnboardingController(router: RootRouter) -> UIViewController?
-    func createMainController(router: RootRouter) -> UIViewController?
-    func createCreateNewListController(
-        model: GroceryListsModel?,
-        router: RootRouter,
-        compl: @escaping (GroceryListsModel, [Product]) -> Void
-    ) -> UIViewController?
-    func createProductsController(
-        model: GroceryListsModel,
-        router: RootRouter,
-        compl: @escaping () -> Void
-    ) -> UIViewController?
-    func createProductsSettingsController(
-        snapshot: UIImage?,
-        listByText: String,
-        model: GroceryListsModel,
-        router: RootRouter,
-        compl: @escaping (GroceryListsModel, [Product]) -> Void,
-        editCompl: ((ProductsSettingsViewModel.TableViewContent) -> Void)?
-    ) -> UIViewController?
-    func createActivityController(image: [Any]) -> UIViewController?
-    func createPrintController(image: UIImage) -> UIPrintInteractionController?
-    func createAlertController(title: String, message: String, _ completion: (() -> Void)?) -> UIAlertController?
-    func createSelectListController(
-        height: Double,
-        router: RootRouter,
-        setOfSelectedProd: Set<Product>,
-        compl: @escaping (Set<Product>) -> Void
-    ) -> UIViewController?
-    func createSelectProductsController(
-        height: Double,
-        model: GroceryListsModel,
-        setOfSelectedProd: Set<Product>,
-        router: RootRouter,
-        compl: @escaping (Set<Product>) -> Void
-    ) -> UIViewController?
-    func createCreateNewProductController(
-        model: GroceryListsModel?,
-        product: Product?,
-        router: RootRouter,
-        compl: @escaping (Product) -> Void
-    )
-    -> UIViewController?
-    func createSelectCategoryController(
-        model: GroceryListsModel?,
-        router: RootRouter,
-        compl: @escaping (String) -> Void
-    ) -> UIViewController?
-    func createCreateNewCategoryController(
-        model: GroceryListsModel?,
-        newCategoryInd: Int,
-        router: RootRouter,
-        compl: @escaping (CategoryModel) -> Void
-    ) -> UIViewController?
-    func createSettingsController(router: RootRouter) -> UIViewController?
-    func createPaywallController() -> UIViewController?
-    func createAlternativePaywallController() -> UIViewController?
-    func createRecipesListController(for section: RecipeSectionsModel, with router: RootRouter) -> UIViewController
-    func createReviewsController(router: RootRouter) -> UIViewController
-    func createReviewController(router: RootRouter) -> UIViewController?
-    func createSignUpController(router: RootRouter, isFromResetPassword: Bool) -> UIViewController?
-    func createPasswordResetController(router: RootRouter,
-                                       email: String,
-                                       passwordResetedCompl: (() -> Void)?) -> UIViewController?
-    func createAccountController(router: RootRouter) -> UIViewController?
-    func createPasswordExpiredController(router: RootRouter) -> UIViewController?
-    func createEnterNewPasswordController(router: RootRouter) -> UIViewController?
-    func createSharingPopUpController(router: RootRouter,
-                                      compl: (() -> Void)?) -> UIViewController
-    func createSharingListController(router: RootRouter,
-                                     listToShare: GroceryListsModel,
-                                     users: [User]) -> UIViewController
-    func createCreateNewRecipeViewController(router: RootRouter,
-                                             compl: @escaping (Recipe) -> Void) -> UIViewController
-    func createCreateNewRecipeStepTwoViewController(router: RootRouter,
-                                                    recipe: CreateNewRecipeStepOne,
-                                                    compl: @escaping (Recipe) -> Void) -> UIViewController
-    func createPreparationStepViewController(stepNumber: Int,
-                                             compl: @escaping (String) -> Void) -> UIViewController
-    func createCreateNewCollectionViewController(collections: [CollectionModel],
-                                                 compl: @escaping ([CollectionModel]) -> Void) -> UIViewController
-    func createShowCollectionViewController(router: RootRouter,
-                                            state: ShowCollectionViewController.ShowCollectionState,
-                                            recipe: Recipe?,
-                                            updateUI: (() -> Void)?,
-                                            compl: (([CollectionModel]) -> Void)?) -> UIViewController
-    func createIngredientViewController(router: RootRouter,
-                                        compl: @escaping (Ingredient) -> Void) -> UIViewController
-    func createSearchInList(router: RootRouter) -> UIViewController
-    func createSearchInRecipe(router: RootRouter, section: RecipeSectionsModel?) -> UIViewController
-    func createRecipeScreen(router: RootRouter, recipe: Recipe) -> UIViewController
-    func createEditSelectListController(router: RootRouter, products: [Product], contentViewHeigh: CGFloat,
-                                        delegate: EditSelectListDelegate,
-                                        state: EditSelectListViewController.State) -> UIViewController
-    func createNewStoreController(router: RootRouter, model: GroceryListsModel?,
-                                  compl: @escaping (Store?) -> Void) -> UIViewController
-    func createProductsSortController(model: GroceryListsModel, productType: ProductsSortViewModel.ProductType,
-                                      updateModel: ((GroceryListsModel) -> Void)?,
-                                      router: RootRouter) -> UIViewController
-    func createFeedbackController(router: RootRouter) -> UIViewController
-}
-
-// MARK: - Factory
-
 final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
     func createOnboardingController(router: RootRouter) -> UIViewController? {
@@ -120,19 +15,49 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createMainController(router: RootRouter) -> UIViewController? {
-        let viewController = MainScreenViewController()
-        let dataSource = MainScreenDataManager()
-        let viewModel = MainScreenViewModel(dataSource: dataSource)
-        viewController.viewModel = viewModel
+    func createMainTabBarController(router: RootRouter) -> UITabBarController {
+        let isRightHanded = true
+        let listVC = createListController(router: router)
+        let pantryVC = createPantryController(router: router)
+        let recipeVC = createRecipeController(router: router)
+        let viewControllers = [listVC, pantryVC, recipeVC]
+        let viewModel = MainTabBarViewModel(isRightHanded: isRightHanded, viewControllers: viewControllers)
         viewModel.router = router
+        
+        let tabBarController = MainTabBarController(viewModel: viewModel)
+
+        return tabBarController
+    }
+    
+    func createListController(router: RootRouter) -> UIViewController {
+        let dataSource = ListDataSource()
+        let viewModel = ListViewModel(dataSource: dataSource)
+        viewModel.router = router
+        
+        let viewController = ListViewController(viewModel: viewModel)
         return viewController
     }
     
-    func createCreateNewListController(
-        model: GroceryListsModel?, router: RootRouter,
-        compl: @escaping (GroceryListsModel, [Product]
-        ) -> Void) -> UIViewController? {
+    func createPantryController(router: RootRouter) -> UIViewController {
+        let dataSource = PantryDataSource()
+        let viewModel = PantryViewModel(dataSource: dataSource)
+        viewModel.router = router
+        
+        let viewController = PantryViewController(viewModel: viewModel)
+        return viewController
+    }
+    
+    func createRecipeController(router: RootRouter) -> UIViewController {
+        let dataSource = MainRecipeDataSource()
+        let viewModel = MainRecipeViewModel(dataSource: dataSource)
+        viewModel.router = router
+        
+        let viewController = MainRecipeViewController(viewModel: viewModel)
+        return viewController
+    }
+    
+    func createCreateNewListController(model: GroceryListsModel?, router: RootRouter,
+                                       compl: @escaping (GroceryListsModel, [Product]) -> Void) -> UIViewController? {
         let viewController = CreateNewListViewController()
         let viewModel = CreateNewListViewModel()
         viewModel.valueChangedCallback = compl
@@ -152,15 +77,8 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createRecipeListViewController(for: SectionModel) {
-        
-    }
-    
-    func createCreateNewProductController(
-        model: GroceryListsModel?, product: Product? = nil,
-        router: RootRouter,
-        compl: @escaping (Product) -> Void
-    ) -> UIViewController? {
+    func createCreateNewProductController(model: GroceryListsModel?, product: Product? = nil,
+                                          router: RootRouter, compl: @escaping (Product) -> Void) -> UIViewController? {
         let viewController = CreateNewProductViewController()
         let viewModel = CreateNewProductViewModel()
         viewModel.valueChangedCallback = compl
@@ -174,10 +92,8 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return navController
     }
     
-    func createCreateNewCategoryController(
-        model: GroceryListsModel?, newCategoryInd: Int, router: RootRouter,
-        compl: @escaping (CategoryModel) -> Void
-    ) -> UIViewController? {
+    func createCreateNewCategoryController(model: GroceryListsModel?, newCategoryInd: Int, router: RootRouter,
+                                           compl: @escaping (CategoryModel) -> Void) -> UIViewController? {
         let viewController = CreateNewCategoryViewController()
         let viewModel = CreateNewCategoryViewModel(model: model, newModelInd: newCategoryInd)
         viewModel.categoryCreatedCallBack = compl
@@ -187,10 +103,8 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSelectListController(
-        height: Double, router: RootRouter,
-        setOfSelectedProd: Set<Product>, compl: @escaping (Set<Product>) -> Void
-    ) -> UIViewController? {
+    func createSelectListController(height: Double, router: RootRouter, setOfSelectedProd: Set<Product>,
+                                    compl: @escaping (Set<Product>) -> Void) -> UIViewController? {
         let viewController = SelectListViewController()
         let dataSource = SelectListDataManager()
         let viewModel = SelectListViewModel(dataSource: dataSource)
@@ -203,10 +117,8 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createProductsController(
-        model: GroceryListsModel, router: RootRouter,
-        compl: @escaping () -> Void
-    ) -> UIViewController? {
+    func createProductsController(model: GroceryListsModel, router: RootRouter,
+                                  compl: @escaping () -> Void) -> UIViewController? {
         let viewController = ProductsViewController()
         let dataSource = ProductsDataManager(products: model.products,
                                              typeOfSorting: SortingType(rawValue: model.typeOfSorting) ?? .category,
@@ -219,12 +131,9 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSelectProductsController(
-        height: Double, model: GroceryListsModel,
-        setOfSelectedProd: Set<Product>,
-        router: RootRouter,
-        compl: @escaping (Set<Product>) -> Void
-    ) -> UIViewController? {
+    func createSelectProductsController(height: Double, model: GroceryListsModel,
+                                        setOfSelectedProd: Set<Product>, router: RootRouter,
+                                        compl: @escaping (Set<Product>) -> Void) -> UIViewController? {
         let viewController = SelectProductViewController()
         let viewModel = SelectProductViewModel(model: model, copiedProducts: setOfSelectedProd)
         viewController.viewModel = viewModel
@@ -235,11 +144,8 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSelectCategoryController(
-        model: GroceryListsModel?,
-        router: RootRouter,
-        compl: @escaping (String) -> Void
-    ) -> UIViewController? {
+    func createSelectCategoryController(model: GroceryListsModel?, router: RootRouter,
+                                        compl: @escaping (String) -> Void) -> UIViewController? {
         let viewController = SelectCategoryViewController()
         let viewModel = SelectCategoryViewModel(model: model)
         viewController.viewModel = viewModel
@@ -249,14 +155,10 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createProductsSettingsController(
-        snapshot: UIImage?,
-        listByText: String,
-        model: GroceryListsModel,
-        router: RootRouter,
-        compl: @escaping (GroceryListsModel, [Product]) -> Void,
-        editCompl: ((ProductsSettingsViewModel.TableViewContent) -> Void)?
-    ) -> UIViewController? {
+    func createProductsSettingsController(snapshot: UIImage?, listByText: String,
+                                          model: GroceryListsModel, router: RootRouter,
+                                          compl: @escaping (GroceryListsModel, [Product]) -> Void,
+                                          editCompl: ((ProductsSettingsViewModel.TableViewContent) -> Void)?) -> UIViewController? {
         let viewController = ProductsSettingsViewController()
         let viewModel = ProductsSettingsViewModel(model: model, snapshot: snapshot, listByText: listByText)
         viewModel.delegate = viewController
@@ -291,8 +193,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createPasswordResetController(router: RootRouter,
-                                       email: String,
+    func createPasswordResetController(router: RootRouter, email: String,
                                        passwordResetedCompl: (() -> Void)?) -> UIViewController? {
         let viewController = PasswordResetViewController()
         let networkManager = NetworkEngine()
@@ -396,8 +297,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSharingListController(router: RootRouter,
-                                     listToShare: GroceryListsModel,
+    func createSharingListController(router: RootRouter, listToShare: GroceryListsModel,
                                      users: [User]) -> UIViewController {
         let viewController = SharingListViewController()
         let networkManager = NetworkEngine()
@@ -418,8 +318,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createCreateNewRecipeStepTwoViewController(router: RootRouter,
-                                                    recipe: CreateNewRecipeStepOne,
+    func createCreateNewRecipeStepTwoViewController(router: RootRouter, recipe: CreateNewRecipeStepOne,
                                                     compl: @escaping (Recipe) -> Void) -> UIViewController {
         let viewController = CreateNewRecipeStepTwoViewController()
         let viewModel = CreateNewRecipeStepTwoViewModel(recipe: recipe)
@@ -429,8 +328,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createPreparationStepViewController(stepNumber: Int,
-                                             compl: @escaping (String) -> Void) -> UIViewController {
+    func createPreparationStepViewController(stepNumber: Int, compl: @escaping (String) -> Void) -> UIViewController {
         let viewController = PreparationStepViewController()
         let viewModel = PreparationStepViewModel(stepNumber: stepNumber)
         viewModel.stepCallback = compl
@@ -450,8 +348,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
     func createShowCollectionViewController(router: RootRouter,
                                             state: ShowCollectionViewController.ShowCollectionState,
-                                            recipe: Recipe?,
-                                            updateUI: (() -> Void)?,
+                                            recipe: Recipe?, updateUI: (() -> Void)?,
                                             compl: (([CollectionModel]) -> Void)?) -> UIViewController {
         let viewController = ShowCollectionViewController()
         let viewModel = ShowCollectionViewModel(state: state, recipe: recipe)
@@ -462,8 +359,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createIngredientViewController(router: RootRouter,
-                                        compl: @escaping (Ingredient) -> Void) -> UIViewController {
+    func createIngredientViewController(router: RootRouter, compl: @escaping (Ingredient) -> Void) -> UIViewController {
         let viewController = IngredientViewController()
         let viewModel = IngredientViewModel()
         viewModel.router = router

@@ -39,13 +39,9 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func presentRootNavigationControllerInWindow() {
-        
-        if let rootViewController = viewControllerFactory.createMainController(router: self) {
-            self.navigationController = BlackNavigationController(rootViewController: rootViewController)
-        } else {
-            self.navigationController = BlackNavigationController()
-        }
-        
+        let rootTabBarController = viewControllerFactory.createMainTabBarController(router: self)
+        self.navigationController = BlackNavigationController(rootViewController: rootTabBarController)
+
         viewController = navigationController
         
         window.rootViewController = navigationController
@@ -300,13 +296,13 @@ final class RootRouter: RootRouterProtocol {
     func showDefaultPaywallVC() {
         guard let controller = viewControllerFactory.createPaywallController() else { return }
         guard !Apphud.hasActiveSubscription() else { return }
-        navigationPresent(controller, style: .fullScreen, animated: true)
+        navigationPresent(controller, animated: true)
     }
     
     func showAlternativePaywallVC() {
         guard let controller = viewControllerFactory.createAlternativePaywallController() else { return }
         guard !Apphud.hasActiveSubscription() else { return }
-        navigationPresent(controller, style: .fullScreen, animated: true)
+        navigationPresent(controller, animated: true)
     }
     
     func showReviewRequestController() {

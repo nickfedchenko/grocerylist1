@@ -1,28 +1,23 @@
 //
-//  TopMainScreenView.swift
+//  MainNavigationView.swift
 //  GroceryList
 //
-//  Created by Хандымаа Чульдум on 04.05.2023.
+//  Created by Хандымаа Чульдум on 22.05.2023.
 //
 
 import Kingfisher
 import UIKit
 
-enum MainScreenPresentationMode {
-    case lists, recipes
-}
-
-protocol TopMainScreenViewDelegate: AnyObject {
-    func modeChanged(to mode: MainScreenPresentationMode)
+protocol MainNavigationViewDelegate: AnyObject {
     func searchButtonTapped()
     func settingsTapped()
     func contextMenuTapped()
     func sortCollectionTapped()
 }
 
-final class TopMainScreenView: UIView {
-    
-    weak var delegate: TopMainScreenViewDelegate?
+final class MainNavigationView: UIView {
+
+    weak var delegate: MainNavigationViewDelegate?
     
     private lazy var settingsButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -64,19 +59,6 @@ final class TopMainScreenView: UIView {
         return button
     }()
     
-    private lazy var segmentControl: CustomSegmentedControlView = {
-        let control = CustomSegmentedControlView(items: [R.string.localizable.groceryLists(), R.string.localizable.recipes()])
-        control.delegate = self
-        control.selectedSegmentIndex = 0
-        return control
-    }()
-    
-    private lazy var blurView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(hex: "E5F5F3", alpha: 0.9)
-        return view
-    }()
-    
     private lazy var profileView: UIView = {
         let view = UIView()
         let tapOnView = UITapGestureRecognizer(target: self, action: #selector(settingsButtonAction))
@@ -93,31 +75,18 @@ final class TopMainScreenView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with mode: MainScreenPresentationMode) {
-        segmentControl.selectedSegmentIndex = mode == .recipes ? 1 : 0
-        
+    func configure(with mode: TabBarItemView.Item) {
         sortButton.snp.updateConstraints {
-            $0.width.height.equalTo(mode == .recipes ? 40 : 0)
+            $0.width.height.equalTo(mode == .recipe ? 40 : 0)
         }
         menuButton.snp.updateConstraints {
-            $0.width.height.equalTo(mode == .recipes ? 40 : 0)
+            $0.width.height.equalTo(mode == .recipe ? 40 : 0)
         }
-    }
-    
-    func isScrolledView(_ offset: CGFloat) {
-        profileView.isHidden = offset > 32
-        searchButton.isHidden = offset > 32
-        menuButton.isHidden = offset > 32
-        sortButton.isHidden = offset > 32
-        
-        guard offset > 0 else {
-            blurView.snp.updateConstraints {
-                $0.height.equalTo(0)
-            }
-            return
+        searchButton.snp.updateConstraints {
+            $0.width.height.equalTo(mode == .pantry ? 0 : 40)
         }
-        blurView.snp.updateConstraints {
-            $0.height.equalTo(113)
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.layoutIfNeeded()
         }
     }
     
@@ -174,52 +143,15 @@ final class TopMainScreenView: UIView {
     private func sortButtonAction() {
         delegate?.sortCollectionTapped()
     }
-    
-    // MARK: - UI
+        
     private func setupConstraints() {
-        self.addSubviews([profileView, searchButton, menuButton, sortButton, blurView, segmentControl])
+        self.addSubviews([profileView, searchButton, menuButton, sortButton])
         profileView.addSubviews([settingsButton, userNameLabel])
-
-        setupProfileConstraints()
         
-        menuButton.snp.makeConstraints {
-            $0.trailing.equalTo(searchButton.snp.leading).inset(-8)
-            $0.centerY.equalTo(settingsButton)
-            $0.width.height.equalTo(0)
-        }
-        
-        sortButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(28)
-            $0.centerY.equalTo(settingsButton)
-            $0.width.height.equalTo(0)
-        }
-        
-        searchButton.snp.makeConstraints {
-            $0.trailing.equalTo(sortButton.snp.leading).inset(-8)
-            $0.centerY.equalTo(settingsButton)
-            $0.width.height.equalTo(40)
-        }
-        
-        segmentControl.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(22)
-            $0.top.equalTo(settingsButton.snp.bottom).inset(-16)
-            $0.bottom.equalToSuperview().offset(-8)
-            $0.height.equalTo(48)
-        }
-        
-        blurView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalToSuperview()
-            $0.height.equalTo(0)
-        }
-    }
-    
-    private func setupProfileConstraints() {
         profileView.snp.makeConstraints {
             $0.leading.equalTo(24)
             $0.trailing.lessThanOrEqualTo(menuButton.snp.leading).offset(-10)
-            $0.bottom.equalTo(segmentControl.snp.top).offset(-14)
-            $0.height.equalTo(32)
+            $0.bottom.top.equalToSuperview()
         }
         
         settingsButton.snp.makeConstraints {
@@ -234,11 +166,24 @@ final class TopMainScreenView: UIView {
             $0.centerY.equalTo(settingsButton)
             $0.height.equalTo(24)
         }
+        
+        searchButton.snp.makeConstraints {
+            $0.trailing.equalTo(sortButton.snp.leading).inset(-8)
+            $0.centerY.equalTo(settingsButton)
+            $0.width.height.equalTo(40)
+        }
+        
+        menuButton.snp.makeConstraints {
+            $0.trailing.equalTo(searchButton.snp.leading).inset(-8)
+            $0.centerY.equalTo(settingsButton)
+            $0.width.height.equalTo(40)
+        }
+        
+        sortButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(28)
+            $0.centerY.equalTo(settingsButton)
+            $0.width.height.equalTo(40)
+        }
     }
-}
 
-extension TopMainScreenView: CustomSegmentedControlViewDelegate {
-    func segmentChanged(_ selectedSegmentIndex: Int) {
-        delegate?.modeChanged(to: selectedSegmentIndex == 0 ? .lists : .recipes)
-    }
 }
