@@ -74,4 +74,5 @@ protocol ViewControllerFactoryProtocol {
     func createPantryStarterPackController() -> UIViewController
     func createCreateNewPantryController(currentPantry: PantryModel?, updateUI: @escaping ((PantryModel) -> Void),
                                          router: RootRouter) -> UIViewController
+    func createStocksController(pantry: PantryModel, router: RootRouter) -> UIViewController
 }

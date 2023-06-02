@@ -284,6 +284,12 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func goToStocks(navController: UIViewController, pantry: PantryModel) {
+        let controller = viewControllerFactory.createStocksController(pantry: pantry,
+                                                                      router: self)
+        navigationPushViewController(controller, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }

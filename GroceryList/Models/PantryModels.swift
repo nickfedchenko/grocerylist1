@@ -55,6 +55,7 @@ struct Stock: Hashable {
     var unitId: UnitSystem?
     var isAvailability: Bool
     var isAutoRepeat: Bool
+    var isReminder: Bool
     
     var dateOfCreation: Date
     var isUserImage: Bool? = false

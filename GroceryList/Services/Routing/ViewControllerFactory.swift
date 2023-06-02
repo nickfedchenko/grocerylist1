@@ -449,6 +449,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let viewController = CreateNewPantryViewController(viewModel: viewModel)
         return viewController
     }
+    
+    func createStocksController(pantry: PantryModel, router: RootRouter) -> UIViewController {
+        let dataSource = StocksDataSource(stocks: pantry.stock)
+        let viewModel = StocksViewModel(dataSource: dataSource, pantry: pantry)
+        viewModel.router = router
+        let viewController = StocksViewController(viewModel: viewModel)
+        return viewController
+    }
 }
 
 class MyNavigationController: UINavigationController {
