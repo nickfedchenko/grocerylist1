@@ -1891,7 +1891,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 195 images.
+  /// This `_R.image` struct is generated, and contains static references to 198 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1982,6 +1982,9 @@ struct _R {
     /// Image `Handiwork`.
     var handiwork: RswiftResources.ImageResource { .init(name: "Handiwork", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `LinkBig`.
+    var linkBig: RswiftResources.ImageResource { .init(name: "LinkBig", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `List Settings`.
     var listSettings: RswiftResources.ImageResource { .init(name: "List Settings", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -2012,8 +2015,14 @@ struct _R {
     /// Image `RecipePlus`.
     var recipePlus: RswiftResources.ImageResource { .init(name: "RecipePlus", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `Reminder`.
+    var reminder: RswiftResources.ImageResource { .init(name: "Reminder", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `Rename`.
     var rename: RswiftResources.ImageResource { .init(name: "Rename", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Repeat`.
+    var `repeat`: RswiftResources.ImageResource { .init(name: "Repeat", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ReviewProducts`.
     var reviewProducts: RswiftResources.ImageResource { .init(name: "ReviewProducts", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

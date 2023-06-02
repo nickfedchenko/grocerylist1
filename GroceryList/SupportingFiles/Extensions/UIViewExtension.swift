@@ -27,8 +27,7 @@ extension UIView {
         let maxX = bounds.maxX
         let maxY = bounds.maxY
         
-        print(self.bounds)
-
+//        print(self.bounds)
         let path = UIBezierPath()
         path.move(to: CGPoint(x: minX + topLeft, y: minY))
         path.addLine(to: CGPoint(x: maxX - topRight, y: minY))
@@ -45,6 +44,14 @@ extension UIView {
         mask.path = path.cgPath
         layer.mask = mask
         layer.cornerCurve = .continuous
+
+        let borderLayer = CAShapeLayer()
+        borderLayer.path = path.cgPath
+        borderLayer.lineWidth = 1
+        borderLayer.strokeColor = UIColor.white.cgColor
+        borderLayer.fillColor = UIColor.clear.cgColor
+        layer.addSublayer(borderLayer)
+
     }
     
     func addShadowForView(radius: CGFloat = 2, height: Int = 0 ) {

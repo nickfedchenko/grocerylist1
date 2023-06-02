@@ -220,7 +220,10 @@ final class PantryViewController: UIViewController {
 extension PantryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        
+        guard let model = dataSource?.itemIdentifier(for: indexPath) else {
+            return
+        }
+        viewModel.showStocks(controller: self, model: model)
     }
 }
 

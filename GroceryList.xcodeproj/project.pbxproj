@@ -32,6 +32,12 @@
 		3347644D2A258E49008F4834 /* IconCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */; };
 		3347644F2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347644E2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift */; };
 		334764522A264B4F008F4834 /* PantryEditMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764512A264B4F008F4834 /* PantryEditMenuView.swift */; };
+		334764552A277C9F008F4834 /* StocksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764542A277C9F008F4834 /* StocksViewController.swift */; };
+		334764572A283FAB008F4834 /* StocksEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764562A283FAB008F4834 /* StocksEmptyView.swift */; };
+		334764592A284368008F4834 /* StocksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764582A284368008F4834 /* StocksViewModel.swift */; };
+		3347645B2A287EA5008F4834 /* StocksNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347645A2A287EA5008F4834 /* StocksNavigationView.swift */; };
+		3347645D2A2889E4008F4834 /* StocksLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347645C2A2889E4008F4834 /* StocksLinkView.swift */; };
+		334764612A29CCA4008F4834 /* StockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764602A29CCA4008F4834 /* StockCell.swift */; };
 		334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */; };
 		334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */; };
 		334BAE53299E6606005F52F5 /* SharingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE52299E6606005F52F5 /* SharingListViewModel.swift */; };
@@ -321,6 +327,12 @@
 		3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCollectionViewCell.swift; sourceTree = "<group>"; };
 		3347644E2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListToSynchronizeViewController.swift; sourceTree = "<group>"; };
 		334764512A264B4F008F4834 /* PantryEditMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryEditMenuView.swift; sourceTree = "<group>"; };
+		334764542A277C9F008F4834 /* StocksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksViewController.swift; sourceTree = "<group>"; };
+		334764562A283FAB008F4834 /* StocksEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksEmptyView.swift; sourceTree = "<group>"; };
+		334764582A284368008F4834 /* StocksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksViewModel.swift; sourceTree = "<group>"; };
+		3347645A2A287EA5008F4834 /* StocksNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksNavigationView.swift; sourceTree = "<group>"; };
+		3347645C2A2889E4008F4834 /* StocksLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksLinkView.swift; sourceTree = "<group>"; };
+		334764602A29CCA4008F4834 /* StockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockCell.swift; sourceTree = "<group>"; };
 		334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingPopUpViewController.swift; sourceTree = "<group>"; };
 		334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewController.swift; sourceTree = "<group>"; };
 		334BAE52299E6606005F52F5 /* SharingListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewModel.swift; sourceTree = "<group>"; };
@@ -678,6 +690,35 @@
 				3347644E2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift */,
 			);
 			path = Child;
+			sourceTree = "<group>";
+		};
+		334764532A277C56008F4834 /* Stocks */ = {
+			isa = PBXGroup;
+			children = (
+				334764582A284368008F4834 /* StocksViewModel.swift */,
+				334764542A277C9F008F4834 /* StocksViewController.swift */,
+				3347645F2A29CC78008F4834 /* cell */,
+				3347645E2A29CC4C008F4834 /* subviews */,
+			);
+			path = Stocks;
+			sourceTree = "<group>";
+		};
+		3347645E2A29CC4C008F4834 /* subviews */ = {
+			isa = PBXGroup;
+			children = (
+				3347645A2A287EA5008F4834 /* StocksNavigationView.swift */,
+				334764562A283FAB008F4834 /* StocksEmptyView.swift */,
+				3347645C2A2889E4008F4834 /* StocksLinkView.swift */,
+			);
+			path = subviews;
+			sourceTree = "<group>";
+		};
+		3347645F2A29CC78008F4834 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				334764602A29CCA4008F4834 /* StockCell.swift */,
+			);
+			path = cell;
 			sourceTree = "<group>";
 		};
 		334BAE4B299DF88F005F52F5 /* Sharing */ = {
@@ -1573,6 +1614,7 @@
 				383C77F4293F79D60030AE78 /* RecipesListViewController */,
 				332340952A1B918300609813 /* Pantry */,
 				33995D302A1F9694003FECAE /* Create New Pantry */,
+				334764532A277C56008F4834 /* Stocks */,
 				33F8253529C050B700B349D5 /* Search */,
 				334BAE4B299DF88F005F52F5 /* Sharing */,
 				3379B64C29B755B20080923A /* Collection */,
@@ -2016,6 +2058,7 @@
 				B3C3FA4729115AA20011EC0A /* OnboardingContentView.swift in Sources */,
 				33F8253B29C0632700B349D5 /* SearchInListViewController.swift in Sources */,
 				B315F9DE2989339A0009CEB8 /* CheckmarkCompositionView.swift in Sources */,
+				334764572A283FAB008F4834 /* StocksEmptyView.swift in Sources */,
 				B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */,
 				337E79D629E974A500668578 /* CreateNewProductViewController.swift in Sources */,
 				B347690B291D23800045A287 /* ProductsSettingsViewModel.swift in Sources */,
@@ -2066,6 +2109,7 @@
 				3368FD7929B7348100D97291 /* DBCollection+CoreDataClass.swift in Sources */,
 				B3329598298A8F19002DF1EE /* NotificationsExtension.swift in Sources */,
 				3323409B2A1B91CB00609813 /* PantryDataSource.swift in Sources */,
+				3347645D2A2889E4008F4834 /* StocksLinkView.swift in Sources */,
 				332340972A1B91B300609813 /* PantryViewController.swift in Sources */,
 				383C77FD2940ED0F0030AE78 /* AddProductsSelectionListController.swift in Sources */,
 				339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */,
@@ -2169,6 +2213,7 @@
 				B315F9E12989373A0009CEB8 /* TryForFreeView.swift in Sources */,
 				33A73F1D2A0CD2D300844610 /* ProductsSortViewController.swift in Sources */,
 				B3F7C9B429939E0B0081B245 /* SignUpViewController.swift in Sources */,
+				334764612A29CCA4008F4834 /* StockCell.swift in Sources */,
 				333E2D2D29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift in Sources */,
 				B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */,
 				33F8253E29C0859D00B349D5 /* SearchInListCell.swift in Sources */,
@@ -2188,12 +2233,14 @@
 				B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */,
 				B34BB80A292D1C4600748E8E /* ShimmerView.swift in Sources */,
 				B36AF9432913D39400944E9D /* UIImageExtension.swift in Sources */,
+				334764592A284368008F4834 /* StocksViewModel.swift in Sources */,
 				33F8253929C0559000B349D5 /* SearchInListViewModel.swift in Sources */,
 				B3F7C9CB299645F80081B245 /* PasswordResetView.swift in Sources */,
 				389DCF4829460A1B00DB9382 /* RecipeScreenHeader.swift in Sources */,
 				3379B65A29B9B2ED0080923A /* CategoryView.swift in Sources */,
 				33A51B9F2A1780DA00BE11C1 /* MainRecipeCollectionViewLayout.swift in Sources */,
 				3379B65C29B9B3030080923A /* AddIngredientView.swift in Sources */,
+				3347645B2A287EA5008F4834 /* StocksNavigationView.swift in Sources */,
 				B3D2045D2930F49C00599A01 /* CreateNewProductViewModel.swift in Sources */,
 				B371CCB2299F7B0200E0E197 /* GroceryListResponse.swift in Sources */,
 				3380D1B429C2D1E500A57F25 /* AllRecipesCell.swift in Sources */,
@@ -2211,6 +2258,7 @@
 				338EB6B629C1BEED00D6A03F /* SearchInRecipeViewModel.swift in Sources */,
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,
 				33A51B892A163C9500BE11C1 /* CustomTransition.swift in Sources */,
+				334764552A277C9F008F4834 /* StocksViewController.swift in Sources */,
 				B315F9E8298A3FF30009CEB8 /* WriteReviewViewModel.swift in Sources */,
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
 				B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */,

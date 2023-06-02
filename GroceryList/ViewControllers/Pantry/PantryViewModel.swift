@@ -45,7 +45,7 @@ final class PantryViewModel {
         let sharingState = getSharingState(model)
         let sharingUser = getShareImages(model)
         let stockCount = model.stock.count.asString
-        let outOfStock = model.stock.filter { $0.isAvailability }.count
+        let outOfStock = model.stock.filter { !$0.isAvailability }.count
         let outOfStockCount = outOfStock == 0 ? "" : outOfStock.asString
         
         return PantryCell.CellModel(theme: theme, name: model.name, icon: icon,
@@ -77,6 +77,10 @@ final class PantryViewModel {
         router?.goToCreateNewPantry(currentPantry: pantry) { [weak self] pantry in
             self?.addPantry(pantry)
         }
+    }
+    
+    func showStocks(controller: UIViewController, model: PantryModel) {
+        router?.goToStocks(navController: controller, pantry: model)
     }
     
     func sharingTapped(model: PantryModel) {
