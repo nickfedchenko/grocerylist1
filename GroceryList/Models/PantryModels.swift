@@ -62,3 +62,11 @@ struct Stock: Hashable {
     var userToken: String?
     var isVisibleСost: Bool = false
 }
+
+enum StockAutoRepeat: Int, CaseIterable {
+    case daily
+    case weekly
+    case monthly
+    case yearly
+    case custom
+}

@@ -100,6 +100,67 @@ final class StocksViewModel {
     func goBackButtonPressed() {
         router?.pop()
     }
+    
+    func goToListOptions(snapshot: UIImage?) {
+        router?.goToPantryListOption(pantry: pantry, snapshot: snapshot,
+                                     listByText: getListByText(),
+                                     updateUI: { [weak self] updatedPantry in
+            self?.pantry = updatedPantry
+//            self?.delegate?.updateController()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self?.reloadData?()
+            }
+        }, editCallback: { [weak self] content in
+            guard let self else {
+                return
+            }
+            switch content {
+            case .edit: break
+//                self.delegate?.editProduct()
+            case .share:
+                var shareModel = self.pantry
+                if let dbModel = CoreDataManager.shared.getList(list: self.pantry.id.uuidString),
+                   let model = GroceryListsModel(from: dbModel) {
+//                    shareModel = model
+                }
+//                self.router?.goToSharingList(listToShare: shareModel, users: self.getSharedListsUsers())
+            default: break
+            }
+        })
+    }
+    
+    func goToCreateItem(stock: Stock?) {
+        router?.goToCreateNewStockController(pantry: pantry, stock: stock, compl: { newStock in
+            
+        })
+    }
+    
+    private func getListByText() -> String {
+        var list = ""
+        let newLine = "\n"
+        let tab = "  • "
+        let buy = R.string.localizable.buy().uppercased() + newLine + newLine
+        list += buy
+        
+//        dataSource.stocks.forEach { category in
+//            var categoryName = category.name
+//            if categoryName == "DictionaryFavorite" {
+//                categoryName = R.string.localizable.favorites()
+//            }
+//            if categoryName == "alphabeticalSorted" {
+//                categoryName = "AlphabeticalSorted".localized
+//            }
+//            list += categoryName.uppercased() + newLine
+//            category.products.map { product in
+//                return tab + product.name.firstCharacterUpperCase() + newLine
+//            }.forEach { title in
+//                list += title
+//            }
+//            list += newLine
+//        }
+        
+        return list
+    }
 }
 
 final class StocksDataSource {

@@ -131,7 +131,7 @@ final class StocksNavigationView: UIView {
         totalView.makeCustomRound(topLeft: 4, topRight: 12,
                                   bottomLeft: 4, bottomRight: 12)
         outOfStocksView.makeCustomRound(topLeft: 12, topRight: 4,
-                                        bottomLeft: 12, bottomRight: 4)
+                                        bottomLeft: 12, bottomRight: 4, hasBorder: true)
     }
     
     func configureTitle(icon: UIImage?, title: String) {

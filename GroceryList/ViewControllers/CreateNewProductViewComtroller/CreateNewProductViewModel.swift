@@ -30,8 +30,9 @@ class CreateNewProductViewModel {
     var currentProduct: Product?
     var costOfProductPerUnit: Double?
     
+    let colorManager = ColorManager()
+    var defaultStore: Store?
     private let network = NetworkEngine()
-    private var colorManager = ColorManager()
     private var networkBaseProducts: [DBNewNetProduct]?
     private var networkDishesProducts: [DBNewNetProduct]?
     private var userProducts: [DBProduct]?
@@ -39,7 +40,6 @@ class CreateNewProductViewModel {
     private var networkDishesProductTitles: [String] = []
     private var userProductTitles: [String] = []
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
-    private var defaultStore: Store?
     
     init() {
         networkBaseProducts = CoreDataManager.shared.getAllNetworkProducts()?

@@ -31,6 +31,10 @@ extension Date {
         return Calendar.current.date(byAdding: .month, value: -1, to: self) ?? self
     }
     
+    var dayNumberOfWeek: Int {
+        (Calendar.current.component(.weekday, from: self) - Calendar.current.firstWeekday + 7) % 7 + 1
+    }
+    
     func days(sinceDate: Date) -> Int? {
         return Calendar.current.dateComponents([.day], from: sinceDate, to: self).day
     }

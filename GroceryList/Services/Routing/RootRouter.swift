@@ -290,6 +290,24 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
+    func goToCreateNewStockController(pantry: PantryModel, stock: Stock? = nil,
+                                    compl: @escaping (Stock) -> Void) {
+        let controller = viewControllerFactory.createCreateNewStockController(
+            pantry: pantry, stock: stock, compl: compl, router: self
+        )
+        navigationPresent(controller, animated: false)
+    }
+    
+    func goToPantryListOption(pantry: PantryModel, snapshot: UIImage?, listByText: String,
+                              updateUI: ((PantryModel) -> Void)?,
+                              editCallback: ((ProductsSettingsViewModel.TableViewContent) -> Void)?) {
+        let controller = viewControllerFactory.createPantryListOptionsController(
+            pantry: pantry, snapshot: snapshot, listByText: listByText,
+            updateUI: updateUI, editCallback: editCallback, router: self)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }

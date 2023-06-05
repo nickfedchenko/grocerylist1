@@ -21,7 +21,8 @@ extension UIView {
         }, completion: nil)
     }
     
-    func makeCustomRound(topLeft: CGFloat = 0, topRight: CGFloat = 0, bottomLeft: CGFloat = 0, bottomRight: CGFloat = 0) {
+    func makeCustomRound(topLeft: CGFloat = 0, topRight: CGFloat = 0, 
+                         bottomLeft: CGFloat = 0, bottomRight: CGFloat = 0, hasBorder: Bool = false) {
         let minX = bounds.minX
         let minY = bounds.minY
         let maxX = bounds.maxX
@@ -45,13 +46,14 @@ extension UIView {
         layer.mask = mask
         layer.cornerCurve = .continuous
 
-        let borderLayer = CAShapeLayer()
-        borderLayer.path = path.cgPath
-        borderLayer.lineWidth = 1
-        borderLayer.strokeColor = UIColor.white.cgColor
-        borderLayer.fillColor = UIColor.clear.cgColor
-        layer.addSublayer(borderLayer)
-
+        if hasBorder {
+            let borderLayer = CAShapeLayer()
+            borderLayer.path = path.cgPath
+            borderLayer.lineWidth = 1
+            borderLayer.strokeColor = UIColor.white.cgColor
+            borderLayer.fillColor = UIColor.clear.cgColor
+            layer.addSublayer(borderLayer)
+        }
     }
     
     func addShadowForView(radius: CGFloat = 2, height: Int = 0 ) {
