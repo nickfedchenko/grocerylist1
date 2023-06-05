@@ -457,6 +457,32 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let viewController = StocksViewController(viewModel: viewModel)
         return viewController
     }
+    
+    func createPantryListOptionsController(pantry: PantryModel, snapshot: UIImage?, listByText: String,
+                                           updateUI: ((PantryModel) -> Void)?,
+                                           editCallback: ((ProductsSettingsViewModel.TableViewContent) -> Void)?,
+                                           router: RootRouter) -> UIViewController {
+        let viewModel = PantryListOptionViewModel(pantry: pantry, snapshot: snapshot, listByText: listByText)
+        viewModel.router = router
+        viewModel.updateUI = updateUI
+        viewModel.editCallback = editCallback
+        let controller = PantryListOptionViewController(viewModel: viewModel)
+        
+        return controller
+    }
+    
+    func createCreateNewStockController(pantry: PantryModel, stock: Stock? = nil,
+                                        compl: @escaping (Stock) -> Void,
+                                        router: RootRouter) -> UIViewController {
+        let viewModel = CreateNewStockViewModel()
+        viewModel.updateUI = compl
+        viewModel.router = router
+        viewModel.pantry = pantry
+        viewModel.currentStock = stock
+        
+        let viewController = CreateNewStockViewController(viewModel: viewModel)
+        return viewController
+    }
 }
 
 class MyNavigationController: UINavigationController {

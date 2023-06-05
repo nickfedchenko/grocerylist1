@@ -38,6 +38,12 @@
 		3347645B2A287EA5008F4834 /* StocksNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347645A2A287EA5008F4834 /* StocksNavigationView.swift */; };
 		3347645D2A2889E4008F4834 /* StocksLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347645C2A2889E4008F4834 /* StocksLinkView.swift */; };
 		334764612A29CCA4008F4834 /* StockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764602A29CCA4008F4834 /* StockCell.swift */; };
+		334764642A2A25F4008F4834 /* PantryListOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764632A2A25F4008F4834 /* PantryListOptionViewController.swift */; };
+		334764662A2A2610008F4834 /* PantryListOptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764652A2A2610008F4834 /* PantryListOptionViewModel.swift */; };
+		334764692A2AE645008F4834 /* CreateNewStockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764682A2AE645008F4834 /* CreateNewStockViewController.swift */; };
+		3347646B2A2B62FB008F4834 /* AutoRepeatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347646A2A2B62FB008F4834 /* AutoRepeatView.swift */; };
+		3347646D2A2B6945008F4834 /* NameOfStockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347646C2A2B6945008F4834 /* NameOfStockView.swift */; };
+		3347646F2A2B7DE2008F4834 /* CreateNewStockViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347646E2A2B7DE2008F4834 /* CreateNewStockViewModel.swift */; };
 		334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */; };
 		334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */; };
 		334BAE53299E6606005F52F5 /* SharingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE52299E6606005F52F5 /* SharingListViewModel.swift */; };
@@ -56,6 +62,8 @@
 		335519CE29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519CD29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift */; };
 		335519D029B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519CF29B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift */; };
 		335519D329B0BD2600AD2B77 /* CreateNewRecipeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519D229B0BD2600AD2B77 /* CreateNewRecipeModel.swift */; };
+		3366BEE02A2C1D3A00D50704 /* AutoRepeatSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEDF2A2C1D3A00D50704 /* AutoRepeatSettingView.swift */; };
+		3366BEE22A2C583D00D50704 /* AutoRepeatCustomSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */; };
 		3367C78C299F30E8008B39A5 /* SharingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367C78B299F30E8008B39A5 /* SharingHeaderView.swift */; };
 		3368FD6329B5F89C00D97291 /* PreparationStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD6229B5F89C00D97291 /* PreparationStepViewController.swift */; };
 		3368FD6529B60CD000D97291 /* PreparationStepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD6429B60CD000D97291 /* PreparationStepViewModel.swift */; };
@@ -333,6 +341,12 @@
 		3347645A2A287EA5008F4834 /* StocksNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksNavigationView.swift; sourceTree = "<group>"; };
 		3347645C2A2889E4008F4834 /* StocksLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksLinkView.swift; sourceTree = "<group>"; };
 		334764602A29CCA4008F4834 /* StockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockCell.swift; sourceTree = "<group>"; };
+		334764632A2A25F4008F4834 /* PantryListOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryListOptionViewController.swift; sourceTree = "<group>"; };
+		334764652A2A2610008F4834 /* PantryListOptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryListOptionViewModel.swift; sourceTree = "<group>"; };
+		334764682A2AE645008F4834 /* CreateNewStockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewStockViewController.swift; sourceTree = "<group>"; };
+		3347646A2A2B62FB008F4834 /* AutoRepeatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRepeatView.swift; sourceTree = "<group>"; };
+		3347646C2A2B6945008F4834 /* NameOfStockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameOfStockView.swift; sourceTree = "<group>"; };
+		3347646E2A2B7DE2008F4834 /* CreateNewStockViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewStockViewModel.swift; sourceTree = "<group>"; };
 		334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingPopUpViewController.swift; sourceTree = "<group>"; };
 		334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewController.swift; sourceTree = "<group>"; };
 		334BAE52299E6606005F52F5 /* SharingListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewModel.swift; sourceTree = "<group>"; };
@@ -351,6 +365,8 @@
 		335519CD29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeViewWithTextField.swift; sourceTree = "<group>"; };
 		335519CF29B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipePhotoView.swift; sourceTree = "<group>"; };
 		335519D229B0BD2600AD2B77 /* CreateNewRecipeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeModel.swift; sourceTree = "<group>"; };
+		3366BEDF2A2C1D3A00D50704 /* AutoRepeatSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRepeatSettingView.swift; sourceTree = "<group>"; };
+		3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRepeatCustomSettingView.swift; sourceTree = "<group>"; };
 		3367C78B299F30E8008B39A5 /* SharingHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingHeaderView.swift; sourceTree = "<group>"; };
 		3368FD6229B5F89C00D97291 /* PreparationStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparationStepViewController.swift; sourceTree = "<group>"; };
 		3368FD6429B60CD000D97291 /* PreparationStepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparationStepViewModel.swift; sourceTree = "<group>"; };
@@ -677,7 +693,6 @@
 			isa = PBXGroup;
 			children = (
 				334764472A24EE48008F4834 /* SelectIconViewController.swift */,
-				334764452A24B747008F4834 /* SelectIconView.swift */,
 				3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */,
 			);
 			path = "Select Icon for pantry";
@@ -695,8 +710,10 @@
 		334764532A277C56008F4834 /* Stocks */ = {
 			isa = PBXGroup;
 			children = (
+				334764622A2A25B2008F4834 /* Child */,
 				334764582A284368008F4834 /* StocksViewModel.swift */,
 				334764542A277C9F008F4834 /* StocksViewController.swift */,
+				334764452A24B747008F4834 /* SelectIconView.swift */,
 				3347645F2A29CC78008F4834 /* cell */,
 				3347645E2A29CC4C008F4834 /* subviews */,
 			);
@@ -719,6 +736,28 @@
 				334764602A29CCA4008F4834 /* StockCell.swift */,
 			);
 			path = cell;
+			sourceTree = "<group>";
+		};
+		334764622A2A25B2008F4834 /* Child */ = {
+			isa = PBXGroup;
+			children = (
+				334764652A2A2610008F4834 /* PantryListOptionViewModel.swift */,
+				334764632A2A25F4008F4834 /* PantryListOptionViewController.swift */,
+			);
+			path = Child;
+			sourceTree = "<group>";
+		};
+		334764672A2AE621008F4834 /* Create New Stock */ = {
+			isa = PBXGroup;
+			children = (
+				3347646E2A2B7DE2008F4834 /* CreateNewStockViewModel.swift */,
+				334764682A2AE645008F4834 /* CreateNewStockViewController.swift */,
+				3347646A2A2B62FB008F4834 /* AutoRepeatView.swift */,
+				3347646C2A2B6945008F4834 /* NameOfStockView.swift */,
+				3366BEDF2A2C1D3A00D50704 /* AutoRepeatSettingView.swift */,
+				3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */,
+			);
+			path = "Create New Stock";
 			sourceTree = "<group>";
 		};
 		334BAE4B299DF88F005F52F5 /* Sharing */ = {
@@ -1615,6 +1654,7 @@
 				332340952A1B918300609813 /* Pantry */,
 				33995D302A1F9694003FECAE /* Create New Pantry */,
 				334764532A277C56008F4834 /* Stocks */,
+				334764672A2AE621008F4834 /* Create New Stock */,
 				33F8253529C050B700B349D5 /* Search */,
 				334BAE4B299DF88F005F52F5 /* Sharing */,
 				3379B64C29B755B20080923A /* Collection */,
@@ -2055,6 +2095,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B381EF2E299BA19600DCDE40 /* PasswordExpiredViewModel.swift in Sources */,
+				3366BEE22A2C583D00D50704 /* AutoRepeatCustomSettingView.swift in Sources */,
 				B3C3FA4729115AA20011EC0A /* OnboardingContentView.swift in Sources */,
 				33F8253B29C0632700B349D5 /* SearchInListViewController.swift in Sources */,
 				B315F9DE2989339A0009CEB8 /* CheckmarkCompositionView.swift in Sources */,
@@ -2100,6 +2141,7 @@
 				333E2D3129EFC2E000F705E7 /* DBStore+CoreDataProperties.swift in Sources */,
 				334BAE55299E700B005F52F5 /* Table+CollectionExtension.swift in Sources */,
 				33995D372A1F9FE5003FECAE /* PantryListTemplateView.swift in Sources */,
+				334764662A2A2610008F4834 /* PantryListOptionViewModel.swift in Sources */,
 				B3693402291BA62F00AFFAA6 /* CreateNewListViewModel.swift in Sources */,
 				B3777E202938D8210074BE38 /* InternetConnection.swift in Sources */,
 				B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */,
@@ -2144,9 +2186,11 @@
 				B3AD42DA299117980043A37F /* RegistrationResponse.swift in Sources */,
 				389DCF4A29461B2000DB9382 /* RecipeMainImageView.swift in Sources */,
 				B315F9E6298A3F420009CEB8 /* WriteReviewViewController.swift in Sources */,
+				3347646B2A2B62FB008F4834 /* AutoRepeatView.swift in Sources */,
 				B3F7C9C929963F1A0081B245 /* PasswordResetViewModel.swift in Sources */,
 				B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */,
 				335519D329B0BD2600AD2B77 /* CreateNewRecipeModel.swift in Sources */,
+				334764692A2AE645008F4834 /* CreateNewStockViewController.swift in Sources */,
 				B34BB81F292E5C8000748E8E /* SelectProductViewModel.swift in Sources */,
 				33E544A929C98C27008D84F8 /* PredictiveTextView.swift in Sources */,
 				3379B65029B756230080923A /* ShowCollectionViewModel.swift in Sources */,
@@ -2169,6 +2213,7 @@
 				B3F7C9B229938E150081B245 /* SelectUnitsView.swift in Sources */,
 				B36D18EB291A2CCD005EE32D /* CoreDataStorage.swift in Sources */,
 				B36AF94D2913FAD000944E9D /* GroceryCollectionViewHeader.swift in Sources */,
+				3347646F2A2B7DE2008F4834 /* CreateNewStockViewModel.swift in Sources */,
 				334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */,
 				3379B65729B9AED50080923A /* IngredientViewModel.swift in Sources */,
 				3379B65229B870A70080923A /* ShowCollectionCell.swift in Sources */,
@@ -2202,6 +2247,7 @@
 				3354818829D52E9C0097F528 /* DBNetCategory+CoreDataProperties.swift in Sources */,
 				B3B45E5C2934C02B00D60E82 /* SelectCategoryViewModel.swift in Sources */,
 				B3777E1B2938BF830074BE38 /* SettingsViewModel.swift in Sources */,
+				3347646D2A2B6945008F4834 /* NameOfStockView.swift in Sources */,
 				33F8254029C1648800B349D5 /* SearchInListProductView.swift in Sources */,
 				33D912C029A396A900C32117 /* MoreRecipeCell.swift in Sources */,
 				B34EACA42934F05800FBD0E0 /* CategoryModel.swift in Sources */,
@@ -2269,6 +2315,7 @@
 				B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */,
 				334BAE59299E7333005F52F5 /* TitleCell.swift in Sources */,
 				B3C3FA4F291175390011EC0A /* UIImageViewExtension.swift in Sources */,
+				334764642A2A25F4008F4834 /* PantryListOptionViewController.swift in Sources */,
 				333E2D2A29EEAE5700F705E7 /* CreateNewStoreViewController.swift in Sources */,
 				3368FD6529B60CD000D97291 /* PreparationStepViewModel.swift in Sources */,
 				33F8254229C18FCE00B349D5 /* UIStackViewExtension.swift in Sources */,
@@ -2297,6 +2344,7 @@
 				336A112729F2D1F4008CFF33 /* BundleExtension.swift in Sources */,
 				B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */,
 				B3476909291D21730045A287 /* ProductsSettingsViewController.swift in Sources */,
+				3366BEE02A2C1D3A00D50704 /* AutoRepeatSettingView.swift in Sources */,
 				B315F9D72988FF270009CEB8 /* AlternativePaywallCell.swift in Sources */,
 				335519C429AE26CE00AD2B77 /* MainScreenMenuView.swift in Sources */,
 				38F49043294771A500529D1F /* InstructionView.swift in Sources */,

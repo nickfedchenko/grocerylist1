@@ -46,21 +46,21 @@ class NameOfProductView: UIView {
         return textField
     }()
     
-    private lazy var contentView: UIView = {
+    private(set) lazy var contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
         return view
     }()
     
-    private let checkmarkImage: UIImageView = {
+    let checkmarkImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = R.image.emptyCheckmark()
         return imageView
     }()
     
-    private let productImageView: UIImageView = {
+    let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = R.image.addImage()
@@ -70,7 +70,7 @@ class NameOfProductView: UIView {
         return imageView
     }()
     
-    private lazy var removeImageButton: UIButton = {
+    private(set) lazy var removeImageButton: UIButton = {
         let button = UIButton()
         button.setImage(R.image.removeImage(), for: .normal)
         button.addTarget(self, action: #selector(removeImageTapped), for: .touchUpInside)
@@ -153,7 +153,7 @@ class NameOfProductView: UIView {
         setupRemoveImageButton()
     }
     
-    private func setup() {
+    func setup() {
         let tapOnAddImageRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOnImage))
         productImageView.addGestureRecognizer(tapOnAddImageRecognizer)
         

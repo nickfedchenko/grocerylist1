@@ -1891,7 +1891,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 198 images.
+  /// This `_R.image` struct is generated, and contains static references to 202 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1931,11 +1931,17 @@ struct _R {
     /// Image `AppleImage`.
     var appleImage: RswiftResources.ImageResource { .init(name: "AppleImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `AutoRepeat`.
+    var autoRepeat: RswiftResources.ImageResource { .init(name: "AutoRepeat", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `Baby`.
     var baby: RswiftResources.ImageResource { .init(name: "Baby", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Bank Card`.
     var bankCard: RswiftResources.ImageResource { .init(name: "Bank Card", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Calendar`.
+    var calendar: RswiftResources.ImageResource { .init(name: "Calendar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Car`.
     var car: RswiftResources.ImageResource { .init(name: "Car", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -2107,6 +2113,12 @@ struct _R {
 
     /// Image `autocategoryOk`.
     var autocategoryOk: RswiftResources.ImageResource { .init(name: "autocategoryOk", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `autorepeat_checkmark`.
+    var autorepeat_checkmark: RswiftResources.ImageResource { .init(name: "autorepeat_checkmark", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `autorepeat_reminder`.
+    var autorepeat_reminder: RswiftResources.ImageResource { .init(name: "autorepeat_reminder", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `basket`.
     var basket: RswiftResources.ImageResource { .init(name: "basket", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

@@ -29,6 +29,8 @@ final class StocksViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
         collectionView.register(classCell: StockCell.self)
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
+        collectionView.addGestureRecognizer(longPressGesture)
         return collectionView
     }()
     
@@ -52,6 +54,7 @@ final class StocksViewController: UIViewController {
     private let emptyView = StocksEmptyView()
     private let iconImageView = UIImageView()
     private let linkView = StocksLinkView()
+    private var cellState: CellState = .normal
     
     init(viewModel: StocksViewModel) {
         self.viewModel = viewModel
@@ -153,6 +156,29 @@ final class StocksViewController: UIViewController {
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
+    private func makeSnapshot() -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(collectionView.contentSize, false, 0)
+        collectionView.drawHierarchy(in: collectionView.bounds, afterScreenUpdates: false)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+    
+    @objc
+    private func longPressAction(_ recognizer: UILongPressGestureRecognizer) {
+        guard cellState == .normal,
+              recognizer.state == .began else {
+            return
+        }
+        
+        let location = recognizer.location(in: self.collectionView)
+        guard let indexPath = self.collectionView.indexPathForItem(at: location),
+                  let model = dataSource?.itemIdentifier(for: indexPath) else {
+                      return
+                  }
+        viewModel.goToCreateItem(stock: model)
+    }
+    
     private func makeConstraints() {
         self.view.addSubviews([containerView, emptyView, iconImageView, linkView,
                                collectionView, navigationView])
@@ -195,7 +221,10 @@ final class StocksViewController: UIViewController {
 }
 
 extension StocksViewController: UICollectionViewDelegate {
-    
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        let stock = dataSource?.itemIdentifier(for: indexPath)
+//        viewModel.goToCreateItem(stock: stock)
+//    }
 }
 
 extension StocksViewController: StocksNavigationViewDelegate {
@@ -204,11 +233,12 @@ extension StocksViewController: StocksNavigationViewDelegate {
     }
     
     func tapOnSharingButton() {
-        
+        viewModel.goToCreateItem(stock: nil)
     }
     
     func tapOnSettingButton() {
-        
+        let snapshot = makeSnapshot()
+        viewModel.goToListOptions(snapshot: snapshot)
     }
     
     func tapOnOutButton() {
