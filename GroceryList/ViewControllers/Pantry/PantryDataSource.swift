@@ -14,20 +14,7 @@ final class PantryDataSource {
     private var pantries: [PantryModel] = []
     
     init() {
-        let stockTest1: [Stock] = [
-            Stock(pantryId: UUID(), name: "есть но ничего не повторяется", isAvailability: true, isAutoRepeat: false,
-                  isReminder: false, dateOfCreation: Date()),
-            Stock(pantryId: UUID(), name: "повторяется", isAvailability: false, isAutoRepeat: true,
-                  isReminder: false, dateOfCreation: Date()),
-            Stock(pantryId: UUID(), name: "уведомляшка", isAvailability: false, isAutoRepeat: false,
-                  isReminder: true, dateOfCreation: Date()),
-            Stock(pantryId: UUID(), name: "есть все", description: "комментарий",
-                  isAvailability: true, isAutoRepeat: true,
-                  isReminder: true, dateOfCreation: Date()),
-            Stock(pantryId: UUID(), name: "с картинкой", imageData: R.image.basket()?.pngData(),
-                  isAvailability: false, isAutoRepeat: false,
-                  isReminder: false, dateOfCreation: Date())
-        ]
+        let stockTest1: [Stock] = []
         
         let icon = R.image.whiteCross()?.pngData()
         

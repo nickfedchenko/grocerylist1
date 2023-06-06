@@ -12,27 +12,26 @@ protocol EditSelectListDelegate: AnyObject {
     func productsSuccessfullyCopied()
 }
 
-final class EditSelectListViewController: SelectListViewController {
+enum EditListState {
+    case move
+    case copy
     
-    enum State {
-        case move
-        case copy
-        
-        var title: String {
-            switch self {
-            case .move: return R.string.localizable.moveTo()
-            case .copy: return R.string.localizable.copyTo()
-            }
+    var title: String {
+        switch self {
+        case .move: return R.string.localizable.moveTo()
+        case .copy: return R.string.localizable.copyTo()
         }
     }
-    
+}
+
+final class EditSelectListViewController: SelectListViewController {
     weak var delegate: EditSelectListDelegate?
     var productsToAdd: [Product]
-    var state: State
+    var state: EditListState
     
     private let bottomCreateListView = AddListView()
     
-    init(with productsSet: [Product], state: State) {
+    init(with productsSet: [Product], state: EditListState) {
         self.productsToAdd = productsSet
         self.state = state
         super.init(nibName: nil, bundle: nil)

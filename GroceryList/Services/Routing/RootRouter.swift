@@ -242,7 +242,7 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goToEditSelectList(products: [Product], contentViewHeigh: CGFloat,
-                            delegate: EditSelectListDelegate, state: EditSelectListViewController.State) {
+                            delegate: EditSelectListDelegate, state: EditListState) {
         let controller = viewControllerFactory.createEditSelectListController(
             router: self, products: products, contentViewHeigh: contentViewHeigh,
             delegate: delegate, state: state)
@@ -307,6 +307,15 @@ final class RootRouter: RootRouterProtocol {
             updateUI: updateUI, editCallback: editCallback, router: self)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
+    }
+    
+    func goToEditSelectPantryList(stocks: [Stock], contentViewHeigh: CGFloat,
+                                  delegate: EditSelectListDelegate, state: EditListState) {
+        let controller = viewControllerFactory.createEditSelectPantryListController(
+            router: self, stocks: stocks, contentViewHeigh: contentViewHeigh,
+            delegate: delegate, state: state
+        )
+        navigationPresent(controller, style: .automatic, animated: true)
     }
     
     // алерты / активити и принтер

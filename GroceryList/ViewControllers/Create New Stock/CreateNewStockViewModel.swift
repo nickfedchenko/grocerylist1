@@ -193,11 +193,11 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
                           store: store, cost: costOfProductPerUnit ?? -1, quantity: quantity == 0 ? nil : quantity,
                           unitId: currentSelectedUnit,
                           isAvailability: isAvailability, isAutoRepeat: isAutoRepeat, autoRepeat: autoRepeatSetting,
-                          isReminder: isReminder, dateOfCreation: Date())
+                          isReminder: isReminder)
         }
         
         //        CoreDataManager.shared.createProduct(product: product)
-//        setLocalNotification(stock: stock)
+        setLocalNotification(stock: stock)
         
         updateUI?(stock)
     }
@@ -242,7 +242,8 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
     }
     
     private func setLocalNotification(stock: Stock) {
-        guard let autoRepeat = stock.autoRepeat?.state else {
+        guard stock.isReminder,
+              let autoRepeat = stock.autoRepeat?.state else {
             return
         }
         let notificationRequest = LocalNotificationsManager.NotificationRequestModel(

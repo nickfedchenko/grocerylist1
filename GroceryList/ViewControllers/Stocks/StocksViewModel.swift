@@ -7,23 +7,30 @@
 
 import UIKit
 
+protocol StocksViewModelDelegate: AnyObject {
+    func reloadData()
+    func editState()
+    func updateController()
+    func updateUIEditTabBar()
+}
+
 final class StocksViewModel {
     
     weak var router: RootRouter?
-    var reloadData: (() -> Void)?
-    var editState: (() -> Void)?
-    var updateController: (() -> Void)?
+    weak var delegate: StocksViewModelDelegate?
         
     private var colorManager = ColorManager()
     private var dataSource: StocksDataSource
     private var pantry: PantryModel
+    private(set) var stateCellModel: StockCell.CellState = .normal
+    private var sort = false
     
     init(dataSource: StocksDataSource, pantry: PantryModel) {
         self.dataSource = dataSource
         self.pantry = pantry
         
         self.dataSource.reloadData = { [weak self] in
-            self?.reloadData?()
+            self?.delegate?.reloadData()
         }
     }
     
@@ -40,11 +47,19 @@ final class StocksViewModel {
     }
     
     var availabilityOfGoods: (total: String, outOfStocks: String) {
-        let stockCount = pantry.stock.count.asString
-        let outOfStock = pantry.stock.filter { !$0.isAvailability }.count
+        let stockCount = dataSource.stocks.count.asString
+        let outOfStock = dataSource.stocks.filter { !$0.isAvailability }.count
         let outOfStockCount = outOfStock == 0 ? "" : outOfStock.asString
         
         return (total: stockCount, outOfStocks: outOfStockCount)
+    }
+    
+    var editStocks: [Stock] {
+        return dataSource.editStocks
+    }
+    
+    var isSelectedAllStockForEditing: Bool {
+        dataSource.stocks.count == dataSource.editStocks.count
     }
     
     func getStocks() -> [Stock] {
@@ -62,7 +77,8 @@ final class StocksViewModel {
             image = UIImage(data: imageData)
         }
         
-        return StockCell.CellModel(theme: theme, name: model.name,
+        return StockCell.CellModel(state: stateCellModel,
+                                   theme: theme, name: model.name,
                                    description: model.description, image: image,
                                    isRepeat: model.isAutoRepeat, isReminder: model.isReminder,
                                    inStock: model.isAvailability)
@@ -107,14 +123,15 @@ final class StocksViewModel {
                 return
             }
             self.pantry = updatedPantry
-            self.updateController?()
+            self.delegate?.updateController()
         }, editCallback: { [weak self] content in
             guard let self else {
                 return
             }
             switch content {
             case .edit:
-                self.editState?()
+                self.stateCellModel = .edit
+                self.delegate?.editState()
             case .share: break
 //                var shareModel = self.pantry
 //                if let dbModel = CoreDataManager.shared.getList(list: self.pantry.id.uuidString),
@@ -131,6 +148,59 @@ final class StocksViewModel {
         router?.goToCreateNewStockController(pantry: pantry, stock: stock, compl: { [weak self] newStock in
             self?.dataSource.addStock(newStock)
         })
+    }
+    
+    func updateStockStatus(stock: Stock) {
+        dataSource.updateStockStatus(stock: stock)
+    }
+    
+    func sortIsAvailability() {
+        sort.toggle()
+        dataSource.sortByStock(sort)
+    }
+    
+    func updateStocksAfterMove(stocks: [Stock]) {
+        dataSource.updateStocksAfterMove(updatedStocks: stocks)
+    }
+    
+    func updateEditState(isEdit: Bool) {
+        stateCellModel = isEdit ? .edit : .normal
+    }
+    
+    func updateEditStock(_ stock: Stock) {
+        dataSource.updateEditStock(stock)
+    }
+    
+    func addAllProductsToEdit() {
+        dataSource.addEditAllStocks()
+        delegate?.updateUIEditTabBar()
+    }
+    
+    func moveProducts() {
+        deleteProducts()
+    }
+    
+    func showListView(contentViewHeigh: CGFloat,
+                      state: EditListState,
+                      delegate: EditSelectListDelegate) {
+        router?.goToEditSelectPantryList(stocks: editStocks,
+                                         contentViewHeigh: contentViewHeigh,
+                                         delegate: delegate,
+                                         state: state)
+    }
+    
+    func deleteProducts() {
+        editStocks.forEach {
+            dataSource.delete(stock: $0)
+        }
+        resetEditProducts()
+        delegate?.updateUIEditTabBar()
+//        updateList()
+    }
+    
+    func resetEditProducts() {
+        dataSource.resetEditStocks()
+        delegate?.updateUIEditTabBar()
     }
     
     private func getListByText() -> String {

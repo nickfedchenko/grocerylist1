@@ -272,7 +272,7 @@ class ProductsViewModel {
     }
     
     func showListView(contentViewHeigh: CGFloat,
-                      state: EditSelectListViewController.State,
+                      state: EditListState,
                       delegate: EditSelectListDelegate) {
         router?.goToEditSelectList(products: editProducts,
                                    contentViewHeigh: contentViewHeigh,

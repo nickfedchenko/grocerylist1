@@ -397,7 +397,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
     func createEditSelectListController(router: RootRouter, products: [Product], contentViewHeigh: CGFloat,
                                         delegate: EditSelectListDelegate,
-                                        state: EditSelectListViewController.State) -> UIViewController {
+                                        state: EditListState) -> UIViewController {
         let viewController = EditSelectListViewController(with: products, state: state)
         let dataSource = SelectListDataManager()
         let viewModel = SelectListViewModel(dataSource: dataSource)
@@ -483,6 +483,17 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.currentStock = stock
         
         let viewController = CreateNewStockViewController(viewModel: viewModel)
+        return viewController
+    }
+    
+    func createEditSelectPantryListController(router: RootRouter, stocks: [Stock], contentViewHeigh: CGFloat,
+                                              delegate: EditSelectListDelegate,
+                                              state: EditListState) -> UIViewController {
+        let dataSource = PantryDataSource()
+        let viewModel = SelectPantryListViewModel(dataSource: dataSource, copiedStocks: stocks, state: state)
+        viewModel.router = router
+        let viewController = SelectPantryListViewController(viewModel: viewModel, contentViewHeigh: contentViewHeigh)
+        viewController.delegate = delegate
         return viewController
     }
 }
