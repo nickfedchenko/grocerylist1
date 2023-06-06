@@ -57,6 +57,8 @@ final class MainRecipeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: false)
+        (self.tabBarController as? MainTabBarController)?.setTextTabBar()
         if !isShowFirstViewWillAppear {
             updateRecipeCollectionView()
             isShowFirstViewWillAppear = true
@@ -185,5 +187,9 @@ extension MainRecipeViewController: MainTabBarControllerRecipeDelegate {
         if let recipe {
             viewModel.showCustomRecipe(recipe: recipe)
         }
+    }
+    
+    func tappedAddItem() {
+        viewModel.tappedAddItem()
     }
 }

@@ -11,7 +11,9 @@ final class StocksViewModel {
     
     weak var router: RootRouter?
     var reloadData: (() -> Void)?
-    
+    var editState: (() -> Void)?
+    var updateController: (() -> Void)?
+        
     private var colorManager = ColorManager()
     private var dataSource: StocksDataSource
     private var pantry: PantryModel
@@ -97,32 +99,28 @@ final class StocksViewModel {
         return names
     }
     
-    func goBackButtonPressed() {
-        router?.pop()
-    }
-    
     func goToListOptions(snapshot: UIImage?) {
         router?.goToPantryListOption(pantry: pantry, snapshot: snapshot,
                                      listByText: getListByText(),
                                      updateUI: { [weak self] updatedPantry in
-            self?.pantry = updatedPantry
-//            self?.delegate?.updateController()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                self?.reloadData?()
+            guard let self else {
+                return
             }
+            self.pantry = updatedPantry
+            self.updateController?()
         }, editCallback: { [weak self] content in
             guard let self else {
                 return
             }
             switch content {
-            case .edit: break
-//                self.delegate?.editProduct()
-            case .share:
-                var shareModel = self.pantry
-                if let dbModel = CoreDataManager.shared.getList(list: self.pantry.id.uuidString),
-                   let model = GroceryListsModel(from: dbModel) {
+            case .edit:
+                self.editState?()
+            case .share: break
+//                var shareModel = self.pantry
+//                if let dbModel = CoreDataManager.shared.getList(list: self.pantry.id.uuidString),
+//                   let model = GroceryListsModel(from: dbModel) {
 //                    shareModel = model
-                }
+//                }
 //                self.router?.goToSharingList(listToShare: shareModel, users: self.getSharedListsUsers())
             default: break
             }
@@ -130,8 +128,8 @@ final class StocksViewModel {
     }
     
     func goToCreateItem(stock: Stock?) {
-        router?.goToCreateNewStockController(pantry: pantry, stock: stock, compl: { newStock in
-            
+        router?.goToCreateNewStockController(pantry: pantry, stock: stock, compl: { [weak self] newStock in
+            self?.dataSource.addStock(newStock)
         })
     }
     
@@ -139,38 +137,23 @@ final class StocksViewModel {
         var list = ""
         let newLine = "\n"
         let tab = "  • "
-        let buy = R.string.localizable.buy().uppercased() + newLine + newLine
-        list += buy
+        let pantry = "Pantry: \(pantryName)"
+        list += pantry
         
-//        dataSource.stocks.forEach { category in
-//            var categoryName = category.name
-//            if categoryName == "DictionaryFavorite" {
-//                categoryName = R.string.localizable.favorites()
-//            }
-//            if categoryName == "alphabeticalSorted" {
-//                categoryName = "AlphabeticalSorted".localized
-//            }
-//            list += categoryName.uppercased() + newLine
-//            category.products.map { product in
-//                return tab + product.name.firstCharacterUpperCase() + newLine
-//            }.forEach { title in
-//                list += title
-//            }
-//            list += newLine
-//        }
+        let stocks = dataSource.stocks.filter { $0.isAvailability }
+        let outOfStocks = dataSource.stocks.filter { !$0.isAvailability }
+        
+        list += "out of stocks".uppercased() + newLine
+        outOfStocks.forEach {
+            list += tab + $0.name.firstCharacterUpperCase() + newLine
+        }
+        list += newLine
+        
+        list += "stocks".uppercased() + newLine
+        stocks.forEach {
+            list += tab + $0.name.firstCharacterUpperCase() + newLine
+        }
         
         return list
     }
-}
-
-final class StocksDataSource {
-    
-    var reloadData: (() -> Void)?
-
-    private(set) var stocks: [Stock] = []
-    
-    init(stocks: [Stock]) {
-        self.stocks = stocks
-    }
-    
 }

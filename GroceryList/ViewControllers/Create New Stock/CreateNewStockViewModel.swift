@@ -8,11 +8,15 @@
 import UIKit
 
 class CreateNewStockViewModel: CreateNewProductViewModel {
-
+    
     var updateUI: ((Stock) -> Void)?
-
-    var pantry: PantryModel?
     var currentStock: Stock?
+    private var pantry: PantryModel
+    
+    init(pantry: PantryModel) {
+        self.pantry = pantry
+        super.init()
+    }
     
     override var productName: String? {
         currentStock?.name
@@ -49,7 +53,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
     override var productQuantityCount: Double? {
         guard let quantity = currentStock?.quantity else {
             guard let stringArray = getProductDescriptionQuantity()?.components(separatedBy: .decimalDigits.inverted)
-                                                               .filter({ !$0.isEmpty }),
+                                                                    .filter({ !$0.isEmpty }),
                   let lastCount = stringArray.first else {
                 return nil
             }
@@ -94,20 +98,66 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
     }
     
     override var getColorForBackground: UIColor {
-        colorManager.getGradient(index: pantry?.color ?? 0).light
+        colorManager.getGradient(index: pantry.color).light
     }
     
     override var getColorForForeground: UIColor {
-        colorManager.getGradient(index: pantry?.color ?? 0).medium
+        colorManager.getGradient(index: pantry.color).medium
     }
     
-    var autoRepeat: String? {
-        (currentStock?.isAutoRepeat ?? false) ? "AutoRepeat" : "no AutoRepeat"
+    var isAvailability: Bool {
+        currentStock?.isAvailability ?? true
+    }
+    
+    var isAutoRepeat: Bool {
+        currentStock?.isAutoRepeat ?? false
+    }
+    
+    var autoRepeatTitle: String? {
+        guard let autoRepeatModel = currentStock?.autoRepeat,
+              isAutoRepeat else {
+            return "Auto Repeat"
+        }
+        
+        let autoRepeat = autoRepeatModel.state
+        guard autoRepeat == .custom else {
+            return autoRepeat.title
+        }
+        
+        var value = ""
+        let times = autoRepeatModel.times ?? 0
+        let period = autoRepeatModel.period ?? .days
+        
+        if period == .weeks {
+            let weekdayIndex = ((autoRepeatModel.weekday ?? 0) + 1) % 7
+            let weekday = Calendar.current.standaloneWeekdaySymbols[weekdayIndex]
+            if times >= 1 {
+                value = "every \(times + 1) weekly: \(weekday)"
+            } else {
+                value = "weekly: \(weekday)"
+            }
+        } else {
+            if times == 0 {
+                value = period.title
+            } else {
+                value = "every \(times + 1) \(period.title)"
+            }
+        }
+        
+        return value
+    }
+    
+    var autoRepeatModel: AutoRepeatModel? {
+        currentStock?.autoRepeat
+    }
+    
+    var isReminder: Bool {
+        currentStock?.isReminder ?? false
     }
     
     override func getDefaultStore() -> Store? {
-        let modelStores = pantry?.stock.compactMap({ $0.store })
-                                         .sorted(by: { $0.createdAt > $1.createdAt }) ?? []
+        let modelStores = pantry.stock.compactMap({ $0.store })
+            .sorted(by: { $0.createdAt > $1.createdAt })
         defaultStore = modelStores.first
         return defaultStore
     }
@@ -116,49 +166,44 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
         costOfProductPerUnit = currentProduct?.cost
     }
     
-    override func saveProduct(categoryName: String, productName: String, description: String,
-                     image: UIImage?, isUserImage: Bool, store: Store?, quantity: Double?) {
-        guard let model else { return }
+    func saveStock(productName: String, description: String, isAvailability: Bool, 
+                   image: UIImage?, isUserImage: Bool, store: Store?, quantity: Double?,
+                   isAutoRepeat: Bool, autoRepeatSetting: AutoRepeatModel?,
+                   isReminder: Bool) {
         var imageData: Data?
         if let image {
             imageData = image.jpegData(compressionQuality: 0.5)
         }
-        let product: Product
-        let categoryName = categoryName == R.string.localizable.category() ? "" : categoryName
-        if var currentProduct {
-            currentProduct.name = productName
-            currentProduct.category = categoryName
-            currentProduct.imageData = imageData
-            currentProduct.description = description
-            currentProduct.unitId = currentSelectedUnit
-            currentProduct.store = store
-            currentProduct.cost = costOfProductPerUnit ?? -1
-            currentProduct.quantity = quantity == 0 ? nil : quantity
-            product = currentProduct
+        let stock: Stock
+        if var currentStock {
+            currentStock.name = productName
+            currentStock.description = description
+            currentStock.imageData = imageData
+            currentStock.isUserImage = isUserImage
+            currentStock.store = store
+            currentStock.quantity = quantity
+            currentStock.unitId = currentSelectedUnit
+            currentStock.isAvailability = isAvailability
+            currentStock.isAutoRepeat = isAutoRepeat
+            currentStock.isReminder = isReminder
+            currentStock.autoRepeat = autoRepeatSetting
+            stock = currentStock
         } else {
-            product = Product(listId: model.id, name: productName,
-                              isPurchased: false, dateOfCreation: Date(),
-                              category: categoryName, isFavorite: false,
-                              imageData: imageData, description: description,
-                              unitId: currentSelectedUnit, isUserImage: isUserImage,
-                              store: store, cost: costOfProductPerUnit ?? -1,
-                              quantity: quantity == 0 ? nil : quantity)
+            stock = Stock(pantryId: pantry.id, name: productName, imageData: imageData, description: description,
+                          store: store, cost: costOfProductPerUnit ?? -1, quantity: quantity == 0 ? nil : quantity,
+                          unitId: currentSelectedUnit,
+                          isAvailability: isAvailability, isAutoRepeat: isAutoRepeat, autoRepeat: autoRepeatSetting,
+                          isReminder: isReminder, dateOfCreation: Date())
         }
         
-//        CoreDataManager.shared.createProduct(product: product)
-        valueChangedCallback?(product)
+        //        CoreDataManager.shared.createProduct(product: product)
+//        setLocalNotification(stock: stock)
         
-        idsOfChangedProducts.insert(product.id)
-        idsOfChangedLists.insert(model.id)
-        
-#if RELEASE
-        sendUserProduct(category: categoryName, product: productName)
-#endif
+        updateUI?(stock)
     }
     
     override func goToCreateNewStore() {
-        let modelForColor = GroceryListsModel(dateOfCreation: Date(),
-                                              color: pantry?.color ?? 0, products: [], typeOfSorting: 0)
+        let modelForColor = GroceryListsModel(dateOfCreation: Date(), color: pantry.color, products: [], typeOfSorting: 0)
         router?.goToCreateStore(model: modelForColor, compl: { [weak self] store in
             if let store {
                 self?.stores.append(store)
@@ -168,7 +213,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
     }
     
     func getTheme() -> Theme {
-        colorManager.getGradient(index: pantry?.color ?? 0)
+        colorManager.getGradient(index: pantry.color)
     }
     
     // достаем из описания продукта часть с количеством
@@ -187,12 +232,29 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
         allSubstring.forEach { substring in
             UnitSystem.allCases.forEach { unit in
                 if substring.trimmingCharacters(in: .whitespacesAndNewlines)
-                            .smartContains(unit.title) {
+                    .smartContains(unit.title) {
                     quantityString = substring
                 }
             }
             
         }
         return quantityString
+    }
+    
+    private func setLocalNotification(stock: Stock) {
+        guard let autoRepeat = stock.autoRepeat?.state else {
+            return
+        }
+        let notificationRequest = LocalNotificationsManager.NotificationRequestModel(
+            id: stock.id.uuidString,
+            title: "Out of stocks",
+            subtitle: "\(pantry.name): \(stock.name)",
+            autoRepeat: autoRepeat,
+            times: stock.autoRepeat?.times,
+            weekday: stock.autoRepeat?.weekday,
+            period: stock.autoRepeat?.period
+        )
+        
+        LocalNotificationsManager.shared.addNotification(notificationRequest)
     }
 }

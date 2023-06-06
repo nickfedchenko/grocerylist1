@@ -35,6 +35,7 @@ class NameOfStockView: NameOfProductView {
     
     func setStock(isAvailability: Bool) {
         stockImageView.image = isAvailability ? checkImage : crossImage
+        colorView.backgroundColor = isAvailability ? color : R.color.lightGray()
     }
     
     func setStockColor(color: UIColor) {

@@ -55,6 +55,7 @@ struct Stock: Hashable {
     var unitId: UnitSystem?
     var isAvailability: Bool
     var isAutoRepeat: Bool
+    var autoRepeat: AutoRepeatModel?
     var isReminder: Bool
     
     var dateOfCreation: Date
@@ -63,10 +64,24 @@ struct Stock: Hashable {
     var isVisibleСost: Bool = false
 }
 
+struct AutoRepeatModel: Hashable {
+    let state: StockAutoRepeat
+    let times: Int?
+    let weekday: Int?
+    let period: RepeatPeriods?
+}
+
 enum StockAutoRepeat: Int, CaseIterable {
     case daily
     case weekly
     case monthly
     case yearly
     case custom
+}
+
+enum RepeatPeriods: Int, CaseIterable {
+    case days
+    case weeks
+    case months
+    case years
 }

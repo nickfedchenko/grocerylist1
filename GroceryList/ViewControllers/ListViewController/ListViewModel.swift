@@ -131,6 +131,12 @@ class ListViewModel {
         dataSource.imageHeight
     }
     
+    func tappedAddItem() {
+        router?.goCreateNewList(compl: { [weak self] model, _  in
+            self?.router?.goProductsVC(model: model, compl: { })
+        })
+    }
+    
     // MARK: - Shared List Functions
     
     private func downloadMySharedLists() {

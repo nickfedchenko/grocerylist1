@@ -73,10 +73,16 @@ final class PantryViewModel {
         dataSource.delete(pantry: model)
     }
     
-    func showEditPantry(pantry: PantryModel) {
-        router?.goToCreateNewPantry(currentPantry: pantry) { [weak self] pantry in
+    func showEditPantry(presentedController: UIViewController,pantry: PantryModel) {
+        router?.goToCreateNewPantry(presentedController: presentedController, currentPantry: pantry) { [weak self] pantry in
             self?.addPantry(pantry)
         }
+    }
+    
+    func tappedAddItem(presentedController: UIViewController) {
+        router?.goToCreateNewPantry(presentedController: presentedController, currentPantry: nil, updateUI: { [weak self] pantry in
+            self?.addPantry(pantry)
+        })
     }
     
     func showStocks(controller: UIViewController, model: PantryModel) {

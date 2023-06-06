@@ -47,19 +47,6 @@ final class MainTabBarViewModel {
         viewControllers
     }
     
-    func tappedAddItem(state: TabBarItemView.Item) {
-        switch state {
-        case .list, .recipe:
-            router?.goCreateNewList(compl: { [weak self] model, _  in
-                self?.router?.goProductsVC(model: model, compl: { })
-            })
-        case .pantry:
-            router?.goToCreateNewPantry(currentPantry: nil, updateUI: { [weak self] pantry in
-                self?.delegate?.updatePantryUI(pantry)
-            })
-        }
-    }
-    
     func createNewRecipeTapped() {
         router?.goToCreateNewRecipe(compl: { [weak self] recipe in
             self?.delegate?.updateRecipeUI(recipe)

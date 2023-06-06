@@ -55,6 +55,14 @@ final class CustomTabBarView: ViewWithOverriddenPoint {
         }
     }
 
+    func updateColorAddItem(_ color: UIColor?) {
+        addItem.setColor(background: color, image: color)
+    }
+    
+    func updateTextAddItem(_ text: String) {
+        addItem.setText(text)
+    }
+    
     private func setup() {
         self.backgroundColor = .white.withAlphaComponent(0.95)
         lineView.backgroundColor = R.color.lightGray()

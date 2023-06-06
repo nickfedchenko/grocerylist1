@@ -21,6 +21,12 @@ class PantryListOptionViewController: ProductsSettingsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel?.delegate = self
+        (viewModel as? PantryListOptionViewModel)?.goToEditList = { [weak self] in
+            guard let self else {
+                return
+            }
+            (self.viewModel as? PantryListOptionViewModel)?.changeList(presentedController: self)
+        }
     }
 
 }

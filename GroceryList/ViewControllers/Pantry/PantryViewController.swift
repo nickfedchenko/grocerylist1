@@ -79,6 +79,8 @@ final class PantryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.showStarterPackIfNeeded()
+        (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: false)
+        (self.tabBarController as? MainTabBarController)?.setTextTabBar()
     }
     
     private func setupContextMenu() {
@@ -248,7 +250,6 @@ extension PantryViewController: PantryCellDelegate {
             cell.removeDragAndDropShadow()
             collectionView.cancelInteractiveMovement()
         }
-        
     }
     
     func tapContextMenu(point: CGPoint, cell: PantryCell) {
@@ -281,11 +282,12 @@ extension PantryViewController: PantryEditMenuViewDelegate {
             self?.contextMenuBackgroundView.isHidden = true
             switch state {
             case .edit:
-                guard let contextMenuIndex = self?.contextMenuIndex,
-                      let model = self?.dataSource?.itemIdentifier(for: contextMenuIndex) else {
+                guard let self,
+                      let contextMenuIndex = self.contextMenuIndex,
+                      let model = self.dataSource?.itemIdentifier(for: contextMenuIndex) else {
                     return
                 }
-                self?.viewModel.showEditPantry(pantry: model)
+                self.viewModel.showEditPantry(presentedController: self, pantry: model)
             case .delete:
                 self?.updateDeleteAlertViewConstraint(with: 224)
             }
@@ -297,5 +299,9 @@ extension PantryViewController: PantryEditMenuViewDelegate {
 extension PantryViewController: MainTabBarControllerPantryDelegate {
     func updatePantryUI(_ pantry: PantryModel) {
         viewModel.addPantry(pantry)
+    }
+    
+    func tappedAddItem() {
+        viewModel.tappedAddItem(presentedController: self)
     }
 }
