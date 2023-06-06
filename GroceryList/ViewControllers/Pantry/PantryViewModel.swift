@@ -7,14 +7,14 @@
 
 import UIKit
 
-final class PantryViewModel {
+class PantryViewModel {
     
     weak var router: RootRouter?
     
     var reloadData: (() -> Void)?
     
     private var colorManager = ColorManager()
-    private var dataSource: PantryDataSource
+    private(set) var dataSource: PantryDataSource
     private var starterPack = true
     
     init(dataSource: PantryDataSource) {

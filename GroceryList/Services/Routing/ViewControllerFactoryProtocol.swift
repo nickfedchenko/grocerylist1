@@ -65,7 +65,7 @@ protocol ViewControllerFactoryProtocol {
     func createRecipeScreen(router: RootRouter, recipe: Recipe) -> UIViewController
     func createEditSelectListController(router: RootRouter, products: [Product], contentViewHeigh: CGFloat,
                                         delegate: EditSelectListDelegate,
-                                        state: EditSelectListViewController.State) -> UIViewController
+                                        state: EditListState) -> UIViewController
     func createNewStoreController(router: RootRouter, model: GroceryListsModel?,
                                   compl: @escaping (Store?) -> Void) -> UIViewController
     func createProductsSortController(model: GroceryListsModel, productType: ProductsSortViewModel.ProductType,
@@ -82,4 +82,7 @@ protocol ViewControllerFactoryProtocol {
     func createCreateNewStockController(pantry: PantryModel, stock: Stock?,
                                         compl: @escaping (Stock) -> Void,
                                         router: RootRouter) -> UIViewController
+    func createEditSelectPantryListController(router: RootRouter, stocks: [Stock], contentViewHeigh: CGFloat,
+                                              delegate: EditSelectListDelegate,
+                                              state: EditListState) -> UIViewController
 }

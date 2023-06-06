@@ -14,6 +14,7 @@ struct PantryModel: Hashable {
     var icon: Data?
     var stock: [Stock]
     var synchronizedLists: [UUID]
+    var isSort: Bool = false
     
     var dateOfCreation: Date
     var sharedId: String = ""
@@ -45,6 +46,7 @@ struct PantryModel: Hashable {
 
 struct Stock: Hashable {
     var id = UUID()
+    var index: Int = 0
     var pantryId: UUID
     var name: String
     var imageData: Data?
@@ -62,6 +64,43 @@ struct Stock: Hashable {
     var isUserImage: Bool? = false
     var userToken: String?
     var isVisibleСost: Bool = false
+    
+    init(copyStock: Stock) {
+        self.pantryId = copyStock.pantryId
+        self.name = copyStock.name
+        self.imageData = copyStock.imageData
+        self.description = copyStock.description
+        self.store = copyStock.store
+        self.cost = copyStock.cost
+        self.quantity = copyStock.quantity
+        self.unitId = copyStock.unitId
+        self.isAvailability = copyStock.isAvailability
+        self.isAutoRepeat = copyStock.isAutoRepeat
+        self.autoRepeat = copyStock.autoRepeat
+        self.isReminder = false
+        self.dateOfCreation = Date()
+        self.isUserImage = copyStock.isUserImage
+    }
+    
+    init(pantryId: UUID, name: String, imageData: Data?, description: String?,
+         store: Store?, cost: Double?, quantity: Double?,
+         unitId: UnitSystem?, isAvailability: Bool,
+         isAutoRepeat: Bool, autoRepeat: AutoRepeatModel?,
+         isReminder: Bool) {
+        self.pantryId = pantryId
+        self.name = name
+        self.imageData = imageData
+        self.description = description
+        self.store = store
+        self.cost = cost
+        self.quantity = quantity
+        self.unitId = unitId
+        self.isAvailability = isAvailability
+        self.isAutoRepeat = isAutoRepeat
+        self.autoRepeat = autoRepeat
+        self.isReminder = isReminder
+        self.dateOfCreation = Date()
+    }
 }
 
 struct AutoRepeatModel: Hashable {

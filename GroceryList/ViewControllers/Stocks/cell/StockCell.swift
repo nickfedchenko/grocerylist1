@@ -9,12 +9,12 @@ import UIKit
 
 protocol StockCellDelegate: AnyObject {
     func tapMoveButton(gesture: UILongPressGestureRecognizer)
-    func tapSelectEditState(cell: StockCell)
 }
 
 final class StockCell: UICollectionViewCell {
     
     struct CellModel {
+        let state: CellState
         let theme: Theme
         let name: String
         let description: String?
@@ -22,6 +22,11 @@ final class StockCell: UICollectionViewCell {
         let isRepeat: Bool
         let isReminder: Bool
         let inStock: Bool
+    }
+    
+    enum CellState {
+        case normal
+        case edit
     }
     
     weak var delegate: StockCellDelegate?
@@ -60,8 +65,9 @@ final class StockCell: UICollectionViewCell {
     private let storeView = UIView()
     
     private let editView = UIView()
-    private let moveImageView = UIImageView()
-    private let selectImageView = UIImageView()
+    private let moveImageView = UIImageView(image: R.image.pantry_move()?.withTintColor(R.color.edit() ?? .black))
+    private let selectImageView = UIImageView(image: R.image.emptyCheckmark()?.withTintColor(R.color.edit() ?? .black))
+    private let whiteCheckmarkImage = UIImageView(image: R.image.whiteCheckmark())
     
     private let checkImage = R.image.checkmark()?.withTintColor(.white)
     private let crossImage = R.image.whiteCross()?.withTintColor(.black)
@@ -108,6 +114,16 @@ final class StockCell: UICollectionViewCell {
         }
     }
     
+    func updateEditCheckmark(isSelect: Bool) {
+        guard isSelect else {
+            whiteCheckmarkImage.image = nil
+            selectImageView.image = R.image.emptyCheckmark()?.withTintColor(UIColor(hex: "#6319FF"))
+            return
+        }
+        whiteCheckmarkImage.image = getImageWithColor(color: .white)
+        selectImageView.image = self.getImageWithColor(color: UIColor(hex: "#6319FF"))
+    }
+    
     private func setupCell() {
         [mainContainerShadowOneView, mainContainerShadowTwoView, mainContainer].forEach {
             $0.backgroundColor = .white
@@ -121,14 +137,9 @@ final class StockCell: UICollectionViewCell {
         stockView.layer.cornerRadius = 4
         stockView.layer.cornerCurve = .continuous
         
-        editView.isHidden = true
-        
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressOnMoveButton))
         moveImageView.isUserInteractionEnabled = true
         moveImageView.addGestureRecognizer(longPressGesture)
-        
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapSelectEditState))
-        selectImageView.addGestureRecognizer(tapRecognizer)
     }
     
     private func clearCell() {
@@ -151,6 +162,7 @@ final class StockCell: UICollectionViewCell {
         
         mainContainer.backgroundColor = inStock ? theme.light : .white
         stockView.backgroundColor = inStock ? theme.medium : R.color.lightGray()
+        editView.backgroundColor = inStock ? theme.light : .white
     }
     
     private func updateConstraints(cellModel: CellModel) {
@@ -171,6 +183,21 @@ final class StockCell: UICollectionViewCell {
         if cellModel.image == nil {
             imageView.snp.updateConstraints { $0.width.equalTo(0) }
         }
+        
+        editView.isHidden = cellModel.state == .normal
+    }
+    
+    private func getImageWithColor(color: UIColor?) -> UIImage? {
+        let size = CGSize(width: 28, height: 28)
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        guard let color = color else { return nil }
+        color.setFill()
+        UIRectFill(rect)
+        let image: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        guard let image = image else { return nil }
+        return image.rounded(radius: 100)
     }
     
     @objc
@@ -178,17 +205,12 @@ final class StockCell: UICollectionViewCell {
         delegate?.tapMoveButton(gesture: gesture)
     }
     
-    @objc
-    private func tapSelectEditState() {
-        delegate?.tapSelectEditState(cell: self)
-    }
-    
     private func makeConstraints() {
         contentView.addSubviews([mainContainerShadowOneView, mainContainerShadowTwoView, mainContainer])
         mainContainer.addSubviews([imageView, nameLabel, descriptionLabel,
                                    repeatImageView, reminderImageView, stockView, editView])
         stockView.addSubview(stockImageView)
-        editView.addSubviews([moveImageView, selectImageView])
+        editView.addSubviews([moveImageView, selectImageView, whiteCheckmarkImage])
         
         mainContainer.snp.makeConstraints {
             $0.top.centerX.equalToSuperview()
@@ -263,8 +285,14 @@ final class StockCell: UICollectionViewCell {
         }
         
         selectImageView.snp.makeConstraints {
-            $0.top.trailing.equalToSuperview()
-            $0.height.width.equalTo(40)
+            $0.trailing.equalToSuperview().offset(-10)
+            $0.centerY.equalToSuperview()
+            $0.height.width.equalTo(28)
+        }
+        
+        whiteCheckmarkImage.snp.makeConstraints {
+            $0.center.equalTo(selectImageView)
+            $0.width.height.equalTo(8)
         }
     }
 }

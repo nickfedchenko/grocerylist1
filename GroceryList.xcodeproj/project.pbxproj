@@ -66,6 +66,8 @@
 		3366BEE22A2C583D00D50704 /* AutoRepeatCustomSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */; };
 		3366BEE52A2DA05A00D50704 /* StocksDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE42A2DA05A00D50704 /* StocksDataSource.swift */; };
 		3366BEE72A2DAF2700D50704 /* LocalNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE62A2DAF2700D50704 /* LocalNotificationsManager.swift */; };
+		3366BEE92A2F37BB00D50704 /* SelectPantryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE82A2F37BB00D50704 /* SelectPantryListViewController.swift */; };
+		3366BEED2A2F3FDF00D50704 /* SelectPantryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEEC2A2F3FDF00D50704 /* SelectPantryListViewModel.swift */; };
 		3367C78C299F30E8008B39A5 /* SharingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367C78B299F30E8008B39A5 /* SharingHeaderView.swift */; };
 		3368FD6329B5F89C00D97291 /* PreparationStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD6229B5F89C00D97291 /* PreparationStepViewController.swift */; };
 		3368FD6529B60CD000D97291 /* PreparationStepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD6429B60CD000D97291 /* PreparationStepViewModel.swift */; };
@@ -371,6 +373,8 @@
 		3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRepeatCustomSettingView.swift; sourceTree = "<group>"; };
 		3366BEE42A2DA05A00D50704 /* StocksDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksDataSource.swift; sourceTree = "<group>"; };
 		3366BEE62A2DAF2700D50704 /* LocalNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsManager.swift; sourceTree = "<group>"; };
+		3366BEE82A2F37BB00D50704 /* SelectPantryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPantryListViewController.swift; sourceTree = "<group>"; };
+		3366BEEC2A2F3FDF00D50704 /* SelectPantryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPantryListViewModel.swift; sourceTree = "<group>"; };
 		3367C78B299F30E8008B39A5 /* SharingHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingHeaderView.swift; sourceTree = "<group>"; };
 		3368FD6229B5F89C00D97291 /* PreparationStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparationStepViewController.swift; sourceTree = "<group>"; };
 		3368FD6429B60CD000D97291 /* PreparationStepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparationStepViewModel.swift; sourceTree = "<group>"; };
@@ -746,8 +750,8 @@
 		334764622A2A25B2008F4834 /* Child */ = {
 			isa = PBXGroup;
 			children = (
-				334764652A2A2610008F4834 /* PantryListOptionViewModel.swift */,
-				334764632A2A25F4008F4834 /* PantryListOptionViewController.swift */,
+				3366BEEA2A2F37C100D50704 /* List Option */,
+				3366BEEB2A2F37E100D50704 /* Select Pantry List */,
 			);
 			path = Child;
 			sourceTree = "<group>";
@@ -843,6 +847,24 @@
 				3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */,
 			);
 			path = subviews;
+			sourceTree = "<group>";
+		};
+		3366BEEA2A2F37C100D50704 /* List Option */ = {
+			isa = PBXGroup;
+			children = (
+				334764652A2A2610008F4834 /* PantryListOptionViewModel.swift */,
+				334764632A2A25F4008F4834 /* PantryListOptionViewController.swift */,
+			);
+			name = "List Option";
+			sourceTree = "<group>";
+		};
+		3366BEEB2A2F37E100D50704 /* Select Pantry List */ = {
+			isa = PBXGroup;
+			children = (
+				3366BEEC2A2F3FDF00D50704 /* SelectPantryListViewModel.swift */,
+				3366BEE82A2F37BB00D50704 /* SelectPantryListViewController.swift */,
+			);
+			name = "Select Pantry List";
 			sourceTree = "<group>";
 		};
 		3368FD6029B5F84500D97291 /* Preparation Steps */ = {
@@ -2217,6 +2239,7 @@
 				3347644D2A258E49008F4834 /* IconCollectionViewCell.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
 				337E79D429E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift in Sources */,
+				3366BEED2A2F3FDF00D50704 /* SelectPantryListViewModel.swift in Sources */,
 				B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */,
 				337E79CA29E51D6200668578 /* AddListView.swift in Sources */,
 				3379B65E29B9B3580080923A /* QuantityView.swift in Sources */,
@@ -2296,6 +2319,7 @@
 				B36AF9432913D39400944E9D /* UIImageExtension.swift in Sources */,
 				334764592A284368008F4834 /* StocksViewModel.swift in Sources */,
 				33F8253929C0559000B349D5 /* SearchInListViewModel.swift in Sources */,
+				3366BEE92A2F37BB00D50704 /* SelectPantryListViewController.swift in Sources */,
 				B3F7C9CB299645F80081B245 /* PasswordResetView.swift in Sources */,
 				389DCF4829460A1B00DB9382 /* RecipeScreenHeader.swift in Sources */,
 				3379B65A29B9B2ED0080923A /* CategoryView.swift in Sources */,
