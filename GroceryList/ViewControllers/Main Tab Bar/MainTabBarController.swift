@@ -10,16 +10,29 @@ import UIKit
 
 protocol MainTabBarControllerRecipeDelegate: AnyObject {
     func updateRecipeUI(_ recipe: Recipe?)
+    func tappedAddItem()
 }
 
 protocol MainTabBarControllerPantryDelegate: AnyObject {
     func updatePantryUI(_ pantry: PantryModel)
+    func tappedAddItem()
+}
+
+protocol MainTabBarControllerListDelegate: AnyObject {
+    func tappedAddItem()
+}
+
+protocol MainTabBarControllerStocksDelegate: AnyObject {
+    func tappedAddItem()
 }
 
 final class MainTabBarController: UITabBarController {
     
+    weak var listDelegate: MainTabBarControllerListDelegate?
     weak var pantryDelegate: MainTabBarControllerPantryDelegate?
     weak var recipeDelegate: MainTabBarControllerRecipeDelegate?
+    weak var stocksDelegate: MainTabBarControllerStocksDelegate?
+    
     let customTabBar = CustomTabBarView()
     
     private var viewModel: MainTabBarViewModel
@@ -73,6 +86,17 @@ final class MainTabBarController: UITabBarController {
             initAnalytic.toggle()
             viewModel.showFeedback()
         }
+    }
+    
+    func isHideNavView(isHide: Bool) {
+        navView.isHidden = isHide
+        navBackgroundView.isHidden = isHide
+    }
+    
+    func setTextTabBar(text: String = R.string.localizable.list(),
+                       color: UIColor? = R.color.primaryDark()) {
+        customTabBar.updateTextAddItem(text)
+        customTabBar.updateColorAddItem(color)
     }
     
     private func setupTabBar() {
@@ -214,7 +238,19 @@ extension MainTabBarController: CustomTabBarViewDelegate {
     func tabAddItem() {
         let itemTag = selectedIndex
         if let item = TabBarItemView.Item(rawValue: itemTag) {
-            viewModel.tappedAddItem(state: item)
+            switch item {
+            case .list:     listDelegate?.tappedAddItem()
+            case .pantry:
+                let navController = self.selectedViewController as? UINavigationController
+                let topViewController = navController?.topViewController
+                if topViewController is PantryViewController {
+                    pantryDelegate?.tappedAddItem()
+                }
+                if topViewController is StocksViewController {
+                    stocksDelegate?.tappedAddItem()
+                }
+            case .recipe:   recipeDelegate?.tappedAddItem()
+            }
         }
     }
 }

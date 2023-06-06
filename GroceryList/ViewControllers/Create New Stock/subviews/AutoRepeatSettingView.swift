@@ -15,6 +15,22 @@ protocol AutoRepeatSettingViewDelegate: AnyObject {
 class AutoRepeatSettingView: UIView {
     
     weak var delegate: AutoRepeatSettingViewDelegate?
+    var isAutoRepeat: Bool {
+        notification != nil
+    }
+    var isReminder: Bool {
+        reminderSwitch.isOn
+    }
+    var notification: AutoRepeatModel? {
+        guard let selectedTag,
+              let state = StockAutoRepeat(rawValue: selectedTag) else {
+            return nil
+        }
+        return AutoRepeatModel(state: state,
+                               times: customSettingView.times,
+                               weekday: customSettingView.weekday,
+                               period: customSettingView.period)
+    }
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -90,6 +106,22 @@ class AutoRepeatSettingView: UIView {
         self.backgroundColor = theme.light
         
         customSettingView.setupColor(theme: theme)
+    }
+    
+    func configure(autoRepeat: AutoRepeatModel?, isReminder: Bool) {
+        guard let autoRepeat else {
+            return
+        }
+        reminderSwitch.isOn = isReminder
+        selectedTag = autoRepeat.state.rawValue
+        stackView.arrangedSubviews.forEach { view in
+            (view as? AutoRepeatSettingSubView)?.markAsSelected(selectedTag == view.tag,
+                                                                color: color)
+            (view as? AutoRepeatSettingSubView)?.isVisibleCheckmark(selectedTag == view.tag)
+        }
+        if autoRepeat.state == .custom {
+            customSettingView.configure(autoRepeatModel: autoRepeat)
+        }
     }
     
     private func setup() {

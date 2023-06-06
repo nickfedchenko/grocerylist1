@@ -35,6 +35,14 @@ extension Date {
         (Calendar.current.component(.weekday, from: self) - Calendar.current.firstWeekday + 7) % 7 + 1
     }
     
+    var month: Int {
+        return Calendar.current.component(.month, from: self)
+    }
+    
+    var day: Int {
+        return Calendar.current.component(.day, from: self)
+    }
+    
     func days(sinceDate: Date) -> Int? {
         return Calendar.current.dateComponents([.day], from: sinceDate, to: self).day
     }

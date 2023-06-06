@@ -11,6 +11,7 @@ import UIKit
 final class PantryListOptionViewModel: ProductsSettingsViewModel {
 
     var updateUI: ((PantryModel) -> Void)?
+    var goToEditList: (() -> Void)?
     
     private var colorManager = ColorManager()
     private var pantry: PantryModel
@@ -108,14 +109,12 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
         switch content {
         case .edit:
             editList()
-        case .rename:
-            renameList()
+        case .rename, .changeColor:
+            selectedChangeList()
         case .share:
             shareList()
         case .send:
             sendListByText()
-        case .changeColor:
-            changeListColor()
         case .print:
             printList()
         case .delete:
@@ -137,23 +136,21 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
         }
     }
     
-    private func renameList() {
-        router?.goToCreateNewPantry(currentPantry: pantry, updateUI: { newPantry in
+    func changeList(presentedController: UIViewController) {
+        router?.goToCreateNewPantry(presentedController: presentedController,
+                                    currentPantry: pantry, updateUI: { newPantry in
             self.pantry = newPantry
             self.saveParameters()
         })
+    }
+    
+    private func selectedChangeList() {
+        goToEditList?()
     }
     
     private func editList() {
         delegate?.dismissController(comp: { [weak self] in
             self?.editCallback?(.edit)
-        })
-    }
-    
-    private func changeListColor() {
-        router?.goToCreateNewPantry(currentPantry: pantry, updateUI: { newPantry in
-            self.pantry = newPantry
-            self.saveParameters()
         })
     }
     

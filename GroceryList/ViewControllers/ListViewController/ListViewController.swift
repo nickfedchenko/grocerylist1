@@ -19,7 +19,7 @@ final class ListViewController: UIViewController {
         let layout = collectionViewLayoutManager.createCompositionalLayout()
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.contentInset.bottom = 60
-        collectionView.contentInset.top = 34 + UIView.safeAreaTop
+        collectionView.contentInset.top = 34
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
         collectionView.backgroundColor = R.color.background()
@@ -52,6 +52,8 @@ final class ListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        (self.tabBarController as? MainTabBarController)?.listDelegate = self
+        
         setupConstraints()
         createDataSource()
         viewModelChanges()
@@ -64,6 +66,8 @@ final class ListViewController: UIViewController {
         collectionViewDataSource?.apply(snapshot)
         viewModel.reloadDataFromStorage()
         updateImageConstraint()
+        (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: false)
+        (self.tabBarController as? MainTabBarController)?.setTextTabBar()
     }
     
     private func viewModelChanges() {
@@ -246,5 +250,11 @@ extension ListViewController: UICollectionViewDelegate {
             return
         }
         viewModel.cellTapped(with: model)
+    }
+}
+
+extension ListViewController: MainTabBarControllerListDelegate {
+    func tappedAddItem() {
+        viewModel.tappedAddItem()
     }
 }

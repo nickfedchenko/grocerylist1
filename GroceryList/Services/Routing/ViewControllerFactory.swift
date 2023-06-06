@@ -33,9 +33,10 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let dataSource = ListDataSource()
         let viewModel = ListViewModel(dataSource: dataSource)
         viewModel.router = router
-        
         let viewController = ListViewController(viewModel: viewModel)
-        return viewController
+        let navController = UINavigationController(rootViewController: viewController)
+        navController.isNavigationBarHidden = true
+        return navController
     }
     
     func createPantryController(router: RootRouter) -> UIViewController {
@@ -44,7 +45,9 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.router = router
         
         let viewController = PantryViewController(viewModel: viewModel)
-        return viewController
+        let navController = UINavigationController(rootViewController: viewController)
+        navController.isNavigationBarHidden = true
+        return navController
     }
     
     func createRecipeController(router: RootRouter) -> UIViewController {
@@ -474,10 +477,9 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createCreateNewStockController(pantry: PantryModel, stock: Stock? = nil,
                                         compl: @escaping (Stock) -> Void,
                                         router: RootRouter) -> UIViewController {
-        let viewModel = CreateNewStockViewModel()
+        let viewModel = CreateNewStockViewModel(pantry: pantry)
         viewModel.updateUI = compl
         viewModel.router = router
-        viewModel.pantry = pantry
         viewModel.currentStock = stock
         
         let viewController = CreateNewStockViewController(viewModel: viewModel)

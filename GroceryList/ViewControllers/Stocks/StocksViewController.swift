@@ -67,6 +67,7 @@ final class StocksViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        (self.tabBarController as? MainTabBarController)?.stocksDelegate = self
         setup()
         setupEmptyView()
         updateColor()
@@ -74,12 +75,32 @@ final class StocksViewController: UIViewController {
         createDataSource()
         reloadData()
         
+        viewModel.reloadData = { [weak self] in
+            self?.setupEmptyView()
+            self?.reloadData()
+        }
+        
+        viewModel.editState = { [weak self] in
+            self?.reloadData()
+        }
+        
+        viewModel.updateController? = { [weak self] in
+            self?.updateColor()
+            self?.updateTitle()
+        }
+        
         makeConstraints()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         navigationView.setupCustomRoundIfNeeded()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
+        (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: "item", color: viewModel.getTheme().medium)
     }
     
     private func setup() {
@@ -107,6 +128,11 @@ final class StocksViewController: UIViewController {
         collectionView.isHidden = viewModel.getStocks().isEmpty
     }
     
+    private func updateTitle() {
+        navigationView.configureTitle(icon: viewModel.pantryIcon,
+                                      title: viewModel.pantryName)
+    }
+    
     private func updateColor() {
         let theme = viewModel.getTheme()
         self.view.backgroundColor = theme.medium
@@ -132,10 +158,10 @@ final class StocksViewController: UIViewController {
             return true
         }
         
-        dataSource?.reorderingHandlers.didReorder = { [weak self] transaction in
-            let backingStore = transaction.finalSnapshot.itemIdentifiers
+//        dataSource?.reorderingHandlers.didReorder = { [weak self] transaction in
+//            let backingStore = transaction.finalSnapshot.itemIdentifiers
 //            self?.viewModel.updatePantriesAfterMove(updatedPantries: backingStore)
-        }
+//        }
     }
     
     private func reloadData() {
@@ -180,9 +206,9 @@ final class StocksViewController: UIViewController {
     }
     
     private func makeConstraints() {
-        self.view.addSubviews([containerView, emptyView, iconImageView, linkView,
+        self.view.addSubviews([containerView, emptyView, iconImageView,
                                collectionView, navigationView])
-        
+        collectionView.addSubview(linkView)
         navigationView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
@@ -229,11 +255,11 @@ extension StocksViewController: UICollectionViewDelegate {
 
 extension StocksViewController: StocksNavigationViewDelegate {
     func tapOnBackButton() {
-        viewModel.goBackButtonPressed()
+        self.navigationController?.popViewController(animated: true)
     }
     
     func tapOnSharingButton() {
-        viewModel.goToCreateItem(stock: nil)
+        
     }
     
     func tapOnSettingButton() {
@@ -253,5 +279,11 @@ extension StocksViewController: StockCellDelegate {
     
     func tapSelectEditState(cell: StockCell) {
         
+    }
+}
+
+extension StocksViewController: MainTabBarControllerStocksDelegate {
+    func tappedAddItem() {
+        viewModel.goToCreateItem(stock: nil)
     }
 }

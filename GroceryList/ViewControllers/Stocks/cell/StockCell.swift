@@ -39,6 +39,9 @@ final class StockCell: UICollectionViewCell {
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 4
+        imageView.layer.cornerCurve = .continuous
+        imageView.layer.masksToBounds = true
         return imageView
     }()
     
@@ -134,6 +137,8 @@ final class StockCell: UICollectionViewCell {
         
         repeatImageView.snp.updateConstraints { $0.width.equalTo(15) }
         reminderImageView.snp.updateConstraints { $0.width.equalTo(15) }
+        nameLabel.snp.makeConstraints { $0.top.equalToSuperview().offset(13.5) }
+        imageView.snp.updateConstraints { $0.width.equalTo(40) }
         
         self.layoutIfNeeded()
     }
@@ -149,7 +154,7 @@ final class StockCell: UICollectionViewCell {
     }
     
     private func updateConstraints(cellModel: CellModel) {
-        if cellModel.isReminder || cellModel.isRepeat || cellModel.description != nil {
+        if cellModel.isReminder || cellModel.isRepeat || !(cellModel.description?.isEmpty ?? true) {
             nameLabel.snp.updateConstraints { $0.top.equalToSuperview().offset(6) }
         }
         

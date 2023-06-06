@@ -64,6 +64,8 @@
 		335519D329B0BD2600AD2B77 /* CreateNewRecipeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519D229B0BD2600AD2B77 /* CreateNewRecipeModel.swift */; };
 		3366BEE02A2C1D3A00D50704 /* AutoRepeatSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEDF2A2C1D3A00D50704 /* AutoRepeatSettingView.swift */; };
 		3366BEE22A2C583D00D50704 /* AutoRepeatCustomSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */; };
+		3366BEE52A2DA05A00D50704 /* StocksDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE42A2DA05A00D50704 /* StocksDataSource.swift */; };
+		3366BEE72A2DAF2700D50704 /* LocalNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE62A2DAF2700D50704 /* LocalNotificationsManager.swift */; };
 		3367C78C299F30E8008B39A5 /* SharingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367C78B299F30E8008B39A5 /* SharingHeaderView.swift */; };
 		3368FD6329B5F89C00D97291 /* PreparationStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD6229B5F89C00D97291 /* PreparationStepViewController.swift */; };
 		3368FD6529B60CD000D97291 /* PreparationStepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD6429B60CD000D97291 /* PreparationStepViewModel.swift */; };
@@ -367,6 +369,8 @@
 		335519D229B0BD2600AD2B77 /* CreateNewRecipeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeModel.swift; sourceTree = "<group>"; };
 		3366BEDF2A2C1D3A00D50704 /* AutoRepeatSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRepeatSettingView.swift; sourceTree = "<group>"; };
 		3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRepeatCustomSettingView.swift; sourceTree = "<group>"; };
+		3366BEE42A2DA05A00D50704 /* StocksDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksDataSource.swift; sourceTree = "<group>"; };
+		3366BEE62A2DAF2700D50704 /* LocalNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsManager.swift; sourceTree = "<group>"; };
 		3367C78B299F30E8008B39A5 /* SharingHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingHeaderView.swift; sourceTree = "<group>"; };
 		3368FD6229B5F89C00D97291 /* PreparationStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparationStepViewController.swift; sourceTree = "<group>"; };
 		3368FD6429B60CD000D97291 /* PreparationStepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparationStepViewModel.swift; sourceTree = "<group>"; };
@@ -713,7 +717,7 @@
 				334764622A2A25B2008F4834 /* Child */,
 				334764582A284368008F4834 /* StocksViewModel.swift */,
 				334764542A277C9F008F4834 /* StocksViewController.swift */,
-				334764452A24B747008F4834 /* SelectIconView.swift */,
+				3366BEE42A2DA05A00D50704 /* StocksDataSource.swift */,
 				3347645F2A29CC78008F4834 /* cell */,
 				3347645E2A29CC4C008F4834 /* subviews */,
 			);
@@ -723,6 +727,7 @@
 		3347645E2A29CC4C008F4834 /* subviews */ = {
 			isa = PBXGroup;
 			children = (
+				334764452A24B747008F4834 /* SelectIconView.swift */,
 				3347645A2A287EA5008F4834 /* StocksNavigationView.swift */,
 				334764562A283FAB008F4834 /* StocksEmptyView.swift */,
 				3347645C2A2889E4008F4834 /* StocksLinkView.swift */,
@@ -752,10 +757,7 @@
 			children = (
 				3347646E2A2B7DE2008F4834 /* CreateNewStockViewModel.swift */,
 				334764682A2AE645008F4834 /* CreateNewStockViewController.swift */,
-				3347646A2A2B62FB008F4834 /* AutoRepeatView.swift */,
-				3347646C2A2B6945008F4834 /* NameOfStockView.swift */,
-				3366BEDF2A2C1D3A00D50704 /* AutoRepeatSettingView.swift */,
-				3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */,
+				3366BEE32A2D9FF000D50704 /* subviews */,
 			);
 			path = "Create New Stock";
 			sourceTree = "<group>";
@@ -830,6 +832,17 @@
 				335519D229B0BD2600AD2B77 /* CreateNewRecipeModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		3366BEE32A2D9FF000D50704 /* subviews */ = {
+			isa = PBXGroup;
+			children = (
+				3347646A2A2B62FB008F4834 /* AutoRepeatView.swift */,
+				3347646C2A2B6945008F4834 /* NameOfStockView.swift */,
+				3366BEDF2A2C1D3A00D50704 /* AutoRepeatSettingView.swift */,
+				3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */,
+			);
+			path = subviews;
 			sourceTree = "<group>";
 		};
 		3368FD6029B5F84500D97291 /* Preparation Steps */ = {
@@ -1626,6 +1639,7 @@
 				33E544AA29CA1107008D84F8 /* Feature Manager */,
 				B371CCAF299E36BB00E0E197 /* KeychainManager.swift */,
 				3342C9BC2A146D290010DA4A /* FeedbackManager.swift */,
+				3366BEE62A2DAF2700D50704 /* LocalNotificationsManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -2105,6 +2119,7 @@
 				B347690B291D23800045A287 /* ProductsSettingsViewModel.swift in Sources */,
 				33E544AC29CA1122008D84F8 /* FeatureManager.swift in Sources */,
 				B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */,
+				3366BEE72A2DAF2700D50704 /* LocalNotificationsManager.swift in Sources */,
 				B34EAC9E2934EE0100FBD0E0 /* SelectCategoryDataSource.swift in Sources */,
 				33A51B8B2A163FBF00BE11C1 /* ViewControllerFactoryProtocol.swift in Sources */,
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,
@@ -2343,6 +2358,7 @@
 				B3F7C9C729963F0A0081B245 /* PasswordResetViewController.swift in Sources */,
 				336A112729F2D1F4008CFF33 /* BundleExtension.swift in Sources */,
 				B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */,
+				3366BEE52A2DA05A00D50704 /* StocksDataSource.swift in Sources */,
 				B3476909291D21730045A287 /* ProductsSettingsViewController.swift in Sources */,
 				3366BEE02A2C1D3A00D50704 /* AutoRepeatSettingView.swift in Sources */,
 				B315F9D72988FF270009CEB8 /* AlternativePaywallCell.swift in Sources */,

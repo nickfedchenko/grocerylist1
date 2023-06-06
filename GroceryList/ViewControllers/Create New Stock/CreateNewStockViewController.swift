@@ -120,14 +120,18 @@ final class CreateNewStockViewController: UIViewController {
     
     /// если продукт открыт для редактирования, то заполняем поля
     private func setupCurrentProduct() {
-        guard viewModel.currentProduct != nil else {
+        guard viewModel.currentStock != nil else {
             return
         }
         
-        autoRepeatView.setRepeat("") // TODO: поправить
+        autoRepeatView.setRepeat(viewModel.autoRepeatTitle)
+        updateAutoRepeatView(isActive: viewModel.isAutoRepeat)
+        autoRepeatSettingView.configure(autoRepeat: viewModel.autoRepeatModel,
+                                        isReminder: viewModel.isReminder)
+        
         productView.productTextField.text = viewModel.productName
         productView.descriptionTextField.text = viewModel.userComment
-        productView.setStock(isAvailability: true) // TODO: поправить
+        productView.setStock(isAvailability: viewModel.isAvailability)
         if let productImage = viewModel.productImage {
             productView.setImage(productImage)
         }
@@ -157,12 +161,16 @@ final class CreateNewStockViewController: UIViewController {
     
     @objc
     private func saveButtonTapped() {
-        viewModel.saveProduct(categoryName: R.string.localizable.other(),
-                               productName: productView.productTitle ?? "",
-                               description: productView.descriptionTitle ?? "",
-                               image: productView.productImage,
-                               isUserImage: isUserImage,
-                               store: storeView.store, quantity: quantityView.quantity)
+        viewModel.saveStock(productName: productView.productTitle ?? "",
+                            description: productView.descriptionTitle ?? "",
+                            isAvailability: productView.isAvailability,
+                            image: productView.productImage,
+                            isUserImage: isUserImage,
+                            store: storeView.store,
+                            quantity: quantityView.quantity,
+                            isAutoRepeat: autoRepeatSettingView.isAutoRepeat,
+                            autoRepeatSetting: autoRepeatSettingView.notification,
+                            isReminder: autoRepeatSettingView.isReminder)
         hidePanel()
     }
     
@@ -302,7 +310,7 @@ extension CreateNewStockViewController: UINavigationControllerDelegate, UIImageP
     
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        self.dismiss(animated: true, completion: nil)
+        imagePicker.dismiss(animated: true, completion: nil)
         let image = info[.originalImage] as? UIImage
         productView.setImage(image)
         isUserImage = true

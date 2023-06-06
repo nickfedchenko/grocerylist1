@@ -12,6 +12,16 @@ class AutoRepeatCustomSettingView: UIView {
     var backHandler: ((String?) -> Void)?
     var valueChangeHandler: ((String?) -> Void)?
     
+    var times: Int {
+        pickerView.selectedRow(inComponent: 0)
+    }
+    var weekday: Int {
+        selectWeekdayNumber
+    }
+    var period: RepeatPeriods {
+        repeatPeriods[pickerView.selectedRow(inComponent: 1)]
+    }
+    
     private lazy var backButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
@@ -47,7 +57,7 @@ class AutoRepeatCustomSettingView: UIView {
     
     private let pickerView = UIPickerView()
     
-    private let repeatPeriods = ["Days", "Weeks", "Month", "Years"]
+    private let repeatPeriods = RepeatPeriods.allCases
     private var shortWeekdays: [String] = []
     private var fullWeekdays: [String] = []
     private var selectWeekdayNumber: Int = 0
@@ -70,6 +80,22 @@ class AutoRepeatCustomSettingView: UIView {
         self.backgroundColor = theme.light
         
         setupWeekdays()
+    }
+    
+    func configure(autoRepeatModel: AutoRepeatModel) {
+        pickerView.selectRow(autoRepeatModel.times ?? 0,
+                             inComponent: 0,
+                             animated: true)
+        pickerView.selectRow(autoRepeatModel.period?.rawValue ?? 0,
+                             inComponent: 1,
+                             animated: true)
+        if autoRepeatModel.period == .weeks {
+            weekStackView.isHidden = false
+            selectWeekdayNumber = autoRepeatModel.weekday ?? 0
+            weekStackView.arrangedSubviews.forEach {
+                ($0 as? WeekdayView)?.markAsSelected($0.tag == selectWeekdayNumber)
+            }
+        }
     }
     
     private func setup() {
@@ -128,7 +154,7 @@ class AutoRepeatCustomSettingView: UIView {
             }
         } else {
             if times == 0 {
-                value = repeatPeriods[period]
+                value = repeatPeriods[period].title
             } else {
                 value = "every \(times + 1) \(repeatPeriods[period])"
             }
@@ -223,7 +249,7 @@ extension AutoRepeatCustomSettingView: UIPickerViewDelegate, UIPickerViewDataSou
         pickerLabel.textAlignment = NSTextAlignment.center
         switch component {
         case 0:     pickerLabel.text = "\(row + 1)"
-        case 1:     pickerLabel.text = repeatPeriods[row]
+        case 1:     pickerLabel.text = repeatPeriods[row].title
         default:    pickerLabel.text = "\(row)"
         }
         let selectedRow = pickerView.selectedRow(inComponent: component)
@@ -311,6 +337,17 @@ private final class WeekdayView: UIView {
         titleLabel.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.centerY.equalToSuperview()
+        }
+    }
+}
+
+extension RepeatPeriods {
+    var title: String {
+        switch self {
+        case .days:     return "days"
+        case .weeks:    return "weeks"
+        case .months:   return "months"
+        case .years:    return "years"
         }
     }
 }

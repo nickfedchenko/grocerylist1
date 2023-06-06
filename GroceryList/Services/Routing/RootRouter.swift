@@ -277,21 +277,22 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func goToCreateNewPantry(currentPantry: PantryModel?, updateUI: @escaping ((PantryModel) -> Void)) {
+    func goToCreateNewPantry(presentedController: UIViewController, currentPantry: PantryModel?, updateUI: @escaping ((PantryModel) -> Void)) {
         let controller = viewControllerFactory.createCreateNewPantryController(currentPantry: currentPantry,
                                                                                updateUI: updateUI, router: self)
         controller.modalTransitionStyle = .crossDissolve
-        navigationPresent(controller, animated: true)
+        controller.modalPresentationStyle = .overCurrentContext
+        presentedController.present(controller, animated: true)
     }
     
     func goToStocks(navController: UIViewController, pantry: PantryModel) {
         let controller = viewControllerFactory.createStocksController(pantry: pantry,
                                                                       router: self)
-        navigationPushViewController(controller, animated: true)
+        navController.navigationController?.pushViewController(controller, animated: true)
     }
     
     func goToCreateNewStockController(pantry: PantryModel, stock: Stock? = nil,
-                                    compl: @escaping (Stock) -> Void) {
+                                      compl: @escaping (Stock) -> Void) {
         let controller = viewControllerFactory.createCreateNewStockController(
             pantry: pantry, stock: stock, compl: compl, router: self
         )
