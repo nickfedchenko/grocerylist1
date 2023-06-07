@@ -70,6 +70,14 @@ final class StocksNavigationView: UIView {
         view.addGestureRecognizer(tapRecognizer)
         return view
     }()
+
+    private lazy var outOfStocksShadowView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 12
+        view.addDefaultShadowForPopUp()
+        view.layer.shadowOpacity = 0
+        return view
+    }()
     
     private lazy var outLabel: UILabel = {
         let label = UILabel()
@@ -108,26 +116,36 @@ final class StocksNavigationView: UIView {
         container.backgroundColor = theme.medium
         outOfStocksView.backgroundColor = theme.dark
         totalLabel.textColor = theme.dark
+        outOfStocksShadowView.backgroundColor = theme.medium
     }
     
     func configureOutOfStock(total: String, outOfStock: String) {
         totalLabel.text = total
         guard !outOfStock.isEmpty else {
             outOfStocksView.isHidden = true
+            outOfStocksShadowView.isHidden = true
             outLabel.isHidden = true
             totalView.layer.cornerRadius = 12
             totalView.layer.cornerCurve = .continuous
             return
         }
+        outOfStocksView.isHidden = false
+        outOfStocksShadowView.isHidden = false
         outLabel.isHidden = false
         outLabel.text = "Out: " + outOfStock
+    }
+    
+    func setShadowOutOfStockView(isVisible: Bool) {
+        outOfStocksShadowView.layer.shadowOpacity = isVisible ? 0.15 : 0
+        outOfStocksView.makeCustomRound(topLeft: 12, topRight: 4,
+                                        bottomLeft: 12, bottomRight: 4, hasBorder: isVisible)
     }
     
     func setupCustomRoundIfNeeded() {
         guard !outOfStocksView.isHidden else {
             return
         }
-        
+        totalView.layer.cornerRadius = 0
         totalView.makeCustomRound(topLeft: 4, topRight: 12,
                                   bottomLeft: 4, bottomRight: 12)
         outOfStocksView.makeCustomRound(topLeft: 12, topRight: 4,
@@ -174,8 +192,8 @@ final class StocksNavigationView: UIView {
     private func makeConstraints() {
         self.addSubview(container)
         container.addSubviews([backButton, sharingView, settingsButton,
-                          iconImageView, capitalLetterLabel, titleLabel,
-                          outOfStocksView, outLabel, totalView, totalLabel])
+                               iconImageView, capitalLetterLabel, titleLabel,
+                               outOfStocksShadowView, outOfStocksView, outLabel, totalView, totalLabel])
         
         container.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -218,6 +236,10 @@ final class StocksNavigationView: UIView {
     }
     
     private func makeOutOfStocksViewConstraints() {
+        outOfStocksShadowView.snp.makeConstraints {
+            $0.edges.equalTo(outOfStocksView)
+        }
+        
         outOfStocksView.snp.makeConstraints {
             $0.trailing.equalTo(totalView.snp.leading).offset(-4)
             $0.bottom.equalToSuperview().offset(-12)

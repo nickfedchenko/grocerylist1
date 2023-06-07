@@ -48,11 +48,18 @@ extension UIView {
 
         if hasBorder {
             let borderLayer = CAShapeLayer()
+            borderLayer.name = "CustomRoundBorder"
             borderLayer.path = path.cgPath
             borderLayer.lineWidth = 1
             borderLayer.strokeColor = UIColor.white.cgColor
             borderLayer.fillColor = UIColor.clear.cgColor
             layer.addSublayer(borderLayer)
+        } else {
+            layer.sublayers?.forEach({
+                if $0.name == "CustomRoundBorder" {
+                    $0.removeFromSuperlayer()
+                }
+            })
         }
     }
     

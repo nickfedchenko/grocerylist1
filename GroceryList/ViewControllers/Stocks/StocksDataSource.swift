@@ -10,36 +10,45 @@ import Foundation
 final class StocksDataSource {
     
     var reloadData: (() -> Void)?
-
+    var isSort: Bool = false
+    
+    private(set) var allStocks: [Stock] = [] {
+        didSet { sortByStock() }
+    }
     private(set) var stocks: [Stock] = []
+    private(set) var outOfStock: [Stock] = []
     private(set) var editStocks: [Stock] = []
     
     init(stocks: [Stock]) {
-        self.stocks = stocks.sorted(by: { $0.index < $1.index })
+        allStocks = stocks.sorted(by: { $0.index < $1.index })
     }
     
     func addStock(_ stock: Stock) {
-        if stocks.contains(where: { $0.id == stock.id }) {
-            stocks.removeAll { stock.id == $0.id }
+        if allStocks.contains(where: { $0.id == stock.id }) {
+            allStocks.removeAll { stock.id == $0.id }
         }
-        stocks.append(stock)
-        stocks = stocks.sorted(by: { $0.index < $1.index })
+        allStocks.append(stock)
+        allStocks = allStocks.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
+        
         reloadData?()
     }
     
     func updateStockStatus(stock: Stock) {
-        guard let index = stocks.firstIndex(where: { $0.id == stock.id }) else {
+        guard let index = allStocks.firstIndex(where: { $0.id == stock.id }) else {
             return
         }
-        stocks[index].isAvailability = !stock.isAvailability
-        reloadData?()
+        allStocks[index].isAvailability = !stock.isAvailability
+        
+        sortByStock()
     }
     
-    func sortByStock(_ isSort: Bool) {
+    func sortByStock() {
         if isSort {
-            stocks = stocks.sorted { !$0.isAvailability && $1.isAvailability }
+            outOfStock = allStocks.filter({ !$0.isAvailability })
+            stocks = allStocks.filter({ $0.isAvailability })
         } else {
-            stocks = stocks.sorted(by: { $0.index < $1.index })
+            stocks = allStocks.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
+            outOfStock = []
         }
         
         reloadData?()
@@ -47,12 +56,12 @@ final class StocksDataSource {
     
     func updateStocksAfterMove(updatedStocks: [Stock]) {
         updatedStocks.enumerated().forEach { newIndex, updatedStock in
-            if let index = stocks.firstIndex(where: { $0.id == updatedStock.id }) {
-                stocks[index].index = newIndex
+            if let index = allStocks.firstIndex(where: { $0.id == updatedStock.id }) {
+                allStocks[index].index = newIndex
             }
         }
         
-        stocks = stocks.sorted(by: { $0.index < $1.index })
+        allStocks = allStocks.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
         reloadData?()
     }
     
@@ -66,12 +75,12 @@ final class StocksDataSource {
     
     func addEditAllStocks() {
         editStocks.removeAll()
-        editStocks = stocks
+        editStocks = allStocks
     }
     
     func delete(stock: Stock) {
 //        CoreDataManager.shared.removeProduct(product: product)
-        stocks.removeAll { stock.id == $0.id }
+        allStocks.removeAll { stock.id == $0.id }
         reloadData?()
     }
     
