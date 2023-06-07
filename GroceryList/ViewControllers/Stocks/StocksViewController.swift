@@ -13,14 +13,9 @@ final class StocksViewController: UIViewController {
         .darkContent
     }
     
-    enum Section: Hashable {
-        case outOfStack
-        case main
-    }
-    
     private var viewModel: StocksViewModel
     
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Stock>?
+    private var dataSource: UICollectionViewDiffableDataSource<PantryStocks, Stock>?
     private lazy var collectionView: UICollectionView = {
         let layout = compositionalLayout
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
@@ -30,6 +25,7 @@ final class StocksViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
         collectionView.register(classCell: StockCell.self)
+        collectionView.registerHeader(classHeader: StockHeaderCell.self)
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
         collectionView.addGestureRecognizer(longPressGesture)
         return collectionView
@@ -45,9 +41,22 @@ final class StocksViewController: UIViewController {
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
                                                          subitems: [item])
             let section = NSCollectionLayoutSection(group: group)
+            let header = self.createSectionHeader
+            section.boundarySupplementaryItems = [header]
             return section
         }
         return layout
+    }()
+    
+    private lazy var createSectionHeader: NSCollectionLayoutBoundarySupplementaryItem = {
+        let layoutHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                      heightDimension: .estimated(1))
+        let layoutSectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: layoutHeaderSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        return layoutSectionHeader
     }()
     
     private let containerView = UIView()
@@ -112,6 +121,12 @@ final class StocksViewController: UIViewController {
         iconImageView.contentMode = .scaleAspectFit
         iconImageView.image = viewModel.pantryIcon?.withTintColor(viewModel.getTheme().medium.withAlphaComponent(0.25))
         
+        setupNavigationView()
+
+        linkView.configureLink(listNames: viewModel.getSynchronizedListNames())
+    }
+    
+    private func setupNavigationView() {
         navigationView.delegate = self
         navigationView.configureTitle(icon: viewModel.pantryIcon,
                                       title: viewModel.pantryName)
@@ -120,13 +135,13 @@ final class StocksViewController: UIViewController {
         navigationView.configureSharingView(sharingState: viewModel.getSharingState(),
                                             sharingUsers: viewModel.getShareImages(),
                                             color: viewModel.getTheme().medium)
-
-        linkView.configureLink(listNames: viewModel.getSynchronizedListNames())
+        navigationView.setupCustomRoundIfNeeded()
+        navigationView.setShadowOutOfStockView(isVisible: !viewModel.sortByOutOfStock)
     }
     
     private func setupEmptyView() {
-        emptyView.isHidden = !viewModel.getStocks().isEmpty
-        collectionView.isHidden = viewModel.getStocks().isEmpty
+        emptyView.isHidden = !viewModel.isEmptyStocks
+        collectionView.isHidden = viewModel.isEmptyStocks
     }
     
     private func updateTitle() {
@@ -159,6 +174,17 @@ final class StocksViewController: UIViewController {
             return cell
         })
         
+        dataSource?.supplementaryViewProvider = { collectionView, _, indexPath in
+            let sectionHeader = collectionView.reusableHeader(classHeader: StockHeaderCell.self, indexPath: indexPath)
+            guard let model = self.dataSource?.itemIdentifier(for: indexPath),
+                  let section = self.dataSource?.snapshot().sectionIdentifier(containingItem: model) else {
+                return sectionHeader ?? UICollectionReusableView()
+            }
+            sectionHeader?.setupHeader(section: section)
+            
+            return sectionHeader
+        }
+        
         dataSource?.reorderingHandlers.canReorderItem = { [weak self] _ in
             return self?.viewModel.stateCellModel == .edit
         }
@@ -169,15 +195,19 @@ final class StocksViewController: UIViewController {
         }
     }
     
-    internal func reloadDataSource() {
+    private func reloadDataSource() {
+        var snapshot = NSDiffableDataSourceSnapshot<PantryStocks, Stock>()
+        
+        for pantry in viewModel.getStocks() {
+            snapshot.appendSections([pantry])
+            snapshot.appendItems(pantry.stock, toSection: pantry)
+        }
+        
         DispatchQueue.main.async {
-            var snapshot = NSDiffableDataSourceSnapshot<Section, Stock>()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(self.viewModel.getStocks())
             self.dataSource?.apply(snapshot, animatingDifferences: true)
         }
     }
-    
+
     private func makeSnapshot() -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(collectionView.contentSize, false, 0)
         collectionView.drawHierarchy(in: collectionView.bounds, afterScreenUpdates: false)
@@ -330,6 +360,8 @@ extension StocksViewController: StocksViewModelDelegate {
         setupEmptyView()
         navigationView.configureOutOfStock(total: viewModel.availabilityOfGoods.total,
                                            outOfStock: viewModel.availabilityOfGoods.outOfStocks)
+        navigationView.setupCustomRoundIfNeeded()
+        navigationView.setShadowOutOfStockView(isVisible: !viewModel.sortByOutOfStock)
         reloadDataSource()
     }
     

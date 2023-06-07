@@ -14,6 +14,7 @@
 		332340992A1B91C100609813 /* PantryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332340982A1B91C100609813 /* PantryViewModel.swift */; };
 		3323409B2A1B91CB00609813 /* PantryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3323409A2A1B91CB00609813 /* PantryDataSource.swift */; };
 		3328AD86299CF40800187B57 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3328AD85299CF40800187B57 /* SharingView.swift */; };
+		333D2FB82A30173D0072F779 /* StockHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333D2FB72A30173D0072F779 /* StockHeaderCell.swift */; };
 		333E2D2A29EEAE5700F705E7 /* CreateNewStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2929EEAE5700F705E7 /* CreateNewStoreViewController.swift */; };
 		333E2D2D29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2C29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift */; };
 		333E2D3029EFC2E000F705E7 /* DBStore+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2E29EFC2E000F705E7 /* DBStore+CoreDataClass.swift */; };
@@ -321,6 +322,7 @@
 		332340982A1B91C100609813 /* PantryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryViewModel.swift; sourceTree = "<group>"; };
 		3323409A2A1B91CB00609813 /* PantryDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryDataSource.swift; sourceTree = "<group>"; };
 		3328AD85299CF40800187B57 /* SharingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingView.swift; sourceTree = "<group>"; };
+		333D2FB72A30173D0072F779 /* StockHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockHeaderCell.swift; sourceTree = "<group>"; };
 		333E2D2929EEAE5700F705E7 /* CreateNewStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewStoreViewController.swift; sourceTree = "<group>"; };
 		333E2D2C29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewStoreViewModel.swift; sourceTree = "<group>"; };
 		333E2D2E29EFC2E000F705E7 /* DBStore+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBStore+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -743,6 +745,7 @@
 			isa = PBXGroup;
 			children = (
 				334764602A29CCA4008F4834 /* StockCell.swift */,
+				333D2FB72A30173D0072F779 /* StockHeaderCell.swift */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -2161,6 +2164,7 @@
 				383C77F7293F79EB0030AE78 /* RecipesListHeaderView.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
 				B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */,
+				333D2FB82A30173D0072F779 /* StockHeaderCell.swift in Sources */,
 				B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */,
 				38F4904129476FFD00529D1F /* UIBezierPath+MaskedCorners.swift in Sources */,
 				B315F9DC29892EA00009CEB8 /* CheckmarkView.swift in Sources */,

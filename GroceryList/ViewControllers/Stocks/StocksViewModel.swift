@@ -18,17 +18,18 @@ final class StocksViewModel {
     
     weak var router: RootRouter?
     weak var delegate: StocksViewModelDelegate?
-        
+    
+    private(set) var stateCellModel: StockCell.CellState = .normal
+    private(set) var sortByOutOfStock = false
     private var colorManager = ColorManager()
     private var dataSource: StocksDataSource
     private var pantry: PantryModel
-    private(set) var stateCellModel: StockCell.CellState = .normal
-    private var sort = false
     
     init(dataSource: StocksDataSource, pantry: PantryModel) {
         self.dataSource = dataSource
         self.pantry = pantry
         
+        self.dataSource.isSort = sortByOutOfStock
         self.dataSource.reloadData = { [weak self] in
             self?.delegate?.reloadData()
         }
@@ -47,8 +48,8 @@ final class StocksViewModel {
     }
     
     var availabilityOfGoods: (total: String, outOfStocks: String) {
-        let stockCount = dataSource.stocks.count.asString
-        let outOfStock = dataSource.stocks.filter { !$0.isAvailability }.count
+        let stockCount = dataSource.allStocks.count.asString
+        let outOfStock = dataSource.allStocks.filter { !$0.isAvailability }.count
         let outOfStockCount = outOfStock == 0 ? "" : outOfStock.asString
         
         return (total: stockCount, outOfStocks: outOfStockCount)
@@ -62,8 +63,19 @@ final class StocksViewModel {
         dataSource.stocks.count == dataSource.editStocks.count
     }
     
-    func getStocks() -> [Stock] {
-        dataSource.stocks
+    var isEmptyStocks: Bool {
+        dataSource.allStocks.isEmpty
+    }
+    
+    var isEmptyOutOfStocks: Bool {
+        dataSource.editStocks.isEmpty
+    }
+    
+    func getStocks() -> [PantryStocks] {
+        return [
+            PantryStocks(name: "out of stock", stock: dataSource.outOfStock, typeOFCell: .outOfStock),
+            PantryStocks(name: "", stock: dataSource.stocks, typeOFCell: .normal)
+        ]
     }
     
     func getTheme() -> Theme {
@@ -155,8 +167,9 @@ final class StocksViewModel {
     }
     
     func sortIsAvailability() {
-        sort.toggle()
-        dataSource.sortByStock(sort)
+        sortByOutOfStock.toggle()
+        dataSource.isSort = sortByOutOfStock
+        dataSource.sortByStock()
     }
     
     func updateStocksAfterMove(stocks: [Stock]) {
