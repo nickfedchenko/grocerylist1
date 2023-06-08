@@ -378,6 +378,10 @@ extension StocksViewController: StocksViewModelDelegate {
     func updateUIEditTabBar() {
         editTabBarView.setCountSelectedItems(viewModel.editStocks.count)
     }
+    
+    func popController() {
+        tapOnBackButton()
+    }
 }
 
 extension StocksViewController: StocksNavigationViewDelegate {

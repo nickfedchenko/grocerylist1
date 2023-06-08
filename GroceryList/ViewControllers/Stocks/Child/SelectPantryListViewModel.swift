@@ -20,16 +20,17 @@ class SelectPantryListViewModel: PantryViewModel {
     
     func saveCopiedStock(to list: PantryModel, controller: UIViewController) {
         copiedStocks.forEach { stock in
-            let newStock = Stock(copyStock: stock)
-//            CoreDataManager.shared.createProduct(product: newProduct)
+            var newStock = Stock(copyStock: stock)
+            newStock.pantryId = list.id
+            CoreDataManager.shared.saveStock(stock: [newStock], for: list.id.uuidString)
         }
     }
     
     func createNewListWithEditModeTapped(controller: UIViewController) {
         router?.goToCreateNewPantry(presentedController: controller,
                                     currentPantry: nil,
-                                    updateUI: { [weak self] newPantry in
-            self?.dataSource.addPantry(newPantry)
+                                    updateUI: { [weak self] _ in
+            self?.dataSource.updatePantry()
         })
     }
 }
