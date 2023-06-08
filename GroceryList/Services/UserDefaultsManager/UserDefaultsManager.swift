@@ -196,6 +196,15 @@ class UserDefaultsManager {
         }
     }
     
+    static var isFillingDefaultPantry: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "isFillingDefaultPantry")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isFillingDefaultPantry")
+        }
+    }
+    
     private static func setValue<T>(value: T, for key: UDKeys) {
         UserDefaults.standard.set(value, forKey: key.rawValue)
     }

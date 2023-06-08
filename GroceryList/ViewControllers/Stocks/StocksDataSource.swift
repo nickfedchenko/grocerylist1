@@ -12,34 +12,23 @@ final class StocksDataSource {
     var reloadData: (() -> Void)?
     var isSort: Bool = false
     
-    private(set) var allStocks: [Stock] = [] {
-        didSet { sortByStock() }
-    }
+    private(set) var allStocks: [Stock] = []
     private(set) var stocks: [Stock] = []
     private(set) var outOfStock: [Stock] = []
     private(set) var editStocks: [Stock] = []
+    private let pantryId: UUID
     
-    init(stocks: [Stock]) {
-        allStocks = stocks.sorted(by: { $0.index < $1.index })
-    }
-    
-    func addStock(_ stock: Stock) {
-        if allStocks.contains(where: { $0.id == stock.id }) {
-            allStocks.removeAll { stock.id == $0.id }
-        }
-        allStocks.append(stock)
-        allStocks = allStocks.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
-        
-        reloadData?()
+    init(pantryId: UUID) {
+        self.pantryId = pantryId
+        getStocksFromDB()
     }
     
     func updateStockStatus(stock: Stock) {
-        guard let index = allStocks.firstIndex(where: { $0.id == stock.id }) else {
-            return
-        }
-        allStocks[index].isAvailability = !stock.isAvailability
+        var stock = stock
+        stock.isAvailability = !stock.isAvailability
+        CoreDataManager.shared.saveStock(stock: [stock], for: pantryId.uuidString)
         
-        sortByStock()
+        updateStocks()
     }
     
     func sortByStock() {
@@ -50,19 +39,15 @@ final class StocksDataSource {
             stocks = allStocks.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
             outOfStock = []
         }
-        
-        reloadData?()
     }
     
     func updateStocksAfterMove(updatedStocks: [Stock]) {
-        updatedStocks.enumerated().forEach { newIndex, updatedStock in
-            if let index = allStocks.firstIndex(where: { $0.id == updatedStock.id }) {
-                allStocks[index].index = newIndex
-            }
+        var updatedStocks = updatedStocks
+        for newIndex in updatedStocks.indices {
+            updatedStocks[newIndex].index = newIndex
         }
-        
-        allStocks = allStocks.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
-        reloadData?()
+        CoreDataManager.shared.saveStock(stock: updatedStocks, for: pantryId.uuidString)
+        updateStocks()
     }
     
     func updateEditStock(_ stock: Stock) {
@@ -79,12 +64,35 @@ final class StocksDataSource {
     }
     
     func delete(stock: Stock) {
-//        CoreDataManager.shared.removeProduct(product: product)
-        allStocks.removeAll { stock.id == $0.id }
-        reloadData?()
+        CoreDataManager.shared.deleteStock(by: stock.id)
+        updateStocks()
     }
     
     func resetEditStocks() {
         editStocks.removeAll()
+    }
+    
+    func updateStocks() {
+        getStocksFromDB()
+        reloadData?()
+    }
+    
+    private func getStocksFromDB() {
+        var isSortIndex = false
+        let dbStocks = CoreDataManager.shared.getAllStocks(for: pantryId.uuidString) ?? []
+        allStocks = dbStocks.map({ Stock(dbModel: $0) })
+        allStocks.forEach {
+            if $0.index > 0 {
+                isSortIndex = true
+            }
+        }
+        
+        if isSortIndex {
+            allStocks.sort { $0.index < $1.index }
+        } else {
+            allStocks.sort { $0.dateOfCreation > $1.dateOfCreation }
+        }
+        
+        sortByStock()
     }
 }

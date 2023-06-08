@@ -17,7 +17,7 @@ final class CreateNewPantryViewModel {
     
     weak var router: RootRouter?
     weak var delegate: CreateNewPantryViewModelDelegate?
-    var updateUI: ((PantryModel) -> Void)?
+    var updateUI: ((PantryModel?) -> Void)?
     
     private var pantryListTemplates: [PantryListTemplate] = []
     private let colorManager = ColorManager.shared
@@ -102,12 +102,14 @@ final class CreateNewPantryViewModel {
             currentPantry.synchronizedLists = synchronizedLists
             pantry = currentPantry
         } else {
+            let index = CoreDataManager.shared.getAllPantries()?.count ?? 1
             pantry = PantryModel(name: name,
+                                 index: -index,
                                  color: selectedThemeIndex,
                                  icon: icon?.pngData(),
                                  synchronizedLists: synchronizedLists)
         }
-        
+        CoreDataManager.shared.savePantry(pantry: [pantry])
         updateUI?(pantry)
     }
     

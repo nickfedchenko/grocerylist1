@@ -189,14 +189,18 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             currentStock.autoRepeat = autoRepeatSetting
             stock = currentStock
         } else {
-            stock = Stock(pantryId: pantry.id, name: productName, imageData: imageData, description: description,
-                          store: store, cost: costOfProductPerUnit ?? -1, quantity: quantity == 0 ? nil : quantity,
+            let index = CoreDataManager.shared.getAllStocks(for: pantry.id.uuidString)?.count ?? 1
+            stock = Stock(index: -index,
+                          pantryId: pantry.id, name: productName,
+                          imageData: imageData, description: description,
+                          store: store, cost: costOfProductPerUnit ?? -1,
+                          quantity: quantity == 0 ? nil : quantity,
                           unitId: currentSelectedUnit,
                           isAvailability: isAvailability, isAutoRepeat: isAutoRepeat, autoRepeat: autoRepeatSetting,
                           isReminder: isReminder)
         }
         
-        //        CoreDataManager.shared.createProduct(product: product)
+        CoreDataManager.shared.saveStock(stock: [stock], for: pantry.id.uuidString)
         setLocalNotification(stock: stock)
         
         updateUI?(stock)
@@ -256,6 +260,6 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             period: stock.autoRepeat?.period
         )
         
-        LocalNotificationsManager.shared.addNotification(notificationRequest)
+//        LocalNotificationsManager.shared.addNotification(notificationRequest)
     }
 }

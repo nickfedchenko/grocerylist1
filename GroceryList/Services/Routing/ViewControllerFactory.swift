@@ -444,7 +444,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return PantryStarterPackViewController()
     }
     
-    func createCreateNewPantryController(currentPantry: PantryModel?, updateUI: @escaping ((PantryModel) -> Void),
+    func createCreateNewPantryController(currentPantry: PantryModel?, updateUI: @escaping ((PantryModel?) -> Void),
                                          router: RootRouter) -> UIViewController {
         let viewModel = CreateNewPantryViewModel(currentPantry: currentPantry)
         viewModel.router = router
@@ -454,7 +454,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createStocksController(pantry: PantryModel, router: RootRouter) -> UIViewController {
-        let dataSource = StocksDataSource(stocks: pantry.stock)
+        let dataSource = StocksDataSource(pantryId: pantry.id)
         let viewModel = StocksViewModel(dataSource: dataSource, pantry: pantry)
         viewModel.router = router
         let viewController = StocksViewController(viewModel: viewModel)

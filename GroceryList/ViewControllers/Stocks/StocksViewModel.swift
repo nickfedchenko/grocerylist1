@@ -12,6 +12,7 @@ protocol StocksViewModelDelegate: AnyObject {
     func editState()
     func updateController()
     func updateUIEditTabBar()
+    func popController()
 }
 
 final class StocksViewModel {
@@ -151,14 +152,16 @@ final class StocksViewModel {
 //                    shareModel = model
 //                }
 //                self.router?.goToSharingList(listToShare: shareModel, users: self.getSharedListsUsers())
+            case .delete:
+                self.delegate?.popController()
             default: break
             }
         })
     }
     
     func goToCreateItem(stock: Stock?) {
-        router?.goToCreateNewStockController(pantry: pantry, stock: stock, compl: { [weak self] newStock in
-            self?.dataSource.addStock(newStock)
+        router?.goToCreateNewStockController(pantry: pantry, stock: stock, compl: { [weak self] _ in
+            self?.dataSource.updateStocks()
         })
     }
     
@@ -170,6 +173,7 @@ final class StocksViewModel {
         sortByOutOfStock.toggle()
         dataSource.isSort = sortByOutOfStock
         dataSource.sortByStock()
+        dataSource.reloadData?()
     }
     
     func updateStocksAfterMove(stocks: [Stock]) {

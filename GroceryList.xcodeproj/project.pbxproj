@@ -109,6 +109,10 @@
 		338EB6B429C1BACC00D6A03F /* SearchInRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */; };
 		338EB6B629C1BEED00D6A03F /* SearchInRecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338EB6B529C1BEED00D6A03F /* SearchInRecipeViewModel.swift */; };
 		3391163329CD96E700881E1D /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3391163229CD96E700881E1D /* ActivityIndicatorView.swift */; };
+		339254A32A3047600047807E /* DBStock+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392549F2A3047600047807E /* DBStock+CoreDataClass.swift */; };
+		339254A42A3047600047807E /* DBStock+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254A02A3047600047807E /* DBStock+CoreDataProperties.swift */; };
+		339254A52A3047600047807E /* DBPantry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254A12A3047600047807E /* DBPantry+CoreDataClass.swift */; };
+		339254A62A3047600047807E /* DBPantry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254A22A3047600047807E /* DBPantry+CoreDataProperties.swift */; };
 		33995D202A1C5C88003FECAE /* PantryStarterPackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */; };
 		33995D232A1CC1DE003FECAE /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */; };
 		33995D252A1CC501003FECAE /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D242A1CC501003FECAE /* TabBarItemView.swift */; };
@@ -417,6 +421,10 @@
 		338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInRecipeViewController.swift; sourceTree = "<group>"; };
 		338EB6B529C1BEED00D6A03F /* SearchInRecipeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInRecipeViewModel.swift; sourceTree = "<group>"; };
 		3391163229CD96E700881E1D /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
+		3392549F2A3047600047807E /* DBStock+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBStock+CoreDataClass.swift"; sourceTree = "<group>"; };
+		339254A02A3047600047807E /* DBStock+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBStock+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		339254A12A3047600047807E /* DBPantry+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBPantry+CoreDataClass.swift"; sourceTree = "<group>"; };
+		339254A22A3047600047807E /* DBPantry+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBPantry+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryStarterPackViewController.swift; sourceTree = "<group>"; };
 		33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
 		33995D242A1CC501003FECAE /* TabBarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
@@ -1292,6 +1300,10 @@
 		B33DFD1E291A676400AC7403 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
+				3392549F2A3047600047807E /* DBStock+CoreDataClass.swift */,
+				339254A02A3047600047807E /* DBStock+CoreDataProperties.swift */,
+				339254A12A3047600047807E /* DBPantry+CoreDataClass.swift */,
+				339254A22A3047600047807E /* DBPantry+CoreDataProperties.swift */,
 				333E2D2E29EFC2E000F705E7 /* DBStore+CoreDataClass.swift */,
 				333E2D2F29EFC2E000F705E7 /* DBStore+CoreDataProperties.swift */,
 				337E79D129E7ED3E00668578 /* DBNewNetProduct+CoreDataClass.swift */,
@@ -2175,6 +2187,7 @@
 				B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */,
 				846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */,
 				383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */,
+				339254A32A3047600047807E /* DBStock+CoreDataClass.swift in Sources */,
 				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
 				B35F0F632937975200C19891 /* MeashureManager.swift in Sources */,
 				B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */,
@@ -2212,6 +2225,7 @@
 				337719AA29B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift in Sources */,
 				337719B129B1B552000791BD /* CreateNewRecipeViewState.swift in Sources */,
 				33A51B872A163C7A00BE11C1 /* MainTabBarController.swift in Sources */,
+				339254A42A3047600047807E /* DBStock+CoreDataProperties.swift in Sources */,
 				383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */,
 				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,
 				3342C9BD2A146D290010DA4A /* FeedbackManager.swift in Sources */,
@@ -2268,6 +2282,7 @@
 				B3F7C9B029937CD60081B245 /* RegisterWithMessageView.swift in Sources */,
 				B3693405291BB44A00AFFAA6 /* ColorCollectionViewCell.swift in Sources */,
 				B30573BB29222BE700CA8BDE /* HeaderListCell.swift in Sources */,
+				339254A62A3047600047807E /* DBPantry+CoreDataProperties.swift in Sources */,
 				3379B64E29B755E80080923A /* ShowCollectionViewController.swift in Sources */,
 				B37A2CE92911034D003C01AD /* UIViewControllerExtension.swift in Sources */,
 				B3F7C9BE29950D6D0081B245 /* SignUpWithAppleButton.swift in Sources */,
@@ -2388,6 +2403,7 @@
 				B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */,
 				3366BEE52A2DA05A00D50704 /* StocksDataSource.swift in Sources */,
 				B3476909291D21730045A287 /* ProductsSettingsViewController.swift in Sources */,
+				339254A52A3047600047807E /* DBPantry+CoreDataClass.swift in Sources */,
 				3366BEE02A2C1D3A00D50704 /* AutoRepeatSettingView.swift in Sources */,
 				B315F9D72988FF270009CEB8 /* AlternativePaywallCell.swift in Sources */,
 				335519C429AE26CE00AD2B77 /* MainScreenMenuView.swift in Sources */,

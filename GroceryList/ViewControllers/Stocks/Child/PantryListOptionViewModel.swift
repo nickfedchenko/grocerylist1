@@ -139,8 +139,10 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
     func changeList(presentedController: UIViewController) {
         router?.goToCreateNewPantry(presentedController: presentedController,
                                     currentPantry: pantry, updateUI: { newPantry in
-            self.pantry = newPantry
-            self.saveParameters()
+            if let newPantry {
+                self.pantry = newPantry
+                self.saveParameters()
+            }
         })
     }
     
@@ -173,15 +175,15 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
     }
     
     private func deleteList() {
-//        CoreDataManager.shared.removeList(model.id)
+        CoreDataManager.shared.deletePantry(by: pantry.id)
         delegate?.dismissController(comp: { [weak self] in
-            self?.controllerDismissed()
+            self?.editCallback?(.delete)
         })
     }
     
     private func saveParameters() {
         delegate?.reloadController()
         updateUI?(pantry)
-//        CoreDataManager.shared.saveList(list: model)
+        CoreDataManager.shared.savePantry(pantry: [pantry])
     }
 }

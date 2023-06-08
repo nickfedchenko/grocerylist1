@@ -244,6 +244,7 @@ class CreateNewPantryViewController: UIViewController {
     }
     
     private func hidePanel() {
+        viewModel.updateUI?(nil)
         nameTextField.resignFirstResponder()
         updateBottomConstraint(view: contentView, with: 400)
         updateTemplateViewConstraint(isVisible: false)

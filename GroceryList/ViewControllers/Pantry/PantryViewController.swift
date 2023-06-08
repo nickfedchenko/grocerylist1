@@ -62,22 +62,24 @@ final class PantryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         (self.tabBarController as? MainTabBarController)?.pantryDelegate = self
-        
         self.view.backgroundColor = R.color.background()
+        titleBackgroundView.backgroundColor = R.color.background()?.withAlphaComponent(0.9)
+        
         viewModel.reloadData = { [weak self] in
             self?.reloadData()
         }
+        viewModel.updateNavUI = { [weak self] in
+            (self?.tabBarController as? MainTabBarController)?.isHideNavView(isHide: false)
+        }
         
-        titleBackgroundView.backgroundColor = R.color.background()?.withAlphaComponent(0.9)
         setupContextMenu()
-        
         createDataSource()
-        reloadData()
         makeConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.reloadDataFromStorage()
         viewModel.showStarterPackIfNeeded()
         (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: false)
         (self.tabBarController as? MainTabBarController)?.setTextTabBar()
@@ -127,7 +129,9 @@ final class PantryViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, PantryModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.pantries)
-        dataSource?.apply(snapshot, animatingDifferences: true)
+        DispatchQueue.main.async {
+            self.dataSource?.apply(snapshot, animatingDifferences: true)
+        }
     }
     
     private func reloadItems(pantries: Set<PantryModel>) {
@@ -287,6 +291,9 @@ extension PantryViewController: PantryEditMenuViewDelegate {
                       let model = self.dataSource?.itemIdentifier(for: contextMenuIndex) else {
                     return
                 }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
+                    (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
+                }
                 self.viewModel.showEditPantry(presentedController: self, pantry: model)
             case .delete:
                 self?.updateDeleteAlertViewConstraint(with: 224)
@@ -298,10 +305,13 @@ extension PantryViewController: PantryEditMenuViewDelegate {
 
 extension PantryViewController: MainTabBarControllerPantryDelegate {
     func updatePantryUI(_ pantry: PantryModel) {
-        viewModel.addPantry(pantry)
+        viewModel.addPantry()
     }
     
     func tappedAddItem() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
+            (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
+        }
         viewModel.tappedAddItem(presentedController: self)
     }
 }

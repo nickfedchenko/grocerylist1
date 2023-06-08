@@ -12,6 +12,7 @@ class PantryViewModel {
     weak var router: RootRouter?
     
     var reloadData: (() -> Void)?
+    var updateNavUI: (() -> Void)?
     
     private var colorManager = ColorManager()
     private(set) var dataSource: PantryDataSource
@@ -49,8 +50,8 @@ class PantryViewModel {
         let outOfStockCount = outOfStock == 0 ? "" : outOfStock.asString
         
         return PantryCell.CellModel(theme: theme, name: model.name, icon: icon,
-                                          sharingState: sharingState, sharingUser: sharingUser,
-                                          stockCount: stockCount, outOfStockCount: outOfStockCount)
+                                    sharingState: sharingState, sharingUser: sharingUser,
+                                    stockCount: stockCount, outOfStockCount: outOfStockCount)
     }
     
     func getColor(model: PantryModel) -> Theme {
@@ -65,23 +66,33 @@ class PantryViewModel {
         dataSource.updatePantriesAfterMove(updatedPantries: updatedPantries)
     }
     
-    func addPantry(_ pantry: PantryModel) {
-        dataSource.addPantry(pantry)
+    func addPantry() {
+        dataSource.updatePantry()
     }
     
     func delete(model: PantryModel) {
         dataSource.delete(pantry: model)
     }
     
-    func showEditPantry(presentedController: UIViewController,pantry: PantryModel) {
-        router?.goToCreateNewPantry(presentedController: presentedController, currentPantry: pantry) { [weak self] pantry in
-            self?.addPantry(pantry)
+    func showEditPantry(presentedController: UIViewController, pantry: PantryModel) {
+        router?.goToCreateNewPantry(presentedController: presentedController,
+                                    currentPantry: pantry) { [weak self] pantry in
+            if pantry != nil {
+                self?.addPantry()
+            }
+            self?.updateNavUI?()
         }
     }
     
     func tappedAddItem(presentedController: UIViewController) {
-        router?.goToCreateNewPantry(presentedController: presentedController, currentPantry: nil, updateUI: { [weak self] pantry in
-            self?.addPantry(pantry)
+        router?.goToCreateNewPantry(presentedController: presentedController,
+                                    currentPantry: nil,
+                                    updateUI: { [weak self] pantry in
+            if let pantry {
+                self?.addPantry()
+                self?.router?.goToStocks(navController: presentedController, pantry: pantry)
+            }
+            self?.updateNavUI?()
         })
     }
     
@@ -95,7 +106,11 @@ class PantryViewModel {
             return
         }
         let users = SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
-//        router?.goToSharingList(listToShare: model, users: users)
+        //        router?.goToSharingList(listToShare: model, users: users)
+    }
+    
+    func reloadDataFromStorage() {
+        dataSource.updatePantry()
     }
     
     private func getSharingState(_  model: PantryModel) -> SharingView.SharingState {
