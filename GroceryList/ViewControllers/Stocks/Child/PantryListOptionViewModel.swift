@@ -93,12 +93,12 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
     
     override func getShareImages() -> [String?] {
         var arrayOfImageUrls: [String?] = []
-        guard let newUsers = SharedListManager.shared.sharedListsUsers[pantry.sharedId] else {
-            return arrayOfImageUrls
-        }
-        newUsers.forEach { user in
-            if user.token != UserAccountManager.shared.getUser()?.token {
-                arrayOfImageUrls.append(user.avatar)
+        
+        if let newUsers = SharedPantryManager.shared.sharedListsUsers[pantry.sharedId] {
+            newUsers.forEach { user in
+                if user.token != UserAccountManager.shared.getUser()?.token {
+                    arrayOfImageUrls.append(user.avatar)
+                }
             }
         }
         return arrayOfImageUrls

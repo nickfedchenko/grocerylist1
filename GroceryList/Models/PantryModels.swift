@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct PantryModel: Hashable {
+struct PantryModel: Hashable, Codable {
     var id = UUID()
     var name: String
     var index: Int = 0
     var color: Int
     var icon: Data?
-    var stock: [StockShortModel]
+    var stock: [Stock]
     var synchronizedLists: [UUID]
     
     var dateOfCreation: Date
@@ -25,7 +25,7 @@ struct PantryModel: Hashable {
     var isVisibleCost: Bool = false
     
     init(id: UUID = UUID(), name: String, index: Int, color: Int, icon: Data? = nil,
-         stock: [StockShortModel] = [], synchronizedLists: [UUID] = [],
+         stock: [Stock] = [], synchronizedLists: [UUID] = [],
          dateOfCreation: Date = Date(), sharedId: String = "", isShared: Bool = false,
          isSharedListOwner: Bool = false, isShowImage: BoolWithNilForCD = .nothing,
          isVisibleCost: Bool = false) {
@@ -51,7 +51,7 @@ struct PantryModel: Hashable {
         color = Int(dbModel.color)
         icon = dbModel.icon
         let dbStocks = dbModel.stocks?.allObjects as? [DBStock]
-        stock = dbStocks?.map({ StockShortModel(dbModel: $0) }) ?? []
+        stock = dbStocks?.map({ Stock(dbModel: $0) }) ?? []
         synchronizedLists = (try? JSONDecoder().decode([UUID].self, from: dbModel.synchronizedLists ?? Data())) ?? []
         dateOfCreation = dbModel.dateOfCreation
         sharedId = dbModel.sharedId ?? ""
@@ -59,6 +59,19 @@ struct PantryModel: Hashable {
         isSharedListOwner = dbModel.isSharedListOwner
         isShowImage = BoolWithNilForCD(rawValue: dbModel.isShowImage) ?? .nothing
         isVisibleCost = dbModel.isVisibleCost
+    }
+    
+    init(sharedList: SharedPantryModel, stock: [Stock]) {
+        id = sharedList.id
+        name = sharedList.name
+        index = -100
+        color = sharedList.color
+        icon = sharedList.icon
+        self.stock = stock
+        isShared = true
+        isSharedListOwner = sharedList.isSharedListOwner
+        dateOfCreation = Date()
+        synchronizedLists = []
     }
 }
 
@@ -69,6 +82,7 @@ struct Stock: Hashable, Codable {
     var name: String
     var imageData: Data?
     var description: String?
+    var category: String?
     var store: Store?
     var cost: Double?
     var quantity: Double?
@@ -143,22 +157,26 @@ struct Stock: Hashable, Codable {
         isUserImage = dbModel.isUserImage
         userToken = dbModel.userToken
     }
-}
-
-struct StockShortModel: Hashable, Equatable, Codable {
-    var id: UUID
-    var pantryId: UUID
-    var name: String
-    var isAvailability: Bool
-    var store: Store?
     
-    init(dbModel: DBStock) {
-        self.id = dbModel.id
-        self.pantryId = dbModel.pantryId
-        self.name = dbModel.name
-        self.isAvailability = dbModel.isAvailability
-        let storeFromDB = (try? JSONDecoder().decode(Store.self, from: dbModel.store ?? Data()))
-        self.store = storeFromDB?.title == "" ? nil : storeFromDB
+    init(sharedStock: SharedStock) {
+        id = sharedStock.id
+        index = sharedStock.index
+        pantryId = sharedStock.pantryId
+        name = sharedStock.name
+        imageData = sharedStock.imageData
+        description = sharedStock.description
+        category = sharedStock.category
+        store = sharedStock.store
+        cost = sharedStock.cost
+        quantity = sharedStock.quantity
+        unitId = sharedStock.unitId
+        isAvailability = sharedStock.isAvailability
+        isAutoRepeat = sharedStock.isAutoRepeat
+        autoRepeat = sharedStock.autoRepeat
+        isReminder = false
+        isUserImage = sharedStock.isUserImage
+        userToken = sharedStock.userToken ?? "0"
+        dateOfCreation = Date()
     }
 }
 

@@ -103,11 +103,8 @@ final class MainTabBarController: UITabBarController {
         viewModel.delegate = self
         tabBar.removeFromSuperview()
         customTabBar.delegate = self
-        
         self.delegate = self
-        self.tabBar.backgroundColor = .white
-        self.tabBar.unselectedItemTintColor = R.color.darkGray()
-        self.tabBar.tintColor = R.color.primaryDark()
+        
         self.viewControllers = viewModel.getViewControllers()
     }
     

@@ -13,7 +13,7 @@ class ProductsDataManager {
     var products: [Product] {
         getProducts()
     }
-    var groceryListId: String
+    var groceryListId: UUID
     var typeOfSorting: SortingType {
         didSet {
             shouldSaveExpanding = false
@@ -38,12 +38,16 @@ class ProductsDataManager {
     private var shouldSaveExpanding: Bool = false
     private var isVisibleCost: Bool = false
     private var users: [User] = []
+    private var outOfStockProducts: [Product] {
+        getOutOfStockProducts()
+    }
 
     init (products: [Product], typeOfSorting: SortingType,
-          groceryListId: String) {
+          groceryListId: UUID) {
         self.typeOfSorting = typeOfSorting
         self.groceryListId = groceryListId
-        if let domainList = CoreDataManager.shared.getList(list: groceryListId) {
+        
+        if let domainList = CoreDataManager.shared.getList(list: groceryListId.uuidString) {
             typeOfSortingPurchased = SortingType(rawValue: Int(domainList.typeOfSortingPurchased)) ?? .category
             isAscendingOrder = domainList.isAscendingOrder
             isAscendingOrderPurchased = getIsAscendingOrderPurchased(domainList.isAscendingOrderPurchased)
@@ -54,9 +58,12 @@ class ProductsDataManager {
     }
 
     func createDataSourceArray() {
-        if products.isEmpty { dataSourceArray = [] }
-        guard !products.isEmpty else { return }
-        createSortedProducts()
+        let allProducts = products + outOfStockProducts
+        if allProducts.isEmpty {
+            dataSourceArray = []
+            return
+        }
+        createSortedProducts(products: allProducts)
         shouldSaveExpanding = true
     }
     
@@ -78,6 +85,18 @@ class ProductsDataManager {
         createDataSourceArray()
     }
     
+    func updateStockStatus(for product: Product) {
+        let stockId = product.id
+        guard let dbStock = CoreDataManager.shared.getStock(by: stockId) else {
+            return
+        }
+        
+        var stock = Stock(dbModel: dbStock)
+        stock.isAvailability = true
+        CoreDataManager.shared.saveStock(stock: [stock], for: stock.pantryId.uuidString)
+        createDataSourceArray()
+    }
+    
     func updateImage(for product: Product) {
         CoreDataManager.shared.createProduct(product: product)
         createDataSourceArray()
@@ -85,7 +104,6 @@ class ProductsDataManager {
     
     func delete(product: Product) {
         CoreDataManager.shared.removeProduct(product: product)
-        if products.isEmpty { dataSourceArray = [] }
         createDataSourceArray()
     }
     
@@ -125,10 +143,21 @@ class ProductsDataManager {
     }
     
     private func getProducts() -> [Product] {
-        guard let domainList = CoreDataManager.shared.getList(list: groceryListId) else { return [] }
+        guard let domainList = CoreDataManager.shared.getList(list: groceryListId.uuidString) else { return [] }
         let localList = DomainModelsToLocalTransformer().transformCoreDataModelToModel(domainList)
         isVisibleCost = localList.isVisibleCost
         return localList.products
+    }
+    
+    private func getOutOfStockProducts() -> [Product] {
+        var outOfStockProducts: [Product] = []
+        let dbPantries = CoreDataManager.shared.getPantry(by: groceryListId)
+        let pantries = dbPantries.map { PantryModel(dbModel: $0) }
+        pantries.forEach { pantry in
+            let outOfStock = pantry.stock.filter { !$0.isAvailability }
+            outOfStockProducts.append(contentsOf: outOfStock.map({ Product(stock: $0, listId: groceryListId) }))
+        }
+        return outOfStockProducts
     }
     
     func getIndexPath(for newProduct: Product) -> IndexPath {
@@ -165,8 +194,9 @@ class ProductsDataManager {
         return sectionIndices
     }
     
-    private func createSortedProducts() {
-        let products = getSortedProductsInOrder(products: products, isAscendingOrder: isAscendingOrder,
+    private func createSortedProducts(products: [Product]) {
+        let products = getSortedProductsInOrder(products: products,
+                                                isAscendingOrder: isAscendingOrder,
                                                 typeOfSorting: typeOfSorting)
         var newArray: [Category] = []
         

@@ -23,26 +23,26 @@ final class SharingListViewModel {
         sharedUsers.isEmpty
     }
     
-    var listToShareModel: GroceryListsModel
+    var listToShareModel: GroceryListsModel?
+    var pantryToShareModel: PantryModel?
     
     private var sharedUsers: [User] = []
     private var network: NetworkEngine
     
-    init(network: NetworkEngine, listToShare: GroceryListsModel, users: [User]) {
+    init(network: NetworkEngine, users: [User]) {
         self.network = network
-        self.listToShareModel = listToShare
         sharedUsers = users
-        print(listToShare)
         sharedUsers.removeAll(where: { $0.token == UserAccountManager.shared.getUser()?.token })
     }
     
     func shareListTapped() {
-        idsOfChangedLists.insert(listToShareModel.id)
-        AmplitudeManager.shared.logEvent(.sendInvite)
-        SharedListManager.shared.shareGroceryList(listModel: listToShareModel) { [weak self] deepLink in
-            DispatchQueue.main.async {
-                self?.delegate?.openShareController(with: deepLink)
-            }
+        if let listToShareModel {
+            shareGrocery(listToShareModel: listToShareModel)
+            return
+        }
+        if let pantryToShareModel {
+            sharePantry(pantryToShareModel: pantryToShareModel)
+            return
         }
     }
     
@@ -70,5 +70,23 @@ final class SharingListViewModel {
             return "-"
         }
         return user.username ?? user.email
+    }
+    
+    private func shareGrocery(listToShareModel: GroceryListsModel) {
+        idsOfChangedLists.insert(listToShareModel.id)
+        AmplitudeManager.shared.logEvent(.sendInvite)
+        SharedListManager.shared.shareGroceryList(listModel: listToShareModel) { [weak self] deepLink in
+            DispatchQueue.main.async {
+                self?.delegate?.openShareController(with: deepLink)
+            }
+        }
+    }
+    
+    private func sharePantry(pantryToShareModel: PantryModel) {
+        SharedPantryManager.shared.sharePantry(pantry: pantryToShareModel) { [weak self] deepLink in
+            DispatchQueue.main.async {
+                self?.delegate?.openShareController(with: deepLink)
+            }
+        }
     }
 }

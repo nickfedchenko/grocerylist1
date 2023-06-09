@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         rootRouter = RootRouter(window: window)
         rootRouter?.presentRootNavigationControllerInWindow()
         SharedListManager.shared.router = rootRouter
+        SharedPantryManager.shared.router = rootRouter
         
         self.window = window
         return true
@@ -46,7 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
       
-        guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host else {
+        guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
+              let host = components.host else {
             print("invalidUrl")
             return false
         }
@@ -62,9 +64,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .resetPassword:
             rootRouter?.openResetPassword(token: token)
         case .share:
-            print("Fdf")
-            SharedListManager.shared.gottenDeeplinkToken(token: token)
-            
+            if components.scheme == "pantrylist" {
+                SharedPantryManager.shared.gottenDeeplinkToken(token: token)
+            } else {
+                SharedListManager.shared.gottenDeeplinkToken(token: token)
+            }
         }
         return true
     }

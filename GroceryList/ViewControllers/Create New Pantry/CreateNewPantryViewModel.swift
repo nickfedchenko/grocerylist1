@@ -89,7 +89,7 @@ final class CreateNewPantryViewModel {
         }
         selectListToSynchronize.modalPresentationStyle = .overCurrentContext
         selectListToSynchronize.modalTransitionStyle = .crossDissolve
-        viewController.present(selectListToSynchronize, animated: true)
+        router?.topViewController?.present(selectListToSynchronize, animated: true)
     }
     
     func savePantryList(name: String?, icon: UIImage?) {

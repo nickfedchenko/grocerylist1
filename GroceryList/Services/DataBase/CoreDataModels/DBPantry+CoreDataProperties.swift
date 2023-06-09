@@ -27,7 +27,6 @@ extension DBPantry {
     @NSManaged public var isVisibleCost: Bool
     @NSManaged public var name: String
     @NSManaged public var sharedId: String?
-    @NSManaged public var stock: Data?
     @NSManaged public var synchronizedLists: Data?
     @NSManaged public var stocks: NSSet?
 
@@ -38,7 +37,6 @@ extension DBPantry {
         dbPantry.index = Int16(model.index)
         dbPantry.color = Int16(model.color)
         dbPantry.icon = model.icon
-        dbPantry.stock = try? JSONEncoder().encode(model.stock)
         dbPantry.synchronizedLists = try? JSONEncoder().encode(model.synchronizedLists)
         dbPantry.dateOfCreation = model.dateOfCreation
         dbPantry.sharedId = model.sharedId

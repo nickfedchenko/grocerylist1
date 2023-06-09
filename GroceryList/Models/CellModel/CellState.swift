@@ -10,6 +10,7 @@ import Foundation
 enum CellState {
     case normal
     case edit
+    case stock
     case swipedRight
     case swipedLeft
 }

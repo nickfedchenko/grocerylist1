@@ -24,6 +24,10 @@ class PantryViewModel {
         self.dataSource.reloadData = { [weak self] in
             self?.reloadData?()
         }
+        
+        SharedPantryManager.shared.fetchMyPantryLists()
+        NotificationCenter.default.addObserver(self, selector: #selector(sharedPantryDownloaded),
+                                               name: .sharedPantryDownloadedAndSaved, object: nil)
     }
     
     var pantries: [PantryModel] {
@@ -72,13 +76,20 @@ class PantryViewModel {
     
     func delete(model: PantryModel) {
         dataSource.delete(pantry: model)
+        
+        guard model.sharedId != "" else {
+            return
+        }
+        SharedPantryManager.shared.deletePantryList(pantryId: model.sharedId)
+        SharedPantryManager.shared.unsubscribeFromPantryList(pantryId: model.sharedId)
     }
     
     func showEditPantry(presentedController: UIViewController, pantry: PantryModel) {
         router?.goToCreateNewPantry(presentedController: presentedController,
                                     currentPantry: pantry) { [weak self] pantry in
-            if pantry != nil {
+            if let pantry {
                 self?.addPantry()
+                self?.updateSharedPantryList(model: pantry)
             }
             self?.updateNavUI?()
         }
@@ -106,7 +117,7 @@ class PantryViewModel {
             return
         }
         let users = SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
-        //        router?.goToSharingList(listToShare: model, users: users)
+        router?.goToSharingList(pantryToShare: model, users: users)
     }
     
     func reloadDataFromStorage() {
@@ -120,7 +131,7 @@ class PantryViewModel {
     private func getShareImages(_  model: PantryModel) -> [String?] {
         var arrayOfImageUrls: [String?] = []
         
-        if let newUsers = SharedListManager.shared.sharedListsUsers[model.sharedId] {
+        if let newUsers = SharedPantryManager.shared.sharedListsUsers[model.sharedId] {
             newUsers.forEach { user in
                 if user.token != UserAccountManager.shared.getUser()?.token {
                     arrayOfImageUrls.append(user.avatar)
@@ -128,5 +139,17 @@ class PantryViewModel {
             }
         }
         return arrayOfImageUrls
+    }
+    
+    @objc
+    private func sharedPantryDownloaded() {
+        addPantry()
+    }
+    
+    private func updateSharedPantryList(model: PantryModel) {
+        guard model.isShared else {
+            return
+        }
+        SharedPantryManager.shared.updatePantryList(pantryId: model.id.uuidString)
     }
 }
