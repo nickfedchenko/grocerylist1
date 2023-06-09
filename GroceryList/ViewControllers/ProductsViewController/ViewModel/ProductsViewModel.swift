@@ -113,6 +113,7 @@ class ProductsViewModel {
             guard let self else { return }
             switch content {
             case .edit:
+//                self.dataSource.
                 self.delegate?.editProduct()
             case .share:
                 var shareModel = self.model
@@ -154,6 +155,11 @@ class ProductsViewModel {
     
     func updateFavoriteStatus(for product: Product) {
         dataSource.updateFavoriteStatus(for: product)
+        updateList()
+    }
+    
+    func updateStockStatus(product: Product) {
+        dataSource.updateStockStatus(for: product)
         updateList()
     }
     

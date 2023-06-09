@@ -205,6 +205,15 @@ class UserDefaultsManager {
         }
     }
     
+    static var pantryUserTokens: [String]? {
+        get {
+            return UserDefaults.standard.array(forKey: "pantryUserTokens") as? [String]
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "pantryUserTokens")
+        }
+    }
+    
     private static func setValue<T>(value: T, for key: UDKeys) {
         UserDefaults.standard.set(value, forKey: key.rawValue)
     }

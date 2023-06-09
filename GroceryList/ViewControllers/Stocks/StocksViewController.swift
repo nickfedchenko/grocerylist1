@@ -308,7 +308,7 @@ final class StocksViewController: UIViewController {
         linkView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(40)
-            $0.bottom.equalToSuperview().offset(-114)
+            $0.top.equalToSuperview().offset(collectionView.contentSize.height)
         }
         
         setupEditViewConstraints()
@@ -390,7 +390,7 @@ extension StocksViewController: StocksNavigationViewDelegate {
     }
     
     func tapOnSharingButton() {
-        
+        viewModel.sharePantry()
     }
     
     func tapOnSettingButton() {

@@ -116,11 +116,20 @@ class ListViewModel {
     
     func getNumberOfProductsInside(at ind: IndexPath) -> String {
         let supply = model[ind.section].lists[ind.row]
+        let dbPantries = CoreDataManager.shared.getPantry(by: supply.id)
+        let pantries = dbPantries.map { PantryModel(dbModel: $0) }
+        var outOfStockCount = 0
+        pantries.forEach { pantry in
+            outOfStockCount += pantry.stock.filter { !$0.isAvailability }.count
+        }
+        
         var done = 0
         supply.products.forEach({ item in
-            if item.isPurchased {done += 1 }
+            if item.isPurchased {
+                done += 1
+            }
         })
-        return "\(done) / \(supply.products.count)"
+        return "\(done) / \(supply.products.count + outOfStockCount)"
     }
     
     func reloadDataFromStorage() {

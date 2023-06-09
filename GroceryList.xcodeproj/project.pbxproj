@@ -113,6 +113,10 @@
 		339254A42A3047600047807E /* DBStock+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254A02A3047600047807E /* DBStock+CoreDataProperties.swift */; };
 		339254A52A3047600047807E /* DBPantry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254A12A3047600047807E /* DBPantry+CoreDataClass.swift */; };
 		339254A62A3047600047807E /* DBPantry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254A22A3047600047807E /* DBPantry+CoreDataProperties.swift */; };
+		339254A82A3160F80047807E /* SharedPantryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254A72A3160F80047807E /* SharedPantryManager.swift */; };
+		339254AA2A3161710047807E /* PantryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254A92A3161710047807E /* PantryResponse.swift */; };
+		339254AC2A3161D50047807E /* RequestGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254AB2A3161D50047807E /* RequestGenerator.swift */; };
+		339254AE2A3162540047807E /* NetworkTypealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254AD2A3162540047807E /* NetworkTypealias.swift */; };
 		33995D202A1C5C88003FECAE /* PantryStarterPackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */; };
 		33995D232A1CC1DE003FECAE /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */; };
 		33995D252A1CC501003FECAE /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D242A1CC501003FECAE /* TabBarItemView.swift */; };
@@ -425,6 +429,10 @@
 		339254A02A3047600047807E /* DBStock+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBStock+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		339254A12A3047600047807E /* DBPantry+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBPantry+CoreDataClass.swift"; sourceTree = "<group>"; };
 		339254A22A3047600047807E /* DBPantry+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBPantry+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		339254A72A3160F80047807E /* SharedPantryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedPantryManager.swift; sourceTree = "<group>"; };
+		339254A92A3161710047807E /* PantryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryResponse.swift; sourceTree = "<group>"; };
+		339254AB2A3161D50047807E /* RequestGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestGenerator.swift; sourceTree = "<group>"; };
+		339254AD2A3162540047807E /* NetworkTypealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTypealias.swift; sourceTree = "<group>"; };
 		33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryStarterPackViewController.swift; sourceTree = "<group>"; };
 		33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
 		33995D242A1CC501003FECAE /* TabBarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
@@ -1265,20 +1273,22 @@
 		B3179EA5291E305F00455419 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				339254AD2A3162540047807E /* NetworkTypealias.swift */,
+				339254AB2A3161D50047807E /* RequestGenerator.swift */,
 				B3179EA8291E324B00455419 /* Network.swift */,
 				B3AD42D62991135E0043A37F /* CurrentLocale.swift */,
-				B3815C0529361BAC0060262D /* NetworkModeles.swift */,
-				B3AD42D8299117580043A37F /* Registration */,
+				B3AD42D8299117580043A37F /* Models */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
 		};
-		B32767C629A6088F00DD9D20 /* SharedListManager */ = {
+		B32767C629A6088F00DD9D20 /* SharedManager */ = {
 			isa = PBXGroup;
 			children = (
 				B32767C729A608A500DD9D20 /* SharedListManager.swift */,
+				339254A72A3160F80047807E /* SharedPantryManager.swift */,
 			);
-			path = SharedListManager;
+			path = SharedManager;
 			sourceTree = "<group>";
 		};
 		B32767C929A6381600DD9D20 /* DomainModelsToLocalTransformer */ = {
@@ -1659,7 +1669,7 @@
 			isa = PBXGroup;
 			children = (
 				B32767C929A6381600DD9D20 /* DomainModelsToLocalTransformer */,
-				B32767C629A6088F00DD9D20 /* SharedListManager */,
+				B32767C629A6088F00DD9D20 /* SharedManager */,
 				B371CCAA299C995A00E0E197 /* ResetPasswordModelManager */,
 				B381EF1B299A56A200DCDE40 /* UserAccountManager */,
 				B3AD42D32991061D0043A37F /* SocketManager */,
@@ -1851,13 +1861,15 @@
 			path = SocketManager;
 			sourceTree = "<group>";
 		};
-		B3AD42D8299117580043A37F /* Registration */ = {
+		B3AD42D8299117580043A37F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B3815C0529361BAC0060262D /* NetworkModeles.swift */,
 				B3AD42D9299117980043A37F /* RegistrationResponse.swift */,
 				B371CCB1299F7B0200E0E197 /* GroceryListResponse.swift */,
+				339254A92A3161710047807E /* PantryResponse.swift */,
 			);
-			path = Registration;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		B3B45E582934BFEA00D60E82 /* SelectCategoryViewController */ = {
@@ -2186,6 +2198,7 @@
 				33A51B8D2A17171400BE11C1 /* MainTabBarViewModel.swift in Sources */,
 				B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */,
 				846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */,
+				339254AE2A3162540047807E /* NetworkTypealias.swift in Sources */,
 				383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */,
 				339254A32A3047600047807E /* DBStock+CoreDataClass.swift in Sources */,
 				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
@@ -2349,6 +2362,7 @@
 				B371CCB2299F7B0200E0E197 /* GroceryListResponse.swift in Sources */,
 				3380D1B429C2D1E500A57F25 /* AllRecipesCell.swift in Sources */,
 				3368FD6E29B700F300D97291 /* UUIDExtension.swift in Sources */,
+				339254AC2A3161D50047807E /* RequestGenerator.swift in Sources */,
 				337E79CE29E595F700668578 /* ViewWithOverriddenPoint.swift in Sources */,
 				333E2D3529F1226D00F705E7 /* DisplayCostListCell.swift in Sources */,
 				B32767CB29A6387100DD9D20 /* DomainModelsToLocalTransformer.swift in Sources */,
@@ -2365,6 +2379,7 @@
 				334764552A277C9F008F4834 /* StocksViewController.swift in Sources */,
 				B315F9E8298A3FF30009CEB8 /* WriteReviewViewModel.swift in Sources */,
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
+				339254AA2A3161710047807E /* PantryResponse.swift in Sources */,
 				B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */,
 				33995D342A1F96C7003FECAE /* CreateNewPantryViewModel.swift in Sources */,
 				33796E612A139F5D009AD385 /* FeedbackViewController.swift in Sources */,
@@ -2390,6 +2405,7 @@
 				B3777E232938E4E90074BE38 /* HapticManager.swift in Sources */,
 				33995D2B2A1DA398003FECAE /* PantryModels.swift in Sources */,
 				3328AD86299CF40800187B57 /* SharingView.swift in Sources */,
+				339254A82A3160F80047807E /* SharedPantryManager.swift in Sources */,
 				3342C9BB2A1460900010DA4A /* FeedbackViewModel.swift in Sources */,
 				33995D292A1D0824003FECAE /* PantryCell.swift in Sources */,
 				334764462A24B747008F4834 /* SelectIconView.swift in Sources */,

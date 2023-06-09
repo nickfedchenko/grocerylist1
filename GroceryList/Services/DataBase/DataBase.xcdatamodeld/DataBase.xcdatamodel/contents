@@ -68,7 +68,6 @@
         <attribute name="isVisibleCost" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="sharedId" optional="YES" attributeType="String"/>
-        <attribute name="stock" optional="YES" attributeType="Binary"/>
         <attribute name="synchronizedLists" optional="YES" attributeType="Binary"/>
         <relationship name="stocks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DBStock" inverseName="pantry" inverseEntity="DBStock"/>
         <uniquenessConstraints>

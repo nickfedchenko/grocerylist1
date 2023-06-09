@@ -139,6 +139,7 @@ class ProductListCell: UICollectionViewListCell {
         secondDescriptionLabel.attributedText = NSAttributedString(string: "")
         secondDescriptionLabel.textColor = .black
         viewWithDescription.isHidden = true
+        whiteCheckmarkImage.isHidden = false
         whiteCheckmarkImage.image = R.image.whiteCheckmark()
         secondDescriptionLabel.snp.updateConstraints { $0.bottom.equalToSuperview().inset(6) }
         clearTheCell()
@@ -149,7 +150,8 @@ class ProductListCell: UICollectionViewListCell {
     }
     
     func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?,
-                   isPurchased: Bool, description: String, isRecipe: Bool) {
+                   isPurchased: Bool, description: String, isRecipe: Bool,
+                   isOutOfStock: Bool) {
         contentView.backgroundColor = bcgColor
         guard let text = text else { return }
         setupCheckmarkImage(isPurchased: isPurchased, color: textColor, isRecipe: isRecipe)
@@ -172,6 +174,11 @@ class ProductListCell: UICollectionViewListCell {
         
         if !description.isEmpty || isRecipe {
             viewWithDescription.isHidden = false
+        }
+        
+        whiteCheckmarkImage.isHidden = isOutOfStock
+        if isOutOfStock {
+            checkmarkImage.image = R.image.product_outOfStock()
         }
     }
     
@@ -281,6 +288,10 @@ class ProductListCell: UICollectionViewListCell {
     }
     
     private func setupCheckmarkImage(isPurchased: Bool, color: UIColor?, isRecipe: Bool) {
+        guard state != .stock else {
+            return
+        }
+        
         guard state != .edit else {
             whiteCheckmarkImage.snp.updateConstraints { $0.width.height.equalTo(8) }
             whiteCheckmarkImage.image = getImageWithColor(color: .white)

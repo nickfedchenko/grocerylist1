@@ -336,6 +336,9 @@ class ProductsViewController: UIViewController {
         switch model {
         case .parent: break
         case .child(let product):
+            guard !product.isOutOfStock else {
+                return
+            }
             viewModel?.addNewProductTapped(product)
         }
     }
@@ -428,10 +431,10 @@ class ProductsViewController: UIViewController {
             let newLine = (description.count + storeTitle.count) > 30 && isVisibleCost
             let productCost = self?.calculateCost(quantity: child.quantity, cost: child.cost)
             
-            cell.setState(state: self?.cellState ?? .normal)
+            cell.setState(state: child.isOutOfStock ? .stock : self?.cellState ?? .normal)
             cell.setupCell(bcgColor: bcgColor, textColor: color, text: child.name,
                            isPurchased: child.isPurchased, description: description,
-                           isRecipe: child.fromRecipeTitle != nil)
+                           isRecipe: child.fromRecipeTitle != nil, isOutOfStock: child.isOutOfStock)
             cell.setupImage(isVisible: isUserImage, image: image)
             cell.setupUserImage(image: self?.viewModel?.getUserImage(by: child.userToken, isPurchased: child.isPurchased))
             cell.updateEditCheckmark(isSelect: isEditCell)
@@ -698,6 +701,11 @@ extension ProductsViewController: UICollectionViewDelegate {
             // чекмарк о покупке
             idsOfChangedProducts.insert(product.id)
             idsOfChangedLists.insert(product.listId)
+            if product.isOutOfStock {
+                self.viewModel?.updateStockStatus(product: product)
+                return
+            }
+            
             if product.isPurchased {
                 cell?.removeCheckmark { [weak self] in
                     self?.viewModel?.updatePurchasedStatus(product: product)

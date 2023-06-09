@@ -125,7 +125,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let viewController = ProductsViewController()
         let dataSource = ProductsDataManager(products: model.products,
                                              typeOfSorting: SortingType(rawValue: model.typeOfSorting) ?? .category,
-                                             groceryListId: model.id.uuidString)
+                                             groceryListId: model.id)
         let viewModel = ProductsViewModel(model: model, dataSource: dataSource)
         viewModel.valueChangedCallback = compl
         viewModel.delegate = viewController
@@ -300,14 +300,18 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSharingListController(router: RootRouter, listToShare: GroceryListsModel,
+    func createSharingListController(router: RootRouter,
+                                     pantryToShare: PantryModel? = nil,
+                                     listToShare: GroceryListsModel? = nil,
                                      users: [User]) -> UIViewController {
         let viewController = SharingListViewController()
         let networkManager = NetworkEngine()
-        let viewModel = SharingListViewModel(network: networkManager, listToShare: listToShare, users: users)
+        let viewModel = SharingListViewModel(network: networkManager, users: users)
         viewModel.router = router
-        viewController.viewModel = viewModel
+        viewModel.listToShareModel = listToShare
+        viewModel.pantryToShareModel = pantryToShare
         viewModel.delegate = viewController
+        viewController.viewModel = viewModel
         return viewController
     }
     

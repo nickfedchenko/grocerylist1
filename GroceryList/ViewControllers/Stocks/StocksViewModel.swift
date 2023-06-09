@@ -34,6 +34,9 @@ final class StocksViewModel {
         self.dataSource.reloadData = { [weak self] in
             self?.delegate?.reloadData()
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(sharedPantryDownloaded),
+                                               name: .sharedPantryDownloadedAndSaved, object: nil)
     }
     
     var pantryName: String {
@@ -104,7 +107,7 @@ final class StocksViewModel {
     func getShareImages() -> [String?] {
         var arrayOfImageUrls: [String?] = []
         
-        if let newUsers = SharedListManager.shared.sharedListsUsers[pantry.sharedId] {
+        if let newUsers = SharedPantryManager.shared.sharedListsUsers[pantry.sharedId] {
             newUsers.forEach { user in
                 if user.token != UserAccountManager.shared.getUser()?.token {
                     arrayOfImageUrls.append(user.avatar)
@@ -137,6 +140,7 @@ final class StocksViewModel {
             }
             self.pantry = updatedPantry
             self.delegate?.updateController()
+            self.updateSharedPantryList()
         }, editCallback: { [weak self] content in
             guard let self else {
                 return
@@ -145,14 +149,12 @@ final class StocksViewModel {
             case .edit:
                 self.stateCellModel = .edit
                 self.delegate?.editState()
-            case .share: break
-//                var shareModel = self.pantry
-//                if let dbModel = CoreDataManager.shared.getList(list: self.pantry.id.uuidString),
-//                   let model = GroceryListsModel(from: dbModel) {
-//                    shareModel = model
-//                }
-//                self.router?.goToSharingList(listToShare: shareModel, users: self.getSharedListsUsers())
+            case .share:
+                self.sharePantry()
             case .delete:
+                SharedPantryManager.shared.deletePantryList(pantryId: self.pantry.sharedId)
+                SharedPantryManager.shared.unsubscribeFromPantryList(pantryId: self.pantry.sharedId)
+                self.updateSharedPantryList()
                 self.delegate?.popController()
             default: break
             }
@@ -162,11 +164,13 @@ final class StocksViewModel {
     func goToCreateItem(stock: Stock?) {
         router?.goToCreateNewStockController(pantry: pantry, stock: stock, compl: { [weak self] _ in
             self?.dataSource.updateStocks()
+            self?.updateSharedPantryList()
         })
     }
     
     func updateStockStatus(stock: Stock) {
         dataSource.updateStockStatus(stock: stock)
+        updateSharedPantryList()
     }
     
     func sortIsAvailability() {
@@ -178,6 +182,19 @@ final class StocksViewModel {
     
     func updateStocksAfterMove(stocks: [Stock]) {
         dataSource.updateStocksAfterMove(updatedStocks: stocks)
+    }
+    
+    func sharePantry() {
+        guard UserAccountManager.shared.getUser() != nil else {
+            router?.goToSharingPopUp()
+            return
+        }
+        
+        var shareModel = self.pantry
+        if let dbModel = CoreDataManager.shared.getPantry(id: self.pantry.id.uuidString) {
+            shareModel = PantryModel(dbModel: dbModel)
+        }
+        self.router?.goToSharingList(pantryToShare: shareModel, users: self.getSharedListsUsers())
     }
     
     func updateEditState(isEdit: Bool) {
@@ -212,12 +229,25 @@ final class StocksViewModel {
         }
         resetEditProducts()
         delegate?.updateUIEditTabBar()
-//        updateList()
+        updateSharedPantryList()
     }
     
     func resetEditProducts() {
         dataSource.resetEditStocks()
         delegate?.updateUIEditTabBar()
+    }
+    
+    private func getSharedListsUsers() -> [User] {
+        return SharedPantryManager.shared.sharedListsUsers[pantry.sharedId] ?? []
+    }
+    
+    @objc
+    private func sharedPantryDownloaded() {
+        dataSource.updateStocks()
+    }
+    
+    private func updateSharedPantryList() {
+        SharedPantryManager.shared.updatePantryList(pantryId: self.pantry.id.uuidString)
     }
     
     private func getListByText() -> String {
