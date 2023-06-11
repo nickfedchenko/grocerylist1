@@ -546,6 +546,14 @@ class CoreDataManager {
         }
     }
     
+    func getAllStock() -> [DBStock]? {
+        let fetchRequest: NSFetchRequest<DBStock> = DBStock.fetchRequest()
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
+            return nil
+        }
+        return object
+    }
+    
     func getAllStocks(for pantryId: String) -> [DBStock]? {
         let fetchRequest: NSFetchRequest<DBStock> = DBStock.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "pantryId = '\(pantryId)'")

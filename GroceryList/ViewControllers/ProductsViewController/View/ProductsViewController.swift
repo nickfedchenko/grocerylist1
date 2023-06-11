@@ -76,43 +76,6 @@ class ProductsViewController: UIViewController {
         return button
     }()
     
-    private let addItemView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 32
-        view.layer.masksToBounds = true
-        view.layer.maskedCorners = [.layerMinXMinYCorner]
-        view.layer.borderColor = UIColor.white.withAlphaComponent(0.8).cgColor
-        view.layer.borderWidth = 2
-        view.layer.cornerCurve = .continuous
-        view.addCustomShadow(color: UIColor(hex: "#484848"), offset: CGSize(width: 0, height: 0.5))
-        return view
-    }()
-    
-    private let plusView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 16
-        view.layer.masksToBounds = true
-        view.layer.cornerCurve = .continuous
-        view.backgroundColor = .white
-        return view
-    }()
-    
-    private let plusImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = R.image.sharing_plus()
-        return imageView
-    }()
-    
-    private let addItemLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFProRounded.semibold(size: 17).font
-        label.textColor = .white
-        label.numberOfLines = 2
-        label.text = "AddItem".localized
-        return label
-    }()
-    
     private let totalCostLabel = UILabel()
     private let messageView = InfoMessageView()
     private let productImageView = ProductImageView()
@@ -127,6 +90,8 @@ class ProductsViewController: UIViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        (self.tabBarController as? MainTabBarController)?.productsDelegate = self
+        
         setupConstraints()
         setupCollectionView()
         setupController()
@@ -144,6 +109,14 @@ class ProductsViewController: UIViewController {
         messageView.layoutIfNeeded()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let colorForForeground = viewModel?.getColorForForeground() ?? .black
+        (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
+        (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: "item",
+                                                                        color: colorForForeground)
+    }
+    
     private func setupController() {
         let colorForForeground = viewModel?.getColorForForeground() ?? .black
         let colorForBackground = viewModel?.getColorForBackground()
@@ -151,9 +124,8 @@ class ProductsViewController: UIViewController {
         nameOfListTextField.text = viewModel?.getNameOfList()
         view.backgroundColor = colorForBackground
         navigationView.backgroundColor = colorForBackground
-        
-        addItemView.backgroundColor = darkColor.withAlphaComponent(0.95)
-        plusImage.image = R.image.sharing_plus()?.withTintColor(darkColor)
+        (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: "item",
+                                                                        color: colorForForeground)
         nameOfListTextField.textColor = darkColor
         
         sortButton.setImage(R.image.sort()?.withTintColor(colorForForeground), for: .normal)
@@ -256,6 +228,7 @@ class ProductsViewController: UIViewController {
     
     @objc
     private func arrowBackButtonPressed() {
+        self.navigationController?.popViewController(animated: true)
         viewModel?.goBackButtonPressed()
     }
     
@@ -295,6 +268,7 @@ class ProductsViewController: UIViewController {
                 self?.cancelEditButton.alpha = 1
                 self?.cancelEditButton.transform = CGAffineTransformInvert(expandTransform)
                 self?.view.layoutIfNeeded()
+                (self?.tabBarController as? MainTabBarController)?.customTabBar.layoutIfNeeded()
             }, completion: nil)
         })
         cellState = .edit
@@ -314,6 +288,7 @@ class ProductsViewController: UIViewController {
             self?.contextMenuButton.alpha = 1
             self?.sharingView.alpha = 1
             self?.view.layoutIfNeeded()
+            (self?.tabBarController as? MainTabBarController)?.customTabBar.layoutIfNeeded()
         }
         editTabBarView.setCountSelectedItems(0)
         collectionView.reloadData()
@@ -561,15 +536,14 @@ class ProductsViewController: UIViewController {
     
     // MARK: - Constraints
     private func setupConstraints() {
-        view.addSubviews([collectionView, navigationView, addItemView, productImageView, editView, editTabBarView])
+        view.addSubviews([collectionView, navigationView, productImageView, editView])
         navigationView.addSubviews([arrowBackButton, nameOfListTextField, contextMenuButton, sharingView, sortButton, totalCostLabel])
         editView.addSubviews([cancelEditButton])
-        addItemView.addSubviews([plusView, plusImage, addItemLabel])
         collectionView.addSubview(messageView)
+        (self.tabBarController as? MainTabBarController)?.customTabBar.addSubview(editTabBarView)
         
         setupNavigationViewConstraints()
         setupEditViewConstraints()
-        setupAddItemConstraints()
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(navigationView.snp.bottom).offset(-4)
@@ -633,30 +607,6 @@ class ProductsViewController: UIViewController {
         }
     }
     
-    private func setupAddItemConstraints() {
-        addItemView.snp.makeConstraints { make in
-            make.trailing.bottom.equalToSuperview().offset(4)
-            make.height.equalTo(84)
-            make.width.equalTo(self.view.frame.width / 2 + 2)
-        }
-        
-        plusView.snp.makeConstraints { make in
-            make.top.left.equalToSuperview().inset(16)
-            make.width.height.equalTo(32)
-        }
-        
-        plusImage.snp.makeConstraints { make in
-            make.center.equalTo(plusView)
-            make.width.height.equalTo(32)
-        }
-        
-        addItemLabel.snp.makeConstraints { make in
-            make.left.equalTo(plusImage.snp.right).inset(-16)
-            make.centerY.equalTo(plusImage)
-            make.right.equalToSuperview().inset(5)
-        }
-    }
-    
     private func setupEditViewConstraints() {
         editView.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(navigationView)
@@ -669,9 +619,11 @@ class ProductsViewController: UIViewController {
             make.height.equalTo(40)
         }
         
-        editTabBarView.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(0)
+        if self.tabBarController != nil {
+            editTabBarView.snp.makeConstraints { make in
+                make.leading.trailing.bottom.equalToSuperview()
+                make.height.equalTo(0)
+            }
         }
     }
 }
@@ -839,9 +791,6 @@ extension ProductsViewController: ProductsViewModelDelegate {
 
 extension ProductsViewController {
     private func addRecognizer() {
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(addItemViewTapped))
-        addItemView.addGestureRecognizer(tapRecognizer)
-        
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
         collectionView.addGestureRecognizer(longPressGesture)
         
@@ -852,13 +801,6 @@ extension ProductsViewController {
             taprecognizer = UITapGestureRecognizer(target: self, action: #selector(tapPressAction))
             self.view.addGestureRecognizer(taprecognizer)
         }
-    }
-    
-    @objc
-    private func addItemViewTapped () {
-        AmplitudeManager.shared.logEvent(.itemAdd)
-        tapPressAction()
-        viewModel?.addNewProductTapped()
     }
 }
 
@@ -948,5 +890,13 @@ extension ProductsViewController: EditSelectListDelegate {
     
     func productsSuccessfullyCopied() {
         cancelEditButtonPressed()
+    }
+}
+
+extension ProductsViewController: MainTabBarControllerProductsDelegate {
+    func tappedAddItem() {
+        AmplitudeManager.shared.logEvent(.itemAdd)
+        tapPressAction()
+        viewModel?.addNewProductTapped()
     }
 }

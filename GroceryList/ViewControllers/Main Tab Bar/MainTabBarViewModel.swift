@@ -87,6 +87,15 @@ final class MainTabBarViewModel {
         router?.showPaywallVC()
     }
     
+    func showStockReminderIfNeeded() {
+        let today = Date()
+        if today.todayWithSetting(hour: 10) <= today,
+           isShowStockReminderRequired() {
+            router?.goToStockReminder()
+            UserDefaultsManager.lastShowStockReminderDate = today.todayWithSetting(hour: 10)
+        }
+    }
+    
     func analytic() {
         let lists = CoreDataManager.shared.getAllLists()
         var initialLists: [GroceryListsModel] = []
@@ -124,5 +133,17 @@ final class MainTabBarViewModel {
         AmplitudeManager.shared.logEvent(.itemsPinned, properties: [.count: "\(favoriteItemsCount)"])
         AmplitudeManager.shared.logEvent(.sharedLists, properties: [.count: "\(sharedListsCount)"])
         AmplitudeManager.shared.logEvent(.sharedUsersMaxCount, properties: [.count: "\(sharedUserMax)"])
+    }
+    
+    private func isShowStockReminderRequired() -> Bool {
+        guard let lastRefreshDate = UserDefaultsManager.lastShowStockReminderDate else {
+            return true
+        }
+        if let diff = Calendar.current.dateComponents(
+            [.hour], from: lastRefreshDate, to: Date()
+        ).hour {
+            return diff > 24
+        }
+        return false
     }
 }

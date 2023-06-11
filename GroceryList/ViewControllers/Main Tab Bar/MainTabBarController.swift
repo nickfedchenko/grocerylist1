@@ -8,30 +8,13 @@
 import ApphudSDK
 import UIKit
 
-protocol MainTabBarControllerRecipeDelegate: AnyObject {
-    func updateRecipeUI(_ recipe: Recipe?)
-    func tappedAddItem()
-}
-
-protocol MainTabBarControllerPantryDelegate: AnyObject {
-    func updatePantryUI(_ pantry: PantryModel)
-    func tappedAddItem()
-}
-
-protocol MainTabBarControllerListDelegate: AnyObject {
-    func tappedAddItem()
-}
-
-protocol MainTabBarControllerStocksDelegate: AnyObject {
-    func tappedAddItem()
-}
-
 final class MainTabBarController: UITabBarController {
     
     weak var listDelegate: MainTabBarControllerListDelegate?
     weak var pantryDelegate: MainTabBarControllerPantryDelegate?
     weak var recipeDelegate: MainTabBarControllerRecipeDelegate?
     weak var stocksDelegate: MainTabBarControllerStocksDelegate?
+    weak var productsDelegate: MainTabBarControllerProductsDelegate?
     
     let customTabBar = CustomTabBarView()
     
@@ -86,6 +69,7 @@ final class MainTabBarController: UITabBarController {
             initAnalytic.toggle()
             viewModel.showFeedback()
         }
+        viewModel.showStockReminderIfNeeded()
     }
     
     func isHideNavView(isHide: Bool) {
@@ -236,7 +220,15 @@ extension MainTabBarController: CustomTabBarViewDelegate {
         let itemTag = selectedIndex
         if let item = TabBarItemView.Item(rawValue: itemTag) {
             switch item {
-            case .list:     listDelegate?.tappedAddItem()
+            case .list:
+                let navController = self.selectedViewController as? UINavigationController
+                let topViewController = navController?.topViewController
+                if topViewController is ListViewController {
+                    listDelegate?.tappedAddItem()
+                }
+                if topViewController is ProductsViewController {
+                    productsDelegate?.tappedAddItem()
+                }
             case .pantry:
                 let navController = self.selectedViewController as? UINavigationController
                 let topViewController = navController?.topViewController

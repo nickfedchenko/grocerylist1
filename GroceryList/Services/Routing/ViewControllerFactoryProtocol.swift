@@ -12,7 +12,11 @@ protocol ViewControllerFactoryProtocol {
     func createPaywallController() -> UIViewController?
     func createAlternativePaywallController() -> UIViewController?
     
-    func createMainTabBarController(router: RootRouter) -> UITabBarController
+    func createMainTabBarController(router: RootRouter, controllers: [UIViewController]) -> UITabBarController
+    func createListController(router: RootRouter) -> UIViewController
+    func createPantryController(router: RootRouter) -> UIViewController
+    func createRecipeController(router: RootRouter) -> UIViewController
+    
     func createCreateNewListController(model: GroceryListsModel?, router: RootRouter,
                                        compl: @escaping (GroceryListsModel, [Product]) -> Void) -> UIViewController?
     func createProductsController(model: GroceryListsModel, router: RootRouter,
@@ -88,4 +92,5 @@ protocol ViewControllerFactoryProtocol {
     func createEditSelectPantryListController(router: RootRouter, stocks: [Stock], contentViewHeigh: CGFloat,
                                               delegate: EditSelectListDelegate,
                                               state: EditListState) -> UIViewController
+    func createStockReminderController(router: RootRouter) -> UIViewController
 }

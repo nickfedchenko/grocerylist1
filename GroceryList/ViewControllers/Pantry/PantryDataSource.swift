@@ -12,8 +12,16 @@ final class PantryDataSource {
     var reloadData: (() -> Void)?
     
     private var pantries: [PantryModel] = []
+    private let stocksUpdateHours = 10
     
     init() {
+        let today = Date()
+        if today.todayWithSetting(hour: stocksUpdateHours) <= today,
+           isUpdateStockRequired() {
+            checkThatItemIsOutOfStock()
+            UserDefaultsManager.lastUpdateStockDate = today.todayWithSetting(hour: stocksUpdateHours)
+        }
+        
         defaultPantry()
         getPantriesFromDB()
     }
@@ -63,6 +71,102 @@ final class PantryDataSource {
         } else {
             pantries.sort { $0.dateOfCreation > $1.dateOfCreation }
         }
+    }
+    
+    private func isUpdateStockRequired() -> Bool {
+        guard let lastRefreshDate = UserDefaultsManager.lastUpdateStockDate else {
+            return true
+        }
+        if let diff = Calendar.current.dateComponents(
+            [.hour], from: lastRefreshDate, to: Date()
+        ).hour {
+            return diff > 24
+        }
+        return false
+    }
+    
+    private func checkThatItemIsOutOfStock() {
+        let today = Date()
+        let dbStock = CoreDataManager.shared.getAllStock()?.filter { $0.isAutoRepeat } ?? []
+        var outOfStocks = dbStock.map({ Stock(dbModel: $0) })
+        
+        for (index, stock) in outOfStocks.enumerated() {
+            guard let autoRepeat = stock.autoRepeat else { break }
+            let startDate = stock.dateOfCreation.onlyDate
+            let resetDay = today.todayWithSetting(hour: stocksUpdateHours)
+            switch autoRepeat.state {
+            case .daily:
+                outOfStocks[index].isAvailability = resetDay > today
+                CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
+                                                 for: stock.pantryId.uuidString)
+            case .weekly:
+                if startDate.dayNumberOfWeek == today.dayNumberOfWeek {
+                    outOfStocks[index].isAvailability = resetDay > today
+                    CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
+                                                     for: stock.pantryId.uuidString)
+                }
+            case .monthly:
+                if startDate.day == today.day {
+                    outOfStocks[index].isAvailability = resetDay > today
+                    CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
+                                                     for: stock.pantryId.uuidString)
+                }
+            case .yearly:
+                if startDate.month == today.month,
+                   startDate.day == today.day {
+                    outOfStocks[index].isAvailability = resetDay > today
+                    CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
+                                                     for: stock.pantryId.uuidString)
+                }
+            case .custom:
+                if checkCustomAutoRepeat(autoRepeat: autoRepeat,
+                                         today: today, startDate: startDate) {
+                    outOfStocks[index].isAvailability = resetDay > today
+                    CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
+                                                     for: stock.pantryId.uuidString)
+                }
+            }
+        }
+    }
+    
+    private func checkCustomAutoRepeat(autoRepeat: AutoRepeatModel,
+                                       today: Date, startDate: Date) -> Bool {
+        guard autoRepeat.state == .custom,
+              let period = autoRepeat.period else {
+            return false
+        }
+
+        let times = (autoRepeat.times ?? 1) + 1
+        switch period {
+        case .days:
+            let days = today.days(sinceDate: startDate)
+            if days > 0 {
+                return days % times == 0
+            }
+        case .weeks:
+            let weekDates = Date().getListDatesOfWeek(date: startDate)
+            guard let weekday = autoRepeat.weekday,
+                  let startWeekDate = weekDates[safe: weekday] else {
+                return false
+            }
+            if startWeekDate.dayNumberOfWeek == today.dayNumberOfWeek {
+                let weeks = today.weeks(from: startWeekDate)
+                if weeks >= 0 {
+                    return weeks % times == 0
+                }
+            }
+        case .months:
+            let months = today.months(from: startDate)
+            if months > 0 && months % times == 0 {
+                return today.day == startDate.day
+            }
+        case .years:
+            let years = today.years(from: startDate)
+            if years > 0 && years % times == 0 {
+                return today.day == startDate.day && today.month == startDate.month
+            }
+        }
+        return false
     }
     
     private func defaultPantry() {
