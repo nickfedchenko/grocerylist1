@@ -7,6 +7,7 @@
 
 import UIKit
 
+// swiftlint: disable: next type_body_length
 final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
     func createOnboardingController(router: RootRouter) -> UIViewController? {
@@ -15,13 +16,9 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createMainTabBarController(router: RootRouter) -> UITabBarController {
+    func createMainTabBarController(router: RootRouter, controllers: [UIViewController]) -> UITabBarController {
         let isRightHanded = true
-        let listVC = createListController(router: router)
-        let pantryVC = createPantryController(router: router)
-        let recipeVC = createRecipeController(router: router)
-        let viewControllers = [listVC, pantryVC, recipeVC]
-        let viewModel = MainTabBarViewModel(isRightHanded: isRightHanded, viewControllers: viewControllers)
+        let viewModel = MainTabBarViewModel(isRightHanded: isRightHanded, viewControllers: controllers)
         viewModel.router = router
         
         let tabBarController = MainTabBarController(viewModel: viewModel)
@@ -34,9 +31,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let viewModel = ListViewModel(dataSource: dataSource)
         viewModel.router = router
         let viewController = ListViewController(viewModel: viewModel)
-        let navController = UINavigationController(rootViewController: viewController)
-        navController.isNavigationBarHidden = true
-        return navController
+        return viewController
     }
     
     func createPantryController(router: RootRouter) -> UIViewController {
@@ -45,9 +40,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.router = router
         
         let viewController = PantryViewController(viewModel: viewModel)
-        let navController = UINavigationController(rootViewController: viewController)
-        navController.isNavigationBarHidden = true
-        return navController
+        return viewController
     }
     
     func createRecipeController(router: RootRouter) -> UIViewController {
@@ -239,18 +232,15 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createPaywallController() -> UIViewController? {
-        let viewController = PaywallViewController()
-        return viewController
+        return PaywallViewController()
     }
     
     func createAlternativePaywallController() -> UIViewController? {
-        let viewController = AlternativePaywallViewController()
-        return viewController
+        return AlternativePaywallViewController()
     }
     
     func createReviewsController(router: RootRouter) -> UIViewController {
-        let controller = OnboardingReviewController(router: router)
-        return controller
+        return OnboardingReviewController(router: router)
     }
     
     func createActivityController(image: [Any]) -> UIViewController? {
@@ -498,6 +488,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.router = router
         let viewController = SelectPantryListViewController(viewModel: viewModel, contentViewHeigh: contentViewHeigh)
         viewController.delegate = delegate
+        return viewController
+    }
+    
+    func createStockReminderController(router: RootRouter) -> UIViewController {
+        let dataSource = StockReminderDataSource()
+        let viewModel = StockReminderViewModel(dataSource: dataSource)
+        viewModel.router = router
+        let viewController = StockReminderViewController(viewModel: viewModel)
         return viewController
     }
 }

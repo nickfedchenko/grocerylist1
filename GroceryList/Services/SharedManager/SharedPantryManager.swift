@@ -285,7 +285,8 @@ class SharedPantryManager {
            let dbModel = CoreDataManager.shared.getList(list: newListId) {
             let model = DomainModelsToLocalTransformer().transformCoreDataModelToModel(dbModel)
             self.router?.popToRoot()
-            self.router?.goProductsVC(model: model, compl: { })
+//            self.router?.goProductsVC(presentedController: self,
+//                                      model: model, compl: { })
             self.newListId = nil
             isNewListId = false
         }

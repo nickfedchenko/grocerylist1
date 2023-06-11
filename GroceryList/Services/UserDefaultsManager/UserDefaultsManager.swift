@@ -214,6 +214,24 @@ class UserDefaultsManager {
         }
     }
     
+    static var lastUpdateStockDate: Date? {
+        get {
+            return UserDefaults.standard.object(forKey: "lastUpdateStockDate") as? Date
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "lastUpdateStockDate")
+        }
+    }
+    
+    static var lastShowStockReminderDate: Date? {
+        get {
+            return UserDefaults.standard.object(forKey: "lastShowStockReminderDate") as? Date
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "lastShowStockReminderDate")
+        }
+    }
+    
     private static func setValue<T>(value: T, for key: UDKeys) {
         UserDefaults.standard.set(value, forKey: key.rawValue)
     }

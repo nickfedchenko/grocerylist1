@@ -117,6 +117,10 @@
 		339254AA2A3161710047807E /* PantryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254A92A3161710047807E /* PantryResponse.swift */; };
 		339254AC2A3161D50047807E /* RequestGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254AB2A3161D50047807E /* RequestGenerator.swift */; };
 		339254AE2A3162540047807E /* NetworkTypealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254AD2A3162540047807E /* NetworkTypealias.swift */; };
+		339254B22A3333AA0047807E /* MainTabBarControllerDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254B12A3333AA0047807E /* MainTabBarControllerDelegates.swift */; };
+		339254B42A3347DA0047807E /* StockReminderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254B32A3347DA0047807E /* StockReminderDataSource.swift */; };
+		339254B72A33EEE80047807E /* StockReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254B62A33EEE80047807E /* StockReminderViewController.swift */; };
+		339254B92A33EF020047807E /* StockReminderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254B82A33EF020047807E /* StockReminderViewModel.swift */; };
 		33995D202A1C5C88003FECAE /* PantryStarterPackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */; };
 		33995D232A1CC1DE003FECAE /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */; };
 		33995D252A1CC501003FECAE /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D242A1CC501003FECAE /* TabBarItemView.swift */; };
@@ -433,6 +437,10 @@
 		339254A92A3161710047807E /* PantryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryResponse.swift; sourceTree = "<group>"; };
 		339254AB2A3161D50047807E /* RequestGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestGenerator.swift; sourceTree = "<group>"; };
 		339254AD2A3162540047807E /* NetworkTypealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTypealias.swift; sourceTree = "<group>"; };
+		339254B12A3333AA0047807E /* MainTabBarControllerDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarControllerDelegates.swift; sourceTree = "<group>"; };
+		339254B32A3347DA0047807E /* StockReminderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockReminderDataSource.swift; sourceTree = "<group>"; };
+		339254B62A33EEE80047807E /* StockReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockReminderViewController.swift; sourceTree = "<group>"; };
+		339254B82A33EF020047807E /* StockReminderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockReminderViewModel.swift; sourceTree = "<group>"; };
 		33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryStarterPackViewController.swift; sourceTree = "<group>"; };
 		33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
 		33995D242A1CC501003FECAE /* TabBarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
@@ -984,6 +992,16 @@
 			path = "In recipe";
 			sourceTree = "<group>";
 		};
+		339254B52A33EDD10047807E /* Stock Reminder */ = {
+			isa = PBXGroup;
+			children = (
+				339254B82A33EF020047807E /* StockReminderViewModel.swift */,
+				339254B62A33EEE80047807E /* StockReminderViewController.swift */,
+				339254B32A3347DA0047807E /* StockReminderDataSource.swift */,
+			);
+			path = "Stock Reminder";
+			sourceTree = "<group>";
+		};
 		33995D212A1C5C91003FECAE /* StarterPack */ = {
 			isa = PBXGroup;
 			children = (
@@ -1034,6 +1052,7 @@
 			children = (
 				33A51B8C2A17171400BE11C1 /* MainTabBarViewModel.swift */,
 				33A51B862A163C7A00BE11C1 /* MainTabBarController.swift */,
+				339254B12A3333AA0047807E /* MainTabBarControllerDelegates.swift */,
 				33995D262A1CC59A003FECAE /* Tabbar */,
 				332340912A1B31CC00609813 /* MainNavigationView.swift */,
 				33A51B882A163C9500BE11C1 /* CustomTransition.swift */,
@@ -1716,6 +1735,7 @@
 				33995D302A1F9694003FECAE /* Create New Pantry */,
 				334764532A277C56008F4834 /* Stocks */,
 				334764672A2AE621008F4834 /* Create New Stock */,
+				339254B52A33EDD10047807E /* Stock Reminder */,
 				33F8253529C050B700B349D5 /* Search */,
 				334BAE4B299DF88F005F52F5 /* Sharing */,
 				3379B64C29B755B20080923A /* Collection */,
@@ -2197,6 +2217,7 @@
 				334764482A24EE48008F4834 /* SelectIconViewController.swift in Sources */,
 				33A51B8D2A17171400BE11C1 /* MainTabBarViewModel.swift in Sources */,
 				B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */,
+				339254B72A33EEE80047807E /* StockReminderViewController.swift in Sources */,
 				846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */,
 				339254AE2A3162540047807E /* NetworkTypealias.swift in Sources */,
 				383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */,
@@ -2231,6 +2252,7 @@
 				335519D029B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift in Sources */,
 				389DCF432945CDFA00DB9382 /* RecipeViewController.swift in Sources */,
 				B35F0F612937972700C19891 /* UnitSystemModel.swift in Sources */,
+				339254B42A3347DA0047807E /* StockReminderDataSource.swift in Sources */,
 				33A51B972A17749200BE11C1 /* MainRecipeViewController.swift in Sources */,
 				338EB6B429C1BACC00D6A03F /* SearchInRecipeViewController.swift in Sources */,
 				335519C229ACC00F00AD2B77 /* ProductImageView.swift in Sources */,
@@ -2312,6 +2334,7 @@
 				B36AF9532915403600944E9D /* EmptyColoredCell.swift in Sources */,
 				335519C929AF1AF000AD2B77 /* CreateNewRecipeStepOneViewModel.swift in Sources */,
 				332340992A1B91C100609813 /* PantryViewModel.swift in Sources */,
+				339254B92A33EF020047807E /* StockReminderViewModel.swift in Sources */,
 				335519CC29B04E5900AD2B77 /* CreateNewRecipeTitleView.swift in Sources */,
 				B3777E162937CBB30074BE38 /* DBProduct+CoreDataProperties.swift in Sources */,
 				3354818829D52E9C0097F528 /* DBNetCategory+CoreDataProperties.swift in Sources */,
@@ -2401,6 +2424,7 @@
 				B3476904291D017B0045A287 /* ProductsViewModel.swift in Sources */,
 				B3802315292BC7DA0039EDE0 /* UserDefaultsManager.swift in Sources */,
 				B3329596298A667E002DF1EE /* AmplitudeManager.swift in Sources */,
+				339254B22A3333AA0047807E /* MainTabBarControllerDelegates.swift in Sources */,
 				33796E5F2A139457009AD385 /* UIDeviceExtension.swift in Sources */,
 				B3777E232938E4E90074BE38 /* HapticManager.swift in Sources */,
 				33995D2B2A1DA398003FECAE /* PantryModels.swift in Sources */,

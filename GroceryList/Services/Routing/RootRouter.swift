@@ -22,9 +22,7 @@ protocol RootRouterProtocol: NavigationInterface {
 final class RootRouter: RootRouterProtocol {
     
     var navigationController: UINavigationController? {
-        didSet {
-            navigationController?.isNavigationBarHidden = true
-        }
+        didSet { navigationController?.isNavigationBarHidden = true }
     }
     weak var viewController: UIViewController?
     
@@ -32,15 +30,29 @@ final class RootRouter: RootRouterProtocol {
     
     let viewControllerFactory: ViewControllerFactoryProtocol
     
+    private var listNavController: UINavigationController {
+        didSet { listNavController.isNavigationBarHidden = true }
+    }
+    
+    private var pantryNavController: UINavigationController {
+        didSet { pantryNavController.isNavigationBarHidden = true }
+    }
+    
+    private var recipeNavController: UINavigationController {
+        didSet { recipeNavController.isNavigationBarHidden = true }
+    }
+    
     init(window: UIWindow) {
         self.window = window
+        listNavController = UINavigationController()
+        pantryNavController = UINavigationController()
+        recipeNavController = UINavigationController()
         
         viewControllerFactory = ViewControllerFactory()
     }
     
     func presentRootNavigationControllerInWindow() {
-        let rootTabBarController = viewControllerFactory.createMainTabBarController(router: self)
-        self.navigationController = BlackNavigationController(rootViewController: rootTabBarController)
+        setupTabBarController()
 
         viewController = navigationController
         
@@ -91,11 +103,12 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: false)
     }
     
-    func presentCreateNewList(model: GroceryListsModel,compl: @escaping (GroceryListsModel, [Product]) -> Void) {
+    func presentCreateNewList(model: GroceryListsModel,
+                              compl: @escaping (GroceryListsModel, [Product]) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewListController(model: model, router: self,
                                                                                    compl: compl) else { return }
         controller.modalPresentationStyle = .overCurrentContext
-        topViewController?.present(controller, animated: true)
+        listNavController.visibleViewController?.present(controller, animated: true)
     }
     
     func goReviewController() {
@@ -111,7 +124,7 @@ final class RootRouter: RootRouterProtocol {
     func goProductsVC(model: GroceryListsModel, compl: @escaping () -> Void) {
         guard let controller = viewControllerFactory.createProductsController(model: model, router: self,
                                                                                    compl: compl) else { return }
-        navigationPushViewController(controller, animated: true)
+        listNavController.pushViewController(controller, animated: true)
     }
     
     func goProductsSettingsVC(snapshot: UIImage?, listByText: String, model: GroceryListsModel,
@@ -122,7 +135,8 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: false)
     }
     
-    func goCreateNewProductController(model: GroceryListsModel?, product: Product? = nil, compl: @escaping (Product) -> Void) {
+    func goCreateNewProductController(model: GroceryListsModel?, product: Product? = nil,
+                                      compl: @escaping (Product) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewProductController(model: model, product: product,
                                                                                       router: self,
                                                                                       compl: compl) else { return }
@@ -322,6 +336,12 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, style: .automatic, animated: true)
     }
     
+    func goToStockReminder() {
+        let controller = viewControllerFactory.createStockReminderController(router: self)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
@@ -419,6 +439,37 @@ final class RootRouter: RootRouterProtocol {
     
     func popToController(at ind: Int, animated: Bool) {
         navigationPop(at: ind, animated: true)
+    }
+    
+    func popListToRoot(animated: Bool = true) {
+        listNavController.popToRootViewController(animated: animated)
+    }
+    
+    func popPantryToRoot(animated: Bool = true) {
+        listNavController.popToRootViewController(animated: animated)
+    }
+    
+    func popList(animated: Bool = true) {
+        listNavController.popViewController(animated: animated)
+    }
+    
+    func popPantry(animated: Bool = true) {
+        listNavController.popViewController(animated: animated)
+    }
+    
+    private func setupTabBarController() {
+        let listController = viewControllerFactory.createListController(router: self)
+        let pantryController = viewControllerFactory.createPantryController(router: self)
+        let recipeController = viewControllerFactory.createRecipeController(router: self)
+        listNavController = UINavigationController(rootViewController: listController)
+        pantryNavController = UINavigationController(rootViewController: pantryController)
+
+        var controllers: [UIViewController] = [listNavController, pantryNavController, recipeController]
+
+        let rootTabBarController = viewControllerFactory.createMainTabBarController(
+            router: self, controllers: controllers
+        )
+        self.navigationController = BlackNavigationController(rootViewController: rootTabBarController)
     }
 }
 

@@ -53,6 +53,12 @@ class ColorManager {
         return rawGradientColors[index]
     }
     
+    func getGradientForStockReminder() -> Theme {
+        Theme(dark: R.color.primaryDark() ?? .black,
+              medium: R.color.primaryDark() ?? .systemGray,
+              light: R.color.primaryLight() ?? .systemGray6)
+    }
+    
     func getEmptyCellColor(index: Int) -> UIColor {
         guard index < emptyCellColors.count else {
             return UIColor.white

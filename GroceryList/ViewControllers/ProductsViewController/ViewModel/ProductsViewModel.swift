@@ -91,7 +91,7 @@ class ProductsViewModel {
     }
     
     func goBackButtonPressed() {
-        router?.pop()
+        router?.popList()
         showRequest()
     }
     
@@ -113,7 +113,6 @@ class ProductsViewModel {
             guard let self else { return }
             switch content {
             case .edit:
-//                self.dataSource.
                 self.delegate?.editProduct()
             case .share:
                 var shareModel = self.model
