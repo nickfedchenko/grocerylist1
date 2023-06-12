@@ -10,6 +10,7 @@ import UIKit
 final class StockReminderViewModel {
     
     weak var router: RootRouter?
+    var updateUI: (() -> Void)?
     var reloadData: (() -> Void)?
     
     private let dataSource: StockReminderDataSource
@@ -51,7 +52,15 @@ final class StockReminderViewModel {
         SharedPantryManager.shared.updatePantryList(pantryId: stock.pantryId.uuidString)
     }
     
-    func showSyncList() {
-        
+    func showSyncList(contentViewHeigh: Double) {
+        router?.showSelectList(contentViewHeigh: contentViewHeigh,
+                               synchronizedLists: [],
+                               updateUI: { [weak self] uuids in
+            self?.dataSource.saveListIds(uuids: uuids)
+        })
+    }
+    
+    func dismissView() {
+        updateUI?()
     }
 }

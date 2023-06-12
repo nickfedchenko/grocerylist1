@@ -100,6 +100,11 @@ class ProductsViewModel {
         return index
     }
     
+    func setEditState(isEdit: Bool) {
+        dataSource.isEditState = isEdit
+        dataSource.createDataSourceArray()
+    }
+    
     func settingsTapped(with snapshot: UIImage?) {
         router?.goProductsSettingsVC(snapshot: snapshot, listByText: getListByText(), model: model,
                                      compl: { [weak self] updatedModel, products in
@@ -113,6 +118,7 @@ class ProductsViewModel {
             guard let self else { return }
             switch content {
             case .edit:
+                self.setEditState(isEdit: true)
                 self.delegate?.editProduct()
             case .share:
                 var shareModel = self.model

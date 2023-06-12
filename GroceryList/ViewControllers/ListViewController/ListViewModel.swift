@@ -116,7 +116,7 @@ class ListViewModel {
     
     func getNumberOfProductsInside(at ind: IndexPath) -> String {
         let supply = model[ind.section].lists[ind.row]
-        let dbPantries = CoreDataManager.shared.getPantry(by: supply.id)
+        let dbPantries = CoreDataManager.shared.getSynchronizedPantry(by: supply.id)
         let pantries = dbPantries.map { PantryModel(dbModel: $0) }
         var outOfStockCount = 0
         pantries.forEach { pantry in

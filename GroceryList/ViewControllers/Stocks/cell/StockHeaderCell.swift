@@ -37,6 +37,7 @@ class StockHeaderCell: UICollectionReusableView {
 
         sectionName.snp.updateConstraints {
             $0.bottom.equalToSuperview().offset(section.typeOFCell == .normal ? 0 : -8)
+            $0.height.equalTo(section.typeOFCell == .normal ? 0 : 24)
         }
     }
     
@@ -46,7 +47,7 @@ class StockHeaderCell: UICollectionReusableView {
         sectionName.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-8)
-            $0.height.equalTo(24)
+            $0.height.equalTo(0)
         }
     }
 }

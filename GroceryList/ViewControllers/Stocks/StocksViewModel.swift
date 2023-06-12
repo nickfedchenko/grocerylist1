@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 01.06.2023.
 //
 
+import ApphudSDK
 import UIKit
 
 protocol StocksViewModelDelegate: AnyObject {
@@ -37,6 +38,10 @@ final class StocksViewModel {
         
         NotificationCenter.default.addObserver(self, selector: #selector(sharedPantryDownloaded),
                                                name: .sharedPantryDownloadedAndSaved, object: nil)
+    }
+    
+    var necessaryOffsetToLink: Double {
+        dataSource.stocks.isEmpty ? 0 : Double(dataSource.stocks.count * 56)
     }
     
     var pantryName: String {
@@ -75,6 +80,10 @@ final class StocksViewModel {
         dataSource.editStocks.isEmpty
     }
     
+    var lastIndex: IndexPath {
+        IndexPath(item: dataSource.stocks.count - 1, section: 1)
+    }
+    
     func getStocks() -> [PantryStocks] {
         return [
             PantryStocks(name: "out of stock", stock: dataSource.outOfStock, typeOFCell: .outOfStock),
@@ -98,6 +107,25 @@ final class StocksViewModel {
                                    description: model.description, image: image,
                                    isRepeat: model.isAutoRepeat, isReminder: model.isReminder,
                                    inStock: model.isAvailability)
+    }
+    
+    func getCostCellModel(model: Stock) -> StockCell.CostCellModel {
+        var isVisibleCost = false
+#if RELEASE
+        if Apphud.hasActiveSubscription() {
+            isVisibleCost = model.isVisibleСost
+        }
+#endif
+        
+        let newLine = (model.description?.count ?? 0 + (model.store?.title.count ?? 0)) > 30 && isVisibleCost
+        let theme = colorManager.getGradient(index: pantry.color)
+        let productCost = calculateCost(quantity: model.quantity, cost: model.cost)
+        
+        return StockCell.CostCellModel(isVisible: isVisibleCost,
+                                       isAddNewLine: newLine,
+                                       color: theme.medium,
+                                       storeTitle: model.store?.title,
+                                       costValue: productCost)
     }
     
     func getSharingState() -> SharingView.SharingState {
@@ -139,6 +167,7 @@ final class StocksViewModel {
                 return
             }
             self.pantry = updatedPantry
+            self.dataSource.updateStocks()
             self.delegate?.updateController()
             self.updateSharedPantryList()
         }, editCallback: { [weak self] content in
@@ -272,5 +301,24 @@ final class StocksViewModel {
         }
         
         return list
+    }
+    
+    private func calculateCost(quantity: Double?, cost: Double?) -> Double? {
+        guard quantity != 0 && cost != 0 else {
+            return nil
+        }
+        
+        guard let cost else {
+            return nil
+        }
+        
+        if let quantity {
+            if quantity == 0 {
+                return cost
+            }
+            return quantity * cost
+        } else {
+            return cost
+        }
     }
 }

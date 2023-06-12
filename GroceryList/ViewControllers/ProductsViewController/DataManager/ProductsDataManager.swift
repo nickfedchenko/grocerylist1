@@ -33,12 +33,16 @@ class ProductsDataManager {
             dataChangedCallBack?()
         }
     }
+    var isEditState = false
     
     private(set) var editProducts: [Product] = []
     private var shouldSaveExpanding: Bool = false
     private var isVisibleCost: Bool = false
     private var users: [User] = []
     private var outOfStockProducts: [Product] {
+        getOutOfStockProducts()
+    }
+    private var itemsInStock: [Stock] {
         getOutOfStockProducts()
     }
 
@@ -150,14 +154,24 @@ class ProductsDataManager {
     }
     
     private func getOutOfStockProducts() -> [Product] {
+        if isEditState {
+            return []
+        }
         var outOfStockProducts: [Product] = []
-        let dbPantries = CoreDataManager.shared.getPantry(by: groceryListId)
+        let dbPantries = CoreDataManager.shared.getSynchronizedPantry(by: groceryListId)
         let pantries = dbPantries.map { PantryModel(dbModel: $0) }
         pantries.forEach { pantry in
             let outOfStock = pantry.stock.filter { !$0.isAvailability }
             outOfStockProducts.append(contentsOf: outOfStock.map({ Product(stock: $0, listId: groceryListId) }))
         }
         return outOfStockProducts
+    }
+    
+    private func getOutOfStockProducts() -> [Stock] {
+        var inStock: [Stock] = []
+        let dbStocks = CoreDataManager.shared.getAllStock()?.filter({ $0.isAvailability }) ?? []
+        inStock = dbStocks.map({ Stock(dbModel: $0) })
+        return inStock
     }
     
     func getIndexPath(for newProduct: Product) -> IndexPath {

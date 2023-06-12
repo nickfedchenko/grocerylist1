@@ -20,7 +20,7 @@ final class StocksViewController: UIViewController {
         let layout = compositionalLayout
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
-        collectionView.contentInset.bottom = 60
+        collectionView.contentInset.bottom = 120
         collectionView.contentInset.top = 16
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
@@ -77,6 +77,8 @@ final class StocksViewController: UIViewController {
         return button
     }()
     
+    private var linkViewOffset = 0.0
+    
     init(viewModel: StocksViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -100,11 +102,13 @@ final class StocksViewController: UIViewController {
         reloadDataSource()
         
         makeConstraints()
+        calculateLinkViewOffset()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         navigationView.setupCustomRoundIfNeeded()
+        setupIconVisible()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,7 +116,7 @@ final class StocksViewController: UIViewController {
         (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
         (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: "item", color: viewModel.getTheme().medium)
     }
-    
+
     private func setup() {
         containerView.backgroundColor = .white
         containerView.layer.cornerRadius = 24
@@ -141,7 +145,6 @@ final class StocksViewController: UIViewController {
     
     private func setupEmptyView() {
         emptyView.isHidden = !viewModel.isEmptyStocks
-        collectionView.isHidden = viewModel.isEmptyStocks
     }
     
     private func updateTitle() {
@@ -167,9 +170,11 @@ final class StocksViewController: UIViewController {
                                                         cellProvider: { _, indexPath, model in
             let cell = self.collectionView.reusableCell(classCell: StockCell.self, indexPath: indexPath)
             let cellModel = self.viewModel.getCellModel(model: model)
+            let costModel = self.viewModel.getCostCellModel(model: model)
             let isEditCell = self.viewModel.editStocks.contains(where: { $0.id == model.id })
             cell.delegate = self
             cell.configure(cellModel)
+            cell.configureCost(costModel)
             cell.updateEditCheckmark(isSelect: isEditCell)
             return cell
         })
@@ -205,6 +210,7 @@ final class StocksViewController: UIViewController {
         
         DispatchQueue.main.async {
             self.dataSource?.apply(snapshot, animatingDifferences: true)
+            self.calculateLinkViewOffset()
         }
     }
 
@@ -214,6 +220,33 @@ final class StocksViewController: UIViewController {
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image
+    }
+    
+    private func calculateLinkViewOffset() {
+        let topSafeArea = UIView.safeAreaTop
+        let bottomOffset = topSafeArea > 24 ? 114 : 84
+        linkViewOffset = 50
+        let maxHeight = self.view.frame.height - 150
+        linkViewOffset += viewModel.necessaryOffsetToLink
+        
+        linkView.snp.remakeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(40)
+            if linkViewOffset < maxHeight {
+                $0.bottom.equalTo(self.view).offset(-bottomOffset)
+            } else {
+                $0.bottom.equalToSuperview().offset(linkViewOffset)
+            }
+        }
+    }
+    
+    private func setupIconVisible() {
+        let cell = collectionView.cellForItem(at: viewModel.lastIndex)
+        let cellRect: CGRect = cell?.frame ?? collectionView.frame
+        let lastCellRect = cell?.convert(cellRect, to: collectionView) ?? .zero
+        let iconRect: CGRect = iconImageView.frame
+        
+        iconImageView.isHidden = iconRect.origin.y < lastCellRect.origin.y
     }
     
     @objc
@@ -270,9 +303,9 @@ final class StocksViewController: UIViewController {
     }
     
     private func makeConstraints() {
-        self.view.addSubviews([containerView, emptyView, iconImageView,
+        self.view.addSubviews([containerView, emptyView,
                                collectionView, navigationView, editView])
-        collectionView.addSubview(linkView)
+        collectionView.addSubviews([iconImageView, linkView])
         (self.tabBarController as? MainTabBarController)?.customTabBar.addSubview(editTabBarView)
         editView.addSubviews([cancelEditButton])
         
@@ -308,9 +341,9 @@ final class StocksViewController: UIViewController {
         linkView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(40)
-            $0.top.equalToSuperview().offset(collectionView.contentSize.height)
+            $0.bottom.equalToSuperview().offset(viewModel.necessaryOffsetToLink + 124)
         }
-        
+
         setupEditViewConstraints()
     }
     
@@ -372,7 +405,7 @@ extension StocksViewController: StocksViewModelDelegate {
     func updateController() {
         updateColor()
         updateTitle()
-        collectionView.reloadData()
+//        collectionView.reloadData()
     }
     
     func updateUIEditTabBar() {

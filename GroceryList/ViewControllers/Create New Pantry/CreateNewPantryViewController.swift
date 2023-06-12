@@ -41,6 +41,10 @@ class CreateNewPantryViewController: UIViewController {
         textfield.attributedPlaceholder = NSAttributedString(
             string: " " + R.string.localizable.listName(),
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white.withAlphaComponent(0.5)])
+        if UIDevice.isSE {
+            textfield.autocorrectionType = .no
+            textfield.spellCheckingType = .no
+        }
         return textfield
     }()
     
@@ -92,8 +96,8 @@ class CreateNewPantryViewController: UIViewController {
         button.layer.cornerRadius = 16
         button.layer.cornerCurve = .continuous
         button.layer.borderWidth = 1
-        button.contentEdgeInsets.left = 10
-        button.contentEdgeInsets.right = 10
+        button.contentEdgeInsets.left = 20
+        button.contentEdgeInsets.right = 20
         button.addTarget(self, action: #selector(selectListButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -196,7 +200,7 @@ class CreateNewPantryViewController: UIViewController {
     
     @objc
     private func selectListButtonTapped() {
-        viewModel.showSelectList(by: self, contentViewHeigh: contentViewHeigh)
+        viewModel.showSelectList(contentViewHeigh: contentViewHeigh)
     }
 
     @objc
@@ -221,7 +225,7 @@ class CreateNewPantryViewController: UIViewController {
     
     @objc
     private func tapOnIconView() {
-        viewModel.showAllIcons(by: self, icon: iconView.icon)
+        viewModel.showAllIcons(icon: iconView.icon)
     }
     
     private func updateBottomConstraint(view: UIView, with offset: Double) {
@@ -237,9 +241,17 @@ class CreateNewPantryViewController: UIViewController {
         templateView.snp.updateConstraints { make in
             make.top.equalToSuperview().offset(isVisible ? 0 : self.view.frame.height)
         }
+        if !isVisible {
+            self.view.backgroundColor = .clear
+        }
+        
         UIView.animate(withDuration: isVisible ? 2 : 0,
                        delay: isVisible ? 0.3 : 0) { [weak self] in
             self?.view.layoutIfNeeded()
+        } completion: { _ in
+            if isVisible {
+                self.view.backgroundColor = self.viewModel.selectedTheme.dark
+            }
         }
     }
     
@@ -268,13 +280,13 @@ class CreateNewPantryViewController: UIViewController {
         contentView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(364)
-            $0.height.equalTo(364)
+            $0.height.equalTo(UIDevice.isSE ? 318 : 364)
         }
         
         makeNameViewConstraints()
         
         colorCollectionView.snp.makeConstraints {
-            $0.top.equalTo(nameView.snp.bottom).offset(24)
+            $0.top.equalTo(nameView.snp.bottom).offset(UIDevice.isSE ? 8 : 24)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(48)
         }
@@ -313,13 +325,13 @@ class CreateNewPantryViewController: UIViewController {
     
     private func makeSynchronizeBlockConstraints() {
         infoTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(colorCollectionView.snp.bottom).offset(24)
-            $0.leading.equalToSuperview().offset(42)
+            $0.top.equalTo(colorCollectionView.snp.bottom).offset(UIDevice.isSE ? 8 : 24)
+            $0.leading.equalToSuperview().offset(16)
             $0.centerX.equalToSuperview()
         }
         
         infoDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(infoTitleLabel.snp.bottom).offset(8)
+            $0.top.equalTo(infoTitleLabel.snp.bottom).offset(UIDevice.isSE ? 4 : 8)
             $0.leading.trailing.equalTo(infoTitleLabel)
             $0.height.equalTo(34)
         }

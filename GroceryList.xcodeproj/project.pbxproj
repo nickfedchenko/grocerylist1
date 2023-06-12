@@ -29,7 +29,6 @@
 		3342C9BD2A146D290010DA4A /* FeedbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3342C9BC2A146D290010DA4A /* FeedbackManager.swift */; };
 		334764462A24B747008F4834 /* SelectIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764452A24B747008F4834 /* SelectIconView.swift */; };
 		334764482A24EE48008F4834 /* SelectIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764472A24EE48008F4834 /* SelectIconViewController.swift */; };
-		3347644A2A257D17008F4834 /* defaults_icon.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 334764492A257D17008F4834 /* defaults_icon.bundle */; };
 		3347644D2A258E49008F4834 /* IconCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */; };
 		3347644F2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347644E2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift */; };
 		334764522A264B4F008F4834 /* PantryEditMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764512A264B4F008F4834 /* PantryEditMenuView.swift */; };
@@ -66,7 +65,6 @@
 		3366BEE02A2C1D3A00D50704 /* AutoRepeatSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEDF2A2C1D3A00D50704 /* AutoRepeatSettingView.swift */; };
 		3366BEE22A2C583D00D50704 /* AutoRepeatCustomSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */; };
 		3366BEE52A2DA05A00D50704 /* StocksDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE42A2DA05A00D50704 /* StocksDataSource.swift */; };
-		3366BEE72A2DAF2700D50704 /* LocalNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE62A2DAF2700D50704 /* LocalNotificationsManager.swift */; };
 		3366BEE92A2F37BB00D50704 /* SelectPantryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE82A2F37BB00D50704 /* SelectPantryListViewController.swift */; };
 		3366BEED2A2F3FDF00D50704 /* SelectPantryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEEC2A2F3FDF00D50704 /* SelectPantryListViewModel.swift */; };
 		3367C78C299F30E8008B39A5 /* SharingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367C78B299F30E8008B39A5 /* SharingHeaderView.swift */; };
@@ -149,6 +147,7 @@
 		33C8DB8729DFE873009F4760 /* SF-Compact-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33C8DB8629DFE873009F4760 /* SF-Compact-Display-Semibold.otf */; };
 		33D912BE29A342AA00C32117 /* NumberExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D912BD29A342AA00C32117 /* NumberExtensions.swift */; };
 		33D912C029A396A900C32117 /* MoreRecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D912BF29A396A900C32117 /* MoreRecipeCell.swift */; };
+		33D9B3092A36A4DE00F0AD16 /* defaults_icon.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 33D9B3082A36A4DD00F0AD16 /* defaults_icon.bundle */; };
 		33E544A929C98C27008D84F8 /* PredictiveTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E544A829C98C27008D84F8 /* PredictiveTextView.swift */; };
 		33E544AC29CA1122008D84F8 /* FeatureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E544AB29CA1122008D84F8 /* FeatureManager.swift */; };
 		33F8253729C050DC00B349D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253629C050DC00B349D5 /* SearchViewController.swift */; };
@@ -349,7 +348,6 @@
 		3342C9BC2A146D290010DA4A /* FeedbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackManager.swift; sourceTree = "<group>"; };
 		334764452A24B747008F4834 /* SelectIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIconView.swift; sourceTree = "<group>"; };
 		334764472A24EE48008F4834 /* SelectIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIconViewController.swift; sourceTree = "<group>"; };
-		334764492A257D17008F4834 /* defaults_icon.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = defaults_icon.bundle; sourceTree = "<group>"; };
 		3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCollectionViewCell.swift; sourceTree = "<group>"; };
 		3347644E2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListToSynchronizeViewController.swift; sourceTree = "<group>"; };
 		334764512A264B4F008F4834 /* PantryEditMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryEditMenuView.swift; sourceTree = "<group>"; };
@@ -386,7 +384,6 @@
 		3366BEDF2A2C1D3A00D50704 /* AutoRepeatSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRepeatSettingView.swift; sourceTree = "<group>"; };
 		3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRepeatCustomSettingView.swift; sourceTree = "<group>"; };
 		3366BEE42A2DA05A00D50704 /* StocksDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksDataSource.swift; sourceTree = "<group>"; };
-		3366BEE62A2DAF2700D50704 /* LocalNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsManager.swift; sourceTree = "<group>"; };
 		3366BEE82A2F37BB00D50704 /* SelectPantryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPantryListViewController.swift; sourceTree = "<group>"; };
 		3366BEEC2A2F3FDF00D50704 /* SelectPantryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPantryListViewModel.swift; sourceTree = "<group>"; };
 		3367C78B299F30E8008B39A5 /* SharingHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingHeaderView.swift; sourceTree = "<group>"; };
@@ -469,6 +466,7 @@
 		33C8DB8629DFE873009F4760 /* SF-Compact-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Display-Semibold.otf"; sourceTree = "<group>"; };
 		33D912BD29A342AA00C32117 /* NumberExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberExtensions.swift; sourceTree = "<group>"; };
 		33D912BF29A396A900C32117 /* MoreRecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreRecipeCell.swift; sourceTree = "<group>"; };
+		33D9B3082A36A4DD00F0AD16 /* defaults_icon.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = defaults_icon.bundle; sourceTree = "<group>"; };
 		33E544A829C98C27008D84F8 /* PredictiveTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictiveTextView.swift; sourceTree = "<group>"; };
 		33E544AB29CA1122008D84F8 /* FeatureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureManager.swift; sourceTree = "<group>"; };
 		33F8253629C050DC00B349D5 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -757,7 +755,6 @@
 		3347645E2A29CC4C008F4834 /* subviews */ = {
 			isa = PBXGroup;
 			children = (
-				334764452A24B747008F4834 /* SelectIconView.swift */,
 				3347645A2A287EA5008F4834 /* StocksNavigationView.swift */,
 				334764562A283FAB008F4834 /* StocksEmptyView.swift */,
 				3347645C2A2889E4008F4834 /* StocksLinkView.swift */,
@@ -1042,6 +1039,7 @@
 			isa = PBXGroup;
 			children = (
 				33995D362A1F9FE5003FECAE /* PantryListTemplateView.swift */,
+				334764452A24B747008F4834 /* SelectIconView.swift */,
 				33995D382A1FC461003FECAE /* IconSubView.swift */,
 			);
 			path = subViews;
@@ -1378,7 +1376,7 @@
 		B33EFF0D290FF02800AD9BEE /* GroceryList */ = {
 			isa = PBXGroup;
 			children = (
-				334764492A257D17008F4834 /* defaults_icon.bundle */,
+				33D9B3082A36A4DD00F0AD16 /* defaults_icon.bundle */,
 				386CFACF2995BA4D00B4AD76 /* GroceryList.entitlements */,
 				840C18A0297FC5130006F975 /* GroceryListRelease.entitlements */,
 				B37A2CD42910EE77003C01AD /* Services */,
@@ -1705,7 +1703,6 @@
 				33E544AA29CA1107008D84F8 /* Feature Manager */,
 				B371CCAF299E36BB00E0E197 /* KeychainManager.swift */,
 				3342C9BC2A146D290010DA4A /* FeedbackManager.swift */,
-				3366BEE62A2DAF2700D50704 /* LocalNotificationsManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -2055,7 +2052,7 @@
 				B3981C64297A89E800206DB7 /* SF Pro Text Heavy.otf in Resources */,
 				B33EFF18290FF02900AD9BEE /* Assets.xcassets in Resources */,
 				33C8DB8729DFE873009F4760 /* SF-Compact-Display-Semibold.otf in Resources */,
-				3347644A2A257D17008F4834 /* defaults_icon.bundle in Resources */,
+				33D9B3092A36A4DE00F0AD16 /* defaults_icon.bundle in Resources */,
 				B36AF93D2913CEE900944E9D /* SF Pro Display Bold.otf in Resources */,
 				B3981C58297A86EE00206DB7 /* SF Pro Rounded Medium.otf in Resources */,
 				B3981C56297A86EA00206DB7 /* SF Pro Rounded Bold.otf in Resources */,
@@ -2188,7 +2185,6 @@
 				B347690B291D23800045A287 /* ProductsSettingsViewModel.swift in Sources */,
 				33E544AC29CA1122008D84F8 /* FeatureManager.swift in Sources */,
 				B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */,
-				3366BEE72A2DAF2700D50704 /* LocalNotificationsManager.swift in Sources */,
 				B34EAC9E2934EE0100FBD0E0 /* SelectCategoryDataSource.swift in Sources */,
 				33A51B8B2A163FBF00BE11C1 /* ViewControllerFactoryProtocol.swift in Sources */,
 				B36AF9452913DEC700944E9D /* GroceryCollectionViewCell.swift in Sources */,

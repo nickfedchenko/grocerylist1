@@ -291,6 +291,7 @@ class ProductsViewController: UIViewController {
             (self?.tabBarController as? MainTabBarController)?.customTabBar.layoutIfNeeded()
         }
         editTabBarView.setCountSelectedItems(0)
+        viewModel?.setEditState(isEdit: false)
         collectionView.reloadData()
     }
     

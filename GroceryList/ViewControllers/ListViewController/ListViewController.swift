@@ -257,4 +257,9 @@ extension ListViewController: MainTabBarControllerListDelegate {
     func tappedAddItem() {
         viewModel.tappedAddItem()
     }
+    
+    func updatedUI() {
+        viewModel.reloadDataFromStorage()
+        collectionView.reloadData()
+    }
 }

@@ -447,6 +447,33 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
+    func createAllIcons(icon: UIImage?,
+                        selectedTheme: Theme,
+                        selectedIcon: ((UIImage?) -> Void)?) -> UIViewController {
+        let selectIconViewController = SelectIconViewController()
+        selectIconViewController.icon = icon
+        selectIconViewController.updateColor(theme: selectedTheme)
+        selectIconViewController.selectedIcon = selectedIcon
+        
+        selectIconViewController.modalPresentationStyle = .overCurrentContext
+        selectIconViewController.modalTransitionStyle = .crossDissolve
+        return selectIconViewController
+    }
+    
+    func createSelectList(contentViewHeigh: Double,
+                          synchronizedLists: [UUID],
+                          updateUI: (([UUID]) -> Void)?) -> UIViewController {
+        let dataSource = SelectListDataManager()
+        let viewModel = SelectListViewModel(dataSource: dataSource)
+        let selectListToSynchronize = SelectListToSynchronizeViewController()
+        selectListToSynchronize.viewModel = viewModel
+        selectListToSynchronize.contentViewHeigh = contentViewHeigh
+        selectListToSynchronize.selectedModelIds = Set(synchronizedLists)
+        selectListToSynchronize.updateUI = updateUI
+        
+        return selectListToSynchronize
+    }
+    
     func createStocksController(pantry: PantryModel, router: RootRouter) -> UIViewController {
         let dataSource = StocksDataSource(pantryId: pantry.id)
         let viewModel = StocksViewModel(dataSource: dataSource, pantry: pantry)
@@ -491,10 +518,12 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createStockReminderController(router: RootRouter) -> UIViewController {
-        let dataSource = StockReminderDataSource()
+    func createStockReminderController(outOfStocks: [Stock], updateUI: (() -> Void)?,
+                                       router: RootRouter) -> UIViewController {
+        let dataSource = StockReminderDataSource(outOfStocks: outOfStocks)
         let viewModel = StockReminderViewModel(dataSource: dataSource)
         viewModel.router = router
+        viewModel.updateUI = updateUI
         let viewController = StockReminderViewController(viewModel: viewModel)
         return viewController
     }

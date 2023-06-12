@@ -51,7 +51,8 @@ struct PantryModel: Hashable, Codable {
         color = Int(dbModel.color)
         icon = dbModel.icon
         let dbStocks = dbModel.stocks?.allObjects as? [DBStock]
-        stock = dbStocks?.map({ Stock(dbModel: $0) }) ?? []
+        stock = dbStocks?.map({ Stock(dbModel: $0,
+                                      isVisibleСost: dbModel.isVisibleCost) }) ?? []
         synchronizedLists = (try? JSONDecoder().decode([UUID].self, from: dbModel.synchronizedLists ?? Data())) ?? []
         dateOfCreation = dbModel.dateOfCreation
         sharedId = dbModel.sharedId ?? ""
@@ -137,7 +138,7 @@ struct Stock: Hashable, Codable {
         self.dateOfCreation = Date()
     }
     
-    init(dbModel: DBStock) {
+    init(dbModel: DBStock, isVisibleСost: Bool = false) {
         id = dbModel.id
         index = Int(dbModel.index)
         pantryId = dbModel.pantryId
@@ -156,6 +157,7 @@ struct Stock: Hashable, Codable {
         dateOfCreation = dbModel.dateOfCreation
         isUserImage = dbModel.isUserImage
         userToken = dbModel.userToken
+        self.isVisibleСost = isVisibleСost
     }
     
     init(sharedStock: SharedStock) {

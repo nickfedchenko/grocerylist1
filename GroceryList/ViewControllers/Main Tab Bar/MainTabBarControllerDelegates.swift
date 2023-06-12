@@ -18,6 +18,7 @@ protocol MainTabBarControllerPantryDelegate: AnyObject {
 }
 
 protocol MainTabBarControllerListDelegate: AnyObject {
+    func updatedUI()
     func tappedAddItem()
 }
 
