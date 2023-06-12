@@ -172,17 +172,23 @@ final class PantryDataSource {
     private func defaultPantry() {
         if !UserDefaultsManager.isFillingDefaultPantry {
             let fridge = PantryModel(name: "Fridge", index: 0,
-                                     color: 9, icon: Data())
+                                     color: 9,
+                                     icon: R.image.defaults_pantry_list_Fridge()?.pngData())
             let grocery = PantryModel(name: "Grocery", index: 1,
-                                      color: 5, icon: Data())
+                                      color: 5,
+                                      icon: R.image.defaults_pantry_list_Grocery()?.pngData())
             let spicesHerbs = PantryModel(name: "Spices & Herbs", index: 2,
-                                          color: 3, icon: Data())
+                                          color: 3,
+                                          icon: R.image.defaults_pantry_list_SpicesHerbs()?.pngData())
             let beautyHealth = PantryModel(name: "Beauty & Health", index: 3,
-                                           color: 7, icon: Data())
+                                           color: 7,
+                                           icon: R.image.defaults_pantry_list_BeautyHealth()?.pngData())
             let household = PantryModel(name: "Household", index: 4,
-                                        color: 12, icon: Data())
+                                        color: 12,
+                                        icon: R.image.defaults_pantry_list_Household()?.pngData())
             let hobby = PantryModel(name: "Hobby", index: 5,
-                                    color: 2, icon: Data())
+                                    color: 2,
+                                    icon: R.image.defaults_pantry_list_Hobby()?.pngData())
             
             CoreDataManager.shared.savePantry(pantry: [fridge, grocery, spicesHerbs, beautyHealth, household, hobby])
             
@@ -197,29 +203,41 @@ final class PantryDataSource {
     }
     
     private func defaultFridgeStocks(fridgeId: UUID) {
-        let milk = Stock(index: 0, pantryId: fridgeId, name: "Milk", imageData: Data(),
+        let milk = Stock(index: 0, pantryId: fridgeId, name: "Milk",
+                         imageData: R.image.fridge_Milk()?.pngData(),
                          quantity: 1, unitId: .bottle, isAvailability: true)
-        let mayonnaise = Stock(index: 1, pantryId: fridgeId, name: "Mayonnaise", imageData: Data(),
+        let mayonnaise = Stock(index: 1, pantryId: fridgeId, name: "Mayonnaise",
+                               imageData: R.image.fridge_Mayonnaise()?.pngData(),
                                quantity: 1, unitId: .can, isAvailability: false)
-        let tomatoes = Stock(index: 2, pantryId: fridgeId, name: "Tomatoes", imageData: Data(),
+        let tomatoes = Stock(index: 2, pantryId: fridgeId, name: "Tomatoes",
+                             imageData: R.image.fridge_Tomatoes()?.pngData(),
                              quantity: 10, unitId: .piece, isAvailability: true)
-        let lettuce = Stock(index: 3, pantryId: fridgeId, name: "Lettuce", imageData: Data(),
+        let lettuce = Stock(index: 3, pantryId: fridgeId, name: "Lettuce",
+                            imageData: R.image.fridge_Lettuce()?.pngData(),
                             quantity: 1, unitId: .piece, isAvailability: false)
-        let creamCheese = Stock(index: 4, pantryId: fridgeId, name: "Cream cheese", imageData: Data(),
+        let creamCheese = Stock(index: 4, pantryId: fridgeId, name: "Cream cheese",
+                                imageData: R.image.fridge_CreamCheese()?.pngData(),
                                 isAvailability: false)
-        let parmesan = Stock(index: 5, pantryId: fridgeId, name: "Parmesan", imageData: Data(),
+        let parmesan = Stock(index: 5, pantryId: fridgeId, name: "Parmesan",
+                             imageData: R.image.fridge_Parmesan()?.pngData(),
                              quantity: 250, unitId: .gram, isAvailability: true)
-        let smokedBacon = Stock(index: 6, pantryId: fridgeId, name: "Smoked bacon", imageData: Data(),
+        let smokedBacon = Stock(index: 6, pantryId: fridgeId, name: "Smoked bacon",
+                                imageData: R.image.fridge_SmokedBacon()?.pngData(),
                                 quantity: 250, unitId: .gram, isAvailability: false)
-        let butterUnsalted = Stock(index: 7, pantryId: fridgeId, name: "Butter, unsalted", imageData: Data(),
+        let butterUnsalted = Stock(index: 7, pantryId: fridgeId, name: "Butter, unsalted",
+                                   imageData: R.image.fridge_Butter()?.pngData(),
                                    quantity: 1, unitId: .pack, isAvailability: true)
-        let chickenFillet = Stock(index: 8, pantryId: fridgeId, name: "Chicken fillet", imageData: Data(),
+        let chickenFillet = Stock(index: 8, pantryId: fridgeId, name: "Chicken fillet",
+                                  imageData: R.image.fridge_ChickenFillet()?.pngData(),
                                   quantity: 1, unitId: .kilogram, isAvailability: true)
-        let frozenVegetables = Stock(index: 9, pantryId: fridgeId, name: "Frozen vegetables", imageData: Data(),
+        let frozenVegetables = Stock(index: 9, pantryId: fridgeId, name: "Frozen vegetables",
+                                     imageData: R.image.fridge_FrozenVegetables()?.pngData(),
                                      quantity: 1, unitId: .pack, isAvailability: false)
-        let frozenMushrooms = Stock(index: 10, pantryId: fridgeId, name: "Frozen mushrooms", imageData: Data(),
+        let frozenMushrooms = Stock(index: 10, pantryId: fridgeId, name: "Frozen mushrooms",
+                                    imageData: R.image.fridge_FrozenMushrooms()?.pngData(),
                                     quantity: 1, unitId: .pack, isAvailability: false)
-        let frozenBroccoli = Stock(index: 11, pantryId: fridgeId, name: "Frozen broccoli", imageData: Data(),
+        let frozenBroccoli = Stock(index: 11, pantryId: fridgeId, name: "Frozen broccoli",
+                                   imageData: R.image.fridge_FrozenBroccoli()?.pngData(),
                                    description: "Big pack", isAvailability: false)
         CoreDataManager.shared.saveStock(stock: [milk, mayonnaise, tomatoes, lettuce,
                                                  creamCheese, parmesan, smokedBacon, butterUnsalted,

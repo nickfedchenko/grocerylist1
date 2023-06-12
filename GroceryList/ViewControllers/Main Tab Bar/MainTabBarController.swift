@@ -245,6 +245,10 @@ extension MainTabBarController: CustomTabBarViewDelegate {
 }
 
 extension MainTabBarController: MainTabBarViewModelDelegate {
+    func updateListUI() {
+        listDelegate?.updatedUI()
+    }
+    
     func updateRecipeUI(_ recipe: Recipe?) {
         recipeDelegate?.updateRecipeUI(recipe)
     }

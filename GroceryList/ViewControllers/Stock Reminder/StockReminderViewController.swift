@@ -164,6 +164,7 @@ class StockReminderViewController: UIViewController {
     private func hideContentView() {
         updateConstraints(with: contentViewHeight, alpha: 0)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            self.viewModel.dismissView()
             self.dismiss(animated: false)
         }
     }
@@ -198,7 +199,7 @@ class StockReminderViewController: UIViewController {
     
     @objc
     private func tappedAddToButton() {
-        viewModel.showSyncList()
+        viewModel.showSyncList(contentViewHeigh: self.view.frame.height * 0.75)
     }
     
     private func makeConstraints() {

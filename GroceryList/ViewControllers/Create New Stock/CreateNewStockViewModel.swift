@@ -83,15 +83,15 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
     }
     
     override var isVisibleStore: Bool {
-        return model?.isVisibleCost ?? true
+        return pantry.isVisibleCost
     }
     
     override var productStore: Store? {
-        currentProduct?.store
+        currentStock?.store
     }
     
     override var productCost: String? {
-        guard let cost = currentProduct?.cost else {
+        guard let cost = currentStock?.cost else {
             return nil
         }
         return String(format: "%.\(cost.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", cost)
@@ -163,7 +163,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
     }
     
     override func setCostOfProductPerUnit() {
-        costOfProductPerUnit = currentProduct?.cost
+        costOfProductPerUnit = currentStock?.cost
     }
     
     func saveStock(productName: String, description: String, isAvailability: Bool, 
@@ -181,6 +181,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             currentStock.imageData = imageData
             currentStock.isUserImage = isUserImage
             currentStock.store = store
+            currentStock.cost = costOfProductPerUnit ?? -1
             currentStock.quantity = quantity
             currentStock.unitId = currentSelectedUnit
             currentStock.isAvailability = isAvailability
@@ -201,8 +202,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
         }
         
         CoreDataManager.shared.saveStock(stock: [stock], for: pantry.id.uuidString)
-        setLocalNotification(stock: stock)
-        
+
         updateUI?(stock)
     }
     
@@ -222,12 +222,12 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
     
     // достаем из описания продукта часть с количеством
     private func getProductDescriptionQuantity() -> String? {
-        guard let description = currentProduct?.description else {
+        guard let description = currentStock?.description else {
             return nil
         }
         
         guard description.contains(where: { "," == $0 }) else {
-            return currentProduct?.description
+            return currentStock?.description
         }
         
         let allSubstring = description.components(separatedBy: ",")
@@ -243,23 +243,5 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             
         }
         return quantityString
-    }
-    
-    private func setLocalNotification(stock: Stock) {
-        guard stock.isReminder,
-              let autoRepeat = stock.autoRepeat?.state else {
-            return
-        }
-        let notificationRequest = LocalNotificationsManager.NotificationRequestModel(
-            id: stock.id.uuidString,
-            title: "Out of stocks",
-            subtitle: "\(pantry.name): \(stock.name)",
-            autoRepeat: autoRepeat,
-            times: stock.autoRepeat?.times,
-            weekday: stock.autoRepeat?.weekday,
-            period: stock.autoRepeat?.period
-        )
-        
-//        LocalNotificationsManager.shared.addNotification(notificationRequest)
     }
 }

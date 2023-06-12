@@ -127,7 +127,7 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
         guard let content = allContent[safe: ind] else { return }
         switch content {
         case .storeAndCost:
-            pantry.isVisibleCost = !pantry.isVisibleCost
+            pantry.isVisibleCost = isOn
             saveParameters()
         case .imageMatching:
             pantry.isShowImage = isOn ? .itsTrue : .itsFalse
@@ -182,8 +182,8 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
     }
     
     private func saveParameters() {
-        delegate?.reloadController()
-        updateUI?(pantry)
         CoreDataManager.shared.savePantry(pantry: [pantry])
+        delegate?.reloadController()
+        updateUI?(pantry)        
     }
 }

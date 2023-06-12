@@ -24,6 +24,15 @@ final class StockCell: UICollectionViewCell {
         let inStock: Bool
     }
     
+    struct CostCellModel {
+        let isVisible: Bool
+        let isAddNewLine: Bool
+        let color: UIColor?
+        let storeTitle: String?
+        let costValue: Double?
+    }
+
+    
     enum CellState {
         case normal
         case edit
@@ -72,6 +81,8 @@ final class StockCell: UICollectionViewCell {
     private let checkImage = R.image.checkmark()?.withTintColor(.white)
     private let crossImage = R.image.whiteCross()?.withTintColor(.black)
     
+    private let costView = CostOfProductListView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCell()
@@ -96,6 +107,19 @@ final class StockCell: UICollectionViewCell {
         stockImageView.image = cellModel.inStock ? checkImage : crossImage
         
         updateConstraints(cellModel: cellModel)
+    }
+    
+    func configureCost(_ costModel: CostCellModel) {
+        costView.isHidden = !costModel.isVisible
+        guard costModel.isVisible else {
+            return
+        }
+        costView.configureColor(costModel.color ?? UIColor(hex: "#58B168"))
+        costView.configureStore(title: costModel.storeTitle)
+        costView.configureCost(value: costModel.costValue)
+//        descriptionLabel.snp.updateConstraints {
+//            $0.bottom.equalToSuperview().inset(costModel.isAddNewLine ? 16 : 6)
+//        }
     }
     
     func addDragAndDropShadow() {
@@ -208,7 +232,8 @@ final class StockCell: UICollectionViewCell {
     private func makeConstraints() {
         contentView.addSubviews([mainContainerShadowOneView, mainContainerShadowTwoView, mainContainer])
         mainContainer.addSubviews([imageView, nameLabel, descriptionLabel,
-                                   repeatImageView, reminderImageView, stockView, editView])
+                                   repeatImageView, reminderImageView, stockView, editView,
+                                   costView])
         stockView.addSubview(stockImageView)
         editView.addSubviews([moveImageView, selectImageView, whiteCheckmarkImage])
         
@@ -269,6 +294,12 @@ final class StockCell: UICollectionViewCell {
         stockImageView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.height.width.equalTo(14)
+        }
+        
+        costView.snp.makeConstraints {
+            $0.right.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(-8)
+            $0.height.equalTo(16)
         }
     }
     

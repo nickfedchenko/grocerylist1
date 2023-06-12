@@ -64,32 +64,20 @@ final class CreateNewPantryViewModel {
         return pantryListTemplates[index]
     }
     
-    func showAllIcons(by viewController: UIViewController, icon: UIImage?) {
-        let selectIconViewController = SelectIconViewController()
-        selectIconViewController.icon = icon
-        selectIconViewController.updateColor(theme: selectedTheme)
-        selectIconViewController.selectedIcon = { [weak self] icon in
+    func showAllIcons(icon: UIImage?) {
+        router?.showAllIcons(icon: icon, selectedTheme: selectedTheme,
+                             selectedIcon: { [weak self] icon in
             self?.delegate?.selectedIcon(icon)
-        }
-        selectIconViewController.modalPresentationStyle = .overCurrentContext
-        selectIconViewController.modalTransitionStyle = .crossDissolve
-        viewController.present(selectIconViewController, animated: true)
+        })
     }
     
-    func showSelectList(by viewController: UIViewController, contentViewHeigh: Double) {
-        let dataSource = SelectListDataManager()
-        let viewModel = SelectListViewModel(dataSource: dataSource)
-        let selectListToSynchronize = SelectListToSynchronizeViewController()
-        selectListToSynchronize.viewModel = viewModel
-        selectListToSynchronize.contentViewHeigh = contentViewHeigh
-        selectListToSynchronize.selectedModelIds = Set(synchronizedLists)
-        selectListToSynchronize.updateUI = { [weak self] uuids in
+    func showSelectList(contentViewHeigh: Double) {
+        router?.showSelectList(contentViewHeigh: contentViewHeigh,
+                               synchronizedLists: synchronizedLists,
+                               updateUI: { [weak self] uuids in
             self?.delegate?.updateSelectListButton(isLinked: !uuids.isEmpty)
             self?.synchronizedLists = uuids
-        }
-        selectListToSynchronize.modalPresentationStyle = .overCurrentContext
-        selectListToSynchronize.modalTransitionStyle = .crossDissolve
-        router?.topViewController?.present(selectListToSynchronize, animated: true)
+        })
     }
     
     func savePantryList(name: String?, icon: UIImage?) {

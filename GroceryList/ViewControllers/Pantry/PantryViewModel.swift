@@ -16,7 +16,6 @@ class PantryViewModel {
     
     private var colorManager = ColorManager()
     private(set) var dataSource: PantryDataSource
-    private var starterPack = true
     
     init(dataSource: PantryDataSource) {
         self.dataSource = dataSource
@@ -35,9 +34,9 @@ class PantryViewModel {
     }
     
     func showStarterPackIfNeeded() {
-        if !starterPack {
+        if !UserDefaultsManager.isShowPantryStarterPack {
             router?.goToPantryStarterPack()
-            starterPack = true
+            UserDefaultsManager.isShowPantryStarterPack = true
         }
     }
     

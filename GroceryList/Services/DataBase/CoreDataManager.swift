@@ -476,7 +476,7 @@ class CoreDataManager {
         return object
     }
     
-    func getPantry(by synchronizedIdGroceryList: UUID) -> [DBPantry] {
+    func getSynchronizedPantry(by synchronizedIdGroceryList: UUID) -> [DBPantry] {
         var pantries: [DBPantry] = []
         guard let dbPantries = getAllPantries() else {
             return pantries

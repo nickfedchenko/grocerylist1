@@ -205,6 +205,15 @@ class UserDefaultsManager {
         }
     }
     
+    static var isShowPantryStarterPack: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "isShowPantryStarterPack")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isShowPantryStarterPack")
+        }
+    }
+    
     static var pantryUserTokens: [String]? {
         get {
             return UserDefaults.standard.array(forKey: "pantryUserTokens") as? [String]

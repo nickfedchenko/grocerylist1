@@ -10,6 +10,7 @@ import UIKit
 protocol MainTabBarViewModelDelegate: AnyObject {
     func updateRecipeUI(_ recipe: Recipe?)
     func updatePantryUI(_ pantry: PantryModel)
+    func updateListUI()
 }
 
 final class MainTabBarViewModel {
@@ -19,6 +20,7 @@ final class MainTabBarViewModel {
     
     private var isRightHanded: Bool
     private let viewControllers: [UIViewController]
+    private(set) var outOfStocks: [Stock] = []
     
     var initialViewController: UIViewController? {
         viewControllers.first
@@ -89,11 +91,17 @@ final class MainTabBarViewModel {
     
     func showStockReminderIfNeeded() {
         let today = Date()
-        if today.todayWithSetting(hour: 10) <= today,
-           isShowStockReminderRequired() {
-            router?.goToStockReminder()
-            UserDefaultsManager.lastShowStockReminderDate = today.todayWithSetting(hour: 10)
-        }
+        checkThatItemIsOutOfStock()
+//        if today.todayWithSetting(hour: 7) <= today,
+//           isShowStockReminderRequired(),
+//            !outOfStocks.isEmpty {
+            router?.goToStockReminder(outOfStocks: outOfStocks,
+                                      updateUI: { [weak self] in
+                self?.delegate?.updateListUI()
+            })
+            
+//            UserDefaultsManager.lastShowStockReminderDate = today.todayWithSetting(hour: 7)
+//        }
     }
     
     func analytic() {
@@ -143,6 +151,83 @@ final class MainTabBarViewModel {
             [.hour], from: lastRefreshDate, to: Date()
         ).hour {
             return diff > 24
+        }
+        return false
+    }
+    
+    private func checkThatItemIsOutOfStock() {
+        let today = Date()
+        let allStocks = CoreDataManager.shared.getAllStock() ?? []
+        let reminderStock = allStocks.filter { $0.isReminder }
+        let dbStock = reminderStock.filter({ !$0.isAvailability })
+
+        var outOfStocks = dbStock.map({ Stock(dbModel: $0) })
+        
+        for stock in outOfStocks {
+            guard let autoRepeat = stock.autoRepeat else { break }
+            let startDate = stock.dateOfCreation.onlyDate
+            let resetDay = today.todayWithSetting(hour: 7)
+            switch autoRepeat.state {
+            case .daily:
+                self.outOfStocks.append(stock)
+            case .weekly:
+                if startDate.dayNumberOfWeek == today.dayNumberOfWeek {
+                    self.outOfStocks.append(stock)
+                }
+            case .monthly:
+                if startDate.day == today.day {
+                    self.outOfStocks.append(stock)
+                }
+            case .yearly:
+                if startDate.month == today.month,
+                   startDate.day == today.day {
+                    self.outOfStocks.append(stock)
+                }
+            case .custom:
+                if checkCustomAutoRepeat(autoRepeat: autoRepeat,
+                                         today: today, startDate: startDate) {
+                    self.outOfStocks.append(stock)
+                }
+            }
+        }
+    }
+    
+    private func checkCustomAutoRepeat(autoRepeat: AutoRepeatModel,
+                                       today: Date, startDate: Date) -> Bool {
+        guard autoRepeat.state == .custom,
+              let period = autoRepeat.period else {
+            return false
+        }
+
+        let times = (autoRepeat.times ?? 1) + 1
+        switch period {
+        case .days:
+            let days = today.days(sinceDate: startDate)
+            if days > 0 {
+                return days % times == 0
+            }
+        case .weeks:
+            let weekDates = Date().getListDatesOfWeek(date: startDate)
+            guard let weekday = autoRepeat.weekday,
+                  let startWeekDate = weekDates[safe: weekday] else {
+                return false
+            }
+            if startWeekDate.dayNumberOfWeek == today.dayNumberOfWeek {
+                let weeks = today.weeks(from: startWeekDate)
+                if weeks >= 0 {
+                    return weeks % times == 0
+                }
+            }
+        case .months:
+            let months = today.months(from: startDate)
+            if months > 0 && months % times == 0 {
+                return today.day == startDate.day
+            }
+        case .years:
+            let years = today.years(from: startDate)
+            if years > 0 && years % times == 0 {
+                return today.day == startDate.day && today.month == startDate.month
+            }
         }
         return false
     }

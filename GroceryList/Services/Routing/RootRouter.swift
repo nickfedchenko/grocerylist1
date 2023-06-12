@@ -271,7 +271,7 @@ final class RootRouter: RootRouterProtocol {
                                                                         model: model,
                                                                         compl: compl)
         controller.modalPresentationStyle = .overCurrentContext
-        navigationPresent(controller, animated: true)
+        UIViewController.currentController()?.present(controller, animated: true)
     }
     
     func goToProductSort(model: GroceryListsModel, productType: ProductsSortViewModel.ProductType,
@@ -301,6 +301,27 @@ final class RootRouter: RootRouterProtocol {
         controller.modalTransitionStyle = .crossDissolve
         controller.modalPresentationStyle = .overCurrentContext
         presentedController.present(controller, animated: true)
+    }
+    
+    func showAllIcons(icon: UIImage?, selectedTheme: Theme, selectedIcon: ((UIImage?) -> Void)?) {
+        let controller = viewControllerFactory.createAllIcons(icon: icon,
+                                                              selectedTheme: selectedTheme,
+                                                              selectedIcon: selectedIcon)
+        controller.modalPresentationStyle = .overCurrentContext
+        controller.modalTransitionStyle = .crossDissolve
+
+        UIViewController.currentController()?.present(controller, animated: true)
+    }
+    
+    func showSelectList(contentViewHeigh: Double,
+                        synchronizedLists: [UUID],
+                        updateUI: (([UUID]) -> Void)?) {
+        let controller = viewControllerFactory.createSelectList(contentViewHeigh: contentViewHeigh,
+                                                                synchronizedLists: synchronizedLists,
+                                                                updateUI: updateUI)
+        controller.modalPresentationStyle = .overCurrentContext
+        controller.modalTransitionStyle = .crossDissolve
+        UIViewController.currentController()?.present(controller, animated: true)
     }
     
     func goToStocks(navController: UIViewController, pantry: PantryModel) {
@@ -336,8 +357,10 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, style: .automatic, animated: true)
     }
     
-    func goToStockReminder() {
-        let controller = viewControllerFactory.createStockReminderController(router: self)
+    func goToStockReminder(outOfStocks: [Stock], updateUI: (() -> Void)?) {
+        let controller = viewControllerFactory.createStockReminderController(outOfStocks: outOfStocks,
+                                                                             updateUI: updateUI,
+                                                                             router: self)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
     }

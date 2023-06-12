@@ -80,7 +80,9 @@ final class StocksDataSource {
     private func getStocksFromDB() {
         var isSortIndex = false
         let dbStocks = CoreDataManager.shared.getAllStocks(for: pantryId.uuidString) ?? []
-        allStocks = dbStocks.map({ Stock(dbModel: $0) })
+        let dbPantry = CoreDataManager.shared.getPantry(id: pantryId.uuidString)
+        allStocks = dbStocks.map({ Stock(dbModel: $0,
+                                         isVisibleСost: dbPantry?.isVisibleCost ?? false) })
         allStocks.forEach {
             if $0.index > 0 {
                 isSortIndex = true

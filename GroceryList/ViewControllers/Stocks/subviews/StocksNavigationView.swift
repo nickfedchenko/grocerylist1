@@ -220,7 +220,7 @@ final class StocksNavigationView: UIView {
         iconImageView.snp.makeConstraints {
             $0.top.equalTo(backButton.snp.bottom).offset(8)
             $0.leading.equalToSuperview().offset(24)
-            $0.width.height.equalTo(40)
+            $0.width.height.equalTo(32)
         }
         
         capitalLetterLabel.snp.makeConstraints {

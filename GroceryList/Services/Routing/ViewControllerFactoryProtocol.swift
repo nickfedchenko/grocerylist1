@@ -81,6 +81,12 @@ protocol ViewControllerFactoryProtocol {
     func createPantryStarterPackController() -> UIViewController
     func createCreateNewPantryController(currentPantry: PantryModel?, updateUI: @escaping ((PantryModel?) -> Void),
                                          router: RootRouter) -> UIViewController
+    func createAllIcons(icon: UIImage?,
+                        selectedTheme: Theme,
+                        selectedIcon: ((UIImage?) -> Void)?) -> UIViewController
+    func createSelectList(contentViewHeigh: Double,
+                          synchronizedLists: [UUID],
+                          updateUI: (([UUID]) -> Void)?) -> UIViewController
     func createStocksController(pantry: PantryModel, router: RootRouter) -> UIViewController
     func createPantryListOptionsController(pantry: PantryModel, snapshot: UIImage?, listByText: String,
                                            updateUI: ((PantryModel) -> Void)?,
@@ -92,5 +98,6 @@ protocol ViewControllerFactoryProtocol {
     func createEditSelectPantryListController(router: RootRouter, stocks: [Stock], contentViewHeigh: CGFloat,
                                               delegate: EditSelectListDelegate,
                                               state: EditListState) -> UIViewController
-    func createStockReminderController(router: RootRouter) -> UIViewController
+    func createStockReminderController(outOfStocks: [Stock], updateUI: (() -> Void)?,
+                                       router: RootRouter) -> UIViewController
 }

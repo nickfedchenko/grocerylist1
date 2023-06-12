@@ -70,6 +70,7 @@ final class PantryViewController: UIViewController {
         }
         viewModel.updateNavUI = { [weak self] in
             (self?.tabBarController as? MainTabBarController)?.isHideNavView(isHide: false)
+            (self?.tabBarController as? MainTabBarController)?.customTabBar.isHidden = false
         }
         
         setupContextMenu()
@@ -82,6 +83,7 @@ final class PantryViewController: UIViewController {
         viewModel.reloadDataFromStorage()
         viewModel.showStarterPackIfNeeded()
         (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: false)
+        (self.tabBarController as? MainTabBarController)?.customTabBar.isHidden = false
         (self.tabBarController as? MainTabBarController)?.setTextTabBar()
     }
     
@@ -311,6 +313,7 @@ extension PantryViewController: MainTabBarControllerPantryDelegate {
     func tappedAddItem() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
             (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
+            (self.tabBarController as? MainTabBarController)?.customTabBar.isHidden = true
         }
         viewModel.tappedAddItem(presentedController: self)
     }
