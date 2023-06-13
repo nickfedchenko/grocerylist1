@@ -13,7 +13,7 @@ import UIKit
 protocol CreateNewProductViewModelDelegate: AnyObject {
     func presentController(controller: UIViewController?)
     func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?)
-    func newStore(store: Store)
+    func newStore(store: Store?)
 }
 
 class CreateNewProductViewModel {
@@ -258,8 +258,8 @@ class CreateNewProductViewModel {
         router?.goToCreateStore(model: model, compl: { [weak self] store in
             if let store {
                 self?.stores.append(store)
-                self?.delegate?.newStore(store: store)
             }
+            self?.delegate?.newStore(store: store)
         })
     }
     

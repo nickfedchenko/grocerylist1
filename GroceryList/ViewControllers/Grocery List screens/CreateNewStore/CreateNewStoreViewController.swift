@@ -30,6 +30,11 @@ class CreateNewStoreViewController: CreateNewCategoryViewController {
         super.swipeDownAction(recognizer)
     }
     
+    override func tappedOnView() {
+        storeViewModel?.dissmisStore()
+        hidePanel()
+    }
+    
     override func textField(_ textField: UITextField,
                             shouldChangeCharactersIn range: NSRange,
                             replacementString string: String) -> Bool {

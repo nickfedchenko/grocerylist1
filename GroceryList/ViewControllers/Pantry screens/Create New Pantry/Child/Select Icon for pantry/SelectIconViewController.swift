@@ -27,6 +27,11 @@ final class SelectIconViewController: UIViewController {
         super.viewDidLoad()
         selectIconView.delegate = self
         selectIconView.selectedIcon = icon
+        
+        let tapOnView = UITapGestureRecognizer(target: self, action: #selector(tappedOnView))
+        tapOnView.delegate = self
+        self.view.addGestureRecognizer(tapOnView)
+        
         makeConstraints()
     }
     
@@ -55,6 +60,11 @@ final class SelectIconViewController: UIViewController {
         }
     }
     
+    @objc
+    func tappedOnView() {
+        hidePanel()
+    }
+    
     private func makeConstraints() {
         self.view.addSubview(contentView)
         contentView.addSubview(selectIconView)
@@ -80,5 +90,11 @@ extension SelectIconViewController: SelectIconViewDelegate {
     
     func tappedCross() {
         hidePanel()
+    }
+}
+
+extension SelectIconViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return !(touch.view?.isDescendant(of: self.contentView) ?? false)
     }
 }

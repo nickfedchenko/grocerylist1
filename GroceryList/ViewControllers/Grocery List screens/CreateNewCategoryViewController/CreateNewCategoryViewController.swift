@@ -249,13 +249,15 @@ extension CreateNewCategoryViewController: UITextFieldDelegate {
 extension CreateNewCategoryViewController {
     
     private func addRecognizers() {
-        
         let tapOnSaveRecognizer = UITapGestureRecognizer(target: self, action: #selector(saveAction))
         saveButtonView.addGestureRecognizer(tapOnSaveRecognizer)
         
         let swipeDownRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
         contentView.addGestureRecognizer(swipeDownRecognizer)
         
+        let tapOnView = UITapGestureRecognizer(target: self, action: #selector(tappedOnView))
+        tapOnView.delegate = self
+        self.view.addGestureRecognizer(tapOnView)
     }
     
     @objc
@@ -273,7 +275,17 @@ extension CreateNewCategoryViewController {
             hidePanel()
         }
     }
+    
+    @objc
+    func tappedOnView() {
+        hidePanel()
+    }
 }
 
-extension CreateNewCategoryViewController: CreateNewCategoryViewModelDelegate {
+extension CreateNewCategoryViewController: CreateNewCategoryViewModelDelegate { }
+
+extension CreateNewCategoryViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return !(touch.view?.isDescendant(of: self.contentView) ?? false)
+    }
 }

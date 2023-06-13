@@ -211,8 +211,8 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
         router?.goToCreateStore(model: modelForColor, compl: { [weak self] store in
             if let store {
                 self?.stores.append(store)
-                self?.delegate?.newStore(store: store)
             }
+            self?.delegate?.newStore(store: store)
         })
     }
     
