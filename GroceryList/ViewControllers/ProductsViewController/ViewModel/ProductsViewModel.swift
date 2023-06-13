@@ -310,6 +310,24 @@ class ProductsViewModel {
         dataSource.createDataSourceArray()
     }
     
+    func isInStock(product: Product) -> Bool {
+        product.inStock != nil
+    }
+    
+    func getPantryColor(product: Product) -> Theme? {
+        guard let stockId = product.inStock,
+              let dbStock = CoreDataManager.shared.getStock(by: stockId),
+              let dbPantry = dbStock.pantry else {
+            return nil
+        }
+        
+        return colorManager.getGradient(index: Int(dbPantry.color))
+    }
+    
+    func removeInStockInfo(_ product: Product) {
+        dataSource.removeInStockInfo(product: product)
+    }
+    
     func showPaywall() {
         router?.showAlternativePaywallVC()
     }

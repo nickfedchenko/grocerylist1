@@ -175,6 +175,7 @@ struct Product: Hashable, Equatable, Codable {
     var quantity: Double?
     var isVisibleСost: Bool = false // не нужно сохранять в базу, нужно чтобы показать цену
     var isOutOfStock: Bool = false // не нужно сохранять в базу, продукт из Кладовой
+    var inStock: UUID? // не нужно сохранять в базу, продукт из Кладовой
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -189,7 +190,7 @@ struct Product: Hashable, Equatable, Codable {
         lhs.unitId == rhs.unitId && lhs.isUserImage == rhs.isUserImage &&
         lhs.userToken == rhs.userToken && lhs.store == rhs.store &&
         lhs.cost == rhs.cost && lhs.quantity == rhs.quantity &&
-        lhs.isVisibleСost == rhs.isVisibleСost
+        lhs.isVisibleСost == rhs.isVisibleСost && lhs.inStock == rhs.inStock
     }
     
     init?(from dbProduct: DBProduct) {

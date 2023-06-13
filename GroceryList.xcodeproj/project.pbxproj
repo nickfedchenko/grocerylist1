@@ -62,6 +62,7 @@
 		335519CE29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519CD29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift */; };
 		335519D029B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519CF29B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift */; };
 		335519D329B0BD2600AD2B77 /* CreateNewRecipeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519D229B0BD2600AD2B77 /* CreateNewRecipeModel.swift */; };
+		335B54072A37451D00B53314 /* FoundInPantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B54062A37451D00B53314 /* FoundInPantryView.swift */; };
 		3366BEE02A2C1D3A00D50704 /* AutoRepeatSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEDF2A2C1D3A00D50704 /* AutoRepeatSettingView.swift */; };
 		3366BEE22A2C583D00D50704 /* AutoRepeatCustomSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */; };
 		3366BEE52A2DA05A00D50704 /* StocksDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE42A2DA05A00D50704 /* StocksDataSource.swift */; };
@@ -381,6 +382,7 @@
 		335519CD29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeViewWithTextField.swift; sourceTree = "<group>"; };
 		335519CF29B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipePhotoView.swift; sourceTree = "<group>"; };
 		335519D229B0BD2600AD2B77 /* CreateNewRecipeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeModel.swift; sourceTree = "<group>"; };
+		335B54062A37451D00B53314 /* FoundInPantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundInPantryView.swift; sourceTree = "<group>"; };
 		3366BEDF2A2C1D3A00D50704 /* AutoRepeatSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRepeatSettingView.swift; sourceTree = "<group>"; };
 		3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRepeatCustomSettingView.swift; sourceTree = "<group>"; };
 		3366BEE42A2DA05A00D50704 /* StocksDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksDataSource.swift; sourceTree = "<group>"; };
@@ -1228,6 +1230,7 @@
 				B30573BC29222D4400CA8BDE /* ProductListCell.swift */,
 				333E2D3429F1226D00F705E7 /* DisplayCostListCell.swift */,
 				333E2D3229F00CF100F705E7 /* CostOfProductListView.swift */,
+				335B54062A37451D00B53314 /* FoundInPantryView.swift */,
 			);
 			path = CollectionViewCells;
 			sourceTree = "<group>";
@@ -2438,6 +2441,7 @@
 				336A112729F2D1F4008CFF33 /* BundleExtension.swift in Sources */,
 				B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */,
 				3366BEE52A2DA05A00D50704 /* StocksDataSource.swift in Sources */,
+				335B54072A37451D00B53314 /* FoundInPantryView.swift in Sources */,
 				B3476909291D21730045A287 /* ProductsSettingsViewController.swift in Sources */,
 				339254A52A3047600047807E /* DBPantry+CoreDataClass.swift in Sources */,
 				3366BEE02A2C1D3A00D50704 /* AutoRepeatSettingView.swift in Sources */,
