@@ -42,9 +42,7 @@ class ProductsDataManager {
     private var outOfStockProducts: [Product] {
         getOutOfStockProducts()
     }
-    private var itemsInStock: [Stock] {
-        getOutOfStockProducts()
-    }
+    private var itemsInStock: [Stock] = []
 
     init (products: [Product], typeOfSorting: SortingType,
           groceryListId: UUID) {
@@ -59,6 +57,8 @@ class ProductsDataManager {
                 users = SharedListManager.shared.sharedListsUsers[sharedId] ?? []
             }
         }
+        
+        itemsInStock = getItemsInStock()
     }
 
     func createDataSourceArray() {
@@ -146,11 +146,32 @@ class ProductsDataManager {
         return cost.reduce(0, +)
     }
     
+    func removeInStockInfo(product: Product) {
+        guard let itemInStockId = product.inStock else {
+            return
+        }
+        itemsInStock.removeAll { $0.id == itemInStockId }
+        createDataSourceArray()
+    }
+    
     private func getProducts() -> [Product] {
         guard let domainList = CoreDataManager.shared.getList(list: groceryListId.uuidString) else { return [] }
         let localList = DomainModelsToLocalTransformer().transformCoreDataModelToModel(domainList)
         isVisibleCost = localList.isVisibleCost
-        return localList.products
+        
+        var products = localList.products
+        products.enumerated().forEach { (index, product) in
+            itemsInStock.forEach { stock in
+                if stock.name == product.name && stock.description == product.description &&
+                    stock.unitId == product.unitId && stock.store == product.store &&
+                    stock.cost == product.cost && stock.quantity == product.quantity {
+                    
+                    products[index].inStock = stock.id
+                }
+            }
+        }
+        
+        return products
     }
     
     private func getOutOfStockProducts() -> [Product] {
@@ -167,7 +188,7 @@ class ProductsDataManager {
         return outOfStockProducts
     }
     
-    private func getOutOfStockProducts() -> [Stock] {
+    private func getItemsInStock() -> [Stock] {
         var inStock: [Stock] = []
         let dbStocks = CoreDataManager.shared.getAllStock()?.filter({ $0.isAvailability }) ?? []
         inStock = dbStocks.map({ Stock(dbModel: $0) })

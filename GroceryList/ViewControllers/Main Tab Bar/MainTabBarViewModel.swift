@@ -92,16 +92,16 @@ final class MainTabBarViewModel {
     func showStockReminderIfNeeded() {
         let today = Date()
         checkThatItemIsOutOfStock()
-//        if today.todayWithSetting(hour: 7) <= today,
-//           isShowStockReminderRequired(),
-//            !outOfStocks.isEmpty {
+        if today.todayWithSetting(hour: 7) <= today,
+           isShowStockReminderRequired(),
+            !outOfStocks.isEmpty {
             router?.goToStockReminder(outOfStocks: outOfStocks,
                                       updateUI: { [weak self] in
                 self?.delegate?.updateListUI()
             })
             
-//            UserDefaultsManager.lastShowStockReminderDate = today.todayWithSetting(hour: 7)
-//        }
+            UserDefaultsManager.lastShowStockReminderDate = today.todayWithSetting(hour: 7)
+        }
     }
     
     func analytic() {

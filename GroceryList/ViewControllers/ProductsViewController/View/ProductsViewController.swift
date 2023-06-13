@@ -395,7 +395,9 @@ class ProductsViewController: UIViewController {
         
         let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { [weak self] (cell, _, child) in
             
-            let color = self?.viewModel?.getColorForForeground()
+            let isVisibleInStock = self?.viewModel?.isInStock(product: child) ?? false
+            let pantryColor = self?.viewModel?.getPantryColor(product: child)
+            let color = isVisibleInStock ? pantryColor?.dark : self?.viewModel?.getColorForForeground()
             let bcgColor = self?.viewModel?.getColorForBackground()
             let isVisibleCost = self?.viewModel?.isVisibleCost ?? false
             let image = child.imageData
@@ -416,6 +418,7 @@ class ProductsViewController: UIViewController {
             cell.updateEditCheckmark(isSelect: isEditCell)
             cell.setupCost(isVisible: isVisibleCost, isAddNewLine: newLine, color: color,
                            storeTitle: child.store?.title, costValue: productCost)
+            cell.setupInStock(isVisible: isVisibleInStock, color: pantryColor?.medium)
             // картинка
             if image != nil {
                 cell.tapImageAction = { [weak self] in
@@ -425,6 +428,10 @@ class ProductsViewController: UIViewController {
                                                                         y: cell.frame.minY))
                     self?.productImageView.setVisibilityView(hidden: false)
                 }
+            }
+            
+            cell.tapInStockCross = { [weak self] in
+                self?.viewModel?.removeInStockInfo(child)
             }
             
             // свайпы
