@@ -96,6 +96,10 @@ final class PantryStarterPackViewController: UIViewController {
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
         contentView.addGestureRecognizer(panRecognizer)
         
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedExcellentButton))
+        tapRecognizer.delegate = self
+        self.view.addGestureRecognizer(tapRecognizer)
+
         makeConstraints()
     }
     
@@ -204,5 +208,12 @@ final class PantryStarterPackViewController: UIViewController {
         excellentShadowTwoView.snp.makeConstraints {
             $0.edges.equalTo(excellentButton)
         }
+    }
+}
+
+extension PantryStarterPackViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldReceive touch: UITouch) -> Bool {
+        return !(touch.view?.isDescendant(of: self.contentView) ?? false)
     }
 }

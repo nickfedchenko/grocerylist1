@@ -1,19 +1,19 @@
 //
-//  CreateNewProductViewController.swift
+//  CreateNewStockViewController.swift
 //  GroceryList
 //
-//  Created by Хандымаа Чульдум on 14.04.2023.
+//  Created by Хандымаа Чульдум on 03.06.2023.
 //
 
 import UIKit
 
-class CreateNewProductViewController: UIViewController {
-    
+final class CreateNewStockViewController: UIViewController {
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
     
-    var viewModel: CreateNewProductViewModel?
+    private var viewModel: CreateNewStockViewModel
     
     private lazy var saveButton: UIButton = {
         let button = UIButton()
@@ -25,19 +25,26 @@ class CreateNewProductViewController: UIViewController {
     }()
     
     private let contentView = ViewWithOverriddenPoint()
-    private let categoryView = CategoryView()
-    private let productView = NameOfProductView()
+    private let autoRepeatView = AutoRepeatView()
+    private let productView = NameOfStockView()
     private let storeView = StoreOfProductView()
     private let quantityView = QuantityOfProductView()
-    private let predictiveTextView = PredictiveTextView()
-    private let autoCategoryView = AutoCategoryInfoView()
+    private let autoRepeatSettingView = AutoRepeatSettingView()
     private var imagePicker = UIImagePickerController()
-    private var predictiveTextViewHeight = 86
     private var isUserImage = false
     private var isShowNewStoreView = false
     private var viewDidLayout = false
-    private let inactiveColor = UIColor(hex: "#ACB4B4")
+    private let inactiveColor = R.color.mediumGray()
     private var unit: UnitSystem = .piece
+    
+    init(viewModel: CreateNewStockViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,11 +53,11 @@ class CreateNewProductViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        categoryView.makeCustomRound(topLeft: 4, topRight: 40, bottomLeft: 4, bottomRight: 4)
+        autoRepeatView.makeCustomRound(topLeft: 4, topRight: 40, bottomLeft: 4, bottomRight: 4)
         if !viewDidLayout {
             productView.productTextField.becomeFirstResponder()
             setupCurrentProduct()
-            updateStoreView(isVisible: viewModel?.isVisibleStore ?? true)
+            updateStoreView(isVisible: viewModel.isVisibleStore)
             viewDidLayout.toggle()
         }
     }
@@ -69,7 +76,7 @@ class CreateNewProductViewController: UIViewController {
         tapOnView.delegate = self
         self.view.addGestureRecognizer(tapOnView)
         
-        viewModel?.delegate = self
+        viewModel.delegate = self
         setupContentView()
         makeConstraints()
         
@@ -80,129 +87,90 @@ class CreateNewProductViewController: UIViewController {
     private func setupContentView() {
         let swipeDownRecognizer = UIPanGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
         contentView.addGestureRecognizer(swipeDownRecognizer)
-        let tapOnCategoryRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedOnCategoryView))
-        categoryView.addGestureRecognizer(tapOnCategoryRecognizer)
+        let tapOnAutoRepeat = UITapGestureRecognizer(target: self, action: #selector(tappedOnAutoRepeatView))
+        autoRepeatView.addGestureRecognizer(tapOnAutoRepeat)
         
         setupColor()
-        setupPredictiveTextView()
-        setupAutoCategoryView()
-        categoryView.delegate = self
         productView.delegate = self
         storeView.delegate = self
         quantityView.delegate = self
+        autoRepeatSettingView.delegate = self
         
-        if let store = viewModel?.getDefaultStore() {
+        if let store = viewModel.getDefaultStore() {
             storeView.setStore(store: store)
         }
-        storeView.stores = viewModel?.stores ?? []
-        quantityView.systemUnits = viewModel?.selectedUnitSystemArray ?? []
+        productView.setStock(isAvailability: true)
+        storeView.stores = viewModel.stores
+        quantityView.systemUnits = viewModel.selectedUnitSystemArray
     }
     
     private func setupColor() {
-        let colorForForeground = viewModel?.getColorForForeground ?? .black
-        let colorForBackground = viewModel?.getColorForBackground ?? .white
-        
-        contentView.backgroundColor = colorForBackground
-        productView.backgroundColor = colorForBackground
-        productView.setTintColor(colorForForeground)
-        storeView.setupColor(backgroundColor: colorForBackground, tintColor: colorForForeground)
-        quantityView.setupColor(backgroundColor: colorForBackground, tintColor: colorForForeground)
-        categoryView.setupColor(viewColor: inactiveColor, buttonTintColor: .white)
+        let theme = viewModel.getTheme()
+
+        contentView.backgroundColor = theme.light
+        productView.backgroundColor = theme.light
+        productView.setTintColor(theme.medium)
+        productView.setStockColor(color: theme.medium)
+        storeView.setupColor(backgroundColor: theme.light, tintColor: theme.medium)
+        quantityView.setupColor(backgroundColor: theme.light, tintColor: theme.medium)
+        autoRepeatView.backgroundColor = inactiveColor
         saveButton.backgroundColor = inactiveColor
-    }
-    
-    /// устанавливаем предиктивный ввод
-    private func setupPredictiveTextView() {
-        viewModel?.productsChangedCallback = { [weak self] titles in
-            guard let self else { return }
-            self.predictiveTextView.configure(texts: titles)
-        }
-        productView.productTextField.autocorrectionType = .no
-        productView.productTextField.spellCheckingType = .no
-        predictiveTextView.delegate = self
-    }
-    
-    /// устанавливаем автокатегорию
-    private func setupAutoCategoryView() {
-        guard FeatureManager.shared.isActiveAutoCategory != nil else {
-            autoCategoryView.isHidden = true
-            return
-        }
-        
-        guard !UIDevice.isSE else {
-            autoCategoryView.isHidden = true
-            if UserDefaultsManager.countInfoMessage < 10 {
-                viewModel?.showAutoCategoryAlert()
-            }
-            return
-        }
-        
-        autoCategoryView.isHidden = UserDefaultsManager.countInfoMessage >= 10
-        autoCategoryView.tappedOk = { [weak self] in
-            UserDefaultsManager.countInfoMessage = 11
-            self?.autoCategoryHideTap()
-        }
-        autoCategoryView.tappedOnView = { [weak self] in
-            self?.autoCategoryHideTap()
-        }
-    }
-    
-    private func autoCategoryHideTap() {
-        guard !autoCategoryView.isHidden else {
-            return
-        }
-        
-        UserDefaultsManager.countInfoMessage += 1
-        autoCategoryView.fadeOut()
+        autoRepeatSettingView.setupColor(theme: theme)
     }
     
     /// если продукт открыт для редактирования, то заполняем поля
     private func setupCurrentProduct() {
-        guard viewModel?.currentProduct != nil else {
+        guard viewModel.currentStock != nil else {
             return
         }
         
-        let colorForForeground = viewModel?.getColorForForeground ?? .black
-        categoryView.setCategoryInProduct(viewModel?.productCategory, backgroundColor: colorForForeground)
-        productView.productTextField.text = viewModel?.productName
-        productView.descriptionTextField.text = viewModel?.userComment
-        if let productImage = viewModel?.productImage {
+        autoRepeatView.setRepeat(viewModel.autoRepeatTitle)
+        updateAutoRepeatView(isActive: viewModel.isAutoRepeat)
+        autoRepeatSettingView.configure(autoRepeat: viewModel.autoRepeatModel,
+                                        isReminder: viewModel.isReminder)
+        
+        productView.productTextField.text = viewModel.productName
+        productView.descriptionTextField.text = viewModel.userComment
+        productView.setStock(isAvailability: viewModel.isAvailability)
+        if let productImage = viewModel.productImage {
             productView.setImage(productImage)
         }
-        if let quantityValue = viewModel?.productQuantityCount {
-            quantityView.setupCurrentQuantity(unit: viewModel?.productQuantityUnit ?? .piece,
+        if let quantityValue = viewModel.productQuantityCount {
+            quantityView.setupCurrentQuantity(unit: viewModel.productQuantityUnit ?? .piece,
                                               value: quantityValue)
         }
-        if let store = viewModel?.productStore {
+        if let store = viewModel.productStore {
             storeView.setStore(store: store)
         }
-        if let cost = viewModel?.productCost {
+        if let cost = viewModel.productCost {
             storeView.setCost(value: cost)
         }
-        viewModel?.setCostOfProductPerUnit()
-    }
-    
-    private func updateCategory(isActive: Bool, categoryTitle: String) {
-        let colorForForeground = viewModel?.getColorForForeground ?? UIColor(hex: "#278337")
-        let color = isActive ? colorForForeground : inactiveColor
-        let title = isActive ? categoryTitle : R.string.localizable.category()
-        categoryView.setCategoryInProduct(title, backgroundColor: color)
+        viewModel.setCostOfProductPerUnit()
     }
     
     private func updateSaveButton(isActive: Bool) {
-        let color = isActive ? viewModel?.getColorForForeground : inactiveColor
+        let color = isActive ? viewModel.getTheme().dark : inactiveColor
         saveButton.backgroundColor = color
         saveButton.isUserInteractionEnabled = isActive
     }
     
+    private func updateAutoRepeatView(isActive: Bool) {
+        let color = isActive ? viewModel.getTheme().medium : inactiveColor
+        autoRepeatView.backgroundColor = color
+    }
+    
     @objc
     private func saveButtonTapped() {
-        viewModel?.saveProduct(categoryName: categoryView.categoryTitle ?? R.string.localizable.other(),
-                               productName: productView.productTitle ?? "",
-                               description: productView.descriptionTitle ?? "",
-                               image: productView.productImage,
-                               isUserImage: isUserImage,
-                               store: storeView.store, quantity: quantityView.quantity)
+        viewModel.saveStock(productName: productView.productTitle ?? "",
+                            description: productView.descriptionTitle ?? "",
+                            isAvailability: productView.isAvailability,
+                            image: productView.productImage,
+                            isUserImage: isUserImage,
+                            store: storeView.store,
+                            quantity: quantityView.quantity,
+                            isAutoRepeat: autoRepeatSettingView.isAutoRepeat,
+                            autoRepeatSetting: autoRepeatSettingView.notification,
+                            isReminder: autoRepeatSettingView.isReminder)
         hidePanel()
     }
     
@@ -220,9 +188,19 @@ class CreateNewProductViewController: UIViewController {
     }
     
     @objc
-    private func tappedOnCategoryView() {
-        AmplitudeManager.shared.logEvent(.categoryChange)
-        viewModel?.goToSelectCategoryVC()
+    private func tappedOnAutoRepeatView() {
+        view.endEditing(true)
+        
+        autoRepeatSettingView.snp.remakeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(self.view)
+            $0.top.equalToSuperview()
+        }
+        
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            self.view.layoutIfNeeded()
+        }
     }
     
     @objc
@@ -254,19 +232,9 @@ class CreateNewProductViewController: UIViewController {
         }
     }
     
-    private func updatePredictiveViewConstraints(isVisible: Bool) {
-        let height = isVisible ? predictiveTextViewHeight : 0
-        predictiveTextView.snp.updateConstraints { $0.height.equalTo(height) }
-        contentView.snp.updateConstraints { $0.height.greaterThanOrEqualTo(220 + height) }
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            guard let self = self else { return }
-            self.view.layoutIfNeeded()
-        }
-    }
-    
     private func updateStoreView(isVisible: Bool) {
         storeView.isHidden = !isVisible
-        let height = (isVisible ? 280 : 220) + predictiveTextViewHeight
+        let height = (isVisible ? 280 : 220)
         contentView.snp.updateConstraints { $0.height.greaterThanOrEqualTo(height) }
         storeView.snp.updateConstraints {
             $0.top.equalTo(productView.snp.bottom).offset(isVisible ? 20 : 0)
@@ -276,16 +244,16 @@ class CreateNewProductViewController: UIViewController {
     
     private func makeConstraints() {
         self.view.addSubview(contentView)
-        contentView.addSubviews([saveButton, categoryView, productView, storeView, quantityView,
-                                 predictiveTextView, autoCategoryView])
+        contentView.addSubviews([saveButton, autoRepeatView, productView, storeView, quantityView,
+                                 autoRepeatSettingView])
         
         contentView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(280 + predictiveTextViewHeight)
-            $0.bottom.equalToSuperview().offset(280 + predictiveTextViewHeight)
+            $0.height.greaterThanOrEqualTo(280)
+            $0.bottom.equalToSuperview().offset(280)
         }
         
-        categoryView.snp.makeConstraints {
+        autoRepeatView.snp.makeConstraints {
             $0.bottom.equalTo(contentView.snp.top)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(48)
@@ -293,7 +261,7 @@ class CreateNewProductViewController: UIViewController {
         
         productView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(categoryView.snp.bottom).offset(20)
+            $0.top.equalTo(autoRepeatView.snp.bottom).offset(20)
             $0.height.equalTo(56)
         }
         
@@ -315,33 +283,21 @@ class CreateNewProductViewController: UIViewController {
             $0.height.equalTo(64)
         }
         
-        makeFeatureConstraints()
-    }
-    
-    private func makeFeatureConstraints() {
-        predictiveTextView.snp.makeConstraints {
+        autoRepeatSettingView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(saveButton.snp.bottom)
-            $0.bottom.equalToSuperview()
-            $0.height.equalTo(predictiveTextViewHeight)
-        }
-        
-        autoCategoryView.snp.makeConstraints {
-            $0.bottom.equalTo(categoryView.snp.top).offset(4)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.width.equalTo(335)
-            $0.height.equalTo(162)
+            $0.bottom.equalTo(self.view)
+            $0.top.equalTo(self.view.snp.bottom)
         }
     }
 }
 
-extension CreateNewProductViewController: UIGestureRecognizerDelegate {
+extension CreateNewStockViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         return !(touch.view?.isDescendant(of: self.contentView) ?? false)
     }
 }
 
-extension CreateNewProductViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+extension CreateNewStockViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     func pickImage() {
         if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
             imagePicker.delegate = self
@@ -354,16 +310,15 @@ extension CreateNewProductViewController: UINavigationControllerDelegate, UIImag
     
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        self.dismiss(animated: true, completion: nil)
+        imagePicker.dismiss(animated: true, completion: nil)
         let image = info[.originalImage] as? UIImage
         productView.setImage(image)
         isUserImage = true
     }
 }
 
-extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
+extension CreateNewStockViewController: CreateNewProductViewModelDelegate {
     func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?) {
-        updateCategory(isActive: !text.isEmpty, categoryTitle: text)
         productView.setImage(imageURL: imageURL, imageData: imageData)
         quantityView.setDefaultUnit(defaultSelectedUnit ?? .piece)
         
@@ -372,10 +327,12 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         }
     }
     
-    func newStore(store: Store) {
+    func newStore(store: Store?) {
         isShowNewStoreView = false
-        storeView.stores = viewModel?.stores ?? []
-        storeView.setStore(store: store)
+        storeView.stores = viewModel.stores
+        if let store {
+            storeView.setStore(store: store)
+        }
     }
     
     func presentController(controller: UIViewController?) {
@@ -384,61 +341,47 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     }
 }
 
-extension CreateNewProductViewController: CategoryViewDelegate {
-    func categoryTapped() {
-        autoCategoryHideTap()
-        tappedOnCategoryView()
-    }
+extension CreateNewStockViewController: CategoryViewDelegate {
+    func categoryTapped() { }
 }
 
-extension CreateNewProductViewController: PredictiveTextViewDelegate {
-    func selectTitle(_ title: String) {
-        AmplitudeManager.shared.logEvent(.itemPredictAdd)
-        productView.productTextField.text = title
-        viewModel?.checkIsProductFromCategory(name: title)
-    }
-}
-
-extension CreateNewProductViewController: NameOfProductViewDelegate {
+extension CreateNewStockViewController: NameOfProductViewDelegate {
     func enterProductName(name: String?) {
         guard let name else { return }
         updateSaveButton(isActive: name.count >= 1)
-        viewModel?.checkIsProductFromCategory(name: name)
+        viewModel.checkIsProductFromCategory(name: name)
         
         if name.count == 0 {
-            updateCategory(isActive: false, categoryTitle: "")
             productView.reset()
             storeView.reset()
             quantityView.reset()
         }
     }
     
-    func isFirstResponderProductTextField(_ flag: Bool) {
-        updatePredictiveViewConstraints(isVisible: flag)
-    }
+    func isFirstResponderProductTextField(_ flag: Bool) { }
     
     func tappedAddImage() {
         pickImage()
     }
 }
 
-extension CreateNewProductViewController: StoreOfProductViewDelegate {
+extension CreateNewStockViewController: StoreOfProductViewDelegate {
     func tappedNewStore() {
         updateConstraints(with: -500, alpha: 0)
         isShowNewStoreView = true
-        viewModel?.goToCreateNewStore()
+        viewModel.goToCreateNewStore()
     }
     
     func updateCost(_ cost: Double?) {
         guard let cost, quantityView.quantity > 0 else {
-            viewModel?.costOfProductPerUnit = cost
+            viewModel.costOfProductPerUnit = cost
             return
         }
-        viewModel?.costOfProductPerUnit = cost / quantityView.quantity
+        viewModel.costOfProductPerUnit = cost / quantityView.quantity
     }
 }
 
-extension CreateNewProductViewController: QuantityOfProductViewDelegate {
+extension CreateNewStockViewController: QuantityOfProductViewDelegate {
     func unitSelected(_ unit: UnitSystem) {
         self.unit = unit
     }
@@ -449,10 +392,35 @@ extension CreateNewProductViewController: QuantityOfProductViewDelegate {
     }
     
     func tappedMinusPlusButtons(_ quantity: Double) {
-        guard let costOfProductPerUnit = viewModel?.costOfProductPerUnit else {
+        guard let costOfProductPerUnit = viewModel.costOfProductPerUnit else {
             return
         }
         let cost = quantity * costOfProductPerUnit
         storeView.setCost(value: "\(cost)")
+    }
+}
+
+extension CreateNewStockViewController: AutoRepeatSettingViewDelegate {
+    func tappedDone() {
+        productView.productTextField.becomeFirstResponder()
+        
+        autoRepeatSettingView.snp.remakeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(self.view)
+            $0.top.equalTo(self.view.snp.bottom)
+        }
+        
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func changeRepeat(_ autoRepeat: String?) {
+        updateAutoRepeatView(isActive: autoRepeat != nil)
+        guard let autoRepeat else {
+            return
+        }
+        autoRepeatView.setRepeat(autoRepeat)
     }
 }
