@@ -93,7 +93,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         sharingView.configure(state: state, viewState: .main, color: color, images: image)
     }
     
-    private let contentViews: UIView = {
+    let contentViews: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray
         view.layer.masksToBounds = true

@@ -436,6 +436,19 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewController.viewModel = viewModel
         return viewController
     }
+    
+    func createPantryStarterPackController() -> UIViewController {
+        return PantryStarterPackViewController()
+    }
+    
+    func createCreateNewPantryController(currentPantry: PantryModel?, updateUI: @escaping ((PantryModel) -> Void),
+                                         router: RootRouter) -> UIViewController {
+        let viewModel = CreateNewPantryViewModel(currentPantry: currentPantry)
+        viewModel.router = router
+        viewModel.updateUI = updateUI
+        let viewController = CreateNewPantryViewController(viewModel: viewModel)
+        return viewController
+    }
 }
 
 class MyNavigationController: UINavigationController {

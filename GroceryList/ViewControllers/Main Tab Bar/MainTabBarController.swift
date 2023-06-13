@@ -12,13 +12,18 @@ protocol MainTabBarControllerRecipeDelegate: AnyObject {
     func updateRecipeUI(_ recipe: Recipe?)
 }
 
+protocol MainTabBarControllerPantryDelegate: AnyObject {
+    func updatePantryUI(_ pantry: PantryModel)
+}
+
 final class MainTabBarController: UITabBarController {
     
+    weak var pantryDelegate: MainTabBarControllerPantryDelegate?
     weak var recipeDelegate: MainTabBarControllerRecipeDelegate?
+    let customTabBar = CustomTabBarView()
     
     private var viewModel: MainTabBarViewModel
     private let contextMenu = MainScreenMenuView()
-    private let customTabBar = CustomTabBarView()
     private var navView = MainNavigationView()
     private var navBackgroundView = UIView()
     private let contextMenuBackgroundView = UIView()
@@ -26,7 +31,7 @@ final class MainTabBarController: UITabBarController {
     private var didLayoutSubviews = false
     
     private var tabBarHeight: Int {
-        UIView.safeAreaTop > 0 ? 90 : 60
+        UIView.safeAreaTop > 24 ? 90 : 60
     }
     
     init(viewModel: MainTabBarViewModel) {
@@ -71,7 +76,7 @@ final class MainTabBarController: UITabBarController {
     }
     
     private func setupTabBar() {
-        viewModel.recipeDelegate = self
+        viewModel.delegate = self
         tabBar.removeFromSuperview()
         customTabBar.delegate = self
         
@@ -86,7 +91,7 @@ final class MainTabBarController: UITabBarController {
         navBackgroundView.backgroundColor = R.color.background()?.withAlphaComponent(0.9)
         navView.backgroundColor = .clear
         navView.delegate = self
-        navView.configure(with: .list)
+        navView.configure(with: .list, animate: false)
         updateUserInfo()
     }
     
@@ -163,7 +168,6 @@ final class MainTabBarController: UITabBarController {
 }
 
 extension MainTabBarController: UITabBarControllerDelegate {
-    
     func tabBarController(_ tabBarController: UITabBarController,
                           animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return CustomTransition(viewControllers: tabBarController.viewControllers)
@@ -208,13 +212,19 @@ extension MainTabBarController: CustomTabBarViewDelegate {
     }
     
     func tabAddItem() {
-        viewModel.tappedAddItem(state: .list)
+        let itemTag = selectedIndex
+        if let item = TabBarItemView.Item(rawValue: itemTag) {
+            viewModel.tappedAddItem(state: item)
+        }
     }
 }
-
 
 extension MainTabBarController: MainTabBarViewModelDelegate {
     func updateRecipeUI(_ recipe: Recipe?) {
         recipeDelegate?.updateRecipeUI(recipe)
+    }
+    
+    func updatePantryUI(_ pantry: PantryModel) {
+        pantryDelegate?.updatePantryUI(pantry)
     }
 }

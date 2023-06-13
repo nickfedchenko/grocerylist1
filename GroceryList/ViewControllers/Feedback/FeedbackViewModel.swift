@@ -42,6 +42,7 @@ final class FeedbackViewModel {
     }
     
     func tappedNoThanks() {
+        FeedbackManager.shared.setLastShowDate()
         dismissVC()
     }
     

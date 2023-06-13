@@ -62,6 +62,11 @@ class ListViewModel {
         return colorManager.getEmptyCellColor(index: colorInd)
     }
     
+    func getTheme(at ind: IndexPath) -> Theme {
+        let colorInd = model[ind.section].lists[ind.row].color
+        return colorManager.getGradient(index: colorInd)
+    }
+    
     func isTopRounded(at ind: IndexPath) -> Bool {
         ind.row == 0
     }

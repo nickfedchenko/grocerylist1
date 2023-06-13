@@ -26,6 +26,12 @@
 		334009F129E9956800A04978 /* QuantityOfProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334009F029E9956800A04978 /* QuantityOfProductView.swift */; };
 		3342C9BB2A1460900010DA4A /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3342C9BA2A1460900010DA4A /* FeedbackViewModel.swift */; };
 		3342C9BD2A146D290010DA4A /* FeedbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3342C9BC2A146D290010DA4A /* FeedbackManager.swift */; };
+		334764462A24B747008F4834 /* SelectIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764452A24B747008F4834 /* SelectIconView.swift */; };
+		334764482A24EE48008F4834 /* SelectIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764472A24EE48008F4834 /* SelectIconViewController.swift */; };
+		3347644A2A257D17008F4834 /* defaults_icon.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 334764492A257D17008F4834 /* defaults_icon.bundle */; };
+		3347644D2A258E49008F4834 /* IconCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */; };
+		3347644F2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347644E2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift */; };
+		334764522A264B4F008F4834 /* PantryEditMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334764512A264B4F008F4834 /* PantryEditMenuView.swift */; };
 		334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */; };
 		334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */; };
 		334BAE53299E6606005F52F5 /* SharingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334BAE52299E6606005F52F5 /* SharingListViewModel.swift */; };
@@ -87,6 +93,13 @@
 		33995D202A1C5C88003FECAE /* PantryStarterPackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */; };
 		33995D232A1CC1DE003FECAE /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */; };
 		33995D252A1CC501003FECAE /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D242A1CC501003FECAE /* TabBarItemView.swift */; };
+		33995D292A1D0824003FECAE /* PantryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D282A1D0824003FECAE /* PantryCell.swift */; };
+		33995D2B2A1DA398003FECAE /* PantryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D2A2A1DA398003FECAE /* PantryModels.swift */; };
+		33995D2D2A1DACB1003FECAE /* PantryCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D2C2A1DACB1003FECAE /* PantryCollectionViewLayout.swift */; };
+		33995D322A1F96BE003FECAE /* CreateNewPantryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D312A1F96BE003FECAE /* CreateNewPantryViewController.swift */; };
+		33995D342A1F96C7003FECAE /* CreateNewPantryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D332A1F96C7003FECAE /* CreateNewPantryViewModel.swift */; };
+		33995D372A1F9FE5003FECAE /* PantryListTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D362A1F9FE5003FECAE /* PantryListTemplateView.swift */; };
+		33995D392A1FC461003FECAE /* IconSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D382A1FC461003FECAE /* IconSubView.swift */; };
 		339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339C1AEA299A67DD0092F93E /* InfoMessageView.swift */; };
 		33A51B872A163C7A00BE11C1 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A51B862A163C7A00BE11C1 /* MainTabBarController.swift */; };
 		33A51B892A163C9500BE11C1 /* CustomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A51B882A163C9500BE11C1 /* CustomTransition.swift */; };
@@ -302,6 +315,12 @@
 		334009F029E9956800A04978 /* QuantityOfProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityOfProductView.swift; sourceTree = "<group>"; };
 		3342C9BA2A1460900010DA4A /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
 		3342C9BC2A146D290010DA4A /* FeedbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackManager.swift; sourceTree = "<group>"; };
+		334764452A24B747008F4834 /* SelectIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIconView.swift; sourceTree = "<group>"; };
+		334764472A24EE48008F4834 /* SelectIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIconViewController.swift; sourceTree = "<group>"; };
+		334764492A257D17008F4834 /* defaults_icon.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = defaults_icon.bundle; sourceTree = "<group>"; };
+		3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCollectionViewCell.swift; sourceTree = "<group>"; };
+		3347644E2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListToSynchronizeViewController.swift; sourceTree = "<group>"; };
+		334764512A264B4F008F4834 /* PantryEditMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryEditMenuView.swift; sourceTree = "<group>"; };
 		334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingPopUpViewController.swift; sourceTree = "<group>"; };
 		334BAE4E299E38B6005F52F5 /* SharingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewController.swift; sourceTree = "<group>"; };
 		334BAE52299E6606005F52F5 /* SharingListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingListViewModel.swift; sourceTree = "<group>"; };
@@ -363,6 +382,13 @@
 		33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryStarterPackViewController.swift; sourceTree = "<group>"; };
 		33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
 		33995D242A1CC501003FECAE /* TabBarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
+		33995D282A1D0824003FECAE /* PantryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryCell.swift; sourceTree = "<group>"; };
+		33995D2A2A1DA398003FECAE /* PantryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryModels.swift; sourceTree = "<group>"; };
+		33995D2C2A1DACB1003FECAE /* PantryCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryCollectionViewLayout.swift; sourceTree = "<group>"; };
+		33995D312A1F96BE003FECAE /* CreateNewPantryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewPantryViewController.swift; sourceTree = "<group>"; };
+		33995D332A1F96C7003FECAE /* CreateNewPantryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewPantryViewModel.swift; sourceTree = "<group>"; };
+		33995D362A1F9FE5003FECAE /* PantryListTemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryListTemplateView.swift; sourceTree = "<group>"; };
+		33995D382A1FC461003FECAE /* IconSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSubView.swift; sourceTree = "<group>"; };
 		339C1AEA299A67DD0092F93E /* InfoMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMessageView.swift; sourceTree = "<group>"; };
 		33A51B862A163C7A00BE11C1 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		33A51B882A163C9500BE11C1 /* CustomTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTransition.swift; sourceTree = "<group>"; };
@@ -604,7 +630,10 @@
 			children = (
 				332340982A1B91C100609813 /* PantryViewModel.swift */,
 				332340962A1B91B300609813 /* PantryViewController.swift */,
+				33995D2C2A1DACB1003FECAE /* PantryCollectionViewLayout.swift */,
 				3323409A2A1B91CB00609813 /* PantryDataSource.swift */,
+				334764512A264B4F008F4834 /* PantryEditMenuView.swift */,
+				33995D272A1D0806003FECAE /* Cell */,
 				33995D212A1C5C91003FECAE /* StarterPack */,
 			);
 			path = Pantry;
@@ -630,6 +659,25 @@
 				33796E5C2A136F14009AD385 /* AutoCategoryInfoView.swift */,
 			);
 			path = subView;
+			sourceTree = "<group>";
+		};
+		3347644B2A2582EB008F4834 /* Select Icon for pantry */ = {
+			isa = PBXGroup;
+			children = (
+				334764472A24EE48008F4834 /* SelectIconViewController.swift */,
+				334764452A24B747008F4834 /* SelectIconView.swift */,
+				3347644C2A258E49008F4834 /* IconCollectionViewCell.swift */,
+			);
+			path = "Select Icon for pantry";
+			sourceTree = "<group>";
+		};
+		334764502A261193008F4834 /* Child */ = {
+			isa = PBXGroup;
+			children = (
+				3347644B2A2582EB008F4834 /* Select Icon for pantry */,
+				3347644E2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift */,
+			);
+			path = Child;
 			sourceTree = "<group>";
 		};
 		334BAE4B299DF88F005F52F5 /* Sharing */ = {
@@ -817,6 +865,34 @@
 				33995D242A1CC501003FECAE /* TabBarItemView.swift */,
 			);
 			path = Tabbar;
+			sourceTree = "<group>";
+		};
+		33995D272A1D0806003FECAE /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				33995D282A1D0824003FECAE /* PantryCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		33995D302A1F9694003FECAE /* Create New Pantry */ = {
+			isa = PBXGroup;
+			children = (
+				334764502A261193008F4834 /* Child */,
+				33995D332A1F96C7003FECAE /* CreateNewPantryViewModel.swift */,
+				33995D312A1F96BE003FECAE /* CreateNewPantryViewController.swift */,
+				33995D352A1F9F86003FECAE /* subViews */,
+			);
+			path = "Create New Pantry";
+			sourceTree = "<group>";
+		};
+		33995D352A1F9F86003FECAE /* subViews */ = {
+			isa = PBXGroup;
+			children = (
+				33995D362A1F9FE5003FECAE /* PantryListTemplateView.swift */,
+				33995D382A1FC461003FECAE /* IconSubView.swift */,
+			);
+			path = subViews;
 			sourceTree = "<group>";
 		};
 		33A51B852A163C4200BE11C1 /* Main Tab Bar */ = {
@@ -1143,6 +1219,7 @@
 		B33EFF0D290FF02800AD9BEE /* GroceryList */ = {
 			isa = PBXGroup;
 			children = (
+				334764492A257D17008F4834 /* defaults_icon.bundle */,
 				386CFACF2995BA4D00B4AD76 /* GroceryList.entitlements */,
 				840C18A0297FC5130006F975 /* GroceryListRelease.entitlements */,
 				B37A2CD42910EE77003C01AD /* Services */,
@@ -1373,6 +1450,7 @@
 			isa = PBXGroup;
 			children = (
 				B36AF95B2915556700944E9D /* GroseryListModels.swift */,
+				33995D2A2A1DA398003FECAE /* PantryModels.swift */,
 				B36933FB291AAC3A00AFFAA6 /* CellModel */,
 			);
 			path = Models;
@@ -1494,6 +1572,7 @@
 				33A51B952A17747400BE11C1 /* MainRecipeViewController */,
 				383C77F4293F79D60030AE78 /* RecipesListViewController */,
 				332340952A1B918300609813 /* Pantry */,
+				33995D302A1F9694003FECAE /* Create New Pantry */,
 				33F8253529C050B700B349D5 /* Search */,
 				334BAE4B299DF88F005F52F5 /* Sharing */,
 				3379B64C29B755B20080923A /* Collection */,
@@ -1811,6 +1890,7 @@
 				B3981C64297A89E800206DB7 /* SF Pro Text Heavy.otf in Resources */,
 				B33EFF18290FF02900AD9BEE /* Assets.xcassets in Resources */,
 				33C8DB8729DFE873009F4760 /* SF-Compact-Display-Semibold.otf in Resources */,
+				3347644A2A257D17008F4834 /* defaults_icon.bundle in Resources */,
 				B36AF93D2913CEE900944E9D /* SF Pro Display Bold.otf in Resources */,
 				B3981C58297A86EE00206DB7 /* SF Pro Rounded Medium.otf in Resources */,
 				B3981C56297A86EA00206DB7 /* SF Pro Rounded Bold.otf in Resources */,
@@ -1965,6 +2045,7 @@
 				B315F9DC29892EA00009CEB8 /* CheckmarkView.swift in Sources */,
 				840C189F2978D2230006F975 /* Int+Extensions.swift in Sources */,
 				B381EF1D299A573500DCDE40 /* UserAccountManager.swift in Sources */,
+				334764482A24EE48008F4834 /* SelectIconViewController.swift in Sources */,
 				33A51B8D2A17171400BE11C1 /* MainTabBarViewModel.swift in Sources */,
 				B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */,
 				846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */,
@@ -1972,8 +2053,10 @@
 				B30573C72923A11100CA8BDE /* ProductSettingsTableViewCell.swift in Sources */,
 				B35F0F632937975200C19891 /* MeashureManager.swift in Sources */,
 				B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */,
+				33995D392A1FC461003FECAE /* IconSubView.swift in Sources */,
 				333E2D3129EFC2E000F705E7 /* DBStore+CoreDataProperties.swift in Sources */,
 				334BAE55299E700B005F52F5 /* Table+CollectionExtension.swift in Sources */,
+				33995D372A1F9FE5003FECAE /* PantryListTemplateView.swift in Sources */,
 				B3693402291BA62F00AFFAA6 /* CreateNewListViewModel.swift in Sources */,
 				B3777E202938D8210074BE38 /* InternetConnection.swift in Sources */,
 				B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */,
@@ -2026,7 +2109,9 @@
 				3368FD6C29B6F9F700D97291 /* CollectionModel.swift in Sources */,
 				33995D202A1C5C88003FECAE /* PantryStarterPackViewController.swift in Sources */,
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
+				334764522A264B4F008F4834 /* PantryEditMenuView.swift in Sources */,
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
+				3347644D2A258E49008F4834 /* IconCollectionViewCell.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
 				337E79D429E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift in Sources */,
 				B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */,
@@ -2046,6 +2131,7 @@
 				B37A2CE82911034D003C01AD /* UITextFieldExtension.swift in Sources */,
 				B3F7C9CD29964D320081B245 /* YourEmailView.swift in Sources */,
 				B381EF26299B661700DCDE40 /* DeleteAccountView.swift in Sources */,
+				33995D322A1F96BE003FECAE /* CreateNewPantryViewController.swift in Sources */,
 				B315F9D52988FD530009CEB8 /* AlternativePaywallViewController.swift in Sources */,
 				B3AD42D5299106360043A37F /* SocketManager.swift in Sources */,
 				B3F7C9B029937CD60081B245 /* RegisterWithMessageView.swift in Sources */,
@@ -2076,6 +2162,7 @@
 				33D912C029A396A900C32117 /* MoreRecipeCell.swift in Sources */,
 				B34EACA42934F05800FBD0E0 /* CategoryModel.swift in Sources */,
 				334009EB29E98A0800A04978 /* NameOfProductView.swift in Sources */,
+				33995D2D2A1DACB1003FECAE /* PantryCollectionViewLayout.swift in Sources */,
 				B3F7C9B629939E2D0081B245 /* SignUpViewModel.swift in Sources */,
 				B37A2CDF29110290003C01AD /* OnboardingViewController.swift in Sources */,
 				B3777E192938BEA80074BE38 /* SettingsViewController.swift in Sources */,
@@ -2127,6 +2214,7 @@
 				B315F9E8298A3FF30009CEB8 /* WriteReviewViewModel.swift in Sources */,
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
 				B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */,
+				33995D342A1F96C7003FECAE /* CreateNewPantryViewModel.swift in Sources */,
 				33796E612A139F5D009AD385 /* FeedbackViewController.swift in Sources */,
 				B3777E1D2938CBF40074BE38 /* SettingsParametrView.swift in Sources */,
 				B37A2CEB2911034D003C01AD /* StringExtension.swift in Sources */,
@@ -2147,8 +2235,11 @@
 				B3329596298A667E002DF1EE /* AmplitudeManager.swift in Sources */,
 				33796E5F2A139457009AD385 /* UIDeviceExtension.swift in Sources */,
 				B3777E232938E4E90074BE38 /* HapticManager.swift in Sources */,
+				33995D2B2A1DA398003FECAE /* PantryModels.swift in Sources */,
 				3328AD86299CF40800187B57 /* SharingView.swift in Sources */,
 				3342C9BB2A1460900010DA4A /* FeedbackViewModel.swift in Sources */,
+				33995D292A1D0824003FECAE /* PantryCell.swift in Sources */,
+				334764462A24B747008F4834 /* SelectIconView.swift in Sources */,
 				3368FD7A29B7348100D97291 /* DBCollection+CoreDataProperties.swift in Sources */,
 				B381EF17299A02A100DCDE40 /* DomainUser+CoreDataProperties.swift in Sources */,
 				38F4903F2946DC6A00529D1F /* IngredientView.swift in Sources */,
@@ -2162,6 +2253,7 @@
 				335519C429AE26CE00AD2B77 /* MainScreenMenuView.swift in Sources */,
 				38F49043294771A500529D1F /* InstructionView.swift in Sources */,
 				333E2D3029EFC2E000F705E7 /* DBStore+CoreDataClass.swift in Sources */,
+				3347644F2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift in Sources */,
 				B3AD42D72991135E0043A37F /* CurrentLocale.swift in Sources */,
 				844FC63B2978B825008173AA /* ReviewCell.swift in Sources */,
 				B30573BD29222D4500CA8BDE /* ProductListCell.swift in Sources */,

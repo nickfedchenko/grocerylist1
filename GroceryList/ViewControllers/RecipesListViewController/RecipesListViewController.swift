@@ -168,7 +168,7 @@ extension RecipesListViewController: RecipeListCellDelegate {
     }
 }
 
-extension RecipesListViewController: AddProductsSelectionListControllerDelegate {
+extension RecipesListViewController: AddProductsSelectionListDelegate {
     func ingredientsSuccessfullyAdded() {
         guard currentlySelectedIndex >= 0 else { return }
         guard let cell = recipesListCollectionView.cellForItem(at: IndexPath(item: currentlySelectedIndex, section: 0)) as? RecipeListCell else { return }

@@ -71,4 +71,7 @@ protocol ViewControllerFactoryProtocol {
     func createProductsSortController(model: GroceryListsModel, productType: ProductsSortViewModel.ProductType,
                                       updateModel: ((GroceryListsModel) -> Void)?, router: RootRouter) -> UIViewController
     func createFeedbackController(router: RootRouter) -> UIViewController
+    func createPantryStarterPackController() -> UIViewController
+    func createCreateNewPantryController(currentPantry: PantryModel?, updateUI: @escaping ((PantryModel) -> Void),
+                                         router: RootRouter) -> UIViewController
 }

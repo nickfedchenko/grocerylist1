@@ -130,7 +130,7 @@ extension SearchInRecipeViewController: RecipeListCellDelegate {
     }
 }
 
-extension SearchInRecipeViewController: AddProductsSelectionListControllerDelegate {
+extension SearchInRecipeViewController: AddProductsSelectionListDelegate {
     func ingredientsSuccessfullyAdded() {
         guard currentlySelectedIndex >= 0 else { return }
         guard let cell = collectionView.cellForItem(at: IndexPath(item: currentlySelectedIndex, section: 0)) as? RecipeListCell else { return }
