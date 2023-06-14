@@ -73,7 +73,7 @@ class SelectListToSynchronizeViewController: SelectListViewController {
     }
     
     private func correctTitleLabel() {
-        createListLabel.text = "Select List to Synchronize"
+        createListLabel.text = R.string.localizable.selectListToSynchronize()
         createListLabel.font = UIFont.SFProRounded.semibold(size: 17).font
         
         closeButton.setImage(nil, for: .normal)

@@ -481,7 +481,6 @@ extension ProductListCell {
             if state == .swipedLeft { hideRightImage() }
             
         case .left:
-            guard nameLabel.textColor == .black else { return }
             if state == .swipedLeft {
                 
                 DispatchQueue.main.async {

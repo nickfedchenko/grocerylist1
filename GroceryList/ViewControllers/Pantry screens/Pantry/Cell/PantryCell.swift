@@ -308,7 +308,7 @@ final class OutOfStockView: UIView {
         outColorView.backgroundColor = color
         slashLabel.textColor = color
         
-        outLabel.text = "Out: " + outOfStock
+        outLabel.text = R.string.localizable.out() + outOfStock
     }
     
     func clearView() {

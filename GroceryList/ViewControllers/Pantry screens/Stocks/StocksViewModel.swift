@@ -86,7 +86,7 @@ final class StocksViewModel {
     
     func getStocks() -> [PantryStocks] {
         return [
-            PantryStocks(name: "out of stock", stock: dataSource.outOfStock, typeOFCell: .outOfStock),
+            PantryStocks(name: R.string.localizable.outOfStock(), stock: dataSource.outOfStock, typeOFCell: .outOfStock),
             PantryStocks(name: "", stock: dataSource.stocks, typeOFCell: .normal)
         ]
     }
@@ -283,19 +283,19 @@ final class StocksViewModel {
         var list = ""
         let newLine = "\n"
         let tab = "  • "
-        let pantry = "Pantry: \(pantryName)"
+        let pantry = R.string.localizable.pantryName(pantryName)
         list += pantry
         
         let stocks = dataSource.stocks.filter { $0.isAvailability }
         let outOfStocks = dataSource.stocks.filter { !$0.isAvailability }
         
-        list += "out of stocks".uppercased() + newLine
+        list += R.string.localizable.outOfStock().uppercased() + newLine
         outOfStocks.forEach {
             list += tab + $0.name.firstCharacterUpperCase() + newLine
         }
         list += newLine
         
-        list += "stocks".uppercased() + newLine
+        list += R.string.localizable.inStock().uppercased() + newLine
         stocks.forEach {
             list += tab + $0.name.firstCharacterUpperCase() + newLine
         }

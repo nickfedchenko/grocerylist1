@@ -39,7 +39,7 @@ final class StocksLinkView: UIView {
     
     func configureLink(listNames: [String]) {
         guard !listNames.isEmpty else {
-            titleLabel.text = "Link to Shopping List"
+            titleLabel.text = R.string.localizable.linkToShoppingList()
             return
         }
         titleLabel.text = listNames.first

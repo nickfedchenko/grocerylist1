@@ -19,7 +19,7 @@ class AutoRepeatView: UIView {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
         label.textColor = .white
-        label.text = "Auto repeat"
+        label.text = R.string.localizable.autoRepeat()
         return label
     }()
     
@@ -39,7 +39,7 @@ class AutoRepeatView: UIView {
     }
     
     func setRepeat(_ autoRepeat: String?) {
-        autoRepeatLabel.text = autoRepeat ?? "Auto repeat"
+        autoRepeatLabel.text = autoRepeat ?? R.string.localizable.autoRepeat()
     }
     
     private func setup() {

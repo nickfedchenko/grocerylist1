@@ -30,7 +30,7 @@ class AutoRepeatCustomSettingView: UIView {
     
     private lazy var setButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Set", for: .normal)
+        button.setTitle(R.string.localizable.set(), for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.addTarget(self, action: #selector(setButtonTapped), for: .touchUpInside)
         button.layer.cornerRadius = 8
@@ -43,7 +43,7 @@ class AutoRepeatCustomSettingView: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
-        label.text = "Repeat every ..."
+        label.text = R.string.localizable.repeatEvery()
         return label
     }()
     
@@ -148,15 +148,15 @@ class AutoRepeatCustomSettingView: UIView {
         
         if period == 1 { // weeks
             if times >= 1 {
-                value = "every \(times + 1) weekly: \(fullWeekdays[selectWeekdayNumber])"
+                value = R.string.localizable.everyWeekly("\(times + 1)", "\(fullWeekdays[selectWeekdayNumber])")
             } else {
-                value = "weekly: \(fullWeekdays[selectWeekdayNumber])"
+                value = R.string.localizable.weeklyWeekday("\(fullWeekdays[selectWeekdayNumber])")
             }
         } else {
             if times == 0 {
                 value = repeatPeriods[period].title
             } else {
-                value = "every \(times + 1) \(repeatPeriods[period])"
+                value = R.string.localizable.everyTimesPeriod("\(times + 1)", "\(repeatPeriods[period])") 
             }
         }
         
@@ -344,10 +344,10 @@ private final class WeekdayView: UIView {
 extension RepeatPeriods {
     var title: String {
         switch self {
-        case .days:     return "days"
-        case .weeks:    return "weeks"
-        case .months:   return "months"
-        case .years:    return "years"
+        case .days:     return R.string.localizable.days()
+        case .weeks:    return R.string.localizable.weeks()
+        case .months:   return R.string.localizable.months()
+        case .years:    return R.string.localizable.years()
         }
     }
 }

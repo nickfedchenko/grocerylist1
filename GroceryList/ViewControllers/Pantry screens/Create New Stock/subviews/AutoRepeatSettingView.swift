@@ -35,14 +35,14 @@ class AutoRepeatSettingView: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.bold(size: 16).font
-        label.text = "Auto repeat setting"
+        label.text = R.string.localizable.autoRepeatSetting()
         return label
     }()
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 14).font
-        label.text = "Food or goods will be marked 'out of stock' when the specified period is reached"
+        label.text = R.string.localizable.foodGoodsWillBeMarked()
         label.numberOfLines = 0
         return label
     }()
@@ -64,7 +64,7 @@ class AutoRepeatSettingView: UIView {
         let label = UILabel()
         label.font = UIFont.SFPro.bold(size: 16).font
         label.textColor = R.color.lightGray()
-        label.text = "Set Reminder"
+        label.text = R.string.localizable.setReminder()
         return label
     }()
     
@@ -377,11 +377,11 @@ final private class AutoRepeatSettingSubView: UIView {
 extension StockAutoRepeat {
     var title: String {
         switch self {
-        case .daily:    return "daily"
-        case .weekly:   return "weekly"
-        case .monthly:  return "monthly"
-        case .yearly:   return "yearly"
-        case .custom:   return "custom"
+        case .daily:    return R.string.localizable.autoDaily()
+        case .weekly:   return R.string.localizable.autoWeekly()
+        case .monthly:  return R.string.localizable.autoMonthly()
+        case .yearly:   return R.string.localizable.autoYearly()
+        case .custom:   return R.string.localizable.autoCustom()
         }
     }
 }
