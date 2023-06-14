@@ -1891,7 +1891,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 195 images.
+  /// This `_R.image` struct is generated, and contains static references to 225 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -1931,11 +1931,17 @@ struct _R {
     /// Image `AppleImage`.
     var appleImage: RswiftResources.ImageResource { .init(name: "AppleImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `AutoRepeat`.
+    var autoRepeat: RswiftResources.ImageResource { .init(name: "AutoRepeat", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `Baby`.
     var baby: RswiftResources.ImageResource { .init(name: "Baby", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Bank Card`.
     var bankCard: RswiftResources.ImageResource { .init(name: "Bank Card", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Calendar`.
+    var calendar: RswiftResources.ImageResource { .init(name: "Calendar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Car`.
     var car: RswiftResources.ImageResource { .init(name: "Car", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -1982,6 +1988,9 @@ struct _R {
     /// Image `Handiwork`.
     var handiwork: RswiftResources.ImageResource { .init(name: "Handiwork", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `LinkBig`.
+    var linkBig: RswiftResources.ImageResource { .init(name: "LinkBig", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `List Settings`.
     var listSettings: RswiftResources.ImageResource { .init(name: "List Settings", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -2012,8 +2021,14 @@ struct _R {
     /// Image `RecipePlus`.
     var recipePlus: RswiftResources.ImageResource { .init(name: "RecipePlus", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `Reminder`.
+    var reminder: RswiftResources.ImageResource { .init(name: "Reminder", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `Rename`.
     var rename: RswiftResources.ImageResource { .init(name: "Rename", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Repeat`.
+    var `repeat`: RswiftResources.ImageResource { .init(name: "Repeat", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ReviewProducts`.
     var reviewProducts: RswiftResources.ImageResource { .init(name: "ReviewProducts", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -2075,6 +2090,9 @@ struct _R {
     /// Image `X-markInput`.
     var xMarkInput: RswiftResources.ImageResource { .init(name: "X-markInput", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `X-mark_in_stock`.
+    var xMark_in_stock: RswiftResources.ImageResource { .init(name: "X-mark_in_stock", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `activeSynchronize`.
     var activeSynchronize: RswiftResources.ImageResource { .init(name: "activeSynchronize", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -2098,6 +2116,12 @@ struct _R {
 
     /// Image `autocategoryOk`.
     var autocategoryOk: RswiftResources.ImageResource { .init(name: "autocategoryOk", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `autorepeat_checkmark`.
+    var autorepeat_checkmark: RswiftResources.ImageResource { .init(name: "autorepeat_checkmark", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `autorepeat_reminder`.
+    var autorepeat_reminder: RswiftResources.ImageResource { .init(name: "autorepeat_reminder", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `basket`.
     var basket: RswiftResources.ImageResource { .init(name: "basket", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -2150,6 +2174,24 @@ struct _R {
     /// Image `contextualMenu`.
     var contextualMenu: RswiftResources.ImageResource { .init(name: "contextualMenu", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `defaults_pantry_list_BeautyHealth`.
+    var defaults_pantry_list_BeautyHealth: RswiftResources.ImageResource { .init(name: "defaults_pantry_list_BeautyHealth", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `defaults_pantry_list_Fridge`.
+    var defaults_pantry_list_Fridge: RswiftResources.ImageResource { .init(name: "defaults_pantry_list_Fridge", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `defaults_pantry_list_Grocery`.
+    var defaults_pantry_list_Grocery: RswiftResources.ImageResource { .init(name: "defaults_pantry_list_Grocery", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `defaults_pantry_list_Hobby`.
+    var defaults_pantry_list_Hobby: RswiftResources.ImageResource { .init(name: "defaults_pantry_list_Hobby", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `defaults_pantry_list_Household`.
+    var defaults_pantry_list_Household: RswiftResources.ImageResource { .init(name: "defaults_pantry_list_Household", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `defaults_pantry_list_SpicesHerbs`.
+    var defaults_pantry_list_SpicesHerbs: RswiftResources.ImageResource { .init(name: "defaults_pantry_list_SpicesHerbs", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `editCell`.
     var editCell: RswiftResources.ImageResource { .init(name: "editCell", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -2194,6 +2236,42 @@ struct _R {
 
     /// Image `forthSideView`.
     var forthSideView: RswiftResources.ImageResource { .init(name: "forthSideView", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `fridge_Butter`.
+    var fridge_Butter: RswiftResources.ImageResource { .init(name: "fridge_Butter", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `fridge_Chicken fillet`.
+    var fridge_ChickenFillet: RswiftResources.ImageResource { .init(name: "fridge_Chicken fillet", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `fridge_Cream cheese`.
+    var fridge_CreamCheese: RswiftResources.ImageResource { .init(name: "fridge_Cream cheese", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `fridge_Frozen broccoli`.
+    var fridge_FrozenBroccoli: RswiftResources.ImageResource { .init(name: "fridge_Frozen broccoli", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `fridge_Frozen mushrooms`.
+    var fridge_FrozenMushrooms: RswiftResources.ImageResource { .init(name: "fridge_Frozen mushrooms", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `fridge_Frozen vegetables`.
+    var fridge_FrozenVegetables: RswiftResources.ImageResource { .init(name: "fridge_Frozen vegetables", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `fridge_Lettuce`.
+    var fridge_Lettuce: RswiftResources.ImageResource { .init(name: "fridge_Lettuce", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `fridge_Mayonnaise`.
+    var fridge_Mayonnaise: RswiftResources.ImageResource { .init(name: "fridge_Mayonnaise", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `fridge_Milk`.
+    var fridge_Milk: RswiftResources.ImageResource { .init(name: "fridge_Milk", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `fridge_Parmesan`.
+    var fridge_Parmesan: RswiftResources.ImageResource { .init(name: "fridge_Parmesan", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `fridge_Smoked bacon`.
+    var fridge_SmokedBacon: RswiftResources.ImageResource { .init(name: "fridge_Smoked bacon", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `fridge_Tomatoes`.
+    var fridge_Tomatoes: RswiftResources.ImageResource { .init(name: "fridge_Tomatoes", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `gallery`.
     var gallery: RswiftResources.ImageResource { .init(name: "gallery", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -2318,6 +2396,9 @@ struct _R {
     /// Image `product_empty_checkmark`.
     var product_empty_checkmark: RswiftResources.ImageResource { .init(name: "product_empty_checkmark", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `product_outOfStock`.
+    var product_outOfStock: RswiftResources.ImageResource { .init(name: "product_outOfStock", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `profileImage`.
     var profileImage: RswiftResources.ImageResource { .init(name: "profileImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -2353,6 +2434,9 @@ struct _R {
 
     /// Image `redDeleteImage`.
     var redDeleteImage: RswiftResources.ImageResource { .init(name: "redDeleteImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `reminder_stock_icon`.
+    var reminder_stock_icon: RswiftResources.ImageResource { .init(name: "reminder_stock_icon", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `removeImage`.
     var removeImage: RswiftResources.ImageResource { .init(name: "removeImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -2435,8 +2519,14 @@ struct _R {
     /// Image `starterpack_icon`.
     var starterpack_icon: RswiftResources.ImageResource { .init(name: "starterpack_icon", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `starterpack_icon_SE`.
+    var starterpack_icon_SE: RswiftResources.ImageResource { .init(name: "starterpack_icon_SE", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `starterpack_pantry`.
     var starterpack_pantry: RswiftResources.ImageResource { .init(name: "starterpack_pantry", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `starterpack_pantry_SE`.
+    var starterpack_pantry_SE: RswiftResources.ImageResource { .init(name: "starterpack_pantry_SE", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `swipeTeDeleteFromFavorite`.
     var swipeTeDeleteFromFavorite: RswiftResources.ImageResource { .init(name: "swipeTeDeleteFromFavorite", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

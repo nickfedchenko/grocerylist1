@@ -196,6 +196,51 @@ class UserDefaultsManager {
         }
     }
     
+    static var isFillingDefaultPantry: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "isFillingDefaultPantry")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isFillingDefaultPantry")
+        }
+    }
+    
+    static var isShowPantryStarterPack: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "isShowPantryStarterPack")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isShowPantryStarterPack")
+        }
+    }
+    
+    static var pantryUserTokens: [String]? {
+        get {
+            return UserDefaults.standard.array(forKey: "pantryUserTokens") as? [String]
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "pantryUserTokens")
+        }
+    }
+    
+    static var lastUpdateStockDate: Date? {
+        get {
+            return UserDefaults.standard.object(forKey: "lastUpdateStockDate") as? Date
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "lastUpdateStockDate")
+        }
+    }
+    
+    static var lastShowStockReminderDate: Date? {
+        get {
+            return UserDefaults.standard.object(forKey: "lastShowStockReminderDate") as? Date
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "lastShowStockReminderDate")
+        }
+    }
+    
     private static func setValue<T>(value: T, for key: UDKeys) {
         UserDefaults.standard.set(value, forKey: key.rawValue)
     }

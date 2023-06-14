@@ -91,13 +91,18 @@ class ProductsViewModel {
     }
     
     func goBackButtonPressed() {
-        router?.pop()
+        router?.popList()
         showRequest()
     }
     
     func getCellIndex(with category: Category) -> Int {
         guard let index = arrayWithSections.firstIndex(of: category ) else { return 0 }
         return index
+    }
+    
+    func setEditState(isEdit: Bool) {
+        dataSource.isEditState = isEdit
+        dataSource.createDataSourceArray()
     }
     
     func settingsTapped(with snapshot: UIImage?) {
@@ -113,6 +118,7 @@ class ProductsViewModel {
             guard let self else { return }
             switch content {
             case .edit:
+                self.setEditState(isEdit: true)
                 self.delegate?.editProduct()
             case .share:
                 var shareModel = self.model
@@ -154,6 +160,11 @@ class ProductsViewModel {
     
     func updateFavoriteStatus(for product: Product) {
         dataSource.updateFavoriteStatus(for: product)
+        updateList()
+    }
+    
+    func updateStockStatus(product: Product) {
+        dataSource.updateStockStatus(for: product)
         updateList()
     }
     
@@ -272,7 +283,7 @@ class ProductsViewModel {
     }
     
     func showListView(contentViewHeigh: CGFloat,
-                      state: EditSelectListViewController.State,
+                      state: EditListState,
                       delegate: EditSelectListDelegate) {
         router?.goToEditSelectList(products: editProducts,
                                    contentViewHeigh: contentViewHeigh,
@@ -297,6 +308,24 @@ class ProductsViewModel {
         model.isVisibleCost = isVisible
         CoreDataManager.shared.saveList(list: model)
         dataSource.createDataSourceArray()
+    }
+    
+    func isInStock(product: Product) -> Bool {
+        product.inStock != nil
+    }
+    
+    func getPantryColor(product: Product) -> Theme? {
+        guard let stockId = product.inStock,
+              let dbStock = CoreDataManager.shared.getStock(by: stockId),
+              let dbPantry = dbStock.pantry else {
+            return nil
+        }
+        
+        return colorManager.getGradient(index: Int(dbPantry.color))
+    }
+    
+    func removeInStockInfo(_ product: Product) {
+        dataSource.removeInStockInfo(product: product)
     }
     
     func showPaywall() {

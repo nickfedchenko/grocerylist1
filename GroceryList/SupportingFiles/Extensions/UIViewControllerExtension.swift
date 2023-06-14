@@ -44,4 +44,19 @@ extension UIViewController {
             for: .normal)
         navigationItem.backBarButtonItem = backItem
     }
+    
+    static func currentController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let nav = base as? UINavigationController,
+           let visible = nav.visibleViewController {
+            return currentController(base: visible)
+        }
+        if let tab = base as? UITabBarController,
+           let selected = tab.selectedViewController {
+            return currentController(base: selected)
+        }
+        if let presented = base?.presentedViewController {
+            return currentController(base: presented)
+        }
+        return base
+    }
 }

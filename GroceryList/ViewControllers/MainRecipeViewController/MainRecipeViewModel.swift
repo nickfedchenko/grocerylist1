@@ -5,7 +5,7 @@
 //  Created by Хандымаа Чульдум on 19.05.2023.
 //
 
-import Foundation
+import UIKit
 
 final class MainRecipeViewModel {
     
@@ -83,9 +83,15 @@ final class MainRecipeViewModel {
     func showRecipe(by indexPath: IndexPath) {
         let recipeId = dataSource.recipesSections[indexPath.section].recipes[indexPath.item].id
         guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
-              var model = Recipe(from: dbRecipe) else {
+              let model = Recipe(from: dbRecipe) else {
             return
         }
         router?.goToRecipe(recipe: model)
+    }
+    
+    func tappedAddItem() {
+        router?.goCreateNewList(compl: { [weak self] model, _  in
+            self?.router?.goProductsVC(model: model, compl: { })
+        })
     }
 }

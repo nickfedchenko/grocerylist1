@@ -44,6 +44,10 @@ final class AddListView: UIView {
         plusImage.image = R.image.new_createList()?.withTintColor(image ?? .black)
     }
     
+    func setText(_ text: String) {
+        createListLabel.text = text
+    }
+    
     func updateView(isRightHanded: Bool) {
         self.layer.cornerRadius = 32
         self.layer.cornerCurve = .continuous

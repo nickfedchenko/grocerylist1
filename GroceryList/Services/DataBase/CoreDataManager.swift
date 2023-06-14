@@ -422,7 +422,7 @@ class CoreDataManager {
         }
     }
     
-    // MARK: - Store {
+    // MARK: - Store
     func saveStore(_ store: Store) {
         let context = coreData.container.viewContext
         let object = DBStore(context: context)
@@ -437,6 +437,146 @@ class CoreDataManager {
             return nil
         }
         return object
+    }
+    
+    // MARK: - Pantry
+    func savePantry(pantry: [PantryModel]) {
+        let asyncContext = coreData.viewContext
+        let _ = pantry.map { DBPantry.prepare(fromPlainModel: $0, context: asyncContext)}
+        guard asyncContext.hasChanges else {
+            return
+        }
+        asyncContext.performAndWait {
+            do {
+                try asyncContext.save()
+            } catch let error {
+                print(error)
+                asyncContext.rollback()
+            }
+        }
+
+    }
+    
+    func getAllPantries() -> [DBPantry]? {
+        let fetchRequest: NSFetchRequest<DBPantry> = DBPantry.fetchRequest()
+        let sort = NSSortDescriptor(key: "index", ascending: true)
+        fetchRequest.sortDescriptors = [sort]
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
+            return nil
+        }
+        return object
+    }
+    
+    func getPantry(id: String) -> DBPantry? {
+        let fetchRequest: NSFetchRequest<DBPantry> = DBPantry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest).first else {
+            return nil
+        }
+        return object
+    }
+    
+    func getSynchronizedPantry(by synchronizedIdGroceryList: UUID) -> [DBPantry] {
+        var pantries: [DBPantry] = []
+        guard let dbPantries = getAllPantries() else {
+            return pantries
+        }
+        dbPantries.forEach { dbModel in
+            let synchronizedLists = (try? JSONDecoder().decode([UUID].self, from: dbModel.synchronizedLists ?? Data())) ?? []
+            if synchronizedLists.contains(where: { $0 == synchronizedIdGroceryList }) {
+                pantries.append(dbModel)
+            }
+        }
+
+        return pantries
+    }
+    
+    func deletePantry(by id: UUID) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBPantry> = DBPantry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+
+    func removeSharedPantryList(by sharedListId: String) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBPantry> = DBPantry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "sharedListId = '\(sharedListId)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
+    func removeSharedPantryLists() {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBPantry> = DBPantry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "isShared = %d", true)
+        if let objects = try? context.fetch(fetchRequest) {
+            objects.forEach {
+                context.delete($0)
+            }
+        }
+        try? context.save()
+    }
+    
+    // MARK: - Stocks
+    func saveStock(stock: [Stock], for pantryId: String) {
+        let asyncContext = coreData.viewContext
+        let fetchRequest: NSFetchRequest<DBPantry> = DBPantry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(pantryId)'")
+        guard let pantry = try? asyncContext.fetch(fetchRequest).first else {
+            return
+        }
+        let _ = stock.map {
+            let object = DBStock.prepare(fromPlainModel: $0, context: asyncContext)
+            object.pantry = pantry
+        }
+        guard asyncContext.hasChanges else { return }
+        asyncContext.performAndWait {
+            do {
+                try asyncContext.save()
+            } catch let error {
+                print(error)
+                asyncContext.rollback()
+            }
+        }
+    }
+    
+    func getAllStock() -> [DBStock]? {
+        let fetchRequest: NSFetchRequest<DBStock> = DBStock.fetchRequest()
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
+            return nil
+        }
+        return object
+    }
+    
+    func getAllStocks(for pantryId: String) -> [DBStock]? {
+        let fetchRequest: NSFetchRequest<DBStock> = DBStock.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "pantryId = '\(pantryId)'")
+        return (try? coreData.viewContext.fetch(fetchRequest).compactMap { $0 })
+    }
+    
+    func getStock(by id: UUID) -> DBStock? {
+        let fetchRequest: NSFetchRequest<DBStock> = DBStock.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest).first else {
+            return nil
+        }
+        return object
+    }
+    
+    func deleteStock(by id: UUID) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBStock> = DBStock.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
     }
     
 }

@@ -14,9 +14,10 @@ class ProductListCell: UICollectionViewListCell {
     var swipeToPinchAction: (() -> Void)?
     var swipeToDeleteAction: (() -> Void)?
     var tapImageAction: (() -> Void)?
+    var tapInStockCross: (() -> Void)?
     
-    private let contentViews: UIView = {
-        let view = UIView()
+    private let contentViews: ViewWithOverriddenPoint = {
+        let view = ViewWithOverriddenPoint()
         view.backgroundColor = .white
         view.layer.cornerRadius = 8
         view.addCustomShadow(color: UIColor(hex: "#858585"), radius: 6, offset: CGSize(width: 0, height: 4))
@@ -114,6 +115,7 @@ class ProductListCell: UICollectionViewListCell {
     }()
     
     private let costView = CostOfProductListView()
+    private let foundInPantryView = FoundInPantryView()
     private var state: CellState = .normal
     
     override init(frame: CGRect) {
@@ -124,6 +126,10 @@ class ProductListCell: UICollectionViewListCell {
         leftButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
         setupConstraints()
         addGestureRecognizers()
+        
+        foundInPantryView.tapCross = { [weak self] in
+            self?.tapInStockCross?()
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -139,8 +145,17 @@ class ProductListCell: UICollectionViewListCell {
         secondDescriptionLabel.attributedText = NSAttributedString(string: "")
         secondDescriptionLabel.textColor = .black
         viewWithDescription.isHidden = true
+        whiteCheckmarkImage.isHidden = false
         whiteCheckmarkImage.image = R.image.whiteCheckmark()
         secondDescriptionLabel.snp.updateConstraints { $0.bottom.equalToSuperview().inset(6) }
+        costView.isHidden = true
+        foundInPantryView.isHidden = true
+        contentViews.snp.remakeConstraints { make in
+            make.left.right.equalToSuperview().inset(16)
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview().inset(8)
+        }
+        
         clearTheCell()
     }
     
@@ -149,7 +164,8 @@ class ProductListCell: UICollectionViewListCell {
     }
     
     func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?,
-                   isPurchased: Bool, description: String, isRecipe: Bool) {
+                   isPurchased: Bool, description: String, isRecipe: Bool,
+                   isOutOfStock: Bool) {
         contentView.backgroundColor = bcgColor
         guard let text = text else { return }
         setupCheckmarkImage(isPurchased: isPurchased, color: textColor, isRecipe: isRecipe)
@@ -172,6 +188,11 @@ class ProductListCell: UICollectionViewListCell {
         
         if !description.isEmpty || isRecipe {
             viewWithDescription.isHidden = false
+        }
+        
+        whiteCheckmarkImage.isHidden = isOutOfStock
+        if isOutOfStock {
+            checkmarkImage.image = R.image.product_outOfStock()
         }
     }
     
@@ -232,6 +253,19 @@ class ProductListCell: UICollectionViewListCell {
         }
     }
     
+    func setupInStock(isVisible: Bool, color: UIColor?) {
+        foundInPantryView.isHidden = !isVisible
+        guard isVisible else {
+            return
+        }
+        foundInPantryView.configureColor(color)
+        contentViews.snp.remakeConstraints { make in
+            make.left.right.equalToSuperview().inset(16)
+            make.top.equalToSuperview().offset(22)
+            make.bottom.equalToSuperview().inset(8)
+        }
+    }
+    
     func addCheckmark(color: UIColor?, compl: @escaping (() -> Void) ) {
         UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self = self else { return }
@@ -281,6 +315,10 @@ class ProductListCell: UICollectionViewListCell {
     }
     
     private func setupCheckmarkImage(isPurchased: Bool, color: UIColor?, isRecipe: Bool) {
+        guard state != .stock else {
+            return
+        }
+        
         guard state != .edit else {
             whiteCheckmarkImage.snp.updateConstraints { $0.width.height.equalTo(8) }
             whiteCheckmarkImage.image = getImageWithColor(color: .white)
@@ -304,7 +342,7 @@ class ProductListCell: UICollectionViewListCell {
     private func setupConstraints() {
         contentView.addSubviews([leftButton, rightButton, shadowView, contentViews])
         contentViews.addSubviews([userImageView, nameLabel, checkmarkView, checkmarkImage, whiteCheckmarkImage,
-                                  imageView, viewWithDescription, costView])
+                                  imageView, viewWithDescription, costView, foundInPantryView])
         viewWithDescription.addSubviews([firstDescriptionLabel, secondDescriptionLabel])
         
         shadowView.snp.makeConstraints { make in
@@ -387,6 +425,13 @@ class ProductListCell: UICollectionViewListCell {
             make.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(-4)
             make.height.equalTo(16)
+        }
+        
+        foundInPantryView.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.top.equalToSuperview().offset(-18)
+            make.height.equalTo(24)
+            make.width.greaterThanOrEqualTo(120)
         }
     }
 }

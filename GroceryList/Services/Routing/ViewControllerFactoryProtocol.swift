@@ -12,7 +12,11 @@ protocol ViewControllerFactoryProtocol {
     func createPaywallController() -> UIViewController?
     func createAlternativePaywallController() -> UIViewController?
     
-    func createMainTabBarController(router: RootRouter) -> UITabBarController
+    func createMainTabBarController(router: RootRouter, controllers: [UIViewController]) -> UITabBarController
+    func createListController(router: RootRouter) -> UIViewController
+    func createPantryController(router: RootRouter) -> UIViewController
+    func createRecipeController(router: RootRouter) -> UIViewController
+    
     func createCreateNewListController(model: GroceryListsModel?, router: RootRouter,
                                        compl: @escaping (GroceryListsModel, [Product]) -> Void) -> UIViewController?
     func createProductsController(model: GroceryListsModel, router: RootRouter,
@@ -48,7 +52,10 @@ protocol ViewControllerFactoryProtocol {
     func createPasswordExpiredController(router: RootRouter) -> UIViewController?
     func createEnterNewPasswordController(router: RootRouter) -> UIViewController?
     func createSharingPopUpController(router: RootRouter, compl: (() -> Void)?) -> UIViewController
-    func createSharingListController(router: RootRouter, listToShare: GroceryListsModel, users: [User]) -> UIViewController
+    func createSharingListController(router: RootRouter,
+                                     pantryToShare: PantryModel?,
+                                     listToShare: GroceryListsModel?,
+                                     users: [User]) -> UIViewController
     func createCreateNewRecipeViewController(router: RootRouter,
                                              compl: @escaping (Recipe) -> Void) -> UIViewController
     func createCreateNewRecipeStepTwoViewController(router: RootRouter, recipe: CreateNewRecipeStepOne,
@@ -65,13 +72,32 @@ protocol ViewControllerFactoryProtocol {
     func createRecipeScreen(router: RootRouter, recipe: Recipe) -> UIViewController
     func createEditSelectListController(router: RootRouter, products: [Product], contentViewHeigh: CGFloat,
                                         delegate: EditSelectListDelegate,
-                                        state: EditSelectListViewController.State) -> UIViewController
+                                        state: EditListState) -> UIViewController
     func createNewStoreController(router: RootRouter, model: GroceryListsModel?,
                                   compl: @escaping (Store?) -> Void) -> UIViewController
     func createProductsSortController(model: GroceryListsModel, productType: ProductsSortViewModel.ProductType,
                                       updateModel: ((GroceryListsModel) -> Void)?, router: RootRouter) -> UIViewController
     func createFeedbackController(router: RootRouter) -> UIViewController
     func createPantryStarterPackController() -> UIViewController
-    func createCreateNewPantryController(currentPantry: PantryModel?, updateUI: @escaping ((PantryModel) -> Void),
+    func createCreateNewPantryController(currentPantry: PantryModel?, updateUI: @escaping ((PantryModel?) -> Void),
                                          router: RootRouter) -> UIViewController
+    func createAllIcons(icon: UIImage?,
+                        selectedTheme: Theme,
+                        selectedIcon: ((UIImage?) -> Void)?) -> UIViewController
+    func createSelectList(contentViewHeigh: Double,
+                          synchronizedLists: [UUID],
+                          updateUI: (([UUID]) -> Void)?) -> UIViewController
+    func createStocksController(pantry: PantryModel, router: RootRouter) -> UIViewController
+    func createPantryListOptionsController(pantry: PantryModel, snapshot: UIImage?, listByText: String,
+                                           updateUI: ((PantryModel) -> Void)?,
+                                           editCallback: ((ProductsSettingsViewModel.TableViewContent) -> Void)?,
+                                           router: RootRouter) -> UIViewController
+    func createCreateNewStockController(pantry: PantryModel, stock: Stock?,
+                                        compl: @escaping (Stock) -> Void,
+                                        router: RootRouter) -> UIViewController
+    func createEditSelectPantryListController(router: RootRouter, stocks: [Stock], contentViewHeigh: CGFloat,
+                                              delegate: EditSelectListDelegate,
+                                              state: EditListState) -> UIViewController
+    func createStockReminderController(outOfStocks: [Stock], updateUI: (() -> Void)?,
+                                       router: RootRouter) -> UIViewController
 }

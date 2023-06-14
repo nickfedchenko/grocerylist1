@@ -76,43 +76,6 @@ class ProductsViewController: UIViewController {
         return button
     }()
     
-    private let addItemView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 32
-        view.layer.masksToBounds = true
-        view.layer.maskedCorners = [.layerMinXMinYCorner]
-        view.layer.borderColor = UIColor.white.withAlphaComponent(0.8).cgColor
-        view.layer.borderWidth = 2
-        view.layer.cornerCurve = .continuous
-        view.addCustomShadow(color: UIColor(hex: "#484848"), offset: CGSize(width: 0, height: 0.5))
-        return view
-    }()
-    
-    private let plusView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 16
-        view.layer.masksToBounds = true
-        view.layer.cornerCurve = .continuous
-        view.backgroundColor = .white
-        return view
-    }()
-    
-    private let plusImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = R.image.sharing_plus()
-        return imageView
-    }()
-    
-    private let addItemLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFProRounded.semibold(size: 17).font
-        label.textColor = .white
-        label.numberOfLines = 2
-        label.text = "AddItem".localized
-        return label
-    }()
-    
     private let totalCostLabel = UILabel()
     private let messageView = InfoMessageView()
     private let productImageView = ProductImageView()
@@ -127,6 +90,8 @@ class ProductsViewController: UIViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        (self.tabBarController as? MainTabBarController)?.productsDelegate = self
+        
         setupConstraints()
         setupCollectionView()
         setupController()
@@ -144,6 +109,14 @@ class ProductsViewController: UIViewController {
         messageView.layoutIfNeeded()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let colorForForeground = viewModel?.getColorForForeground() ?? .black
+        (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
+        (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: "item",
+                                                                        color: colorForForeground)
+    }
+    
     private func setupController() {
         let colorForForeground = viewModel?.getColorForForeground() ?? .black
         let colorForBackground = viewModel?.getColorForBackground()
@@ -151,9 +124,8 @@ class ProductsViewController: UIViewController {
         nameOfListTextField.text = viewModel?.getNameOfList()
         view.backgroundColor = colorForBackground
         navigationView.backgroundColor = colorForBackground
-        
-        addItemView.backgroundColor = darkColor.withAlphaComponent(0.95)
-        plusImage.image = R.image.sharing_plus()?.withTintColor(darkColor)
+        (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: "item",
+                                                                        color: colorForForeground)
         nameOfListTextField.textColor = darkColor
         
         sortButton.setImage(R.image.sort()?.withTintColor(colorForForeground), for: .normal)
@@ -256,6 +228,7 @@ class ProductsViewController: UIViewController {
     
     @objc
     private func arrowBackButtonPressed() {
+        self.navigationController?.popViewController(animated: true)
         viewModel?.goBackButtonPressed()
     }
     
@@ -295,6 +268,7 @@ class ProductsViewController: UIViewController {
                 self?.cancelEditButton.alpha = 1
                 self?.cancelEditButton.transform = CGAffineTransformInvert(expandTransform)
                 self?.view.layoutIfNeeded()
+                (self?.tabBarController as? MainTabBarController)?.customTabBar.layoutIfNeeded()
             }, completion: nil)
         })
         cellState = .edit
@@ -314,8 +288,10 @@ class ProductsViewController: UIViewController {
             self?.contextMenuButton.alpha = 1
             self?.sharingView.alpha = 1
             self?.view.layoutIfNeeded()
+            (self?.tabBarController as? MainTabBarController)?.customTabBar.layoutIfNeeded()
         }
         editTabBarView.setCountSelectedItems(0)
+        viewModel?.setEditState(isEdit: false)
         collectionView.reloadData()
     }
     
@@ -336,6 +312,9 @@ class ProductsViewController: UIViewController {
         switch model {
         case .parent: break
         case .child(let product):
+            guard !product.isOutOfStock else {
+                return
+            }
             viewModel?.addNewProductTapped(product)
         }
     }
@@ -416,7 +395,9 @@ class ProductsViewController: UIViewController {
         
         let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { [weak self] (cell, _, child) in
             
-            let color = self?.viewModel?.getColorForForeground()
+            let isVisibleInStock = self?.viewModel?.isInStock(product: child) ?? false
+            let pantryColor = self?.viewModel?.getPantryColor(product: child)
+            let color = isVisibleInStock ? pantryColor?.dark : self?.viewModel?.getColorForForeground()
             let bcgColor = self?.viewModel?.getColorForBackground()
             let isVisibleCost = self?.viewModel?.isVisibleCost ?? false
             let image = child.imageData
@@ -428,15 +409,16 @@ class ProductsViewController: UIViewController {
             let newLine = (description.count + storeTitle.count) > 30 && isVisibleCost
             let productCost = self?.calculateCost(quantity: child.quantity, cost: child.cost)
             
-            cell.setState(state: self?.cellState ?? .normal)
+            cell.setState(state: child.isOutOfStock ? .stock : self?.cellState ?? .normal)
             cell.setupCell(bcgColor: bcgColor, textColor: color, text: child.name,
                            isPurchased: child.isPurchased, description: description,
-                           isRecipe: child.fromRecipeTitle != nil)
+                           isRecipe: child.fromRecipeTitle != nil, isOutOfStock: child.isOutOfStock)
             cell.setupImage(isVisible: isUserImage, image: image)
             cell.setupUserImage(image: self?.viewModel?.getUserImage(by: child.userToken, isPurchased: child.isPurchased))
             cell.updateEditCheckmark(isSelect: isEditCell)
             cell.setupCost(isVisible: isVisibleCost, isAddNewLine: newLine, color: color,
                            storeTitle: child.store?.title, costValue: productCost)
+            cell.setupInStock(isVisible: isVisibleInStock, color: pantryColor?.medium)
             // картинка
             if image != nil {
                 cell.tapImageAction = { [weak self] in
@@ -446,6 +428,10 @@ class ProductsViewController: UIViewController {
                                                                         y: cell.frame.minY))
                     self?.productImageView.setVisibilityView(hidden: false)
                 }
+            }
+            
+            cell.tapInStockCross = { [weak self] in
+                self?.viewModel?.removeInStockInfo(child)
             }
             
             // свайпы
@@ -558,15 +544,14 @@ class ProductsViewController: UIViewController {
     
     // MARK: - Constraints
     private func setupConstraints() {
-        view.addSubviews([collectionView, navigationView, addItemView, productImageView, editView, editTabBarView])
+        view.addSubviews([collectionView, navigationView, productImageView, editView])
         navigationView.addSubviews([arrowBackButton, nameOfListTextField, contextMenuButton, sharingView, sortButton, totalCostLabel])
         editView.addSubviews([cancelEditButton])
-        addItemView.addSubviews([plusView, plusImage, addItemLabel])
         collectionView.addSubview(messageView)
+        (self.tabBarController as? MainTabBarController)?.customTabBar.addSubview(editTabBarView)
         
         setupNavigationViewConstraints()
         setupEditViewConstraints()
-        setupAddItemConstraints()
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(navigationView.snp.bottom).offset(-4)
@@ -630,30 +615,6 @@ class ProductsViewController: UIViewController {
         }
     }
     
-    private func setupAddItemConstraints() {
-        addItemView.snp.makeConstraints { make in
-            make.trailing.bottom.equalToSuperview().offset(4)
-            make.height.equalTo(84)
-            make.width.equalTo(self.view.frame.width / 2 + 2)
-        }
-        
-        plusView.snp.makeConstraints { make in
-            make.top.left.equalToSuperview().inset(16)
-            make.width.height.equalTo(32)
-        }
-        
-        plusImage.snp.makeConstraints { make in
-            make.center.equalTo(plusView)
-            make.width.height.equalTo(32)
-        }
-        
-        addItemLabel.snp.makeConstraints { make in
-            make.left.equalTo(plusImage.snp.right).inset(-16)
-            make.centerY.equalTo(plusImage)
-            make.right.equalToSuperview().inset(5)
-        }
-    }
-    
     private func setupEditViewConstraints() {
         editView.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(navigationView)
@@ -666,9 +627,11 @@ class ProductsViewController: UIViewController {
             make.height.equalTo(40)
         }
         
-        editTabBarView.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(0)
+        if self.tabBarController != nil {
+            editTabBarView.snp.makeConstraints { make in
+                make.leading.trailing.bottom.equalToSuperview()
+                make.height.equalTo(0)
+            }
         }
     }
 }
@@ -698,6 +661,11 @@ extension ProductsViewController: UICollectionViewDelegate {
             // чекмарк о покупке
             idsOfChangedProducts.insert(product.id)
             idsOfChangedLists.insert(product.listId)
+            if product.isOutOfStock {
+                self.viewModel?.updateStockStatus(product: product)
+                return
+            }
+            
             if product.isPurchased {
                 cell?.removeCheckmark { [weak self] in
                     self?.viewModel?.updatePurchasedStatus(product: product)
@@ -831,9 +799,6 @@ extension ProductsViewController: ProductsViewModelDelegate {
 
 extension ProductsViewController {
     private func addRecognizer() {
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(addItemViewTapped))
-        addItemView.addGestureRecognizer(tapRecognizer)
-        
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
         collectionView.addGestureRecognizer(longPressGesture)
         
@@ -844,13 +809,6 @@ extension ProductsViewController {
             taprecognizer = UITapGestureRecognizer(target: self, action: #selector(tapPressAction))
             self.view.addGestureRecognizer(taprecognizer)
         }
-    }
-    
-    @objc
-    private func addItemViewTapped () {
-        AmplitudeManager.shared.logEvent(.itemAdd)
-        tapPressAction()
-        viewModel?.addNewProductTapped()
     }
 }
 
@@ -940,5 +898,13 @@ extension ProductsViewController: EditSelectListDelegate {
     
     func productsSuccessfullyCopied() {
         cancelEditButtonPressed()
+    }
+}
+
+extension ProductsViewController: MainTabBarControllerProductsDelegate {
+    func tappedAddItem() {
+        AmplitudeManager.shared.logEvent(.itemAdd)
+        tapPressAction()
+        viewModel?.addNewProductTapped()
     }
 }

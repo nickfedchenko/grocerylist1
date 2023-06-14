@@ -53,7 +53,7 @@ class SelectListViewModel: ListViewModel {
             CoreDataManager.shared.createProduct(product: newProduct)
         }
         
-        router?.popToRoot()
+        router?.popList()
         router?.goProductsVC(model: list, compl: { })
     }
     

@@ -62,23 +62,29 @@ final class PantryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         (self.tabBarController as? MainTabBarController)?.pantryDelegate = self
-        
         self.view.backgroundColor = R.color.background()
+        titleBackgroundView.backgroundColor = R.color.background()?.withAlphaComponent(0.9)
+        
         viewModel.reloadData = { [weak self] in
             self?.reloadData()
         }
+        viewModel.updateNavUI = { [weak self] in
+            (self?.tabBarController as? MainTabBarController)?.isHideNavView(isHide: false)
+            (self?.tabBarController as? MainTabBarController)?.customTabBar.isHidden = false
+        }
         
-        titleBackgroundView.backgroundColor = R.color.background()?.withAlphaComponent(0.9)
         setupContextMenu()
-        
         createDataSource()
-        reloadData()
         makeConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.reloadDataFromStorage()
         viewModel.showStarterPackIfNeeded()
+        (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: false)
+        (self.tabBarController as? MainTabBarController)?.customTabBar.isHidden = false
+        (self.tabBarController as? MainTabBarController)?.setTextTabBar()
     }
     
     private func setupContextMenu() {
@@ -125,7 +131,9 @@ final class PantryViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, PantryModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.pantries)
-        dataSource?.apply(snapshot, animatingDifferences: true)
+        DispatchQueue.main.async {
+            self.dataSource?.apply(snapshot, animatingDifferences: true)
+        }
     }
     
     private func reloadItems(pantries: Set<PantryModel>) {
@@ -220,7 +228,10 @@ final class PantryViewController: UIViewController {
 extension PantryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        
+        guard let model = dataSource?.itemIdentifier(for: indexPath) else {
+            return
+        }
+        viewModel.showStocks(controller: self, model: model)
     }
 }
 
@@ -245,7 +256,6 @@ extension PantryViewController: PantryCellDelegate {
             cell.removeDragAndDropShadow()
             collectionView.cancelInteractiveMovement()
         }
-        
     }
     
     func tapContextMenu(point: CGPoint, cell: PantryCell) {
@@ -278,11 +288,15 @@ extension PantryViewController: PantryEditMenuViewDelegate {
             self?.contextMenuBackgroundView.isHidden = true
             switch state {
             case .edit:
-                guard let contextMenuIndex = self?.contextMenuIndex,
-                      let model = self?.dataSource?.itemIdentifier(for: contextMenuIndex) else {
+                guard let self,
+                      let contextMenuIndex = self.contextMenuIndex,
+                      let model = self.dataSource?.itemIdentifier(for: contextMenuIndex) else {
                     return
                 }
-                self?.viewModel.showEditPantry(pantry: model)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
+                    (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
+                }
+                self.viewModel.showEditPantry(presentedController: self, pantry: model)
             case .delete:
                 self?.updateDeleteAlertViewConstraint(with: 224)
             }
@@ -293,6 +307,14 @@ extension PantryViewController: PantryEditMenuViewDelegate {
 
 extension PantryViewController: MainTabBarControllerPantryDelegate {
     func updatePantryUI(_ pantry: PantryModel) {
-        viewModel.addPantry(pantry)
+        viewModel.addPantry()
+    }
+    
+    func tappedAddItem() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
+            (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
+            (self.tabBarController as? MainTabBarController)?.customTabBar.isHidden = true
+        }
+        viewModel.tappedAddItem(presentedController: self)
     }
 }

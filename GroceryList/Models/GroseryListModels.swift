@@ -174,6 +174,8 @@ struct Product: Hashable, Equatable, Codable {
     var cost: Double?
     var quantity: Double?
     var isVisibleСost: Bool = false // не нужно сохранять в базу, нужно чтобы показать цену
+    var isOutOfStock: Bool = false // не нужно сохранять в базу, продукт из Кладовой
+    var inStock: UUID? // не нужно сохранять в базу, продукт из Кладовой
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -188,7 +190,7 @@ struct Product: Hashable, Equatable, Codable {
         lhs.unitId == rhs.unitId && lhs.isUserImage == rhs.isUserImage &&
         lhs.userToken == rhs.userToken && lhs.store == rhs.store &&
         lhs.cost == rhs.cost && lhs.quantity == rhs.quantity &&
-        lhs.isVisibleСost == rhs.isVisibleСost
+        lhs.isVisibleСost == rhs.isVisibleСost && lhs.inStock == rhs.inStock
     }
     
     init?(from dbProduct: DBProduct) {
@@ -290,6 +292,26 @@ struct Product: Hashable, Equatable, Codable {
         } else if let quantityDouble = try? container.decode(Double.self, forKey: .quantity) {
             quantity = quantityDouble
         }
+    }
+    
+    init(stock: Stock, listId: UUID) {
+        id = stock.id
+        self.listId = listId
+        name = stock.name
+        isPurchased = false
+        dateOfCreation = stock.dateOfCreation
+        category = stock.category ?? ""
+        isFavorite = false
+        imageData = stock.imageData
+        description = stock.description ?? ""
+        fromRecipeTitle = nil
+        unitId = stock.unitId
+        isUserImage = stock.isUserImage
+        userToken = stock.userToken
+        store = stock.store
+        cost = stock.cost
+        quantity = stock.quantity
+        isOutOfStock = true
     }
 }
 

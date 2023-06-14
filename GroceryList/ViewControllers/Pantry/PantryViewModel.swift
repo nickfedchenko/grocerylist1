@@ -7,15 +7,15 @@
 
 import UIKit
 
-final class PantryViewModel {
+class PantryViewModel {
     
     weak var router: RootRouter?
     
     var reloadData: (() -> Void)?
+    var updateNavUI: (() -> Void)?
     
     private var colorManager = ColorManager()
-    private var dataSource: PantryDataSource
-    private var starterPack = true
+    private(set) var dataSource: PantryDataSource
     
     init(dataSource: PantryDataSource) {
         self.dataSource = dataSource
@@ -23,6 +23,10 @@ final class PantryViewModel {
         self.dataSource.reloadData = { [weak self] in
             self?.reloadData?()
         }
+        
+        SharedPantryManager.shared.fetchMyPantryLists()
+        NotificationCenter.default.addObserver(self, selector: #selector(sharedPantryDownloaded),
+                                               name: .sharedPantryDownloadedAndSaved, object: nil)
     }
     
     var pantries: [PantryModel] {
@@ -30,9 +34,9 @@ final class PantryViewModel {
     }
     
     func showStarterPackIfNeeded() {
-        if !starterPack {
+        if !UserDefaultsManager.isShowPantryStarterPack {
             router?.goToPantryStarterPack()
-            starterPack = true
+            UserDefaultsManager.isShowPantryStarterPack = true
         }
     }
     
@@ -45,12 +49,12 @@ final class PantryViewModel {
         let sharingState = getSharingState(model)
         let sharingUser = getShareImages(model)
         let stockCount = model.stock.count.asString
-        let outOfStock = model.stock.filter { $0.isAvailability }.count
+        let outOfStock = model.stock.filter { !$0.isAvailability }.count
         let outOfStockCount = outOfStock == 0 ? "" : outOfStock.asString
         
         return PantryCell.CellModel(theme: theme, name: model.name, icon: icon,
-                                          sharingState: sharingState, sharingUser: sharingUser,
-                                          stockCount: stockCount, outOfStockCount: outOfStockCount)
+                                    sharingState: sharingState, sharingUser: sharingUser,
+                                    stockCount: stockCount, outOfStockCount: outOfStockCount)
     }
     
     func getColor(model: PantryModel) -> Theme {
@@ -65,18 +69,45 @@ final class PantryViewModel {
         dataSource.updatePantriesAfterMove(updatedPantries: updatedPantries)
     }
     
-    func addPantry(_ pantry: PantryModel) {
-        dataSource.addPantry(pantry)
+    func addPantry() {
+        dataSource.updatePantry()
     }
     
     func delete(model: PantryModel) {
         dataSource.delete(pantry: model)
+        
+        guard model.sharedId != "" else {
+            return
+        }
+        SharedPantryManager.shared.deletePantryList(pantryId: model.sharedId)
+        SharedPantryManager.shared.unsubscribeFromPantryList(pantryId: model.sharedId)
     }
     
-    func showEditPantry(pantry: PantryModel) {
-        router?.goToCreateNewPantry(currentPantry: pantry) { [weak self] pantry in
-            self?.addPantry(pantry)
+    func showEditPantry(presentedController: UIViewController, pantry: PantryModel) {
+        router?.goToCreateNewPantry(presentedController: presentedController,
+                                    currentPantry: pantry) { [weak self] pantry in
+            if let pantry {
+                self?.addPantry()
+                self?.updateSharedPantryList(model: pantry)
+            }
+            self?.updateNavUI?()
         }
+    }
+    
+    func tappedAddItem(presentedController: UIViewController) {
+        router?.goToCreateNewPantry(presentedController: presentedController,
+                                    currentPantry: nil,
+                                    updateUI: { [weak self] pantry in
+            if let pantry {
+                self?.addPantry()
+                self?.router?.goToStocks(navController: presentedController, pantry: pantry)
+            }
+            self?.updateNavUI?()
+        })
+    }
+    
+    func showStocks(controller: UIViewController, model: PantryModel) {
+        router?.goToStocks(navController: controller, pantry: model)
     }
     
     func sharingTapped(model: PantryModel) {
@@ -85,7 +116,11 @@ final class PantryViewModel {
             return
         }
         let users = SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
-//        router?.goToSharingList(listToShare: model, users: users)
+        router?.goToSharingList(pantryToShare: model, users: users)
+    }
+    
+    func reloadDataFromStorage() {
+        dataSource.updatePantry()
     }
     
     private func getSharingState(_  model: PantryModel) -> SharingView.SharingState {
@@ -95,7 +130,7 @@ final class PantryViewModel {
     private func getShareImages(_  model: PantryModel) -> [String?] {
         var arrayOfImageUrls: [String?] = []
         
-        if let newUsers = SharedListManager.shared.sharedListsUsers[model.sharedId] {
+        if let newUsers = SharedPantryManager.shared.sharedListsUsers[model.sharedId] {
             newUsers.forEach { user in
                 if user.token != UserAccountManager.shared.getUser()?.token {
                     arrayOfImageUrls.append(user.avatar)
@@ -103,5 +138,17 @@ final class PantryViewModel {
             }
         }
         return arrayOfImageUrls
+    }
+    
+    @objc
+    private func sharedPantryDownloaded() {
+        addPantry()
+    }
+    
+    private func updateSharedPantryList(model: PantryModel) {
+        guard model.isShared else {
+            return
+        }
+        SharedPantryManager.shared.updatePantryList(pantryId: model.id.uuidString)
     }
 }

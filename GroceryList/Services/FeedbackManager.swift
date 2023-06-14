@@ -55,9 +55,12 @@ final class FeedbackManager {
             return false
         }
         
-        guard let firstLaunchDate,
-              let daysNumber = Date().days(sinceDate: firstLaunchDate),
-              daysNumber != 0 else {
+        guard let firstLaunchDate else {
+            return false
+        }
+        
+        let daysNumber = Date().days(sinceDate: firstLaunchDate)
+        guard daysNumber != 0 else {
             return false
         }
         

@@ -266,6 +266,7 @@ class SignUpViewModel {
     private func saveUserModel(userModel: User) {
         UserAccountManager.shared.saveUser(user: userModel)
         SharedListManager.shared.connectToListAfterRegistration()
+        SharedPantryManager.shared.connectToListAfterRegistration()
         SocketManager.shared.connect()
         AmplitudeManager.shared.logEvent(.registerFromLink)
         router?.pop()

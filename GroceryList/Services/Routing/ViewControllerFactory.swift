@@ -7,6 +7,7 @@
 
 import UIKit
 
+// swiftlint: disable: next type_body_length
 final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
     func createOnboardingController(router: RootRouter) -> UIViewController? {
@@ -15,13 +16,9 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createMainTabBarController(router: RootRouter) -> UITabBarController {
+    func createMainTabBarController(router: RootRouter, controllers: [UIViewController]) -> UITabBarController {
         let isRightHanded = true
-        let listVC = createListController(router: router)
-        let pantryVC = createPantryController(router: router)
-        let recipeVC = createRecipeController(router: router)
-        let viewControllers = [listVC, pantryVC, recipeVC]
-        let viewModel = MainTabBarViewModel(isRightHanded: isRightHanded, viewControllers: viewControllers)
+        let viewModel = MainTabBarViewModel(isRightHanded: isRightHanded, viewControllers: controllers)
         viewModel.router = router
         
         let tabBarController = MainTabBarController(viewModel: viewModel)
@@ -33,7 +30,6 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let dataSource = ListDataSource()
         let viewModel = ListViewModel(dataSource: dataSource)
         viewModel.router = router
-        
         let viewController = ListViewController(viewModel: viewModel)
         return viewController
     }
@@ -122,7 +118,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let viewController = ProductsViewController()
         let dataSource = ProductsDataManager(products: model.products,
                                              typeOfSorting: SortingType(rawValue: model.typeOfSorting) ?? .category,
-                                             groceryListId: model.id.uuidString)
+                                             groceryListId: model.id)
         let viewModel = ProductsViewModel(model: model, dataSource: dataSource)
         viewModel.valueChangedCallback = compl
         viewModel.delegate = viewController
@@ -236,18 +232,15 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createPaywallController() -> UIViewController? {
-        let viewController = PaywallViewController()
-        return viewController
+        return PaywallViewController()
     }
     
     func createAlternativePaywallController() -> UIViewController? {
-        let viewController = AlternativePaywallViewController()
-        return viewController
+        return AlternativePaywallViewController()
     }
     
     func createReviewsController(router: RootRouter) -> UIViewController {
-        let controller = OnboardingReviewController(router: router)
-        return controller
+        return OnboardingReviewController(router: router)
     }
     
     func createActivityController(image: [Any]) -> UIViewController? {
@@ -297,14 +290,18 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createSharingListController(router: RootRouter, listToShare: GroceryListsModel,
+    func createSharingListController(router: RootRouter,
+                                     pantryToShare: PantryModel? = nil,
+                                     listToShare: GroceryListsModel? = nil,
                                      users: [User]) -> UIViewController {
         let viewController = SharingListViewController()
         let networkManager = NetworkEngine()
-        let viewModel = SharingListViewModel(network: networkManager, listToShare: listToShare, users: users)
+        let viewModel = SharingListViewModel(network: networkManager, users: users)
         viewModel.router = router
-        viewController.viewModel = viewModel
+        viewModel.listToShareModel = listToShare
+        viewModel.pantryToShareModel = pantryToShare
         viewModel.delegate = viewController
+        viewController.viewModel = viewModel
         return viewController
     }
     
@@ -394,7 +391,7 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
     func createEditSelectListController(router: RootRouter, products: [Product], contentViewHeigh: CGFloat,
                                         delegate: EditSelectListDelegate,
-                                        state: EditSelectListViewController.State) -> UIViewController {
+                                        state: EditListState) -> UIViewController {
         let viewController = EditSelectListViewController(with: products, state: state)
         let dataSource = SelectListDataManager()
         let viewModel = SelectListViewModel(dataSource: dataSource)
@@ -441,12 +438,93 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return PantryStarterPackViewController()
     }
     
-    func createCreateNewPantryController(currentPantry: PantryModel?, updateUI: @escaping ((PantryModel) -> Void),
+    func createCreateNewPantryController(currentPantry: PantryModel?, updateUI: @escaping ((PantryModel?) -> Void),
                                          router: RootRouter) -> UIViewController {
         let viewModel = CreateNewPantryViewModel(currentPantry: currentPantry)
         viewModel.router = router
         viewModel.updateUI = updateUI
         let viewController = CreateNewPantryViewController(viewModel: viewModel)
+        return viewController
+    }
+    
+    func createAllIcons(icon: UIImage?,
+                        selectedTheme: Theme,
+                        selectedIcon: ((UIImage?) -> Void)?) -> UIViewController {
+        let selectIconViewController = SelectIconViewController()
+        selectIconViewController.icon = icon
+        selectIconViewController.updateColor(theme: selectedTheme)
+        selectIconViewController.selectedIcon = selectedIcon
+        
+        selectIconViewController.modalPresentationStyle = .overCurrentContext
+        selectIconViewController.modalTransitionStyle = .crossDissolve
+        return selectIconViewController
+    }
+    
+    func createSelectList(contentViewHeigh: Double,
+                          synchronizedLists: [UUID],
+                          updateUI: (([UUID]) -> Void)?) -> UIViewController {
+        let dataSource = SelectListDataManager()
+        let viewModel = SelectListViewModel(dataSource: dataSource)
+        let selectListToSynchronize = SelectListToSynchronizeViewController()
+        selectListToSynchronize.viewModel = viewModel
+        selectListToSynchronize.contentViewHeigh = contentViewHeigh
+        selectListToSynchronize.selectedModelIds = Set(synchronizedLists)
+        selectListToSynchronize.updateUI = updateUI
+        
+        return selectListToSynchronize
+    }
+    
+    func createStocksController(pantry: PantryModel, router: RootRouter) -> UIViewController {
+        let dataSource = StocksDataSource(pantryId: pantry.id)
+        let viewModel = StocksViewModel(dataSource: dataSource, pantry: pantry)
+        viewModel.router = router
+        let viewController = StocksViewController(viewModel: viewModel)
+        return viewController
+    }
+    
+    func createPantryListOptionsController(pantry: PantryModel, snapshot: UIImage?, listByText: String,
+                                           updateUI: ((PantryModel) -> Void)?,
+                                           editCallback: ((ProductsSettingsViewModel.TableViewContent) -> Void)?,
+                                           router: RootRouter) -> UIViewController {
+        let viewModel = PantryListOptionViewModel(pantry: pantry, snapshot: snapshot, listByText: listByText)
+        viewModel.router = router
+        viewModel.updateUI = updateUI
+        viewModel.editCallback = editCallback
+        let controller = PantryListOptionViewController(viewModel: viewModel)
+        
+        return controller
+    }
+    
+    func createCreateNewStockController(pantry: PantryModel, stock: Stock? = nil,
+                                        compl: @escaping (Stock) -> Void,
+                                        router: RootRouter) -> UIViewController {
+        let viewModel = CreateNewStockViewModel(pantry: pantry)
+        viewModel.updateUI = compl
+        viewModel.router = router
+        viewModel.currentStock = stock
+        
+        let viewController = CreateNewStockViewController(viewModel: viewModel)
+        return viewController
+    }
+    
+    func createEditSelectPantryListController(router: RootRouter, stocks: [Stock], contentViewHeigh: CGFloat,
+                                              delegate: EditSelectListDelegate,
+                                              state: EditListState) -> UIViewController {
+        let dataSource = PantryDataSource()
+        let viewModel = SelectPantryListViewModel(dataSource: dataSource, copiedStocks: stocks, state: state)
+        viewModel.router = router
+        let viewController = SelectPantryListViewController(viewModel: viewModel, contentViewHeigh: contentViewHeigh)
+        viewController.delegate = delegate
+        return viewController
+    }
+    
+    func createStockReminderController(outOfStocks: [Stock], updateUI: (() -> Void)?,
+                                       router: RootRouter) -> UIViewController {
+        let dataSource = StockReminderDataSource(outOfStocks: outOfStocks)
+        let viewModel = StockReminderViewModel(dataSource: dataSource)
+        viewModel.router = router
+        viewModel.updateUI = updateUI
+        let viewController = StockReminderViewController(viewModel: viewModel)
         return viewController
     }
 }

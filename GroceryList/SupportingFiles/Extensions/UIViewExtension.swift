@@ -21,14 +21,14 @@ extension UIView {
         }, completion: nil)
     }
     
-    func makeCustomRound(topLeft: CGFloat = 0, topRight: CGFloat = 0, bottomLeft: CGFloat = 0, bottomRight: CGFloat = 0) {
+    func makeCustomRound(topLeft: CGFloat = 0, topRight: CGFloat = 0, 
+                         bottomLeft: CGFloat = 0, bottomRight: CGFloat = 0, hasBorder: Bool = false) {
         let minX = bounds.minX
         let minY = bounds.minY
         let maxX = bounds.maxX
         let maxY = bounds.maxY
         
-        print(self.bounds)
-
+//        print(self.bounds)
         let path = UIBezierPath()
         path.move(to: CGPoint(x: minX + topLeft, y: minY))
         path.addLine(to: CGPoint(x: maxX - topRight, y: minY))
@@ -45,6 +45,22 @@ extension UIView {
         mask.path = path.cgPath
         layer.mask = mask
         layer.cornerCurve = .continuous
+
+        if hasBorder {
+            let borderLayer = CAShapeLayer()
+            borderLayer.name = "CustomRoundBorder"
+            borderLayer.path = path.cgPath
+            borderLayer.lineWidth = 1
+            borderLayer.strokeColor = UIColor.white.cgColor
+            borderLayer.fillColor = UIColor.clear.cgColor
+            layer.addSublayer(borderLayer)
+        } else {
+            layer.sublayers?.forEach({
+                if $0.name == "CustomRoundBorder" {
+                    $0.removeFromSuperlayer()
+                }
+            })
+        }
     }
     
     func addShadowForView(radius: CGFloat = 2, height: Int = 0 ) {

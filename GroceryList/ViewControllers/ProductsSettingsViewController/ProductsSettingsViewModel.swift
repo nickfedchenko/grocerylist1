@@ -22,8 +22,8 @@ class ProductsSettingsViewModel {
     var editCallback: ((TableViewContent) -> Void)?
     
     private var colorManager = ColorManager()
-    private var snapshot: UIImage?
-    private var listByText = ""
+    private(set) var snapshot: UIImage?
+    private(set) var listByText = ""
     private var model: GroceryListsModel
     private var copiedProducts: [Product] = []
     private var allContent = TableViewContent.allCases

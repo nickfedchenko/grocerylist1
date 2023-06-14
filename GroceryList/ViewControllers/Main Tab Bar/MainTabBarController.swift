@@ -8,18 +8,14 @@
 import ApphudSDK
 import UIKit
 
-protocol MainTabBarControllerRecipeDelegate: AnyObject {
-    func updateRecipeUI(_ recipe: Recipe?)
-}
-
-protocol MainTabBarControllerPantryDelegate: AnyObject {
-    func updatePantryUI(_ pantry: PantryModel)
-}
-
 final class MainTabBarController: UITabBarController {
     
+    weak var listDelegate: MainTabBarControllerListDelegate?
     weak var pantryDelegate: MainTabBarControllerPantryDelegate?
     weak var recipeDelegate: MainTabBarControllerRecipeDelegate?
+    weak var stocksDelegate: MainTabBarControllerStocksDelegate?
+    weak var productsDelegate: MainTabBarControllerProductsDelegate?
+    
     let customTabBar = CustomTabBarView()
     
     private var viewModel: MainTabBarViewModel
@@ -73,17 +69,26 @@ final class MainTabBarController: UITabBarController {
             initAnalytic.toggle()
             viewModel.showFeedback()
         }
+        viewModel.showStockReminderIfNeeded()
+    }
+    
+    func isHideNavView(isHide: Bool) {
+        navView.isHidden = isHide
+        navBackgroundView.isHidden = isHide
+    }
+    
+    func setTextTabBar(text: String = R.string.localizable.list(),
+                       color: UIColor? = R.color.primaryDark()) {
+        customTabBar.updateTextAddItem(text)
+        customTabBar.updateColorAddItem(color)
     }
     
     private func setupTabBar() {
         viewModel.delegate = self
         tabBar.removeFromSuperview()
         customTabBar.delegate = self
-        
         self.delegate = self
-        self.tabBar.backgroundColor = .white
-        self.tabBar.unselectedItemTintColor = R.color.darkGray()
-        self.tabBar.tintColor = R.color.primaryDark()
+        
         self.viewControllers = viewModel.getViewControllers()
     }
     
@@ -214,12 +219,36 @@ extension MainTabBarController: CustomTabBarViewDelegate {
     func tabAddItem() {
         let itemTag = selectedIndex
         if let item = TabBarItemView.Item(rawValue: itemTag) {
-            viewModel.tappedAddItem(state: item)
+            switch item {
+            case .list:
+                let navController = self.selectedViewController as? UINavigationController
+                let topViewController = navController?.topViewController
+                if topViewController is ListViewController {
+                    listDelegate?.tappedAddItem()
+                }
+                if topViewController is ProductsViewController {
+                    productsDelegate?.tappedAddItem()
+                }
+            case .pantry:
+                let navController = self.selectedViewController as? UINavigationController
+                let topViewController = navController?.topViewController
+                if topViewController is PantryViewController {
+                    pantryDelegate?.tappedAddItem()
+                }
+                if topViewController is StocksViewController {
+                    stocksDelegate?.tappedAddItem()
+                }
+            case .recipe:   recipeDelegate?.tappedAddItem()
+            }
         }
     }
 }
 
 extension MainTabBarController: MainTabBarViewModelDelegate {
+    func updateListUI() {
+        listDelegate?.updatedUI()
+    }
+    
     func updateRecipeUI(_ recipe: Recipe?) {
         recipeDelegate?.updateRecipeUI(recipe)
     }
