@@ -132,7 +132,7 @@ final class StocksNavigationView: UIView {
         outOfStocksView.isHidden = false
         outOfStocksShadowView.isHidden = false
         outLabel.isHidden = false
-        outLabel.text = "Out: " + outOfStock
+        outLabel.text = R.string.localizable.out() + outOfStock
     }
     
     func setShadowOutOfStockView(isVisible: Bool) {

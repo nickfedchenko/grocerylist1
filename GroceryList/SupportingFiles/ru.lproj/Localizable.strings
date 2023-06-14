@@ -314,3 +314,91 @@
 "Select Icon"                   = "Выберите значок";
 "Select List to Synchronize"    = "Выберите список для синхронизации";
 "Edit List"                     = "Редактировать";
+
+"item"                          = "Добавить";
+"Select List to Synchronize"    = "Выберите список для синхронизации";
+"out of stock"                  = "Нет в наличии";
+"Pantry: Name"                  = "Кладовая: %@";
+"in stock"                      = "В наличии";
+"Out: "                         = "Нет: ";
+"Link to Shopping List"         = "Ссылка на список покупок";
+
+"Auto Repeat"                   = "Автоматический повтор";
+"every weekly "                 = "Каждый %@ Еженедельно: %@";
+"weekly weekday"                = "Еженедельно: %@";
+"every times period"            = "Каждый %@ %@";
+"Auto repeat setting"           = "Настройка автоматического повтора";
+"Food goods will be marked"     = "Продукты питания или товары будут помечены как 'нет в наличии' по истечении указанного срока";
+"Set Reminder"                  = "Установить напоминание";
+"AutoDaily"                     = "Ежедневно";
+"AutoWeekly"                    = "Еженедельно";
+"AutoMonthly"                   = "Ежемесячно";
+"AutoYearly"                    = "Ежегодно";
+"AutoCustom"                    = "Пользовательское";
+"Set"                           = "Установить";
+"Repeat every ..."              = "Повторяйте каждый...";
+"days"                          = "День";
+"weeks"                         = "Неделю";
+"months"                        = "Месяц";
+"years"                         = "Год";
+"Stocks are over"               = "Запасы закончились";
+"ADD TO SHOPPING LIST"          = "ДОБАВИТЬ В СПИСОК ПОКУПОК";
+
+// Default Pantry
+
+"Fridge"                        = "Холодильник";
+"Grocery"                       = "Бакалея";
+"Spices & Herbs"                = "Специи и травы";
+"Beauty & Health"               = "Красота и здоровье";
+"Household"                     = "Для дома";
+"Hobby"                         = "Хобби";
+
+"Milk"                          = "Молоко";
+"Mayonnaise"                    = "Майонез";
+"Tomatoes"                      = "Помидоры";
+"Lettuce"                       = "Салат-латук";
+"Cream cheese"                  = "Сливочный сыр";
+"Parmesan"                      = "Пармезан";
+"Smoked bacon"                  = "Копченый бекон";
+"Butter, unsalted"              = "Сливочное масло несоленое";
+"Chicken fillet"                = "Куриное филе";
+"Frozen vegetables"             = "Замороженные овощи";
+"Frozen mushrooms"              = "Замороженные грибы";
+"Frozen broccoli"               = "Замороженная брокколи";
+"Big pack"                      = "Большой пакет";
+
+"Olive oil"                     = "Оливковое масло";
+"Canned corn"                   = "Консервированная кукуруза";
+"Spaghetti"                     = "Спагетти";
+"Breakfast cereal"              = "Хлопья для завтрака";
+"Long shelf life milk"          = "Молоко с длительным сроком хранения";
+"Ground coffee"                 = "Молотый кофе";
+"Green tea bags"                = "Зеленый чай в пакетиках";
+"Oatmeal, medium size"          = "Овсяная каша среднего размера";
+"Honey"                         = "Мед";
+"Tuna chunks"                   = "Кусочки тунца";
+"Eggs"                          = "Яйца";
+"Wheat flour"                   = "Пшеничная мука";
+
+"Sea salt"                      = "Морская соль";
+"Ground black pepper"           = "Молотый черный перец";
+"Garlic powder"                 = "Чесночный порошок";
+"Red chili flakes"              = "Хлопья красного перца чили";
+"Paprika"                       = "Паприка";
+"Cinnamon"                      = "Корица";
+
+"Toilet paper"                  = "Туалетная бумага";
+"Cotton pads"                   = "Ватные диски";
+"Cotton buds"                   = "Ватные палочки";
+"Liquid soap"                   = "Жидкое мыло";
+"Toothpaste"                    = "Зубная паста";
+"Shower gel"                    = "Гель для душа";
+
+"Kitchen Scrub Sponges"         = "Кухонные губки для мытья посуды";
+"Dishwashing liquid"            = "Жидкость для мытья посуды";
+"Paper towels"                  = "Бумажные полотенца";
+"Toilet paper"                  = "Туалетная бумага";
+"Trash bags"                    = "Мешки для мусора";
+"Fabric softener"               = "Средство для смягчения тканей";
+"Cleaning Cloth"                = "Салфетка для чистки";
+"AA batteries"                  = "Батарейки типа АА";

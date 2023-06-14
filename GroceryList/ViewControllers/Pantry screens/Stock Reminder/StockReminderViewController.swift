@@ -21,7 +21,7 @@ class StockReminderViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Stocks are over"
+        label.text = R.string.localizable.stocksAreOver()
         label.textColor = R.color.darkGray()
         label.font = UIFont.SFPro.bold(size: 22).font
         return label
@@ -56,7 +56,7 @@ class StockReminderViewController: UIViewController {
     
     private lazy var addToShoppingListButton: UIButton = {
         let button = UIButton()
-        button.setTitle("ADD TO SHOPPING LIST".uppercased(), for: .normal)
+        button.setTitle(R.string.localizable.addtoshoppinglisT().uppercased(), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = R.color.darkGray()
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font

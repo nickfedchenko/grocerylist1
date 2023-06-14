@@ -116,7 +116,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
     var autoRepeatTitle: String? {
         guard let autoRepeatModel = currentStock?.autoRepeat,
               isAutoRepeat else {
-            return "Auto Repeat"
+            return R.string.localizable.autoRepeat()
         }
         
         let autoRepeat = autoRepeatModel.state
@@ -132,15 +132,15 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             let weekdayIndex = ((autoRepeatModel.weekday ?? 0) + 1) % 7
             let weekday = Calendar.current.standaloneWeekdaySymbols[weekdayIndex]
             if times >= 1 {
-                value = "every \(times + 1) weekly: \(weekday)"
+                value = R.string.localizable.everyWeekly("\(times + 1)", "\(weekday)")
             } else {
-                value = "weekly: \(weekday)"
+                value =  R.string.localizable.weeklyWeekday("\(weekday)")
             }
         } else {
             if times == 0 {
                 value = period.title
             } else {
-                value = "every \(times + 1) \(period.title)"
+                value = R.string.localizable.everyTimesPeriod("\(times + 1)", "\(period.title)") 
             }
         }
         

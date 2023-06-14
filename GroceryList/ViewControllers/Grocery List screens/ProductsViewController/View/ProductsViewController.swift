@@ -113,8 +113,8 @@ class ProductsViewController: UIViewController {
         super.viewWillAppear(animated)
         let colorForForeground = viewModel?.getColorForForeground() ?? .black
         (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
-        (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: "item",
-                                                                        color: colorForForeground)
+        (self.tabBarController as? MainTabBarController)?.setTextTabBar(
+            text: R.string.localizable.item(), color: colorForForeground)
     }
     
     private func setupController() {
@@ -124,7 +124,7 @@ class ProductsViewController: UIViewController {
         nameOfListTextField.text = viewModel?.getNameOfList()
         view.backgroundColor = colorForBackground
         navigationView.backgroundColor = colorForBackground
-        (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: "item",
+        (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: R.string.localizable.item(),
                                                                         color: colorForForeground)
         nameOfListTextField.textColor = darkColor
         
@@ -442,7 +442,6 @@ class ProductsViewController: UIViewController {
                 self?.viewModel?.delete(product: child)
             }
             
-            guard !child.isPurchased else { return }
             cell.swipeToDeleteAction = { [weak self] in
                 idsOfChangedProducts.insert(child.id)
                 idsOfChangedLists.insert(child.listId)

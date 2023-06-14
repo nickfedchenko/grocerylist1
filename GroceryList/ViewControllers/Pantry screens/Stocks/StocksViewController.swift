@@ -114,7 +114,8 @@ final class StocksViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
-        (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: "item", color: viewModel.getTheme().medium)
+        (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: R.string.localizable.item(),
+                                                                        color: viewModel.getTheme().medium)
     }
 
     private func setup() {
@@ -162,7 +163,8 @@ final class StocksViewController: UIViewController {
                                             sharingUsers: viewModel.getShareImages(),
                                             color: theme.medium)
         linkView.configure(theme: theme)
-        (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: "item", color: theme.medium)
+        (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: R.string.localizable.item(),
+                                                                        color: theme.medium)
     }
     
     private func createDataSource() {
