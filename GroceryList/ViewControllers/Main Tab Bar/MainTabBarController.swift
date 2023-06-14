@@ -181,11 +181,7 @@ extension MainTabBarController: UITabBarControllerDelegate {
 
 extension MainTabBarController: MainNavigationViewDelegate {
     func searchButtonTapped() {
-        if self.selectedViewController is ListViewController {
-            viewModel.showSearchProductsInList()
-        } else if self.selectedViewController is MainRecipeViewController {
-            viewModel.showSearchProductsInRecipe()
-        }
+        viewModel.showSearch(self.selectedViewController)
     }
     
     func settingsTapped() {

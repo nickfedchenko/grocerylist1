@@ -78,6 +78,7 @@ final class StocksViewController: UIViewController {
     }()
     
     private var linkViewOffset = 0.0
+    private var movedCell: StockCell?
     
     init(viewModel: StocksViewModel) {
         self.viewModel = viewModel
@@ -407,7 +408,6 @@ extension StocksViewController: StocksViewModelDelegate {
     func updateController() {
         updateColor()
         updateTitle()
-//        collectionView.reloadData()
     }
     
     func updateUIEditTabBar() {
@@ -441,22 +441,22 @@ extension StocksViewController: StocksNavigationViewDelegate {
 extension StocksViewController: StockCellDelegate {
     func tapMoveButton(gesture: UILongPressGestureRecognizer) {
         let gestureLocation = gesture.location(in: collectionView)
-        guard let targetIndexPath = collectionView.indexPathForItem(at: gestureLocation),
-              let cell = collectionView.cellForItem(at: targetIndexPath) as? StockCell else {
-            return
-        }
-        
         switch gesture.state {
         case .began:
-            cell.addDragAndDropShadow()
+            guard let targetIndexPath = collectionView.indexPathForItem(at: gestureLocation),
+                  let cell = collectionView.cellForItem(at: targetIndexPath) as? StockCell else {
+                return
+            }
+            movedCell = cell
+            movedCell?.addDragAndDropShadow()
             collectionView.beginInteractiveMovementForItem(at: targetIndexPath)
         case .changed:
             collectionView.updateInteractiveMovementTargetPosition(gestureLocation)
         case .ended:
-            cell.removeDragAndDropShadow()
+            movedCell?.removeDragAndDropShadow()
             collectionView.endInteractiveMovement()
         default:
-            cell.removeDragAndDropShadow()
+            movedCell?.removeDragAndDropShadow()
             collectionView.cancelInteractiveMovement()
         }
     }

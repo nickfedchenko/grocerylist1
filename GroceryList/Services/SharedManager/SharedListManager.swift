@@ -12,6 +12,8 @@ class SharedListManager {
 
     static let shared = SharedListManager()
     var router: RootRouter?
+    var sharedListsUsers: [String: [User]] = [:]
+    
     private var network: NetworkEngine
     private var modelTransformer: DomainModelsToLocalTransformer
     private var newListId: String?
@@ -81,8 +83,6 @@ class SharedListManager {
             }
         }
     }
-
-    var sharedListsUsers: [String: [User]] = [:]
 
     // MARK: - сохранение листа из сокета
     func saveListFromSocket(response: SocketResponse) {
@@ -252,6 +252,7 @@ class SharedListManager {
             localList.typeOfSortingPurchased = Int(dbList?.typeOfSortingPurchased ?? 0)
             localList.isAscendingOrderPurchased = BoolWithNilForCD(rawValue: dbList?.isAscendingOrderPurchased ?? 0) ?? .nothing
             localList.isAscendingOrder = dbList?.isAscendingOrder ?? true
+            
             arrayOfLists.append(localList)
         }
 
@@ -274,7 +275,14 @@ class SharedListManager {
             users.forEach {
                 if let stringUrl = $0.avatar,
                    let url = URL(string: stringUrl) {
-                    KingfisherManager.shared.retrieveImage(with: url) { _ in }
+                    KingfisherManager.shared.retrieveImage(with: url) { result in
+                        switch result {
+                        case .success(let value):
+                            ImageCache.default.store(value.image, forKey: url.absoluteString)
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
                 }
             }
         }

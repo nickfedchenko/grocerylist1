@@ -12,7 +12,7 @@ final class PantryDataSource {
     var reloadData: (() -> Void)?
     
     private var pantries: [PantryModel] = []
-    private let stocksUpdateHours = 10
+    private let stocksUpdateHours = 7
     
     init() {
         let today = Date()
@@ -205,13 +205,13 @@ final class PantryDataSource {
     private func defaultFridgeStocks(fridgeId: UUID) {
         let milk = Stock(index: 0, pantryId: fridgeId, name: R.string.localizable.milk(),
                          imageData: R.image.fridge_Milk()?.pngData(),
-                         quantity: 1, unitId: .bottle, isAvailability: true)
+                         quantity: 1, unitId: .bottle)
         let mayonnaise = Stock(index: 1, pantryId: fridgeId, name: R.string.localizable.mayonnaise(),
                                imageData: R.image.fridge_Mayonnaise()?.pngData(),
                                quantity: 1, unitId: .can, isAvailability: false)
         let tomatoes = Stock(index: 2, pantryId: fridgeId, name: R.string.localizable.tomatoes(),
                              imageData: R.image.fridge_Tomatoes()?.pngData(),
-                             quantity: 10, unitId: .piece, isAvailability: true)
+                             quantity: 10, unitId: .piece)
         let lettuce = Stock(index: 3, pantryId: fridgeId, name: R.string.localizable.lettuce(),
                             imageData: R.image.fridge_Lettuce()?.pngData(),
                             quantity: 1, unitId: .piece, isAvailability: false)
@@ -220,16 +220,16 @@ final class PantryDataSource {
                                 isAvailability: false)
         let parmesan = Stock(index: 5, pantryId: fridgeId, name: R.string.localizable.parmesan(),
                              imageData: R.image.fridge_Parmesan()?.pngData(),
-                             quantity: 250, unitId: .gram, isAvailability: true)
+                             quantity: 250, unitId: .gram)
         let smokedBacon = Stock(index: 6, pantryId: fridgeId, name: R.string.localizable.smokedBacon(),
                                 imageData: R.image.fridge_SmokedBacon()?.pngData(),
                                 quantity: 250, unitId: .gram, isAvailability: false)
         let butterUnsalted = Stock(index: 7, pantryId: fridgeId, name: R.string.localizable.butterUnsalted(),
                                    imageData: R.image.fridge_Butter()?.pngData(),
-                                   quantity: 1, unitId: .pack, isAvailability: true)
+                                   quantity: 1, unitId: .pack)
         let chickenFillet = Stock(index: 8, pantryId: fridgeId, name: R.string.localizable.chickenFillet(),
                                   imageData: R.image.fridge_ChickenFillet()?.pngData(),
-                                  quantity: 1, unitId: .kilogram, isAvailability: true)
+                                  quantity: 1, unitId: .kilogram)
         let frozenVegetables = Stock(index: 9, pantryId: fridgeId,
                                      name: R.string.localizable.frozenVegetables(),
                                      imageData: R.image.fridge_FrozenVegetables()?.pngData(),
@@ -251,10 +251,10 @@ final class PantryDataSource {
     private func defaultGroceryStocks(groceryId: UUID) {
         let oliveOil = Stock(index: 0, pantryId: groceryId, name: R.string.localizable.oliveOil() ,
                              imageData: R.image.grocery_OliveOil()?.pngData(),
-                             quantity: 2, unitId: .bottle, isAvailability: true)
+                             quantity: 2, unitId: .bottle)
         let cannedCorn = Stock(index: 1, pantryId: groceryId, name: R.string.localizable.cannedCorn(),
                                imageData: R.image.grocery_CannedCorn()?.pngData(),
-                               quantity: 4, unitId: .can, isAvailability: true)
+                               quantity: 4, unitId: .can)
         let spaghetti = Stock(index: 2, pantryId: groceryId, name: R.string.localizable.spaghetti(),
                               imageData: R.image.grocery_Spaghetti()?.pngData(),
                               quantity: 3, unitId: .pack, isAvailability: false)
@@ -265,28 +265,28 @@ final class PantryDataSource {
         let longShelfLifeMilk = Stock(index: 4, pantryId: groceryId,
                                       name: R.string.localizable.longShelfLifeMilk(),
                                       imageData: R.image.grocery_Long()?.pngData(),
-                                      quantity: 4, unitId: .pack, isAvailability: true)
+                                      quantity: 4, unitId: .pack)
         let groundCoffee = Stock(index: 5, pantryId: groceryId, name: R.string.localizable.groundCoffee(),
                                  imageData: R.image.grocery_Ground()?.pngData(),
-                                 quantity: 2, unitId: .pack, isAvailability: true)
+                                 quantity: 2, unitId: .pack)
         let greenTeaBags = Stock(index: 6, pantryId: groceryId, name: R.string.localizable.greenTeaBags(),
                                  imageData: R.image.grocery_Green()?.pngData(),
-                                 quantity: 2, unitId: .pack, isAvailability: true)
+                                 quantity: 2, unitId: .pack)
         let oatmeal = Stock(index: 7, pantryId: groceryId, name: R.string.localizable.oatmealMediumSize(),
                             imageData: R.image.grocery_Oatmeal()?.pngData(),
-                            quantity: 2, unitId: .pack, isAvailability: true)
+                            quantity: 2, unitId: .pack)
         let honey = Stock(index: 8, pantryId: groceryId, name: R.string.localizable.honey(),
                           imageData: R.image.grocery_Honey()?.pngData(),
                           isAvailability: false)
         let tunaChunks = Stock(index: 9, pantryId: groceryId, name: R.string.localizable.tunaChunks(),
                                imageData: R.image.grocery_Tuna()?.pngData(),
-                               quantity: 3, unitId: .can, isAvailability: true)
+                               quantity: 3, unitId: .can)
         let eggs = Stock(index: 10, pantryId: groceryId, name: R.string.localizable.eggs(),
                          imageData: R.image.grocery_Eggs()?.pngData(),
-                         quantity: 20, unitId: .piece, isAvailability: true)
+                         quantity: 20, unitId: .piece)
         let wheatFlour = Stock(index: 11, pantryId: groceryId, name: R.string.localizable.wheatFlour(),
                                imageData: R.image.grocery_Wheat()?.pngData(),
-                               quantity: 2, unitId: .kilogram, isAvailability: true)
+                               quantity: 2, unitId: .kilogram)
         CoreDataManager.shared.saveStock(stock: [oliveOil, cannedCorn, spaghetti, breakfastCereal,
                                                  longShelfLifeMilk, groundCoffee, greenTeaBags, oatmeal,
                                                  honey, tunaChunks, eggs, wheatFlour],
@@ -295,23 +295,17 @@ final class PantryDataSource {
     
     private func defaultSpicesHerbsStocks(spicesHerbsId: UUID) {
         let salt = Stock(index: 0, pantryId: spicesHerbsId, name: R.string.localizable.seaSalt(),
-                         imageData: R.image.spices_Sea()?.pngData(),
-                         isAvailability: true)
+                         imageData: R.image.spices_Sea()?.pngData())
         let pepper = Stock(index: 1, pantryId: spicesHerbsId, name: R.string.localizable.groundBlackPepper(),
-                           imageData: R.image.spices_Ground()?.pngData(),
-                           isAvailability: true)
+                           imageData: R.image.spices_Ground()?.pngData())
         let garlic = Stock(index: 2, pantryId: spicesHerbsId, name: R.string.localizable.garlicPowder(),
-                           imageData: R.image.spices_Garlic()?.pngData(),
-                           isAvailability: true)
+                           imageData: R.image.spices_Garlic()?.pngData())
         let chili = Stock(index: 3, pantryId: spicesHerbsId, name: R.string.localizable.redChiliFlakes(),
-                          imageData: R.image.spices_Red()?.pngData(),
-                          isAvailability: true)
+                          imageData: R.image.spices_Red()?.pngData())
         let paprika = Stock(index: 4, pantryId: spicesHerbsId, name: R.string.localizable.paprika(),
-                            imageData: R.image.spices_Paprika()?.pngData(),
-                            isAvailability: true)
+                            imageData: R.image.spices_Paprika()?.pngData())
         let cinnamon = Stock(index: 5, pantryId: spicesHerbsId, name: R.string.localizable.cinnamon(),
-                             imageData: R.image.spices_Cinnamon()?.pngData(),
-                             isAvailability: true)
+                             imageData: R.image.spices_Cinnamon()?.pngData())
         CoreDataManager.shared.saveStock(stock: [salt, pepper, garlic,
                                                  chili, paprika, cinnamon],
                                          for: spicesHerbsId.uuidString)
@@ -319,23 +313,17 @@ final class PantryDataSource {
     
     private func defaultBeautyHealthStocks(beautyHealthId: UUID) {
         let toiletPaper = Stock(index: 0, pantryId: beautyHealthId, name: R.string.localizable.toiletPaper(),
-                                imageData: R.image.beauty_Toilet()?.pngData(),
-                                isAvailability: true)
+                                imageData: R.image.beauty_Toilet()?.pngData())
         let cottonPads = Stock(index: 1, pantryId: beautyHealthId, name: R.string.localizable.cottonPads(),
-                               imageData: R.image.spices_Cinnamon()?.pngData(),
-                               isAvailability: true)
+                               imageData: R.image.spices_Cinnamon()?.pngData())
         let cottonBuds = Stock(index: 2, pantryId: beautyHealthId, name: R.string.localizable.cottonBuds(),
-                               imageData: R.image.beauty_CottonBuds()?.pngData(),
-                               isAvailability: true)
+                               imageData: R.image.beauty_CottonBuds()?.pngData())
         let liquidSoap = Stock(index: 3, pantryId: beautyHealthId, name: R.string.localizable.liquidSoap(),
-                               imageData: R.image.beauty_Liquid()?.pngData(),
-                               isAvailability: true)
+                               imageData: R.image.beauty_Liquid()?.pngData())
         let toothpaste = Stock(index: 4, pantryId: beautyHealthId, name: R.string.localizable.toothpaste(),
-                               imageData: R.image.beauty_Toothpaste()?.pngData(),
-                               isAvailability: true)
+                               imageData: R.image.beauty_Toothpaste()?.pngData())
         let showerGel = Stock(index: 5, pantryId: beautyHealthId, name: R.string.localizable.showerGel(),
-                              imageData: R.image.beauty_Shower()?.pngData(),
-                              isAvailability: true)
+                              imageData: R.image.beauty_Shower()?.pngData())
         CoreDataManager.shared.saveStock(stock: [toiletPaper, cottonPads, cottonBuds,
                                                  liquidSoap, toothpaste, showerGel],
                                          for: beautyHealthId.uuidString)
@@ -343,26 +331,20 @@ final class PantryDataSource {
     
     private func defaultHouseholdStocks(householdId: UUID) {
         let sponges = Stock(index: 0, pantryId: householdId, name: R.string.localizable.kitchenScrubSponges(),
-                            imageData: R.image.household_Kitchen()?.pngData(),
-                            isAvailability: true)
+                            imageData: R.image.household_Kitchen()?.pngData())
         let dishwashing = Stock(index: 1, pantryId: householdId, name: R.string.localizable.dishwashingLiquid(),
-                                imageData: R.image.household_Dishwashing()?.pngData(),
-                                isAvailability: true)
+                                imageData: R.image.household_Dishwashing()?.pngData())
         let paperTowels = Stock(index: 2, pantryId: householdId, name: R.string.localizable.paperTowels(),
-                                imageData: R.image.household_Paper()?.pngData(),
-                                isAvailability: true)
+                                imageData: R.image.household_Paper()?.pngData())
         let toiletPaper = Stock(index: 3, pantryId: householdId, name: R.string.localizable.toiletPaper(),
-                                imageData: R.image.household_Toilet()?.pngData(),
-                                isAvailability: true)
+                                imageData: R.image.household_Toilet()?.pngData())
         let trashBags = Stock(index: 4, pantryId: householdId, name: R.string.localizable.trashBags(),
                               imageData: R.image.household_Trash()?.pngData(),
                               isAvailability: false)
         let fabricSoftener = Stock(index: 5, pantryId: householdId, name: R.string.localizable.fabricSoftener(),
-                                   imageData: R.image.household_Fabric()?.pngData(),
-                                   isAvailability: true)
+                                   imageData: R.image.household_Fabric()?.pngData())
         let cleaningCloth = Stock(index: 6, pantryId: householdId, name: R.string.localizable.cleaningCloth(),
-                                  imageData: R.image.household_Cleaning()?.pngData(),
-                                  isAvailability: true)
+                                  imageData: R.image.household_Cleaning()?.pngData())
         let batteries = Stock(index: 7, pantryId: householdId, name: R.string.localizable.aaBatteries(),
                               imageData: R.image.household_AA()?.pngData(),
                               isAvailability: false)

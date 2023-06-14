@@ -30,15 +30,15 @@ final class RootRouter: RootRouterProtocol {
     
     let viewControllerFactory: ViewControllerFactoryProtocol
     
-    private var listNavController: UINavigationController {
+    private(set) var listNavController: UINavigationController {
         didSet { listNavController.isNavigationBarHidden = true }
     }
     
-    private var pantryNavController: UINavigationController {
+    private(set) var pantryNavController: UINavigationController {
         didSet { pantryNavController.isNavigationBarHidden = true }
     }
     
-    private var recipeNavController: UINavigationController {
+    private(set) var recipeNavController: UINavigationController {
         didSet { recipeNavController.isNavigationBarHidden = true }
     }
     

@@ -384,6 +384,10 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
         guard let controller else { return }
         navigationController?.pushViewController(controller, animated: true)
     }
+    
+    func showKeyboard() {
+        productView.productTextField.becomeFirstResponder()
+    }
 }
 
 extension CreateNewProductViewController: CategoryViewDelegate {

@@ -16,6 +16,7 @@ class ListViewModel {
     var reloadDataCallBack: (() -> Void)?
     var updateCells:((Set<GroceryListsModel>) -> Void)?
     var showSynchronizationActivity: ((Bool) -> Void)?
+    var sharingUpdate: (() -> Void)?
     
     var model: [SectionModel] {
         return dataSource.dataSourceArray
@@ -162,7 +163,8 @@ class ListViewModel {
     
     @objc
     private func sharedListDownloaded() {
-        updateCells?(dataSource.updateListOfModels())
+//        updateCells?(dataSource.updateListOfModels())
+        sharingUpdate?()
         showSynchronizationActivity?(false)
         if let startTime {
             let time = Double(Date().timeIntervalSince(startTime))

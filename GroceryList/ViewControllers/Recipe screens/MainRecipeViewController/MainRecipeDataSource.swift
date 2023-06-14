@@ -69,6 +69,7 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
     
     func makeRecipesSections() {
         recipesSections = []
+        
         updateFavoritesSection()
         updateCustomSection()
     }

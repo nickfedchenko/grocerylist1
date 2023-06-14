@@ -49,6 +49,7 @@ final class PantryViewController: UIViewController {
     private var contextMenuIndex: IndexPath?
     private let titleBackgroundView = UIView()
     private let deleteAlertView = EditDeleteAlertView()
+    private var movedCell: PantryCell?
     
     init(viewModel: PantryViewModel) {
         self.viewModel = viewModel
@@ -71,6 +72,9 @@ final class PantryViewController: UIViewController {
         viewModel.updateNavUI = { [weak self] in
             (self?.tabBarController as? MainTabBarController)?.isHideNavView(isHide: false)
             (self?.tabBarController as? MainTabBarController)?.customTabBar.isHidden = false
+        }
+        viewModel.sharingUpdate = { [weak self] in
+            self?.collectionView.reloadData()
         }
         
         setupContextMenu()
@@ -238,22 +242,23 @@ extension PantryViewController: UICollectionViewDelegate {
 extension PantryViewController: PantryCellDelegate {
     func tapMoveButton(gesture: UILongPressGestureRecognizer) {
         let gestureLocation = gesture.location(in: collectionView)
-        guard let targetIndexPath = collectionView.indexPathForItem(at: gestureLocation),
-              let cell = collectionView.cellForItem(at: targetIndexPath) as? PantryCell else {
-            return
-        }
         
         switch gesture.state {
         case .began:
-            cell.addDragAndDropShadow()
+            guard let targetIndexPath = collectionView.indexPathForItem(at: gestureLocation),
+                  let cell = collectionView.cellForItem(at: targetIndexPath) as? PantryCell else {
+                return
+            }
+            movedCell = cell
+            movedCell?.addDragAndDropShadow()
             collectionView.beginInteractiveMovementForItem(at: targetIndexPath)
         case .changed:
             collectionView.updateInteractiveMovementTargetPosition(gestureLocation)
         case .ended:
-            cell.removeDragAndDropShadow()
+            movedCell?.removeDragAndDropShadow()
             collectionView.endInteractiveMovement()
         default:
-            cell.removeDragAndDropShadow()
+            movedCell?.removeDragAndDropShadow()
             collectionView.cancelInteractiveMovement()
         }
     }
