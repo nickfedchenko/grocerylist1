@@ -77,7 +77,7 @@ class SharedPantryManager {
                 print(error)
             case .success(let response):
                 self.transformSharedModelsToLocal(response: response)
-//                self.showProductViewController()
+//                self.showStockViewController()
             }
         }
     }
@@ -93,6 +93,8 @@ class SharedPantryManager {
         localList.synchronizedLists = (try? JSONDecoder().decode([UUID].self,
                                                                  from: dbList?.synchronizedLists ?? Data())) ?? []
         localList.isVisibleCost = dbList?.isVisibleCost ?? false
+        
+        CoreDataManager.shared.removeSharedPantryList(by: localList.sharedId)
         
         CoreDataManager.shared.savePantry(pantry: [localList])
         CoreDataManager.shared.saveStock(stock: localList.stock, for: localList.id.uuidString)
@@ -279,14 +281,13 @@ class SharedPantryManager {
         }
     }
     
-    private func showProductViewController() {
-        if !(self.router?.topViewController is ProductsViewController),
+    private func showStockViewController() {
+        if !(self.router?.topViewController is StocksViewController),
            let newListId = self.newListId,
-           let dbModel = CoreDataManager.shared.getList(list: newListId) {
-            let model = DomainModelsToLocalTransformer().transformCoreDataModelToModel(dbModel)
+           let dbModel = CoreDataManager.shared.getPantry(id: newListId) {
+            let model = PantryModel(dbModel: dbModel)
             self.router?.popToRoot()
-//            self.router?.goProductsVC(presentedController: self,
-//                                      model: model, compl: { })
+//               self.router?.goToStocks(navController: UIViewController, pantry: model)
             self.newListId = nil
             isNewListId = false
         }

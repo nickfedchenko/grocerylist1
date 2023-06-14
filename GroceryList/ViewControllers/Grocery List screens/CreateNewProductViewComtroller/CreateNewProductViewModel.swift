@@ -13,6 +13,7 @@ import UIKit
 protocol CreateNewProductViewModelDelegate: AnyObject {
     func presentController(controller: UIViewController?)
     func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?)
+    func showKeyboard()
     func newStore(store: Store?)
 }
 
@@ -250,6 +251,7 @@ class CreateNewProductViewModel {
         let controller = router?.prepareSelectCategoryController(model: model, compl: { [weak self] newCategoryName in
             guard let self = self else { return }
             self.delegate?.selectCategory(text: newCategoryName, imageURL: "", imageData: nil, defaultSelectedUnit: nil)
+            self.delegate?.showKeyboard()
         })
         delegate?.presentController(controller: controller)
     }

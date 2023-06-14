@@ -75,9 +75,16 @@ class SelectCategoryViewModel {
     
     func addNewCategoryTapped() {
         let newCategoryInd = dataSource.getNewCategoryInd()
-        let createNewCatCV = router?.prepareCreateNewCategoryController(model: model, newCategoryInd: newCategoryInd, compl: { [weak self] newCategory in
-            self?.dataSource.addNewCategory(category: newCategory)
-        })
+        let createNewCatCV = router?.prepareCreateNewCategoryController(
+            model: model,
+            newCategoryInd: newCategoryInd,
+            compl: { [weak self] newCategory in
+                self?.dataSource.addNewCategory(category: newCategory)
+                self?.categorySelectedCallback?(newCategory.name)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                    self?.delegate?.dismissController()
+                }
+            })
         
         delegate?.presentController(controller: createNewCatCV)
     }

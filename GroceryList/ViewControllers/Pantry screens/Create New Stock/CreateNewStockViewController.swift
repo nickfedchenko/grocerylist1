@@ -36,6 +36,7 @@ final class CreateNewStockViewController: UIViewController {
     private var viewDidLayout = false
     private let inactiveColor = R.color.mediumGray()
     private var unit: UnitSystem = .piece
+    private var category: String = ""
     
     init(viewModel: CreateNewStockViewModel) {
         self.viewModel = viewModel
@@ -162,6 +163,7 @@ final class CreateNewStockViewController: UIViewController {
     @objc
     private func saveButtonTapped() {
         viewModel.saveStock(productName: productView.productTitle ?? "",
+                            category: category,
                             description: productView.descriptionTitle ?? "",
                             isAvailability: productView.isAvailability,
                             image: productView.productImage,
@@ -319,6 +321,7 @@ extension CreateNewStockViewController: UINavigationControllerDelegate, UIImageP
 
 extension CreateNewStockViewController: CreateNewProductViewModelDelegate {
     func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?) {
+        category = text
         productView.setImage(imageURL: imageURL, imageData: imageData)
         quantityView.setDefaultUnit(defaultSelectedUnit ?? .piece)
         
@@ -338,6 +341,10 @@ extension CreateNewStockViewController: CreateNewProductViewModelDelegate {
     func presentController(controller: UIViewController?) {
         guard let controller else { return }
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func showKeyboard() {
+        productView.productTextField.becomeFirstResponder()
     }
 }
 

@@ -9,6 +9,7 @@ import Amplitude
 import ApphudSDK
 import Firebase
 import UIKit
+import Kingfisher
 import UserNotifications
 
 @main
@@ -21,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Apphud.start(apiKey: "app_UumawTKYjWf9iUejoRkxntPLZQa7eq")
         _ = AmplitudeManager.shared
+        let cache = ImageCache.default
+        cache.memoryStorage.config.totalCostLimit = 1024 * 1024 * 10
+        cache.diskStorage.config.sizeLimit = 1024 * 1024 * 100
         FirebaseApp.configure()
         FeatureManager.shared.activeFeatures()
         AppDelegate.activateFonts(withExtension: "ttf")

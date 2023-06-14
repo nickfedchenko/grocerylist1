@@ -130,6 +130,7 @@
     </entity>
     <entity name="DBStock" representedClassName=".DBStock" syncable="YES">
         <attribute name="autoRepeat" optional="YES" attributeType="Binary"/>
+        <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="cost" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="dateOfCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>

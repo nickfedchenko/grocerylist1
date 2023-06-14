@@ -17,6 +17,7 @@ extension DBStock {
     }
 
     @NSManaged public var autoRepeat: Data?
+    @NSManaged public var category: String?
     @NSManaged public var cost: Double
     @NSManaged public var dateOfCreation: Date
     @NSManaged public var id: UUID
@@ -41,6 +42,7 @@ extension DBStock {
         dbStock.index = Int16(model.index)
         dbStock.pantryId = model.pantryId
         dbStock.name = model.name
+        dbStock.category = model.category
         dbStock.imageData = model.imageData
         dbStock.stockDescription = model.description
         dbStock.store = try? JSONEncoder().encode(model.store)

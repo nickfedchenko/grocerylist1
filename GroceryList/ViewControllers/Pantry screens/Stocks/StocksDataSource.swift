@@ -35,10 +35,10 @@ final class StocksDataSource {
         if isSort {
             outOfStock = allStocks.filter({ !$0.isAvailability })
             stocks = allStocks.filter({ $0.isAvailability })
-        } else {
-            stocks = allStocks.sorted(by: { $0.dateOfCreation < $1.dateOfCreation })
-            outOfStock = []
+            return
         }
+        stocks = allStocks
+        outOfStock = []
     }
     
     func updateStocksAfterMove(updatedStocks: [Stock]) {
@@ -47,6 +47,7 @@ final class StocksDataSource {
             updatedStocks[newIndex].index = newIndex
         }
         CoreDataManager.shared.saveStock(stock: updatedStocks, for: pantryId.uuidString)
+        
         updateStocks()
     }
     

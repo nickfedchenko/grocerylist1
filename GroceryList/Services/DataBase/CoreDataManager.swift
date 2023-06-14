@@ -504,7 +504,7 @@ class CoreDataManager {
     func removeSharedPantryList(by sharedListId: String) {
         let context = coreData.container.viewContext
         let fetchRequest: NSFetchRequest<DBPantry> = DBPantry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "sharedListId = '\(sharedListId)'")
+        fetchRequest.predicate = NSPredicate(format: "sharedId = '\(sharedListId)'")
         if let object = try? context.fetch(fetchRequest).first {
             context.delete(object)
         }

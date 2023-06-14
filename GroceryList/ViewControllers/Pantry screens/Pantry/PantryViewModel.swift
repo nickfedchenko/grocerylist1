@@ -13,6 +13,7 @@ class PantryViewModel {
     
     var reloadData: (() -> Void)?
     var updateNavUI: (() -> Void)?
+    var sharingUpdate: (() -> Void)?
     
     private var colorManager = ColorManager()
     private(set) var dataSource: PantryDataSource
@@ -142,7 +143,7 @@ class PantryViewModel {
     
     @objc
     private func sharedPantryDownloaded() {
-        addPantry()
+        sharingUpdate?()
     }
     
     private func updateSharedPantryList(model: PantryModel) {

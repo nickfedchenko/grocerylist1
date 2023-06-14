@@ -60,18 +60,24 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             return Double(lastCount)
         }
         
-        return quantity
+        return quantity < 0 ? nil : quantity
     }
     
     override var productQuantityUnit: UnitSystem? {
-        guard let descriptionQuantity = getProductDescriptionQuantity() else {
-            return nil
+        guard let unitId = currentStock?.unitId else {
+            guard let descriptionQuantity = getProductDescriptionQuantity() else {
+                return nil
+            }
+            
+            for unit in selectedUnitSystemArray where descriptionQuantity.contains(unit.title) {
+                currentSelectedUnit = unit
+            }
+            
+            return currentSelectedUnit
         }
         
-        for unit in selectedUnitSystemArray where descriptionQuantity.contains(unit.title) {
-            currentSelectedUnit = unit
-        }
-        
+        currentSelectedUnit = unitId
+
         return currentSelectedUnit
     }
     
@@ -91,9 +97,10 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
     }
     
     override var productCost: String? {
-        guard let cost = currentStock?.cost else {
+        guard var cost = currentStock?.cost else {
             return nil
         }
+        cost = cost < 0 ? 0 : cost
         return String(format: "%.\(cost.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", cost)
     }
     
@@ -166,7 +173,8 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
         costOfProductPerUnit = currentStock?.cost
     }
     
-    func saveStock(productName: String, description: String, isAvailability: Bool, 
+    func saveStock(productName: String, category: String, description: String,
+                   isAvailability: Bool,
                    image: UIImage?, isUserImage: Bool, store: Store?, quantity: Double?,
                    isAutoRepeat: Bool, autoRepeatSetting: AutoRepeatModel?,
                    isReminder: Bool) {
@@ -177,12 +185,13 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
         let stock: Stock
         if var currentStock {
             currentStock.name = productName
+            currentStock.category = category
             currentStock.description = description
             currentStock.imageData = imageData
             currentStock.isUserImage = isUserImage
             currentStock.store = store
             currentStock.cost = costOfProductPerUnit ?? -1
-            currentStock.quantity = quantity
+            currentStock.quantity = quantity == 0 ? nil : quantity
             currentStock.unitId = currentSelectedUnit
             currentStock.isAvailability = isAvailability
             currentStock.isAutoRepeat = isAutoRepeat
@@ -194,6 +203,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             stock = Stock(index: -index,
                           pantryId: pantry.id, name: productName,
                           imageData: imageData, description: description,
+                          category: category,
                           store: store, cost: costOfProductPerUnit ?? -1,
                           quantity: quantity == 0 ? nil : quantity,
                           unitId: currentSelectedUnit,

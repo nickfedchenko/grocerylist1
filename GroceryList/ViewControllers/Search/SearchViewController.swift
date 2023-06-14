@@ -164,13 +164,13 @@ class SearchViewController: UIViewController {
         
         topSafeAreaView.snp.makeConstraints {
             $0.leading.trailing.top.equalToSuperview()
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(10)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.top)
         }
         
         navigationView.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(10)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(60)
+            $0.height.equalTo(44)
         }
         
         collectionView.snp.makeConstraints {

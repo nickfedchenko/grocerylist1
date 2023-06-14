@@ -91,6 +91,11 @@ final class ListViewController: UIViewController {
                 }
             }
         }
+        
+        viewModel.sharingUpdate = { [weak self] in
+            self?.collectionView.reloadData()
+            self?.updateImageConstraint()
+        }
     }
     
     private func updateImageConstraint() {

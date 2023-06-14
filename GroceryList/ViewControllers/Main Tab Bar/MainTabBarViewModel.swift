@@ -21,6 +21,7 @@ final class MainTabBarViewModel {
     private var isRightHanded: Bool
     private let viewControllers: [UIViewController]
     private(set) var outOfStocks: [Stock] = []
+    private let stocksUpdateHours = 7
     
     var initialViewController: UIViewController? {
         viewControllers.first
@@ -67,12 +68,12 @@ final class MainTabBarViewModel {
         })
     }
     
-    func showSearchProductsInList() {
-        router?.goToSearchInList()
-    }
-    
-    func showSearchProductsInRecipe() {
-        router?.goToSearchInRecipe()
+    func showSearch(_ selectedController: UIViewController?) {
+        if selectedController == router?.listNavController {
+            router?.goToSearchInList()
+        } else if selectedController is MainRecipeViewController {
+            router?.goToSearchInRecipe()
+        }
     }
 
     func showFeedback() {
@@ -92,7 +93,7 @@ final class MainTabBarViewModel {
     func showStockReminderIfNeeded() {
         let today = Date()
         checkThatItemIsOutOfStock()
-        if today.todayWithSetting(hour: 7) <= today,
+        if today.todayWithSetting(hour: stocksUpdateHours) <= today,
            isShowStockReminderRequired(),
             !outOfStocks.isEmpty {
             router?.goToStockReminder(outOfStocks: outOfStocks,
@@ -100,7 +101,7 @@ final class MainTabBarViewModel {
                 self?.delegate?.updateListUI()
             })
             
-            UserDefaultsManager.lastShowStockReminderDate = today.todayWithSetting(hour: 7)
+            UserDefaultsManager.lastShowStockReminderDate = today.todayWithSetting(hour: stocksUpdateHours)
         }
     }
     

@@ -69,6 +69,9 @@ class AutoRepeatSettingView: UIView {
     }()
     
     private let reminderSwitch = UISwitch()
+    private var switchEnable = false {
+        didSet { reminderSwitch.isUserInteractionEnabled = switchEnable }
+    }
     
     private lazy var doneButton: UIButton = {
         let button = UIButton()
@@ -112,6 +115,7 @@ class AutoRepeatSettingView: UIView {
         guard let autoRepeat else {
             return
         }
+        switchEnable = true
         reminderSwitch.isOn = isReminder
         selectedTag = autoRepeat.state.rawValue
         stackView.arrangedSubviews.forEach { view in
@@ -125,6 +129,8 @@ class AutoRepeatSettingView: UIView {
     }
     
     private func setup() {
+        switchEnable = false
+        
         autoRepeatStates.forEach { autoRepeatState in
             let view = AutoRepeatSettingSubView()
             view.setRepeat(autoRepeatState)
@@ -138,6 +144,7 @@ class AutoRepeatSettingView: UIView {
                 self?.selectedTag = tag
                 self?.updateReminderColor()
                 self?.updateAutoRepeatSettingSubView()
+                self?.switchEnable = true
             }
         }
         
