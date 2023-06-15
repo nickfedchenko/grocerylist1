@@ -48,7 +48,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: UISceneSession Lifecycle
-
+/*
+    // обычный диплинк
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
       
         guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
@@ -75,13 +76,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         return true
-    }
+    }*/
     
     func applicationWillTerminate(_ application: UIApplication) {
         AmplitudeManager.shared.logEvent(.listsChanged,
                                          properties: [.count: "\(idsOfChangedLists.count)"])
         AmplitudeManager.shared.logEvent(.itemsChanged,
                                          properties: [.count: "\(idsOfChangedProducts.count)"])
+    }
+    
+    func application(_ application: UIApplication,
+                     continue userActivity: NSUserActivity,
+                     restorationHandler: ([Any?]) -> Void) -> Bool {
+         guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+                let url = userActivity.webpageURL else {
+             return false
+         }
+         print(url) // В зависимости от URL Вы можете открывать разные экраны приложения.
+        
+        guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
+              let host = components.host else {
+            print("invalidUrl")
+            return false
+        }
+        
+        guard let deepLink = DeepLink(rawValue: host) else {
+            print("deeplink not found")
+            return false
+        }
+        
+        guard let token = components.queryItems?.first?.value else { return false }
+        
+        switch deepLink {
+        case .resetPassword:
+            rootRouter?.openResetPassword(token: token)
+        case .share:
+            if components.scheme == "pantrylist" {
+                SharedPantryManager.shared.gottenDeeplinkToken(token: token)
+            } else {
+                SharedListManager.shared.gottenDeeplinkToken(token: token)
+            }
+        }
+        
+         return true
     }
 }
 

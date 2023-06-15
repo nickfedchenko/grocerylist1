@@ -2658,7 +2658,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 30;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = F8T7WA34U4;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Grocery list";
@@ -2695,7 +2695,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 30;
-				DEVELOPMENT_TEAM = F8T7WA34U4;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Grocery list";
