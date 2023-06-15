@@ -3185,12 +3185,16 @@ struct _R {
     var whitePlusImage: RswiftResources.ImageResource { .init(name: "whitePlusImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
   }
 
-  /// This `_R.entitlements` struct is generated, and contains static references to 1 properties.
+  /// This `_R.entitlements` struct is generated, and contains static references to 2 properties.
   struct entitlements {
     let apsEnvironment: String = "development"
     let comAppleDeveloperApplesignin = comAppleDeveloperApplesignin()
+    let comAppleDeveloperAssociatedDomains = comAppleDeveloperAssociatedDomains()
     struct comAppleDeveloperApplesignin {
       let `default`: String = "Default"
+    }
+    struct comAppleDeveloperAssociatedDomains {
+      let applinksShoppinglistPro: String = "applinks:shoppinglist.pro"
     }
   }
 
