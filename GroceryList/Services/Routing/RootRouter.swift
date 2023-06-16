@@ -30,15 +30,15 @@ final class RootRouter: RootRouterProtocol {
     
     let viewControllerFactory: ViewControllerFactoryProtocol
     
-    private var listNavController: UINavigationController {
+    private(set) var listNavController: UINavigationController {
         didSet { listNavController.isNavigationBarHidden = true }
     }
     
-    private var pantryNavController: UINavigationController {
+    private(set) var pantryNavController: UINavigationController {
         didSet { pantryNavController.isNavigationBarHidden = true }
     }
     
-    private var recipeNavController: UINavigationController {
+    private(set) var recipeNavController: UINavigationController {
         didSet { recipeNavController.isNavigationBarHidden = true }
     }
     
@@ -313,7 +313,8 @@ final class RootRouter: RootRouterProtocol {
         UIViewController.currentController()?.present(controller, animated: true)
     }
     
-    func showSelectList(contentViewHeigh: Double,
+    func showSelectList(presentedController: UIViewController? = nil,
+                        contentViewHeigh: Double,
                         synchronizedLists: [UUID],
                         updateUI: (([UUID]) -> Void)?) {
         let controller = viewControllerFactory.createSelectList(contentViewHeigh: contentViewHeigh,
@@ -321,7 +322,12 @@ final class RootRouter: RootRouterProtocol {
                                                                 updateUI: updateUI)
         controller.modalPresentationStyle = .overCurrentContext
         controller.modalTransitionStyle = .crossDissolve
-        UIViewController.currentController()?.present(controller, animated: true)
+        
+        if presentedController == nil {
+            UIViewController.currentController()?.present(controller, animated: true)
+        } else {
+            presentedController?.present(controller, animated: true)
+        }
     }
     
     func goToStocks(navController: UIViewController, pantry: PantryModel) {

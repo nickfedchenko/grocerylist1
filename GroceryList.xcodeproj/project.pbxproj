@@ -864,6 +864,61 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		335B54082A3822AD00B53314 /* Grocery List screens */ = {
+			isa = PBXGroup;
+			children = (
+				33A51B8E2A176C8800BE11C1 /* ListViewController */,
+				B36933FD291BA4EE00AFFAA6 /* CreateNewListViewController */,
+				B34BB80B292E330D00748E8E /* SelectListViewController */,
+				B34BB81B292E562000748E8E /* SelectProductViewController */,
+				B3476900291D00E00045A287 /* ProductsViewController */,
+				B3D204592930EFC200599A01 /* CreateNewProductViewComtroller */,
+				B3476907291D213D0045A287 /* ProductsSettingsViewController */,
+				33A73F1B2A0CD2AB00844610 /* ProductsSort */,
+				B3B45E582934BFEA00D60E82 /* SelectCategoryViewController */,
+				B34EACA62935007400FBD0E0 /* CreateNewCategoryViewController */,
+				333E2D2B29EEAE7500F705E7 /* CreateNewStore */,
+			);
+			path = "Grocery List screens";
+			sourceTree = "<group>";
+		};
+		335B54092A38231100B53314 /* Pantry screens */ = {
+			isa = PBXGroup;
+			children = (
+				332340952A1B918300609813 /* Pantry */,
+				33995D302A1F9694003FECAE /* Create New Pantry */,
+				334764532A277C56008F4834 /* Stocks */,
+				334764672A2AE621008F4834 /* Create New Stock */,
+				339254B52A33EDD10047807E /* Stock Reminder */,
+			);
+			path = "Pantry screens";
+			sourceTree = "<group>";
+		};
+		335B540A2A38232300B53314 /* Recipe screens */ = {
+			isa = PBXGroup;
+			children = (
+				33A51B952A17747400BE11C1 /* MainRecipeViewController */,
+				383C77F4293F79D60030AE78 /* RecipesListViewController */,
+				335519C529AF1AC400AD2B77 /* CreateNewRecipe */,
+				3379B64C29B755B20080923A /* Collection */,
+			);
+			path = "Recipe screens";
+			sourceTree = "<group>";
+		};
+		335B540B2A38233000B53314 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B3777E172938BE790074BE38 /* SettingsViewController */,
+				B381EF29299B904A00DCDE40 /* PasswordExpiredController */,
+				B3F7C9C529963EEA0081B245 /* PasswordResetViewController */,
+				B3F7C9B82993A0F70081B245 /* SignUpViewCntroller */,
+				B381EF2F299BAA2400DCDE40 /* EnterNewPasswordController */,
+				B315F9E4298A3F0A0009CEB8 /* WriteReviewController */,
+				B381EF1E299B5AFD00DCDE40 /* AccountViewController */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		3366BEE32A2D9FF000D50704 /* subviews */ = {
 			isa = PBXGroup;
 			children = (
@@ -1728,35 +1783,12 @@
 				B37A2CDD2911027E003C01AD /* Onboarding */,
 				33796E622A139F71009AD385 /* Feedback */,
 				33A51B852A163C4200BE11C1 /* Main Tab Bar */,
-				33A51B8E2A176C8800BE11C1 /* ListViewController */,
-				33A51B952A17747400BE11C1 /* MainRecipeViewController */,
-				383C77F4293F79D60030AE78 /* RecipesListViewController */,
-				332340952A1B918300609813 /* Pantry */,
-				33995D302A1F9694003FECAE /* Create New Pantry */,
-				334764532A277C56008F4834 /* Stocks */,
-				334764672A2AE621008F4834 /* Create New Stock */,
-				339254B52A33EDD10047807E /* Stock Reminder */,
+				335B54082A3822AD00B53314 /* Grocery List screens */,
+				335B54092A38231100B53314 /* Pantry screens */,
+				335B540A2A38232300B53314 /* Recipe screens */,
 				33F8253529C050B700B349D5 /* Search */,
 				334BAE4B299DF88F005F52F5 /* Sharing */,
-				3379B64C29B755B20080923A /* Collection */,
-				335519C529AF1AC400AD2B77 /* CreateNewRecipe */,
-				B36933FD291BA4EE00AFFAA6 /* CreateNewListViewController */,
-				B34BB80B292E330D00748E8E /* SelectListViewController */,
-				B34BB81B292E562000748E8E /* SelectProductViewController */,
-				B3476900291D00E00045A287 /* ProductsViewController */,
-				B3476907291D213D0045A287 /* ProductsSettingsViewController */,
-				33A73F1B2A0CD2AB00844610 /* ProductsSort */,
-				B3D204592930EFC200599A01 /* CreateNewProductViewComtroller */,
-				B3B45E582934BFEA00D60E82 /* SelectCategoryViewController */,
-				B34EACA62935007400FBD0E0 /* CreateNewCategoryViewController */,
-				333E2D2B29EEAE7500F705E7 /* CreateNewStore */,
-				B3777E172938BE790074BE38 /* SettingsViewController */,
-				B381EF29299B904A00DCDE40 /* PasswordExpiredController */,
-				B3F7C9C529963EEA0081B245 /* PasswordResetViewController */,
-				B3F7C9B82993A0F70081B245 /* SignUpViewCntroller */,
-				B381EF2F299BAA2400DCDE40 /* EnterNewPasswordController */,
-				B315F9E4298A3F0A0009CEB8 /* WriteReviewController */,
-				B381EF1E299B5AFD00DCDE40 /* AccountViewController */,
+				335B540B2A38233000B53314 /* Settings */,
 				B36AF9482913FA5B00944E9D /* CustomUiElements */,
 			);
 			path = ViewControllers;
@@ -2626,7 +2658,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 30;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = S93MCWMH29;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Grocery list";
@@ -2663,7 +2695,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 30;
-				DEVELOPMENT_TEAM = S93MCWMH29;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Grocery list";

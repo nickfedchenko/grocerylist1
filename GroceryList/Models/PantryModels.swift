@@ -103,6 +103,7 @@ struct Stock: Hashable, Codable {
         self.index = copyStock.index
         self.pantryId = copyStock.pantryId
         self.name = copyStock.name
+        self.category = copyStock.category
         self.imageData = copyStock.imageData
         self.description = copyStock.description
         self.store = copyStock.store
@@ -117,7 +118,8 @@ struct Stock: Hashable, Codable {
         self.isUserImage = copyStock.isUserImage
     }
     
-    init(index: Int, pantryId: UUID, name: String, imageData: Data?, description: String? = nil,
+    init(index: Int, pantryId: UUID, name: String, imageData: Data?,
+         description: String? = nil, category: String? = nil,
          store: Store? = nil, cost: Double? = nil, quantity: Double? = nil,
          unitId: UnitSystem? = nil, isAvailability: Bool = true,
          isAutoRepeat: Bool = false, autoRepeat: AutoRepeatModel? = nil,
@@ -127,6 +129,7 @@ struct Stock: Hashable, Codable {
         self.name = name
         self.imageData = imageData
         self.description = description
+        self.category = category
         self.store = store
         self.cost = cost
         self.quantity = quantity
@@ -145,6 +148,7 @@ struct Stock: Hashable, Codable {
         name = dbModel.name
         imageData = dbModel.imageData
         description = dbModel.stockDescription
+        category = dbModel.category
         let storeFromDB = (try? JSONDecoder().decode(Store.self, from: dbModel.store ?? Data()))
         store = storeFromDB?.title == "" ? nil : storeFromDB
         cost = dbModel.cost
@@ -222,5 +226,6 @@ struct PantryStocks: Hashable {
 
 enum TypeOfCellPantryStocks {
     case outOfStock
+    case inStock
     case normal
 }

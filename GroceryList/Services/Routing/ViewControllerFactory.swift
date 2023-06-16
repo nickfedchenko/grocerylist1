@@ -7,7 +7,7 @@
 
 import UIKit
 
-// swiftlint: disable: next type_body_length
+// swiftlint:disable:next type_body_length
 final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
     func createOnboardingController(router: RootRouter) -> UIViewController? {

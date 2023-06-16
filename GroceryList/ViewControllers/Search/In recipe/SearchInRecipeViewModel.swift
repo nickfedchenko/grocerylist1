@@ -31,7 +31,9 @@ final class SearchInRecipeViewModel {
     
     init(section: RecipeSectionsModel?) {
         guard let section else {
-            searchAllRecipe()
+            DispatchQueue.global().async {
+                self.searchAllRecipe()
+            }
             return
         }
         self.section = section
