@@ -64,6 +64,7 @@ final class StocksViewController: UIViewController {
     private let emptyView = StocksEmptyView()
     private let iconImageView = UIImageView()
     private let linkView = StocksLinkView()
+    private let linkBackgroundView = UIView()
     
     private let editTabBarView = EditTabBarView()
     private let editView = UIView()
@@ -129,7 +130,11 @@ final class StocksViewController: UIViewController {
         
         setupNavigationView()
 
+        linkBackgroundView.isHidden = true
+        linkBackgroundView.backgroundColor = .black.withAlphaComponent(0.2)
         linkView.configureLink(listNames: viewModel.getSynchronizedListNames())
+        let tapOnLinkView = UITapGestureRecognizer(target: self, action: #selector(tapOnLinkView))
+        linkView.addGestureRecognizer(tapOnLinkView)
     }
     
     private func setupNavigationView() {
@@ -305,9 +310,16 @@ final class StocksViewController: UIViewController {
         collectionView.reloadData()
     }
     
+    @objc
+    private func tapOnLinkView() {
+        viewModel.goToSelectList(presentedController: self.tabBarController,
+                                 contentViewHeigh: self.view.frame.height * 0.75)
+        linkBackgroundView.fadeIn(duration: 0.3)
+    }
+    
     private func makeConstraints() {
         self.view.addSubviews([containerView, emptyView,
-                               collectionView, navigationView, editView])
+                               collectionView, navigationView, editView, linkBackgroundView])
         collectionView.addSubviews([iconImageView, linkView])
         (self.tabBarController as? MainTabBarController)?.customTabBar.addSubview(editTabBarView)
         editView.addSubviews([cancelEditButton])
@@ -345,6 +357,10 @@ final class StocksViewController: UIViewController {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(40)
             $0.bottom.equalToSuperview().offset(viewModel.necessaryOffsetToLink + 124)
+        }
+        
+        linkBackgroundView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
 
         setupEditViewConstraints()
@@ -416,6 +432,11 @@ extension StocksViewController: StocksViewModelDelegate {
     
     func popController() {
         tapOnBackButton()
+    }
+    
+    func updateLinkButton() {
+        linkView.configureLink(listNames: viewModel.getSynchronizedListNames())
+        linkBackgroundView.fadeOut(duration: 0.3)
     }
 }
 

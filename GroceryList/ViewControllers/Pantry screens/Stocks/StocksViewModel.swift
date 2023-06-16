@@ -14,6 +14,7 @@ protocol StocksViewModelDelegate: AnyObject {
     func updateController()
     func updateUIEditTabBar()
     func popController()
+    func updateLinkButton()
 }
 
 final class StocksViewModel {
@@ -194,6 +195,20 @@ final class StocksViewModel {
         router?.goToCreateNewStockController(pantry: pantry, stock: stock, compl: { [weak self] _ in
             self?.dataSource.updateStocks()
             self?.updateSharedPantryList()
+        })
+    }
+    
+    func goToSelectList(presentedController: UIViewController?, contentViewHeigh: Double) {
+        router?.showSelectList(presentedController: presentedController,
+                               contentViewHeigh: contentViewHeigh,
+                               synchronizedLists: pantry.synchronizedLists,
+                               updateUI: { [weak self] uuids in
+            guard let self else {
+                return
+            }
+            self.delegate?.updateLinkButton()
+            self.pantry.synchronizedLists = uuids
+            CoreDataManager.shared.savePantry(pantry: [self.pantry])
         })
     }
     
