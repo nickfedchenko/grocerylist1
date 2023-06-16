@@ -73,6 +73,8 @@ class SelectListViewController: UIViewController {
         label.font = UIFont.SFPro.semibold(size: 17).font
         label.textColor = UIColor(hex: "#31635A")
         label.text = "PickItem".localized
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
         return label
     }()
     
@@ -156,7 +158,7 @@ class SelectListViewController: UIViewController {
     }
     
     // MARK: - Constraints
-    private func updateConstr(with inset: Double, compl: (() -> Void)?) {
+    func updateConstr(with inset: Double, compl: (() -> Void)?) {
         UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self = self else { return }
             self.contentView.snp.updateConstraints { make in

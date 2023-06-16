@@ -40,7 +40,7 @@ class SelectListToSynchronizeViewController: SelectListViewController {
             cell?.setupColor(theme: viewModel.getTheme(at: indexPath))
             let isContains = self?.selectedModelIds.contains(model.id) ?? false
             if isContains {
-                cell?.markAsSelect(!isContains)
+                cell?.markAsSelect(isContains)
             }
             
             return cell
