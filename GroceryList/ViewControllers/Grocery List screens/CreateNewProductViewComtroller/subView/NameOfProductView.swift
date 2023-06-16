@@ -80,7 +80,7 @@ class NameOfProductView: UIView {
     
     private let shadowOneView = UIView()
     private let shadowTwoView = UIView()
-    private let emptyImage = R.image.addImage()
+    let emptyImage = R.image.addImage()
     private var quantityText = ""
     
     override init(frame: CGRect = .zero) {
@@ -161,19 +161,19 @@ class NameOfProductView: UIView {
         makeConstraints()
     }
     
-    private func setupRemoveImageButton() {
+    func setupRemoveImageButton() {
         removeImageButton.isHidden = productImageView.image == emptyImage
     }
     
     @objc
-    private func removeImageTapped() {
+    func removeImageTapped() {
         AmplitudeManager.shared.logEvent(.photoDelete)
         productImageView.image = emptyImage
         setupRemoveImageButton()
     }
     
     @objc
-    private func tapOnImage() {
+    func tapOnImage() {
         AmplitudeManager.shared.logEvent(.photoAdd)
         delegate?.tappedAddImage()
     }

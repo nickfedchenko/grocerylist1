@@ -212,7 +212,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
         }
         
         CoreDataManager.shared.saveStock(stock: [stock], for: pantry.id.uuidString)
-
+        analytics(stock: stock)
         updateUI?(stock)
     }
     
@@ -253,5 +253,53 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             
         }
         return quantityString
+    }
+    
+    private func analytics(stock: Stock) {
+        AmplitudeManager.shared.logEvent(.pantryCreateItem)
+        
+        if let autoRepeatSetting = stock.autoRepeat {
+            let property: EventName
+            switch autoRepeatSetting.state {
+            case .daily:        property = .pantryRepeatDaily
+            case .weekly:       property = .pantryRepeatWeekly
+            case .monthly:      property = .pantryRepeatMonthly
+            case .yearly:       property = .pantryRepeatYearly
+            case .custom:       property = .pantryRepeatCustom
+            }
+            AmplitudeManager.shared.logEvent(property)
+        }
+        
+        if stock.isReminder {
+            AmplitudeManager.shared.logEvent(.pantryRepeatReminder)
+        }
+        
+        if stock.store != nil {
+            AmplitudeManager.shared.logEvent(.pantryCreateItemShop)
+        }
+        
+        if stock.cost != nil {
+            AmplitudeManager.shared.logEvent(.pantryCreateItemPrice)
+        }
+        
+        if stock.quantity != nil {
+            AmplitudeManager.shared.logEvent(.pantryCreateItemQty)
+        }
+        
+        if stock.unitId != nil {
+            AmplitudeManager.shared.logEvent(.pantryCreateItemUnits)
+        }
+        
+        if !stock.isAvailability {
+            AmplitudeManager.shared.logEvent(.pantryCreateItemUncheck)
+        }
+        
+        if (stock.isUserImage ?? false) {
+            AmplitudeManager.shared.logEvent(.pantryCreateItemPhoto)
+        } else if stock.imageData != nil {
+            AmplitudeManager.shared.logEvent(.pantryCreateItemAutoPhoto)
+        }
+        
+
     }
 }

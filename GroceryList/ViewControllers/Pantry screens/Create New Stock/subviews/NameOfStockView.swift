@@ -33,6 +33,18 @@ class NameOfStockView: NameOfProductView {
         makeConstraints()
     }
     
+    @objc
+    override func removeImageTapped() {
+        AmplitudeManager.shared.logEvent(.pantryCreateItemDeletePhoto)
+        productImageView.image = emptyImage
+        setupRemoveImageButton()
+    }
+    
+    @objc
+    override func tapOnImage() {
+        delegate?.tappedAddImage()
+    }
+    
     func setStock(isAvailability: Bool) {
         stockImageView.image = isAvailability ? checkImage : crossImage
         colorView.backgroundColor = isAvailability ? color : R.color.lightGray()

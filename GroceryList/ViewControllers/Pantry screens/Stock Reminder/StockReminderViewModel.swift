@@ -22,6 +22,8 @@ final class StockReminderViewModel {
         self.dataSource.reloadData = { [weak self] in
             self?.reloadData?()
         }
+        
+        AmplitudeManager.shared.logEvent(.pantryReminderWorked)
     }
     
     var stocks: [Stock] {
@@ -50,9 +52,11 @@ final class StockReminderViewModel {
         dataSource.updateStockStatus(stock: stock)
         
         SharedPantryManager.shared.updatePantryList(pantryId: stock.pantryId.uuidString)
+        AmplitudeManager.shared.logEvent(.pantryReminderCheckbox)
     }
     
     func showSyncList(contentViewHeigh: Double) {
+        AmplitudeManager.shared.logEvent(.pantryReminderAddToList)
         router?.showSelectList(contentViewHeigh: contentViewHeigh,
                                synchronizedLists: [],
                                updateUI: { [weak self] uuids in

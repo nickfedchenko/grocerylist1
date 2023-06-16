@@ -495,11 +495,13 @@ extension StocksViewController: EditTabBarViewDelegate {
 
 extension StocksViewController: EditSelectListDelegate {
     func productsSuccessfullyMoved() {
+        AmplitudeManager.shared.logEvent(.pantryMoveItems)
         viewModel.moveProducts()
         cancelEditButtonPressed()
     }
     
     func productsSuccessfullyCopied() {
+        AmplitudeManager.shared.logEvent(.pantryCopyItems)
         cancelEditButtonPressed()
     }
 }

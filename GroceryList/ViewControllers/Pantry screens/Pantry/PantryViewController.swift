@@ -128,6 +128,7 @@ final class PantryViewController: UIViewController {
         dataSource?.reorderingHandlers.didReorder = { [weak self] transaction in
             let backingStore = transaction.finalSnapshot.itemIdentifiers
             self?.viewModel.updatePantriesAfterMove(updatedPantries: backingStore)
+            AmplitudeManager.shared.logEvent(.pantryListRearrage)
         }
     }
     
@@ -293,6 +294,7 @@ extension PantryViewController: PantryEditMenuViewDelegate {
             self?.contextMenuBackgroundView.isHidden = true
             switch state {
             case .edit:
+                AmplitudeManager.shared.logEvent(.pantryContextEdit)
                 guard let self,
                       let contextMenuIndex = self.contextMenuIndex,
                       let model = self.dataSource?.itemIdentifier(for: contextMenuIndex) else {
@@ -303,6 +305,7 @@ extension PantryViewController: PantryEditMenuViewDelegate {
                 }
                 self.viewModel.showEditPantry(presentedController: self, pantry: model)
             case .delete:
+                AmplitudeManager.shared.logEvent(.pantryContextDelete)
                 self?.updateDeleteAlertViewConstraint(with: 224)
             }
             self?.contextMenuView.removeSelected()
