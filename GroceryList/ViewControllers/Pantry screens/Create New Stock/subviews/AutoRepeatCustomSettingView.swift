@@ -35,8 +35,8 @@ class AutoRepeatCustomSettingView: UIView {
         button.addTarget(self, action: #selector(setButtonTapped), for: .touchUpInside)
         button.layer.cornerRadius = 8
         button.layer.cornerCurve = .continuous
-        button.contentEdgeInsets.left = 10
-        button.contentEdgeInsets.right = 10
+        button.contentEdgeInsets.left = 5
+        button.contentEdgeInsets.right = 5
         return button
     }()
     
@@ -117,7 +117,7 @@ class AutoRepeatCustomSettingView: UIView {
             let view = WeekdayView()
             view.configure(color: color, text: day)
             view.tag = index
-            let dayNumberOfWeek = (index + 1) % 7
+            let dayNumberOfWeek = (index + 2) % 7
             view.markAsSelected(dayNumberOfWeek == Date().dayNumberOfWeek)
             weekStackView.addArrangedSubview(view)
             view.snp.makeConstraints {
@@ -156,7 +156,7 @@ class AutoRepeatCustomSettingView: UIView {
             if times == 0 {
                 value = repeatPeriods[period].title
             } else {
-                value = R.string.localizable.everyTimesPeriod("\(times + 1)", "\(repeatPeriods[period])") 
+                value = R.string.localizable.everyTimesPeriod("\(times + 1)", "\(repeatPeriods[period].title)")
             }
         }
         
