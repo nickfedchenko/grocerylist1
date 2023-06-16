@@ -105,7 +105,7 @@ final class MainTabBarViewModel {
         }
     }
     
-    func analytic() {
+    func groceryAnalytics() {
         let lists = CoreDataManager.shared.getAllLists()
         var initialLists: [GroceryListsModel] = []
         var selectedItemsCount = 0
@@ -142,6 +142,16 @@ final class MainTabBarViewModel {
         AmplitudeManager.shared.logEvent(.itemsPinned, properties: [.count: "\(favoriteItemsCount)"])
         AmplitudeManager.shared.logEvent(.sharedLists, properties: [.count: "\(sharedListsCount)"])
         AmplitudeManager.shared.logEvent(.sharedUsersMaxCount, properties: [.count: "\(sharedUserMax)"])
+    }
+    
+    func pantryAnalytics() {
+        let lists = CoreDataManager.shared.getAllPantries() ?? []
+        let stocks = CoreDataManager.shared.getAllStock() ?? []
+        let stocksReminder = stocks.filter { $0.isReminder }
+        
+        AmplitudeManager.shared.setUserProperty(properties: ["pantry_list_count": lists.count])
+        AmplitudeManager.shared.setUserProperty(properties: ["pantry_items_count": stocks.count])
+        AmplitudeManager.shared.setUserProperty(properties: ["pantry_reminders_count": stocksReminder.count])
     }
     
     private func isShowStockReminderRequired() -> Bool {
