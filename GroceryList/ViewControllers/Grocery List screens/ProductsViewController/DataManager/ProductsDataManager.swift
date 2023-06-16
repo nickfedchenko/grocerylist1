@@ -167,6 +167,7 @@ class ProductsDataManager {
                     stock.cost == product.cost && stock.quantity == product.quantity {
                     
                     products[index].inStock = stock.id
+                    AmplitudeManager.shared.logEvent(.pantryItemInStock)
                 }
             }
         }

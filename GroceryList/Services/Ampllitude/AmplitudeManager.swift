@@ -123,6 +123,45 @@ enum EventName: String {
     case prefHapticToggle = "pref_haptic_toggle"
     case prefPictureToggle = "pref_picture_toggle"
     case prefLike = "pref_like"
+    
+    // Pantry
+    case pantryListCreated = "pantry_list_created"
+    case pantryLinkListCreated = "pantry_link_list_created"
+    case pantryLinkListInside = "pantry_link_list_inside" // при редактировании?
+    case pantryMenuEdit = "pantry_menu_edit"
+    case pantryMenuRename = "pantry_menu_rename"
+    case pantryMenuAddUser = "pantry_menu_add_user"
+    case pantryMenuSend = "pantry_menu_send"
+    case pantryMenuShopsToggle = "pantry_menu_shops_toggle"
+    case pantryMenuColor = "pantry_menu_color"
+    case pantryImageMatchToggle = "pantry_image_match_toggle"
+    case pantryMenuDelete = "pantry_menu_delete"
+    case pantryListRearrage = "pantry_list_rearrage"
+    case pantryCopyItems = "pantry_copy_items"
+    case pantryMoveItems = "pantry_move_items"
+    case pantryOutButton = "pantry_out_button"
+    case pantryItemInStock = "pantry_item_in_stock"
+    case pantryRepeatDaily = "pantry_repeat_daily"
+    case pantryRepeatWeekly = "pantry_repeat_weekly"
+    case pantryRepeatMonthly = "pantry_repeat_monthly"
+    case pantryRepeatYearly = "pantry_repeat_yearly"
+    case pantryRepeatCustom = "pantry_repeate_custom"
+    case pantryRepeatReminder = "pantry_repeate_reminder"
+    case pantryCreateItem = "pantry_create_item"
+    case pantryCreateItemShop = "pantry_create_item_shop"
+    case pantryCreateItemPrice = "pantry_create_item_price"
+    case pantryCreateItemQty = "pantry_create_item_qty"
+    case pantryCreateItemUnits = "pantry_create_item_units"
+    case pantryCreateItemUncheck = "pantry_create_item_uncheck"
+    case pantryCreateItemPhoto = "pantry_create_item_photo"
+    case pantryCreateItemAutoPhoto = "pantry_create_item_autoPhoto"
+    case pantryCreateItemDeletePhoto = "pantry_create_item_delete_photo"
+    case pantryReminderWorked = "pantry_reminder_worked"
+    case pantryReminderCheckbox = "pantry_reminder_checkbox"
+    case pantryReminderAddToList = "pantry_reminder_add_to_list"
+    case pantryContextDelete = "pantry_context_delete"
+    case pantryContextEdit = "pantry_context_edit"
+    
 }
 
 typealias PropertyKey = String
@@ -151,6 +190,9 @@ extension PropertyValue {
     
     static let yes = "yes"
     static let valueNo = "no"
+    
+    static let valueOn = "on"
+    static let off = "off"
 }
 
 var idsOfChangedLists = Set<UUID>()

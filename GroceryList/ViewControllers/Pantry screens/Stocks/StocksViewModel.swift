@@ -204,6 +204,7 @@ final class StocksViewModel {
     
     func sortIsAvailability() {
         sortByOutOfStock.toggle()
+        AmplitudeManager.shared.logEvent(.pantryOutButton, properties: [.isActive: sortByOutOfStock ? .valueOn : .off])
         dataSource.isSort = sortByOutOfStock
         dataSource.sortByStock()
         dataSource.reloadData?()

@@ -71,6 +71,7 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
             return pantry.isShowImage.getBool(defaultValue: UserDefaultsManager.isShowImage)
         }
         if content == .storeAndCost {
+            
 #if RELEASE
             guard Apphud.hasActiveSubscription() else {
                 return false
@@ -108,16 +109,24 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
         guard let content = allContent[safe: ind] else { return }
         switch content {
         case .edit:
+            AmplitudeManager.shared.logEvent(.pantryMenuEdit)
             editList()
-        case .rename, .changeColor:
+        case .rename:
+            AmplitudeManager.shared.logEvent(.pantryMenuRename)
             selectedChangeList()
         case .share:
+            AmplitudeManager.shared.logEvent(.pantryMenuAddUser)
             shareList()
         case .send:
+            AmplitudeManager.shared.logEvent(.pantryMenuSend)
             sendListByText()
         case .print:
             printList()
+        case .changeColor:
+            AmplitudeManager.shared.logEvent(.pantryMenuColor)
+            selectedChangeList()
         case .delete:
+            AmplitudeManager.shared.logEvent(.pantryMenuDelete)
             deleteList()
         default: return
         }
@@ -127,9 +136,11 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
         guard let content = allContent[safe: ind] else { return }
         switch content {
         case .storeAndCost:
+            AmplitudeManager.shared.logEvent(.pantryMenuShopsToggle, properties: [.isActive: isOn ? .valueOn : .off])
             pantry.isVisibleCost = isOn
             saveParameters()
         case .imageMatching:
+            AmplitudeManager.shared.logEvent(.pantryImageMatchToggle, properties: [.isActive: isOn ? .valueOn : .off])
             pantry.isShowImage = isOn ? .itsTrue : .itsFalse
             saveParameters()
         default: break
