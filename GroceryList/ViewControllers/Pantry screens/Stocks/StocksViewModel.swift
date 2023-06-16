@@ -42,7 +42,7 @@ final class StocksViewModel {
     }
     
     var necessaryOffsetToLink: Double {
-        dataSource.stocks.isEmpty ? 0 : Double(dataSource.stocks.count * 56)
+        dataSource.allStocks.isEmpty ? 0 : Double(dataSource.allStocks.count * 56)
     }
     
     var pantryName: String {
@@ -87,8 +87,10 @@ final class StocksViewModel {
     
     func getStocks() -> [PantryStocks] {
         return [
-            PantryStocks(name: R.string.localizable.outOfStock(), stock: dataSource.outOfStock, typeOFCell: .outOfStock),
-            PantryStocks(name: "", stock: dataSource.stocks, typeOFCell: .normal)
+            PantryStocks(name: R.string.localizable.outOfStock(),
+                         stock: dataSource.outOfStock, typeOFCell: sortByOutOfStock ? .outOfStock : .normal),
+            PantryStocks(name: "",
+                         stock: dataSource.stocks, typeOFCell: sortByOutOfStock ? .inStock : .normal)
         ]
     }
     

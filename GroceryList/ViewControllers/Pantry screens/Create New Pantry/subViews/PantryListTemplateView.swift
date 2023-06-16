@@ -43,7 +43,7 @@ final class PantryListTemplateView: UIView {
                                                          top: .fixed(8),
                                                          trailing: .fixed(8),
                                                          bottom: .fixed(0))
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95),
                                                heightDimension: .estimated(height))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitems: [item])

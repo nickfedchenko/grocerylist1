@@ -37,6 +37,7 @@ class AccountViewModel {
     func logOutInPopupPressed() {
         UserAccountManager.shared.deleteUser()
         CoreDataManager.shared.removeSharedLists()
+        CoreDataManager.shared.removeSharedPantryLists()
         UserDefaultsManager.userTokens = []
         router?.popToRoot()
     }
