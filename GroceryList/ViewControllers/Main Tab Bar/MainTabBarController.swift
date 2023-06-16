@@ -65,7 +65,8 @@ final class MainTabBarController: UITabBarController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if !initAnalytic {
-            viewModel.analytic()
+            viewModel.groceryAnalytics()
+            viewModel.pantryAnalytics()
             initAnalytic.toggle()
             viewModel.showFeedback()
         }

@@ -206,9 +206,13 @@ final class StocksViewModel {
             guard let self else {
                 return
             }
-            self.delegate?.updateLinkButton()
             self.pantry.synchronizedLists = uuids
             CoreDataManager.shared.savePantry(pantry: [self.pantry])
+            
+            self.delegate?.updateLinkButton()
+            if !uuids.isEmpty {
+                AmplitudeManager.shared.logEvent(.pantryLinkListInside)
+            }
         })
     }
     
