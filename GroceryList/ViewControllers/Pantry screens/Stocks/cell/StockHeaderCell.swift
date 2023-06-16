@@ -35,9 +35,24 @@ class StockHeaderCell: UICollectionReusableView {
         sectionName.text = section.name
         sectionName.isHidden = section.typeOFCell == .normal
 
+        let bottomOffset: Int
+        let height: Int
+        
+        switch section.typeOFCell {
+        case .inStock:
+            bottomOffset = 0
+            height = 12
+        case .outOfStock:
+            bottomOffset = -8
+            height = 24
+        case .normal:
+            bottomOffset = 0
+            height = 0
+        }
+        
         sectionName.snp.updateConstraints {
-            $0.bottom.equalToSuperview().offset(section.typeOFCell == .normal ? 0 : -8)
-            $0.height.equalTo(section.typeOFCell == .normal ? 0 : 24)
+            $0.bottom.equalToSuperview().offset(bottomOffset)
+            $0.height.equalTo(height)
         }
     }
     

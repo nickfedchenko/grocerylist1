@@ -179,8 +179,8 @@ final class StockCell: UICollectionViewCell {
     }
     
     private func setupColor(theme: Theme, inStock: Bool) {
-        nameLabel.textColor = theme.dark
-        descriptionLabel.textColor = theme.dark
+        nameLabel.textColor = inStock ? theme.dark : .black
+        descriptionLabel.textColor = inStock ? theme.dark : .black
         repeatImageView.image = repeatImageView.image?.withTintColor(theme.dark)
         reminderImageView.image = reminderImageView.image?.withTintColor(theme.dark)
         

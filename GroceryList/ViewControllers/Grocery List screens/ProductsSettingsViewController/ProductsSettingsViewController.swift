@@ -12,6 +12,14 @@ class ProductsSettingsViewController: UIViewController {
     
     var viewModel: ProductsSettingsViewModel?
     
+    private let contentShadowView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 20
+        view.backgroundColor = .white
+        view.addCustomShadow(opacity: 0.7, radius: 11, offset: CGSize(width: 0, height: 12))
+        return view
+    }()
+    
     private let contentView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
@@ -111,9 +119,13 @@ class ProductsSettingsViewController: UIViewController {
 
     // MARK: - Constraints
     private func setupConstraints() {
-        view.addSubview(contentView)
+        view.addSubviews([contentShadowView, contentView])
         contentView.addSubviews([pinchView, parametrsLabel, doneButton, tableview])
        
+        contentShadowView.snp.makeConstraints { make in
+            make.edges.equalTo(contentView)
+        }
+        
         contentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(-570)

@@ -49,12 +49,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: UISceneSession Lifecycle
 
-    /// обычный диплинк
+    /// deeplinks (для теста)
     func application(_ app: UIApplication, open url: URL,
                      options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-      
-//        let strashnyiUrl = "https://shoppinglist.pro/list-ixMv0zxLtYg0Zbqrxs?link=grocerylist%3A%2F%2Fshare%3Ftoken%3Df738bb05-3fd9-4002-a844-0e87173fcb27"
-
         guard let urlString = url.absoluteString.decodeUrl(),
               let url = URL(string: urlString) else {
             return false
@@ -85,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .resetPassword:
             rootRouter?.openResetPassword(token: token)
         case .share:
-            if components.scheme == "pantrylist" {
+            if components.scheme == "pantryList" {
                 SharedPantryManager.shared.gottenDeeplinkToken(token: token)
             } else {
                 SharedListManager.shared.gottenDeeplinkToken(token: token)
@@ -101,6 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                          properties: [.count: "\(idsOfChangedProducts.count)"])
     }
     
+    /// universal links
     func application(_ application: UIApplication,
                      continue userActivity: NSUserActivity,
                      restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
@@ -108,8 +106,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
               let url = userActivity.webpageURL else {
             return false
         }
-        print(url) // В зависимости от URL Вы можете открывать разные экраны приложения.
-        //https://shoppinglist.pro/list-ixMv0zxLtYg0Zbqrxs
         
         guard let urlString = url.absoluteString.decodeUrl(),
               let url = URL(string: urlString) else {
@@ -141,7 +137,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .resetPassword:
             rootRouter?.openResetPassword(token: token)
         case .share:
-            if components.scheme == "pantrylist" {
+            if components.scheme == "pantryList" {
                 SharedPantryManager.shared.gottenDeeplinkToken(token: token)
             } else {
                 SharedListManager.shared.gottenDeeplinkToken(token: token)

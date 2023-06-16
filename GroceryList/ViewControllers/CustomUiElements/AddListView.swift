@@ -23,7 +23,8 @@ final class AddListView: UIView {
         label.font = UIFont.SFProRounded.semibold(size: 18).font
         label.textColor = UIColor(hex: "#31635A")
         label.text = R.string.localizable.list()
-        label.numberOfLines = 2
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
         return label
     }()
     

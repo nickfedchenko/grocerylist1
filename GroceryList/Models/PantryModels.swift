@@ -226,5 +226,6 @@ struct PantryStocks: Hashable {
 
 enum TypeOfCellPantryStocks {
     case outOfStock
+    case inStock
     case normal
 }
