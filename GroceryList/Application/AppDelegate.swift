@@ -50,8 +50,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: UISceneSession Lifecycle
 
     /// обычный диплинк
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
       
+//        let strashnyiUrl = "https://shoppinglist.pro/list-ixMv0zxLtYg0Zbqrxs?link=grocerylist%3A%2F%2Fshare%3Ftoken%3Df738bb05-3fd9-4002-a844-0e87173fcb27"
+
+        guard let urlString = url.absoluteString.decodeUrl(),
+              let url = URL(string: urlString) else {
+            return false
+        }
+        
+        guard let param = url.valueOf("link") else {
+            return false
+        }
+
+        guard let url = URL(string: param) else {
+            return false
+        }
+        
         guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
               let host = components.host else {
             print("invalidUrl")
@@ -94,6 +110,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         print(url) // В зависимости от URL Вы можете открывать разные экраны приложения.
         //https://shoppinglist.pro/list-ixMv0zxLtYg0Zbqrxs
+        
+        guard let urlString = url.absoluteString.decodeUrl(),
+              let url = URL(string: urlString) else {
+            return false
+        }
+        
+        guard let param = url.valueOf("link") else {
+            return false
+        }
+
+        guard let url = URL(string: param) else {
+            return false
+        }
+        
         guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
               let host = components.host else {
             print("invalidUrl")
@@ -185,4 +215,21 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 enum DeepLink: String {
     case resetPassword
     case share
+}
+
+extension URL {
+    func valueOf(_ queryParameterName: String) -> String? {
+        guard let url = URLComponents(string: self.absoluteString) else { return nil }
+        return url.queryItems?.first(where: { $0.name == queryParameterName })?.value
+    }
+}
+
+extension String {
+    func encodeUrl() -> String? {
+        return self.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+    }
+    
+    func decodeUrl() -> String? {
+        return self.removingPercentEncoding
+    }
 }
