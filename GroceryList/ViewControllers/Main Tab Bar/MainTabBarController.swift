@@ -93,7 +93,7 @@ final class MainTabBarController: UITabBarController {
     }
     
     private func setupCustomNavBar() {
-        navBackgroundView.backgroundColor = R.color.background()?.withAlphaComponent(0.9)
+        navBackgroundView.backgroundColor = R.color.background()
         navView.backgroundColor = .clear
         navView.delegate = self
         navView.configure(with: .list, animate: false)

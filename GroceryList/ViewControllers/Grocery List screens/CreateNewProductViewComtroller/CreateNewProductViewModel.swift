@@ -297,19 +297,19 @@ class CreateNewProductViewModel {
             productsChangedCallback?([])
         }
         
-        if userProductTitles.contains(where: { $0.prepareForSearch().smartContains(name) }),
+        if userProductTitles.contains(where: { $0.prepareForSearch() == name }),
            let product = userProducts?.first(where: { $0.name?.prepareForSearch().smartContains(name) ?? false }) {
             getInformation(userProduct: product)
             return
         }
         
-        if networkProductTitles.contains(where: { $0.prepareForSearch().smartContains(name) }),
+        if networkProductTitles.contains(where: { $0.prepareForSearch() == name }),
            let product = networkBaseProducts?.first(where: { $0.title?.prepareForSearch().smartContains(name) ?? false }) {
             getInformation(networkProduct: product)
             return
         }
         
-        if networkDishesProductTitles.contains(where: { $0.prepareForSearch().smartContains(name) }),
+        if networkDishesProductTitles.contains(where: { $0.prepareForSearch() == name }),
            let product = networkDishesProducts?.first(where: { $0.title?.prepareForSearch().smartContains(name) ?? false }) {
             getInformation(networkProduct: product)
             return

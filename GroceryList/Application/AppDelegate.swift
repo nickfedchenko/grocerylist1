@@ -48,8 +48,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: UISceneSession Lifecycle
-/*
-    // обычный диплинк
+
+    /// обычный диплинк
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
       
         guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
@@ -76,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         return true
-    }*/
+    }
     
     func applicationWillTerminate(_ application: UIApplication) {
         AmplitudeManager.shared.logEvent(.listsChanged,
@@ -87,13 +87,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication,
                      continue userActivity: NSUserActivity,
-                     restorationHandler: ([Any?]) -> Void) -> Bool {
-         guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
-                let url = userActivity.webpageURL else {
-             return false
-         }
-         print(url) // В зависимости от URL Вы можете открывать разные экраны приложения.
-        
+                     restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+              let url = userActivity.webpageURL else {
+            return false
+        }
+        print(url) // В зависимости от URL Вы можете открывать разные экраны приложения.
+        //https://shoppinglist.pro/list-ixMv0zxLtYg0Zbqrxs
         guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
               let host = components.host else {
             print("invalidUrl")
@@ -118,7 +118,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-         return true
+        return true
     }
 }
 

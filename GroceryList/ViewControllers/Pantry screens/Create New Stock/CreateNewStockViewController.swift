@@ -30,6 +30,7 @@ final class CreateNewStockViewController: UIViewController {
     private let storeView = StoreOfProductView()
     private let quantityView = QuantityOfProductView()
     private let autoRepeatSettingView = AutoRepeatSettingView()
+    private let predictiveTextView = PredictiveTextView()
     private var imagePicker = UIImagePickerController()
     private var isUserImage = false
     private var isShowNewStoreView = false
@@ -37,6 +38,7 @@ final class CreateNewStockViewController: UIViewController {
     private let inactiveColor = R.color.mediumGray()
     private var unit: UnitSystem = .piece
     private var category: String = ""
+    private var predictiveTextViewHeight = 86
     
     init(viewModel: CreateNewStockViewModel) {
         self.viewModel = viewModel
@@ -103,6 +105,7 @@ final class CreateNewStockViewController: UIViewController {
         productView.setStock(isAvailability: true)
         storeView.stores = viewModel.stores
         quantityView.systemUnits = viewModel.selectedUnitSystemArray
+        setupPredictiveTextView()
     }
     
     private func setupColor() {
@@ -117,6 +120,18 @@ final class CreateNewStockViewController: UIViewController {
         autoRepeatView.backgroundColor = inactiveColor
         saveButton.backgroundColor = inactiveColor
         autoRepeatSettingView.setupColor(theme: theme)
+    }
+    
+    private func setupPredictiveTextView() {
+        viewModel.productsChangedCallback = { [weak self] titles in
+            guard let self else {
+                return
+            }
+            self.predictiveTextView.configure(texts: titles)
+        }
+        productView.productTextField.autocorrectionType = .no
+        productView.productTextField.spellCheckingType = .no
+        predictiveTextView.delegate = self
     }
     
     /// если продукт открыт для редактирования, то заполняем поля
@@ -233,10 +248,20 @@ final class CreateNewStockViewController: UIViewController {
             self.view.layoutIfNeeded()
         }
     }
+
+    private func updatePredictiveViewConstraints(isVisible: Bool) {
+        let height = isVisible ? predictiveTextViewHeight : 0
+        predictiveTextView.snp.updateConstraints { $0.height.equalTo(height) }
+        contentView.snp.updateConstraints { $0.height.greaterThanOrEqualTo(220 + height) }
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            self.view.layoutIfNeeded()
+        }
+    }
     
     private func updateStoreView(isVisible: Bool) {
         storeView.isHidden = !isVisible
-        let height = (isVisible ? 280 : 220)
+        let height = (isVisible ? 280 : 220) + predictiveTextViewHeight
         contentView.snp.updateConstraints { $0.height.greaterThanOrEqualTo(height) }
         storeView.snp.updateConstraints {
             $0.top.equalTo(productView.snp.bottom).offset(isVisible ? 20 : 0)
@@ -247,12 +272,12 @@ final class CreateNewStockViewController: UIViewController {
     private func makeConstraints() {
         self.view.addSubview(contentView)
         contentView.addSubviews([saveButton, autoRepeatView, productView, storeView, quantityView,
-                                 autoRepeatSettingView])
+                                 predictiveTextView, autoRepeatSettingView])
         
         contentView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(280)
-            $0.bottom.equalToSuperview().offset(280)
+            $0.height.greaterThanOrEqualTo(280 + predictiveTextViewHeight)
+            $0.bottom.equalToSuperview().offset(280 + predictiveTextViewHeight)
         }
         
         autoRepeatView.snp.makeConstraints {
@@ -289,6 +314,13 @@ final class CreateNewStockViewController: UIViewController {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(self.view)
             $0.top.equalTo(self.view.snp.bottom)
+        }
+        
+        predictiveTextView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(saveButton.snp.bottom)
+            $0.bottom.equalToSuperview()
+            $0.height.equalTo(predictiveTextViewHeight)
         }
     }
 }
@@ -365,7 +397,9 @@ extension CreateNewStockViewController: NameOfProductViewDelegate {
         }
     }
     
-    func isFirstResponderProductTextField(_ flag: Bool) { }
+    func isFirstResponderProductTextField(_ flag: Bool) {
+        updatePredictiveViewConstraints(isVisible: flag)
+    }
     
     func tappedAddImage() {
         pickImage()
@@ -429,5 +463,13 @@ extension CreateNewStockViewController: AutoRepeatSettingViewDelegate {
             return
         }
         autoRepeatView.setRepeat(autoRepeat)
+    }
+}
+
+extension CreateNewStockViewController: PredictiveTextViewDelegate {
+    func selectTitle(_ title: String) {
+        AmplitudeManager.shared.logEvent(.itemPredictAdd)
+        productView.productTextField.text = title
+        viewModel.checkIsProductFromCategory(name: title)
     }
 }
