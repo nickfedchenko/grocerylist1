@@ -158,22 +158,6 @@ struct Recipe: Codable, Hashable, Equatable {
 
 // MARK: - AdditionalTag
 struct AdditionalTag: Codable {
-    enum EatingTime: Int, CaseIterable {
-        case breakfast = 8
-        case dinner = 10
-        case lunch = 9
-        case snack = 11
-        
-        var color: Int {
-            switch self {
-            case .breakfast:    return 4
-            case .dinner:       return 6
-            case .lunch:        return 12
-            case .snack:        return 8
-            }
-        }
-    }
-    
     let id: Int
     let title: String
 
@@ -183,6 +167,40 @@ struct AdditionalTag: Codable {
     
     var color: Int {
         eatingType?.color ?? 0
+    }
+}
+
+enum EatingTime: Int, CaseIterable {
+    case breakfast = 8
+    case dinner = 10
+    case lunch = 9
+    case snack = 11
+    
+    case willCook = -10
+    case drafts = -9
+    case favorites = -8
+    case inbox = -7
+    
+    var color: Int {
+        switch self {
+        case .breakfast:    return 4
+        case .dinner:       return 6
+        case .lunch:        return 12
+        case .snack:        return 8
+            
+        case .willCook:     return 0
+        case .drafts:       return 16
+        case .favorites:    return 7
+        case .inbox:        return 13
+        }
+    }
+    
+    var isTechnicalCollection: Bool {
+        self == .willCook || self == .drafts || self == .favorites || self == .inbox
+    }
+    
+    static var getTechnicalCollection: [EatingTime] {
+        [.willCook, .drafts, .favorites, .inbox]
     }
 }
 

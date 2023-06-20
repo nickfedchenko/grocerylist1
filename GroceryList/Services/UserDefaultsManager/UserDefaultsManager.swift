@@ -250,6 +250,16 @@ class UserDefaultsManager {
         }
     }
     
+    static var isFillingDefaultTechnicalCollection: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "isFillingDefaultTechnicalCollection")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isFillingDefaultTechnicalCollection")
+        }
+    }
+
+    
     private static func setValue<T>(value: T, for key: UDKeys) {
         UserDefaults.standard.set(value, forKey: key.rawValue)
     }

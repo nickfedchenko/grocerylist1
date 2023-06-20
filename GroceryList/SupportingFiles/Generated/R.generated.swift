@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 328 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 331 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -1998,6 +1998,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var delete: RswiftResources.StringResource { .init(key: "delete", tableName: "Localizable", source: source, developmentValue: "Delete", comment: nil) }
 
+      /// en translation: Drafts
+      ///
+      /// Key: drafts
+      ///
+      /// Locales: en, ru, fr, de
+      var drafts: RswiftResources.StringResource { .init(key: "drafts", tableName: "Localizable", source: source, developmentValue: "Drafts", comment: nil) }
+
       /// en translation: Edit
       ///
       /// Key: edit
@@ -2060,6 +2067,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var inStock: RswiftResources.StringResource { .init(key: "in stock", tableName: "Localizable", source: source, developmentValue: "In stock", comment: nil) }
+
+      /// en translation: Inbox
+      ///
+      /// Key: inbox
+      ///
+      /// Locales: en, ru, fr, de
+      var inbox: RswiftResources.StringResource { .init(key: "inbox", tableName: "Localizable", source: source, developmentValue: "Inbox", comment: nil) }
 
       /// en translation: Item
       ///
@@ -2368,6 +2382,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var weeks: RswiftResources.StringResource { .init(key: "weeks", tableName: "Localizable", source: source, developmentValue: "Weeks", comment: nil) }
+
+      /// en translation: I will cook it
+      ///
+      /// Key: willCook
+      ///
+      /// Locales: en, ru, fr, de
+      var willCook: RswiftResources.StringResource { .init(key: "willCook", tableName: "Localizable", source: source, developmentValue: "I will cook it", comment: nil) }
 
       /// en translation: Yearly
       ///

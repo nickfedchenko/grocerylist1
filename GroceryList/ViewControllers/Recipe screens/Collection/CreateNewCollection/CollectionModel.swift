@@ -23,7 +23,7 @@ struct CollectionModel: Codable {
         self.isDefault = isDefault
     }
     
-    init?(from dbModel: DBCollection) {
+    init(from dbModel: DBCollection) {
         id = Int(dbModel.id)
         index = Int(dbModel.index)
         title = dbModel.title ?? ""

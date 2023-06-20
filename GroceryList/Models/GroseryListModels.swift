@@ -14,29 +14,44 @@ struct RecipeSectionsModel {
     }
     
     enum RecipeSectionType: Equatable {
-        case breakfast, lunch, dinner, snacks, none, favorites
+        case breakfast, lunch, dinner, snacks, none
+        case willCook, drafts, favorites, inbox
         case custom(String)
         
         var title: String {
             switch self {
-            case .breakfast:
-                return R.string.localizable.breakfast()
-            case .lunch:
-                return R.string.localizable.lunch()
-            case .dinner:
-                return R.string.localizable.dinner()
-            case .snacks:
-                return R.string.localizable.snacks()
-            case .none:
-                return "NoneType"
-            case .favorites:
-                return R.string.localizable.favorites()
-            case .custom(let title):
-                return title
+            case .breakfast:            return "Breakfast"
+            case .lunch:                return "Lunch"
+            case .dinner:               return "Dinner"
+            case .snacks:               return "Snacks"
+            case .none:                 return "NoneType"
+            case .custom(let title):    return title
+                
+            case .willCook:             return "willCook"
+            case .drafts:               return "drafts"
+            case .favorites:            return "Favorites"
+            case .inbox:                return "inbox"
+            }
+        }
+        
+        static func getCorrectTitle(id: Int) -> String {
+            let collection = EatingTime(rawValue: id)
+            switch collection {
+            case .breakfast:            return "Breakfast"
+            case .lunch:                return "Lunch"
+            case .dinner:               return "Dinner"
+            case .snack:                return "Snacks"
+
+            case .willCook:             return "willCook"
+            case .drafts:               return "drafts"
+            case .favorites:            return "Favorites"
+            case .inbox:                return "inbox"
+            case .none:                 return "NoneType"
             }
         }
     }
     
+    var collectionId: Int
     var cellType: RecipeCellType
     var sectionType: RecipeSectionType
     var recipes: [ShortRecipeModel]
@@ -56,7 +71,7 @@ struct ShortRecipeModel {
     var values: Values?
     var isFavorite = false
     
-    init?(withCollection dbModel: DBRecipe, isFavorite: Bool) {
+    init(withCollection dbModel: DBRecipe, isFavorite: Bool) {
         id = Int(dbModel.id)
         title = dbModel.title ?? ""
         photo = dbModel.photo ?? ""
@@ -67,7 +82,7 @@ struct ShortRecipeModel {
         self.isFavorite = isFavorite
     }
     
-    init?(withIngredients dbModel: DBRecipe) {
+    init(withIngredients dbModel: DBRecipe) {
         id = Int(dbModel.id)
         title = dbModel.title ?? ""
         photo = dbModel.photo ?? ""

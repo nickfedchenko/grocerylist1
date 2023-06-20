@@ -406,3 +406,6 @@
 
 // Recipe
 "Search by name or ingredient"  = "Поиск по названию или ингредиенту";
+"willCook"                      = "Я приготовлю это";
+"drafts"                        = "Черновики";
+"inbox"                         = "Входящие";

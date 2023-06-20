@@ -393,6 +393,16 @@ class CoreDataManager {
         return object
     }
     
+    func getCollection(by id: Int) -> DBCollection? {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBCollection> = DBCollection.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        guard let object = try? context.fetch(fetchRequest).first else {
+            return nil
+        }
+        return object
+    }
+    
     func deleteCollection(by id: Int) {
         let context = coreData.container.viewContext
         let fetchRequest: NSFetchRequest<DBCollection> = DBCollection.fetchRequest()

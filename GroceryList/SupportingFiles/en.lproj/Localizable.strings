@@ -408,3 +408,6 @@
 
 // Recipe
 "Search by name or ingredient"  = "Search by name or ingredient";
+"willCook"                      = "I will cook it";
+"drafts"                        = "Drafts";
+"inbox"                         = "Inbox";

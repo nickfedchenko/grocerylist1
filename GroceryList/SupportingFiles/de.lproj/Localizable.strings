@@ -376,3 +376,6 @@
 
 // Recipe
 "Search by name or ingredient"  = "Suche nach Name oder Zutat";
+"willCook"                      = "Ich werde es kochen";
+"drafts"                        = "Entwurf";
+"inbox"                         = "Posteingang";

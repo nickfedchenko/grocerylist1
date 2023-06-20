@@ -112,8 +112,7 @@ final class MainRecipeViewController: UIViewController {
         } else {
             activityView.removeFromView()
             DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                self?.viewModel.updateFavorites()
-                self?.viewModel.updateCustomSection()
+                self?.viewModel.updateSection()
                 DispatchQueue.main.async {
                     self?.recipesCollectionView.reloadData()
                 }
