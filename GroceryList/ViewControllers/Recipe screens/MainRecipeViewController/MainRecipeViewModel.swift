@@ -39,7 +39,7 @@ final class MainRecipeViewModel {
     }
     
     func getShortRecipeModel(for indexPath: IndexPath) -> ShortRecipeModel? {
-        let model = dataSource.recipesSections[safe: indexPath.section]?.recipes[safe: indexPath.item]
+        let model = dataSource.recipesSections[safe: indexPath.section]?.recipes[safe: indexPath.item - 1]
         return model
     }
     
@@ -49,9 +49,23 @@ final class MainRecipeViewModel {
     }
     
     func recipeCount(for section: Int) -> Int {
-        let count = dataSource.recipesSections[section].recipes.count
+        var count = dataSource.recipesSections[section].recipes.count
+        if count >= 1 {
+            count += 1
+        }
         let maxCount = dataSource.recipeCount
         return count < maxCount ? count : maxCount
+    }
+    
+    func collectionColor(for index: Int) -> Theme {
+        let color = dataSource.recipesSections[safe: index]?.color ?? 0
+        return colorManager.getGradient(index: color)
+    }
+    
+    func collectionImage(for indexPath: IndexPath) -> (url: String, data: Data?) {
+        let url = dataSource.recipesSections[safe: indexPath.item]?.imageUrl ?? ""
+        let data = dataSource.recipesSections[safe: indexPath.item]?.localImage
+        return (url, data)
     }
     
     func updateRecipesSection() {
@@ -81,8 +95,9 @@ final class MainRecipeViewModel {
     }
     
     func showRecipe(by indexPath: IndexPath) {
-        let recipeId = dataSource.recipesSections[indexPath.section].recipes[indexPath.item].id
-        guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
+        guard let recipeId = dataSource.recipesSections[safe: indexPath.section]?
+                                       .recipes[safe: indexPath.item - 1]?.id,
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
               let model = Recipe(from: dbRecipe) else {
             return
         }
@@ -93,5 +108,9 @@ final class MainRecipeViewModel {
         router?.goCreateNewList(compl: { [weak self] model, _  in
             self?.router?.goProductsVC(model: model, compl: { })
         })
+    }
+    
+    func showSearch() {
+        router?.goToSearchInRecipe()
     }
 }

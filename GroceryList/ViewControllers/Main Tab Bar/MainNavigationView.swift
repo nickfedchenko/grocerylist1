@@ -11,7 +11,7 @@ import UIKit
 protocol MainNavigationViewDelegate: AnyObject {
     func searchButtonTapped()
     func settingsTapped()
-    func contextMenuTapped()
+    func recipeChangeViewTapped()
     func sortCollectionTapped()
 }
 
@@ -45,17 +45,16 @@ final class MainNavigationView: UIView {
         return button
     }()
     
-    private lazy var menuButton: UIButton = {
+    private lazy var recipeEditCollectionButton: UIButton = {
         let button = UIButton()
-        button.addTarget(self, action: #selector(menuButtonAction), for: .touchUpInside)
-        button.setImage(R.image.contextMenuPlus(), for: .normal)
+        button.addTarget(self, action: #selector(sortButtonAction), for: .touchUpInside)
+        button.setImage(R.image.editCell()?.withTintColor(R.color.primaryDark() ?? .black), for: .normal)
         return button
     }()
     
-    private lazy var sortButton: UIButton = {
+    private lazy var recipeChangeViewButton: UIButton = {
         let button = UIButton()
-        button.addTarget(self, action: #selector(sortButtonAction), for: .touchUpInside)
-        button.setImage(R.image.sortRecipeMenu(), for: .normal)
+        button.addTarget(self, action: #selector(recipeChangeViewAction), for: .touchUpInside)
         return button
     }()
     
@@ -69,6 +68,7 @@ final class MainNavigationView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupConstraints()
+        updateImageChangeViewButton()
     }
     
     required init?(coder: NSCoder) {
@@ -76,14 +76,16 @@ final class MainNavigationView: UIView {
     }
     
     func configure(with mode: TabBarItemView.Item, animate: Bool = true) {
-        sortButton.snp.updateConstraints {
+        recipeEditCollectionButton.snp.updateConstraints {
             $0.width.height.equalTo(mode == .recipe ? 40 : 0)
         }
-        menuButton.snp.updateConstraints {
+        
+        recipeChangeViewButton.snp.updateConstraints {
             $0.width.height.equalTo(mode == .recipe ? 40 : 0)
         }
+        
         searchButton.snp.updateConstraints {
-            $0.width.height.equalTo(mode == .pantry ? 0 : 40)
+            $0.width.height.equalTo(mode == .list ? 40 : 0)
         }
         
         if animate {
@@ -127,6 +129,12 @@ final class MainNavigationView: UIView {
         })
     }
     
+    private func updateImageChangeViewButton() {
+        let isFolder = UserDefaultsManager.recipeIsFolderView
+        let image = isFolder ? R.image.recipeCollectionView() : R.image.recipeFolderView()
+        recipeChangeViewButton.setImage(image, for: .normal)
+    }
+    
     @objc
     private func searchButtonAction() {
         delegate?.searchButtonTapped()
@@ -138,8 +146,10 @@ final class MainNavigationView: UIView {
     }
     
     @objc
-    private func menuButtonAction() {
-        delegate?.contextMenuTapped()
+    private func recipeChangeViewAction() {
+        UserDefaultsManager.recipeIsFolderView = !UserDefaultsManager.recipeIsFolderView
+        updateImageChangeViewButton()
+        delegate?.recipeChangeViewTapped()
     }
     
     @objc
@@ -148,12 +158,13 @@ final class MainNavigationView: UIView {
     }
         
     private func setupConstraints() {
-        self.addSubviews([profileView, searchButton, menuButton, sortButton])
+        self.addSubviews([profileView, searchButton,
+                          recipeChangeViewButton, recipeEditCollectionButton])
         profileView.addSubviews([settingsButton, userNameLabel])
         
         profileView.snp.makeConstraints {
             $0.leading.equalTo(24)
-            $0.trailing.lessThanOrEqualTo(menuButton.snp.leading).offset(-10)
+            $0.trailing.lessThanOrEqualTo(searchButton.snp.leading).offset(-10)
             $0.bottom.top.equalToSuperview()
         }
         
@@ -171,18 +182,18 @@ final class MainNavigationView: UIView {
         }
         
         searchButton.snp.makeConstraints {
-            $0.trailing.equalTo(sortButton.snp.leading).inset(-8)
+            $0.trailing.equalTo(recipeEditCollectionButton.snp.leading).inset(-8)
             $0.centerY.equalTo(settingsButton)
             $0.width.height.equalTo(40)
         }
         
-        menuButton.snp.makeConstraints {
-            $0.trailing.equalTo(searchButton.snp.leading).inset(-8)
+        recipeChangeViewButton.snp.makeConstraints {
+            $0.trailing.equalTo(recipeEditCollectionButton.snp.leading).inset(-8)
             $0.centerY.equalTo(settingsButton)
             $0.width.height.equalTo(40)
         }
         
-        sortButton.snp.makeConstraints {
+        recipeEditCollectionButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(28)
             $0.centerY.equalTo(settingsButton)
             $0.width.height.equalTo(40)

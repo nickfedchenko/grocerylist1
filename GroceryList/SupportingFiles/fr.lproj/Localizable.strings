@@ -370,3 +370,6 @@
 "Fabric softener"               = "Assouplissant";
 "Cleaning Cloth"                = "Chiffon de nettoyage";
 "AA batteries"                  = "Piles AA";
+
+// Recipe
+"Search by name or ingredient"  = "Recherche par nom ou ingrédient";
