@@ -373,3 +373,6 @@
 
 // Recipe
 "Search by name or ingredient"  = "Recherche par nom ou ingrédient";
+"willCook"                      = "Je vais le cuisiner";
+"drafts"                        = "Brouillons";
+"inbox"                         = "Boîte de réception";

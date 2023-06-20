@@ -72,12 +72,8 @@ final class MainRecipeViewModel {
         dataSource.makeRecipesSections()
     }
     
-    func updateFavorites() {
-        dataSource.updateFavoritesSection()
-    }
-    
-    func updateCustomSection() {
-        dataSource.updateCustomSection()
+    func updateSection() {
+        dataSource.updateSection()
     }
     
     func updateUI() {

@@ -413,9 +413,11 @@ extension RecipeViewController: RecipeMainImageViewDelegate {
     func addToFavoritesTapped() {
         if isFavorite {
             UserDefaultsManager.favoritesRecipeIds.removeAll(where: { $0 == viewModel.recipe.id })
+            viewModel.updateFavoriteState(isSelected: false)
         } else {
             AmplitudeManager.shared.logEvent(.recipeAddFavorites)
             UserDefaultsManager.favoritesRecipeIds.append(viewModel.recipe.id)
+            viewModel.updateFavoriteState(isSelected: true)
         }
     }
 }
