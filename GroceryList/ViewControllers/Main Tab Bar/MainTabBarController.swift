@@ -104,6 +104,7 @@ final class MainTabBarController: UITabBarController {
     private func setupContextMenu() {
         let menuTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(menuTapAction))
         contextMenuBackgroundView.addGestureRecognizer(menuTapRecognizer)
+        contextMenuBackgroundView.backgroundColor = .black.withAlphaComponent(0.2)
         
         contextMenu.isHidden = true
         contextMenuBackgroundView.isHidden = true
@@ -161,8 +162,8 @@ final class MainTabBarController: UITabBarController {
         }
         
         contextMenu.snp.makeConstraints { make in
-            make.top.equalTo(navView)
-            make.trailing.equalToSuperview().offset(-68)
+            make.bottom.equalTo(customTabBar.snp.top).offset(-9)
+            make.centerX.equalToSuperview()
             make.height.equalTo(contextMenu.requiredHeight)
             make.width.equalTo(254)
         }
@@ -189,9 +190,8 @@ extension MainTabBarController: MainNavigationViewDelegate {
         viewModel.settingsTapped()
     }
     
-    func contextMenuTapped() {
-        contextMenu.fadeIn()
-        contextMenuBackgroundView.isHidden = false
+    func recipeChangeViewTapped() {
+        recipeDelegate?.tappedChangeView()
     }
     
     func sortCollectionTapped() {
@@ -240,7 +240,8 @@ extension MainTabBarController: CustomTabBarViewDelegate {
                     stocksDelegate?.tappedAddItem()
                 }
             case .recipe:
-                recipeDelegate?.tappedAddItem()
+                contextMenu.fadeIn()
+                contextMenuBackgroundView.isHidden = false
             }
         }
     }

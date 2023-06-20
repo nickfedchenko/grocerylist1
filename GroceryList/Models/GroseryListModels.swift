@@ -40,22 +40,31 @@ struct RecipeSectionsModel {
     var cellType: RecipeCellType
     var sectionType: RecipeSectionType
     var recipes: [ShortRecipeModel]
+    var color: Int
+    var imageUrl: String?
+    var localImage: Data?
 }
 
 struct ShortRecipeModel {
     let id: Int
+    let time: Int32
     let title: String
     let photo: String
     var ingredients: [Ingredient]?
     var localCollection: [CollectionModel]?
     var localImage: Data?
+    var values: Values?
+    var isFavorite = false
     
-    init?(withCollection dbModel: DBRecipe) {
+    init?(withCollection dbModel: DBRecipe, isFavorite: Bool) {
         id = Int(dbModel.id)
         title = dbModel.title ?? ""
         photo = dbModel.photo ?? ""
         localCollection = (try? JSONDecoder().decode([CollectionModel].self, from: dbModel.localCollection ?? Data()))
         localImage = dbModel.localImage
+        values = (try? JSONDecoder().decode(Values.self, from: dbModel.values ?? Data()))
+        time = dbModel.cookingTime
+        self.isFavorite = isFavorite
     }
     
     init?(withIngredients dbModel: DBRecipe) {
@@ -64,6 +73,8 @@ struct ShortRecipeModel {
         photo = dbModel.photo ?? ""
         ingredients = (try? JSONDecoder().decode([Ingredient].self, from: dbModel.ingredients ?? Data()))
         localImage = dbModel.localImage
+        values = (try? JSONDecoder().decode(Values.self, from: dbModel.values ?? Data()))
+        time = dbModel.cookingTime
     }
 }
 

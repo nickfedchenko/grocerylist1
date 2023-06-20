@@ -19,6 +19,7 @@ extension DBRecipe {
     @NSManaged public var id: Int64
     @NSManaged public var title: String?
     @NSManaged public var recipeDescription: String?
+    @NSManaged public var values: Data?
     @NSManaged public var cookingTime: Int32
     @NSManaged public var totalServings: Int16
     @NSManaged public var dishWeight: Double
@@ -66,12 +67,15 @@ extension DBRecipe {
                 collections.append(CollectionModel(id: tag.id,
                                                    index: 1000 + tag.id,
                                                    title: tag.title,
+                                                   color: tag.color,
                                                    isDefault: true))
             }
             recipe.localCollection = try? JSONEncoder().encode(collections)
             UserDefaults.standard.setValue(true, forKey: "Recipe\(model.id)")
         }
         recipe.localImage = model.localImage
+        recipe.values = try? JSONEncoder().encode(model.values)
+        
         return recipe
     }
     

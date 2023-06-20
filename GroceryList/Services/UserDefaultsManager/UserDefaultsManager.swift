@@ -241,6 +241,15 @@ class UserDefaultsManager {
         }
     }
     
+    static var recipeIsFolderView: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "recipeIsFolderView")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "recipeIsFolderView")
+        }
+    }
+    
     private static func setValue<T>(value: T, for key: UDKeys) {
         UserDefaults.standard.set(value, forKey: key.rawValue)
     }

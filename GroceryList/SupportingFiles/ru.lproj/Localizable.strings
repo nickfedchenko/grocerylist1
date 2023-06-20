@@ -403,3 +403,6 @@
 "Fabric softener"               = "Средство для смягчения тканей";
 "Cleaning Cloth"                = "Салфетка для чистки";
 "AA batteries"                  = "Батарейки типа АА";
+
+// Recipe
+"Search by name or ingredient"  = "Поиск по названию или ингредиенту";
