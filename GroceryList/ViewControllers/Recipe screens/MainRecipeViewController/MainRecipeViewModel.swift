@@ -100,12 +100,6 @@ final class MainRecipeViewModel {
         router?.goToRecipe(recipe: model)
     }
     
-    func tappedAddItem() {
-        router?.goCreateNewList(compl: { [weak self] model, _  in
-            self?.router?.goProductsVC(model: model, compl: { })
-        })
-    }
-    
     func showSearch() {
         router?.goToSearchInRecipe()
     }

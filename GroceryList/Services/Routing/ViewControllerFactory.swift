@@ -277,8 +277,9 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createRecipesListController(for section: RecipeSectionsModel, with router: RootRouter) -> UIViewController {
-        let recipeListVC = RecipesListViewController(with: section)
-        recipeListVC.router = router
+        let viewModel = RecipesListViewModel(with: section)
+        viewModel.router = router
+        let recipeListVC = RecipesListViewController(viewModel: viewModel)
         return recipeListVC
     }
     

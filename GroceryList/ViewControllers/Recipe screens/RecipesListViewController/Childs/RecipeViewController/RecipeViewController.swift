@@ -169,6 +169,14 @@ final class RecipeViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
+        (self.tabBarController as? MainTabBarController)?.setTextTabBar(
+            text: R.string.localizable.create().uppercased()
+        )
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         contentScrollView.contentInset.top = header.bounds.height

@@ -104,7 +104,7 @@ extension SearchInRecipeViewController: UITextFieldDelegate {
 }
 
 extension SearchInRecipeViewController: RecipeListCellDelegate {
-    func didTapToButProductsAtRecipe(at index: Int) {
+    func contextMenuTapped(at index: Int) {
         let recipeTitle = viewModel?.getRecipe(by: index)?.title
         currentlySelectedIndex = index
         let products: [Product] = viewModel?.getRecipe(by: index)?.ingredients?.map({
