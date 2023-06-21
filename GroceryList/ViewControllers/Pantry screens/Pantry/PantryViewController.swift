@@ -65,7 +65,7 @@ final class PantryViewController: UIViewController {
         super.viewDidLoad()
         (self.tabBarController as? MainTabBarController)?.pantryDelegate = self
         self.view.backgroundColor = R.color.background()
-        titleBackgroundView.backgroundColor = R.color.background()?.withAlphaComponent(0.9)
+        titleBackgroundView.backgroundColor = R.color.background()
         
         viewModel.reloadData = { [weak self] in
             self?.reloadData()
