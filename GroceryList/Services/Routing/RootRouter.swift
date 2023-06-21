@@ -254,7 +254,7 @@ final class RootRouter: RootRouterProtocol {
     
     func goToRecipe(recipe: Recipe) {
         let controller = viewControllerFactory.createRecipeScreen(router: self, recipe: recipe)
-        navigationPushViewController(controller, animated: true)
+        recipeNavController.pushViewController(controller, animated: true)
     }
     
     func goToEditSelectList(products: [Product], contentViewHeigh: CGFloat,
@@ -458,7 +458,7 @@ final class RootRouter: RootRouterProtocol {
     
     func goToRecipes(for section: RecipeSectionsModel) {
         let recipeVC = viewControllerFactory.createRecipesListController(for: section, with: self)
-        navigationPushViewController(recipeVC, animated: true)
+        recipeNavController.pushViewController(recipeVC, animated: true)
     }
     
     // pop
@@ -475,7 +475,7 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func popPantryToRoot(animated: Bool = true) {
-        listNavController.popToRootViewController(animated: animated)
+        pantryNavController.popToRootViewController(animated: animated)
     }
     
     func popList(animated: Bool = true) {
@@ -483,7 +483,7 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func popPantry(animated: Bool = true) {
-        listNavController.popViewController(animated: animated)
+        pantryNavController.popViewController(animated: animated)
     }
     
     private func setupTabBarController() {
@@ -492,8 +492,9 @@ final class RootRouter: RootRouterProtocol {
         let recipeController = viewControllerFactory.createRecipeController(router: self)
         listNavController = UINavigationController(rootViewController: listController)
         pantryNavController = UINavigationController(rootViewController: pantryController)
-
-        var controllers: [UIViewController] = [listNavController, pantryNavController, recipeController]
+        recipeNavController = UINavigationController(rootViewController: recipeController)
+        
+        var controllers: [UIViewController] = [listNavController, pantryNavController, recipeNavController]
 
         let rootTabBarController = viewControllerFactory.createMainTabBarController(
             router: self, controllers: controllers

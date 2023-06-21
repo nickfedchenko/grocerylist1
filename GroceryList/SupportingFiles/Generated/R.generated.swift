@@ -2437,7 +2437,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 263 images.
+  /// This `_R.image` struct is generated, and contains static references to 267 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -2501,6 +2501,9 @@ struct _R {
     /// Image `ChevronUpGreen`.
     var chevronUpGreen: RswiftResources.ImageResource { .init(name: "ChevronUpGreen", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `Choose Photo`.
+    var choosePhoto: RswiftResources.ImageResource { .init(name: "Choose Photo", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `Collection`.
     var collection: RswiftResources.ImageResource { .init(name: "Collection", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -2546,6 +2549,9 @@ struct _R {
     /// Image `Medications`.
     var medications: RswiftResources.ImageResource { .init(name: "Medications", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `Menu Folder Big`.
+    var menuFolderBig: RswiftResources.ImageResource { .init(name: "Menu Folder Big", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `MenuFolder`.
     var menuFolder: RswiftResources.ImageResource { .init(name: "MenuFolder", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -2569,6 +2575,12 @@ struct _R {
 
     /// Image `Recipe Folder View`.
     var recipeFolderView: RswiftResources.ImageResource { .init(name: "Recipe Folder View", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Recipe Grid View`.
+    var recipeGridView: RswiftResources.ImageResource { .init(name: "Recipe Grid View", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Recipe Table View`.
+    var recipeTableView: RswiftResources.ImageResource { .init(name: "Recipe Table View", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `RecipePlus`.
     var recipePlus: RswiftResources.ImageResource { .init(name: "RecipePlus", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
