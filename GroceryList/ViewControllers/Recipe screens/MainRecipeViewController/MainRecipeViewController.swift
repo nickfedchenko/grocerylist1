@@ -25,6 +25,14 @@ final class MainRecipeViewController: UIViewController {
         return label
     }()
     
+    private lazy var searchIconButton: UIButton = {
+        let button = UIButton()
+        button.setImage(R.image.searchButtonImage()?.withTintColor(R.color.primaryDark() ?? .black),
+                        for: .normal)
+        button.addTarget(self, action: #selector(tappedOnSearch), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var recipesCollectionView: UICollectionView = {
         let layout = collectionViewLayoutManager.makeRecipesLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -65,7 +73,9 @@ final class MainRecipeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        (self.tabBarController as? MainTabBarController)?.recipeDelegate = self
+        let tabBar = (self.tabBarController as? MainTabBarController)
+        tabBar?.recipeDelegate = self
+        tabBar?.navBackgroundView.backgroundColor = R.color.background()?.withAlphaComponent(0.95)
         titleBackgroundView.backgroundColor = R.color.background()?.withAlphaComponent(0.95)
         
         let tapOnSearch = UITapGestureRecognizer(target: self, action: #selector(tappedOnSearch))
@@ -204,8 +214,13 @@ final class MainRecipeViewController: UIViewController {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(titleBackgroundView).offset(4)
             $0.leading.equalToSuperview().offset(24)
-            $0.centerX.equalToSuperview()
             $0.height.equalTo(32)
+        }
+        
+        searchIconButton.snp.makeConstraints {
+            $0.leading.equalTo(titleLabel.snp.trailing)
+            $0.centerY.equalTo(titleLabel)
+            $0.height.width.equalTo(40)
         }
         
         searchView.snp.makeConstraints { make in
@@ -231,6 +246,12 @@ extension MainRecipeViewController: UICollectionViewDelegate {
             return
         }
         viewModel.router?.goToRecipes(for: section)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let bgTitleViewOffset: CGFloat = -160
+        
+        searchIconButton.isHidden = scrollView.contentOffset.y < bgTitleViewOffset
     }
 }
 

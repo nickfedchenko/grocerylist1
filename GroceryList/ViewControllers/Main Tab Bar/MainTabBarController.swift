@@ -21,7 +21,7 @@ final class MainTabBarController: UITabBarController {
     private var viewModel: MainTabBarViewModel
     private let contextMenu = MainScreenMenuView()
     private var navView = MainNavigationView()
-    private var navBackgroundView = UIView()
+    private(set) var navBackgroundView = UIView()
     private let contextMenuBackgroundView = UIView()
     private var initAnalytic = false
     private var didLayoutSubviews = false
