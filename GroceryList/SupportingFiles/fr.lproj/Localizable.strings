@@ -376,3 +376,6 @@
 "willCook"                      = "Je vais le cuisiner";
 "drafts"                        = "Brouillons";
 "inbox"                         = "Boîte de réception";
+
+"addToFavorites"                = "ajouter Aux Favoris";
+"added to"                      = "Ajouté à";

@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 331 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 333 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -1844,6 +1844,20 @@ struct _R {
       /// Locales: en, ru
       var yourEmail: RswiftResources.StringResource { .init(key: "YourEmail", tableName: "Localizable", source: source, developmentValue: "Your e-mail:", comment: nil) }
 
+      /// en translation: Add to Favorites
+      ///
+      /// Key: addToFavorites
+      ///
+      /// Locales: en, ru, fr, de
+      var addToFavorites: RswiftResources.StringResource { .init(key: "addToFavorites", tableName: "Localizable", source: source, developmentValue: "Add to Favorites", comment: nil) }
+
+      /// en translation: Added to
+      ///
+      /// Key: added to
+      ///
+      /// Locales: en, ru, fr, de
+      var addedTo: RswiftResources.StringResource { .init(key: "added to", tableName: "Localizable", source: source, developmentValue: "Added to", comment: nil) }
+
       /// en translation: You can choose a product category or create your own. In the future, your choice will be saved, and the products in the lists will be ordered
       ///
       /// Key: autoCategoryDescOff
@@ -2437,7 +2451,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 270 images.
+  /// This `_R.image` struct is generated, and contains static references to 278 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -2749,6 +2763,30 @@ struct _R {
 
     /// Image `collectionsAlarmImage`.
     var collectionsAlarmImage: RswiftResources.ImageResource { .init(name: "collectionsAlarmImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `context menu Add to Cart`.
+    var contextMenuAddToCart: RswiftResources.ImageResource { .init(name: "context menu Add to Cart", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `context menu Collection`.
+    var contextMenuCollection: RswiftResources.ImageResource { .init(name: "context menu Collection", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `context menu Cook`.
+    var contextMenuCook: RswiftResources.ImageResource { .init(name: "context menu Cook", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `context menu Copy`.
+    var contextMenuCopy: RswiftResources.ImageResource { .init(name: "context menu Copy", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `context menu Edit`.
+    var contextMenuEdit: RswiftResources.ImageResource { .init(name: "context menu Edit", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `context menu Favorite`.
+    var contextMenuFavorite: RswiftResources.ImageResource { .init(name: "context menu Favorite", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `context menu Remove to collection`.
+    var contextMenuRemoveToCollection: RswiftResources.ImageResource { .init(name: "context menu Remove to collection", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `context menu Send`.
+    var contextMenuSend: RswiftResources.ImageResource { .init(name: "context menu Send", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `contextMenu`.
     var contextMenu: RswiftResources.ImageResource { .init(name: "contextMenu", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
