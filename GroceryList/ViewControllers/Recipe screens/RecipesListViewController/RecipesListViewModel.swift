@@ -6,16 +6,20 @@
 //
 
 import UIKit
+import Kingfisher
 
 class RecipesListViewModel {
     
     weak var router: RootRouter?
+    var updatePhoto: ((UIImage) -> Void)?
     
     private var section: RecipeSectionsModel
     private var colorManager = ColorManager()
+    private var allPhotos: [UIImage] = []
     
     init(with section: RecipeSectionsModel) {
         self.section = section
+        setAllPhotos()
     }
     
     var title: String {
@@ -53,13 +57,44 @@ class RecipesListViewModel {
         return (url, data)
     }
     
-    func savePhoto(image: UIImage?) {
-        guard let dbCollection = CoreDataManager.shared.getCollection(by: section.collectionId) else {
-            return
-        }
-        var collection = CollectionModel(from: dbCollection)
-        collection.localImage = image?.pngData()
-        
-        CoreDataManager.shared.saveCollection(collections: [collection])
+    func showPhotosFromRecipe() {
+        router?.goToPhotosFromRecipe(allPhotos: allPhotos, collectionId: section.collectionId,
+                                     updateUI: { [weak self] image in
+            self?.updatePhoto?(image)
+        })
     }
+    
+    func addToShoppingList() {
+        
+    }
+    
+    func addToFavorites() {
+        
+    }
+    
+    func addToCollection() {
+        
+    }
+    
+    func edit() {
+        
+    }
+ 
+    private func setAllPhotos() {
+        DispatchQueue.global().async {
+            self.section.recipes.forEach {
+                if let imageData = $0.localImage, let image = UIImage(data: imageData) {
+                    self.allPhotos.append(image)
+                } else if let url = URL(string: $0.photo) {
+                    KingfisherManager.shared.retrieveImage(with: url) { result in
+                        if let image = try? result.get().image {
+                            self.allPhotos.append(image)
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+    
 }
