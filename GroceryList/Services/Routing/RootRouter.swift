@@ -371,6 +371,17 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func goToPhotosFromRecipe(allPhotos: [UIImage], collectionId: Int,
+                              updateUI: ((UIImage) -> Void)?) {
+        let viewModel = PhotoFromRecipesViewModel(photos: allPhotos,
+                                                  collectionId: collectionId)
+        viewModel.updateUI = updateUI
+        let controller = PhotoFromRecipesViewController(viewModel: viewModel)
+        
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }

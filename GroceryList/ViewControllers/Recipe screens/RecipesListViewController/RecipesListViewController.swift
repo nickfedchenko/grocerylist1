@@ -32,11 +32,12 @@ final class RecipesListViewController: UIViewController {
         return collectionView
     }()
     
-    private let backgroundHeaderView = UIView()
+    private let headerBackgroundView = UIView()
     private let header = RecipesListHeaderView()
     private let titleView = RecipeListTitleView()
     private let photoView = RecipeListPhotoView()
-    private var imagePicker = UIImagePickerController()
+    private let contextMenuBackgroundView = UIView()
+    private let contextMenuView = RecipeListContextMenuView()
     private var currentlySelectedIndex: Int = -1
     
     init(viewModel: RecipesListViewModel) {
@@ -44,6 +45,7 @@ final class RecipesListViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         header.delegate = self
         photoView.delegate = self
+        contextMenuView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -58,6 +60,20 @@ final class RecipesListViewController: UIViewController {
         photoView.setPhoto(viewModel.collectionImage().url,
                            localImage: viewModel.collectionImage().data)
         titleView.setTitle(viewModel.title)
+        
+        let menuTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(menuTapAction))
+        contextMenuBackgroundView.addGestureRecognizer(menuTapRecognizer)
+        contextMenuBackgroundView.backgroundColor = .black.withAlphaComponent(0.2)
+        
+        contextMenuView.isHidden = true
+        contextMenuBackgroundView.isHidden = true
+        
+        viewModel.updatePhoto = { [weak self] image in
+            guard let self else {
+                return
+            }
+            self.photoView.setPhoto("", localImage: image.pngData())
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -78,12 +94,30 @@ final class RecipesListViewController: UIViewController {
         view.backgroundColor = viewModel.theme.light
         header.setColor(color: viewModel.theme.dark)
         titleView.setColor(viewModel.theme)
-        backgroundHeaderView.backgroundColor = viewModel.theme.light.withAlphaComponent(0.95)
+        headerBackgroundView.backgroundColor = viewModel.theme.light.withAlphaComponent(0.95)
+        contextMenuView.configure(color: viewModel.theme)
+    }
+    
+    @objc
+    private func menuTapAction() {
+        UIView.animate(withDuration: 0.4) {
+            self.contextMenuView.alpha = 0.0
+            self.contextMenuBackgroundView.alpha = 0.0
+        } completion: { _ in
+            self.contextMenuView.isHidden = true
+            self.contextMenuBackgroundView.snp.updateConstraints { $0.height.equalTo(0) }
+            self.contextMenuBackgroundView.isHidden = true
+            
+            self.contextMenuView.alpha = 1.0
+            self.contextMenuBackgroundView.alpha = 1.0
+        }
     }
     
     private func setupSubviews() {
         self.view.addSubviews([recipesListCollectionView, header])
-        recipesListCollectionView.addSubviews([photoView, backgroundHeaderView, titleView])
+        recipesListCollectionView.addSubviews([photoView, headerBackgroundView, titleView])
+        (self.tabBarController as? MainTabBarController)?.customTabBar.addSubviews([contextMenuBackgroundView])
+        contextMenuBackgroundView.addSubviews([contextMenuView])
         
         header.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
@@ -103,7 +137,7 @@ final class RecipesListViewController: UIViewController {
             $0.height.equalTo(280)
         }
         
-        backgroundHeaderView.snp.makeConstraints {
+        headerBackgroundView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(-16)
             $0.trailing.equalToSuperview().offset(16)
             $0.top.equalTo(photoView.snp.bottom)
@@ -116,6 +150,17 @@ final class RecipesListViewController: UIViewController {
             $0.height.equalTo(56)
             $0.top.greaterThanOrEqualTo(header.snp.bottom)
             $0.bottom.equalTo(recipesListCollectionView.snp.top).offset(-8)
+        }
+        
+        contextMenuBackgroundView.snp.makeConstraints {
+            $0.bottom.leading.trailing.equalToSuperview()
+            $0.height.equalTo(0)
+        }
+        
+        contextMenuView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.height.equalTo(contextMenuView.requiredHeight)
+            $0.width.equalTo(250)
         }
     }
 }
@@ -191,39 +236,30 @@ extension RecipesListViewController: RecipesListHeaderViewDelegate {
 
 extension RecipesListViewController:  RecipeListPhotoViewDelegate {
     func choosePhotoButtonTapped() {
-        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
-            imagePicker.delegate = self
-            imagePicker.sourceType = .savedPhotosAlbum
-            imagePicker.allowsEditing = false
-            imagePicker.modalPresentationStyle = .pageSheet
-            present(imagePicker, animated: true, completion: nil)
-        }
+        viewModel.showPhotosFromRecipe()
     }
 }
 
 extension RecipesListViewController: RecipeListCellDelegate {
-    func contextMenuTapped(at index: Int) {
-//        let recipeId = section.recipes[index].id
-//        guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId) else {
-//            return
-//        }
-//        let model = ShortRecipeModel(withIngredients: dbRecipe)
-//        let recipeTitle = model.title
-//        currentlySelectedIndex = index
-//        print("added recipeTitle in product \(recipeTitle)")
-//        let products: [Product] = model.ingredients?.map({
-//            let netProduct = $0.product
-//            let product = Product(
-//                name: netProduct.title,
-//                isPurchased: false,
-//                dateOfCreation: Date(),
-//                category: netProduct.marketCategory?.title ?? "",
-//                isFavorite: false,
-//                description: "",
-//                fromRecipeTitle: recipeTitle
-//            )
-//            return product
-//        }) ?? []
+    func contextMenuTapped(at index: Int, point: CGPoint, cell: RecipeListCell) {
+        let convertPointOnView = cell.convert(point, to: self.view)
+        
+        currentlySelectedIndex = index
+        contextMenuBackgroundView.isHidden = false
+        contextMenuView.isHidden = false
+        
+        contextMenuBackgroundView.snp.updateConstraints {
+            $0.height.equalTo(self.view.frame.height)
+        }
+        
+        contextMenuView.alpha = 0.0
+        contextMenuView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+                                        .translatedBy(x: convertPointOnView.x - 125,
+                                                      y: convertPointOnView.y - 300)
+        UIView.animate(withDuration: 0.3) {
+            self.contextMenuView.alpha = 1.0
+            self.contextMenuView.transform = .identity
+        }
     }
 }
 
@@ -240,12 +276,31 @@ extension RecipesListViewController: AddProductsSelectionListDelegate {
     }
 }
 
-extension RecipesListViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        self.dismiss(animated: true, completion: nil)
-        let image = info[.originalImage] as? UIImage
-        photoView.setImage(image: image)
-        viewModel.savePhoto(image: image)
+extension RecipesListViewController: RecipeListContextMenuViewDelegate {
+    func selectedState(state: RecipeListContextMenuView.MainMenuState) {
+        UIView.animate(withDuration: 0.4) {
+            self.contextMenuView.alpha = 0.0
+            self.contextMenuBackgroundView.alpha = 0.0
+        } completion: { _ in
+            self.contextMenuView.isHidden = true
+            self.contextMenuBackgroundView.snp.updateConstraints { $0.height.equalTo(0) }
+            self.contextMenuBackgroundView.isHidden = true
+            
+            self.contextMenuView.alpha = 1.0
+            self.contextMenuBackgroundView.alpha = 1.0
+
+            switch state {
+            case .addToShoppingList:
+                self.viewModel.addToShoppingList()
+            case .addToFavorites:
+                self.viewModel.addToFavorites()
+            case .addToCollection:
+                self.viewModel.addToCollection()
+            case .edit:
+                self.viewModel.edit()
+            }
+            
+            self.contextMenuView.removeSelected()
+        }
     }
 }

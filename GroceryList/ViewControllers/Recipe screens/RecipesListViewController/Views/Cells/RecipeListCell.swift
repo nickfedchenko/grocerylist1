@@ -8,7 +8,7 @@
 import UIKit
 
 protocol RecipeListCellDelegate: AnyObject {
-    func contextMenuTapped(at index: Int)
+    func contextMenuTapped(at index: Int, point: CGPoint, cell: RecipeListCell)
 }
 
 class RecipeListCell: UICollectionViewCell {
@@ -155,7 +155,8 @@ class RecipeListCell: UICollectionViewCell {
                         self.contextMenuButton.alpha = 1
                     }
                 }
-                self.delegate?.contextMenuTapped(at: self.selectedIndex)
+                self.delegate?.contextMenuTapped(at: self.selectedIndex,
+                                                 point: contextMenuButton.center, cell: self)
             },
             for: .touchUpInside
         )

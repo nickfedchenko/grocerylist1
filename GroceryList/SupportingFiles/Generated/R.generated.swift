@@ -2444,7 +2444,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 267 images.
+  /// This `_R.image` struct is generated, and contains static references to 270 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -2970,6 +2970,9 @@ struct _R {
     /// Image `logoShoppy`.
     var logoShoppy: RswiftResources.ImageResource { .init(name: "logoShoppy", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `media library`.
+    var mediaLibrary: RswiftResources.ImageResource { .init(name: "media library", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `minusActive`.
     var minusActive: RswiftResources.ImageResource { .init(name: "minusActive", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -3023,6 +3026,12 @@ struct _R {
 
     /// Image `phoneShadow`.
     var phoneShadow: RswiftResources.ImageResource { .init(name: "phoneShadow", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `photo empty checkmark`.
+    var photoEmptyCheckmark: RswiftResources.ImageResource { .init(name: "photo empty checkmark", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `photo selected`.
+    var photoSelected: RswiftResources.ImageResource { .init(name: "photo selected", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `pickImage`.
     var pickImage: RswiftResources.ImageResource { .init(name: "pickImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
