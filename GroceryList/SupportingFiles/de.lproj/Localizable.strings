@@ -379,3 +379,6 @@
 "willCook"                      = "Ich werde es kochen";
 "drafts"                        = "Entwurf";
 "inbox"                         = "Posteingang";
+
+"addToFavorites"                = "zu Favoriten hinzufügen";
+"added to"                      = "Hinzugefügt zu";

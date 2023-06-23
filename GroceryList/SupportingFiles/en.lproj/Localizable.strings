@@ -411,3 +411,6 @@
 "willCook"                      = "I will cook it";
 "drafts"                        = "Drafts";
 "inbox"                         = "Inbox";
+
+"addToFavorites"                = "Add to Favorites";
+"added to"                      = "Added to";

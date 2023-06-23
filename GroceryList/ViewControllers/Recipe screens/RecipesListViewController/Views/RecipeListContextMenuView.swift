@@ -27,19 +27,26 @@ class RecipeListContextMenuView: UIView {
 
         var title: String {
             switch self {
-            case .addToShoppingList:    return "addToShoppingList"
-            case .addToFavorites:       return "addToFavorites"
-            case .addToCollection:      return "addToCollection"
-            case .edit:                 return "edit"
+            case .addToShoppingList:    return R.string.localizable.addtoshoppinglisT().firstCharacterUpperCase()
+            case .addToFavorites:       return R.string.localizable.addToFavorites()
+            case .addToCollection:      return R.string.localizable.addToCollection()
+            case .edit:                 return R.string.localizable.edit()
             }
         }
         
         var image: UIImage? {
             switch self {
-            case .addToShoppingList:    return nil
-            case .addToFavorites:       return nil
-            case .addToCollection:      return nil
-            case .edit:                 return nil
+            case .addToShoppingList:    return R.image.contextMenuAddToCart()
+            case .addToFavorites:       return R.image.contextMenuFavorite()
+            case .addToCollection:      return R.image.contextMenuCollection()
+            case .edit:                 return R.image.contextMenuEdit()
+            }
+        }
+        
+        var message: String {
+            switch self {
+            case .addToFavorites:       return R.string.localizable.favorites()
+            default:                    return ""
             }
         }
     }

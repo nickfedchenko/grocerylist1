@@ -68,8 +68,33 @@ class RecipesListViewModel {
         
     }
     
-    func addToFavorites() {
+    func addToFavorites(recipeIndex: Int) {
+        guard let recipeId = section.recipes[safe: recipeIndex]?.id else {
+            return
+        }
+        let favoritesID = EatingTime.favorites.rawValue
         
+        guard !UserDefaultsManager.favoritesRecipeIds.contains(recipeIndex),
+              let dbCollection = CoreDataManager.shared.getCollection(by: favoritesID),
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
+              var recipe = Recipe(from: dbRecipe) else {
+            return
+        }
+        
+        UserDefaultsManager.favoritesRecipeIds.append(recipeId)
+        let favoriteCollection = CollectionModel(from: dbCollection)
+        
+        if var localCollection = recipe.localCollection {
+            localCollection.append(favoriteCollection)
+            recipe.localCollection = localCollection
+        } else {
+            recipe.localCollection = [favoriteCollection]
+        }
+        CoreDataManager.shared.saveRecipes(recipes: [recipe])
+
+        var updateRecipe = section.recipes.remove(at: recipeIndex)
+        updateRecipe.isFavorite = true
+        section.recipes.insert(updateRecipe, at: recipeIndex)
     }
     
     func addToCollection() {
