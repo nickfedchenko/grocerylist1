@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "starterpack_icon_SE.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

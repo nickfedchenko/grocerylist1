@@ -21,14 +21,14 @@ extension UIView {
         }, completion: nil)
     }
     
-    func makeCustomRound(topLeft: CGFloat = 0, topRight: CGFloat = 0, bottomLeft: CGFloat = 0, bottomRight: CGFloat = 0) {
+    func makeCustomRound(topLeft: CGFloat = 0, topRight: CGFloat = 0, 
+                         bottomLeft: CGFloat = 0, bottomRight: CGFloat = 0, hasBorder: Bool = false) {
         let minX = bounds.minX
         let minY = bounds.minY
         let maxX = bounds.maxX
         let maxY = bounds.maxY
         
-        print(self.bounds)
-
+//        print(self.bounds)
         let path = UIBezierPath()
         path.move(to: CGPoint(x: minX + topLeft, y: minY))
         path.addLine(to: CGPoint(x: maxX - topRight, y: minY))
@@ -45,6 +45,22 @@ extension UIView {
         mask.path = path.cgPath
         layer.mask = mask
         layer.cornerCurve = .continuous
+
+        if hasBorder {
+            let borderLayer = CAShapeLayer()
+            borderLayer.name = "CustomRoundBorder"
+            borderLayer.path = path.cgPath
+            borderLayer.lineWidth = 1
+            borderLayer.strokeColor = UIColor.white.cgColor
+            borderLayer.fillColor = UIColor.clear.cgColor
+            layer.addSublayer(borderLayer)
+        } else {
+            layer.sublayers?.forEach({
+                if $0.name == "CustomRoundBorder" {
+                    $0.removeFromSuperlayer()
+                }
+            })
+        }
     }
     
     func addShadowForView(radius: CGFloat = 2, height: Int = 0 ) {
@@ -59,7 +75,7 @@ extension UIView {
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOffset = CGSize(width: 0, height: 12)
         self.layer.shadowRadius = 11
-        self.layer.shadowOpacity = 0.2
+        self.layer.shadowOpacity = 1
     }
     
     func addCustomShadow(color: UIColor = .black, opacity: Float = 0.15,
@@ -158,5 +174,27 @@ extension UIView {
             self.isHidden = true
             completion?()
         }
+    }
+}
+
+extension UIView {
+    static var safeAreaBottom: CGFloat {
+        if let window = UIApplication.shared.keyWindowInConnectedScenes {
+            return window.safeAreaInsets.bottom
+        }
+         return 0
+    }
+
+    static var safeAreaTop: CGFloat {
+        if let window = UIApplication.shared.keyWindowInConnectedScenes {
+            return window.safeAreaInsets.top
+        }
+         return 0
+    }
+}
+
+extension UIApplication {
+    var keyWindowInConnectedScenes: UIWindow? {
+        return windows.first(where: { $0.isKeyWindow })
     }
 }

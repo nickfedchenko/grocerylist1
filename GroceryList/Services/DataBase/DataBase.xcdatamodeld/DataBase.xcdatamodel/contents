@@ -56,6 +56,26 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="DBPantry" representedClassName=".DBPantry" syncable="YES">
+        <attribute name="color" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="dateOfCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="icon" optional="YES" attributeType="Binary"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="index" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isShared" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isSharedListOwner" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isShowImage" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isVisibleCost" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="sharedId" optional="YES" attributeType="String"/>
+        <attribute name="synchronizedLists" optional="YES" attributeType="Binary"/>
+        <relationship name="stocks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DBStock" inverseName="pantry" inverseEntity="DBStock"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
     <entity name="DBProduct" representedClassName=".DBProduct" syncable="YES">
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="cost" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -102,6 +122,32 @@
         <attribute name="recipeDescription" attributeType="String" defaultValueString=""/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <attribute name="totalServings" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="DBStock" representedClassName=".DBStock" syncable="YES">
+        <attribute name="autoRepeat" optional="YES" attributeType="Binary"/>
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="cost" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="dateOfCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="imageData" optional="YES" attributeType="Binary"/>
+        <attribute name="index" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isAutoRepeat" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isAvailability" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isReminder" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isUserImage" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="pantryId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="quantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="stockDescription" optional="YES" attributeType="String"/>
+        <attribute name="store" optional="YES" attributeType="Binary"/>
+        <attribute name="unitId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="userToken" optional="YES" attributeType="String"/>
+        <relationship name="pantry" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBPantry" inverseName="stocks" inverseEntity="DBPantry"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>

@@ -18,24 +18,24 @@ class ColorManager {
     static var shared = ColorManager()
     
     private let rawGradientColors: [Theme] = [
-        Theme(dark: UIColor(hex: "#6F8617"), medium: UIColor(hex: "#A5B957"), light: UIColor(hex: "#FCFFF3")), // 9
-        Theme(dark: UIColor(hex: "#278337"), medium: UIColor(hex: "#58B168"), light: UIColor(hex: "#F4FFF6")), // 1
-        Theme(dark: UIColor(hex: "#007474"), medium: UIColor(hex: "#35A7A7"), light: UIColor(hex: "#F2FFFF")), // 5
-        Theme(dark: UIColor(hex: "#587557"), medium: UIColor(hex: "#86A385"), light: UIColor(hex: "#F2F8F2")), // 12
-        Theme(dark: UIColor(hex: "#92550B"), medium: UIColor(hex: "#EE982F"), light: UIColor(hex: "#FFF6EA")), // 2
-        Theme(dark: UIColor(hex: "#C64E0A"), medium: UIColor(hex: "#E88E5C"), light: UIColor(hex: "#FFF6F0")), // 6
-        Theme(dark: UIColor(hex: "#A12B1B"), medium: UIColor(hex: "#EF7463"), light: UIColor(hex: "#FFF2F0")), // 4
-        Theme(dark: UIColor(hex: "#AE182B"), medium: UIColor(hex: "#E45366"), light: UIColor(hex: "#FFF0F2")), // 8
-        Theme(dark: UIColor(hex: "#9B2789"), medium: UIColor(hex: "#CA5DB8"), light: UIColor(hex: "#FFF7FE")), // 10
-        Theme(dark: UIColor(hex: "#0F5B99"), medium: UIColor(hex: "#4E98D4"), light: UIColor(hex: "#F0F8FF")), // 3
-        Theme(dark: UIColor(hex: "#196F8A"), medium: UIColor(hex: "#46A5C3"), light: UIColor(hex: "#EDF7FB")), // 18
-        Theme(dark: UIColor(hex: "#304099"), medium: UIColor(hex: "#6C7AC8"), light: UIColor(hex: "#F4F6FF")), // 7
-        Theme(dark: UIColor(hex: "#5A33AE"), medium: UIColor(hex: "#8667C7"), light: UIColor(hex: "#F7F4FF")), // 11
-        Theme(dark: UIColor(hex: "#3C6E77"), medium: UIColor(hex: "#6597A0"), light: UIColor(hex: "#F2F7F8")), // 17
-        Theme(dark: UIColor(hex: "#635057"), medium: UIColor(hex: "#A19096"), light: UIColor(hex: "#FBF9FB")), // 14
-        Theme(dark: UIColor(hex: "#595959"), medium: UIColor(hex: "#9B9B9B"), light: UIColor(hex: "#F3F3F3")), // 15
-        Theme(dark: UIColor(hex: "#5C6E73"), medium: UIColor(hex: "#95A7AC"), light: UIColor(hex: "#F7F9FC")), // 16
-        Theme(dark: UIColor(hex: "#66493C"), medium: UIColor(hex: "#95776A"), light: UIColor(hex: "#FFFBF9"))  // 13
+        Theme(dark: UIColor(hex: "#6F8617"), medium: UIColor(hex: "#A5B957"), light: UIColor(hex: "#FCFFF3")), // 0 - 9
+        Theme(dark: UIColor(hex: "#278337"), medium: UIColor(hex: "#58B168"), light: UIColor(hex: "#F4FFF6")), // 1 - 1
+        Theme(dark: UIColor(hex: "#007474"), medium: UIColor(hex: "#35A7A7"), light: UIColor(hex: "#F2FFFF")), // 2 - 5
+        Theme(dark: UIColor(hex: "#587557"), medium: UIColor(hex: "#86A385"), light: UIColor(hex: "#F2F8F2")), // 3 - 12
+        Theme(dark: UIColor(hex: "#92550B"), medium: UIColor(hex: "#EE982F"), light: UIColor(hex: "#FFF6EA")), // 4 - 2
+        Theme(dark: UIColor(hex: "#C64E0A"), medium: UIColor(hex: "#E88E5C"), light: UIColor(hex: "#FFF6F0")), // 5 - 6
+        Theme(dark: UIColor(hex: "#A12B1B"), medium: UIColor(hex: "#EF7463"), light: UIColor(hex: "#FFF2F0")), // 6 - 4
+        Theme(dark: UIColor(hex: "#AE182B"), medium: UIColor(hex: "#E45366"), light: UIColor(hex: "#FFF0F2")), // 7 - 8
+        Theme(dark: UIColor(hex: "#9B2789"), medium: UIColor(hex: "#CA5DB8"), light: UIColor(hex: "#FFF7FE")), // 8 - 10
+        Theme(dark: UIColor(hex: "#0F5B99"), medium: UIColor(hex: "#4E98D4"), light: UIColor(hex: "#F0F8FF")), // 9 - 3
+        Theme(dark: UIColor(hex: "#196F8A"), medium: UIColor(hex: "#46A5C3"), light: UIColor(hex: "#EDF7FB")), // 10 - 18
+        Theme(dark: UIColor(hex: "#304099"), medium: UIColor(hex: "#6C7AC8"), light: UIColor(hex: "#F4F6FF")), // 11 - 7
+        Theme(dark: UIColor(hex: "#5A33AE"), medium: UIColor(hex: "#8667C7"), light: UIColor(hex: "#F7F4FF")), // 12 - 11
+        Theme(dark: UIColor(hex: "#3C6E77"), medium: UIColor(hex: "#6597A0"), light: UIColor(hex: "#F2F7F8")), // 13 - 17
+        Theme(dark: UIColor(hex: "#635057"), medium: UIColor(hex: "#A19096"), light: UIColor(hex: "#FBF9FB")), // 14 - 14
+        Theme(dark: UIColor(hex: "#595959"), medium: UIColor(hex: "#9B9B9B"), light: UIColor(hex: "#F3F3F3")), // 15 - 15
+        Theme(dark: UIColor(hex: "#5C6E73"), medium: UIColor(hex: "#95A7AC"), light: UIColor(hex: "#F7F9FC")), // 16 - 16
+        Theme(dark: UIColor(hex: "#66493C"), medium: UIColor(hex: "#95776A"), light: UIColor(hex: "#FFFBF9"))  // 17 - 13
     ]
     
     private let emptyCellColors: [UIColor] = [
@@ -51,6 +51,12 @@ class ColorManager {
             return Theme(dark: .white, medium: .white, light: .white)
         }
         return rawGradientColors[index]
+    }
+    
+    func getGradientForStockReminder() -> Theme {
+        Theme(dark: R.color.primaryDark() ?? .black,
+              medium: R.color.primaryDark() ?? .systemGray,
+              light: R.color.primaryLight() ?? .systemGray6)
     }
     
     func getEmptyCellColor(index: Int) -> UIColor {

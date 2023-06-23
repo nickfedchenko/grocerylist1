@@ -32,38 +32,6 @@ class KeyChainManager {
         case password = "passwordForAuth"
     }
     
-    @available(*, deprecated, message: "Use saveCridentials(password: String, userID: String, e-mail: String) instead")
-    class func save(password: Data, appleId: String, email: String) -> OSStatus {
-        var query = [
-            kSecClass as String       : kSecClassGenericPassword as String,
-            kSecAttrService as String : appleId,
-            kSecAttrAccount as String : email,
-            kSecValueData as String   : password] as [String : Any]
-        query[kSecAttrSynchronizable as String] = kCFBooleanTrue
-        SecItemDelete(query as CFDictionary)
-        return SecItemAdd(query as CFDictionary, nil)
-    }
-
-    @available(*, deprecated, message: "Use loadCridentials(userID : String) -> Result<[String: String], KeychainErrorDomain> instead")
-    class func load(appleId: String, email: String) -> Data? {
-        var query = [
-            kSecClass as String       : kSecClassGenericPassword,
-            kSecAttrService as String : appleId,
-            kSecAttrAccount as String : email,
-            kSecReturnData as String  : kCFBooleanTrue!,
-            kSecMatchLimit as String  : kSecMatchLimitOne ] as [String : Any]
-        query[kSecAttrSynchronizable as String] = kCFBooleanTrue
-        var dataTypeRef: AnyObject?
-
-        let status: OSStatus = SecItemCopyMatching(query as CFDictionary, &dataTypeRef)
-
-        if status == noErr {
-            return dataTypeRef as? Data
-        } else {
-            return nil
-        }
-    }
-    
     class func loadCridentials(userID : String) -> Result<[String: String], KeychainErrorDomain> {
         var query = [
             kSecClass as String       : kSecClassGenericPassword,

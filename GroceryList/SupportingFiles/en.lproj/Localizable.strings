@@ -290,3 +290,117 @@
 "Thanks for your feedback"      = "Thanks for your feedback";
 "You can also write a review"   = "You can also write a review. \n We will be very pleased";
 "No Thanks"                     = "No Thanks";
+
+// Tab Bar
+"List"                          = "List";
+"Pantry"                        = "Pantry";
+
+// Pantry & Stocks
+"Pantry & Stocks"               = "Pantry & Stocks";
+"PantryEnterStocks"             = "Pantry\n& Stocks";
+"PantryStarterPackDescription"  = "You can add a more detailed description, quantity, brand and photo\n\nYou can connect the pantry list to any shopping list and the finished items will automatically appear in it\n\nYou can flexibly set up automatic status changes and the goods will end at specified intervals\n\nInvite your family to share your household. Stocks will be replenished, the refrigerator will be full and everything will be in perfect order!";
+"Baby"                          = "Baby";
+"Medications"                   = "Medications";
+"Cooking supplies"              = "Cooking supplies";
+"Car"                           = "Car";
+"Tools"                         = "Tools";
+"Handiwork"                     = "Handiwork";
+"Subscriptions"                 = "Subscriptions";
+"Sport"                         = "Sport";
+"Gifts"                         = "Gifts";
+
+"List name"                     = "List name";
+"Icon"                          = "Icon";
+"Synchronize stock list"        = "Synchronize stock list with shopping list";
+"Food automatically appear"     = "Food or goods that run out will automatically appear in the selected shopping list";
+"More"                          = "More ";
+"Select Icon"                   = "Select Icon";
+"Select List to Synchronize"    = "Select List to Synchronize";
+"Edit List"                     = "Edit List";
+
+"item"                          = "Item";
+"out of stock"                  = "Out of stock";
+"Pantry: Name"                  = "Pantry: %@";
+"in stock"                      = "In stock";
+"Out: "                         = "Out: ";
+"Link to Shopping List"         = "Link to Shopping List";
+
+"Auto Repeat"                   = "Auto Repeat";
+"every weekly "                 = "Every %@ Weekly: %@";
+"weekly weekday"                = "Weekly: %@";
+"every times period"            = "Every %@ %@";
+"Auto repeat setting"           = "Auto repeat setting";
+"Food goods will be marked"     = "Food or goods will be marked 'out of stock' when the specified period is reached";
+"Set Reminder"                  = "Set Reminder";
+"AutoDaily"                     = "Daily";
+"AutoWeekly"                    = "Weekly";
+"AutoMonthly"                   = "Monthly";
+"AutoYearly"                    = "Yearly";
+"AutoCustom"                    = "Custom";
+"Set"                           = "Set";
+"Repeat every ..."              = "Repeat every ...";
+"days"                          = "Days";
+"weeks"                         = "Weeks";
+"months"                        = "Months";
+"years"                         = "Years";
+"Stocks are over"               = "Stocks are over";
+"ADD TO SHOPPING LIST"          = "ADD TO SHOPPING LIST";
+
+// Default Pantry
+
+"Fridge"                        = "Fridge";
+"Grocery"                       = "Grocery";
+"Spices & Herbs"                = "Spices & Herbs";
+"Beauty & Health"               = "Beauty & Health";
+"Household"                     = "Household";
+"Hobby"                         = "Hobby";
+
+"Milk"                          = "Milk";
+"Mayonnaise"                    = "Mayonnaise";
+"Tomatoes"                      = "Tomatoes";
+"Lettuce"                       = "Lettuce";
+"Cream cheese"                  = "Cream cheese";
+"Parmesan"                      = "Parmesan";
+"Smoked bacon"                  = "Smoked bacon";
+"Butter, unsalted"              = "Butter, unsalted";
+"Chicken fillet"                = "Chicken fillet";
+"Frozen vegetables"             = "Frozen vegetables";
+"Frozen mushrooms"              = "Frozen mushrooms";
+"Frozen broccoli"               = "Frozen broccoli";
+"Big pack"                      = "Big pack";
+
+"Olive oil"                     = "Olive oil";
+"Canned corn"                   = "Canned corn";
+"Spaghetti"                     = "Spaghetti";
+"Breakfast cereal"              = "Breakfast cereal";
+"Long shelf life milk"          = "Long shelf life milk";
+"Ground coffee"                 = "Ground coffee";
+"Green tea bags"                = "Green tea bags";
+"Oatmeal, medium size"          = "Oatmeal, medium size";
+"Honey"                         = "Honey";
+"Tuna chunks"                   = "Tuna chunks";
+"Eggs"                          = "Eggs";
+"Wheat flour"                   = "Wheat flour";
+
+"Sea salt"                      = "Sea salt";
+"Ground black pepper"           = "Ground black pepper";
+"Garlic powder"                 = "Garlic powder";
+"Red chili flakes"              = "Red chili flakes";
+"Paprika"                       = "Paprika";
+"Cinnamon"                      = "Cinnamon";
+
+"Toilet paper"                  = "Toilet paper";
+"Cotton pads"                   = "Cotton pads";
+"Cotton buds"                   = "Cotton buds";
+"Liquid soap"                   = "Liquid soap";
+"Toothpaste"                    = "Toothpaste";
+"Shower gel"                    = "Shower gel";
+
+"Kitchen Scrub Sponges"         = "Kitchen Scrub Sponges";
+"Dishwashing liquid"            = "Dishwashing liquid";
+"Paper towels"                  = "Paper towels";
+"Toilet paper"                  = "Toilet paper";
+"Trash bags"                    = "Trash bags";
+"Fabric softener"               = "Fabric softener";
+"Cleaning Cloth"                = "Cleaning Cloth";
+"AA batteries"                  = "AA batteries";

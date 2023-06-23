@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "autorepeat_reminder.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -23,6 +23,15 @@ final class FeedbackManager {
         }
     }
     
+    private var lastShowDate: Date? {
+        get {
+            return UserDefaults.standard.object(forKey: "lastShowFeedBackDate") as? Date
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "lastShowFeedBackDate")
+        }
+    }
+    
     private var firstLaunchDate: Date? {
         UserDefaultsManager.firstLaunchDate
     }
@@ -33,14 +42,25 @@ final class FeedbackManager {
         isDoneFeedBack = true
     }
     
+    func setLastShowDate() {
+        lastShowDate = Date()
+    }
+    
     func isShowFeedbackScreen() -> Bool {
         guard !isDoneFeedBack else {
             return false
         }
         
-        guard let firstLaunchDate,
-              let daysNumber = Date().days(sinceDate: firstLaunchDate),
-              daysNumber != 0 else {
+        guard lastShowDate?.onlyDate != Date().onlyDate else {
+            return false
+        }
+        
+        guard let firstLaunchDate else {
+            return false
+        }
+        
+        let daysNumber = Date().days(sinceDate: firstLaunchDate)
+        guard daysNumber != 0 else {
             return false
         }
         

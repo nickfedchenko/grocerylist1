@@ -12,4 +12,7 @@ extension Notification.Name {
     static let recieptsDownladedAnsSaved = Notification.Name("recieptsDownladedAnsSaved")
     static let sharedListDownloadedAndSaved = Notification.Name("sharedListDownloadedAndSaved")
     static let sharedListLoading = Notification.Name("sharedListLoading")
+    
+    static let sharedPantryDownloadedAndSaved = Notification.Name("sharedPantryDownloadedAndSaved")
+    static let sharedPantryListLoading = Notification.Name("sharedPantryListLoading")
 }

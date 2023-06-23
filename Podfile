@@ -10,7 +10,7 @@ target 'GroceryList' do
   pod 'SwiftLint'
   pod 'GzipSwift'
   pod 'SnapKit'
-  pod 'Kingfisher', '~> 7.0'
+  pod 'Kingfisher', '~> 7.6.1'
   pod 'ApphudSDK'
   pod 'R.swift'
   pod 'GzipSwift'
@@ -21,7 +21,18 @@ target 'GroceryList' do
   pod 'Firebase/RemoteConfig'
   
   pod 'NVActivityIndicatorView'
+  pod 'SFSafeSymbols', '~> 4.1.1'
   
   # Pods for GroceryList
 
+  post_install do |installer|
+      installer.generated_projects.each do |project|
+            project.targets.each do |target|
+                target.build_configurations.each do |config|
+                    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+                 end
+            end
+     end
+  end
+  
 end

@@ -12,6 +12,14 @@
 				<string>groceryList</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>pantryList</string>
+			</array>
+		</dict>
 	</array>
 </dict>
 </plist>

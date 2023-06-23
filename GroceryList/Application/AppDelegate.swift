@@ -9,6 +9,7 @@ import Amplitude
 import ApphudSDK
 import Firebase
 import UIKit
+import Kingfisher
 import UserNotifications
 
 @main
@@ -21,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Apphud.start(apiKey: "app_UumawTKYjWf9iUejoRkxntPLZQa7eq")
         _ = AmplitudeManager.shared
+        let cache = ImageCache.default
+        cache.memoryStorage.config.totalCostLimit = 1024 * 1024 * 10
+        cache.diskStorage.config.sizeLimit = 1024 * 1024 * 100
         FirebaseApp.configure()
         FeatureManager.shared.activeFeatures()
         AppDelegate.activateFonts(withExtension: "ttf")
@@ -37,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         rootRouter = RootRouter(window: window)
         rootRouter?.presentRootNavigationControllerInWindow()
         SharedListManager.shared.router = rootRouter
+        SharedPantryManager.shared.router = rootRouter
         
         self.window = window
         return true
@@ -44,9 +49,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: UISceneSession Lifecycle
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-      
-        guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host else {
+    /// deeplinks (для теста)
+    func application(_ app: UIApplication, open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        guard let urlString = url.absoluteString.decodeUrl(),
+              let url = URL(string: urlString) else {
+            return false
+        }
+        
+        guard let param = url.valueOf("link") else {
+            return false
+        }
+
+        guard let url = URL(string: param) else {
+            return false
+        }
+        
+        guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
+              let host = components.host else {
             print("invalidUrl")
             return false
         }
@@ -62,9 +82,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .resetPassword:
             rootRouter?.openResetPassword(token: token)
         case .share:
-            print("Fdf")
-            SharedListManager.shared.gottenDeeplinkToken(token: token)
-            
+            if components.scheme == "pantryList" {
+                SharedPantryManager.shared.gottenDeeplinkToken(token: token)
+            } else {
+                SharedListManager.shared.gottenDeeplinkToken(token: token)
+            }
         }
         return true
     }
@@ -74,6 +96,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                          properties: [.count: "\(idsOfChangedLists.count)"])
         AmplitudeManager.shared.logEvent(.itemsChanged,
                                          properties: [.count: "\(idsOfChangedProducts.count)"])
+    }
+    
+    /// universal links
+    func application(_ application: UIApplication,
+                     continue userActivity: NSUserActivity,
+                     restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+              let url = userActivity.webpageURL else {
+            return false
+        }
+        
+        guard let urlString = url.absoluteString.decodeUrl(),
+              let url = URL(string: urlString) else {
+            return false
+        }
+        
+        guard let param = url.valueOf("link") else {
+            return false
+        }
+
+        guard let url = URL(string: param) else {
+            return false
+        }
+        
+        guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
+              let host = components.host else {
+            print("invalidUrl")
+            return false
+        }
+        
+        guard let deepLink = DeepLink(rawValue: host) else {
+            print("deeplink not found")
+            return false
+        }
+        
+        guard let token = components.queryItems?.first?.value else { return false }
+        
+        switch deepLink {
+        case .resetPassword:
+            rootRouter?.openResetPassword(token: token)
+        case .share:
+            if components.scheme == "pantryList" {
+                SharedPantryManager.shared.gottenDeeplinkToken(token: token)
+            } else {
+                SharedListManager.shared.gottenDeeplinkToken(token: token)
+            }
+        }
+        
+        return true
     }
 }
 
@@ -140,4 +211,21 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 enum DeepLink: String {
     case resetPassword
     case share
+}
+
+extension URL {
+    func valueOf(_ queryParameterName: String) -> String? {
+        guard let url = URLComponents(string: self.absoluteString) else { return nil }
+        return url.queryItems?.first(where: { $0.name == queryParameterName })?.value
+    }
+}
+
+extension String {
+    func encodeUrl() -> String? {
+        return self.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+    }
+    
+    func decodeUrl() -> String? {
+        return self.removingPercentEncoding
+    }
 }
