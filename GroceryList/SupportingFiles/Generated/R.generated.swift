@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 327 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 328 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -493,12 +493,12 @@ struct _R {
       /// Locales: en, ru, fr, de
       var dishwashingLiquid: RswiftResources.StringResource { .init(key: "Dishwashing liquid", tableName: "Localizable", source: source, developmentValue: "Dishwashing liquid", comment: nil) }
 
-      /// en translation: Display cost and store
+      /// en translation: Show cost and stores
       ///
       /// Key: Display cost and store
       ///
       /// Locales: en, ru, fr, de
-      var displayCostAndStore: RswiftResources.StringResource { .init(key: "Display cost and store", tableName: "Localizable", source: source, developmentValue: "Display cost and store", comment: nil) }
+      var displayCostAndStore: RswiftResources.StringResource { .init(key: "Display cost and store", tableName: "Localizable", source: source, developmentValue: "Show cost and stores", comment: nil) }
 
       /// en translation: Do you like the app? Tell us!
       ///
@@ -548,6 +548,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var error: RswiftResources.StringResource { .init(key: "Error", tableName: "Localizable", source: source, developmentValue: "Error", comment: nil) }
+
+      /// en translation: Excellent!
+      ///
+      /// Key: Excellent!
+      ///
+      /// Locales: en, ru, fr, de
+      var excellent: RswiftResources.StringResource { .init(key: "Excellent!", tableName: "Localizable", source: source, developmentValue: "Excellent!", comment: nil) }
 
       /// en translation: Fabric softener
       ///
@@ -3195,6 +3202,7 @@ struct _R {
     }
     struct comAppleDeveloperAssociatedDomains {
       let applinksShoppinglistPro: String = "applinks:shoppinglist.pro"
+      let webcredentialsShoppinglistPro: String = "webcredentials:shoppinglist.pro"
     }
   }
 

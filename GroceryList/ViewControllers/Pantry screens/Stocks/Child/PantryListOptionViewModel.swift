@@ -106,6 +106,13 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
     }
     
     override func cellSelected(at ind: Int) {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            showPaywall()
+            return
+        }
+#endif
+        
         guard let content = allContent[safe: ind] else { return }
         switch content {
         case .edit:
@@ -196,5 +203,9 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
         CoreDataManager.shared.savePantry(pantry: [pantry])
         delegate?.reloadController()
         updateUI?(pantry)        
+    }
+    
+    private func showPaywall() {
+        router?.showPaywallVCOnTopController()
     }
 }

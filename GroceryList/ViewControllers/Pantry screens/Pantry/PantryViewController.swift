@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 22.05.2023.
 //
 
+import ApphudSDK
 import UIKit
 
 final class PantryViewController: UIViewController {
@@ -85,7 +86,6 @@ final class PantryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.reloadDataFromStorage()
-        viewModel.showStarterPackIfNeeded()
         (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: false)
         (self.tabBarController as? MainTabBarController)?.customTabBar.isHidden = false
         (self.tabBarController as? MainTabBarController)?.setTextTabBar()
@@ -279,6 +279,12 @@ extension PantryViewController: PantryCellDelegate {
     }
     
     func tapSharing(cell: PantryCell) {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            viewModel.showPaywall()
+            return
+        }
+#endif
         guard let index = collectionView.indexPath(for: cell),
               let model = dataSource?.itemIdentifier(for: index) else {
             return
@@ -292,6 +298,14 @@ extension PantryViewController: PantryEditMenuViewDelegate {
     func selectedState(state: PantryEditMenuView.MenuState) {
         contextMenuView.fadeOut { [weak self] in
             self?.contextMenuBackgroundView.isHidden = true
+#if RELEASE
+            if !Apphud.hasActiveSubscription() {
+                self?.viewModel.showPaywall()
+                self?.contextMenuView.removeSelected()
+                return
+            }
+#endif
+            
             switch state {
             case .edit:
                 AmplitudeManager.shared.logEvent(.pantryContextEdit)
@@ -319,6 +333,12 @@ extension PantryViewController: MainTabBarControllerPantryDelegate {
     }
     
     func tappedAddItem() {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            viewModel.showPaywall()
+            return
+        }
+#endif
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
             (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
             (self.tabBarController as? MainTabBarController)?.customTabBar.isHidden = true

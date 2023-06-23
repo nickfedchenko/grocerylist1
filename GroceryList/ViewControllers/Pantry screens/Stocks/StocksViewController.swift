@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 31.05.2023.
 //
 
+import ApphudSDK
 import UIKit
 
 final class StocksViewController: UIViewController {
@@ -259,6 +260,12 @@ final class StocksViewController: UIViewController {
     
     @objc
     private func longPressAction(_ recognizer: UILongPressGestureRecognizer) {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            viewModel.showPaywall()
+            return
+        }
+#endif
         let location = recognizer.location(in: self.collectionView)
         guard viewModel.stateCellModel == .normal,
               let indexPath = self.collectionView.indexPathForItem(at: location),
@@ -312,6 +319,12 @@ final class StocksViewController: UIViewController {
     
     @objc
     private func tapOnLinkView() {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            viewModel.showPaywall()
+            return
+        }
+#endif
         viewModel.goToSelectList(presentedController: self.tabBarController,
                                  contentViewHeigh: self.view.frame.height * 0.75)
         linkBackgroundView.fadeIn(duration: 0.3)
@@ -446,6 +459,13 @@ extension StocksViewController: StocksNavigationViewDelegate {
     }
     
     func tapOnSharingButton() {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            viewModel.showPaywall()
+            return
+        }
+#endif
+        
         viewModel.sharePantry()
     }
     
@@ -485,6 +505,12 @@ extension StocksViewController: StockCellDelegate {
 
 extension StocksViewController: MainTabBarControllerStocksDelegate {
     func tappedAddItem() {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            viewModel.showPaywall()
+            return
+        }
+#endif
         viewModel.goToCreateItem(stock: nil)
     }
 }

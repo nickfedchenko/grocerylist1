@@ -90,6 +90,10 @@ final class MainTabBarViewModel {
         router?.showPaywallVC()
     }
     
+    func showPantryStarterPack() {
+        router?.goToPantryStarterPack()
+    }
+    
     func showStockReminderIfNeeded() {
         let today = Date()
         checkThatItemIsOutOfStock()
