@@ -70,6 +70,7 @@ struct ShortRecipeModel {
     var localImage: Data?
     var values: Values?
     var isFavorite = false
+    var isDefaultRecipe = false
     
     init(withCollection dbModel: DBRecipe, isFavorite: Bool) {
         id = Int(dbModel.id)
@@ -80,6 +81,7 @@ struct ShortRecipeModel {
         values = (try? JSONDecoder().decode(Values.self, from: dbModel.values ?? Data()))
         time = dbModel.cookingTime
         self.isFavorite = isFavorite
+        self.isDefaultRecipe = dbModel.isDefaultRecipe
     }
     
     init(withIngredients dbModel: DBRecipe) {
@@ -90,6 +92,18 @@ struct ShortRecipeModel {
         localImage = dbModel.localImage
         values = (try? JSONDecoder().decode(Values.self, from: dbModel.values ?? Data()))
         time = dbModel.cookingTime
+    }
+    
+    init(withCollection model: Recipe) {
+        id = model.id
+        title = model.title
+        photo = model.photo
+        localCollection = model.localCollection
+        localImage = model.localImage
+        values = model.values
+        time = Int32(model.cookingTime ?? -1)
+        isFavorite = UserDefaultsManager.favoritesRecipeIds.contains(model.id)
+        isDefaultRecipe = model.isDefaultRecipe
     }
 }
 

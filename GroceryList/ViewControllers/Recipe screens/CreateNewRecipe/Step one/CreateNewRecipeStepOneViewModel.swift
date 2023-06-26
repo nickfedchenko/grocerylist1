@@ -10,11 +10,14 @@ import UIKit
 final class CreateNewRecipeStepOneViewModel {
     
     weak var router: RootRouter?
+    var currentRecipe: Recipe?
+    
     var changeCollections: (([String]) -> Void)?
     var competeRecipe: ((Recipe) -> Void)?
     
     private var recipe: CreateNewRecipeStepOne?
     private var collections: [CollectionModel]?
+    
     func back() {
         router?.navigationPopViewController(animated: true)
     }

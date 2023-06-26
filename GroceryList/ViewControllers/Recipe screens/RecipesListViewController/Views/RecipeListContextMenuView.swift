@@ -66,6 +66,7 @@ class RecipeListContextMenuView: UIView {
     }()
     
     private var mainColor: Theme?
+    private var allMenuFunctions = MainMenuState.allCases
     
     var requiredHeight: Int {
         stackView.arrangedSubviews.count * 56
@@ -80,22 +81,28 @@ class RecipeListContextMenuView: UIView {
         super.init(coder: coder)
     }
     
+    func setupMenuFunctions(isDefaultRecipe: Bool) {
+        guard isDefaultRecipe else {
+            return
+        }
+        
+        allMenuFunctions.removeAll { $0 == .edit }
+        setupMenuStackView()
+    }
+    
     func configure(color: Theme) {
         mainColor = color
         stackView.backgroundColor = color.medium
         self.layer.borderColor = color.medium.cgColor
         
-        stackView.removeAllArrangedSubviews()
-        
-        MainMenuState.allCases.forEach { state in
-            let view = RecipeListContextMenuSubView()
-            view.configure(title: state.title, image: state.image, color: color.dark)
-            view.tag = state.rawValue
-            stackView.addArrangedSubview(view)
-            
-            view.onViewAction = { [weak self] in
-                self?.markAsSelected(state, activeColor: color.dark)
-                self?.delegate?.selectedState(state: state)
+        setupMenuStackView()
+    }
+    
+    func removeSelected() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.stackView.arrangedSubviews.forEach {
+                $0.backgroundColor = .white
+                ($0 as? RecipeListContextMenuSubView)?.configure(color: self.mainColor?.dark ?? .black)
             }
         }
     }
@@ -109,20 +116,27 @@ class RecipeListContextMenuView: UIView {
         makeConstraints()
     }
     
-    func markAsSelected(_ state: MainMenuState, activeColor: UIColor) {
+    private func setupMenuStackView() {
+        stackView.removeAllArrangedSubviews()
+        
+        allMenuFunctions.forEach { state in
+            let view = RecipeListContextMenuSubView()
+            view.configure(title: state.title, image: state.image, color: mainColor?.dark ?? .black)
+            view.tag = state.rawValue
+            stackView.addArrangedSubview(view)
+            
+            view.onViewAction = { [weak self] in
+                self?.markAsSelected(state, activeColor: self?.mainColor?.dark ?? .black)
+                self?.delegate?.selectedState(state: state)
+            }
+        }
+    }
+    
+    private func markAsSelected(_ state: MainMenuState, activeColor: UIColor) {
         stackView.arrangedSubviews.forEach { view in
             let contextMenuColor = view.tag == state.rawValue ? .white : activeColor
             view.backgroundColor = view.tag == state.rawValue ? activeColor : .white
             (view as? RecipeListContextMenuSubView)?.configure(color: contextMenuColor)
-        }
-    }
-    
-    func removeSelected() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.stackView.arrangedSubviews.forEach {
-                $0.backgroundColor = .white
-                ($0 as? RecipeListContextMenuSubView)?.configure(color: self.mainColor?.dark ?? .black)
-            }
         }
     }
     

@@ -306,12 +306,13 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createCreateNewRecipeViewController(router: RootRouter,
+    func createCreateNewRecipeViewController(currentRecipe: Recipe?, router: RootRouter,
                                              compl: @escaping (Recipe) -> Void) -> UIViewController {
         let viewController = CreateNewRecipeStepOneViewController()
         let viewModel = CreateNewRecipeStepOneViewModel()
         viewModel.router = router
         viewModel.competeRecipe = compl
+        viewModel.currentRecipe = currentRecipe
         viewController.viewModel = viewModel
         return viewController
     }

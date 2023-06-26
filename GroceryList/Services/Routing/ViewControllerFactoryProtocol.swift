@@ -56,7 +56,8 @@ protocol ViewControllerFactoryProtocol {
                                      pantryToShare: PantryModel?,
                                      listToShare: GroceryListsModel?,
                                      users: [User]) -> UIViewController
-    func createCreateNewRecipeViewController(router: RootRouter,
+    func createCreateNewRecipeViewController(currentRecipe: Recipe?,
+                                             router: RootRouter,
                                              compl: @escaping (Recipe) -> Void) -> UIViewController
     func createCreateNewRecipeStepTwoViewController(router: RootRouter, recipe: CreateNewRecipeStepOne,
                                                     compl: @escaping (Recipe) -> Void) -> UIViewController
