@@ -190,8 +190,9 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func goToCreateNewRecipe(compl: @escaping (Recipe) -> Void) {
+    func goToCreateNewRecipe(currentRecipe: Recipe? = nil, compl: @escaping (Recipe) -> Void) {
         let controller = viewControllerFactory.createCreateNewRecipeViewController(
+            currentRecipe: currentRecipe,
             router: self,
             compl: compl)
         navigationPushViewController(controller, animated: true)
@@ -263,6 +264,18 @@ final class RootRouter: RootRouterProtocol {
             router: self, products: products, contentViewHeigh: contentViewHeigh,
             delegate: delegate, state: state)
         navigationPresent(controller, style: .automatic, animated: true)
+    }
+    
+    func goToAddProductsSelectionList(products: [Product], contentViewHeigh: CGFloat,
+                                      delegate: AddProductsSelectionListDelegate) {
+        let dataSource = SelectListDataManager()
+        let viewModel = SelectListViewModel(dataSource: dataSource)
+        let addProductsVC = AddProductsSelectionListController(with: products)
+        addProductsVC.contentViewHeigh = contentViewHeigh
+        addProductsVC.viewModel = viewModel
+        addProductsVC.delegate = delegate
+//        addProductsVC.modalPresentationStyle = .overCurrentContext
+        UIViewController.currentController()?.present(addProductsVC, animated: true)
     }
     
     func goToCreateStore(model: GroceryListsModel?,

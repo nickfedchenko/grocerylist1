@@ -76,6 +76,9 @@ final class EditSelectListViewController: SelectListViewController {
         
         let firstRecognizer = UITapGestureRecognizer(target: self, action: #selector(createListAction))
         bottomCreateListView.addGestureRecognizer(firstRecognizer)
+        
+        bottomCreateListView.setColor(background: .white, title: R.color.primaryDark(),
+                                      imageBg: R.color.primaryDark(), image: .white)
     }
     
     @objc
