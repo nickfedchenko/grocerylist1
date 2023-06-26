@@ -2458,7 +2458,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 278 images.
+  /// This `_R.image` struct is generated, and contains static references to 279 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -2800,6 +2800,9 @@ struct _R {
 
     /// Image `contextualMenu`.
     var contextualMenu: RswiftResources.ImageResource { .init(name: "contextualMenu", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `defaultRecipeImage`.
+    var defaultRecipeImage: RswiftResources.ImageResource { .init(name: "defaultRecipeImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `defaults_pantry_list_BeautyHealth`.
     var defaults_pantry_list_BeautyHealth: RswiftResources.ImageResource { .init(name: "defaults_pantry_list_BeautyHealth", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

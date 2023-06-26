@@ -72,13 +72,17 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
             
             let recipesShuffled = recipes.shuffled()
             let imageUrl = recipesShuffled.first?.photo
+            var defaultImage: UIImage?
+            if imageUrl == nil {
+                defaultImage = R.image.defaultRecipeImage()
+            }
             let customSection = RecipeSectionsModel(collectionId: collection.id,
                                                     cellType: .recipePreview,
                                                     sectionType: .custom(collection.title.localized),
                                                     recipes: recipesShuffled,
                                                     color: collection.color,
                                                     imageUrl: imageUrl,
-                                                    localImage: collection.localImage)
+                                                    localImage: collection.localImage ?? defaultImage?.pngData())
             
             guard let index = recipesSections.firstIndex(where: {
                 $0.sectionType == .custom(collection.title.localized)

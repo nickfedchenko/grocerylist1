@@ -179,10 +179,10 @@ enum EatingTime: Int, CaseIterable {
     case lunch = 9
     case snack = 11
     
-    case willCook = -10
-    case drafts = -9
-    case favorites = -8
-    case inbox = -7
+    case willCook = -103
+    case drafts = -102
+    case favorites = -101
+    case inbox = -100
     
     var color: Int {
         switch self {
