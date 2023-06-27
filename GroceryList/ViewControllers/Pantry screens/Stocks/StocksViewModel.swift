@@ -288,6 +288,10 @@ final class StocksViewModel {
         delegate?.updateUIEditTabBar()
     }
     
+    func showPaywall() {
+        router?.showPaywallVC()
+    }
+    
     private func getSharedListsUsers() -> [User] {
         return SharedPantryManager.shared.sharedListsUsers[pantry.sharedId] ?? []
     }

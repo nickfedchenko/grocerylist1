@@ -11,6 +11,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:shoppinglist.pro</string>
+		<string>webcredentials:shoppinglist.pro</string>
 	</array>
 </dict>
 </plist>

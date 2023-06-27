@@ -124,6 +124,10 @@ class PantryViewModel {
         dataSource.updatePantry()
     }
     
+    func showPaywall() {
+        router?.showPaywallVC()
+    }
+    
     private func getSharingState(_  model: PantryModel) -> SharingView.SharingState {
         model.isShared ? .added : .invite
     }

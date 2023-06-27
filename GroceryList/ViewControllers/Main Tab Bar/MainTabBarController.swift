@@ -211,6 +211,10 @@ extension MainTabBarController: CustomTabBarViewDelegate {
         selectedIndex = index
         customTabBar.updateItems(by: index)
         updateNavView()
+        
+        if selectedIndex == 1 {
+            viewModel.showPantryStarterPack()
+        }
     }
     
     func tabAddItem() {
@@ -235,7 +239,8 @@ extension MainTabBarController: CustomTabBarViewDelegate {
                 if topViewController is StocksViewController {
                     stocksDelegate?.tappedAddItem()
                 }
-            case .recipe:   recipeDelegate?.tappedAddItem()
+            case .recipe:
+                recipeDelegate?.tappedAddItem()
             }
         }
     }

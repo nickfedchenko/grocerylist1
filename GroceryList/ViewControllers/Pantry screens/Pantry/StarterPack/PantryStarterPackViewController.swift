@@ -56,7 +56,7 @@ final class PantryStarterPackViewController: UIViewController {
     private lazy var excellentButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = R.color.primaryDark()
-        button.setTitle("Excellent!", for: .normal)
+        button.setTitle(R.string.localizable.excellent(), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.bold(size: 20).font
         button.layer.cornerRadius = 16
