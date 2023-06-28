@@ -66,4 +66,8 @@ class ColorManager {
         return emptyCellColors[index]
     }
     
+    func getFirstColor() -> Theme {
+        rawGradientColors[0]
+    }
+    
 }

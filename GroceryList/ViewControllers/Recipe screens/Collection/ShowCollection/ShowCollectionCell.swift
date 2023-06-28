@@ -9,7 +9,7 @@ import UIKit
 
 final class ShowCollectionCell: UITableViewCell {
     
-    var deleteTapped: (() -> Void)?
+    var contextMenuTapped: ((CGPoint, ShowCollectionCell) -> Void)?
     
     private lazy var bgView: UIView = {
         let view = UIView()
@@ -19,7 +19,7 @@ final class ShowCollectionCell: UITableViewCell {
     
     private lazy var separatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#62D3B4")
+        view.backgroundColor = R.color.lightGray()
         view.layer.cornerRadius = 1
         return view
     }()
@@ -52,22 +52,14 @@ final class ShowCollectionCell: UITableViewCell {
         return imageView
     }()
     
-    private lazy var minusButton: UIButton = {
+    private lazy var contextMenuButton: UIButton = {
         let button = UIButton()
-        button.setImage(R.image.deleteCollection(), for: .normal)
-        button.addTarget(self, action: #selector(minusButtonTapped), for: .touchUpInside)
+        button.setImage(R.image.pantry_context_menu()?.withTintColor(R.color.darkGray() ?? .black),
+                        for: .normal)
+        button.addTarget(self, action: #selector(tapContexMenuButton), for: .touchUpInside)
         button.isHidden = true
         return button
     }()
-    
-    private lazy var trashButton: UIButton = {
-        let button = UIButton()
-        button.setImage(R.image.swipeToDelete(), for: .normal)
-        button.addTarget(self, action: #selector(trashButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    private var isShowTrashButton = false
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -81,8 +73,9 @@ final class ShowCollectionCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        minusButton.isHidden = true
-        trashButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        contextMenuButton.isHidden = true
+        countLabel.textColor = UIColor(hex: "#7A948F")
+        collectionLabel.textColor = R.color.primaryDark()
         iconImageView.snp.updateConstraints { $0.leading.equalToSuperview().offset(20) }
         countLabel.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-31) }
         bgView.snp.updateConstraints { $0.leading.trailing.equalToSuperview().offset(0) }
@@ -96,7 +89,7 @@ final class ShowCollectionCell: UITableViewCell {
         (subview.subviews.first as? UIImageView)?.removeFromSuperview()
 
         let imageView = UIImageView()
-        imageView.image = R.image.rearrange()
+        imageView.image = R.image.rearrange()?.withTintColor(R.color.lightGray() ?? .lightGray)
         subview.addSubview(imageView)
             
         imageView.snp.makeConstraints {
@@ -108,6 +101,7 @@ final class ShowCollectionCell: UITableViewCell {
     func configureCreateCollection() {
         setSeparator(false)
         collectionLabel.text = R.string.localizable.createCollection()
+        
         countLabel.text = ""
         iconImageView.image = R.image.recipePlus()
         selectView.isHidden = true
@@ -124,11 +118,35 @@ final class ShowCollectionCell: UITableViewCell {
         selectView.isHidden = !isSelect
     }
     
+    func configure(isTechnical: Bool) {
+        guard isTechnical else {
+            return
+        }
+        let color = R.color.mediumGray() ?? .systemGray5
+        iconImageView.image = R.image.collection()?.withTintColor(color)
+        collectionLabel.textColor = color
+        countLabel.textColor = color
+    }
+    
+    func configure(isTechnical: Bool, color: Theme) {
+        contextMenuButton.isHidden = isTechnical
+        guard isTechnical else {
+            iconImageView.image = R.image.collection()?.withTintColor(color.medium)
+            collectionLabel.textColor = color.dark
+            countLabel.textColor = color.medium
+            return
+        }
+        let color = R.color.mediumGray() ?? .systemGray5
+        iconImageView.image = R.image.collection()?.withTintColor(color)
+        collectionLabel.textColor = color
+        countLabel.textColor = color
+    }
+    
     func updateConstraintsForEditState() {
         iconImageView.snp.updateConstraints { $0.leading.equalToSuperview().offset(68) }
         countLabel.snp.updateConstraints { $0.trailing.equalToSuperview().offset(-68) }
-        minusButton.isHidden = false
-        minusButton.snp.makeConstraints {
+        contextMenuButton.isHidden = false
+        contextMenuButton.snp.makeConstraints {
             $0.height.width.equalTo(40)
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().offset(-20)
@@ -138,8 +156,6 @@ final class ShowCollectionCell: UITableViewCell {
     private func setup() {
         self.selectionStyle = .none
         self.backgroundColor = .clear
-        trashButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
-        
         makeConstraints()
     }
     
@@ -148,60 +164,19 @@ final class ShowCollectionCell: UITableViewCell {
     }
     
     @objc
-    private func minusButtonTapped() {
-        isShowTrashButton.toggle()
-        guard isShowTrashButton else {
-            hideTrash()
-            return
-        }
-        showTrash()
-    }
-    
-    @objc
-    private func trashButtonTapped() {
-        isShowTrashButton = false
-        hideTrash { self.deleteTapped?() }
-    }
-    
-    private func showTrash() {
-        UIView.animate(withDuration: 0.2) { [weak self] in
-            guard let self = self else { return }
-            self.trashButton.transform = CGAffineTransform(scaleX: 1, y: 1)
-            self.bgView.snp.updateConstraints {
-                $0.leading.equalToSuperview().offset(65)
-            }
-            self.layoutIfNeeded()
-        }
-    }
-    
-    private func hideTrash(completion: (() -> Void)? = nil) {
-        UIView.animate(withDuration: 0.2) { [weak self] in
-            guard let self = self else { return }
-            self.trashButton.transform = CGAffineTransform(scaleX: 0, y: 1)
-            self.bgView.snp.updateConstraints {
-                $0.leading.trailing.equalToSuperview().offset(0)
-            }
-            self.layoutIfNeeded()
-        } completion: { _ in
-            completion?()
-        }
+    private func tapContexMenuButton() {
+        contextMenuTapped?(contextMenuButton.center, self)
     }
     
     private func makeConstraints() {
-        self.addSubviews([separatorView, trashButton, bgView])
+        self.addSubviews([separatorView, bgView])
         bgView.addSubviews([selectView, iconImageView, collectionLabel, countLabel,
-                            minusButton])
+                            contextMenuButton])
         
         bgView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().offset(0)
             $0.top.equalToSuperview()
             $0.height.equalTo(66)
-        }
-        
-        trashButton.snp.makeConstraints {
-            $0.height.equalTo(bgView)
-            $0.leading.equalToSuperview().offset(-1)
-            $0.width.equalTo(72)
         }
         
         separatorView.snp.makeConstraints {

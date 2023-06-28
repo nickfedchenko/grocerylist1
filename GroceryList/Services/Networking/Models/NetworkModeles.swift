@@ -65,7 +65,7 @@ struct Recipe: Codable, Hashable, Equatable {
     let ingredients: [Ingredient]
     let eatingTags, dishTypeTags, processingTypeTags, additionalTags: [AdditionalTag]
     let dietTags, exceptionTags: [AdditionalTag]
-    let photo: String
+    var photo: String
     let isDraft: Bool
     let createdAt: Date
     var localCollection: [CollectionModel]?

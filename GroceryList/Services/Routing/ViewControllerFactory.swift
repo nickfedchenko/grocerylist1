@@ -335,12 +335,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createCreateNewCollectionViewController(collections: [CollectionModel] = [],
-                                                 compl: @escaping ([CollectionModel]) -> Void) -> UIViewController {
+    func createCreateNewCollectionViewController(currentCollection: CollectionModel?,
+                                                 collections: [CollectionModel] = [],
+                                                 compl: @escaping (CollectionModel) -> Void) -> UIViewController {
         let viewController = CreateNewCollectionViewController()
         let viewModel = CreateNewCollectionViewModel()
         viewModel.updateUICallBack = compl
         viewModel.editCollections = collections
+        viewModel.currentCollection = currentCollection
         viewController.viewModel = viewModel
         return viewController
     }

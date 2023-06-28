@@ -9,14 +9,14 @@ import Foundation
 
 final class CreateNewCollectionViewModel {
     
-    var updateUICallBack: (([CollectionModel]) -> Void)?
+    var updateUICallBack: ((CollectionModel) -> Void)?
     var updateColor: ((Theme) -> Void)?
     
     var editCollections: [CollectionModel] = []
+    var currentCollection: CollectionModel?
     
     private let colorManager = ColorManager.shared
     private var selectedThemeIndex = 0
-    
     
     func getNumberOfCells() -> Int {
         colorManager.gradientsCount
@@ -35,27 +35,19 @@ final class CreateNewCollectionViewModel {
         guard let title else {
             return
         }
-        
-        let index = CoreDataManager.shared.getAllCollection()?.count ?? 0
-        
-        let newCollection = CollectionModel(id: UUID().integer, index: -index,
+        let newCollection: CollectionModel
+        if var currentCollection {
+            currentCollection.title = title
+            currentCollection.color = selectedThemeIndex
+            newCollection = currentCollection
+        } else {
+            let index = CoreDataManager.shared.getAllCollection()?.count ?? 0
+            
+            newCollection = CollectionModel(id: UUID().integer, index: -index,
                                             title: title, color: selectedThemeIndex)
+        }
         
-//        if editCollections.isEmpty {
-//            let dbCollections = CoreDataManager.shared.getAllCollection() ?? []
-//            editCollections = dbCollections.compactMap { CollectionModel(from: $0) }
-//        }
-//
-//        var updateCollections: [CollectionModel] = []
-//        editCollections.forEach { collection in
-//            updateCollections.append(CollectionModel(id: collection.id,
-//                                                     index: collection.index + 1,
-//                                                     title: collection.title,
-//                                                     color: collection.color,
-//                                                     isDefault: collection.isDefault))
-//        }
-//        updateCollections.append(newCollection)
         CoreDataManager.shared.saveCollection(collections: [newCollection])
-        updateUICallBack?([newCollection])
+        updateUICallBack?(newCollection)
     }
 }
