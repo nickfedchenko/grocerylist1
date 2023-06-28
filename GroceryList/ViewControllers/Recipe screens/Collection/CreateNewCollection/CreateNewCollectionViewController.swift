@@ -92,6 +92,7 @@ final class CreateNewCollectionViewController: UIViewController {
         setupContentView()
         activeColor = viewModel?.getColor(by: 0)
         updateSaveButton(isActive: false)
+        updateCurrentCollection()
         makeConstraints()
         
         let tapOnView = UITapGestureRecognizer(target: self, action: #selector(hidePanel))
@@ -119,6 +120,17 @@ final class CreateNewCollectionViewController: UIViewController {
         iconImageView.image = R.image.menuFolder()?.withTintColor(activeColor?.dark ?? .black)
         let isActive = !(textField.text?.isEmpty ?? true)
         saveButton.backgroundColor = isActive ? activeColor?.medium : R.color.mediumGray()
+    }
+    
+    private func updateCurrentCollection() {
+        guard let collection = viewModel?.currentCollection else {
+            return
+        }
+        
+        activeColor = viewModel?.getColor(by: collection.color)
+        colorCollectionView.selectItem(at: IndexPath(row: collection.color, section: 0),
+                                       animated: false, scrollPosition: .left)
+        textField.text = collection.title
     }
     
     @objc

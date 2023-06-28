@@ -62,8 +62,9 @@ protocol ViewControllerFactoryProtocol {
     func createCreateNewRecipeStepTwoViewController(router: RootRouter, recipe: CreateNewRecipeStepOne,
                                                     compl: @escaping (Recipe) -> Void) -> UIViewController
     func createPreparationStepViewController(stepNumber: Int, compl: @escaping (String) -> Void) -> UIViewController
-    func createCreateNewCollectionViewController(collections: [CollectionModel],
-                                                 compl: @escaping ([CollectionModel]) -> Void) -> UIViewController
+    func createCreateNewCollectionViewController(currentCollection: CollectionModel?,
+                                                 collections: [CollectionModel],
+                                                 compl: @escaping (CollectionModel) -> Void) -> UIViewController
     func createShowCollectionViewController(router: RootRouter, state: ShowCollectionViewController.ShowCollectionState,
                                             recipe: Recipe?, updateUI: (() -> Void)?,
                                             compl: (([CollectionModel]) -> Void)?) -> UIViewController

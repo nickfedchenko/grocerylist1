@@ -379,3 +379,7 @@
 
 "addToFavorites"                = "ajouter Aux Favoris";
 "added to"                      = "Ajouté à";
+
+"Delete Collection?"            = "Supprimer la collection?";
+"You are deleting a collection" = "Vous supprimez une collection. Toutes les recettes qui s'y trouvent ne seront pas supprimées de la base de données ou d'autres collections.";
+"SelectOneOrMoreCollections"    = "Sélectionner une ou plusieurs collections";

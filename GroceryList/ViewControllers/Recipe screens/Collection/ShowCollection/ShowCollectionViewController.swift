@@ -16,6 +16,14 @@ final class ShowCollectionViewController: UIViewController {
     
     var viewModel: ShowCollectionViewModel?
     
+    private let contentShadowView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 20
+        view.backgroundColor = UIColor(hex: "#E5F5F3")
+        view.addCustomShadow(opacity: 0.15, radius: 11, offset: CGSize(width: 0, height: -12))
+        return view
+    }()
+    
     private let contentView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
@@ -33,9 +41,19 @@ final class ShowCollectionViewController: UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFProRounded.semibold(size: 17).font
+        label.font = UIFont.SFProDisplay.heavy(size: 32).font
         label.textColor = R.color.primaryDark()
         label.numberOfLines = 0
+        label.text = R.string.localizable.collections()
+        return label
+    }()
+    
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFCompactDisplay.semibold(size: 16).font
+        label.textColor = R.color.darkGray()
+        label.numberOfLines = 0
+        label.text = R.string.localizable.selectOneOrMoreCollections()
         return label
     }()
     
@@ -57,7 +75,12 @@ final class ShowCollectionViewController: UIViewController {
         return tableView
     }()
     
-    private var contentViewHeight = 290.0
+    private let contextMenuView = PantryEditMenuView()
+    private let contextMenuBackgroundView = UIView()
+    private var contextMenuIndex: IndexPath?
+    private let deleteAlertView = ShowCollectionDeleteAlertView()
+    private let deleteAlertBackgroundView = UIView()
+    
     private var state: ShowCollectionState = .select {
         didSet { setupState() }
     }
@@ -69,7 +92,6 @@ final class ShowCollectionViewController: UIViewController {
         
         viewModel?.updateData = { [weak self] in
             DispatchQueue.main.async {
-                self?.calculateContentViewHeight()
                 self?.tableView.reloadData()
             }
         }
@@ -94,31 +116,21 @@ final class ShowCollectionViewController: UIViewController {
         tapRecognizer.delegate = self
         self.view.addGestureRecognizer(tapRecognizer)
         
-        calculateContentViewHeight()
         setupTableView()
+        setupContextMenu()
         makeConstraints()
     }
     
     private func setupState() {
-        titleLabel.text = state.title
-        titleLabel.font = state.font
-        
-        titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(state == .select ? 24 : 30)
-        }
-        
+        descriptionLabel.isHidden = state == .edit
+
         tableView.isEditing = state == .edit
         if state == .edit {
             tableView.allowsSelectionDuringEditing = true
             tableView.semanticContentAttribute = .forceRightToLeft
+            contentView.backgroundColor = .white
+            navView.backgroundColor = .white.withAlphaComponent(0.9)
         }
-    }
-    
-    private func calculateContentViewHeight() {
-        let maxHeight = self.view.frame.height * 0.9
-        contentViewHeight += viewModel?.necessaryHeight ?? 0
-        tableView.isScrollEnabled = contentViewHeight > maxHeight
-        contentViewHeight = contentViewHeight > maxHeight ? maxHeight : contentViewHeight
     }
     
     private func setupTableView() {
@@ -126,6 +138,32 @@ final class ShowCollectionViewController: UIViewController {
         tableView.dataSource = self
         tableView.rowHeight = 66
         tableView.register(classCell: ShowCollectionCell.self)
+    }
+    
+    private func setupContextMenu() {
+        let menuTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(menuTapAction))
+        contextMenuBackgroundView.addGestureRecognizer(menuTapRecognizer)
+        contextMenuView.delegate = self
+        contextMenuView.isHidden = true
+        contextMenuBackgroundView.isHidden = true
+        contextMenuBackgroundView.backgroundColor = .black.withAlphaComponent(0.2)
+        
+        let deleteTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(deleteTapAction))
+        deleteAlertBackgroundView.addGestureRecognizer(deleteTapRecognizer)
+        deleteAlertView.isHidden = true
+        deleteAlertBackgroundView.isHidden = true
+        deleteAlertBackgroundView.backgroundColor = .black.withAlphaComponent(0.2)
+        
+        deleteAlertView.deleteTapped = { [weak self] in
+            if let contextMenuIndex = self?.contextMenuIndex {
+                self?.viewModel?.deleteCollection(by: contextMenuIndex.row - 1)
+            }
+            self?.deleteTapAction()
+        }
+        
+        deleteAlertView.cancelTapped = { [weak self] in
+            self?.deleteTapAction()
+        }
     }
     
     @objc
@@ -141,9 +179,22 @@ final class ShowCollectionViewController: UIViewController {
         hideContentView()
     }
     
+    @objc
+    private func menuTapAction() {
+        contextMenuView.fadeOut()
+        contextMenuBackgroundView.isHidden = true
+    }
+    
+    @objc
+    private func deleteTapAction() {
+        deleteAlertView.fadeOut()
+        deleteAlertBackgroundView.isHidden = true
+    }
+    
     private func hideContentView() {
         viewModel?.saveChanges()
         updateConstraints(with: 900, alpha: 0)
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
             self?.viewModel?.dismissView()
         }
@@ -153,23 +204,58 @@ final class ShowCollectionViewController: UIViewController {
         updateConstraints(with: 0, alpha: 0.2)
     }
     
-    private func updateConstraints(with inset: Double, alpha: Double) {
+    private func updateConstraints(with offset: Double, alpha: Double) {
+        contentView.snp.updateConstraints { $0.bottom.equalToSuperview().offset(offset) }
+        
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.view.backgroundColor = .black.withAlphaComponent(alpha)
-            self?.contentView.snp.updateConstraints { $0.bottom.equalToSuperview().offset(inset) }
             self?.view.layoutIfNeeded()
         }
     }
     
+    private func tapContextMenu(point: CGPoint, cell: ShowCollectionCell) {
+        let convertPointOnTable = cell.convert(point, to: tableView)
+        let convertPointOnView = cell.convert(point, to: contentView)
+        contextMenuIndex = tableView.indexPathForRow(at: convertPointOnTable)
+        guard let contextMenuIndex else {
+            return
+        }
+        contextMenuView.fadeIn()
+        contextMenuBackgroundView.isHidden = false
+        contextMenuView.setupColor(theme: viewModel?.getColor(by: contextMenuIndex.row - 1) ??
+                                          ColorManager.shared.getFirstColor())
+
+        let topSafeArea = UIView.safeAreaTop
+        let offset: CGFloat = 32
+        let tabBarRect: CGRect = .init(origin: .init(x: 0, y: self.view.bounds.height),
+                                       size: .init(width: self.view.bounds.width, height: topSafeArea > 24 ? 90 : 60))
+        let contextMenuRect: CGRect = .init(origin: .init(x: convertPointOnView.x, y: convertPointOnView.y + offset),
+                                            size: .init(width: 250, height: 150))
+        
+        if contextMenuRect.intersects(tabBarRect) {
+            contextMenuView.snp.updateConstraints {
+                $0.top.equalToSuperview().offset(convertPointOnView.y - offset - 114)
+            }
+        } else {
+            contextMenuView.snp.updateConstraints {
+                $0.top.equalToSuperview().offset(convertPointOnView.y + offset)
+            }
+        }
+    }
+    
     private func makeConstraints() {
-        self.view.addSubview(contentView)
-        contentView.addSubviews([tableView, navView])
-        navView.addSubviews([titleLabel, doneButton])
+        self.view.addSubviews([contentShadowView, contentView, deleteAlertBackgroundView, deleteAlertView])
+        contentView.addSubviews([tableView, navView, contextMenuBackgroundView, contextMenuView])
+        navView.addSubviews([titleLabel, descriptionLabel, doneButton])
         
         contentView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(contentViewHeight)
-            $0.height.equalTo(contentViewHeight)
+            $0.bottom.equalToSuperview().offset(self.view.frame.height)
+            $0.height.equalTo(self.view.frame.height - 49)
+        }
+        
+        contentShadowView.snp.makeConstraints {
+            $0.edges.equalTo(contentView)
         }
         
         tableView.snp.makeConstraints {
@@ -182,8 +268,15 @@ final class ShowCollectionViewController: UIViewController {
         }
         
         titleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(23)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalTo(doneButton.snp.leading).offset(-16)
+        }
+        
+        descriptionLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(22)
+            $0.top.equalToSuperview().offset(57)
+//            $0.trailing.equalTo(doneButton.snp.leading).offset(-16)
             $0.bottom.equalToSuperview()
         }
         
@@ -194,6 +287,30 @@ final class ShowCollectionViewController: UIViewController {
         }
         doneButton.setContentCompressionResistancePriority(.init(1000), for: .horizontal)
         doneButton.setContentHuggingPriority(.init(1000), for: .horizontal)
+        
+        makeContextMenuConstraints()
+    }
+    
+    private func makeContextMenuConstraints() {
+        contextMenuBackgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        contextMenuView.snp.makeConstraints {
+            $0.width.equalTo(250)
+            $0.height.equalTo(114)
+            $0.top.equalToSuperview().offset(0)
+            $0.trailing.equalToSuperview().offset(-20)
+        }
+
+        deleteAlertBackgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        deleteAlertView.snp.makeConstraints {
+            $0.width.equalTo(270)
+            $0.center.equalToSuperview()
+        }
     }
 }
 
@@ -204,25 +321,27 @@ extension ShowCollectionViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.reusableCell(classCell: ShowCollectionCell.self, indexPath: indexPath)
-        guard let viewModel else { return cell }
+        guard let viewModel else {
+            return cell
+        }
         if indexPath.row == 0 {
             cell.configureCreateCollection()
         } else {
             cell.configure(title: viewModel.getCollectionTitle(by: indexPath.row - 1),
                            count: viewModel.getRecipeCount(by: indexPath.row - 1))
             cell.configure(isSelect: viewModel.isSelect(by: indexPath.row - 1))
+            cell.configure(isTechnical: viewModel.isTechnicalCollection(by: indexPath.row - 1))
         }
 
-        let isFirstLastCell = viewModel.canMove(by: indexPath)
-        guard state == .edit && !isFirstLastCell else {
+        let isFirstCell = viewModel.canMove(by: indexPath)
+        guard state == .edit && !isFirstCell else {
             return cell
         }
         cell.updateConstraintsForEditState()
-        cell.deleteTapped = { [weak self] in
-            tableView.beginUpdates()
-            self?.viewModel?.deleteCollection(by: indexPath.row - 1)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            tableView.endUpdates()
+        cell.configure(isTechnical: viewModel.isTechnicalCollection(by: indexPath.row - 1),
+                       color: viewModel.getColor(by: indexPath.row - 1))
+        cell.contextMenuTapped = { [weak self] point, cell in
+            self?.tapContextMenu(point: point, cell: cell)
         }
         return cell
     }
@@ -241,13 +360,13 @@ extension ShowCollectionViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        let isFirstLastCell = viewModel?.canMove(by: indexPath) ?? false
-        return state == .edit && !isFirstLastCell
+        let isFirstCell = viewModel?.canMove(by: indexPath) ?? false
+        return state == .edit && !isFirstCell
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        let isFirstLastCell = viewModel?.canMove(by: indexPath) ?? false
-        return state == .edit && !isFirstLastCell
+        let isFirstCell = viewModel?.canMove(by: indexPath) ?? false
+        return state == .edit && !isFirstCell
     }
     
     func tableView(_ tableView: UITableView,
@@ -264,8 +383,8 @@ extension ShowCollectionViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath,
                    toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
-        let isFirstLastCell = viewModel?.canMove(by: proposedDestinationIndexPath) ?? false
-        if isFirstLastCell {
+        let isFirstCell = viewModel?.canMove(by: proposedDestinationIndexPath) ?? false
+        if isFirstCell {
             return sourceIndexPath
         }
         return proposedDestinationIndexPath
@@ -279,18 +398,22 @@ extension ShowCollectionViewController: UIGestureRecognizerDelegate {
     }
 }
 
-extension ShowCollectionViewController.ShowCollectionState {
-    var title: String {
-        switch self {
-        case .select: return R.string.localizable.selectOneOrMoreCollections()
-        case .edit: return R.string.localizable.collections()
-        }
-    }
-    
-    var font: UIFont {
-        switch self {
-        case .select: return UIFont.SFProRounded.semibold(size: 17).font
-        case .edit: return UIFont.SFPro.semibold(size: 22).font
+extension ShowCollectionViewController: PantryEditMenuViewDelegate {
+    func selectedState(state: PantryEditMenuView.MenuState) {
+        contextMenuView.fadeOut { [weak self] in
+            self?.contextMenuBackgroundView.isHidden = true
+            switch state {
+            case .edit:
+                guard let self,
+                      let contextMenuIndex = self.contextMenuIndex else {
+                    return
+                }
+                self.viewModel?.editCollection(by: contextMenuIndex.row - 1)
+            case .delete:
+                self?.deleteAlertView.fadeIn()
+                self?.deleteAlertBackgroundView.isHidden = false
+            }
+            self?.contextMenuView.removeSelected()
         }
     }
 }

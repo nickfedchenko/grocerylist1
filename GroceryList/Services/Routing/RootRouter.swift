@@ -213,12 +213,15 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func goToCreateNewCollection(collections: [CollectionModel] = [],
-                                 compl: @escaping ([CollectionModel]) -> Void) {
-        let controller = viewControllerFactory.createCreateNewCollectionViewController(collections: collections,
+    func goToCreateNewCollection(currentCollection: CollectionModel? = nil,
+                                 collections: [CollectionModel] = [],
+                                 compl: @escaping (CollectionModel) -> Void) {
+        let controller = viewControllerFactory.createCreateNewCollectionViewController(currentCollection: currentCollection,
+                                                                                       collections: collections,
                                                                                        compl: compl)
         controller.modalTransitionStyle = .crossDissolve
-        navigationPresent(controller, animated: true)
+        controller.modalPresentationStyle = .overFullScreen
+        UIViewController.currentController()?.present(controller, animated: true)
     }
     
     func goToShowCollection(state: ShowCollectionViewController.ShowCollectionState,
@@ -230,8 +233,10 @@ final class RootRouter: RootRouterProtocol {
                                                                                   recipe: recipe,
                                                                                   updateUI: updateUI,
                                                                                   compl: compl)
-        controller.modalTransitionStyle = .crossDissolve
-        navigationPresent(controller, animated: true)
+        if state == .edit {
+            controller.modalTransitionStyle = .crossDissolve
+        }
+        navigationPresent(controller, style: state == .select ? .automatic : .overCurrentContext, animated: true)
     }
     
     func goToIngredient(compl: @escaping (Ingredient) -> Void) {
