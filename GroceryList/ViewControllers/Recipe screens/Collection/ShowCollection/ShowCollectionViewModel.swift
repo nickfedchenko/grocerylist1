@@ -161,13 +161,6 @@ final class ShowCollectionViewModel {
             selectedCollection?(selectCollections)
             return
         }
-        updateRecipeFavorite(olds: recipe.localCollection ?? [], updates: selectCollections)
-        updateRecipeDrafts(updates: selectCollections)
-        
-        if recipe.isDefaultRecipe &&
-            selectCollections.contains(where: { $0.id == EatingTime.drafts.rawValue }) {
-            selectCollections.removeAll { $0.id == EatingTime.drafts.rawValue }
-        }
         recipe.localCollection = selectCollections
         CoreDataManager.shared.saveRecipes(recipes: [recipe])
         selectedCollection?(selectCollections)
@@ -226,40 +219,4 @@ final class ShowCollectionViewModel {
         
         self.updateData?()
     }
-    
-    private func updateRecipeFavorite(olds: [CollectionModel], updates: [CollectionModel]) {
-        guard let recipe else {
-            return
-        }
-        let favoritesId = EatingTime.favorites.rawValue
-        
-        if olds.contains(where: { $0.id == favoritesId }) && !updates.contains(where: { $0.id == favoritesId }) {
-            UserDefaultsManager.favoritesRecipeIds.removeAll { $0 == recipe.id }
-        }
-        
-        if !olds.contains(where: { $0.id == favoritesId }) && updates.contains(where: { $0.id == favoritesId }) {
-            UserDefaultsManager.favoritesRecipeIds.append(recipe.id)
-        }
-        
-    }
-    
-    private func updateRecipeDrafts(updates: [CollectionModel]) {
-        guard let recipe, recipe.isDefaultRecipe,
-              let drafts = updates.first(where: { $0.id == EatingTime.drafts.rawValue }),
-              var draft = Recipe(title: recipe.title,
-                                 totalServings: recipe.totalServings,
-                                 localCollection: [drafts],
-                                 localImage: recipe.localImage,
-                                 cookingTime: recipe.cookingTime,
-                                 description: recipe.description,
-                                 ingredients: recipe.ingredients,
-                                 instructions: recipe.instructions) else {
-            return
-        }
-        draft.photo = recipe.photo
-        draft.values = recipe.values
-        
-        CoreDataManager.shared.saveRecipes(recipes: [draft])
-    }
-    
 }

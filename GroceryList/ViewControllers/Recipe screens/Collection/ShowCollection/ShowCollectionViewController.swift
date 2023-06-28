@@ -276,7 +276,6 @@ final class ShowCollectionViewController: UIViewController {
         descriptionLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(22)
             $0.top.equalToSuperview().offset(57)
-//            $0.trailing.equalTo(doneButton.snp.leading).offset(-16)
             $0.bottom.equalToSuperview()
         }
         
@@ -353,7 +352,8 @@ extension ShowCollectionViewController: UITableViewDelegate {
             viewModel?.createCollectionTapped()
             return
         }
-        guard state == .select else {
+        guard state == .select,
+              !(viewModel?.isTechnicalCollection(by: indexPath.row - 1) ?? true) else {
             return
         }
         viewModel?.updateSelect(by: indexPath.row - 1)
