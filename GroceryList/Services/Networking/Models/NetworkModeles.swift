@@ -54,15 +54,15 @@ struct AllRecipesResponse: Codable {
 // MARK: - Recipe
 struct Recipe: Codable, Hashable, Equatable {
     let id: Int
-    let title, description: String
-    let cookingTime: Int?
-    let totalServings: Int
-    let dishWeight: Double?
-    let dishWeightType: Int?
+    var title, description: String
+    var cookingTime: Int?
+    var totalServings: Int
+    var dishWeight: Double?
+    var dishWeightType: Int?
     var values: Values?
     let countries: [String]
-    let instructions: [String]?
-    let ingredients: [Ingredient]
+    var instructions: [String]?
+    var ingredients: [Ingredient]
     let eatingTags, dishTypeTags, processingTypeTags, additionalTags: [AdditionalTag]
     let dietTags, exceptionTags: [AdditionalTag]
     var photo: String
@@ -71,6 +71,7 @@ struct Recipe: Codable, Hashable, Equatable {
     var localCollection: [CollectionModel]?
     var localImage: Data?
     var isDefaultRecipe: Bool = true
+    var isShowCost: Bool = false
 
     enum CodingKeys: String, CodingKey {
         case id, title
@@ -112,10 +113,10 @@ struct Recipe: Codable, Hashable, Equatable {
         isDefaultRecipe = dbModel.isDefaultRecipe
     }
     
-    init?(title: String, totalServings: Int,
-          localCollection: [CollectionModel]?, localImage: Data?,
-          cookingTime: Int?, description: String?,
-          ingredients: [Ingredient], instructions: [String]?) {
+    init?(title: String, totalServings: Int = -1,
+          localCollection: [CollectionModel]? = nil, localImage: Data? = nil,
+          cookingTime: Int? = nil, description: String? = nil,
+          ingredients: [Ingredient] = [], instructions: [String]? = nil, isShowCost: Bool = false) {
         self.id = UUID().integer
         self.title = title
         self.totalServings = totalServings
@@ -126,6 +127,7 @@ struct Recipe: Codable, Hashable, Equatable {
         self.description = description ?? ""
         self.ingredients = ingredients
         self.instructions = instructions
+        self.isShowCost = isShowCost
         
         photo = ""
         createdAt = Date()

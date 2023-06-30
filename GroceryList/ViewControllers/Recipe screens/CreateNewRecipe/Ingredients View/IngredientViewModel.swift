@@ -95,7 +95,9 @@ final class IngredientViewModel {
                                     quantityStr: quantityStr)
         
         ingredientCallback?(ingredient)
+#if RELEASE
         sendUserProduct(product: title)
+#endif
     }
     
     func goToSelectCategoryVC() {
@@ -295,7 +297,7 @@ final class IngredientViewModel {
         switch productTypeId {
         case -1:    return "item"
         case 1:     return "product"
-        default: return "product"
+        default:    return "product"
         }
     }
 }

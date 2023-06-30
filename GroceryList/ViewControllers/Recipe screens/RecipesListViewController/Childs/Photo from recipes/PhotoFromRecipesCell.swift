@@ -58,6 +58,4 @@ class PhotoFromRecipesCell: UICollectionViewCell {
             $0.width.height.equalTo(32)
         }
     }
-}
-
- 
+} 

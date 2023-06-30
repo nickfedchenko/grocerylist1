@@ -194,7 +194,7 @@ class SelectCategoryViewController: UIViewController {
     }
     
     // MARK: - Constraints
-    // swiftlint: disable: next function_body_length
+    // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         view.addSubviews([collectionView, navigationView, searchView])
         navigationView.addSubviews([arrowBackButton, titleCenterLabel, addButton])

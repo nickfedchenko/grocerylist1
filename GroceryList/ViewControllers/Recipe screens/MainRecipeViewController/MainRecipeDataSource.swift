@@ -169,34 +169,7 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
         })
         
         createTechnicalCollection()
-        
-        guard let favoriteDBCollection = CoreDataManager.shared.getCollection(by: EatingTime.favorites.rawValue),
-              let allRecipes: [DBRecipe] = CoreDataManager.shared.getAllRecipes() else {
-            UserDefaultsManager.isFillingDefaultTechnicalCollection = true
-            return
-        }
-        let domainFavorites = allRecipes.filter {
-            UserDefaultsManager.favoritesRecipeIds.contains(Int($0.id))
-        }
-        let favorites = domainFavorites.compactMap {
-            ShortRecipeModel(withCollection: $0, isFavorite: true)
-        }
-        let favoriteCollection = CollectionModel(from: favoriteDBCollection)
-        domainFavorites.forEach {
-            if var recipe = Recipe(from: $0) {
-                
-                if var localCollection = recipe.localCollection {
-                    localCollection.append(favoriteCollection)
-                    recipe.localCollection = localCollection
-                } else {
-                    recipe.localCollection = [favoriteCollection]
-                }
-
-                CoreDataManager.shared.saveRecipes(recipes: [recipe])
-            }
-        }
-        
-        UserDefaultsManager.isFillingDefaultTechnicalCollection = true
+        updateFavoritesCollection()
     }
     
     private func createTechnicalCollection() {
@@ -227,5 +200,34 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
             isDefault: true)
         
         CoreDataManager.shared.saveCollection(collections: [iWillCookIt, drafts, favorites, inbox])
+    }
+    
+    private func updateFavoritesCollection() {
+        guard let favoriteDBCollection = CoreDataManager.shared.getCollection(by: EatingTime.favorites.rawValue),
+              let allRecipes: [DBRecipe] = CoreDataManager.shared.getAllRecipes() else {
+            UserDefaultsManager.isFillingDefaultTechnicalCollection = true
+            return
+        }
+        let domainFavorites = allRecipes.filter {
+            UserDefaultsManager.favoritesRecipeIds.contains(Int($0.id))
+        }
+        let favorites = domainFavorites.compactMap {
+            ShortRecipeModel(withCollection: $0, isFavorite: true)
+        }
+        let favoriteCollection = CollectionModel(from: favoriteDBCollection)
+        domainFavorites.forEach {
+            if var recipe = Recipe(from: $0) {
+                if var localCollection = recipe.localCollection {
+                    localCollection.append(favoriteCollection)
+                    recipe.localCollection = localCollection
+                } else {
+                    recipe.localCollection = [favoriteCollection]
+                }
+
+                CoreDataManager.shared.saveRecipes(recipes: [recipe])
+            }
+        }
+        
+        UserDefaultsManager.isFillingDefaultTechnicalCollection = true
     }
 }

@@ -9,6 +9,8 @@ import UIKit
 
 final class IngredientForCreateRecipeView: IngredientView {
 
+    var swipeDeleteAction: (() -> Void)?
+    
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.regular(size: 14).font
@@ -19,10 +21,21 @@ final class IngredientForCreateRecipeView: IngredientView {
         return label
     }()
     
+    private lazy var rightButton: UIButton = {
+        let imageView = UIButton()
+        imageView.setImage(UIImage(named: "swipeToDelete"), for: .normal)
+        imageView.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
+        return imageView
+    }()
+    
+    private var state: CellState = .normal
+    var originalIndex: Int = -1
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         servingLabel.textColor = UIColor(hex: "#D6600A")
+        setupDeleteButton()
     }
     
     required init?(coder: NSCoder) {
@@ -35,6 +48,84 @@ final class IngredientForCreateRecipeView: IngredientView {
         }
         descriptionLabel.text = description
         setupDescriptionLabel()
+    }
+    
+    @objc
+    private func swipeAction(_ recognizer: UISwipeGestureRecognizer) {
+        switch recognizer.direction {
+        case .right:
+            if state == .swipedLeft { hidePinch() }
+        case .left:
+            if state == .swipedLeft {
+                DispatchQueue.main.async {
+                    self.clearTheCell()
+                }
+                deleteAction()
+            }
+            if state == .normal { showPinch() }
+        default:
+            print("")
+        }
+    }
+    
+    @objc
+    private func deleteAction() {
+        swipeDeleteAction?()
+    }
+    
+    private func clearTheCell() {
+        rightButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        self.snp.updateConstraints { make in
+            make.left.right.equalToSuperview().inset(20)
+        }
+        state = .normal
+        self.layoutIfNeeded()
+    }
+    
+    private func showPinch() {
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            guard let self = self else { return }
+            self.rightButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.snp.updateConstraints { make in
+                make.right.equalToSuperview().inset(65)
+                make.left.equalToSuperview().inset(-7)
+            }
+            self.layoutIfNeeded()
+        } completion: { _ in
+            self.state = .swipedLeft
+        }
+    }
+    
+    private func hidePinch() {
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            guard let self = self else { return }
+            self.rightButton.transform = CGAffineTransform(scaleX: 0, y: 1)
+            self.snp.updateConstraints { make in
+                make.left.right.equalToSuperview().inset(20)
+            }
+            self.layoutIfNeeded()
+        } completion: { _ in
+            self.state = .normal
+        }
+    }
+    
+    private func setupDeleteButton() {
+        rightButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        
+        let swipeRightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
+        swipeRightRecognizer.direction = .right
+        self.addGestureRecognizer(swipeRightRecognizer)
+        
+        let swipeLeftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
+        swipeLeftRecognizer.direction = .left
+        self.addGestureRecognizer(swipeLeftRecognizer)
+        
+        self.addSubviews([rightButton])
+        rightButton.snp.makeConstraints { make in
+            make.height.equalToSuperview()
+            make.right.equalToSuperview().inset(-1)
+            make.width.equalTo(68)
+        }
     }
     
     private func setupDescriptionLabel() {
@@ -91,6 +182,14 @@ final class StepForCreateRecipeView: UIView {
                 $0.top.equalTo(descriptionLabel.snp.top).offset(10)
             }
         }
+    }
+    
+    func updateStep(step: String) {
+        stepLabel.text = step
+    }
+    
+    func getDescription() -> String? {
+        descriptionLabel.text
     }
     
     private func setup() {

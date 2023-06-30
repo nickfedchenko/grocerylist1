@@ -173,6 +173,10 @@ final class RecipesListViewController: UIViewController {
             $0.top.greaterThanOrEqualTo(header.snp.bottom)
         }
         
+        makeContextMenuViewConstraints()
+    }
+    
+    private func makeContextMenuViewConstraints() {
         contextMenuBackgroundView.snp.makeConstraints {
             $0.bottom.leading.trailing.equalToSuperview()
             $0.height.equalTo(0)

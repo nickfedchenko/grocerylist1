@@ -59,7 +59,7 @@ final class ShowCollectionViewModel {
         router?.goToCreateNewCollection(currentCollection: collection.collection,
                                         collections: editCollections,
                                         compl: { [weak self] updateCollection in
-            self?.editCollections.removeAll(where: { $0.id == updateCollection.id})
+            self?.editCollections.removeAll(where: { $0.id == updateCollection.id })
             self?.editCollections.append(updateCollection)
             self?.updateCollection()
             self?.changedCollection = true

@@ -309,15 +309,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createCreateNewRecipeViewController(currentRecipe: Recipe?, router: RootRouter,
                                              compl: @escaping (Recipe) -> Void) -> UIViewController {
         let viewController = CreateNewRecipeStepOneViewController()
-        let viewModel = CreateNewRecipeStepOneViewModel()
+        let viewModel = CreateNewRecipeStepOneViewModel(currentRecipe: currentRecipe)
         viewModel.router = router
         viewModel.competeRecipe = compl
-        viewModel.currentRecipe = currentRecipe
         viewController.viewModel = viewModel
         return viewController
     }
     
-    func createCreateNewRecipeStepTwoViewController(router: RootRouter, recipe: CreateNewRecipeStepOne,
+    func createCreateNewRecipeStepTwoViewController(router: RootRouter, recipe: Recipe,
                                                     compl: @escaping (Recipe) -> Void) -> UIViewController {
         let viewController = CreateNewRecipeStepTwoViewController()
         let viewModel = CreateNewRecipeStepTwoViewModel(recipe: recipe)

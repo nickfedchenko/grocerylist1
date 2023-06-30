@@ -61,9 +61,11 @@
 		335519CC29B04E5900AD2B77 /* CreateNewRecipeTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519CB29B04E5900AD2B77 /* CreateNewRecipeTitleView.swift */; };
 		335519CE29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519CD29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift */; };
 		335519D029B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519CF29B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift */; };
-		335519D329B0BD2600AD2B77 /* CreateNewRecipeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519D229B0BD2600AD2B77 /* CreateNewRecipeModel.swift */; };
 		335B54072A37451D00B53314 /* FoundInPantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B54062A37451D00B53314 /* FoundInPantryView.swift */; };
 		3360735D2A4B3B5C002427BE /* ShowCollectionDeleteAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3360735C2A4B3B5C002427BE /* ShowCollectionDeleteAlertView.swift */; };
+		3360735F2A4C03BB002427BE /* CreateNewRecipeSavedToDraftsAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3360735E2A4C03BB002427BE /* CreateNewRecipeSavedToDraftsAlertView.swift */; };
+		336073612A4C5173002427BE /* CreateNewRecipeShowCostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336073602A4C5173002427BE /* CreateNewRecipeShowCostView.swift */; };
+		336073632A4DCB27002427BE /* RedorderableStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336073622A4DCB27002427BE /* RedorderableStackView.swift */; };
 		3366BEE02A2C1D3A00D50704 /* AutoRepeatSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEDF2A2C1D3A00D50704 /* AutoRepeatSettingView.swift */; };
 		3366BEE22A2C583D00D50704 /* AutoRepeatCustomSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */; };
 		3366BEE52A2DA05A00D50704 /* StocksDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE42A2DA05A00D50704 /* StocksDataSource.swift */; };
@@ -394,9 +396,11 @@
 		335519CB29B04E5900AD2B77 /* CreateNewRecipeTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeTitleView.swift; sourceTree = "<group>"; };
 		335519CD29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeViewWithTextField.swift; sourceTree = "<group>"; };
 		335519CF29B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipePhotoView.swift; sourceTree = "<group>"; };
-		335519D229B0BD2600AD2B77 /* CreateNewRecipeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeModel.swift; sourceTree = "<group>"; };
 		335B54062A37451D00B53314 /* FoundInPantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundInPantryView.swift; sourceTree = "<group>"; };
 		3360735C2A4B3B5C002427BE /* ShowCollectionDeleteAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowCollectionDeleteAlertView.swift; sourceTree = "<group>"; };
+		3360735E2A4C03BB002427BE /* CreateNewRecipeSavedToDraftsAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeSavedToDraftsAlertView.swift; sourceTree = "<group>"; };
+		336073602A4C5173002427BE /* CreateNewRecipeShowCostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeShowCostView.swift; sourceTree = "<group>"; };
+		336073622A4DCB27002427BE /* RedorderableStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedorderableStackView.swift; sourceTree = "<group>"; };
 		3366BEDF2A2C1D3A00D50704 /* AutoRepeatSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRepeatSettingView.swift; sourceTree = "<group>"; };
 		3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRepeatCustomSettingView.swift; sourceTree = "<group>"; };
 		3366BEE42A2DA05A00D50704 /* StocksDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksDataSource.swift; sourceTree = "<group>"; };
@@ -862,7 +866,6 @@
 		335519C529AF1AC400AD2B77 /* CreateNewRecipe */ = {
 			isa = PBXGroup;
 			children = (
-				335519D129B0BD0B00AD2B77 /* Models */,
 				337719A729B198A9000791BD /* Step one */,
 				337719A829B198CB000791BD /* Step two */,
 				3379B65329B9AE910080923A /* Ingredients View */,
@@ -880,17 +883,12 @@
 				335519CD29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift */,
 				337719AD29B1A669000791BD /* CreateNewRecipeViewWithButton.swift */,
 				335519CF29B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift */,
+				3360735E2A4C03BB002427BE /* CreateNewRecipeSavedToDraftsAlertView.swift */,
+				336073602A4C5173002427BE /* CreateNewRecipeShowCostView.swift */,
+				336073622A4DCB27002427BE /* RedorderableStackView.swift */,
 				337719B629B2051E000791BD /* Ingredient and step views.swift */,
 			);
 			path = CustomSubViews;
-			sourceTree = "<group>";
-		};
-		335519D129B0BD0B00AD2B77 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				335519D229B0BD2600AD2B77 /* CreateNewRecipeModel.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		335B54082A3822AD00B53314 /* Grocery List screens */ = {
@@ -1008,8 +1006,8 @@
 		337719A829B198CB000791BD /* Step two */ = {
 			isa = PBXGroup;
 			children = (
-				337719A929B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift */,
 				337719AB29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift */,
+				337719A929B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift */,
 			);
 			path = "Step two";
 			sourceTree = "<group>";
@@ -2364,7 +2362,6 @@
 				3347646B2A2B62FB008F4834 /* AutoRepeatView.swift in Sources */,
 				B3F7C9C929963F1A0081B245 /* PasswordResetViewModel.swift in Sources */,
 				B3693400291BA55100AFFAA6 /* CreateNewListViewController.swift in Sources */,
-				335519D329B0BD2600AD2B77 /* CreateNewRecipeModel.swift in Sources */,
 				334764692A2AE645008F4834 /* CreateNewStockViewController.swift in Sources */,
 				B34BB81F292E5C8000748E8E /* SelectProductViewModel.swift in Sources */,
 				33E544A929C98C27008D84F8 /* PredictiveTextView.swift in Sources */,
@@ -2450,6 +2447,7 @@
 				B37A2CDB2910EE93003C01AD /* ViewControllerFactory.swift in Sources */,
 				33C6F0D32A408BED00E71023 /* RecipeSearchView.swift in Sources */,
 				389DCF4E2946534300DB9382 /* RecipeServingSelector.swift in Sources */,
+				336073632A4DCB27002427BE /* RedorderableStackView.swift in Sources */,
 				B381EF31299BAA4800DCDE40 /* EnterNewPasswordViewController.swift in Sources */,
 				3391163329CD96E700881E1D /* ActivityIndicatorView.swift in Sources */,
 				B381EF18299A02A100DCDE40 /* DomainUser+CoreDataClass.swift in Sources */,
@@ -2459,6 +2457,7 @@
 				383C77FA293FB7310030AE78 /* RecipeListCell.swift in Sources */,
 				334BAE53299E6606005F52F5 /* SharingListViewModel.swift in Sources */,
 				B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */,
+				3360735F2A4C03BB002427BE /* CreateNewRecipeSavedToDraftsAlertView.swift in Sources */,
 				B34BB80A292D1C4600748E8E /* ShimmerView.swift in Sources */,
 				B36AF9432913D39400944E9D /* UIImageExtension.swift in Sources */,
 				334764592A284368008F4834 /* StocksViewModel.swift in Sources */,
@@ -2491,6 +2490,7 @@
 				334764552A277C9F008F4834 /* StocksViewController.swift in Sources */,
 				B315F9E8298A3FF30009CEB8 /* WriteReviewViewModel.swift in Sources */,
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
+				336073612A4C5173002427BE /* CreateNewRecipeShowCostView.swift in Sources */,
 				339254AA2A3161710047807E /* PantryResponse.swift in Sources */,
 				B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */,
 				33995D342A1F96C7003FECAE /* CreateNewPantryViewModel.swift in Sources */,
