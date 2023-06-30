@@ -162,10 +162,7 @@ class ProductsDataManager {
         var products = localList.products
         products.enumerated().forEach { (index, product) in
             itemsInStock.forEach { stock in
-                if stock.name == product.name && stock.description == product.description &&
-                    stock.unitId == product.unitId && stock.store == product.store &&
-                    stock.cost == product.cost && stock.quantity == product.quantity {
-                    
+                if stock.name.lowercased() == product.name.lowercased() {
                     products[index].inStock = stock.id
                     AmplitudeManager.shared.logEvent(.pantryItemInStock)
                 }

@@ -52,11 +52,11 @@ extension PantryDataSource.DefaultsFridgeStocks {
         case .creamCheese:      return 130837
         case .parmesan:         return 130306
         case .smokedBacon:      return 112493
-        case .butterUnsalted:   return 112422 // тут просто масло
-        case .chickenFillet:    return nil
-        case .frozenVegetables: return nil
-        case .frozenMushrooms:  return nil
-        case .frozenBroccoli:   return nil
+        case .butterUnsalted:   return 131013
+        case .chickenFillet:    return 131012
+        case .frozenVegetables: return 130260
+        case .frozenMushrooms:  return 131009
+        case .frozenBroccoli:   return 131008
         }
     }
     
@@ -162,15 +162,15 @@ extension PantryDataSource.DefaultsGroceryStocks {
     var netProductId: Int? {
         switch self {
         case .oliveOil:             return 112537
-        case .cannedCorn:           return nil
+        case .cannedCorn:           return 130324
         case .spaghetti:            return 130568
-        case .breakfastCereal:      return 130898 // просто злаки
-        case .longShelfLifeMilk:    return nil
-        case .groundCoffee:         return nil
-        case .greenTeaBags:         return 112221 // просто челеный чай
+        case .breakfastCereal:      return 130898
+        case .longShelfLifeMilk:    return 131007
+        case .groundCoffee:         return 131006
+        case .greenTeaBags:         return 112221
         case .oatmeal:              return 130483
         case .honey:                return 130432
-        case .tunaChunks:           return 112484 // Тунец в собственном соку (консервированный)
+        case .tunaChunks:           return 112484 
         case .eggs:                 return 130834
         case .wheatFlour:           return 130357
         }
@@ -278,9 +278,9 @@ extension PantryDataSource.DefaultsSpicesHerbsStocks {
         switch self {
         case .salt:     return 130418
         case .pepper:   return 130242
-        case .garlic:   return nil // есть Чесночная приправа 130244
-        case .chili:    return nil
-        case .paprika:  return nil
+        case .garlic:   return 129412
+        case .chili:    return 131005
+        case .paprika:  return 129416
         case .cinnamon: return 130274
         }
     }
@@ -350,9 +350,9 @@ extension PantryDataSource.DefaultsHouseholdStocks{
         case .dishwashing:      return 8
         case .paperTowels:      return 10
         case .toiletPaper:      return 51
-        case .trashBags:        return nil
-        case .fabricSoftener:   return nil
-        case .cleaningCloth:    return nil
+        case .trashBags:        return 27
+        case .fabricSoftener:   return 86
+        case .cleaningCloth:    return 85
         case .batteries:        return 18
         }
     }

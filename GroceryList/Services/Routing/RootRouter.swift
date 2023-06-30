@@ -324,7 +324,7 @@ final class RootRouter: RootRouterProtocol {
         controller.modalTransitionStyle = .crossDissolve
         
         if presentedController == nil {
-            UIViewController.currentController()?.present(controller, animated: true)
+            navigationPresent(controller, animated: true)
         } else {
             presentedController?.present(controller, animated: true)
         }
