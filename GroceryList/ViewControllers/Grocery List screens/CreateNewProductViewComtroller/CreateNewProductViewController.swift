@@ -38,6 +38,7 @@ class CreateNewProductViewController: UIViewController {
     private var viewDidLayout = false
     private let inactiveColor = UIColor(hex: "#ACB4B4")
     private var unit: UnitSystem = .piece
+    private var quantity = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -447,9 +448,12 @@ extension CreateNewProductViewController: StoreOfProductViewDelegate {
 extension CreateNewProductViewController: QuantityOfProductViewDelegate {
     func unitSelected(_ unit: UnitSystem) {
         self.unit = unit
+        let quantityString = String(format: "%.\(quantity.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", quantity)
+        productView.setQuantity(quantity > 0 ? "\(quantityString) \(unit.title)" : "")
     }
     
     func updateQuantityValue(_ quantity: Double) {
+        self.quantity = quantity
         let quantityString = String(format: "%.\(quantity.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", quantity)
         productView.setQuantity(quantity > 0 ? "\(quantityString) \(unit.title)" : "")
     }
