@@ -37,13 +37,17 @@ final class CreateNewRecipeStepOneViewModel {
         isShowCost = isShow
     }
     
+    func updateIngredients(originalIndexes: [Int]) {
+        let updatedIngredients = originalIndexes.map { ingredients[$0] }
+        ingredients = updatedIngredients
+    }
+    
     func updateSteps(updatedSteps: [String]) {
         steps = updatedSteps
     }
     
-    func updateIngredients(originalIndexes: [Int]) {
-        let updatedIngredients = originalIndexes.map { ingredients[$0] }
-        ingredients = updatedIngredients
+    func removeIngredient(by index: Int) {
+        ingredients.remove(at: index)
     }
     
     func back() {

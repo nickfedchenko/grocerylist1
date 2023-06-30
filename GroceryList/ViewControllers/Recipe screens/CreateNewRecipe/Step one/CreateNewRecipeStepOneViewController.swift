@@ -292,12 +292,42 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         view.setDescription(description)
         ingredientsView.addViewToStackView(view)
         view.originalIndex = ingredientsView.stackSubviewsCount - 1
+        view.swipeDeleteAction = { [weak self] index in
+            guard let self else {
+                return
+            }
+            self.viewModel?.removeIngredient(by: index)
+            self.ingredientsView.removeView(view)
+            self.ingredientsView.stackView.arrangedSubviews.enumerated().forEach { index, view in
+                (view as? IngredientForCreateRecipeView)?.originalIndex = index
+            }
+            self.ingredientsView.snp.updateConstraints {
+                $0.height.equalTo(self.ingredientsView.requiredHeight)
+            }
+        }
     }
     
     private func setupStepView(stepNumber: Int, description: String) {
         let view = StepForCreateRecipeView()
         view.configure(step: "\(stepNumber)", description: description)
         stepsView.addViewToStackView(view)
+        view.swipeDeleteAction = { [weak self] in
+            guard let self else {
+                return
+            }
+            self.stepsView.removeView(view)
+            var updatedSteps: [String] = []
+            self.stepsView.stackView.arrangedSubviews.enumerated().forEach { index, view in
+                (view as? StepForCreateRecipeView)?.updateStep(step: "\(index + 1)")
+                updatedSteps.append((view as? StepForCreateRecipeView)?.getDescription() ?? "")
+            }
+            self.viewModel?.updateSteps(updatedSteps: updatedSteps)
+            self.stepsView.snp.updateConstraints {
+                $0.height.equalTo(self.stepsView.requiredHeight)
+            }
+            
+            self.stepNumber = self.stepsView.stackView.arrangedSubviews.count + 1
+        }
     }
     
     @objc
