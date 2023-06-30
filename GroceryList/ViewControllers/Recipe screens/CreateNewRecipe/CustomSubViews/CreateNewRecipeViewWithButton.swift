@@ -42,6 +42,7 @@ final class CreateNewRecipeViewWithButton: UIView {
         stackView.axis = .vertical
         stackView.spacing = 8
         stackView.reorderingEnabled = true
+        stackView.clipsToBounds = false
         return stackView
     }()
     
@@ -140,6 +141,11 @@ final class CreateNewRecipeViewWithButton: UIView {
     
     func setState(_ state: CreateNewRecipeViewState) {
         self.state = state
+    }
+    
+    func removeView(_ view: UIView) {
+        stackView.removeArrangedSubview(view)
+        view.removeFromSuperview()
     }
     
     private func setup() {

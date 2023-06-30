@@ -9,6 +9,8 @@ import UIKit
 
 class IngredientView: UIView {
     
+    let contentView = UIView()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = R.font.sfProTextMedium(size: 16)
@@ -53,9 +55,9 @@ class IngredientView: UIView {
     }
     
     private func setupAppearance() {
-        backgroundColor = .white
-        layer.cornerRadius = 8
-        layer.cornerCurve = .continuous
+        contentView.backgroundColor = .white
+        contentView.layer.cornerRadius = 8
+        contentView.layer.cornerCurve = .continuous
     }
     
     func setTitle(title: String) {
@@ -67,8 +69,13 @@ class IngredientView: UIView {
     }
     
     private func setupSubviews() {
-        addSubview(titleLabel)
-        addSubview(servingLabel)
+        addSubview(contentView)
+        contentView.addSubviews([titleLabel, servingLabel])
+        
+        contentView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.bottom.equalToSuperview()
+        }
         
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12)

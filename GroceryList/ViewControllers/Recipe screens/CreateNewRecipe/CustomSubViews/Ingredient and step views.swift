@@ -9,7 +9,7 @@ import UIKit
 
 final class IngredientForCreateRecipeView: IngredientView {
 
-    var swipeDeleteAction: (() -> Void)?
+    var swipeDeleteAction: ((Int) -> Void)?
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
@@ -21,7 +21,7 @@ final class IngredientForCreateRecipeView: IngredientView {
         return label
     }()
     
-    private lazy var rightButton: UIButton = {
+    private lazy var deleteButton: UIButton = {
         let imageView = UIButton()
         imageView.setImage(UIImage(named: "swipeToDelete"), for: .normal)
         imageView.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
@@ -44,6 +44,7 @@ final class IngredientForCreateRecipeView: IngredientView {
     
     func setDescription(_ description: String?) {
         guard let description, !description.isEmpty else {
+            self.contentView.snp.makeConstraints { $0.height.equalTo(48) }
             return
         }
         descriptionLabel.text = description
@@ -54,15 +55,15 @@ final class IngredientForCreateRecipeView: IngredientView {
     private func swipeAction(_ recognizer: UISwipeGestureRecognizer) {
         switch recognizer.direction {
         case .right:
-            if state == .swipedLeft { hidePinch() }
+            if state == .swipedLeft { hideDeleteButton() }
         case .left:
             if state == .swipedLeft {
                 DispatchQueue.main.async {
-                    self.clearTheCell()
+                    self.originalView()
                 }
                 deleteAction()
             }
-            if state == .normal { showPinch() }
+            if state == .normal { showDeleteButton() }
         default:
             print("")
         }
@@ -70,39 +71,48 @@ final class IngredientForCreateRecipeView: IngredientView {
     
     @objc
     private func deleteAction() {
-        swipeDeleteAction?()
+        swipeDeleteAction?(originalIndex)
     }
     
-    private func clearTheCell() {
-        rightButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
-        self.snp.updateConstraints { make in
-            make.left.right.equalToSuperview().inset(20)
+    private func originalView() {
+        self.contentView.snp.updateConstraints {
+            $0.leading.trailing.equalToSuperview()
+        }
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            guard let self = self else {
+                return
+            }
+            self.deleteButton.transform = CGAffineTransform(scaleX: 0, y: 1)
+            self.layoutIfNeeded()
         }
         state = .normal
         self.layoutIfNeeded()
     }
     
-    private func showPinch() {
+    private func showDeleteButton() {
+        self.contentView.snp.updateConstraints {
+            $0.leading.trailing.equalToSuperview().offset(-52)
+        }
         UIView.animate(withDuration: 0.2) { [weak self] in
-            guard let self = self else { return }
-            self.rightButton.transform = CGAffineTransform(scaleX: 1, y: 1)
-            self.snp.updateConstraints { make in
-                make.right.equalToSuperview().inset(65)
-                make.left.equalToSuperview().inset(-7)
+            guard let self = self else {
+                return
             }
+            self.deleteButton.transform = CGAffineTransform(scaleX: 1, y: 1)
             self.layoutIfNeeded()
         } completion: { _ in
             self.state = .swipedLeft
         }
     }
     
-    private func hidePinch() {
+    private func hideDeleteButton() {
+        self.contentView.snp.updateConstraints {
+            $0.leading.trailing.equalToSuperview()
+        }
         UIView.animate(withDuration: 0.2) { [weak self] in
-            guard let self = self else { return }
-            self.rightButton.transform = CGAffineTransform(scaleX: 0, y: 1)
-            self.snp.updateConstraints { make in
-                make.left.right.equalToSuperview().inset(20)
+            guard let self = self else {
+                return
             }
+            self.deleteButton.transform = CGAffineTransform(scaleX: 0, y: 1)
             self.layoutIfNeeded()
         } completion: { _ in
             self.state = .normal
@@ -110,7 +120,7 @@ final class IngredientForCreateRecipeView: IngredientView {
     }
     
     private func setupDeleteButton() {
-        rightButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        deleteButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
         
         let swipeRightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
         swipeRightRecognizer.direction = .right
@@ -120,16 +130,17 @@ final class IngredientForCreateRecipeView: IngredientView {
         swipeLeftRecognizer.direction = .left
         self.addGestureRecognizer(swipeLeftRecognizer)
         
-        self.addSubviews([rightButton])
-        rightButton.snp.makeConstraints { make in
-            make.height.equalToSuperview()
-            make.right.equalToSuperview().inset(-1)
-            make.width.equalTo(68)
+        self.contentView.addSubviews([deleteButton])
+        
+        deleteButton.snp.makeConstraints {
+            $0.height.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(70)
+            $0.leading.equalTo(contentView.snp.trailing).offset(-4)
         }
     }
     
     private func setupDescriptionLabel() {
-        self.addSubview(descriptionLabel)
+        self.contentView.addSubview(descriptionLabel)
         
         descriptionLabel.snp.makeConstraints {
             $0.leading.trailing.equalTo(titleLabel)
@@ -146,7 +157,11 @@ final class IngredientForCreateRecipeView: IngredientView {
     }
 }
 
-final class StepForCreateRecipeView: UIView {
+final class StepForCreateRecipeView: ViewWithOverriddenPoint {
+    
+    var swipeDeleteAction: (() -> Void)?
+    
+    private let contentView = UIView()
     
     private lazy var stepLabel: UILabel = {
         let label = UILabel()
@@ -163,6 +178,15 @@ final class StepForCreateRecipeView: UIView {
         label.sizeToFit()
         return label
     }()
+    
+    private lazy var deleteButton: UIButton = {
+        let imageView = UIButton()
+        imageView.setImage(UIImage(named: "swipeToDelete"), for: .normal)
+        imageView.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
+        return imageView
+    }()
+    
+    private var state: CellState = .normal
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -193,14 +217,97 @@ final class StepForCreateRecipeView: UIView {
     }
     
     private func setup() {
-        self.backgroundColor = .white
-        self.layer.cornerRadius = 8
+        contentView.backgroundColor = .white
+        contentView.layer.cornerRadius = 8
+        
+        deleteButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        
+        let swipeRightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
+        swipeRightRecognizer.direction = .right
+        self.addGestureRecognizer(swipeRightRecognizer)
+        
+        let swipeLeftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
+        swipeLeftRecognizer.direction = .left
+        self.addGestureRecognizer(swipeLeftRecognizer)
         
         makeConstraints()
     }
     
+    @objc
+    private func swipeAction(_ recognizer: UISwipeGestureRecognizer) {
+        switch recognizer.direction {
+        case .right:
+            if state == .swipedLeft { hideDeleteButton() }
+        case .left:
+            if state == .swipedLeft {
+                DispatchQueue.main.async {
+                    self.originalView()
+                }
+                deleteAction()
+            }
+            if state == .normal { showDeleteButton() }
+        default:
+            print("")
+        }
+    }
+    
+    @objc
+    private func deleteAction() {
+        swipeDeleteAction?()
+    }
+    
+    private func originalView() {
+        self.contentView.snp.updateConstraints {
+            $0.leading.trailing.equalToSuperview()
+        }
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            guard let self = self else {
+                return
+            }
+            self.deleteButton.transform = CGAffineTransform(scaleX: 0, y: 1)
+            self.layoutIfNeeded()
+        }
+        state = .normal
+        self.layoutIfNeeded()
+    }
+    
+    private func showDeleteButton() {
+        self.contentView.snp.updateConstraints {
+            $0.leading.trailing.equalToSuperview().offset(-52)
+        }
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            guard let self = self else {
+                return
+            }
+            self.deleteButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.layoutIfNeeded()
+        } completion: { _ in
+            self.state = .swipedLeft
+        }
+    }
+    
+    private func hideDeleteButton() {
+        self.contentView.snp.updateConstraints {
+            $0.leading.trailing.equalToSuperview()
+        }
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            guard let self = self else {
+                return
+            }
+            self.deleteButton.transform = CGAffineTransform(scaleX: 0, y: 1)
+            self.layoutIfNeeded()
+        } completion: { _ in
+            self.state = .normal
+        }
+    }
+    
     private func makeConstraints() {
-        self.addSubviews([stepLabel, descriptionLabel])
+        self.addSubview(contentView)
+        contentView.addSubviews([stepLabel, descriptionLabel, deleteButton])
+        
+        contentView.snp.makeConstraints {
+            $0.leading.trailing.top.bottom.equalToSuperview()
+        }
         
         stepLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(20)
@@ -214,6 +321,12 @@ final class StepForCreateRecipeView: UIView {
             $0.trailing.equalToSuperview().offset(-8)
             $0.top.equalToSuperview().offset(12)
             $0.bottom.equalToSuperview().offset(-12)
+        }
+        
+        deleteButton.snp.makeConstraints {
+            $0.height.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(70)
+            $0.leading.equalTo(contentView.snp.trailing).offset(-4)
         }
     }
 }
