@@ -252,6 +252,7 @@ extension IngredientViewController: PredictiveTextViewDelegate {
         viewModel?.checkIsProductFromCategory(name: title)
     }
 }
+
 extension IngredientViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         return !(touch.view?.isDescendant(of: self.contentView) ?? false)

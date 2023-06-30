@@ -63,6 +63,10 @@ final class PreparationStepViewController: UIViewController {
     }
     
     private func setup() {
+        let tapOnView = UITapGestureRecognizer(target: self, action: #selector(tappedOnView))
+        tapOnView.delegate = self
+        self.view.addGestureRecognizer(tapOnView)
+        
         setupContentView()
         updateSaveButton(isActive: false)
         setupShadowView()
@@ -106,6 +110,11 @@ final class PreparationStepViewController: UIViewController {
         if tempTranslation.y >= 100 {
             hidePanel()
         }
+    }
+    
+    @objc
+    private func tappedOnView() {
+        hidePanel()
     }
     
     private func updateConstraints(with inset: Double, alpha: Double) {
@@ -186,5 +195,11 @@ final class PreparationStepViewController: UIViewController {
 extension PreparationStepViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         updateSaveButton(isActive: !textView.text.isEmpty)
+    }
+}
+
+extension PreparationStepViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return !(touch.view?.isDescendant(of: self.contentView) ?? false)
     }
 }

@@ -176,14 +176,19 @@ extension AddIngredientView: UITextViewDelegate {
 
 final class TextViewWithPlaceholder: UITextView {
     
-    func setPlaceholder(placeholder: String) {
+    func setPlaceholder(placeholder: String, textColor: UIColor? = .black.withAlphaComponent(0.3),
+                        font: UIFont = UIFont.SFPro.medium(size: 15).font) {
+        guard (self.viewWithTag(222) as? UILabel) == nil else {
+            return
+        }
+        
         let placeholderLabel = UILabel()
         placeholderLabel.text = placeholder
-        placeholderLabel.font = UIFont.SFPro.medium(size: 15).font
+        placeholderLabel.font = font
         placeholderLabel.sizeToFit()
         placeholderLabel.tag = 222
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (self.font?.pointSize ?? 10) / 2)
-        placeholderLabel.textColor = .black.withAlphaComponent(0.3)
+        placeholderLabel.textColor = textColor
         placeholderLabel.isHidden = !self.text.isEmpty
 
         self.addSubview(placeholderLabel)

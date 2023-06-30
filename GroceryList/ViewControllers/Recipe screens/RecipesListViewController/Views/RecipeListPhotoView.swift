@@ -5,8 +5,8 @@
 //  Created by Хандымаа Чульдум on 21.06.2023.
 //
 
-import UIKit
 import Kingfisher
+import UIKit
  
 protocol RecipeListPhotoViewDelegate: AnyObject {
     func choosePhotoButtonTapped()
@@ -38,8 +38,7 @@ class RecipeListPhotoView: UIView {
         button.addTarget(self, action: #selector(choosePhotoTapped), for: .touchUpInside)
         return button
     }()
-    
-    
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupSubviews()

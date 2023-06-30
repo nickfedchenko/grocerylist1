@@ -4,8 +4,12 @@
 //
 //  Created by Шамиль Моллачиев on 16.02.2023.
 //
-public let kSecAccountsContainerServiceKey = "com.accounts.container"
+
 import Foundation
+
+/// имя контейнера kSecAttributeService
+public let kSecAccountsContainerServiceKey = "com.accounts.container"
+
 enum KeychainErrorDomain: Error {
     case failedToEncodeSensitiveData
     case errorRetrievingSensitivedata

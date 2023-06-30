@@ -206,7 +206,6 @@ class UserDefaultsManager {
         get { UserDefaults.standard.bool(forKey: "isFillingDefaultTechnicalCollection") }
         set { UserDefaults.standard.set(newValue, forKey: "isFillingDefaultTechnicalCollection") }
     }
-
     
     static var recipeIsTableView: Bool {
         get { UserDefaults.standard.bool(forKey: "recipeIsTableView") }

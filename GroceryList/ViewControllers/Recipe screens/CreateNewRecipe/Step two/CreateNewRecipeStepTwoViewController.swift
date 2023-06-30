@@ -59,6 +59,10 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     private let contentView = UIView()
     private let titleView = CreateNewRecipeTitleView()
     private let timeView = CreateNewRecipeViewWithTextField()
+    //    private let servingsView = CreateNewRecipeViewWithTextField()
+    //    private let collectionView = CreateNewRecipeViewWithButton()
+    //    private let photoView = CreateNewRecipePhotoView()
+    
     private let descriptionView = CreateNewRecipeViewWithTextField()
     private let ingredientsView = CreateNewRecipeViewWithButton()
     private let stepsView = CreateNewRecipeViewWithButton()
@@ -85,6 +89,15 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     }
     
     private func valueChanged() {
+        //        viewModel?.changeCollections = { [weak self] collectionTitles in
+        //            var title = ""
+        //            collectionTitles.forEach { title.append("\($0), ") }
+        //            if !title.isEmpty {
+        //                title.removeLast(2)
+        //            }
+        //            self?.collectionView.updateCollectionPlaceholder(title)
+        //        }
+        
         viewModel?.preparationStepChanged = { [weak self] description in
             guard let self else { return }
             self.setupStepView(stepNumber: self.stepNumber, description: description)
@@ -134,11 +147,25 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         setupStepView()
         
         timeView.textFieldReturnPressed = { [weak self] in
-            self?.descriptionView.textField.becomeFirstResponder()
+            self?.descriptionView.textView.becomeFirstResponder()
         }
         descriptionView.textFieldReturnPressed = { [weak self] in
-            self?.descriptionView.textField.resignFirstResponder()
+            self?.descriptionView.textView.resignFirstResponder()
         }
+                
+        //        servingsView.configure(title: R.string.localizable.servings().capitalized, state: .required)
+        //        servingsView.setOnlyNumber()
+        //        collectionView.closeStackButton(isVisible: false)
+        //        collectionView.configure(title: R.string.localizable.collection(), state: .optional)
+        
+        //        collectionView.buttonPressed = { [weak self] in
+        //            (self?.isVisibleKeyboard ?? false) ? self?.dismissKeyboard()
+        //                                               : self?.viewModel?.openCollection()
+        //        }
+        //
+        //        photoView.imageTapped = { [weak self] in
+        //            (self?.isVisibleKeyboard ?? false) ? self?.dismissKeyboard() : self?.pickImage()
+        //        }
     }
     
     private func setupIngredientView() {
@@ -208,8 +235,8 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     
     @objc
     private func nextButtonTapped() {
-        viewModel?.saveRecipe(time: timeView.textField.text?.asInt,
-                              description: descriptionView.textField.text)
+        viewModel?.saveRecipe(time: timeView.textView.text?.asInt,
+                              description: descriptionView.textView.text)
     }
     
     @objc
@@ -315,5 +342,40 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
             $0.height.equalTo(stepsView.requiredHeight)
             $0.width.equalToSuperview()
         }
+                
+//        servingsView.snp.makeConstraints {
+//            $0.height.equalTo(servingsView.requiredHeight)
+//            $0.width.equalToSuperview()
+//        }
+//
+//        collectionView.snp.makeConstraints {
+//            $0.height.equalTo(collectionView.requiredHeight)
+//            $0.width.equalToSuperview()
+//
+//        }
+//
+//        photoView.snp.makeConstraints {
+//            $0.height.equalTo(photoView.requiredHeight)
+//            $0.width.equalToSuperview()
+//        }
     }
 }
+
+/*
+extension CreateNewRecipeStepTwoViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func pickImage() {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .savedPhotosAlbum
+            imagePicker.allowsEditing = false
+            imagePicker.modalPresentationStyle = .pageSheet
+            present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        self.dismiss(animated: true, completion: nil)
+        let image = info[.originalImage] as? UIImage
+        photoView.setImage(image)
+    }
+}*/

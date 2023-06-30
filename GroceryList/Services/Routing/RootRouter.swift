@@ -18,7 +18,7 @@ protocol RootRouterProtocol: NavigationInterface {
 }
 
 // MARK: - Router
-
+// swiftlint:disable:next type_body_length
 final class RootRouter: RootRouterProtocol {
     
     var navigationController: UINavigationController? {
@@ -198,7 +198,7 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
-    func goToCreateNewRecipeStepTwo(recipe: CreateNewRecipeStepOne, compl: @escaping (Recipe) -> Void) {
+    func goToCreateNewRecipeStepTwo(recipe: Recipe, compl: @escaping (Recipe) -> Void) {
         let controller = viewControllerFactory.createCreateNewRecipeStepTwoViewController(
             router: self,
             recipe: recipe,

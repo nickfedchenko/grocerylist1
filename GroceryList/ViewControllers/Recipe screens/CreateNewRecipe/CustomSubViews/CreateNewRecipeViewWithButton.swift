@@ -25,7 +25,7 @@ final class CreateNewRecipeViewWithButton: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
-        label.textColor = UIColor(hex: "#777777")
+        label.textColor = R.color.darkGray()
         return label
     }()
     
@@ -36,11 +36,12 @@ final class CreateNewRecipeViewWithButton: UIView {
         return view
     }()
     
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView()
+    private(set) lazy var stackView: RedorderableStackView = {
+        let stackView = RedorderableStackView()
         stackView.distribution = .fillProportionally
         stackView.axis = .vertical
         stackView.spacing = 8
+        stackView.reorderingEnabled = true
         return stackView
     }()
     
@@ -111,13 +112,14 @@ final class CreateNewRecipeViewWithButton: UIView {
     }
     
     func closeStackButton(isVisible: Bool) {
-        closeStackButton.isHidden = !isVisible
-        if isVisible {
-            top = 26
-            offset = 10
-            titleLabel.snp.updateConstraints { $0.top.equalToSuperview().offset(top) }
-            stackView.snp.updateConstraints { $0.top.equalTo(titleLabel.snp.bottom).offset(10) }
-        }
+        closeStackButton.isHidden = true
+//        closeStackButton.isHidden = !isVisible
+//        if isVisible {
+//            top = 26
+//            offset = 10
+//            titleLabel.snp.updateConstraints { $0.top.equalToSuperview().offset(top) }
+//            stackView.snp.updateConstraints { $0.top.equalTo(titleLabel.snp.bottom).offset(10) }
+//        }
     }
     
     func addViewToStackView(_ view: UIView) {
@@ -149,7 +151,7 @@ final class CreateNewRecipeViewWithButton: UIView {
             shadowView.backgroundColor = .white
             shadowView.layer.cornerRadius = 8
         }
-        
+        closeStackButton.isHidden = true
         makeConstraints()
     }
     
@@ -160,10 +162,10 @@ final class CreateNewRecipeViewWithButton: UIView {
                                        radius: state.shadowRadius[index],
                                        offset: state.shadowOffset[index])
         }
-        contentView.layer.borderWidth = state.borderWidth
-        contentView.layer.borderColor = state.borderColor.cgColor
+        contentView.layer.borderWidth = state == .filled ? 2 : state.borderWidth
+        contentView.layer.borderColor = state == .filled ? R.color.mediumGray()?.cgColor : state.borderColor.cgColor
         placeholderLabel.text = placeholderTitle ?? state.placeholder
-        placeholderLabel.textColor = UIColor(hex: state == .filled ? "#0C695E" : "#777777")
+        placeholderLabel.textColor = state.placeholderColor
     }
     
     private func stackView(isVisible: Bool) {

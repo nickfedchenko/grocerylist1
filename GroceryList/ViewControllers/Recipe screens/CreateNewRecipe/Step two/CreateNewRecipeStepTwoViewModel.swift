@@ -14,12 +14,12 @@ final class CreateNewRecipeStepTwoViewModel {
     var ingredientChanged: ((Ingredient) -> Void)?
     var compete: ((Recipe) -> Void)?
     
-    private var recipeStepOne: CreateNewRecipeStepOne
+    private var recipeStepOne: Recipe
     private var ingredients: [Ingredient] = []
     private var steps: [String]? = []
     private var recipe: Recipe?
     
-    init(recipe: CreateNewRecipeStepOne) {
+    init(recipe: Recipe) {
         self.recipeStepOne = recipe
         
         NotificationCenter.default.addObserver(self,
@@ -53,8 +53,8 @@ final class CreateNewRecipeStepTwoViewModel {
     func saveRecipe(time: Int?, description: String?) {
         guard let recipe = Recipe(title: recipeStepOne.title,
                                   totalServings: recipeStepOne.totalServings,
-                                  localCollection: recipeStepOne.collection,
-                                  localImage: recipeStepOne.photo?.pngData(),
+                                  localCollection: recipeStepOne.localCollection,
+                                  localImage: recipeStepOne.localImage,
                                   cookingTime: time,
                                   description: description,
                                   ingredients: ingredients,
