@@ -22,7 +22,8 @@ final class PantryDataSource {
             UserDefaultsManager.lastUpdateStockDate = today.todayWithSetting(hour: stocksUpdateHours)
         }
         
-        defaultPantry()
+        NotificationCenter.default.addObserver(self, selector: #selector(defaultPantry),
+                                               name: .productsDownladedAnsSaved, object: nil)
         getPantriesFromDB()
     }
     
@@ -169,187 +170,178 @@ final class PantryDataSource {
         return false
     }
     
+    @objc
     private func defaultPantry() {
-        if !UserDefaultsManager.isFillingDefaultPantry {
-            let fridge = PantryModel(name: R.string.localizable.fridge(), index: 0,
-                                     color: 9,
-                                     icon: R.image.defaults_pantry_list_Fridge()?.pngData())
-            let grocery = PantryModel(name: R.string.localizable.grocery(), index: 1,
-                                      color: 5,
-                                      icon: R.image.defaults_pantry_list_Grocery()?.pngData())
-            let spicesHerbs = PantryModel(name: R.string.localizable.spicesHerbs(), index: 2,
-                                          color: 3,
-                                          icon: R.image.defaults_pantry_list_SpicesHerbs()?.pngData())
-            let beautyHealth = PantryModel(name: R.string.localizable.beautyHealth(), index: 3,
-                                           color: 7,
-                                           icon: R.image.defaults_pantry_list_BeautyHealth()?.pngData())
-            let household = PantryModel(name: R.string.localizable.household(), index: 4,
-                                        color: 12,
-                                        icon: R.image.defaults_pantry_list_Household()?.pngData())
-            let hobby = PantryModel(name: R.string.localizable.hobby(), index: 5,
-                                    color: 2,
-                                    icon: R.image.defaults_pantry_list_Hobby()?.pngData())
+        if !UserDefaultsManager.isFillingDefaultPantry,
+            let allProducts = CoreDataManager.shared.getAllNetworkProducts(),
+           allProducts.count > 1000 {
             
-            CoreDataManager.shared.savePantry(pantry: [fridge, grocery, spicesHerbs, beautyHealth, household, hobby])
+            var defaultsPantry: [PantryModel] = []
             
-            defaultFridgeStocks(fridgeId: fridge.id)
-            defaultGroceryStocks(groceryId: grocery.id)
-            defaultSpicesHerbsStocks(spicesHerbsId: spicesHerbs.id)
-            defaultBeautyHealthStocks(beautyHealthId: beautyHealth.id)
-            defaultHouseholdStocks(householdId: household.id)
+            DefaultsPantry.allCases.forEach { pantry in
+                defaultsPantry.append(PantryModel(name: pantry.title, index: pantry.rawValue,
+                                                  color: pantry.color, icon: pantry.imageData))
+            }
+            
+            CoreDataManager.shared.savePantry(pantry: defaultsPantry)
+            
+            defaultsPantry.forEach { pantry in
+                if let defaultsPantry = DefaultsPantry(rawValue: pantry.index) {
+                    switch defaultsPantry {
+                    case .fridge:
+                        defaultFridgeStocks(fridgeId: pantry.id, allProducts: allProducts)
+                    case .grocery:
+                        defaultGroceryStocks(groceryId: pantry.id, allProducts: allProducts)
+                    case .spicesHerbs:
+                        defaultSpicesHerbsStocks(spicesHerbsId: pantry.id, allProducts: allProducts)
+                    case .beautyHealth:
+                        defaultBeautyHealthStocks(beautyHealthId: pantry.id, allProducts: allProducts)
+                    case .household:
+                        defaultHouseholdStocks(householdId: pantry.id, allProducts: allProducts)
+                    case .hobby:
+                        break
+                    }
+                }
+            }
             
             UserDefaultsManager.isFillingDefaultPantry = true
         }
     }
     
-    private func defaultFridgeStocks(fridgeId: UUID) {
-        let milk = Stock(index: 0, pantryId: fridgeId, name: R.string.localizable.milk(),
-                         imageData: R.image.fridge_Milk()?.pngData(),
-                         quantity: 1, unitId: .bottle)
-        let mayonnaise = Stock(index: 1, pantryId: fridgeId, name: R.string.localizable.mayonnaise(),
-                               imageData: R.image.fridge_Mayonnaise()?.pngData(),
-                               quantity: 1, unitId: .can, isAvailability: false)
-        let tomatoes = Stock(index: 2, pantryId: fridgeId, name: R.string.localizable.tomatoes(),
-                             imageData: R.image.fridge_Tomatoes()?.pngData(),
-                             quantity: 10, unitId: .piece)
-        let lettuce = Stock(index: 3, pantryId: fridgeId, name: R.string.localizable.lettuce(),
-                            imageData: R.image.fridge_Lettuce()?.pngData(),
-                            quantity: 1, unitId: .piece, isAvailability: false)
-        let creamCheese = Stock(index: 4, pantryId: fridgeId, name: R.string.localizable.creamCheese(),
-                                imageData: R.image.fridge_CreamCheese()?.pngData(),
-                                isAvailability: false)
-        let parmesan = Stock(index: 5, pantryId: fridgeId, name: R.string.localizable.parmesan(),
-                             imageData: R.image.fridge_Parmesan()?.pngData(),
-                             quantity: 250, unitId: .gram)
-        let smokedBacon = Stock(index: 6, pantryId: fridgeId, name: R.string.localizable.smokedBacon(),
-                                imageData: R.image.fridge_SmokedBacon()?.pngData(),
-                                quantity: 250, unitId: .gram, isAvailability: false)
-        let butterUnsalted = Stock(index: 7, pantryId: fridgeId, name: R.string.localizable.butterUnsalted(),
-                                   imageData: R.image.fridge_Butter()?.pngData(),
-                                   quantity: 1, unitId: .pack)
-        let chickenFillet = Stock(index: 8, pantryId: fridgeId, name: R.string.localizable.chickenFillet(),
-                                  imageData: R.image.fridge_ChickenFillet()?.pngData(),
-                                  quantity: 1, unitId: .kilogram)
-        let frozenVegetables = Stock(index: 9, pantryId: fridgeId,
-                                     name: R.string.localizable.frozenVegetables(),
-                                     imageData: R.image.fridge_FrozenVegetables()?.pngData(),
-                                     quantity: 1, unitId: .pack, isAvailability: false)
-        let frozenMushrooms = Stock(index: 10, pantryId: fridgeId,
-                                    name: R.string.localizable.frozenMushrooms(),
-                                    imageData: R.image.fridge_FrozenMushrooms()?.pngData(),
-                                    quantity: 1, unitId: .pack, isAvailability: false)
-        let frozenBroccoli = Stock(index: 11, pantryId: fridgeId,
-                                   name: R.string.localizable.frozenBroccoli(),
-                                   imageData: R.image.fridge_FrozenBroccoli()?.pngData(),
-                                   description: R.string.localizable.bigPack(), isAvailability: false)
-        CoreDataManager.shared.saveStock(stock: [milk, mayonnaise, tomatoes, lettuce,
-                                                 creamCheese, parmesan, smokedBacon, butterUnsalted,
-                                                 chickenFillet, frozenVegetables, frozenMushrooms, frozenBroccoli],
-                                         for: fridgeId.uuidString)
+    private func defaultFridgeStocks(fridgeId: UUID, allProducts: [DBNewNetProduct]) {
+        var defaultsFridgeStocks: [Stock] = []
+        DefaultsFridgeStocks.allCases.forEach { stock in
+            var netProduct: DBNewNetProduct?
+            if let netProductId = stock.netProductId {
+                netProduct = allProducts.first(where: { $0.id == netProductId })
+            }
+            
+            let defaultsStock = Stock(index: stock.rawValue, pantryId: fridgeId,
+                                      name: stock.title,
+                                      imageData: stock.imageData,
+                                      description: stock.description,
+                                      category: netProduct?.marketCategory,
+                                      quantity: stock.quantity,
+                                      unitId: stock.unitId,
+                                      isAvailability: stock.isAvailability)
+            defaultsFridgeStocks.append(defaultsStock)
+        }
+        
+        CoreDataManager.shared.saveStock(stock: defaultsFridgeStocks, for: fridgeId.uuidString)
     }
     
-    private func defaultGroceryStocks(groceryId: UUID) {
-        let oliveOil = Stock(index: 0, pantryId: groceryId, name: R.string.localizable.oliveOil() ,
-                             imageData: R.image.grocery_OliveOil()?.pngData(),
-                             quantity: 2, unitId: .bottle)
-        let cannedCorn = Stock(index: 1, pantryId: groceryId, name: R.string.localizable.cannedCorn(),
-                               imageData: R.image.grocery_CannedCorn()?.pngData(),
-                               quantity: 4, unitId: .can)
-        let spaghetti = Stock(index: 2, pantryId: groceryId, name: R.string.localizable.spaghetti(),
-                              imageData: R.image.grocery_Spaghetti()?.pngData(),
-                              quantity: 3, unitId: .pack, isAvailability: false)
-        let breakfastCereal = Stock(index: 3, pantryId: groceryId,
-                                    name: R.string.localizable.breakfastCereal(),
-                                    imageData: R.image.grocery_Breakfast()?.pngData(),
-                                    quantity: 2, unitId: .pack, isAvailability: false)
-        let longShelfLifeMilk = Stock(index: 4, pantryId: groceryId,
-                                      name: R.string.localizable.longShelfLifeMilk(),
-                                      imageData: R.image.grocery_Long()?.pngData(),
-                                      quantity: 4, unitId: .pack)
-        let groundCoffee = Stock(index: 5, pantryId: groceryId, name: R.string.localizable.groundCoffee(),
-                                 imageData: R.image.grocery_Ground()?.pngData(),
-                                 quantity: 2, unitId: .pack)
-        let greenTeaBags = Stock(index: 6, pantryId: groceryId, name: R.string.localizable.greenTeaBags(),
-                                 imageData: R.image.grocery_Green()?.pngData(),
-                                 quantity: 2, unitId: .pack)
-        let oatmeal = Stock(index: 7, pantryId: groceryId, name: R.string.localizable.oatmealMediumSize(),
-                            imageData: R.image.grocery_Oatmeal()?.pngData(),
-                            quantity: 2, unitId: .pack)
-        let honey = Stock(index: 8, pantryId: groceryId, name: R.string.localizable.honey(),
-                          imageData: R.image.grocery_Honey()?.pngData(),
-                          isAvailability: false)
-        let tunaChunks = Stock(index: 9, pantryId: groceryId, name: R.string.localizable.tunaChunks(),
-                               imageData: R.image.grocery_Tuna()?.pngData(),
-                               quantity: 3, unitId: .can)
-        let eggs = Stock(index: 10, pantryId: groceryId, name: R.string.localizable.eggs(),
-                         imageData: R.image.grocery_Eggs()?.pngData(),
-                         quantity: 20, unitId: .piece)
-        let wheatFlour = Stock(index: 11, pantryId: groceryId, name: R.string.localizable.wheatFlour(),
-                               imageData: R.image.grocery_Wheat()?.pngData(),
-                               quantity: 2, unitId: .kilogram)
-        CoreDataManager.shared.saveStock(stock: [oliveOil, cannedCorn, spaghetti, breakfastCereal,
-                                                 longShelfLifeMilk, groundCoffee, greenTeaBags, oatmeal,
-                                                 honey, tunaChunks, eggs, wheatFlour],
-                                         for: groceryId.uuidString)
+    private func defaultGroceryStocks(groceryId: UUID, allProducts: [DBNewNetProduct]) {
+        var defaultGroceryStocks: [Stock] = []
+        DefaultsGroceryStocks.allCases.forEach { stock in
+            var netProduct: DBNewNetProduct?
+            if let netProductId = stock.netProductId {
+                netProduct = allProducts.first(where: { $0.id == netProductId })
+            }
+            
+            let defaultsStock = Stock(index: stock.rawValue, pantryId: groceryId,
+                                      name: stock.title,
+                                      imageData: stock.imageData,
+                                      description: stock.description,
+                                      category: netProduct?.marketCategory,
+                                      quantity: stock.quantity,
+                                      unitId: stock.unitId,
+                                      isAvailability: stock.isAvailability)
+            defaultGroceryStocks.append(defaultsStock)
+        }
+        
+        CoreDataManager.shared.saveStock(stock: defaultGroceryStocks, for: groceryId.uuidString)
     }
     
-    private func defaultSpicesHerbsStocks(spicesHerbsId: UUID) {
-        let salt = Stock(index: 0, pantryId: spicesHerbsId, name: R.string.localizable.seaSalt(),
-                         imageData: R.image.spices_Sea()?.pngData())
-        let pepper = Stock(index: 1, pantryId: spicesHerbsId, name: R.string.localizable.groundBlackPepper(),
-                           imageData: R.image.spices_Ground()?.pngData())
-        let garlic = Stock(index: 2, pantryId: spicesHerbsId, name: R.string.localizable.garlicPowder(),
-                           imageData: R.image.spices_Garlic()?.pngData())
-        let chili = Stock(index: 3, pantryId: spicesHerbsId, name: R.string.localizable.redChiliFlakes(),
-                          imageData: R.image.spices_Red()?.pngData())
-        let paprika = Stock(index: 4, pantryId: spicesHerbsId, name: R.string.localizable.paprika(),
-                            imageData: R.image.spices_Paprika()?.pngData())
-        let cinnamon = Stock(index: 5, pantryId: spicesHerbsId, name: R.string.localizable.cinnamon(),
-                             imageData: R.image.spices_Cinnamon()?.pngData())
-        CoreDataManager.shared.saveStock(stock: [salt, pepper, garlic,
-                                                 chili, paprika, cinnamon],
-                                         for: spicesHerbsId.uuidString)
+    private func defaultSpicesHerbsStocks(spicesHerbsId: UUID, allProducts: [DBNewNetProduct]) {
+        var defaultsSpicesHerbsStocks: [Stock] = []
+        DefaultsSpicesHerbsStocks.allCases.forEach { stock in
+            var netProduct: DBNewNetProduct?
+            if let netProductId = stock.netProductId {
+                netProduct = allProducts.first(where: { $0.id == netProductId })
+            }
+            
+            let defaultsStock = Stock(index: stock.rawValue, pantryId: spicesHerbsId,
+                                      name: stock.title,
+                                      imageData: stock.imageData,
+                                      category: netProduct?.marketCategory)
+            defaultsSpicesHerbsStocks.append(defaultsStock)
+        }
+        
+        CoreDataManager.shared.saveStock(stock: defaultsSpicesHerbsStocks, for: spicesHerbsId.uuidString)
     }
     
-    private func defaultBeautyHealthStocks(beautyHealthId: UUID) {
-        let toiletPaper = Stock(index: 0, pantryId: beautyHealthId, name: R.string.localizable.toiletPaper(),
-                                imageData: R.image.beauty_Toilet()?.pngData())
-        let cottonPads = Stock(index: 1, pantryId: beautyHealthId, name: R.string.localizable.cottonPads(),
-                               imageData: R.image.spices_Cinnamon()?.pngData())
-        let cottonBuds = Stock(index: 2, pantryId: beautyHealthId, name: R.string.localizable.cottonBuds(),
-                               imageData: R.image.beauty_CottonBuds()?.pngData())
-        let liquidSoap = Stock(index: 3, pantryId: beautyHealthId, name: R.string.localizable.liquidSoap(),
-                               imageData: R.image.beauty_Liquid()?.pngData())
-        let toothpaste = Stock(index: 4, pantryId: beautyHealthId, name: R.string.localizable.toothpaste(),
-                               imageData: R.image.beauty_Toothpaste()?.pngData())
-        let showerGel = Stock(index: 5, pantryId: beautyHealthId, name: R.string.localizable.showerGel(),
-                              imageData: R.image.beauty_Shower()?.pngData())
-        CoreDataManager.shared.saveStock(stock: [toiletPaper, cottonPads, cottonBuds,
-                                                 liquidSoap, toothpaste, showerGel],
-                                         for: beautyHealthId.uuidString)
+    private func defaultBeautyHealthStocks(beautyHealthId: UUID, allProducts: [DBNewNetProduct]) {
+        var defaultBeautyHealthStocks: [Stock] = []
+        DefaultsBeautyHealthStocks.allCases.forEach { stock in
+            var netProduct: DBNewNetProduct?
+            if let netProductId = stock.netProductId {
+                netProduct = allProducts.first(where: { $0.id == netProductId })
+            }
+            
+            let defaultsStock = Stock(index: stock.rawValue, pantryId: beautyHealthId,
+                                      name: stock.title,
+                                      imageData: stock.imageData,
+                                      category: netProduct?.marketCategory)
+            defaultBeautyHealthStocks.append(defaultsStock)
+        }
+        
+        CoreDataManager.shared.saveStock(stock: defaultBeautyHealthStocks, for: beautyHealthId.uuidString)
     }
     
-    private func defaultHouseholdStocks(householdId: UUID) {
-        let sponges = Stock(index: 0, pantryId: householdId, name: R.string.localizable.kitchenScrubSponges(),
-                            imageData: R.image.household_Kitchen()?.pngData())
-        let dishwashing = Stock(index: 1, pantryId: householdId, name: R.string.localizable.dishwashingLiquid(),
-                                imageData: R.image.household_Dishwashing()?.pngData())
-        let paperTowels = Stock(index: 2, pantryId: householdId, name: R.string.localizable.paperTowels(),
-                                imageData: R.image.household_Paper()?.pngData())
-        let toiletPaper = Stock(index: 3, pantryId: householdId, name: R.string.localizable.toiletPaper(),
-                                imageData: R.image.household_Toilet()?.pngData())
-        let trashBags = Stock(index: 4, pantryId: householdId, name: R.string.localizable.trashBags(),
-                              imageData: R.image.household_Trash()?.pngData(),
-                              isAvailability: false)
-        let fabricSoftener = Stock(index: 5, pantryId: householdId, name: R.string.localizable.fabricSoftener(),
-                                   imageData: R.image.household_Fabric()?.pngData())
-        let cleaningCloth = Stock(index: 6, pantryId: householdId, name: R.string.localizable.cleaningCloth(),
-                                  imageData: R.image.household_Cleaning()?.pngData())
-        let batteries = Stock(index: 7, pantryId: householdId, name: R.string.localizable.aaBatteries(),
-                              imageData: R.image.household_AA()?.pngData(),
-                              isAvailability: false)
-        CoreDataManager.shared.saveStock(stock: [sponges, dishwashing, paperTowels, toiletPaper,
-                                                 trashBags, fabricSoftener, cleaningCloth, batteries],
-                                         for: householdId.uuidString)
+    private func defaultHouseholdStocks(householdId: UUID, allProducts: [DBNewNetProduct]) {
+        var defaultHouseholdStocks: [Stock] = []
+        DefaultsHouseholdStocks.allCases.forEach { stock in
+            var netProduct: DBNewNetProduct?
+            if let netProductId = stock.netProductId {
+                netProduct = allProducts.first(where: { $0.id == netProductId })
+            }
+            
+            let defaultsStock = Stock(index: stock.rawValue, pantryId: householdId,
+                                      name: stock.title,
+                                      imageData: stock.imageData,
+                                      category: netProduct?.marketCategory,
+                                      isAvailability: stock.isAvailability)
+            defaultHouseholdStocks.append(defaultsStock)
+        }
+        
+        CoreDataManager.shared.saveStock(stock: defaultHouseholdStocks, for: householdId.uuidString)
+    }
+}
+
+extension PantryDataSource {
+    enum DefaultsPantry: Int, CaseIterable {
+        case fridge
+        case grocery
+        case spicesHerbs
+        case beautyHealth
+        case household
+        case hobby
+    }
+    
+    enum DefaultsFridgeStocks: Int, CaseIterable {
+        case milk, mayonnaise, tomatoes, lettuce,
+             creamCheese, parmesan, smokedBacon, butterUnsalted,
+             chickenFillet, frozenVegetables, frozenMushrooms, frozenBroccoli
+    }
+    
+    enum DefaultsGroceryStocks: Int, CaseIterable {
+        case oliveOil, cannedCorn, spaghetti, breakfastCereal,
+             longShelfLifeMilk, groundCoffee, greenTeaBags, oatmeal,
+             honey, tunaChunks, eggs, wheatFlour
+    }
+    
+    enum DefaultsSpicesHerbsStocks: Int, CaseIterable {
+        case salt, pepper, garlic,
+             chili, paprika, cinnamon
+    }
+    
+    enum DefaultsBeautyHealthStocks: Int, CaseIterable {
+        case toiletPaper, cottonPads, cottonBuds,
+             liquidSoap, toothpaste, showerGel
+    }
+    
+    enum DefaultsHouseholdStocks: Int, CaseIterable {
+        case sponges, dishwashing, paperTowels, toiletPaper,
+             trashBags, fabricSoftener, cleaningCloth, batteries
     }
 }

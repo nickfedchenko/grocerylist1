@@ -101,7 +101,7 @@ class ProductListCell: UICollectionViewListCell {
     private let checkmarkView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = 18
         view.layer.masksToBounds = true
         return view
     }()
@@ -191,6 +191,7 @@ class ProductListCell: UICollectionViewListCell {
         }
         
         whiteCheckmarkImage.isHidden = isOutOfStock
+        checkmarkView.layer.cornerRadius = isOutOfStock ? 5 : 18
         if isOutOfStock {
             checkmarkImage.image = R.image.product_outOfStock()
         }

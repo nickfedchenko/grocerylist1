@@ -94,7 +94,7 @@ struct Stock: Hashable, Codable {
     var isReminder: Bool
     
     var dateOfCreation: Date
-    var isUserImage: Bool? = false
+    var isUserImage: Bool = false
     var userToken: String?
     var isVisibleСost: Bool = false
     
@@ -123,7 +123,7 @@ struct Stock: Hashable, Codable {
          store: Store? = nil, cost: Double? = nil, quantity: Double? = nil,
          unitId: UnitSystem? = nil, isAvailability: Bool = true,
          isAutoRepeat: Bool = false, autoRepeat: AutoRepeatModel? = nil,
-         isReminder: Bool = false) {
+         isReminder: Bool = false, isUserImage: Bool = true) {
         self.index = index
         self.pantryId = pantryId
         self.name = name
@@ -138,6 +138,7 @@ struct Stock: Hashable, Codable {
         self.isAutoRepeat = isAutoRepeat
         self.autoRepeat = autoRepeat
         self.isReminder = isReminder
+        self.isUserImage = isUserImage
         self.dateOfCreation = Date()
     }
     
