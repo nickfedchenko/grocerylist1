@@ -13,34 +13,17 @@ protocol IngredientViewModelDelegate: AnyObject {
     func unitChange(_ unit: UnitSystem)
 }
 
-final class IngredientViewModel {
-    
-    weak var router: RootRouter?
-    weak var delegate: IngredientViewModelDelegate?
+final class IngredientViewModel: CreateNewProductViewModel {
+
+    weak var ingredientDelegate: IngredientViewModelDelegate?
     var ingredientCallback: ((Ingredient) -> Void)?
-    var productsChangedCallback: (([String]) -> Void)?
-    
+    var isShowCost: Bool? = false
+
     var getNumberOfCells: Int {
         selectedUnitSystemArray.count
     }
-    
-    var productQuantityCount: Double? {
-        return Double(currentSelectedUnit.stepValue)
-    }
-    
-    private let network = NetworkEngine()
-    private var networkProducts: [DBNewNetProduct]?
-    private var networkDishesProducts: [DBNewNetProduct]?
-    private var userProducts: [DBProduct]?
-    private var networkProductTitles: [String] = []
-    private var networkDishesProductTitles: [String] = []
-    private var userProductTitles: [String] = []
+
     private var categoryTitle = ""
-    private var isMetricSystem = UserDefaultsManager.isMetricSystem
-    private var currentSelectedUnit: UnitSystem = .gram
-    private var selectedUnitSystemArray: [UnitSystem] {
-        isMetricSystem ? arrayForMetricSystem : arrayForImperalSystem
-    }
     private var arrayForMetricSystem: [UnitSystem] = [
         UnitSystem.gram,
         UnitSystem.kilogram,
@@ -65,19 +48,16 @@ final class IngredientViewModel {
         UnitSystem.quart
     ]
     
-    init() {
-        networkProducts = CoreDataManager.shared.getAllNetworkProducts()?
-            .filter({ $0.productTypeId == 1 || $0.productTypeId == -1 })
-            .sorted(by: { $0.title ?? "" < $1.title ?? "" })
-        networkDishesProducts = CoreDataManager.shared.getAllNetworkProducts()?
-            .filter({ $0.productTypeId == 3 })
-            .sorted(by: { $0.title ?? "" < $1.title ?? "" })
-        userProducts = CoreDataManager.shared.getAllProducts()?
-            .sorted(by: { $0.name ?? "" < $1.name ?? "" })
-        
-        networkProductTitles = networkProducts?.compactMap({ $0.title }) ?? []
-        networkDishesProductTitles = networkDishesProducts?.compactMap({ $0.title }) ?? []
-        userProductTitles = userProducts?.compactMap({ $0.name }) ?? []
+    override var getColorForBackground: UIColor {
+        R.color.background() ?? .white
+    }
+    
+    override var getColorForForeground: UIColor {
+        R.color.darkGray() ?? .black
+    }
+    
+    override var isVisibleStore: Bool {
+        return isShowCost ?? false
     }
     
     func save(title: String, quantity: Double,
@@ -100,10 +80,10 @@ final class IngredientViewModel {
 #endif
     }
     
-    func goToSelectCategoryVC() {
+    override func goToSelectCategoryVC() {
         guard let controller = router?.prepareSelectCategoryController(model: nil, compl: { [weak self] newCategoryName in
             guard let self = self else { return }
-            self.delegate?.categoryChange(title: newCategoryName)
+            self.ingredientDelegate?.categoryChange(title: newCategoryName)
             self.categoryTitle = newCategoryName
         }) else {
             return
@@ -112,53 +92,14 @@ final class IngredientViewModel {
         router?.navigationPresent(controller, animated: true)
     }
     
-    func checkIsProductFromCategory(name: String?) {
-        guard let name = name?.prepareForSearch() else {
-            productsChangedCallback?([])
-            return
-        }
-        let userProductTitles = search(name: name, by: userProductTitles)
-        let networkProductTitles = search(name: name, by: networkProductTitles)
-        let networkDishesProductTitles = search(name: name, by: networkDishesProductTitles)
-        if name.count > 1 {
-            let titles = Array(Set(userProductTitles + networkProductTitles))
-            let productTitles = sortTitle(by: name, titles: titles)
-            let dishesTitle = sortTitle(by: name, titles: networkDishesProductTitles)
-            productsChangedCallback?(productTitles + dishesTitle)
-        } else {
-            productsChangedCallback?([])
-        }
-        
-        if userProductTitles.contains(where: { $0.prepareForSearch().smartContains(name) }),
-           let product = userProducts?.first(where: { $0.name?.prepareForSearch().smartContains(name) ?? false }) {
-            getInformation(userProduct: product)
-            return
-        }
-        
-        if networkProductTitles.contains(where: { $0.prepareForSearch().smartContains(name) }),
-           let product = networkProducts?.first(where: { $0.title?.prepareForSearch().smartContains(name) ?? false }) {
-            getInformation(networkProduct: product)
-            return
-        }
-        
-        if networkDishesProductTitles.contains(where: { $0.prepareForSearch().smartContains(name) }),
-           let product = networkDishesProducts?.first(where: { $0.title?.prepareForSearch().smartContains(name) ?? false }) {
-            getInformation(networkProduct: product)
-            return
-        }
-        
-        delegate?.categoryChange(title: R.string.localizable.selectCategory())
-        categoryTitle = R.string.localizable.selectCategory()
-    }
-    
-    func getTitleForCell(at ind: Int) -> String {
+    override func getTitleForCell(at ind: Int) -> String {
         selectedUnitSystemArray[ind].title
     }
     
     func cellSelected(at ind: Int) {
         let step = selectedUnitSystemArray[ind]
         currentSelectedUnit = step
-        delegate?.unitChange(step)
+        ingredientDelegate?.unitChange(step)
     }
     
     private func getProduct(title: String) -> NetworkProductModel {
@@ -214,9 +155,9 @@ final class IngredientViewModel {
             }
         }()
         currentSelectedUnit = properSelectedUnit
-        delegate?.categoryChange(title: title)
+        ingredientDelegate?.categoryChange(title: title)
         categoryTitle = title
-        delegate?.unitChange(currentSelectedUnit)
+        ingredientDelegate?.unitChange(currentSelectedUnit)
     }
     
     private func getInformation(userProduct: DBProduct) {
@@ -224,9 +165,9 @@ final class IngredientViewModel {
         let defaultUnit: UnitSystem = isMetricSystem ? .gram : .ozz
         let shouldSelectUnit: UnitSystem = .init(rawValue: Int(userProduct.unitId)) ?? defaultUnit
         currentSelectedUnit = shouldSelectUnit
-        delegate?.categoryChange(title: title)
+        ingredientDelegate?.categoryChange(title: title)
         categoryTitle = title
-        delegate?.unitChange(currentSelectedUnit)
+        ingredientDelegate?.unitChange(currentSelectedUnit)
     }
     
     /// сортировка: вперед выносим названия совпадающие с поиском, далее по алфавиту
@@ -253,7 +194,7 @@ final class IngredientViewModel {
             userToken = user.token
         }
         
-        if let product = networkProducts?.first(where: { $0.title?.lowercased() == product.lowercased() }) {
+        if let product = networkBaseProducts?.first(where: { $0.title?.lowercased() == product.lowercased() }) {
             productId = "\(product.id)"
             productType = getProductType(productTypeId: product.productTypeId)
         }

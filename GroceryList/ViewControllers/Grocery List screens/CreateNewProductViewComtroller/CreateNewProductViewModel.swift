@@ -33,14 +33,14 @@ class CreateNewProductViewModel {
     
     let colorManager = ColorManager()
     var defaultStore: Store?
-    private let network = NetworkEngine()
-    private var networkBaseProducts: [DBNewNetProduct]?
-    private var networkDishesProducts: [DBNewNetProduct]?
-    private var userProducts: [DBProduct]?
-    private var networkBaseProductTitles: [String] = []
-    private var networkDishesProductTitles: [String] = []
-    private var userProductTitles: [String] = []
-    private var isMetricSystem = UserDefaultsManager.isMetricSystem
+    let network = NetworkEngine()
+    var networkBaseProducts: [DBNewNetProduct]?
+    var networkDishesProducts: [DBNewNetProduct]?
+    var userProducts: [DBProduct]?
+    var networkBaseProductTitles: [String] = []
+    var networkDishesProductTitles: [String] = []
+    var userProductTitles: [String] = []
+    var isMetricSystem = UserDefaultsManager.isMetricSystem
     
     init() {
         networkBaseProducts = CoreDataManager.shared.getAllNetworkProducts()?
@@ -201,6 +201,10 @@ class CreateNewProductViewModel {
     
     func setCostOfProductPerUnit() {
         costOfProductPerUnit = currentProduct?.cost
+    }
+    
+    func setUnit(_ unit: UnitSystem) {
+        currentSelectedUnit = unit
     }
     
     func saveProduct(categoryName: String, productName: String, description: String,

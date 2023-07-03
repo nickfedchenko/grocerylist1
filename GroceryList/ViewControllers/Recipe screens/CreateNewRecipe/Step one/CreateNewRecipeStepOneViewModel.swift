@@ -63,7 +63,7 @@ final class CreateNewRecipeStepOneViewModel {
 //    }
     
     func presentIngredient() {
-        router?.goToIngredient(compl: { [weak self] ingredient in
+        router?.goToIngredient(isShowCost: isShowCost, compl: { [weak self] ingredient in
             self?.ingredients.append(ingredient)
             self?.ingredientChanged?(ingredient)
         })

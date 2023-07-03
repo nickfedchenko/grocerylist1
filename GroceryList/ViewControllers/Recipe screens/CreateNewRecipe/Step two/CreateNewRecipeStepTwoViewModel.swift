@@ -37,7 +37,7 @@ final class CreateNewRecipeStepTwoViewModel {
     }
 
     func presentIngredient() {
-        router?.goToIngredient(compl: { [weak self] ingredient in
+        router?.goToIngredient(isShowCost: false, compl: { [weak self] ingredient in
             self?.ingredients.append(ingredient)
             self?.ingredientChanged?(ingredient)
         })
