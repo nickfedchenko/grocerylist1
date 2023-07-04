@@ -33,6 +33,7 @@ struct NetworkProductModel: Codable {
     let units: [Unit]?
     let photo: String
     let marketUnit: MarketUnitClass?
+    let localImage: Data?
 }
 
 struct Unit: Codable {

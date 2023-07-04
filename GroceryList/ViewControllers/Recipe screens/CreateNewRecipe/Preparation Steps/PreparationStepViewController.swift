@@ -13,20 +13,20 @@ final class PreparationStepViewController: UIViewController {
     
     private lazy var contentView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#E5F5F3")
+        view.backgroundColor = R.color.background()
         return view
     }()
     
     private lazy var titleView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#FCFCFE")
+        view.backgroundColor = R.color.darkGray()
         return view
     }()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 16).font
-        label.textColor = R.color.primaryDark()
+        label.textColor = .white
         return label
     }()
     

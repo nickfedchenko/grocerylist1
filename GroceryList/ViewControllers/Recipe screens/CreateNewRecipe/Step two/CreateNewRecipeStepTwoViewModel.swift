@@ -19,16 +19,21 @@ final class CreateNewRecipeStepTwoViewModel {
     private var servings: Int?
     private var kcal: Value?
     private var localImage: UIImage?
-    private var recipe: Recipe
     private var collections: [CollectionModel] = []
+    private var draft: Recipe?
+    private var recipe: Recipe
+    private(set) var currentRecipe: Recipe?
     
-    init(recipe: Recipe) {
+    init(currentRecipe: Recipe?, recipe: Recipe) {
         self.recipe = recipe
+        self.currentRecipe = currentRecipe
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updateRecipe),
-                                               name: .recieptsDownladedAnsSaved,
-                                               object: nil)
+        time = currentRecipe?.cookingTime
+        servings = currentRecipe?.totalServings
+        kcal = currentRecipe?.values?.dish
+        if let imageData = currentRecipe?.localImage {
+            localImage = UIImage(data: imageData)
+        }
     }
     
     func back() {
@@ -36,7 +41,13 @@ final class CreateNewRecipeStepTwoViewModel {
     }
     
     func saveRecipeTo(time: Int?, servings: Int?, image: UIImage?, kcal: Value?) {
-        router?.goToShowCollection(state: .select, compl: { [weak self] selectedCollections in
+        self.time = time
+        self.servings = servings
+        self.kcal = kcal
+        localImage = image
+        
+        router?.goToShowCollection(state: .select, recipe: currentRecipe,
+                                   compl: { [weak self] selectedCollections in
             if selectedCollections.isEmpty,
                let dbDraftsCollection = CoreDataManager.shared.getAllCollection()?
                 .first(where: { $0.id == EatingTime.drafts.rawValue }) {
@@ -45,15 +56,64 @@ final class CreateNewRecipeStepTwoViewModel {
             } else {
                 self?.collections = selectedCollections
             }
-            self?.save()
+            self?.saveRecipe()
+            self?.updateRecipe()
         })
+    }
+    
+    func savedToDrafts(time: Int?, servings: Int?, image: UIImage?, kcal: Value?) {
         self.time = time
         self.servings = servings
         self.kcal = kcal
         localImage = image
+        
+        guard isDraftRecipe else {
+            return
+        }
+        guard var draft else {
+            draft = Recipe(title: recipe.title,
+                           totalServings: servings ?? -1,
+                           localCollection: collections.isEmpty ? nil : collections,
+                           localImage: localImage?.pngData(),
+                           cookingTime: time,
+                           description: recipe.description,
+                           kcal: kcal,
+                           ingredients: recipe.ingredients,
+                           instructions: recipe.instructions)
+            if let dbDraftsCollection = CoreDataManager.shared.getAllCollection()?
+                .first(where: { $0.id == EatingTime.drafts.rawValue }) {
+                let draftsCollection = CollectionModel(from: dbDraftsCollection)
+                draft?.localCollection = [draftsCollection]
+            }
+            savedToDrafts(time: time, servings: servings, image: image, kcal: kcal)
+            return
+        }
+
+        draft.totalServings = servings ?? -1
+        draft.localImage = localImage?.pngData()
+        draft.cookingTime = time
+        draft.values = Values(dish: kcal)
+        
+        CoreDataManager.shared.saveRecipes(recipes: [draft])
     }
     
-    private func save() {
+    private func saveRecipe() {
+        guard var currentRecipe else {
+            saveNewRecipe()
+            return
+        }
+        
+        currentRecipe.totalServings = servings ?? -1
+        currentRecipe.localCollection = collections.isEmpty ? nil : collections
+        currentRecipe.localImage = localImage?.pngData()
+        currentRecipe.cookingTime = time
+        currentRecipe.values = Values(dish: kcal)
+        
+        recipe = currentRecipe
+        CoreDataManager.shared.saveRecipes(recipes: [currentRecipe])
+    }
+    
+    private func saveNewRecipe() {
         guard let recipe = Recipe(title: recipe.title,
                                   totalServings: servings ?? -1,
                                   localCollection: collections.isEmpty ? nil : collections,
@@ -68,8 +128,7 @@ final class CreateNewRecipeStepTwoViewModel {
         CoreDataManager.shared.saveRecipes(recipes: [recipe])
         self.recipe = recipe
     }
-    
-    @objc
+
     private func updateRecipe() {
         DispatchQueue.main.async { [weak self] in
             guard let self else {

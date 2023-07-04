@@ -106,6 +106,18 @@ class CreateNewRecipeKcalView: UIView {
         super.init(coder: coder)
     }
     
+    func setKcalValue(value: Value?) {
+        carbView.textField.text = value?.netCarbs?.asString
+        proteinView.textField.text = value?.proteins?.asString
+        fatView.textField.text = value?.fats?.asString
+        kcalView.textField.text = value?.kcal?.asString
+
+        [carbView, proteinView, fatView, kcalView].forEach {
+            $0.updateActive(isActive: !($0.textField.text?.isEmpty ?? true))
+        }
+        
+    }
+    
     private func setup() {
         self.backgroundColor = .clear
 

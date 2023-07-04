@@ -71,18 +71,14 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
             }
             
             let recipesShuffled = recipes.shuffled()
-            let imageUrl = recipesShuffled.first?.photo
-            var defaultImage: UIImage?
-            if imageUrl == nil {
-                defaultImage = R.image.defaultRecipeImage()
-            }
+            let image = getFirstPhoto(recipes: recipesShuffled)
             let customSection = RecipeSectionsModel(collectionId: collection.id,
                                                     cellType: .recipePreview,
                                                     sectionType: .custom(collection.title.localized),
                                                     recipes: recipesShuffled,
                                                     color: collection.color,
-                                                    imageUrl: imageUrl,
-                                                    localImage: collection.localImage ?? defaultImage?.pngData())
+                                                    imageUrl: image.url,
+                                                    localImage: collection.localImage ?? image.data)
             
             guard let index = recipesSections.firstIndex(where: {
                 $0.sectionType == .custom(collection.title.localized)
@@ -94,6 +90,17 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
         }
         
         visibleTechnicalCollection()
+    }
+    
+    private func getFirstPhoto(recipes: [ShortRecipeModel]) -> (url: String?, data: Data?) {
+        for recipe in recipes {
+            if let imageData = recipe.localImage {
+                return (nil, imageData)
+            } else if let url = URL(string: recipe.photo) {
+                return (recipe.photo, nil)
+            }
+        }
+        return (nil, R.image.defaultRecipeImage()?.pngData())
     }
     
     private func visibleTechnicalCollection() {

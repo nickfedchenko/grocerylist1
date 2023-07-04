@@ -61,8 +61,8 @@ final class IngredientViewModel: CreateNewProductViewModel {
     }
     
     func save(title: String, quantity: Double,
-              quantityStr: String?, description: String?) {
-        let product = getProduct(title: title)
+              quantityStr: String?, description: String?, localImage: UIImage?) {
+        let product = getProduct(title: title, image: localImage)
         let ingredient = Ingredient(id: UUID().integer,
                                     product: product,
                                     quantity: quantity,
@@ -102,7 +102,7 @@ final class IngredientViewModel: CreateNewProductViewModel {
         ingredientDelegate?.unitChange(step)
     }
     
-    private func getProduct(title: String) -> NetworkProductModel {
+    private func getProduct(title: String, image: UIImage?) -> NetworkProductModel {
         return NetworkProductModel(
             id: UUID().integer,
             title: title,
@@ -110,7 +110,8 @@ final class IngredientViewModel: CreateNewProductViewModel {
             marketCategory: getMarketCategory(),
             units: [],
             photo: "",
-            marketUnit: nil
+            marketUnit: nil,
+            localImage: image?.pngData()
         )
     }
     

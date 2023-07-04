@@ -22,10 +22,11 @@ final class IngredientForCreateRecipeView: IngredientView {
     }()
     
     private lazy var deleteButton: UIButton = {
-        let imageView = UIButton()
-        imageView.setImage(UIImage(named: "swipeToDelete"), for: .normal)
-        imageView.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
-        return imageView
+        let button = UIButton()
+        button.backgroundColor = R.color.attention()
+        button.setImage(R.image.trash_red()?.withTintColor(.white), for: .normal)
+        button.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
+        return button
     }()
     
     private var state: CellState = .normal
@@ -157,11 +158,11 @@ final class IngredientForCreateRecipeView: IngredientView {
     }
 }
 
-final class StepForCreateRecipeView: ViewWithOverriddenPoint {
+final class StepForCreateRecipeView: UIView {
     
     var swipeDeleteAction: (() -> Void)?
     
-    private let contentView = UIView()
+    private let contentView = ViewWithOverriddenPoint()
     
     private lazy var stepLabel: UILabel = {
         let label = UILabel()
@@ -180,10 +181,11 @@ final class StepForCreateRecipeView: ViewWithOverriddenPoint {
     }()
     
     private lazy var deleteButton: UIButton = {
-        let imageView = UIButton()
-        imageView.setImage(UIImage(named: "swipeToDelete"), for: .normal)
-        imageView.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
-        return imageView
+        let button = UIButton()
+        button.backgroundColor = R.color.attention()
+        button.setImage(R.image.trash_red()?.withTintColor(.white), for: .normal)
+        button.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
+        return button
     }()
     
     private var state: CellState = .normal
@@ -324,7 +326,7 @@ final class StepForCreateRecipeView: ViewWithOverriddenPoint {
         }
         
         deleteButton.snp.makeConstraints {
-            $0.height.equalToSuperview()
+            $0.verticalEdges.equalToSuperview()
             $0.trailing.equalToSuperview().offset(70)
             $0.leading.equalTo(contentView.snp.trailing).offset(-4)
         }

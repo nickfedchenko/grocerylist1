@@ -69,7 +69,8 @@ final class CreateNewRecipeStepOneViewModel {
         guard let recipe else {
             return
         }
-        router?.goToCreateNewRecipeStepTwo(recipe: recipe,
+        router?.goToCreateNewRecipeStepTwo(isDraftRecipe: isDraftRecipe,
+                                           currentRecipe: currentRecipe, recipe: recipe,
                                            compl: { [weak self] recipe in
             self?.competeRecipe?(recipe)
         })
@@ -92,6 +93,7 @@ final class CreateNewRecipeStepOneViewModel {
         currentRecipe.instructions = steps
         currentRecipe.isShowCost = isShowCost
         
+        self.currentRecipe = currentRecipe
         recipe = currentRecipe
     }
     
