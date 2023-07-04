@@ -136,10 +136,10 @@ extension RecipesListViewController: RecipesListHeaderViewDelegate {
 extension RecipesListViewController: RecipeListCellDelegate {
     func didTapToButProductsAtRecipe(at index: Int) {
         let recipeId = section.recipes[index].id        
-        guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
-              let model = ShortRecipeModel(withIngredients: dbRecipe) else {
+        guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId) else {
             return
         }
+        let model = ShortRecipeModel(withIngredients: dbRecipe)
         let recipeTitle = model.title
         currentlySelectedIndex = index
         print("added recipeTitle in product \(recipeTitle)")

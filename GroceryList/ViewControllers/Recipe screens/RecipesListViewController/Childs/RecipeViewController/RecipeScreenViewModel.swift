@@ -16,6 +16,7 @@ protocol RecipeScreenViewModelProtocol {
     func convertValue() -> Double
     func haveCollections() -> Bool
     func showCollection()
+    func updateFavoriteState(isSelected: Bool)
     var updateCollection: (() -> Void)? { get set }
     var recipe: Recipe { get }
 }
@@ -118,6 +119,27 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
         router?.goToShowCollection(state: .select, recipe: recipe, updateUI: { [weak self] in
             self?.updateCollection?()
         })
+    }
+    
+    func updateFavoriteState(isSelected: Bool) {
+        guard let dbCollection = CoreDataManager.shared.getCollection(by: EatingTime.favorites.rawValue) else {
+            return
+        }
+
+        let favoriteCollection = CollectionModel(from: dbCollection)
+        
+        if var localCollection = recipe.localCollection {
+            if isSelected {
+                localCollection.append(favoriteCollection)
+            } else {
+                localCollection.removeAll { $0.id == favoriteCollection.id }
+            }
+            
+            recipe.localCollection = localCollection
+        } else {
+            recipe.localCollection = [favoriteCollection]
+        }
+        CoreDataManager.shared.saveRecipes(recipes: [recipe])
     }
     
     @objc

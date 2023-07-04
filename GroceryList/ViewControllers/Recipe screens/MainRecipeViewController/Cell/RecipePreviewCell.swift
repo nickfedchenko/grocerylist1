@@ -8,15 +8,13 @@
 import UIKit
 
 final class RecipePreviewCell: UICollectionViewCell {
-   private var isFirstLayout = true
-    static let identifier = String(describing: RecipePreviewCell.self)
+    private var isFirstLayout = true
+    
+    private let backgroundImageView = UIView()
+    private let badgeView = UIView()
     
     private let mainImage: UIImageView = {
         let image = UIImageView()
-        image.layer.cornerRadius = 8
-        image.layer.cornerCurve = .continuous
-        image.layer.maskedCorners = [.layerMinXMinYCorner]
-        image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
         image.backgroundColor = .white
         return image
@@ -24,13 +22,33 @@ final class RecipePreviewCell: UICollectionViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = R.font.sfProTextSemibold(size: 15)
+        label.font = UIFont.SFProDisplay.semibold(size: 15).font
         label.textColor = UIColor(hex: "192621")
         label.textAlignment = .center
         label.numberOfLines = 2
-        label.text = "Air fryer bacon"
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.8
         return label
     }()
+    
+    private let timeLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFProDisplay.semibold(size: 12).font
+        label.textColor = .white
+        return label
+    }()
+    
+    private let timeImage = UIImageView(image: R.image.recipeTimeIcon())
+    
+    private let kcalLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFProDisplay.semibold(size: 12).font
+        label.textColor = .white
+        return label
+    }()
+    
+    private let kcalImage = UIImageView(image: R.image.recipeKcalIcon())
+    private let favoriteImage = UIImageView(image: R.image.recipeFavoriteIcon())
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,10 +62,39 @@ final class RecipePreviewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         mainImage.image = nil
+        kcalImage.isHidden = true
+        kcalLabel.isHidden = true
+        favoriteImage.isHidden = true
+        badgeView.layer.cornerRadius = 0
     }
     
-    func configure(with recipe: ShortRecipeModel) {
+    func configure(with recipe: ShortRecipeModel, color: Theme) {
+        titleLabel.textColor = color.dark
+        contentView.backgroundColor = color.light
+        
         titleLabel.text = recipe.title
+        timeLabel.text = "\(recipe.time)"
+        
+        favoriteImage.isHidden = !recipe.isFavorite
+        
+        if let kcal = recipe.values?.dish?.kcal {
+            kcalImage.isHidden = false
+            kcalLabel.isHidden = false
+            
+            kcalLabel.text = "\(Int(kcal))"
+            
+            kcalLabel.snp.makeConstraints { make in
+                make.trailing.equalTo(-8)
+                make.top.equalToSuperview().offset(3)
+            }
+        } else {
+            badgeView.layer.cornerRadius = 8
+            
+            badgeView.snp.makeConstraints { make in
+                make.trailing.equalTo(timeLabel.snp.trailing).offset(8)
+            }
+        }
+        
         if let photoUrl = URL(string: recipe.photo) {
             mainImage.kf.setImage(with: photoUrl)
             return
@@ -64,28 +111,77 @@ final class RecipePreviewCell: UICollectionViewCell {
     }
     
     private func setupSubviews() {
-        contentView.backgroundColor = .white
         layer.cornerRadius = 8
         layer.cornerCurve = .continuous
         contentView.layer.cornerRadius = 8
         contentView.layer.cornerCurve = .continuous
         contentView.layer.masksToBounds = true
-        [titleLabel, mainImage].forEach {
-            contentView.addSubview($0)
+        
+        badgeView.layer.cornerCurve = .continuous
+        badgeView.layer.maskedCorners = [.layerMaxXMinYCorner]
+        badgeView.clipsToBounds = true
+
+        backgroundImageView.layer.cornerRadius = 7
+        backgroundImageView.layer.cornerCurve = .continuous
+        backgroundImageView.layer.masksToBounds = true
+        
+        badgeView.backgroundColor = .black.withAlphaComponent(0.6)
+        
+        makeConstraints()
+    }
+    
+    private func makeConstraints() {
+        self.contentView.addSubviews([backgroundImageView, titleLabel])
+        backgroundImageView.addSubviews([mainImage, badgeView, favoriteImage])
+        badgeView.addSubviews([timeImage, timeLabel, kcalImage, kcalLabel])
+        
+        backgroundImageView.snp.makeConstraints { make in
+            make.top.leading.equalToSuperview().offset(1)
+            make.trailing.equalToSuperview().offset(-1)
+            make.height.equalTo(79)
         }
         
         mainImage.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(80)
+            make.edges.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(mainImage.snp.bottom).offset(4)
-            make.leading.trailing.equalToSuperview().inset(8)
-            make.bottom.equalToSuperview().inset(8)
-            make.height.equalTo(36)
+            make.top.equalTo(backgroundImageView.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(48)
         }
         
+        badgeView.snp.makeConstraints { make in
+            make.bottom.leading.equalToSuperview()
+            make.height.equalTo(18)
+        }
+        
+        timeImage.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(8)
+            make.centerY.equalToSuperview()
+            make.height.width.equalTo(16)
+        }
+        
+        timeLabel.snp.makeConstraints { make in
+            make.leading.equalTo(timeImage.snp.trailing)
+            make.top.equalToSuperview().offset(3)
+        }
+        
+        badgeView.snp.makeConstraints { make in
+            make.trailing.equalToSuperview()
+        }
+        
+        kcalImage.snp.makeConstraints { make in
+            make.trailing.equalTo(kcalLabel.snp.leading)
+            make.centerY.equalToSuperview()
+            make.height.width.equalTo(16)
+        }
+        
+        favoriteImage.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(3)
+            make.trailing.equalToSuperview().offset(-3)
+            make.height.width.equalTo(20)
+        }
     }
     
     private func drawShadows() {
@@ -107,7 +203,7 @@ final class RecipePreviewCell: UICollectionViewCell {
         isFirstLayout = false
     }
     
-    func drawInlinedStroke() {
+    private func drawInlinedStroke() {
         layer.borderColor = UIColor.white.cgColor
         layer.borderWidth = 1
     }

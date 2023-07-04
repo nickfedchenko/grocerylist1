@@ -149,14 +149,15 @@ final class ShowCollectionViewModel {
         changedCollection = true
     }
     
-    private func saveEditCollections() {
+    private func saveEditCollections(color: Int = 0) {
         var updateCollections: [CollectionModel] = []
         let editCollections = collections.map { $0.collection }
         editCollections.enumerated().forEach { index, collection in
             if collection.index != index {
                 updateCollections.append(CollectionModel(id: collection.id,
                                                          index: index,
-                                                         title: collection.title))
+                                                         title: collection.title,
+                                                         color: color))
             }
         }
         if !updateCollections.isEmpty {

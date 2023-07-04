@@ -40,8 +40,8 @@ final class CreateNewRecipeStepOneViewModel {
     func saveRecipe(title: String, servings: Int, photo: UIImage?) {
         if collections == nil || (collections?.isEmpty ?? true) {
             if let dbMiscellaneous = CoreDataManager.shared.getAllCollection()?
-                .first(where: { $0.id == UserDefaultsManager.miscellaneousCollectionId }),
-                let miscellaneous = CollectionModel(from: dbMiscellaneous) {
+                .first(where: { $0.id == UserDefaultsManager.miscellaneousCollectionId }) {
+                let miscellaneous = CollectionModel(from: dbMiscellaneous)
                 collections = [miscellaneous]
             }
         }

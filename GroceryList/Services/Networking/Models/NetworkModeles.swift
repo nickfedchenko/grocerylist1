@@ -59,6 +59,7 @@ struct Recipe: Codable, Hashable, Equatable {
     let totalServings: Int
     let dishWeight: Double?
     let dishWeightType: Int?
+    var values: Values?
     let countries: [String]
     let instructions: [String]?
     let ingredients: [Ingredient]
@@ -74,6 +75,7 @@ struct Recipe: Codable, Hashable, Equatable {
         case id, title
         case description
         case cookingTime, totalServings, dishWeight, dishWeightType
+        case values
         case countries, instructions, ingredients, eatingTags, dishTypeTags, processingTypeTags, additionalTags, dietTags, exceptionTags, photo, isDraft, createdAt
         case localCollection, localImage
     }
@@ -105,6 +107,7 @@ struct Recipe: Codable, Hashable, Equatable {
         createdAt = dbModel.createdAt ?? Date()
         localCollection = (try? JSONDecoder().decode([CollectionModel].self, from: dbModel.localCollection ?? Data())) ?? []
         localImage = dbModel.localImage
+        values = (try? JSONDecoder().decode(Values.self, from: dbModel.values ?? Data()))
     }
     
     init?(title: String, totalServings: Int,
@@ -155,13 +158,6 @@ struct Recipe: Codable, Hashable, Equatable {
 
 // MARK: - AdditionalTag
 struct AdditionalTag: Codable {
-    enum EatingTime: Int, CaseIterable {
-        case breakfast = 8
-        case dinner = 10
-        case lunch = 9
-        case snack = 11
-    }
-    
     let id: Int
     let title: String
 
@@ -169,6 +165,43 @@ struct AdditionalTag: Codable {
         EatingTime(rawValue: id)
     }
     
+    var color: Int {
+        eatingType?.color ?? 0
+    }
+}
+
+enum EatingTime: Int, CaseIterable {
+    case breakfast = 8
+    case dinner = 10
+    case lunch = 9
+    case snack = 11
+    
+    case willCook = -10
+    case drafts = -9
+    case favorites = -8
+    case inbox = -7
+    
+    var color: Int {
+        switch self {
+        case .breakfast:    return 4
+        case .dinner:       return 6
+        case .lunch:        return 12
+        case .snack:        return 8
+            
+        case .willCook:     return 0
+        case .drafts:       return 16
+        case .favorites:    return 7
+        case .inbox:        return 13
+        }
+    }
+    
+    var isTechnicalCollection: Bool {
+        self == .willCook || self == .drafts || self == .favorites || self == .inbox
+    }
+    
+    static var getTechnicalCollection: [EatingTime] {
+        [.willCook, .drafts, .favorites, .inbox]
+    }
 }
 
 // MARK: - Ingredient
@@ -224,6 +257,21 @@ struct MarketUnitClass: Codable {
         
     }
     
+}
+
+struct Values: Codable {
+    var dish: Value?
+    var serving: Value?
+    var hundred: Value?
+}
+
+struct Value: Codable {
+    var weight: Double?
+    var kcal: Double?
+    var netCarbs: Double?
+    var proteins: Double?
+    var fats: Double?
+    var carbohydrates: Double?
 }
 
 // MARK: - Category

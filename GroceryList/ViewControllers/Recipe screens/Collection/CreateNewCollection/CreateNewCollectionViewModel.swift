@@ -13,12 +13,12 @@ final class CreateNewCollectionViewModel {
     
     var editCollections: [CollectionModel] = []
     
-    func save(_ title: String?) {
+    func save(_ title: String?, color: Int = 0) {
         guard let title else {
             return
         }
         
-        let newCollection = CollectionModel(id: UUID().integer, index: 0, title: title)
+        let newCollection = CollectionModel(id: UUID().integer, index: 0, title: title, color: color)
         
         if editCollections.isEmpty {
             let dbCollections = CoreDataManager.shared.getAllCollection() ?? []
@@ -30,6 +30,7 @@ final class CreateNewCollectionViewModel {
             updateCollections.append(CollectionModel(id: collection.id,
                                                      index: collection.index + 1,
                                                      title: collection.title,
+                                                     color: collection.color,
                                                      isDefault: collection.isDefault))
         }
         updateCollections.append(newCollection)

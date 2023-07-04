@@ -41,7 +41,7 @@ final class MainScreenMenuView: UIView {
     
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.backgroundColor = UIColor(hex: "#CAE2DF")
+        stackView.backgroundColor = R.color.action()
         stackView.distribution = .fillEqually
         stackView.axis = .vertical
         stackView.spacing = 1
@@ -65,6 +65,8 @@ final class MainScreenMenuView: UIView {
         self.layer.cornerRadius = 12
         self.layer.cornerCurve = .continuous
         self.clipsToBounds = true
+        self.layer.borderColor = R.color.action()?.cgColor
+        self.layer.borderWidth = 2
         
         MainMenuState.allCases.forEach { state in
             let view = MainScreenMenuSubView()

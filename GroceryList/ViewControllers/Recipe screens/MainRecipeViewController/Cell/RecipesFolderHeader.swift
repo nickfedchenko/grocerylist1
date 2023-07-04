@@ -12,9 +12,10 @@ protocol RecipesFolderHeaderDelegate: AnyObject {
 }
 
 class RecipesFolderHeader: UICollectionReusableView {
-    static let identifier = String(describing: RecipesFolderHeader.self)
+    
     weak var delegate: RecipesFolderHeaderDelegate?
     var sectionIndex: Int = -1
+    
     private let folderIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.image = R.image.folderIcon()
@@ -45,10 +46,16 @@ class RecipesFolderHeader: UICollectionReusableView {
         return imageView
     }()
     
-    func configure(with sectionModel: RecipeSectionsModel, at sectionIndex: Int) {
+    func configure(with sectionModel: RecipeSectionsModel, at sectionIndex: Int,
+                   color: Theme) {
         recipesCountLabel.text = String(sectionModel.recipes.count)
         folderTitleLabel.text = sectionModel.sectionType.title
         self.sectionIndex = sectionIndex
+        
+        folderIcon.image = R.image.folderIcon()?.withTintColor(color.medium)
+        folderTitleLabel.textColor = color.dark
+        recipesCountLabel.textColor = color.medium
+        chevronIcon.image = R.image.chevronRight()?.withTintColor(color.dark)
     }
     
     override init(frame: CGRect) {
@@ -76,7 +83,7 @@ class RecipesFolderHeader: UICollectionReusableView {
         }
         
         folderIcon.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(5)
+            make.leading.equalToSuperview().offset(16)
             make.width.height.equalTo(24)
             make.top.bottom.equalToSuperview()
         }
