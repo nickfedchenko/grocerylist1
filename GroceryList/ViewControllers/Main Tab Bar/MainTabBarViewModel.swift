@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 19.05.2023.
 //
 
+import ApphudSDK
 import UIKit
 
 protocol MainTabBarViewModelDelegate: AnyObject {
@@ -91,7 +92,14 @@ final class MainTabBarViewModel {
     }
     
     func showPantryStarterPack() {
-        router?.goToPantryStarterPack()
+#if RELEASE
+        if !UserDefaultsManager.isShowPantryStarterPack {
+            router?.goToPantryStarterPack()
+            UserDefaultsManager.isShowPantryStarterPack = true
+        } else if !Apphud.hasActiveSubscription() {
+            router?.goToPantryStarterPack()
+        }
+#endif
     }
     
     func showStockReminderIfNeeded() {

@@ -207,8 +207,11 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
                           store: store, cost: costOfProductPerUnit ?? -1,
                           quantity: quantity == 0 ? nil : quantity,
                           unitId: currentSelectedUnit,
-                          isAvailability: isAvailability, isAutoRepeat: isAutoRepeat, autoRepeat: autoRepeatSetting,
-                          isReminder: isReminder)
+                          isAvailability: isAvailability,
+                          isAutoRepeat: isAutoRepeat,
+                          autoRepeat: autoRepeatSetting,
+                          isReminder: isReminder,
+                          isUserImage: isUserImage)
         }
         
         CoreDataManager.shared.saveStock(stock: [stock], for: pantry.id.uuidString)
@@ -294,7 +297,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             AmplitudeManager.shared.logEvent(.pantryCreateItemUncheck)
         }
         
-        if (stock.isUserImage ?? false) {
+        if stock.isUserImage {
             AmplitudeManager.shared.logEvent(.pantryCreateItemPhoto)
         } else if stock.imageData != nil {
             AmplitudeManager.shared.logEvent(.pantryCreateItemAutoPhoto)

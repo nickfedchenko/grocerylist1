@@ -63,6 +63,7 @@
 		335519D029B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519CF29B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift */; };
 		335519D329B0BD2600AD2B77 /* CreateNewRecipeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519D229B0BD2600AD2B77 /* CreateNewRecipeModel.swift */; };
 		335B54072A37451D00B53314 /* FoundInPantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B54062A37451D00B53314 /* FoundInPantryView.swift */; };
+		336073652A4E7872002427BE /* PantryDefaultsValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336073642A4E7872002427BE /* PantryDefaultsValue.swift */; };
 		3366BEE02A2C1D3A00D50704 /* AutoRepeatSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEDF2A2C1D3A00D50704 /* AutoRepeatSettingView.swift */; };
 		3366BEE22A2C583D00D50704 /* AutoRepeatCustomSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */; };
 		3366BEE52A2DA05A00D50704 /* StocksDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366BEE42A2DA05A00D50704 /* StocksDataSource.swift */; };
@@ -383,6 +384,7 @@
 		335519CF29B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipePhotoView.swift; sourceTree = "<group>"; };
 		335519D229B0BD2600AD2B77 /* CreateNewRecipeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeModel.swift; sourceTree = "<group>"; };
 		335B54062A37451D00B53314 /* FoundInPantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundInPantryView.swift; sourceTree = "<group>"; };
+		336073642A4E7872002427BE /* PantryDefaultsValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryDefaultsValue.swift; sourceTree = "<group>"; };
 		3366BEDF2A2C1D3A00D50704 /* AutoRepeatSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRepeatSettingView.swift; sourceTree = "<group>"; };
 		3366BEE12A2C583D00D50704 /* AutoRepeatCustomSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRepeatCustomSettingView.swift; sourceTree = "<group>"; };
 		3366BEE42A2DA05A00D50704 /* StocksDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksDataSource.swift; sourceTree = "<group>"; };
@@ -693,8 +695,9 @@
 				332340982A1B91C100609813 /* PantryViewModel.swift */,
 				332340962A1B91B300609813 /* PantryViewController.swift */,
 				33995D2C2A1DACB1003FECAE /* PantryCollectionViewLayout.swift */,
-				3323409A2A1B91CB00609813 /* PantryDataSource.swift */,
 				334764512A264B4F008F4834 /* PantryEditMenuView.swift */,
+				3323409A2A1B91CB00609813 /* PantryDataSource.swift */,
+				336073642A4E7872002427BE /* PantryDefaultsValue.swift */,
 				33995D272A1D0806003FECAE /* Cell */,
 				33995D212A1C5C91003FECAE /* StarterPack */,
 			);
@@ -2324,6 +2327,7 @@
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
 				337E79D429E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift in Sources */,
 				3366BEED2A2F3FDF00D50704 /* SelectPantryListViewModel.swift in Sources */,
+				336073652A4E7872002427BE /* PantryDefaultsValue.swift in Sources */,
 				B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */,
 				337E79CA29E51D6200668578 /* AddListView.swift in Sources */,
 				3379B65E29B9B3580080923A /* QuantityView.swift in Sources */,

@@ -66,13 +66,17 @@ final class QuantityOfProductView: CreateNewProductButtonView {
         didSet {
             if let currentUnit {
                 updateUnit(unitTitle: currentUnit.title, isActive: true)
-                updateQuantity(unitStep: Double(currentUnit.stepValue))
-                quantityValueStep = Double(currentUnit.stepValue)
                 delegate?.unitSelected(currentUnit)
-                quantity = Double(currentUnit.stepValue)
+                quantityValueStep = Double(currentUnit.stepValue)
+                if !quantityChanged {
+                    updateQuantity(unitStep: Double(currentUnit.stepValue))
+                    quantity = Double(currentUnit.stepValue)
+                }
             }
         }
     }
+    
+    private var quantityChanged = false
     
     override init(longTitle: String = R.string.localizable.quantity1(),
                   shortTitle: String = R.string.localizable.units()) {
@@ -153,6 +157,8 @@ final class QuantityOfProductView: CreateNewProductButtonView {
     func setupCurrentQuantity(unit: UnitSystem, value: Double) {
         currentUnit = unit
         quantity = value
+        quantityChanged = value > 0
+        
         updateQuantityButtons(isActive: true)
         longView.shadowViews.forEach { $0.layer.shadowOpacity = 0 }
         shortView.shadowViews.forEach { $0.layer.shadowOpacity = 0 }
@@ -174,10 +180,12 @@ final class QuantityOfProductView: CreateNewProductButtonView {
     
     @objc
     private func plusButtonAction() {
+        quantityChanged = true
         AmplitudeManager.shared.logEvent(.itemQuantityButtons)
         if currentUnit == nil {
             currentUnit = defaultUnit
             quantity = 0
+            quantityChanged = false
         }
         quantity += quantityValueStep
         updateQuantityButtons(isActive: true)
@@ -187,10 +195,12 @@ final class QuantityOfProductView: CreateNewProductButtonView {
 
     @objc
     private func minusButtonAction() {
+        quantityChanged = true
         AmplitudeManager.shared.logEvent(.itemQuantityButtons)
         guard currentUnit != nil else { return }
         if quantity - quantityValueStep <= 0 {
             quantity = 0
+            quantityChanged = false
             updateQuantityButtons(isActive: false)
             updateUnit(isActive: false)
             delegate?.tappedMinusPlusButtons(quantity)
@@ -314,6 +324,7 @@ extension QuantityOfProductView: UITableViewDelegate {
 extension QuantityOfProductView: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == longView.titleTextField {
+            quantityChanged = true
             if longView.titleTextField.text == R.string.localizable.quantity1() {
                 longView.titleTextField.text = ""
             }

@@ -128,7 +128,7 @@ struct SharedStock: Codable {
     var isAvailability: Bool
     var isAutoRepeat: Bool
     var autoRepeat: AutoRepeatModel?
-    var isUserImage: Bool? = false
+    var isUserImage: Bool = false
     var userToken: String?
 
     private enum CodingKeys: String, CodingKey {
@@ -166,7 +166,7 @@ struct SharedStock: Codable {
         isAvailability = try container.decode(Bool.self, forKey: .isAvailability)
         isAutoRepeat = try container.decode(Bool.self, forKey: .isAutoRepeat)
         autoRepeat = try? container.decode(AutoRepeatModel.self, forKey: .autoRepeat)
-        isUserImage = try? container.decode(Bool.self, forKey: .isUserImage)
+        isUserImage = try container.decode(Bool.self, forKey: .isUserImage)
         userToken = try? container.decode(String.self, forKey: .userToken)
         
         if let costInt = try? container.decode(Int.self, forKey: .cost) {
