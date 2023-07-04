@@ -202,7 +202,7 @@ final class CreateNewRecipeViewWithButton: UIView {
         contentView.addSubviews([placeholderLabel, iconImageView])
         
         titleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(28)
+            $0.leading.equalToSuperview().offset(24)
             $0.top.equalToSuperview().offset(top)
             $0.height.equalTo(20)
         }
@@ -220,7 +220,7 @@ final class CreateNewRecipeViewWithButton: UIView {
         }
         
         contentView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(16)
             $0.top.equalTo(stackView.snp.bottom).offset(0)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(48)

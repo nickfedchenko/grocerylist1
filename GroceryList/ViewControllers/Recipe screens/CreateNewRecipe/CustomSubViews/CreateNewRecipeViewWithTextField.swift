@@ -109,13 +109,13 @@ final class CreateNewRecipeViewWithTextField: UIView {
         contentView.addSubview(textView)
         
         titleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(28)
+            $0.leading.equalToSuperview().offset(24)
             $0.top.equalToSuperview().offset(16)
             $0.height.equalTo(20)
         }
         
         contentView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(16)
             $0.top.equalTo(titleLabel.snp.bottom).offset(4)
             $0.centerX.equalToSuperview()
             $0.height.greaterThanOrEqualTo(48)
