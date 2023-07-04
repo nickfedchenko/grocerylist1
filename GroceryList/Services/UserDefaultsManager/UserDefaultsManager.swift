@@ -131,57 +131,33 @@ class UserDefaultsManager {
     }
     
     static var isCollectionFilling: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "isCollectionFilling")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "isCollectionFilling")
-        }
+        get { UserDefaults.standard.bool(forKey: "isCollectionFilling") }
+        set { UserDefaults.standard.set(newValue, forKey: "isCollectionFilling") }
     }
     
     static var isFillingDefaultCollection: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "isFillingDefaultCollection")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "isFillingDefaultCollection")
-        }
+        get { UserDefaults.standard.bool(forKey: "isFillingDefaultCollection") }
+        set { UserDefaults.standard.set(newValue, forKey: "isFillingDefaultCollection") }
     }
     
     static var miscellaneousCollectionId: Int {
-        get {
-            return UserDefaults.standard.integer(forKey: "miscellaneousCollectionId")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "miscellaneousCollectionId")
-        }
+        get { UserDefaults.standard.integer(forKey: "miscellaneousCollectionId") }
+        set { UserDefaults.standard.set(newValue, forKey: "miscellaneousCollectionId") }
     }
     
     static var isShowRecipePrompting: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "isShowRecipePrompting")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "isShowRecipePrompting")
-        }
+        get { UserDefaults.standard.bool(forKey: "isShowRecipePrompting") }
+        set { UserDefaults.standard.set(newValue, forKey: "isShowRecipePrompting") }
     }
     
     static var isShowImage: Bool {
-        get {
-            return !UserDefaults.standard.bool(forKey: "isShowImage")
-        }
-        set {
-            UserDefaults.standard.set(!newValue, forKey: "isShowImage")
-        }
+        get { !UserDefaults.standard.bool(forKey: "isShowImage") }
+        set { UserDefaults.standard.set(!newValue, forKey: "isShowImage") }
     }
     
     static var countAutoCategoryInfo: Int {
-        get {
-            return UserDefaults.standard.integer(forKey: "countAutoCategoryInfo")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "countAutoCategoryInfo")
-        }
+        get { UserDefaults.standard.integer(forKey: "countAutoCategoryInfo") }
+        set { UserDefaults.standard.set(newValue, forKey: "countAutoCategoryInfo") }
     }
     
     static var isActiveAutoCategory: Bool? {
@@ -197,68 +173,45 @@ class UserDefaultsManager {
     }
     
     static var isFillingDefaultPantry: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "isFillingDefaultPantry")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "isFillingDefaultPantry")
-        }
+        get { UserDefaults.standard.bool(forKey: "isFillingDefaultPantry") }
+        set { UserDefaults.standard.set(newValue, forKey: "isFillingDefaultPantry") }
     }
     
     static var isShowPantryStarterPack: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "isShowPantryStarterPack")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "isShowPantryStarterPack")
-        }
+        get { UserDefaults.standard.bool(forKey: "isShowPantryStarterPack") }
+        set { UserDefaults.standard.set(newValue, forKey: "isShowPantryStarterPack") }
     }
     
     static var pantryUserTokens: [String]? {
-        get {
-            return UserDefaults.standard.array(forKey: "pantryUserTokens") as? [String]
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "pantryUserTokens")
-        }
+        get { UserDefaults.standard.array(forKey: "pantryUserTokens") as? [String] }
+        set { UserDefaults.standard.set(newValue, forKey: "pantryUserTokens") }
     }
     
     static var lastUpdateStockDate: Date? {
-        get {
-            return UserDefaults.standard.object(forKey: "lastUpdateStockDate") as? Date
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "lastUpdateStockDate")
-        }
+        get { UserDefaults.standard.object(forKey: "lastUpdateStockDate") as? Date }
+        set { UserDefaults.standard.set(newValue, forKey: "lastUpdateStockDate") }
     }
     
     static var lastShowStockReminderDate: Date? {
-        get {
-            return UserDefaults.standard.object(forKey: "lastShowStockReminderDate") as? Date
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "lastShowStockReminderDate")
-        }
+        get { UserDefaults.standard.object(forKey: "lastShowStockReminderDate") as? Date }
+        set { UserDefaults.standard.set(newValue, forKey: "lastShowStockReminderDate") }
     }
     
     static var recipeIsFolderView: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "recipeIsFolderView")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "recipeIsFolderView")
-        }
+        get { UserDefaults.standard.bool(forKey: "recipeIsFolderView") }
+        set { UserDefaults.standard.set(newValue, forKey: "recipeIsFolderView") }
     }
     
     static var isFillingDefaultTechnicalCollection: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "isFillingDefaultTechnicalCollection")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "isFillingDefaultTechnicalCollection")
-        }
+        get { UserDefaults.standard.bool(forKey: "isFillingDefaultTechnicalCollection") }
+        set { UserDefaults.standard.set(newValue, forKey: "isFillingDefaultTechnicalCollection") }
     }
 
+    
+    static var recipeIsTableView: Bool {
+        get { UserDefaults.standard.bool(forKey: "recipeIsTableView") }
+        set { UserDefaults.standard.set(newValue, forKey: "recipeIsTableView") }
+    }
     
     private static func setValue<T>(value: T, for key: UDKeys) {
         UserDefaults.standard.set(value, forKey: key.rawValue)

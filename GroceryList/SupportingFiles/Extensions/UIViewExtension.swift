@@ -152,6 +152,26 @@ extension UIView {
         gradient.locations = [0.9 , 1.0]
         self.layer.insertSublayer(gradient, at: 0)
     }
+    
+    func applyGradient(_ colors: [UIColor], locations: [NSNumber]?) {
+        self.removeGradient()
+        
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.locations = locations
+        gradient.setProperties(frame: self.bounds,
+                               colors: colors.map { $0.cgColor },
+                               startPoint: CGPoint(x: 0.5, y: 0.0),
+                               endPoint: CGPoint(x: 0.5, y: 1.0))
+        self.layer.insertSublayer(gradient, at: 0)
+    }
+    
+    func removeGradient(identifier: String? = nil) {
+        self.layer.sublayers?.filter { $0 is CAGradientLayer && $0.name == identifier }
+            .forEach {
+                $0.removeAllAnimations()
+                $0.removeFromSuperlayer()
+            }
+    }
 }
 
 extension UIView {
@@ -196,5 +216,14 @@ extension UIView {
 extension UIApplication {
     var keyWindowInConnectedScenes: UIWindow? {
         return windows.first(where: { $0.isKeyWindow })
+    }
+}
+
+extension CAGradientLayer {
+    func setProperties(frame: CGRect, colors: [CGColor], startPoint: CGPoint, endPoint: CGPoint) {
+        self.frame = frame
+        self.colors = colors
+        self.startPoint = startPoint
+        self.endPoint = endPoint
     }
 }

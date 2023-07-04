@@ -54,7 +54,6 @@ final class MainRecipeViewController: UIViewController {
     private let activityView = ActivityIndicatorView()
     private let searchView = RecipeSearchView()
     private let titleBackgroundView = UIView()
-    private let searchIconImageView = UIImageView()
     
     private var isShowFirstViewWillAppear = false
     private var topContentInset: CGFloat {
@@ -88,7 +87,9 @@ final class MainRecipeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: false)
-        (self.tabBarController as? MainTabBarController)?.setTextTabBar()
+        (self.tabBarController as? MainTabBarController)?.setTextTabBar(
+            text: R.string.localizable.create().uppercased()
+        )
         
         if !isShowFirstViewWillAppear {
             updateRecipeCollectionView()
@@ -190,7 +191,7 @@ final class MainRecipeViewController: UIViewController {
     private func setupConstraints() {
         view.backgroundColor = R.color.background()
         view.addSubviews([recipesCollectionView, titleBackgroundView, activityView])
-        titleBackgroundView.addSubviews([titleLabel, searchIconImageView])
+        titleBackgroundView.addSubviews([titleLabel, searchIconButton])
         recipesCollectionView.addSubview(searchView)
 
         recipesCollectionView.snp.makeConstraints { make in
