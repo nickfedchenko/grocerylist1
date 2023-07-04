@@ -5,7 +5,7 @@
 //  Created by Хандымаа Чульдум on 03.03.2023.
 //
 
-import Foundation
+import UIKit
 
 final class CreateNewRecipeStepTwoViewModel {
     
@@ -13,14 +13,17 @@ final class CreateNewRecipeStepTwoViewModel {
     var preparationStepChanged: ((String) -> Void)?
     var ingredientChanged: ((Ingredient) -> Void)?
     var compete: ((Recipe) -> Void)?
+    var isDraftRecipe = false
     
-    private var recipeStepOne: Recipe
-    private var ingredients: [Ingredient] = []
-    private var steps: [String]? = []
-    private var recipe: Recipe?
+    private var time: Int?
+    private var servings: Int?
+    private var kcal: Value?
+    private var localImage: UIImage?
+    private var recipe: Recipe
+    private var collections: [CollectionModel] = []
     
     init(recipe: Recipe) {
-        self.recipeStepOne = recipe
+        self.recipe = recipe
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateRecipe),
@@ -28,37 +31,38 @@ final class CreateNewRecipeStepTwoViewModel {
                                                object: nil)
     }
     
-    var recipeTitle: String {
-        recipeStepOne.title
-    }
-    
     func back() {
         router?.navigationPopViewController(animated: true)
     }
-
-    func presentIngredient() {
-        router?.goToIngredient(isShowCost: false, compl: { [weak self] ingredient in
-            self?.ingredients.append(ingredient)
-            self?.ingredientChanged?(ingredient)
+    
+    func saveRecipeTo(time: Int?, servings: Int?, image: UIImage?, kcal: Value?) {
+        router?.goToShowCollection(state: .select, compl: { [weak self] selectedCollections in
+            if selectedCollections.isEmpty,
+               let dbDraftsCollection = CoreDataManager.shared.getAllCollection()?
+                .first(where: { $0.id == EatingTime.drafts.rawValue }) {
+                let draftsCollection = CollectionModel(from: dbDraftsCollection)
+                self?.collections = [draftsCollection]
+            } else {
+                self?.collections = selectedCollections
+            }
+            self?.save()
         })
+        self.time = time
+        self.servings = servings
+        self.kcal = kcal
+        localImage = image
     }
     
-    func presentPreparationStep(stepNumber: Int) {
-        router?.goToPreparationStep(stepNumber: stepNumber) { [weak self] step in
-            self?.steps?.append(step)
-            self?.preparationStepChanged?(step)
-        }
-    }
-    
-    func saveRecipe(time: Int?, description: String?) {
-        guard let recipe = Recipe(title: recipeStepOne.title,
-                                  totalServings: recipeStepOne.totalServings,
-                                  localCollection: recipeStepOne.localCollection,
-                                  localImage: recipeStepOne.localImage,
+    private func save() {
+        guard let recipe = Recipe(title: recipe.title,
+                                  totalServings: servings ?? -1,
+                                  localCollection: collections.isEmpty ? nil : collections,
+                                  localImage: localImage?.pngData(),
                                   cookingTime: time,
-                                  description: description,
-                                  ingredients: ingredients,
-                                  instructions: steps) else {
+                                  description: recipe.description,
+                                  kcal: kcal,
+                                  ingredients: recipe.ingredients,
+                                  instructions: recipe.instructions) else {
             return
         }
         CoreDataManager.shared.saveRecipes(recipes: [recipe])
@@ -67,10 +71,13 @@ final class CreateNewRecipeStepTwoViewModel {
     
     @objc
     private func updateRecipe() {
-        guard let recipe else { return }
         DispatchQueue.main.async { [weak self] in
-            self?.compete?(recipe)
-            self?.router?.popToRoot()
+            guard let self else {
+                return
+            }
+            self.compete?(self.recipe)
+            self.router?.popToRoot()
+            self.router?.popRecipeToRoot()
         }
     }
 }

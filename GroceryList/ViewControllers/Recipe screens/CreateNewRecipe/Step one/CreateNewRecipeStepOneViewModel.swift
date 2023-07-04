@@ -21,9 +21,6 @@ final class CreateNewRecipeStepOneViewModel {
     private var ingredients: [Ingredient] = []
     private var steps: [String]? = []
     private var isShowCost = false
-    
-//    var changeCollections: (([String]) -> Void)?
-//    private var collections: [CollectionModel]?
 
     init(currentRecipe: Recipe? = nil) {
         self.currentRecipe = currentRecipe
@@ -53,15 +50,7 @@ final class CreateNewRecipeStepOneViewModel {
     func back() {
         router?.navigationPopViewController(animated: true)
     }
-    
-//    func openCollection() {
-//        router?.goToShowCollection(state: .select, compl: { [weak self] selectedCollections in
-//            self?.collections = selectedCollections
-//            let collectionTitles = selectedCollections.compactMap { $0.title }
-//            self?.changeCollections?(collectionTitles)
-//        })
-//    }
-    
+
     func presentIngredient() {
         router?.goToIngredient(isShowCost: isShowCost, compl: { [weak self] ingredient in
             self?.ingredients.append(ingredient)

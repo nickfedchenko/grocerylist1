@@ -115,7 +115,7 @@ struct Recipe: Codable, Hashable, Equatable {
     
     init?(title: String, totalServings: Int = -1,
           localCollection: [CollectionModel]? = nil, localImage: Data? = nil,
-          cookingTime: Int? = nil, description: String? = nil,
+          cookingTime: Int? = nil, description: String? = nil, kcal: Value? = nil,
           ingredients: [Ingredient] = [], instructions: [String]? = nil, isShowCost: Bool = false) {
         self.id = UUID().integer
         self.title = title
@@ -125,6 +125,7 @@ struct Recipe: Codable, Hashable, Equatable {
         
         self.cookingTime = cookingTime
         self.description = description ?? ""
+        self.values?.dish = kcal
         self.ingredients = ingredients
         self.instructions = instructions
         self.isShowCost = isShowCost

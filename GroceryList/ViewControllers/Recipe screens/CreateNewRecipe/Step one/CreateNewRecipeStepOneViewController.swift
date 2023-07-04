@@ -395,7 +395,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
     }
     
     private func makeConstraints() {
-        self.view.addSubviews([scrollView, topSafeAreaView, savedToDraftsAlertView, nextButton])
+        self.view.addSubviews([scrollView, topSafeAreaView, nextButton, savedToDraftsAlertView])
         self.scrollView.addSubview(contentView)
         contentView.addSubviews([stackView])
         navigationView.addSubviews([backButton, backLabel, savedToDraftsButton])
@@ -470,6 +470,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
             $0.height.equalTo(titleView.requiredHeight)
             $0.width.equalToSuperview()
         }
+        
         nameView.snp.makeConstraints {
             $0.height.equalTo(nameView.requiredHeight)
             $0.width.equalToSuperview()

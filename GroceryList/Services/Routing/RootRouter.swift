@@ -515,6 +515,10 @@ final class RootRouter: RootRouterProtocol {
         pantryNavController.popToRootViewController(animated: animated)
     }
     
+    func popRecipeToRoot(animated: Bool = true) {
+        recipeNavController.popToRootViewController(animated: animated)
+    }
+    
     func popList(animated: Bool = true) {
         listNavController.popViewController(animated: animated)
     }
