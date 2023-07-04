@@ -16,11 +16,11 @@ final class CreateNewRecipeStepOneViewModel {
     var isDraftRecipe = false
     
     private(set) var currentRecipe: Recipe?
+    private(set) var isShowCost = false
     private var recipe: Recipe?
     private var draft: Recipe?
     private var ingredients: [Ingredient] = []
     private var steps: [String]? = []
-    private var isShowCost = false
 
     init(currentRecipe: Recipe? = nil) {
         self.currentRecipe = currentRecipe
@@ -32,6 +32,11 @@ final class CreateNewRecipeStepOneViewModel {
     
     func setIsShowCost(_ isShow: Bool) {
         isShowCost = isShow
+    }
+    
+    func getStoreAndCost(by index: Int) -> (store: String?, cost: Double?) {
+        let product = ingredients[safe: index]?.product
+        return (product?.store?.title, product?.cost)
     }
     
     func updateIngredients(originalIndexes: [Int]) {

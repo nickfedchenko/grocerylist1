@@ -7,6 +7,7 @@
 
 import UIKit
 
+// swiftlint:disable:next type_body_length
 final class CreateNewRecipeStepOneViewController: UIViewController {
     
     var viewModel: CreateNewRecipeStepOneViewModel?
@@ -160,7 +161,21 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         setupStepView()
         
         showCostView.changedSwitchValue = { [weak self] isShowCost in
-            self?.viewModel?.setIsShowCost(isShowCost)
+            guard let self else {
+                return
+            }
+            self.viewModel?.setIsShowCost(isShowCost)
+            self.ingredientsView.stackView.arrangedSubviews.enumerated().forEach({ index, view in
+                let ingredientView = (view as? IngredientForCreateRecipeView)
+                if (self.viewModel?.isShowCost ?? false) {
+                    let store = self.viewModel?.getStoreAndCost(by: index)
+                    ingredientView?.setupCost(isVisible: self.viewModel?.isShowCost ?? false,
+                                              storeTitle: store?.store, costValue: store?.cost)
+                } else {
+                    ingredientView?.setupCost(isVisible: self.viewModel?.isShowCost ?? false,
+                                              storeTitle: nil, costValue: nil)
+                }
+            })
         }
     }
     
@@ -259,7 +274,10 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
                             serving: serving,
                             description: ingredient.description,
                             imageURL: ingredient.product.photo,
-                            imageData: ingredient.product.localImage)
+                            imageData: ingredient.product.localImage,
+                            isVisibleStore: viewModel?.isShowCost ?? false,
+                            storeTitle: ingredient.product.store?.title,
+                            costValue: ingredient.product.cost)
         updateIngredientsViewIsActive()
         ingredientsView.snp.updateConstraints {
             $0.height.equalTo(ingredientsView.requiredHeight)
@@ -292,12 +310,14 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
     }
     
     private func setupIngredientView(title: String, serving: String, description: String?,
-                                     imageURL: String, imageData: Data?) {
+                                     imageURL: String, imageData: Data?,
+                                     isVisibleStore: Bool, storeTitle: String?, costValue: Double?) {
         let view = IngredientForCreateRecipeView()
         view.setTitle(title: title)
         view.setServing(serving: serving)
         view.setDescription(description)
         view.setImage(imageURL: imageURL, imageData: imageData)
+        view.setupCost(isVisible: isVisibleStore, storeTitle: storeTitle, costValue: costValue)
         ingredientsView.addViewToStackView(view)
         view.originalIndex = ingredientsView.stackSubviewsCount - 1
         view.swipeDeleteAction = { [weak self] index in
