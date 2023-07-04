@@ -12,7 +12,8 @@ final class CreateNewRecipeViewWithButton: UIView {
     var buttonPressed: (() -> Void)?
     var updateLayout: (() -> Void)?
     var requiredHeight: Int {
-        Int(CGFloat(top + offset + 20 + 4 + 48) + stackContentSize.height)
+        let stackHeight = stackContentSize.height > 40 ? stackContentSize.height + 8 : stackContentSize.height
+        return Int(CGFloat(top + offset + 20 + 4 + 48) + stackHeight)
     }
     var text: String? {
         let text = placeholderLabel.text

@@ -9,7 +9,16 @@ import UIKit
 
 class IngredientView: UIView {
     
-    let contentView = UIView()
+    let contentView = ViewWithOverriddenPoint()
+    
+    let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 8
+        imageView.layer.cornerCurve = .continuous
+        imageView.clipsToBounds = true
+        return imageView
+    }()
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -68,13 +77,40 @@ class IngredientView: UIView {
         servingLabel.text = serving
     }
     
+    func setImage(imageURL: String, imageData: Data?) {
+        if let imageData {
+            imageView.image = UIImage(data: imageData)
+            titleLabel.snp.updateConstraints { make in
+                make.leading.equalToSuperview().offset(50)
+            }
+            return
+        }
+        guard !imageURL.isEmpty else {
+            imageView.snp.updateConstraints { make in
+                make.width.equalTo(0)
+            }
+            return
+        }
+        imageView.kf.setImage(with: URL(string: imageURL), placeholder: nil,
+                              options: nil, completionHandler: nil)
+        titleLabel.snp.updateConstraints { make in
+            make.leading.equalToSuperview().offset(50)
+        }
+    }
+    
     private func setupSubviews() {
         addSubview(contentView)
-        contentView.addSubviews([titleLabel, servingLabel])
+        contentView.addSubviews([imageView, titleLabel, servingLabel])
         
         contentView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.bottom.equalToSuperview()
+        }
+        
+        imageView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(4)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(40)
         }
         
         titleLabel.snp.makeConstraints { make in

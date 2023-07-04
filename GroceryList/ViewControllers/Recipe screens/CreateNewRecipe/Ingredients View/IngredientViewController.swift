@@ -38,7 +38,8 @@ final class IngredientViewController: CreateNewProductViewController {
         (viewModel as? IngredientViewModel)?.save(title: ingredientView.productTitle ?? "",
                                                   quantity: quantityView.quantity,
                                                   quantityStr: ingredientView.quantityTitle,
-                                                  description: ingredientView.descriptionTitle)
+                                                  description: ingredientView.descriptionTitle,
+                                                  localImage: ingredientView.productImage)
         hidePanel()
     }
     
@@ -50,8 +51,8 @@ final class IngredientViewController: CreateNewProductViewController {
     
     override func updateStoreView(isVisible: Bool) {
         storeView.isHidden = !isVisible
-        let height = (isVisible ? 280 : 220) + predictiveTextViewHeight
-        contentView.snp.updateConstraints { $0.height.greaterThanOrEqualTo(height) }
+        contentViewHeight = isVisible ? 280 : 220
+        contentView.snp.updateConstraints { $0.height.greaterThanOrEqualTo(contentViewHeight + predictiveTextViewHeight) }
         storeView.snp.updateConstraints {
             $0.top.equalTo(ingredientView.snp.bottom).offset(isVisible ? 20 : 0)
             $0.height.equalTo(isVisible ? 40 : 0)
@@ -108,6 +109,7 @@ final class IngredientViewController: CreateNewProductViewController {
         ingredientView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(categoryView.snp.bottom).offset(20)
+            $0.height.greaterThanOrEqualTo(56)
         }
         
         storeView.snp.makeConstraints {

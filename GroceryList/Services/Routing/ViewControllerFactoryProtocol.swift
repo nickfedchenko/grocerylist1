@@ -59,7 +59,8 @@ protocol ViewControllerFactoryProtocol {
     func createCreateNewRecipeViewController(currentRecipe: Recipe?,
                                              router: RootRouter,
                                              compl: @escaping (Recipe) -> Void) -> UIViewController
-    func createCreateNewRecipeStepTwoViewController(router: RootRouter, recipe: Recipe,
+    func createCreateNewRecipeStepTwoViewController(router: RootRouter, isDraftRecipe: Bool,
+                                                    currentRecipe: Recipe?, recipe: Recipe,
                                                     compl: @escaping (Recipe) -> Void) -> UIViewController
     func createPreparationStepViewController(stepNumber: Int, compl: @escaping (String) -> Void) -> UIViewController
     func createCreateNewCollectionViewController(currentCollection: CollectionModel?,

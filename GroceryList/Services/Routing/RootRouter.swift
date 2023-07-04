@@ -198,10 +198,12 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
-    func goToCreateNewRecipeStepTwo(recipe: Recipe, compl: @escaping (Recipe) -> Void) {
+    func goToCreateNewRecipeStepTwo(isDraftRecipe: Bool,
+                                    currentRecipe: Recipe?, recipe: Recipe,
+                                    compl: @escaping (Recipe) -> Void) {
         let controller = viewControllerFactory.createCreateNewRecipeStepTwoViewController(
-            router: self,
-            recipe: recipe,
+            router: self, isDraftRecipe: isDraftRecipe,
+            currentRecipe: currentRecipe, recipe: recipe,
             compl: compl)
         navigationPushViewController(controller, animated: true)
     }

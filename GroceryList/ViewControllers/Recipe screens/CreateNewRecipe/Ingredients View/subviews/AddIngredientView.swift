@@ -20,6 +20,9 @@ class AddIngredientView: UIView {
     var productTitle: String? { productTextField.text }
     var descriptionTitle: String { descriptionTextView.text }
     var quantityTitle: String? { quantityTextField.text }
+    var productImage: UIImage? {
+        productImageView.image == emptyImage ? nil : productImageView.image
+    }
     
     private lazy var contentView: UIView = {
         let view = UIView()
@@ -47,7 +50,6 @@ class AddIngredientView: UIView {
         textView.tintColor = .black
         textView.setPlaceholder(placeholder: R.string.localizable.note())
         textView.isScrollEnabled = false
-        textView.textContainer.maximumNumberOfLines = 5
         return textView
     }()
     
@@ -55,7 +57,7 @@ class AddIngredientView: UIView {
         let textField = UITextField()
         textField.delegate = self
         textField.font = UIFont.SFPro.bold(size: 15).font
-        textField.tintColor = R.color.primaryDark()
+        textField.textColor = UIColor(hex: "#D6600A")
         textField.textAlignment = .right
         textField.attributedPlaceholder = NSAttributedString(
             string: R.string.localizable.quantity1(),
@@ -198,7 +200,8 @@ class AddIngredientView: UIView {
             $0.top.equalTo(productTextField.snp.bottom)
             $0.leading.equalTo(productImageView.snp.trailing).offset(10)
             $0.trailing.equalTo(quantityTextField.snp.leading).offset(-10)
-            $0.height.greaterThanOrEqualTo(15)
+            $0.height.greaterThanOrEqualTo(20)
+//            $0.height.equalTo(descriptionTextView.contentSize.height + 5).priority(.high)
             $0.bottom.equalToSuperview().offset(-5)
         }
         
@@ -245,5 +248,8 @@ extension AddIngredientView: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         descriptionTextView.checkPlaceholder()
+//        descriptionTextView.snp.updateConstraints {
+//            $0.height.equalTo(descriptionTextView.contentSize.height + 5)
+//        }
     }
 }

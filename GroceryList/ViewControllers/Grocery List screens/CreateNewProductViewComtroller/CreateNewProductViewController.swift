@@ -32,6 +32,7 @@ class CreateNewProductViewController: UIViewController {
     let predictiveTextView = PredictiveTextView()
     let autoCategoryView = AutoCategoryInfoView()
     var imagePicker = UIImagePickerController()
+    let originPredictiveTextViewHeight = 86
     var predictiveTextViewHeight = 86
     var contentViewHeight = 280
     var isUserImage = false
@@ -259,9 +260,9 @@ class CreateNewProductViewController: UIViewController {
     }
     
     private func updatePredictiveViewConstraints(isVisible: Bool) {
-        let height = isVisible ? predictiveTextViewHeight : 0
-        predictiveTextView.snp.updateConstraints { $0.height.equalTo(height) }
-        contentView.snp.updateConstraints { $0.height.greaterThanOrEqualTo(220 + height) }
+        predictiveTextViewHeight = isVisible ? originPredictiveTextViewHeight : 0
+        predictiveTextView.snp.updateConstraints { $0.height.equalTo(predictiveTextViewHeight) }
+        contentView.snp.updateConstraints { $0.height.greaterThanOrEqualTo(contentViewHeight + predictiveTextViewHeight) }
         UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self = self else { return }
             self.view.layoutIfNeeded()

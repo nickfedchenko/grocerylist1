@@ -253,12 +253,20 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
             let quantityStr = ingredient.quantityStr ?? ""
             serving = quantityStr.isEmpty ? R.string.localizable.byTaste() : quantityStr
         } else {
-            serving = "\(ingredient.quantity) \(ingredient.unit?.title.localized ?? "")"
+            serving = "\(ingredient.quantity.asString) \(ingredient.unit?.title.localized ?? "")"
         }
         setupIngredientView(title: ingredient.product.title,
                             serving: serving,
-                            description: ingredient.description)
-        
+                            description: ingredient.description,
+                            imageURL: ingredient.product.photo,
+                            imageData: ingredient.product.localImage)
+        updateIngredientsViewIsActive()
+        ingredientsView.snp.updateConstraints {
+            $0.height.equalTo(ingredientsView.requiredHeight)
+        }
+    }
+    
+    private func updateIngredientsViewIsActive() {
         let name = nameView.textView.text?.trimmingCharacters(in: .whitespaces)
         let isActive = ingredientsView.stackSubviewsCount >= 2
         
@@ -267,10 +275,9 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         if isActive {
             ingredientsView.setPlaceholder(R.string.localizable.addIngredient())
             ingredientsView.setState(.filled)
-            ingredientsView.closeStackButton(isVisible: isActive)
-        }
-        ingredientsView.snp.updateConstraints {
-            $0.height.equalTo(ingredientsView.requiredHeight)
+        } else {
+            ingredientsView.setPlaceholder(R.string.localizable.requiredMinimum2())
+            ingredientsView.setState(.required)
         }
     }
     
@@ -278,18 +285,19 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         setupStepView(stepNumber: stepNumber, description: description)
         stepsView.setPlaceholder(R.string.localizable.addStep())
         stepsView.setState(.filled)
-        stepsView.closeStackButton(isVisible: true)
         stepsView.snp.updateConstraints {
             $0.height.equalTo(stepsView.requiredHeight)
         }
         self.stepNumber += 1
     }
     
-    private func setupIngredientView(title: String, serving: String, description: String?) {
+    private func setupIngredientView(title: String, serving: String, description: String?,
+                                     imageURL: String, imageData: Data?) {
         let view = IngredientForCreateRecipeView()
         view.setTitle(title: title)
         view.setServing(serving: serving)
         view.setDescription(description)
+        view.setImage(imageURL: imageURL, imageData: imageData)
         ingredientsView.addViewToStackView(view)
         view.originalIndex = ingredientsView.stackSubviewsCount - 1
         view.swipeDeleteAction = { [weak self] index in
@@ -301,6 +309,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
             self.ingredientsView.stackView.arrangedSubviews.enumerated().forEach { index, view in
                 (view as? IngredientForCreateRecipeView)?.originalIndex = index
             }
+            updateIngredientsViewIsActive()
             self.ingredientsView.snp.updateConstraints {
                 $0.height.equalTo(self.ingredientsView.requiredHeight)
             }

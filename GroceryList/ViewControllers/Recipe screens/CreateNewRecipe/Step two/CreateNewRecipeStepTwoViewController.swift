@@ -98,14 +98,21 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         setupStackView()
         makeConstraints()
         
+        setupCurrentRecipe()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardAppear),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground),
+                                               name: UIApplication.willResignActiveNotification, object: nil)
     }
     
     private func setupNavigationView() {
         topSafeAreaView.backgroundColor = R.color.background()
         navigationView.backgroundColor = R.color.background()
         
+        if viewModel?.isDraftRecipe ?? false {
+            savedToDrafts()
+        }
         updateSavedToDraftsButton()
         savedToDraftsAlertView.isHidden = true
         savedToDraftsAlertView.leaveCreatingRecipeTapped = { [weak self] in
@@ -130,18 +137,6 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         servingsView.configure(title: R.string.localizable.servings().capitalized, state: .recommended)
         servingsView.setOnlyNumber()
 
-        
-//        descriptionView.textFieldReturnPressed = { [weak self] in
-//            self?.descriptionView.textView.resignFirstResponder()
-//        }
-//        collectionView.closeStackButton(isVisible: false)
-//        collectionView.configure(title: R.string.localizable.collection(), state: .optional)
-
-//        collectionView.buttonPressed = { [weak self] in
-//            (self?.isVisibleKeyboard ?? false) ? self?.dismissKeyboard()
-//                                               : self?.viewModel?.openCollection()
-//        }
-//
         photoView.imageTapped = { [weak self] in
             (self?.isVisibleKeyboard ?? false) ? self?.dismissKeyboard() : self?.pickImage()
         }
@@ -154,6 +149,32 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         stackView.addArrangedSubview(servingsView)
         stackView.addArrangedSubview(kcalView)
         stackView.addArrangedSubview(photoView)
+    }
+    
+    private func setupCurrentRecipe() {
+        guard let currentRecipe = viewModel?.currentRecipe else {
+            return
+        }
+        if let cookingTime = currentRecipe.cookingTime?.asString {
+            timeView.setText(cookingTime)
+        }
+        servingsView.setText(currentRecipe.totalServings.asString)
+        kcalView.setKcalValue(value: currentRecipe.values?.dish)
+        if let imageData = currentRecipe.localImage,
+            let image = UIImage(data: imageData) {
+            photoView.setImage(image)
+        }
+    }
+    
+    private func savedToDrafts() {
+        savedToDraftsButton.setTitle(R.string.localizable.savedInDrafts(), for: .normal)
+        savedToDraftsButton.setTitleColor(R.color.darkGray(), for: .normal)
+        savedToDraftsButton.setImage(R.image.collection()?.withTintColor(R.color.darkGray() ?? .black),
+                                     for: .normal)
+        savedToDraftsButton.backgroundColor = R.color.background()
+        savedToDraftsButton.layer.borderColor = R.color.darkGray()?.cgColor
+        savedToDraftsButton.layer.borderWidth = 1
+        savedToDraftsButton.isUserInteractionEnabled = false
     }
     
     private func updateSavedToDraftsButton() {
@@ -191,17 +212,11 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     @objc
     private func savedToDraftsButtonTapped() {
         viewModel?.isDraftRecipe = true
-        savedToDraftsButton.setTitle(R.string.localizable.savedInDrafts(), for: .normal)
-        savedToDraftsButton.setTitleColor(R.color.darkGray(), for: .normal)
-        savedToDraftsButton.setImage(R.image.collection()?.withTintColor(R.color.darkGray() ?? .black),
-                                     for: .normal)
-        savedToDraftsButton.backgroundColor = R.color.background()
-        savedToDraftsButton.layer.borderColor = R.color.darkGray()?.cgColor
-        savedToDraftsButton.layer.borderWidth = 1
-        savedToDraftsButton.isUserInteractionEnabled = false
-        
-//        viewModel?.savedToDrafts(title: nameView.textView.text,
-//                                 description: descriptionView.textView.text)
+        savedToDrafts()
+        viewModel?.savedToDrafts(time: timeView.textView.text?.asInt,
+                                 servings: servingsView.textView.text.asInt,
+                                 image: photoView.image,
+                                 kcal: kcalView.kcal)
         savedToDraftsAlertView.fadeIn()
     }
     
@@ -211,6 +226,14 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
+    }
+    
+    @objc
+    private func appMovedToBackground() {
+        viewModel?.savedToDrafts(time: timeView.textView.text?.asInt,
+                                 servings: servingsView.textView.text.asInt,
+                                 image: photoView.image,
+                                 kcal: kcalView.kcal)
     }
     
     @objc
