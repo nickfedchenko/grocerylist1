@@ -34,6 +34,8 @@ struct NetworkProductModel: Codable {
     let photo: String
     let marketUnit: MarketUnitClass?
     let localImage: Data?
+    var store: Store?
+    var cost: Double?
 }
 
 struct Unit: Codable {

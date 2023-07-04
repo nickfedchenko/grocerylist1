@@ -38,6 +38,8 @@ class IngredientView: UIView {
         return label
     }()
     
+    let costView = CostOfProductListView()
+    
     var servingText: String? {
         servingLabel.text
     }
@@ -67,6 +69,8 @@ class IngredientView: UIView {
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 8
         contentView.layer.cornerCurve = .continuous
+        
+        costView.isHidden = true
     }
     
     func setTitle(title: String) {
@@ -98,9 +102,19 @@ class IngredientView: UIView {
         }
     }
     
+    func setupCost(isVisible: Bool, storeTitle: String?, costValue: Double?) {
+        costView.isHidden = !isVisible
+        guard isVisible else {
+            return
+        }
+        costView.configureColor(R.color.darkGray() ?? UIColor(hex: "#537979"))
+        costView.configureStore(title: storeTitle)
+        costView.configureCost(value: costValue)
+    }
+    
     private func setupSubviews() {
         addSubview(contentView)
-        contentView.addSubviews([imageView, titleLabel, servingLabel])
+        contentView.addSubviews([imageView, titleLabel, servingLabel, costView])
         
         contentView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
@@ -124,6 +138,12 @@ class IngredientView: UIView {
             make.top.greaterThanOrEqualTo(15)
             make.trailing.equalToSuperview().inset(12)
             make.width.greaterThanOrEqualTo(50)
+        }
+        
+        costView.snp.makeConstraints { make in
+            make.right.equalToSuperview()
+            make.bottom.equalToSuperview().inset(-4)
+            make.height.equalTo(16)
         }
     }
 }

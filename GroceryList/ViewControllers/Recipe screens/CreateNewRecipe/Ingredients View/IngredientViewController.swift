@@ -39,7 +39,8 @@ final class IngredientViewController: CreateNewProductViewController {
                                                   quantity: quantityView.quantity,
                                                   quantityStr: ingredientView.quantityTitle,
                                                   description: ingredientView.descriptionTitle,
-                                                  localImage: ingredientView.productImage)
+                                                  localImage: ingredientView.productImage,
+                                                  store: storeView.store)
         hidePanel()
     }
     
