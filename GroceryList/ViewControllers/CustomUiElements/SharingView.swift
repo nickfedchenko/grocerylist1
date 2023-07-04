@@ -26,6 +26,7 @@ final class SharingView: UIView {
     private lazy var secondImageView: UIImageView = createImageView()
     private lazy var thirdImageView: UIImageView = createImageView()
     private lazy var fourthImageView: UIImageView = createImageView()
+    
     private lazy var countLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProRounded.semibold(size: 17).font
@@ -38,6 +39,7 @@ final class SharingView: UIView {
     
     private var state: SharingState = .invite
     private var activeImageViews: [UIImageView] = []
+    private var plusImageView: UIImageView?
     private var allImageViews: [UIImageView] {
         [firstImageView, secondImageView, thirdImageView, fourthImageView]
     }
@@ -80,6 +82,10 @@ final class SharingView: UIView {
             }
             configureImages(images, color: color, viewState: viewState)
         }
+    }
+    
+    func updateColorPlusImage(_ color: UIColor?) {
+        plusImageView?.backgroundColor = color
     }
     
     private func setup() {
@@ -163,6 +169,7 @@ final class SharingView: UIView {
     
     private func configurePlusImage(imageView: UIImageView, color: UIColor,
                                     viewState: ViewState, imagesIsEmpty: Bool) {
+        plusImageView = imageView
         var image = R.image.sharing_plus()
         var tintColor: UIColor = .white
         if state == .invite || imagesIsEmpty {

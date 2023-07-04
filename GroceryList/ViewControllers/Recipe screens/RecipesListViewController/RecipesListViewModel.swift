@@ -38,6 +38,10 @@ class RecipesListViewModel {
         section.recipes[indexPath.item]
     }
     
+    func isDefaultRecipe(by index: Int) -> Bool {
+        section.recipes[safe: index]?.isDefaultRecipe ?? false
+    }
+    
     func showRecipe(by indexPath: IndexPath) {
         let recipeId = section.recipes[indexPath.item].id
         guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
@@ -64,26 +68,88 @@ class RecipesListViewModel {
         })
     }
     
-    func addToShoppingList() {
+    func addToShoppingList(recipeIndex: Int, contentViewHeigh: CGFloat, delegate: AddProductsSelectionListDelegate) {
+        guard let recipeId = section.recipes[safe: recipeIndex]?.id,
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId) else {
+            return
+        }
+        let recipe = ShortRecipeModel(withIngredients: dbRecipe)
+        let recipeTitle = recipe.title
+        let products: [Product] = recipe.ingredients?.map({
+            let netProduct = $0.product
+            let product = Product(
+                name: netProduct.title,
+                isPurchased: false,
+                dateOfCreation: Date(),
+                category: netProduct.marketCategory?.title ?? "",
+                isFavorite: false,
+                description: "",
+                fromRecipeTitle: recipeTitle
+            )
+            return product
+        }) ?? []
         
+        router?.goToAddProductsSelectionList(products: products, contentViewHeigh: contentViewHeigh, delegate: delegate)
     }
     
-    func addToFavorites() {
+    func addToFavorites(recipeIndex: Int) {
+        guard let recipeId = section.recipes[safe: recipeIndex]?.id else {
+            return
+        }
+        let favoritesID = EatingTime.favorites.rawValue
         
+        guard !UserDefaultsManager.favoritesRecipeIds.contains(recipeIndex),
+              let dbCollection = CoreDataManager.shared.getCollection(by: favoritesID),
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
+              var recipe = Recipe(from: dbRecipe) else {
+            return
+        }
+        
+        UserDefaultsManager.favoritesRecipeIds.append(recipeId)
+        let favoriteCollection = CollectionModel(from: dbCollection)
+        
+        if var localCollection = recipe.localCollection {
+            localCollection.append(favoriteCollection)
+            recipe.localCollection = localCollection
+        } else {
+            recipe.localCollection = [favoriteCollection]
+        }
+        CoreDataManager.shared.saveRecipes(recipes: [recipe])
+
+        var updateRecipe = section.recipes.remove(at: recipeIndex)
+        updateRecipe.isFavorite = true
+        section.recipes.insert(updateRecipe, at: recipeIndex)
     }
     
-    func addToCollection() {
-        
+    func addToCollection(recipeIndex: Int) {
+        guard let recipeId = section.recipes[safe: recipeIndex]?.id,
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
+              var recipe = Recipe(from: dbRecipe) else {
+            return
+        }
+        router?.goToShowCollection(state: .select, recipe: recipe, updateUI: { 
+//            self?.updateCollection?()
+        })
+
     }
     
-    func edit() {
-        
+    func edit(recipeIndex: Int) {
+        guard let recipeId = section.recipes[safe: recipeIndex]?.id,
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
+              var recipe = Recipe(from: dbRecipe) else {
+            return
+        }
+        router?.goToCreateNewRecipe(currentRecipe: recipe, compl: { [weak self] recipe in
+            self?.section.recipes.remove(at: recipeIndex)
+            self?.section.recipes.insert(ShortRecipeModel(withCollection: recipe), at: recipeIndex)
+        })
     }
  
     private func setAllPhotos() {
         DispatchQueue.global().async {
             self.section.recipes.forEach {
-                if let imageData = $0.localImage, let image = UIImage(data: imageData) {
+                if let imageData = $0.localImage,
+                   let image = UIImage(data: imageData) {
                     self.allPhotos.append(image)
                 } else if let url = URL(string: $0.photo) {
                     KingfisherManager.shared.retrieveImage(with: url) { result in

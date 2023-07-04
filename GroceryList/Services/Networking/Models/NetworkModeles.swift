@@ -70,6 +70,7 @@ struct Recipe: Codable, Hashable, Equatable {
     let createdAt: Date
     var localCollection: [CollectionModel]?
     var localImage: Data?
+    var isDefaultRecipe: Bool = true
 
     enum CodingKeys: String, CodingKey {
         case id, title
@@ -108,6 +109,7 @@ struct Recipe: Codable, Hashable, Equatable {
         localCollection = (try? JSONDecoder().decode([CollectionModel].self, from: dbModel.localCollection ?? Data())) ?? []
         localImage = dbModel.localImage
         values = (try? JSONDecoder().decode(Values.self, from: dbModel.values ?? Data()))
+        isDefaultRecipe = dbModel.isDefaultRecipe
     }
     
     init?(title: String, totalServings: Int,
@@ -137,6 +139,7 @@ struct Recipe: Codable, Hashable, Equatable {
         dietTags = []
         exceptionTags = []
         isDraft = false
+        isDefaultRecipe = false
     }
     
     func hasDefaultCollection() -> Bool {

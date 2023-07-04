@@ -155,6 +155,7 @@
 		33C6F0E32A44360400E71023 /* PhotoFromRecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0E22A44360400E71023 /* PhotoFromRecipesViewController.swift */; };
 		33C6F0E62A4439CB00E71023 /* PhotoFromRecipesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0E52A4439CB00E71023 /* PhotoFromRecipesViewModel.swift */; };
 		33C6F0E82A44415800E71023 /* PhotoFromRecipesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0E72A44415800E71023 /* PhotoFromRecipesCell.swift */; };
+		33C6F0EA2A456F9E00E71023 /* RecipeListMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0E92A456F9E00E71023 /* RecipeListMessageView.swift */; };
 		33C8DB8529DFCE95009F4760 /* EditTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C8DB8429DFCE95009F4760 /* EditTabBarView.swift */; };
 		33C8DB8729DFE873009F4760 /* SF-Compact-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33C8DB8629DFE873009F4760 /* SF-Compact-Display-Semibold.otf */; };
 		33D912BE29A342AA00C32117 /* NumberExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D912BD29A342AA00C32117 /* NumberExtensions.swift */; };
@@ -486,6 +487,7 @@
 		33C6F0E22A44360400E71023 /* PhotoFromRecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoFromRecipesViewController.swift; sourceTree = "<group>"; };
 		33C6F0E52A4439CB00E71023 /* PhotoFromRecipesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoFromRecipesViewModel.swift; sourceTree = "<group>"; };
 		33C6F0E72A44415800E71023 /* PhotoFromRecipesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoFromRecipesCell.swift; sourceTree = "<group>"; };
+		33C6F0E92A456F9E00E71023 /* RecipeListMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListMessageView.swift; sourceTree = "<group>"; };
 		33C8DB8429DFCE95009F4760 /* EditTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTabBarView.swift; sourceTree = "<group>"; };
 		33C8DB8629DFE873009F4760 /* SF-Compact-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Display-Semibold.otf"; sourceTree = "<group>"; };
 		33D912BD29A342AA00C32117 /* NumberExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberExtensions.swift; sourceTree = "<group>"; };
@@ -1232,6 +1234,7 @@
 				33C6F0DC2A4309C800E71023 /* RecipeListPhotoView.swift */,
 				33C6F0DA2A42FD7A00E71023 /* RecipeListTitleView.swift */,
 				33C6F0E02A4365E700E71023 /* RecipeListContextMenuView.swift */,
+				33C6F0E92A456F9E00E71023 /* RecipeListMessageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1283,8 +1286,8 @@
 			isa = PBXGroup;
 			children = (
 				389DCF4629460A0A00DB9382 /* Views */,
-				389DCF422945CDF900DB9382 /* RecipeViewController.swift */,
 				389DCF442945CE9A00DB9382 /* RecipeScreenViewModel.swift */,
+				389DCF422945CDF900DB9382 /* RecipeViewController.swift */,
 			);
 			path = RecipeViewController;
 			sourceTree = "<group>";
@@ -2322,6 +2325,7 @@
 				33A51B942A176D1200BE11C1 /* ListDataSource.swift in Sources */,
 				B36AF9552915410400944E9D /* InstructionCell.swift in Sources */,
 				B34EACA8293500C000FBD0E0 /* CreateNewCategoryViewController.swift in Sources */,
+				33C6F0EA2A456F9E00E71023 /* RecipeListMessageView.swift in Sources */,
 				B381EF22299B5B2500DCDE40 /* AccountViewModel.swift in Sources */,
 				335519D029B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift in Sources */,
 				389DCF432945CDFA00DB9382 /* RecipeViewController.swift in Sources */,

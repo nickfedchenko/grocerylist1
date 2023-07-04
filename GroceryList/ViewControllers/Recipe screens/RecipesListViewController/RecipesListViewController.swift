@@ -21,7 +21,8 @@ final class RecipesListViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(classCell: RecipeListCell.self)
         collectionView.register(classCell: RecipeListTableCell.self)
-        collectionView.contentInset.top = 340
+        collectionView.contentInset.top = 332
+        collectionView.contentInset.bottom = 120
         collectionView.contentInset.left = 16
         collectionView.contentInset.right = 16
         collectionView.dataSource = self
@@ -38,6 +39,7 @@ final class RecipesListViewController: UIViewController {
     private let photoView = RecipeListPhotoView()
     private let contextMenuBackgroundView = UIView()
     private let contextMenuView = RecipeListContextMenuView()
+    private let messageView = RecipeListMessageView()
     private var currentlySelectedIndex: Int = -1
     
     init(viewModel: RecipesListViewModel) {
@@ -98,6 +100,20 @@ final class RecipesListViewController: UIViewController {
         contextMenuView.configure(color: viewModel.theme)
     }
     
+    private func showMessageView(state: RecipeListContextMenuView.MainMenuState) {
+        messageView.setState(state: state)
+        messageView.snp.updateConstraints { $0.top.equalToSuperview().offset(0) }
+        
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+        
+        messageView.snp.updateConstraints { $0.top.equalToSuperview().offset(-100) }
+        UIView.animate(withDuration: 0.5, delay: 1.3) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+    
     @objc
     private func menuTapAction() {
         UIView.animate(withDuration: 0.4) {
@@ -114,10 +130,16 @@ final class RecipesListViewController: UIViewController {
     }
     
     private func setupSubviews() {
-        self.view.addSubviews([recipesListCollectionView, header])
+        self.view.addSubviews([recipesListCollectionView, header, messageView])
         recipesListCollectionView.addSubviews([photoView, headerBackgroundView, titleView])
         (self.tabBarController as? MainTabBarController)?.customTabBar.addSubviews([contextMenuBackgroundView])
         contextMenuBackgroundView.addSubviews([contextMenuView])
+        
+        messageView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(-95)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(95)
+        }
         
         header.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
@@ -147,9 +169,8 @@ final class RecipesListViewController: UIViewController {
         titleView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(-16)
             $0.trailing.equalToSuperview().offset(16)
-            $0.height.equalTo(56)
+            $0.height.equalTo(68)
             $0.top.greaterThanOrEqualTo(header.snp.bottom)
-            $0.bottom.equalTo(recipesListCollectionView.snp.top).offset(-8)
         }
         
         contextMenuBackgroundView.snp.makeConstraints {
@@ -245,6 +266,8 @@ extension RecipesListViewController: RecipeListCellDelegate {
         let convertPointOnView = cell.convert(point, to: self.view)
         
         currentlySelectedIndex = index
+        contextMenuView.setupMenuFunctions(isDefaultRecipe: viewModel.isDefaultRecipe(by: index))
+        contextMenuView.snp.updateConstraints { $0.height.equalTo(contextMenuView.requiredHeight) }
         contextMenuBackgroundView.isHidden = false
         contextMenuView.isHidden = false
         
@@ -264,16 +287,7 @@ extension RecipesListViewController: RecipeListCellDelegate {
 }
 
 extension RecipesListViewController: AddProductsSelectionListDelegate {
-    func ingredientsSuccessfullyAdded() {
-        guard currentlySelectedIndex >= 0 else {
-            return
-        }
-        let index = IndexPath(item: currentlySelectedIndex, section: 0)
-        guard let cell = recipesListCollectionView.cellForItem(at: index) as? RecipeListCell else {
-            return
-        }
-        cell.setSuccessfullyAddedIngredients(isSuccess: true)
-    }
+    func ingredientsSuccessfullyAdded() { }
 }
 
 extension RecipesListViewController: RecipeListContextMenuViewDelegate {
@@ -291,13 +305,18 @@ extension RecipesListViewController: RecipeListContextMenuViewDelegate {
 
             switch state {
             case .addToShoppingList:
-                self.viewModel.addToShoppingList()
+                self.viewModel.addToShoppingList(recipeIndex: self.currentlySelectedIndex,
+                                                 contentViewHeigh: self.view.frame.height,
+                                                 delegate: self)
             case .addToFavorites:
-                self.viewModel.addToFavorites()
+                self.viewModel.addToFavorites(recipeIndex: self.currentlySelectedIndex)
+                let index = IndexPath(item: self.currentlySelectedIndex, section: 0)
+                self.recipesListCollectionView.reloadItems(at: [index])
+                self.showMessageView(state: state)
             case .addToCollection:
-                self.viewModel.addToCollection()
+                self.viewModel.addToCollection(recipeIndex: self.currentlySelectedIndex)
             case .edit:
-                self.viewModel.edit()
+                self.viewModel.edit(recipeIndex: self.currentlySelectedIndex)
             }
             
             self.contextMenuView.removeSelected()
