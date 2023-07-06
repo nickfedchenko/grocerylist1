@@ -282,7 +282,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             AmplitudeManager.shared.logEvent(.pantryCreateItemUncheck)
         }
         
-        if (stock.isUserImage ?? false) {
+        if stock.isUserImage {
             AmplitudeManager.shared.logEvent(.pantryCreateItemPhoto)
         } else if stock.imageData != nil {
             AmplitudeManager.shared.logEvent(.pantryCreateItemAutoPhoto)

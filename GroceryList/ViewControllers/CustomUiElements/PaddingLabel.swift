@@ -30,13 +30,11 @@ class PaddingLabel: UILabel {
         let insets = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
         super.drawText(in: rect.inset(by: insets))
     }
-
+    
     override var intrinsicContentSize: CGSize {
-        get {
-            var contentSize = super.intrinsicContentSize
-            contentSize.height += topInset + bottomInset
-            contentSize.width += leftInset + rightInset
-            return contentSize
-        }
+        var contentSize = super.intrinsicContentSize
+        contentSize.height += topInset + bottomInset
+        contentSize.width += leftInset + rightInset
+        return contentSize
     }
 }

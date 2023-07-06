@@ -343,7 +343,7 @@ extension PantryDataSource.DefaultsBeautyHealthStocks {
     }
 }
 
-extension PantryDataSource.DefaultsHouseholdStocks{
+extension PantryDataSource.DefaultsHouseholdStocks {
     var netProductId: Int? {
         switch self {
         case .sponges:          return 9
