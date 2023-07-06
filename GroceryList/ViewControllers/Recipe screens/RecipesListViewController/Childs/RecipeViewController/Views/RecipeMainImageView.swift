@@ -12,71 +12,23 @@ protocol RecipeMainImageViewDelegate: AnyObject {
     func shareButtonTapped()
 }
 
-final class CookingTimeBadge: UIView {
-    private let timerImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = R.image.timerIcon()
-        return imageView
-    }()
-    
-    private let timerCountLabel: UILabel = {
-        let label = UILabel()
-        label.font = R.font.sfProTextMedium(size: 15)
-        label.textColor = .white
-        label.textAlignment = .center
-        return label
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupSubviews()
-        setupAppearance()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setCookingTime(time: Int?) {
-        guard let time = time, time != -1 else { return }
-        timerCountLabel.text = String(time) + " " + R.string.localizable.min()
-    }
-    
-    private func setupAppearance() {
-        backgroundColor = UIColor(hex: "547771").withAlphaComponent(0.8)
-        clipsToBounds = true
-        layer.cornerRadius = 4
-        layer.cornerCurve = .continuous
-    }
-    
-    private func setupSubviews() {
-        addSubviews([timerImage, timerCountLabel])
-        timerImage.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalToSuperview().offset(6)
-            make.height.equalTo(20)
-            make.width.equalTo(21)
-        }
-        
-        timerCountLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(12)
-            make.leading.equalTo(timerImage.snp.trailing).offset(8)
-        }
-    }
-}
-
 final class RecipeMainImageView: UIView {
     
     weak var delegate: RecipeMainImageViewDelegate?
     
     private var isFirstDraw = true
     
+    private let contentView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 12
+        view.layer.cornerCurve = .continuous
+        view.clipsToBounds = true
+        view.backgroundColor = .white
+        return view
+    }()
+    
     let mainImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 12
-        imageView.layer.cornerCurve = .continuous
         imageView.contentMode = .scaleAspectFill
         imageView.isUserInteractionEnabled = true
         imageView.backgroundColor = .white
@@ -84,21 +36,22 @@ final class RecipeMainImageView: UIView {
     }()
     
     private let addToFavoritesButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(R.image.addToFavUnselected(), for: .normal)
-        button.setImage(R.image.addToFavSelected(), for: .selected)
+        let button = UIButton()
+        button.setImage(R.image.addToFavUnselectedNew(), for: .normal)
+        button.setImage(R.image.addToFavSelectedNew(), for: .selected)
         button.tintColor = .clear
         return button
     }()
     
-    private let cookingTimeBadge = CookingTimeBadge()
-    lazy var promptingView = UIView()
-    
     private let shareRecipeButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(R.image.shareIcon(), for: .normal)
+        let button = UIButton()
+        button.setImage(R.image.shareIconNew(), for: .normal)
         return button
     }()
+    
+    private let kcalView = RecipeKcalView()
+    private let cookingTimeBadge = CookingTimeBadge()
+    lazy var promptingView = UIView()
     
     let anotherShadowLayer: CAShapeLayer = CAShapeLayer()
     
@@ -133,7 +86,18 @@ final class RecipeMainImageView: UIView {
            let image = UIImage(data: imageData) {
             mainImage.image = image
         }
+    }
+    
+    func setupKcal(value: Value?) {
+        guard let value else {
+            kcalView.isHidden = true
+            kcalView.snp.updateConstraints { make in
+                make.height.equalTo(0)
+            }
+            return
+        }
         
+        kcalView.setKcalValue(value: value)
     }
     
     func showPromptingView() {
@@ -183,14 +147,23 @@ final class RecipeMainImageView: UIView {
     }
     
     private func setupSubviews() {
-        addSubview(mainImage)
-        mainImage.addSubview(cookingTimeBadge)
-        mainImage.addSubview(promptingView)
-        mainImage.addSubview(addToFavoritesButton)
-        mainImage.addSubview(shareRecipeButton)
+        self.addSubview(contentView)
+        contentView.addSubviews([mainImage, kcalView])
+        mainImage.addSubviews([cookingTimeBadge, promptingView, addToFavoritesButton, shareRecipeButton])
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
         mainImage.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(244)
+        }
+        
+        kcalView.snp.makeConstraints { make in
+            make.top.equalTo(mainImage.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(64)
         }
         
         promptingView.snp.makeConstraints { make in
@@ -249,5 +222,60 @@ final class RecipeMainImageView: UIView {
         anotherShadowLayer.shadowRadius = 16
         layer.insertSublayer(anotherShadowLayer, at: 0)
         isFirstDraw.toggle()
+    }
+}
+
+final class CookingTimeBadge: UIView {
+    
+    private let timerImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = R.image.timerIcon()
+        return imageView
+    }()
+    
+    private let timerCountLabel: UILabel = {
+        let label = UILabel()
+        label.font = R.font.sfProTextMedium(size: 15)
+        label.textColor = .white
+        label.textAlignment = .center
+        return label
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupSubviews()
+        setupAppearance()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setCookingTime(time: Int?) {
+        guard let time = time, time != -1 else { return }
+        timerCountLabel.text = String(time) + " " + R.string.localizable.min()
+    }
+    
+    private func setupAppearance() {
+        backgroundColor = .black.withAlphaComponent(0.6)
+        clipsToBounds = true
+        layer.cornerRadius = 4
+        layer.cornerCurve = .continuous
+    }
+    
+    private func setupSubviews() {
+        addSubviews([timerImage, timerCountLabel])
+        timerImage.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview().offset(6)
+            make.height.equalTo(20)
+            make.width.equalTo(21)
+        }
+        
+        timerCountLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().inset(12)
+            make.leading.equalTo(timerImage.snp.trailing).offset(8)
+        }
     }
 }

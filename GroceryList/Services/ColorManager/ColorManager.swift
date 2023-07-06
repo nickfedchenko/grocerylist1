@@ -70,4 +70,8 @@ class ColorManager {
         rawGradientColors[0]
     }
     
+    func getColorForRecipe() -> Theme {
+        Theme(dark: UIColor(hex: "045C5C"), medium: UIColor(hex: "1A645A"), light: UIColor(hex: "E5F5F3"))
+    }
+    
 }
