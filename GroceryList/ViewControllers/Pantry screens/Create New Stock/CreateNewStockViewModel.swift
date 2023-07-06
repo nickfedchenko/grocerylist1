@@ -317,7 +317,5 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
         } else if stock.imageData != nil {
             AmplitudeManager.shared.logEvent(.pantryCreateItemAutoPhoto)
         }
-        
-
     }
 }
