@@ -303,6 +303,7 @@ final class RecipeViewController: UIViewController {
         
         contextMenuView.delegate = self
         contextMenuView.configure(color: viewModel.theme)
+        contextMenuView.setupMenuFunctions(isDefaultRecipe: viewModel.recipe.isDefaultRecipe)
         
         contextMenuView.isHidden = true
         contextMenuBackgroundView.isHidden = true
@@ -504,14 +505,7 @@ extension RecipeViewController: RecipeMainImageViewDelegate {
     }
     
     func addToFavoritesTapped() {
-        if isFavorite {
-            UserDefaultsManager.favoritesRecipeIds.removeAll(where: { $0 == viewModel.recipe.id })
-            viewModel.updateFavoriteState(isSelected: false)
-        } else {
-            AmplitudeManager.shared.logEvent(.recipeAddFavorites)
-            UserDefaultsManager.favoritesRecipeIds.append(viewModel.recipe.id)
-            viewModel.updateFavoriteState(isSelected: true)
-        }
+        viewModel.updateFavoriteState(isSelected: !isFavorite)
     }
 }
 
@@ -537,6 +531,7 @@ extension RecipeViewController: RecipeListContextMenuViewDelegate {
                 self.viewModel.addToShoppingList(contentViewHeigh: self.view.frame.height, delegate: self)
             case .addToFavorites:
                 self.viewModel.updateFavoriteState(isSelected: true)
+                self.mainImageView.setIsFavorite(shouldSetFavorite: true)
             case .addToCollection:
                 self.viewModel.addToCollection()
             case .edit:

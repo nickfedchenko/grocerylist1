@@ -78,8 +78,9 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
     
     func getIngredientsSizeAccordingToServings(servings: Double) -> [String] {
         var titles: [String] = []
+        let totalServings = recipe.totalServings <= 0 ? 1 : Double(recipe.totalServings)
         for ingredient in recipe.ingredients {
-            let defaultValue = ingredient.quantity / Double(recipe.totalServings)
+            let defaultValue = ingredient.quantity / totalServings
             var targetValue = defaultValue * servings
             var unitTitle = ingredient.unit?.shortTitle ?? ""
             if let unit = unit(unitID: ingredient.unit?.id) {
@@ -88,7 +89,13 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
             }
             
             let unitName = unitTitle
-            let title = String(format: "%.\(targetValue.truncatingRemainder(dividingBy: 1) > 0 ? 1 : 0)f", targetValue) + " " + unitName
+            let title: String
+            if targetValue != 0 {
+                title = String(format: "%.\(targetValue.truncatingRemainder(dividingBy: 1) > 0 ? 1 : 0)f", targetValue) + " " + unitName
+            } else {
+                title = R.string.localizable.byTaste()
+            }
+            
             titles.append(title)
         }
         return titles
@@ -136,23 +143,32 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
     }
     
     func updateFavoriteState(isSelected: Bool) {
+        if UserDefaultsManager.favoritesRecipeIds.contains(recipe.id) && isSelected {
+            return
+        }
+        
+        if isSelected {
+            AmplitudeManager.shared.logEvent(.recipeAddFavorites)
+            UserDefaultsManager.favoritesRecipeIds.append(recipe.id)
+        } else {
+            UserDefaultsManager.favoritesRecipeIds.removeAll(where: { $0 == recipe.id })
+        }
+        
         guard let dbCollection = CoreDataManager.shared.getCollection(by: EatingTime.favorites.rawValue) else {
             return
         }
-
         let favoriteCollection = CollectionModel(from: dbCollection)
-        
         if var localCollection = recipe.localCollection {
             if isSelected {
                 localCollection.append(favoriteCollection)
             } else {
                 localCollection.removeAll { $0.id == favoriteCollection.id }
             }
-            
             recipe.localCollection = localCollection
         } else {
             recipe.localCollection = [favoriteCollection]
         }
+        
         CoreDataManager.shared.saveRecipes(recipes: [recipe])
     }
     

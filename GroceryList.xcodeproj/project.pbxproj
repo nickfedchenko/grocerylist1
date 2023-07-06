@@ -1258,8 +1258,8 @@
 			isa = PBXGroup;
 			children = (
 				389DCF412945CDE800DB9382 /* RecipeViewController */,
-				383C77FC2940ED0F0030AE78 /* AddProductsSelectionListController.swift */,
 				33C6F0E42A4437F500E71023 /* Photo from recipes */,
+				383C77FC2940ED0F0030AE78 /* AddProductsSelectionListController.swift */,
 			);
 			path = Childs;
 			sourceTree = "<group>";

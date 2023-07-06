@@ -252,7 +252,10 @@ final class CookingTimeBadge: UIView {
     }
     
     func setCookingTime(time: Int?) {
-        guard let time = time, time != -1 else { return }
+        guard let time = time, time > 0 else {
+            timerCountLabel.text = "--"
+            return
+        }
         timerCountLabel.text = String(time) + " " + R.string.localizable.min()
     }
     

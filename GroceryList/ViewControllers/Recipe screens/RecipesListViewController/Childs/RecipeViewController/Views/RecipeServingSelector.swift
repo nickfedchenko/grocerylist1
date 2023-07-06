@@ -66,7 +66,7 @@ final class RecipeServingSelector: UIView {
     }
     
     func setCountInitially(to count: Int) {
-        currentCount = Double(count)
+        currentCount = count <= 0 ? 1 : Double(count)
     }
     
     private func updateLabel() {
@@ -81,7 +81,7 @@ final class RecipeServingSelector: UIView {
         default:
             servingsString = R.string.localizable.servings1()
         }
-        servingsLabel.text = "\(currentCount) " + servingsString
+        servingsLabel.text = "\(currentCount.asString) " + servingsString
     }
     
     private func setupAppearance() {

@@ -155,6 +155,8 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         guard let currentRecipe = viewModel?.currentRecipe else {
             return
         }
+        savedToDraftsButton.isHidden = true
+        
         if let cookingTime = currentRecipe.cookingTime?.asString {
             timeView.setText(cookingTime)
         }

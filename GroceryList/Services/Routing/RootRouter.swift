@@ -279,6 +279,7 @@ final class RootRouter: RootRouterProtocol {
                                       delegate: AddProductsSelectionListDelegate) {
         let dataSource = SelectListDataManager()
         let viewModel = SelectListViewModel(dataSource: dataSource)
+        viewModel.router = self
         let addProductsVC = AddProductsSelectionListController(with: products)
         addProductsVC.contentViewHeigh = contentViewHeigh
         addProductsVC.viewModel = viewModel

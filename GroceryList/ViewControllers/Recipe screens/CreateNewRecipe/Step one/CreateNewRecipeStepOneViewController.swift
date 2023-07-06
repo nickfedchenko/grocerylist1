@@ -92,6 +92,13 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         setup()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if !(viewModel?.currentRecipe?.description.isEmpty ?? true) {
+            descriptionView.snp.updateConstraints { $0.height.equalTo(descriptionView.requiredHeight) }
+        }
+    }
+    
     private func setup() {
         self.view.backgroundColor = R.color.background()
         valueChanged()
@@ -529,6 +536,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
 
 extension CreateNewRecipeStepOneViewController: StackViewReorderDelegate {
     func didEndReordering(_ stackView: UIStackView) {
+        ingredientsView.stackView.clipsToBounds = false
         guard stackView == ingredientsView.stackView else {
             var updatedSteps: [String] = []
             stackView.arrangedSubviews.enumerated().forEach { index, view in
