@@ -117,7 +117,7 @@ class RecipeListCell: UICollectionViewCell {
     
     func configure(with recipe: ShortRecipeModel) {
         titleLabel.text = recipe.title
-        timeLabel.text = "\(recipe.time)"
+        timeLabel.text = recipe.time < 0 ? "--" : "\(recipe.time)"
         favoriteImage.isHidden = !recipe.isFavorite
         
         if let kcal = recipe.values?.dish?.kcal {
