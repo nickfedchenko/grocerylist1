@@ -71,14 +71,14 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
             }
             
             let recipesShuffled = recipes.shuffled()
-            let imageUrl = recipesShuffled.first?.photo
+            let image = getFirstPhoto(recipes: recipesShuffled)
             let customSection = RecipeSectionsModel(collectionId: collection.id,
                                                     cellType: .recipePreview,
                                                     sectionType: .custom(collection.title.localized),
                                                     recipes: recipesShuffled,
                                                     color: collection.color,
-                                                    imageUrl: imageUrl,
-                                                    localImage: collection.localImage)
+                                                    imageUrl: image.url,
+                                                    localImage: collection.localImage ?? image.data)
             
             guard let index = recipesSections.firstIndex(where: {
                 $0.sectionType == .custom(collection.title.localized)
@@ -90,6 +90,17 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
         }
         
         visibleTechnicalCollection()
+    }
+    
+    private func getFirstPhoto(recipes: [ShortRecipeModel]) -> (url: String?, data: Data?) {
+        for recipe in recipes {
+            if let imageData = recipe.localImage {
+                return (nil, imageData)
+            } else if let url = URL(string: recipe.photo) {
+                return (recipe.photo, nil)
+            }
+        }
+        return (nil, R.image.defaultRecipeImage()?.pngData())
     }
     
     private func visibleTechnicalCollection() {
@@ -165,34 +176,7 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
         })
         
         createTechnicalCollection()
-        
-        guard let favoriteDBCollection = CoreDataManager.shared.getCollection(by: EatingTime.favorites.rawValue),
-              let allRecipes: [DBRecipe] = CoreDataManager.shared.getAllRecipes() else {
-            UserDefaultsManager.isFillingDefaultTechnicalCollection = true
-            return
-        }
-        let domainFavorites = allRecipes.filter {
-            UserDefaultsManager.favoritesRecipeIds.contains(Int($0.id))
-        }
-        let favorites = domainFavorites.compactMap {
-            ShortRecipeModel(withCollection: $0, isFavorite: true)
-        }
-        let favoriteCollection = CollectionModel(from: favoriteDBCollection)
-        domainFavorites.forEach {
-            if var recipe = Recipe(from: $0) {
-                
-                if var localCollection = recipe.localCollection {
-                    localCollection.append(favoriteCollection)
-                    recipe.localCollection = localCollection
-                } else {
-                    recipe.localCollection = [favoriteCollection]
-                }
-
-                CoreDataManager.shared.saveRecipes(recipes: [recipe])
-            }
-        }
-        
-        UserDefaultsManager.isFillingDefaultTechnicalCollection = true
+        updateFavoritesCollection()
     }
     
     private func createTechnicalCollection() {
@@ -223,5 +207,34 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
             isDefault: true)
         
         CoreDataManager.shared.saveCollection(collections: [iWillCookIt, drafts, favorites, inbox])
+    }
+    
+    private func updateFavoritesCollection() {
+        guard let favoriteDBCollection = CoreDataManager.shared.getCollection(by: EatingTime.favorites.rawValue),
+              let allRecipes: [DBRecipe] = CoreDataManager.shared.getAllRecipes() else {
+            UserDefaultsManager.isFillingDefaultTechnicalCollection = true
+            return
+        }
+        let domainFavorites = allRecipes.filter {
+            UserDefaultsManager.favoritesRecipeIds.contains(Int($0.id))
+        }
+        let favorites = domainFavorites.compactMap {
+            ShortRecipeModel(withCollection: $0, isFavorite: true)
+        }
+        let favoriteCollection = CollectionModel(from: favoriteDBCollection)
+        domainFavorites.forEach {
+            if var recipe = Recipe(from: $0) {
+                if var localCollection = recipe.localCollection {
+                    localCollection.append(favoriteCollection)
+                    recipe.localCollection = localCollection
+                } else {
+                    recipe.localCollection = [favoriteCollection]
+                }
+
+                CoreDataManager.shared.saveRecipes(recipes: [recipe])
+            }
+        }
+        
+        UserDefaultsManager.isFillingDefaultTechnicalCollection = true
     }
 }

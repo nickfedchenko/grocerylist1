@@ -33,6 +33,9 @@ struct NetworkProductModel: Codable {
     let units: [Unit]?
     let photo: String
     let marketUnit: MarketUnitClass?
+    let localImage: Data?
+    var store: Store?
+    var cost: Double?
 }
 
 struct Unit: Codable {
@@ -54,23 +57,24 @@ struct AllRecipesResponse: Codable {
 // MARK: - Recipe
 struct Recipe: Codable, Hashable, Equatable {
     let id: Int
-    let title, description: String
-    let cookingTime: Int?
-    let totalServings: Int
-    let dishWeight: Double?
-    let dishWeightType: Int?
+    var title, description: String
+    var cookingTime: Int?
+    var totalServings: Int
+    var dishWeight: Double?
+    var dishWeightType: Int?
     var values: Values?
     let countries: [String]
-    let instructions: [String]?
-    let ingredients: [Ingredient]
+    var instructions: [String]?
+    var ingredients: [Ingredient]
     let eatingTags, dishTypeTags, processingTypeTags, additionalTags: [AdditionalTag]
     let dietTags, exceptionTags: [AdditionalTag]
-    let photo: String
+    var photo: String
     let isDraft: Bool
     let createdAt: Date
     var localCollection: [CollectionModel]?
     var localImage: Data?
     var isDefaultRecipe: Bool = true
+    var isShowCost: Bool = false
 
     enum CodingKeys: String, CodingKey {
         case id, title
@@ -112,10 +116,10 @@ struct Recipe: Codable, Hashable, Equatable {
         isDefaultRecipe = dbModel.isDefaultRecipe
     }
     
-    init?(title: String, totalServings: Int,
-          localCollection: [CollectionModel]?, localImage: Data?,
-          cookingTime: Int?, description: String?,
-          ingredients: [Ingredient], instructions: [String]?) {
+    init?(title: String, totalServings: Int = -1,
+          localCollection: [CollectionModel]? = nil, localImage: Data? = nil,
+          cookingTime: Int? = nil, description: String? = nil, kcal: Value? = nil,
+          ingredients: [Ingredient] = [], instructions: [String]? = nil, isShowCost: Bool = false) {
         self.id = UUID().integer
         self.title = title
         self.totalServings = totalServings
@@ -124,8 +128,10 @@ struct Recipe: Codable, Hashable, Equatable {
         
         self.cookingTime = cookingTime
         self.description = description ?? ""
+        self.values?.dish = kcal
         self.ingredients = ingredients
         self.instructions = instructions
+        self.isShowCost = isShowCost
         
         photo = ""
         createdAt = Date()
@@ -179,10 +185,10 @@ enum EatingTime: Int, CaseIterable {
     case lunch = 9
     case snack = 11
     
-    case willCook = -10
-    case drafts = -9
-    case favorites = -8
-    case inbox = -7
+    case willCook = -103
+    case drafts = -102
+    case favorites = -101
+    case inbox = -100
     
     var color: Int {
         switch self {

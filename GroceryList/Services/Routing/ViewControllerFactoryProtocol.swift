@@ -59,15 +59,18 @@ protocol ViewControllerFactoryProtocol {
     func createCreateNewRecipeViewController(currentRecipe: Recipe?,
                                              router: RootRouter,
                                              compl: @escaping (Recipe) -> Void) -> UIViewController
-    func createCreateNewRecipeStepTwoViewController(router: RootRouter, recipe: CreateNewRecipeStepOne,
+    func createCreateNewRecipeStepTwoViewController(router: RootRouter, isDraftRecipe: Bool,
+                                                    currentRecipe: Recipe?, recipe: Recipe,
                                                     compl: @escaping (Recipe) -> Void) -> UIViewController
     func createPreparationStepViewController(stepNumber: Int, compl: @escaping (String) -> Void) -> UIViewController
-    func createCreateNewCollectionViewController(collections: [CollectionModel],
-                                                 compl: @escaping ([CollectionModel]) -> Void) -> UIViewController
+    func createCreateNewCollectionViewController(currentCollection: CollectionModel?,
+                                                 collections: [CollectionModel],
+                                                 compl: @escaping (CollectionModel) -> Void) -> UIViewController
     func createShowCollectionViewController(router: RootRouter, state: ShowCollectionViewController.ShowCollectionState,
                                             recipe: Recipe?, updateUI: (() -> Void)?,
                                             compl: (([CollectionModel]) -> Void)?) -> UIViewController
-    func createIngredientViewController(router: RootRouter, compl: @escaping (Ingredient) -> Void) -> UIViewController
+    func createIngredientViewController(isShowCost: Bool, router: RootRouter,
+                                        compl: @escaping (Ingredient) -> Void) -> UIViewController
     func createSearchInList(router: RootRouter) -> UIViewController
     func createSearchInRecipe(router: RootRouter, section: RecipeSectionsModel?) -> UIViewController
     func createRecipeScreen(router: RootRouter, recipe: Recipe) -> UIViewController

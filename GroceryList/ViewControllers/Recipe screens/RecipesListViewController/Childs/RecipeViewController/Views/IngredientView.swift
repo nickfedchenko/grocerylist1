@@ -9,6 +9,17 @@ import UIKit
 
 class IngredientView: UIView {
     
+    let contentView = ViewWithOverriddenPoint()
+    
+    let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 8
+        imageView.layer.cornerCurve = .continuous
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = R.font.sfProTextMedium(size: 16)
@@ -26,6 +37,8 @@ class IngredientView: UIView {
         label.textAlignment = .right
         return label
     }()
+    
+    let costView = CostOfProductListView()
     
     var servingText: String? {
         servingLabel.text
@@ -53,9 +66,11 @@ class IngredientView: UIView {
     }
     
     private func setupAppearance() {
-        backgroundColor = .white
-        layer.cornerRadius = 8
-        layer.cornerCurve = .continuous
+        contentView.backgroundColor = .white
+        contentView.layer.cornerRadius = 8
+        contentView.layer.cornerCurve = .continuous
+        
+        costView.isHidden = true
     }
     
     func setTitle(title: String) {
@@ -66,9 +81,51 @@ class IngredientView: UIView {
         servingLabel.text = serving
     }
     
+    func setImage(imageURL: String, imageData: Data?) {
+        if let imageData {
+            imageView.image = UIImage(data: imageData)
+            titleLabel.snp.updateConstraints { make in
+                make.leading.equalToSuperview().offset(50)
+            }
+            return
+        }
+        guard !imageURL.isEmpty else {
+            imageView.snp.updateConstraints { make in
+                make.width.equalTo(0)
+            }
+            return
+        }
+        imageView.kf.setImage(with: URL(string: imageURL), placeholder: nil,
+                              options: nil, completionHandler: nil)
+        titleLabel.snp.updateConstraints { make in
+            make.leading.equalToSuperview().offset(50)
+        }
+    }
+    
+    func setupCost(isVisible: Bool, storeTitle: String?, costValue: Double?) {
+        costView.isHidden = !isVisible
+        guard isVisible else {
+            return
+        }
+        costView.configureColor(R.color.darkGray() ?? UIColor(hex: "#537979"))
+        costView.configureStore(title: storeTitle)
+        costView.configureCost(value: costValue)
+    }
+    
     private func setupSubviews() {
-        addSubview(titleLabel)
-        addSubview(servingLabel)
+        addSubview(contentView)
+        contentView.addSubviews([imageView, titleLabel, servingLabel, costView])
+        
+        contentView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.bottom.equalToSuperview()
+        }
+        
+        imageView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(4)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(40)
+        }
         
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12)
@@ -81,6 +138,12 @@ class IngredientView: UIView {
             make.top.greaterThanOrEqualTo(15)
             make.trailing.equalToSuperview().inset(12)
             make.width.greaterThanOrEqualTo(50)
+        }
+        
+        costView.snp.makeConstraints { make in
+            make.right.equalToSuperview()
+            make.bottom.equalToSuperview().inset(-4)
+            make.height.equalTo(16)
         }
     }
 }

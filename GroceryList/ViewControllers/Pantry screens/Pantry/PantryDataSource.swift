@@ -202,6 +202,7 @@ final class PantryDataSource {
         }
     }
     
+    // swiftlint:disable:next function_body_length
     private func defaultFridgeStocks(fridgeId: UUID) {
         let milk = Stock(index: 0, pantryId: fridgeId, name: R.string.localizable.milk(),
                          imageData: R.image.fridge_Milk()?.pngData(),
@@ -248,6 +249,7 @@ final class PantryDataSource {
                                          for: fridgeId.uuidString)
     }
     
+    // swiftlint:disable:next function_body_length
     private func defaultGroceryStocks(groceryId: UUID) {
         let oliveOil = Stock(index: 0, pantryId: groceryId, name: R.string.localizable.oliveOil() ,
                              imageData: R.image.grocery_OliveOil()?.pngData(),

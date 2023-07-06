@@ -15,7 +15,7 @@ class CreateNewProductViewController: UIViewController {
     
     var viewModel: CreateNewProductViewModel?
     
-    private lazy var saveButton: UIButton = {
+    lazy var saveButton: UIButton = {
         let button = UIButton()
         button.setTitle(R.string.localizable.save().uppercased(), for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
@@ -24,20 +24,22 @@ class CreateNewProductViewController: UIViewController {
         return button
     }()
     
-    private let contentView = ViewWithOverriddenPoint()
-    private let categoryView = CategoryView()
-    private let productView = NameOfProductView()
-    private let storeView = StoreOfProductView()
-    private let quantityView = QuantityOfProductView()
-    private let predictiveTextView = PredictiveTextView()
-    private let autoCategoryView = AutoCategoryInfoView()
-    private var imagePicker = UIImagePickerController()
-    private var predictiveTextViewHeight = 86
-    private var isUserImage = false
-    private var isShowNewStoreView = false
-    private var viewDidLayout = false
-    private let inactiveColor = UIColor(hex: "#ACB4B4")
-    private var unit: UnitSystem = .piece
+    let contentView = ViewWithOverriddenPoint()
+    let categoryView = CategoryView()
+    let productView = NameOfProductView()
+    let storeView = StoreOfProductView()
+    let quantityView = QuantityOfProductView()
+    let predictiveTextView = PredictiveTextView()
+    let autoCategoryView = AutoCategoryInfoView()
+    var imagePicker = UIImagePickerController()
+    let originPredictiveTextViewHeight = 86
+    var predictiveTextViewHeight = 86
+    var contentViewHeight = 280
+    var isUserImage = false
+    var isShowNewStoreView = false
+    var viewDidLayout = false
+    let inactiveColor = R.color.mediumGray() ?? UIColor(hex: "#ACB4B4")
+    var unit: UnitSystem = .piece
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,7 +100,7 @@ class CreateNewProductViewController: UIViewController {
         quantityView.systemUnits = viewModel?.selectedUnitSystemArray ?? []
     }
     
-    private func setupColor() {
+    func setupColor() {
         let colorForForeground = viewModel?.getColorForForeground ?? .black
         let colorForBackground = viewModel?.getColorForBackground ?? .white
         
@@ -112,7 +114,7 @@ class CreateNewProductViewController: UIViewController {
     }
     
     /// устанавливаем предиктивный ввод
-    private func setupPredictiveTextView() {
+    func setupPredictiveTextView() {
         viewModel?.productsChangedCallback = { [weak self] titles in
             guard let self else { return }
             self.predictiveTextView.configure(texts: titles)
@@ -123,7 +125,7 @@ class CreateNewProductViewController: UIViewController {
     }
     
     /// устанавливаем автокатегорию
-    private func setupAutoCategoryView() {
+    func setupAutoCategoryView() {
         guard FeatureManager.shared.isActiveAutoCategory != nil else {
             autoCategoryView.isHidden = true
             return
@@ -157,7 +159,7 @@ class CreateNewProductViewController: UIViewController {
     }
     
     /// если продукт открыт для редактирования, то заполняем поля
-    private func setupCurrentProduct() {
+    func setupCurrentProduct() {
         guard viewModel?.currentProduct != nil else {
             return
         }
@@ -196,7 +198,7 @@ class CreateNewProductViewController: UIViewController {
     }
     
     @objc
-    private func saveButtonTapped() {
+    func saveButtonTapped() {
         viewModel?.saveProduct(categoryName: categoryView.categoryTitle ?? R.string.localizable.other(),
                                productName: productView.productTitle ?? "",
                                description: productView.descriptionTitle ?? "",
@@ -236,7 +238,7 @@ class CreateNewProductViewController: UIViewController {
         }
     }
     
-    private func hidePanel() {
+    func hidePanel() {
         updateConstraints(with: -500, alpha: 0)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.dismiss(animated: false, completion: nil)
@@ -244,29 +246,33 @@ class CreateNewProductViewController: UIViewController {
     }
     
     private func updateConstraints(with inset: Double, alpha: Double) {
+        contentView.snp.remakeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.height.greaterThanOrEqualTo(contentViewHeight + predictiveTextViewHeight)
+            $0.bottom.equalToSuperview().offset(-inset)
+        }
+        
         UIView.animate(withDuration: 0.4) { [weak self] in
             guard let self = self else { return }
-            self.contentView.snp.updateConstraints {
-                $0.bottom.equalToSuperview().offset(-inset)
-            }
             self.view.backgroundColor = .black.withAlphaComponent(alpha)
             self.view.layoutIfNeeded()
         }
     }
     
     private func updatePredictiveViewConstraints(isVisible: Bool) {
-        let height = isVisible ? predictiveTextViewHeight : 0
-        predictiveTextView.snp.updateConstraints { $0.height.equalTo(height) }
-        contentView.snp.updateConstraints { $0.height.greaterThanOrEqualTo(220 + height) }
+        predictiveTextViewHeight = isVisible ? originPredictiveTextViewHeight : 0
+        predictiveTextView.snp.updateConstraints { $0.height.equalTo(predictiveTextViewHeight) }
+        contentView.snp.updateConstraints { $0.height.greaterThanOrEqualTo(contentViewHeight + predictiveTextViewHeight) }
         UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self = self else { return }
             self.view.layoutIfNeeded()
         }
     }
     
-    private func updateStoreView(isVisible: Bool) {
+    func updateStoreView(isVisible: Bool) {
         storeView.isHidden = !isVisible
-        let height = (isVisible ? 280 : 220) + predictiveTextViewHeight
+        contentViewHeight = isVisible ? 280 : 220
+        let height = contentViewHeight + predictiveTextViewHeight
         contentView.snp.updateConstraints { $0.height.greaterThanOrEqualTo(height) }
         storeView.snp.updateConstraints {
             $0.top.equalTo(productView.snp.bottom).offset(isVisible ? 20 : 0)
@@ -274,15 +280,49 @@ class CreateNewProductViewController: UIViewController {
         }
     }
     
-    private func makeConstraints() {
+    func applyPredictiveInput(_ title: String) {
+        AmplitudeManager.shared.logEvent(.itemPredictAdd)
+        productView.productTextField.text = title
+        viewModel?.checkIsProductFromCategory(name: title)
+    }
+    
+    func updateQuantity(_ quantity: Double) {
+        let quantityString = String(format: "%.\(quantity.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", quantity)
+        productView.setQuantity(quantity > 0 ? "\(quantityString) \(unit.title)" : "")
+    }
+    
+    func tappedQuantityButtons(_ quantity: Double) {
+        guard let costOfProductPerUnit = viewModel?.costOfProductPerUnit else {
+            return
+        }
+        let cost = quantity * costOfProductPerUnit
+        storeView.setCost(value: "\(cost)")
+    }
+    
+    func updateProductView(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?) {
+        updateCategory(isActive: !text.isEmpty, categoryTitle: text)
+        productView.setImage(imageURL: imageURL, imageData: imageData)
+        quantityView.setDefaultUnit(defaultSelectedUnit ?? .piece)
+        
+        if !imageURL.isEmpty || imageData != nil {
+            isUserImage = false
+        }
+    }
+    
+    func setupUserImage(_ image: UIImage?) {
+        productView.setImage(image)
+        isUserImage = true
+    }
+    
+    func makeConstraints() {
         self.view.addSubviews([contentView, autoCategoryView])
         contentView.addSubviews([saveButton, categoryView, productView, storeView, quantityView,
                                  predictiveTextView])
         
         contentView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(280 + predictiveTextViewHeight)
-            $0.bottom.equalToSuperview().offset(280 + predictiveTextViewHeight)
+            $0.height.greaterThanOrEqualTo(contentViewHeight + predictiveTextViewHeight)
+            $0.bottom.equalToSuperview().offset(contentViewHeight + predictiveTextViewHeight)
         }
         
         categoryView.snp.makeConstraints {
@@ -356,20 +396,14 @@ extension CreateNewProductViewController: UINavigationControllerDelegate, UIImag
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         self.dismiss(animated: true, completion: nil)
         let image = info[.originalImage] as? UIImage
-        productView.setImage(image)
-        isUserImage = true
+        setupUserImage(image)
     }
 }
 
 extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?) {
-        updateCategory(isActive: !text.isEmpty, categoryTitle: text)
-        productView.setImage(imageURL: imageURL, imageData: imageData)
-        quantityView.setDefaultUnit(defaultSelectedUnit ?? .piece)
-        
-        if !imageURL.isEmpty || imageData != nil {
-            isUserImage = false
-        }
+        updateProductView(text: text, imageURL: imageURL, imageData: imageData,
+                          defaultSelectedUnit: defaultSelectedUnit)
     }
     
     func newStore(store: Store?) {
@@ -399,9 +433,7 @@ extension CreateNewProductViewController: CategoryViewDelegate {
 
 extension CreateNewProductViewController: PredictiveTextViewDelegate {
     func selectTitle(_ title: String) {
-        AmplitudeManager.shared.logEvent(.itemPredictAdd)
-        productView.productTextField.text = title
-        viewModel?.checkIsProductFromCategory(name: title)
+        applyPredictiveInput(title)
     }
 }
 
@@ -447,18 +479,14 @@ extension CreateNewProductViewController: StoreOfProductViewDelegate {
 extension CreateNewProductViewController: QuantityOfProductViewDelegate {
     func unitSelected(_ unit: UnitSystem) {
         self.unit = unit
+        viewModel?.setUnit(unit)
     }
     
     func updateQuantityValue(_ quantity: Double) {
-        let quantityString = String(format: "%.\(quantity.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", quantity)
-        productView.setQuantity(quantity > 0 ? "\(quantityString) \(unit.title)" : "")
+        updateQuantity(quantity)
     }
     
     func tappedMinusPlusButtons(_ quantity: Double) {
-        guard let costOfProductPerUnit = viewModel?.costOfProductPerUnit else {
-            return
-        }
-        let cost = quantity * costOfProductPerUnit
-        storeView.setCost(value: "\(cost)")
+        tappedQuantityButtons(quantity)
     }
 }

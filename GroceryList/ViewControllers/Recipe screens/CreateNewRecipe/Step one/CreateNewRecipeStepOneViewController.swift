@@ -7,6 +7,7 @@
 
 import UIKit
 
+// swiftlint:disable:next type_body_length
 final class CreateNewRecipeStepOneViewController: UIViewController {
     
     var viewModel: CreateNewRecipeStepOneViewModel?
@@ -14,7 +15,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
-        scrollView.contentInset.top = CGFloat(titleView.requiredHeight + 40)
+        scrollView.contentInset.bottom = 150
         return scrollView
     }()
     
@@ -40,13 +41,31 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         label.isUserInteractionEnabled = true
         label.font = UIFont.SFProRounded.semibold(size: 17).font
         label.textColor = R.color.primaryDark()
-        label.text = R.string.localizable.recipes()
+        label.text = R.string.localizable.cancel()
         return label
+    }()
+    
+    private lazy var savedToDraftsButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(R.string.localizable.saveToDrafts(), for: .normal)
+        button.setTitleColor(R.color.background(), for: .normal)
+        button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 17).font
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.minimumScaleFactor = 0.3
+        button.setImage(R.image.collection()?.withTintColor(R.color.background() ?? .white),
+                        for: .normal)
+        button.layer.cornerRadius = 8
+        button.semanticContentAttribute = .forceRightToLeft
+        button.contentEdgeInsets.left = 8
+        button.addTarget(self, action: #selector(savedToDraftsButtonTapped), for: .touchUpInside)
+        return button
     }()
     
     private lazy var nextButton: UIButton = {
         let button = UIButton()
-        button.setImage(R.image.btn_next(), for: .normal)
+        button.setTitle(R.string.localizable.continue().uppercased(), for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         button.addDefaultShadowForPopUp()
@@ -56,12 +75,15 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
     private let topSafeAreaView = UIView()
     private let navigationView = UIView()
     private let contentView = UIView()
-    private var imagePicker = UIImagePickerController()
+    
+    private let savedToDraftsAlertView = CreateNewRecipeSavedToDraftsAlertView()
     private let titleView = CreateNewRecipeTitleView()
     private let nameView = CreateNewRecipeViewWithTextField()
-    private let servingsView = CreateNewRecipeViewWithTextField()
-    private let collectionView = CreateNewRecipeViewWithButton()
-    private let photoView = CreateNewRecipePhotoView()
+    private let descriptionView = CreateNewRecipeViewWithTextField()
+    private let ingredientsView = CreateNewRecipeViewWithButton()
+    private let stepsView = CreateNewRecipeViewWithButton()
+    private var stepNumber = 1
+    private let showCostView = CreateNewRecipeShowCostView()
     
     private var isVisibleKeyboard = false
     
@@ -71,77 +93,305 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
     }
     
     private func setup() {
-        self.view.backgroundColor = UIColor(hex: "#E5F5F3")
-        navigationView.backgroundColor = UIColor(hex: "#E5F5F3").withAlphaComponent(0.9)
-        topSafeAreaView.backgroundColor = UIColor(hex: "#E5F5F3").withAlphaComponent(0.9)
+        self.view.backgroundColor = R.color.background()
+        valueChanged()
+        setupNavigationView()
         setupCustomView()
         setupStackView()
         makeConstraints()
         
-        viewModel?.changeCollections = { [weak self] collectionTitles in
-            var title = ""
-            collectionTitles.forEach { title.append("\($0), ") }
-            if !title.isEmpty {
-                title.removeLast(2)
-            }
-            self?.collectionView.updateCollectionPlaceholder(title)
-        }
+        setupCurrentRecipe()
         
         NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardAppear),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground),
+                                               name: UIApplication.willResignActiveNotification, object: nil)
+    }
+    
+    private func valueChanged() {
+        viewModel?.preparationStepChanged = { [weak self] description in
+            guard let self else { return }
+            self.updateSteps(description)
+        }
+        
+        viewModel?.ingredientChanged = { [weak self] ingredient in
+            guard let self else { return }
+            self.updateIngredient(ingredient)
+        }
+    }
+    
+    private func setupNavigationView() {
+        topSafeAreaView.backgroundColor = R.color.background()
+        navigationView.backgroundColor = R.color.background()
+        
+        updateSavedToDraftsButton()
+        savedToDraftsAlertView.isHidden = true
+        savedToDraftsAlertView.leaveCreatingRecipeTapped = { [weak self] in
+            self?.savedToDraftsAlertView.fadeOut()
+            self?.viewModel?.back()
+        }
+        
+        savedToDraftsAlertView.continueWorkTapped = { [weak self] in
+            self?.savedToDraftsAlertView.fadeOut()
+        }
     }
     
     private func setupCustomView() {
         titleView.setStep(R.string.localizable.step1Of2())
-        nameView.configure(title: R.string.localizable.name(), state: .required)
-        servingsView.configure(title: R.string.localizable.servings().capitalized, state: .required)
-        servingsView.setOnlyNumber()
-        collectionView.closeStackButton(isVisible: false)
-        collectionView.configure(title: R.string.localizable.collection(), state: .optional)
         
-        nameView.textField.becomeFirstResponder()
+        nameView.configure(title: R.string.localizable.name(), state: .required)
+        nameView.textView.becomeFirstResponder()
         nameView.textFieldReturnPressed = { [weak self] in
-            self?.servingsView.textField.becomeFirstResponder()
+            self?.descriptionView.textView.becomeFirstResponder()
         }
-        collectionView.buttonPressed = { [weak self] in
-            (self?.isVisibleKeyboard ?? false) ? self?.dismissKeyboard()
-                                               : self?.viewModel?.openCollection()
+        nameView.textFieldDidChange = { [weak self] in
+            self?.updateSavedToDraftsButton()
         }
-            
-        photoView.imageTapped = { [weak self] in
-            (self?.isVisibleKeyboard ?? false) ? self?.dismissKeyboard() : self?.pickImage()
+        
+        descriptionView.configure(title: R.string.localizable.description(), state: .optional,
+                                  modeIsTextField: false)
+        descriptionView.updateLayout = { [weak self] in
+            guard let self else { return }
+            self.descriptionView.snp.updateConstraints {
+                $0.height.equalTo(self.descriptionView.requiredHeight)
+            }
+        }
+        
+        setupIngredientView()
+        setupStepView()
+        
+        showCostView.changedSwitchValue = { [weak self] isShowCost in
+            guard let self else {
+                return
+            }
+            self.viewModel?.setIsShowCost(isShowCost)
+            self.ingredientsView.stackView.arrangedSubviews.enumerated().forEach({ index, view in
+                let ingredientView = (view as? IngredientForCreateRecipeView)
+                if (self.viewModel?.isShowCost ?? false) {
+                    let store = self.viewModel?.getStoreAndCost(by: index)
+                    ingredientView?.setupCost(isVisible: self.viewModel?.isShowCost ?? false,
+                                              storeTitle: store?.store, costValue: store?.cost)
+                } else {
+                    ingredientView?.setupCost(isVisible: self.viewModel?.isShowCost ?? false,
+                                              storeTitle: nil, costValue: nil)
+                }
+            })
+        }
+    }
+    
+    private func setupIngredientView() {
+        ingredientsView.setPlaceholder(R.string.localizable.requiredMinimum2())
+        ingredientsView.setIconImage(image: R.image.recipePlus())
+        ingredientsView.stackView.reorderDelegate = self
+        ingredientsView.configure(title: R.string.localizable.ingredients(), state: .required)
+        ingredientsView.buttonPressed = { [weak self] in
+            guard let self else { return }
+            self.nameView.textView.resignFirstResponder()
+            self.descriptionView.textView.resignFirstResponder()
+            self.viewModel?.presentIngredient()
+        }
+        ingredientsView.updateLayout = { [weak self] in
+            guard let self else { return }
+            self.ingredientsView.snp.updateConstraints {
+                $0.height.equalTo(self.ingredientsView.requiredHeight)
+            }
+        }
+    }
+    
+    private func setupStepView() {
+        stepsView.setIconImage(image: R.image.recipePlus())
+        stepsView.stackView.reorderDelegate = self
+        stepsView.configure(title: R.string.localizable.preparationSteps(), state: .optional)
+        stepsView.buttonPressed = { [weak self] in
+            guard let self else { return }
+            self.nameView.textView.resignFirstResponder()
+            self.descriptionView.textView.resignFirstResponder()
+            self.viewModel?.presentPreparationStep(stepNumber: self.stepNumber)
+        }
+        stepsView.updateLayout = { [weak self] in
+            guard let self else { return }
+            self.stepsView.snp.updateConstraints {
+                $0.height.equalTo(self.stepsView.requiredHeight)
+            }
         }
     }
     
     private func setupStackView() {
+        stackView.addArrangedSubview(navigationView)
+        stackView.addArrangedSubview(titleView)
         stackView.addArrangedSubview(nameView)
-        stackView.addArrangedSubview(servingsView)
-        stackView.addArrangedSubview(collectionView)
-        stackView.addArrangedSubview(photoView)
+        stackView.addArrangedSubview(descriptionView)
+        stackView.addArrangedSubview(ingredientsView)
+        stackView.addArrangedSubview(stepsView)
+        stackView.addArrangedSubview(showCostView)
+    }
+    
+    private func setupCurrentRecipe() {
+        guard let currentRecipe = viewModel?.currentRecipe else {
+            return
+        }
+        savedToDraftsButton.isHidden = true
+        nameView.setText(currentRecipe.title)
+        descriptionView.setText(currentRecipe.description)
+
+        currentRecipe.ingredients.forEach { ingredient in
+            updateIngredient(ingredient)
+        }
+        currentRecipe.instructions?.forEach({ step in
+            updateSteps(step)
+        })
     }
     
     private func updateNextButton(isActive: Bool) {
-        nextButton.backgroundColor = isActive ? R.color.primaryDark() : UIColor(hex: "#D8ECE9")
+        nextButton.backgroundColor = isActive ? R.color.primaryDark() : R.color.lightGray()
         nextButton.layer.shadowOpacity = isActive ? 0.15 : 0
         nextButton.isUserInteractionEnabled = isActive
+    }
+
+    private func updateSavedToDraftsButton() {
+        let text = nameView.textView.text ?? ""
+        savedToDraftsButton.backgroundColor = text.count > 0 ? R.color.darkGray()
+                                                             : R.color.lightGray()
+        if savedToDraftsButton.titleLabel?.text == R.string.localizable.savedInDrafts() {
+            savedToDraftsButton.backgroundColor = R.color.background()
+        }
+        if text.count == 0 || savedToDraftsButton.titleLabel?.text == R.string.localizable.savedInDrafts() {
+            savedToDraftsButton.isUserInteractionEnabled = false
+        } else {
+            savedToDraftsButton.isUserInteractionEnabled = true
+        }
+    }
+    
+    private func updateIngredient(_ ingredient: Ingredient) {
+        var serving = ""
+        if ingredient.quantity == 0 {
+            let quantityStr = ingredient.quantityStr ?? ""
+            serving = quantityStr.isEmpty ? R.string.localizable.byTaste() : quantityStr
+        } else {
+            serving = "\(ingredient.quantity.asString) \(ingredient.unit?.title.localized ?? "")"
+        }
+        setupIngredientView(title: ingredient.product.title,
+                            serving: serving,
+                            description: ingredient.description,
+                            imageURL: ingredient.product.photo,
+                            imageData: ingredient.product.localImage,
+                            isVisibleStore: viewModel?.isShowCost ?? false,
+                            storeTitle: ingredient.product.store?.title,
+                            costValue: ingredient.product.cost)
+        updateIngredientsViewIsActive()
+        ingredientsView.snp.updateConstraints {
+            $0.height.equalTo(ingredientsView.requiredHeight)
+        }
+    }
+    
+    private func updateIngredientsViewIsActive() {
+        let name = nameView.textView.text?.trimmingCharacters(in: .whitespaces)
+        let isActive = ingredientsView.stackSubviewsCount >= 2
+        
+        let isActiveNextButton = !(name?.isEmpty ?? true) && isActive
+        updateNextButton(isActive: isActiveNextButton)
+        if isActive {
+            ingredientsView.setPlaceholder(R.string.localizable.addIngredient())
+            ingredientsView.setState(.filled)
+        } else {
+            ingredientsView.setPlaceholder(R.string.localizable.requiredMinimum2())
+            ingredientsView.setState(.required)
+        }
+    }
+    
+    private func updateSteps(_ description: String) {
+        setupStepView(stepNumber: stepNumber, description: description)
+        stepsView.setPlaceholder(R.string.localizable.addStep())
+        stepsView.setState(.filled)
+        stepsView.snp.updateConstraints {
+            $0.height.equalTo(stepsView.requiredHeight)
+        }
+        self.stepNumber += 1
+    }
+    
+    private func setupIngredientView(title: String, serving: String, description: String?,
+                                     imageURL: String, imageData: Data?,
+                                     isVisibleStore: Bool, storeTitle: String?, costValue: Double?) {
+        let view = IngredientForCreateRecipeView()
+        view.setTitle(title: title)
+        view.setServing(serving: serving)
+        view.setDescription(description)
+        view.setImage(imageURL: imageURL, imageData: imageData)
+        view.setupCost(isVisible: isVisibleStore, storeTitle: storeTitle, costValue: costValue)
+        ingredientsView.addViewToStackView(view)
+        view.originalIndex = ingredientsView.stackSubviewsCount - 1
+        view.swipeDeleteAction = { [weak self] index in
+            guard let self else {
+                return
+            }
+            self.viewModel?.removeIngredient(by: index)
+            self.ingredientsView.removeView(view)
+            self.ingredientsView.stackView.arrangedSubviews.enumerated().forEach { index, view in
+                (view as? IngredientForCreateRecipeView)?.originalIndex = index
+            }
+            updateIngredientsViewIsActive()
+            self.ingredientsView.snp.updateConstraints {
+                $0.height.equalTo(self.ingredientsView.requiredHeight)
+            }
+        }
+    }
+    
+    private func setupStepView(stepNumber: Int, description: String) {
+        let view = StepForCreateRecipeView()
+        view.configure(step: "\(stepNumber)", description: description)
+        stepsView.addViewToStackView(view)
+        view.swipeDeleteAction = { [weak self] in
+            guard let self else {
+                return
+            }
+            self.stepsView.removeView(view)
+            var updatedSteps: [String] = []
+            self.stepsView.stackView.arrangedSubviews.enumerated().forEach { index, view in
+                (view as? StepForCreateRecipeView)?.updateStep(step: "\(index + 1)")
+                updatedSteps.append((view as? StepForCreateRecipeView)?.getDescription() ?? "")
+            }
+            self.viewModel?.updateSteps(updatedSteps: updatedSteps)
+            self.stepsView.snp.updateConstraints {
+                $0.height.equalTo(self.stepsView.requiredHeight)
+            }
+            
+            self.stepNumber = self.stepsView.stackView.arrangedSubviews.count + 1
+        }
     }
     
     @objc
     private func backButtonTapped() {
+        viewModel?.savedToDrafts(title: nameView.textView.text,
+                                 description: descriptionView.textView.text)
         viewModel?.back()
     }
     
     @objc
+    private func savedToDraftsButtonTapped() {
+        viewModel?.isDraftRecipe = true
+        savedToDraftsButton.setTitle(R.string.localizable.savedInDrafts(), for: .normal)
+        savedToDraftsButton.setTitleColor(R.color.darkGray(), for: .normal)
+        savedToDraftsButton.setImage(R.image.collection()?.withTintColor(R.color.darkGray() ?? .black),
+                                     for: .normal)
+        savedToDraftsButton.backgroundColor = R.color.background()
+        savedToDraftsButton.layer.borderColor = R.color.darkGray()?.cgColor
+        savedToDraftsButton.layer.borderWidth = 1
+        savedToDraftsButton.isUserInteractionEnabled = false
+        
+        viewModel?.savedToDrafts(title: nameView.textView.text,
+                                 description: descriptionView.textView.text)
+        savedToDraftsAlertView.fadeIn()
+    }
+    
+    @objc
     private func nextButtonTapped() {
-        guard let name = nameView.textField.text?.trimmingCharacters(in: .whitespaces),
-              let servings = servingsView.textField.text?.asInt else {
-            print("что-то пошло не так, проверьте обязательные поля")
+        guard let name = nameView.textView.text?.trimmingCharacters(in: .whitespaces) else {
             updateNextButton(isActive: false)
             return
         }
-        viewModel?.saveRecipe(title: name,
-                              servings: servings,
-                              photo: photoView.image)
+        
+        viewModel?.saveRecipe(title: name, description: descriptionView.textView.text)
+        viewModel?.savedToDrafts(title: name, description: descriptionView.textView.text)
         viewModel?.next()
     }
     
@@ -156,8 +406,8 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
     @objc
     private func dismissKeyboard() {
         isVisibleKeyboard = false
-        let isActive = !(nameView.textField.text?.isEmpty ?? true) &&
-                       !(servingsView.textField.text?.isEmpty ?? true)
+        let name = nameView.textView.text?.trimmingCharacters(in: .whitespaces)
+        let isActive = !(name?.isEmpty ?? true) && ingredientsView.stackSubviewsCount >= 2
         updateNextButton(isActive: isActive)
         
         guard let gestureRecognizers = self.view.gestureRecognizers else {
@@ -167,35 +417,33 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    @objc
+    private func appMovedToBackground() {
+        viewModel?.savedToDrafts(title: nameView.textView.text,
+                                 description: descriptionView.textView.text)
+    }
+    
     private func makeConstraints() {
-        self.view.addSubviews([scrollView, topSafeAreaView, navigationView, titleView])
+        self.view.addSubviews([scrollView, topSafeAreaView, nextButton, savedToDraftsAlertView])
         self.scrollView.addSubview(contentView)
-        contentView.addSubviews([stackView, nextButton])
-        navigationView.addSubviews([backButton, backLabel])
+        contentView.addSubviews([stackView])
+        navigationView.addSubviews([backButton, backLabel, savedToDraftsButton])
         
         topSafeAreaView.snp.makeConstraints {
             $0.leading.trailing.top.equalToSuperview()
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.top)
         }
         
-        navigationView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            $0.height.equalTo(40)
-        }
-        
-        titleView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(navigationView.snp.bottom)
-            $0.height.equalTo(titleView.requiredHeight)
-        }
-        
         nextButton.snp.makeConstraints {
-            $0.top.equalTo(stackView.snp.bottom).offset(37)
+            $0.top.greaterThanOrEqualTo(stackView.snp.bottom).offset(37)
             $0.leading.equalToSuperview().offset(20)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(64)
-            $0.bottom.equalToSuperview().offset(-80)
+            $0.bottom.greaterThanOrEqualTo(self.view).offset(-80)
+        }
+        
+        savedToDraftsAlertView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
         makeScrollConstraints()
@@ -215,6 +463,13 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
             $0.centerY.equalToSuperview()
             $0.height.equalTo(24)
         }
+        
+        savedToDraftsButton.snp.makeConstraints {
+            $0.leading.greaterThanOrEqualTo(backLabel.snp.trailing).offset(8)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.top.equalToSuperview()
+            $0.height.equalTo(40)
+        }
     }
     
     private func makeScrollConstraints() {
@@ -229,49 +484,66 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         }
         
         stackView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
+            $0.edges.equalToSuperview()
             $0.width.equalTo(self.view)
         }
     }
     
     private func makeCustomViewConstraints() {
+        navigationView.snp.makeConstraints {
+            $0.height.equalTo(40)
+            $0.width.equalToSuperview()
+        }
+        
+        titleView.snp.makeConstraints {
+            $0.height.equalTo(titleView.requiredHeight)
+            $0.width.equalToSuperview()
+        }
+        
         nameView.snp.makeConstraints {
             $0.height.equalTo(nameView.requiredHeight)
             $0.width.equalToSuperview()
         }
         
-        servingsView.snp.makeConstraints {
-            $0.height.equalTo(servingsView.requiredHeight)
+        descriptionView.snp.makeConstraints {
+            $0.height.equalTo(descriptionView.requiredHeight)
             $0.width.equalToSuperview()
         }
         
-        collectionView.snp.makeConstraints {
-            $0.height.equalTo(collectionView.requiredHeight)
+        ingredientsView.snp.makeConstraints {
+            $0.height.equalTo(ingredientsView.requiredHeight)
             $0.width.equalToSuperview()
-            
         }
         
-        photoView.snp.makeConstraints {
-            $0.height.equalTo(photoView.requiredHeight)
+        stepsView.snp.makeConstraints {
+            $0.height.equalTo(stepsView.requiredHeight)
+            $0.width.equalToSuperview()
+        }
+        
+        showCostView.snp.makeConstraints {
+            $0.height.equalTo(showCostView.requiredHeight)
             $0.width.equalToSuperview()
         }
     }
 }
 
-extension CreateNewRecipeStepOneViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    func pickImage() {
-        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
-            imagePicker.delegate = self
-            imagePicker.sourceType = .savedPhotosAlbum
-            imagePicker.allowsEditing = false
-            imagePicker.modalPresentationStyle = .pageSheet
-            present(imagePicker, animated: true, completion: nil)
+extension CreateNewRecipeStepOneViewController: StackViewReorderDelegate {
+    func didEndReordering(_ stackView: UIStackView) {
+        guard stackView == ingredientsView.stackView else {
+            var updatedSteps: [String] = []
+            stackView.arrangedSubviews.enumerated().forEach { index, view in
+                (view as? StepForCreateRecipeView)?.updateStep(step: "\(index + 1)")
+                updatedSteps.append((view as? StepForCreateRecipeView)?.getDescription() ?? "")
+            }
+            viewModel?.updateSteps(updatedSteps: updatedSteps)
+            return
         }
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        self.dismiss(animated: true, completion: nil)
-        let image = info[.originalImage] as? UIImage
-        photoView.setImage(image)
+        
+        var originalIndexes: [Int] = []
+        stackView.arrangedSubviews.enumerated().forEach { index, view in
+            originalIndexes.append((view as? IngredientForCreateRecipeView)?.originalIndex ?? -1)
+            (view as? IngredientForCreateRecipeView)?.originalIndex = index
+        }
+        viewModel?.updateIngredients(originalIndexes: originalIndexes)
     }
 }

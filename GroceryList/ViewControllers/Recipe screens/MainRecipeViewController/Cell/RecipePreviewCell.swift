@@ -66,6 +66,11 @@ final class RecipePreviewCell: UICollectionViewCell {
         kcalLabel.isHidden = true
         favoriteImage.isHidden = true
         badgeView.layer.cornerRadius = 0
+        badgeView.snp.remakeConstraints { make in
+            make.bottom.leading.equalToSuperview()
+            make.height.equalTo(18)
+            make.trailing.equalToSuperview()
+        }
     }
     
     func configure(with recipe: ShortRecipeModel, color: Theme) {
@@ -82,15 +87,15 @@ final class RecipePreviewCell: UICollectionViewCell {
             kcalLabel.isHidden = false
             
             kcalLabel.text = "\(Int(kcal))"
-            
             kcalLabel.snp.makeConstraints { make in
                 make.trailing.equalTo(-8)
                 make.top.equalToSuperview().offset(3)
             }
         } else {
             badgeView.layer.cornerRadius = 8
-            
-            badgeView.snp.makeConstraints { make in
+            badgeView.snp.remakeConstraints { make in
+                make.bottom.leading.equalToSuperview()
+                make.height.equalTo(18)
                 make.trailing.equalTo(timeLabel.snp.trailing).offset(8)
             }
         }
@@ -154,8 +159,19 @@ final class RecipePreviewCell: UICollectionViewCell {
         badgeView.snp.makeConstraints { make in
             make.bottom.leading.equalToSuperview()
             make.height.equalTo(18)
+            make.trailing.equalToSuperview()
+        }
+
+        favoriteImage.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(3)
+            make.trailing.equalToSuperview().offset(-3)
+            make.height.width.equalTo(20)
         }
         
+        makeBadgeViewConstraints()
+    }
+    
+    private func makeBadgeViewConstraints() {
         timeImage.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(8)
             make.centerY.equalToSuperview()
@@ -167,20 +183,10 @@ final class RecipePreviewCell: UICollectionViewCell {
             make.top.equalToSuperview().offset(3)
         }
         
-        badgeView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview()
-        }
-        
         kcalImage.snp.makeConstraints { make in
             make.trailing.equalTo(kcalLabel.snp.leading)
             make.centerY.equalToSuperview()
             make.height.width.equalTo(16)
-        }
-        
-        favoriteImage.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(3)
-            make.trailing.equalToSuperview().offset(-3)
-            make.height.width.equalTo(20)
         }
     }
     

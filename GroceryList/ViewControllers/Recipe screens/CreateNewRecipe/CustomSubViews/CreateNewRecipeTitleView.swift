@@ -10,12 +10,12 @@ import UIKit
 final class CreateNewRecipeTitleView: UIView {
     
     var requiredHeight: Int {
-        26 + 24 + 8 + 24
+        10 + 40 + 8 + 29
     }
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFProRounded.bold(size: 22).font
+        label.font = UIFont.SFProDisplay.heavy(size: 32).font
         label.textColor = R.color.primaryDark()
         label.text = R.string.localizable.recipeCreation()
         return label
@@ -23,7 +23,7 @@ final class CreateNewRecipeTitleView: UIView {
     
     private lazy var stepLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFProRounded.semibold(size: 17).font
+        label.font = UIFont.SFPro.bold(size: 24).font
         label.textColor = R.color.primaryDark()
         return label
     }()
@@ -46,7 +46,7 @@ final class CreateNewRecipeTitleView: UIView {
     }
     
     private func setup() {
-        self.backgroundColor = UIColor(hex: "#E5F5F3").withAlphaComponent(0.9)
+        self.backgroundColor = R.color.background()?.withAlphaComponent(0.9)
         
         makeConstraints()
     }
@@ -56,14 +56,14 @@ final class CreateNewRecipeTitleView: UIView {
         
         titleLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(28)
-            $0.top.equalToSuperview().offset(26)
-            $0.height.equalTo(24)
+            $0.top.equalToSuperview().offset(10)
+            $0.height.equalTo(40)
         }
         
         stepLabel.snp.makeConstraints {
             $0.leading.equalTo(titleLabel)
             $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-            $0.height.equalTo(24)
+            $0.height.equalTo(29)
         }
     }
 }

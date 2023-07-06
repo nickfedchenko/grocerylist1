@@ -305,9 +305,9 @@ extension MainRecipeViewController: RecipesFolderHeaderDelegate {
 extension MainRecipeViewController: MainTabBarControllerRecipeDelegate {
     func updateRecipeUI(_ recipe: Recipe?) {
         viewModel.updateUI()
-        if let recipe {
-            viewModel.showCustomRecipe(recipe: recipe)
-        }
+//        if let recipe {
+//            viewModel.showCustomRecipe(recipe: recipe)
+//        }
     }
     
     func tappedChangeView() {

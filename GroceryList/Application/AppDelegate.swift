@@ -8,8 +8,8 @@
 import Amplitude
 import ApphudSDK
 import Firebase
-import UIKit
 import Kingfisher
+import UIKit
 import UserNotifications
 
 @main

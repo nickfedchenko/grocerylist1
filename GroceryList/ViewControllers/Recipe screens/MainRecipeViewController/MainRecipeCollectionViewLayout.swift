@@ -34,16 +34,7 @@ final class MainRecipeCollectionViewLayout {
     }
     
     private func makeRecipeSection() -> NSCollectionLayoutSection {
-        let colorSize = NSCollectionLayoutSize(
-            widthDimension: .estimated(8),
-            heightDimension: .estimated(1)
-        )
-        
-        let colorItem = NSCollectionLayoutItem(layoutSize: colorSize)
-        let colorGroupSize = NSCollectionLayoutSize(widthDimension: .estimated(8),
-                                                    heightDimension: .estimated(1))
-        let colorGroup = NSCollectionLayoutGroup.horizontal(
-            layoutSize: colorGroupSize, subitem: colorItem, count: 1)
+        let colorGroup = makeColorRecipeGroup()
         colorGroup.interItemSpacing = .fixed(8)
         
         let recipeSize = NSCollectionLayoutSize(
@@ -89,6 +80,20 @@ final class MainRecipeCollectionViewLayout {
         return section
     }
  
+    private func makeColorRecipeGroup() -> NSCollectionLayoutGroup {
+        let colorSize = NSCollectionLayoutSize(
+            widthDimension: .estimated(8),
+            heightDimension: .estimated(1)
+        )
+        
+        let colorItem = NSCollectionLayoutItem(layoutSize: colorSize)
+        let colorGroupSize = NSCollectionLayoutSize(widthDimension: .estimated(8),
+                                                    heightDimension: .estimated(1))
+        let colorGroup = NSCollectionLayoutGroup.horizontal(
+            layoutSize: colorGroupSize, subitem: colorItem, count: 1)
+        return colorGroup
+    }
+    
     // MARK: folder view
     private func folderLayout() -> UICollectionViewCompositionalLayout {
         let layoutConfig = UICollectionViewCompositionalLayoutConfiguration()
@@ -123,10 +128,7 @@ final class MainRecipeCollectionViewLayout {
                                    bottom: 16, trailing: 16)
         
         let section = NSCollectionLayoutSection(group: group)
-        
-        
         return section
-        
     }
     
 }

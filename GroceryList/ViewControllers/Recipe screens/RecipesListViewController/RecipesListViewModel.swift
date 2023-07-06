@@ -5,8 +5,8 @@
 //  Created by Хандымаа Чульдум on 21.06.2023.
 //
 
-import UIKit
 import Kingfisher
+import UIKit
 
 class RecipesListViewModel {
     

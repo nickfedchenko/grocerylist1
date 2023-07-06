@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 333 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 341 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -402,6 +402,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var complete: RswiftResources.StringResource { .init(key: "Complete", tableName: "Localizable", source: source, developmentValue: "Complete", comment: nil) }
 
+      /// en translation: Continue Work
+      ///
+      /// Key: Continue Work
+      ///
+      /// Locales: en, ru, fr, de
+      var continueWork: RswiftResources.StringResource { .init(key: "Continue Work", tableName: "Localizable", source: source, developmentValue: "Continue Work", comment: nil) }
+
       /// en translation: Cooking supplies
       ///
       /// Key: Cooking supplies
@@ -471,6 +478,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var dateSorted: RswiftResources.StringResource { .init(key: "DateSorted", tableName: "Localizable", source: source, developmentValue: "Sorting by creation date", comment: nil) }
+
+      /// en translation: Delete Collection?
+      ///
+      /// Key: Delete Collection?
+      ///
+      /// Locales: en, ru, fr, de
+      var deleteCollection: RswiftResources.StringResource { .init(key: "Delete Collection?", tableName: "Localizable", source: source, developmentValue: "Delete Collection?", comment: nil) }
 
       /// en translation: Description
       ///
@@ -814,6 +828,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var kitchenScrubSponges: RswiftResources.StringResource { .init(key: "Kitchen Scrub Sponges", tableName: "Localizable", source: source, developmentValue: "Kitchen Scrub Sponges", comment: nil) }
+
+      /// en translation: Leave Creating a Recipe
+      ///
+      /// Key: Leave Creating a Recipe
+      ///
+      /// Locales: en, ru, fr, de
+      var leaveCreatingARecipe: RswiftResources.StringResource { .init(key: "Leave Creating a Recipe", tableName: "Localizable", source: source, developmentValue: "Leave Creating a Recipe", comment: nil) }
 
       /// en translation: Lettuce
       ///
@@ -1347,6 +1368,20 @@ struct _R {
       /// Locales: en, ru, fr, de
       var saveTimeAndMoney: RswiftResources.StringResource { .init(key: "Save time and money", tableName: "Localizable", source: source, developmentValue: "Save time and money", comment: nil) }
 
+      /// en translation: Save to Drafts
+      ///
+      /// Key: Save to Drafts
+      ///
+      /// Locales: en, ru, fr, de
+      var saveToDrafts: RswiftResources.StringResource { .init(key: "Save to Drafts", tableName: "Localizable", source: source, developmentValue: "Save to Drafts", comment: nil) }
+
+      /// en translation: Saved in Drafts
+      ///
+      /// Key: Saved in Drafts
+      ///
+      /// Locales: en, ru, fr, de
+      var savedInDrafts: RswiftResources.StringResource { .init(key: "Saved in Drafts", tableName: "Localizable", source: source, developmentValue: "Saved in Drafts", comment: nil) }
+
       /// en translation: Sea salt
       ///
       /// Key: Sea salt
@@ -1410,12 +1445,12 @@ struct _R {
       /// Locales: en, ru, fr, de
       var selectCategory: RswiftResources.StringResource { .init(key: "SelectCategory", tableName: "Localizable", source: source, developmentValue: "Select сategory", comment: nil) }
 
-      /// en translation: Select one or more collections where your recipe will be stored. You can create a new collection.
+      /// en translation: Select one or more collections
       ///
       /// Key: SelectOneOrMoreCollections
       ///
       /// Locales: en, ru, fr, de
-      var selectOneOrMoreCollections: RswiftResources.StringResource { .init(key: "SelectOneOrMoreCollections", tableName: "Localizable", source: source, developmentValue: "Select one or more collections where your recipe will be stored. You can create a new collection.", comment: nil) }
+      var selectOneOrMoreCollections: RswiftResources.StringResource { .init(key: "SelectOneOrMoreCollections", tableName: "Localizable", source: source, developmentValue: "Select one or more collections", comment: nil) }
 
       /// en translation: Send Invitation
       ///
@@ -1809,6 +1844,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var yes: RswiftResources.StringResource { .init(key: "Yes", tableName: "Localizable", source: source, developmentValue: "Yes", comment: nil) }
 
+      /// en translation: You are deleting a collection. All recipes that are in it will not be deleted from the database or other collections.
+      ///
+      /// Key: You are deleting a collection
+      ///
+      /// Locales: en, ru, fr, de
+      var youAreDeletingACollection: RswiftResources.StringResource { .init(key: "You are deleting a collection", tableName: "Localizable", source: source, developmentValue: "You are deleting a collection. All recipes that are in it will not be deleted from the database or other collections.", comment: nil) }
+
       /// en translation: You can add photo to the recipe at any time later
       ///
       /// Key: You can add photo
@@ -1822,6 +1864,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var youCanAlsoWriteAReview: RswiftResources.StringResource { .init(key: "You can also write a review", tableName: "Localizable", source: source, developmentValue: "You can also write a review. \n We will be very pleased", comment: nil) }
+
+      /// en translation: You can find your drafts on the main screen, in collections
+      ///
+      /// Key: You can find your drafts
+      ///
+      /// Locales: en, ru, fr, de
+      var youCanFindYourDrafts: RswiftResources.StringResource { .init(key: "You can find your drafts", tableName: "Localizable", source: source, developmentValue: "You can find your drafts on the main screen, in collections", comment: nil) }
 
       /// en translation: Tell us how was your experience of shopping with Grocery List App?
       ///
@@ -1955,6 +2004,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var clearAll: RswiftResources.StringResource { .init(key: "clearAll", tableName: "Localizable", source: source, developmentValue: "Clear All", comment: nil) }
+
+      /// en translation: Continue
+      ///
+      /// Key: continue
+      ///
+      /// Locales: en, ru, fr, de
+      var `continue`: RswiftResources.StringResource { .init(key: "continue", tableName: "Localizable", source: source, developmentValue: "Continue", comment: nil) }
 
       /// en translation: Save to Photo
       ///
@@ -2451,7 +2507,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 278 images.
+  /// This `_R.image` struct is generated, and contains static references to 279 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -2793,6 +2849,9 @@ struct _R {
 
     /// Image `contextualMenu`.
     var contextualMenu: RswiftResources.ImageResource { .init(name: "contextualMenu", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `defaultRecipeImage`.
+    var defaultRecipeImage: RswiftResources.ImageResource { .init(name: "defaultRecipeImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `defaults_pantry_list_BeautyHealth`.
     var defaults_pantry_list_BeautyHealth: RswiftResources.ImageResource { .init(name: "defaults_pantry_list_BeautyHealth", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

@@ -310,6 +310,10 @@ final class CreateNewStockViewController: UIViewController {
             $0.height.equalTo(64)
         }
         
+        makeFeatureConstraints()
+    }
+    
+    private func makeFeatureConstraints() {
         autoRepeatSettingView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(self.view)

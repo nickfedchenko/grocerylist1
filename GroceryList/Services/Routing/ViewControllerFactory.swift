@@ -309,20 +309,21 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createCreateNewRecipeViewController(currentRecipe: Recipe?, router: RootRouter,
                                              compl: @escaping (Recipe) -> Void) -> UIViewController {
         let viewController = CreateNewRecipeStepOneViewController()
-        let viewModel = CreateNewRecipeStepOneViewModel()
+        let viewModel = CreateNewRecipeStepOneViewModel(currentRecipe: currentRecipe)
         viewModel.router = router
         viewModel.competeRecipe = compl
-        viewModel.currentRecipe = currentRecipe
         viewController.viewModel = viewModel
         return viewController
     }
     
-    func createCreateNewRecipeStepTwoViewController(router: RootRouter, recipe: CreateNewRecipeStepOne,
+    func createCreateNewRecipeStepTwoViewController(router: RootRouter, isDraftRecipe: Bool,
+                                                    currentRecipe: Recipe?, recipe: Recipe,
                                                     compl: @escaping (Recipe) -> Void) -> UIViewController {
         let viewController = CreateNewRecipeStepTwoViewController()
-        let viewModel = CreateNewRecipeStepTwoViewModel(recipe: recipe)
+        let viewModel = CreateNewRecipeStepTwoViewModel(currentRecipe: currentRecipe, recipe: recipe)
         viewModel.router = router
         viewModel.compete = compl
+        viewModel.isDraftRecipe = isDraftRecipe
         viewController.viewModel = viewModel
         return viewController
     }
@@ -335,12 +336,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createCreateNewCollectionViewController(collections: [CollectionModel] = [],
-                                                 compl: @escaping ([CollectionModel]) -> Void) -> UIViewController {
+    func createCreateNewCollectionViewController(currentCollection: CollectionModel?,
+                                                 collections: [CollectionModel] = [],
+                                                 compl: @escaping (CollectionModel) -> Void) -> UIViewController {
         let viewController = CreateNewCollectionViewController()
         let viewModel = CreateNewCollectionViewModel()
         viewModel.updateUICallBack = compl
         viewModel.editCollections = collections
+        viewModel.currentCollection = currentCollection
         viewController.viewModel = viewModel
         return viewController
     }
@@ -358,12 +361,13 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createIngredientViewController(router: RootRouter, compl: @escaping (Ingredient) -> Void) -> UIViewController {
-        let viewController = IngredientViewController()
+    func createIngredientViewController(isShowCost: Bool, router: RootRouter,
+                                        compl: @escaping (Ingredient) -> Void) -> UIViewController {
         let viewModel = IngredientViewModel()
         viewModel.router = router
         viewModel.ingredientCallback = compl
-        viewController.viewModel = viewModel
+        viewModel.isShowCost = isShowCost
+        let viewController = IngredientViewController(viewModel: viewModel)
         return viewController
     }
     

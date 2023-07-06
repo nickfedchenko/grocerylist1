@@ -12,7 +12,8 @@ final class CreateNewRecipeViewWithButton: UIView {
     var buttonPressed: (() -> Void)?
     var updateLayout: (() -> Void)?
     var requiredHeight: Int {
-        Int(CGFloat(top + offset + 20 + 4 + 48) + stackContentSize.height)
+        let stackHeight = stackContentSize.height > 40 ? stackContentSize.height + 8 : stackContentSize.height
+        return Int(CGFloat(top + offset + 20 + 4 + 48) + stackHeight)
     }
     var text: String? {
         let text = placeholderLabel.text
@@ -25,7 +26,7 @@ final class CreateNewRecipeViewWithButton: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
-        label.textColor = UIColor(hex: "#777777")
+        label.textColor = R.color.darkGray()
         return label
     }()
     
@@ -36,11 +37,13 @@ final class CreateNewRecipeViewWithButton: UIView {
         return view
     }()
     
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView()
+    private(set) lazy var stackView: RedorderableStackView = {
+        let stackView = RedorderableStackView()
         stackView.distribution = .fillProportionally
         stackView.axis = .vertical
         stackView.spacing = 8
+        stackView.reorderingEnabled = true
+        stackView.clipsToBounds = false
         return stackView
     }()
     
@@ -111,13 +114,14 @@ final class CreateNewRecipeViewWithButton: UIView {
     }
     
     func closeStackButton(isVisible: Bool) {
-        closeStackButton.isHidden = !isVisible
-        if isVisible {
-            top = 26
-            offset = 10
-            titleLabel.snp.updateConstraints { $0.top.equalToSuperview().offset(top) }
-            stackView.snp.updateConstraints { $0.top.equalTo(titleLabel.snp.bottom).offset(10) }
-        }
+        closeStackButton.isHidden = true
+//        closeStackButton.isHidden = !isVisible
+//        if isVisible {
+//            top = 26
+//            offset = 10
+//            titleLabel.snp.updateConstraints { $0.top.equalToSuperview().offset(top) }
+//            stackView.snp.updateConstraints { $0.top.equalTo(titleLabel.snp.bottom).offset(10) }
+//        }
     }
     
     func addViewToStackView(_ view: UIView) {
@@ -140,6 +144,11 @@ final class CreateNewRecipeViewWithButton: UIView {
         self.state = state
     }
     
+    func removeView(_ view: UIView) {
+        stackView.removeArrangedSubview(view)
+        view.removeFromSuperview()
+    }
+    
     private func setup() {
         self.backgroundColor = .clear
         let tapOnView = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
@@ -149,7 +158,7 @@ final class CreateNewRecipeViewWithButton: UIView {
             shadowView.backgroundColor = .white
             shadowView.layer.cornerRadius = 8
         }
-        
+        closeStackButton.isHidden = true
         makeConstraints()
     }
     
@@ -160,10 +169,10 @@ final class CreateNewRecipeViewWithButton: UIView {
                                        radius: state.shadowRadius[index],
                                        offset: state.shadowOffset[index])
         }
-        contentView.layer.borderWidth = state.borderWidth
-        contentView.layer.borderColor = state.borderColor.cgColor
+        contentView.layer.borderWidth = state == .filled ? 2 : state.borderWidth
+        contentView.layer.borderColor = state == .filled ? R.color.mediumGray()?.cgColor : state.borderColor.cgColor
         placeholderLabel.text = placeholderTitle ?? state.placeholder
-        placeholderLabel.textColor = UIColor(hex: state == .filled ? "#0C695E" : "#777777")
+        placeholderLabel.textColor = state.placeholderColor
     }
     
     private func stackView(isVisible: Bool) {
@@ -194,7 +203,7 @@ final class CreateNewRecipeViewWithButton: UIView {
         contentView.addSubviews([placeholderLabel, iconImageView])
         
         titleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(28)
+            $0.leading.equalToSuperview().offset(24)
             $0.top.equalToSuperview().offset(top)
             $0.height.equalTo(20)
         }
@@ -212,7 +221,7 @@ final class CreateNewRecipeViewWithButton: UIView {
         }
         
         contentView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(16)
             $0.top.equalTo(stackView.snp.bottom).offset(0)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(48)

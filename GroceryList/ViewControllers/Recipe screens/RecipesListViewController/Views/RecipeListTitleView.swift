@@ -15,8 +15,7 @@ class RecipeListTitleView: UIView {
         label.font = UIFont.SFProDisplay.heavy(size: 32).font
         return label
     }()
-    
-    
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupSubviews()

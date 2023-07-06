@@ -233,8 +233,7 @@ class RecipeListCell: UICollectionViewCell {
             $0.trailing.equalToSuperview().offset(-4)
         }
     }
-    
-    
+        
     private func drawInlinedStroke() {
         contentView.layer.borderColor = UIColor.white.cgColor
         contentView.layer.borderWidth = 1

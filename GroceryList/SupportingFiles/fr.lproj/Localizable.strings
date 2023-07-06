@@ -379,3 +379,14 @@
 
 "addToFavorites"                = "ajouter Aux Favoris";
 "added to"                      = "Ajouté à";
+
+"Delete Collection?"            = "Supprimer la collection?";
+"You are deleting a collection" = "Vous supprimez une collection. Toutes les recettes qui s'y trouvent ne seront pas supprimées de la base de données ou d'autres collections.";
+"SelectOneOrMoreCollections"    = "Sélectionner une ou plusieurs collections";
+
+"continue"                      = "Continuer";
+"Save to Drafts"                = "Enregistrer dans les brouillons";
+"Saved in Drafts"               = "Enregistré dans les brouillons";
+"You can find your drafts"      = "Vous pouvez retrouver vos brouillons sur l'écran principal, dans collections";
+"Leave Creating a Recipe"       = "Laisser Créer une recette";
+"Continue Work"                 = "Continuer le travail";
