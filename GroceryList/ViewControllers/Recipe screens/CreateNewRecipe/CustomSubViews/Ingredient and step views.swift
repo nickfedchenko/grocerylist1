@@ -10,17 +10,7 @@ import UIKit
 final class IngredientForCreateRecipeView: IngredientView {
 
     var swipeDeleteAction: ((Int) -> Void)?
-    
-    private lazy var descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.regular(size: 14).font
-        label.textColor = UIColor(hex: "#303030")
-        label.textAlignment = .left
-        label.numberOfLines = 0
-        label.sizeToFit()
-        return label
-    }()
-    
+
     private lazy var deleteButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = R.color.attention()
@@ -41,15 +31,6 @@ final class IngredientForCreateRecipeView: IngredientView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setDescription(_ description: String?) {
-        guard let description, !description.isEmpty else {
-            self.contentView.snp.makeConstraints { $0.height.equalTo(48) }
-            return
-        }
-        descriptionLabel.text = description
-        setupDescriptionLabel()
     }
     
     @objc
@@ -137,23 +118,6 @@ final class IngredientForCreateRecipeView: IngredientView {
             $0.height.equalToSuperview()
             $0.trailing.equalToSuperview().offset(70)
             $0.leading.equalTo(contentView.snp.trailing).offset(-4)
-        }
-    }
-    
-    private func setupDescriptionLabel() {
-        self.contentView.addSubview(descriptionLabel)
-        
-        descriptionLabel.snp.makeConstraints {
-            $0.leading.trailing.equalTo(titleLabel)
-            $0.top.equalTo(titleLabel.snp.bottom).offset(2)
-            $0.bottom.equalToSuperview().offset(-7)
-        }
-        
-        titleLabel.snp.removeConstraints()
-        titleLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(12)
-            make.top.equalToSuperview().inset(7)
-            make.trailing.equalTo(servingLabel.snp.leading).inset(-18)
         }
     }
 }

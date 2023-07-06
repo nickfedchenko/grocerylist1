@@ -82,6 +82,8 @@
 		3368FD7929B7348100D97291 /* DBCollection+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD7729B7348100D97291 /* DBCollection+CoreDataClass.swift */; };
 		3368FD7A29B7348100D97291 /* DBCollection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD7829B7348100D97291 /* DBCollection+CoreDataProperties.swift */; };
 		336A112729F2D1F4008CFF33 /* BundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336A112629F2D1F4008CFF33 /* BundleExtension.swift */; };
+		337224C82A5542E500A23270 /* RecipeKcalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337224C72A5542E500A23270 /* RecipeKcalView.swift */; };
+		337224CA2A5632D100A23270 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337224C92A5632D100A23270 /* PaddingLabel.swift */; };
 		337719AA29B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719A929B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift */; };
 		337719AC29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719AB29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift */; };
 		337719AE29B1A669000791BD /* CreateNewRecipeViewWithButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719AD29B1A669000791BD /* CreateNewRecipeViewWithButton.swift */; };
@@ -418,6 +420,8 @@
 		3368FD7729B7348100D97291 /* DBCollection+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBCollection+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3368FD7829B7348100D97291 /* DBCollection+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBCollection+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		336A112629F2D1F4008CFF33 /* BundleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtension.swift; sourceTree = "<group>"; };
+		337224C72A5542E500A23270 /* RecipeKcalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeKcalView.swift; sourceTree = "<group>"; };
+		337224C92A5632D100A23270 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		337719A929B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeStepTwoViewController.swift; sourceTree = "<group>"; };
 		337719AB29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeStepTwoViewModel.swift; sourceTree = "<group>"; };
 		337719AD29B1A669000791BD /* CreateNewRecipeViewWithButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeViewWithButton.swift; sourceTree = "<group>"; };
@@ -1299,6 +1303,7 @@
 			children = (
 				389DCF4729460A1B00DB9382 /* RecipeScreenHeader.swift */,
 				389DCF4929461B2000DB9382 /* RecipeMainImageView.swift */,
+				337224C72A5542E500A23270 /* RecipeKcalView.swift */,
 				389DCF4D2946534300DB9382 /* RecipeServingSelector.swift */,
 				38F4903E2946DC6A00529D1F /* IngredientView.swift */,
 				38F49042294771A500529D1F /* InstructionView.swift */,
@@ -1705,6 +1710,7 @@
 				337E79C929E51D6200668578 /* AddListView.swift */,
 				337E79CD29E595F700668578 /* ViewWithOverriddenPoint.swift */,
 				33323C712A529A0000F552E3 /* TextViewWithPlaceholder.swift */,
+				337224C92A5632D100A23270 /* PaddingLabel.swift */,
 			);
 			path = CustomUiElements;
 			sourceTree = "<group>";
@@ -2308,6 +2314,7 @@
 				33995D392A1FC461003FECAE /* IconSubView.swift in Sources */,
 				333E2D3129EFC2E000F705E7 /* DBStore+CoreDataProperties.swift in Sources */,
 				334BAE55299E700B005F52F5 /* Table+CollectionExtension.swift in Sources */,
+				337224C82A5542E500A23270 /* RecipeKcalView.swift in Sources */,
 				33995D372A1F9FE5003FECAE /* PantryListTemplateView.swift in Sources */,
 				334764662A2A2610008F4834 /* PantryListOptionViewModel.swift in Sources */,
 				B3693402291BA62F00AFFAA6 /* CreateNewListViewModel.swift in Sources */,
@@ -2376,6 +2383,7 @@
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
 				3347644D2A258E49008F4834 /* IconCollectionViewCell.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
+				337224CA2A5632D100A23270 /* PaddingLabel.swift in Sources */,
 				337E79D429E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift in Sources */,
 				3366BEED2A2F3FDF00D50704 /* SelectPantryListViewModel.swift in Sources */,
 				B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */,

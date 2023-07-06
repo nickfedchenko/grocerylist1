@@ -2507,7 +2507,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 279 images.
+  /// This `_R.image` struct is generated, and contains static references to 285 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -2742,8 +2742,14 @@ struct _R {
     /// Image `addToFavSelected`.
     var addToFavSelected: RswiftResources.ImageResource { .init(name: "addToFavSelected", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `addToFavSelectedNew`.
+    var addToFavSelectedNew: RswiftResources.ImageResource { .init(name: "addToFavSelectedNew", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `addToFavUnselected`.
     var addToFavUnselected: RswiftResources.ImageResource { .init(name: "addToFavUnselected", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `addToFavUnselectedNew`.
+    var addToFavUnselectedNew: RswiftResources.ImageResource { .init(name: "addToFavUnselectedNew", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `autocategoryInfo`.
     var autocategoryInfo: RswiftResources.ImageResource { .init(name: "autocategoryInfo", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -3048,6 +3054,9 @@ struct _R {
     /// Image `inactiveSynchronize`.
     var inactiveSynchronize: RswiftResources.ImageResource { .init(name: "inactiveSynchronize", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `kcalChart`.
+    var kcalChart: RswiftResources.ImageResource { .init(name: "kcalChart", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `list_tabbar_active`.
     var list_tabbar_active: RswiftResources.ImageResource { .init(name: "list_tabbar_active", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -3080,6 +3089,9 @@ struct _R {
 
     /// Image `nextArrow`.
     var nextArrow: RswiftResources.ImageResource { .init(name: "nextArrow", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `onlyKcalChart`.
+    var onlyKcalChart: RswiftResources.ImageResource { .init(name: "onlyKcalChart", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `orangeCircle`.
     var orangeCircle: RswiftResources.ImageResource { .init(name: "orangeCircle", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -3183,6 +3195,9 @@ struct _R {
     /// Image `recipe time icon`.
     var recipeTimeIcon: RswiftResources.ImageResource { .init(name: "recipe time icon", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `recipe_menu`.
+    var recipe_menu: RswiftResources.ImageResource { .init(name: "recipe_menu", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `recipe_tabbar_active`.
     var recipe_tabbar_active: RswiftResources.ImageResource { .init(name: "recipe_tabbar_active", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -3248,6 +3263,9 @@ struct _R {
 
     /// Image `shareIcon`.
     var shareIcon: RswiftResources.ImageResource { .init(name: "shareIcon", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `shareIconNew`.
+    var shareIconNew: RswiftResources.ImageResource { .init(name: "shareIconNew", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `share_button`.
     var share_button: RswiftResources.ImageResource { .init(name: "share_button", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

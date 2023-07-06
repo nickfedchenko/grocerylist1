@@ -44,6 +44,7 @@ extension DBRecipe {
         let recipe = DBRecipe(context: context)
         recipe.id = Int64(model.id)
         recipe.title = model.title
+        recipe.recipeDescription = model.description
         recipe.cookingTime = Int32(model.cookingTime ?? -1)
         recipe.totalServings = Int16(model.totalServings)
         recipe.dishWeight = model.dishWeight ?? -1.0

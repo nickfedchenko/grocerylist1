@@ -19,6 +19,11 @@ protocol RecipeScreenViewModelProtocol {
     func updateFavoriteState(isSelected: Bool)
     var updateCollection: (() -> Void)? { get set }
     var recipe: Recipe { get }
+    var theme: Theme { get set }
+    func addToShoppingList(contentViewHeigh: CGFloat, delegate: AddProductsSelectionListDelegate)
+    func addToCollection()
+    func edit()
+    func getStoreAndCost(by index: Int) -> (store: String?, cost: Double?)
 }
 
 final class RecipeScreenViewModel {
@@ -32,12 +37,16 @@ final class RecipeScreenViewModel {
     weak var router: RootRouter?
     
     var updateCollection: (() -> Void)?
+    var theme: Theme
     private(set) var recipe: Recipe
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
     private var recipeUnit: RecipeUnit?
+    private var sectionColor: Theme?
     
-    init(recipe: Recipe) {
+    init(recipe: Recipe, sectionColor: Theme?) {
         self.recipe = recipe
+        self.sectionColor = sectionColor
+        theme = sectionColor ?? ColorManager.shared.getColorForRecipe()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateRecipe),
                                                name: .recieptsDownladedAnsSaved,
@@ -60,6 +69,11 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
         } else {
             return 136
         }
+    }
+    
+    func getStoreAndCost(by index: Int) -> (store: String?, cost: Double?) {
+        let product = recipe.ingredients[safe: index]?.product
+        return (product?.store?.title, product?.cost)
     }
     
     func getIngredientsSizeAccordingToServings(servings: Double) -> [String] {
@@ -154,6 +168,38 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
         }
       
     }
+    
+    func addToShoppingList(contentViewHeigh: CGFloat, delegate: AddProductsSelectionListDelegate) {
+        let recipeTitle = recipe.title
+        let products: [Product] = recipe.ingredients.map({
+            let netProduct = $0.product
+            let product = Product(
+                name: netProduct.title,
+                isPurchased: false,
+                dateOfCreation: Date(),
+                category: netProduct.marketCategory?.title ?? "",
+                isFavorite: false,
+                description: "",
+                fromRecipeTitle: recipeTitle
+            )
+            return product
+        })
+        router?.goToAddProductsSelectionList(products: products, contentViewHeigh: contentViewHeigh, delegate: delegate)
+    }
+    
+    func addToCollection() {
+        router?.goToShowCollection(state: .select, recipe: recipe, updateUI: {
+//            self?.updateCollection?()
+        })
+
+    }
+    
+    func edit() {
+        router?.goToCreateNewRecipe(currentRecipe: recipe, compl: { [weak self] recipe in
+            self?.recipe = recipe
+        })
+    }
+    
 }
 
 private extension UnitSystem {
