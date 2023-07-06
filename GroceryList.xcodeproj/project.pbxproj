@@ -62,6 +62,7 @@
 		335519CC29B04E5900AD2B77 /* CreateNewRecipeTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519CB29B04E5900AD2B77 /* CreateNewRecipeTitleView.swift */; };
 		335519CE29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519CD29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift */; };
 		335519D029B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519CF29B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift */; };
+		335665312A568B3B006F92E6 /* PantryDefaultsValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335665302A568B3B006F92E6 /* PantryDefaultsValue.swift */; };
 		335B54072A37451D00B53314 /* FoundInPantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B54062A37451D00B53314 /* FoundInPantryView.swift */; };
 		3360735D2A4B3B5C002427BE /* ShowCollectionDeleteAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3360735C2A4B3B5C002427BE /* ShowCollectionDeleteAlertView.swift */; };
 		3360735F2A4C03BB002427BE /* CreateNewRecipeSavedToDraftsAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3360735E2A4C03BB002427BE /* CreateNewRecipeSavedToDraftsAlertView.swift */; };
@@ -400,6 +401,7 @@
 		335519CB29B04E5900AD2B77 /* CreateNewRecipeTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeTitleView.swift; sourceTree = "<group>"; };
 		335519CD29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeViewWithTextField.swift; sourceTree = "<group>"; };
 		335519CF29B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipePhotoView.swift; sourceTree = "<group>"; };
+		335665302A568B3B006F92E6 /* PantryDefaultsValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PantryDefaultsValue.swift; sourceTree = "<group>"; };
 		335B54062A37451D00B53314 /* FoundInPantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundInPantryView.swift; sourceTree = "<group>"; };
 		3360735C2A4B3B5C002427BE /* ShowCollectionDeleteAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowCollectionDeleteAlertView.swift; sourceTree = "<group>"; };
 		3360735E2A4C03BB002427BE /* CreateNewRecipeSavedToDraftsAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeSavedToDraftsAlertView.swift; sourceTree = "<group>"; };
@@ -733,7 +735,7 @@
 				33995D2C2A1DACB1003FECAE /* PantryCollectionViewLayout.swift */,
 				334764512A264B4F008F4834 /* PantryEditMenuView.swift */,
 				3323409A2A1B91CB00609813 /* PantryDataSource.swift */,
-				336073642A4E7872002427BE /* PantryDefaultsValue.swift */,
+				335665302A568B3B006F92E6 /* PantryDefaultsValue.swift */,
 				33995D272A1D0806003FECAE /* Cell */,
 				33995D212A1C5C91003FECAE /* StarterPack */,
 			);
@@ -2274,6 +2276,7 @@
 				337E79D629E974A500668578 /* CreateNewProductViewController.swift in Sources */,
 				B347690B291D23800045A287 /* ProductsSettingsViewModel.swift in Sources */,
 				33E544AC29CA1122008D84F8 /* FeatureManager.swift in Sources */,
+				335665312A568B3B006F92E6 /* PantryDefaultsValue.swift in Sources */,
 				B3C3FA51291261870011EC0A /* UIScreenExtension.swift in Sources */,
 				B34EAC9E2934EE0100FBD0E0 /* SelectCategoryDataSource.swift in Sources */,
 				33A51B8B2A163FBF00BE11C1 /* ViewControllerFactoryProtocol.swift in Sources */,
@@ -2387,7 +2390,6 @@
 				337224CA2A5632D100A23270 /* PaddingLabel.swift in Sources */,
 				337E79D429E7ED3E00668578 /* DBNewNetProduct+CoreDataProperties.swift in Sources */,
 				3366BEED2A2F3FDF00D50704 /* SelectPantryListViewModel.swift in Sources */,
-				336073652A4E7872002427BE /* PantryDefaultsValue.swift in Sources */,
 				B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */,
 				337E79CA29E51D6200668578 /* AddListView.swift in Sources */,
 				844FC6392978612B008173AA /* OnboardingReviewController.swift in Sources */,

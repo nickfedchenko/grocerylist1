@@ -148,8 +148,8 @@ final class RecipeMainImageView: UIView {
     
     private func setupSubviews() {
         self.addSubview(contentView)
-        contentView.addSubviews([mainImage, kcalView])
-        mainImage.addSubviews([cookingTimeBadge, promptingView, addToFavoritesButton, shareRecipeButton])
+        contentView.addSubviews([mainImage, kcalView, promptingView])
+        mainImage.addSubviews([cookingTimeBadge, addToFavoritesButton, shareRecipeButton])
         
         contentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
