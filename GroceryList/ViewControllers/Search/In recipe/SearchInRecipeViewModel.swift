@@ -82,7 +82,7 @@ final class SearchInRecipeViewModel {
               let recipe = Recipe(from: dbRecipe) else {
             return
         }
-        router?.goToRecipe(recipe: recipe)
+        router?.goToRecipe(recipe: recipe, sectionColor: nil)
     }
     
     private func getAllRecipe() {

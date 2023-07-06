@@ -261,8 +261,9 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func goToRecipe(recipe: Recipe) {
-        let controller = viewControllerFactory.createRecipeScreen(router: self, recipe: recipe)
+    func goToRecipe(recipe: Recipe, sectionColor: Theme?) {
+        let controller = viewControllerFactory.createRecipeScreen(router: self, recipe: recipe,
+                                                                  sectionColor: sectionColor)
         recipeNavController.pushViewController(controller, animated: true)
     }
     
@@ -278,6 +279,7 @@ final class RootRouter: RootRouterProtocol {
                                       delegate: AddProductsSelectionListDelegate) {
         let dataSource = SelectListDataManager()
         let viewModel = SelectListViewModel(dataSource: dataSource)
+        viewModel.router = self
         let addProductsVC = AddProductsSelectionListController(with: products)
         addProductsVC.contentViewHeigh = contentViewHeigh
         addProductsVC.viewModel = viewModel

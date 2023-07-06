@@ -387,11 +387,12 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createRecipeScreen(router: RootRouter, recipe: Recipe) -> UIViewController {
-        let viewModel = RecipeScreenViewModel(recipe: recipe)
+    func createRecipeScreen(router: RootRouter, recipe: Recipe, sectionColor: Theme?) -> UIViewController {
+        let viewModel = RecipeScreenViewModel(recipe: recipe, sectionColor: sectionColor)
         viewModel.router = router
+        let backButtonTitle = sectionColor != nil ? R.string.localizable.back() : "search"
         let viewController = RecipeViewController(with: viewModel,
-                                                  backButtonTitle: R.string.localizable.recipes())
+                                                  backButtonTitle: backButtonTitle)
         return viewController
     }
     

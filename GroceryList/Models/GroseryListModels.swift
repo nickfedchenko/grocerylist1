@@ -65,6 +65,7 @@ struct ShortRecipeModel {
     let time: Int32
     let title: String
     let photo: String
+    let createdAt: Date
     var ingredients: [Ingredient]?
     var localCollection: [CollectionModel]?
     var localImage: Data?
@@ -76,6 +77,7 @@ struct ShortRecipeModel {
         id = Int(dbModel.id)
         title = dbModel.title ?? ""
         photo = dbModel.photo ?? ""
+        createdAt = dbModel.createdAt ?? Date()
         localCollection = (try? JSONDecoder().decode([CollectionModel].self, from: dbModel.localCollection ?? Data()))
         localImage = dbModel.localImage
         values = (try? JSONDecoder().decode(Values.self, from: dbModel.values ?? Data()))
@@ -88,6 +90,7 @@ struct ShortRecipeModel {
         id = Int(dbModel.id)
         title = dbModel.title ?? ""
         photo = dbModel.photo ?? ""
+        createdAt = dbModel.createdAt ?? Date()
         ingredients = (try? JSONDecoder().decode([Ingredient].self, from: dbModel.ingredients ?? Data()))
         localImage = dbModel.localImage
         values = (try? JSONDecoder().decode(Values.self, from: dbModel.values ?? Data()))
@@ -98,6 +101,7 @@ struct ShortRecipeModel {
         id = model.id
         title = model.title
         photo = model.photo
+        createdAt = model.createdAt
         localCollection = model.localCollection
         localImage = model.localImage
         values = model.values

@@ -15,7 +15,7 @@ final class CreateNewRecipeViewWithTextField: UIView {
     var requiredHeight: Int {
         var contentHeight = Int(textView.contentSize.height)
         contentHeight = textView.text == "" ? 0 : contentHeight
-        return 16 + 20 + 4 + (contentHeight == 0 ? 48 : contentHeight + 7)
+        return 16 + 20 + 4 + (contentHeight == 0 ? 48 : contentHeight + 14)
     }
     
     private lazy var titleLabel: UILabel = {

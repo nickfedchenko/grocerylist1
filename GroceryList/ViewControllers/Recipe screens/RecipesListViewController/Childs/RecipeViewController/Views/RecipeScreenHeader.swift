@@ -9,17 +9,17 @@ import UIKit
 
 protocol RecipeScreenHeaderDelegate: AnyObject {
     func backButtonTapped()
-    func collectionButtonTapped()
+    func contextMenuButtonTapped()
 }
 
 final class RecipeScreenHeader: UIView {
     weak var delegate: RecipeScreenHeaderDelegate?
     
-    private let backButton: UIButton = {
+    private lazy var backButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(R.image.greenArrowBack(), for: .normal)
         button.imageEdgeInsets.right = 11
-        button.tintColor = UIColor(hex: "0C695E")
+        button.tintColor = theme.dark
         return button
     }()
     
@@ -31,22 +31,21 @@ final class RecipeScreenHeader: UIView {
         return label
     }()
     
-    private let collectionButton: UIButton = {
+    private lazy var contextMenuButton: UIButton = {
         let button = UIButton()
-        button.setImage(R.image.recipePlus(), for: .normal)
-        button.titleLabel?.font = UIFont.SFProRounded.bold(size: 15).font
-        button.setTitleColor(UIColor(hex: "0C695E"), for: .normal)
-        button.semanticContentAttribute = .forceRightToLeft
+        button.setImage(R.image.recipe_menu()?.withTintColor(theme.dark), for: .normal)
         return button
     }()
     
+    let theme: Theme
     let blurView = UIVisualEffectView(effect: nil)
     private var blurRadiusDriver: UIViewPropertyAnimator?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(theme: Theme) {
+        self.theme = theme
+        super.init(frame: .zero)
         setupSubviews()
-        backgroundColor = UIColor(hex: "E5F5F3").withAlphaComponent(0.9)
+        backgroundColor = theme.light.withAlphaComponent(0.9)
         setupActions()
     }
     
@@ -63,7 +62,7 @@ final class RecipeScreenHeader: UIView {
         let attributedTitle = NSAttributedString(
             string: title,
             attributes: [
-                .foregroundColor: UIColor(hex: "0C695E"),
+                .foregroundColor: theme.dark,
                 .font: R.font.sfProRoundedBold(size: 15) ?? .systemFont(ofSize: 15)
             ]
         )
@@ -79,18 +78,11 @@ final class RecipeScreenHeader: UIView {
             attributes: [
                 .paragraphStyle: paragraph,
                 .font: R.font.sfProRoundedBold(size: 22) ?? .systemFont(ofSize: 22),
-                .foregroundColor: UIColor(hex: "0C695E"),
+                .foregroundColor: theme.dark,
                 .kern: 0.38
             ]
         )
         titleLabel.attributedText = attrTitle
-    }
-    
-    func setCollectionButton(_ isMissingFromCollections: Bool) {
-        collectionButton.setImage(isMissingFromCollections ? R.image.recipePlus() : R.image.sortRecipeMenu(),
-                                  for: .normal)
-        collectionButton.setTitle(isMissingFromCollections ? R.string.localizable.addToCollection() : nil,
-                                  for: .normal)
     }
     
     func releaseBlurAnimation() {
@@ -103,9 +95,9 @@ final class RecipeScreenHeader: UIView {
                 self?.delegate?.backButtonTapped()
             },
             for: .touchUpInside)
-        collectionButton.addAction(
+        contextMenuButton.addAction(
             UIAction { [weak self] _ in
-                self?.delegate?.collectionButtonTapped()
+                self?.delegate?.contextMenuButtonTapped()
             },
             for: .touchUpInside)
     }
@@ -127,7 +119,7 @@ final class RecipeScreenHeader: UIView {
         addSubview(blurView)
         blurView.contentView.addSubview(backButton)
         blurView.contentView.addSubview(titleLabel)
-        blurView.contentView.addSubview(collectionButton)
+        blurView.contentView.addSubview(contextMenuButton)
         
         blurView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -146,7 +138,7 @@ final class RecipeScreenHeader: UIView {
             make.bottom.equalToSuperview().inset(8)
         }
         
-        collectionButton.snp.makeConstraints { make in
+        contextMenuButton.snp.makeConstraints { make in
             make.centerY.equalTo(backButton)
             make.trailing.equalToSuperview().offset(-20)
             make.height.equalTo(40)

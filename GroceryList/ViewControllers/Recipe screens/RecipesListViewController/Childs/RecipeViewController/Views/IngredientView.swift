@@ -13,7 +13,7 @@ class IngredientView: UIView {
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 8
         imageView.layer.cornerCurve = .continuous
         imageView.clipsToBounds = true
@@ -35,6 +35,16 @@ class IngredientView: UIView {
         label.font = R.font.sfProTextMedium(size: 16)
         label.textColor = UIColor(hex: "FF764B")
         label.textAlignment = .right
+        return label
+    }()
+    
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.regular(size: 14).font
+        label.textColor = UIColor(hex: "#303030")
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.sizeToFit()
         return label
     }()
     
@@ -79,6 +89,15 @@ class IngredientView: UIView {
     
     func setServing(serving: String) {
         servingLabel.text = serving
+    }
+    
+    func setDescription(_ description: String?) {
+        guard let description, !description.isEmpty else {
+            self.contentView.snp.makeConstraints { $0.height.equalTo(48) }
+            return
+        }
+        descriptionLabel.text = description
+        setupDescriptionLabel()
     }
     
     func setImage(imageURL: String, imageData: Data?) {
@@ -144,6 +163,23 @@ class IngredientView: UIView {
             make.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(-4)
             make.height.equalTo(16)
+        }
+    }
+    
+    private func setupDescriptionLabel() {
+        self.contentView.addSubview(descriptionLabel)
+        
+        descriptionLabel.snp.makeConstraints {
+            $0.leading.trailing.equalTo(titleLabel)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(2)
+            $0.bottom.equalToSuperview().offset(-7)
+        }
+        
+        titleLabel.snp.removeConstraints()
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(12)
+            make.top.equalToSuperview().inset(7)
+            make.trailing.equalTo(servingLabel.snp.leading).inset(-18)
         }
     }
 }

@@ -84,12 +84,6 @@ final class MainRecipeViewModel {
     }
     
     // routing
-    func showCustomRecipe(recipe: Recipe) {
-        DispatchQueue.main.async {
-            self.router?.goToRecipe(recipe: recipe)
-        }
-    }
-    
     func showRecipe(by indexPath: IndexPath) {
         guard let recipeId = dataSource.recipesSections[safe: indexPath.section]?
                                        .recipes[safe: indexPath.item - 1]?.id,
@@ -97,7 +91,8 @@ final class MainRecipeViewModel {
               let model = Recipe(from: dbRecipe) else {
             return
         }
-        router?.goToRecipe(recipe: model)
+        let color = collectionColor(for: indexPath.section)
+        router?.goToRecipe(recipe: model, sectionColor: color)
     }
     
     func showSearch() {

@@ -72,7 +72,7 @@ final class CreateNewRecipeStepTwoViewModel {
         }
         guard var draft else {
             draft = Recipe(title: recipe.title,
-                           totalServings: servings ?? -1,
+                           totalServings: servings ?? 1,
                            localCollection: collections.isEmpty ? nil : collections,
                            localImage: localImage?.pngData(),
                            cookingTime: time,
@@ -89,7 +89,7 @@ final class CreateNewRecipeStepTwoViewModel {
             return
         }
 
-        draft.totalServings = servings ?? -1
+        draft.totalServings = servings ?? 1
         draft.localImage = localImage?.pngData()
         draft.cookingTime = time
         draft.values = Values(dish: kcal)
@@ -103,7 +103,7 @@ final class CreateNewRecipeStepTwoViewModel {
             return
         }
         
-        currentRecipe.totalServings = servings ?? -1
+        currentRecipe.totalServings = servings ?? 1
         currentRecipe.localCollection = collections.isEmpty ? nil : collections
         currentRecipe.localImage = localImage?.pngData()
         currentRecipe.cookingTime = time
@@ -115,7 +115,7 @@ final class CreateNewRecipeStepTwoViewModel {
     
     private func saveNewRecipe() {
         guard let recipe = Recipe(title: recipe.title,
-                                  totalServings: servings ?? -1,
+                                  totalServings: servings ?? 1,
                                   localCollection: collections.isEmpty ? nil : collections,
                                   localImage: localImage?.pngData(),
                                   cookingTime: time,

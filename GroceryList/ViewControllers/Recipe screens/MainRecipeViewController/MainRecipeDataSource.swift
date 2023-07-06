@@ -70,7 +70,13 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
                 $0.localCollection?.contains(where: { collection.id == $0.id }) ?? false
             }
             
-            let recipesShuffled = recipes.shuffled()
+            let recipesShuffled: [ShortRecipeModel]
+            if collection.isDefault && !EatingTime.getTechnicalCollection.contains(where: { $0.rawValue == collection.id }) {
+                recipesShuffled = recipes.shuffled()
+            } else {
+                recipesShuffled = recipes.sorted(by: { $0.createdAt > $1.createdAt })
+            }
+            
             let image = getFirstPhoto(recipes: recipesShuffled)
             let customSection = RecipeSectionsModel(collectionId: collection.id,
                                                     cellType: .recipePreview,

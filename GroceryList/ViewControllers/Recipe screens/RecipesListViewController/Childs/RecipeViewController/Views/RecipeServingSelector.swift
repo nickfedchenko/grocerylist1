@@ -13,36 +13,34 @@ protocol RecipeServingSelectorDelegate: AnyObject {
 
 final class RecipeServingSelector: UIView {
     weak var delegate: RecipeServingSelectorDelegate?
+    
     private var currentCount: Double = 1 {
-        didSet {
-            updateLabel()
-        }
+        didSet { updateLabel() }
     }
     
     private let minusButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(R.image.minusButton(), for: .normal)
+        button.setImage(R.image.black_Minus(), for: .normal)
         button.layer.cornerRadius = 8
         button.layer.cornerCurve = .continuous
+        button.tintColor = .white
         button.clipsToBounds = true
-        button.backgroundColor = R.color.primaryDark()
         return button
     }()
     
     private let plusButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(R.image.plusButton(), for: .normal)
+        button.setImage(R.image.black_Plus(), for: .normal)
         button.layer.cornerRadius = 8
         button.layer.cornerCurve = .continuous
+        button.tintColor = .white
         button.clipsToBounds = true
-        button.backgroundColor = R.color.primaryDark()
         return button
     }()
     
     private let servingsLabel: UILabel = {
         let label = UILabel()
         label.font = R.font.sfProTextSemibold(size: 17)
-        label.textColor = R.color.primaryDark()
         label.numberOfLines = 1
         label.textAlignment = .center
         label.text = "1 " + R.string.localizable.servings1()
@@ -60,12 +58,18 @@ final class RecipeServingSelector: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setupColor(color: UIColor?) {
+        layer.borderColor = color?.cgColor
+        minusButton.backgroundColor = color
+        plusButton.backgroundColor = color
+        servingsLabel.textColor = color
+    }
+    
     func setCountInitially(to count: Int) {
-        currentCount = Double(count)
+        currentCount = count <= 0 ? 1 : Double(count)
     }
     
     private func updateLabel() {
-       
         var servingsString = ""
         switch currentCount {
         case 1:
@@ -77,7 +81,7 @@ final class RecipeServingSelector: UIView {
         default:
             servingsString = R.string.localizable.servings1()
         }
-        servingsLabel.text = "\(currentCount) " + servingsString
+        servingsLabel.text = "\(currentCount.asString) " + servingsString
     }
     
     private func setupAppearance() {
@@ -86,7 +90,6 @@ final class RecipeServingSelector: UIView {
         layer.cornerRadius = 8
         layer.cornerCurve = .continuous
         layer.borderWidth = 1
-        layer.borderColor = R.color.darkGray()?.cgColor
     }
     
     private func setupSubviews() {

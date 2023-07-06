@@ -8,21 +8,21 @@
 import UIKit
 
 final class RecipeViewController: UIViewController {
-    var viewModel: RecipeScreenViewModelProtocol
-    var backButtonTitle: String
-    private var isFavorite: Bool {
-        UserDefaultsManager.favoritesRecipeIds.contains(viewModel.recipe.id)
-    }
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
     }
+    
+    var viewModel: RecipeScreenViewModelProtocol
+    var backButtonTitle: String
+    
+    private var isFavorite: Bool {
+        UserDefaultsManager.favoritesRecipeIds.contains(viewModel.recipe.id)
+    }
 
     private lazy var header: RecipeScreenHeader = {
-       let header = RecipeScreenHeader()
+        let header = RecipeScreenHeader(theme: viewModel.theme)
         header.setTitle(title: viewModel.getRecipeTitle())
         header.setBackButtonTitle(title: backButtonTitle)
-        header.setCollectionButton(!viewModel.haveCollections())
         header.delegate = self
         return header
     }()
@@ -32,7 +32,7 @@ final class RecipeViewController: UIViewController {
     lazy var contentScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.contentInset.top = 136
-        scrollView.contentInset.bottom = view.safeAreaInsets.bottom
+        scrollView.contentInset.bottom = 120
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.contentInsetAdjustmentBehavior = .never
@@ -45,33 +45,34 @@ final class RecipeViewController: UIViewController {
         return view
     }()
     
-    private let ingredientsLabel: UILabel = {
+    private lazy var ingredientsLabel: UILabel = {
         let label = UILabel()
         label.font = R.font.sfProRoundedBold(size: 18)
-        label.textColor = UIColor(hex: "0C695E")
+        label.textColor = viewModel.theme.dark
         label.text = R.string.localizable.ingredients()
         return label
     }()
     
     private lazy var servingSelector: RecipeServingSelector = {
        let selector = RecipeServingSelector()
+        selector.setupColor(color: viewModel.theme.dark)
         selector.delegate = self
         return selector
     }()
     
-    private let addToCartButton: UIButton = {
+    private lazy var addToCartButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(R.image.addToCartFilled(), for: .normal)
         button.layer.cornerRadius = 8
         button.layer.cornerCurve = .continuous
         button.clipsToBounds = true
-        button.backgroundColor = R.color.primaryDark()
+        button.backgroundColor = viewModel.theme.dark
         return button
     }()
     
-    private let vectorArrowImage: UIImageView = {
+    private lazy var vectorArrowImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = R.image.vectorArrow()
+        imageView.image = R.image.vectorArrow()?.withTintColor(viewModel.theme.dark)
         return imageView
     }()
     
@@ -89,12 +90,10 @@ final class RecipeViewController: UIViewController {
             let unitName = unitTitle
             let view = IngredientView()
             view.setTitle(title: title)
-            if unitCount == 0 {
-                view.setServing(serving: R.string.localizable.byTaste())
-                views.append(view)
-                continue
-            }
-            view.setServing(serving: String(format: "%.\(unitCount.truncatingRemainder(dividingBy: 1) > 0 ? 1 : 0)f", unitCount) + " " + unitName)
+            view.setServing(serving: unitCount == 0 ? R.string.localizable.byTaste()
+                                                    : unitCount.asString + " " + unitName)
+            view.setDescription(ingredient.description)
+            view.setImage(imageURL: ingredient.product.photo, imageData: ingredient.product.localImage)
             views.append(view)
         }
         return views
@@ -108,10 +107,28 @@ final class RecipeViewController: UIViewController {
         return stackView
     }()
     
-    private let instructionsLabel: UILabel = {
+    private lazy var descriptionTitleLabel: UILabel = {
         let label = UILabel()
         label.font = R.font.sfProRoundedBold(size: 18)
-        label.textColor = UIColor(hex: "0C695E")
+        label.textColor = viewModel.theme.dark
+        label.text = R.string.localizable.description()
+        return label
+    }()
+    
+    private lazy var descriptionRecipeLabel: UILabel = {
+        let label = PaddingLabel(withInsets: 8, 8, 8, 8)
+        label.font = UIFont.SFPro.medium(size: 15).font
+        label.textColor = .black
+        label.backgroundColor = .white
+        label.layer.cornerRadius = 8
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    private lazy var instructionsLabel: UILabel = {
+        let label = UILabel()
+        label.font = R.font.sfProRoundedBold(size: 18)
+        label.textColor = viewModel.theme.dark
         label.text = R.string.localizable.instructions()
         return label
     }()
@@ -141,9 +158,13 @@ final class RecipeViewController: UIViewController {
         return stackView
     }()
     
+    private let showCostView = CreateNewRecipeShowCostView()
+    
     private lazy var promptingView = UIView()
     private lazy var headerOverlayView = UIView()
     private lazy var overlayView = UIView()
+    private let contextMenuBackgroundView = UIView()
+    private let contextMenuView = RecipeListContextMenuView()
     
     init(with viewModel: RecipeScreenViewModelProtocol, backButtonTitle: String) {
         self.viewModel = viewModel
@@ -158,29 +179,25 @@ final class RecipeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAppearance()
+        setupContextMenu()
         setupSubviews()
         configureContent()
         setupActions()
         setupPromptingView()
-        
-        viewModel.updateCollection = { [weak self] in
-            guard let self else { return }
-            self.header.setCollectionButton(!self.viewModel.haveCollections())
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
         (self.tabBarController as? MainTabBarController)?.setTextTabBar(
-            text: R.string.localizable.create().uppercased()
+            text: R.string.localizable.create().uppercased(),
+            color: viewModel.theme.medium
         )
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         contentScrollView.contentInset.top = header.bounds.height
-        contentScrollView.contentInset.bottom = view.safeAreaInsets.bottom
         contentScrollView.setContentOffset(CGPoint(x: 0, y: -contentScrollView.contentInset.top), animated: true)
     }
     
@@ -224,7 +241,9 @@ final class RecipeViewController: UIViewController {
     }
     
     private func setupAppearance() {
-        view.backgroundColor = UIColor(hex: "E5F5F3")
+        let theme = viewModel.theme
+        view.backgroundColor = theme.light
+        
         mainImageView.setIsFavorite(shouldSetFavorite: isFavorite)
     }
     
@@ -234,7 +253,31 @@ final class RecipeViewController: UIViewController {
     
     private func configureContent() {
         mainImageView.setupFor(recipe: viewModel.recipe)
+        mainImageView.setupKcal(value: viewModel.recipe.values?.dish)
         servingSelector.setCountInitially(to: viewModel.recipe.totalServings)
+        
+        if viewModel.recipe.description.isEmpty {
+            descriptionRecipeLabel.isHidden = true
+            descriptionRecipeLabel.snp.updateConstraints { $0.top.equalTo(descriptionTitleLabel.snp.bottom).offset(0) }
+        } else {
+            descriptionRecipeLabel.text = viewModel.recipe.description
+        }
+
+        showCostView.changedSwitchValue = { [weak self] isShowCost in
+            guard let self else {
+                return
+            }
+            self.ingredientViews.enumerated().forEach({ index, view in
+                if isShowCost {
+                    let store = self.viewModel.getStoreAndCost(by: index)
+                    view.setupCost(isVisible: isShowCost,
+                                              storeTitle: store.store, costValue: store.cost)
+                } else {
+                    view.setupCost(isVisible: isShowCost,
+                                              storeTitle: nil, costValue: nil)
+                }
+            })
+        }
     }
     
     private func setupPromptingView() {
@@ -251,6 +294,19 @@ final class RecipeViewController: UIViewController {
             mainImageView.showPromptingView()
             showPromptingView()
         }
+    }
+    
+    private func setupContextMenu() {
+        let menuTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(menuTapAction))
+        contextMenuBackgroundView.addGestureRecognizer(menuTapRecognizer)
+        contextMenuBackgroundView.backgroundColor = .black.withAlphaComponent(0.2)
+        
+        contextMenuView.delegate = self
+        contextMenuView.configure(color: viewModel.theme)
+        contextMenuView.setupMenuFunctions(isDefaultRecipe: viewModel.recipe.isDefaultRecipe)
+        
+        contextMenuView.isHidden = true
+        contextMenuBackgroundView.isHidden = true
     }
     
     private func showPromptingView() {
@@ -290,22 +346,21 @@ final class RecipeViewController: UIViewController {
         UserDefaultsManager.isShowRecipePrompting = true
     }
     
+    @objc
+    private func menuTapAction() {
+        contextMenuView.fadeOut()
+        contextMenuBackgroundView.isHidden = true
+    }
+    
     // swiftlint:disable:next function_body_length
     private func setupSubviews() {
-        view.addSubview(contentScrollView)
+        view.addSubviews([contentScrollView, header, promptingView, contextMenuBackgroundView])
         contentScrollView.addSubview(containerView)
-        containerView.addSubview(ingredientsLabel)
-        containerView.addSubview(vectorArrowImage)
-        containerView.addSubview(ingredientsStack)
-        containerView.addSubview(instructionsLabel)
-        containerView.addSubview(instructionsStack)
-        containerView.addSubview(overlayView)
-        containerView.addSubview(mainImageView)
-        containerView.addSubview(servingSelector)
-        containerView.addSubview(addToCartButton)
-        
-        view.addSubview(header)
-        view.addSubview(promptingView)
+        containerView.addSubviews([ingredientsLabel, vectorArrowImage, ingredientsStack,
+                                   descriptionTitleLabel, descriptionRecipeLabel,
+                                   instructionsLabel, instructionsStack,
+                                   overlayView, mainImageView, servingSelector, addToCartButton, showCostView])
+        contextMenuBackgroundView.addSubviews([contextMenuView])
         
         header.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
@@ -324,12 +379,11 @@ final class RecipeViewController: UIViewController {
         
         mainImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(244)
+            make.leading.trailing.equalToSuperview().inset(16)
         }
         
         ingredientsLabel.snp.makeConstraints { make in
-            make.leading.equalTo(mainImageView)
+            make.leading.equalToSuperview().offset(24)
             make.top.equalTo(mainImageView.snp.bottom).offset(24)
         }
         
@@ -359,9 +413,26 @@ final class RecipeViewController: UIViewController {
 //            make.bottom.equalToSuperview().inset(40)
         }
         
+        showCostView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(-4)
+            make.trailing.equalToSuperview()
+            make.top.equalTo(ingredientsStack.snp.bottom).offset(-12)
+            make.height.equalTo(showCostView.requiredHeight)
+        }
+        
+        descriptionTitleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(ingredientsLabel)
+            make.top.equalTo(showCostView.snp.bottom).offset(16)
+        }
+        
+        descriptionRecipeLabel.snp.makeConstraints { make in
+            make.top.equalTo(descriptionTitleLabel.snp.bottom).offset(16)
+            make.leading.trailing.equalTo(ingredientsStack)
+        }
+        
         instructionsLabel.snp.makeConstraints { make in
-            make.leading.equalTo(ingredientsStack)
-            make.top.equalTo(ingredientsStack.snp.bottom).offset(24)
+            make.leading.equalTo(descriptionTitleLabel)
+            make.top.equalTo(descriptionRecipeLabel.snp.bottom).offset(24)
         }
         
         instructionsStack.snp.makeConstraints { make in
@@ -381,6 +452,21 @@ final class RecipeViewController: UIViewController {
         
         overlayView.snp.makeConstraints { $0.edges.equalTo(self.view) }
         promptingView.snp.makeConstraints { $0.edges.equalToSuperview() }
+        
+        makeContextMenuViewConstraints()
+    }
+    
+    private func makeContextMenuViewConstraints() {
+        contextMenuBackgroundView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        contextMenuView.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            $0.trailing.equalToSuperview().offset(-12)
+            $0.height.equalTo(contextMenuView.requiredHeight)
+            $0.width.equalTo(250)
+        }
     }
 }
 
@@ -403,14 +489,14 @@ extension RecipeViewController: RecipeScreenHeaderDelegate {
         navigationController?.popViewController(animated: true)
     }
     
-    func collectionButtonTapped() {
-        viewModel.showCollection()
+    func contextMenuButtonTapped() {
+        contextMenuView.fadeIn()
+        contextMenuBackgroundView.isHidden = false
     }
 }
 
 extension RecipeViewController: RecipeMainImageViewDelegate {
     func shareButtonTapped() {
-        
         let screenshot = containerView.snapshotNewView(with: view.backgroundColor)
         DispatchQueue.main.async {
             let activityVC = UIActivityViewController(activityItems: [screenshot], applicationActivities: nil)
@@ -419,19 +505,40 @@ extension RecipeViewController: RecipeMainImageViewDelegate {
     }
     
     func addToFavoritesTapped() {
-        if isFavorite {
-            UserDefaultsManager.favoritesRecipeIds.removeAll(where: { $0 == viewModel.recipe.id })
-            viewModel.updateFavoriteState(isSelected: false)
-        } else {
-            AmplitudeManager.shared.logEvent(.recipeAddFavorites)
-            UserDefaultsManager.favoritesRecipeIds.append(viewModel.recipe.id)
-            viewModel.updateFavoriteState(isSelected: true)
-        }
+        viewModel.updateFavoriteState(isSelected: !isFavorite)
     }
 }
 
 extension RecipeViewController: AddProductsSelectionListDelegate {
     func ingredientsSuccessfullyAdded() {
         AmplitudeManager.shared.logEvent(.recipeAddToList)
+    }
+}
+
+extension RecipeViewController: RecipeListContextMenuViewDelegate {
+    func selectedState(state: RecipeListContextMenuView.MainMenuState) {
+        UIView.animate(withDuration: 0.4) {
+            self.contextMenuView.alpha = 0.0
+            self.contextMenuBackgroundView.alpha = 0.0
+        } completion: { _ in
+            self.contextMenuView.isHidden = true
+            self.contextMenuBackgroundView.isHidden = true
+            self.contextMenuView.alpha = 1.0
+            self.contextMenuBackgroundView.alpha = 1.0
+
+            switch state {
+            case .addToShoppingList:
+                self.viewModel.addToShoppingList(contentViewHeigh: self.view.frame.height, delegate: self)
+            case .addToFavorites:
+                self.viewModel.updateFavoriteState(isSelected: true)
+                self.mainImageView.setIsFavorite(shouldSetFavorite: true)
+            case .addToCollection:
+                self.viewModel.addToCollection()
+            case .edit:
+                self.viewModel.edit()
+            }
+            
+            self.contextMenuView.removeSelected()
+        }
     }
 }

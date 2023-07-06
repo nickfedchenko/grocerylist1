@@ -19,6 +19,11 @@ protocol RecipeScreenViewModelProtocol {
     func updateFavoriteState(isSelected: Bool)
     var updateCollection: (() -> Void)? { get set }
     var recipe: Recipe { get }
+    var theme: Theme { get set }
+    func addToShoppingList(contentViewHeigh: CGFloat, delegate: AddProductsSelectionListDelegate)
+    func addToCollection()
+    func edit()
+    func getStoreAndCost(by index: Int) -> (store: String?, cost: Double?)
 }
 
 final class RecipeScreenViewModel {
@@ -32,12 +37,16 @@ final class RecipeScreenViewModel {
     weak var router: RootRouter?
     
     var updateCollection: (() -> Void)?
+    var theme: Theme
     private(set) var recipe: Recipe
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
     private var recipeUnit: RecipeUnit?
+    private var sectionColor: Theme?
     
-    init(recipe: Recipe) {
+    init(recipe: Recipe, sectionColor: Theme?) {
         self.recipe = recipe
+        self.sectionColor = sectionColor
+        theme = sectionColor ?? ColorManager.shared.getColorForRecipe()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateRecipe),
                                                name: .recieptsDownladedAnsSaved,
@@ -62,10 +71,16 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
         }
     }
     
+    func getStoreAndCost(by index: Int) -> (store: String?, cost: Double?) {
+        let product = recipe.ingredients[safe: index]?.product
+        return (product?.store?.title, product?.cost)
+    }
+    
     func getIngredientsSizeAccordingToServings(servings: Double) -> [String] {
         var titles: [String] = []
+        let totalServings = recipe.totalServings <= 0 ? 1 : Double(recipe.totalServings)
         for ingredient in recipe.ingredients {
-            let defaultValue = ingredient.quantity / Double(recipe.totalServings)
+            let defaultValue = ingredient.quantity / totalServings
             var targetValue = defaultValue * servings
             var unitTitle = ingredient.unit?.shortTitle ?? ""
             if let unit = unit(unitID: ingredient.unit?.id) {
@@ -74,7 +89,13 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
             }
             
             let unitName = unitTitle
-            let title = String(format: "%.\(targetValue.truncatingRemainder(dividingBy: 1) > 0 ? 1 : 0)f", targetValue) + " " + unitName
+            let title: String
+            if targetValue != 0 {
+                title = String(format: "%.\(targetValue.truncatingRemainder(dividingBy: 1) > 0 ? 1 : 0)f", targetValue) + " " + unitName
+            } else {
+                title = R.string.localizable.byTaste()
+            }
+            
             titles.append(title)
         }
         return titles
@@ -122,23 +143,32 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
     }
     
     func updateFavoriteState(isSelected: Bool) {
+        if UserDefaultsManager.favoritesRecipeIds.contains(recipe.id) && isSelected {
+            return
+        }
+        
+        if isSelected {
+            AmplitudeManager.shared.logEvent(.recipeAddFavorites)
+            UserDefaultsManager.favoritesRecipeIds.append(recipe.id)
+        } else {
+            UserDefaultsManager.favoritesRecipeIds.removeAll(where: { $0 == recipe.id })
+        }
+        
         guard let dbCollection = CoreDataManager.shared.getCollection(by: EatingTime.favorites.rawValue) else {
             return
         }
-
         let favoriteCollection = CollectionModel(from: dbCollection)
-        
         if var localCollection = recipe.localCollection {
             if isSelected {
                 localCollection.append(favoriteCollection)
             } else {
                 localCollection.removeAll { $0.id == favoriteCollection.id }
             }
-            
             recipe.localCollection = localCollection
         } else {
             recipe.localCollection = [favoriteCollection]
         }
+        
         CoreDataManager.shared.saveRecipes(recipes: [recipe])
     }
     
@@ -154,6 +184,38 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
         }
       
     }
+    
+    func addToShoppingList(contentViewHeigh: CGFloat, delegate: AddProductsSelectionListDelegate) {
+        let recipeTitle = recipe.title
+        let products: [Product] = recipe.ingredients.map({
+            let netProduct = $0.product
+            let product = Product(
+                name: netProduct.title,
+                isPurchased: false,
+                dateOfCreation: Date(),
+                category: netProduct.marketCategory?.title ?? "",
+                isFavorite: false,
+                description: "",
+                fromRecipeTitle: recipeTitle
+            )
+            return product
+        })
+        router?.goToAddProductsSelectionList(products: products, contentViewHeigh: contentViewHeigh, delegate: delegate)
+    }
+    
+    func addToCollection() {
+        router?.goToShowCollection(state: .select, recipe: recipe, updateUI: {
+//            self?.updateCollection?()
+        })
+
+    }
+    
+    func edit() {
+        router?.goToCreateNewRecipe(currentRecipe: recipe, compl: { [weak self] recipe in
+            self?.recipe = recipe
+        })
+    }
+    
 }
 
 private extension UnitSystem {

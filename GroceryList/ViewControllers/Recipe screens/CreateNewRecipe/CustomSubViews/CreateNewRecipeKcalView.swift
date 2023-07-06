@@ -196,7 +196,8 @@ private final class NutritionFactsView: UIView {
     var returnTapped: (() -> Void)?
     
     var value: Double? {
-        textField.text?.asDouble
+        let value = textField.text?.replacingOccurrences(of: " g", with: "")
+        return value?.asDouble
     }
     
     private lazy var titleLabel: UILabel = {
