@@ -35,6 +35,23 @@ class RecipeFilterViewModel {
         self.theme = theme ?? ColorManager.shared.getColorForRecipe()
     }
     
+    func isSelectFilter(by index: IndexPath) -> Bool {
+        guard let filter = RecipeFilter(rawValue: index.section),
+              let tag = allFilters[safe: index.section]?.tags[safe: index.row] else {
+            return false
+        }
+        
+        switch filter {
+        case .exception:                return exceptionFilter.contains { $0.id == tag.id }
+        case .diet:                     return dietFilter.contains { $0.id == tag.id }
+        case .typeOfDish:               return typeOfDishFilter.contains { $0.id == tag.id }
+        case .cookingMethod:            return cookingMethodFilter.contains { $0.id == tag.id }
+        case .caloriesPerServing:       return caloriesPerServingFilter.contains { $0.id == tag.id }
+        case .cookingTime:              return cookingTimeFilter.contains { $0.id == tag.id }
+        case .quantityOfIngredients:    return quantityOfIngredientsFilter.contains { $0.id == tag.id }
+        }
+    }
+    
     func addFilter(by index: IndexPath) {
         guard let filter = RecipeFilter(rawValue: index.section),
               let tag = allFilters[safe: index.section]?.tags[safe: index.row] else {

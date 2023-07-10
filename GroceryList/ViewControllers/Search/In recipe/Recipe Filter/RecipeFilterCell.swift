@@ -9,7 +9,7 @@ import UIKit
 
 class RecipeFilterCell: PredictiveTextCell {
     
-    private var markAsSelect = false {
+    var markAsSelect = false {
         didSet { updateView() }
     }
     
@@ -28,6 +28,12 @@ class RecipeFilterCell: PredictiveTextCell {
     override func tappedOnView() {
         super.tappedOnView()
         markAsSelect.toggle()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.contentView.backgroundColor = .white
+        titleLabel.textColor = .black
     }
     
     func setupColor(border: UIColor?, select: UIColor?) {

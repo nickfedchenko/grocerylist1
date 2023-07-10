@@ -163,7 +163,8 @@ extension RecipeFilterViewController: UICollectionViewDataSource {
         let cell = collectionView.reusableCell(classCell: RecipeFilterCell.self, indexPath: indexPath)
         cell.setupColor(border: viewModel.borderCellColor,
                         select: indexPath.section == 0 ? R.color.attention() : viewModel.selectCellColor)
-        cell.configure(title:  viewModel.allFilters[indexPath.section].tags[indexPath.row].title)
+        cell.configure(title: viewModel.allFilters[indexPath.section].tags[indexPath.row].title)
+        cell.markAsSelect = viewModel.isSelectFilter(by: indexPath)
         cell.selectTitle = { [weak self] _ in
             self?.viewModel.addFilter(by: indexPath)
         }

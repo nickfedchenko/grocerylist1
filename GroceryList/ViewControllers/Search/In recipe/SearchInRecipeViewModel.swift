@@ -113,8 +113,9 @@ final class SearchInRecipeViewModel {
         return RecipeFilterViewController(viewModel: viewModel)
     }
     
-    func removeTag(recipeTag: RecipeTag) {
-        guard let filterIndex = filters.firstIndex(where: { $0.filter == recipeTag.filter }) else {
+    func removeTag(recipeTag: String) {
+        guard let recipeTag = recipeTags.first(where: { $0.title == recipeTag }),
+            let filterIndex = filters.firstIndex(where: { $0.filter == recipeTag.filter }) else {
             return
         }
         recipeTags.removeAll { $0.id == recipeTag.id }

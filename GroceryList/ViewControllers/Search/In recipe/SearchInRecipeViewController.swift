@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import TagListView
 
 final class SearchInRecipeViewController: SearchViewController {
 
@@ -43,8 +44,7 @@ final class SearchInRecipeViewController: SearchViewController {
                 guard let self else {
                     return
                 }
-                self.filterTagsView.configure(tags: self.viewModel?.recipeTags ?? [],
-                                               color: self.viewModel?.theme.dark)
+                self.updateFilterTagsView()
                 self.collectionView.contentInset.top = self.navigationView.frame.height + self.topSafeAreaView.frame.height + 10
             }
         }
@@ -65,12 +65,8 @@ final class SearchInRecipeViewController: SearchViewController {
         makeConstraints()
         updateTitleViewConstraints()
 
-        filterTagsView.configure(tags: viewModel?.recipeTags ?? [], color: viewModel?.theme.dark)
-        filterTagsView.removeTag = { [weak self] tag in
-            self?.viewModel?.removeTag(recipeTag: tag)
-            self?.filterTagsView.configure(tags: self?.viewModel?.recipeTags ?? [],
-                                           color: self?.viewModel?.theme.dark)
-        }
+        filterTagsView.delegate = self
+        updateFilterTagsView()
     }
     
     override func setupCollectionView() {
@@ -150,6 +146,14 @@ final class SearchInRecipeViewController: SearchViewController {
         titleView.setColor(theme)
     }
     
+    private func updateFilterTagsView() {
+        let tags = viewModel?.recipeTags ?? []
+        filterTagsView.configure(tags: tags, color: viewModel?.theme.dark)
+        filterTagsView.snp.updateConstraints {
+            $0.top.equalTo(titleView.snp.bottom).offset(tags.isEmpty ? 0 : 24)
+        }
+    }
+    
     @objc
     private func addFilterButtonTapped() {
         guard let controller = viewModel?.showFilter() else {
@@ -206,8 +210,8 @@ final class SearchInRecipeViewController: SearchViewController {
         }
 
         filterTagsView.snp.makeConstraints {
-            $0.top.equalTo(titleView.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(titleView.snp.bottom).offset(24)
+            $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(addFilterButton.snp.top).offset(-12)
             $0.height.greaterThanOrEqualTo(1).priority(.high)
         }
@@ -297,5 +301,13 @@ extension SearchInRecipeViewController: AddProductsSelectionListDelegate {
         guard currentlySelectedIndex >= 0 else { return }
         guard let cell = collectionView.cellForItem(at: IndexPath(item: currentlySelectedIndex, section: 0)) as? RecipeListCell else { return }
         cell.setSuccessfullyAddedIngredients(isSuccess: true)
+    }
+}
+
+extension SearchInRecipeViewController: TagListViewDelegate {
+    
+    func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
+        viewModel?.removeTag(recipeTag: title.trimmingCharacters(in: .whitespacesAndNewlines))
+        updateFilterTagsView()
     }
 }

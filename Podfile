@@ -22,6 +22,7 @@ target 'GroceryList' do
   
   pod 'NVActivityIndicatorView'
   pod 'SFSafeSymbols', '~> 4.1.1'
+  pod 'TagListView'
   
   # Pods for GroceryList
 
