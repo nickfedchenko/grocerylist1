@@ -25,7 +25,7 @@ class CreateNewCategoryViewModel {
     let model: GroceryListsModel?
     let newModelInd: Int
     
-    private var colorManager = ColorManager()
+    private var colorManager = ColorManager.shared
     
     func getBackgroundColor() -> UIColor {
         guard let colorInd = model?.color else {

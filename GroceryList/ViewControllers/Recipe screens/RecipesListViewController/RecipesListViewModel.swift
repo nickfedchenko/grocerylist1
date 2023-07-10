@@ -14,7 +14,7 @@ class RecipesListViewModel {
     var updatePhoto: ((UIImage) -> Void)?
     
     private var section: RecipeSectionsModel
-    private var colorManager = ColorManager()
+    private var colorManager = ColorManager.shared
     private var allPhotos: [UIImage] = []
     
     init(with section: RecipeSectionsModel) {

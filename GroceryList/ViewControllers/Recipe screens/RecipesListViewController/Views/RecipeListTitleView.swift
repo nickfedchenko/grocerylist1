@@ -25,7 +25,7 @@ class RecipeListTitleView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setTitle(_ title: String) {
+    func setTitle(_ title: String?) {
         titleLabel.text = title
     }
     

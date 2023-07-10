@@ -18,7 +18,7 @@ class SelectCategoryViewModel {
     
     init (model: GroceryListsModel?) {
         self.model = model
-        self.colorManager = ColorManager()
+        self.colorManager = ColorManager.shared
         self.dataSource = SelectCategoryDataSource()
         dataSource.arrayUpdatedCallback = { [weak self] in
             self?.delegate?.reloadData()

@@ -21,9 +21,14 @@ final class SearchInListViewController: SearchViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        animationAppear()
+    }
+    
     override func setup() {
         super.setup()
-        setSearchPlaceholder(R.string.localizable.lists())
+        setSearchPlaceholder( R.string.localizable.searchIn() + R.string.localizable.lists())
         searchTextField.delegate = self
     }
     

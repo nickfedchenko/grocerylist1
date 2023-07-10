@@ -258,13 +258,18 @@ final class RootRouter: RootRouterProtocol {
     func goToSearchInRecipe(section: RecipeSectionsModel? = nil) {
         let controller = viewControllerFactory.createSearchInRecipe(router: self, section: section)
         controller.modalTransitionStyle = .crossDissolve
-        navigationPresent(controller, animated: true)
+//        navigationPresent(controller, animated: true)
+        navigationPushViewController(controller, animated: true)
     }
     
-    func goToRecipe(recipe: Recipe, sectionColor: Theme?) {
+    func goToRecipe(recipe: Recipe, sectionColor: Theme?, fromSearch: Bool = false) {
         let controller = viewControllerFactory.createRecipeScreen(router: self, recipe: recipe,
                                                                   sectionColor: sectionColor)
-        recipeNavController.pushViewController(controller, animated: true)
+        if fromSearch {
+            navigationPushViewController(controller, animated: true)
+        } else {
+            recipeNavController.pushViewController(controller, animated: true)
+        }
     }
     
     func goToEditSelectList(products: [Product], contentViewHeigh: CGFloat,

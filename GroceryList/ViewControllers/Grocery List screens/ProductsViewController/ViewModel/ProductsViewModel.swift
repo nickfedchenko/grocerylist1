@@ -27,7 +27,7 @@ class ProductsViewModel {
     var selectedProduct: Product?
     var isExpandedPurchased = true
     
-    private var colorManager = ColorManager()
+    private var colorManager = ColorManager.shared
     
     init(model: GroceryListsModel, dataSource: ProductsDataManager) {
         self.dataSource = dataSource

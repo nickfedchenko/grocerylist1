@@ -99,11 +99,11 @@ extension PredictiveTextView: UICollectionViewDataSource, UICollectionViewDelega
     }
 }
 
-final private class PredictiveTextCell: UICollectionViewCell {
+class PredictiveTextCell: UICollectionViewCell {
     
     var selectTitle: ((String) -> Void)?
     
-    private let titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.regular(size: 17).font
         label.textAlignment = .center
@@ -126,7 +126,7 @@ final private class PredictiveTextCell: UICollectionViewCell {
         titleLabel.text = title
     }
     
-    private func setup() {
+    func setup() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(tappedOnView))
         self.addGestureRecognizer(tap)
         
@@ -141,7 +141,7 @@ final private class PredictiveTextCell: UICollectionViewCell {
     }
     
     @objc
-    private func tappedOnView() {
+    func tappedOnView() {
         selectTitle?(titleLabel.text ?? "")
     }
     
@@ -151,7 +151,6 @@ final private class PredictiveTextCell: UICollectionViewCell {
         
         titleLabel.snp.makeConstraints {
             $0.leading.top.equalToSuperview().offset(6)
-            $0.height.equalTo(17)
             $0.center.equalToSuperview()
             $0.width.lessThanOrEqualTo(width)
         }

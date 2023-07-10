@@ -24,7 +24,7 @@ final class StocksViewModel {
     
     private(set) var stateCellModel: StockCell.CellState = .normal
     private(set) var sortByOutOfStock = false
-    private var colorManager = ColorManager()
+    private var colorManager = ColorManager.shared
     private var dataSource: StocksDataSource
     private var pantry: PantryModel
     

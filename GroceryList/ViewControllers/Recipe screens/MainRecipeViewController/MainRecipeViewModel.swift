@@ -15,7 +15,7 @@ final class MainRecipeViewModel {
     var updateRecipeLoaded: (() -> Void)?
     
     private var dataSource: MainRecipeDataSourceProtocol
-    private var colorManager = ColorManager()
+    private var colorManager = ColorManager.shared
     private let groupForSavingSharedUser = DispatchGroup()
     private var startTime: Date?
     

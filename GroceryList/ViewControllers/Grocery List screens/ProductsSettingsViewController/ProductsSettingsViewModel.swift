@@ -21,7 +21,7 @@ class ProductsSettingsViewModel {
     var valueChangedCallback: ((GroceryListsModel, [Product]) -> Void)?
     var editCallback: ((TableViewContent) -> Void)?
     
-    private var colorManager = ColorManager()
+    private var colorManager = ColorManager.shared
     private(set) var snapshot: UIImage?
     private(set) var listByText = ""
     private var model: GroceryListsModel
