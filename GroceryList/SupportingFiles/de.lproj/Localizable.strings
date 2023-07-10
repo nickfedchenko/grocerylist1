@@ -393,3 +393,11 @@
 "You can find your drafts"      = "Sie finden Ihre Entwürfe auf dem Hauptbildschirm in Sammlungen";
 "Leave Creating a Recipe"       = "Lassen Sie das Erstellen eines Rezepts";
 "Continue Work"                 = "Arbeit fortsetzen";
+
+"Nutrition Facts per Serving"   = "Nährwertangaben pro Portion *";
+"If these data are known"       = "Wenn diese Daten bekannt oder berechnet sind. Sie können nur ungefähre Kalorien eingeben oder diesen Abschnitt leer lassen.";
+"carb"                          = "Kickloch";
+"protein"                       = "Protein";
+"fat"                           = "Fett";
+"kcal"                          = "Kcal";
+"Calories"                      = "Kalorien";

@@ -140,6 +140,15 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
     }
     
     override func changeSwitchValue(at ind: Int, isOn: Bool) {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            delegate?.reloadController()
+            updateUI?(pantry)
+            showPaywall()
+            return
+        }
+#endif
+        
         guard let content = allContent[safe: ind] else { return }
         switch content {
         case .storeAndCost:

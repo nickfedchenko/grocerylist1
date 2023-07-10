@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 342 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 349 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -317,6 +317,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var buy: RswiftResources.StringResource { .init(key: "Buy", tableName: "Localizable", source: source, developmentValue: "Buy", comment: nil) }
+
+      /// en translation: Calories
+      ///
+      /// Key: Calories
+      ///
+      /// Locales: en, ru, fr, de
+      var calories: RswiftResources.StringResource { .init(key: "Calories", tableName: "Localizable", source: source, developmentValue: "Calories", comment: nil) }
 
       /// en translation: Cancel
       ///
@@ -808,6 +815,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var icon: RswiftResources.StringResource { .init(key: "Icon", tableName: "Localizable", source: source, developmentValue: "Icon", comment: nil) }
 
+      /// en translation: If these data are known or calculated. You can write only approximate calories or leave this section blank.
+      ///
+      /// Key: If these data are known
+      ///
+      /// Locales: en, ru, fr, de
+      var ifTheseDataAreKnown: RswiftResources.StringResource { .init(key: "If these data are known", tableName: "Localizable", source: source, developmentValue: "If these data are known or calculated. You can write only approximate calories or leave this section blank.", comment: nil) }
+
       /// en translation: U.S. standard
       ///
       /// Key: Imperial
@@ -1059,6 +1073,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var note: RswiftResources.StringResource { .init(key: "Note", tableName: "Localizable", source: source, developmentValue: "Note", comment: nil) }
+
+      /// en translation: Nutrition Facts per Serving *
+      ///
+      /// Key: Nutrition Facts per Serving
+      ///
+      /// Locales: en, ru, fr, de
+      var nutritionFactsPerServing: RswiftResources.StringResource { .init(key: "Nutrition Facts per Serving", tableName: "Localizable", source: source, developmentValue: "Nutrition Facts per Serving *", comment: nil) }
 
       /// en translation: Oatmeal, medium size
       ///
@@ -1998,6 +2019,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var can: RswiftResources.StringResource { .init(key: "can", tableName: "Localizable", source: source, developmentValue: "can", comment: nil) }
 
+      /// en translation: Carbs
+      ///
+      /// Key: carb
+      ///
+      /// Locales: en, ru, fr, de
+      var carb: RswiftResources.StringResource { .init(key: "carb", tableName: "Localizable", source: source, developmentValue: "Carbs", comment: nil) }
+
       /// en translation: ChangeColor
       ///
       /// Key: changeColor
@@ -2103,6 +2131,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var everyWeekly: RswiftResources.StringResource2<String, String> { .init(key: "every weekly ", tableName: "Localizable", source: source, developmentValue: "Every %@ Weekly: %@", comment: nil) }
 
+      /// en translation: Fat
+      ///
+      /// Key: fat
+      ///
+      /// Locales: en, ru, fr, de
+      var fat: RswiftResources.StringResource { .init(key: "fat", tableName: "Localizable", source: source, developmentValue: "Fat", comment: nil) }
+
       /// en translation: fl oz
       ///
       /// Key: fluidOz
@@ -2158,6 +2193,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var itemSelected: RswiftResources.StringResource1<String> { .init(key: "itemSelected", tableName: "Localizable", source: source, developmentValue: "%@ item selected", comment: nil) }
+
+      /// en translation: Kcal
+      ///
+      /// Key: kcal
+      ///
+      /// Locales: en, ru, fr, de
+      var kcal: RswiftResources.StringResource { .init(key: "kcal", tableName: "Localizable", source: source, developmentValue: "Kcal", comment: nil) }
 
       /// en translation: kg
       ///
@@ -2298,6 +2340,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var print: RswiftResources.StringResource { .init(key: "print", tableName: "Localizable", source: source, developmentValue: "Print", comment: nil) }
+
+      /// en translation: Protein
+      ///
+      /// Key: protein
+      ///
+      /// Locales: en, ru, fr, de
+      var protein: RswiftResources.StringResource { .init(key: "protein", tableName: "Localizable", source: source, developmentValue: "Protein", comment: nil) }
 
       /// en translation: pt
       ///

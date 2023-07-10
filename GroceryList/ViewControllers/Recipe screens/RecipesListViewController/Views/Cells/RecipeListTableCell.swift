@@ -25,7 +25,7 @@ final class RecipeListTableCell: RecipeListCell {
         
         mainImage.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().offset(1)
-            make.height.equalTo(88)
+            make.bottom.equalTo(timeBadgeView)
         }
         
         titleLabel.snp.makeConstraints { make in

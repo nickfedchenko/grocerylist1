@@ -42,6 +42,13 @@ class RecipesListViewModel {
         section.recipes[safe: index]?.isDefaultRecipe ?? false
     }
     
+    func isFavoriteRecipe(by index: Int) -> Bool {
+        guard let recipe = section.recipes[safe: index] else {
+            return false
+        }
+        return UserDefaultsManager.favoritesRecipeIds.contains(recipe.id)
+    }
+    
     func showRecipe(by indexPath: IndexPath) {
         let recipeId = section.recipes[indexPath.item].id
         guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
@@ -98,27 +105,38 @@ class RecipesListViewModel {
         }
         let favoritesID = EatingTime.favorites.rawValue
         
-        guard !UserDefaultsManager.favoritesRecipeIds.contains(recipeIndex),
-              let dbCollection = CoreDataManager.shared.getCollection(by: favoritesID),
+        guard let dbCollection = CoreDataManager.shared.getCollection(by: favoritesID),
               let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
               var recipe = Recipe(from: dbRecipe) else {
             return
         }
         
-        UserDefaultsManager.favoritesRecipeIds.append(recipeId)
         let favoriteCollection = CollectionModel(from: dbCollection)
+        let isFavorite = !UserDefaultsManager.favoritesRecipeIds.contains(recipeId)
         
+        defer {
+            CoreDataManager.shared.saveRecipes(recipes: [recipe])
+            var updateRecipe = section.recipes.remove(at: recipeIndex)
+            updateRecipe.isFavorite = isFavorite
+            section.recipes.insert(updateRecipe, at: recipeIndex)
+        }
+        
+        guard isFavorite else {
+            UserDefaultsManager.favoritesRecipeIds.removeAll { $0 == recipeId }
+            if var localCollection = recipe.localCollection {
+                localCollection.removeAll { $0.id == favoriteCollection.id }
+                recipe.localCollection = localCollection
+            }
+            return
+        }
+
+        UserDefaultsManager.favoritesRecipeIds.append(recipeId)
         if var localCollection = recipe.localCollection {
             localCollection.append(favoriteCollection)
             recipe.localCollection = localCollection
         } else {
             recipe.localCollection = [favoriteCollection]
         }
-        CoreDataManager.shared.saveRecipes(recipes: [recipe])
-
-        var updateRecipe = section.recipes.remove(at: recipeIndex)
-        updateRecipe.isFavorite = true
-        section.recipes.insert(updateRecipe, at: recipeIndex)
     }
     
     func addToCollection(recipeIndex: Int) {

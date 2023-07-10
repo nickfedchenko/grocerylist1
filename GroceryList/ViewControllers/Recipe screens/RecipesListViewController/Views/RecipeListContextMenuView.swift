@@ -81,13 +81,13 @@ class RecipeListContextMenuView: UIView {
         super.init(coder: coder)
     }
     
-    func setupMenuFunctions(isDefaultRecipe: Bool) {
+    func setupMenuFunctions(isDefaultRecipe: Bool, isFavorite: Bool) {
         guard isDefaultRecipe else {
             return
         }
         
         allMenuFunctions.removeAll { $0 == .edit }
-        setupMenuStackView()
+        setupMenuStackView(isFavorite: isFavorite)
     }
     
     func configure(color: Theme) {
@@ -95,7 +95,7 @@ class RecipeListContextMenuView: UIView {
         stackView.backgroundColor = color.medium
         self.layer.borderColor = color.medium.cgColor
         
-        setupMenuStackView()
+        setupMenuStackView(isFavorite: false)
     }
     
     func removeSelected() {
@@ -116,12 +116,17 @@ class RecipeListContextMenuView: UIView {
         makeConstraints()
     }
     
-    private func setupMenuStackView() {
+    private func setupMenuStackView(isFavorite: Bool) {
         stackView.removeAllArrangedSubviews()
         
         allMenuFunctions.forEach { state in
             let view = RecipeListContextMenuSubView()
-            view.configure(title: state.title, image: state.image, color: mainColor?.dark ?? .black)
+            if isFavorite && state == .addToFavorites {
+                view.configure(title: "Удалить из избранного", image: state.image, color: mainColor?.dark ?? .black)
+            } else {
+                view.configure(title: state.title, image: state.image, color: mainColor?.dark ?? .black)
+            }
+            
             view.tag = state.rawValue
             stackView.addArrangedSubview(view)
             

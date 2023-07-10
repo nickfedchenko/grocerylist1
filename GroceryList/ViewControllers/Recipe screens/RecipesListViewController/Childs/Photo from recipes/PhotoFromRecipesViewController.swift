@@ -24,6 +24,14 @@ final class PhotoFromRecipesViewController: UIViewController {
         return view
     }()
     
+    private let pinchView: UIView = {
+        let view = UIView()
+        view.backgroundColor = R.color.mediumGray()
+        view.layer.cornerRadius = 2
+        view.layer.masksToBounds = true
+        return view
+    }()
+
     private let headerView: UIView = {
         let view = UIView()
         view.backgroundColor = .white.withAlphaComponent(0.95)
@@ -129,7 +137,7 @@ final class PhotoFromRecipesViewController: UIViewController {
     private func makeConstraints() {
         self.view.addSubviews([contentView])
         contentView.addSubviews([collectionView, headerView])
-        headerView.addSubviews([titleLabel, photoButton])
+        headerView.addSubviews([pinchView, titleLabel, photoButton])
         
         contentView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
@@ -140,6 +148,13 @@ final class PhotoFromRecipesViewController: UIViewController {
         headerView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(86)
+        }
+        
+        pinchView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.width.equalTo(65)
+            make.height.equalTo(4)
+            make.top.equalToSuperview().inset(8)
         }
         
         collectionView.snp.makeConstraints {
