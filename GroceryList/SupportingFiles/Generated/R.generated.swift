@@ -2514,7 +2514,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 285 images.
+  /// This `_R.image` struct is generated, and contains static references to 288 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -2902,6 +2902,12 @@ struct _R {
     /// Image `fifthSideView`.
     var fifthSideView: RswiftResources.ImageResource { .init(name: "fifthSideView", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `filterException`.
+    var filterException: RswiftResources.ImageResource { .init(name: "filterException", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `filterTagClear`.
+    var filterTagClear: RswiftResources.ImageResource { .init(name: "filterTagClear", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `firstBG`.
     var firstBG: RswiftResources.ImageResource { .init(name: "firstBG", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -3201,6 +3207,9 @@ struct _R {
 
     /// Image `recipe time icon`.
     var recipeTimeIcon: RswiftResources.ImageResource { .init(name: "recipe time icon", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `recipeFilters`.
+    var recipeFilters: RswiftResources.ImageResource { .init(name: "recipeFilters", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `recipe_menu`.
     var recipe_menu: RswiftResources.ImageResource { .init(name: "recipe_menu", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

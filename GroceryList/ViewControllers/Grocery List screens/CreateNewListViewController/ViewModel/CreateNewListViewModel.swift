@@ -17,7 +17,7 @@ class CreateNewListViewModel {
     
     weak var delegate: CreateNewLiseViewModelDelegate?
     weak var router: RootRouter?
-    private var colorManager = ColorManager()
+    private var colorManager = ColorManager.shared
     var valueChangedCallback: ((GroceryListsModel, [Product]) -> Void)?
     var model: GroceryListsModel?
     var copiedProducts: Set<Product> = []

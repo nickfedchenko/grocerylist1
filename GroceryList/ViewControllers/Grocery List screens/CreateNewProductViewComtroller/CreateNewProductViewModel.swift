@@ -31,7 +31,7 @@ class CreateNewProductViewModel {
     var currentProduct: Product?
     var costOfProductPerUnit: Double?
     
-    let colorManager = ColorManager()
+    let colorManager = ColorManager.shared
     var defaultStore: Store?
     let network = NetworkEngine()
     var networkBaseProducts: [DBNewNetProduct]?

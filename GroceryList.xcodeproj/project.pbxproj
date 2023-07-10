@@ -63,6 +63,12 @@
 		335519CE29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519CD29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift */; };
 		335519D029B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335519CF29B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift */; };
 		335665312A568B3B006F92E6 /* PantryDefaultsValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335665302A568B3B006F92E6 /* PantryDefaultsValue.swift */; };
+		335665332A569EAB006F92E6 /* RecipeFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335665322A569EAB006F92E6 /* RecipeFilterViewController.swift */; };
+		335665372A56B213006F92E6 /* RecipeDefaultFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335665362A56B213006F92E6 /* RecipeDefaultFilter.swift */; };
+		335665392A574D71006F92E6 /* RecipeFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335665382A574D71006F92E6 /* RecipeFilterViewModel.swift */; };
+		3356653B2A575013006F92E6 /* RecipeFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3356653A2A575013006F92E6 /* RecipeFilterCell.swift */; };
+		3356653D2A5762CA006F92E6 /* RecipeFilterCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3356653C2A5762CA006F92E6 /* RecipeFilterCellHeader.swift */; };
+		3356653F2A578728006F92E6 /* FiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3356653E2A578728006F92E6 /* FiltersView.swift */; };
 		335B54072A37451D00B53314 /* FoundInPantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B54062A37451D00B53314 /* FoundInPantryView.swift */; };
 		3360735D2A4B3B5C002427BE /* ShowCollectionDeleteAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3360735C2A4B3B5C002427BE /* ShowCollectionDeleteAlertView.swift */; };
 		3360735F2A4C03BB002427BE /* CreateNewRecipeSavedToDraftsAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3360735E2A4C03BB002427BE /* CreateNewRecipeSavedToDraftsAlertView.swift */; };
@@ -402,6 +408,12 @@
 		335519CD29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeViewWithTextField.swift; sourceTree = "<group>"; };
 		335519CF29B09DBD00AD2B77 /* CreateNewRecipePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipePhotoView.swift; sourceTree = "<group>"; };
 		335665302A568B3B006F92E6 /* PantryDefaultsValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PantryDefaultsValue.swift; sourceTree = "<group>"; };
+		335665322A569EAB006F92E6 /* RecipeFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilterViewController.swift; sourceTree = "<group>"; };
+		335665362A56B213006F92E6 /* RecipeDefaultFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDefaultFilter.swift; sourceTree = "<group>"; };
+		335665382A574D71006F92E6 /* RecipeFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilterViewModel.swift; sourceTree = "<group>"; };
+		3356653A2A575013006F92E6 /* RecipeFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilterCell.swift; sourceTree = "<group>"; };
+		3356653C2A5762CA006F92E6 /* RecipeFilterCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilterCellHeader.swift; sourceTree = "<group>"; };
+		3356653E2A578728006F92E6 /* FiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersView.swift; sourceTree = "<group>"; };
 		335B54062A37451D00B53314 /* FoundInPantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundInPantryView.swift; sourceTree = "<group>"; };
 		3360735C2A4B3B5C002427BE /* ShowCollectionDeleteAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowCollectionDeleteAlertView.swift; sourceTree = "<group>"; };
 		3360735E2A4C03BB002427BE /* CreateNewRecipeSavedToDraftsAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeSavedToDraftsAlertView.swift; sourceTree = "<group>"; };
@@ -900,6 +912,18 @@
 			path = CustomSubViews;
 			sourceTree = "<group>";
 		};
+		335665342A569ECD006F92E6 /* Recipe Filter */ = {
+			isa = PBXGroup;
+			children = (
+				335665322A569EAB006F92E6 /* RecipeFilterViewController.swift */,
+				335665382A574D71006F92E6 /* RecipeFilterViewModel.swift */,
+				3356653A2A575013006F92E6 /* RecipeFilterCell.swift */,
+				3356653C2A5762CA006F92E6 /* RecipeFilterCellHeader.swift */,
+				335665362A56B213006F92E6 /* RecipeDefaultFilter.swift */,
+			);
+			path = "Recipe Filter";
+			sourceTree = "<group>";
+		};
 		335B54082A3822AD00B53314 /* Grocery List screens */ = {
 			isa = PBXGroup;
 			children = (
@@ -1074,9 +1098,11 @@
 		338EB6B229C1BA8D00D6A03F /* In recipe */ = {
 			isa = PBXGroup;
 			children = (
-				338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */,
 				338EB6B529C1BEED00D6A03F /* SearchInRecipeViewModel.swift */,
+				338EB6B329C1BACC00D6A03F /* SearchInRecipeViewController.swift */,
+				3356653E2A578728006F92E6 /* FiltersView.swift */,
 				3380D1B329C2D1E500A57F25 /* AllRecipesCell.swift */,
+				335665342A569ECD006F92E6 /* Recipe Filter */,
 			);
 			path = "In recipe";
 			sourceTree = "<group>";
@@ -2274,6 +2300,7 @@
 				334764572A283FAB008F4834 /* StocksEmptyView.swift in Sources */,
 				B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */,
 				337E79D629E974A500668578 /* CreateNewProductViewController.swift in Sources */,
+				335665392A574D71006F92E6 /* RecipeFilterViewModel.swift in Sources */,
 				B347690B291D23800045A287 /* ProductsSettingsViewModel.swift in Sources */,
 				33E544AC29CA1122008D84F8 /* FeatureManager.swift in Sources */,
 				335665312A568B3B006F92E6 /* PantryDefaultsValue.swift in Sources */,
@@ -2297,6 +2324,7 @@
 				3367C78C299F30E8008B39A5 /* SharingHeaderView.swift in Sources */,
 				383C77F7293F79EB0030AE78 /* RecipesListHeaderView.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
+				3356653D2A5762CA006F92E6 /* RecipeFilterCellHeader.swift in Sources */,
 				B3815C0629361BAC0060262D /* NetworkModeles.swift in Sources */,
 				333D2FB82A30173D0072F779 /* StockHeaderCell.swift in Sources */,
 				B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */,
@@ -2358,6 +2386,7 @@
 				33A51B872A163C7A00BE11C1 /* MainTabBarController.swift in Sources */,
 				339254A42A3047600047807E /* DBStock+CoreDataProperties.swift in Sources */,
 				383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */,
+				3356653F2A578728006F92E6 /* FiltersView.swift in Sources */,
 				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,
 				3342C9BD2A146D290010DA4A /* FeedbackManager.swift in Sources */,
 				386CFACE2995A4CA00B4AD76 /* ContentViewConstants.swift in Sources */,
@@ -2371,7 +2400,9 @@
 				389DCF452945CE9A00DB9382 /* RecipeScreenViewModel.swift in Sources */,
 				33995D252A1CC501003FECAE /* TabBarItemView.swift in Sources */,
 				B3AD42DA299117980043A37F /* RegistrationResponse.swift in Sources */,
+				335665372A56B213006F92E6 /* RecipeDefaultFilter.swift in Sources */,
 				389DCF4A29461B2000DB9382 /* RecipeMainImageView.swift in Sources */,
+				335665332A569EAB006F92E6 /* RecipeFilterViewController.swift in Sources */,
 				B315F9E6298A3F420009CEB8 /* WriteReviewViewController.swift in Sources */,
 				3347646B2A2B62FB008F4834 /* AutoRepeatView.swift in Sources */,
 				B3F7C9C929963F1A0081B245 /* PasswordResetViewModel.swift in Sources */,
@@ -2404,6 +2435,7 @@
 				334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */,
 				3379B65729B9AED50080923A /* IngredientViewModel.swift in Sources */,
 				3379B65229B870A70080923A /* ShowCollectionCell.swift in Sources */,
+				3356653B2A575013006F92E6 /* RecipeFilterCell.swift in Sources */,
 				B37A2CE82911034D003C01AD /* UITextFieldExtension.swift in Sources */,
 				B3F7C9CD29964D320081B245 /* YourEmailView.swift in Sources */,
 				B381EF26299B661700DCDE40 /* DeleteAccountView.swift in Sources */,

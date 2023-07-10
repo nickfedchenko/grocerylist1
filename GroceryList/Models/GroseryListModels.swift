@@ -60,6 +60,59 @@ struct RecipeSectionsModel {
     var localImage: Data?
 }
 
+struct RecipeForSearchModel {
+    let id: Int
+    let createdAt: Date
+    let title: String
+    let photo: String
+    var localImage: Data?
+    let time: Int32
+    var ingredients: [Ingredient]?
+    var values: Values?
+    var eatingTags, dishTypeTags, processingTypeTags, dietTags, exceptionTags: [AdditionalTag]
+    var isFavorite = false
+    var isDefaultRecipe = false
+    
+    init(dbModel: DBRecipe, isFavorite: Bool) {
+        id = Int(dbModel.id)
+        createdAt = dbModel.createdAt ?? Date()
+        title = dbModel.title ?? ""
+        photo = dbModel.photo ?? ""
+        localImage = dbModel.localImage
+        time = dbModel.cookingTime
+        ingredients = (try? JSONDecoder().decode([Ingredient].self, from: dbModel.ingredients ?? Data()))
+        values = (try? JSONDecoder().decode(Values.self, from: dbModel.values ?? Data()))
+        eatingTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel.eatingTags ?? Data())) ?? []
+        dishTypeTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel.dishTypeTags ?? Data())) ?? []
+        processingTypeTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel.processingTypeTags ?? Data())) ?? []
+        dietTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel.dietTags ?? Data())) ?? []
+        exceptionTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel.exceptionTags ?? Data())) ?? []
+        self.isFavorite = isFavorite
+        self.isDefaultRecipe = dbModel.isDefaultRecipe
+    }
+    
+    init(shortRecipeModel: ShortRecipeModel) {
+        id = shortRecipeModel.id
+        createdAt = shortRecipeModel.createdAt
+        title = shortRecipeModel.title
+        photo = shortRecipeModel.photo
+        localImage = shortRecipeModel.localImage
+        time = shortRecipeModel.time
+        isFavorite = shortRecipeModel.isFavorite
+        isDefaultRecipe = shortRecipeModel.isDefaultRecipe
+        
+        let dbModel = CoreDataManager.shared.getRecipe(by: shortRecipeModel.id)
+        ingredients = (try? JSONDecoder().decode([Ingredient].self, from: dbModel?.ingredients ?? Data()))
+        values = (try? JSONDecoder().decode(Values.self, from: dbModel?.values ?? Data()))
+        eatingTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel?.eatingTags ?? Data())) ?? []
+        dishTypeTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel?.dishTypeTags ?? Data())) ?? []
+        processingTypeTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel?.processingTypeTags ?? Data())) ?? []
+        dietTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel?.dietTags ?? Data())) ?? []
+        exceptionTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel?.exceptionTags ?? Data())) ?? []
+        
+    }
+}
+
 struct ShortRecipeModel {
     let id: Int
     let time: Int32
@@ -108,6 +161,18 @@ struct ShortRecipeModel {
         time = Int32(model.cookingTime ?? -1)
         isFavorite = UserDefaultsManager.favoritesRecipeIds.contains(model.id)
         isDefaultRecipe = model.isDefaultRecipe
+    }
+    
+    init(modelForSearch: RecipeForSearchModel) {
+        id = modelForSearch.id
+        title = modelForSearch.title
+        photo = modelForSearch.photo
+        createdAt = modelForSearch.createdAt
+        localImage = modelForSearch.localImage
+        values = modelForSearch.values
+        time = Int32(modelForSearch.time)
+        isFavorite = UserDefaultsManager.favoritesRecipeIds.contains(modelForSearch.id)
+        isDefaultRecipe = modelForSearch.isDefaultRecipe
     }
 }
 
