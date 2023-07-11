@@ -50,6 +50,10 @@ final class IngredientViewController: CreateNewProductViewController {
         ingredientView.productTextField.spellCheckingType = .no
     }
     
+    override func setupAutoCategoryView() {
+        autoCategoryView.isHidden = true
+    }
+    
     override func updateStoreView(isVisible: Bool) {
         storeView.isHidden = !isVisible
         contentViewHeight = isVisible ? 280 : 220
