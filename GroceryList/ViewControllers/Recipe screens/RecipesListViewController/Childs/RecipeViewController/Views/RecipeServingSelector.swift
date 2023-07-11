@@ -58,11 +58,11 @@ final class RecipeServingSelector: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupColor(color: UIColor?) {
-        layer.borderColor = color?.cgColor
-        minusButton.backgroundColor = color
-        plusButton.backgroundColor = color
-        servingsLabel.textColor = color
+    func setupColor(color: Theme) {
+        layer.borderColor = color.medium.cgColor
+        minusButton.backgroundColor = color.medium
+        plusButton.backgroundColor = color.medium
+        servingsLabel.textColor = color.dark
     }
     
     func setCountInitially(to count: Int) {

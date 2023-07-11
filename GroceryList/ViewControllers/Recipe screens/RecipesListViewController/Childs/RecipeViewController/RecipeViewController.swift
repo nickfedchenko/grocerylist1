@@ -55,7 +55,7 @@ final class RecipeViewController: UIViewController {
     
     private lazy var servingSelector: RecipeServingSelector = {
        let selector = RecipeServingSelector()
-        selector.setupColor(color: viewModel.theme.dark)
+        selector.setupColor(color: viewModel.theme)
         selector.delegate = self
         return selector
     }()
@@ -257,8 +257,11 @@ final class RecipeViewController: UIViewController {
         servingSelector.setCountInitially(to: viewModel.recipe.totalServings)
         
         if viewModel.recipe.description.isEmpty {
+            descriptionTitleLabel.isHidden = true
             descriptionRecipeLabel.isHidden = true
+            descriptionTitleLabel.snp.updateConstraints { $0.top.equalTo(showCostView.snp.bottom).offset(0) }
             descriptionRecipeLabel.snp.updateConstraints { $0.top.equalTo(descriptionTitleLabel.snp.bottom).offset(0) }
+            instructionsLabel.snp.updateConstraints { $0.top.equalTo(descriptionRecipeLabel.snp.bottom).offset(0) }
         } else {
             descriptionRecipeLabel.text = viewModel.recipe.description
         }

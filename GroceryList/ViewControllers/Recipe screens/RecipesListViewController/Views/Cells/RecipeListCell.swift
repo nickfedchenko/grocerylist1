@@ -176,11 +176,10 @@ class RecipeListCell: UICollectionViewCell {
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(timeBadgeView.snp.bottom).offset(4)
+            make.top.equalTo(timeBadgeView.snp.bottom)
             make.leading.equalTo(mainImage.snp.trailing).offset(8)
             make.trailing.equalToSuperview().inset(64)
-            make.bottom.equalToSuperview().offset(-4)
-            make.height.equalTo(32)
+            make.bottom.equalToSuperview()
         }
         
         contextMenuButton.snp.makeConstraints { make in

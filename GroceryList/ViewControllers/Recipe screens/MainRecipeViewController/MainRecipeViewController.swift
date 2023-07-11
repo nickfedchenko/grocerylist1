@@ -82,6 +82,7 @@ final class MainRecipeViewController: UIViewController {
         
         setupConstraints()
         viewModelChanges()
+        updateCollectionContentInset()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -129,6 +130,15 @@ final class MainRecipeViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func updateCollectionContentInset() {
+        let offset: CGFloat = UserDefaultsManager.recipeIsFolderView ? 0 : -24
+        searchView.snp.updateConstraints {
+            $0.bottom.equalTo(recipesCollectionView.snp.top).offset(offset)
+        }
+        let contentInset: CGFloat = UserDefaultsManager.recipeIsFolderView ? 78 : 108
+        recipesCollectionView.contentInset.top = topContentInset + contentInset
     }
     
     private func setupCollectionViewCell(indexPath: IndexPath) -> UICollectionViewCell {
@@ -313,6 +323,7 @@ extension MainRecipeViewController: MainTabBarControllerRecipeDelegate {
     
     func tappedChangeView() {
         DispatchQueue.main.async {
+            self.updateCollectionContentInset()
             self.recipesCollectionView.reloadData()
             self.recipesCollectionView.collectionViewLayout.invalidateLayout()
             let layout = self.collectionViewLayoutManager.makeRecipesLayout()

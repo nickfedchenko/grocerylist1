@@ -43,6 +43,7 @@ class RecipeFilterViewController: UIViewController {
         collectionView.delegate = self
         collectionView.contentInset.top = 90
         collectionView.contentInset.bottom = 40
+        collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
     
@@ -56,13 +57,13 @@ class RecipeFilterViewController: UIViewController {
                                                          top: .fixed(8),
                                                          trailing: .fixed(8),
                                                          bottom: .fixed(0))
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95),
                                                heightDimension: .estimated(height))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitems: [item])
         group.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(16),
                                                           top: .fixed(0),
-                                                          trailing: .fixed(0),
+                                                          trailing: .fixed(16),
                                                           bottom: .fixed(0))
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),

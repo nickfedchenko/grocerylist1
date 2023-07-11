@@ -146,9 +146,8 @@ final class FolderRecipePreviewCell: UICollectionViewCell {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(mainImage.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(50)
+            $0.top.equalTo(mainImage.snp.bottom).offset(8)
+            $0.leading.trailing.equalToSuperview()
         }
     }
 }

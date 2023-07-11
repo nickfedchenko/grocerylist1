@@ -61,6 +61,10 @@ final class MainRecipeCollectionViewLayout {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [colorGroup, recipeGroup])
         
         group.interItemSpacing = .fixed(8)
+        group.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .fixed(0),
+                                                                top: .fixed(0),
+                                                                trailing: .fixed(8),
+                                                                bottom: .fixed(0))
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
