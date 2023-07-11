@@ -21,7 +21,7 @@ final class CreateNewCollectionViewModel {
     init(currentCollection: CollectionModel?) {
         self.currentCollection = currentCollection
         if let currentCollection {
-            selectedThemeIndex = currentCollection.color
+            selectedThemeIndex = currentCollection.color ?? 0
         }
     }
     

@@ -90,7 +90,7 @@ final class ShowCollectionViewModel {
     
     func getColor(by index: Int) -> Theme {
         let collection = collections[index].collection
-        return colorManager.getGradient(index: collection.color)
+        return colorManager.getGradient(index: collection.color ?? 0)
     }
     
     func isTechnicalCollection(by index: Int) -> Bool {
@@ -175,7 +175,7 @@ final class ShowCollectionViewModel {
                 updateCollections.append(CollectionModel(id: collection.id,
                                                          index: index,
                                                          title: collection.title,
-                                                         color: collection.color))
+                                                         color: collection.color ?? 0))
             }
         }
         if !updateCollections.isEmpty {

@@ -127,8 +127,8 @@ final class CreateNewCollectionViewController: UIViewController {
             return
         }
         
-        activeColor = viewModel?.getColor(by: collection.color)
-        colorCollectionView.selectItem(at: IndexPath(row: collection.color, section: 0),
+        activeColor = viewModel?.getColor(by: collection.color ?? 0)
+        colorCollectionView.selectItem(at: IndexPath(row: collection.color ?? 0, section: 0),
                                        animated: false, scrollPosition: .left)
         textField.text = collection.title.localized
     }

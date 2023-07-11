@@ -28,7 +28,7 @@ extension DBCollection {
         dbCollection.id = Int64(model.id)
         dbCollection.title = model.title
         dbCollection.index = Int16(model.index)
-        dbCollection.color = Int16(model.color)
+        dbCollection.color = Int16(model.color ?? 0)
         dbCollection.isDefault = model.isDefault
         dbCollection.localImage = model.localImage
         return dbCollection

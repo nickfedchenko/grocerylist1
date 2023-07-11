@@ -82,7 +82,7 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
                                                     cellType: .recipePreview,
                                                     sectionType: .custom(collection.title.localized),
                                                     recipes: recipesShuffled,
-                                                    color: collection.color,
+                                                    color: collection.color ?? 0,
                                                     imageUrl: image.url,
                                                     localImage: collection.localImage ?? image.data)
             
