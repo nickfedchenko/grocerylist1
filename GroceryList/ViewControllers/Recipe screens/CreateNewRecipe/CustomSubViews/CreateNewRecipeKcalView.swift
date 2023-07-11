@@ -135,7 +135,7 @@ class CreateNewRecipeKcalView: UIView {
     }
     
     private func makeConstraints() {
-        self.addSubviews([titleLabel, stackView, asteriskLabel, descriptionLabel])
+        self.addSubviews([titleLabel, stackView, descriptionLabel, asteriskLabel])
         
         titleLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(24)
@@ -157,7 +157,7 @@ class CreateNewRecipeKcalView: UIView {
         
         descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(stackView.snp.bottom).offset(8)
-            $0.leading.equalTo(asteriskLabel.snp.trailing).offset(8)
+            $0.leading.equalToSuperview().offset(31)
             $0.trailing.equalToSuperview().offset(-16)
             $0.height.equalTo(30)
             $0.bottom.equalToSuperview().offset(-4)

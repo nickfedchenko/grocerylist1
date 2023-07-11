@@ -41,7 +41,7 @@ final class MainRecipeViewController: UIViewController {
         collectionView.register(classCell: RecipeColorCell.self)
         collectionView.register(classCell: FolderRecipePreviewCell.self)
         collectionView.registerHeader(classHeader: RecipesFolderHeader.self)
-        collectionView.contentInset.bottom = 60
+        collectionView.contentInset.bottom = 90
         collectionView.contentInset.top = topContentInset + 108
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -106,7 +106,13 @@ final class MainRecipeViewController: UIViewController {
     private func viewModelChanges() {
         viewModel.reloadRecipes = { [weak self] in
             DispatchQueue.main.async {
-                self?.recipesCollectionView.reloadData()
+                guard let self else {
+                    return
+                }
+                self.recipesCollectionView.reloadData()
+                if UserDefaultsManager.recipeIsFolderView {
+                    self.recipesCollectionView.reloadData()
+                }
             }
         }
         
@@ -172,16 +178,6 @@ final class MainRecipeViewController: UIViewController {
     }
     
     private func setupFolderViewCell(indexPath: IndexPath) -> UICollectionViewCell {
-        let recipeCount = viewModel.defaultRecipeCount
-        
-        if indexPath.row == recipeCount - 1,
-           let sectionModel = viewModel.getRecipeSectionsModel(for: indexPath.section) {
-            let moreCell = recipesCollectionView.reusableCell(classCell: MoreRecipeCell.self, indexPath: indexPath)
-            moreCell.delegate = self
-            moreCell.configure(at: indexPath.section, title: "\(sectionModel.recipes.count - recipeCount)")
-            return moreCell
-        }
-        
         guard let sectionModel = viewModel.getRecipeSectionsModel(for: indexPath.item) else {
             return UICollectionViewCell()
         }

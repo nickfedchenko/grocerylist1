@@ -75,7 +75,7 @@ enum CreateNewRecipeViewState {
         switch self {
         case .required:     return R.string.localizable.required()
         case .optional:     return R.string.localizable.optional()
-        case .recommended:  return R.string.localizable.recommended()
+        case .recommended:  return R.string.localizable.recommended().firstCharacterUpperCase()
         case .used:         return ""
         case .filled:       return ""
         }

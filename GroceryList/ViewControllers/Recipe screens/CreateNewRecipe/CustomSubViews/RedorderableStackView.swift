@@ -49,7 +49,7 @@ public class RedorderableStackView: UIStackView, UIGestureRecognizerDelegate {
     fileprivate var pointForReordering: CGPoint!
     
     // Appearance Constants
-    public var clipsToBoundsWhileReordering = false
+    public var clipsToBoundsWhileReordering = true
     public var cornerRadii: CGFloat = 8
     public var temporaryViewScale: CGFloat = 1
     public var otherViewsScale: CGFloat = 1
@@ -172,7 +172,7 @@ public class RedorderableStackView: UIStackView, UIGestureRecognizerDelegate {
     
     fileprivate func prepareForReordering() {
         
-        self.clipsToBounds = self.clipsToBoundsWhileReordering
+//        self.clipsToBounds = self.clipsToBoundsWhileReordering
         
         // Configure the temporary view
         self.temporaryView = self.actualView.snapshotView(afterScreenUpdates: true)
@@ -201,7 +201,7 @@ public class RedorderableStackView: UIStackView, UIGestureRecognizerDelegate {
                 self.temporaryViewForShadow.removeFromSuperview()
                 self.temporaryView.removeFromSuperview()
                 self.actualView.alpha = 1
-                self.clipsToBounds = !self.clipsToBoundsWhileReordering
+//                self.clipsToBounds = !self.clipsToBoundsWhileReordering
         })
         
     }
