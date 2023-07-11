@@ -13,7 +13,7 @@ final class RecipeListTableCell: RecipeListCell {
     let timeView = UIView()
     
     override func setupSubviews() {
-        titleLabel.textAlignment = .center
+        titleLabel.textAlignment = .left
         mainImage.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMaxYCorner]
         
         contentView.addSubviews([titleLabel, mainImage, contextMenuButton])
@@ -30,7 +30,7 @@ final class RecipeListTableCell: RecipeListCell {
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(mainImage.snp.bottom).offset(4)
-            make.leading.trailing.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(8)
             make.bottom.equalToSuperview()
             make.height.equalTo(48)
         }

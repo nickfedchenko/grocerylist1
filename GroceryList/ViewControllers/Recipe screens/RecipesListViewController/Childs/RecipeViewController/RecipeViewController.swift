@@ -491,8 +491,14 @@ extension RecipeViewController: RecipeScreenHeaderDelegate {
     }
     
     func contextMenuButtonTapped() {
+        if viewModel.recipe.isDefaultRecipe || backButtonTitle != R.string.localizable.search() {
+            contextMenuView.removeDeleteButton()
+        }
         contextMenuView.setupMenuFunctions(isDefaultRecipe: viewModel.recipe.isDefaultRecipe,
                                            isFavorite: isFavorite)
+        contextMenuView.snp.updateConstraints {
+            $0.height.equalTo(contextMenuView.requiredHeight)
+        }
         
         contextMenuView.fadeIn()
         contextMenuBackgroundView.isHidden = false
@@ -540,6 +546,9 @@ extension RecipeViewController: RecipeListContextMenuViewDelegate {
                 self.viewModel.addToCollection()
             case .edit:
                 self.viewModel.edit()
+            case .delete:
+                self.viewModel.removeRecipe()
+                self.backButtonTapped()
             }
             
             self.contextMenuView.removeSelected()

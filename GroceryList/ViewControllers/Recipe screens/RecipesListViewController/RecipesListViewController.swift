@@ -270,6 +270,7 @@ extension RecipesListViewController: RecipeListCellDelegate {
         let convertPointOnView = cell.convert(point, to: self.view)
         
         currentlySelectedIndex = index
+        contextMenuView.removeDeleteButton()
         contextMenuView.setupMenuFunctions(isDefaultRecipe: viewModel.isDefaultRecipe(by: index),
                                            isFavorite: viewModel.isFavoriteRecipe(by: index))
         contextMenuView.snp.updateConstraints { $0.height.equalTo(contextMenuView.requiredHeight) }
@@ -324,6 +325,7 @@ extension RecipesListViewController: RecipeListContextMenuViewDelegate {
                 self.viewModel.addToCollection(recipeIndex: self.currentlySelectedIndex)
             case .edit:
                 self.viewModel.edit(recipeIndex: self.currentlySelectedIndex)
+            case .delete: break
             }
             
             self.contextMenuView.removeSelected()

@@ -149,6 +149,7 @@ final class MainRecipeViewController: UIViewController {
             moreCell.delegate = self
             moreCell.configure(at: indexPath.section,
                                title: "\(sectionModel.recipes.count - recipeCount + 2)")
+            moreCell.configureColor(theme: color)
             return moreCell
         }
         

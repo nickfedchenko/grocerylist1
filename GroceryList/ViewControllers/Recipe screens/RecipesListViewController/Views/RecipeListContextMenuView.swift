@@ -24,6 +24,7 @@ class RecipeListContextMenuView: UIView {
 //        case makeCopy
 //        case sendTo
 //        case removeFromCollection
+        case delete
 
         var title: String {
             switch self {
@@ -31,6 +32,7 @@ class RecipeListContextMenuView: UIView {
             case .addToFavorites:       return R.string.localizable.addToFavorites()
             case .addToCollection:      return R.string.localizable.addToCollection()
             case .edit:                 return R.string.localizable.edit()
+            case .delete:               return R.string.localizable.delete()
             }
         }
         
@@ -40,6 +42,7 @@ class RecipeListContextMenuView: UIView {
             case .addToFavorites:       return R.image.contextMenuFavorite()
             case .addToCollection:      return R.image.contextMenuCollection()
             case .edit:                 return R.image.contextMenuEdit()
+            case .delete:               return R.image.trash_red()
             }
         }
         
@@ -90,6 +93,16 @@ class RecipeListContextMenuView: UIView {
         setupMenuStackView(isFavorite: isFavorite)
     }
     
+    func removeDeleteButton() {
+        allMenuFunctions.removeAll { $0 == .delete }
+        stackView.arrangedSubviews.forEach {
+            if $0.tag == MainMenuState.delete.rawValue {
+                stackView.removeArrangedSubview($0)
+                $0.removeFromSuperview()
+            }
+        }
+    }
+    
     func configure(color: Theme) {
         mainColor = color
         stackView.backgroundColor = color.medium
@@ -116,15 +129,16 @@ class RecipeListContextMenuView: UIView {
         makeConstraints()
     }
     
-    private func setupMenuStackView(isFavorite: Bool) {
+    func setupMenuStackView(isFavorite: Bool) {
         stackView.removeAllArrangedSubviews()
         
         allMenuFunctions.forEach { state in
             let view = RecipeListContextMenuSubView()
+            let color = (state == .delete ? R.color.attention() : mainColor?.dark) ?? .black
             if isFavorite && state == .addToFavorites {
-                view.configure(title: "Удалить из избранного", image: state.image, color: mainColor?.dark ?? .black)
+                view.configure(title: "Удалить из избранного", image: state.image, color: color)
             } else {
-                view.configure(title: state.title, image: state.image, color: mainColor?.dark ?? .black)
+                view.configure(title: state.title, image: state.image, color: color)
             }
             
             view.tag = state.rawValue

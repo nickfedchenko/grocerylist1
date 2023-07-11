@@ -18,6 +18,13 @@ final class CreateNewCollectionViewModel {
     private let colorManager = ColorManager.shared
     private var selectedThemeIndex = 0
     
+    init(currentCollection: CollectionModel?) {
+        self.currentCollection = currentCollection
+        if let currentCollection {
+            selectedThemeIndex = currentCollection.color
+        }
+    }
+    
     func getNumberOfCells() -> Int {
         colorManager.gradientsCount
     }

@@ -92,7 +92,7 @@ final class MainRecipeViewModel {
             return
         }
         let color = collectionColor(for: indexPath.section)
-        router?.goToRecipe(recipe: model, sectionColor: color)
+        router?.goToRecipe(recipe: model, sectionColor: color, removeRecipe: nil)
     }
     
     func showSearch() {

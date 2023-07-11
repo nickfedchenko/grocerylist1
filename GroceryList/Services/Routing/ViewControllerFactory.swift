@@ -340,10 +340,9 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
                                                  collections: [CollectionModel] = [],
                                                  compl: @escaping (CollectionModel) -> Void) -> UIViewController {
         let viewController = CreateNewCollectionViewController()
-        let viewModel = CreateNewCollectionViewModel()
+        let viewModel = CreateNewCollectionViewModel(currentCollection: currentCollection)
         viewModel.updateUICallBack = compl
         viewModel.editCollections = collections
-        viewModel.currentCollection = currentCollection
         viewController.viewModel = viewModel
         return viewController
     }
@@ -387,10 +386,12 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createRecipeScreen(router: RootRouter, recipe: Recipe, sectionColor: Theme?) -> UIViewController {
+    func createRecipeScreen(router: RootRouter, recipe: Recipe, sectionColor: Theme?,
+                            removeRecipe: ((Recipe) -> Void)?) -> UIViewController {
         let viewModel = RecipeScreenViewModel(recipe: recipe, sectionColor: sectionColor)
         viewModel.router = router
-        let backButtonTitle = sectionColor != nil ? R.string.localizable.back() : "search"
+        viewModel.updateRecipeRemove = removeRecipe
+        let backButtonTitle = sectionColor != nil ? R.string.localizable.back() : R.string.localizable.search()
         let viewController = RecipeViewController(with: viewModel,
                                                   backButtonTitle: backButtonTitle)
         return viewController

@@ -23,6 +23,7 @@ protocol RecipeScreenViewModelProtocol {
     func addToShoppingList(contentViewHeigh: CGFloat, delegate: AddProductsSelectionListDelegate)
     func addToCollection()
     func edit()
+    func removeRecipe()
     func getStoreAndCost(by index: Int) -> (store: String?, cost: Double?)
 }
 
@@ -37,6 +38,7 @@ final class RecipeScreenViewModel {
     weak var router: RootRouter?
     
     var updateCollection: (() -> Void)?
+    var updateRecipeRemove: ((Recipe) -> Void)?
     var theme: Theme
     private(set) var recipe: Recipe
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
@@ -211,6 +213,10 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
         })
     }
     
+    func removeRecipe() {
+        CoreDataManager.shared.deleteRecipe(by: recipe.id)
+        updateRecipeRemove?(recipe)
+    }
 }
 
 private extension UnitSystem {

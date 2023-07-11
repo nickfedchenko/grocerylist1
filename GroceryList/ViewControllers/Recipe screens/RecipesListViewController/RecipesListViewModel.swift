@@ -55,7 +55,7 @@ class RecipesListViewModel {
               let model = Recipe(from: dbRecipe) else {
             return
         }
-        router?.goToRecipe(recipe: model, sectionColor: theme)
+        router?.goToRecipe(recipe: model, sectionColor: theme, removeRecipe: nil)
     }
     
     func showSearch() {

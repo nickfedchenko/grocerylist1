@@ -153,7 +153,6 @@ class CreateNewRecipeKcalView: UIView {
         asteriskLabel.snp.makeConstraints {
             $0.top.equalTo(stackView.snp.bottom).offset(8)
             $0.leading.equalToSuperview().offset(16)
-            $0.height.equalTo(30)
         }
         
         descriptionLabel.snp.makeConstraints {

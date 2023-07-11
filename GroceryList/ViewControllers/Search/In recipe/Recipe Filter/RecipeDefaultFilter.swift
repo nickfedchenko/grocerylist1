@@ -56,18 +56,18 @@ enum RecipeFilter: Int, CaseIterable {
 
 
 enum ExceptionFilter: Int, RecipeTag, CaseIterable {
-    case gluten = 3
-    case peanuts = 2
-    case eggs = 17
-    case fish = 15
-    case dairy = 9
-    case treeNuts = 11
-    case soy = 16
-    case seafood = 10
-    case honey = 18
-    case meat = 4
-    case poultry = 12
-    case starchyVegetables = 8
+    case gluten             = 3
+    case peanuts            = 2
+    case eggs               = 17
+    case fish               = 15
+    case dairy              = 9
+    case treeNuts           = 11
+    case soy                = 16
+    case seafood            = 10
+    case honey              = 18
+    case meat               = 4
+    case poultry            = 12
+    case starchyVegetables  = 8
     
     var id: Int {
         self.rawValue
@@ -100,13 +100,13 @@ enum ExceptionFilter: Int, RecipeTag, CaseIterable {
 }
 
 enum DietFilter: Int, RecipeTag, CaseIterable {
-    case lowCarb = 32
-    case highProtein = 33
-    case lowFat = 34
-    case keto = 35
-    case pescatarian = 38
-    case vegetarian = 39
-    case vegan = 40
+    case lowCarb        = 32
+    case highProtein    = 33
+    case lowFat         = 34
+    case keto           = 35
+    case pescatarian    = 38
+    case vegetarian     = 39
+    case vegan          = 40
     
     var id: Int {
         self.rawValue
@@ -134,16 +134,16 @@ enum DietFilter: Int, RecipeTag, CaseIterable {
 }
 
 enum TypeOfDishFilter: Int, RecipeTag, CaseIterable {
-    case salad = 13
-    case sideDish = 12
-    case soup = 14
-    case beverage = 15
-    case pizza = 18
+    case salad          = 13
+    case sideDish       = 12
+    case soup           = 14
+    case beverage       = 15
+    case pizza          = 18
     case bakeryProducts = 16
-    case sandwich = 17
-    case appetizer = 19
-    case sauce = 42
-    case dessert = 46
+    case sandwich       = 17
+    case appetizer      = 19
+    case sauce          = 42
+    case dessert        = 46
     
     var id: Int {
         self.rawValue
@@ -174,18 +174,18 @@ enum TypeOfDishFilter: Int, RecipeTag, CaseIterable {
 }
 
 enum CookingMethodFilter: Int, RecipeTag, CaseIterable {
-    case withoutHeatTreatment = 20
-    case boil = 21
-    case bake = 22
-    case steam = 23
-    case fry = 24
-    case stew = 25
-    case microwave = 26
-    case onTheCoals = 27
-    case deepFrying = 41
-    case sousVide = 43
-    case airFryer = 44
-    case multicooker = 45
+    case withoutHeatTreatment   = 20
+    case boil                   = 21
+    case bake                   = 22
+    case steam                  = 23
+    case fry                    = 24
+    case stew                   = 25
+    case microwave              = 26
+    case onTheCoals             = 27
+    case deepFrying             = 41
+    case sousVide               = 43
+    case airFryer               = 44
+    case multicooker            = 45
     
     var id: Int {
         self.rawValue
@@ -218,14 +218,14 @@ enum CookingMethodFilter: Int, RecipeTag, CaseIterable {
 }
 
 enum CaloriesPerServingFilter: Int, RecipeTag, CaseIterable {
-    case from50To100
-    case from100To200
-    case from200To300
-    case from300To400
-    case from400To500
-    case from500To600
-    case from600To700
-    case from700
+    case from50To100    = -101
+    case from100To200   = -102
+    case from200To300   = -103
+    case from300To400   = -104
+    case from400To500   = -105
+    case from500To600   = -106
+    case from600To700   = -107
+    case from700        = -108
     
     var id: Int {
         self.rawValue
@@ -267,14 +267,14 @@ enum CaloriesPerServingFilter: Int, RecipeTag, CaseIterable {
 }
 
 enum CookingTimeFilter: Int, RecipeTag, CaseIterable {
-    case time10OrLess
-    case time15OrLess
-    case time20OrLess
-    case time25OrLess
-    case time30OrLess
-    case time40OrLess
-    case time50OrLess
-    case time60OrLess
+    case time10OrLess   = -111
+    case time15OrLess   = -112
+    case time20OrLess   = -113
+    case time25OrLess   = -114
+    case time30OrLess   = -115
+    case time40OrLess   = -116
+    case time50OrLess   = -117
+    case time60OrLess   = -118
     
     var id: Int {
         self.rawValue
@@ -316,14 +316,14 @@ enum CookingTimeFilter: Int, RecipeTag, CaseIterable {
 }
 
 enum QuantityOfIngredientsFilter: Int, RecipeTag, CaseIterable {
-    case ingredients3OrLess
-    case ingredients4OrLess
-    case ingredients5OrLess
-    case ingredients6OrLess
-    case ingredients7OrLess
-    case ingredients8OrLess
-    case ingredients9OrLess
-    case ingredients10OrLess
+    case ingredients3OrLess     = -121
+    case ingredients4OrLess     = -122
+    case ingredients5OrLess     = -123
+    case ingredients6OrLess     = -124
+    case ingredients7OrLess     = -125
+    case ingredients8OrLess     = -126
+    case ingredients9OrLess     = -127
+    case ingredients10OrLess    = -128
     
     var id: Int {
         self.rawValue

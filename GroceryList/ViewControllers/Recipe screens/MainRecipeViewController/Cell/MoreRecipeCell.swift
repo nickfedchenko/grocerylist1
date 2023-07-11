@@ -47,6 +47,14 @@ final class MoreRecipeCell: UICollectionViewCell {
         self.sectionIndex = sectionIndex
     }
     
+    func configureColor(theme: Theme) {
+        titleLabel.textColor = theme.medium
+        moreLabel.textColor = theme.medium
+        
+        contentView.backgroundColor = theme.light
+        layer.borderColor = theme.medium.cgColor
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         drawShadows()
@@ -98,7 +106,6 @@ final class MoreRecipeCell: UICollectionViewCell {
     }
     
     private func drawInlinedStroke() {
-        layer.borderColor = UIColor.white.cgColor
         layer.borderWidth = 1
     }
     
