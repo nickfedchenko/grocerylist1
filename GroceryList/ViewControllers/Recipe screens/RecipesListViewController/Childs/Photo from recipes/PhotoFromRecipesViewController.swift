@@ -217,7 +217,8 @@ extension PhotoFromRecipesViewController: UINavigationControllerDelegate, UIImag
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         self.dismiss(animated: true, completion: nil)
         let image = info[.originalImage] as? UIImage
-        viewModel.savePhoto(image: image)
+        let orientedImage = image?.fixedOrientation()
+        viewModel.savePhoto(image: orientedImage)
         hidePanel()
     }
 }
