@@ -433,5 +433,7 @@
 "fat"                           = "Fat";
 "kcal"                          = "Kcal";
 "Calories"                      = "Calories";
+"recommended"                   = "recommended";
+"SAVE RECIPE TO..."             = "SAVE RECIPE TO...";
 
 "search"                        = "Search";

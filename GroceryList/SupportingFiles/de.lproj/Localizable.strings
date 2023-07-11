@@ -401,5 +401,7 @@
 "fat"                           = "Fett";
 "kcal"                          = "Kcal";
 "Calories"                      = "Kalorien";
+"recommended"                   = "ratsam";
+"SAVE RECIPE TO..."             = "REZEPT SPEICHERN UNTER...";
 
 "search"                        = "Suche";

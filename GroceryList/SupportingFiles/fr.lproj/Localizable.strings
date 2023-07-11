@@ -399,5 +399,7 @@
 "fat"                           = "Graisse";
 "kcal"                          = "Kcal";
 "Calories"                      = "Calories";
+"recommended"                   = "recommandé";
+"SAVE RECIPE TO..."             = "ENREGISTREZ LA RECETTE DANS...";
 
 "search"                        = "Chercher";

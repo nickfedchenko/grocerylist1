@@ -62,7 +62,7 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     
     private lazy var nextButton: UIButton = {
         let button = UIButton()
-        button.setTitle("SAVE RECIPE TO...", for: .normal)
+        button.setTitle(R.string.localizable.saverecipetO(), for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
