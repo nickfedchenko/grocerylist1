@@ -21,6 +21,7 @@ final class CreateNewRecipeStepTwoViewModel {
     private var kcal: Value?
     private var localImage: UIImage?
     private var collections: [CollectionModel] = []
+    private var isSaveToFavorites = false
     private var draft: Recipe?
     private(set) var recipe: Recipe
     private(set) var currentRecipe: Recipe?
@@ -61,10 +62,11 @@ final class CreateNewRecipeStepTwoViewModel {
         router?.goToShowCollection(state: .select, recipe: currentRecipe,
                                    compl: { [weak self] selectedCollections in
             if selectedCollections.isEmpty,
-               let dbDraftsCollection = CoreDataManager.shared.getAllCollection()?
-                .first(where: { $0.id == EatingTime.drafts.rawValue }) {
-                let draftsCollection = CollectionModel(from: dbDraftsCollection)
-                self?.collections = [draftsCollection]
+               let dbFavoritesCollectionCollection = CoreDataManager.shared.getAllCollection()?
+                .first(where: { $0.id == EatingTime.favorites.rawValue }) {
+                let favoritesCollection = CollectionModel(from: dbFavoritesCollectionCollection)
+                self?.collections = [favoritesCollection]
+                self?.isSaveToFavorites = true
             } else {
                 self?.collections = selectedCollections
             }
@@ -133,6 +135,9 @@ final class CreateNewRecipeStepTwoViewModel {
             return
         }
         CoreDataManager.shared.saveRecipes(recipes: [recipe])
+        if isSaveToFavorites {
+            UserDefaultsManager.favoritesRecipeIds.append(recipe.id)
+        }
         self.recipe = recipe
     }
 
