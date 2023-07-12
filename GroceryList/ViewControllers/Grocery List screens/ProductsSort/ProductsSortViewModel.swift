@@ -86,7 +86,7 @@ class ProductsSortViewModel: ProductsSettingsViewModel {
     }
     
     func showPaywall() {
-        router?.showAlternativePaywallVC()
+        router?.showPaywallVC()
     }
     
     func toggleIsAscendingOrder() {
