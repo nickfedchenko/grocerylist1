@@ -200,11 +200,12 @@ final class RootRouter: RootRouterProtocol {
     
     func goToCreateNewRecipeStepTwo(isDraftRecipe: Bool,
                                     currentRecipe: Recipe?, recipe: Recipe,
-                                    compl: @escaping (Recipe) -> Void) {
+                                    compl: @escaping (Recipe) -> Void,
+                                    backToOneStep: ((Bool, Recipe?) -> Void)?) {
         let controller = viewControllerFactory.createCreateNewRecipeStepTwoViewController(
             router: self, isDraftRecipe: isDraftRecipe,
             currentRecipe: currentRecipe, recipe: recipe,
-            compl: compl)
+            compl: compl, backToOneStep: backToOneStep)
         navigationPushViewController(controller, animated: true)
     }
     
@@ -262,9 +263,10 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
-    func goToRecipe(recipe: Recipe, sectionColor: Theme?, fromSearch: Bool = false) {
+    func goToRecipe(recipe: Recipe, sectionColor: Theme?, fromSearch: Bool = false,
+                    removeRecipe: ((Recipe) -> Void)?) {
         let controller = viewControllerFactory.createRecipeScreen(router: self, recipe: recipe,
-                                                                  sectionColor: sectionColor)
+                                                                  sectionColor: sectionColor, removeRecipe: removeRecipe)
         if fromSearch {
             navigationPushViewController(controller, animated: true)
         } else {

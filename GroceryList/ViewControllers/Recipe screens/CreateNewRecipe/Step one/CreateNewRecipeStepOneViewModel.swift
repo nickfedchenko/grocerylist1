@@ -13,6 +13,7 @@ final class CreateNewRecipeStepOneViewModel {
     var competeRecipe: ((Recipe) -> Void)?
     var preparationStepChanged: ((String) -> Void)?
     var ingredientChanged: ((Ingredient) -> Void)?
+    var updateSaveToDraftButton: (() -> Void)?
     var isDraftRecipe = false
     
     private(set) var currentRecipe: Recipe?
@@ -21,6 +22,7 @@ final class CreateNewRecipeStepOneViewModel {
     private var draft: Recipe?
     private var ingredients: [Ingredient] = []
     private var steps: [String]? = []
+    private var isReturn = false
 
     init(currentRecipe: Recipe? = nil) {
         self.currentRecipe = currentRecipe
@@ -75,17 +77,34 @@ final class CreateNewRecipeStepOneViewModel {
             return
         }
         router?.goToCreateNewRecipeStepTwo(isDraftRecipe: isDraftRecipe,
-                                           currentRecipe: currentRecipe, recipe: recipe,
-                                           compl: { [weak self] recipe in
+                                           currentRecipe: currentRecipe,
+                                           recipe: recipe, compl: { [weak self] recipe in
             self?.competeRecipe?(recipe)
+        }, backToOneStep: { [weak self] isDraftRecipe, recipe in
+            self?.isReturn = true
+            self?.isDraftRecipe = isDraftRecipe
+            if isDraftRecipe {
+                self?.updateSaveToDraftButton?()
+            }
+            self?.recipe = recipe
         })
+        
     }
     
     func saveRecipe(title: String, description: String?) {
         guard var currentRecipe else {
-            recipe = .init(title: title, description: description,
-                           ingredients: ingredients, instructions: steps,
-                           isShowCost: isShowCost)
+            if !isReturn {
+                recipe = .init(title: title, description: description,
+                               ingredients: ingredients, instructions: steps,
+                               isShowCost: isShowCost)
+            } else {
+                recipe?.title = title
+                recipe?.description = description ?? ""
+                recipe?.ingredients = ingredients
+                recipe?.instructions = steps
+                recipe?.isShowCost = isShowCost
+            }
+            
             return
         }
         

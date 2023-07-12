@@ -423,6 +423,16 @@ class CoreDataManager {
         return object
     }
     
+    func deleteRecipe(by id: Int) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBRecipe> = DBRecipe.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
     private func deleteOldEntities() {
         let oldEntityNames = ["DBNetworkProduct", "DBNetProduct"]
         oldEntityNames.forEach { oldEntityName in

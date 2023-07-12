@@ -41,7 +41,7 @@ final class MainRecipeViewController: UIViewController {
         collectionView.register(classCell: RecipeColorCell.self)
         collectionView.register(classCell: FolderRecipePreviewCell.self)
         collectionView.registerHeader(classHeader: RecipesFolderHeader.self)
-        collectionView.contentInset.bottom = 60
+        collectionView.contentInset.bottom = 90
         collectionView.contentInset.top = topContentInset + 108
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -82,6 +82,7 @@ final class MainRecipeViewController: UIViewController {
         
         setupConstraints()
         viewModelChanges()
+        updateCollectionContentInset()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -105,7 +106,13 @@ final class MainRecipeViewController: UIViewController {
     private func viewModelChanges() {
         viewModel.reloadRecipes = { [weak self] in
             DispatchQueue.main.async {
-                self?.recipesCollectionView.reloadData()
+                guard let self else {
+                    return
+                }
+                self.recipesCollectionView.reloadData()
+                if UserDefaultsManager.recipeIsFolderView {
+                    self.recipesCollectionView.reloadData()
+                }
             }
         }
         
@@ -131,6 +138,15 @@ final class MainRecipeViewController: UIViewController {
         }
     }
     
+    private func updateCollectionContentInset() {
+        let offset: CGFloat = UserDefaultsManager.recipeIsFolderView ? 0 : -24
+        searchView.snp.updateConstraints {
+            $0.bottom.equalTo(recipesCollectionView.snp.top).offset(offset)
+        }
+        let contentInset: CGFloat = UserDefaultsManager.recipeIsFolderView ? 78 : 108
+        recipesCollectionView.contentInset.top = topContentInset + contentInset
+    }
+    
     private func setupCollectionViewCell(indexPath: IndexPath) -> UICollectionViewCell {
         let color = viewModel.collectionColor(for: indexPath.section)
         
@@ -149,6 +165,7 @@ final class MainRecipeViewController: UIViewController {
             moreCell.delegate = self
             moreCell.configure(at: indexPath.section,
                                title: "\(sectionModel.recipes.count - recipeCount + 2)")
+            moreCell.configureColor(theme: color)
             return moreCell
         }
         
@@ -161,16 +178,6 @@ final class MainRecipeViewController: UIViewController {
     }
     
     private func setupFolderViewCell(indexPath: IndexPath) -> UICollectionViewCell {
-        let recipeCount = viewModel.defaultRecipeCount
-        
-        if indexPath.row == recipeCount - 1,
-           let sectionModel = viewModel.getRecipeSectionsModel(for: indexPath.section) {
-            let moreCell = recipesCollectionView.reusableCell(classCell: MoreRecipeCell.self, indexPath: indexPath)
-            moreCell.delegate = self
-            moreCell.configure(at: indexPath.section, title: "\(sectionModel.recipes.count - recipeCount)")
-            return moreCell
-        }
-        
         guard let sectionModel = viewModel.getRecipeSectionsModel(for: indexPath.item) else {
             return UICollectionViewCell()
         }
@@ -312,6 +319,7 @@ extension MainRecipeViewController: MainTabBarControllerRecipeDelegate {
     
     func tappedChangeView() {
         DispatchQueue.main.async {
+            self.updateCollectionContentInset()
             self.recipesCollectionView.reloadData()
             self.recipesCollectionView.collectionViewLayout.invalidateLayout()
             let layout = self.collectionViewLayoutManager.makeRecipesLayout()

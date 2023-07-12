@@ -150,6 +150,14 @@ class ProductsSettingsViewModel {
         guard let content = allContent[safe: ind] else { return }
         switch content {
         case .storeAndCost:
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            delegate?.reloadController()
+            showPaywall()
+            return
+        }
+#endif
+
             model.isVisibleCost = !model.isVisibleCost
             savePatametrs()
         case .imageMatching:
@@ -220,6 +228,10 @@ class ProductsSettingsViewModel {
         delegate?.reloadController()
         valueChangedCallback?(model, copiedProducts)
         CoreDataManager.shared.saveList(list: model)
+    }
+    
+    private func showPaywall() {
+        router?.showPaywallVCOnTopController()
     }
 }
 

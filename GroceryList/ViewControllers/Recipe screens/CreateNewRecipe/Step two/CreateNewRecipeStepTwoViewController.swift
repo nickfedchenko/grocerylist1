@@ -62,7 +62,7 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     
     private lazy var nextButton: UIButton = {
         let button = UIButton()
-        button.setTitle("SAVE RECIPE TO...", for: .normal)
+        button.setTitle(R.string.localizable.saverecipetO(), for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
@@ -133,12 +133,23 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         timeView.textFieldReturnPressed = { [weak self] in
             self?.servingsView.textView.becomeFirstResponder()
         }
+        if let cookingTime = viewModel?.recipe.cookingTime {
+            timeView.setText(cookingTime.asString)
+        }
         
-        servingsView.configure(title: R.string.localizable.servings().capitalized, state: .recommended)
         servingsView.setOnlyNumber()
-
+        servingsView.configure(title: R.string.localizable.servings().capitalized, state: .recommended)
+        if let totalServings = viewModel?.recipe.totalServings, totalServings > 0 {
+            servingsView.setText(totalServings.asString)
+        }
+        
+        kcalView.setKcalValue(value: viewModel?.recipe.values?.dish)
+        
         photoView.imageTapped = { [weak self] in
             (self?.isVisibleKeyboard ?? false) ? self?.dismissKeyboard() : self?.pickImage()
+        }
+        if let localImage = viewModel?.recipe.localImage {
+            photoView.setImage(UIImage(data: localImage))
         }
     }
 
@@ -200,25 +211,31 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     
     @objc
     private func backButtonTapped() {
+        viewModel?.setParameters(time: timeView.textView.text?.asInt,
+                                 servings: servingsView.textView.text.asInt,
+                                 image: photoView.image,
+                                 kcal: kcalView.kcal)
         viewModel?.back()
     }
     
     @objc
     private func nextButtonTapped() {
-        viewModel?.saveRecipeTo(time: timeView.textView.text?.asInt,
+        viewModel?.setParameters(time: timeView.textView.text?.asInt,
                                 servings: servingsView.textView.text.asInt,
                                 image: photoView.image,
                                 kcal: kcalView.kcal)
+        viewModel?.saveRecipeTo()
     }
     
     @objc
     private func savedToDraftsButtonTapped() {
         viewModel?.isDraftRecipe = true
         savedToDrafts()
-        viewModel?.savedToDrafts(time: timeView.textView.text?.asInt,
+        viewModel?.setParameters(time: timeView.textView.text?.asInt,
                                  servings: servingsView.textView.text.asInt,
                                  image: photoView.image,
                                  kcal: kcalView.kcal)
+        viewModel?.savedToDrafts()
         savedToDraftsAlertView.fadeIn()
     }
     
@@ -232,10 +249,11 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     
     @objc
     private func appMovedToBackground() {
-        viewModel?.savedToDrafts(time: timeView.textView.text?.asInt,
+        viewModel?.setParameters(time: timeView.textView.text?.asInt,
                                  servings: servingsView.textView.text.asInt,
                                  image: photoView.image,
                                  kcal: kcalView.kcal)
+        viewModel?.savedToDrafts()
     }
     
     @objc

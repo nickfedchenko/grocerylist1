@@ -125,6 +125,10 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
             guard let self else { return }
             self.updateIngredient(ingredient)
         }
+        
+        viewModel?.updateSaveToDraftButton = { [weak self] in
+            self?.updateIsActiveSavedToDraftsButton()
+        }
     }
     
     private func setupNavigationView() {
@@ -366,6 +370,20 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         }
     }
     
+    private func updateIsActiveSavedToDraftsButton() {
+        guard (viewModel?.isDraftRecipe ?? false) else {
+            return
+        }
+        savedToDraftsButton.setTitle(R.string.localizable.savedInDrafts(), for: .normal)
+        savedToDraftsButton.setTitleColor(R.color.darkGray(), for: .normal)
+        savedToDraftsButton.setImage(R.image.collection()?.withTintColor(R.color.darkGray() ?? .black),
+                                     for: .normal)
+        savedToDraftsButton.backgroundColor = R.color.background()
+        savedToDraftsButton.layer.borderColor = R.color.darkGray()?.cgColor
+        savedToDraftsButton.layer.borderWidth = 1
+        savedToDraftsButton.isUserInteractionEnabled = false
+    }
+    
     @objc
     private func backButtonTapped() {
         viewModel?.savedToDrafts(title: nameView.textView.text,
@@ -376,15 +394,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
     @objc
     private func savedToDraftsButtonTapped() {
         viewModel?.isDraftRecipe = true
-        savedToDraftsButton.setTitle(R.string.localizable.savedInDrafts(), for: .normal)
-        savedToDraftsButton.setTitleColor(R.color.darkGray(), for: .normal)
-        savedToDraftsButton.setImage(R.image.collection()?.withTintColor(R.color.darkGray() ?? .black),
-                                     for: .normal)
-        savedToDraftsButton.backgroundColor = R.color.background()
-        savedToDraftsButton.layer.borderColor = R.color.darkGray()?.cgColor
-        savedToDraftsButton.layer.borderWidth = 1
-        savedToDraftsButton.isUserInteractionEnabled = false
-        
+        updateIsActiveSavedToDraftsButton()
         viewModel?.savedToDrafts(title: nameView.textView.text,
                                  description: descriptionView.textView.text)
         savedToDraftsAlertView.fadeIn()

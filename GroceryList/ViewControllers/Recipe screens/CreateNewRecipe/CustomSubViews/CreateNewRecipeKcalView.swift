@@ -36,7 +36,7 @@ class CreateNewRecipeKcalView: UIView {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
         label.textColor = R.color.darkGray()
-        label.text = "Nutrition Facts per Serving *"
+        label.text = R.string.localizable.nutritionFactsPerServing()
         return label
     }()
     
@@ -60,7 +60,9 @@ class CreateNewRecipeKcalView: UIView {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 12).font
         label.textColor = R.color.darkGray()
-        label.text = "If these data are known or calculated. You can write only approximate calories or leave this section blank."
+        label.text = R.string.localizable.ifTheseDataAreKnown()
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
         label.numberOfLines = 2
         return label
     }()
@@ -133,7 +135,7 @@ class CreateNewRecipeKcalView: UIView {
     }
     
     private func makeConstraints() {
-        self.addSubviews([titleLabel, stackView, asteriskLabel, descriptionLabel])
+        self.addSubviews([titleLabel, stackView, descriptionLabel, asteriskLabel])
         
         titleLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(24)
@@ -149,14 +151,13 @@ class CreateNewRecipeKcalView: UIView {
         }
         
         asteriskLabel.snp.makeConstraints {
-            $0.top.equalTo(stackView.snp.bottom).offset(8)
+            $0.top.equalTo(stackView.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset(16)
-            $0.height.equalTo(30)
         }
         
         descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(stackView.snp.bottom).offset(8)
-            $0.leading.equalTo(asteriskLabel.snp.trailing).offset(8)
+            $0.leading.equalToSuperview().offset(31)
             $0.trailing.equalToSuperview().offset(-16)
             $0.height.equalTo(30)
             $0.bottom.equalToSuperview().offset(-4)
@@ -167,10 +168,17 @@ class CreateNewRecipeKcalView: UIView {
 extension NutritionFacts {
     var title: String {
         switch self {
-        case .carb:     return "carb"
-        case .protein:  return "protein"
-        case .fat:      return "fat"
-        case .kcal:     return "kcal"
+        case .carb:     return R.string.localizable.carb()
+        case .protein:  return R.string.localizable.protein()
+        case .fat:      return R.string.localizable.fat()
+        case .kcal:     return R.string.localizable.kcal()
+        }
+    }
+    
+    var recipeTitle: String {
+        switch self {
+        case .kcal:     return R.string.localizable.calories()
+        default:        return title
         }
     }
     
@@ -186,7 +194,7 @@ extension NutritionFacts {
     var placeholder: String {
         switch self {
         case .kcal:     return ""
-        default:        return "g"
+        default:        return R.string.localizable.gram()
         }
     }
 }
@@ -196,7 +204,7 @@ private final class NutritionFactsView: UIView {
     var returnTapped: (() -> Void)?
     
     var value: Double? {
-        let value = textField.text?.replacingOccurrences(of: " g", with: "")
+        let value = textField.text?.replacingOccurrences(of: " \(R.string.localizable.gram())", with: "")
         return value?.asDouble
     }
     
@@ -278,14 +286,14 @@ private final class NutritionFactsView: UIView {
 extension NutritionFactsView: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         updateActive(isActive: true)
-        textField.text = textField.text?.replacingOccurrences(of: " g", with: "")
+        textField.text = textField.text?.replacingOccurrences(of: " \(R.string.localizable.gram())", with: "")
         return true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         updateActive(isActive: !(textField.text?.isEmpty ?? true))
         if nutritionFact != .kcal && !(textField.text?.isEmpty ?? true) {
-            textField.text?.append(" g")
+            textField.text?.append(" \(R.string.localizable.gram())")
         }
     }
     

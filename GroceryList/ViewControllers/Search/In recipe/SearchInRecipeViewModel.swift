@@ -56,6 +56,17 @@ final class SearchInRecipeViewModel {
         editableRecipes = allRecipes
     }
     
+    func isDefaultRecipe(by index: Int) -> Bool {
+        editableRecipes[safe: index]?.isDefaultRecipe ?? false
+    }
+    
+    func isFavoriteRecipe(by index: Int) -> Bool {
+        guard let recipe = editableRecipes[safe: index] else {
+            return false
+        }
+        return UserDefaultsManager.favoritesRecipeIds.contains(recipe.id)
+    }
+    
     func search(text: String?) {
         editableRecipes.removeAll()
         
@@ -91,7 +102,7 @@ final class SearchInRecipeViewModel {
         getAllRecipe()
         search(text: searchText)
         filterRecipes = allRecipes
-        editableRecipes = allRecipes
+        appendFilters()
     }
     
     func showRecipe(_ recipe: RecipeForSearchModel) {
@@ -99,7 +110,15 @@ final class SearchInRecipeViewModel {
               let recipe = Recipe(from: dbRecipe) else {
             return
         }
-        router?.goToRecipe(recipe: recipe, sectionColor: nil, fromSearch: true)
+        router?.goToRecipe(recipe: recipe, sectionColor: nil, fromSearch: true,
+                           removeRecipe: { [weak self] recipe in
+            guard let self else {
+                return
+            }
+            self.allRecipes.removeAll { $0.id == recipe.id }
+            self.filterRecipes = allRecipes
+            self.search(text: searchText)
+        })
     }
     
     func showFilter() -> UIViewController {
@@ -122,6 +141,95 @@ final class SearchInRecipeViewModel {
         filters[filterIndex].tags.removeAll { $0.id == recipeTag.id }
         
         appendFilters()
+    }
+    
+    func addToShoppingList(recipeIndex: Int, contentViewHeigh: CGFloat, delegate: AddProductsSelectionListDelegate) {
+        guard let recipeId = editableRecipes[safe: recipeIndex]?.id,
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId) else {
+            return
+        }
+        let recipe = ShortRecipeModel(withIngredients: dbRecipe)
+        let recipeTitle = recipe.title
+        let products: [Product] = recipe.ingredients?.map({
+            let netProduct = $0.product
+            let product = Product(
+                name: netProduct.title,
+                isPurchased: false,
+                dateOfCreation: Date(),
+                category: netProduct.marketCategory?.title ?? "",
+                isFavorite: false,
+                description: "",
+                fromRecipeTitle: recipeTitle
+            )
+            return product
+        }) ?? []
+        
+        router?.goToAddProductsSelectionList(products: products, contentViewHeigh: contentViewHeigh, delegate: delegate)
+    }
+    
+    func addToFavorites(recipeIndex: Int) {
+        guard let recipeId = editableRecipes[safe: recipeIndex]?.id else {
+            return
+        }
+        let favoritesID = EatingTime.favorites.rawValue
+        
+        guard let dbCollection = CoreDataManager.shared.getCollection(by: favoritesID),
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
+              var recipe = Recipe(from: dbRecipe) else {
+            return
+        }
+        
+        let favoriteCollection = CollectionModel(from: dbCollection)
+        let isFavorite = !UserDefaultsManager.favoritesRecipeIds.contains(recipeId)
+        
+        defer {
+            CoreDataManager.shared.saveRecipes(recipes: [recipe])
+            var updateRecipe = editableRecipes.remove(at: recipeIndex)
+            updateRecipe.isFavorite = isFavorite
+            editableRecipes.insert(updateRecipe, at: recipeIndex)
+        }
+        
+        guard isFavorite else {
+            UserDefaultsManager.favoritesRecipeIds.removeAll { $0 == recipeId }
+            if var localCollection = recipe.localCollection {
+                localCollection.removeAll { $0.id == favoriteCollection.id }
+                recipe.localCollection = localCollection
+            }
+            return
+        }
+
+        UserDefaultsManager.favoritesRecipeIds.append(recipeId)
+        if var localCollection = recipe.localCollection {
+            localCollection.append(favoriteCollection)
+            recipe.localCollection = localCollection
+        } else {
+            recipe.localCollection = [favoriteCollection]
+        }
+    }
+    
+    func addToCollection(recipeIndex: Int) {
+        guard let recipeId = editableRecipes[safe: recipeIndex]?.id,
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
+              var recipe = Recipe(from: dbRecipe) else {
+            return
+        }
+        router?.goToShowCollection(state: .select, recipe: recipe, updateUI: {
+//            self?.updateCollection?()
+        })
+
+    }
+    
+    func edit(recipeIndex: Int) {
+        guard let recipeId = editableRecipes[safe: recipeIndex]?.id,
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
+              var recipe = Recipe(from: dbRecipe) else {
+            return
+        }
+        router?.goToCreateNewRecipe(currentRecipe: recipe, compl: { [weak self] recipe in
+            self?.editableRecipes.remove(at: recipeIndex)
+            self?.editableRecipes.insert(RecipeForSearchModel(shortRecipeModel: ShortRecipeModel(withCollection: recipe)),
+                                         at: recipeIndex)
+        })
     }
     
     private func appendFilters() {

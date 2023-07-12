@@ -400,6 +400,12 @@ final class StocksViewController: UIViewController {
 
 extension StocksViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            viewModel.showPaywall()
+            return
+        }
+#endif
         guard let stock = dataSource?.itemIdentifier(for: indexPath) else {
             return
         }

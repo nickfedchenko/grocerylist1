@@ -11,7 +11,7 @@ struct CollectionModel: Codable {
     var id: Int
     var index: Int
     var title: String
-    var color: Int
+    var color: Int?
     var isDefault: Bool
     var localImage: Data?
     

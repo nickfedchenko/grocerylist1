@@ -391,3 +391,15 @@
 "You can find your drafts"      = "Vous pouvez retrouver vos brouillons sur l'écran principal, dans collections";
 "Leave Creating a Recipe"       = "Laisser Créer une recette";
 "Continue Work"                 = "Continuer le travail";
+
+"Nutrition Facts per Serving"   = "Valeur nutritive par portion *";
+"If these data are known"       = "Si ces données sont connues ou calculées. Vous pouvez écrire seulement des calories approximatives ou laisser cette section vide.";
+"carb"                          = "Glucides";
+"protein"                       = "Protéines";
+"fat"                           = "Graisse";
+"kcal"                          = "Kcal";
+"Calories"                      = "Calories";
+"recommended"                   = "recommandé";
+"SAVE RECIPE TO..."             = "ENREGISTREZ LA RECETTE DANS...";
+
+"search"                        = "Chercher";

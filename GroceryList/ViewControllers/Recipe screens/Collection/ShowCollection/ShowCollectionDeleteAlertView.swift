@@ -34,22 +34,22 @@ final class ShowCollectionDeleteAlertView: UIView {
     
     private lazy var deleteButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(hex: "#1A645A")
         button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
         button.setTitle(R.string.localizable.delete(), for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 18).font
-        button.layer.cornerRadius = 8
-        button.addDefaultShadowForPopUp()
+        button.setTitleColor(UIColor(hex: "#FF0000"), for: .normal)
+        button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 17).font
         return button
     }()
     
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
+        button.backgroundColor = UIColor(hex: "#1A645A")
         button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         button.setTitle(R.string.localizable.cancel(), for: .normal)
-        button.setTitleColor(UIColor(hex: "#FF0000"), for: .normal)
-        button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 17).font
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 18).font
+        button.layer.cornerRadius = 8
+        button.addDefaultShadowForPopUp()
         return button
     }()
     
@@ -95,15 +95,15 @@ final class ShowCollectionDeleteAlertView: UIView {
             $0.centerX.equalToSuperview()
         }
         
-        deleteButton.snp.makeConstraints {
+        cancelButton.snp.makeConstraints {
             $0.top.equalTo(descriptionLabel.snp.bottom).offset(24)
             $0.leading.equalToSuperview().offset(16)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(48)
         }
         
-        cancelButton.snp.makeConstraints {
-            $0.top.equalTo(deleteButton.snp.bottom).offset(13)
+        deleteButton.snp.makeConstraints {
+            $0.top.equalTo(cancelButton.snp.bottom).offset(13)
             $0.leading.equalToSuperview().offset(16)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(48)

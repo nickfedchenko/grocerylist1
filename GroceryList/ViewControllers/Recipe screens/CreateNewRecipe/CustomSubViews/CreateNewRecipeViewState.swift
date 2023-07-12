@@ -54,11 +54,11 @@ enum CreateNewRecipeViewState {
     
     var shadowRadius: [CGFloat] {
         switch self {
-        case .required: return [1, 6]
-        case .optional: return [1, 5]
-        case .recommended: return [1, 5]
-        case .used:     return [0, 0]
-        case .filled:   return [1, 6]
+        case .required:     return [1, 6]
+        case .optional:     return [1, 5]
+        case .recommended:  return [1, 5]
+        case .used:         return [0, 0]
+        case .filled:       return [1, 6]
         }
     }
     
@@ -75,7 +75,7 @@ enum CreateNewRecipeViewState {
         switch self {
         case .required:     return R.string.localizable.required()
         case .optional:     return R.string.localizable.optional()
-        case .recommended:  return "recommended"
+        case .recommended:  return R.string.localizable.recommended().firstCharacterUpperCase()
         case .used:         return ""
         case .filled:       return ""
         }

@@ -66,7 +66,7 @@ class RecipeKcalView: UIView {
         }
 
         stackView.snp.makeConstraints {
-            $0.leading.equalTo(chartImage.snp.trailing).offset(24)
+            $0.leading.equalTo(chartImage.snp.trailing).offset(16)
             $0.trailing.equalToSuperview().offset(-8)
             $0.centerY.equalToSuperview()
             $0.height.equalTo(36)
@@ -102,7 +102,7 @@ private final class RecipeKcalSubView: UIView {
     }
     
     func setKcalValue(nutritionState: NutritionFacts, value: Double?) {
-        titleLabel.text = nutritionState.title
+        titleLabel.text = nutritionState.recipeTitle
         
         guard let value else {
             titleLabel.textColor = R.color.lightGray()
@@ -112,7 +112,7 @@ private final class RecipeKcalSubView: UIView {
         }
         
         titleLabel.textColor = nutritionState.activeColor
-        gramLabel.text = value.asString + (nutritionState != .kcal ? " g" : "")
+        gramLabel.text = value.asString + " " + nutritionState.placeholder
     }
     
     private func setup() {

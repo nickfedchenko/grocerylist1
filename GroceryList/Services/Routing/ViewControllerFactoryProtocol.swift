@@ -61,7 +61,8 @@ protocol ViewControllerFactoryProtocol {
                                              compl: @escaping (Recipe) -> Void) -> UIViewController
     func createCreateNewRecipeStepTwoViewController(router: RootRouter, isDraftRecipe: Bool,
                                                     currentRecipe: Recipe?, recipe: Recipe,
-                                                    compl: @escaping (Recipe) -> Void) -> UIViewController
+                                                    compl: @escaping (Recipe) -> Void,
+                                                    backToOneStep: ((Bool, Recipe?) -> Void)?) -> UIViewController
     func createPreparationStepViewController(stepNumber: Int, compl: @escaping (String) -> Void) -> UIViewController
     func createCreateNewCollectionViewController(currentCollection: CollectionModel?,
                                                  collections: [CollectionModel],
@@ -73,7 +74,8 @@ protocol ViewControllerFactoryProtocol {
                                         compl: @escaping (Ingredient) -> Void) -> UIViewController
     func createSearchInList(router: RootRouter) -> UIViewController
     func createSearchInRecipe(router: RootRouter, section: RecipeSectionsModel?) -> UIViewController
-    func createRecipeScreen(router: RootRouter, recipe: Recipe, sectionColor: Theme?) -> UIViewController
+    func createRecipeScreen(router: RootRouter, recipe: Recipe, sectionColor: Theme?,
+                            removeRecipe: ((Recipe) -> Void)?) -> UIViewController
     func createEditSelectListController(router: RootRouter, products: [Product], contentViewHeigh: CGFloat,
                                         delegate: EditSelectListDelegate,
                                         state: EditListState) -> UIViewController

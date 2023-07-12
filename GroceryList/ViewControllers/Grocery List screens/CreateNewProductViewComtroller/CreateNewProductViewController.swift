@@ -394,7 +394,7 @@ extension CreateNewProductViewController: UINavigationControllerDelegate, UIImag
     
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        self.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
         let image = info[.originalImage] as? UIImage
         setupUserImage(image)
     }

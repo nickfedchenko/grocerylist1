@@ -23,6 +23,7 @@ protocol RecipeScreenViewModelProtocol {
     func addToShoppingList(contentViewHeigh: CGFloat, delegate: AddProductsSelectionListDelegate)
     func addToCollection()
     func edit()
+    func removeRecipe()
     func getStoreAndCost(by index: Int) -> (store: String?, cost: Double?)
 }
 
@@ -37,6 +38,7 @@ final class RecipeScreenViewModel {
     weak var router: RootRouter?
     
     var updateCollection: (() -> Void)?
+    var updateRecipeRemove: ((Recipe) -> Void)?
     var theme: Theme
     private(set) var recipe: Recipe
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
@@ -143,9 +145,10 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
     }
     
     func updateFavoriteState(isSelected: Bool) {
-        if UserDefaultsManager.favoritesRecipeIds.contains(recipe.id) && isSelected {
+        guard let dbCollection = CoreDataManager.shared.getCollection(by: EatingTime.favorites.rawValue) else {
             return
         }
+        let favoriteCollection = CollectionModel(from: dbCollection)
         
         if isSelected {
             AmplitudeManager.shared.logEvent(.recipeAddFavorites)
@@ -153,11 +156,7 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
         } else {
             UserDefaultsManager.favoritesRecipeIds.removeAll(where: { $0 == recipe.id })
         }
-        
-        guard let dbCollection = CoreDataManager.shared.getCollection(by: EatingTime.favorites.rawValue) else {
-            return
-        }
-        let favoriteCollection = CollectionModel(from: dbCollection)
+
         if var localCollection = recipe.localCollection {
             if isSelected {
                 localCollection.append(favoriteCollection)
@@ -165,8 +164,6 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
                 localCollection.removeAll { $0.id == favoriteCollection.id }
             }
             recipe.localCollection = localCollection
-        } else {
-            recipe.localCollection = [favoriteCollection]
         }
         
         CoreDataManager.shared.saveRecipes(recipes: [recipe])
@@ -216,6 +213,10 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
         })
     }
     
+    func removeRecipe() {
+        CoreDataManager.shared.deleteRecipe(by: recipe.id)
+        updateRecipeRemove?(recipe)
+    }
 }
 
 private extension UnitSystem {
