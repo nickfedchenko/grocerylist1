@@ -437,3 +437,18 @@
 "SAVE RECIPE TO..."             = "SAVE RECIPE TO...";
 
 "search"                        = "Search";
+
+// Updated Paywall
+"three days "                   = "3 days ";
+"free"                          = "free";
+"HowDoesYourTrialPeriodWork"    = "How does your trial period work";
+
+"Today.subtitle"                = "Start your full access to all game modes";
+"After 2 days"                  = "After 2 days";
+"After 2 days.subtitle"         = "Receive a notification that your trial is ending";
+"After 3 days"                  = "After 3 days";
+"After 3 days.subtitle"         = "Payment date can be canceled at any time";
+"Privacy Policy"                = "Privacy Policy";
+"Restore purchase"              = "Restore purchase";
+"Term of Use"                   = "Term of Use";
+"save money"                    = "save";

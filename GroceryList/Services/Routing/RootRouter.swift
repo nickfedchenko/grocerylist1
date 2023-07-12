@@ -432,11 +432,12 @@ final class RootRouter: RootRouterProtocol {
     func showPaywallVC() {
         guard !Apphud.hasActiveSubscription() else { return }
         showAlternativePaywallVC()
+//        showUpdatedPaywall()
     }
     
     func showPaywallVCOnTopController() {
-        guard let controller = viewControllerFactory.createAlternativePaywallController() else { return }
         guard !Apphud.hasActiveSubscription() else { return }
+        guard let controller = viewControllerFactory.createAlternativePaywallController() else { return }
         controller.modalPresentationStyle = .overCurrentContext
         UIViewController.currentController()?.present(controller, animated: true)
     }
@@ -449,6 +450,12 @@ final class RootRouter: RootRouterProtocol {
     
     func showAlternativePaywallVC() {
         guard let controller = viewControllerFactory.createAlternativePaywallController() else { return }
+        guard !Apphud.hasActiveSubscription() else { return }
+        navigationPresent(controller, animated: true)
+    }
+    
+    func showUpdatedPaywall() {
+        let controller = UpdatedPaywallViewController()
         guard !Apphud.hasActiveSubscription() else { return }
         navigationPresent(controller, animated: true)
     }

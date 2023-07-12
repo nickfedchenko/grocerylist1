@@ -435,3 +435,18 @@
 "SAVE RECIPE TO..."             = "СОХРАНИТЕ РЕЦЕПТ В...";
 
 "search"                        = "Поиск";
+
+// Updated Paywall
+"three days "                   = "3 дня ";
+"free"                          = "бесплатно";
+"HowDoesYourTrialPeriodWork"    = "Как проходит ваш испытательный срок";
+
+"Today.subtitle"                = "Получите полный доступ ко всем игровым режимам ";
+"After 2 days"                  = "Через 2 дня";
+"After 2 days.subtitle"         = "Получите уведомление о том, что ваша пробная версия заканчивается ";
+"After 3 days"                  = "Через 3 дня";
+"After 3 days.subtitle"         = "Дата платежа может быть отменена в любое время";
+"Privacy Policy"                = "Политика конфиденциальности";
+"Restore purchase"              = "Восстановить покупку";
+"Term of Use"                   = "Условия подписки";
+"save money"                    = "сэкономить";

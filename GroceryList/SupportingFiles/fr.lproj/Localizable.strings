@@ -403,3 +403,18 @@
 "SAVE RECIPE TO..."             = "ENREGISTREZ LA RECETTE DANS...";
 
 "search"                        = "Chercher";
+
+// Updated Paywall
+"three days "                   = "3 jours ";
+"free"                          = "gratuitement";
+"HowDoesYourTrialPeriodWork"    = "Comment fonctionne votre période d'essai";
+
+"Today.subtitle"                = "Commencez votre accès complet à tous les modes de jeu ";
+"After 2 days"                  = "Après 2 jours";
+"After 2 days.subtitle"         = "Recevez une notification indiquant que votre essai se termine ";
+"After 3 days"                  = "Après 3 jours";
+"After 3 days.subtitle"         = "La date de paiement peut être annulée à tout moment";
+"Privacy Policy"                = "Politique de confidentialité";
+"Restore purchase"              = "Restaurer l'achat";
+"Term of Use"                   = "Conditions d'abonnement";
+"save money"                    = "sauver";

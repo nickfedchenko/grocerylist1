@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 352 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 364 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -170,6 +170,34 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var adjustNumberOfServings: RswiftResources.StringResource { .init(key: "AdjustNumberOfServings", tableName: "Localizable", source: source, developmentValue: "Adjust the number of servings and add ingredients to your shopping list", comment: nil) }
+
+      /// en translation: After 2 days
+      ///
+      /// Key: After 2 days
+      ///
+      /// Locales: en, ru, fr, de
+      var after2Days: RswiftResources.StringResource { .init(key: "After 2 days", tableName: "Localizable", source: source, developmentValue: "After 2 days", comment: nil) }
+
+      /// en translation: Receive a notification that your trial is ending
+      ///
+      /// Key: After 2 days.subtitle
+      ///
+      /// Locales: en, ru, fr, de
+      var after2DaysSubtitle: RswiftResources.StringResource { .init(key: "After 2 days.subtitle", tableName: "Localizable", source: source, developmentValue: "Receive a notification that your trial is ending", comment: nil) }
+
+      /// en translation: After 3 days
+      ///
+      /// Key: After 3 days
+      ///
+      /// Locales: en, ru, fr, de
+      var after3Days: RswiftResources.StringResource { .init(key: "After 3 days", tableName: "Localizable", source: source, developmentValue: "After 3 days", comment: nil) }
+
+      /// en translation: Payment date can be canceled at any time
+      ///
+      /// Key: After 3 days.subtitle
+      ///
+      /// Locales: en, ru, fr, de
+      var after3DaysSubtitle: RswiftResources.StringResource { .init(key: "After 3 days.subtitle", tableName: "Localizable", source: source, developmentValue: "Payment date can be canceled at any time", comment: nil) }
 
       /// en translation: Alcohol
       ///
@@ -794,6 +822,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var howCanWeImprove: RswiftResources.StringResource { .init(key: "How can we improve?", tableName: "Localizable", source: source, developmentValue: "How can we improve?", comment: nil) }
 
+      /// en translation: How does your trial period work
+      ///
+      /// Key: HowDoesYourTrialPeriodWork
+      ///
+      /// Locales: en, ru, fr, de
+      var howDoesYourTrialPeriodWork: RswiftResources.StringResource { .init(key: "HowDoesYourTrialPeriodWork", tableName: "Localizable", source: source, developmentValue: "How does your trial period work", comment: nil) }
+
       /// en translation: I don’t have an account
       ///
       /// Key: IDontHaveAccount
@@ -1235,6 +1270,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var preparationTimeMinutes: RswiftResources.StringResource { .init(key: "Preparation Time (minutes)", tableName: "Localizable", source: source, developmentValue: "Preparation Time (minutes)", comment: nil) }
 
+      /// en translation: Privacy Policy
+      ///
+      /// Key: Privacy Policy
+      ///
+      /// Locales: en, ru, fr, de
+      var privacyPolicy: RswiftResources.StringResource { .init(key: "Privacy Policy", tableName: "Localizable", source: source, developmentValue: "Privacy Policy", comment: nil) }
+
       /// en translation: A problem? Contact us!
       ///
       /// Key: Problems?
@@ -1374,6 +1416,13 @@ struct _R {
       ///
       /// Locales: en, ru
       var resetPasswordLinkInactive: RswiftResources.StringResource { .init(key: "ResetPassword.LinkInactive", tableName: "Localizable", source: source, developmentValue: "This link can be used only once and will become inactive in 1 hour. \nPlease reset again.", comment: nil) }
+
+      /// en translation: Restore purchase
+      ///
+      /// Key: Restore purchase
+      ///
+      /// Locales: en, ru, fr, de
+      var restorePurchase: RswiftResources.StringResource { .init(key: "Restore purchase", tableName: "Localizable", source: source, developmentValue: "Restore purchase", comment: nil) }
 
       /// en translation: SAVE RECIPE TO...
       ///
@@ -1781,12 +1830,26 @@ struct _R {
       /// Locales: en, ru, fr, de
       var tea: RswiftResources.StringResource { .init(key: "Tea", tableName: "Localizable", source: source, developmentValue: "Tea and coffee", comment: nil) }
 
+      /// en translation: Term of Use
+      ///
+      /// Key: Term of Use
+      ///
+      /// Locales: en, ru, fr, de
+      var termOfUse: RswiftResources.StringResource { .init(key: "Term of Use", tableName: "Localizable", source: source, developmentValue: "Term of Use", comment: nil) }
+
       /// en translation: Thanks for your feedback
       ///
       /// Key: Thanks for your feedback
       ///
       /// Locales: en, ru, fr, de
       var thanksForYourFeedback: RswiftResources.StringResource { .init(key: "Thanks for your feedback", tableName: "Localizable", source: source, developmentValue: "Thanks for your feedback", comment: nil) }
+
+      /// en translation: Start your full access to all game modes
+      ///
+      /// Key: Today.subtitle
+      ///
+      /// Locales: en, ru, fr, de
+      var todaySubtitle: RswiftResources.StringResource { .init(key: "Today.subtitle", tableName: "Localizable", source: source, developmentValue: "Start your full access to all game modes", comment: nil) }
 
       /// en translation: Toilet paper
       ///
@@ -2152,6 +2215,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var fluidOz: RswiftResources.StringResource { .init(key: "fluidOz", tableName: "Localizable", source: source, developmentValue: "fl oz", comment: nil) }
 
+      /// en translation: free
+      ///
+      /// Key: free
+      ///
+      /// Locales: en, ru, fr, de
+      var free: RswiftResources.StringResource { .init(key: "free", tableName: "Localizable", source: source, developmentValue: "free", comment: nil) }
+
       /// en translation: gal
       ///
       /// Key: gallon
@@ -2411,6 +2481,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var reviewSubtitle: RswiftResources.StringResource { .init(key: "review.subtitle", tableName: "Localizable", source: source, developmentValue: "This helps to make it even better", comment: nil) }
 
+      /// en translation: save
+      ///
+      /// Key: save money
+      ///
+      /// Locales: en, ru, fr, de
+      var saveMoney: RswiftResources.StringResource { .init(key: "save money", tableName: "Localizable", source: source, developmentValue: "save", comment: nil) }
+
       /// en translation: Search
       ///
       /// Key: search
@@ -2487,6 +2564,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var sort: RswiftResources.StringResource { .init(key: "sort", tableName: "Localizable", source: source, developmentValue: "Sort", comment: nil) }
+
+      /// en translation: 3 days 
+      ///
+      /// Key: three days 
+      ///
+      /// Locales: en, ru, fr, de
+      var threeDays: RswiftResources.StringResource { .init(key: "three days ", tableName: "Localizable", source: source, developmentValue: "3 days ", comment: nil) }
 
       /// en translation: Today
       ///
@@ -2584,7 +2668,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 288 images.
+  /// This `_R.image` struct is generated, and contains static references to 293 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -3436,6 +3520,21 @@ struct _R {
 
     /// Image `trash_can`.
     var trash_can: RswiftResources.ImageResource { .init(name: "trash_can", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `updatedPaywall_cross button`.
+    var updatedPaywall_crossButton: RswiftResources.ImageResource { .init(name: "updatedPaywall_cross button", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `updatedPaywall_feature`.
+    var updatedPaywall_feature: RswiftResources.ImageResource { .init(name: "updatedPaywall_feature", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `updatedPaywall_img bg`.
+    var updatedPaywall_imgBg: RswiftResources.ImageResource { .init(name: "updatedPaywall_img bg", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `updatedPaywall_logo img`.
+    var updatedPaywall_logoImg: RswiftResources.ImageResource { .init(name: "updatedPaywall_logo img", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `updatedPaywall_select product`.
+    var updatedPaywall_selectProduct: RswiftResources.ImageResource { .init(name: "updatedPaywall_select product", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `vectorArrow`.
     var vectorArrow: RswiftResources.ImageResource { .init(name: "vectorArrow", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

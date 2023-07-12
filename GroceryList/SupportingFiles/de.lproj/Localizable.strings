@@ -405,3 +405,18 @@
 "SAVE RECIPE TO..."             = "REZEPT SPEICHERN UNTER...";
 
 "search"                        = "Suche";
+
+// Updated Paywall
+"three days "                   = "3 tage ";
+"free"                          = "kostenlos";
+"HowDoesYourTrialPeriodWork"    = "Wie funktioniert Ihre Probezeit?";
+
+"Today.subtitle"                = "Starte deinen vollen Zugriff auf alle Spielmodi";
+"After 2 days"                  = "Nach 2 Tagen";
+"After 2 days.subtitle"         = "Erhalten Sie eine Benachrichtigung, dass Ihre Testversion endet ";
+"After 3 days"                  = "Nach 3 Tagen";
+"After 3 days.subtitle"         = "Zahlungstermin kann jederzeit storniert werden";
+"Privacy Policy"                = "Datenschutzerklärung";
+"Restore purchase"              = "Kauf wiederherstellen";
+"Term of Use"                   = "Abonnementsbedingungen";
+"save money"                    = "sparen";
