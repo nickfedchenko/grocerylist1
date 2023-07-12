@@ -329,7 +329,7 @@ class ProductsViewModel {
     }
     
     func showPaywall() {
-        router?.showAlternativePaywallVC()
+        router?.showPaywallVC()
     }
     
     private func addObserver() {
