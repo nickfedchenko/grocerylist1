@@ -9,8 +9,9 @@ import UIKit
 
 protocol ViewControllerFactoryProtocol {
     func createOnboardingController(router: RootRouter) -> UIViewController?
-    func createPaywallController() -> UIViewController?
-    func createAlternativePaywallController() -> UIViewController?
+    func createPaywallController() -> UIViewController
+    func createAlternativePaywallController() -> UIViewController
+    func createUpdatedPaywallController() -> UIViewController
     
     func createMainTabBarController(router: RootRouter, controllers: [UIViewController]) -> UITabBarController
     func createListController(router: RootRouter) -> UIViewController

@@ -164,7 +164,7 @@ class UpdatedPaywallViewController: UIViewController {
     @objc
     private func nextButtonPressed() {
         guard let selectedProduct = selectedProduct else { return }
-//        lockUI()
+        
         Apphud.purchase(selectedProduct) { [weak self] result in
             if let error = result.error {
                 self?.alertOk(title: "Error", message: error.localizedDescription)
@@ -183,7 +183,6 @@ class UpdatedPaywallViewController: UIViewController {
                     self?.dismiss(animated: true)
                 }
             }
-//            self?.unlockUI()
         }
     }
 

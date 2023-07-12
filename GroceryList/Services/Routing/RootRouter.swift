@@ -430,32 +430,50 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func showPaywallVC() {
-        guard !Apphud.hasActiveSubscription() else { return }
-        showAlternativePaywallVC()
-//        showUpdatedPaywall()
+        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
+            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+                return
+            }
+            if paywall.variationName == "AlternativePaywall" {
+                self?.showAlternativePaywallVC()
+            } else {
+                self?.showUpdatedPaywall()
+            }
+        }
     }
     
     func showPaywallVCOnTopController() {
         guard !Apphud.hasActiveSubscription() else { return }
-        guard let controller = viewControllerFactory.createAlternativePaywallController() else { return }
-        controller.modalPresentationStyle = .overCurrentContext
-        UIViewController.currentController()?.present(controller, animated: true)
+        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
+            guard let self,
+                  let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+                return
+            }
+            let controller: UIViewController
+            if paywall.variationName == "AlternativePaywall" {
+                controller = self.viewControllerFactory.createAlternativePaywallController()
+            } else {
+                controller = self.viewControllerFactory.createUpdatedPaywallController()
+            }
+            controller.modalPresentationStyle = .overCurrentContext
+            UIViewController.currentController()?.present(controller, animated: true)
+        }
     }
     
     func showDefaultPaywallVC() {
-        guard let controller = viewControllerFactory.createPaywallController() else { return }
+        let controller = viewControllerFactory.createPaywallController()
         guard !Apphud.hasActiveSubscription() else { return }
         navigationPresent(controller, animated: true)
     }
     
     func showAlternativePaywallVC() {
-        guard let controller = viewControllerFactory.createAlternativePaywallController() else { return }
+        let controller = viewControllerFactory.createAlternativePaywallController()
         guard !Apphud.hasActiveSubscription() else { return }
         navigationPresent(controller, animated: true)
     }
     
     func showUpdatedPaywall() {
-        let controller = UpdatedPaywallViewController()
+        let controller = viewControllerFactory.createUpdatedPaywallController()
         guard !Apphud.hasActiveSubscription() else { return }
         navigationPresent(controller, animated: true)
     }

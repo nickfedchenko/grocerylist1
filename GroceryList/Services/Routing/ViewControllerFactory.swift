@@ -231,12 +231,16 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createPaywallController() -> UIViewController? {
+    func createPaywallController() -> UIViewController {
         return PaywallViewController()
     }
     
-    func createAlternativePaywallController() -> UIViewController? {
+    func createAlternativePaywallController() -> UIViewController {
         return AlternativePaywallViewController()
+    }
+    
+    func createUpdatedPaywallController() -> UIViewController {
+        return UpdatedPaywallViewController()
     }
     
     func createReviewsController(router: RootRouter) -> UIViewController {
