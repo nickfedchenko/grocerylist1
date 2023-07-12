@@ -371,17 +371,17 @@ class UpdatedPaywallViewController: UIViewController {
         }
         
         featuresView.snp.makeConstraints {
-            $0.top.equalTo(titleView.snp.bottom).offset(isSmallSize ? 24 : 48)
+            $0.top.equalTo(titleView.snp.bottom).offset(UIDevice.isSE2 ? 8 : isSmallSize ? 24 : 48)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(300)
-            $0.height.equalTo(230)
+            $0.height.equalTo(UIDevice.isSE2 ? 200 : 230)
         }
         
         productsView.snp.makeConstraints {
             $0.bottom.equalTo(continueButton.snp.top).offset(isSmallSize ? -16 : -24)
             $0.centerX.equalToSuperview()
             $0.leading.equalToSuperview().offset(16)
-            $0.height.equalTo(112)
+            $0.height.equalTo(UIDevice.isSE2 ? 100 : 112)
         }
         
         makeButtonsConstraints()

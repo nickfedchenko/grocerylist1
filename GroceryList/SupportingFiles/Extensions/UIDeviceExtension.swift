@@ -19,4 +19,16 @@ extension UIDevice {
         }
         return false
     }
+    
+    class var isSE2: Bool {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            switch UIScreen.main.nativeBounds.height {
+            case 1334: // SE
+                return true
+            default:
+                return false
+            }
+        }
+        return false
+    }
 }

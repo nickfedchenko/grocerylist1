@@ -13,7 +13,7 @@ class UpdatedPaywallFeaturesView: UIView {
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 24
+        stackView.spacing = UIDevice.isSE ? 0 : 24
         stackView.distribution = .fillProportionally
         return stackView
     }()
@@ -26,6 +26,8 @@ class UpdatedPaywallFeaturesView: UIView {
     
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
+        
+        imageView.contentMode = .scaleAspectFit
         
         features.forEach { feature in
             let view = FeaturesStepView()
@@ -50,7 +52,7 @@ class UpdatedPaywallFeaturesView: UIView {
         }
         
         stackView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(16)
+            $0.top.equalToSuperview().offset(UIDevice.isSE2 ? 0 : 16)
             $0.leading.equalTo(imageView.snp.trailing).offset(16)
             $0.bottom.trailing.equalToSuperview()
         }

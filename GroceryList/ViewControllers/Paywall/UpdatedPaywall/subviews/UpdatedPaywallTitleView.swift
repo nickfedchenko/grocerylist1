@@ -35,6 +35,8 @@ class UpdatedPaywallTitleView: UIView {
         label.font = UIFont.SFProDisplay.semibold(size: 20).font
         label.text = R.string.localizable.howDoesYourTrialPeriodWork()
         label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.3
         return label
     }()
     
