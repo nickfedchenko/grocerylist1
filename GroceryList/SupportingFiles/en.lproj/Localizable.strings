@@ -438,6 +438,10 @@
 
 "search"                        = "Search";
 
+// FAQ
+"Help & FAQ"                    = "Help & FAQ";
+"Check Internet connection"     = "Check Internet connection";
+
 // Updated Paywall
 "three days "                   = "3 days ";
 "free"                          = "free";
