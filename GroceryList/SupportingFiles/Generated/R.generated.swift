@@ -395,6 +395,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var category: RswiftResources.StringResource { .init(key: "Category", tableName: "Localizable", source: source, developmentValue: "Category", comment: nil) }
 
+      /// en translation: Check Internet connection
+      ///
+      /// Key: Check Internet connection
+      ///
+      /// Locales: en, ru, fr, de
+      var checkInternetConnection: RswiftResources.StringResource { .init(key: "Check Internet connection", tableName: "Localizable", source: source, developmentValue: "Check Internet connection", comment: nil) }
+
       /// en translation: Chicken fillet
       ///
       /// Key: Chicken fillet
@@ -793,6 +800,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var helloHereIsAGreatApp: RswiftResources.StringResource { .init(key: "Hello! Here is a great app", tableName: "Localizable", source: source, developmentValue: "Hello! Here is a great app for joint shopping and recipes!", comment: nil) }
+
+      /// en translation: Help & FAQ
+      ///
+      /// Key: Help & FAQ
+      ///
+      /// Locales: en, ru, fr, de
+      var helpFAQ: RswiftResources.StringResource { .init(key: "Help & FAQ", tableName: "Localizable", source: source, developmentValue: "Help & FAQ", comment: nil) }
 
       /// en translation: Hobby
       ///
@@ -2696,7 +2710,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 293 images.
+  /// This `_R.image` struct is generated, and contains static references to 294 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -2951,6 +2965,9 @@ struct _R {
 
     /// Image `autorepeat_reminder`.
     var autorepeat_reminder: RswiftResources.ImageResource { .init(name: "autorepeat_reminder", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `back_Chevron`.
+    var back_Chevron: RswiftResources.ImageResource { .init(name: "back_Chevron", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `basket`.
     var basket: RswiftResources.ImageResource { .init(name: "basket", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

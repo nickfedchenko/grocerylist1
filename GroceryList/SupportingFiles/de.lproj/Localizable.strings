@@ -407,6 +407,10 @@
 "search"                        = "Suche";
 "Add Filter"                    = "Filter hinzufügen";
 
+// FAQ
+"Help & FAQ"                    = "Hilfe & FAQ";
+"Check Internet connection"     = "Internetverbindung prüfen";
+
 // Updated Paywall
 "three days "                   = "3 tage ";
 "free"                          = "kostenlos";
