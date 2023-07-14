@@ -433,12 +433,31 @@ final class RootRouter: RootRouterProtocol {
         guard !Apphud.hasActiveSubscription() else { return }
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+                
+                if let paywall = paywalls.first(where: { $0.isDefault }),
+                   let targetPaywallName = paywall.json?["name"] as? String {
+                    
+                    if targetPaywallName == "VaninPaywall" {
+                        self?.showUpdatedPaywall()
+                    } else {
+                        self?.showAlternativePaywallVC()
+                    }
+                    
+                    return
+                }
+                
+                self?.showAlternativePaywallVC()
                 return
             }
-            if paywall.variationName == "AlternativePaywall" {
-                self?.showAlternativePaywallVC()
-            } else {
-                self?.showUpdatedPaywall()
+
+            if let targetPaywallName = paywall.json?["name"] as? String {
+                
+                if targetPaywallName == "VaninPaywall" {
+                    self?.showUpdatedPaywall()
+                } else {
+                    self?.showAlternativePaywallVC()
+                }
+                
             }
         }
     }
@@ -446,16 +465,31 @@ final class RootRouter: RootRouterProtocol {
     func showPaywallVCOnTopController() {
         guard !Apphud.hasActiveSubscription() else { return }
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
-            guard let self,
-                  let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+            var controller: UIViewController
+            guard let self else {
                 return
             }
-            let controller: UIViewController
-            if paywall.variationName == "AlternativePaywall" {
-                controller = self.viewControllerFactory.createAlternativePaywallController()
-            } else {
-                controller = self.viewControllerFactory.createUpdatedPaywallController()
+            controller = self.viewControllerFactory.createAlternativePaywallController()
+            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+
+                if let paywall = paywalls.first(where: { $0.isDefault }),
+                   let targetPaywallName = paywall.json?["name"] as? String {
+                    if targetPaywallName == "VaninPaywall" {
+                        controller = self.viewControllerFactory.createUpdatedPaywallController()
+                    }
+                }
+                
+                controller.modalPresentationStyle = .overCurrentContext
+                UIViewController.currentController()?.present(controller, animated: true)
+                return
             }
+
+            if let targetPaywallName = paywall.json?["name"] as? String {
+                if targetPaywallName == "VaninPaywall" {
+                    controller = self.viewControllerFactory.createUpdatedPaywallController()
+                }
+            }
+
             controller.modalPresentationStyle = .overCurrentContext
             UIViewController.currentController()?.present(controller, animated: true)
         }
