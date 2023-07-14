@@ -96,9 +96,9 @@ class AlternativePaywallViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Cancel anytime".localized, for: .normal)
         button.setTitleColor(UIColor(hex: "#31635A"), for: .normal)
-        button.titleLabel?.font = UIFont.SFPro.medium(size: 15).font
+        button.titleLabel?.font = UIFont.SFPro.medium(size: UIDevice.isSE2 ? 12 : 15).font
         button.titleLabel?.adjustsFontSizeToFitWidth = true
-        button.titleLabel?.minimumScaleFactor = 0.3
+        button.titleLabel?.minimumScaleFactor = 0.1
         button.titleLabel?.numberOfLines = 2
         button.titleLabel?.textAlignment = .center
         return button
@@ -356,19 +356,20 @@ class AlternativePaywallViewController: UIViewController {
         
         privacyButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
-            make.top.equalTo(nextButton.snp.bottom).inset(-8)
+            make.top.equalTo(nextButton.snp.bottom).inset(UIDevice.isSE2 ? -4 : -8)
             make.width.equalToSuperview().multipliedBy(0.25)
+            make.bottom.equalToSuperview().offset(-2)
         }
         
         cancelButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalTo(privacyButton)
-            make.width.equalToSuperview().multipliedBy(0.45)
+            make.top.bottom.equalTo(privacyButton)
+            make.width.equalToSuperview().multipliedBy(0.4)
         }
         
         termsButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-8)
-            make.centerY.equalTo(privacyButton)
+            make.top.bottom.equalTo(privacyButton)
             make.width.equalToSuperview().multipliedBy(0.25)
         }
         
@@ -443,7 +444,7 @@ class AlternativePaywallViewController: UIViewController {
     @objc
     private func termsDidTap() {
         guard let url = URL(
-            string: "https://docs.google.com/document/d/1FBzdkA2rqRdDLhimwz7fgF3b7VTA-lh4PvOdMHBGKSA/edit?usp=sharing"
+            string: "https://docs.google.com/document/d/1rC8SV2n9UBZL42jYjtpRgL8pKmMWlwTI6UJOGx-BDsE/edit?usp=sharing"
         ),
                 UIApplication.shared.canOpenURL(url) else {
             return
@@ -455,7 +456,7 @@ class AlternativePaywallViewController: UIViewController {
     private func privacyDidTap() {
         guard
             let url = URL(
-                string: "https://docs.google.com/document/d/1rC8SV2n9UBZL42jYjtpRgL8pKmMWlwTI6UJOGx-BDsE/edit?usp=sharing"
+                string: "https://docs.google.com/document/d/1FBzdkA2rqRdDLhimwz7fgF3b7VTA-lh4PvOdMHBGKSA/edit?usp=sharing"
             ),
             UIApplication.shared.canOpenURL(url) else {
             return

@@ -433,31 +433,31 @@ final class RootRouter: RootRouterProtocol {
         guard !Apphud.hasActiveSubscription() else { return }
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
-                
+
                 if let paywall = paywalls.first(where: { $0.isDefault }),
                    let targetPaywallName = paywall.json?["name"] as? String {
-                    
+
                     if targetPaywallName == "VaninPaywall" {
                         self?.showUpdatedPaywall()
                     } else {
                         self?.showAlternativePaywallVC()
                     }
-                    
+
                     return
                 }
-                
+
                 self?.showAlternativePaywallVC()
                 return
             }
 
             if let targetPaywallName = paywall.json?["name"] as? String {
-                
+
                 if targetPaywallName == "VaninPaywall" {
                     self?.showUpdatedPaywall()
                 } else {
                     self?.showAlternativePaywallVC()
                 }
-                
+
             }
         }
     }
