@@ -32,7 +32,6 @@ class FAQViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationView.backgroundColor = UIColor(hex: "E5F5F3")
         self.view.backgroundColor = UIColor(hex: "E5F5F3")
         webView.navigationDelegate = self
         webView.isHidden = true
@@ -80,12 +79,8 @@ class FAQViewController: UIViewController {
     private func updateNavigationConstraints() {
         let isInitialPage = initialUrl == webView.url?.absoluteString
         backButton.isHidden = !isInitialPage
-        navigationView.snp.updateConstraints {
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(isInitialPage ? 42 : 2)
-        }
-        UIView.animate(withDuration: 0.1) {
-            self.view.layoutIfNeeded()
-        }
+        navigationView.isHidden = !isInitialPage
+
     }
     
     @objc
@@ -103,7 +98,7 @@ class FAQViewController: UIViewController {
         }
         
         webView.snp.makeConstraints {
-            $0.top.equalTo(navigationView.snp.bottom)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             $0.horizontalEdges.bottom.equalToSuperview()
         }
         
