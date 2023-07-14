@@ -403,6 +403,7 @@
 "SAVE RECIPE TO..."             = "ENREGISTREZ LA RECETTE DANS...";
 
 "search"                        = "Chercher";
+"Add Filter"                    = "Ajouter un filtre";
 
 // Updated Paywall
 "three days "                   = "3 jours ";
@@ -419,5 +420,6 @@
 "Term of Use"                   = "Conditions d'abonnement";
 "save money"                    = "sauver";
 
-"Try 3 days for free"           = "Try 3 days for free";
-"Save time and money with app"  = "Save time and money with Shopping List";
+"Try 3 days for free"           = "Essayez 3 jours gratuitement";
+"Save time and money with app"  = "Gagnez du temps et de l'argent avec la liste de courses";
+"Cancel anytime"                = "Annuler à tout moment";

@@ -13,7 +13,10 @@ final class TryForFreeView: UIView {
         var view = UILabel()
         view.textColor = UIColor(hex: "#014E43")
         view.font = UIFont.SFPro.black(size: 32).font
-        view.text = "Try 3 days for free"
+        view.text = R.string.localizable.try3DaysForFree()
+        view.textAlignment = .center
+        view.adjustsFontSizeToFitWidth = true
+        view.minimumScaleFactor = 0.1
         return view
     }()
     
@@ -21,7 +24,11 @@ final class TryForFreeView: UIView {
         var view = UILabel()
         view.textColor = UIColor(hex: "#19645A")
         view.font = UIFont.SFPro.black(size: 15).font
-        view.text = "Save time and money with Shopping List"
+        view.text = R.string.localizable.saveTimeAndMoneyWithApp()
+        view.numberOfLines = 2
+        view.adjustsFontSizeToFitWidth = true
+        view.minimumScaleFactor = 0.1
+        view.textAlignment = .center
         return view
     }()
     // MARK: - LifeCycle
@@ -39,18 +46,17 @@ final class TryForFreeView: UIView {
     private func setupConstraint() {
         self.addSubviews([titleLabel, subTitleLabel])
         
-        snp.makeConstraints { make in
-            make.height.equalTo(66)
-        }
+//        snp.makeConstraints { make in
+//            make.height.equalTo(66)
+//        }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.top.leading.centerX.equalToSuperview()
         }
         
         subTitleLabel.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.top.equalTo(titleLabel.snp.bottom)
+            make.bottom.leading.centerX.equalToSuperview()
         }
     }
 }
