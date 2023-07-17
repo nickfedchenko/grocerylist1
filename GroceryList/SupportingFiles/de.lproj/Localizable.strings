@@ -373,3 +373,50 @@
 "Fabric softener"               = "Weichspüler";
 "Cleaning Cloth"                = "Reinigungstuch";
 "AA batteries"                  = "AA-Batterien";
+
+// Recipe
+"Search by name or ingredient"  = "Suche nach Name oder Zutat";
+"willCook"                      = "Ich werde es kochen";
+"drafts"                        = "Entwurf";
+"inbox"                         = "Posteingang";
+
+"addToFavorites"                = "zu Favoriten hinzufügen";
+"added to"                      = "Hinzugefügt zu";
+
+"Delete Collection?"            = "Sammlung löschen?";
+"You are deleting a collection" = "Sie löschen eine Sammlung. Alle darin enthaltenen Rezepte werden nicht aus der Datenbank oder anderen Sammlungen gelöscht.";
+"SelectOneOrMoreCollections"    = "Wählen Sie eine oder mehrere Sammlungen";
+
+"continue"                      = "Weiter";
+"Save to Drafts"                = "In Entwürfen speichern";
+"Saved in Drafts"               = "In Entwürfen gespeichert";
+"You can find your drafts"      = "Sie finden Ihre Entwürfe auf dem Hauptbildschirm in Sammlungen";
+"Leave Creating a Recipe"       = "Lassen Sie das Erstellen eines Rezepts";
+"Continue Work"                 = "Arbeit fortsetzen";
+
+"Nutrition Facts per Serving"   = "Nährwertangaben pro Portion *";
+"If these data are known"       = "Wenn diese Daten bekannt oder berechnet sind. Sie können nur ungefähre Kalorien eingeben oder diesen Abschnitt leer lassen.";
+"carb"                          = "Kickloch";
+"protein"                       = "Protein";
+"fat"                           = "Fett";
+"kcal"                          = "Kcal";
+"Calories"                      = "Kalorien";
+"recommended"                   = "ratsam";
+"SAVE RECIPE TO..."             = "REZEPT SPEICHERN UNTER...";
+
+"search"                        = "Suche";
+
+// Updated Paywall
+"three days "                   = "3 tage ";
+"free"                          = "kostenlos";
+"HowDoesYourTrialPeriodWork"    = "Wie funktioniert Ihre Probezeit?";
+
+"Today.subtitle"                = "Starte deinen vollen Zugriff auf alle Spielmodi";
+"After 2 days"                  = "Nach 2 Tagen";
+"After 2 days.subtitle"         = "Erhalten Sie eine Benachrichtigung, dass Ihre Testversion endet ";
+"After 3 days"                  = "Nach 3 Tagen";
+"After 3 days.subtitle"         = "Zahlungstermin kann jederzeit storniert werden";
+"Privacy Policy"                = "Datenschutzerklärung";
+"Restore purchase"              = "Kauf wiederherstellen";
+"Term of Use"                   = "Abonnementsbedingungen";
+"save money"                    = "sparen";

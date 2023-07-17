@@ -13,20 +13,20 @@ final class PreparationStepViewController: UIViewController {
     
     private lazy var contentView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#E5F5F3")
+        view.backgroundColor = R.color.background()
         return view
     }()
     
     private lazy var titleView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#FCFCFE")
+        view.backgroundColor = R.color.darkGray()
         return view
     }()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 16).font
-        label.textColor = R.color.primaryDark()
+        label.textColor = .white
         return label
     }()
     
@@ -63,6 +63,10 @@ final class PreparationStepViewController: UIViewController {
     }
     
     private func setup() {
+        let tapOnView = UITapGestureRecognizer(target: self, action: #selector(tappedOnView))
+        tapOnView.delegate = self
+        self.view.addGestureRecognizer(tapOnView)
+        
         setupContentView()
         updateSaveButton(isActive: false)
         setupShadowView()
@@ -106,6 +110,11 @@ final class PreparationStepViewController: UIViewController {
         if tempTranslation.y >= 100 {
             hidePanel()
         }
+    }
+    
+    @objc
+    private func tappedOnView() {
+        hidePanel()
     }
     
     private func updateConstraints(with inset: Double, alpha: Double) {
@@ -186,5 +195,11 @@ final class PreparationStepViewController: UIViewController {
 extension PreparationStepViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         updateSaveButton(isActive: !textView.text.isEmpty)
+    }
+}
+
+extension PreparationStepViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return !(touch.view?.isDescendant(of: self.contentView) ?? false)
     }
 }

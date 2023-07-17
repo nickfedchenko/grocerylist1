@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "updatedPaywall_img bg.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

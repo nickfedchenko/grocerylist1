@@ -18,7 +18,7 @@ protocol RootRouterProtocol: NavigationInterface {
 }
 
 // MARK: - Router
-
+// swiftlint:disable:next type_body_length
 final class RootRouter: RootRouterProtocol {
     
     var navigationController: UINavigationController? {
@@ -190,18 +190,22 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func goToCreateNewRecipe(compl: @escaping (Recipe) -> Void) {
+    func goToCreateNewRecipe(currentRecipe: Recipe? = nil, compl: @escaping (Recipe) -> Void) {
         let controller = viewControllerFactory.createCreateNewRecipeViewController(
+            currentRecipe: currentRecipe,
             router: self,
             compl: compl)
         navigationPushViewController(controller, animated: true)
     }
     
-    func goToCreateNewRecipeStepTwo(recipe: CreateNewRecipeStepOne, compl: @escaping (Recipe) -> Void) {
+    func goToCreateNewRecipeStepTwo(isDraftRecipe: Bool,
+                                    currentRecipe: Recipe?, recipe: Recipe,
+                                    compl: @escaping (Recipe) -> Void,
+                                    backToOneStep: ((Bool, Recipe?) -> Void)?) {
         let controller = viewControllerFactory.createCreateNewRecipeStepTwoViewController(
-            router: self,
-            recipe: recipe,
-            compl: compl)
+            router: self, isDraftRecipe: isDraftRecipe,
+            currentRecipe: currentRecipe, recipe: recipe,
+            compl: compl, backToOneStep: backToOneStep)
         navigationPushViewController(controller, animated: true)
     }
     
@@ -212,12 +216,15 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func goToCreateNewCollection(collections: [CollectionModel] = [],
-                                 compl: @escaping ([CollectionModel]) -> Void) {
-        let controller = viewControllerFactory.createCreateNewCollectionViewController(collections: collections,
+    func goToCreateNewCollection(currentCollection: CollectionModel? = nil,
+                                 collections: [CollectionModel] = [],
+                                 compl: @escaping (CollectionModel) -> Void) {
+        let controller = viewControllerFactory.createCreateNewCollectionViewController(currentCollection: currentCollection,
+                                                                                       collections: collections,
                                                                                        compl: compl)
         controller.modalTransitionStyle = .crossDissolve
-        navigationPresent(controller, animated: true)
+        controller.modalPresentationStyle = .overFullScreen
+        UIViewController.currentController()?.present(controller, animated: true)
     }
     
     func goToShowCollection(state: ShowCollectionViewController.ShowCollectionState,
@@ -229,12 +236,15 @@ final class RootRouter: RootRouterProtocol {
                                                                                   recipe: recipe,
                                                                                   updateUI: updateUI,
                                                                                   compl: compl)
-        controller.modalTransitionStyle = .crossDissolve
-        navigationPresent(controller, animated: true)
+        if state == .edit {
+            controller.modalTransitionStyle = .crossDissolve
+        }
+        navigationPresent(controller, style: state == .select ? .automatic : .overCurrentContext, animated: true)
     }
     
-    func goToIngredient(compl: @escaping (Ingredient) -> Void) {
-        let controller = viewControllerFactory.createIngredientViewController(router: self,
+    func goToIngredient(isShowCost: Bool, compl: @escaping (Ingredient) -> Void) {
+        let controller = viewControllerFactory.createIngredientViewController(isShowCost: isShowCost,
+                                                                              router: self,
                                                                               compl: compl)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
@@ -249,12 +259,19 @@ final class RootRouter: RootRouterProtocol {
     func goToSearchInRecipe(section: RecipeSectionsModel? = nil) {
         let controller = viewControllerFactory.createSearchInRecipe(router: self, section: section)
         controller.modalTransitionStyle = .crossDissolve
-        navigationPresent(controller, animated: true)
+//        navigationPresent(controller, animated: true)
+        navigationPushViewController(controller, animated: true)
     }
     
-    func goToRecipe(recipe: Recipe) {
-        let controller = viewControllerFactory.createRecipeScreen(router: self, recipe: recipe)
-        navigationPushViewController(controller, animated: true)
+    func goToRecipe(recipe: Recipe, sectionColor: Theme?, fromSearch: Bool = false,
+                    removeRecipe: ((Recipe) -> Void)?) {
+        let controller = viewControllerFactory.createRecipeScreen(router: self, recipe: recipe,
+                                                                  sectionColor: sectionColor, removeRecipe: removeRecipe)
+        if fromSearch {
+            navigationPushViewController(controller, animated: true)
+        } else {
+            recipeNavController.pushViewController(controller, animated: true)
+        }
     }
     
     func goToEditSelectList(products: [Product], contentViewHeigh: CGFloat,
@@ -263,6 +280,19 @@ final class RootRouter: RootRouterProtocol {
             router: self, products: products, contentViewHeigh: contentViewHeigh,
             delegate: delegate, state: state)
         navigationPresent(controller, style: .automatic, animated: true)
+    }
+    
+    func goToAddProductsSelectionList(products: [Product], contentViewHeigh: CGFloat,
+                                      delegate: AddProductsSelectionListDelegate) {
+        let dataSource = SelectListDataManager()
+        let viewModel = SelectListViewModel(dataSource: dataSource)
+        viewModel.router = self
+        let addProductsVC = AddProductsSelectionListController(with: products)
+        addProductsVC.contentViewHeigh = contentViewHeigh
+        addProductsVC.viewModel = viewModel
+        addProductsVC.delegate = delegate
+//        addProductsVC.modalPresentationStyle = .overCurrentContext
+        UIViewController.currentController()?.present(addProductsVC, animated: true)
     }
     
     func goToCreateStore(model: GroceryListsModel?,
@@ -371,6 +401,17 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func goToPhotosFromRecipe(allPhotos: [UIImage], collectionId: Int,
+                              updateUI: ((UIImage) -> Void)?) {
+        let viewModel = PhotoFromRecipesViewModel(photos: allPhotos,
+                                                  collectionId: collectionId)
+        viewModel.updateUI = updateUI
+        let controller = PhotoFromRecipesViewController(viewModel: viewModel)
+        
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
@@ -390,24 +431,50 @@ final class RootRouter: RootRouterProtocol {
     
     func showPaywallVC() {
         guard !Apphud.hasActiveSubscription() else { return }
-        showAlternativePaywallVC()
+        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
+            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+                return
+            }
+            if paywall.variationName == "AlternativePaywall" {
+                self?.showAlternativePaywallVC()
+            } else {
+                self?.showUpdatedPaywall()
+            }
+        }
     }
     
     func showPaywallVCOnTopController() {
-        guard let controller = viewControllerFactory.createAlternativePaywallController() else { return }
         guard !Apphud.hasActiveSubscription() else { return }
-        controller.modalPresentationStyle = .overCurrentContext
-        UIViewController.currentController()?.present(controller, animated: true)
+        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
+            guard let self,
+                  let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+                return
+            }
+            let controller: UIViewController
+            if paywall.variationName == "AlternativePaywall" {
+                controller = self.viewControllerFactory.createAlternativePaywallController()
+            } else {
+                controller = self.viewControllerFactory.createUpdatedPaywallController()
+            }
+            controller.modalPresentationStyle = .overCurrentContext
+            UIViewController.currentController()?.present(controller, animated: true)
+        }
     }
     
     func showDefaultPaywallVC() {
-        guard let controller = viewControllerFactory.createPaywallController() else { return }
+        let controller = viewControllerFactory.createPaywallController()
         guard !Apphud.hasActiveSubscription() else { return }
         navigationPresent(controller, animated: true)
     }
     
     func showAlternativePaywallVC() {
-        guard let controller = viewControllerFactory.createAlternativePaywallController() else { return }
+        let controller = viewControllerFactory.createAlternativePaywallController()
+        guard !Apphud.hasActiveSubscription() else { return }
+        navigationPresent(controller, animated: true)
+    }
+    
+    func showUpdatedPaywall() {
+        let controller = viewControllerFactory.createUpdatedPaywallController()
         guard !Apphud.hasActiveSubscription() else { return }
         navigationPresent(controller, animated: true)
     }
@@ -465,7 +532,7 @@ final class RootRouter: RootRouterProtocol {
     
     func goToRecipes(for section: RecipeSectionsModel) {
         let recipeVC = viewControllerFactory.createRecipesListController(for: section, with: self)
-        navigationPushViewController(recipeVC, animated: true)
+        recipeNavController.pushViewController(recipeVC, animated: true)
     }
     
     // pop
@@ -482,7 +549,11 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func popPantryToRoot(animated: Bool = true) {
-        listNavController.popToRootViewController(animated: animated)
+        pantryNavController.popToRootViewController(animated: animated)
+    }
+    
+    func popRecipeToRoot(animated: Bool = true) {
+        recipeNavController.popToRootViewController(animated: animated)
     }
     
     func popList(animated: Bool = true) {
@@ -490,7 +561,7 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func popPantry(animated: Bool = true) {
-        listNavController.popViewController(animated: animated)
+        pantryNavController.popViewController(animated: animated)
     }
     
     private func setupTabBarController() {
@@ -499,8 +570,9 @@ final class RootRouter: RootRouterProtocol {
         let recipeController = viewControllerFactory.createRecipeController(router: self)
         listNavController = UINavigationController(rootViewController: listController)
         pantryNavController = UINavigationController(rootViewController: pantryController)
-
-        var controllers: [UIViewController] = [listNavController, pantryNavController, recipeController]
+        recipeNavController = UINavigationController(rootViewController: recipeController)
+        
+        var controllers: [UIViewController] = [listNavController, pantryNavController, recipeNavController]
 
         let rootTabBarController = viewControllerFactory.createMainTabBarController(
             router: self, controllers: controllers

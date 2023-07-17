@@ -21,7 +21,7 @@ class ProductsSettingsViewModel {
     var valueChangedCallback: ((GroceryListsModel, [Product]) -> Void)?
     var editCallback: ((TableViewContent) -> Void)?
     
-    private var colorManager = ColorManager()
+    private var colorManager = ColorManager.shared
     private(set) var snapshot: UIImage?
     private(set) var listByText = ""
     private var model: GroceryListsModel
@@ -150,6 +150,14 @@ class ProductsSettingsViewModel {
         guard let content = allContent[safe: ind] else { return }
         switch content {
         case .storeAndCost:
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            delegate?.reloadController()
+            showPaywall()
+            return
+        }
+#endif
+
             model.isVisibleCost = !model.isVisibleCost
             savePatametrs()
         case .imageMatching:
@@ -220,6 +228,10 @@ class ProductsSettingsViewModel {
         delegate?.reloadController()
         valueChangedCallback?(model, copiedProducts)
         CoreDataManager.shared.saveList(list: model)
+    }
+    
+    private func showPaywall() {
+        router?.showPaywallVCOnTopController()
     }
 }
 

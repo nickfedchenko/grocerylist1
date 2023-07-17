@@ -13,7 +13,7 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
     var updateUI: ((PantryModel) -> Void)?
     var goToEditList: (() -> Void)?
     
-    private var colorManager = ColorManager()
+    private var colorManager = ColorManager.shared
     private var pantry: PantryModel
     private let allContent: [ProductsSettingsViewModel.TableViewContent] = [
         .edit, .rename, .share, .send, .storeAndCost,
@@ -140,6 +140,15 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
     }
     
     override func changeSwitchValue(at ind: Int, isOn: Bool) {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            delegate?.reloadController()
+            updateUI?(pantry)
+            showPaywall()
+            return
+        }
+#endif
+        
         guard let content = allContent[safe: ind] else { return }
         switch content {
         case .storeAndCost:

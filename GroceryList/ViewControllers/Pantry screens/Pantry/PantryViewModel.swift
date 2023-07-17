@@ -15,7 +15,7 @@ class PantryViewModel {
     var updateNavUI: (() -> Void)?
     var sharingUpdate: (() -> Void)?
     
-    private var colorManager = ColorManager()
+    private var colorManager = ColorManager.shared
     private(set) var dataSource: PantryDataSource
     
     init(dataSource: PantryDataSource) {

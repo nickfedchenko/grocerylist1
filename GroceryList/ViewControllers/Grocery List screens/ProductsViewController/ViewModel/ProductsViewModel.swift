@@ -27,7 +27,7 @@ class ProductsViewModel {
     var selectedProduct: Product?
     var isExpandedPurchased = true
     
-    private var colorManager = ColorManager()
+    private var colorManager = ColorManager.shared
     
     init(model: GroceryListsModel, dataSource: ProductsDataManager) {
         self.dataSource = dataSource
@@ -329,7 +329,7 @@ class ProductsViewModel {
     }
     
     func showPaywall() {
-        router?.showAlternativePaywallVC()
+        router?.showPaywallVC()
     }
     
     private func addObserver() {

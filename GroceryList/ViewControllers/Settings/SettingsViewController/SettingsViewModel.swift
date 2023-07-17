@@ -129,8 +129,12 @@ class SettingsViewModel {
     }
     
     func downloadImage(user: User) {
-        guard user.avatarAsData == nil, let userAvatarUrl = user.avatar else { return }
-        ImageDownloader.default.downloadImage(with: URL(string: userAvatarUrl)!,
+        guard user.avatarAsData == nil,
+              let userAvatarUrl = user.avatar,
+              let url = URL(string: userAvatarUrl) else {
+            return
+        }
+        ImageDownloader.default.downloadImage(with: url,
                                               options: [], progressBlock: nil) { [weak self] result in
             switch result {
             case .failure(let error):

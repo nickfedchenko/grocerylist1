@@ -8,9 +8,10 @@
 import UIKit
 
 final class InstructionView: UIView {
+    
     private let stepNumber: UILabel = {
         let label = UILabel()
-        label.backgroundColor = UIColor(hex: "Gray/Basic Gray")
+        label.backgroundColor = UIColor(hex: "7A948F")
         label.textAlignment = .center
         label.font = R.font.sfProTextMedium(size: 16)
         label.textColor = .white

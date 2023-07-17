@@ -46,6 +46,8 @@ class ColorManager {
         rawGradientColors.count
     }
     
+    private init() { }
+    
     func getGradient(index: Int) -> Theme {
         guard index < gradientsCount else {
             return Theme(dark: .white, medium: .white, light: .white)
@@ -64,6 +66,14 @@ class ColorManager {
             return UIColor.white
         }
         return emptyCellColors[index]
+    }
+    
+    func getFirstColor() -> Theme {
+        rawGradientColors[0]
+    }
+    
+    func getColorForRecipe() -> Theme {
+        Theme(dark: UIColor(hex: "045C5C"), medium: UIColor(hex: "1A645A"), light: UIColor(hex: "E5F5F3"))
     }
     
 }

@@ -37,6 +37,7 @@ final class PantryEditMenuView: UIView {
     private lazy var contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
+        view.layer.cornerRadius = 8
         return view
     }()
     
@@ -46,6 +47,9 @@ final class PantryEditMenuView: UIView {
         stackView.distribution = .fillEqually
         stackView.axis = .vertical
         stackView.spacing = 1
+        stackView.layer.cornerRadius = 8
+        stackView.layer.masksToBounds = true
+        stackView.clipsToBounds = true
         return stackView
     }()
     

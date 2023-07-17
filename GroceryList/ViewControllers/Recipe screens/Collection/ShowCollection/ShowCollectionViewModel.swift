@@ -25,6 +25,7 @@ final class ShowCollectionViewModel {
     var viewState: ShowCollectionViewController.ShowCollectionState
     var updateData: (() -> Void)?
     
+    private let colorManager = ColorManager.shared
     private var collections: [ShowCollectionModel] = []
     private var recipe: Recipe?
     private var changedCollection = false
@@ -43,8 +44,23 @@ final class ShowCollectionViewModel {
     func createCollectionTapped() {
         editCollections = collections.map { $0.collection }
         router?.goToCreateNewCollection(collections: editCollections,
-                                        compl: { [weak self] updateCollections in
-            self?.editCollections = updateCollections
+                                        compl: { [weak self] newCollection in
+            self?.editCollections.append(newCollection)
+            self?.updateCollection()
+            self?.changedCollection = true
+        })
+    }
+    
+    func editCollection(by index: Int) {
+        guard let collection = collections[safe: index] else {
+            return
+        }
+        editCollections = collections.map { $0.collection }
+        router?.goToCreateNewCollection(currentCollection: collection.collection,
+                                        collections: editCollections,
+                                        compl: { [weak self] updateCollection in
+            self?.editCollections.removeAll(where: { $0.id == updateCollection.id })
+            self?.editCollections.append(updateCollection)
             self?.updateCollection()
             self?.changedCollection = true
         })
@@ -55,7 +71,7 @@ final class ShowCollectionViewModel {
     }
     
     func getCollectionTitle(by index: Int) -> String? {
-        return collections[safe: index]?.collection.title
+        return collections[safe: index]?.collection.title.localized
     }
     
     func getRecipeCount(by index: Int) -> Int {
@@ -72,6 +88,19 @@ final class ShowCollectionViewModel {
         return collection.select
     }
     
+    func getColor(by index: Int) -> Theme {
+        let collection = collections[index].collection
+        return colorManager.getGradient(index: collection.color ?? 0)
+    }
+    
+    func isTechnicalCollection(by index: Int) -> Bool {
+        guard let collectionId = collections[safe: index]?.collection.id,
+              let defaultCollection = EatingTime(rawValue: collectionId) else {
+            return false
+        }
+        return defaultCollection.isTechnicalCollection
+    }
+    
     func updateSelect(by index: Int) {
         collections[index].select.toggle()
         updateData?()
@@ -85,12 +114,6 @@ final class ShowCollectionViewModel {
         editCollections.removeAll { $0.id == collection.id }
         collections.remove(at: index)
         
-        guard let miscellaneous = self.collections.first(where: {
-            $0.collection.id == UserDefaultsManager.miscellaneousCollectionId })?.collection else {
-            self.updateData?()
-            return
-        }
-        
         DispatchQueue.main.async {
             var updateRecipes: [Recipe] = []
             recipeIds.forEach { recipeId in
@@ -98,11 +121,6 @@ final class ShowCollectionViewModel {
                    var updateRecipe = Recipe(from: dbRecipe) {
                     let hasDefaultRecipe = updateRecipe.hasDefaultCollection()
                     updateRecipe.localCollection?.removeAll(where: { $0.id == collection.id })
-                    let remainingCollections = updateRecipe.localCollection?.filter({ !$0.isDefault }) ?? []
-                    if remainingCollections.isEmpty && !hasDefaultRecipe {
-                        updateRecipe.localCollection?.append(miscellaneous)
-                        self.collections[self.collections.count - 1].recipes.append(recipeId)
-                    }
                     updateRecipes.append(updateRecipe)
                 }
             }
@@ -114,7 +132,7 @@ final class ShowCollectionViewModel {
     }
     
     func canMove(by indexPath: IndexPath) -> Bool {
-        return indexPath.row == 0 || indexPath.row == getNumberOfRows() - 1
+        return indexPath.row == 0
     }
     
     func swapCategories(from firstIndex: Int, to secondIndex: Int) {
@@ -138,7 +156,7 @@ final class ShowCollectionViewModel {
     }
     
     private func saveSelectCollections() {
-        let selectCollections = collections.filter({ $0.select }).map({ $0.collection })
+        var selectCollections = collections.filter({ $0.select }).map({ $0.collection })
         guard var recipe else {
             selectedCollection?(selectCollections)
             return
@@ -156,7 +174,8 @@ final class ShowCollectionViewModel {
             if collection.index != index {
                 updateCollections.append(CollectionModel(id: collection.id,
                                                          index: index,
-                                                         title: collection.title))
+                                                         title: collection.title,
+                                                         color: collection.color ?? 0))
             }
         }
         if !updateCollections.isEmpty {
@@ -180,6 +199,7 @@ final class ShowCollectionViewModel {
         }
 
         self.collections.removeAll()
+        
         editCollections.sort { $0.index < $1.index }
         editCollections.forEach { collection in
             let collectionRecipes = recipeIds.filter {
@@ -190,6 +210,13 @@ final class ShowCollectionViewModel {
                                                         recipes: collectionRecipes,
                                                         select: isSelect))
         }
+        
+        // папки will cook и inbox еще не реализованы, пока что их удаляем из списка коллекций
+        self.collections.removeAll {
+            $0.collection.id == EatingTime.inbox.rawValue ||
+            $0.collection.id == EatingTime.willCook.rawValue
+        }
+        
         self.updateData?()
     }
 }

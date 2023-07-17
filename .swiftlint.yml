@@ -3,8 +3,8 @@ excluded:
     - Pods
     - SketchBook-MacOS/Frameworks
     - GroceryList/Services/DataBase
-    - GroceryList/ViewControllers/MainViewController/MainScreenDataManager/MainScreenDataManager.swift
     - GroceryList/SupportingFiles/Generated
+    - GroceryList/ViewControllers/Recipe screens/CreateNewRecipe/CustomSubViews
 
 # Отключенные правила
 disabled_rules:

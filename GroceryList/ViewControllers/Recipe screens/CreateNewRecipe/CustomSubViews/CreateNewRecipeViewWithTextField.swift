@@ -9,15 +9,19 @@ import UIKit
 
 final class CreateNewRecipeViewWithTextField: UIView {
     
+    var textFieldDidChange: (() -> Void)?
     var textFieldReturnPressed: (() -> Void)?
+    var updateLayout: (() -> Void)?
     var requiredHeight: Int {
-        16 + 20 + 4 + 48
+        var contentHeight = Int(textView.contentSize.height)
+        contentHeight = textView.text == "" ? 0 : contentHeight
+        return 16 + 20 + 4 + (contentHeight == 0 ? 48 : contentHeight + 14)
     }
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
-        label.textColor = UIColor(hex: "#777777")
+        label.textColor = R.color.darkGray()
         return label
     }()
     
@@ -28,17 +32,20 @@ final class CreateNewRecipeViewWithTextField: UIView {
         return view
     }()
     
-    lazy var textField: UITextField = {
-        let textField = UITextField()
-        textField.delegate = self
-        textField.font = UIFont.SFPro.medium(size: 16).font
-        textField.tintColor = R.color.primaryDark()
-        return textField
+    lazy var textView: TextViewWithPlaceholder = {
+        let textView = TextViewWithPlaceholder()
+        textView.delegate = self
+        textView.font = UIFont.SFPro.medium(size: 16).font
+        textView.tintColor = R.color.primaryDark()
+        textView.isScrollEnabled = false
+        textView.textColor = .black
+        return textView
     }()
     
     private let shadowOneView = UIView()
     private let shadowTwoView = UIView()
     private var isNumber = false
+    private var modeIsTextField = true
     private var initialState: CreateNewRecipeViewState = .required
     private var state: CreateNewRecipeViewState = .required {
         didSet { updateState() }
@@ -56,15 +63,21 @@ final class CreateNewRecipeViewWithTextField: UIView {
         super.init(coder: coder)
     }
     
-    func configure(title: String, state: CreateNewRecipeViewState) {
+    func configure(title: String, state: CreateNewRecipeViewState, modeIsTextField: Bool = true) {
         titleLabel.text = title
         initialState = state
         self.state = state
+        self.modeIsTextField = modeIsTextField
     }
     
     func setOnlyNumber() {
         isNumber = true
-        textField.keyboardType = .numberPad
+        textView.keyboardType = .numberPad
+    }
+    
+    func setText(_ text: String?) {
+        textView.text = text
+        textView.checkPlaceholder()
     }
     
     private func setup() {
@@ -86,60 +99,66 @@ final class CreateNewRecipeViewWithTextField: UIView {
         }
         contentView.layer.borderWidth = state.borderWidth
         contentView.layer.borderColor = state.borderColor.cgColor
-        textField.attributedPlaceholder = NSAttributedString(
-            string: state.placeholder,
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "#777777")]
-        )
+        textView.setPlaceholder(placeholder: state.placeholder,
+                                textColor: state.placeholderColor,
+                                font: UIFont.SFPro.medium(size: 16).font)
     }
     
     private func makeConstraints() {
         self.addSubviews([titleLabel, shadowOneView, shadowTwoView, contentView])
-        contentView.addSubview(textField)
+        contentView.addSubview(textView)
         
         titleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(28)
+            $0.leading.equalToSuperview().offset(24)
             $0.top.equalToSuperview().offset(16)
             $0.height.equalTo(20)
         }
         
         contentView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(16)
             $0.top.equalTo(titleLabel.snp.bottom).offset(4)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(48)
+            $0.height.greaterThanOrEqualTo(48)
         }
         
         shadowViews.forEach { shadowView in
             shadowView.snp.makeConstraints { $0.edges.equalTo(contentView) }
         }
         
-        textField.snp.makeConstraints {
+        textView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
-            $0.center.equalToSuperview()
-            $0.height.equalTo(20)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.top.equalToSuperview().offset(7)
+            $0.bottom.equalToSuperview()
         }
     }
 }
 
-extension CreateNewRecipeViewWithTextField: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+extension CreateNewRecipeViewWithTextField: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
         state = .used
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        state = (textField.text?.isEmpty ?? true) ? initialState : .filled
+    func textViewDidEndEditing(_ textView: UITextView) {
+        state = (textView.text?.isEmpty ?? true) ? initialState : .filled
+        self.textView.checkPlaceholder()
+    }
+
+    func textViewDidChange(_ textView: UITextView) {
+        textFieldDidChange?()
+        updateLayout?()
+        self.textView.checkPlaceholder()
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textFieldReturnPressed?()
-        return true
-    }
-    
-    func textField(_ textField: UITextField,
-                   shouldChangeCharactersIn range: NSRange,
-                   replacementString string: String) -> Bool {
+    func textView(_ textView: UITextView,
+                  shouldChangeTextIn range: NSRange,
+                  replacementText text: String) -> Bool {
         if isNumber {
-            return CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string))
+            return CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: text))
+        }
+        if modeIsTextField && text == "\n" {
+            textFieldReturnPressed?()
+            return false
         }
         return true
     }

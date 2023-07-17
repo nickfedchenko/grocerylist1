@@ -11,7 +11,7 @@ class CreateNewRecipePhotoView: UIView {
 
     var imageTapped: (() -> Void)?
     var requiredHeight: Int {
-        19 + 20 + 4 + 244
+        19 + 20 + 4 + 174
     }
     var image: UIImage? {
         photoImageView.image
@@ -20,14 +20,14 @@ class CreateNewRecipePhotoView: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
-        label.textColor = UIColor(hex: "#777777")
+        label.textColor = R.color.darkGray()
         label.text = R.string.localizable.photo()
         return label
     }()
     
     private lazy var photoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = UIColor(hex: "#7A948F")
+        imageView.backgroundColor = R.color.mediumGray()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 8
         imageView.clipsToBounds = true
@@ -108,8 +108,8 @@ class CreateNewRecipePhotoView: UIView {
         photoImageView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(20)
             $0.top.equalTo(titleLabel.snp.bottom).offset(4)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(244)
+            $0.width.equalTo(261)
+            $0.height.equalTo(174)
         }
         
         [shadowOneView, shadowTwoView].forEach { shadowView in
@@ -117,14 +117,15 @@ class CreateNewRecipePhotoView: UIView {
         }
         
         iconImageView.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.top.equalTo(photoImageView).offset(50)
+            $0.centerX.equalToSuperview()
             $0.width.equalTo(50)
             $0.height.equalTo(37)
         }
         
         descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(iconImageView.snp.bottom).offset(24)
-            $0.leading.equalToSuperview().offset(47)
+            $0.top.equalTo(iconImageView.snp.bottom).offset(22)
+            $0.leading.equalToSuperview().offset(20)
             $0.centerX.equalToSuperview()
             $0.bottom.lessThanOrEqualToSuperview()
         }

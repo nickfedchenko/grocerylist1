@@ -28,14 +28,14 @@ class SearchViewController: UIViewController {
         return collectionView
     }()
     
-    private lazy var searchView: UIView = {
+    lazy var searchView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.backgroundColor = .white
         return view
     }()
     
-    private lazy var cancelButton: UIButton = {
+    lazy var cancelButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
         button.setTitle(R.string.localizable.cancel(), for: .normal)
@@ -46,7 +46,7 @@ class SearchViewController: UIViewController {
         return button
     }()
     
-    private lazy var crossCleanerButton: UIButton = {
+    lazy var crossCleanerButton: UIButton = {
         let button = UIButton()
         button.setImage(R.image.xMarkInput(), for: .normal)
         button.addTarget(self, action: #selector(tappedCleanerButton), for: .touchUpInside)
@@ -77,9 +77,9 @@ class SearchViewController: UIViewController {
         return UICollectionViewCompositionalLayout(section: section)
     }()
     
-    private let navigationView = UIView()
-    private let topSafeAreaView = UIView()
-    private let iconImageView = UIImageView(image: R.image.searchButtonImage())
+    let navigationView = UIView()
+    let topSafeAreaView = UIView()
+    let iconImageView = UIImageView(image: R.image.searchButtonImage())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,9 +88,8 @@ class SearchViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardAppear),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+
+    func animationAppear() {
         searchView.alpha = 0
         searchTextField.alpha = 0
         cancelButton.alpha = 0
@@ -110,11 +109,11 @@ class SearchViewController: UIViewController {
             self.cancelButton.alpha = 1
         }
     }
-
+    
     func setSearchPlaceholder(_ placeholder: String) {
         searchTextField.attributedPlaceholder = NSAttributedString(
-            string: " " + R.string.localizable.searchIn() + placeholder,
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "#7A948F")]
+            string: " " + placeholder,
+            attributes: [NSAttributedString.Key.foregroundColor: R.color.mediumGray() ?? UIColor(hex: "#7A948F")]
         )
     }
     

@@ -14,7 +14,7 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
-        scrollView.contentInset.top = CGFloat(titleView.requiredHeight + 40)
+        scrollView.contentInset.bottom = 150
         return scrollView
     }()
     
@@ -40,16 +40,34 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         label.isUserInteractionEnabled = true
         label.font = UIFont.SFProRounded.semibold(size: 17).font
         label.textColor = R.color.primaryDark()
-        label.text = R.string.localizable.step1()
+        label.text = R.string.localizable.back()
         return label
+    }()
+    
+    private lazy var savedToDraftsButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(R.string.localizable.saveToDrafts(), for: .normal)
+        button.setTitleColor(R.color.background(), for: .normal)
+        button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 17).font
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.minimumScaleFactor = 0.3
+        button.setImage(R.image.collection()?.withTintColor(R.color.background() ?? .white),
+                        for: .normal)
+        button.layer.cornerRadius = 8
+        button.semanticContentAttribute = .forceRightToLeft
+        button.contentEdgeInsets.left = 8
+        button.addTarget(self, action: #selector(savedToDraftsButtonTapped), for: .touchUpInside)
+        return button
     }()
     
     private lazy var nextButton: UIButton = {
         let button = UIButton()
-        button.setTitle(R.string.localizable.complete().uppercased(), for: .normal)
+        button.setTitle(R.string.localizable.saverecipetO(), for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+        button.backgroundColor = R.color.primaryDark()
+        button.layer.shadowOpacity = 0.15
         button.addDefaultShadowForPopUp()
         return button
     }()
@@ -57,12 +75,16 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     private let topSafeAreaView = UIView()
     private let navigationView = UIView()
     private let contentView = UIView()
+    
+    private let savedToDraftsAlertView = CreateNewRecipeSavedToDraftsAlertView()
     private let titleView = CreateNewRecipeTitleView()
     private let timeView = CreateNewRecipeViewWithTextField()
-    private let descriptionView = CreateNewRecipeViewWithTextField()
-    private let ingredientsView = CreateNewRecipeViewWithButton()
-    private let stepsView = CreateNewRecipeViewWithButton()
-    private var stepNumber = 1
+    private let servingsView = CreateNewRecipeViewWithTextField()
+    private let kcalView = CreateNewRecipeKcalView()
+    private let photoView = CreateNewRecipePhotoView()
+    
+    private let imagePicker = UIImagePickerController()
+    private var isVisibleKeyboard = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,157 +92,173 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     }
     
     private func setup() {
-        self.view.backgroundColor = UIColor(hex: "#E5F5F3")
-        navigationView.backgroundColor = UIColor(hex: "#E5F5F3").withAlphaComponent(0.9)
-        topSafeAreaView.backgroundColor = UIColor(hex: "#E5F5F3").withAlphaComponent(0.9)
+        self.view.backgroundColor = R.color.background()
+        setupNavigationView()
         setupCustomView()
         setupStackView()
-        updateNextButton(isActive: false)
         makeConstraints()
         
-        valueChanged()
+        setupCurrentRecipe()
         
         NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardAppear),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground),
+                                               name: UIApplication.willResignActiveNotification, object: nil)
     }
     
-    private func valueChanged() {
-        viewModel?.preparationStepChanged = { [weak self] description in
-            guard let self else { return }
-            self.setupStepView(stepNumber: self.stepNumber, description: description)
-            self.stepsView.setPlaceholder(R.string.localizable.addStep())
-            self.stepsView.setState(.filled)
-            self.stepsView.closeStackButton(isVisible: true)
-            self.stepsView.snp.updateConstraints {
-                $0.height.equalTo(self.stepsView.requiredHeight)
-            }
-            self.stepNumber += 1
+    private func setupNavigationView() {
+        topSafeAreaView.backgroundColor = R.color.background()
+        navigationView.backgroundColor = R.color.background()
+        
+        if viewModel?.isDraftRecipe ?? false {
+            savedToDrafts()
+        }
+        updateSavedToDraftsButton()
+        savedToDraftsAlertView.isHidden = true
+        savedToDraftsAlertView.leaveCreatingRecipeTapped = { [weak self] in
+            self?.savedToDraftsAlertView.fadeOut()
+            self?.viewModel?.back()
         }
         
-        viewModel?.ingredientChanged = { [weak self] ingredient in
-            guard let self else { return }
-            var serving = ""
-            if ingredient.quantity == 0 {
-                let quantityStr = ingredient.quantityStr ?? ""
-                serving = quantityStr.isEmpty ? R.string.localizable.byTaste() : quantityStr
-            } else {
-                serving = "\(ingredient.quantity) \(ingredient.unit?.title.localized ?? "")"
-            }
-            self.setupIngredientView(
-                title: ingredient.product.title,
-                serving: serving,
-                description: ingredient.description
-            )
-            let isActive = self.ingredientsView.stackSubviewsCount >= 2
-            self.updateNextButton(isActive: isActive)
-            if isActive {
-                self.ingredientsView.setPlaceholder(R.string.localizable.addIngredient())
-                self.ingredientsView.setState(.filled)
-                self.ingredientsView.closeStackButton(isVisible: isActive)
-            }
-            self.ingredientsView.snp.updateConstraints {
-                $0.height.equalTo(self.ingredientsView.requiredHeight)
-            }
+        savedToDraftsAlertView.continueWorkTapped = { [weak self] in
+            self?.savedToDraftsAlertView.fadeOut()
         }
     }
     
     private func setupCustomView() {
-        titleView.setRecipe(title: viewModel?.recipeTitle)
+        titleView.setRecipe(title: R.string.localizable.recipeCreation())
         titleView.setStep(R.string.localizable.step2Of2())
         timeView.setOnlyNumber()
-        timeView.configure(title: R.string.localizable.preparationTimeMinutes(), state: .optional)
-        descriptionView.configure(title: R.string.localizable.description(), state: .optional)
-        setupIngredientView()
-        setupStepView()
-        
+        timeView.configure(title: R.string.localizable.preparationTimeMinutes(), state: .recommended)
         timeView.textFieldReturnPressed = { [weak self] in
-            self?.descriptionView.textField.becomeFirstResponder()
+            self?.servingsView.textView.becomeFirstResponder()
         }
-        descriptionView.textFieldReturnPressed = { [weak self] in
-            self?.descriptionView.textField.resignFirstResponder()
+        if let cookingTime = viewModel?.recipe.cookingTime {
+            timeView.setText(cookingTime.asString)
         }
-    }
-    
-    private func setupIngredientView() {
-        ingredientsView.setPlaceholder(R.string.localizable.requiredMinimum2())
-        ingredientsView.setIconImage(image: R.image.recipePlus())
-        ingredientsView.closeStackButton(isVisible: false)
-        ingredientsView.configure(title: R.string.localizable.ingredients(), state: .required)
-        ingredientsView.buttonPressed = { [weak self] in
-            guard let self else { return }
-            self.viewModel?.presentIngredient()
+        
+        servingsView.setOnlyNumber()
+        servingsView.configure(title: R.string.localizable.servings().capitalized, state: .recommended)
+        if let totalServings = viewModel?.recipe.totalServings, totalServings > 0 {
+            servingsView.setText(totalServings.asString)
         }
-        ingredientsView.updateLayout = { [weak self] in
-            guard let self else { return }
-            self.ingredientsView.snp.updateConstraints {
-                $0.height.equalTo(self.ingredientsView.requiredHeight)
-            }
+        
+        kcalView.setKcalValue(value: viewModel?.recipe.values?.dish)
+        
+        photoView.imageTapped = { [weak self] in
+            (self?.isVisibleKeyboard ?? false) ? self?.dismissKeyboard() : self?.pickImage()
+        }
+        if let localImage = viewModel?.recipe.localImage {
+            photoView.setImage(UIImage(data: localImage))
         }
     }
-    
-    private func setupStepView() {
-        stepsView.setIconImage(image: R.image.recipePlus())
-        stepsView.closeStackButton(isVisible: false)
-        stepsView.configure(title: R.string.localizable.preparationSteps(), state: .optional)
-        stepsView.buttonPressed = { [weak self] in
-            guard let self else { return }
-            self.viewModel?.presentPreparationStep(stepNumber: self.stepNumber)
-        }
-        stepsView.updateLayout = { [weak self] in
-            guard let self else { return }
-            self.stepsView.snp.updateConstraints {
-                $0.height.equalTo(self.stepsView.requiredHeight)
-            }
-        }
-    }
-    
+
     private func setupStackView() {
+        stackView.addArrangedSubview(navigationView)
+        stackView.addArrangedSubview(titleView)
         stackView.addArrangedSubview(timeView)
-        stackView.addArrangedSubview(descriptionView)
-        stackView.addArrangedSubview(ingredientsView)
-        stackView.addArrangedSubview(stepsView)
+        stackView.addArrangedSubview(servingsView)
+        stackView.addArrangedSubview(kcalView)
+        stackView.addArrangedSubview(photoView)
     }
     
-    private func updateNextButton(isActive: Bool) {
-        nextButton.backgroundColor = isActive ? R.color.primaryDark() : UIColor(hex: "#D8ECE9")
-        nextButton.layer.shadowOpacity = isActive ? 0.15 : 0
-        nextButton.isUserInteractionEnabled = isActive
+    private func setupCurrentRecipe() {
+        guard let currentRecipe = viewModel?.currentRecipe else {
+            return
+        }
+        savedToDraftsButton.isHidden = true
+        
+        if let cookingTime = currentRecipe.cookingTime?.asString {
+            timeView.setText(cookingTime)
+        }
+        servingsView.setText(currentRecipe.totalServings.asString)
+        kcalView.setKcalValue(value: currentRecipe.values?.dish)
+        if let imageData = currentRecipe.localImage,
+            let image = UIImage(data: imageData) {
+            photoView.setImage(image)
+        }
     }
     
-    private func setupIngredientView(title: String, serving: String, description: String?) {
-        let view = IngredientForCreateRecipeView()
-        view.setTitle(title: title)
-        view.setServing(serving: serving)
-        view.setDescription(description)
-        ingredientsView.addViewToStackView(view)
+    private func savedToDrafts() {
+        savedToDraftsButton.setTitle(R.string.localizable.savedInDrafts(), for: .normal)
+        savedToDraftsButton.setTitleColor(R.color.darkGray(), for: .normal)
+        savedToDraftsButton.setImage(R.image.collection()?.withTintColor(R.color.darkGray() ?? .black),
+                                     for: .normal)
+        savedToDraftsButton.backgroundColor = R.color.background()
+        savedToDraftsButton.layer.borderColor = R.color.darkGray()?.cgColor
+        savedToDraftsButton.layer.borderWidth = 1
+        savedToDraftsButton.isUserInteractionEnabled = false
     }
     
-    private func setupStepView(stepNumber: Int, description: String) {
-        let view = StepForCreateRecipeView()
-        view.configure(step: "\(stepNumber)", description: description)
-        stepsView.addViewToStackView(view)
+    private func updateSavedToDraftsButton() {
+        savedToDraftsButton.backgroundColor = R.color.darkGray()
+        let isActive = savedToDraftsButton.titleLabel?.text == R.string.localizable.savedInDrafts()
+        savedToDraftsButton.isUserInteractionEnabled = !isActive
+        if isActive {
+            savedToDraftsButton.backgroundColor = R.color.background()
+        }
+    }
+    
+    private func pickImage() {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .savedPhotosAlbum
+            imagePicker.allowsEditing = false
+            imagePicker.modalPresentationStyle = .pageSheet
+            present(imagePicker, animated: true, completion: nil)
+        }
     }
     
     @objc
     private func backButtonTapped() {
+        viewModel?.setParameters(time: timeView.textView.text?.asInt,
+                                 servings: servingsView.textView.text.asInt,
+                                 image: photoView.image,
+                                 kcal: kcalView.kcal)
         viewModel?.back()
     }
     
     @objc
     private func nextButtonTapped() {
-        viewModel?.saveRecipe(time: timeView.textField.text?.asInt,
-                              description: descriptionView.textField.text)
+        viewModel?.setParameters(time: timeView.textView.text?.asInt,
+                                servings: servingsView.textView.text.asInt,
+                                image: photoView.image,
+                                kcal: kcalView.kcal)
+        viewModel?.saveRecipeTo()
+    }
+    
+    @objc
+    private func savedToDraftsButtonTapped() {
+        viewModel?.isDraftRecipe = true
+        savedToDrafts()
+        viewModel?.setParameters(time: timeView.textView.text?.asInt,
+                                 servings: servingsView.textView.text.asInt,
+                                 image: photoView.image,
+                                 kcal: kcalView.kcal)
+        viewModel?.savedToDrafts()
+        savedToDraftsAlertView.fadeIn()
     }
     
     @objc
     private func onKeyboardAppear(notification: NSNotification) {
+        isVisibleKeyboard = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
     }
     
     @objc
+    private func appMovedToBackground() {
+        viewModel?.setParameters(time: timeView.textView.text?.asInt,
+                                 servings: servingsView.textView.text.asInt,
+                                 image: photoView.image,
+                                 kcal: kcalView.kcal)
+        viewModel?.savedToDrafts()
+    }
+    
+    @objc
     private func dismissKeyboard() {
+        isVisibleKeyboard = false
         guard let gestureRecognizers = self.view.gestureRecognizers else {
             return
         }
@@ -229,34 +267,26 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     }
     
     private func makeConstraints() {
-        self.view.addSubviews([scrollView, topSafeAreaView, navigationView, titleView])
+        self.view.addSubviews([scrollView, topSafeAreaView, nextButton, savedToDraftsAlertView])
         self.scrollView.addSubview(contentView)
-        contentView.addSubviews([stackView, nextButton])
-        navigationView.addSubviews([backButton, backLabel])
+        contentView.addSubviews([stackView])
+        navigationView.addSubviews([backButton, backLabel, savedToDraftsButton])
         
         topSafeAreaView.snp.makeConstraints {
             $0.leading.trailing.top.equalToSuperview()
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.top)
         }
         
-        navigationView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            $0.height.equalTo(40)
-        }
-        
-        titleView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(navigationView.snp.bottom)
-            $0.height.equalTo(titleView.requiredHeight)
-        }
-        
         nextButton.snp.makeConstraints {
-            $0.top.equalTo(stackView.snp.bottom).offset(37)
+            $0.top.greaterThanOrEqualTo(stackView.snp.bottom).offset(37)
             $0.leading.equalToSuperview().offset(20)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(64)
-            $0.bottom.equalToSuperview().offset(-80)
+            $0.bottom.greaterThanOrEqualTo(self.view).offset(-80)
+        }
+        
+        savedToDraftsAlertView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
         makeScrollConstraints()
@@ -276,6 +306,13 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
             $0.centerY.equalToSuperview()
             $0.height.equalTo(24)
         }
+        
+        savedToDraftsButton.snp.makeConstraints {
+            $0.leading.greaterThanOrEqualTo(backLabel.snp.trailing).offset(8)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.top.equalToSuperview()
+            $0.height.equalTo(40)
+        }
     }
     
     private func makeScrollConstraints() {
@@ -290,30 +327,50 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         }
         
         stackView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
+            $0.edges.equalToSuperview()
             $0.width.equalTo(self.view)
         }
     }
     
     private func makeCustomViewConstraints() {
+        navigationView.snp.makeConstraints {
+            $0.height.equalTo(40)
+            $0.width.equalToSuperview()
+        }
+        
+        titleView.snp.makeConstraints {
+            $0.height.equalTo(titleView.requiredHeight)
+            $0.width.equalToSuperview()
+        }
+        
         timeView.snp.makeConstraints {
             $0.height.equalTo(timeView.requiredHeight)
             $0.width.equalToSuperview()
         }
-        
-        descriptionView.snp.makeConstraints {
-            $0.height.equalTo(descriptionView.requiredHeight)
+                
+        servingsView.snp.makeConstraints {
+            $0.height.equalTo(servingsView.requiredHeight)
             $0.width.equalToSuperview()
         }
-        
-        ingredientsView.snp.makeConstraints {
-            $0.height.equalTo(ingredientsView.requiredHeight)
+
+        kcalView.snp.makeConstraints {
+            $0.height.equalTo(kcalView.requiredHeight)
+            $0.width.equalToSuperview()
+
+        }
+
+        photoView.snp.makeConstraints {
+            $0.height.equalTo(photoView.requiredHeight)
             $0.width.equalToSuperview()
         }
-        
-        stepsView.snp.makeConstraints {
-            $0.height.equalTo(stepsView.requiredHeight)
-            $0.width.equalToSuperview()
-        }
+    }
+}
+
+extension CreateNewRecipeStepTwoViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        self.dismiss(animated: true, completion: nil)
+        let image = info[.originalImage] as? UIImage
+        photoView.setImage(image)
     }
 }

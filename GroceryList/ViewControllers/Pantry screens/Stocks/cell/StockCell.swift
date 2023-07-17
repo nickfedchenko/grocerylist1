@@ -31,7 +31,6 @@ final class StockCell: UICollectionViewCell {
         let storeTitle: String?
         let costValue: Double?
     }
-
     
     enum CellState {
         case normal

@@ -14,7 +14,7 @@ final class StockReminderViewModel {
     var reloadData: (() -> Void)?
     
     private let dataSource: StockReminderDataSource
-    private let colorManager = ColorManager()
+    private let colorManager = ColorManager.shared
     
     init(dataSource: StockReminderDataSource) {
         self.dataSource = dataSource

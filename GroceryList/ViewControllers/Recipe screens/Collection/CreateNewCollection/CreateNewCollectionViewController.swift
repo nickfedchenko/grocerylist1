@@ -19,14 +19,14 @@ final class CreateNewCollectionViewController: UIViewController {
     
     private lazy var titleView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: "#FCFCFE")
+        view.backgroundColor = R.color.mediumGray()
         return view
     }()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 16).font
-        label.textColor = UIColor(hex: "#777777")
+        label.textColor = .white
         label.text = R.string.localizable.createCollection()
         return label
     }()
@@ -34,7 +34,6 @@ final class CreateNewCollectionViewController: UIViewController {
     private lazy var textField: UITextField = {
         let textField = UITextField()
         textField.delegate = self
-        textField.tintColor = R.color.primaryDark()
         textField.font = UIFont.SFPro.semibold(size: 17).font
         textField.textColor = .black
         return textField
@@ -47,18 +46,41 @@ final class CreateNewCollectionViewController: UIViewController {
         return imageView
     }()
     
+    private lazy var colorCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        layout.scrollDirection = .horizontal
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+        collectionView.clipsToBounds = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(classCell: ColorCollectionViewCell.self)
+        collectionView.contentInset.left = 20
+        collectionView.selectItem(at: IndexPath(row: 0, section: 0),
+                                  animated: false, scrollPosition: .left)
+        return collectionView
+    }()
+    
     private lazy var saveButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = R.color.primaryDark()
         button.setTitle(R.string.localizable.save().uppercased(), for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         return button
     }()
     
+    private var activeColor: Theme? {
+        didSet { updateColor() }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        
+        viewModel?.updateColor = { [weak self] theme in
+            self?.activeColor = theme
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -68,7 +90,9 @@ final class CreateNewCollectionViewController: UIViewController {
     
     private func setup() {
         setupContentView()
+        activeColor = viewModel?.getColor(by: 0)
         updateSaveButton(isActive: false)
+        updateCurrentCollection()
         makeConstraints()
         
         let tapOnView = UITapGestureRecognizer(target: self, action: #selector(hidePanel))
@@ -86,8 +110,27 @@ final class CreateNewCollectionViewController: UIViewController {
     }
     
     private func updateSaveButton(isActive: Bool) {
-        saveButton.backgroundColor = isActive ? R.color.primaryDark() : UIColor(hex: "#D8ECE9")
+        saveButton.backgroundColor = isActive ? activeColor?.medium : R.color.mediumGray()
+        saveButton.setTitleColor(.white.withAlphaComponent(isActive ? 1 : 0.7), for: .normal)
         saveButton.isUserInteractionEnabled = isActive
+    }
+    
+    private func updateColor() {
+        textField.tintColor = activeColor?.dark
+        iconImageView.image = R.image.menuFolder()?.withTintColor(activeColor?.dark ?? .black)
+        let isActive = !(textField.text?.isEmpty ?? true)
+        saveButton.backgroundColor = isActive ? activeColor?.medium : R.color.mediumGray()
+    }
+    
+    private func updateCurrentCollection() {
+        guard let collection = viewModel?.currentCollection else {
+            return
+        }
+        
+        activeColor = viewModel?.getColor(by: collection.color ?? 0)
+        colorCollectionView.selectItem(at: IndexPath(row: collection.color ?? 0, section: 0),
+                                       animated: false, scrollPosition: .left)
+        textField.text = collection.title.localized
     }
     
     @objc
@@ -134,13 +177,13 @@ final class CreateNewCollectionViewController: UIViewController {
     
     private func makeConstraints() {
         self.view.addSubview(contentView)
-        contentView.addSubviews([titleView, iconImageView, textField, saveButton])
+        contentView.addSubviews([titleView, iconImageView, textField, colorCollectionView, saveButton])
         titleView.addSubview(titleLabel)
         
         contentView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(177)
-            $0.bottom.equalToSuperview().inset(-177)
+            $0.height.equalTo(251)
+            $0.bottom.equalToSuperview().inset(-251)
         }
         
         titleView.snp.makeConstraints {
@@ -158,13 +201,19 @@ final class CreateNewCollectionViewController: UIViewController {
             $0.top.equalTo(titleView.snp.bottom).offset(12)
             $0.leading.equalToSuperview().offset(20)
             $0.height.equalTo(40)
-            $0.bottom.equalTo(saveButton.snp.top).offset(-12)
+            $0.bottom.equalTo(colorCollectionView.snp.top).offset(-12)
         }
         
         textField.snp.makeConstraints {
             $0.centerY.equalTo(iconImageView)
             $0.leading.equalTo(iconImageView.snp.trailing).offset(6)
             $0.height.equalTo(20)
+        }
+        
+        colorCollectionView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(48)
+            $0.bottom.equalTo(saveButton.snp.top).offset(-25)
         }
         
         saveButton.snp.makeConstraints {
@@ -184,5 +233,28 @@ extension CreateNewCollectionViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                            shouldReceive touch: UITouch) -> Bool {
         return !(touch.view?.isDescendant(of: self.contentView) ?? false)
+    }
+}
+
+extension CreateNewCollectionViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        viewModel?.getNumberOfCells() ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.reusableCell(classCell: ColorCollectionViewCell.self, indexPath: indexPath)
+        let theme = viewModel?.getColor(by: indexPath.row)
+        cell.setupCell(listColor: theme?.medium ?? .white, backgroundColor: theme?.light ?? .white)
+        cell.isGroceryListCell = false
+        return cell
+    }
+}
+
+extension CreateNewCollectionViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        viewModel?.setColor(at: indexPath.row)
     }
 }

@@ -231,12 +231,16 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createPaywallController() -> UIViewController? {
+    func createPaywallController() -> UIViewController {
         return PaywallViewController()
     }
     
-    func createAlternativePaywallController() -> UIViewController? {
+    func createAlternativePaywallController() -> UIViewController {
         return AlternativePaywallViewController()
+    }
+    
+    func createUpdatedPaywallController() -> UIViewController {
+        return UpdatedPaywallViewController()
     }
     
     func createReviewsController(router: RootRouter) -> UIViewController {
@@ -277,8 +281,9 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createRecipesListController(for section: RecipeSectionsModel, with router: RootRouter) -> UIViewController {
-        let recipeListVC = RecipesListViewController(with: section)
-        recipeListVC.router = router
+        let viewModel = RecipesListViewModel(with: section)
+        viewModel.router = router
+        let recipeListVC = RecipesListViewController(viewModel: viewModel)
         return recipeListVC
     }
     
@@ -305,22 +310,26 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createCreateNewRecipeViewController(router: RootRouter,
+    func createCreateNewRecipeViewController(currentRecipe: Recipe?, router: RootRouter,
                                              compl: @escaping (Recipe) -> Void) -> UIViewController {
         let viewController = CreateNewRecipeStepOneViewController()
-        let viewModel = CreateNewRecipeStepOneViewModel()
+        let viewModel = CreateNewRecipeStepOneViewModel(currentRecipe: currentRecipe)
         viewModel.router = router
         viewModel.competeRecipe = compl
         viewController.viewModel = viewModel
         return viewController
     }
     
-    func createCreateNewRecipeStepTwoViewController(router: RootRouter, recipe: CreateNewRecipeStepOne,
-                                                    compl: @escaping (Recipe) -> Void) -> UIViewController {
+    func createCreateNewRecipeStepTwoViewController(router: RootRouter, isDraftRecipe: Bool,
+                                                    currentRecipe: Recipe?, recipe: Recipe,
+                                                    compl: @escaping (Recipe) -> Void,
+                                                    backToOneStep: ((Bool, Recipe?) -> Void)?) -> UIViewController {
         let viewController = CreateNewRecipeStepTwoViewController()
-        let viewModel = CreateNewRecipeStepTwoViewModel(recipe: recipe)
+        let viewModel = CreateNewRecipeStepTwoViewModel(currentRecipe: currentRecipe, recipe: recipe)
         viewModel.router = router
         viewModel.compete = compl
+        viewModel.isDraftRecipe = isDraftRecipe
+        viewModel.backToOneStep = backToOneStep
         viewController.viewModel = viewModel
         return viewController
     }
@@ -333,10 +342,11 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createCreateNewCollectionViewController(collections: [CollectionModel] = [],
-                                                 compl: @escaping ([CollectionModel]) -> Void) -> UIViewController {
+    func createCreateNewCollectionViewController(currentCollection: CollectionModel?,
+                                                 collections: [CollectionModel] = [],
+                                                 compl: @escaping (CollectionModel) -> Void) -> UIViewController {
         let viewController = CreateNewCollectionViewController()
-        let viewModel = CreateNewCollectionViewModel()
+        let viewModel = CreateNewCollectionViewModel(currentCollection: currentCollection)
         viewModel.updateUICallBack = compl
         viewModel.editCollections = collections
         viewController.viewModel = viewModel
@@ -356,12 +366,13 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createIngredientViewController(router: RootRouter, compl: @escaping (Ingredient) -> Void) -> UIViewController {
-        let viewController = IngredientViewController()
+    func createIngredientViewController(isShowCost: Bool, router: RootRouter,
+                                        compl: @escaping (Ingredient) -> Void) -> UIViewController {
         let viewModel = IngredientViewModel()
         viewModel.router = router
         viewModel.ingredientCallback = compl
-        viewController.viewModel = viewModel
+        viewModel.isShowCost = isShowCost
+        let viewController = IngredientViewController(viewModel: viewModel)
         return viewController
     }
     
@@ -381,11 +392,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createRecipeScreen(router: RootRouter, recipe: Recipe) -> UIViewController {
-        let viewModel = RecipeScreenViewModel(recipe: recipe)
+    func createRecipeScreen(router: RootRouter, recipe: Recipe, sectionColor: Theme?,
+                            removeRecipe: ((Recipe) -> Void)?) -> UIViewController {
+        let viewModel = RecipeScreenViewModel(recipe: recipe, sectionColor: sectionColor)
         viewModel.router = router
+        viewModel.updateRecipeRemove = removeRecipe
+        let backButtonTitle = sectionColor != nil ? R.string.localizable.back() : R.string.localizable.search()
         let viewController = RecipeViewController(with: viewModel,
-                                                  backButtonTitle: R.string.localizable.recipes())
+                                                  backButtonTitle: backButtonTitle)
         return viewController
     }
     

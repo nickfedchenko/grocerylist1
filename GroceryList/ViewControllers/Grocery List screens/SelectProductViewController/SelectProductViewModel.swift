@@ -20,7 +20,7 @@ class SelectProductViewModel {
     }
     
     var productsSelectedCompl: ((Set<Product>) -> Void)?
-    private var colorManager = ColorManager()
+    private var colorManager = ColorManager.shared
     weak var router: RootRouter?
     var model: GroceryListsModel
     var arrayOfProducts: [Product] = []

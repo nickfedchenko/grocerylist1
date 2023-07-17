@@ -68,7 +68,7 @@ class AlternativePaywallViewController: UIViewController {
     
     private lazy var termsButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Term of use".localized, for: .normal)
+        button.setTitle("Term of use", for: .normal)
         button.setTitleColor(UIColor(hex: "#31635A"), for: .normal)
         button.titleLabel?.font = UIFont.SFPro.medium(size: 12).font
         button.addTarget(self, action: #selector(termsDidTap), for: .touchUpInside)
@@ -77,7 +77,7 @@ class AlternativePaywallViewController: UIViewController {
     
     private lazy var privacyButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Privacy Policy".localized, for: .normal)
+        button.setTitle("Privacy Policy", for: .normal)
         button.setTitleColor(UIColor(hex: "#31635A"), for: .normal)
         button.titleLabel?.font = UIFont.SFPro.medium(size: 12).font
         button.addTarget(self, action: #selector(privacyDidTap), for: .touchUpInside)

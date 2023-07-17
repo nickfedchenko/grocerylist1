@@ -19,6 +19,7 @@ extension DBRecipe {
     @NSManaged public var id: Int64
     @NSManaged public var title: String?
     @NSManaged public var recipeDescription: String?
+    @NSManaged public var values: Data?
     @NSManaged public var cookingTime: Int32
     @NSManaged public var totalServings: Int16
     @NSManaged public var dishWeight: Double
@@ -37,11 +38,13 @@ extension DBRecipe {
     @NSManaged public var ingredients: Data?
     @NSManaged public var localCollection: Data?
     @NSManaged public var localImage: Data?
+    @NSManaged public var isDefaultRecipe: Bool
     
     static func prepare(fromPlainModel model: Recipe, context: NSManagedObjectContext) -> DBRecipe {
         let recipe = DBRecipe(context: context)
         recipe.id = Int64(model.id)
         recipe.title = model.title
+        recipe.recipeDescription = model.description
         recipe.cookingTime = Int32(model.cookingTime ?? -1)
         recipe.totalServings = Int16(model.totalServings)
         recipe.dishWeight = model.dishWeight ?? -1.0
@@ -66,12 +69,16 @@ extension DBRecipe {
                 collections.append(CollectionModel(id: tag.id,
                                                    index: 1000 + tag.id,
                                                    title: tag.title,
+                                                   color: tag.color,
                                                    isDefault: true))
             }
             recipe.localCollection = try? JSONEncoder().encode(collections)
             UserDefaults.standard.setValue(true, forKey: "Recipe\(model.id)")
         }
         recipe.localImage = model.localImage
+        recipe.values = try? JSONEncoder().encode(model.values)
+        recipe.isDefaultRecipe = model.isDefaultRecipe
+        
         return recipe
     }
     

@@ -371,3 +371,50 @@
 "Fabric softener"               = "Assouplissant";
 "Cleaning Cloth"                = "Chiffon de nettoyage";
 "AA batteries"                  = "Piles AA";
+
+// Recipe
+"Search by name or ingredient"  = "Recherche par nom ou ingrédient";
+"willCook"                      = "Je vais le cuisiner";
+"drafts"                        = "Brouillons";
+"inbox"                         = "Boîte de réception";
+
+"addToFavorites"                = "ajouter Aux Favoris";
+"added to"                      = "Ajouté à";
+
+"Delete Collection?"            = "Supprimer la collection?";
+"You are deleting a collection" = "Vous supprimez une collection. Toutes les recettes qui s'y trouvent ne seront pas supprimées de la base de données ou d'autres collections.";
+"SelectOneOrMoreCollections"    = "Sélectionner une ou plusieurs collections";
+
+"continue"                      = "Continuer";
+"Save to Drafts"                = "Enregistrer dans les brouillons";
+"Saved in Drafts"               = "Enregistré dans les brouillons";
+"You can find your drafts"      = "Vous pouvez retrouver vos brouillons sur l'écran principal, dans collections";
+"Leave Creating a Recipe"       = "Laisser Créer une recette";
+"Continue Work"                 = "Continuer le travail";
+
+"Nutrition Facts per Serving"   = "Valeur nutritive par portion *";
+"If these data are known"       = "Si ces données sont connues ou calculées. Vous pouvez écrire seulement des calories approximatives ou laisser cette section vide.";
+"carb"                          = "Glucides";
+"protein"                       = "Protéines";
+"fat"                           = "Graisse";
+"kcal"                          = "Kcal";
+"Calories"                      = "Calories";
+"recommended"                   = "recommandé";
+"SAVE RECIPE TO..."             = "ENREGISTREZ LA RECETTE DANS...";
+
+"search"                        = "Chercher";
+
+// Updated Paywall
+"three days "                   = "3 jours ";
+"free"                          = "gratuitement";
+"HowDoesYourTrialPeriodWork"    = "Comment fonctionne votre période d'essai";
+
+"Today.subtitle"                = "Commencez votre accès complet à tous les modes de jeu ";
+"After 2 days"                  = "Après 2 jours";
+"After 2 days.subtitle"         = "Recevez une notification indiquant que votre essai se termine ";
+"After 3 days"                  = "Après 3 jours";
+"After 3 days.subtitle"         = "La date de paiement peut être annulée à tout moment";
+"Privacy Policy"                = "Politique de confidentialité";
+"Restore purchase"              = "Restaurer l'achat";
+"Term of Use"                   = "Conditions d'abonnement";
+"save money"                    = "sauver";

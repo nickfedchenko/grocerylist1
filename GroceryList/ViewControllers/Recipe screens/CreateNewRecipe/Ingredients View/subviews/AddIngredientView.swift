@@ -11,6 +11,7 @@ protocol AddIngredientViewDelegate: AnyObject {
     func productInput(title: String?)
     func quantityInput()
     func isFirstResponderProductTextField(_ flag: Bool)
+    func tappedAddImage()
 }
 
 class AddIngredientView: UIView {
@@ -19,6 +20,9 @@ class AddIngredientView: UIView {
     var productTitle: String? { productTextField.text }
     var descriptionTitle: String { descriptionTextView.text }
     var quantityTitle: String? { quantityTextField.text }
+    var productImage: UIImage? {
+        productImageView.image == emptyImage ? nil : productImageView.image
+    }
     
     private lazy var contentView: UIView = {
         let view = UIView()
@@ -46,7 +50,6 @@ class AddIngredientView: UIView {
         textView.tintColor = .black
         textView.setPlaceholder(placeholder: R.string.localizable.note())
         textView.isScrollEnabled = false
-        textView.textContainer.maximumNumberOfLines = 10
         return textView
     }()
     
@@ -55,14 +58,36 @@ class AddIngredientView: UIView {
         textField.delegate = self
         textField.font = UIFont.SFPro.bold(size: 15).font
         textField.textColor = UIColor(hex: "#D6600A")
-        textField.placeholder = R.string.localizable.quantity1()
-        textField.tintColor = .black
         textField.textAlignment = .right
+        textField.attributedPlaceholder = NSAttributedString(
+            string: R.string.localizable.quantity1(),
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "#D6600A")]
+        )
         return textField
+    }()
+    
+    let productImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = R.image.addImage()
+        imageView.layer.cornerRadius = 8
+        imageView.layer.masksToBounds = true
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
+    private(set) lazy var removeImageButton: UIButton = {
+        let button = UIButton()
+        button.setImage(R.image.removeImage(), for: .normal)
+        button.addTarget(self, action: #selector(removeImageTapped), for: .touchUpInside)
+        button.isHidden = true
+        return button
     }()
     
     private let shadowOneView = UIView()
     private let shadowTwoView = UIView()
+    
+    let emptyImage = R.image.addImage()
     
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
@@ -78,10 +103,34 @@ class AddIngredientView: UIView {
     }
     
     private func setup() {
+        let tapOnAddImageRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOnImage))
+        productImageView.addGestureRecognizer(tapOnAddImageRecognizer)
+        
         self.backgroundColor = UIColor(hex: "#E5F5F3")
         setupShadowView()
         
         makeConstraints()
+    }
+    
+    func setImage(imageURL: String, imageData: Data?) {
+        if let imageData {
+            productImageView.image = UIImage(data: imageData)
+            setupRemoveImageButton()
+            return
+        }
+        guard !imageURL.isEmpty else {
+            productImageView.image = emptyImage
+            setupRemoveImageButton()
+            return
+        }
+        productImageView.kf.indicatorType = .activity
+        productImageView.kf.setImage(with: URL(string: imageURL), placeholder: nil, options: nil, completionHandler: nil)
+        setupRemoveImageButton()
+    }
+    
+    func setImage(_ image: UIImage?) {
+        productImageView.image = image
+        setupRemoveImageButton()
     }
     
     private func setupShadowView() {
@@ -99,9 +148,25 @@ class AddIngredientView: UIView {
                                       offset: .init(width: 0, height: 6))
     }
     
+    private func setupRemoveImageButton() {
+        removeImageButton.isHidden = productImageView.image == emptyImage
+    }
+    
+    @objc
+    private func removeImageTapped() {
+        productImageView.image = emptyImage
+        setupRemoveImageButton()
+    }
+    
+    @objc
+    func tapOnImage() {
+        delegate?.tappedAddImage()
+    }
+    
     private func makeConstraints() {
         self.addSubviews([shadowOneView, shadowTwoView, contentView])
-        contentView.addSubviews([productTextField, descriptionTextView, quantityTextField])
+        contentView.addSubviews([productTextField, descriptionTextView, quantityTextField,
+                                 productImageView, removeImageButton])
         
         contentView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
@@ -113,18 +178,30 @@ class AddIngredientView: UIView {
             shadowView.snp.makeConstraints { $0.edges.equalTo(contentView) }
         }
         
+        productImageView.snp.makeConstraints {
+            $0.top.leading.equalToSuperview().offset(8)
+            $0.height.width.equalTo(40)
+        }
+        
+        removeImageButton.snp.makeConstraints { make in
+            make.top.equalTo(productImageView).offset(-8)
+            make.trailing.equalTo(productImageView).offset(8)
+            make.width.height.equalTo(16)
+        }
+        
         productTextField.snp.makeConstraints {
             $0.top.equalToSuperview().offset(10)
-            $0.leading.equalToSuperview().offset(16)
+            $0.leading.equalTo(productImageView.snp.trailing).offset(12)
             $0.trailing.equalToSuperview().offset(-16)
             $0.height.equalTo(17)
         }
         
         descriptionTextView.snp.makeConstraints {
             $0.top.equalTo(productTextField.snp.bottom)
-            $0.leading.equalToSuperview().offset(10)
+            $0.leading.equalTo(productImageView.snp.trailing).offset(10)
             $0.trailing.equalTo(quantityTextField.snp.leading).offset(-10)
-            $0.height.greaterThanOrEqualTo(15)
+            $0.height.greaterThanOrEqualTo(20)
+//            $0.height.equalTo(descriptionTextView.contentSize.height + 5).priority(.high)
             $0.bottom.equalToSuperview().offset(-5)
         }
         
@@ -171,28 +248,8 @@ extension AddIngredientView: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         descriptionTextView.checkPlaceholder()
-    }
-}
-
-final class TextViewWithPlaceholder: UITextView {
-    
-    func setPlaceholder(placeholder: String) {
-        let placeholderLabel = UILabel()
-        placeholderLabel.text = placeholder
-        placeholderLabel.font = UIFont.SFPro.medium(size: 15).font
-        placeholderLabel.sizeToFit()
-        placeholderLabel.tag = 222
-        placeholderLabel.frame.origin = CGPoint(x: 5, y: (self.font?.pointSize ?? 10) / 2)
-        placeholderLabel.textColor = .black.withAlphaComponent(0.3)
-        placeholderLabel.isHidden = !self.text.isEmpty
-
-        self.addSubview(placeholderLabel)
-    }
-
-    func checkPlaceholder() {
-        guard let placeholderLabel = self.viewWithTag(222) as? UILabel else {
-            return
-        }
-        placeholderLabel.isHidden = !self.text.isEmpty
+//        descriptionTextView.snp.updateConstraints {
+//            $0.height.equalTo(descriptionTextView.contentSize.height + 5)
+//        }
     }
 }

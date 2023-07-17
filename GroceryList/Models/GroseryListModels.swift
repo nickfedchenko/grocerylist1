@@ -14,56 +14,165 @@ struct RecipeSectionsModel {
     }
     
     enum RecipeSectionType: Equatable {
-        case breakfast, lunch, dinner, snacks, none, favorites
+        case breakfast, lunch, dinner, snacks, none
+        case willCook, drafts, favorites, inbox
         case custom(String)
         
         var title: String {
             switch self {
-            case .breakfast:
-                return R.string.localizable.breakfast()
-            case .lunch:
-                return R.string.localizable.lunch()
-            case .dinner:
-                return R.string.localizable.dinner()
-            case .snacks:
-                return R.string.localizable.snacks()
-            case .none:
-                return "NoneType"
-            case .favorites:
-                return R.string.localizable.favorites()
-            case .custom(let title):
-                return title
+            case .breakfast:            return "Breakfast"
+            case .lunch:                return "Lunch"
+            case .dinner:               return "Dinner"
+            case .snacks:               return "Snacks"
+            case .none:                 return "NoneType"
+            case .custom(let title):    return title
+                
+            case .willCook:             return "willCook"
+            case .drafts:               return "drafts"
+            case .favorites:            return "Favorites"
+            case .inbox:                return "inbox"
+            }
+        }
+        
+        static func getCorrectTitle(id: Int) -> String {
+            let collection = EatingTime(rawValue: id)
+            switch collection {
+            case .breakfast:            return "Breakfast"
+            case .lunch:                return "Lunch"
+            case .dinner:               return "Dinner"
+            case .snack:                return "Snacks"
+
+            case .willCook:             return "willCook"
+            case .drafts:               return "drafts"
+            case .favorites:            return "Favorites"
+            case .inbox:                return "inbox"
+            case .none:                 return "NoneType"
             }
         }
     }
     
+    var collectionId: Int
     var cellType: RecipeCellType
     var sectionType: RecipeSectionType
     var recipes: [ShortRecipeModel]
+    var color: Int
+    var imageUrl: String?
+    var localImage: Data?
+}
+
+struct RecipeForSearchModel {
+    let id: Int
+    let createdAt: Date
+    let title: String
+    let photo: String
+    var localImage: Data?
+    let time: Int32
+    var ingredients: [Ingredient]?
+    var values: Values?
+    var eatingTags, dishTypeTags, processingTypeTags, dietTags, exceptionTags: [AdditionalTag]
+    var isFavorite = false
+    var isDefaultRecipe = false
+    
+    init(dbModel: DBRecipe, isFavorite: Bool) {
+        id = Int(dbModel.id)
+        createdAt = dbModel.createdAt ?? Date()
+        title = dbModel.title ?? ""
+        photo = dbModel.photo ?? ""
+        localImage = dbModel.localImage
+        time = dbModel.cookingTime
+        ingredients = (try? JSONDecoder().decode([Ingredient].self, from: dbModel.ingredients ?? Data()))
+        values = (try? JSONDecoder().decode(Values.self, from: dbModel.values ?? Data()))
+        eatingTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel.eatingTags ?? Data())) ?? []
+        dishTypeTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel.dishTypeTags ?? Data())) ?? []
+        processingTypeTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel.processingTypeTags ?? Data())) ?? []
+        dietTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel.dietTags ?? Data())) ?? []
+        exceptionTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel.exceptionTags ?? Data())) ?? []
+        self.isFavorite = isFavorite
+        self.isDefaultRecipe = dbModel.isDefaultRecipe
+    }
+    
+    init(shortRecipeModel: ShortRecipeModel) {
+        id = shortRecipeModel.id
+        createdAt = shortRecipeModel.createdAt
+        title = shortRecipeModel.title
+        photo = shortRecipeModel.photo
+        localImage = shortRecipeModel.localImage
+        time = shortRecipeModel.time
+        isFavorite = shortRecipeModel.isFavorite
+        isDefaultRecipe = shortRecipeModel.isDefaultRecipe
+        
+        let dbModel = CoreDataManager.shared.getRecipe(by: shortRecipeModel.id)
+        ingredients = (try? JSONDecoder().decode([Ingredient].self, from: dbModel?.ingredients ?? Data()))
+        values = (try? JSONDecoder().decode(Values.self, from: dbModel?.values ?? Data()))
+        eatingTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel?.eatingTags ?? Data())) ?? []
+        dishTypeTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel?.dishTypeTags ?? Data())) ?? []
+        processingTypeTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel?.processingTypeTags ?? Data())) ?? []
+        dietTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel?.dietTags ?? Data())) ?? []
+        exceptionTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel?.exceptionTags ?? Data())) ?? []
+        
+    }
 }
 
 struct ShortRecipeModel {
     let id: Int
+    let time: Int32
     let title: String
     let photo: String
+    let createdAt: Date
     var ingredients: [Ingredient]?
     var localCollection: [CollectionModel]?
     var localImage: Data?
+    var values: Values?
+    var isFavorite = false
+    var isDefaultRecipe = false
     
-    init?(withCollection dbModel: DBRecipe) {
+    init(withCollection dbModel: DBRecipe, isFavorite: Bool) {
         id = Int(dbModel.id)
         title = dbModel.title ?? ""
         photo = dbModel.photo ?? ""
+        createdAt = dbModel.createdAt ?? Date()
         localCollection = (try? JSONDecoder().decode([CollectionModel].self, from: dbModel.localCollection ?? Data()))
         localImage = dbModel.localImage
+        values = (try? JSONDecoder().decode(Values.self, from: dbModel.values ?? Data()))
+        time = dbModel.cookingTime
+        self.isFavorite = isFavorite
+        self.isDefaultRecipe = dbModel.isDefaultRecipe
     }
     
-    init?(withIngredients dbModel: DBRecipe) {
+    init(withIngredients dbModel: DBRecipe) {
         id = Int(dbModel.id)
         title = dbModel.title ?? ""
         photo = dbModel.photo ?? ""
+        createdAt = dbModel.createdAt ?? Date()
         ingredients = (try? JSONDecoder().decode([Ingredient].self, from: dbModel.ingredients ?? Data()))
         localImage = dbModel.localImage
+        values = (try? JSONDecoder().decode(Values.self, from: dbModel.values ?? Data()))
+        time = dbModel.cookingTime
+    }
+    
+    init(withCollection model: Recipe) {
+        id = model.id
+        title = model.title
+        photo = model.photo
+        createdAt = model.createdAt
+        localCollection = model.localCollection
+        localImage = model.localImage
+        values = model.values
+        time = Int32(model.cookingTime ?? -1)
+        isFavorite = UserDefaultsManager.favoritesRecipeIds.contains(model.id)
+        isDefaultRecipe = model.isDefaultRecipe
+    }
+    
+    init(modelForSearch: RecipeForSearchModel) {
+        id = modelForSearch.id
+        title = modelForSearch.title
+        photo = modelForSearch.photo
+        createdAt = modelForSearch.createdAt
+        localImage = modelForSearch.localImage
+        values = modelForSearch.values
+        time = Int32(modelForSearch.time)
+        isFavorite = UserDefaultsManager.favoritesRecipeIds.contains(modelForSearch.id)
+        isDefaultRecipe = modelForSearch.isDefaultRecipe
     }
 }
 

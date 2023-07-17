@@ -37,6 +37,11 @@ final class AllRecipesCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setColor(theme: Theme?) {
+        allRecipeButton.backgroundColor = .white
+        allRecipeButton.setTitleColor(theme?.dark, for: .normal)
+    }
+    
     @objc
     private func allRecipeButtonTapped() {
         searchAllRecipe?()

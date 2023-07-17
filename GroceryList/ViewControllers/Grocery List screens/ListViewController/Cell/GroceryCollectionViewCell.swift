@@ -107,7 +107,7 @@ class GroceryCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let sharingView: SharingView = {
+    let sharingView: SharingView = {
         let view = SharingView()
         view.backgroundColor = .clear
         return view

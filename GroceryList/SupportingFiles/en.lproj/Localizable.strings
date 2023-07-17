@@ -405,3 +405,50 @@
 "Fabric softener"               = "Fabric softener";
 "Cleaning Cloth"                = "Cleaning Cloth";
 "AA batteries"                  = "AA batteries";
+
+// Recipe
+"Search by name or ingredient"  = "Search by name or ingredient";
+"willCook"                      = "I will cook it";
+"drafts"                        = "Drafts";
+"inbox"                         = "Inbox";
+
+"addToFavorites"                = "Add to Favorites";
+"added to"                      = "Added to";
+
+"Delete Collection?"            = "Delete Collection?";
+"You are deleting a collection" = "You are deleting a collection. All recipes that are in it will not be deleted from the database or other collections.";
+"SelectOneOrMoreCollections"    = "Select one or more collections";
+
+"continue"                      = "Continue";
+"Save to Drafts"                = "Save to Drafts";
+"Saved in Drafts"               = "Saved in Drafts";
+"You can find your drafts"      = "You can find your drafts on the main screen, in collections";
+"Leave Creating a Recipe"       = "Leave Creating a Recipe";
+"Continue Work"                 = "Continue Work";
+
+"Nutrition Facts per Serving"   = "Nutrition Facts per Serving *";
+"If these data are known"       = "If these data are known or calculated. You can write only approximate calories or leave this section blank.";
+"carb"                          = "Carbs";
+"protein"                       = "Protein";
+"fat"                           = "Fat";
+"kcal"                          = "Kcal";
+"Calories"                      = "Calories";
+"recommended"                   = "recommended";
+"SAVE RECIPE TO..."             = "SAVE RECIPE TO...";
+
+"search"                        = "Search";
+
+// Updated Paywall
+"three days "                   = "3 days ";
+"free"                          = "free";
+"HowDoesYourTrialPeriodWork"    = "How does your trial period work";
+
+"Today.subtitle"                = "Start your full access to all game modes";
+"After 2 days"                  = "After 2 days";
+"After 2 days.subtitle"         = "Receive a notification that your trial is ending";
+"After 3 days"                  = "After 3 days";
+"After 3 days.subtitle"         = "Payment date can be canceled at any time";
+"Privacy Policy"                = "Privacy Policy";
+"Restore purchase"              = "Restore purchase";
+"Term of Use"                   = "Term of Use";
+"save money"                    = "save";

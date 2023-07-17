@@ -141,7 +141,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             if times >= 1 {
                 value = R.string.localizable.everyWeekly("\(times + 1)", "\(weekday)")
             } else {
-                value =  R.string.localizable.weeklyWeekday("\(weekday)")
+                value = R.string.localizable.weeklyWeekday("\(weekday)")
             }
         } else {
             if times == 0 {
@@ -173,6 +173,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
         costOfProductPerUnit = currentStock?.cost
     }
     
+    // swiftlint:disable:next function_parameter_count
     func saveStock(productName: String, category: String, description: String,
                    isAvailability: Bool,
                    image: UIImage?, isUserImage: Bool, store: Store?, quantity: Double?,
@@ -277,6 +278,20 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             AmplitudeManager.shared.logEvent(.pantryRepeatReminder)
         }
         
+        if !stock.isAvailability {
+            AmplitudeManager.shared.logEvent(.pantryCreateItemUncheck)
+        }
+        
+        if stock.isUserImage {
+            AmplitudeManager.shared.logEvent(.pantryCreateItemPhoto)
+        } else if stock.imageData != nil {
+            AmplitudeManager.shared.logEvent(.pantryCreateItemAutoPhoto)
+        }
+        
+        analyticsStocksStore(stock: stock)
+    }
+    
+    private func analyticsStocksStore(stock: Stock) {
         if stock.store != nil {
             AmplitudeManager.shared.logEvent(.pantryCreateItemShop)
         }
@@ -302,7 +317,5 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
         } else if stock.imageData != nil {
             AmplitudeManager.shared.logEvent(.pantryCreateItemAutoPhoto)
         }
-        
-
     }
 }

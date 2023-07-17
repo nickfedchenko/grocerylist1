@@ -22,7 +22,7 @@ class ListViewModel {
         return dataSource.dataSourceArray
     }
     
-    private var colorManager = ColorManager()
+    private var colorManager = ColorManager.shared
     private let groupForSavingSharedUser = DispatchGroup()
     private var startTime: Date?
     
