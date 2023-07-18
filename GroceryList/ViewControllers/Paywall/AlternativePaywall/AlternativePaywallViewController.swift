@@ -180,10 +180,8 @@ class AlternativePaywallViewController: UIViewController {
         setupCollectionView()
         
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
-            guard
-                let products = paywalls.first(where: { $0.identifier == "main2_trial" })?.products,
-                    let self = self
-            else {
+            guard let products = paywalls.first(where: { $0.isDefault })?.products,
+                  let self = self else {
                 return
             }
             self.products = products.reversed()

@@ -513,6 +513,12 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func showNewPaywall(isTrial: Bool) {
+        let controller = viewControllerFactory.createNewPaywallController(isTrial: isTrial)
+        guard !Apphud.hasActiveSubscription() else { return }
+        navigationPresent(controller, animated: true)
+    }
+    
     func showReviewRequestController() {
        let controller = viewControllerFactory.createReviewsController(router: self)
         navigationPushViewController(controller, animated: true)

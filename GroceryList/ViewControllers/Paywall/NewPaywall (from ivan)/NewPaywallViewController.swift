@@ -38,6 +38,15 @@ class NewPaywallViewController: UIViewController {
                                      PayWallModel(),
                                      PayWallModel()]
     
+    init(isTrial: Bool) {
+        super.init(nibName: nil, bundle: nil)
+        featureView.updateTitle(isTrial: isTrial)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()

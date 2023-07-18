@@ -46,10 +46,10 @@ class NewPaywallCarouselView: UIView {
             return
         }
         
-        timer = Timer.scheduledTimer(timeInterval: 2.0,
-                             target: self,
-                             selector: #selector(pageSetup),
-                             userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1.8,
+                                     target: self,
+                                     selector: #selector(pageSetup),
+                                     userInfo: nil, repeats: true)
     }
     
     func stopCarousel() {
@@ -71,13 +71,17 @@ class NewPaywallCarouselView: UIView {
     }
     
     @objc
-    private func pageSetup(){
+    private func pageSetup() {
         if index < images.count - 1 {
             index += 1
         } else {
             index = 0
         }
-        collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .right, animated: true)
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut) {
+            self.collectionView.scrollToItem(at: IndexPath(item: self.index, section: 0),
+                                             at: .right, animated: true)
+        }
     }
     
     private func makeConstraints() {
