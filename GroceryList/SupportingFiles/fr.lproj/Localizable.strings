@@ -422,3 +422,18 @@
 "Restore purchase"              = "Restaurer l'achat";
 "Term of Use"                   = "Conditions d'abonnement";
 "save money"                    = "sauver";
+
+// New Paywall
+"Unlock Premium"                = "Débloquer Premium";
+"Try 3 days For Free"           = "Essayez 3 jours Gratuitement";
+"with useful features"          = "avec des fonctionnalités utiles";
+"NewPaywall.Feature.0"          = "Listes: nombre et fonctionnalité illimités";
+"NewPaywall.Feature.1"          = "Sélection automatique des catégories et des photos";
+"NewPaywall.Feature.2"          = "Partage, listes collaboratives";
+"NewPaywall.Feature.3"          = "Sélection de la boutique, saisie des prix, calcul des coûts";
+"NewPaywall.Feature.4"          = "Listes de garde-manger et de stocks. Notez tous les produits et marchandises qui devraient toujours l'être et suivez leur disponibilité";
+"NewPaywall.Feature.5"          = "Automatisez les achats récurrents, recevez des notifications au sein du programme";
+"NewPaywall.Feature.6"          = "Collections de recettes constamment mises à jour, indiquant les macros et les calories. Trouver des recettes avec des filtres";
+"NewPaywall.Feature.7"          = "Importation de recettes à partir de sites Web. Trouver des recettes avec des filtres";
+"NewPaywall.Feature.8"          = "Créez vos propres recettes et collections, la possibilité de partager des recettes";
+"NewPaywall.Feature.9"          = "Ajout d'ingrédients à la liste de courses pour le nombre de portions sélectionné";
