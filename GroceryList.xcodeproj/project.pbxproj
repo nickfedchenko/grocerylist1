@@ -180,6 +180,7 @@
 		33E8A8B62A5E20B0007D7ED9 /* UpdatedPaywallFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8B52A5E20B0007D7ED9 /* UpdatedPaywallFeaturesView.swift */; };
 		33E8A8B82A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8B72A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift */; };
 		33E8A8BA2A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8B92A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift */; };
+		33E8A8BE2A5FB4EE007D7ED9 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8BD2A5FB4EE007D7ED9 /* FAQViewController.swift */; };
 		33F8253729C050DC00B349D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253629C050DC00B349D5 /* SearchViewController.swift */; };
 		33F8253929C0559000B349D5 /* SearchInListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253829C0559000B349D5 /* SearchInListViewModel.swift */; };
 		33F8253B29C0632700B349D5 /* SearchInListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253A29C0632700B349D5 /* SearchInListViewController.swift */; };
@@ -529,6 +530,7 @@
 		33E8A8B52A5E20B0007D7ED9 /* UpdatedPaywallFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPaywallFeaturesView.swift; sourceTree = "<group>"; };
 		33E8A8B72A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPaywallProductView.swift; sourceTree = "<group>"; };
 		33E8A8B92A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPaywallTitleView.swift; sourceTree = "<group>"; };
+		33E8A8BD2A5FB4EE007D7ED9 /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
 		33F8253629C050DC00B349D5 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		33F8253829C0559000B349D5 /* SearchInListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewModel.swift; sourceTree = "<group>"; };
 		33F8253A29C0632700B349D5 /* SearchInListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewController.swift; sourceTree = "<group>"; };
@@ -977,6 +979,7 @@
 			isa = PBXGroup;
 			children = (
 				B3777E172938BE790074BE38 /* SettingsViewController */,
+				33E8A8BC2A5FB4D6007D7ED9 /* FAQ */,
 				B381EF29299B904A00DCDE40 /* PasswordExpiredController */,
 				B3F7C9C529963EEA0081B245 /* PasswordResetViewController */,
 				B3F7C9B82993A0F70081B245 /* SignUpViewCntroller */,
@@ -1254,6 +1257,14 @@
 				33E8A8B72A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift */,
 			);
 			path = subviews;
+			sourceTree = "<group>";
+		};
+		33E8A8BC2A5FB4D6007D7ED9 /* FAQ */ = {
+			isa = PBXGroup;
+			children = (
+				33E8A8BD2A5FB4EE007D7ED9 /* FAQViewController.swift */,
+			);
+			path = FAQ;
 			sourceTree = "<group>";
 		};
 		33F8253529C050B700B349D5 /* Search */ = {
@@ -2393,6 +2404,7 @@
 				332340972A1B91B300609813 /* PantryViewController.swift in Sources */,
 				383C77FD2940ED0F0030AE78 /* AddProductsSelectionListController.swift in Sources */,
 				339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */,
+				33E8A8BE2A5FB4EE007D7ED9 /* FAQViewController.swift in Sources */,
 				332340922A1B31CC00609813 /* MainNavigationView.swift in Sources */,
 				337719AC29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift in Sources */,
 				33A51B942A176D1200BE11C1 /* ListDataSource.swift in Sources */,

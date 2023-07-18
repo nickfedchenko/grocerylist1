@@ -340,7 +340,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
             self.ingredientsView.stackView.arrangedSubviews.enumerated().forEach { index, view in
                 (view as? IngredientForCreateRecipeView)?.originalIndex = index
             }
-            updateIngredientsViewIsActive()
+            self.updateIngredientsViewIsActive()
             self.ingredientsView.snp.updateConstraints {
                 $0.height.equalTo(self.ingredientsView.requiredHeight)
             }
