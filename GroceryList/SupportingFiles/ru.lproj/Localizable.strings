@@ -441,6 +441,10 @@
 "Help & FAQ"                    = "Справка и часто задаваемые вопросы";
 "Check Internet connection"     = "Проверьте Интернет соединение";
 
+// FAQ
+"Help & FAQ"                    = "Справка и часто задаваемые вопросы";
+"Check Internet connection"     = "Проверьте Интернет соединение";
+
 // Updated Paywall
 "three days "                   = "3 дня ";
 "free"                          = "бесплатно";
