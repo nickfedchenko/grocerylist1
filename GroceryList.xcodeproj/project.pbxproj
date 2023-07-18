@@ -19,7 +19,7 @@
 		333DCC232A61019C00E3F92B /* NewPaywallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333DCC222A61019C00E3F92B /* NewPaywallViewController.swift */; };
 		333DCC252A6101CD00E3F92B /* NewPaywallCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333DCC242A6101CD00E3F92B /* NewPaywallCarouselView.swift */; };
 		333DCC272A6101E500E3F92B /* NewPaywallFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333DCC262A6101E500E3F92B /* NewPaywallFeatureView.swift */; };
-		333DCC292A6101F400E3F92B /* NewPaywallProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333DCC282A6101F400E3F92B /* NewPaywallProductsView.swift */; };
+		333DCC292A6101F400E3F92B /* NewPaywallBottomProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333DCC282A6101F400E3F92B /* NewPaywallBottomProductsView.swift */; };
 		333DCC2B2A61156E00E3F92B /* ExtensionApphudProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333DCC2A2A61156E00E3F92B /* ExtensionApphudProduct.swift */; };
 		333E2D2A29EEAE5700F705E7 /* CreateNewStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2929EEAE5700F705E7 /* CreateNewStoreViewController.swift */; };
 		333E2D2D29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2C29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift */; };
@@ -148,6 +148,10 @@
 		33995D372A1F9FE5003FECAE /* PantryListTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D362A1F9FE5003FECAE /* PantryListTemplateView.swift */; };
 		33995D392A1FC461003FECAE /* IconSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D382A1FC461003FECAE /* IconSubView.swift */; };
 		339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339C1AEA299A67DD0092F93E /* InfoMessageView.swift */; };
+		339FF3762A650CA700C6D6E3 /* PaywallCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339FF3752A650CA700C6D6E3 /* PaywallCarouselCell.swift */; };
+		339FF3792A650DC300C6D6E3 /* FeatureFreePremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339FF3782A650DC300C6D6E3 /* FeatureFreePremiumView.swift */; };
+		339FF37B2A65116F00C6D6E3 /* NewPaywallFeatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339FF37A2A65116F00C6D6E3 /* NewPaywallFeatureCell.swift */; };
+		339FF37E2A65793E00C6D6E3 /* NewPaywallProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339FF37D2A65793E00C6D6E3 /* NewPaywallProductView.swift */; };
 		33A51B872A163C7A00BE11C1 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A51B862A163C7A00BE11C1 /* MainTabBarController.swift */; };
 		33A51B892A163C9500BE11C1 /* CustomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A51B882A163C9500BE11C1 /* CustomTransition.swift */; };
 		33A51B8B2A163FBF00BE11C1 /* ViewControllerFactoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A51B8A2A163FBF00BE11C1 /* ViewControllerFactoryProtocol.swift */; };
@@ -374,7 +378,7 @@
 		333DCC222A61019C00E3F92B /* NewPaywallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaywallViewController.swift; sourceTree = "<group>"; };
 		333DCC242A6101CD00E3F92B /* NewPaywallCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaywallCarouselView.swift; sourceTree = "<group>"; };
 		333DCC262A6101E500E3F92B /* NewPaywallFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaywallFeatureView.swift; sourceTree = "<group>"; };
-		333DCC282A6101F400E3F92B /* NewPaywallProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaywallProductsView.swift; sourceTree = "<group>"; };
+		333DCC282A6101F400E3F92B /* NewPaywallBottomProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaywallBottomProductsView.swift; sourceTree = "<group>"; };
 		333DCC2A2A61156E00E3F92B /* ExtensionApphudProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionApphudProduct.swift; sourceTree = "<group>"; };
 		333E2D2929EEAE5700F705E7 /* CreateNewStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewStoreViewController.swift; sourceTree = "<group>"; };
 		333E2D2C29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewStoreViewModel.swift; sourceTree = "<group>"; };
@@ -503,6 +507,10 @@
 		33995D362A1F9FE5003FECAE /* PantryListTemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryListTemplateView.swift; sourceTree = "<group>"; };
 		33995D382A1FC461003FECAE /* IconSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSubView.swift; sourceTree = "<group>"; };
 		339C1AEA299A67DD0092F93E /* InfoMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMessageView.swift; sourceTree = "<group>"; };
+		339FF3752A650CA700C6D6E3 /* PaywallCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallCarouselCell.swift; sourceTree = "<group>"; };
+		339FF3782A650DC300C6D6E3 /* FeatureFreePremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFreePremiumView.swift; sourceTree = "<group>"; };
+		339FF37A2A65116F00C6D6E3 /* NewPaywallFeatureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaywallFeatureCell.swift; sourceTree = "<group>"; };
+		339FF37D2A65793E00C6D6E3 /* NewPaywallProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaywallProductView.swift; sourceTree = "<group>"; };
 		33A51B862A163C7A00BE11C1 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		33A51B882A163C9500BE11C1 /* CustomTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTransition.swift; sourceTree = "<group>"; };
 		33A51B8A2A163FBF00BE11C1 /* ViewControllerFactoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactoryProtocol.swift; sourceTree = "<group>"; };
@@ -778,9 +786,9 @@
 			isa = PBXGroup;
 			children = (
 				333DCC222A61019C00E3F92B /* NewPaywallViewController.swift */,
-				333DCC242A6101CD00E3F92B /* NewPaywallCarouselView.swift */,
-				333DCC262A6101E500E3F92B /* NewPaywallFeatureView.swift */,
-				333DCC282A6101F400E3F92B /* NewPaywallProductsView.swift */,
+				339FF3742A650C9800C6D6E3 /* CarouselView */,
+				339FF3772A650CC900C6D6E3 /* FeatureView */,
+				339FF37C2A65792500C6D6E3 /* ProductView */,
 			);
 			path = "NewPaywall (from ivan)";
 			sourceTree = "<group>";
@@ -1193,6 +1201,34 @@
 				33995D382A1FC461003FECAE /* IconSubView.swift */,
 			);
 			path = subViews;
+			sourceTree = "<group>";
+		};
+		339FF3742A650C9800C6D6E3 /* CarouselView */ = {
+			isa = PBXGroup;
+			children = (
+				333DCC242A6101CD00E3F92B /* NewPaywallCarouselView.swift */,
+				339FF3752A650CA700C6D6E3 /* PaywallCarouselCell.swift */,
+			);
+			path = CarouselView;
+			sourceTree = "<group>";
+		};
+		339FF3772A650CC900C6D6E3 /* FeatureView */ = {
+			isa = PBXGroup;
+			children = (
+				333DCC262A6101E500E3F92B /* NewPaywallFeatureView.swift */,
+				339FF3782A650DC300C6D6E3 /* FeatureFreePremiumView.swift */,
+				339FF37A2A65116F00C6D6E3 /* NewPaywallFeatureCell.swift */,
+			);
+			path = FeatureView;
+			sourceTree = "<group>";
+		};
+		339FF37C2A65792500C6D6E3 /* ProductView */ = {
+			isa = PBXGroup;
+			children = (
+				333DCC282A6101F400E3F92B /* NewPaywallBottomProductsView.swift */,
+				339FF37D2A65793E00C6D6E3 /* NewPaywallProductView.swift */,
+			);
+			path = ProductView;
 			sourceTree = "<group>";
 		};
 		33A51B852A163C4200BE11C1 /* Main Tab Bar */ = {
@@ -2373,6 +2409,7 @@
 				B3FECE4429375AA80077F8EF /* DBCategories+CoreDataClass.swift in Sources */,
 				333E2D3329F00CF100F705E7 /* CostOfProductListView.swift in Sources */,
 				334BAE5B299E734A005F52F5 /* SendInvitationCell.swift in Sources */,
+				339FF3792A650DC300C6D6E3 /* FeatureFreePremiumView.swift in Sources */,
 				33D912BE29A342AA00C32117 /* NumberExtensions.swift in Sources */,
 				3320531E2A0E6CAB00E19EA8 /* DictionaryExtension.swift in Sources */,
 				335519C729AF1AE600AD2B77 /* CreateNewRecipeStepOneViewController.swift in Sources */,
@@ -2524,9 +2561,10 @@
 				B3179EAB291E3DAE00455419 /* ProductsDataManager.swift in Sources */,
 				335519CE29B0543500AD2B77 /* CreateNewRecipeViewWithTextField.swift in Sources */,
 				B37A2CE72911034D003C01AD /* UIColorExtension.swift in Sources */,
-				333DCC292A6101F400E3F92B /* NewPaywallProductsView.swift in Sources */,
+				333DCC292A6101F400E3F92B /* NewPaywallBottomProductsView.swift in Sources */,
 				33796E642A13A25A009AD385 /* FeedbackView.swift in Sources */,
 				3368FD6829B6DA0300D97291 /* CreateNewCollectionViewController.swift in Sources */,
+				339FF37B2A65116F00C6D6E3 /* NewPaywallFeatureCell.swift in Sources */,
 				B371CCB0299E36BB00E0E197 /* KeychainManager.swift in Sources */,
 				33796E5D2A136F14009AD385 /* AutoCategoryInfoView.swift in Sources */,
 				B36AF9532915403600944E9D /* EmptyColoredCell.swift in Sources */,
@@ -2584,6 +2622,7 @@
 				3379B65A29B9B2ED0080923A /* CategoryView.swift in Sources */,
 				33A51B9F2A1780DA00BE11C1 /* MainRecipeCollectionViewLayout.swift in Sources */,
 				3379B65C29B9B3030080923A /* AddIngredientView.swift in Sources */,
+				339FF37E2A65793E00C6D6E3 /* NewPaywallProductView.swift in Sources */,
 				3347645B2A287EA5008F4834 /* StocksNavigationView.swift in Sources */,
 				B3D2045D2930F49C00599A01 /* CreateNewProductViewModel.swift in Sources */,
 				B371CCB2299F7B0200E0E197 /* GroceryListResponse.swift in Sources */,
@@ -2600,6 +2639,7 @@
 				33A51B9B2A1775F800BE11C1 /* MainRecipeDataSource.swift in Sources */,
 				337E79CC29E547D600668578 /* EditDeleteAlertView.swift in Sources */,
 				B3D8584A293A1A2A00CCE230 /* PaywallCell.swift in Sources */,
+				339FF3762A650CA700C6D6E3 /* PaywallCarouselCell.swift in Sources */,
 				338EB6B629C1BEED00D6A03F /* SearchInRecipeViewModel.swift in Sources */,
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,
 				33A51B892A163C9500BE11C1 /* CustomTransition.swift in Sources */,
