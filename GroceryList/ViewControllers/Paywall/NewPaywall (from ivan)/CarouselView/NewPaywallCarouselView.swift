@@ -46,7 +46,7 @@ class NewPaywallCarouselView: UIView {
             return
         }
         
-        timer = Timer.scheduledTimer(timeInterval: 1.8,
+        timer = Timer.scheduledTimer(timeInterval: 1.9,
                                      target: self,
                                      selector: #selector(pageSetup),
                                      userInfo: nil, repeats: true)

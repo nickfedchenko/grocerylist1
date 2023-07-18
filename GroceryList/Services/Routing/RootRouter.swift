@@ -429,20 +429,14 @@ final class RootRouter: RootRouterProtocol {
         topViewController?.present(controller, animated: true, completion: nil)
     }
     
-    func showPaywallVC() {
+    func showPaywallVC() { 
         guard !Apphud.hasActiveSubscription() else { return }
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
 
                 if let paywall = paywalls.first(where: { $0.isDefault }),
                    let targetPaywallName = paywall.json?["name"] as? String {
-
-                    if targetPaywallName == "VaninPaywall" {
-                        self?.showUpdatedPaywall()
-                    } else {
-                        self?.showAlternativePaywallVC()
-                    }
-
+                    self?.showPaywall(by: targetPaywallName)
                     return
                 }
 
@@ -451,13 +445,9 @@ final class RootRouter: RootRouterProtocol {
             }
 
             if let targetPaywallName = paywall.json?["name"] as? String {
-
-                if targetPaywallName == "VaninPaywall" {
-                    self?.showUpdatedPaywall()
-                } else {
-                    self?.showAlternativePaywallVC()
-                }
-
+                self?.showPaywall(by: targetPaywallName)
+            } else {
+                self?.showAlternativePaywallVC()
             }
         }
     }
@@ -474,9 +464,7 @@ final class RootRouter: RootRouterProtocol {
 
                 if let paywall = paywalls.first(where: { $0.isDefault }),
                    let targetPaywallName = paywall.json?["name"] as? String {
-                    if targetPaywallName == "VaninPaywall" {
-                        controller = self.viewControllerFactory.createUpdatedPaywallController()
-                    }
+                    controller = self.getPaywall(by: targetPaywallName)
                 }
                 
                 controller.modalPresentationStyle = .overCurrentContext
@@ -485,13 +473,35 @@ final class RootRouter: RootRouterProtocol {
             }
 
             if let targetPaywallName = paywall.json?["name"] as? String {
-                if targetPaywallName == "VaninPaywall" {
-                    controller = self.viewControllerFactory.createUpdatedPaywallController()
-                }
+                controller = self.getPaywall(by: targetPaywallName)
             }
 
             controller.modalPresentationStyle = .overCurrentContext
             UIViewController.currentController()?.present(controller, animated: true)
+        }
+    }
+    
+    private func showPaywall(by name: String) {
+        if name == "VaninPaywall" {
+            showUpdatedPaywall()
+        } else if name == "IvanTrialPaywall" {
+            showNewPaywall(isTrial: true)
+        } else if name == "IvanNoTrialPaywall" {
+            showNewPaywall(isTrial: false)
+        } else {
+            showAlternativePaywallVC()
+        }
+    }
+    
+    private func getPaywall(by name: String) -> UIViewController {
+        if name == "VaninPaywall" {
+            return viewControllerFactory.createUpdatedPaywallController()
+        } else if name == "IvanTrialPaywall" {
+            return viewControllerFactory.createNewPaywallController(isTrial: true)
+        } else if name == "IvanNoTrialPaywall" {
+            return viewControllerFactory.createNewPaywallController(isTrial: false)
+        } else {
+            return viewControllerFactory.createUpdatedPaywallController()
         }
     }
     

@@ -430,9 +430,13 @@
 "Term of Use"                   = "Term of Use";
 "save money"                    = "sparen";
 
+"Try 3 days for free"           = "3 Tage kostenlos testen";
+"Save time and money with app"  = "Sparen Sie Zeit und Geld mit Einkaufsliste";
+"Cancel anytime"                = "Jederzeit kündbar";
+
+
 // New Paywall
 "Unlock Premium"                = "Premium freischalten";
-"Try 3 days For Free"           = "3 Tage kostenlos testen";
 "with useful features"          = "mit nützlichen Funktionen";
 "NewPaywall.Feature.0"          = "Listen: unbegrenzte Anzahl und Funktionalität";
 "NewPaywall.Feature.1"          = "Automatische Auswahl von Kategorien und Fotos";
