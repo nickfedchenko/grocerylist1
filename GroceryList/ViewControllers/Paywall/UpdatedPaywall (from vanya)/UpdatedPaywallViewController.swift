@@ -105,9 +105,9 @@ class UpdatedPaywallViewController: UIViewController {
             productsView.selectProduct(selectedProductIndex)
         }
     }
-    private var choiceOfCostArray = [PayWallModelWithSave(),
-                                     PayWallModelWithSave(),
-                                     PayWallModelWithSave()]
+    private var choiceOfCostArray = [PayWallModel(),
+                                     PayWallModel(),
+                                     PayWallModel()]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,12 +121,12 @@ class UpdatedPaywallViewController: UIViewController {
             }
             self.products = products
             self.choiceOfCostArray = self.products.enumerated().map { index, product in
-                .init(isVisibleBadge: index != 0,
+                .init(isVisibleSave: index != 0,
                       badgeColor: index == 1 ? UIColor(hex: "FF7A00") : index == 2 ? UIColor(hex: "FF0000") : nil,
-                      savePrecent: self.getSave(from: product),
-                      period: self.getTitle(from: product),
-                      price: self.getPriceString(from: product),
-                      description: self.getAdviceString(from: product))
+                      savePrecent: product.savePercent(allProducts: products),
+                      period: product.period,
+                      price: product.priceString,
+                      description: product.pricePerWeek)
             }
             self.productsView.configure(products: self.choiceOfCostArray)
             self.selectedProductIndex = 1
@@ -170,7 +170,7 @@ class UpdatedPaywallViewController: UIViewController {
                 self?.alertOk(title: "Error", message: error.localizedDescription)
             }
             
-            if let duration = self?.getDuration(from: selectedProduct) {
+            if let duration = selectedProduct.duration {
                 AmplitudeManager.shared.logEvent(.subscribtionBuy, properties: [.subscribtionType: duration])
             }
 
@@ -224,127 +224,6 @@ class UpdatedPaywallViewController: UIViewController {
             return
         }
         UIApplication.shared.open(url)
-    }
-    
-    private func getTitle(from product: ApphudProduct) -> String {
-        guard let skProduct = product.skProduct else {
-            return loadingInfoString
-        }
-        switch skProduct.subscriptionPeriod?.unit {
-        case .year:
-            return "yearly".localized
-        case .month:
-            if skProduct.subscriptionPeriod?.numberOfUnits == 6 {
-                return "6 Month".localized
-            } else if skProduct.subscriptionPeriod?.numberOfUnits == 1 {
-                return "Monthly".localized
-            } else {
-                return loadingInfoString
-            }
-        case .day:
-            if skProduct.subscriptionPeriod?.numberOfUnits == 7 {
-                return "Week".localized
-            } else {
-                return loadingInfoString
-            }
-        default:
-            return loadingInfoString
-        }
-    }
-    
-    private func getSave(from product: ApphudProduct) -> Int {
-        guard let skProduct = product.skProduct else {
-            return 0
-        }
-        let price = skProduct.price.doubleValue
-        
-        switch skProduct.subscriptionPeriod?.unit {
-        case .week:
-            weekPrice = skProduct.price.doubleValue
-        case .day:
-            if skProduct.subscriptionPeriod?.numberOfUnits == 7 {
-                weekPrice = skProduct.price.doubleValue
-            }
-        default:
-            break
-        }
- 
-        switch skProduct.subscriptionPeriod?.unit {
-        case .year:
-            return weekPrice == 0 ? 0 : Int(100 - (price * 100) / (weekPrice * 52.1786))
-        case .month:
-            return weekPrice == 0 ? 0 : Int(100 - (price * 100) / (weekPrice * 4.13))
-        default:
-            return 0
-        }
-    }
-    
-    private func getPriceString(from product: ApphudProduct) -> String {
-        guard let skProduct = product.skProduct else {
-            return loadingInfoString
-        }
-        let price = skProduct.price.doubleValue
-        let currencySymbol = "\(skProduct.priceLocale.currencySymbol ?? "$")"
-        switch skProduct.subscriptionPeriod?.unit {
-        case .year:
-            return currencySymbol + String(format: "%.2f", price)
-        case .month:
-            let numberOfUnits = skProduct.subscriptionPeriod?.numberOfUnits
-            if numberOfUnits == 6 || numberOfUnits == 1 {
-                return currencySymbol + String(format: "%.2f", price)
-            }
-        case .day:
-            if skProduct.subscriptionPeriod?.numberOfUnits == 7 {
-                return currencySymbol + String(format: "%.2f", price)
-            }
-        default:
-            return loadingInfoString
-        }
-        return loadingInfoString
-    }
-    
-    private func getAdviceString(from product: ApphudProduct) -> String {
-        guard let skProduct = product.skProduct else {
-            return loadingInfoString
-        }
-        let price = skProduct.price.doubleValue
-        let currencySymbol = "\(skProduct.priceLocale.currencySymbol ?? "$")"
-        switch skProduct.subscriptionPeriod?.unit {
-        case .year:
-            return currencySymbol + String(format: "%.2f", price / 52.1786)
-        case .month:
-            if skProduct.subscriptionPeriod?.numberOfUnits == 1 {
-                return currencySymbol + String(format: "%.2f", price / 4.13)
-            }
-        case .week:
-            if skProduct.subscriptionPeriod?.numberOfUnits == 1 {
-                return currencySymbol + String(format: "%.2f", price)
-            }
-        case .day:
-            if skProduct.subscriptionPeriod?.numberOfUnits == 7 {
-                return currencySymbol + String(format: "%.2f", price)
-            }
-        default:
-            return loadingInfoString
-        }
-        return loadingInfoString
-    }
-
-    private func getDuration(from product: ApphudProduct) -> String? {
-        guard let skProduct = product.skProduct else {
-            return nil
-        }
-        switch skProduct.subscriptionPeriod?.unit {
-        case .year: return .yearly
-        case .month: return .monthly
-        case .day:
-            if skProduct.subscriptionPeriod?.numberOfUnits == 7 {
-                return .weekly
-            } else {
-                return nil
-            }
-        default: return nil
-        }
     }
     
     private func makeConstraints() {

@@ -78,6 +78,13 @@ extension UIView {
         self.layer.shadowOpacity = 0.2
     }
     
+    func addDefaultShadowForContentView() {
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: -12)
+        self.layer.shadowRadius = 11
+        self.layer.shadowOpacity = 0.2
+    }
+    
     func addCustomShadow(color: UIColor = .black, opacity: Float = 0.15,
                          radius: CGFloat = 2, offset: CGSize = .zero) {
         self.layer.shadowColor = color.cgColor

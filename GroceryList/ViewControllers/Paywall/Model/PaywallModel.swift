@@ -8,14 +8,8 @@
 import UIKit
 
 struct PayWallModel {
-    var isPopular: Bool
-    var period: String
-    var price: String
-    var description: String
-}
-
-struct PayWallModelWithSave {
-    var isVisibleBadge: Bool = false
+    var isPopular: Bool = false
+    var isVisibleSave: Bool = false
     var badgeColor: UIColor?
     var savePrecent: Int = 0
     var period: String = "Loading".localized

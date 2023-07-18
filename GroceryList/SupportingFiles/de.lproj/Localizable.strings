@@ -424,3 +424,17 @@
 "Restore purchase"              = "Kauf wiederherstellen";
 "Term of Use"                   = "Abonnementsbedingungen";
 "save money"                    = "sparen";
+
+// New Paywall
+"Unlock Premium"                = "Premium freischalten";
+"with useful features"          = "mit nützlichen Funktionen";
+"NewPaywall.Feature.0"          = "Listen: unbegrenzte Anzahl und Funktionalität";
+"NewPaywall.Feature.1"          = "Automatische Auswahl von Kategorien und Fotos";
+"NewPaywall.Feature.2"          = "Gemeinsame, kollaborative Listen";
+"NewPaywall.Feature.3"          = "Shopauswahl, Preiseingabe, Kostenkalkulation";
+"NewPaywall.Feature.4"          = "Speisekammer- und Lagerlisten. Schreiben Sie alle Produkte und Waren auf, die immer sein sollten, und verfolgen Sie deren Verfügbarkeit.";
+"NewPaywall.Feature.5"          = "Automatisieren Sie wiederkehrende Einkäufe, erhalten Sie Benachrichtigungen innerhalb des Programms";
+"NewPaywall.Feature.6"          = "Ständig aktualisierte Rezeptsammlungen mit Angabe von Makros und Kalorien. Rezepte mit Filtern finden";
+"NewPaywall.Feature.7"          = "Importieren von Rezepten von Websites. Rezepte mit Filtern finden";
+"NewPaywall.Feature.8"          = "Erstellen Sie Ihre eigenen Rezepte und Sammlungen, die Möglichkeit, Rezepte zu teilen";
+"NewPaywall.Feature.9"          = "Zutaten für die ausgewählte Anzahl von Portionen zur Einkaufsliste hinzufügen";

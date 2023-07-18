@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 366 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 378 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -1088,6 +1088,76 @@ struct _R {
       /// Locales: en, ru, fr, de
       var newCategory: RswiftResources.StringResource { .init(key: "NewCategory", tableName: "Localizable", source: source, developmentValue: "NewCategory", comment: nil) }
 
+      /// en translation: Lists: unlimited number and functionality
+      ///
+      /// Key: NewPaywall.Feature.0
+      ///
+      /// Locales: en, ru, fr, de
+      var newPaywallFeature0: RswiftResources.StringResource { .init(key: "NewPaywall.Feature.0", tableName: "Localizable", source: source, developmentValue: "Lists: unlimited number and functionality", comment: nil) }
+
+      /// en translation: Auto-selection of categories and photos
+      ///
+      /// Key: NewPaywall.Feature.1
+      ///
+      /// Locales: en, ru, fr, de
+      var newPaywallFeature1: RswiftResources.StringResource { .init(key: "NewPaywall.Feature.1", tableName: "Localizable", source: source, developmentValue: "Auto-selection of categories and photos", comment: nil) }
+
+      /// en translation: Sharing, collaborative lists
+      ///
+      /// Key: NewPaywall.Feature.2
+      ///
+      /// Locales: en, ru, fr, de
+      var newPaywallFeature2: RswiftResources.StringResource { .init(key: "NewPaywall.Feature.2", tableName: "Localizable", source: source, developmentValue: "Sharing, collaborative lists", comment: nil) }
+
+      /// en translation: Shop selection, price entry, cost calculation
+      ///
+      /// Key: NewPaywall.Feature.3
+      ///
+      /// Locales: en, ru, fr, de
+      var newPaywallFeature3: RswiftResources.StringResource { .init(key: "NewPaywall.Feature.3", tableName: "Localizable", source: source, developmentValue: "Shop selection, price entry, cost calculation", comment: nil) }
+
+      /// en translation: Pantry & Stocks lists. Write down all the products and goods that should always be and track their availability
+      ///
+      /// Key: NewPaywall.Feature.4
+      ///
+      /// Locales: en, ru, fr, de
+      var newPaywallFeature4: RswiftResources.StringResource { .init(key: "NewPaywall.Feature.4", tableName: "Localizable", source: source, developmentValue: "Pantry & Stocks lists. Write down all the products and goods that should always be and track their availability", comment: nil) }
+
+      /// en translation: Automate recurring purchases, receive notifications within the program
+      ///
+      /// Key: NewPaywall.Feature.5
+      ///
+      /// Locales: en, ru, fr, de
+      var newPaywallFeature5: RswiftResources.StringResource { .init(key: "NewPaywall.Feature.5", tableName: "Localizable", source: source, developmentValue: "Automate recurring purchases, receive notifications within the program", comment: nil) }
+
+      /// en translation: Constantly updated collections of recipes, indicating Macros and calories. Find recipes with filters
+      ///
+      /// Key: NewPaywall.Feature.6
+      ///
+      /// Locales: en, ru, fr, de
+      var newPaywallFeature6: RswiftResources.StringResource { .init(key: "NewPaywall.Feature.6", tableName: "Localizable", source: source, developmentValue: "Constantly updated collections of recipes, indicating Macros and calories. Find recipes with filters", comment: nil) }
+
+      /// en translation: Importing recipes from websites. Find recipes with filters
+      ///
+      /// Key: NewPaywall.Feature.7
+      ///
+      /// Locales: en, ru, fr, de
+      var newPaywallFeature7: RswiftResources.StringResource { .init(key: "NewPaywall.Feature.7", tableName: "Localizable", source: source, developmentValue: "Importing recipes from websites. Find recipes with filters", comment: nil) }
+
+      /// en translation: Create your own recipes and collections, the ability to share recipes
+      ///
+      /// Key: NewPaywall.Feature.8
+      ///
+      /// Locales: en, ru, fr, de
+      var newPaywallFeature8: RswiftResources.StringResource { .init(key: "NewPaywall.Feature.8", tableName: "Localizable", source: source, developmentValue: "Create your own recipes and collections, the ability to share recipes", comment: nil) }
+
+      /// en translation: Adding ingredients to the shopping list for the selected number of servings
+      ///
+      /// Key: NewPaywall.Feature.9
+      ///
+      /// Locales: en, ru, fr, de
+      var newPaywallFeature9: RswiftResources.StringResource { .init(key: "NewPaywall.Feature.9", tableName: "Localizable", source: source, developmentValue: "Adding ingredients to the shopping list for the selected number of servings", comment: nil) }
+
       /// en translation: NEXT
       ///
       /// Key: Next
@@ -1914,6 +1984,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var tunaChunks: RswiftResources.StringResource { .init(key: "Tuna chunks", tableName: "Localizable", source: source, developmentValue: "Tuna chunks", comment: nil) }
 
+      /// en translation: Unlock Premium
+      ///
+      /// Key: Unlock Premium
+      ///
+      /// Locales: en, ru, fr, de
+      var unlockPremium: RswiftResources.StringResource { .init(key: "Unlock Premium", tableName: "Localizable", source: source, developmentValue: "Unlock Premium", comment: nil) }
+
       /// en translation: Are you sure you want to permanently delete these tasks?
       ///
       /// Key: WantDeleteTheseTasks?
@@ -2628,6 +2705,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var willCook: RswiftResources.StringResource { .init(key: "willCook", tableName: "Localizable", source: source, developmentValue: "I will cook it", comment: nil) }
 
+      /// en translation: with useful features
+      ///
+      /// Key: with useful features
+      ///
+      /// Locales: en, ru, fr, de
+      var withUsefulFeatures: RswiftResources.StringResource { .init(key: "with useful features", tableName: "Localizable", source: source, developmentValue: "with useful features", comment: nil) }
+
       /// en translation: Yearly
       ///
       /// Key: yearly
@@ -2682,7 +2766,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 294 images.
+  /// This `_R.image` struct is generated, and contains static references to 315 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -2739,6 +2823,12 @@ struct _R {
 
     /// Image `Category`.
     var category: RswiftResources.ImageResource { .init(name: "Category", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Checkmark paywall`.
+    var checkmarkPaywall: RswiftResources.ImageResource { .init(name: "Checkmark paywall", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Checkmark product new paywall`.
+    var checkmarkProductNewPaywall: RswiftResources.ImageResource { .init(name: "Checkmark product new paywall", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ChevronDownGreen`.
     var chevronDownGreen: RswiftResources.ImageResource { .init(name: "ChevronDownGreen", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -2977,6 +3067,33 @@ struct _R {
     /// Image `camera`.
     var camera: RswiftResources.ImageResource { .init(name: "camera", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `carousel_new_paywall_01`.
+    var carousel_new_paywall_01: RswiftResources.ImageResource { .init(name: "carousel_new_paywall_01", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `carousel_new_paywall_02`.
+    var carousel_new_paywall_02: RswiftResources.ImageResource { .init(name: "carousel_new_paywall_02", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `carousel_new_paywall_03`.
+    var carousel_new_paywall_03: RswiftResources.ImageResource { .init(name: "carousel_new_paywall_03", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `carousel_new_paywall_04`.
+    var carousel_new_paywall_04: RswiftResources.ImageResource { .init(name: "carousel_new_paywall_04", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `carousel_new_paywall_05`.
+    var carousel_new_paywall_05: RswiftResources.ImageResource { .init(name: "carousel_new_paywall_05", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `carousel_new_paywall_06`.
+    var carousel_new_paywall_06: RswiftResources.ImageResource { .init(name: "carousel_new_paywall_06", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `carousel_new_paywall_07`.
+    var carousel_new_paywall_07: RswiftResources.ImageResource { .init(name: "carousel_new_paywall_07", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `carousel_new_paywall_08`.
+    var carousel_new_paywall_08: RswiftResources.ImageResource { .init(name: "carousel_new_paywall_08", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `carousel_new_paywall_09`.
+    var carousel_new_paywall_09: RswiftResources.ImageResource { .init(name: "carousel_new_paywall_09", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `carrot_image`.
     var carrot_image: RswiftResources.ImageResource { .init(name: "carrot_image", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -3060,6 +3177,36 @@ struct _R {
 
     /// Image `emptyCheckmark`.
     var emptyCheckmark: RswiftResources.ImageResource { .init(name: "emptyCheckmark", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `feature_new_paywall_0`.
+    var feature_new_paywall_0: RswiftResources.ImageResource { .init(name: "feature_new_paywall_0", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `feature_new_paywall_1`.
+    var feature_new_paywall_1: RswiftResources.ImageResource { .init(name: "feature_new_paywall_1", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `feature_new_paywall_2`.
+    var feature_new_paywall_2: RswiftResources.ImageResource { .init(name: "feature_new_paywall_2", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `feature_new_paywall_3`.
+    var feature_new_paywall_3: RswiftResources.ImageResource { .init(name: "feature_new_paywall_3", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `feature_new_paywall_4`.
+    var feature_new_paywall_4: RswiftResources.ImageResource { .init(name: "feature_new_paywall_4", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `feature_new_paywall_5`.
+    var feature_new_paywall_5: RswiftResources.ImageResource { .init(name: "feature_new_paywall_5", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `feature_new_paywall_6`.
+    var feature_new_paywall_6: RswiftResources.ImageResource { .init(name: "feature_new_paywall_6", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `feature_new_paywall_7`.
+    var feature_new_paywall_7: RswiftResources.ImageResource { .init(name: "feature_new_paywall_7", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `feature_new_paywall_8`.
+    var feature_new_paywall_8: RswiftResources.ImageResource { .init(name: "feature_new_paywall_8", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `feature_new_paywall_9`.
+    var feature_new_paywall_9: RswiftResources.ImageResource { .init(name: "feature_new_paywall_9", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `feedback`.
     var feedback: RswiftResources.ImageResource { .init(name: "feedback", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

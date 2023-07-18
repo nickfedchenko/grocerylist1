@@ -28,7 +28,7 @@ final class UpdatedPaywallProductView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(products: [PayWallModelWithSave]) {
+    func configure(products: [PayWallModel]) {
         stackView.removeAllArrangedSubviews()
         
         products.enumerated().forEach { index, product in
@@ -135,12 +135,12 @@ final private class ProductView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(product: PayWallModelWithSave) {
+    func configure(product: PayWallModel) {
         periodLabel.text = product.period
         priceLabel.text = product.price
         perWeekLabel.text = product.description + R.string.localizable.weeK().lowercased()
         
-        badgeView.isHidden = !product.isVisibleBadge
+        badgeView.isHidden = !product.isVisibleSave
         badgeView.backgroundColor = product.badgeColor
         badgeLabel.text = R.string.localizable.saveMoney().uppercased() + " " + product.savePrecent.asString + "%"
     }

@@ -13,6 +13,33 @@ extension ApphudProduct {
     var loadingInfo: String {
         "Loading info".localized
     }
+
+    var duration: String? {
+        guard let skProduct = self.skProduct else {
+            return nil
+        }
+        let numberOfUnits = skProduct.subscriptionPeriod?.numberOfUnits
+ 
+        switch skProduct.subscriptionPeriod?.unit {
+        case .year:
+            return .yearly
+        case .month:
+            if numberOfUnits == 6 {
+                return "6 Month"
+            } else if numberOfUnits == 1 {
+                return .monthly
+            }
+        case .week:
+            return .weekly
+        case .day:
+            if numberOfUnits == 7 {
+                return .weekly
+            }
+        default: break
+        }
+        
+        return nil
+    }
     
     var period: String {
         guard let skProduct = self.skProduct else {
@@ -98,5 +125,36 @@ extension ApphudProduct {
         }
         return loadingInfo
     }
+
+    func savePercent(allProducts: [ApphudProduct]) -> Int {
+        guard let skProduct = self.skProduct else {
+            return 0
+        }
+        let price = skProduct.price.doubleValue
+        let numberOfUnits = skProduct.subscriptionPeriod?.numberOfUnits
+        let minPrice = findPriceOfMinimumPeriod(allProducts: allProducts)
+        switch skProduct.subscriptionPeriod?.unit {
+        case .year:
+            return minPrice == 0 ? 0 : Int(100 - (price * 100) / (minPrice * 52.1786))
+        case .month:
+            if numberOfUnits == 6 {
+                return minPrice == 0 ? 0 : Int(100 - (price * 100) / (minPrice * 26.0715))
+            } else if numberOfUnits == 1 {
+                return minPrice == 0 ? 0 : Int(100 - (price * 100) / (minPrice * 4.345))
+            }
+        default: return 0
+        }
+        
+        return 0
+    }
     
+    func findPriceOfMinimumPeriod(allProducts: [ApphudProduct]) -> Double {
+        guard let minPrice = allProducts.min(by: {
+            $0.skProduct?.price.doubleValue ?? 0 < $1.skProduct?.price.doubleValue ?? 0
+        }) else {
+            return 0
+        }
+        
+        return minPrice.skProduct?.price.doubleValue ?? 0
+    }
 }
