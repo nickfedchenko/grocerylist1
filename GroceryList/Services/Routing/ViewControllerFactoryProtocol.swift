@@ -12,6 +12,7 @@ protocol ViewControllerFactoryProtocol {
     func createPaywallController() -> UIViewController
     func createAlternativePaywallController() -> UIViewController
     func createUpdatedPaywallController() -> UIViewController
+    func createNewPaywallController(isTrial: Bool) -> UIViewController
     
     func createMainTabBarController(router: RootRouter, controllers: [UIViewController]) -> UITabBarController
     func createListController(router: RootRouter) -> UIViewController

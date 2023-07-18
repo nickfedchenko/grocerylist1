@@ -89,6 +89,10 @@ class NewPaywallFeatureView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func updateTitle(isTrial: Bool) {
+        titleLabel.text = isTrial ? R.string.localizable.try3DaysForFree() : R.string.localizable.unlockPremium()
+    }
+    
     private func setupFeatures() {
         let color = ColorManager.shared
         let themeNumbers: [Int] = [1, 4, 9, 6, 2, 5, 11, 0, 8, 12]
