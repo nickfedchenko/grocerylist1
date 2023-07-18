@@ -188,6 +188,10 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
                 }
             })
         }
+        
+        let name = nameView.textView.text?.trimmingCharacters(in: .whitespaces)
+        let isActive = !(name?.isEmpty ?? true) && ingredientsView.stackSubviewsCount >= 2
+        updateNextButton(isActive: isActive)
     }
     
     private func setupIngredientView() {

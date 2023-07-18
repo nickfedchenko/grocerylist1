@@ -371,6 +371,7 @@ extension CreateNewRecipeStepTwoViewController: UINavigationControllerDelegate, 
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         self.dismiss(animated: true, completion: nil)
         let image = info[.originalImage] as? UIImage
-        photoView.setImage(image)
+        let orientedImage = image?.fixedOrientation()
+        photoView.setImage(orientedImage)
     }
 }

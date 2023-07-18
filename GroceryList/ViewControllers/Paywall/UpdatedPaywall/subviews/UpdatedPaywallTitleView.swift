@@ -53,7 +53,7 @@ class UpdatedPaywallTitleView: UIView {
         self.addSubviews([titleLabel, subTitleLabel])
 
         titleLabel.snp.makeConstraints {
-            $0.top.centerX.equalToSuperview()
+            $0.top.leading.centerX.equalToSuperview()
         }
         
         subTitleLabel.snp.makeConstraints {

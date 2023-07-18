@@ -177,6 +177,7 @@ final class ShowCollectionViewController: UIViewController {
     @objc
     private func doneButtonAction() {
         hideContentView()
+        doneButton.isUserInteractionEnabled = false
     }
     
     @objc

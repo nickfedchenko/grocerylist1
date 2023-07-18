@@ -68,19 +68,27 @@ class AlternativePaywallViewController: UIViewController {
     
     private lazy var termsButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Term of use", for: .normal)
+        button.setTitle(R.string.localizable.termOfUse(), for: .normal)
         button.setTitleColor(UIColor(hex: "#31635A"), for: .normal)
         button.titleLabel?.font = UIFont.SFPro.medium(size: 12).font
         button.addTarget(self, action: #selector(termsDidTap), for: .touchUpInside)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.minimumScaleFactor = 0.3
+        button.titleLabel?.numberOfLines = 2
+        button.titleLabel?.textAlignment = .right
         return button
     }()
     
     private lazy var privacyButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Privacy Policy", for: .normal)
+        button.setTitle(R.string.localizable.privacyPolicy(), for: .normal)
         button.setTitleColor(UIColor(hex: "#31635A"), for: .normal)
         button.titleLabel?.font = UIFont.SFPro.medium(size: 12).font
         button.addTarget(self, action: #selector(privacyDidTap), for: .touchUpInside)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.minimumScaleFactor = 0.3
+        button.titleLabel?.numberOfLines = 2
+        button.titleLabel?.textAlignment = .left
         return button
     }()
     
@@ -88,7 +96,11 @@ class AlternativePaywallViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Cancel anytime".localized, for: .normal)
         button.setTitleColor(UIColor(hex: "#31635A"), for: .normal)
-        button.titleLabel?.font = UIFont.SFPro.medium(size: 15).font
+        button.titleLabel?.font = UIFont.SFPro.medium(size: UIDevice.isSE2 ? 12 : 15).font
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.minimumScaleFactor = 0.1
+        button.titleLabel?.numberOfLines = 2
+        button.titleLabel?.textAlignment = .center
         return button
     }()
     
@@ -137,7 +149,7 @@ class AlternativePaywallViewController: UIViewController {
         let button = UIButton(type: .system)
         let style = NSMutableParagraphStyle()
         let attrTitle = NSAttributedString(
-            string: "Restore purchases",
+            string: R.string.localizable.restorePurchase(),
             attributes: [
                 .font: R.font.sfProTextSemibold(size: 17) ?? .systemFont(ofSize: 17),
                 .foregroundColor: R.color.primaryDark() ?? UIColor(hex: "#045C5C"),
@@ -271,7 +283,7 @@ class AlternativePaywallViewController: UIViewController {
     }
     
     private func getTitle(from product: ApphudProduct) -> String {
-        guard let skProduct = product.skProduct else { return "Loading info" }
+        guard let skProduct = product.skProduct else { return "Loading info".localized }
         switch skProduct.subscriptionPeriod?.unit {
         case .year:
             return "yearly".localized
@@ -320,6 +332,7 @@ class AlternativePaywallViewController: UIViewController {
         tryForFreeView.snp.makeConstraints { make in
             make.bottom.equalTo(featuresView.snp.top).inset(isSmallSize ? -18 : -26)
             make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.95)
         }
         
         featuresView.snp.makeConstraints { make in
@@ -342,18 +355,22 @@ class AlternativePaywallViewController: UIViewController {
         }
         
         privacyButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview().multipliedBy(0.4)
-            make.top.equalTo(nextButton.snp.bottom).inset(-8)
+            make.leading.equalToSuperview().offset(16)
+            make.top.equalTo(nextButton.snp.bottom).inset(UIDevice.isSE2 ? -4 : -8)
+            make.width.equalToSuperview().multipliedBy(0.25)
+            make.bottom.equalToSuperview().offset(-2)
         }
         
         cancelButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalTo(privacyButton)
+            make.top.bottom.equalTo(privacyButton)
+            make.width.equalToSuperview().multipliedBy(0.4)
         }
         
         termsButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview().multipliedBy(1.6)
-            make.centerY.equalTo(privacyButton)
+            make.trailing.equalToSuperview().offset(-8)
+            make.top.bottom.equalTo(privacyButton)
+            make.width.equalToSuperview().multipliedBy(0.25)
         }
         
         lockScreenView.snp.makeConstraints { make in
@@ -427,7 +444,7 @@ class AlternativePaywallViewController: UIViewController {
     @objc
     private func termsDidTap() {
         guard let url = URL(
-            string: "https://docs.google.com/document/d/1FBzdkA2rqRdDLhimwz7fgF3b7VTA-lh4PvOdMHBGKSA/edit?usp=sharing"
+            string: "https://docs.google.com/document/d/1rC8SV2n9UBZL42jYjtpRgL8pKmMWlwTI6UJOGx-BDsE/edit?usp=sharing"
         ),
                 UIApplication.shared.canOpenURL(url) else {
             return
@@ -439,7 +456,7 @@ class AlternativePaywallViewController: UIViewController {
     private func privacyDidTap() {
         guard
             let url = URL(
-                string: "https://docs.google.com/document/d/1rC8SV2n9UBZL42jYjtpRgL8pKmMWlwTI6UJOGx-BDsE/edit?usp=sharing"
+                string: "https://docs.google.com/document/d/1FBzdkA2rqRdDLhimwz7fgF3b7VTA-lh4PvOdMHBGKSA/edit?usp=sharing"
             ),
             UIApplication.shared.canOpenURL(url) else {
             return

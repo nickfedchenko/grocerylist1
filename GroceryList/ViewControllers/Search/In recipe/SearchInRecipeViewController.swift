@@ -14,7 +14,7 @@ final class SearchInRecipeViewController: SearchViewController {
 
     private lazy var addFilterButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Add Filter", for: .normal)
+        button.setTitle(R.string.localizable.addFilter(), for: .normal)
         button.titleLabel?.font = UIFont.SFPro.medium(size: 16).font
         button.setTitleColor(R.color.darkGray(), for: .normal)
         button.setImage(R.image.recipeFilters(), for: .normal)
