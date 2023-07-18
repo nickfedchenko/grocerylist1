@@ -39,3 +39,5 @@ typealias UpdatePantryResult = (Result<UpdatePantryResponse, AFError>) -> Void
 typealias PantryListUserDeleteResult = (Result<PantryListUserDeleteResponse, AFError>) -> Void
 typealias FetchMyPantryListsResult = (Result<FetchMyPantryListsResponse, AFError>) -> Void
 typealias FetchPantryListUsersResult = (Result<FetchPantryListUsersResponse, AFError>) -> Void
+
+typealias FetchFAQStateResult = (Result<FetchFAQStateResponse, AFError>) -> Void

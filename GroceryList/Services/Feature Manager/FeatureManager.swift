@@ -25,6 +25,7 @@ final class FeatureManager {
         get { return UserDefaultsManager.isActiveAutoCategory }
         set { UserDefaultsManager.isActiveAutoCategory = newValue }
     }
+    var isActiveFAQ = false
     
     private var remoteConfig = RemoteConfig.remoteConfig()
     
@@ -46,6 +47,17 @@ final class FeatureManager {
         Feature.allCases.forEach { feature in
             if feature.onlyFirstLaunch {
                 isActive(feature)
+            }
+        }
+    }
+    
+    func activeFAQFeature() {
+        NetworkEngine().fetchFAQState { [weak self] result in
+            switch result {
+            case let .failure(error):
+                print(error)
+            case let .success(stateResponse):
+                self?.isActiveFAQ = stateResponse.enabled
             }
         }
     }
