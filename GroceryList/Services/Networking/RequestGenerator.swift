@@ -40,6 +40,8 @@ enum RequestGenerator: Codable {
     case pantryListUserDelete(userToken: String, listId: String)
     case fetchMyPantryLists(userToken: String)
     case fetchPantryListUsers(userToken: String, listId: String)
+    
+    case fetchFAQState
 
     private var bearerToken: String {
         return "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
@@ -181,6 +183,8 @@ enum RequestGenerator: Codable {
                 injectUserToken(in: &components, userToken: userToken)
                 injectPantryListId(in: &components, listId: listId)
             }
+        case .fetchFAQState:
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/faq/state", method: .get) { _ in }
         }
     }
     

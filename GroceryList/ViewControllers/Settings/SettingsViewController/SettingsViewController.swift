@@ -120,6 +120,7 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.selectUnitsView.transform = CGAffineTransform(scaleX: 0, y: 0)
+        helpAndFaqView.isHidden = !FeatureManager.shared.isActiveFAQ
         setupConstraints()
         addRecognizer()
         setupNavigationBar(titleText: R.string.localizable.preferencies())

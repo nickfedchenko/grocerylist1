@@ -324,3 +324,9 @@ struct FeedbackResponse: Codable {
     var messages: [String]
     var data: [String]
 }
+
+struct FetchFAQStateResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var enabled: Bool
+}

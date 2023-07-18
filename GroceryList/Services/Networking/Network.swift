@@ -290,6 +290,10 @@ extension NetworkEngine: NetworkDataProvider {
         performDecodableRequest(request: .fetchPantryListUsers(userToken: userToken, listId: pantryId),
                                 completion: completion)
     }
+    
+    func fetchFAQState(completion: @escaping FetchFAQStateResult) {
+        performDecodableRequest(request: .fetchFAQState, completion: completion)
+    }
 }
 
 extension Data {
