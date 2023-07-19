@@ -31,21 +31,24 @@ class CreateNewPantryViewController: UIViewController {
         return view
     }()
     
-    private lazy var nameTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.delegate = self
-        textfield.font = UIFont.SFPro.semibold(size: 20).font
-        textfield.textColor = .white
-        textfield.tintColor = .white
-        textfield.keyboardAppearance = .light
-        textfield.attributedPlaceholder = NSAttributedString(
-            string: " " + R.string.localizable.listName(),
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white.withAlphaComponent(0.5)])
+    private lazy var nameTextView: TextViewWithPlaceholder = {
+        let textView = TextViewWithPlaceholder()
+        textView.delegate = self
+        textView.font = UIFont.SFPro.semibold(size: 20).font
+        textView.textColor = .white
+        textView.tintColor = .white
+        textView.backgroundColor = .clear
+        textView.keyboardAppearance = .light
+        textView.setPlaceholder(placeholder: R.string.localizable.listName(),
+                                 textColor: UIColor.white.withAlphaComponent(0.5),
+                                 font: UIFont.SFPro.semibold(size: 20).font)
+        textView.textContainer.maximumNumberOfLines = 2
+        textView.isScrollEnabled = false
         if UIDevice.isSEorXor12mini {
-            textfield.autocorrectionType = .no
-            textfield.spellCheckingType = .no
+            textView.autocorrectionType = .no
+            textView.spellCheckingType = .no
         }
-        return textfield
+        return textView
     }()
     
     private lazy var colorCollectionView: UICollectionView = {
@@ -124,7 +127,6 @@ class CreateNewPantryViewController: UIViewController {
     
     private let templateView = PantryListTemplateView()
     private let iconView = IconSubView()
-    private let sharingView = SharingView()
     private var contentViewHeigh: Double = 700
     
     init(viewModel: CreateNewPantryViewModel) {
@@ -139,7 +141,7 @@ class CreateNewPantryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.delegate = self
-        nameTextField.becomeFirstResponder()
+        nameTextView.becomeFirstResponder()
         
         setupTemplates()
         setupCurrentPantry()
@@ -162,7 +164,7 @@ class CreateNewPantryViewController: UIViewController {
         }
         iconView.configure(icon: pantryIcon,
                            name: pantry.name)
-        nameTextField.text = pantry.name
+        nameTextView.text = pantry.name
         activeLinkedImageView.isHidden = pantry.synchronizedLists.isEmpty
         colorCollectionView.selectItem(at: IndexPath(row: pantry.color, section: 0),
                                        animated: false, scrollPosition: .left)
@@ -193,7 +195,7 @@ class CreateNewPantryViewController: UIViewController {
     
     @objc
     private func saveButtonTapped() {
-        viewModel.savePantryList(name: nameTextField.text,
+        viewModel.savePantryList(name: nameTextView.text,
                                  icon: iconView.icon)
         hidePanel()
     }
@@ -257,7 +259,7 @@ class CreateNewPantryViewController: UIViewController {
     
     private func hidePanel() {
         viewModel.updateUI?(nil)
-        nameTextField.resignFirstResponder()
+        nameTextView.resignFirstResponder()
         updateBottomConstraint(view: contentView, with: 400)
         updateTemplateViewConstraint(isVisible: false)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
@@ -265,11 +267,19 @@ class CreateNewPantryViewController: UIViewController {
         }
     }
     
+    private func sizeOfString(string: String, constrainedToWidth width: Double,
+                              font: UIFont) -> CGSize {
+        return (string as NSString).boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude),
+                                                 options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                                                 attributes: [NSAttributedString.Key.font: font],
+                                                 context: nil).size
+    }
+    
     private func makeConstraints() {
         self.view.addSubviews([templateView, contentView])
         contentView.addSubviews([nameView, colorCollectionView, infoTitleLabel, infoDescriptionLabel,
                                  synchronizeImageView, selectListButton, activeLinkedImageView, saveButton])
-        nameView.addSubviews([iconView, nameTextField, sharingView])
+        nameView.addSubviews([iconView, nameTextView])
         
         templateView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(self.view.frame.height)
@@ -280,7 +290,7 @@ class CreateNewPantryViewController: UIViewController {
         contentView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(364)
-            $0.height.equalTo(UIDevice.isSEorXor12mini ? 318 : 364)
+            $0.height.greaterThanOrEqualTo(UIDevice.isSEorXor12mini ? 318 : 364)
         }
         
         makeNameViewConstraints()
@@ -311,15 +321,11 @@ class CreateNewPantryViewController: UIViewController {
             $0.height.width.equalTo(40)
         }
         
-        nameTextField.snp.makeConstraints {
+        nameTextView.snp.makeConstraints {
             $0.leading.equalTo(iconView.snp.trailing).offset(10)
-            $0.center.equalToSuperview()
-            $0.height.equalTo(24)
-        }
-        
-        sharingView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(-12)
-            $0.trailing.bottom.equalToSuperview().offset(-12)
+            $0.centerY.equalToSuperview()
+            $0.height.greaterThanOrEqualTo(24)
+            $0.trailing.equalToSuperview().offset(-8)
         }
     }
     
@@ -388,23 +394,35 @@ extension CreateNewPantryViewController: PantryListTemplateViewDelegate {
     func selectTemplate(_ index: Int) {
         let template = viewModel.selectedTemplate(by: index)
         iconView.configure(icon: template.icon, name: template.title)
-        nameTextField.text = template.title
+        nameTextView.text = template.title
     }
 }
 
-extension CreateNewPantryViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
-                   replacementString string: String) -> Bool {
-        return (textField.text?.count ?? 0) <= 30
+extension CreateNewPantryViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        nameTextView.checkPlaceholder()
     }
-    
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        guard let name = textField.text else {
+
+    func textViewDidChange(_ textView: UITextView) {
+        nameTextView.checkPlaceholder()
+        guard let name = textView.text else {
             iconView.configure(icon: nil, name: "")
             return
         }
         updateSaveButton(isActive: name.count >= 1)
         iconView.configure(icon: nil, name: name)
+    }
+
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
+                  replacementText text: String) -> Bool {
+        let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+        var textWidth = CGRectGetWidth(textView.frame.inset(by: textView.textContainerInset))
+        textWidth -= 2.0 * textView.textContainer.lineFragmentPadding;
+
+        let boundingRect = sizeOfString(string: newText, constrainedToWidth: Double(textWidth), font: textView.font!)
+        let numberOfLines = boundingRect.height / textView.font!.lineHeight;
+
+        return numberOfLines <= 2;
     }
 }
 

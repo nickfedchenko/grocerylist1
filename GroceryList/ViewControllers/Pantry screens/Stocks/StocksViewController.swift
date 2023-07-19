@@ -340,7 +340,7 @@ final class StocksViewController: UIViewController {
         navigationView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(88)
+            $0.height.greaterThanOrEqualTo(88)
         }
         
         containerView.snp.makeConstraints {
