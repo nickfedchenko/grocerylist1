@@ -481,6 +481,7 @@ extension CreateNewProductViewController: QuantityOfProductViewDelegate {
     func unitSelected(_ unit: UnitSystem) {
         self.unit = unit
         viewModel?.setUnit(unit)
+        updateQuantity(quantityView.quantity)
     }
     
     func updateQuantityValue(_ quantity: Double) {
