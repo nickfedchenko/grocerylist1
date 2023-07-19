@@ -18,9 +18,18 @@ final class IngredientViewModel: CreateNewProductViewModel {
     weak var ingredientDelegate: IngredientViewModelDelegate?
     var ingredientCallback: ((Ingredient) -> Void)?
     var isShowCost: Bool? = false
+    var currentIngredient: Ingredient?
 
     var getNumberOfCells: Int {
         selectedUnitSystemArray.count
+    }
+    
+    var currentIngredientUnit: UnitSystem {
+        guard let unitTitle = currentIngredient?.unit?.title,
+              let unit = UnitSystem.allCases.first(where: { $0.title == unitTitle }) else {
+            return .piece
+        }
+        return unit
     }
 
     private var categoryTitle = ""
@@ -58,6 +67,10 @@ final class IngredientViewModel: CreateNewProductViewModel {
     
     override var isVisibleStore: Bool {
         return isShowCost ?? false
+    }
+    
+    override func setCostOfProductPerUnit() {
+        costOfProductPerUnit = currentIngredient?.product.cost
     }
     
     func save(title: String, quantity: Double, quantityStr: String?,

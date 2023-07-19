@@ -243,8 +243,9 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, style: state == .select ? .automatic : .overCurrentContext, animated: true)
     }
     
-    func goToIngredient(isShowCost: Bool, compl: @escaping (Ingredient) -> Void) {
+    func goToIngredient(isShowCost: Bool, currentIngredient: Ingredient? = nil, compl: @escaping (Ingredient) -> Void) {
         let controller = viewControllerFactory.createIngredientViewController(isShowCost: isShowCost,
+                                                                              currentIngredient: currentIngredient,
                                                                               router: self,
                                                                               compl: compl)
         controller.modalTransitionStyle = .crossDissolve

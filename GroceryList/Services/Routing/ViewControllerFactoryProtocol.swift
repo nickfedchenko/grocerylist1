@@ -72,7 +72,7 @@ protocol ViewControllerFactoryProtocol {
     func createShowCollectionViewController(router: RootRouter, state: ShowCollectionViewController.ShowCollectionState,
                                             recipe: Recipe?, updateUI: (() -> Void)?,
                                             compl: (([CollectionModel]) -> Void)?) -> UIViewController
-    func createIngredientViewController(isShowCost: Bool, router: RootRouter,
+    func createIngredientViewController(isShowCost: Bool, currentIngredient: Ingredient?, router: RootRouter,
                                         compl: @escaping (Ingredient) -> Void) -> UIViewController
     func createSearchInList(router: RootRouter) -> UIViewController
     func createSearchInRecipe(router: RootRouter, section: RecipeSectionsModel?) -> UIViewController

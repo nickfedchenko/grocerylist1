@@ -12,7 +12,7 @@ final class CreateNewRecipeStepOneViewModel {
     weak var router: RootRouter?
     var competeRecipe: ((Recipe) -> Void)?
     var preparationStepChanged: ((String) -> Void)?
-    var ingredientChanged: ((Ingredient) -> Void)?
+    var ingredientChanged: ((Ingredient, Int?) -> Void)?
     var updateSaveToDraftButton: (() -> Void)?
     var isDraftRecipe = false
     
@@ -54,6 +54,16 @@ final class CreateNewRecipeStepOneViewModel {
         ingredients.remove(at: index)
     }
     
+    func showIngredient(by index: Int) {
+        let oldIngredient = ingredients[index]
+        router?.goToIngredient(isShowCost: isShowCost, currentIngredient: oldIngredient,
+                               compl: { [weak self] ingredient in
+            self?.ingredients.removeAll(where: { $0.id == oldIngredient.id })
+            self?.ingredients.insert(ingredient, at: index)
+            self?.ingredientChanged?(ingredient, index)
+        })
+    }
+    
     func back() {
         router?.navigationPopViewController(animated: true)
     }
@@ -61,7 +71,7 @@ final class CreateNewRecipeStepOneViewModel {
     func presentIngredient() {
         router?.goToIngredient(isShowCost: isShowCost, compl: { [weak self] ingredient in
             self?.ingredients.append(ingredient)
-            self?.ingredientChanged?(ingredient)
+            self?.ingredientChanged?(ingredient, nil)
         })
     }
     

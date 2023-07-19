@@ -370,12 +370,13 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createIngredientViewController(isShowCost: Bool, router: RootRouter,
+    func createIngredientViewController(isShowCost: Bool, currentIngredient: Ingredient?, router: RootRouter,
                                         compl: @escaping (Ingredient) -> Void) -> UIViewController {
         let viewModel = IngredientViewModel()
         viewModel.router = router
         viewModel.ingredientCallback = compl
         viewModel.isShowCost = isShowCost
+        viewModel.currentIngredient = currentIngredient
         let viewController = IngredientViewController(viewModel: viewModel)
         return viewController
     }

@@ -30,6 +30,7 @@ final class IngredientViewController: CreateNewProductViewController {
         super.viewDidLayoutSubviews()
         if !ingredientViewDidLayout {
             ingredientView.productTextField.becomeFirstResponder()
+            setupCurrentIngredient()
             ingredientViewDidLayout = true
         }
     }
@@ -52,6 +53,32 @@ final class IngredientViewController: CreateNewProductViewController {
     
     override func setupAutoCategoryView() {
         autoCategoryView.isHidden = true
+    }
+    
+    private func setupCurrentIngredient() {
+        guard let currentIngredient = (viewModel as? IngredientViewModel)?.currentIngredient else {
+            return
+        }
+        
+        let colorForForeground = viewModel?.getColorForForeground ?? .black
+        updateCategory(isActive: !(currentIngredient.product.marketCategory?.title.isEmpty ?? true),
+                       categoryTitle: currentIngredient.product.marketCategory?.title)
+        ingredientView.productTextField.text = currentIngredient.product.title
+        ingredientView.descriptionTextView.text = currentIngredient.description
+        ingredientView.descriptionTextView.checkPlaceholder()
+        ingredientView.setImage(imageURL: currentIngredient.product.photo, imageData: currentIngredient.product.localImage)
+        
+        quantityView.setupCurrentQuantity(unit: (viewModel as? IngredientViewModel)?.currentIngredientUnit ?? .piece,
+                                          value: currentIngredient.quantity)
+        
+        if let store = currentIngredient.product.store {
+            storeView.setStore(store: store)
+        }
+        if let cost = currentIngredient.product.cost {
+            storeView.setCost(value: cost.asString)
+        }
+        (viewModel as? IngredientViewModel)?.setCostOfProductPerUnit()
+        updateSaveButton(isActive: ingredientView.productTextField.text?.count ?? 0 >= 1)
     }
     
     override func updateStoreView(isVisible: Bool) {

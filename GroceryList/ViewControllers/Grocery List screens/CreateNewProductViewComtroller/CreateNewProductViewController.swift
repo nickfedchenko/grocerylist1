@@ -185,7 +185,7 @@ class CreateNewProductViewController: UIViewController {
         updateSaveButton(isActive: productView.productTextView.text.count >= 1)
     }
     
-    private func updateCategory(isActive: Bool, categoryTitle: String?) {
+    func updateCategory(isActive: Bool, categoryTitle: String?) {
         let colorForForeground = viewModel?.getColorForForeground ?? UIColor(hex: "#278337")
         let color = isActive ? colorForForeground : inactiveColor
         let title = isActive ? categoryTitle : R.string.localizable.category()
