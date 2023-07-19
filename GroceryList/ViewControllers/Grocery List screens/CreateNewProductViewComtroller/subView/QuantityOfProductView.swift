@@ -183,7 +183,7 @@ final class QuantityOfProductView: CreateNewProductButtonView {
         quantityChanged = true
         AmplitudeManager.shared.logEvent(.itemQuantityButtons)
         if currentUnit == nil {
-            currentUnit = selectedUnit
+            currentUnit = defaultUnit ?? selectedUnit
         }
         quantity += quantityValueStep
         updateQuantityButtons(isActive: true)

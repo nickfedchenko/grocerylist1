@@ -35,8 +35,8 @@ class NameOfProductView: UIView {
         textView.backgroundColor = .clear
         textView.keyboardAppearance = .light
         textView.setPlaceholder(placeholder: R.string.localizable.name(),
-                                 textColor: UIColor.white.withAlphaComponent(0.5),
-                                 font: UIFont.SFPro.semibold(size: 20).font)
+                                textColor: R.color.mediumGray(),
+                                 font: UIFont.SFPro.semibold(size: 17).font)
         textView.textContainer.maximumNumberOfLines = 4
         textView.isScrollEnabled = false
         if UIDevice.isSEorXor12mini {

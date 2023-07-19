@@ -43,6 +43,8 @@ final class CreateNewRecipeStepTwoViewModel {
         self.servings = servings
         self.kcal = kcal
         localImage = image
+        
+        savedToDrafts()
     }
     
     func back() {
@@ -58,8 +60,13 @@ final class CreateNewRecipeStepTwoViewModel {
                                              instructions: recipe.instructions))
     }
     
+    func backToRoot() {
+        router?.popToRoot()
+    }
+    
     func saveRecipeTo() {
-        router?.goToShowCollection(state: .select, recipe: currentRecipe,
+        let recipe = currentRecipe ?? draft ?? recipe
+        router?.goToShowCollection(state: .select, recipe: recipe,
                                    compl: { [weak self] selectedCollections in
             if selectedCollections.isEmpty,
                let dbFavoritesCollectionCollection = CoreDataManager.shared.getAllCollection()?
