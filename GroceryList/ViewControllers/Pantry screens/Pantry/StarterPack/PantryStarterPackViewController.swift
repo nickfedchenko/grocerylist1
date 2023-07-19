@@ -20,7 +20,7 @@ final class PantryStarterPackViewController: UIViewController {
     }()
     
     private lazy var pantryImageView: UIImageView = {
-        let image = UIDevice.isSE ? R.image.starterpack_pantry_SE() : R.image.starterpack_pantry()
+        let image = UIDevice.isSEorXor12mini ? R.image.starterpack_pantry_SE() : R.image.starterpack_pantry()
         let imageView = createImageView(image: image)
         imageView.layer.cornerRadius = 32
         imageView.layer.maskedCorners = [.layerMaxXMinYCorner]
@@ -29,7 +29,7 @@ final class PantryStarterPackViewController: UIViewController {
     }()
     
     private lazy var iconImageView: UIImageView = {
-        let image = UIDevice.isSE ? R.image.starterpack_icon_SE() : R.image.starterpack_icon()
+        let image = UIDevice.isSEorXor12mini ? R.image.starterpack_icon_SE() : R.image.starterpack_icon()
         return createImageView(image: image)
     }()
     
@@ -158,7 +158,7 @@ final class PantryStarterPackViewController: UIViewController {
         contentView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(contentViewHeight)
-            if UIDevice.isSE {
+            if UIDevice.isSEorXor12mini {
                 $0.height.equalToSuperview()
             } else {
                 $0.height.equalTo(contentViewHeight)
@@ -167,7 +167,7 @@ final class PantryStarterPackViewController: UIViewController {
         
         pantryImageView.snp.makeConstraints {
             $0.top.leading.equalToSuperview()
-            $0.width.equalTo(UIDevice.isSE ? 146 : 181)
+            $0.width.equalTo(UIDevice.isSEorXor12mini ? 146 : 181)
             $0.height.equalTo(512)
         }
         
@@ -184,7 +184,7 @@ final class PantryStarterPackViewController: UIViewController {
         }
         
         descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(UIDevice.isSE ? 17 : 19)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(UIDevice.isSEorXor12mini ? 17 : 19)
             $0.leading.trailing.equalTo(titleLabel)
             $0.bottom.equalTo(pantryImageView)
         }
@@ -195,7 +195,7 @@ final class PantryStarterPackViewController: UIViewController {
     private func makeExcellentButtonConstraints() {
         excellentButton.snp.makeConstraints {
             $0.top.equalTo(iconImageView.snp.bottom).offset(20)
-            $0.bottom.equalToSuperview().offset(UIDevice.isSE ? -24 : -75)
+            $0.bottom.equalToSuperview().offset(UIDevice.isSEorXor12mini ? -24 : -75)
             $0.leading.equalToSuperview().offset(20)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(64)

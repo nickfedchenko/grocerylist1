@@ -131,7 +131,7 @@ class CreateNewProductViewController: UIViewController {
             return
         }
         
-        guard !UIDevice.isSE else {
+        guard !UIDevice.isSEorXor12mini else {
             autoCategoryView.isHidden = true
             if UserDefaultsManager.countInfoMessage < 10 {
                 viewModel?.showAutoCategoryAlert()

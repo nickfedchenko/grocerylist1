@@ -41,7 +41,7 @@ class CreateNewPantryViewController: UIViewController {
         textfield.attributedPlaceholder = NSAttributedString(
             string: " " + R.string.localizable.listName(),
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white.withAlphaComponent(0.5)])
-        if UIDevice.isSE {
+        if UIDevice.isSEorXor12mini {
             textfield.autocorrectionType = .no
             textfield.spellCheckingType = .no
         }
@@ -280,13 +280,13 @@ class CreateNewPantryViewController: UIViewController {
         contentView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(364)
-            $0.height.equalTo(UIDevice.isSE ? 318 : 364)
+            $0.height.equalTo(UIDevice.isSEorXor12mini ? 318 : 364)
         }
         
         makeNameViewConstraints()
         
         colorCollectionView.snp.makeConstraints {
-            $0.top.equalTo(nameView.snp.bottom).offset(UIDevice.isSE ? 8 : 24)
+            $0.top.equalTo(nameView.snp.bottom).offset(UIDevice.isSEorXor12mini ? 8 : 24)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(48)
         }
@@ -325,13 +325,13 @@ class CreateNewPantryViewController: UIViewController {
     
     private func makeSynchronizeBlockConstraints() {
         infoTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(colorCollectionView.snp.bottom).offset(UIDevice.isSE ? 8 : 24)
+            $0.top.equalTo(colorCollectionView.snp.bottom).offset(UIDevice.isSEorXor12mini ? 8 : 24)
             $0.leading.equalToSuperview().offset(16)
             $0.centerX.equalToSuperview()
         }
         
         infoDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(infoTitleLabel.snp.bottom).offset(UIDevice.isSE ? 4 : 8)
+            $0.top.equalTo(infoTitleLabel.snp.bottom).offset(UIDevice.isSEorXor12mini ? 4 : 8)
             $0.leading.trailing.equalTo(infoTitleLabel)
             $0.height.equalTo(34)
         }

@@ -13,7 +13,7 @@ class UpdatedPaywallFeaturesView: UIView {
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = UIDevice.isSE ? 0 : 24
+        stackView.spacing = UIDevice.isSEorXor12mini ? 0 : 24
         stackView.distribution = .fillProportionally
         return stackView
     }()

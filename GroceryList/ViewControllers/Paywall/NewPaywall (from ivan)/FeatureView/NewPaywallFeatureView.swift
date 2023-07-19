@@ -50,7 +50,8 @@ class NewPaywallFeatureView: UIView {
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.contentInset.bottom = 200
+        let inset: CGFloat = UIDevice.isLessPhoneSE ? 350 : UIDevice.isMoreDefaultPhone ? 150 : 220
+        collectionView.contentInset.bottom = inset
         collectionView.contentInset.top = 110
         return collectionView
     }()
@@ -87,6 +88,11 @@ class NewPaywallFeatureView: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutIfNeeded() {
+        super.layoutIfNeeded()
+        radialGradientView.layoutIfNeeded()
     }
     
     func updateTitle(isTrial: Bool) {
@@ -183,15 +189,15 @@ extension NewPaywallFeatureView: UICollectionViewDelegate {
 class RadialGradientView: UIView {
     
     private lazy var pulse: CAGradientLayer = {
-        let layer = CAGradientLayer()
-        layer.type = .radial
-        layer.colors = [UIColor.white.cgColor,
-                        UIColor.white.withAlphaComponent(0.7).cgColor]
-        layer.locations = [0, 1]
-        layer.startPoint = CGPoint(x: 0.5, y: 0.5)
-        layer.endPoint = CGPoint(x: 1, y: 1)
-        layer.addSublayer(layer)
-        return layer
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.type = .radial
+        gradientLayer.colors = [UIColor.white.withAlphaComponent(0.7).cgColor,
+                        UIColor.white.withAlphaComponent(0).cgColor]
+        gradientLayer.locations = [0, 1]
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        layer.addSublayer(gradientLayer)
+        return gradientLayer
     }()
 
     override func layoutIfNeeded() {

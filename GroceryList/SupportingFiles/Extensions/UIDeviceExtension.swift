@@ -8,27 +8,69 @@
 import UIKit
 
 extension UIDevice {
-    class var isSE: Bool {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            switch UIScreen.main.nativeBounds.height {
-            case 1136, 1334, 2436: // SE, 12mini, X
-                return true
-            default:
-                return false
-            }
-        }
-        return false
+    class var isSEorXor12mini: Bool {
+        screenType == .iPhones678SE2 ||
+        screenType == .iPhonesXXS11Pro ||
+        screenType == .iPhone1213mini
     }
     
     class var isSE2: Bool {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            switch UIScreen.main.nativeBounds.height {
-            case 1334: // SE
-                return true
-            default:
-                return false
-            }
+        return UIScreen.main.nativeBounds.height == 1334
+    }
+    
+    class var isDefaultPhone: Bool {
+        return screenType == .iPhone121314
+    }
+    
+    class var isLessPhoneSE: Bool {
+        return UIScreen.main.nativeBounds.height <= 1334
+    }
+    
+    class var isLessPhoneMini: Bool {
+        return UIScreen.main.nativeBounds.height < 2340
+    }
+    
+    class var isMoreDefaultPhone: Bool {
+        return UIScreen.main.nativeBounds.height > 2556
+    }
+    
+    enum ScreenType {
+        case iPhones5andSE
+        case iPhones678SE2
+        case iPhones678Plus
+        case iPhonesXXS11Pro
+        case iPhoneXR11
+        case iPhoneXSMax11ProMax
+
+        case iPhone121314
+        case iPhone121314ProMax14Plus
+        case iPhone1213mini
+        
+        case unknown
+    }
+    
+    class var screenType: ScreenType {
+        switch UIScreen.main.nativeBounds.height {
+        case 1136:
+            return .iPhones5andSE
+        case 1334:
+            return .iPhones678SE2
+        case 1792:
+            return .iPhoneXR11
+        case 1920, 2208:
+            return .iPhones678Plus
+        case 2340:
+            return .iPhone1213mini
+        case 2436:
+            return .iPhonesXXS11Pro
+        case 2532, 2556:
+            return .iPhone121314
+        case 2688:
+            return .iPhoneXSMax11ProMax
+        case 2778, 2796:
+            return .iPhone121314ProMax14Plus
+        default:
+            return .unknown
         }
-        return false
     }
 }
