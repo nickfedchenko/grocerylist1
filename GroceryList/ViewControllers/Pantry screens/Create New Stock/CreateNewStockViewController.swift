@@ -289,7 +289,7 @@ final class CreateNewStockViewController: UIViewController {
         productView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(autoRepeatView.snp.bottom).offset(20)
-            $0.height.equalTo(56)
+            $0.height.greaterThanOrEqualTo(56)
         }
         
         storeView.snp.makeConstraints {

@@ -25,16 +25,6 @@ class NameOfProductView: UIView {
     var productImage: UIImage? {
         productImageView.image == emptyImage ? nil : productImageView.image
     }
-    
-//    lazy var productTextView: UITextField = {
-//        let textField = UITextField()
-//        textField.delegate = self
-//        textField.font = UIFont.SFPro.semibold(size: 17).font
-//        textField.textColor = .black
-//        textField.tintColor = .black
-//        textField.placeholder = " " + R.string.localizable.name()
-//        return textField
-//    }()
 
     lazy var productTextView: TextViewWithPlaceholder = {
         let textView = TextViewWithPlaceholder()

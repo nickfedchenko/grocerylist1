@@ -35,7 +35,7 @@ final class StocksViewController: UIViewController {
     private lazy var compositionalLayout: UICollectionViewLayout = {
         let layout = UICollectionViewCompositionalLayout { (_, _) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                  heightDimension: .fractionalHeight(56))
+                                                  heightDimension: .estimated(56))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                    heightDimension: .estimated(1))

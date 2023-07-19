@@ -39,6 +39,10 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
         }
         var userComment = productDescription?.replacingOccurrences(of: quantity, with: "")
         
+        if (userComment?.isEmpty ?? true) {
+            return quantity
+        }
+        
         if userComment?.last == "," {
             userComment?.removeLast()
         }

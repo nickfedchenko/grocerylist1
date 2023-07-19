@@ -73,7 +73,8 @@ class NameOfStockView: NameOfProductView {
         updateViewConstraints()
         
         stockView.snp.makeConstraints {
-            $0.bottom.trailing.equalToSuperview().offset(-8)
+            $0.trailing.equalToSuperview().offset(-8)
+            $0.centerY.equalToSuperview()
             $0.height.width.equalTo(40)
         }
         
@@ -95,7 +96,8 @@ class NameOfStockView: NameOfProductView {
         
         productImageView.snp.removeConstraints()
         productImageView.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().offset(8)
+            $0.leading.equalToSuperview().offset(8)
+            $0.centerY.equalToSuperview()
             $0.height.width.equalTo(40)
         }
         
@@ -107,10 +109,10 @@ class NameOfStockView: NameOfProductView {
         
         productTextView.snp.removeConstraints()
         productTextView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(8)
+            $0.top.equalToSuperview().offset(4)
             $0.leading.equalTo(productImageView.snp.trailing).offset(12)
             $0.trailing.equalTo(stockView.snp.leading).offset(-12)
-            $0.height.equalTo(21)
+            $0.height.greaterThanOrEqualTo(21)
         }
         
         descriptionTextField.snp.removeConstraints()
@@ -119,6 +121,7 @@ class NameOfStockView: NameOfProductView {
             $0.leading.equalTo(productImageView.snp.trailing).offset(12)
             $0.trailing.equalTo(stockView.snp.leading).offset(-12)
             $0.height.greaterThanOrEqualTo(19)
+            $0.bottom.equalToSuperview().offset(-8)
         }
     }
 }
