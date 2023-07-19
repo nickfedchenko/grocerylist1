@@ -111,6 +111,7 @@ class ProductsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel?.reloadStorageData()
         let colorForForeground = viewModel?.getColorForForeground() ?? .black
         (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
         (self.tabBarController as? MainTabBarController)?.setTextTabBar(

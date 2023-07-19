@@ -116,6 +116,7 @@ final class StocksViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.reloadStorageData()
         (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
         (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: R.string.localizable.item(),
                                                                         color: viewModel.getTheme().medium)
