@@ -39,7 +39,7 @@ class CreateNewProductViewController: UIViewController {
     var isShowNewStoreView = false
     var viewDidLayout = false
     let inactiveColor = R.color.mediumGray() ?? UIColor(hex: "#ACB4B4")
-    var unit: UnitSystem = .piece
+    var unit: UnitSystem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -172,7 +172,7 @@ class CreateNewProductViewController: UIViewController {
             productView.setImage(productImage)
         }
         if let quantityValue = viewModel?.productQuantityCount {
-            quantityView.setupCurrentQuantity(unit: viewModel?.productQuantityUnit ?? .piece,
+            quantityView.setupCurrentQuantity(unit: viewModel?.productQuantityUnit,
                                               value: quantityValue)
         }
         if let store = viewModel?.productStore {
@@ -289,7 +289,7 @@ class CreateNewProductViewController: UIViewController {
     
     func updateQuantity(_ quantity: Double) {
         let quantityString = String(format: "%.\(quantity.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", quantity)
-        productView.setQuantity(quantity > 0 ? "\(quantityString) \(unit.title)" : "")
+        productView.setQuantity(quantity > 0 ? "\(quantityString) \(unit?.title ?? "")" : "")
     }
     
     func tappedQuantityButtons(_ quantity: Double) {
@@ -303,7 +303,7 @@ class CreateNewProductViewController: UIViewController {
     func updateProductView(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?) {
         updateCategory(isActive: !text.isEmpty, categoryTitle: text)
         productView.setImage(imageURL: imageURL, imageData: imageData)
-        quantityView.setDefaultUnit(defaultSelectedUnit ?? .piece)
+        quantityView.setDefaultUnit(defaultSelectedUnit)
         
         if !imageURL.isEmpty || imageData != nil {
             isUserImage = false
@@ -478,7 +478,7 @@ extension CreateNewProductViewController: StoreOfProductViewDelegate {
 }
 
 extension CreateNewProductViewController: QuantityOfProductViewDelegate {
-    func unitSelected(_ unit: UnitSystem) {
+    func unitSelected(_ unit: UnitSystem?) {
         self.unit = unit
         viewModel?.setUnit(unit)
         updateQuantity(quantityView.quantity)

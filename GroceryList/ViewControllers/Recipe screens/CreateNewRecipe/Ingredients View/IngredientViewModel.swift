@@ -10,7 +10,7 @@ import UIKit
 
 protocol IngredientViewModelDelegate: AnyObject {
     func categoryChange(title: String)
-    func unitChange(_ unit: UnitSystem)
+    func unitChange(_ unit: UnitSystem?)
 }
 
 final class IngredientViewModel: CreateNewProductViewModel {
@@ -82,8 +82,8 @@ final class IngredientViewModel: CreateNewProductViewModel {
                                     quantity: quantity,
                                     isNamed: false,
                                     unit: MarketUnitClass(id: UUID().integer,
-                                                          title: currentSelectedUnit.title,
-                                                          shortTitle: currentSelectedUnit.title,
+                                                          title: currentSelectedUnit?.title ?? "",
+                                                          shortTitle: currentSelectedUnit?.title ?? "",
                                                           isOnlyForMarket: false),
                                     description: description,
                                     quantityStr: quantityStr)

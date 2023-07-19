@@ -26,7 +26,7 @@ class CreateNewProductViewModel {
     var productsChangedCallback: (([String]) -> Void)?
     
     var model: GroceryListsModel?
-    var currentSelectedUnit: UnitSystem = .gram
+    var currentSelectedUnit: UnitSystem?
     var stores: [Store] = []
     var currentProduct: Product?
     var costOfProductPerUnit: Double?
@@ -151,7 +151,7 @@ class CreateNewProductViewModel {
     }
     
     var productStepValue: Double {
-        Double(currentSelectedUnit.stepValue)
+        Double(currentSelectedUnit?.stepValue ?? 1)
     }
     
     var isVisibleImage: Bool {
@@ -203,7 +203,7 @@ class CreateNewProductViewModel {
         costOfProductPerUnit = currentProduct?.cost
     }
     
-    func setUnit(_ unit: UnitSystem) {
+    func setUnit(_ unit: UnitSystem?) {
         currentSelectedUnit = unit
     }
     

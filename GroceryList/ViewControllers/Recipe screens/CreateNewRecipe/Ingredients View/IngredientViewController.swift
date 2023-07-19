@@ -68,7 +68,7 @@ final class IngredientViewController: CreateNewProductViewController {
         ingredientView.descriptionTextView.checkPlaceholder()
         ingredientView.setImage(imageURL: currentIngredient.product.photo, imageData: currentIngredient.product.localImage)
         
-        quantityView.setupCurrentQuantity(unit: (viewModel as? IngredientViewModel)?.currentIngredientUnit ?? .piece,
+        quantityView.setupCurrentQuantity(unit: (viewModel as? IngredientViewModel)?.currentIngredientUnit,
                                           value: currentIngredient.quantity)
         
         if let store = currentIngredient.product.store {
@@ -99,7 +99,7 @@ final class IngredientViewController: CreateNewProductViewController {
     
     override func updateQuantity(_ quantity: Double) {
         let quantityString = String(format: "%.\(quantity.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", quantity)
-        ingredientView.setQuantity(quantity > 0 ? "\(quantityString) \(unit.title)" : "")
+        ingredientView.setQuantity(quantity > 0 ? "\(quantityString) \(unit?.title ?? "")" : "")
     }
     
     override func tappedQuantityButtons(_ quantity: Double) {
@@ -113,7 +113,7 @@ final class IngredientViewController: CreateNewProductViewController {
     override func updateProductView(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?) {
         categoryIsActive(text != R.string.localizable.selectCategory(), categoryTitle: text)
         ingredientView.setImage(imageURL: imageURL, imageData: imageData)
-        quantityView.setDefaultUnit(defaultSelectedUnit ?? .piece)
+        quantityView.setDefaultUnit(defaultSelectedUnit)
 
         if !imageURL.isEmpty || imageData != nil {
             isUserImage = false
@@ -181,7 +181,7 @@ extension IngredientViewController: IngredientViewModelDelegate {
         categoryIsActive(title == R.string.localizable.selectCategory(), categoryTitle: title)
     }
     
-    func unitChange(_ unit: UnitSystem) {
+    func unitChange(_ unit: UnitSystem?) {
         quantityView.setDefaultUnit(unit)
     }
 }

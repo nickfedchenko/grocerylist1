@@ -36,7 +36,7 @@ final class CreateNewStockViewController: UIViewController {
     private var isShowNewStoreView = false
     private var viewDidLayout = false
     private let inactiveColor = R.color.mediumGray()
-    private var unit: UnitSystem = .piece
+    private var unit: UnitSystem?
     private var category: String = ""
     private var predictiveTextViewHeight = 86
     
@@ -152,7 +152,7 @@ final class CreateNewStockViewController: UIViewController {
             productView.setImage(productImage)
         }
         if let quantityValue = viewModel.productQuantityCount {
-            quantityView.setupCurrentQuantity(unit: viewModel.productQuantityUnit ?? .piece,
+            quantityView.setupCurrentQuantity(unit: viewModel.productQuantityUnit,
                                               value: quantityValue)
         }
         if let store = viewModel.productStore {
@@ -359,7 +359,7 @@ extension CreateNewStockViewController: CreateNewProductViewModelDelegate {
     func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?) {
         category = text
         productView.setImage(imageURL: imageURL, imageData: imageData)
-        quantityView.setDefaultUnit(defaultSelectedUnit ?? .piece)
+        quantityView.setDefaultUnit(defaultSelectedUnit)
         
         if !imageURL.isEmpty || imageData != nil {
             isUserImage = false
@@ -427,13 +427,14 @@ extension CreateNewStockViewController: StoreOfProductViewDelegate {
 }
 
 extension CreateNewStockViewController: QuantityOfProductViewDelegate {
-    func unitSelected(_ unit: UnitSystem) {
+    func unitSelected(_ unit: UnitSystem?) {
         self.unit = unit
+        updateQuantityValue(quantityView.quantity)
     }
     
     func updateQuantityValue(_ quantity: Double) {
         let quantityString = String(format: "%.\(quantity.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", quantity)
-        productView.setQuantity(quantity > 0 ? "\(quantityString) \(unit.title)" : "")
+        productView.setQuantity(quantity > 0 ? "\(quantityString) \(unit?.title ?? "")" : "")
     }
     
     func tappedMinusPlusButtons(_ quantity: Double) {
