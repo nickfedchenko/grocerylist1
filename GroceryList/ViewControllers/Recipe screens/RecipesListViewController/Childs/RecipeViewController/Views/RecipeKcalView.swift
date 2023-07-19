@@ -112,7 +112,7 @@ private final class RecipeKcalSubView: UIView {
         }
         
         titleLabel.textColor = nutritionState.activeColor
-        gramLabel.text = value.asString + " " + nutritionState.placeholder
+        gramLabel.text = value.asInt.asString + " " + nutritionState.placeholder
     }
     
     private func setup() {

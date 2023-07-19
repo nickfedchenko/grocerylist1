@@ -82,7 +82,16 @@ final class RecipePreviewCell: UICollectionViewCell {
         
         favoriteImage.isHidden = !recipe.isFavorite
         
-        if let kcal = recipe.values?.dish?.kcal {
+        if let kcal = recipe.values?.serving?.kcal {
+            kcalImage.isHidden = false
+            kcalLabel.isHidden = false
+            
+            kcalLabel.text = "\(Int(kcal))"
+            kcalLabel.snp.makeConstraints { make in
+                make.trailing.equalTo(-8)
+                make.top.equalToSuperview().offset(3)
+            }
+        } else if let kcal = recipe.values?.dish?.kcal {
             kcalImage.isHidden = false
             kcalLabel.isHidden = false
             

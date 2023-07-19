@@ -32,7 +32,7 @@ final class CreateNewRecipeStepTwoViewModel {
         
         time = currentRecipe?.cookingTime
         servings = currentRecipe?.totalServings
-        kcal = currentRecipe?.values?.dish
+        kcal = currentRecipe?.values?.serving ?? currentRecipe?.values?.dish
         if let imageData = currentRecipe?.localImage {
             localImage = UIImage(data: imageData)
         }

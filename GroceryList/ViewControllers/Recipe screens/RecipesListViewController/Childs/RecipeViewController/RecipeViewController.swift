@@ -253,7 +253,7 @@ final class RecipeViewController: UIViewController {
     
     private func configureContent() {
         mainImageView.setupFor(recipe: viewModel.recipe)
-        mainImageView.setupKcal(value: viewModel.recipe.values?.dish)
+        mainImageView.setupKcal(value: viewModel.recipe.values?.serving ?? viewModel.recipe.values?.dish)
         servingSelector.setCountInitially(to: viewModel.recipe.totalServings)
         
         if viewModel.recipe.description.isEmpty {

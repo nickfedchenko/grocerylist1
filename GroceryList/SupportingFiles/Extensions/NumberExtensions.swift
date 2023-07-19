@@ -23,4 +23,8 @@ extension Double {
     var asString: String {
         return String(format: "%.\(self.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", self)
     }
+    
+    var asInt: Int {
+        return Int(self)
+    }
 }
