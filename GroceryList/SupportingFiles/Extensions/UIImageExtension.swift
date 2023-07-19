@@ -52,14 +52,9 @@ extension UIImage {
 
 extension UIImage {
     func fixedOrientation() -> UIImage {
-        
-        if imageOrientation == .up {
-            return self
-        }
-        
+        if imageOrientation == .up {  return self }
         var transform: CGAffineTransform = CGAffineTransform.identity
-        
-        
+                
         switch imageOrientation {
         case .down, .downMirrored:
             transform = transform.translatedBy(x: size.width, y: size.height)
@@ -70,8 +65,7 @@ extension UIImage {
         case .right, .rightMirrored:
             transform = transform.translatedBy(x: 0, y: size.height)
             transform = transform.rotated(by: CGFloat.pi / -2)
-        case .up, .upMirrored:
-            break
+        case .up, .upMirrored: break
         @unknown default: break
         }
         
@@ -82,8 +76,7 @@ extension UIImage {
         case .leftMirrored, .rightMirrored:
             transform = transform.translatedBy(x: size.height, y: 0)
             transform = transform.scaledBy(x: -1, y: 1)
-        case .up, .down, .left, .right:
-            break
+        case .up, .down, .left, .right: break
         @unknown default: break
         }
         

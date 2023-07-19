@@ -265,8 +265,8 @@
 "No Thanks"                     = "Nein Danke";
 
 // Tab Bar
-"List"                          = "Liste";
-"Pantry"                        = "Pantry";
+"List"                          = "Listen";
+"Pantry"                        = "Vorräte";
 
 // Pantry & Stocks
 "Pantry & Stocks"               = "Speisekammer & Vorräte";
@@ -292,7 +292,7 @@
 "Select List to Synchronize"    = "Liste zum Synchronisieren auswählen";
 "Edit List"                     = "Liste bearbeiten";
 
-"item"                          = "Element";
+"item"                          = "ARTIKEL";
 "Select List to Synchronize"    = "Liste zum Synchronisieren auswählen";
 "out of stock"                  = "Nicht auf Lager";
 "Pantry: Name"                  = "Pantry: %@";

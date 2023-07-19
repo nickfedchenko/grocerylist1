@@ -417,12 +417,12 @@ extension CreateNewPantryViewController: UITextViewDelegate {
                   replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         var textWidth = CGRectGetWidth(textView.frame.inset(by: textView.textContainerInset))
-        textWidth -= 2.0 * textView.textContainer.lineFragmentPadding;
+        textWidth -= 2.0 * textView.textContainer.lineFragmentPadding
 
         let boundingRect = sizeOfString(string: newText, constrainedToWidth: Double(textWidth), font: textView.font!)
-        let numberOfLines = boundingRect.height / textView.font!.lineHeight;
+        let numberOfLines = boundingRect.height / textView.font!.lineHeight
 
-        return numberOfLines <= 2;
+        return numberOfLines <= 2
     }
 }
 

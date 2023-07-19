@@ -105,8 +105,8 @@ class NameOfStockView: NameOfProductView {
             $0.width.height.equalTo(16)
         }
         
-        productTextField.snp.removeConstraints()
-        productTextField.snp.makeConstraints {
+        productTextView.snp.removeConstraints()
+        productTextView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(8)
             $0.leading.equalTo(productImageView.snp.trailing).offset(12)
             $0.trailing.equalTo(stockView.snp.leading).offset(-12)
@@ -115,7 +115,7 @@ class NameOfStockView: NameOfProductView {
         
         descriptionTextField.snp.removeConstraints()
         descriptionTextField.snp.makeConstraints {
-            $0.top.equalTo(productTextField.snp.bottom)
+            $0.top.equalTo(productTextView.snp.bottom)
             $0.leading.equalTo(productImageView.snp.trailing).offset(12)
             $0.trailing.equalTo(stockView.snp.leading).offset(-12)
             $0.height.greaterThanOrEqualTo(19)

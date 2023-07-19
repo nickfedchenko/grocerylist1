@@ -263,7 +263,6 @@ final class SearchInRecipeViewController: SearchViewController {
             $0.trailing.equalTo(searchView).offset(-12)
             $0.height.width.equalTo(24)
         }
-
         
         collectionView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()

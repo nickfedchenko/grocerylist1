@@ -33,7 +33,7 @@ class UpdatedPaywallViewController: UIViewController {
     
     private let titleView = UpdatedPaywallTitleView()
     private let featuresView = UpdatedPaywallFeaturesView()
-    private let productsView =  UpdatedPaywallProductView()
+    private let productsView = UpdatedPaywallProductView()
     
     private lazy var continueButton: UIButton = {
         let button = UIButton()
@@ -144,7 +144,7 @@ class UpdatedPaywallViewController: UIViewController {
     }
     
     func setGradientBackground() {
-        let colorTop =  UIColor(hex: "86FFD9").cgColor
+        let colorTop = UIColor(hex: "86FFD9").cgColor
         let colorBottom = UIColor(hex: "40F3DA").cgColor
                     
         let gradientLayer = CAGradientLayer()

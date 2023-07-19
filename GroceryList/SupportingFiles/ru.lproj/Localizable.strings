@@ -289,8 +289,8 @@
 "No Thanks"                     = "Нет, спасибо";
 
 // Tab Bar
-"List"                          = "Список";
-"Pantry"                        = "Кладовая";
+"List"                          = "Списки";
+"Pantry"                        = "Запасы";
 
 // Pantry & Stocks
 "Pantry & Stocks"               = "Кладовая и запасы";

@@ -17,7 +17,7 @@ class NameOfProductView: UIView {
     
     weak var delegate: NameOfProductViewDelegate?
     var productTitle: String? {
-        productTextField.text
+        productTextView.text
     }
     var descriptionTitle: String? {
         descriptionTextField.text
@@ -26,14 +26,34 @@ class NameOfProductView: UIView {
         productImageView.image == emptyImage ? nil : productImageView.image
     }
     
-    lazy var productTextField: UITextField = {
-        let textField = UITextField()
-        textField.delegate = self
-        textField.font = UIFont.SFPro.semibold(size: 17).font
-        textField.textColor = .black
-        textField.tintColor = .black
-        textField.placeholder = " " + R.string.localizable.name()
-        return textField
+//    lazy var productTextView: UITextField = {
+//        let textField = UITextField()
+//        textField.delegate = self
+//        textField.font = UIFont.SFPro.semibold(size: 17).font
+//        textField.textColor = .black
+//        textField.tintColor = .black
+//        textField.placeholder = " " + R.string.localizable.name()
+//        return textField
+//    }()
+
+    lazy var productTextView: TextViewWithPlaceholder = {
+        let textView = TextViewWithPlaceholder()
+        textView.delegate = self
+        textView.font = UIFont.SFPro.semibold(size: 17).font
+        textView.textColor = .black
+        textView.tintColor = .black
+        textView.backgroundColor = .clear
+        textView.keyboardAppearance = .light
+        textView.setPlaceholder(placeholder: R.string.localizable.name(),
+                                 textColor: UIColor.white.withAlphaComponent(0.5),
+                                 font: UIFont.SFPro.semibold(size: 20).font)
+        textView.textContainer.maximumNumberOfLines = 4
+        textView.isScrollEnabled = false
+        if UIDevice.isSEorXor12mini {
+            textView.autocorrectionType = .no
+            textView.spellCheckingType = .no
+        }
+        return textView
     }()
     
     lazy var descriptionTextField: UITextField = {
@@ -93,7 +113,7 @@ class NameOfProductView: UIView {
     }
     
     func setTintColor(_ tintColor: UIColor) {
-        productTextField.tintColor = tintColor
+        productTextView.tintColor = tintColor
         descriptionTextField.tintColor = tintColor
     }
     
@@ -193,9 +213,17 @@ class NameOfProductView: UIView {
                                       offset: .init(width: 0, height: 6))
     }
     
+    private func sizeOfString(string: String, constrainedToWidth width: Double,
+                              font: UIFont) -> CGSize {
+        return (string as NSString).boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude),
+                                                 options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                                                 attributes: [NSAttributedString.Key.font: font],
+                                                 context: nil).size
+    }
+    
     private func makeConstraints() {
         self.addSubviews([shadowOneView, shadowTwoView, contentView])
-        contentView.addSubviews([checkmarkImage, productTextField, descriptionTextField, productImageView, removeImageButton])
+        contentView.addSubviews([checkmarkImage, productTextView, descriptionTextField, productImageView, removeImageButton])
         
         contentView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
@@ -208,26 +236,29 @@ class NameOfProductView: UIView {
         }
         
         checkmarkImage.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().offset(8)
+            $0.leading.equalToSuperview().offset(8)
+            $0.centerY.equalToSuperview()
             $0.height.width.equalTo(40)
         }
         
-        productTextField.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(8)
+        productTextView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(4)
             $0.leading.equalTo(checkmarkImage.snp.trailing).offset(12)
             $0.trailing.equalTo(productImageView.snp.leading).offset(-12)
-            $0.height.equalTo(21)
+            $0.height.greaterThanOrEqualTo(21)
         }
         
         descriptionTextField.snp.makeConstraints {
-            $0.top.equalTo(productTextField.snp.bottom)
+            $0.top.equalTo(productTextView.snp.bottom)
             $0.leading.equalTo(checkmarkImage.snp.trailing).offset(12)
             $0.trailing.equalTo(productImageView.snp.leading).offset(-12)
             $0.height.greaterThanOrEqualTo(19)
+            $0.bottom.equalToSuperview().offset(-8)
         }
         
         productImageView.snp.makeConstraints {
-            $0.bottom.trailing.equalToSuperview().offset(-8)
+            $0.trailing.equalToSuperview().offset(-8)
+            $0.centerY.equalToSuperview()
             $0.height.width.equalTo(40)
         }
         
@@ -241,14 +272,14 @@ class NameOfProductView: UIView {
 
 extension NameOfProductView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == productTextField {
+        if textField == productTextView {
             descriptionTextField.becomeFirstResponder()
         }
         return true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        delegate?.isFirstResponderProductTextField(textField == productTextField)
+        delegate?.isFirstResponderProductTextField(false)
         if textField == descriptionTextField {
             AmplitudeManager.shared.logEvent(.secondInputManual)
             guard !(descriptionTextField.text?.isEmpty ?? true) else {
@@ -260,15 +291,33 @@ extension NameOfProductView: UITextFieldDelegate {
         }
     }
     
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        if textField == productTextField {
-            delegate?.enterProductName(name: productTextField.text)
-        }
-    }
-    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
-        return newLength < 25
+        return newLength < 30
+    }
+}
+
+extension NameOfProductView: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        delegate?.isFirstResponderProductTextField(true)
+        productTextView.checkPlaceholder()
+    }
+
+    func textViewDidChange(_ textView: UITextView) {
+        productTextView.checkPlaceholder()
+        delegate?.enterProductName(name: productTextView.text)
+    }
+
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
+                  replacementText text: String) -> Bool {
+        let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+        var textWidth = CGRectGetWidth(textView.frame.inset(by: textView.textContainerInset))
+        textWidth -= 2.0 * textView.textContainer.lineFragmentPadding
+
+        let boundingRect = sizeOfString(string: newText, constrainedToWidth: Double(textWidth), font: textView.font!)
+        let numberOfLines = boundingRect.height / textView.font!.lineHeight
+
+        return numberOfLines <= 4
     }
 }

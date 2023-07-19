@@ -58,7 +58,7 @@ final class CreateNewStockViewController: UIViewController {
         super.viewDidLayoutSubviews()
         autoRepeatView.makeCustomRound(topLeft: 4, topRight: 40, bottomLeft: 4, bottomRight: 4)
         if !viewDidLayout {
-            productView.productTextField.becomeFirstResponder()
+            productView.productTextView.becomeFirstResponder()
             setupCurrentProduct()
             updateStoreView(isVisible: viewModel.isVisibleStore)
             viewDidLayout.toggle()
@@ -129,8 +129,8 @@ final class CreateNewStockViewController: UIViewController {
             }
             self.predictiveTextView.configure(texts: titles)
         }
-        productView.productTextField.autocorrectionType = .no
-        productView.productTextField.spellCheckingType = .no
+        productView.productTextView.autocorrectionType = .no
+        productView.productTextView.spellCheckingType = .no
         predictiveTextView.delegate = self
     }
     
@@ -145,7 +145,7 @@ final class CreateNewStockViewController: UIViewController {
         autoRepeatSettingView.configure(autoRepeat: viewModel.autoRepeatModel,
                                         isReminder: viewModel.isReminder)
         
-        productView.productTextField.text = viewModel.productName
+        productView.productTextView.text = viewModel.productName
         productView.descriptionTextField.text = viewModel.userComment
         productView.setStock(isAvailability: viewModel.isAvailability)
         if let productImage = viewModel.productImage {
@@ -380,7 +380,7 @@ extension CreateNewStockViewController: CreateNewProductViewModelDelegate {
     }
     
     func showKeyboard() {
-        productView.productTextField.becomeFirstResponder()
+        productView.productTextView.becomeFirstResponder()
     }
 }
 
@@ -447,7 +447,7 @@ extension CreateNewStockViewController: QuantityOfProductViewDelegate {
 
 extension CreateNewStockViewController: AutoRepeatSettingViewDelegate {
     func tappedDone() {
-        productView.productTextField.becomeFirstResponder()
+        productView.productTextView.becomeFirstResponder()
         
         autoRepeatSettingView.snp.remakeConstraints {
             $0.leading.trailing.equalToSuperview()
@@ -473,7 +473,7 @@ extension CreateNewStockViewController: AutoRepeatSettingViewDelegate {
 extension CreateNewStockViewController: PredictiveTextViewDelegate {
     func selectTitle(_ title: String) {
         AmplitudeManager.shared.logEvent(.itemPredictAdd)
-        productView.productTextField.text = title
+        productView.productTextView.text = title
         viewModel.checkIsProductFromCategory(name: title)
     }
 }

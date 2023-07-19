@@ -25,6 +25,8 @@ final class PantryViewController: UIViewController {
         label.text = R.string.localizable.pantryStocks()
         label.font = UIFont.SFProDisplay.heavy(size: 32).font
         label.textColor = R.color.primaryDark()
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.3
         return label
     }()
     

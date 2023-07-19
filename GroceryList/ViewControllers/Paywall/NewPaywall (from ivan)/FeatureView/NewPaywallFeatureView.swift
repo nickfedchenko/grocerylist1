@@ -168,7 +168,7 @@ class NewPaywallFeatureView: UIView {
 
 extension NewPaywallFeatureView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
-                    numberOfItemsInSection section: Int) -> Int {
+                        numberOfItemsInSection section: Int) -> Int {
         features.count
     }
     

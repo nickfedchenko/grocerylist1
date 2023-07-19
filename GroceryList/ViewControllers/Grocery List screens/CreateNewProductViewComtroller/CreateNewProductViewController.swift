@@ -50,7 +50,7 @@ class CreateNewProductViewController: UIViewController {
         super.viewDidLayoutSubviews()
         categoryView.makeCustomRound(topLeft: 4, topRight: 40, bottomLeft: 4, bottomRight: 4)
         if !viewDidLayout {
-            productView.productTextField.becomeFirstResponder()
+            productView.productTextView.becomeFirstResponder()
             setupCurrentProduct()
             updateStoreView(isVisible: viewModel?.isVisibleStore ?? true)
             viewDidLayout.toggle()
@@ -119,8 +119,8 @@ class CreateNewProductViewController: UIViewController {
             guard let self else { return }
             self.predictiveTextView.configure(texts: titles)
         }
-        productView.productTextField.autocorrectionType = .no
-        productView.productTextField.spellCheckingType = .no
+        productView.productTextView.autocorrectionType = .no
+        productView.productTextView.spellCheckingType = .no
         predictiveTextView.delegate = self
     }
     
@@ -165,8 +165,8 @@ class CreateNewProductViewController: UIViewController {
         }
         
         let colorForForeground = viewModel?.getColorForForeground ?? .black
-        categoryView.setCategoryInProduct(viewModel?.productCategory, backgroundColor: colorForForeground)
-        productView.productTextField.text = viewModel?.productName
+        updateCategory(isActive: !(viewModel?.productCategory?.isEmpty ?? true), categoryTitle: viewModel?.productCategory)
+        productView.productTextView.text = viewModel?.productName
         productView.descriptionTextField.text = viewModel?.userComment
         if let productImage = viewModel?.productImage {
             productView.setImage(productImage)
@@ -182,9 +182,10 @@ class CreateNewProductViewController: UIViewController {
             storeView.setCost(value: cost)
         }
         viewModel?.setCostOfProductPerUnit()
+        updateSaveButton(isActive: productView.productTextView.text.count >= 1)
     }
     
-    private func updateCategory(isActive: Bool, categoryTitle: String) {
+    private func updateCategory(isActive: Bool, categoryTitle: String?) {
         let colorForForeground = viewModel?.getColorForForeground ?? UIColor(hex: "#278337")
         let color = isActive ? colorForForeground : inactiveColor
         let title = isActive ? categoryTitle : R.string.localizable.category()
@@ -282,7 +283,7 @@ class CreateNewProductViewController: UIViewController {
     
     func applyPredictiveInput(_ title: String) {
         AmplitudeManager.shared.logEvent(.itemPredictAdd)
-        productView.productTextField.text = title
+        productView.productTextView.text = title
         viewModel?.checkIsProductFromCategory(name: title)
     }
     
@@ -334,7 +335,7 @@ class CreateNewProductViewController: UIViewController {
         productView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(categoryView.snp.bottom).offset(20)
-            $0.height.equalTo(56)
+            $0.height.greaterThanOrEqualTo(56)
         }
         
         storeView.snp.makeConstraints {
@@ -420,7 +421,7 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     }
     
     func showKeyboard() {
-        productView.productTextField.becomeFirstResponder()
+        productView.productTextView.becomeFirstResponder()
     }
 }
 
