@@ -148,6 +148,7 @@ final class CreateNewStockViewController: UIViewController {
         productView.productTextView.text = viewModel.productName
         productView.descriptionTextField.text = viewModel.userComment
         productView.setStock(isAvailability: viewModel.isAvailability)
+        productView.productTextView.checkPlaceholder()
         if let productImage = viewModel.productImage {
             productView.setImage(productImage)
         }

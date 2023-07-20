@@ -168,6 +168,7 @@ class CreateNewProductViewController: UIViewController {
         updateCategory(isActive: !(viewModel?.productCategory?.isEmpty ?? true), categoryTitle: viewModel?.productCategory)
         productView.productTextView.text = viewModel?.productName
         productView.descriptionTextField.text = viewModel?.userComment
+        productView.productTextView.checkPlaceholder()
         if let productImage = viewModel?.productImage {
             productView.setImage(productImage)
         }
