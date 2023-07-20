@@ -96,6 +96,7 @@ final class MainRecipeViewModel {
     }
     
     func showSearch() {
+        AmplitudeManager.shared.logEvent(.recipeSearch)
         router?.goToSearchInRecipe()
     }
 }

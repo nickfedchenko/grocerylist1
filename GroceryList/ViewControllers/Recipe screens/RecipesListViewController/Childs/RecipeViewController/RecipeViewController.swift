@@ -272,6 +272,7 @@ final class RecipeViewController: UIViewController {
             }
             self.ingredientViews.enumerated().forEach({ index, view in
                 if isShowCost {
+                    AmplitudeManager.shared.logEvent(.recipeShowPriceStores)
                     let store = self.viewModel.getStoreAndCost(by: index)
                     view.setupCost(isVisible: isShowCost,
                                               storeTitle: store.store, costValue: store.cost)
@@ -485,7 +486,6 @@ extension RecipeViewController: RecipeServingSelectorDelegate {
             ingredientViews[index].setServing(serving: title)
         }
     }
-    
 }
 
 extension RecipeViewController: RecipeScreenHeaderDelegate {
@@ -494,6 +494,9 @@ extension RecipeViewController: RecipeScreenHeaderDelegate {
     }
     
     func contextMenuButtonTapped() {
+        if viewModel.fromSearch {
+            AmplitudeManager.shared.logEvent(.recipeContextFromSearch)
+        }
         if viewModel.recipe.isDefaultRecipe || backButtonTitle != R.string.localizable.search() {
             contextMenuView.removeDeleteButton()
         }
@@ -510,6 +513,7 @@ extension RecipeViewController: RecipeScreenHeaderDelegate {
 
 extension RecipeViewController: RecipeMainImageViewDelegate {
     func shareButtonTapped() {
+        AmplitudeManager.shared.logEvent(.recipeSendOnPhoto)
         let screenshot = containerView.snapshotNewView(with: view.backgroundColor)
         DispatchQueue.main.async {
             let activityVC = UIActivityViewController(activityItems: [screenshot], applicationActivities: nil)

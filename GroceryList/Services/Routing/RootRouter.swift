@@ -268,7 +268,8 @@ final class RootRouter: RootRouterProtocol {
     func goToRecipe(recipe: Recipe, sectionColor: Theme?, fromSearch: Bool = false,
                     removeRecipe: ((Recipe) -> Void)?) {
         let controller = viewControllerFactory.createRecipeScreen(router: self, recipe: recipe,
-                                                                  sectionColor: sectionColor, removeRecipe: removeRecipe)
+                                                                  sectionColor: sectionColor, fromSearch: fromSearch,
+                                                                  removeRecipe: removeRecipe)
         if fromSearch {
             navigationPushViewController(controller, animated: true)
         } else {

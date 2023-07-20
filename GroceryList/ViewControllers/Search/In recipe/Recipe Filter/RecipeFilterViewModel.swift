@@ -87,13 +87,19 @@ class RecipeFilterViewModel {
     }
     
     func popController() {
-        selectedFilters?([Filter(filter: .exception, tags: exceptionFilter),
-                          Filter(filter: .diet, tags: dietFilter),
-                          Filter(filter: .typeOfDish, tags: typeOfDishFilter),
-                          Filter(filter: .cookingMethod, tags: cookingMethodFilter),
-                          Filter(filter: .caloriesPerServing, tags: caloriesPerServingFilter),
-                          Filter(filter: .cookingTime, tags: cookingTimeFilter),
-                          Filter(filter: .quantityOfIngredients, tags: quantityOfIngredientsFilter)])
+        let filters = [Filter(filter: .exception, tags: exceptionFilter),
+                       Filter(filter: .diet, tags: dietFilter),
+                       Filter(filter: .typeOfDish, tags: typeOfDishFilter),
+                       Filter(filter: .cookingMethod, tags: cookingMethodFilter),
+                       Filter(filter: .caloriesPerServing, tags: caloriesPerServingFilter),
+                       Filter(filter: .cookingTime, tags: cookingTimeFilter),
+                       Filter(filter: .quantityOfIngredients, tags: quantityOfIngredientsFilter)]
+        selectedFilters?(filters)
         
+        filters.forEach {
+            $0.tags.forEach { tag in
+                AmplitudeManager.shared.logEvent(.recipeSelectFilter, properties: [.filterName: tag.title])
+            }
+        }
     }
 }

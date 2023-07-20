@@ -372,6 +372,7 @@ extension CreateNewRecipeStepTwoViewController: UINavigationControllerDelegate, 
         self.dismiss(animated: true, completion: nil)
         let image = info[.originalImage] as? UIImage
         let orientedImage = image?.fixedOrientation()
+        AmplitudeManager.shared.logEvent(.recipeCreateAddPhoto)
         photoView.setImage(orientedImage)
     }
 }

@@ -83,6 +83,7 @@ final class CreateNewRecipeStepOneViewModel {
     }
     
     func next() {
+        AmplitudeManager.shared.logEvent(.recipeCreateStep2)
         guard let recipe else {
             return
         }
@@ -135,6 +136,8 @@ final class CreateNewRecipeStepOneViewModel {
         guard isDraftRecipe, let title else {
             return
         }
+        AmplitudeManager.shared.logEvent(.recipeSaveToDrafts)
+        
         guard var draft else {
             draft = Recipe(title: title, description: description)
             if let dbDraftsCollection = CoreDataManager.shared.getAllCollection()?

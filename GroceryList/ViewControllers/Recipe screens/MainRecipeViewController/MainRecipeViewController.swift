@@ -318,6 +318,12 @@ extension MainRecipeViewController: MainTabBarControllerRecipeDelegate {
     }
     
     func tappedChangeView() {
+        if UserDefaultsManager.recipeIsFolderView {
+            AmplitudeManager.shared.logEvent(.recipeToggleFolderViev)
+        } else {
+            AmplitudeManager.shared.logEvent(.recipeToggleCollectionView)
+        }
+        
         DispatchQueue.main.async {
             self.updateCollectionContentInset()
             self.recipesCollectionView.reloadData()

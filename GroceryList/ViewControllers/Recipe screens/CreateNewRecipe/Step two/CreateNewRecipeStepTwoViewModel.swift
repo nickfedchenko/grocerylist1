@@ -142,6 +142,9 @@ final class CreateNewRecipeStepTwoViewModel {
             return
         }
         CoreDataManager.shared.saveRecipes(recipes: [recipe])
+        AmplitudeManager.shared.logEvent(.recipeCreateSave,
+                                         properties: [.ingredientsAndSteps: "\(recipe.ingredients.count) : \(recipe.instructions?.count ?? 0)"])
+        
         if isSaveToFavorites {
             UserDefaultsManager.favoritesRecipeIds.append(recipe.id)
         }

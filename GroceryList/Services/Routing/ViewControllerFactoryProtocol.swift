@@ -76,7 +76,8 @@ protocol ViewControllerFactoryProtocol {
                                         compl: @escaping (Ingredient) -> Void) -> UIViewController
     func createSearchInList(router: RootRouter) -> UIViewController
     func createSearchInRecipe(router: RootRouter, section: RecipeSectionsModel?) -> UIViewController
-    func createRecipeScreen(router: RootRouter, recipe: Recipe, sectionColor: Theme?,
+    func createRecipeScreen(router: RootRouter, recipe: Recipe,
+                            sectionColor: Theme?, fromSearch: Bool,
                             removeRecipe: ((Recipe) -> Void)?) -> UIViewController
     func createEditSelectListController(router: RootRouter, products: [Product], contentViewHeigh: CGFloat,
                                         delegate: EditSelectListDelegate,

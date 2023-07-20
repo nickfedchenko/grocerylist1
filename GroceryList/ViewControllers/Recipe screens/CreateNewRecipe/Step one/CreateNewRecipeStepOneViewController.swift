@@ -175,6 +175,9 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
             guard let self else {
                 return
             }
+            if isShowCost {
+                AmplitudeManager.shared.logEvent(.recipeCreateShowPriceStore)
+            }
             self.viewModel?.setIsShowCost(isShowCost)
             self.ingredientsView.stackView.arrangedSubviews.enumerated().forEach({ index, view in
                 let ingredientView = (view as? IngredientForCreateRecipeView)
