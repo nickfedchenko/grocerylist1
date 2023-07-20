@@ -25,6 +25,7 @@ final class CreateNewRecipeStepTwoViewModel {
     private var draft: Recipe?
     private(set) var recipe: Recipe
     private(set) var currentRecipe: Recipe?
+    private var isSaved = false
     
     init(currentRecipe: Recipe?, recipe: Recipe) {
         self.recipe = recipe
@@ -114,6 +115,9 @@ final class CreateNewRecipeStepTwoViewModel {
     }
     
     private func saveRecipe() {
+        guard !isSaved else {
+            return
+        }
         guard var currentRecipe else {
             saveNewRecipe()
             return
@@ -127,6 +131,7 @@ final class CreateNewRecipeStepTwoViewModel {
         
         recipe = currentRecipe
         CoreDataManager.shared.saveRecipes(recipes: [currentRecipe])
+        isSaved = true
     }
     
     private func saveNewRecipe() {
@@ -149,6 +154,7 @@ final class CreateNewRecipeStepTwoViewModel {
             UserDefaultsManager.favoritesRecipeIds.append(recipe.id)
         }
         self.recipe = recipe
+        isSaved = true
     }
 
     private func updateRecipe() {

@@ -184,6 +184,7 @@ class CreateNewProductViewController: UIViewController {
         }
         viewModel?.setCostOfProductPerUnit()
         updateSaveButton(isActive: productView.productTextView.text.count >= 1)
+        isHideFeatureIfNeeded()
     }
     
     func updateCategory(isActive: Bool, categoryTitle: String?) {
@@ -314,6 +315,14 @@ class CreateNewProductViewController: UIViewController {
     func setupUserImage(_ image: UIImage?) {
         productView.setImage(image)
         isUserImage = true
+    }
+    
+    func isHideFeatureIfNeeded() {
+        let topRect: CGRect = .init(origin: .init(x: 0, y: 0), size: .init(width: self.view.bounds.width, height: 1))
+        let messageRect: CGRect = autoCategoryView.frame
+        if messageRect.intersects(topRect) {
+            autoCategoryHideTap()
+        }
     }
     
     func makeConstraints() {
@@ -451,6 +460,8 @@ extension CreateNewProductViewController: NameOfProductViewDelegate {
             storeView.reset()
             quantityView.reset()
         }
+        
+        isHideFeatureIfNeeded()
     }
     
     func isFirstResponderProductTextField(_ flag: Bool) {
