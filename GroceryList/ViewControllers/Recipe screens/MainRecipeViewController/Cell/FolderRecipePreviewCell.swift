@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 20.06.2023.
 //
 
+import Kingfisher
 import UIKit
 
 final class FolderRecipePreviewCell: UICollectionViewCell {
@@ -59,12 +60,6 @@ final class FolderRecipePreviewCell: UICollectionViewCell {
         leftColorView.backgroundColor = .clear
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        containerView.makeCustomRound(topLeft: 2, topRight: 12, bottomLeft: 2, bottomRight: 12)
-    }
-    
     func configure(folderTitle: String, photoUrl: String, imageData: Data?,
                    color: Theme, recipeCount: String) {
         titleLabel.textColor = color.dark
@@ -81,8 +76,18 @@ final class FolderRecipePreviewCell: UICollectionViewCell {
         }
         
         if let photoUrl = URL(string: photoUrl) {
-            mainImage.kf.setImage(with: photoUrl)
+            mainImage.kf.setImage(
+                with: photoUrl,
+                placeholder: nil,
+                options: [
+                    .processor(DownsamplingImageProcessor(size: CGSize(width: 100, height: 100))),
+                    .scaleFactor(UIScreen.main.scale),
+                    .cacheOriginalImage
+                ])
+            return
         }
+        
+        mainImage.image = R.image.defaultRecipeImage()
     }
     
     private func setupSubviews() {
@@ -95,7 +100,12 @@ final class FolderRecipePreviewCell: UICollectionViewCell {
         contentView.backgroundColor = .white
         topWhiteView.backgroundColor = .white
         containerView.backgroundColor = .white
-        
+
+        containerView.layer.cornerRadius = 12
+        containerView.layer.cornerCurve = .continuous
+        containerView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+        containerView.clipsToBounds = true
+
         leftColorView.layer.cornerRadius = 8
         leftColorView.layer.cornerCurve = .continuous
         leftColorView.layer.maskedCorners = [.layerMaxXMaxYCorner]
@@ -109,8 +119,8 @@ final class FolderRecipePreviewCell: UICollectionViewCell {
     
     private func makeConstraints() {
         self.contentView.addSubviews([containerView])
-        containerView.addSubviews([topColorView, leftColorView, topWhiteView])
-        containerView.addSubviews([recipeCountLabel, titleLabel, mainImage])
+        containerView.addSubviews([topColorView, leftColorView, topWhiteView,
+                                   recipeCountLabel, titleLabel, mainImage])
         
         containerView.snp.makeConstraints {
             $0.edges.equalToSuperview()

@@ -759,10 +759,10 @@
 			isa = PBXGroup;
 			children = (
 				383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */,
+				33C6F0D62A41445600E71023 /* FolderRecipePreviewCell.swift */,
 				33D912BF29A396A900C32117 /* MoreRecipeCell.swift */,
 				33C6F0D42A4097CD00E71023 /* RecipeColorCell.swift */,
 				383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */,
-				33C6F0D62A41445600E71023 /* FolderRecipePreviewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";

@@ -65,7 +65,7 @@ final class CreateNewRecipeStepTwoViewModel {
     }
     
     func saveRecipeTo() {
-        let recipe = currentRecipe ?? draft ?? recipe
+        let recipe = currentRecipe ?? draft
         router?.goToShowCollection(state: .select, recipe: recipe,
                                    compl: { [weak self] selectedCollections in
             if selectedCollections.isEmpty,
