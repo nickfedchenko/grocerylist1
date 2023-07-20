@@ -118,8 +118,8 @@ final class SearchInRecipeViewModel {
                 return
             }
             self.allRecipes.removeAll { $0.id == recipe.id }
-            self.filterRecipes = allRecipes
-            self.search(text: searchText)
+            self.filterRecipes = self.allRecipes
+            self.search(text: self.searchText)
         })
     }
     

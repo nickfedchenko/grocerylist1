@@ -156,7 +156,7 @@ class RecipeListCell: UICollectionViewCell {
                     }
                 }
                 self.delegate?.contextMenuTapped(at: self.selectedIndex,
-                                                 point: contextMenuButton.center, cell: self)
+                                                 point: self.contextMenuButton.center, cell: self)
             },
             for: .touchUpInside
         )
