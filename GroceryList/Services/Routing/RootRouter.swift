@@ -443,14 +443,14 @@ final class RootRouter: RootRouterProtocol {
                     return
                 }
 
-                self?.showAlternativePaywallVC()
+                self?.showNewPaywall(isTrial: false)
                 return
             }
 
             if let targetPaywallName = paywall.json?["name"] as? String {
                 self?.showPaywall(by: targetPaywallName)
             } else {
-                self?.showAlternativePaywallVC()
+                self?.showNewPaywall(isTrial: false)
             }
         }
     }
@@ -462,7 +462,7 @@ final class RootRouter: RootRouterProtocol {
             guard let self else {
                 return
             }
-            controller = self.viewControllerFactory.createAlternativePaywallController()
+            controller = self.viewControllerFactory.createNewPaywallController(isTrial: false)
             guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
 
                 if let paywall = paywalls.first(where: { $0.isDefault }),
@@ -491,8 +491,10 @@ final class RootRouter: RootRouterProtocol {
             showNewPaywall(isTrial: true)
         } else if name == "IvanNoTrialPaywall" {
             showNewPaywall(isTrial: false)
-        } else {
+        } else if name == "AlternativePaywall" {
             showAlternativePaywallVC()
+        } else {
+            showNewPaywall(isTrial: false)
         }
     }
     
@@ -503,8 +505,10 @@ final class RootRouter: RootRouterProtocol {
             return viewControllerFactory.createNewPaywallController(isTrial: true)
         } else if name == "IvanNoTrialPaywall" {
             return viewControllerFactory.createNewPaywallController(isTrial: false)
-        } else {
+        } else if name == "AlternativePaywall" {
             return viewControllerFactory.createUpdatedPaywallController()
+        } else {
+            return viewControllerFactory.createNewPaywallController(isTrial: false)
         }
     }
     
