@@ -157,7 +157,7 @@ class ProductListCell: UICollectionViewListCell {
             make.top.equalToSuperview()
             make.bottom.equalToSuperview().inset(8)
         }
-        
+        imageView.snp.updateConstraints { $0.width.equalTo(40) }
         clearTheCell()
     }
     
@@ -214,6 +214,10 @@ class ProductListCell: UICollectionViewListCell {
                 DispatchQueue.main.async {
                     self.imageView.image = image
                 }
+            }
+        } else {
+            imageView.snp.updateConstraints {
+                $0.width.equalTo(0)
             }
         }
     }
