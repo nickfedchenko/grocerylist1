@@ -32,7 +32,7 @@ enum RequestGenerator: Codable {
     case updateGroceryList(userToken: String, listId: String)
     case userProduct
     case feedback
-    
+
     case sharePantryList(userToken: String, listId: String?)
     case pantryListRelease(userToken: String, sharingToken: String)
     case pantryListDelete(userToken: String, listId: String)
@@ -40,6 +40,7 @@ enum RequestGenerator: Codable {
     case pantryListUserDelete(userToken: String, listId: String)
     case fetchMyPantryLists(userToken: String)
     case fetchPantryListUsers(userToken: String, listId: String)
+    case saveUserPantryList(pantryTitle: String, stockTitle: String)
     
     case fetchFAQState
 
@@ -182,6 +183,11 @@ enum RequestGenerator: Codable {
                                   method: .get) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectPantryListId(in: &components, listId: listId)
+            }
+        case .saveUserPantryList(pantryTitle: let pantryTitle, stockTitle: let stockTitle):
+            return requestCreator(basicURL: "https://ketodietapplication.site/api/pantryList/userList",
+                                  method: .post) { components in
+                injectUserStock(in: &components, pantryTitle: pantryTitle, stockTitle: stockTitle)
             }
         case .fetchFAQState:
             return requestCreator(basicURL: "https://ketodietapplication.site/api/faq/state", method: .get) { _ in }
@@ -361,6 +367,14 @@ enum RequestGenerator: Codable {
     private func injectPantryListId(in components: inout URLComponents, listId: String) {
         let queries: [URLQueryItem] = [
             .init(name: "pantry_list_id", value: listId)
+        ]
+        insert(queries: queries, components: &components)
+    }
+    
+    private func injectUserStock(in components: inout URLComponents, pantryTitle: String, stockTitle: String) {
+        let queries: [URLQueryItem] = [
+            .init(name: "title", value: pantryTitle),
+            .init(name: "record", value: stockTitle)
         ]
         insert(queries: queries, components: &components)
     }
