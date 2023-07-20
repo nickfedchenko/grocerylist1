@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 13.07.2023.
 //
 
+import MessageUI
 import UIKit
 import WebKit
 
@@ -36,7 +37,7 @@ class FAQViewController: UIViewController {
         webView.navigationDelegate = self
         webView.isHidden = true
         webView.scrollView.contentInset.bottom = 80
-        
+        navigationView.backgroundColor = UIColor(hex: "E5F5F3").withAlphaComponent(0.9)
         makeConstraints()
         loadFAQ()
     }
@@ -49,7 +50,8 @@ class FAQViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if !InternetConnection.isConnected() {
-            let alert = UIAlertController(title: "", message: "Проверьте Интернет соединение", preferredStyle: .alert)
+            let alert = UIAlertController(title: "", message: R.string.localizable.checkInternetConnection(),
+                                          preferredStyle: .alert)
             let alertAction = UIAlertAction(title: "OK", style: .default) { _ in
 
             }
@@ -80,7 +82,6 @@ class FAQViewController: UIViewController {
         let isInitialPage = initialUrl == webView.url?.absoluteString
         backButton.isHidden = !isInitialPage
         navigationView.isHidden = !isInitialPage
-
     }
     
     @objc
@@ -107,8 +108,8 @@ class FAQViewController: UIViewController {
         }
         
         backButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(8)
-            $0.bottom.equalToSuperview()
+            $0.leading.equalToSuperview().offset(20)
+            $0.bottom.equalToSuperview().offset(6)
             $0.height.equalTo(40)
         }
     }
@@ -119,5 +120,45 @@ extension FAQViewController: WKNavigationDelegate {
         activityView.removeFromView()
         self.webView.isHidden = false
         updateNavigationConstraints()
+    }
+    
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        if initialUrl == webView.url?.absoluteString {
+            navigationView.fadeIn()
+        } else {
+            navigationView.fadeOut()
+        }
+    }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
+                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        guard let url = navigationAction.request.url,
+              let scheme = url.scheme else {
+            decisionHandler(.cancel)
+            return
+        }
+        
+        if scheme.lowercased() == "mailto",
+            let components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+            let email = components.path
+            if MFMailComposeViewController.canSendMail() {
+                let mail = MFMailComposeViewController()
+                mail.mailComposeDelegate = self
+                mail.setToRecipients([email])
+                mail.setSubject("Version \(Bundle.main.appVersionLong)(\(Bundle.main.appBuild))")
+                mail.setMessageBody("<p>Hey! I have some questions!</p>", isHTML: true)
+                present(mail, animated: true)
+            } else {
+                print("Send mail not allowed")
+            }
+        }
+        decisionHandler(.allow)
+    }
+}
+
+// MARK: - Contact Us
+extension FAQViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        self.dismiss(animated: true)
     }
 }

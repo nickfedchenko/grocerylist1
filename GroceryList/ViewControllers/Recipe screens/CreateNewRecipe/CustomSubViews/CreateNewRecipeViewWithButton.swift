@@ -115,17 +115,20 @@ final class CreateNewRecipeViewWithButton: UIView {
     
     func closeStackButton(isVisible: Bool) {
         closeStackButton.isHidden = true
-//        closeStackButton.isHidden = !isVisible
-//        if isVisible {
-//            top = 26
-//            offset = 10
-//            titleLabel.snp.updateConstraints { $0.top.equalToSuperview().offset(top) }
-//            stackView.snp.updateConstraints { $0.top.equalTo(titleLabel.snp.bottom).offset(10) }
-//        }
     }
     
-    func addViewToStackView(_ view: UIView) {
-        stackView.addArrangedSubview(view)
+    func addViewToStackView(_ view: UIView, insertIndex: Int?) {
+        if let insertIndex {
+            stackView.arrangedSubviews.enumerated().forEach { index, view in
+                if index == insertIndex {
+                    view.removeFromSuperview()
+                }
+            }
+            stackView.insertArrangedSubview(view, at: insertIndex)
+        } else {
+            stackView.addArrangedSubview(view)
+        }
+        
         view.layoutIfNeeded()
         contentView.snp.updateConstraints {
             $0.top.equalTo(stackView.snp.bottom).offset(8)

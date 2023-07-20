@@ -370,12 +370,13 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createIngredientViewController(isShowCost: Bool, router: RootRouter,
+    func createIngredientViewController(isShowCost: Bool, currentIngredient: Ingredient?, router: RootRouter,
                                         compl: @escaping (Ingredient) -> Void) -> UIViewController {
         let viewModel = IngredientViewModel()
         viewModel.router = router
         viewModel.ingredientCallback = compl
         viewModel.isShowCost = isShowCost
+        viewModel.currentIngredient = currentIngredient
         let viewController = IngredientViewController(viewModel: viewModel)
         return viewController
     }
@@ -396,11 +397,13 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createRecipeScreen(router: RootRouter, recipe: Recipe, sectionColor: Theme?,
+    func createRecipeScreen(router: RootRouter, recipe: Recipe,
+                            sectionColor: Theme?, fromSearch: Bool,
                             removeRecipe: ((Recipe) -> Void)?) -> UIViewController {
         let viewModel = RecipeScreenViewModel(recipe: recipe, sectionColor: sectionColor)
         viewModel.router = router
         viewModel.updateRecipeRemove = removeRecipe
+        viewModel.fromSearch = fromSearch
         let backButtonTitle = sectionColor != nil ? R.string.localizable.back() : R.string.localizable.search()
         let viewController = RecipeViewController(with: viewModel,
                                                   backButtonTitle: backButtonTitle)

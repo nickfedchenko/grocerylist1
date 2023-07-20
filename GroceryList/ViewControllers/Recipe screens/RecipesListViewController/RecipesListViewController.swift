@@ -255,6 +255,12 @@ extension RecipesListViewController: RecipesListHeaderViewDelegate {
     }
     
     func changeViewButtonTapped() {
+        if UserDefaultsManager.recipeIsTableView {
+            AmplitudeManager.shared.logEvent(.recipeCollectionToggleTable)
+        } else {
+            AmplitudeManager.shared.logEvent(.recipeCollectionToggleGrid)
+        }
+        
         recipesListCollectionView.reloadData()
     }
 }

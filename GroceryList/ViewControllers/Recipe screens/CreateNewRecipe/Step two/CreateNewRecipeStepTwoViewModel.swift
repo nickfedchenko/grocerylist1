@@ -25,6 +25,7 @@ final class CreateNewRecipeStepTwoViewModel {
     private var draft: Recipe?
     private(set) var recipe: Recipe
     private(set) var currentRecipe: Recipe?
+    private var isSaved = false
     
     init(currentRecipe: Recipe?, recipe: Recipe) {
         self.recipe = recipe
@@ -32,7 +33,7 @@ final class CreateNewRecipeStepTwoViewModel {
         
         time = currentRecipe?.cookingTime
         servings = currentRecipe?.totalServings
-        kcal = currentRecipe?.values?.dish
+        kcal = currentRecipe?.values?.serving ?? currentRecipe?.values?.dish
         if let imageData = currentRecipe?.localImage {
             localImage = UIImage(data: imageData)
         }
@@ -43,6 +44,8 @@ final class CreateNewRecipeStepTwoViewModel {
         self.servings = servings
         self.kcal = kcal
         localImage = image
+        
+        savedToDrafts()
     }
     
     func back() {
@@ -58,8 +61,13 @@ final class CreateNewRecipeStepTwoViewModel {
                                              instructions: recipe.instructions))
     }
     
+    func backToRoot() {
+        router?.popToRoot()
+    }
+    
     func saveRecipeTo() {
-        router?.goToShowCollection(state: .select, recipe: currentRecipe,
+        let recipe = currentRecipe ?? draft
+        router?.goToShowCollection(state: .select, recipe: recipe,
                                    compl: { [weak self] selectedCollections in
             if selectedCollections.isEmpty,
                let dbFavoritesCollectionCollection = CoreDataManager.shared.getAllCollection()?
@@ -107,6 +115,9 @@ final class CreateNewRecipeStepTwoViewModel {
     }
     
     private func saveRecipe() {
+        guard !isSaved else {
+            return
+        }
         guard var currentRecipe else {
             saveNewRecipe()
             return
@@ -120,6 +131,7 @@ final class CreateNewRecipeStepTwoViewModel {
         
         recipe = currentRecipe
         CoreDataManager.shared.saveRecipes(recipes: [currentRecipe])
+        isSaved = true
     }
     
     private func saveNewRecipe() {
@@ -135,10 +147,14 @@ final class CreateNewRecipeStepTwoViewModel {
             return
         }
         CoreDataManager.shared.saveRecipes(recipes: [recipe])
+        AmplitudeManager.shared.logEvent(.recipeCreateSave,
+                                         properties: [.ingredientsAndSteps: "\(recipe.ingredients.count) : \(recipe.instructions?.count ?? 0)"])
+        
         if isSaveToFavorites {
             UserDefaultsManager.favoritesRecipeIds.append(recipe.id)
         }
         self.recipe = recipe
+        isSaved = true
     }
 
     private func updateRecipe() {

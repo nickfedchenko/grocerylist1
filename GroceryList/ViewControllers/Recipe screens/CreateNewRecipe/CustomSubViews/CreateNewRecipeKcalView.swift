@@ -287,6 +287,11 @@ extension NutritionFactsView: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         updateActive(isActive: true)
         textField.text = textField.text?.replacingOccurrences(of: " \(R.string.localizable.gram())", with: "")
+        if nutritionFact == .kcal {
+            AmplitudeManager.shared.logEvent(.recipeCreateInputMacros)
+        } else {
+            AmplitudeManager.shared.logEvent(.recipeCreateInputKcal)
+        }
         return true
     }
     

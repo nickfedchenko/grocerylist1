@@ -39,6 +39,10 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
         }
         var userComment = productDescription?.replacingOccurrences(of: quantity, with: "")
         
+        if (userComment?.isEmpty ?? true) {
+            return quantity
+        }
+        
         if userComment?.last == "," {
             userComment?.removeLast()
         }
@@ -216,6 +220,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
         }
         
         CoreDataManager.shared.saveStock(stock: [stock], for: pantry.id.uuidString)
+        sendUserStock(pantry: pantry.name, stock: stock.name)
         analytics(stock: stock)
         updateUI?(stock)
     }
@@ -257,6 +262,20 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             
         }
         return quantityString
+    }
+    
+    /// отправка созданного запаса на сервер (метод для аналитики)
+    private func sendUserStock(pantry: String, stock: String) {
+        
+        network.saveUserPantryList(pantryTitle: pantry,
+                                           stockTitle: stock) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let response):
+                print(response)
+            }
+        }
     }
     
     private func analytics(stock: Stock) {

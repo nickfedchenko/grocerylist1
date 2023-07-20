@@ -106,13 +106,7 @@ final class MainRecipeViewController: UIViewController {
     private func viewModelChanges() {
         viewModel.reloadRecipes = { [weak self] in
             DispatchQueue.main.async {
-                guard let self else {
-                    return
-                }
-                self.recipesCollectionView.reloadData()
-                if UserDefaultsManager.recipeIsFolderView {
-                    self.recipesCollectionView.reloadData()
-                }
+                self?.recipesCollectionView.reloadData()
             }
         }
         
@@ -182,6 +176,7 @@ final class MainRecipeViewController: UIViewController {
             return UICollectionViewCell()
         }
         let cell = recipesCollectionView.reusableCell(classCell: FolderRecipePreviewCell.self, indexPath: indexPath)
+        cell.layoutIfNeeded()
         let image = viewModel.collectionImage(for: indexPath)
         cell.configure(folderTitle: sectionModel.sectionType.title,
                        photoUrl: image.url, imageData: image.data,
@@ -318,6 +313,12 @@ extension MainRecipeViewController: MainTabBarControllerRecipeDelegate {
     }
     
     func tappedChangeView() {
+        if UserDefaultsManager.recipeIsFolderView {
+            AmplitudeManager.shared.logEvent(.recipeToggleFolderViev)
+        } else {
+            AmplitudeManager.shared.logEvent(.recipeToggleCollectionView)
+        }
+        
         DispatchQueue.main.async {
             self.updateCollectionContentInset()
             self.recipesCollectionView.reloadData()
@@ -325,6 +326,10 @@ extension MainRecipeViewController: MainTabBarControllerRecipeDelegate {
             let layout = self.collectionViewLayoutManager.makeRecipesLayout()
             self.recipesCollectionView.setCollectionViewLayout(layout, animated: false)
             self.recipesCollectionView.collectionViewLayout.collectionView?.reloadData()
+            
+            if UserDefaultsManager.recipeIsFolderView {
+                self.recipesCollectionView.reloadData()
+            }
         }
     }
 }

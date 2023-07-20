@@ -67,6 +67,11 @@ class NewPaywallCarouselView: UIView {
                 index = -1
             }
         }
+        
+        while index <= 4 {
+            images += images
+            index += 1
+        }
         collectionView.reloadData()
     }
     

@@ -30,6 +30,7 @@ final class IngredientViewController: CreateNewProductViewController {
         super.viewDidLayoutSubviews()
         if !ingredientViewDidLayout {
             ingredientView.productTextField.becomeFirstResponder()
+            setupCurrentIngredient()
             ingredientViewDidLayout = true
         }
     }
@@ -54,6 +55,32 @@ final class IngredientViewController: CreateNewProductViewController {
         autoCategoryView.isHidden = true
     }
     
+    private func setupCurrentIngredient() {
+        guard let currentIngredient = (viewModel as? IngredientViewModel)?.currentIngredient else {
+            return
+        }
+        
+        let colorForForeground = viewModel?.getColorForForeground ?? .black
+        updateCategory(isActive: !(currentIngredient.product.marketCategory?.title.isEmpty ?? true),
+                       categoryTitle: currentIngredient.product.marketCategory?.title)
+        ingredientView.productTextField.text = currentIngredient.product.title
+        ingredientView.descriptionTextView.text = currentIngredient.description
+        ingredientView.descriptionTextView.checkPlaceholder()
+        ingredientView.setImage(imageURL: currentIngredient.product.photo, imageData: currentIngredient.product.localImage)
+        
+        quantityView.setupCurrentQuantity(unit: (viewModel as? IngredientViewModel)?.currentIngredientUnit,
+                                          value: currentIngredient.quantity)
+        
+        if let store = currentIngredient.product.store {
+            storeView.setStore(store: store)
+        }
+        if let cost = currentIngredient.product.cost {
+            storeView.setCost(value: cost.asString)
+        }
+        (viewModel as? IngredientViewModel)?.setCostOfProductPerUnit()
+        updateSaveButton(isActive: ingredientView.productTextField.text?.count ?? 0 >= 1)
+    }
+    
     override func updateStoreView(isVisible: Bool) {
         storeView.isHidden = !isVisible
         contentViewHeight = isVisible ? 280 : 220
@@ -72,7 +99,7 @@ final class IngredientViewController: CreateNewProductViewController {
     
     override func updateQuantity(_ quantity: Double) {
         let quantityString = String(format: "%.\(quantity.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", quantity)
-        ingredientView.setQuantity(quantity > 0 ? "\(quantityString) \(unit.title)" : "")
+        ingredientView.setQuantity(quantity > 0 ? "\(quantityString) \(unit?.title ?? "")" : "")
     }
     
     override func tappedQuantityButtons(_ quantity: Double) {
@@ -86,7 +113,7 @@ final class IngredientViewController: CreateNewProductViewController {
     override func updateProductView(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?) {
         categoryIsActive(text != R.string.localizable.selectCategory(), categoryTitle: text)
         ingredientView.setImage(imageURL: imageURL, imageData: imageData)
-        quantityView.setDefaultUnit(defaultSelectedUnit ?? .piece)
+        quantityView.setDefaultUnit(defaultSelectedUnit)
 
         if !imageURL.isEmpty || imageData != nil {
             isUserImage = false
@@ -154,7 +181,7 @@ extension IngredientViewController: IngredientViewModelDelegate {
         categoryIsActive(title == R.string.localizable.selectCategory(), categoryTitle: title)
     }
     
-    func unitChange(_ unit: UnitSystem) {
+    func unitChange(_ unit: UnitSystem?) {
         quantityView.setDefaultUnit(unit)
     }
 }

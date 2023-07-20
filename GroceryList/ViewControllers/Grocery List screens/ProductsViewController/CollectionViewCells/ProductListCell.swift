@@ -42,6 +42,7 @@ class ProductListCell: UICollectionViewListCell {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
         label.textColor = .black
+        label.numberOfLines = 2
         return label
     }()
     
@@ -76,10 +77,11 @@ class ProductListCell: UICollectionViewListCell {
         return view
     }()
     
-    private let firstDescriptionLabel: UILabel = {
+    private let nameWithDescriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
         label.textColor = .black
+        label.numberOfLines = 2
         return label
     }()
     
@@ -140,8 +142,8 @@ class ProductListCell: UICollectionViewListCell {
         super.prepareForReuse()
         nameLabel.textColor = .black
         nameLabel.attributedText = NSAttributedString(string: "")
-        firstDescriptionLabel.attributedText = NSAttributedString(string: "")
-        firstDescriptionLabel.textColor = .black
+        nameWithDescriptionLabel.attributedText = NSAttributedString(string: "")
+        nameWithDescriptionLabel.textColor = .black
         secondDescriptionLabel.attributedText = NSAttributedString(string: "")
         secondDescriptionLabel.textColor = .black
         viewWithDescription.isHidden = true
@@ -155,7 +157,7 @@ class ProductListCell: UICollectionViewListCell {
             make.top.equalToSuperview()
             make.bottom.equalToSuperview().inset(8)
         }
-        
+        imageView.snp.updateConstraints { $0.width.equalTo(40) }
         clearTheCell()
     }
     
@@ -170,7 +172,7 @@ class ProductListCell: UICollectionViewListCell {
         guard let text = text else { return }
         setupCheckmarkImage(isPurchased: isPurchased, color: textColor, isRecipe: isRecipe)
         nameLabel.attributedText = NSAttributedString(string: text)
-        firstDescriptionLabel.attributedText = NSAttributedString(string: text)
+        nameWithDescriptionLabel.attributedText = NSAttributedString(string: text)
         secondDescriptionLabel.text = description
         
         if isRecipe {
@@ -182,7 +184,7 @@ class ProductListCell: UICollectionViewListCell {
         
         if isPurchased {
             nameLabel.textColor = textColor
-            firstDescriptionLabel.textColor = textColor
+            nameWithDescriptionLabel.textColor = textColor
             secondDescriptionLabel.textColor = textColor
         }
         
@@ -200,6 +202,9 @@ class ProductListCell: UICollectionViewListCell {
     func setupImage(isVisible: Bool, image: Data?) {
         imageView.isHidden = !isVisible
         guard isVisible else {
+            imageView.snp.updateConstraints {
+                $0.width.equalTo(0)
+            }
             return
         }
         
@@ -209,6 +214,10 @@ class ProductListCell: UICollectionViewListCell {
                 DispatchQueue.main.async {
                     self.imageView.image = image
                 }
+            }
+        } else {
+            imageView.snp.updateConstraints {
+                $0.width.equalTo(0)
             }
         }
     }
@@ -272,7 +281,7 @@ class ProductListCell: UICollectionViewListCell {
             guard let self = self else { return }
             self.checkmarkImage.image = self.getImageWithColor(color: color)
             self.nameLabel.attributedText = self.nameLabel.text?.strikeThrough()
-            self.firstDescriptionLabel.attributedText = self.firstDescriptionLabel.text?.strikeThrough()
+            self.nameWithDescriptionLabel.attributedText = self.nameWithDescriptionLabel.text?.strikeThrough()
             self.layoutIfNeeded()
         } completion: { _ in
             compl()
@@ -344,7 +353,7 @@ class ProductListCell: UICollectionViewListCell {
         contentView.addSubviews([leftButton, rightButton, shadowView, contentViews])
         contentViews.addSubviews([userImageView, nameLabel, checkmarkView, checkmarkImage, whiteCheckmarkImage,
                                   imageView, viewWithDescription, costView, foundInPantryView])
-        viewWithDescription.addSubviews([firstDescriptionLabel, secondDescriptionLabel])
+        viewWithDescription.addSubviews([nameWithDescriptionLabel, secondDescriptionLabel])
         
         shadowView.snp.makeConstraints { make in
             make.edges.equalTo(contentViews)
@@ -363,17 +372,18 @@ class ProductListCell: UICollectionViewListCell {
             make.bottom.equalToSuperview()
         }
         
-        firstDescriptionLabel.snp.makeConstraints { make in
+        nameWithDescriptionLabel.setContentCompressionResistancePriority(.init(1000), for: .vertical)
+        nameWithDescriptionLabel.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalToSuperview().offset(6)
-            make.height.equalTo(17)
+            make.height.greaterThanOrEqualTo(17)
         }
         
         secondDescriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(firstDescriptionLabel.snp.bottom)
+            make.top.equalTo(nameWithDescriptionLabel.snp.bottom)
             make.left.equalToSuperview()
-            make.bottom.equalToSuperview().inset(6)
             make.height.equalTo(17)
+            make.bottom.equalToSuperview().inset(6)
         }
         
         checkmarkView.snp.makeConstraints { make in
@@ -394,9 +404,9 @@ class ProductListCell: UICollectionViewListCell {
         }
         
         nameLabel.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview()
             make.leading.equalTo(userImageView.snp.trailing).offset(8)
-            make.centerY.equalTo(checkmarkView)
-            make.right.equalToSuperview().inset(8)
+            make.trailing.equalTo(imageView.snp.leading).offset(-8)
         }
         
         whiteCheckmarkImage.snp.makeConstraints { make in

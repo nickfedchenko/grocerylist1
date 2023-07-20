@@ -8,7 +8,7 @@
 import UIKit
 
 protocol QuantityOfProductViewDelegate: AnyObject {
-    func unitSelected(_ unit: UnitSystem)
+    func unitSelected(_ unit: UnitSystem?)
     func updateQuantityValue(_ quantity: Double)
     func isFirstResponderProductTextField(_ flag: Bool)
     func tappedMinusPlusButtons(_ quantity: Double)
@@ -61,17 +61,16 @@ final class QuantityOfProductView: CreateNewProductButtonView {
         }
     }
     private var quantityValueStep: Double = 1
-    private var defaultUnit: UnitSystem = .piece
+    private var defaultUnit: UnitSystem?
+    private var selectedUnit: UnitSystem?
     private var currentUnit: UnitSystem? {
         didSet {
-            if let currentUnit {
-                updateUnit(unitTitle: currentUnit.title, isActive: true)
-                delegate?.unitSelected(currentUnit)
-                quantityValueStep = Double(currentUnit.stepValue)
-                if !quantityChanged {
-                    updateQuantity(unitStep: Double(currentUnit.stepValue))
-                    quantity = Double(currentUnit.stepValue)
-                }
+            updateUnit(unitTitle: currentUnit?.title, isActive: true)
+            delegate?.unitSelected(currentUnit)
+            quantityValueStep = Double(currentUnit?.stepValue ?? 1)
+            if !quantityChanged {
+                updateQuantity(unitStep: Double(currentUnit?.stepValue ?? 1))
+                quantity = Double(currentUnit?.stepValue ?? 1)
             }
         }
     }
@@ -154,7 +153,7 @@ final class QuantityOfProductView: CreateNewProductButtonView {
         }
     }
     
-    func setupCurrentQuantity(unit: UnitSystem, value: Double) {
+    func setupCurrentQuantity(unit: UnitSystem?, value: Double) {
         currentUnit = unit
         quantity = value
         quantityChanged = value > 0
@@ -172,9 +171,10 @@ final class QuantityOfProductView: CreateNewProductButtonView {
         shortView.shadowViews.forEach { $0.layer.shadowOpacity = 0.12 }
     }
     
-    func setDefaultUnit(_ unit: UnitSystem) {
+    func setDefaultUnit(_ unit: UnitSystem?) {
         defaultUnit = unit
-        updateUnit(unitTitle: unit.title, isActive: false)
+        let unitTitle = unit?.title ?? selectedUnit?.title
+        updateUnit(unitTitle: unitTitle, isActive: unitTitle != nil && quantity > 0)
         shortView.shadowViews.forEach { $0.layer.shadowOpacity = 0 }
     }
     
@@ -183,13 +183,11 @@ final class QuantityOfProductView: CreateNewProductButtonView {
         quantityChanged = true
         AmplitudeManager.shared.logEvent(.itemQuantityButtons)
         if currentUnit == nil {
-            currentUnit = defaultUnit
-            quantity = 0
-            quantityChanged = false
+            currentUnit = defaultUnit ?? selectedUnit
         }
         quantity += quantityValueStep
         updateQuantityButtons(isActive: true)
-        updateUnit(isActive: true)
+        updateUnit(unitTitle: currentUnit?.title, isActive: true)
         delegate?.tappedMinusPlusButtons(quantity)
     }
 
@@ -197,7 +195,7 @@ final class QuantityOfProductView: CreateNewProductButtonView {
     private func minusButtonAction() {
         quantityChanged = true
         AmplitudeManager.shared.logEvent(.itemQuantityButtons)
-        guard currentUnit != nil else { return }
+
         if quantity - quantityValueStep <= 0 {
             quantity = 0
             quantityChanged = false
@@ -259,6 +257,8 @@ final class QuantityOfProductView: CreateNewProductButtonView {
     private func updateUnit(unitTitle: String? = nil, isActive: Bool) {
         if let unitTitle {
             shortView.titleTextField.text = unitTitle
+        } else {
+            shortView.titleTextField.text = R.string.localizable.units()
         }
         
         shortView.shadowViews.forEach {
@@ -311,7 +311,8 @@ extension QuantityOfProductView: UITableViewDelegate {
         cell?.isSelected = true
         AmplitudeManager.shared.logEvent(.itemUnitsButton)
         hideTableView(isHide: true, cell: cell)
-        currentUnit = systemUnits[indexPath.row]
+        selectedUnit = systemUnits[indexPath.row]
+        currentUnit = selectedUnit
         shortView.shadowViews.forEach { $0.layer.shadowOpacity = 0 }
         updateQuantityButtons(isActive: true)
     }

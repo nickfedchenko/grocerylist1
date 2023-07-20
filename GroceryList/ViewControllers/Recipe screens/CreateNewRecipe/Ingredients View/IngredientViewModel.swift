@@ -10,7 +10,7 @@ import UIKit
 
 protocol IngredientViewModelDelegate: AnyObject {
     func categoryChange(title: String)
-    func unitChange(_ unit: UnitSystem)
+    func unitChange(_ unit: UnitSystem?)
 }
 
 final class IngredientViewModel: CreateNewProductViewModel {
@@ -18,9 +18,18 @@ final class IngredientViewModel: CreateNewProductViewModel {
     weak var ingredientDelegate: IngredientViewModelDelegate?
     var ingredientCallback: ((Ingredient) -> Void)?
     var isShowCost: Bool? = false
+    var currentIngredient: Ingredient?
 
     var getNumberOfCells: Int {
         selectedUnitSystemArray.count
+    }
+    
+    var currentIngredientUnit: UnitSystem {
+        guard let unitTitle = currentIngredient?.unit?.title,
+              let unit = UnitSystem.allCases.first(where: { $0.title == unitTitle }) else {
+            return .piece
+        }
+        return unit
     }
 
     private var categoryTitle = ""
@@ -60,6 +69,10 @@ final class IngredientViewModel: CreateNewProductViewModel {
         return isShowCost ?? false
     }
     
+    override func setCostOfProductPerUnit() {
+        costOfProductPerUnit = currentIngredient?.product.cost
+    }
+    
     func save(title: String, quantity: Double, quantityStr: String?,
               description: String?, localImage: UIImage?,
               store: Store?) {
@@ -69,8 +82,8 @@ final class IngredientViewModel: CreateNewProductViewModel {
                                     quantity: quantity,
                                     isNamed: false,
                                     unit: MarketUnitClass(id: UUID().integer,
-                                                          title: currentSelectedUnit.title,
-                                                          shortTitle: currentSelectedUnit.title,
+                                                          title: currentSelectedUnit?.title ?? "",
+                                                          shortTitle: currentSelectedUnit?.title ?? "",
                                                           isOnlyForMarket: false),
                                     description: description,
                                     quantityStr: quantityStr)

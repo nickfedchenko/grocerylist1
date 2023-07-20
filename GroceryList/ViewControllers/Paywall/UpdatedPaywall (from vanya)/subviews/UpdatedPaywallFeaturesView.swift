@@ -13,7 +13,7 @@ class UpdatedPaywallFeaturesView: UIView {
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = UIDevice.isSE ? 0 : 24
+        stackView.spacing = UIDevice.isSEorXor12mini ? 0 : 24
         stackView.distribution = .fillProportionally
         return stackView
     }()
@@ -21,7 +21,7 @@ class UpdatedPaywallFeaturesView: UIView {
     private let features: [(title: String, subTitle: String)] = [
         (R.string.localizable.today(), R.string.localizable.todaySubtitle()),
         (R.string.localizable.after2Days(), R.string.localizable.after2DaysSubtitle()),
-        (R.string.localizable.after3Days(), R.string.localizable.after3DaysSubtitle()),
+        (R.string.localizable.after3Days(), R.string.localizable.after3DaysSubtitle())
     ]
     
     override init(frame: CGRect = .zero) {
@@ -58,7 +58,6 @@ class UpdatedPaywallFeaturesView: UIView {
         }
     }
 }
-
 
 final private class FeaturesStepView: UIView {
     

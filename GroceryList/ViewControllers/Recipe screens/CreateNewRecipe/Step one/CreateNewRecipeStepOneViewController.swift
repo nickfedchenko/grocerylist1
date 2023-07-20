@@ -121,9 +121,9 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
             self.updateSteps(description)
         }
         
-        viewModel?.ingredientChanged = { [weak self] ingredient in
+        viewModel?.ingredientChanged = { [weak self] ingredient, insetIndex in
             guard let self else { return }
-            self.updateIngredient(ingredient)
+            self.updateIngredient(ingredient, insetIndex: insetIndex)
         }
         
         viewModel?.updateSaveToDraftButton = { [weak self] in
@@ -174,6 +174,9 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         showCostView.changedSwitchValue = { [weak self] isShowCost in
             guard let self else {
                 return
+            }
+            if isShowCost {
+                AmplitudeManager.shared.logEvent(.recipeCreateShowPriceStore)
             }
             self.viewModel?.setIsShowCost(isShowCost)
             self.ingredientsView.stackView.arrangedSubviews.enumerated().forEach({ index, view in
@@ -250,7 +253,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         descriptionView.setText(currentRecipe.description)
 
         currentRecipe.ingredients.forEach { ingredient in
-            updateIngredient(ingredient)
+            updateIngredient(ingredient, insetIndex: nil)
         }
         currentRecipe.instructions?.forEach({ step in
             updateSteps(step)
@@ -277,7 +280,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         }
     }
     
-    private func updateIngredient(_ ingredient: Ingredient) {
+    private func updateIngredient(_ ingredient: Ingredient, insetIndex: Int?) {
         var serving = ""
         if ingredient.quantity == 0 {
             let quantityStr = ingredient.quantityStr ?? ""
@@ -292,7 +295,8 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
                             imageData: ingredient.product.localImage,
                             isVisibleStore: viewModel?.isShowCost ?? false,
                             storeTitle: ingredient.product.store?.title,
-                            costValue: ingredient.product.cost)
+                            costValue: ingredient.product.cost,
+                            insetIndex: insetIndex)
         updateIngredientsViewIsActive()
         ingredientsView.snp.updateConstraints {
             $0.height.equalTo(ingredientsView.requiredHeight)
@@ -326,15 +330,21 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
     
     private func setupIngredientView(title: String, serving: String, description: String?,
                                      imageURL: String, imageData: Data?,
-                                     isVisibleStore: Bool, storeTitle: String?, costValue: Double?) {
+                                     isVisibleStore: Bool, storeTitle: String?, costValue: Double?,
+                                     insetIndex: Int?) {
         let view = IngredientForCreateRecipeView()
         view.setTitle(title: title)
         view.setServing(serving: serving)
         view.setDescription(description)
         view.setImage(imageURL: imageURL, imageData: imageData)
         view.setupCost(isVisible: isVisibleStore, storeTitle: storeTitle, costValue: costValue)
-        ingredientsView.addViewToStackView(view)
-        view.originalIndex = ingredientsView.stackSubviewsCount - 1
+        ingredientsView.addViewToStackView(view, insertIndex: insetIndex)
+        
+        if let insetIndex {
+            view.originalIndex = insetIndex
+        } else {
+            view.originalIndex = ingredientsView.stackSubviewsCount - 1
+        }
         view.swipeDeleteAction = { [weak self] index in
             guard let self else {
                 return
@@ -349,12 +359,15 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
                 $0.height.equalTo(self.ingredientsView.requiredHeight)
             }
         }
+        view.tapOnViewAction = { [weak self] index in
+            self?.viewModel?.showIngredient(by: index)
+        }
     }
     
     private func setupStepView(stepNumber: Int, description: String) {
         let view = StepForCreateRecipeView()
         view.configure(step: "\(stepNumber)", description: description)
-        stepsView.addViewToStackView(view)
+        stepsView.addViewToStackView(view, insertIndex: nil)
         view.swipeDeleteAction = { [weak self] in
             guard let self else {
                 return

@@ -39,7 +39,7 @@ class CreateNewProductViewController: UIViewController {
     var isShowNewStoreView = false
     var viewDidLayout = false
     let inactiveColor = R.color.mediumGray() ?? UIColor(hex: "#ACB4B4")
-    var unit: UnitSystem = .piece
+    var unit: UnitSystem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +50,7 @@ class CreateNewProductViewController: UIViewController {
         super.viewDidLayoutSubviews()
         categoryView.makeCustomRound(topLeft: 4, topRight: 40, bottomLeft: 4, bottomRight: 4)
         if !viewDidLayout {
-            productView.productTextField.becomeFirstResponder()
+            productView.productTextView.becomeFirstResponder()
             setupCurrentProduct()
             updateStoreView(isVisible: viewModel?.isVisibleStore ?? true)
             viewDidLayout.toggle()
@@ -119,8 +119,8 @@ class CreateNewProductViewController: UIViewController {
             guard let self else { return }
             self.predictiveTextView.configure(texts: titles)
         }
-        productView.productTextField.autocorrectionType = .no
-        productView.productTextField.spellCheckingType = .no
+        productView.productTextView.autocorrectionType = .no
+        productView.productTextView.spellCheckingType = .no
         predictiveTextView.delegate = self
     }
     
@@ -131,7 +131,7 @@ class CreateNewProductViewController: UIViewController {
             return
         }
         
-        guard !UIDevice.isSE else {
+        guard !UIDevice.isSEorXor12mini else {
             autoCategoryView.isHidden = true
             if UserDefaultsManager.countInfoMessage < 10 {
                 viewModel?.showAutoCategoryAlert()
@@ -165,14 +165,15 @@ class CreateNewProductViewController: UIViewController {
         }
         
         let colorForForeground = viewModel?.getColorForForeground ?? .black
-        categoryView.setCategoryInProduct(viewModel?.productCategory, backgroundColor: colorForForeground)
-        productView.productTextField.text = viewModel?.productName
+        updateCategory(isActive: !(viewModel?.productCategory?.isEmpty ?? true), categoryTitle: viewModel?.productCategory)
+        productView.productTextView.text = viewModel?.productName
         productView.descriptionTextField.text = viewModel?.userComment
+        productView.productTextView.checkPlaceholder()
         if let productImage = viewModel?.productImage {
             productView.setImage(productImage)
         }
         if let quantityValue = viewModel?.productQuantityCount {
-            quantityView.setupCurrentQuantity(unit: viewModel?.productQuantityUnit ?? .piece,
+            quantityView.setupCurrentQuantity(unit: viewModel?.productQuantityUnit,
                                               value: quantityValue)
         }
         if let store = viewModel?.productStore {
@@ -182,9 +183,11 @@ class CreateNewProductViewController: UIViewController {
             storeView.setCost(value: cost)
         }
         viewModel?.setCostOfProductPerUnit()
+        updateSaveButton(isActive: productView.productTextView.text.count >= 1)
+        isHideFeatureIfNeeded()
     }
     
-    private func updateCategory(isActive: Bool, categoryTitle: String) {
+    func updateCategory(isActive: Bool, categoryTitle: String?) {
         let colorForForeground = viewModel?.getColorForForeground ?? UIColor(hex: "#278337")
         let color = isActive ? colorForForeground : inactiveColor
         let title = isActive ? categoryTitle : R.string.localizable.category()
@@ -282,13 +285,13 @@ class CreateNewProductViewController: UIViewController {
     
     func applyPredictiveInput(_ title: String) {
         AmplitudeManager.shared.logEvent(.itemPredictAdd)
-        productView.productTextField.text = title
+        productView.productTextView.text = title
         viewModel?.checkIsProductFromCategory(name: title)
     }
     
     func updateQuantity(_ quantity: Double) {
         let quantityString = String(format: "%.\(quantity.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", quantity)
-        productView.setQuantity(quantity > 0 ? "\(quantityString) \(unit.title)" : "")
+        productView.setQuantity(quantity > 0 ? "\(quantityString) \(unit?.title ?? "")" : "")
     }
     
     func tappedQuantityButtons(_ quantity: Double) {
@@ -302,7 +305,7 @@ class CreateNewProductViewController: UIViewController {
     func updateProductView(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?) {
         updateCategory(isActive: !text.isEmpty, categoryTitle: text)
         productView.setImage(imageURL: imageURL, imageData: imageData)
-        quantityView.setDefaultUnit(defaultSelectedUnit ?? .piece)
+        quantityView.setDefaultUnit(defaultSelectedUnit)
         
         if !imageURL.isEmpty || imageData != nil {
             isUserImage = false
@@ -312,6 +315,14 @@ class CreateNewProductViewController: UIViewController {
     func setupUserImage(_ image: UIImage?) {
         productView.setImage(image)
         isUserImage = true
+    }
+    
+    func isHideFeatureIfNeeded() {
+        let topRect: CGRect = .init(origin: .init(x: 0, y: 0), size: .init(width: self.view.bounds.width, height: 1))
+        let messageRect: CGRect = autoCategoryView.frame
+        if messageRect.intersects(topRect) {
+            autoCategoryHideTap()
+        }
     }
     
     func makeConstraints() {
@@ -334,7 +345,7 @@ class CreateNewProductViewController: UIViewController {
         productView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(categoryView.snp.bottom).offset(20)
-            $0.height.equalTo(56)
+            $0.height.greaterThanOrEqualTo(56)
         }
         
         storeView.snp.makeConstraints {
@@ -420,7 +431,7 @@ extension CreateNewProductViewController: CreateNewProductViewModelDelegate {
     }
     
     func showKeyboard() {
-        productView.productTextField.becomeFirstResponder()
+        productView.productTextView.becomeFirstResponder()
     }
 }
 
@@ -449,6 +460,8 @@ extension CreateNewProductViewController: NameOfProductViewDelegate {
             storeView.reset()
             quantityView.reset()
         }
+        
+        isHideFeatureIfNeeded()
     }
     
     func isFirstResponderProductTextField(_ flag: Bool) {
@@ -477,9 +490,10 @@ extension CreateNewProductViewController: StoreOfProductViewDelegate {
 }
 
 extension CreateNewProductViewController: QuantityOfProductViewDelegate {
-    func unitSelected(_ unit: UnitSystem) {
+    func unitSelected(_ unit: UnitSystem?) {
         self.unit = unit
         viewModel?.setUnit(unit)
+        updateQuantity(quantityView.quantity)
     }
     
     func updateQuantityValue(_ quantity: Double) {

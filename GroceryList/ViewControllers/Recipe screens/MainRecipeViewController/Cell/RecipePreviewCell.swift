@@ -5,6 +5,7 @@
 //  Created by Vladimir Banushkin on 04.08.2022.
 //
 
+import Kingfisher
 import UIKit
 
 final class RecipePreviewCell: UICollectionViewCell {
@@ -82,7 +83,16 @@ final class RecipePreviewCell: UICollectionViewCell {
         
         favoriteImage.isHidden = !recipe.isFavorite
         
-        if let kcal = recipe.values?.dish?.kcal {
+        if let kcal = recipe.values?.serving?.kcal {
+            kcalImage.isHidden = false
+            kcalLabel.isHidden = false
+            
+            kcalLabel.text = "\(Int(kcal))"
+            kcalLabel.snp.makeConstraints { make in
+                make.trailing.equalTo(-8)
+                make.top.equalToSuperview().offset(3)
+            }
+        } else if let kcal = recipe.values?.dish?.kcal {
             kcalImage.isHidden = false
             kcalLabel.isHidden = false
             
@@ -100,14 +110,25 @@ final class RecipePreviewCell: UICollectionViewCell {
             }
         }
         
-        if let photoUrl = URL(string: recipe.photo) {
-            mainImage.kf.setImage(with: photoUrl)
-            return
-        }
         if let imageData = recipe.localImage,
            let image = UIImage(data: imageData) {
             mainImage.image = image
+            return
         }
+        
+        if let photoUrl = URL(string: recipe.photo) {
+            mainImage.kf.setImage(
+                with: photoUrl,
+                placeholder: nil,
+                options: [
+                    .processor(DownsamplingImageProcessor(size: CGSize(width: 100, height: 100))),
+                    .scaleFactor(UIScreen.main.scale),
+                    .cacheOriginalImage
+                ])
+//            mainImage.kf.setImage(with: photoUrl)
+            return
+        }
+        mainImage.image = nil
     }
     
     override func layoutSubviews() {

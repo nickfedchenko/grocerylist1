@@ -328,6 +328,10 @@ class ProductsViewModel {
         dataSource.removeInStockInfo(product: product)
     }
     
+    func reloadStorageData() {
+        dataSource.createDataSourceArray()
+    }
+    
     func showPaywall() {
         router?.showPaywallVC()
     }

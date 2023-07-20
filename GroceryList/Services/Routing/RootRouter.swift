@@ -18,6 +18,7 @@ protocol RootRouterProtocol: NavigationInterface {
 }
 
 // MARK: - Router
+// swiftlint:disable file_length
 // swiftlint:disable:next type_body_length
 final class RootRouter: RootRouterProtocol {
     
@@ -242,8 +243,9 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, style: state == .select ? .automatic : .overCurrentContext, animated: true)
     }
     
-    func goToIngredient(isShowCost: Bool, compl: @escaping (Ingredient) -> Void) {
+    func goToIngredient(isShowCost: Bool, currentIngredient: Ingredient? = nil, compl: @escaping (Ingredient) -> Void) {
         let controller = viewControllerFactory.createIngredientViewController(isShowCost: isShowCost,
+                                                                              currentIngredient: currentIngredient,
                                                                               router: self,
                                                                               compl: compl)
         controller.modalTransitionStyle = .crossDissolve
@@ -266,7 +268,8 @@ final class RootRouter: RootRouterProtocol {
     func goToRecipe(recipe: Recipe, sectionColor: Theme?, fromSearch: Bool = false,
                     removeRecipe: ((Recipe) -> Void)?) {
         let controller = viewControllerFactory.createRecipeScreen(router: self, recipe: recipe,
-                                                                  sectionColor: sectionColor, removeRecipe: removeRecipe)
+                                                                  sectionColor: sectionColor, fromSearch: fromSearch,
+                                                                  removeRecipe: removeRecipe)
         if fromSearch {
             navigationPushViewController(controller, animated: true)
         } else {
@@ -440,14 +443,14 @@ final class RootRouter: RootRouterProtocol {
                     return
                 }
 
-                self?.showAlternativePaywallVC()
+                self?.showNewPaywall(isTrial: false)
                 return
             }
 
             if let targetPaywallName = paywall.json?["name"] as? String {
                 self?.showPaywall(by: targetPaywallName)
             } else {
-                self?.showAlternativePaywallVC()
+                self?.showNewPaywall(isTrial: false)
             }
         }
     }
@@ -459,7 +462,7 @@ final class RootRouter: RootRouterProtocol {
             guard let self else {
                 return
             }
-            controller = self.viewControllerFactory.createAlternativePaywallController()
+            controller = self.viewControllerFactory.createNewPaywallController(isTrial: false)
             guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
 
                 if let paywall = paywalls.first(where: { $0.isDefault }),
@@ -488,8 +491,10 @@ final class RootRouter: RootRouterProtocol {
             showNewPaywall(isTrial: true)
         } else if name == "IvanNoTrialPaywall" {
             showNewPaywall(isTrial: false)
-        } else {
+        } else if name == "AlternativePaywall" {
             showAlternativePaywallVC()
+        } else {
+            showNewPaywall(isTrial: false)
         }
     }
     
@@ -500,8 +505,10 @@ final class RootRouter: RootRouterProtocol {
             return viewControllerFactory.createNewPaywallController(isTrial: true)
         } else if name == "IvanNoTrialPaywall" {
             return viewControllerFactory.createNewPaywallController(isTrial: false)
-        } else {
+        } else if name == "AlternativePaywall" {
             return viewControllerFactory.createUpdatedPaywallController()
+        } else {
+            return viewControllerFactory.createNewPaywallController(isTrial: false)
         }
     }
     

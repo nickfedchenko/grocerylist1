@@ -219,6 +219,7 @@ extension PhotoFromRecipesViewController: UINavigationControllerDelegate, UIImag
         let image = info[.originalImage] as? UIImage
         let orientedImage = image?.fixedOrientation()
         viewModel.savePhoto(image: orientedImage)
+        AmplitudeManager.shared.logEvent(.recipeAddPhotoCollection)
         hidePanel()
     }
 }

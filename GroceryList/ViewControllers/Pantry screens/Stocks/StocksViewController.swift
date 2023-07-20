@@ -35,7 +35,7 @@ final class StocksViewController: UIViewController {
     private lazy var compositionalLayout: UICollectionViewLayout = {
         let layout = UICollectionViewCompositionalLayout { (_, _) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                  heightDimension: .fractionalHeight(56))
+                                                  heightDimension: .estimated(56))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                    heightDimension: .estimated(1))
@@ -116,6 +116,7 @@ final class StocksViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.reloadStorageData()
         (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
         (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: R.string.localizable.item(),
                                                                         color: viewModel.getTheme().medium)
@@ -340,7 +341,7 @@ final class StocksViewController: UIViewController {
         navigationView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(88)
+            $0.height.greaterThanOrEqualTo(88)
         }
         
         containerView.snp.makeConstraints {

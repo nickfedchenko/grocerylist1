@@ -288,6 +288,10 @@ final class StocksViewModel {
         delegate?.updateUIEditTabBar()
     }
     
+    func reloadStorageData() {
+        dataSource.updateStocks()
+    }
+    
     func showPaywall() {
         router?.showPaywallVC()
     }

@@ -76,6 +76,7 @@ class NewPaywallViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         topCarouselView.startCarousel()
+        featureView.layoutIfNeeded()
     }
     
     override func viewDidDisappear(_ animated: Bool) {

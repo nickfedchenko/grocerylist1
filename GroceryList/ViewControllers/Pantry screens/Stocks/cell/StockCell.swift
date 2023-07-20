@@ -46,6 +46,7 @@ final class StockCell: UICollectionViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
+        label.numberOfLines = 2
         return label
     }()
     
@@ -282,6 +283,7 @@ final class StockCell: UICollectionViewCell {
             $0.leading.equalTo(reminderImageView.snp.trailing).offset(4)
             $0.centerY.equalTo(repeatImageView)
             $0.trailing.equalTo(stockView.snp.leading).offset(-15)
+            $0.bottom.equalToSuperview().offset(-4)
         }
         
         stockView.snp.makeConstraints {

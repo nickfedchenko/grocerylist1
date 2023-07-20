@@ -125,6 +125,7 @@ enum EventName: String {
     case prefLike = "pref_like"
     
     // Pantry
+    case pantrySection = "pantry_section"
     case pantryListCreated = "pantry_list_created"
     case pantryLinkListCreated = "pantry_link_list_created"
     case pantryLinkListInside = "pantry_link_list_inside" // при редактировании?
@@ -162,6 +163,45 @@ enum EventName: String {
     case pantryContextDelete = "pantry_context_delete"
     case pantryContextEdit = "pantry_context_edit"
     
+    // Recipes2
+    case recipeSearch = "recipe_search"
+    case recipeFilter = "recipe_filter"
+    case recipeAddFilter = "recipe_add_filter"
+    case recipeSelectFilter = "recipe_select_filter"
+    case recipeOpenFromSearch = "recipe_open_from_search"
+    case recipeContextFromSearch = "recipe_context_from_search"
+    case recipeAddPhotoCollection = "recipe_add_photo_collection"
+    case recipeCreateCollection = "recipe_create_collection"
+    case recipeToggleFolderViev = "recipe_togge_folderViev"
+    case recipeToggleCollectionView = "recipe_toggle_collectionView"
+    case recipeEditMenu = "recipe_edit_menu"
+    case recipeEditDelete = "recipe_edit_delete"
+    case recipeEditMove = "recipe_edit_move"
+    case recipeRenameCollection = "recipe_rename_collection"
+    case recipeCollectionToggleGrid = "recipe_collection_toggle_grid"
+    case recipeCollectionToggleTable = "recipe_collection_toggle_table"
+    case recipeMenuAddToShoppingList = "recipe_menu_add_to_shoppingList"
+    case recipeMenuAddToWillCook = "recipe_menu_add_to_willCook"
+    case recipeMenuAddToFav = "recipe_menu_add_to_fav"
+    case recipeMenuAddToCollection = "recipe_menu_add_to_collection"
+    case recipeMenuEditRecipe = "recipe_menu_edit_recipe"
+    case recipeMenuCopy = "recipe_menu_copy"
+    case recipeMenuSend = "recipe_menu_send"
+    case recipeMenuDeleteFromCollection = "recipe_menu_delete_from_collection"
+    case recipeShowPriceStores = "recipe_show_price_stores"
+    case recipeSendOnPhoto = "recipe_send_on_photo"
+    case recipeImportWebRecipe = "recipe_import_web-recipe"
+    case recipeImported = "recipe_imported"
+    case recipeFromImportSave = "recipe_from_import_save"
+    case recipeCreateRecipe = "recipe_create_recipe"
+    case recipeSaveToDrafts = "recipe_save_to_drafts"
+    case recipeCreateShowPriceStore = "recipe_create_show_price_store"
+    case recipeCreateStep2 = "recipe_create_step2"
+    case recipeCreateInputKcal = "recipe_create_input_kcal"
+    case recipeCreateInputMacros = "recipe_create_input_macros"
+    case recipeCreateAddPhoto = "recipe_create_add_photo"
+    case recipeCreateSave = "recipe_create_save"
+    
 }
 
 typealias PropertyKey = String
@@ -173,6 +213,9 @@ extension PropertyKey {
     static let count = "count"
     static let isActive = "isActive"
     static let time = "Time"
+    static let filterName = "filterName"
+    static let succes = "succes"
+    static let ingredientsAndSteps = "ingredients count : steps count"
 }
 
 typealias PropertyValue = String
