@@ -261,6 +261,10 @@ enum EatingTime: Int, CaseIterable {
     static var getTechnicalCollection: [EatingTime] {
         [.willCook, .drafts, .favorites, .inbox]
     }
+    
+    static var defaults: [EatingTime] {
+        [.breakfast, .dinner, .lunch, .snack]
+    }
 }
 
 // MARK: - Collection

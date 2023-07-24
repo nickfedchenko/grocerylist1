@@ -376,7 +376,6 @@ class CoreDataManager {
         asyncContext.perform {
             do {
                 try asyncContext.save()
-                self.updateRecipeWithCollection()
             } catch let error {
                 print(error)
                 asyncContext.rollback()
@@ -604,16 +603,18 @@ class CoreDataManager {
         guard !UserDefaultsManager.isUpdateRecipeWithCollection else {
             return
         }
-        let recipes = getAllRecipes()?.compactMap({ ShortRecipeModel(withCollection: $0, isFavorite: false) }) ?? []
-
-        let recipeWithCollection = recipes.filter({ $0.localCollection != nil })
+        var allRecipe = getAllRecipes()
+        var recipes = allRecipe?.compactMap({ Recipe(from: $0) }) ?? []
+        recipes.sort { $0.id < $1.id }
+        
+        let recipeWithCollection = recipes.filter({ !($0.localCollection?.isEmpty ?? true) })
         recipeWithCollection.forEach({ recipe in
             if let collections = recipe.localCollection,
                 !collections.isEmpty {
                 collections.forEach { collection in
                     if let dbCollection = getCollection(by: collection.id) {
                         var collection = CollectionModel(from: dbCollection)
-                        var dishes = Set(collection.dishes)
+                        var dishes = Set(collection.dishes ?? [])
                         dishes.insert(recipe.id)
                         collection.dishes = Array(dishes)
                         saveCollection(collections: [collection])
@@ -623,6 +624,7 @@ class CoreDataManager {
         })
         
         UserDefaultsManager.isUpdateRecipeWithCollection = true
+        NotificationCenter.default.post(name: .recipesDownloadedAndSaved, object: nil)
     }
 }
 
@@ -633,7 +635,12 @@ extension CoreDataManager: CoredataSyncProtocol {
             do {
                 let _ = recipes.map { DBRecipe.prepare(fromPlainModel: $0, context: asyncContext)}
                 try asyncContext.save()
-                NotificationCenter.default.post(name: .recipesDownloadedAndSaved, object: nil)
+                
+                if !UserDefaultsManager.isUpdateRecipeWithCollection {
+                    self.updateRecipeWithCollection()
+                } else {
+                    NotificationCenter.default.post(name: .recipesDownloadedAndSaved, object: nil)
+                }
             } catch let error {
                 print(error)
                 asyncContext.rollback()

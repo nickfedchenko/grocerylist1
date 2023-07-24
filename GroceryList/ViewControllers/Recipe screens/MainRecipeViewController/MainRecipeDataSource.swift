@@ -25,18 +25,17 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
         makeRecipesSections()
         addObserver()
         
-//        updateOldCollectionIfNeeded()
-//        createDefaultsCollection()
+        removeDefaultsCollection()
         createTechnicalCollection()
     }
     
     private func addObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(receptsLoaded),
+        NotificationCenter.default.addObserver(self, selector: #selector(recipesLoaded),
                                                name: .recipesDownloadedAndSaved, object: nil)
     }
     
     @objc
-    private func receptsLoaded() {
+    private func recipesLoaded() {
         DispatchQueue.main.async { [weak self] in
             self?.makeRecipesSections()
             self?.recipeUpdate?()
@@ -46,10 +45,10 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
     func makeRecipesSections() {
         recipesSections = []
         
-        newUpdateSection()
+        updateSection()
     }
     
-    func newUpdateSection() {
+    func updateSection() {
         guard let allDBCollection = CoreDataManager.shared.getAllCollection(),
               let allDBRecipes = CoreDataManager.shared.getAllRecipes() else {
             return
@@ -62,13 +61,32 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
             let isFavorite = favoritesID.contains(Int($0.id))
             return ShortRecipeModel(withCollection: $0, isFavorite: isFavorite)
         }
-        collections.removeAll { $0.dishes.count < 10 }
+
+        collections.removeAll { collection in
+            if collection.isDefault {
+                let isTechnicalCollection = EatingTime.getTechnicalCollection.contains { $0.rawValue == collection.id }
+                return isTechnicalCollection ? false : collection.dishes?.count ?? 0 < 10
+            } else {
+                return false
+            }
+        }
         recipes.sort { $0.id > $1.id }
         
         collections.forEach { collection in
-            let collectionRecipes = collection.dishes.compactMap { recipeId in
-                recipes.first { $0.id == recipeId }
+            let collectionRecipes: [ShortRecipeModel]
+            
+            if collection.id == EatingTime.favorites.rawValue {
+                collectionRecipes = favoritesID.compactMap { recipeId in
+                    recipes.first {
+                        $0.id == recipeId
+                    }
+                }
+            } else {
+                collectionRecipes = collection.dishes?.compactMap { recipeId in
+                    recipes.first { $0.id == recipeId }
+                } ?? []
             }
+            
             let image = getFirstPhoto(recipes: collectionRecipes)
             let customSection = RecipeSectionsModel(collectionId: collection.id,
                                                     cellType: .recipePreview,
@@ -77,56 +95,6 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
                                                     color: collection.color ?? 0,
                                                     imageUrl: image.url,
                                                     localImage: collection.localImage ?? image.data)
-            guard let index = recipesSections.firstIndex(where: {
-                $0.sectionType == .custom(collection.title.localized)
-            }) else {
-                recipesSections.append(customSection)
-                return
-            }
-            recipesSections[index] = customSection
-        }
-        
-        visibleTechnicalCollection()
-    }
-    
-    func updateSection() {
-        guard let allDBCollection = CoreDataManager.shared.getAllCollection(),
-              let allDBRecipes = CoreDataManager.shared.getAllRecipes() else {
-            return
-        }
-        
-        let favoritesID = UserDefaultsManager.favoritesRecipeIds
-        
-        let collection = allDBCollection.compactMap {
-            CollectionModel(from: $0)
-        }
-        
-        let recipes = allDBRecipes.compactMap {
-            let isFavorite = favoritesID.contains(Int($0.id))
-            return ShortRecipeModel(withCollection: $0, isFavorite: isFavorite)
-        }
-        
-        collection.forEach { collection in
-            let recipes = recipes.filter {
-                $0.localCollection?.contains(where: { collection.id == $0.id }) ?? false
-            }
-            
-            let recipesShuffled: [ShortRecipeModel]
-            if collection.isDefault && !EatingTime.getTechnicalCollection.contains(where: { $0.rawValue == collection.id }) {
-                recipesShuffled = recipes.shuffled()
-            } else {
-                recipesShuffled = recipes.sorted(by: { $0.createdAt > $1.createdAt })
-            }
-            
-            let image = getFirstPhoto(recipes: recipesShuffled)
-            let customSection = RecipeSectionsModel(collectionId: collection.id,
-                                                    cellType: .recipePreview,
-                                                    sectionType: .custom(collection.title.localized),
-                                                    recipes: recipesShuffled,
-                                                    color: collection.color ?? 0,
-                                                    imageUrl: image.url,
-                                                    localImage: collection.localImage ?? image.data)
-            
             guard let index = recipesSections.firstIndex(where: {
                 $0.sectionType == .custom(collection.title.localized)
             }) else {
@@ -161,6 +129,12 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
             if recipesSections[technicalCollectionIndex].recipes.isEmpty {
                 recipesSections.remove(at: technicalCollectionIndex)
             }
+        }
+    }
+    
+    private func removeDefaultsCollection() {
+        EatingTime.defaults.forEach {
+            CoreDataManager.shared.deleteCollection(by: $0.rawValue)
         }
     }
     
@@ -227,33 +201,35 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
     }
     
     private func createTechnicalCollection() {
-        
-        let iWillCookIt = CollectionModel(
-            id: EatingTime.willCook.rawValue,
-            index: EatingTime.willCook.rawValue,
-            title: RecipeSectionsModel.RecipeSectionType.willCook.title,
-            color: EatingTime.willCook.color,
-            isDefault: true)
-        let drafts = CollectionModel(
-            id: EatingTime.drafts.rawValue,
-            index: EatingTime.drafts.rawValue,
-            title: RecipeSectionsModel.RecipeSectionType.drafts.title,
-            color: EatingTime.drafts.color,
-            isDefault: true)
-        let favorites = CollectionModel(
-            id: EatingTime.favorites.rawValue,
-            index: EatingTime.favorites.rawValue,
-            title: RecipeSectionsModel.RecipeSectionType.favorites.title,
-            color: EatingTime.favorites.color,
-            isDefault: true)
-        let inbox = CollectionModel(
-            id: EatingTime.inbox.rawValue,
-            index: EatingTime.inbox.rawValue,
-            title: RecipeSectionsModel.RecipeSectionType.inbox.title,
-            color: EatingTime.inbox.color,
-            isDefault: true)
-        
-        CoreDataManager.shared.saveCollection(collections: [iWillCookIt, drafts, favorites, inbox])
+        if !UserDefaultsManager.isFillingDefaultCollection {
+            let iWillCookIt = CollectionModel(
+                id: EatingTime.willCook.rawValue,
+                index: EatingTime.willCook.rawValue,
+                title: RecipeSectionsModel.RecipeSectionType.willCook.title,
+                color: EatingTime.willCook.color,
+                isDefault: true)
+            let drafts = CollectionModel(
+                id: EatingTime.drafts.rawValue,
+                index: EatingTime.drafts.rawValue,
+                title: RecipeSectionsModel.RecipeSectionType.drafts.title,
+                color: EatingTime.drafts.color,
+                isDefault: true)
+            let favorites = CollectionModel(
+                id: EatingTime.favorites.rawValue,
+                index: EatingTime.favorites.rawValue,
+                title: RecipeSectionsModel.RecipeSectionType.favorites.title,
+                color: EatingTime.favorites.color,
+                isDefault: true)
+            let inbox = CollectionModel(
+                id: EatingTime.inbox.rawValue,
+                index: EatingTime.inbox.rawValue,
+                title: RecipeSectionsModel.RecipeSectionType.inbox.title,
+                color: EatingTime.inbox.color,
+                isDefault: true)
+            
+            CoreDataManager.shared.saveCollection(collections: [iWillCookIt, drafts, favorites, inbox])
+            UserDefaultsManager.isFillingDefaultCollection = true
+        }
     }
     
     private func updateFavoritesCollection() {
@@ -277,7 +253,7 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
                 } else {
                     recipe.localCollection = [favoriteCollection]
                 }
-
+                
                 CoreDataManager.shared.saveRecipes(recipes: [recipe])
             }
         }
