@@ -25,13 +25,14 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
         makeRecipesSections()
         addObserver()
         
-        updateOldCollectionIfNeeded()
-        createDefaultsCollection()
+//        updateOldCollectionIfNeeded()
+//        createDefaultsCollection()
+        createTechnicalCollection()
     }
     
     private func addObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(receptsLoaded),
-                                               name: .recieptsDownladedAnsSaved, object: nil)
+                                               name: .recipesDownloadedAndSaved, object: nil)
     }
     
     @objc
@@ -45,7 +46,47 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
     func makeRecipesSections() {
         recipesSections = []
         
-        updateSection()
+        newUpdateSection()
+    }
+    
+    func newUpdateSection() {
+        guard let allDBCollection = CoreDataManager.shared.getAllCollection(),
+              let allDBRecipes = CoreDataManager.shared.getAllRecipes() else {
+            return
+        }
+        
+        let favoritesID = UserDefaultsManager.favoritesRecipeIds
+        
+        var collections = allDBCollection.compactMap { CollectionModel(from: $0) }
+        var recipes = allDBRecipes.compactMap {
+            let isFavorite = favoritesID.contains(Int($0.id))
+            return ShortRecipeModel(withCollection: $0, isFavorite: isFavorite)
+        }
+        collections.removeAll { $0.dishes.count < 10 }
+        recipes.sort { $0.id > $1.id }
+        
+        collections.forEach { collection in
+            let collectionRecipes = collection.dishes.compactMap { recipeId in
+                recipes.first { $0.id == recipeId }
+            }
+            let image = getFirstPhoto(recipes: collectionRecipes)
+            let customSection = RecipeSectionsModel(collectionId: collection.id,
+                                                    cellType: .recipePreview,
+                                                    sectionType: .custom(collection.title.localized),
+                                                    recipes: collectionRecipes,
+                                                    color: collection.color ?? 0,
+                                                    imageUrl: image.url,
+                                                    localImage: collection.localImage ?? image.data)
+            guard let index = recipesSections.firstIndex(where: {
+                $0.sectionType == .custom(collection.title.localized)
+            }) else {
+                recipesSections.append(customSection)
+                return
+            }
+            recipesSections[index] = customSection
+        }
+        
+        visibleTechnicalCollection()
     }
     
     func updateSection() {

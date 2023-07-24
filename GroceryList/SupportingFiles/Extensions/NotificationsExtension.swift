@@ -8,8 +8,8 @@
 import Foundation
 
 extension Notification.Name {
-    static let productsDownladedAnsSaved = Notification.Name("productsDownladedAnsSaved")
-    static let recieptsDownladedAnsSaved = Notification.Name("recieptsDownladedAnsSaved")
+    static let productsDownloadedAndSaved = Notification.Name("productsDownloadedAndSaved")
+    static let recipesDownloadedAndSaved = Notification.Name("recipesDownloadedAndSaved")
     static let sharedListDownloadedAndSaved = Notification.Name("sharedListDownloadedAndSaved")
     static let sharedListLoading = Notification.Name("sharedListLoading")
     

@@ -376,6 +376,7 @@ class CoreDataManager {
         asyncContext.perform {
             do {
                 try asyncContext.save()
+                self.updateRecipeWithCollection()
             } catch let error {
                 print(error)
                 asyncContext.rollback()
@@ -599,6 +600,30 @@ class CoreDataManager {
         try? context.save()
     }
     
+    private func updateRecipeWithCollection() {
+        guard !UserDefaultsManager.isUpdateRecipeWithCollection else {
+            return
+        }
+        let recipes = getAllRecipes()?.compactMap({ ShortRecipeModel(withCollection: $0, isFavorite: false) }) ?? []
+
+        let recipeWithCollection = recipes.filter({ $0.localCollection != nil })
+        recipeWithCollection.forEach({ recipe in
+            if let collections = recipe.localCollection,
+                !collections.isEmpty {
+                collections.forEach { collection in
+                    if let dbCollection = getCollection(by: collection.id) {
+                        var collection = CollectionModel(from: dbCollection)
+                        var dishes = Set(collection.dishes)
+                        dishes.insert(recipe.id)
+                        collection.dishes = Array(dishes)
+                        saveCollection(collections: [collection])
+                    }
+                }
+            }
+        })
+        
+        UserDefaultsManager.isUpdateRecipeWithCollection = true
+    }
 }
 
 extension CoreDataManager: CoredataSyncProtocol {
@@ -608,7 +633,7 @@ extension CoreDataManager: CoredataSyncProtocol {
             do {
                 let _ = recipes.map { DBRecipe.prepare(fromPlainModel: $0, context: asyncContext)}
                 try asyncContext.save()
-                NotificationCenter.default.post(name: .recieptsDownladedAnsSaved, object: nil)
+                NotificationCenter.default.post(name: .recipesDownloadedAndSaved, object: nil)
             } catch let error {
                 print(error)
                 asyncContext.rollback()
@@ -622,7 +647,7 @@ extension CoreDataManager: CoredataSyncProtocol {
             do {
                 let _ = products.map { DBNewNetProduct.prepare(fromProduct: $0, using: asyncContext) }
                 try asyncContext.save()
-                NotificationCenter.default.post(name: .productsDownladedAnsSaved, object: nil)
+                NotificationCenter.default.post(name: .productsDownloadedAndSaved, object: nil)
             } catch {
                 asyncContext.rollback()
             }
@@ -639,5 +664,10 @@ extension CoreDataManager: CoredataSyncProtocol {
                 asyncContext.rollback()
             }
         }
+    }
+    
+    func saveNetworkCollection(collections: [NetworkCollection]) {
+        let collections = collections.map { CollectionModel(networkCollection: $0) }
+        saveCollection(collections: collections)
     }
 }

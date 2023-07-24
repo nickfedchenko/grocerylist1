@@ -57,11 +57,20 @@ class ProductsSortViewModel: ProductsSettingsViewModel {
         guard let content = allContent[safe: ind] else { return }
         var sortingType: SortingType = .category
         switch content {
-        case .byCategory:   sortingType = .category
-        case .byAlphabet:   sortingType = .alphabet
-        case .byTime:       sortingType = .time
-        case .byRecipe:     sortingType = .recipe
-        case .byUsers:      sortingType = .user
+        case .byCategory:
+            AmplitudeManager.shared.logEvent(.setSortCategory)
+            sortingType = .category
+        case .byAlphabet:
+            AmplitudeManager.shared.logEvent(.setSortAbc)
+            sortingType = .alphabet
+        case .byTime:
+            AmplitudeManager.shared.logEvent(.setSortTime)
+            sortingType = .time
+        case .byRecipe:
+            AmplitudeManager.shared.logEvent(.setSortRecipe)
+            sortingType = .recipe
+        case .byUsers:
+            sortingType = .user
         case .byStore:
 #if RELEASE
             guard Apphud.hasActiveSubscription() else {

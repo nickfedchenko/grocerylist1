@@ -22,9 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Apphud.start(apiKey: "app_UumawTKYjWf9iUejoRkxntPLZQa7eq")
         _ = AmplitudeManager.shared
-        let cache = ImageCache.default
-        cache.memoryStorage.config.totalCostLimit = 1024 * 1024 * 10
-        cache.diskStorage.config.sizeLimit = 1024 * 1024 * 100
         FirebaseApp.configure()
         FeatureManager.shared.activeFeatures()
         FeatureManager.shared.activeFAQFeature()
@@ -35,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         syncService.updateRecipes()
         syncService.updateItems()
         syncService.updateCategories()
+        syncService.updateCollections()
         SocketManager.shared.connect()
         
         let window = UIWindow(frame: UIScreen.main.bounds)

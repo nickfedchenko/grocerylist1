@@ -53,7 +53,7 @@ final class RecipeScreenViewModel {
         theme = sectionColor ?? ColorManager.shared.getColorForRecipe()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateRecipe),
-                                               name: .recieptsDownladedAnsSaved,
+                                               name: .recipesDownloadedAndSaved,
                                                object: nil)
     }
 }

@@ -54,7 +54,7 @@ extension DBStock {
         dbStock.autoRepeat = try? JSONEncoder().encode(model.autoRepeat)
         dbStock.isReminder = model.isReminder
         dbStock.dateOfCreation = model.dateOfCreation
-        dbStock.isUserImage = model.isUserImage ?? false
+        dbStock.isUserImage = model.isUserImage
         dbStock.userToken = model.userToken
         return dbStock
     }
