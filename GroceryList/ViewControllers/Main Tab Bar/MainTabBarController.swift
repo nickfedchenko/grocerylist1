@@ -141,6 +141,16 @@ final class MainTabBarController: UITabBarController {
         contextMenuBackgroundView.isHidden = true
     }
     
+    private func analytics(tabIndex: Int) {
+        switch tabIndex {
+        case TabBarItemView.Item.recipe.rawValue:
+            AmplitudeManager.shared.logEvent(.recipeSection)
+        case TabBarItemView.Item.pantry.rawValue:
+            AmplitudeManager.shared.logEvent(.pantrySection)
+        default: break
+        }
+    }
+    
     private func makeConstraints() {
         self.view.addSubview(customTabBar)
         self.view.addSubviews([navBackgroundView, navView, contextMenuBackgroundView, contextMenu])
@@ -201,6 +211,8 @@ extension MainTabBarController: MainNavigationViewDelegate {
 
 extension MainTabBarController: CustomTabBarViewDelegate {
     func tabSelected(at index: Int) {
+        analytics(tabIndex: index)
+        
 #if RELEASE
         let recipeIndex = TabBarItemView.Item.recipe.rawValue
         if index == recipeIndex && !Apphud.hasActiveSubscription() {

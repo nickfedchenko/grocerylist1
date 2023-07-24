@@ -290,6 +290,16 @@ extension NetworkEngine: NetworkDataProvider {
         performDecodableRequest(request: .fetchPantryListUsers(userToken: userToken, listId: pantryId),
                                 completion: completion)
     }
+    
+    func fetchFAQState(completion: @escaping FetchFAQStateResult) {
+        performDecodableRequest(request: .fetchFAQState, completion: completion)
+    }
+    
+    ///   запас, который пользователь добавляет в список
+    func saveUserPantryList(pantryTitle: String, stockTitle: String, completion: @escaping UserProductResult) {
+        performDecodableRequest(request: .saveUserPantryList(pantryTitle: pantryTitle, stockTitle: stockTitle),
+                                completion: completion)
+    }
 }
 
 extension Data {

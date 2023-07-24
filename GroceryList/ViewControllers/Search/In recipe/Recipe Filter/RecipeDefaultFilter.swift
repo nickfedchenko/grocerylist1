@@ -53,8 +53,6 @@ enum RecipeFilter: Int, CaseIterable {
     }
 }
 
-
-
 enum ExceptionFilter: Int, RecipeTag, CaseIterable {
     case gluten             = 3
     case peanuts            = 2
@@ -363,4 +361,3 @@ enum QuantityOfIngredientsFilter: Int, RecipeTag, CaseIterable {
         }
     }
 }
-

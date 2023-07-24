@@ -120,7 +120,7 @@ class RecipeListCell: UICollectionViewCell {
         timeLabel.text = recipe.time < 0 ? "--" : "\(recipe.time)"
         favoriteImage.isHidden = !recipe.isFavorite
         
-        if let kcal = recipe.values?.dish?.kcal {
+        if let kcal = recipe.values?.serving?.kcal ?? recipe.values?.dish?.kcal {
             kcalBadgeView.isHidden = false
             kcalLabel.text = "\(Int(kcal))"
         } else {
@@ -156,7 +156,7 @@ class RecipeListCell: UICollectionViewCell {
                     }
                 }
                 self.delegate?.contextMenuTapped(at: self.selectedIndex,
-                                                 point: contextMenuButton.center, cell: self)
+                                                 point: self.contextMenuButton.center, cell: self)
             },
             for: .touchUpInside
         )

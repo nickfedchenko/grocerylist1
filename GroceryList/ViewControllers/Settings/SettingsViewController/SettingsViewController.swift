@@ -70,6 +70,12 @@ class SettingsViewController: UIViewController {
         return view
     }()
     
+    private lazy var helpAndFaqView: SettingsParametrView = {
+        let view = SettingsParametrView()
+        view.setupView(text: "Help & FAQ".localized)
+        return view
+    }()
+    
     private lazy var selectUnitsView: SelectUnitsView = {
         let view = SelectUnitsView(imperialColor: viewModel?.getBackgroundColorForImperial(),
                                    metricColor: viewModel?.getBackgroundColorForMetric())
@@ -114,6 +120,7 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.selectUnitsView.transform = CGAffineTransform(scaleX: 0, y: 0)
+        helpAndFaqView.isHidden = !FeatureManager.shared.isActiveFAQ
         setupConstraints()
         addRecognizer()
         setupNavigationBar(titleText: R.string.localizable.preferencies())
@@ -134,7 +141,7 @@ class SettingsViewController: UIViewController {
     private func setupConstraints() {
         view.backgroundColor = R.color.background()
         view.addSubviews([preferenciesLabel, closeButton, profileView, unitsView, likeAppView,
-                          hapticView, showProductImageView, contactUsView, selectUnitsView,
+                          hapticView, showProductImageView, contactUsView, selectUnitsView, helpAndFaqView,
                           registerView])
         
         preferenciesLabel.snp.makeConstraints { make in
@@ -190,6 +197,12 @@ class SettingsViewController: UIViewController {
             make.height.equalTo(92)
         }
         
+        helpAndFaqView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(20)
+            make.top.equalTo(contactUsView.snp.bottom)
+            make.height.equalTo(54)
+        }
+        
         registerView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).inset(30)
@@ -209,9 +222,11 @@ extension SettingsViewController {
         let unitsViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(unitsViewAction))
         let likeAppViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(likeAppViewAction))
         let contactUsViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(contactUsAction))
+        let helpAndFaqViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(helpAndFaqAction))
         unitsView.addGestureRecognizer(unitsViewRecognizer)
         likeAppView.addGestureRecognizer(likeAppViewRecognizer)
         contactUsView.addGestureRecognizer(contactUsViewRecognizer)
+        helpAndFaqView.addGestureRecognizer(helpAndFaqViewRecognizer)
     }
 
     func hideUnitsView() {
@@ -268,6 +283,12 @@ extension SettingsViewController {
         } else {
             print("Send mail not allowed")
         }
+    }
+    
+    @objc
+    private func helpAndFaqAction(_ recognizer: UIPanGestureRecognizer) {
+        let controller = FAQViewController()
+        self.navigationController?.pushViewController(controller, animated: true)
     }
   
 }

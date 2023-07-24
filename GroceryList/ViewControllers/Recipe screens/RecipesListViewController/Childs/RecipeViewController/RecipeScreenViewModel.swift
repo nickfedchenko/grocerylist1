@@ -20,6 +20,7 @@ protocol RecipeScreenViewModelProtocol {
     var updateCollection: (() -> Void)? { get set }
     var recipe: Recipe { get }
     var theme: Theme { get set }
+    var fromSearch: Bool { get set }
     func addToShoppingList(contentViewHeigh: CGFloat, delegate: AddProductsSelectionListDelegate)
     func addToCollection()
     func edit()
@@ -40,6 +41,7 @@ final class RecipeScreenViewModel {
     var updateCollection: (() -> Void)?
     var updateRecipeRemove: ((Recipe) -> Void)?
     var theme: Theme
+    var fromSearch = false
     private(set) var recipe: Recipe
     private var isMetricSystem = UserDefaultsManager.isMetricSystem
     private var recipeUnit: RecipeUnit?

@@ -106,6 +106,8 @@ final class SearchInRecipeViewModel {
     }
     
     func showRecipe(_ recipe: RecipeForSearchModel) {
+        AmplitudeManager.shared.logEvent(.recipeOpenFromSearch)
+        
         guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipe.id),
               let recipe = Recipe(from: dbRecipe) else {
             return
@@ -116,12 +118,14 @@ final class SearchInRecipeViewModel {
                 return
             }
             self.allRecipes.removeAll { $0.id == recipe.id }
-            self.filterRecipes = allRecipes
-            self.search(text: searchText)
+            self.filterRecipes = self.allRecipes
+            self.search(text: self.searchText)
         })
     }
     
     func showFilter() -> UIViewController {
+        AmplitudeManager.shared.logEvent(.recipeAddFilter)
+        
         let viewModel = RecipeFilterViewModel(theme: isSearchAllRecipe ? nil : theme)
         viewModel.isAllRecipe = isSearchAllRecipe
         viewModel.selectedFilters = { [weak self] filters in

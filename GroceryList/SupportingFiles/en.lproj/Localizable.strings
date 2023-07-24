@@ -439,6 +439,14 @@
 "search"                        = "Search";
 "Add Filter"                    = "Add Filter";
 
+// FAQ
+"Help & FAQ"                    = "Help & FAQ";
+"Check Internet connection"     = "Check Internet connection";
+
+// FAQ
+"Help & FAQ"                    = "Help & FAQ";
+"Check Internet connection"     = "Check Internet connection";
+
 // Updated Paywall
 "three days "                   = "3 days ";
 "free"                          = "free";
@@ -457,3 +465,17 @@
 "Try 3 days for free"           = "Try 3 days for free";
 "Save time and money with app"  = "Save time and money with Shopping List";
 "Cancel anytime"                = "Cancel anytime";
+
+// New Paywall
+"Unlock Premium"                = "Unlock Premium";
+"with useful features"          = "with useful features";
+"NewPaywall.Feature.0"          = "Lists: unlimited number and functionality";
+"NewPaywall.Feature.1"          = "Auto-selection of categories and photos";
+"NewPaywall.Feature.2"          = "Sharing, collaborative lists";
+"NewPaywall.Feature.3"          = "Shop selection, price entry, cost calculation";
+"NewPaywall.Feature.4"          = "Pantry & Stocks lists. Write down all the products and goods that should always be and track their availability";
+"NewPaywall.Feature.5"          = "Automate recurring purchases, receive notifications within the program";
+"NewPaywall.Feature.6"          = "Constantly updated collections of recipes, indicating Macros and calories. Find recipes with filters";
+"NewPaywall.Feature.7"          = "Importing recipes from websites. Find recipes with filters";
+"NewPaywall.Feature.8"          = "Create your own recipes and collections, the ability to share recipes";
+"NewPaywall.Feature.9"          = "Adding ingredients to the shopping list for the selected number of servings";

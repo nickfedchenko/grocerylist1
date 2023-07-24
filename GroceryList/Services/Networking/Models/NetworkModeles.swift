@@ -128,7 +128,7 @@ struct Recipe: Codable, Hashable, Equatable {
         
         self.cookingTime = cookingTime
         self.description = description ?? ""
-        self.values = Values(dish: kcal)
+        self.values = Values(serving: kcal)
         self.ingredients = ingredients
         self.instructions = instructions
         self.isShowCost = isShowCost
@@ -323,4 +323,10 @@ struct FeedbackResponse: Codable {
     var error: Bool
     var messages: [String]
     var data: [String]
+}
+
+struct FetchFAQStateResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var enabled: Bool
 }

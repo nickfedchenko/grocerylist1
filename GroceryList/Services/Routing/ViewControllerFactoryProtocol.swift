@@ -12,6 +12,7 @@ protocol ViewControllerFactoryProtocol {
     func createPaywallController() -> UIViewController
     func createAlternativePaywallController() -> UIViewController
     func createUpdatedPaywallController() -> UIViewController
+    func createNewPaywallController(isTrial: Bool) -> UIViewController
     
     func createMainTabBarController(router: RootRouter, controllers: [UIViewController]) -> UITabBarController
     func createListController(router: RootRouter) -> UIViewController
@@ -71,11 +72,12 @@ protocol ViewControllerFactoryProtocol {
     func createShowCollectionViewController(router: RootRouter, state: ShowCollectionViewController.ShowCollectionState,
                                             recipe: Recipe?, updateUI: (() -> Void)?,
                                             compl: (([CollectionModel]) -> Void)?) -> UIViewController
-    func createIngredientViewController(isShowCost: Bool, router: RootRouter,
+    func createIngredientViewController(isShowCost: Bool, currentIngredient: Ingredient?, router: RootRouter,
                                         compl: @escaping (Ingredient) -> Void) -> UIViewController
     func createSearchInList(router: RootRouter) -> UIViewController
     func createSearchInRecipe(router: RootRouter, section: RecipeSectionsModel?) -> UIViewController
-    func createRecipeScreen(router: RootRouter, recipe: Recipe, sectionColor: Theme?,
+    func createRecipeScreen(router: RootRouter, recipe: Recipe,
+                            sectionColor: Theme?, fromSearch: Bool,
                             removeRecipe: ((Recipe) -> Void)?) -> UIViewController
     func createEditSelectListController(router: RootRouter, products: [Product], contentViewHeigh: CGFloat,
                                         delegate: EditSelectListDelegate,

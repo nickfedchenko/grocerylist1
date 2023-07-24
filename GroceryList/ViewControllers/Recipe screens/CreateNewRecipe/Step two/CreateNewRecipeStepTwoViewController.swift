@@ -117,7 +117,7 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         savedToDraftsAlertView.isHidden = true
         savedToDraftsAlertView.leaveCreatingRecipeTapped = { [weak self] in
             self?.savedToDraftsAlertView.fadeOut()
-            self?.viewModel?.back()
+            self?.viewModel?.backToRoot()
         }
         
         savedToDraftsAlertView.continueWorkTapped = { [weak self] in
@@ -133,7 +133,7 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         timeView.textFieldReturnPressed = { [weak self] in
             self?.servingsView.textView.becomeFirstResponder()
         }
-        if let cookingTime = viewModel?.recipe.cookingTime {
+        if let cookingTime = viewModel?.recipe.cookingTime, cookingTime > 0 {
             timeView.setText(cookingTime.asString)
         }
         
@@ -168,11 +168,11 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
         }
         savedToDraftsButton.isHidden = true
         
-        if let cookingTime = currentRecipe.cookingTime?.asString {
-            timeView.setText(cookingTime)
+        if let cookingTime = currentRecipe.cookingTime, cookingTime > 0 {
+            timeView.setText(cookingTime.asString)
         }
         servingsView.setText(currentRecipe.totalServings.asString)
-        kcalView.setKcalValue(value: currentRecipe.values?.dish)
+        kcalView.setKcalValue(value: currentRecipe.values?.serving ?? currentRecipe.values?.dish)
         if let imageData = currentRecipe.localImage,
             let image = UIImage(data: imageData) {
             photoView.setImage(image)
@@ -372,6 +372,7 @@ extension CreateNewRecipeStepTwoViewController: UINavigationControllerDelegate, 
         self.dismiss(animated: true, completion: nil)
         let image = info[.originalImage] as? UIImage
         let orientedImage = image?.fixedOrientation()
+        AmplitudeManager.shared.logEvent(.recipeCreateAddPhoto)
         photoView.setImage(orientedImage)
     }
 }

@@ -36,7 +36,7 @@ final class CreateNewStockViewController: UIViewController {
     private var isShowNewStoreView = false
     private var viewDidLayout = false
     private let inactiveColor = R.color.mediumGray()
-    private var unit: UnitSystem = .piece
+    private var unit: UnitSystem?
     private var category: String = ""
     private var predictiveTextViewHeight = 86
     
@@ -58,7 +58,7 @@ final class CreateNewStockViewController: UIViewController {
         super.viewDidLayoutSubviews()
         autoRepeatView.makeCustomRound(topLeft: 4, topRight: 40, bottomLeft: 4, bottomRight: 4)
         if !viewDidLayout {
-            productView.productTextField.becomeFirstResponder()
+            productView.productTextView.becomeFirstResponder()
             setupCurrentProduct()
             updateStoreView(isVisible: viewModel.isVisibleStore)
             viewDidLayout.toggle()
@@ -129,8 +129,8 @@ final class CreateNewStockViewController: UIViewController {
             }
             self.predictiveTextView.configure(texts: titles)
         }
-        productView.productTextField.autocorrectionType = .no
-        productView.productTextField.spellCheckingType = .no
+        productView.productTextView.autocorrectionType = .no
+        productView.productTextView.spellCheckingType = .no
         predictiveTextView.delegate = self
     }
     
@@ -145,14 +145,15 @@ final class CreateNewStockViewController: UIViewController {
         autoRepeatSettingView.configure(autoRepeat: viewModel.autoRepeatModel,
                                         isReminder: viewModel.isReminder)
         
-        productView.productTextField.text = viewModel.productName
+        productView.productTextView.text = viewModel.productName
         productView.descriptionTextField.text = viewModel.userComment
         productView.setStock(isAvailability: viewModel.isAvailability)
+        productView.productTextView.checkPlaceholder()
         if let productImage = viewModel.productImage {
             productView.setImage(productImage)
         }
         if let quantityValue = viewModel.productQuantityCount {
-            quantityView.setupCurrentQuantity(unit: viewModel.productQuantityUnit ?? .piece,
+            quantityView.setupCurrentQuantity(unit: viewModel.productQuantityUnit,
                                               value: quantityValue)
         }
         if let store = viewModel.productStore {
@@ -289,7 +290,7 @@ final class CreateNewStockViewController: UIViewController {
         productView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(autoRepeatView.snp.bottom).offset(20)
-            $0.height.equalTo(56)
+            $0.height.greaterThanOrEqualTo(56)
         }
         
         storeView.snp.makeConstraints {
@@ -359,7 +360,7 @@ extension CreateNewStockViewController: CreateNewProductViewModelDelegate {
     func selectCategory(text: String, imageURL: String, imageData: Data?, defaultSelectedUnit: UnitSystem?) {
         category = text
         productView.setImage(imageURL: imageURL, imageData: imageData)
-        quantityView.setDefaultUnit(defaultSelectedUnit ?? .piece)
+        quantityView.setDefaultUnit(defaultSelectedUnit)
         
         if !imageURL.isEmpty || imageData != nil {
             isUserImage = false
@@ -380,7 +381,7 @@ extension CreateNewStockViewController: CreateNewProductViewModelDelegate {
     }
     
     func showKeyboard() {
-        productView.productTextField.becomeFirstResponder()
+        productView.productTextView.becomeFirstResponder()
     }
 }
 
@@ -427,13 +428,14 @@ extension CreateNewStockViewController: StoreOfProductViewDelegate {
 }
 
 extension CreateNewStockViewController: QuantityOfProductViewDelegate {
-    func unitSelected(_ unit: UnitSystem) {
+    func unitSelected(_ unit: UnitSystem?) {
         self.unit = unit
+        updateQuantityValue(quantityView.quantity)
     }
     
     func updateQuantityValue(_ quantity: Double) {
         let quantityString = String(format: "%.\(quantity.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", quantity)
-        productView.setQuantity(quantity > 0 ? "\(quantityString) \(unit.title)" : "")
+        productView.setQuantity(quantity > 0 ? "\(quantityString) \(unit?.title ?? "")" : "")
     }
     
     func tappedMinusPlusButtons(_ quantity: Double) {
@@ -447,7 +449,7 @@ extension CreateNewStockViewController: QuantityOfProductViewDelegate {
 
 extension CreateNewStockViewController: AutoRepeatSettingViewDelegate {
     func tappedDone() {
-        productView.productTextField.becomeFirstResponder()
+        productView.productTextView.becomeFirstResponder()
         
         autoRepeatSettingView.snp.remakeConstraints {
             $0.leading.trailing.equalToSuperview()
@@ -473,7 +475,7 @@ extension CreateNewStockViewController: AutoRepeatSettingViewDelegate {
 extension CreateNewStockViewController: PredictiveTextViewDelegate {
     func selectTitle(_ title: String) {
         AmplitudeManager.shared.logEvent(.itemPredictAdd)
-        productView.productTextField.text = title
+        productView.productTextView.text = title
         viewModel.checkIsProductFromCategory(name: title)
     }
 }

@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cache.diskStorage.config.sizeLimit = 1024 * 1024 * 100
         FirebaseApp.configure()
         FeatureManager.shared.activeFeatures()
+        FeatureManager.shared.activeFAQFeature()
         AppDelegate.activateFonts(withExtension: "ttf")
         AppDelegate.activateFonts(withExtension: "otf")
         registerForNotifications()

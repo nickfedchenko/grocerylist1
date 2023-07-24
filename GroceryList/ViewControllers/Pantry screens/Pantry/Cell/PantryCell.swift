@@ -37,6 +37,7 @@ final class PantryCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont.SFPro.semibold(size: 20).font
+        label.numberOfLines = 2
         return label
     }()
     private let capitalLetterLabel: UILabel = {
@@ -220,6 +221,7 @@ final class PantryCell: UICollectionViewCell {
         
         nameLabel.snp.makeConstraints {
             $0.leading.equalTo(iconImageView.snp.trailing).offset(4)
+            $0.trailing.equalTo(sharingView.snp.leading).offset(16)
             $0.centerY.equalTo(iconImageView)
         }
         

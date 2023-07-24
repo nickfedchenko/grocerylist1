@@ -158,6 +158,7 @@ final class ShowCollectionViewController: UIViewController {
             if let contextMenuIndex = self?.contextMenuIndex {
                 self?.viewModel?.deleteCollection(by: contextMenuIndex.row - 1)
             }
+            AmplitudeManager.shared.logEvent(.recipeEditDelete)
             self?.deleteTapAction()
         }
         
@@ -378,6 +379,7 @@ extension ShowCollectionViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    moveRowAt sourceIndexPath: IndexPath,
                    to destinationIndexPath: IndexPath) {
+        AmplitudeManager.shared.logEvent(.recipeEditMove)
         viewModel?.swapCategories(from: sourceIndexPath.row - 1, to: destinationIndexPath.row - 1)
     }
     
@@ -405,6 +407,7 @@ extension ShowCollectionViewController: PantryEditMenuViewDelegate {
             self?.contextMenuBackgroundView.isHidden = true
             switch state {
             case .edit:
+                AmplitudeManager.shared.logEvent(.recipeRenameCollection)
                 guard let self,
                       let contextMenuIndex = self.contextMenuIndex else {
                     return

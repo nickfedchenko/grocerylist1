@@ -10,7 +10,8 @@ import UIKit
 final class IngredientForCreateRecipeView: IngredientView {
 
     var swipeDeleteAction: ((Int) -> Void)?
-
+    var tapOnViewAction: ((Int) -> Void)?
+    
     private lazy var deleteButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = R.color.attention()
@@ -27,6 +28,9 @@ final class IngredientForCreateRecipeView: IngredientView {
         
         servingLabel.textColor = UIColor(hex: "#D6600A")
         setupDeleteButton()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapOnView))
+        self.addGestureRecognizer(tapGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -54,6 +58,11 @@ final class IngredientForCreateRecipeView: IngredientView {
     @objc
     private func deleteAction() {
         swipeDeleteAction?(originalIndex)
+    }
+    
+    @objc
+    private func tapOnView() {
+        tapOnViewAction?(originalIndex)
     }
     
     private func originalView() {

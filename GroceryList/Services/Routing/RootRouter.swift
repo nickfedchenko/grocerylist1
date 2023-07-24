@@ -18,6 +18,7 @@ protocol RootRouterProtocol: NavigationInterface {
 }
 
 // MARK: - Router
+// swiftlint:disable file_length
 // swiftlint:disable:next type_body_length
 final class RootRouter: RootRouterProtocol {
     
@@ -242,8 +243,9 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, style: state == .select ? .automatic : .overCurrentContext, animated: true)
     }
     
-    func goToIngredient(isShowCost: Bool, compl: @escaping (Ingredient) -> Void) {
+    func goToIngredient(isShowCost: Bool, currentIngredient: Ingredient? = nil, compl: @escaping (Ingredient) -> Void) {
         let controller = viewControllerFactory.createIngredientViewController(isShowCost: isShowCost,
+                                                                              currentIngredient: currentIngredient,
                                                                               router: self,
                                                                               compl: compl)
         controller.modalTransitionStyle = .crossDissolve
@@ -266,7 +268,8 @@ final class RootRouter: RootRouterProtocol {
     func goToRecipe(recipe: Recipe, sectionColor: Theme?, fromSearch: Bool = false,
                     removeRecipe: ((Recipe) -> Void)?) {
         let controller = viewControllerFactory.createRecipeScreen(router: self, recipe: recipe,
-                                                                  sectionColor: sectionColor, removeRecipe: removeRecipe)
+                                                                  sectionColor: sectionColor, fromSearch: fromSearch,
+                                                                  removeRecipe: removeRecipe)
         if fromSearch {
             navigationPushViewController(controller, animated: true)
         } else {
@@ -429,35 +432,25 @@ final class RootRouter: RootRouterProtocol {
         topViewController?.present(controller, animated: true, completion: nil)
     }
     
-    func showPaywallVC() {
+    func showPaywallVC() { 
         guard !Apphud.hasActiveSubscription() else { return }
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
 
                 if let paywall = paywalls.first(where: { $0.isDefault }),
                    let targetPaywallName = paywall.json?["name"] as? String {
-
-                    if targetPaywallName == "VaninPaywall" {
-                        self?.showUpdatedPaywall()
-                    } else {
-                        self?.showAlternativePaywallVC()
-                    }
-
+                    self?.showPaywall(by: targetPaywallName)
                     return
                 }
 
-                self?.showAlternativePaywallVC()
+                self?.showNewPaywall(isTrial: false)
                 return
             }
 
             if let targetPaywallName = paywall.json?["name"] as? String {
-
-                if targetPaywallName == "VaninPaywall" {
-                    self?.showUpdatedPaywall()
-                } else {
-                    self?.showAlternativePaywallVC()
-                }
-
+                self?.showPaywall(by: targetPaywallName)
+            } else {
+                self?.showNewPaywall(isTrial: false)
             }
         }
     }
@@ -469,14 +462,12 @@ final class RootRouter: RootRouterProtocol {
             guard let self else {
                 return
             }
-            controller = self.viewControllerFactory.createAlternativePaywallController()
+            controller = self.viewControllerFactory.createNewPaywallController(isTrial: false)
             guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
 
                 if let paywall = paywalls.first(where: { $0.isDefault }),
                    let targetPaywallName = paywall.json?["name"] as? String {
-                    if targetPaywallName == "VaninPaywall" {
-                        controller = self.viewControllerFactory.createUpdatedPaywallController()
-                    }
+                    controller = self.getPaywall(by: targetPaywallName)
                 }
                 
                 controller.modalPresentationStyle = .overCurrentContext
@@ -485,13 +476,39 @@ final class RootRouter: RootRouterProtocol {
             }
 
             if let targetPaywallName = paywall.json?["name"] as? String {
-                if targetPaywallName == "VaninPaywall" {
-                    controller = self.viewControllerFactory.createUpdatedPaywallController()
-                }
+                controller = self.getPaywall(by: targetPaywallName)
             }
 
             controller.modalPresentationStyle = .overCurrentContext
             UIViewController.currentController()?.present(controller, animated: true)
+        }
+    }
+    
+    private func showPaywall(by name: String) {
+        if name == "VaninPaywall" {
+            showUpdatedPaywall()
+        } else if name == "IvanTrialPaywall" {
+            showNewPaywall(isTrial: true)
+        } else if name == "IvanNoTrialPaywall" {
+            showNewPaywall(isTrial: false)
+        } else if name == "AlternativePaywall" {
+            showAlternativePaywallVC()
+        } else {
+            showNewPaywall(isTrial: false)
+        }
+    }
+    
+    private func getPaywall(by name: String) -> UIViewController {
+        if name == "VaninPaywall" {
+            return viewControllerFactory.createUpdatedPaywallController()
+        } else if name == "IvanTrialPaywall" {
+            return viewControllerFactory.createNewPaywallController(isTrial: true)
+        } else if name == "IvanNoTrialPaywall" {
+            return viewControllerFactory.createNewPaywallController(isTrial: false)
+        } else if name == "AlternativePaywall" {
+            return viewControllerFactory.createUpdatedPaywallController()
+        } else {
+            return viewControllerFactory.createNewPaywallController(isTrial: false)
         }
     }
     
@@ -509,6 +526,12 @@ final class RootRouter: RootRouterProtocol {
     
     func showUpdatedPaywall() {
         let controller = viewControllerFactory.createUpdatedPaywallController()
+        guard !Apphud.hasActiveSubscription() else { return }
+        navigationPresent(controller, animated: true)
+    }
+    
+    func showNewPaywall(isTrial: Bool) {
+        let controller = viewControllerFactory.createNewPaywallController(isTrial: isTrial)
         guard !Apphud.hasActiveSubscription() else { return }
         navigationPresent(controller, animated: true)
     }

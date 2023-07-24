@@ -52,6 +52,7 @@ final class MainTabBarViewModel {
     }
     
     func createNewRecipeTapped() {
+        AmplitudeManager.shared.logEvent(.recipeCreateRecipe)
         DispatchQueue.main.async {
             self.router?.goToCreateNewRecipe(compl: { [weak self] recipe in
                 self?.delegate?.updateRecipeUI(recipe)

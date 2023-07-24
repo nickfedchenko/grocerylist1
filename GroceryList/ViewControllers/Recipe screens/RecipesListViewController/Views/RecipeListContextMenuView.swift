@@ -146,6 +146,7 @@ class RecipeListContextMenuView: UIView {
             
             view.onViewAction = { [weak self] in
                 self?.markAsSelected(state, activeColor: self?.mainColor?.dark ?? .black)
+                self?.analytics(state: state)
                 self?.delegate?.selectedState(state: state)
             }
         }
@@ -156,6 +157,21 @@ class RecipeListContextMenuView: UIView {
             let contextMenuColor = view.tag == state.rawValue ? .white : activeColor
             view.backgroundColor = view.tag == state.rawValue ? activeColor : .white
             (view as? RecipeListContextMenuSubView)?.configure(color: contextMenuColor)
+        }
+    }
+    
+    private func analytics(state: MainMenuState) {
+        switch state {
+        case .addToShoppingList:
+            AmplitudeManager.shared.logEvent(.recipeMenuAddToShoppingList)
+        case .addToFavorites:
+            AmplitudeManager.shared.logEvent(.recipeMenuAddToFav)
+        case .addToCollection:
+            AmplitudeManager.shared.logEvent(.recipeMenuAddToCollection)
+        case .edit:
+            AmplitudeManager.shared.logEvent(.recipeMenuEditRecipe)
+        case .delete:
+            break
         }
     }
     

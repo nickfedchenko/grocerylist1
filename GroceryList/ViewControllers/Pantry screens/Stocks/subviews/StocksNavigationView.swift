@@ -61,6 +61,7 @@ final class StocksNavigationView: UIView {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont.SFPro.bold(size: 22).font
+        label.numberOfLines = 0
         return label
     }()
     
@@ -127,12 +128,18 @@ final class StocksNavigationView: UIView {
             outLabel.isHidden = true
             totalView.layer.cornerRadius = 12
             totalView.layer.cornerCurve = .continuous
+            titleLabel.snp.updateConstraints {
+                $0.trailing.equalToSuperview().offset(-90)
+            }
             return
         }
         outOfStocksView.isHidden = false
         outOfStocksShadowView.isHidden = false
         outLabel.isHidden = false
         outLabel.text = R.string.localizable.out() + outOfStock
+        titleLabel.snp.updateConstraints {
+            $0.trailing.equalToSuperview().offset(-146)
+        }
     }
     
     func setShadowOutOfStockView(isVisible: Bool) {
@@ -218,7 +225,7 @@ final class StocksNavigationView: UIView {
         }
         
         iconImageView.snp.makeConstraints {
-            $0.top.equalTo(backButton.snp.bottom).offset(8)
+            $0.centerY.equalTo(titleLabel)
             $0.leading.equalToSuperview().offset(24)
             $0.width.height.equalTo(32)
         }
@@ -228,8 +235,10 @@ final class StocksNavigationView: UIView {
         }
         
         titleLabel.snp.makeConstraints {
+            $0.top.equalTo(backButton.snp.bottom).offset(8)
             $0.leading.equalTo(iconImageView.snp.trailing).offset(4)
-            $0.centerY.equalTo(iconImageView)
+            $0.trailing.equalToSuperview().offset(-90)
+            $0.bottom.equalToSuperview().offset(-8)
         }
         
         makeOutOfStocksViewConstraints()
@@ -241,8 +250,8 @@ final class StocksNavigationView: UIView {
         }
         
         outOfStocksView.snp.makeConstraints {
+            $0.top.equalTo(titleLabel).offset(4)
             $0.trailing.equalTo(totalView.snp.leading).offset(-4)
-            $0.bottom.equalToSuperview().offset(-12)
             $0.height.equalTo(24)
             $0.width.equalTo(54)
         }
@@ -253,7 +262,8 @@ final class StocksNavigationView: UIView {
         }
         
         totalView.snp.makeConstraints {
-            $0.trailing.bottom.equalToSuperview().offset(-12)
+            $0.top.equalTo(titleLabel).offset(4)
+            $0.trailing.equalToSuperview().offset(-12)
             $0.height.equalTo(24)
             $0.width.equalTo(56)
         }
