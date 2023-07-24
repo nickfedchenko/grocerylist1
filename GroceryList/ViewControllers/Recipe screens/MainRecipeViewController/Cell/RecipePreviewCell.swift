@@ -215,15 +215,15 @@ final class RecipePreviewCell: UICollectionViewCell {
         guard isFirstLayout else { return }
         let shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius)
         layer.shadowPath = shadowPath.cgPath
-        layer.shadowColor = UIColor(hex: "06BBBB").cgColor
+        layer.shadowColor = UIColor(hex: "858585").cgColor
         layer.shadowOffset = CGSize(width: 0, height: 4)
-        layer.shadowRadius = 10
-        layer.shadowOpacity = 0.2
+        layer.shadowRadius = 3
+        layer.shadowOpacity = 0.1
         let shadowLayer = CAShapeLayer()
         shadowLayer.shadowPath = shadowPath.cgPath
-        shadowLayer.shadowColor = UIColor(hex: "123E5E").cgColor
-        shadowLayer.shadowOpacity = 0.25
-        shadowLayer.shadowRadius = 2
+        shadowLayer.shadowColor = UIColor(hex: "484848").cgColor
+        shadowLayer.shadowOpacity = 0.15
+        shadowLayer.shadowRadius = 1
         shadowLayer.shadowOffset = CGSize(width: 0, height: 0.5)
         layer.insertSublayer(shadowLayer, at: 0)
         drawInlinedStroke()

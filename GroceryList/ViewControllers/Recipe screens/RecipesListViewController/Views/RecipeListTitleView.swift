@@ -13,9 +13,17 @@ class RecipeListTitleView: UIView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProDisplay.heavy(size: 32).font
+        label.numberOfLines = 2
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.3
         return label
     }()
         
+    var necessaryHeight: CGFloat {
+        let titleHeight = 16 + titleLabel.intrinsicContentSize.height
+        return titleHeight < 40 ? 40 : titleHeight
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupSubviews()
@@ -40,13 +48,15 @@ class RecipeListTitleView: UIView {
 
         iconImageView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
-            $0.bottom.equalToSuperview().offset(-12)
+            $0.centerY.equalToSuperview()
             $0.height.width.equalTo(40)
         }
         
         titleLabel.snp.makeConstraints {
-            $0.height.bottom.equalTo(iconImageView)
+            $0.top.equalToSuperview().offset(8)
+            $0.centerY.equalToSuperview()
             $0.leading.equalTo(iconImageView.snp.trailing)
+            $0.trailing.equalToSuperview()
         }
     }
 }

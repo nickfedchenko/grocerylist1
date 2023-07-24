@@ -34,6 +34,7 @@ final class ShowCollectionCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.SFProRounded.bold(size: 18).font
         label.textColor = R.color.primaryDark()
+        label.numberOfLines = 3
         return label
     }()
     
@@ -200,9 +201,12 @@ final class ShowCollectionCell: UITableViewCell {
         collectionLabel.snp.makeConstraints {
             $0.leading.equalTo(iconImageView.snp.trailing).offset(17)
             $0.centerY.equalTo(iconImageView)
-            $0.height.equalTo(24)
+            $0.height.greaterThanOrEqualTo(24)
+            $0.trailing.equalTo(countLabel.snp.leading).offset(-8)
         }
         
+        countLabel.setContentHuggingPriority(.init(999), for: .horizontal)
+        countLabel.setContentCompressionResistancePriority(.init(999), for: .horizontal)
         countLabel.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-31)
             $0.centerY.equalTo(iconImageView)
