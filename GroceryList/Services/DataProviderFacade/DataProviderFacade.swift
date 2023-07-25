@@ -136,7 +136,29 @@ extension DataProviderFacade: DataSyncProtocol {
     }
     
     private func saveCollection(networkCollection: [NetworkCollection]) {
-        let collection = networkCollection.filter { $0.pos >= 41 && $0.pos <= 60 }
-        CoreDataManager.shared.saveNetworkCollection(collections: collection)
+        let collections = networkCollection.filter { $0.pos >= 41 && $0.pos <= 60 }
+                                           .map { CollectionModel(networkCollection: $0) }
+        var saveCollection: [CollectionModel] = []
+        collections.forEach { collection in
+            if let localCollection = CoreDataManager.shared.getCollection(by: collection.id) {
+                let localDishes = (try? JSONDecoder().decode([Int].self, from: localCollection.dishes ?? Data())) ?? []
+                var dishes = Set(localDishes)
+                collection.dishes?.forEach({ recipeId in
+                    dishes.insert(recipeId)
+                })
+                
+                saveCollection.append(CollectionModel(id: collection.id,
+                                                      index: Int(localCollection.index),
+                                                      title: localCollection.title ?? "",
+                                                      color: Int(localCollection.color),
+                                                      isDefault: true,
+                                                      localImage: localCollection.localImage,
+                                                      dishes: Array(dishes)))
+            } else {
+                saveCollection.append(collection)
+            }
+        }
+        
+        CoreDataManager.shared.saveNetworkCollection(collections: saveCollection)
     }
 }

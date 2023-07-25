@@ -125,7 +125,6 @@ final class RecipePreviewCell: UICollectionViewCell {
                     .scaleFactor(UIScreen.main.scale),
                     .cacheOriginalImage
                 ])
-//            mainImage.kf.setImage(with: photoUrl)
             return
         }
         mainImage.image = nil
@@ -173,7 +172,7 @@ final class RecipePreviewCell: UICollectionViewCell {
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(backgroundImageView.snp.bottom)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.leading.trailing.bottom.equalToSuperview().inset(8)
             make.height.equalTo(48)
         }
         

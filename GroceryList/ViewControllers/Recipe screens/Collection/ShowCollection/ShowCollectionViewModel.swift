@@ -34,7 +34,7 @@ final class ShowCollectionViewModel {
         viewState = state
         self.recipe = recipe
         
-        updateCollection()
+        newUpdateCollection()
     }
     
     deinit {
@@ -46,7 +46,7 @@ final class ShowCollectionViewModel {
         router?.goToCreateNewCollection(collections: editCollections,
                                         compl: { [weak self] newCollection in
             self?.editCollections.append(newCollection)
-            self?.updateCollection()
+            self?.newUpdateCollection()
             self?.changedCollection = true
         })
     }
@@ -61,7 +61,7 @@ final class ShowCollectionViewModel {
                                         compl: { [weak self] updateCollection in
             self?.editCollections.removeAll(where: { $0.id == updateCollection.id })
             self?.editCollections.append(updateCollection)
-            self?.updateCollection()
+            self?.newUpdateCollection()
             self?.changedCollection = true
         })
     }
@@ -114,19 +114,6 @@ final class ShowCollectionViewModel {
         editCollections.removeAll { $0.id == collection.id }
         collections.remove(at: index)
         
-        DispatchQueue.main.async {
-            var updateRecipes: [Recipe] = []
-            recipeIds.forEach { recipeId in
-                if let dbRecipe = CoreDataManager.shared.getRecipe(by: Int(recipeId.id)),
-                   var updateRecipe = Recipe(from: dbRecipe) {
-                    let hasDefaultRecipe = updateRecipe.hasDefaultCollection()
-                    updateRecipe.localCollection?.removeAll(where: { $0.id == collection.id })
-                    updateRecipes.append(updateRecipe)
-                }
-            }
-            CoreDataManager.shared.saveRecipes(recipes: updateRecipes)
-        }
-        
         self.updateData?()
         changedCollection = true
     }
@@ -161,8 +148,12 @@ final class ShowCollectionViewModel {
             selectedCollection?(selectCollections)
             return
         }
-        recipe.localCollection = selectCollections
-        CoreDataManager.shared.saveRecipes(recipes: [recipe])
+        selectCollections.enumerated().forEach { index, collection in
+            var dishes = Set(collection.dishes ?? [])
+            dishes.insert(recipe.id)
+            selectCollections[index].dishes = Array(dishes)
+        }
+        CoreDataManager.shared.saveCollection(collections: selectCollections)
         selectedCollection?(selectCollections)
         changedCollection = true
     }
@@ -175,7 +166,8 @@ final class ShowCollectionViewModel {
                 updateCollections.append(CollectionModel(id: collection.id,
                                                          index: index,
                                                          title: collection.title,
-                                                         color: collection.color ?? 0))
+                                                         color: collection.color ?? 0,
+                                                         dishes: collection.dishes))
             }
         }
         if !updateCollections.isEmpty {
@@ -187,28 +179,28 @@ final class ShowCollectionViewModel {
     }
     
     @objc
-    private func updateCollection() {
-        var recipeIds: [ShowCollectionModel.Recipe] = []
+    private func newUpdateCollection() {
         if editCollections.isEmpty {
-            guard let dbCollections = CoreDataManager.shared.getAllCollection(),
-                  let dbRecipes = CoreDataManager.shared.getAllRecipes() else { return }
-            recipeIds = dbRecipes.compactMap { ShowCollectionModel.Recipe(from: $0) }
+            guard let dbCollections = CoreDataManager.shared.getAllCollection() else {
+                return
+            }
             editCollections = dbCollections.compactMap { CollectionModel(from: $0) }
-        } else {
-            recipeIds = Array(Set(collections.flatMap { $0.recipes }))
         }
 
         self.collections.removeAll()
         
         editCollections.sort { $0.index < $1.index }
         editCollections.forEach { collection in
-            let collectionRecipes = recipeIds.filter {
-                $0.localCollection?.contains(where: { collection.id == $0.id }) ?? false
-            }
-            let isSelect = recipe?.localCollection?.contains(where: { $0.id == collection.id }) ?? false
+            var recipes: [ShowCollectionModel.Recipe] = []
+            collection.dishes?.forEach({
+                if let recipe = CoreDataManager.shared.getRecipe(by: $0) {
+                    recipes.append(ShowCollectionModel.Recipe(from: recipe))
+                }
+            })
+            let isSelect = collection.dishes?.contains(where: { recipe?.id == $0 })
             self.collections.append(ShowCollectionModel(collection: collection,
-                                                        recipes: collectionRecipes,
-                                                        select: isSelect))
+                                                        recipes: recipes,
+                                                        select: isSelect ?? false))
         }
         
         // папки will cook и inbox еще не реализованы, пока что их удаляем из списка коллекций

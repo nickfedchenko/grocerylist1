@@ -17,7 +17,7 @@ struct ShowCollectionModel {
         let id: Int64
         var localCollection: [CollectionModel]?
         
-        init?(from dbModel: DBRecipe) {
+        init(from dbModel: DBRecipe) {
             id = dbModel.id
             localCollection = (try? JSONDecoder().decode([CollectionModel].self, from: dbModel.localCollection ?? Data())) ?? []
         }

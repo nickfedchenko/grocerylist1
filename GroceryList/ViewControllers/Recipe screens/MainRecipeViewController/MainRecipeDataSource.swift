@@ -70,23 +70,20 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
                 return false
             }
         }
-        recipes.sort { $0.id > $1.id }
         
         collections.forEach { collection in
-            let collectionRecipes: [ShortRecipeModel]
+            var collectionRecipes: [ShortRecipeModel]
             
             if collection.id == EatingTime.favorites.rawValue {
                 collectionRecipes = favoritesID.compactMap { recipeId in
-                    recipes.first {
-                        $0.id == recipeId
-                    }
+                    recipes.first { $0.id == recipeId }
                 }
             } else {
                 collectionRecipes = collection.dishes?.compactMap { recipeId in
                     recipes.first { $0.id == recipeId }
                 } ?? []
             }
-            
+            collectionRecipes.sort { $0.createdAt > $1.createdAt }
             let image = getFirstPhoto(recipes: collectionRecipes)
             let customSection = RecipeSectionsModel(collectionId: collection.id,
                                                     cellType: .recipePreview,

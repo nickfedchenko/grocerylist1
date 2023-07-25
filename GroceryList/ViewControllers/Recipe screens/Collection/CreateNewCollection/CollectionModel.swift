@@ -16,13 +16,16 @@ struct CollectionModel: Codable {
     var localImage: Data?
     var dishes: [Int]?
     
-    init(id: Int, index: Int, title: String, color: Int, isDefault: Bool = false) {
+    init(id: Int, index: Int, title: String, color: Int,
+         isDefault: Bool = false, localImage: Data? = nil,
+         dishes: [Int]? = []) {
         self.id = id
         self.index = index
         self.title = title
         self.color = color
         self.isDefault = isDefault
-        self.dishes = []
+        self.localImage = localImage
+        self.dishes = dishes
     }
     
     init(from dbModel: DBCollection) {

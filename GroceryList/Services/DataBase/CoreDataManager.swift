@@ -673,8 +673,7 @@ extension CoreDataManager: CoredataSyncProtocol {
         }
     }
     
-    func saveNetworkCollection(collections: [NetworkCollection]) {
-        let collections = collections.map { CollectionModel(networkCollection: $0) }
+    func saveNetworkCollection(collections: [CollectionModel]) {
         saveCollection(collections: collections)
     }
 }

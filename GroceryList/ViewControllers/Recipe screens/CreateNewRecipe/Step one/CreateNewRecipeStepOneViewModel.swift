@@ -141,9 +141,13 @@ final class CreateNewRecipeStepOneViewModel {
         guard var draft else {
             draft = Recipe(title: title, description: description)
             if let dbDraftsCollection = CoreDataManager.shared.getAllCollection()?
-                .first(where: { $0.id == EatingTime.drafts.rawValue }) {
-                let draftsCollection = CollectionModel(from: dbDraftsCollection)
-                draft?.localCollection = [draftsCollection]
+                .first(where: { $0.id == EatingTime.drafts.rawValue }),
+               let draft {
+                var draftsCollection = CollectionModel(from: dbDraftsCollection)
+                var dishes = Set(draftsCollection.dishes ?? [])
+                dishes.insert(draft.id)
+                draftsCollection.dishes = Array(dishes)
+                CoreDataManager.shared.saveCollection(collections: [draftsCollection])
             }
             savedToDrafts(title: title, description: description)
             return
