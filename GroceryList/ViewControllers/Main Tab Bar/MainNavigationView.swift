@@ -101,7 +101,6 @@ final class MainNavigationView: UIView {
     
     func setupImage(photo: String?, photoAsData: Data?) {
         settingsButton.clipsToBounds = UserAccountManager.shared.getUser() != nil
-        gearIconImageView.isHidden = UserAccountManager.shared.getUser() == nil
         
         if UserAccountManager.shared.getUser() == nil {
             userNameLabel.text = ""

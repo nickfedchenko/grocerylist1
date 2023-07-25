@@ -149,7 +149,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
     
     private func setupCustomView() {
         titleView.setStep(R.string.localizable.step1Of2())
-        
+        nameView.maxLineNumber = 1
         nameView.configure(title: R.string.localizable.name(), state: .required)
         nameView.textView.becomeFirstResponder()
         nameView.textFieldReturnPressed = { [weak self] in

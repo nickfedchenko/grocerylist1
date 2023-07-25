@@ -18,6 +18,8 @@ final class CreateNewRecipeViewWithTextField: UIView {
         return 16 + 20 + 4 + (contentHeight == 0 ? 48 : contentHeight + 14)
     }
     
+    var maxLineNumber = 0
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
@@ -75,6 +77,10 @@ final class CreateNewRecipeViewWithTextField: UIView {
         textView.keyboardType = .numberPad
     }
     
+    func setMaxLine(_ number: Int) {
+        
+    }
+    
     func setText(_ text: String?) {
         textView.text = text
         textView.checkPlaceholder()
@@ -102,6 +108,14 @@ final class CreateNewRecipeViewWithTextField: UIView {
         textView.setPlaceholder(placeholder: state.placeholder,
                                 textColor: state.placeholderColor,
                                 font: UIFont.SFPro.medium(size: 16).font)
+    }
+    
+    private func sizeOfString(string: String, constrainedToWidth width: Double,
+                              font: UIFont) -> CGSize {
+        return (string as NSString).boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude),
+                                                 options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                                                 attributes: [NSAttributedString.Key.font: font],
+                                                 context: nil).size
     }
     
     private func makeConstraints() {
@@ -160,6 +174,18 @@ extension CreateNewRecipeViewWithTextField: UITextViewDelegate {
             textFieldReturnPressed?()
             return false
         }
+        
+        if maxLineNumber > 0 {
+            let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+            var textWidth = CGRectGetWidth(textView.frame.inset(by: textView.textContainerInset))
+            textWidth -= 2.0 * textView.textContainer.lineFragmentPadding
+
+            let boundingRect = sizeOfString(string: newText, constrainedToWidth: Double(textWidth), font: textView.font!)
+            let numberOfLines = boundingRect.height / textView.font!.lineHeight
+
+            return numberOfLines <= CGFloat(maxLineNumber)
+        }
+        
         return true
     }
 }
