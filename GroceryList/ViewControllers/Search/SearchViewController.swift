@@ -149,7 +149,7 @@ class SearchViewController: UIViewController {
     }
     
     @objc
-    private func dismissKeyboard() {
+    func dismissKeyboard() {
         guard let gestureRecognizers = self.view.gestureRecognizers else {
             return
         }

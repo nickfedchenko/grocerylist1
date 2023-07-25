@@ -343,6 +343,10 @@ extension SearchInRecipeViewController: UICollectionViewDelegate {
         }
         self.viewModel?.showRecipe(recipe)
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        dismissKeyboard()
+    }
 }
 
 extension SearchInRecipeViewController: UITextFieldDelegate {
