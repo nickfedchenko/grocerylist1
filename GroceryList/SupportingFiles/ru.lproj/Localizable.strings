@@ -291,6 +291,7 @@
 // Tab Bar
 "List"                          = "Списки";
 "Pantry"                        = "Запасы";
+"Recipes"                       = "Pецепты";
 
 // Pantry & Stocks
 "Pantry & Stocks"               = "Кладовая и запасы";

@@ -1452,12 +1452,12 @@ struct _R {
       /// Locales: en, ru, fr, de
       var recipe: RswiftResources.StringResource { .init(key: "Recipe", tableName: "Localizable", source: source, developmentValue: "Recipe ", comment: nil) }
 
-      /// en translation:  Recipes
+      /// en translation: Recipes
       ///
       /// Key: Recipes
       ///
       /// Locales: en, ru, fr, de
-      var recipes: RswiftResources.StringResource { .init(key: "Recipes", tableName: "Localizable", source: source, developmentValue: " Recipes", comment: nil) }
+      var recipes: RswiftResources.StringResource { .init(key: "Recipes", tableName: "Localizable", source: source, developmentValue: "Recipes", comment: nil) }
 
       /// en translation: Red chili flakes
       ///

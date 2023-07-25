@@ -99,7 +99,7 @@ extension TabBarItemView.Item {
         switch self {
         case .list:     return R.string.localizable.list()
         case .pantry:   return R.string.localizable.pantry()
-        case .recipe:   return R.string.localizable.recipe().trimmingCharacters(in: .whitespacesAndNewlines)
+        case .recipe:   return R.string.localizable.recipes()
         }
     }
     

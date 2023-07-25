@@ -19,7 +19,7 @@ final class MainRecipeViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = R.string.localizable.recipe()
+        label.text = R.string.localizable.recipes()
         label.font = UIFont.SFProDisplay.heavy(size: 32).font
         label.textColor = R.color.primaryDark()
         return label

@@ -265,6 +265,7 @@
 // Tab Bar
 "List"                          = "Liste";
 "Pantry"                        = "Cellier";
+"Recipes"                       = "Recettes";
 
 // Pantry & Stocks
 "Pantry & Stocks"               = "Cellier et Stocks";

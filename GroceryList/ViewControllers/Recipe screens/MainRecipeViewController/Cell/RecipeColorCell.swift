@@ -34,7 +34,7 @@ final class RecipeColorCell: UICollectionViewCell {
         
         colorView.snp.makeConstraints {
             $0.leading.top.equalToSuperview()
-            $0.height.equalTo(128)
+            $0.height.equalTo(129)
             $0.width.equalTo(8)
         }
     }
