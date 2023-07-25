@@ -5,6 +5,7 @@
 //  Created by Vladimir Banushkin on 06.12.2022.
 //
 
+import ApphudSDK
 import UIKit
 
 final class RecipesListViewController: UIViewController {
@@ -272,6 +273,12 @@ extension RecipesListViewController: RecipesListHeaderViewDelegate {
 
 extension RecipesListViewController:  RecipeListPhotoViewDelegate {
     func choosePhotoButtonTapped() {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            viewModel.showPaywall()
+            return
+        }
+#endif
         viewModel.showPhotosFromRecipe()
     }
 }
@@ -320,6 +327,13 @@ extension RecipesListViewController: RecipeListContextMenuViewDelegate {
             self.contextMenuView.alpha = 1.0
             self.contextMenuBackgroundView.alpha = 1.0
 
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            self.viewModel.showPaywall()
+            self.contextMenuView.removeSelected()
+            return
+        }
+#endif
             switch state {
             case .addToShoppingList:
                 self.viewModel.addToShoppingList(recipeIndex: self.currentlySelectedIndex,

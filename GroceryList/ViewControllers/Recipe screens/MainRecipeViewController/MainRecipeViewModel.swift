@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 19.05.2023.
 //
 
+import ApphudSDK
 import UIKit
 
 final class MainRecipeViewModel {
@@ -85,6 +86,12 @@ final class MainRecipeViewModel {
     
     // routing
     func showRecipe(by indexPath: IndexPath) {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            showPaywall()
+            return
+        }
+#endif
         guard let recipeId = dataSource.recipesSections[safe: indexPath.section]?
                                        .recipes[safe: indexPath.item - 1]?.id,
               let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
@@ -98,5 +105,9 @@ final class MainRecipeViewModel {
     func showSearch() {
         AmplitudeManager.shared.logEvent(.recipeSearch)
         router?.goToSearchInRecipe()
+    }
+    
+    func showPaywall() {
+        router?.showPaywallVC()
     }
 }

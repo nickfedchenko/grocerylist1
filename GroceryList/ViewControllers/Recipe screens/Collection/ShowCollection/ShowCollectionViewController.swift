@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 07.03.2023.
 //
 
+import ApphudSDK
 import UIKit
 
 final class ShowCollectionViewController: UIViewController {
@@ -350,6 +351,12 @@ extension ShowCollectionViewController: UITableViewDataSource {
 
 extension ShowCollectionViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            viewModel?.showPaywallOnTopController()
+            return
+        }
+#endif
         if indexPath.row == 0 {
             viewModel?.createCollectionTapped()
             return
@@ -390,6 +397,12 @@ extension ShowCollectionViewController: UITableViewDelegate {
         if isFirstCell {
             return sourceIndexPath
         }
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            viewModel?.showPaywallOnTopController()
+            return sourceIndexPath
+        }
+#endif
         return proposedDestinationIndexPath
     }
 }
@@ -405,6 +418,13 @@ extension ShowCollectionViewController: PantryEditMenuViewDelegate {
     func selectedState(state: PantryEditMenuView.MenuState) {
         contextMenuView.fadeOut { [weak self] in
             self?.contextMenuBackgroundView.isHidden = true
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            self?.contextMenuView.removeSelected()
+            self?.viewModel?.showPaywallOnTopController()
+            return
+        }
+#endif
             switch state {
             case .edit:
                 AmplitudeManager.shared.logEvent(.recipeRenameCollection)

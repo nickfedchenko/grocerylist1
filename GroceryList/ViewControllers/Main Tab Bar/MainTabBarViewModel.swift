@@ -53,6 +53,12 @@ final class MainTabBarViewModel {
     
     func createNewRecipeTapped() {
         AmplitudeManager.shared.logEvent(.recipeCreateRecipe)
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            showPaywall()
+            return
+        }
+#endif
         DispatchQueue.main.async {
             self.router?.goToCreateNewRecipe(compl: { [weak self] recipe in
                 self?.delegate?.updateRecipeUI(recipe)
@@ -61,6 +67,12 @@ final class MainTabBarViewModel {
     }
     
     func createNewCollectionTapped() {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            showPaywall()
+            return
+        }
+#endif
         router?.goToCreateNewCollection(compl: { [weak self] _ in
             self?.delegate?.updateRecipeUI(nil)
         })

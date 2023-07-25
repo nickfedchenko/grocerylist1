@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 21.06.2023.
 //
 
+import ApphudSDK
 import Kingfisher
 import UIKit
 
@@ -50,6 +51,12 @@ class RecipesListViewModel {
     }
     
     func showRecipe(by indexPath: IndexPath) {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            showPaywall()
+            return
+        }
+#endif
         let recipeId = section.recipes[indexPath.item].id
         guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
               let model = Recipe(from: dbRecipe) else {
@@ -163,6 +170,10 @@ class RecipesListViewModel {
         })
     }
  
+    func showPaywall() {
+        router?.showPaywallVC()
+    }
+    
     private func setAllPhotos() {
         DispatchQueue.global().async {
             self.section.recipes.forEach {
