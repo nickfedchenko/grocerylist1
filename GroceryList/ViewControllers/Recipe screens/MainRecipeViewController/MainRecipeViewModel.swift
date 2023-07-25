@@ -98,6 +98,12 @@ final class MainRecipeViewModel {
     
     func showSearch() {
         AmplitudeManager.shared.logEvent(.recipeSearch)
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            showPaywall()
+            return
+        }
+#endif
         router?.goToSearchInRecipe()
     }
     

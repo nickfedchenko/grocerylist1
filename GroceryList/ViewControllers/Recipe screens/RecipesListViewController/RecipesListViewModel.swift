@@ -60,6 +60,12 @@ class RecipesListViewModel {
     }
     
     func showSearch() {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            showPaywall()
+            return
+        }
+#endif
         router?.goToSearchInRecipe(section: section)
     }
     
