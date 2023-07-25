@@ -15,7 +15,7 @@ struct CollectionModel: Codable {
     var isDefault: Bool
     var localImage: Data?
     var dishes: [Int]?
-    var isDeleteDefault: Bool
+    var isDeleteDefault: Bool?
     
     init(id: Int, index: Int, title: String, color: Int,
          isDefault: Bool = false, localImage: Data? = nil,
