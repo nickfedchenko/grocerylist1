@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 15.03.2023.
 //
 
+import ApphudSDK
 import UIKit
 
 final class SearchInRecipeViewModel {
@@ -107,7 +108,13 @@ final class SearchInRecipeViewModel {
     
     func showRecipe(_ recipe: RecipeForSearchModel) {
         AmplitudeManager.shared.logEvent(.recipeOpenFromSearch)
-        
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            showPaywall()
+            return
+        }
+#endif
+
         guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipe.id),
               let recipe = Recipe(from: dbRecipe) else {
             return
@@ -234,6 +241,10 @@ final class SearchInRecipeViewModel {
             self?.editableRecipes.insert(RecipeForSearchModel(shortRecipeModel: ShortRecipeModel(withCollection: recipe)),
                                          at: recipeIndex)
         })
+    }
+    
+    func showPaywall() {
+        router?.showPaywallVC()
     }
     
     private func appendFilters() {

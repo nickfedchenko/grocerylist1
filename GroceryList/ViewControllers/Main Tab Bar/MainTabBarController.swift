@@ -216,8 +216,9 @@ extension MainTabBarController: CustomTabBarViewDelegate {
 #if RELEASE
         let recipeIndex = TabBarItemView.Item.recipe.rawValue
         if index == recipeIndex && !Apphud.hasActiveSubscription() {
-            viewModel.showPaywall()
-            return
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.viewModel.showPaywall()
+            }
         }
 #endif
         selectedIndex = index

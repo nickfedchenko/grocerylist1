@@ -506,7 +506,7 @@ final class RootRouter: RootRouterProtocol {
         } else if name == "IvanNoTrialPaywall" {
             return viewControllerFactory.createNewPaywallController(isTrial: false)
         } else if name == "AlternativePaywall" {
-            return viewControllerFactory.createUpdatedPaywallController()
+            return viewControllerFactory.createAlternativePaywallController()
         } else {
             return viewControllerFactory.createNewPaywallController(isTrial: false)
         }

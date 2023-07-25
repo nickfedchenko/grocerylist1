@@ -148,6 +148,14 @@ final class ShowCollectionViewModel {
         router?.navigationDismiss()
     }
     
+    func showPaywall() {
+        router?.showPaywallVC()
+    }
+    
+    func showPaywallOnTopController() {
+        router?.showPaywallVCOnTopController()
+    }
+    
     private func saveSelectCollections() {
         var selectCollections = collections.filter({ $0.select }).map({ $0.collection })
         guard var recipe else {

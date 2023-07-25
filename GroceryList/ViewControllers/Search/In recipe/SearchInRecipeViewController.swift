@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 15.03.2023.
 //
 
+import ApphudSDK
 import UIKit
 import TagListView
 
@@ -408,6 +409,13 @@ extension SearchInRecipeViewController: RecipeListContextMenuViewDelegate {
             self.contextMenuView.alpha = 1.0
             self.contextMenuBackgroundView.alpha = 1.0
 
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            self.viewModel?.showPaywall()
+            self.contextMenuView.removeSelected()
+            return
+        }
+#endif
             switch state {
             case .addToShoppingList:
                 self.viewModel?.addToShoppingList(recipeIndex: self.currentlySelectedIndex,
