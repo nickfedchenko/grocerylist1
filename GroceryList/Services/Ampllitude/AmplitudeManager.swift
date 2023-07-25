@@ -105,7 +105,7 @@ enum EventName: String {
     case setSortAbc = "set_sort_abc"
     case setColor = "set_color"
     case setAutoimageToggle = "set_autoimage_toggle"
-    case setSendAsText = "set_send_as_text"
+//    case setSendAsText = "set_send_as_text"
     case setPrint = "set_print"
     case setDelete = "set_delete"
     
@@ -201,7 +201,6 @@ enum EventName: String {
     case recipeCreateInputMacros = "recipe_create_input_macros"
     case recipeCreateAddPhoto = "recipe_create_add_photo"
     case recipeCreateSave = "recipe_create_save"
-    
 }
 
 typealias PropertyKey = String

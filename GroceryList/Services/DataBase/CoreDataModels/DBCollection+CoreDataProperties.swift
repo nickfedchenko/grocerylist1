@@ -22,6 +22,8 @@ extension DBCollection {
     @NSManaged public var color: Int16
     @NSManaged public var isDefault: Bool
     @NSManaged public var localImage: Data?
+    @NSManaged public var dishes: Data?
+    @NSManaged public var isDelete: Bool
 
     static func prepare(fromPlainModel model: CollectionModel, context: NSManagedObjectContext) -> DBCollection {
         let dbCollection = DBCollection(context: context)
@@ -31,6 +33,8 @@ extension DBCollection {
         dbCollection.color = Int16(model.color ?? 0)
         dbCollection.isDefault = model.isDefault
         dbCollection.localImage = model.localImage
+        dbCollection.dishes = try? JSONEncoder().encode(model.dishes)
+        dbCollection.isDelete = model.isDeleteDefault
         return dbCollection
     }
 }

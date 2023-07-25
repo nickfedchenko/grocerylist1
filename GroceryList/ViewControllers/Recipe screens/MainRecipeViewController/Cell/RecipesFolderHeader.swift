@@ -28,6 +28,7 @@ class RecipesFolderHeader: UICollectionReusableView {
         label.font = R.font.sfProRoundedBold(size: 16)
         label.textColor = UIColor(hex: "0C695E")
         label.text = ["Breakfast", "Lunch", "Dinner"].randomElement()
+        label.numberOfLines = 2
         return label
     }()
     
@@ -85,20 +86,24 @@ class RecipesFolderHeader: UICollectionReusableView {
         folderIcon.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.width.height.equalTo(24)
-            make.top.bottom.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
         
         folderTitleLabel.snp.makeConstraints { make in
-            make.top.bottom.equalTo(folderIcon)
+            make.top.bottom.equalToSuperview()
             make.leading.equalTo(folderIcon.snp.trailing).offset(6)
+            make.trailing.equalTo(recipesCountLabel.snp.leading).inset(-8)
+            make.height.greaterThanOrEqualTo(40)
         }
         
         chevronIcon.snp.makeConstraints { make in
             make.width.equalTo(24)
             make.trailing.equalToSuperview().inset(20)
-            make.top.bottom.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
         
+        recipesCountLabel.setContentHuggingPriority(.init(999), for: .horizontal)
+        recipesCountLabel.setContentCompressionResistancePriority(.init(999), for: .horizontal)
         recipesCountLabel.snp.makeConstraints { make in
             make.centerY.equalTo(chevronIcon)
             make.top.bottom.equalToSuperview()

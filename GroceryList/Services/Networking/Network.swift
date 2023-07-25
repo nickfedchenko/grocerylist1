@@ -136,7 +136,15 @@ extension NetworkEngine: NetworkDataProvider {
     }
     
     func getAllRecipes(completion: @escaping AllDishesResult) {
-        performDecodableRequest(request: .getReciepts, completion: completion)
+        performDecodableRequest(request: .getRecipes, completion: completion)
+    }
+    
+    func fetchArchiveList(type: String, completion: @escaping FetchArchiveListResult) {
+        performDecodableRequest(request: .fetchArchiveList(type: type), completion: completion)
+    }
+    
+    func getArchiveRecipe(url: String, completion: @escaping AllDishesResult) {
+        performDecodableRequest(request: .getArchive(url: url), completion: completion)
     }
     
     func getAllItems(completion: @escaping GetAllItemsResult) {
@@ -149,6 +157,10 @@ extension NetworkEngine: NetworkDataProvider {
     
     func getItemCategories(completion: @escaping GetCategoriesResult) {
         performDecodableRequest(request: .getItemCategories, completion: completion)
+    }
+    
+    func fetchCollections(completion: @escaping FetchCollectionResult) {
+        performDecodableRequest(request: .fetchCollections, completion: completion)
     }
     
     /// регистрация юзера
@@ -291,6 +303,7 @@ extension NetworkEngine: NetworkDataProvider {
                                 completion: completion)
     }
     
+    ///   получение состояние FAQ - скрыть/показать
     func fetchFAQState(completion: @escaping FetchFAQStateResult) {
         performDecodableRequest(request: .fetchFAQState, completion: completion)
     }

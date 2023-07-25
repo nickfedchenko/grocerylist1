@@ -23,7 +23,7 @@ final class PantryDataSource {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(defaultPantry),
-                                               name: .productsDownladedAnsSaved, object: nil)
+                                               name: .productsDownloadedAndSaved, object: nil)
         getPantriesFromDB()
     }
     
