@@ -293,10 +293,19 @@ final class SearchInRecipeViewModel {
     }
     
     private func getAllRecipe() {
-        guard let dbRecipes = CoreDataManager.shared.getAllRecipes() else { return }
+        guard let dbRecipes = CoreDataManager.shared.getAllRecipes() else {
+            return
+        }
         allRecipes = dbRecipes.compactMap { dbRecipe in
             RecipeForSearchModel(dbModel: dbRecipe,
                                  isFavorite: UserDefaultsManager.favoritesRecipeIds.contains(where: { $0 == dbRecipe.id }))
+        }
+        guard let drafts = CoreDataManager.shared.getCollection(by: EatingTime.drafts.rawValue),
+              let draftDishes = (try? JSONDecoder().decode([Int].self, from: drafts.dishes ?? Data())) else {
+            return
+        }
+        allRecipes = allRecipes.filter { recipe in
+            !draftDishes.contains(recipe.id)
         }
     }
 }

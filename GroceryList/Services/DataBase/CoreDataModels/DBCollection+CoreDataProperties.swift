@@ -34,7 +34,7 @@ extension DBCollection {
         dbCollection.isDefault = model.isDefault
         dbCollection.localImage = model.localImage
         dbCollection.dishes = try? JSONEncoder().encode(model.dishes)
-        dbCollection.isDelete = model.isDeleteDefault
+        dbCollection.isDelete = model.isDeleteDefault ?? false
         return dbCollection
     }
 }
