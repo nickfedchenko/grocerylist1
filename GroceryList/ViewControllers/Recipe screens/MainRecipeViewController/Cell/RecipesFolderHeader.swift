@@ -25,7 +25,7 @@ class RecipesFolderHeader: UICollectionReusableView {
     
     private let folderTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = R.font.sfProRoundedBold(size: 16)
+        label.font = UIFont.SFPro.bold(size: 18).font
         label.textColor = UIColor(hex: "0C695E")
         label.text = ["Breakfast", "Lunch", "Dinner"].randomElement()
         label.numberOfLines = 2
@@ -42,7 +42,7 @@ class RecipesFolderHeader: UICollectionReusableView {
     
     private let chevronIcon: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = R.image.chevronRight()
+        imageView.image = R.image.chevron()
         imageView.contentMode = .center
         return imageView
     }()
@@ -56,7 +56,7 @@ class RecipesFolderHeader: UICollectionReusableView {
         folderIcon.image = R.image.folderIcon()?.withTintColor(color.medium)
         folderTitleLabel.textColor = color.dark
         recipesCountLabel.textColor = color.medium
-        chevronIcon.image = R.image.chevronRight()?.withTintColor(color.dark)
+        chevronIcon.image = R.image.chevron()?.withTintColor(color.dark)
     }
     
     override init(frame: CGRect) {
@@ -97,7 +97,7 @@ class RecipesFolderHeader: UICollectionReusableView {
         }
         
         chevronIcon.snp.makeConstraints { make in
-            make.width.equalTo(24)
+            make.width.height.equalTo(40)
             make.trailing.equalToSuperview().inset(20)
             make.centerY.equalToSuperview()
         }
@@ -107,7 +107,7 @@ class RecipesFolderHeader: UICollectionReusableView {
         recipesCountLabel.snp.makeConstraints { make in
             make.centerY.equalTo(chevronIcon)
             make.top.bottom.equalToSuperview()
-            make.trailing.equalTo(chevronIcon.snp.leading).inset(-8)
+            make.trailing.equalTo(chevronIcon.snp.leading)
         }
     }
 }

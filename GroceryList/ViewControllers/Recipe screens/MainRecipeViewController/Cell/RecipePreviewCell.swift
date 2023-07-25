@@ -23,7 +23,7 @@ final class RecipePreviewCell: UICollectionViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFProDisplay.semibold(size: 15).font
+        label.font = UIFont.SFCompactDisplay.medium(size: 15).font
         label.textColor = UIColor(hex: "192621")
         label.textAlignment = .center
         label.numberOfLines = 2
@@ -171,9 +171,9 @@ final class RecipePreviewCell: UICollectionViewCell {
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(backgroundImageView.snp.bottom)
+            make.top.equalTo(backgroundImageView.snp.bottom).offset(4)
             make.leading.trailing.bottom.equalToSuperview().inset(8)
-            make.height.equalTo(48)
+            make.height.equalTo(36)
         }
         
         badgeView.snp.makeConstraints { make in
