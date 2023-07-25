@@ -85,7 +85,8 @@ final class RecipesListViewController: UIViewController {
         let topInset = 280 + titleView.necessaryHeight
         recipesListCollectionView.contentInset.top = topInset
         photoView.snp.updateConstraints {
-            $0.bottom.equalTo(recipesListCollectionView.snp.top).offset(-titleView.necessaryHeight - 8)
+            let offset = -titleView.necessaryHeight - 8
+            $0.bottom.equalTo(recipesListCollectionView.snp.top).offset(offset > -76 ? -76 : offset)
         }
     }
     

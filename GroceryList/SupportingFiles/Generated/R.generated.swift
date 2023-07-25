@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 382 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 378 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -325,13 +325,6 @@ struct _R {
       /// Locales: en, ru, fr, de
       var bread: RswiftResources.StringResource { .init(key: "Bread", tableName: "Localizable", source: source, developmentValue: "Bread and pastries", comment: nil) }
 
-      /// en translation: Breakfast
-      ///
-      /// Key: Breakfast
-      ///
-      /// Locales: en, ru, fr, de
-      var breakfast: RswiftResources.StringResource { .init(key: "Breakfast", tableName: "Localizable", source: source, developmentValue: "Breakfast", comment: nil) }
-
       /// en translation: Breakfast cereal
       ///
       /// Key: Breakfast cereal
@@ -548,13 +541,6 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var description: RswiftResources.StringResource { .init(key: "Description", tableName: "Localizable", source: source, developmentValue: "Description", comment: nil) }
-
-      /// en translation: Dinner
-      ///
-      /// Key: Dinner
-      ///
-      /// Locales: en, ru, fr, de
-      var dinner: RswiftResources.StringResource { .init(key: "Dinner", tableName: "Localizable", source: source, developmentValue: "Dinner", comment: nil) }
 
       /// en translation: Dishwashing liquid
       ///
@@ -996,13 +982,6 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var longShelfLifeMilk: RswiftResources.StringResource { .init(key: "Long shelf life milk", tableName: "Localizable", source: source, developmentValue: "Long shelf life milk", comment: nil) }
-
-      /// en translation: Lunch
-      ///
-      /// Key: Lunch
-      ///
-      /// Locales: en, ru, fr, de
-      var lunch: RswiftResources.StringResource { .init(key: "Lunch", tableName: "Localizable", source: source, developmentValue: "Lunch", comment: nil) }
 
       /// en translation: Mayonnaise
       ///
@@ -1801,13 +1780,6 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var smokedBacon: RswiftResources.StringResource { .init(key: "Smoked bacon", tableName: "Localizable", source: source, developmentValue: "Smoked bacon", comment: nil) }
-
-      /// en translation: Snacks
-      ///
-      /// Key: Snacks
-      ///
-      /// Locales: en, ru, fr, de
-      var snacks: RswiftResources.StringResource { .init(key: "Snacks", tableName: "Localizable", source: source, developmentValue: "Snacks", comment: nil) }
 
       /// en translation: Sorting
       ///

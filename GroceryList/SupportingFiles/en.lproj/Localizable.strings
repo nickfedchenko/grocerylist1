@@ -145,10 +145,10 @@
 
 "Recipe"                    = "Recipe ";
 "Recipes"                   = " Recipes";
-"Breakfast"                 = "Breakfast";
-"Lunch"                     = "Lunch";
-"Dinner"                    = "Dinner";
-"Snacks"                    = "Snacks";
+//"Breakfast"                 = "Breakfast";
+//"Lunch"                     = "Lunch";
+//"Dinner"                    = "Dinner";
+//"Snacks"                    = "Snacks";
 "weekly"                    = "week";
 "Week"                      = "Week";
 "Favorites"                 = "Favorites";

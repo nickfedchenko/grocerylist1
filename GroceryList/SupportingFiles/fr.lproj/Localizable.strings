@@ -142,10 +142,10 @@
 
 "Recipe"                    = "Recette ";
 "Recipes"                   = " recettes";
-"Breakfast"                 = "Petit-déjeuner";
-"Lunch"                     = "Déjeuner";
-"Dinner"                    = "Dîner";
-"Snacks"                    = "collations";
+//"Breakfast"                 = "Petit-déjeuner";
+//"Lunch"                     = "Déjeuner";
+//"Dinner"                    = "Dîner";
+//"Snacks"                    = "collations";
 "weekly"                    = "hebdomadaire";
 "Week"                      = "Semaine";
 "Favorites"                 = "favoris";

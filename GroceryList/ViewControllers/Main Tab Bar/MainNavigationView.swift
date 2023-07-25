@@ -35,6 +35,7 @@ final class MainNavigationView: UIView {
         label.font = UIFont.SFProRounded.semibold(size: 18).font
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.8
+        label.numberOfLines = 2
         return label
     }()
     
@@ -164,10 +165,10 @@ final class MainNavigationView: UIView {
         self.addSubviews([profileView, searchButton,
                           recipeChangeViewButton, recipeEditCollectionButton])
         profileView.addSubviews([settingsButton, userNameLabel, gearIconImageView])
-        
+
         profileView.snp.makeConstraints {
             $0.leading.equalTo(24)
-            $0.trailing.lessThanOrEqualTo(searchButton.snp.leading).offset(-10)
+            $0.trailing.lessThanOrEqualToSuperview().offset(-128)
             $0.bottom.top.equalToSuperview()
         }
         
@@ -187,7 +188,7 @@ final class MainNavigationView: UIView {
             $0.leading.equalTo(settingsButton.snp.trailing).offset(10)
             $0.trailing.equalToSuperview()
             $0.centerY.equalTo(settingsButton)
-            $0.height.equalTo(24)
+//            $0.height.equalTo(24)
         }
         
         searchButton.snp.makeConstraints {

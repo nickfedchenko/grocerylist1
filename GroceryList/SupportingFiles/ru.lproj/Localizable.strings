@@ -142,10 +142,10 @@
 
 "Recipe"                    = "Рецепт ";
 "Recipes"                   = " Рецепты";
-"Breakfast"                 = "Завтрак";
-"Lunch"                     = "Обед";
-"Dinner"                    = "Ужин";
-"Snacks"                    = "Закуски";
+//"Breakfast"                 = "Завтрак";
+//"Lunch"                     = "Обед";
+//"Dinner"                    = "Ужин";
+//"Snacks"                    = "Закуски";
 "weekly"                    = "неделя";
 "Week"                      = "Неделя";
 "Favorites"                 = "Избранное";
