@@ -51,12 +51,6 @@ class RecipesListViewModel {
     }
     
     func showRecipe(by indexPath: IndexPath) {
-#if RELEASE
-        if !Apphud.hasActiveSubscription() {
-            showPaywall()
-            return
-        }
-#endif
         let recipeId = section.recipes[indexPath.item].id
         guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
               let model = Recipe(from: dbRecipe) else {

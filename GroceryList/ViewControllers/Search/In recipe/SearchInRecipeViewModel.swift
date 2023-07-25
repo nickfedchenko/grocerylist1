@@ -108,13 +108,6 @@ final class SearchInRecipeViewModel {
     
     func showRecipe(_ recipe: RecipeForSearchModel) {
         AmplitudeManager.shared.logEvent(.recipeOpenFromSearch)
-#if RELEASE
-        if !Apphud.hasActiveSubscription() {
-            showPaywall()
-            return
-        }
-#endif
-
         guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipe.id),
               let recipe = Recipe(from: dbRecipe) else {
             return

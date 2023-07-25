@@ -33,9 +33,6 @@ final class MainNavigationView: UIView {
         let label = UILabel()
         label.textColor = R.color.primaryDark()
         label.font = UIFont.SFProRounded.semibold(size: 18).font
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.8
-        label.numberOfLines = 2
         return label
     }()
     

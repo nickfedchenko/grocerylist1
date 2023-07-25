@@ -44,6 +44,8 @@ class SignUpViewForTyping: UIView {
         textfield.text
     }
     
+    var maxLengthTextField = 20
+    
     // MARK: - LifeCycle
     init(type: SignUpViewTextfieldType) {
         super.init(frame: .zero)
@@ -115,9 +117,16 @@ extension SignUpViewForTyping: UITextFieldDelegate {
         return true
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
+        
+        guard type != .screenName else {
+            return newLength <= maxLengthTextField
+        }
+         
         var correctText = ""
         if string.isEmpty {
             correctText = String(text.dropLast())

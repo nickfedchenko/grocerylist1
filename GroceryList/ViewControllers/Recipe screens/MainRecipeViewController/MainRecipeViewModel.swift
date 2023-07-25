@@ -86,12 +86,6 @@ final class MainRecipeViewModel {
     
     // routing
     func showRecipe(by indexPath: IndexPath) {
-#if RELEASE
-        if !Apphud.hasActiveSubscription() {
-            showPaywall()
-            return
-        }
-#endif
         guard let recipeId = dataSource.recipesSections[safe: indexPath.section]?
                                        .recipes[safe: indexPath.item - 1]?.id,
               let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
