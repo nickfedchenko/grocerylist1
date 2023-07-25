@@ -108,9 +108,15 @@ final class ShowCollectionViewModel {
     }
     
     func deleteCollection(by index: Int) {
-        let collection = collections[index].collection
-        let recipeIds = collections[index].recipes
-        CoreDataManager.shared.deleteCollection(by: collection.id)
+        var collection = collections[index].collection
+        
+        if collection.isDefault {
+            collection.isDeleteDefault = true
+            CoreDataManager.shared.saveCollection(collections: [collection])
+        } else {
+            CoreDataManager.shared.deleteCollection(by: collection.id)
+        }
+        
         editCollections.removeAll { $0.id == collection.id }
         collections.remove(at: index)
         
@@ -181,9 +187,10 @@ final class ShowCollectionViewModel {
     @objc
     private func newUpdateCollection() {
         if editCollections.isEmpty {
-            guard let dbCollections = CoreDataManager.shared.getAllCollection() else {
+            guard var dbCollections = CoreDataManager.shared.getAllCollection() else {
                 return
             }
+            dbCollections.removeAll { $0.isDelete == true }
             editCollections = dbCollections.compactMap { CollectionModel(from: $0) }
         }
 

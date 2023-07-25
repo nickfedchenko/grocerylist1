@@ -153,7 +153,8 @@ extension DataProviderFacade: DataSyncProtocol {
                                                       color: Int(localCollection.color),
                                                       isDefault: true,
                                                       localImage: localCollection.localImage,
-                                                      dishes: Array(dishes)))
+                                                      dishes: Array(dishes),
+                                                      isDeleteDefault: localCollection.isDelete))
             } else {
                 saveCollection.append(collection)
             }

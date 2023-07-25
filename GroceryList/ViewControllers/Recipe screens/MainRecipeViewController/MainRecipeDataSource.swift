@@ -49,13 +49,13 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
     }
     
     func updateSection() {
-        guard let allDBCollection = CoreDataManager.shared.getAllCollection(),
+        guard var allDBCollection = CoreDataManager.shared.getAllCollection(),
               let allDBRecipes = CoreDataManager.shared.getAllRecipes() else {
             return
         }
         
         let favoritesID = UserDefaultsManager.favoritesRecipeIds
-        
+        allDBCollection.removeAll { $0.isDelete == true }
         var collections = allDBCollection.compactMap { CollectionModel(from: $0) }
         var recipes = allDBRecipes.compactMap {
             let isFavorite = favoritesID.contains(Int($0.id))

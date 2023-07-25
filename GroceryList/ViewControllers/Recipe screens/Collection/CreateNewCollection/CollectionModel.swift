@@ -15,10 +15,11 @@ struct CollectionModel: Codable {
     var isDefault: Bool
     var localImage: Data?
     var dishes: [Int]?
+    var isDeleteDefault: Bool
     
     init(id: Int, index: Int, title: String, color: Int,
          isDefault: Bool = false, localImage: Data? = nil,
-         dishes: [Int]? = []) {
+         dishes: [Int]? = [], isDeleteDefault: Bool = false) {
         self.id = id
         self.index = index
         self.title = title
@@ -26,6 +27,7 @@ struct CollectionModel: Codable {
         self.isDefault = isDefault
         self.localImage = localImage
         self.dishes = dishes
+        self.isDeleteDefault = isDeleteDefault
     }
     
     init(from dbModel: DBCollection) {
@@ -36,6 +38,7 @@ struct CollectionModel: Codable {
         isDefault = dbModel.isDefault
         localImage = dbModel.localImage
         dishes = (try? JSONDecoder().decode([Int].self, from: dbModel.dishes ?? Data())) ?? []
+        isDeleteDefault = dbModel.isDelete
     }
     
     init(networkCollection: NetworkCollection) {
@@ -44,6 +47,7 @@ struct CollectionModel: Codable {
         self.title = networkCollection.title
         self.isDefault = true
         self.dishes = networkCollection.dishes
+        self.isDeleteDefault = false
         
         let newColor = networkCollection.pos % 17
         if newColor == 7 {
