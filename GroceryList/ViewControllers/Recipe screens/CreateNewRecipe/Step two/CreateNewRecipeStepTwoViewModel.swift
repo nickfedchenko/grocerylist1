@@ -52,7 +52,6 @@ final class CreateNewRecipeStepTwoViewModel {
         router?.navigationPopViewController(animated: true)
         backToOneStep?(isDraftRecipe, Recipe(title: recipe.title,
                                              totalServings: servings ?? -1,
-                                             localCollection: collections.isEmpty ? nil : collections,
                                              localImage: localImage?.pngData(),
                                              cookingTime: time,
                                              description: recipe.description,
@@ -90,7 +89,7 @@ final class CreateNewRecipeStepTwoViewModel {
         guard var draft else {
             draft = Recipe(title: recipe.title,
                            totalServings: servings ?? 1,
-                           localCollection: collections.isEmpty ? nil : collections,
+                           localCollection: nil,
                            localImage: localImage?.pngData(),
                            cookingTime: time,
                            description: recipe.description,
@@ -100,7 +99,7 @@ final class CreateNewRecipeStepTwoViewModel {
             if let dbDraftsCollection = CoreDataManager.shared.getAllCollection()?
                 .first(where: { $0.id == EatingTime.drafts.rawValue }) {
                 let draftsCollection = CollectionModel(from: dbDraftsCollection)
-                draft?.localCollection = [draftsCollection]
+                collections.append(draftsCollection)
             }
             savedToDrafts()
             return
@@ -112,6 +111,7 @@ final class CreateNewRecipeStepTwoViewModel {
         draft.values = Values(dish: kcal)
         
         CoreDataManager.shared.saveRecipes(recipes: [draft])
+        saveCollection(recipe: draft)
     }
     
     private func saveRecipe() {
@@ -124,20 +124,19 @@ final class CreateNewRecipeStepTwoViewModel {
         }
         
         currentRecipe.totalServings = servings ?? 1
-        currentRecipe.localCollection = collections.isEmpty ? nil : collections
         currentRecipe.localImage = localImage?.pngData()
         currentRecipe.cookingTime = time
         currentRecipe.values = Values(dish: kcal)
         
         recipe = currentRecipe
         CoreDataManager.shared.saveRecipes(recipes: [currentRecipe])
+        saveCollection(recipe: currentRecipe)
         isSaved = true
     }
     
     private func saveNewRecipe() {
         guard let recipe = Recipe(title: recipe.title,
                                   totalServings: servings ?? 1,
-                                  localCollection: collections.isEmpty ? nil : collections,
                                   localImage: localImage?.pngData(),
                                   cookingTime: time,
                                   description: recipe.description,
@@ -149,12 +148,25 @@ final class CreateNewRecipeStepTwoViewModel {
         CoreDataManager.shared.saveRecipes(recipes: [recipe])
         AmplitudeManager.shared.logEvent(.recipeCreateSave,
                                          properties: [.ingredientsAndSteps: "\(recipe.ingredients.count) : \(recipe.instructions?.count ?? 0)"])
-        
+        saveCollection(recipe: recipe)
         if isSaveToFavorites {
             UserDefaultsManager.favoritesRecipeIds.append(recipe.id)
         }
         self.recipe = recipe
         isSaved = true
+    }
+    
+    private func saveCollection(recipe: Recipe?) {
+        guard let recipe else {
+            return
+        }
+        
+        collections.enumerated().forEach { index, collection in
+            var dishes = Set(collection.dishes ?? [])
+            dishes.insert(recipe.id)
+            collections[index].dishes = Array(dishes)
+        }
+        CoreDataManager.shared.saveCollection(collections: collections)
     }
 
     private func updateRecipe() {

@@ -23,7 +23,7 @@ final class MainRecipeCollectionViewLayout {
     // MARK: collection view
     private func collectionLayout() -> UICollectionViewCompositionalLayout {
         let layoutConfig = UICollectionViewCompositionalLayoutConfiguration()
-        layoutConfig.interSectionSpacing = 24
+        layoutConfig.interSectionSpacing = 16
       
         layoutConfig.scrollDirection = .vertical
         let layout = UICollectionViewCompositionalLayout { [weak self] _, _ in
@@ -68,14 +68,14 @@ final class MainRecipeCollectionViewLayout {
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(24)
+            heightDimension: .estimated(40)
         )
         
         let header = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .topLeading,
-            absoluteOffset: CGPoint(x: 0, y: -8)
+            absoluteOffset: CGPoint(x: 0, y: -6)
         )
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous

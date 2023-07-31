@@ -12,6 +12,10 @@ typealias GetAllProductsResult = (Result<GetAllProductsResponse, AFError>) -> Vo
 typealias AllDishesResult = (Result<[Recipe], AFError>) -> Void
 typealias GetAllItemsResult = (Result<GetAllItemsResponse, AFError>) -> Void
 typealias GetCategoriesResult = (Result<GetCategoriesResponse, AFError>) -> Void
+typealias FetchCollectionResult = (Result<NetworkCollectionResponse, AFError>) -> Void
+
+typealias FetchArchiveListResult = (Result<FetchArchiveListResponse, AFError>) -> Void
+
 typealias CreateUserResult = (Result<CreateUserResponse, AFError>) -> Void
 typealias ChangeUserNameResult = (Result<ChangeUsernameResponse, AFError>) -> Void
 typealias MailExistsResult = (Result<MailExistResponse, AFError>) -> Void
@@ -22,6 +26,7 @@ typealias UpdateUsernameResult = (Result<UpdateUsernameResponse, AFError>) -> Vo
 typealias UploadAvatarResult = (Result<UploadAvatarResponse, AFError>) -> Void
 typealias LogInResult = (Result<LogInResponse, AFError>) -> Void
 typealias DeleteUserResult = (Result<DeleteUserResponse, AFError>) -> Void
+
 typealias GroceryListReleaseResult = (Result<GroceryListReleaseResponse, AFError>) -> Void
 typealias GroceryListDeleteResult = (Result<GroceryListDeleteResponse, AFError>) -> Void
 typealias FetchMyGroceryListsResult = (Result<FetchMyGroceryListsResponse, AFError>) -> Void
@@ -29,6 +34,7 @@ typealias FetchGroceryListUsersResult = (Result<FetchGroceryListUsersResponse, A
 typealias GroceryListUserDeleteResult = (Result<GroceryListUserDeleteResponse, AFError>) -> Void
 typealias ShareGroceryListResult = (Result<ShareGroceryListResponse, AFError>) -> Void
 typealias UpdateGroceryListResult = (Result<UpdateGroceryListResponse, AFError>) -> Void
+
 typealias UserProductResult = (Result<UserProductResponse, AFError>) -> Void
 typealias FeedbackResult = (Result<FeedbackResponse, AFError>) -> Void
 

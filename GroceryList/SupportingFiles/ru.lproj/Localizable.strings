@@ -142,10 +142,10 @@
 
 "Recipe"                    = "Рецепт ";
 "Recipes"                   = " Рецепты";
-"Breakfast"                 = "Завтрак";
-"Lunch"                     = "Обед";
-"Dinner"                    = "Ужин";
-"Snacks"                    = "Закуски";
+//"Breakfast"                 = "Завтрак";
+//"Lunch"                     = "Обед";
+//"Dinner"                    = "Ужин";
+//"Snacks"                    = "Закуски";
 "weekly"                    = "неделя";
 "Week"                      = "Неделя";
 "Favorites"                 = "Избранное";
@@ -291,6 +291,7 @@
 // Tab Bar
 "List"                          = "Списки";
 "Pantry"                        = "Запасы";
+"Recipes"                       = "Pецепты";
 
 // Pantry & Stocks
 "Pantry & Stocks"               = "Кладовая и запасы";

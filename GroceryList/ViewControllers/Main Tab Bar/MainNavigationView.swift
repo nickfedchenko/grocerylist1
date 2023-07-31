@@ -31,10 +31,8 @@ final class MainNavigationView: UIView {
     
     private lazy var userNameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(hex: "#617774")
-        label.font = UIFont.SFProRounded.semibold(size: 17).font
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.8
+        label.textColor = R.color.primaryDark()
+        label.font = UIFont.SFProRounded.semibold(size: 18).font
         return label
     }()
     
@@ -64,6 +62,8 @@ final class MainNavigationView: UIView {
         view.addGestureRecognizer(tapOnView)
         return view
     }()
+    
+    private var gearIconImageView = UIImageView(image: R.image.setting_icon_gear())
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -160,11 +160,11 @@ final class MainNavigationView: UIView {
     private func setupConstraints() {
         self.addSubviews([profileView, searchButton,
                           recipeChangeViewButton, recipeEditCollectionButton])
-        profileView.addSubviews([settingsButton, userNameLabel])
-        
+        profileView.addSubviews([settingsButton, userNameLabel, gearIconImageView])
+
         profileView.snp.makeConstraints {
             $0.leading.equalTo(24)
-            $0.trailing.lessThanOrEqualTo(searchButton.snp.leading).offset(-10)
+            $0.trailing.lessThanOrEqualToSuperview().offset(-128)
             $0.bottom.top.equalToSuperview()
         }
         
@@ -174,11 +174,17 @@ final class MainNavigationView: UIView {
             $0.width.height.equalTo(32)
         }
         
+        gearIconImageView.snp.makeConstraints {
+            $0.leading.equalTo(settingsButton).offset(-4)
+            $0.bottom.equalTo(settingsButton).offset(4)
+            $0.width.height.equalTo(14)
+        }
+        
         userNameLabel.snp.makeConstraints {
             $0.leading.equalTo(settingsButton.snp.trailing).offset(10)
             $0.trailing.equalToSuperview()
             $0.centerY.equalTo(settingsButton)
-            $0.height.equalTo(24)
+//            $0.height.equalTo(24)
         }
         
         searchButton.snp.makeConstraints {

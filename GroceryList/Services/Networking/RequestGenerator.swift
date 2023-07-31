@@ -10,10 +10,15 @@ import Foundation
 
 enum RequestGenerator: Codable {
     case getProducts
-    case getReciepts
+    case getRecipes
     case getItems
     case getProductCategories
     case getItemCategories
+    case fetchCollections
+    
+    case fetchArchiveList(type: String)
+    case getArchive(url: String)
+    
     case createUser(email: String, password: String)
     case logIn(email: String, password: String)
     case updateUsername(userToken: String, newName: String)
@@ -23,6 +28,7 @@ enum RequestGenerator: Codable {
     case passwordReset(email: String)
     case updatePassword(newPassword: String, resetToken: String)
     case deleteUser(userToken: String)
+    
     case groceryListRelease(userToken: String, sharingToken: String)
     case groceryListDelete(userToken: String, listId: String)
     case fetchMyGroceryLists(userToken: String)
@@ -30,9 +36,10 @@ enum RequestGenerator: Codable {
     case groceryListUserDelete(userToken: String, listId: String)
     case shareGroceryList(userToken: String, listId: String?)
     case updateGroceryList(userToken: String, listId: String)
+    
     case userProduct
     case feedback
-
+    
     case sharePantryList(userToken: String, listId: String?)
     case pantryListRelease(userToken: String, sharingToken: String)
     case pantryListDelete(userToken: String, listId: String)
@@ -43,154 +50,187 @@ enum RequestGenerator: Codable {
     case saveUserPantryList(pantryTitle: String, stockTitle: String)
     
     case fetchFAQState
+}
 
+extension RequestGenerator {
+    
     private var bearerToken: String {
         return "Bearer yKuSDC3SQUQNm1kKOA8s7bfd0eQ0WXOTAc8QsfHQ"
+    }
+    
+    var url: String {
+        switch self {
+        case .getProducts: return "https://ketodietapplication.site/api/fetchBasicAndDished?langCode=%@"
+        case .getRecipes: return "https://ketodietapplication.site/storage/json/dish_%@.json.gz"
+        case .getItems: return "https://ketodietapplication.site/api/items?langCode=%@"
+        case .getProductCategories: return "https://ketodietapplication.site/api/product/categories?langCode=%@"
+        case .getItemCategories: return "https://ketodietapplication.site/api/items/categories?langCode=%@"
+        case .fetchCollections: return "https://ketodietapplication.site/api/collections?langCode=%@"
+        
+        case .fetchArchiveList: return "https://ketodietapplication.site/api/archive/list?lang=%@&type="
+        case .getArchive: return ""
+            
+        case .createUser: return "https://ketodietapplication.site/api/user/register"
+        case .logIn: return "https://ketodietapplication.site/api/user/login"
+        case .updateUsername: return "https://ketodietapplication.site/api/user/name"
+        case .uploadAvatar: return "use multiformRequestObject"
+        case .checkEmail: return "https://ketodietapplication.site/api/user/email"
+        case .resendVerification: return "https://ketodietapplication.site/api/user/register/resend"
+        case .passwordReset: return "https://ketodietapplication.site/api/user/password/request"
+        case .updatePassword: return "https://ketodietapplication.site/api/user/password/update"
+        case .deleteUser: return "https://ketodietapplication.site/api/user/delete"
+            
+        case .groceryListRelease: return "https://ketodietapplication.site/api/groceryList/release"
+        case .groceryListDelete: return "https://ketodietapplication.site/api/groceryList/delete"
+        case .fetchMyGroceryLists: return "https://ketodietapplication.site/api/groceryList/fetch"
+        case .fetchGroceryListUsers: return "https://ketodietapplication.site/api/groceryList/fetch/users"
+        case .groceryListUserDelete: return "https://ketodietapplication.site/api/groceryList/users/delete"
+        case .shareGroceryList: return "https://ketodietapplication.site/api/groceryList/share"
+        case .updateGroceryList: return "https://ketodietapplication.site/api/groceryList/update"
+            
+        case .userProduct: return "https://ketodietapplication.site/api/item2"
+        case .feedback: return "https://ketodietapplication.site/api/feedback"
+            
+        case .sharePantryList: return "https://ketodietapplication.site/api/pantryList/share"
+        case .pantryListRelease: return "https://ketodietapplication.site/api/pantryList/release"
+        case .pantryListDelete: return "https://ketodietapplication.site/api/pantryList/delete"
+        case .pantryListUpdate: return "https://ketodietapplication.site/api/pantryList/update"
+        case .pantryListUserDelete: return "https://ketodietapplication.site/api/pantryList/users/delete"
+        case .fetchMyPantryLists: return "https://ketodietapplication.site/api/pantryList/fetch"
+        case .fetchPantryListUsers: return "https://ketodietapplication.site/api/pantryList/fetch/users"
+        case .saveUserPantryList: return "https://ketodietapplication.site/api/pantryList/userList"
+            
+        case .fetchFAQState: return "https://ketodietapplication.site/api/faq/state"
+        }
     }
     
     /// обычный реквест
     var request: URLRequest {
         switch self {
-        case .getProducts:
-            return requestCreator(basicURL: getUrlForProducts(), method: .get) { _ in }
-        case .getReciepts:
-            return requestCreator(basicURL: getUrlForReciepts(), method: .get, needsToken: false) { _ in }
-        case .getItems:
-            return requestCreator(basicURL: getUrlForItems(), method: .get) { _ in }
-        case .getProductCategories:
-            return requestCreator(basicURL: getUrlForProductCategories(), method: .get) { _ in }
-        case .getItemCategories:
-            return requestCreator(basicURL: getUrlForItemCategories(), method: .get) { _ in }
+        case .getProducts, .getRecipes, .getItems, .getProductCategories, .getItemCategories, .fetchCollections:
+            return requestCreator(basicURL: getUrlDependingOnLocale(url), method: .get) { _ in }
+        case .fetchArchiveList(let type):
+            return requestCreator(basicURL: getUrlDependingOnLocale(url) + type, method: .get) { _ in }
+        case .getArchive(let url):
+            return requestCreator(basicURL: url, method: .get) { _ in }
         case .logIn(let email, let password):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/login", method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectEmailAndPassword(in: &components, email: email, password: password)
             }
         case .createUser(let email, let password):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/register", method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectEmailAndPassword(in: &components, email: email, password: password)
             }
         case .updateUsername(let userToken, let newName):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/name", method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectUserTokenAndNewName(in: &components, userToken: userToken, newName: newName)
             }
         case .checkEmail(email: let email):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/email", method: .get) { components in
+            return requestCreator(basicURL: url, method: .get) { components in
                 injectEmail(in: &components, email: email)
             }
         case .resendVerification(let email):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/register/resend", method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectEmail(in: &components, email: email)
             }
         case .passwordReset(let email):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/password/request", method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectEmail(in: &components, email: email)
             }
         case .updatePassword(let newPassword, let resetToken):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/password/update", method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectNewPasswordAndResetToken(in: &components, newPassword: newPassword, resetToken: resetToken)
             }
         case .deleteUser(userToken: let userToken):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/user/delete", method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
             }
         case .groceryListRelease(userToken: let userToken, sharingToken: let sharingToken):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/groceryList/release", method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectSharingToken(in: &components, sharingToken: sharingToken)
             }
         case .groceryListDelete(userToken: let userToken, listId: let listId):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/groceryList/delete", method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectListId(in: &components, listId: listId)
             }
         case .fetchMyGroceryLists(userToken: let userToken):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/groceryList/fetch",
-                                  method: .get) { components in
+            return requestCreator(basicURL: url, method: .get) { components in
                 injectUserToken(in: &components, userToken: userToken)
             }
         case .fetchGroceryListUsers(userToken: let userToken, listId: let listId):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/groceryList/fetch/users",
-                                  method: .get) { components in
+            return requestCreator(basicURL: url, method: .get) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectListId(in: &components, listId: listId)
             }
         case .groceryListUserDelete(userToken: let userToken, listId: let listId):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/groceryList/users/delete",
-                                  method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectListId(in: &components, listId: listId)
             }
         case .shareGroceryList(userToken: let userToken, listId: let listId):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/groceryList/share",
-                                  method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 if let listId = listId {
                     injectListId(in: &components, listId: listId)
                 }
             }
         case .updateGroceryList(userToken: let userToken, listId: let listId):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/groceryList/update",
-                                  method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectListId(in: &components, listId: listId)
             }
         case .uploadAvatar:
             fatalError("use multiformRequestObject")
+            
         case .userProduct:
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/item2",
-                                  method: .post) { _ in }
+            return requestCreator(basicURL: url,  method: .post) { _ in }
         case .feedback:
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/feedback",
-                                  method: .post) { _ in }
+            return requestCreator(basicURL: url, method: .post) { _ in }
             
         case .sharePantryList(userToken: let userToken, listId: let listId):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/pantryList/share",
-                                  method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 if let listId = listId {
                     injectPantryListId(in: &components, listId: listId)
                 }
             }
         case .pantryListRelease(userToken: let userToken, sharingToken: let sharingToken):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/pantryList/release", method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectSharingToken(in: &components, sharingToken: sharingToken)
             }
         case .pantryListDelete(userToken: let userToken, listId: let listId):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/pantryList/delete", method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectPantryListId(in: &components, listId: listId)
             }
         case .pantryListUpdate(userToken: let userToken, listId: let listId):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/pantryList/update",
-                                  method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectPantryListId(in: &components, listId: listId)
             }
         case .pantryListUserDelete(userToken: let userToken, listId: let listId):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/pantryList/users/delete",
-                                  method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectPantryListId(in: &components, listId: listId)
             }
         case .fetchMyPantryLists(userToken: let userToken):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/pantryList/fetch",
-                                  method: .get) { components in
+            return requestCreator(basicURL: url, method: .get) { components in
                 injectUserToken(in: &components, userToken: userToken)
             }
         case .fetchPantryListUsers(userToken: let userToken, listId: let listId):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/pantryList/fetch/users",
-                                  method: .get) { components in
+            return requestCreator(basicURL: url, method: .get) { components in
                 injectUserToken(in: &components, userToken: userToken)
                 injectPantryListId(in: &components, listId: listId)
             }
         case .saveUserPantryList(pantryTitle: let pantryTitle, stockTitle: let stockTitle):
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/pantryList/userList",
-                                  method: .post) { components in
+            return requestCreator(basicURL: url, method: .post) { components in
                 injectUserStock(in: &components, pantryTitle: pantryTitle, stockTitle: stockTitle)
             }
         case .fetchFAQState:
-            return requestCreator(basicURL: "https://ketodietapplication.site/api/faq/state", method: .get) { _ in }
+            return requestCreator(basicURL: url, method: .get) { _ in }
         }
     }
     
@@ -249,50 +289,18 @@ enum RequestGenerator: Codable {
         return request
     }
     
-    private func getUrlForProducts() -> String {
-        guard let locale = Locale.current.languageCode else { return "" }
-        if let currentLocale = CurrentLocale(rawValue: locale) {
-            return "https://ketodietapplication.site/api/fetchBasicAndDished?langCode=\(currentLocale.rawValue)"
-        } else {
-            return "https://ketodietapplication.site/api/fetchBasicAndDished?langCode=en"
+    private func getUrlDependingOnLocale(_ url: String) -> String {
+        guard let locale = Locale.current.languageCode else {
+            return ""
         }
+        var currentLocale = "en"
+        if let locale = CurrentLocale(rawValue: locale) {
+            currentLocale = locale.rawValue
+        }
+        return String(format: url, currentLocale)
     }
     
-    private func getUrlForReciepts() -> String {
-        guard let locale = Locale.current.languageCode else { return "" }
-        if let currentLocale = CurrentLocale(rawValue: locale) {
-            return "https://newketo.finanse.space/storage/json/dish_\(currentLocale.rawValue).json.gz"
-        } else {
-            return "https://newketo.finanse.space/storage/json/dish_it.json.gz"
-        }
-    }
     
-    private func getUrlForItems() -> String {
-        guard let locale = Locale.current.languageCode else { return "" }
-        if let currentLocale = CurrentLocale(rawValue: locale) {
-            return "https://ketodietapplication.site/api/items?langCode=\(currentLocale.rawValue)"
-        } else {
-            return "https://ketodietapplication.site/api/items?langCode=en"
-        }
-    }
-    
-    private func getUrlForProductCategories() -> String {
-        guard let locale = Locale.current.languageCode else { return "" }
-        if let currentLocale = CurrentLocale(rawValue: locale) {
-            return "https://ketodietapplication.site/api/product/categories?langCode=\(currentLocale.rawValue)"
-        } else {
-            return "https://ketodietapplication.site/api/product/categories?langCode=en"
-        }
-    }
-    
-    private func getUrlForItemCategories() -> String {
-        guard let locale = Locale.current.languageCode else { return "" }
-        if let currentLocale = CurrentLocale(rawValue: locale) {
-            return "https://ketodietapplication.site/api/items/categories?langCode=\(currentLocale.rawValue)"
-        } else {
-            return "https://ketodietapplication.site/api/items/categories?langCode=en"
-        }
-    }
     
     private func insert(queries: [URLQueryItem], components: inout URLComponents) {
         if components.queryItems == nil {

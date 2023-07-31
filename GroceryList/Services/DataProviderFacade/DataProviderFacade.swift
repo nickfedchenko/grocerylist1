@@ -13,6 +13,7 @@ protocol DataSyncProtocol {
     func updateRecipes()
     func updateItems()
     func updateCategories()
+    func updateCollections()
     var  domainSyncManager: CoredataSyncProtocol? { get }
 }
 
@@ -38,12 +39,12 @@ extension DataProviderFacade: DataSyncProtocol {
     }
     
     func updateRecipes() {
-        networkManager.getAllRecipes { [weak self] result in
+        networkManager.fetchArchiveList(type: "dish") { [weak self] result in
             switch result {
             case let .failure(error):
                 print(error)
-            case let .success(recipesResponse):
-                self?.saveRecipesInPersistentStore(recipes: recipesResponse)
+            case let .success(fetchArchiveListResponse):
+                self?.getRecipe(fetchArchiveListResponse: fetchArchiveListResponse)
             }
         }
     }
@@ -79,12 +80,37 @@ extension DataProviderFacade: DataSyncProtocol {
         }
     }
     
+    func updateCollections() {
+        networkManager.fetchCollections { [weak self] result in
+            switch result {
+            case let .failure(error):
+                print(error)
+            case let .success(collectionResponse):
+                self?.saveCollection(networkCollection: collectionResponse.data)
+            }
+        }
+    }
+    
+    private func getRecipe(fetchArchiveListResponse: FetchArchiveListResponse) {
+        let url = fetchArchiveListResponse.links.first?.url ?? ""
+        networkManager.getArchiveRecipe(url: url, completion: { [weak self] result in
+            switch result {
+            case let .failure(error):
+                print(error)
+            case let .success(recipesResponse):
+                self?.saveRecipesInPersistentStore(recipes: recipesResponse)
+            }
+        })
+    }
+    
     private func saveRecipesInPersistentStore(recipes: [Recipe]) {
         domainSyncManager?.saveRecipes(recipes: recipes)
     }
     
     private func saveProductsInPersistentStore(products: [NetworkProductModel]) {
         domainSyncManager?.saveProducts(products: products)
+        let imageView = UIImageView()
+        let size = CGSize(width: 100, height: 100)
         let cache = ImageCache.default
         cache.memoryStorage.config.totalCostLimit = 1024 * 1024 * 10
         cache.diskStorage.config.sizeLimit = 1024 * 1024 * 100
@@ -92,6 +118,10 @@ extension DataProviderFacade: DataSyncProtocol {
             products.forEach {
                 if let url = URL(string: $0.photo) {
                     KingfisherManager.shared.retrieveImage(with: url) { _ in }
+                    imageView.kf.setImage(with: url, placeholder: nil,
+                                              options: [.processor(DownsamplingImageProcessor(size: size)),
+                                                        .scaleFactor(UIScreen.main.scale),
+                                                        .cacheOriginalImage])
                 }
             }
         }
@@ -103,5 +133,33 @@ extension DataProviderFacade: DataSyncProtocol {
         }
         
         CoreDataManager.shared.saveCategories(categories: updatedCategories)
+    }
+    
+    private func saveCollection(networkCollection: [NetworkCollection]) {
+        let collections = networkCollection.filter { $0.pos >= 41 && $0.pos <= 60 }
+                                           .map { CollectionModel(networkCollection: $0) }
+        var saveCollection: [CollectionModel] = []
+        collections.forEach { collection in
+            if let localCollection = CoreDataManager.shared.getCollection(by: collection.id) {
+                let localDishes = (try? JSONDecoder().decode([Int].self, from: localCollection.dishes ?? Data())) ?? []
+                var dishes = Set(localDishes)
+                collection.dishes?.forEach({ recipeId in
+                    dishes.insert(recipeId)
+                })
+                
+                saveCollection.append(CollectionModel(id: collection.id,
+                                                      index: Int(localCollection.index),
+                                                      title: localCollection.title ?? "",
+                                                      color: Int(localCollection.color),
+                                                      isDefault: true,
+                                                      localImage: localCollection.localImage,
+                                                      dishes: Array(dishes),
+                                                      isDeleteDefault: localCollection.isDelete))
+            } else {
+                saveCollection.append(collection)
+            }
+        }
+        
+        CoreDataManager.shared.saveNetworkCollection(collections: saveCollection)
     }
 }

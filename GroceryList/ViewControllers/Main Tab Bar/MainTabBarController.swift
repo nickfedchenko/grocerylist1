@@ -212,14 +212,6 @@ extension MainTabBarController: MainNavigationViewDelegate {
 extension MainTabBarController: CustomTabBarViewDelegate {
     func tabSelected(at index: Int) {
         analytics(tabIndex: index)
-        
-#if RELEASE
-        let recipeIndex = TabBarItemView.Item.recipe.rawValue
-        if index == recipeIndex && !Apphud.hasActiveSubscription() {
-            viewModel.showPaywall()
-            return
-        }
-#endif
         selectedIndex = index
         customTabBar.updateItems(by: index)
         updateNavView()

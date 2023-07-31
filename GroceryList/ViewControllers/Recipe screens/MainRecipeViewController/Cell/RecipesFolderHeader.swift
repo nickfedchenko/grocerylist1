@@ -25,9 +25,10 @@ class RecipesFolderHeader: UICollectionReusableView {
     
     private let folderTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = R.font.sfProRoundedBold(size: 16)
+        label.font = UIFont.SFPro.bold(size: 18).font
         label.textColor = UIColor(hex: "0C695E")
         label.text = ["Breakfast", "Lunch", "Dinner"].randomElement()
+        label.numberOfLines = 2
         return label
     }()
     
@@ -41,7 +42,7 @@ class RecipesFolderHeader: UICollectionReusableView {
     
     private let chevronIcon: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = R.image.chevronRight()
+        imageView.image = R.image.chevron()
         imageView.contentMode = .center
         return imageView
     }()
@@ -55,7 +56,7 @@ class RecipesFolderHeader: UICollectionReusableView {
         folderIcon.image = R.image.folderIcon()?.withTintColor(color.medium)
         folderTitleLabel.textColor = color.dark
         recipesCountLabel.textColor = color.medium
-        chevronIcon.image = R.image.chevronRight()?.withTintColor(color.dark)
+        chevronIcon.image = R.image.chevron()?.withTintColor(color.dark)
     }
     
     override init(frame: CGRect) {
@@ -85,24 +86,28 @@ class RecipesFolderHeader: UICollectionReusableView {
         folderIcon.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.width.height.equalTo(24)
-            make.top.bottom.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
         
         folderTitleLabel.snp.makeConstraints { make in
-            make.top.bottom.equalTo(folderIcon)
+            make.top.bottom.equalToSuperview()
             make.leading.equalTo(folderIcon.snp.trailing).offset(6)
+            make.trailing.equalTo(recipesCountLabel.snp.leading).inset(-8)
+            make.height.greaterThanOrEqualTo(40)
         }
         
         chevronIcon.snp.makeConstraints { make in
-            make.width.equalTo(24)
+            make.width.height.equalTo(40)
             make.trailing.equalToSuperview().inset(20)
-            make.top.bottom.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
         
+        recipesCountLabel.setContentHuggingPriority(.init(999), for: .horizontal)
+        recipesCountLabel.setContentCompressionResistancePriority(.init(999), for: .horizontal)
         recipesCountLabel.snp.makeConstraints { make in
             make.centerY.equalTo(chevronIcon)
             make.top.bottom.equalToSuperview()
-            make.trailing.equalTo(chevronIcon.snp.leading).inset(-8)
+            make.trailing.equalTo(chevronIcon.snp.leading)
         }
     }
 }

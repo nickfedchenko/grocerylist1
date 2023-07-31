@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 382 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 378 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -325,13 +325,6 @@ struct _R {
       /// Locales: en, ru, fr, de
       var bread: RswiftResources.StringResource { .init(key: "Bread", tableName: "Localizable", source: source, developmentValue: "Bread and pastries", comment: nil) }
 
-      /// en translation: Breakfast
-      ///
-      /// Key: Breakfast
-      ///
-      /// Locales: en, ru, fr, de
-      var breakfast: RswiftResources.StringResource { .init(key: "Breakfast", tableName: "Localizable", source: source, developmentValue: "Breakfast", comment: nil) }
-
       /// en translation: Breakfast cereal
       ///
       /// Key: Breakfast cereal
@@ -548,13 +541,6 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var description: RswiftResources.StringResource { .init(key: "Description", tableName: "Localizable", source: source, developmentValue: "Description", comment: nil) }
-
-      /// en translation: Dinner
-      ///
-      /// Key: Dinner
-      ///
-      /// Locales: en, ru, fr, de
-      var dinner: RswiftResources.StringResource { .init(key: "Dinner", tableName: "Localizable", source: source, developmentValue: "Dinner", comment: nil) }
 
       /// en translation: Dishwashing liquid
       ///
@@ -996,13 +982,6 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var longShelfLifeMilk: RswiftResources.StringResource { .init(key: "Long shelf life milk", tableName: "Localizable", source: source, developmentValue: "Long shelf life milk", comment: nil) }
-
-      /// en translation: Lunch
-      ///
-      /// Key: Lunch
-      ///
-      /// Locales: en, ru, fr, de
-      var lunch: RswiftResources.StringResource { .init(key: "Lunch", tableName: "Localizable", source: source, developmentValue: "Lunch", comment: nil) }
 
       /// en translation: Mayonnaise
       ///
@@ -1452,12 +1431,12 @@ struct _R {
       /// Locales: en, ru, fr, de
       var recipe: RswiftResources.StringResource { .init(key: "Recipe", tableName: "Localizable", source: source, developmentValue: "Recipe ", comment: nil) }
 
-      /// en translation:  Recipes
+      /// en translation: Recipes
       ///
       /// Key: Recipes
       ///
       /// Locales: en, ru, fr, de
-      var recipes: RswiftResources.StringResource { .init(key: "Recipes", tableName: "Localizable", source: source, developmentValue: " Recipes", comment: nil) }
+      var recipes: RswiftResources.StringResource { .init(key: "Recipes", tableName: "Localizable", source: source, developmentValue: "Recipes", comment: nil) }
 
       /// en translation: Red chili flakes
       ///
@@ -1801,13 +1780,6 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var smokedBacon: RswiftResources.StringResource { .init(key: "Smoked bacon", tableName: "Localizable", source: source, developmentValue: "Smoked bacon", comment: nil) }
-
-      /// en translation: Snacks
-      ///
-      /// Key: Snacks
-      ///
-      /// Locales: en, ru, fr, de
-      var snacks: RswiftResources.StringResource { .init(key: "Snacks", tableName: "Localizable", source: source, developmentValue: "Snacks", comment: nil) }
 
       /// en translation: Sorting
       ///
@@ -2794,7 +2766,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 315 images.
+  /// This `_R.image` struct is generated, and contains static references to 317 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -2857,6 +2829,9 @@ struct _R {
 
     /// Image `Checkmark product new paywall`.
     var checkmarkProductNewPaywall: RswiftResources.ImageResource { .init(name: "Checkmark product new paywall", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Chevron`.
+    var chevron: RswiftResources.ImageResource { .init(name: "Chevron", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ChevronDownGreen`.
     var chevronDownGreen: RswiftResources.ImageResource { .init(name: "ChevronDownGreen", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -3616,6 +3591,9 @@ struct _R {
 
     /// Image `send_feedback`.
     var send_feedback: RswiftResources.ImageResource { .init(name: "send_feedback", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `setting_icon_gear`.
+    var setting_icon_gear: RswiftResources.ImageResource { .init(name: "setting_icon_gear", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `settingsButtonImage`.
     var settingsButtonImage: RswiftResources.ImageResource { .init(name: "settingsButtonImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

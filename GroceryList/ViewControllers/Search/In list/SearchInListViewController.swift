@@ -77,7 +77,9 @@ extension SearchInListViewController: UICollectionViewDataSource {
 }
 
 extension SearchInListViewController: UICollectionViewDelegate {
-    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        dismissKeyboard()
+    }
 }
 
 extension SearchInListViewController: UITextFieldDelegate {

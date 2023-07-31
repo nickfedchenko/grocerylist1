@@ -212,6 +212,11 @@ class UserDefaultsManager {
         set { UserDefaults.standard.set(newValue, forKey: "recipeIsTableView") }
     }
     
+    static var isUpdateRecipeWithCollection: Bool {
+        get { UserDefaults.standard.bool(forKey: "isUpdateRecipeWithCollection") }
+        set { UserDefaults.standard.set(newValue, forKey: "isUpdateRecipeWithCollection") }
+    }
+    
     private static func setValue<T>(value: T, for key: UDKeys) {
         UserDefaults.standard.set(value, forKey: key.rawValue)
     }

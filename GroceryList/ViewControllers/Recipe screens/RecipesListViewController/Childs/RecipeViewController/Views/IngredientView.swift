@@ -14,7 +14,7 @@ class IngredientView: UIView {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 8
+        imageView.layer.cornerRadius = 4
         imageView.layer.cornerCurve = .continuous
         imageView.clipsToBounds = true
         return imageView

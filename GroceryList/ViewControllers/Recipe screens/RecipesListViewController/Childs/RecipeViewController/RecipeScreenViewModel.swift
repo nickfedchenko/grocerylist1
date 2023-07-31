@@ -26,6 +26,7 @@ protocol RecipeScreenViewModelProtocol {
     func edit()
     func removeRecipe()
     func getStoreAndCost(by index: Int) -> (store: String?, cost: Double?)
+    func showPaywall()
 }
 
 final class RecipeScreenViewModel {
@@ -53,7 +54,7 @@ final class RecipeScreenViewModel {
         theme = sectionColor ?? ColorManager.shared.getColorForRecipe()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateRecipe),
-                                               name: .recieptsDownladedAnsSaved,
+                                               name: .recipesDownloadedAndSaved,
                                                object: nil)
     }
 }
@@ -218,6 +219,10 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
     func removeRecipe() {
         CoreDataManager.shared.deleteRecipe(by: recipe.id)
         updateRecipeRemove?(recipe)
+    }
+    
+    func showPaywall() {
+        router?.showPaywallVC()
     }
 }
 

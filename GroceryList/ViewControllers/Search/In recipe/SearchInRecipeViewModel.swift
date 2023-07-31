@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 15.03.2023.
 //
 
+import ApphudSDK
 import UIKit
 
 final class SearchInRecipeViewModel {
@@ -107,7 +108,6 @@ final class SearchInRecipeViewModel {
     
     func showRecipe(_ recipe: RecipeForSearchModel) {
         AmplitudeManager.shared.logEvent(.recipeOpenFromSearch)
-        
         guard let dbRecipe = CoreDataManager.shared.getRecipe(by: recipe.id),
               let recipe = Recipe(from: dbRecipe) else {
             return
@@ -236,6 +236,10 @@ final class SearchInRecipeViewModel {
         })
     }
     
+    func showPaywall() {
+        router?.showPaywallVC()
+    }
+    
     private func appendFilters() {
         var filterRecipe: [RecipeForSearchModel] = allRecipes
         
@@ -293,10 +297,19 @@ final class SearchInRecipeViewModel {
     }
     
     private func getAllRecipe() {
-        guard let dbRecipes = CoreDataManager.shared.getAllRecipes() else { return }
+        guard let dbRecipes = CoreDataManager.shared.getAllRecipes() else {
+            return
+        }
         allRecipes = dbRecipes.compactMap { dbRecipe in
             RecipeForSearchModel(dbModel: dbRecipe,
                                  isFavorite: UserDefaultsManager.favoritesRecipeIds.contains(where: { $0 == dbRecipe.id }))
+        }
+        guard let drafts = CoreDataManager.shared.getCollection(by: EatingTime.drafts.rawValue),
+              let draftDishes = (try? JSONDecoder().decode([Int].self, from: drafts.dishes ?? Data())) else {
+            return
+        }
+        allRecipes = allRecipes.filter { recipe in
+            !draftDishes.contains(recipe.id)
         }
     }
 }

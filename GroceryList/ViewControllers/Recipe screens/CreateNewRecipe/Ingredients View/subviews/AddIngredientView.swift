@@ -35,6 +35,7 @@ class AddIngredientView: UIView {
     lazy var productTextField: UITextField = {
         let textField = UITextField()
         textField.delegate = self
+        textField.clipsToBounds = false
         textField.font = UIFont.SFPro.semibold(size: 17).font
         textField.textColor = .black
         textField.tintColor = .black
@@ -193,14 +194,14 @@ class AddIngredientView: UIView {
             $0.top.equalToSuperview().offset(10)
             $0.leading.equalTo(productImageView.snp.trailing).offset(12)
             $0.trailing.equalToSuperview().offset(-16)
-            $0.height.equalTo(17)
+            $0.height.equalTo(20)
         }
         
         descriptionTextView.snp.makeConstraints {
             $0.top.equalTo(productTextField.snp.bottom)
             $0.leading.equalTo(productImageView.snp.trailing).offset(10)
             $0.trailing.equalTo(quantityTextField.snp.leading).offset(-10)
-            $0.height.greaterThanOrEqualTo(20)
+            $0.height.greaterThanOrEqualTo(17)
 //            $0.height.equalTo(descriptionTextView.contentSize.height + 5).priority(.high)
             $0.bottom.equalToSuperview().offset(-5)
         }

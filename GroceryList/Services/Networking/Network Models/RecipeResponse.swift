@@ -1,60 +1,17 @@
 //
-//  NetworkModeles.swift
+//  RecipeResponse.swift
 //  GroceryList
 //
-//  Created by Шамиль Моллачиев on 29.11.2022.
+//  Created by Хандымаа Чульдум on 21.07.2023.
 //
 
 import Foundation
-
-struct GetAllProductsResponse: Codable {
-    let error: Bool
-    let messages: [String]
-    let data: [NetworkProductModel]
-}
-
-struct GetAllItemsResponse: Codable {
-    let error: Bool
-    let messages: [String]
-    let data: [NetworkProductModel]
-}
-
-struct GetCategoriesResponse: Codable {
-    let error: Bool
-    let messages: [String]
-    let data: [NetworkCategory]
-}
-
-struct NetworkProductModel: Codable {
-    let id: Int
-    let title: String
-    let productTypeId: Int?
-    let marketCategory: MarketCategory?
-    let units: [Unit]?
-    let photo: String
-    let marketUnit: MarketUnitClass?
-    let localImage: Data?
-    var store: Store?
-    var cost: Double?
-}
-
-struct Unit: Codable {
-    let title: String?
-    let value: Double
-    let isDefault: Bool?
-}
-
-struct MarketCategory: Codable {
-    let id: Int
-    let title: String
-}
 
 struct AllRecipesResponse: Codable {
     let error: Bool
     let data: [Recipe]
 }
 
-// MARK: - Recipe
 struct Recipe: Codable, Hashable, Equatable {
     let id: Int
     var title, description: String
@@ -165,6 +122,99 @@ struct Recipe: Codable, Hashable, Equatable {
     }
 }
 
+struct Values: Codable {
+    var dish: Value?
+    var serving: Value?
+    var hundred: Value?
+}
+
+struct Value: Codable {
+    var weight: Double?
+    var kcal: Double?
+    var netCarbs: Double?
+    var proteins: Double?
+    var fats: Double?
+    var carbohydrates: Double?
+}
+
+// MARK: - Ingredient
+struct Ingredient: Codable {
+    let id: Int
+    let product: NetworkProductModel
+    let quantity: Double
+    let isNamed: Bool
+    let unit: MarketUnitClass?
+    var description: String?
+    var quantityStr: String?
+}
+
+struct NetworkProductModel: Codable {
+    let id: Int
+    let title: String
+    let productTypeId: Int?
+    let marketCategory: MarketCategory?
+    let units: [Unit]?
+    let photo: String
+    let marketUnit: MarketUnitClass?
+    let localImage: Data?
+    var store: Store?
+    var cost: Double?
+}
+
+struct Unit: Codable {
+    let title: String?
+    let value: Double
+    let isDefault: Bool?
+}
+
+struct MarketCategory: Codable {
+    let id: Int
+    let title: String
+}
+
+// MARK: - MarketUnitClass
+struct MarketUnitClass: Codable {
+    enum MarketUnitPrepared: Int {
+        case kilogram = 17
+        case gram = 18
+        case litter = 19
+        case millilitre = 20
+        case piece = 21
+        case pack = 22
+        case bottle = 23
+        case tin = 27
+        var defaultQuantityStep: Double {
+            switch self {
+            case .kilogram:
+                return 1
+            case .gram:
+                return 100
+            case .litter:
+                return 1
+            case .millilitre:
+                return 100
+            case .piece:
+                return 1
+            case .pack:
+                return 1
+            case .bottle:
+                return 1
+            case .tin:
+                return 1
+            }
+        }
+    }
+
+    let id: Int
+    let title, shortTitle: String
+    let isOnlyForMarket: Bool?
+    var step: MarketUnitPrepared? {
+        print("Id for step instance  =  \(id)")
+        return MarketUnitPrepared(rawValue: id)
+        
+    }
+}
+
 // MARK: - AdditionalTag
 struct AdditionalTag: Codable {
     let id: Int
@@ -211,122 +261,22 @@ enum EatingTime: Int, CaseIterable {
     static var getTechnicalCollection: [EatingTime] {
         [.willCook, .drafts, .favorites, .inbox]
     }
-}
-
-// MARK: - Ingredient
-struct Ingredient: Codable {
-    let id: Int
-    let product: NetworkProductModel
-    let quantity: Double
-    let isNamed: Bool
-    let unit: MarketUnitClass?
-    var description: String?
-    var quantityStr: String?
-}
-
-// MARK: - MarketUnitClass
-struct MarketUnitClass: Codable {
-    enum MarketUnitPrepared: Int {
-        case kilogram = 17
-        case gram = 18
-        case litter = 19
-        case millilitre = 20
-        case piece = 21
-        case pack = 22
-        case bottle = 23
-        case tin = 27
-        var defaultQuantityStep: Double {
-            switch self {
-            case .kilogram:
-                return 1
-            case .gram:
-                return 100
-            case .litter:
-                return 1
-            case .millilitre:
-                return 100
-            case .piece:
-                return 1
-            case .pack:
-                return 1
-            case .bottle:
-                return 1
-            case .tin:
-                return 1
-            }
-        }
-    }
-
-    let id: Int
-    let title, shortTitle: String
-    let isOnlyForMarket: Bool?
-    var step: MarketUnitPrepared? {
-        print("Id for step instance  =  \(id)")
-        return MarketUnitPrepared(rawValue: id)
-        
-    }
     
+    static var defaults: [EatingTime] {
+        [.breakfast, .dinner, .lunch, .snack]
+    }
 }
 
-struct Values: Codable {
-    var dish: Value?
-    var serving: Value?
-    var hundred: Value?
+// MARK: - Collection
+struct NetworkCollectionResponse: Codable {
+    let error: Bool
+    let messages: [String]
+    let data: [NetworkCollection]
 }
 
-struct Value: Codable {
-    var weight: Double?
-    var kcal: Double?
-    var netCarbs: Double?
-    var proteins: Double?
-    var fats: Double?
-    var carbohydrates: Double?
-}
-
-// MARK: - Category
-struct NetworkCategory: Codable {
+struct NetworkCollection: Codable {
     let id: Int
+    let pos: Int
     let title: String
-    var netId: String?
-}
-
-// MARK: - Продукты пользователя
-struct UserProduct: Codable {
-    let userToken: String
-    let country: String?
-    let lang: String?
-    let modelType: String?
-    let modelId: String?
-    let modelTitle: String
-    let categoryId: String?
-    let categoryTitle: String
-    let new: Bool
-    let version: String
-}
-
-struct UserProductResponse: Codable {
-    var error: Bool
-    var messages: [String]
-    var success: Bool?
-}
-
-// MARK: - Feedback
-struct Feedback: Codable {
-    let userToken: String
-    let stars: Int
-    let totalLists: Int
-    let isAutoCategory: Bool
-    let text: String?
-}
-
-struct FeedbackResponse: Codable {
-    var error: Bool
-    var messages: [String]
-    var data: [String]
-}
-
-struct FetchFAQStateResponse: Codable {
-    var error: Bool
-    var messages: [String]
-    var enabled: Bool
+    let dishes: [Int]
 }

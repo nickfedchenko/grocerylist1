@@ -5,6 +5,7 @@
 //  Created by Vladimir Banushkin on 11.12.2022.
 //
 
+import ApphudSDK
 import UIKit
 
 final class RecipeViewController: UIViewController {
@@ -199,6 +200,16 @@ final class RecipeViewController: UIViewController {
         super.viewDidAppear(animated)
         contentScrollView.contentInset.top = header.bounds.height
         contentScrollView.setContentOffset(CGPoint(x: 0, y: -contentScrollView.contentInset.top), animated: true)
+        
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                
+                self.navigationController?.popViewController(animated: true)
+                self.viewModel.showPaywall()
+            }
+        }
+#endif
     }
     
     override func viewWillDisappear(_ animated: Bool) {

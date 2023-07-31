@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 19.05.2023.
 //
 
+import ApphudSDK
 import UIKit
 
 final class MainRecipeViewModel {
@@ -97,6 +98,16 @@ final class MainRecipeViewModel {
     
     func showSearch() {
         AmplitudeManager.shared.logEvent(.recipeSearch)
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            showPaywall()
+            return
+        }
+#endif
         router?.goToSearchInRecipe()
+    }
+    
+    func showPaywall() {
+        router?.showPaywallVC()
     }
 }

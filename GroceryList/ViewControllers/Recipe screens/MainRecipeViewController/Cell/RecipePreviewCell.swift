@@ -23,7 +23,7 @@ final class RecipePreviewCell: UICollectionViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFProDisplay.semibold(size: 15).font
+        label.font = UIFont.SFCompactDisplay.medium(size: 15).font
         label.textColor = UIColor(hex: "192621")
         label.textAlignment = .center
         label.numberOfLines = 2
@@ -125,7 +125,6 @@ final class RecipePreviewCell: UICollectionViewCell {
                     .scaleFactor(UIScreen.main.scale),
                     .cacheOriginalImage
                 ])
-//            mainImage.kf.setImage(with: photoUrl)
             return
         }
         mainImage.image = nil
@@ -172,9 +171,9 @@ final class RecipePreviewCell: UICollectionViewCell {
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(backgroundImageView.snp.bottom)
-            make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(48)
+            make.top.equalTo(backgroundImageView.snp.bottom).offset(4)
+            make.leading.trailing.bottom.equalToSuperview().inset(8)
+            make.height.equalTo(36)
         }
         
         badgeView.snp.makeConstraints { make in
@@ -215,15 +214,15 @@ final class RecipePreviewCell: UICollectionViewCell {
         guard isFirstLayout else { return }
         let shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius)
         layer.shadowPath = shadowPath.cgPath
-        layer.shadowColor = UIColor(hex: "06BBBB").cgColor
+        layer.shadowColor = UIColor(hex: "858585").cgColor
         layer.shadowOffset = CGSize(width: 0, height: 4)
-        layer.shadowRadius = 10
-        layer.shadowOpacity = 0.2
+        layer.shadowRadius = 3
+        layer.shadowOpacity = 0.1
         let shadowLayer = CAShapeLayer()
         shadowLayer.shadowPath = shadowPath.cgPath
-        shadowLayer.shadowColor = UIColor(hex: "123E5E").cgColor
-        shadowLayer.shadowOpacity = 0.25
-        shadowLayer.shadowRadius = 2
+        shadowLayer.shadowColor = UIColor(hex: "484848").cgColor
+        shadowLayer.shadowOpacity = 0.15
+        shadowLayer.shadowRadius = 1
         shadowLayer.shadowOffset = CGSize(width: 0, height: 0.5)
         layer.insertSublayer(shadowLayer, at: 0)
         drawInlinedStroke()

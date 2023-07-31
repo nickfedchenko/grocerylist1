@@ -5,6 +5,7 @@
 //  Created by Vladimir Banushkin on 06.12.2022.
 //
 
+import ApphudSDK
 import UIKit
 
 final class RecipesListViewController: UIViewController {
@@ -21,7 +22,6 @@ final class RecipesListViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(classCell: RecipeListCell.self)
         collectionView.register(classCell: RecipeListTableCell.self)
-        collectionView.contentInset.top = 332
         collectionView.contentInset.bottom = 120
         collectionView.contentInset.left = 16
         collectionView.contentInset.right = 16
@@ -81,6 +81,13 @@ final class RecipesListViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         photoView.layoutIfNeeded()
+        
+        let topInset = 280 + titleView.necessaryHeight
+        recipesListCollectionView.contentInset.top = topInset
+        photoView.snp.updateConstraints {
+            let offset = -titleView.necessaryHeight - 8
+            $0.bottom.equalTo(recipesListCollectionView.snp.top).offset(offset > -76 ? -76 : offset)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -155,7 +162,7 @@ final class RecipesListViewController: UIViewController {
             $0.leading.equalToSuperview().offset(-16)
             $0.trailing.equalToSuperview().offset(16)
             $0.width.equalToSuperview()
-            $0.bottom.equalTo(recipesListCollectionView.snp.top).offset(-76)
+            $0.bottom.equalTo(recipesListCollectionView.snp.top).offset(-titleView.necessaryHeight - 16)
             $0.height.equalTo(280)
         }
         
@@ -169,7 +176,7 @@ final class RecipesListViewController: UIViewController {
         titleView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(-16)
             $0.trailing.equalToSuperview().offset(16)
-            $0.height.equalTo(68)
+            $0.height.greaterThanOrEqualTo(68)
             $0.top.greaterThanOrEqualTo(header.snp.bottom)
         }
         
@@ -267,6 +274,12 @@ extension RecipesListViewController: RecipesListHeaderViewDelegate {
 
 extension RecipesListViewController:  RecipeListPhotoViewDelegate {
     func choosePhotoButtonTapped() {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            viewModel.showPaywall()
+            return
+        }
+#endif
         viewModel.showPhotosFromRecipe()
     }
 }
@@ -315,6 +328,13 @@ extension RecipesListViewController: RecipeListContextMenuViewDelegate {
             self.contextMenuView.alpha = 1.0
             self.contextMenuBackgroundView.alpha = 1.0
 
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            self.viewModel.showPaywall()
+            self.contextMenuView.removeSelected()
+            return
+        }
+#endif
             switch state {
             case .addToShoppingList:
                 self.viewModel.addToShoppingList(recipeIndex: self.currentlySelectedIndex,

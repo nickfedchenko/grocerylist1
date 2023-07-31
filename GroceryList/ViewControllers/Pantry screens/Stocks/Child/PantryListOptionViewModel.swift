@@ -197,7 +197,7 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
     }
     
     private func sendListByText() {
-        AmplitudeManager.shared.logEvent(.listSendedText)
+//        AmplitudeManager.shared.logEvent(.listSendedText)
         router?.showActivityVC(image: [listByText])
     }
     
