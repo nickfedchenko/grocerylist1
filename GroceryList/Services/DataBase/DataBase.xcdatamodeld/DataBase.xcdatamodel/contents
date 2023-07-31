@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F82" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="DBCategory" representedClassName=".DBCategories" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="DBCollection" representedClassName=".DBCollection" syncable="YES">
+        <attribute name="color" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="dishes" optional="YES" attributeType="Binary"/>
+        <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="index" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isDefault" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isDelete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="localImage" optional="YES" attributeType="Binary"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="DBGroceryListModel" representedClassName=".DBGroceryListModel" syncable="YES">
+        <attribute name="color" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="dateOfCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isAscendingOrder" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="isAscendingOrderPurchased" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isAutomaticCategory" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isShared" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isSharedListOwner" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isShowImage" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isVisibleCost" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="sharedListId" optional="YES" attributeType="String"/>
+        <attribute name="typeOfSorting" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="typeOfSortingPurchased" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="products" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DBProduct" inverseName="list" inverseEntity="DBProduct"/>
+    </entity>
+    <entity name="DBNetCategory" representedClassName=".DBNetCategory" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="netId" optional="YES" attributeType="String"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="netId"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="DBNewNetProduct" representedClassName=".DBNewNetProduct" syncable="YES">
+        <attribute name="defaultMarketUnitID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="marketCategory" optional="YES" attributeType="String"/>
+        <attribute name="photo" optional="YES" attributeType="String"/>
+        <attribute name="productTypeId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="DBPantry" representedClassName=".DBPantry" syncable="YES">
+        <attribute name="color" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="dateOfCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="icon" optional="YES" attributeType="Binary"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="index" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isShared" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isSharedListOwner" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isShowImage" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isVisibleCost" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="sharedId" optional="YES" attributeType="String"/>
+        <attribute name="synchronizedLists" optional="YES" attributeType="Binary"/>
+        <relationship name="stocks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DBStock" inverseName="pantry" inverseEntity="DBStock"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="DBProduct" representedClassName=".DBProduct" syncable="YES">
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="cost" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="dateOfCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="fromRecipeTitle" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isPurchased" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isUserImage" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="listId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="quantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="store" optional="YES" attributeType="Binary"/>
+        <attribute name="unitId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="userDescription" optional="YES" attributeType="String"/>
+        <attribute name="userToken" optional="YES" attributeType="String"/>
+        <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBGroceryListModel" inverseName="products" inverseEntity="DBGroceryListModel"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="DBRecipe" representedClassName="DBRecipe" syncable="YES">
+        <attribute name="additionalTags" optional="YES" attributeType="Binary"/>
+        <attribute name="cookingTime" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="countries" optional="YES" attributeType="Binary"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dietTags" optional="YES" attributeType="Binary"/>
+        <attribute name="dishTypeTags" optional="YES" attributeType="Binary"/>
+        <attribute name="dishWeight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="dishWeightType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="eatingTags" optional="YES" attributeType="Binary"/>
+        <attribute name="exceptionTags" optional="YES" attributeType="Binary"/>
+        <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="ingredients" optional="YES" attributeType="Binary"/>
+        <attribute name="instructions" optional="YES" attributeType="Binary"/>
+        <attribute name="isDefaultRecipe" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isDraft" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="localCollection" optional="YES" attributeType="Binary"/>
+        <attribute name="localImage" optional="YES" attributeType="Binary"/>
+        <attribute name="photo" optional="YES" attributeType="String"/>
+        <attribute name="processingTypeTags" optional="YES" attributeType="Binary"/>
+        <attribute name="recipeDescription" attributeType="String" defaultValueString=""/>
+        <attribute name="title" attributeType="String" defaultValueString=""/>
+        <attribute name="totalServings" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="values" optional="YES" attributeType="Binary"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="DBStock" representedClassName=".DBStock" syncable="YES">
+        <attribute name="autoRepeat" optional="YES" attributeType="Binary"/>
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="cost" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="dateOfCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="imageData" optional="YES" attributeType="Binary"/>
+        <attribute name="index" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isAutoRepeat" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isAvailability" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isReminder" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isUserImage" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="pantryId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="quantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="stockDescription" optional="YES" attributeType="String"/>
+        <attribute name="store" optional="YES" attributeType="Binary"/>
+        <attribute name="unitId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="userToken" optional="YES" attributeType="String"/>
+        <relationship name="pantry" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBPantry" inverseName="stocks" inverseEntity="DBPantry"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="DBStore" representedClassName=".DBStore" syncable="YES">
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="DomainResetPasswordModel" representedClassName=".DomainResetPasswordModel" syncable="YES">
+        <attribute name="dateOfExpiration" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="resetToken" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="DomainUser" representedClassName=".DomainUser" syncable="YES">
+        <attribute name="avatarAsData" optional="YES" attributeType="Binary"/>
+        <attribute name="avatarUrl" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="mail" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="password" optional="YES" attributeType="String"/>
+        <attribute name="token" optional="YES" attributeType="String"/>
+    </entity>
+</model>

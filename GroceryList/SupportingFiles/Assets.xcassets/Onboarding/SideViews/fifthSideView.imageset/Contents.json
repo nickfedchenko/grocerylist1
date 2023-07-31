@@ -1,21 +1,35 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "scale" : "1x"
+      "filename" : "fifthSideView 1.svg",
+      "idiom" : "universal"
     },
     {
+      "filename" : "fifthSideView.svg",
       "idiom" : "universal",
-      "scale" : "2x"
+      "locale" : "en"
     },
     {
-      "filename" : "fifthSideView.png",
+      "filename" : "fifthViewRu.svg",
       "idiom" : "universal",
-      "scale" : "3x"
+      "locale" : "ru"
+    },
+    {
+      "filename" : "fifthViewFr.svg",
+      "idiom" : "universal",
+      "locale" : "fr"
+    },
+    {
+      "filename" : "fifthViewDe.svg",
+      "idiom" : "universal",
+      "locale" : "de"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
   }
 }

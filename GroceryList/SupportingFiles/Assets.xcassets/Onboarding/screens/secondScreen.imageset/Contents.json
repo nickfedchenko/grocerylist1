@@ -1,21 +1,35 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "2x"
+      "filename" : "secondScreen 1.png",
+      "idiom" : "universal"
     },
     {
       "filename" : "secondScreen.png",
       "idiom" : "universal",
-      "scale" : "3x"
+      "locale" : "en"
+    },
+    {
+      "filename" : "secondScreenRu.png",
+      "idiom" : "universal",
+      "locale" : "ru"
+    },
+    {
+      "filename" : "secondScreenFr.png",
+      "idiom" : "universal",
+      "locale" : "fr"
+    },
+    {
+      "filename" : "secondScreenDe.png",
+      "idiom" : "universal",
+      "locale" : "de"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
   }
 }

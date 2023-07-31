@@ -7,9 +7,476 @@
 */
 
 "SafeTimeAndMoney"          = "Save time and money \nwith us";
-"Next"                      = "NEXT     ";
-"CreateLists"               = "Create lists with one touch \nProducts are automatically \ncategorized. \nNo more running around the \nsupermarket";
+"Next"                      = "NEXT";
+"CreateLists"               = "Create lists with one touch Products are automatically categorized. No more running around the supermarket";
 "AddItem"                   = "Add item";
 "Synchronize"               = "Synchronize lists with relatives and friends.";
-"OrganizeRecepts"           = "Replenished collections of recipes in the app \nWrite down and organize your recipes";
-"AddRecipes"                = "Add recipes to the collection and shopping list from the Internet";
+"OrganizeRecepts"           = "Replenished collections of recipes in the app\nWrite down and organize your recipes";
+"AddRecipes"                = "Add ingredients from recipes straight to your shopping list";
+//"AddRecipes"                = "Add recipes to the collection and shopping list from the Internet";
+"Grocery Lists"             = "Grocery Lists";
+"Recipes"                   = "Recipes";
+"CreateList"                = "Create List";
+//"Supermarket"               = "Supermarket";
+"today"                     = "Today";
+"week"                      = "Previous 7 days";
+"month"                     = "Previous 30 days";
+"NameOfNewList"             = "Name of the new list...";
+"Save"                      = "Save";
+"PickFromAnotherList"       = "Pick items from another list";
+"AutomaticSorting"          = "Automatic assignment \nof categories to products and grouping";
+"AddItem"                   = "Add Item";
+"Parametrs"                 = "List parameters";
+"Done"                      = "Done";
+"Purchased"                 = "Purchased";
+"rename"                    = "Rename";
+"pinch"                     = "Fix";
+"changeColor"               = "ChangeColor";
+"sort"                      = "Sort";
+"byUsers"                   = "By Users";
+"byCategory"                = "By category";
+"byRecipe"                  = "By recipe";
+"byTime"                    = "By time";
+"byAlphabet"                = "Alphabetically";
+"byStore"                   = "By store";
+"pictureMatching"           = "Picture matching";
+"copy"                      = "Save to Photo";
+"print"                     = "Print";
+"send"                      = "Send";
+"delete"                    = "Delete";
+"delete"                    = "Delete";
+"Grocery List"              = "Grocery List";
+"Cancel"                    = "Cancel";
+"AlphabeticalSorted"        = "Alphabetical sorting";
+"DateSorted"                = "Sorting by creation date";
+"Supermarket"               = "Supermarket";
+"PickItem"                  = "Pick items from another list";
+"selectAll"                 = "Select All";
+"Name"                      = "Name";
+"AddNote"                   = "Add note, quantity (optional)";
+"Quantity"                  = "Quantity (optional)";
+"Quantity1"                 = "Quantity";
+"pieces"                    = "pieces";
+"Category"                  = "Category";
+"SelectCategory"            = "Select сategory";
+"SearcInCategory"           = "Search in Category";
+"Create"                    = "Create";
+"NewCategory"               = "NewCategory";
+"Long press on an Item"     = "Long press on an Item, returns to editing";
+"Buy"                       = "Buy";
+"Sorting"                   = "Sorting";
+"Purchased"                 = "Purchased";
+"autoCategoryTitleOn"       = "You can refine the category";
+"autoCategoryDescOn"        = "or create your own. Your choice will be saved and will apply in the future";
+"autoCategoryDescOff"       = "You can choose a product category or create your own. In the future, your choice will be saved, and the products in the lists will be ordered";
+
+"Store"                     = "Store";
+"cost"                      = "cost";
+"Any store"                 = "Any store";
+"Create a new store"        = "Create a new store";
+"New Store"                 = "New Store";
+"units"                     = "units";
+"Display cost and store"    = "Show cost and stores";
+"Total Cost: "              = "Total Cost: ";
+"Purchased Cost: "          = "Purchased Cost: ";
+
+"Alcohol"                   = "Alcohol";
+"Grocery"                   = "Grocery";
+"ReadyFood"                 = "Ready-made food";
+"Frozen"                    = "Frozen foods";
+"HealtyFood"                = "Healthy eating";
+"WorldCitchen"              = "Cuisines of the world";
+"Milk"                      = "Dairy products";
+"Drinks"                    = "Drinks";
+"FruitsAndVegetables"       = "Fruits and vegetables";
+"Fish"                      = "Fish and seafood";
+"Sweet"                     = "Sweets";
+"Bread"                     = "Bread and pastries";
+"Tea"                       = "Tea and coffee";
+"Meat"                      = "Meat and poultry";
+"Baby"                      = "Baby";
+"Health & Beauty"           = "Health & Beauty";
+"Home, Garden & Patio"      = "Home, Garden & Patio";
+"Household & Cleaning"      = "Household & Cleaning";
+"Pet Care"                  = "Pet Care";
+"Stationery"                = "Stationery";
+
+
+"ozz"                       = "oz";
+"lbс"                       = "lb";
+"pt"                        = "pt";
+"fluidOz"                   = "fl oz";
+
+"gram"                      = "g";
+"kilogram"                  = "kg";
+"liter"                     = "L";
+"mililiter"                 = "mL";
+
+"can"                       = "can";
+"piece"                     = "pc";
+"pack"                      = "pack";
+"bottle"                    = "bottle";
+"other"                     = "Other";
+
+"gallon"                    = "gal";
+"quart"                     = "qt";
+
+"preferencies"              = "Preferencies";
+"Problems?"                 = "A problem? Contact us!";
+"DoYouLikeApp?"             = "Do you like the app? Tell us!";
+"Haptic Feedback"           = "Haptic Feedback";
+"Quantity Units"            = "Quantity Units";
+"Metric"                    = "Metric";
+"Imperial"                  = "U.S. standard";
+
+"Warning"                   = "Warning";
+"NoInternet"                = "No internet connection";
+
+"Choose the right plan"     = "Choose the right plan for using the Shoppy";
+"MostPopular"               = "Most Popular";
+"Error"                     = "Error";
+
+"yearly"                    = "Yearly";
+"6 Month"                   = "6 Month";
+"Monthly"                   = "Monthly";
+"Loading info"              = "Loading";
+"month"                     = "month";
+"Loading"                   = "Loading";
+
+"Recipe"                    = "Recipe ";
+"Recipes"                   = " Recipes";
+//"Breakfast"                 = "Breakfast";
+//"Lunch"                     = "Lunch";
+//"Dinner"                    = "Dinner";
+//"Snacks"                    = "Snacks";
+"weekly"                    = "week";
+"Week"                      = "Week";
+"Favorites"                 = "Favorites";
+"/WEEK"                     = "/ WEEK";
+"3 days free"               = "3 days free";
+
+"Select list"               = "Select list";
+
+"min" = "min";
+"Ingredients" = "Ingredients";
+"servings" = "servings";
+"servings-1" = "serving";
+"servings-2-4" = "servings";
+"servings>4" = "servings";
+"by taste" = "by taste";
+"Instructions" = "Instructions";
+"AddedEarlier" = "Added earlier";
+"Back" = " Back";
+
+"review.mainTitle" = "Rate the app in the AppStore";
+"review.subtitle" = "This helps to make it even better";
+
+// AlternativePaywallController
+"Save time and money" = "Save time and money";
+"Plan your shopping list for the week" = "Plan your shopping list for the week";
+"Quick add recipe ingredients into your lists" = "Quick add recipe ingredients into your lists";
+
+// WriteReviewController
+"Your opinion matter to us!"    = "Your opinion matter to us!";
+"Like the app?"                 = "Like the app?";
+"Yes"                           = "Yes";
+"No"                            = "No";
+"Write a review"                = "Write a review";
+"Send us feedback"              = "Send us feedback";
+
+// Registration
+"REGISTER"                      = "REGISTER";
+"RegistrationRequired"          = "Registration is required to \nuse shared list functions";
+"Sing Up"                       = "Sign up";
+"Sing In"                       = "Sign in";
+"email"                         = "E-mail";
+"password"                      = "Password";
+"signUpTerms" = "I accept the terms and conditions \n\nI have read the Privacy Policy and acknowledge my rights as a user";
+"IHaveAccount"                  = "I have an account";
+"IDontHaveAccount"              = "I don’t have an account";
+"resetPassword"                 = "Reset password";
+
+"signInWithApple"               = "Sign in with Apple";
+"EmailTaken"                    = "This e-mail is already taken";
+"orLog"                         = "Or login with";
+"NoInternet"                    = "No internet connection";
+"PasswordReset"                 = "Password reset";
+"YourEmail"                     = "Your e-mail:";
+"Close"                         = "Close";
+"ok"                            = "Ok";
+"RecievePasswordShortly"        = "If you entered a correct e-mail address, you will receive password reset e-mail shortly";
+
+// sharing
+"Shared lists"                  = "Shared lists can be viewed and updated by multiple people at once.";
+"Sync With Family & Friends"    = "Sync With Family & Friends";
+"Shared"                        = "Shared";
+"Send Invitation"               = "Send Invitation";
+"Hello! Here is a great app"    = "Hello! Here is a great app for joint shopping and recipes!";
+
+"Settings.Profile"              = "Profile";
+"Settings.AddPhoto"             = "Add your photo, it will be more beautiful";
+"Settings.ScreenName"           = "Screen Name";
+"Settings.Account"              = "Account";
+"Settings.GroceryListApp"       = "Grocery List App";
+"Settings.Account.LogOut"       = "Log Out";
+"Settings.Account.DeleteAccount"= "Delete Account";
+"Settings.Account.ToUseShared"  = "To use Shared Notes, please login again.";
+"Settings.Account.Cancel"       = "Cancel";
+"Settings.Account.DeleteAcc?"   = "Delete account?";
+"Settings.Account.PremanentDel" = "You are about to permanently delete your account along with all data associated to it";
+"Settings.Account.Delete"       = "Delete";
+
+"ResetPassword.EnterNewPassw"   = "Enter new password";
+"ResetPassword.LinkInactive"    = "This link can be used only once and will become inactive in 1 hour. \nPlease reset again.";
+"ResetPassword.ChangePassword"  = "Change password";
+
+// context menu
+"createRecipe"                  = "Create Recipe";
+"importRecipe"                  = "Import Web Recipes";
+"createCollection"              = "Create Collection";
+
+// Создание рецепта
+"recipeCreation"                = "Recipe Creation";
+"Step 1 of 2"                   = "Step 1 of 2";
+"Required"                      = "Required";
+"Optional"                      = "Optional";
+"Collection"                    = "Collection";
+"Photo"                         = "Photo";
+"You can add photo"             = "You can add photo to the recipe at any time later";
+
+"Step"                          = "Step";
+"Step 1"                        = "Step 1";
+"Step 2 of 2"                   = "Step 2 of 2";
+"Preparation Time (minutes)"    = "Preparation Time (minutes)";
+"Description"                   = "Description";
+"Required (minimum 2)"          = "Required (minimum 2)";
+"Add Ingredient"                = "Add Ingredient";
+"Preparation Steps"             = "Preparation Steps";
+"Add Step"                      = "Add Step";
+"Complete"                      = "Complete";
+
+// Коллекция/папка с рецептами
+"Miscellaneous"                 = "Miscellaneous";
+"Note"                          = "Note";
+"Collections"                   = "Collections";
+"SelectOneOrMoreCollections"    = "Select one or more collections where your recipe will be stored. You can create a new collection.";
+"Add to collection"             = "Add to collection";
+
+"Add recipes to favorites"      = "Add recipes to favorites";
+"Share recipes"                 = "Share recipes";
+"AdjustNumberOfServings"        = "Adjust the number of servings and add ingredients to your shopping list";
+
+// Поиск
+"Search in "                    = "Search in ";
+"Lists"                         = "Lists";
+"AllRecipes"                    = "Recipes";
+"Search in all recipes"         = "Search in all recipes";
+
+// Редактирование продукта в списке
+"edit"                          = "Edit";
+"selectAllTabBar"               = "Select All";
+"copyTabBar"                    = "Copy";
+"move"                          = "Move";
+"clearAll"                      = "Clear All";
+"itemSelected"                  = "%@ item selected";
+"WantDeleteTheseTasks?"         = "Are you sure you want to permanently delete these tasks?";
+"Move to..."                    = "Move to...";
+"Copy to..."                    = "Copy to...";
+
+// Feedback
+"Your experience"               = "Tell us how was your experience of shopping with Grocery List App?";
+"How can we improve?"           = "How can we improve?";
+"Give Suggestions"              = "Give Suggestions";
+"Thanks for your feedback"      = "Thanks for your feedback";
+"You can also write a review"   = "You can also write a review. \n We will be very pleased";
+"No Thanks"                     = "No Thanks";
+
+// Tab Bar
+"List"                          = "List";
+"Pantry"                        = "Pantry";
+"Recipes"                       = "Recipes";
+
+// Pantry & Stocks
+"Pantry & Stocks"               = "Pantry & Stocks";
+"PantryEnterStocks"             = "Pantry\n& Stocks";
+"PantryStarterPackDescription"  = "You can add a more detailed description, quantity, brand and photo\n\nYou can connect the pantry list to any shopping list and the finished items will automatically appear in it\n\nYou can flexibly set up automatic status changes and the goods will end at specified intervals\n\nInvite your family to share your household. Stocks will be replenished, the refrigerator will be full and everything will be in perfect order!";
+"Excellent!"                    = "Excellent!";
+"Baby"                          = "Baby";
+"Medications"                   = "Medications";
+"Cooking supplies"              = "Cooking supplies";
+"Car"                           = "Car";
+"Tools"                         = "Tools";
+"Handiwork"                     = "Handiwork";
+"Subscriptions"                 = "Subscriptions";
+"Sport"                         = "Sport";
+"Gifts"                         = "Gifts";
+
+"List name"                     = "List name";
+"Icon"                          = "Icon";
+"Synchronize stock list"        = "Synchronize stock list with shopping list";
+"Food automatically appear"     = "Food or goods that run out will automatically appear in the selected shopping list";
+"More"                          = "More ";
+"Select Icon"                   = "Select Icon";
+"Select List to Synchronize"    = "Select List to Synchronize";
+"Edit List"                     = "Edit List";
+
+"item"                          = "Item";
+"out of stock"                  = "Out of stock";
+"Pantry: Name"                  = "Pantry: %@";
+"in stock"                      = "In stock";
+"Out: "                         = "Out: ";
+"Link to Shopping List"         = "Link to Shopping List";
+
+"Auto Repeat"                   = "Auto Repeat";
+"every weekly "                 = "Every %@ Weekly: %@";
+"weekly weekday"                = "Weekly: %@";
+"every times period"            = "Every %@ %@";
+"Auto repeat setting"           = "Auto repeat setting";
+"Food goods will be marked"     = "Food or goods will be marked 'out of stock' when the specified period is reached";
+"Set Reminder"                  = "Set Reminder";
+"AutoDaily"                     = "Daily";
+"AutoWeekly"                    = "Weekly";
+"AutoMonthly"                   = "Monthly";
+"AutoYearly"                    = "Yearly";
+"AutoCustom"                    = "Custom";
+"Set"                           = "Set";
+"Repeat every ..."              = "Repeat every ...";
+"days"                          = "Days";
+"weeks"                         = "Weeks";
+"months"                        = "Months";
+"years"                         = "Years";
+"Stocks are over"               = "Stocks are over";
+"ADD TO SHOPPING LIST"          = "ADD TO SHOPPING LIST";
+
+// Default Pantry
+
+"Fridge"                        = "Fridge";
+"Grocery"                       = "Grocery";
+"Spices & Herbs"                = "Spices & Herbs";
+"Beauty & Health"               = "Beauty & Health";
+"Household"                     = "Household";
+"Hobby"                         = "Hobby";
+
+"Milk"                          = "Milk";
+"Mayonnaise"                    = "Mayonnaise";
+"Tomatoes"                      = "Tomatoes";
+"Lettuce"                       = "Lettuce";
+"Cream cheese"                  = "Cream cheese";
+"Parmesan"                      = "Parmesan";
+"Smoked bacon"                  = "Smoked bacon";
+"Butter, unsalted"              = "Butter, unsalted";
+"Chicken fillet"                = "Chicken fillet";
+"Frozen vegetables"             = "Frozen vegetables";
+"Frozen mushrooms"              = "Frozen mushrooms";
+"Frozen broccoli"               = "Frozen broccoli";
+"Big pack"                      = "Big pack";
+
+"Olive oil"                     = "Olive oil";
+"Canned corn"                   = "Canned corn";
+"Spaghetti"                     = "Spaghetti";
+"Breakfast cereal"              = "Breakfast cereal";
+"Long shelf life milk"          = "Long shelf life milk";
+"Ground coffee"                 = "Ground coffee";
+"Green tea bags"                = "Green tea bags";
+"Oatmeal, medium size"          = "Oatmeal, medium size";
+"Honey"                         = "Honey";
+"Tuna chunks"                   = "Tuna chunks";
+"Eggs"                          = "Eggs";
+"Wheat flour"                   = "Wheat flour";
+
+"Sea salt"                      = "Sea salt";
+"Ground black pepper"           = "Ground black pepper";
+"Garlic powder"                 = "Garlic powder";
+"Red chili flakes"              = "Red chili flakes";
+"Paprika"                       = "Paprika";
+"Cinnamon"                      = "Cinnamon";
+
+"Toilet paper"                  = "Toilet paper";
+"Cotton pads"                   = "Cotton pads";
+"Cotton buds"                   = "Cotton buds";
+"Liquid soap"                   = "Liquid soap";
+"Toothpaste"                    = "Toothpaste";
+"Shower gel"                    = "Shower gel";
+
+"Kitchen Scrub Sponges"         = "Kitchen Scrub Sponges";
+"Dishwashing liquid"            = "Dishwashing liquid";
+"Paper towels"                  = "Paper towels";
+"Toilet paper"                  = "Toilet paper";
+"Trash bags"                    = "Trash bags";
+"Fabric softener"               = "Fabric softener";
+"Cleaning Cloth"                = "Cleaning Cloth";
+"AA batteries"                  = "AA batteries";
+
+// Recipe
+"Search by name or ingredient"  = "Search by name or ingredient";
+"willCook"                      = "I will cook it";
+"drafts"                        = "Drafts";
+"inbox"                         = "Inbox";
+
+"addToFavorites"                = "Add to Favorites";
+"added to"                      = "Added to";
+
+"Delete Collection?"            = "Delete Collection?";
+"You are deleting a collection" = "You are deleting a collection. All recipes that are in it will not be deleted from the database or other collections.";
+"SelectOneOrMoreCollections"    = "Select one or more collections";
+
+"continue"                      = "Continue";
+"Save to Drafts"                = "Save to Drafts";
+"Saved in Drafts"               = "Saved in Drafts";
+"You can find your drafts"      = "You can find your drafts on the main screen, in collections";
+"Leave Creating a Recipe"       = "Leave Creating a Recipe";
+"Continue Work"                 = "Continue Work";
+
+"Nutrition Facts per Serving"   = "Nutrition Facts per Serving *";
+"If these data are known"       = "If these data are known or calculated. You can write only approximate calories or leave this section blank.";
+"carb"                          = "Carbs";
+"protein"                       = "Protein";
+"fat"                           = "Fat";
+"kcal"                          = "Kcal";
+"Calories"                      = "Calories";
+"recommended"                   = "recommended";
+"SAVE RECIPE TO..."             = "SAVE RECIPE TO...";
+
+"search"                        = "Search";
+"Add Filter"                    = "Add Filter";
+
+// FAQ
+"Help & FAQ"                    = "Help & FAQ";
+"Check Internet connection"     = "Check Internet connection";
+
+// FAQ
+"Help & FAQ"                    = "Help & FAQ";
+"Check Internet connection"     = "Check Internet connection";
+
+// Updated Paywall
+"three days "                   = "3 days ";
+"free"                          = "free";
+"HowDoesYourTrialPeriodWork"    = "How does your trial period work";
+
+"Today.subtitle"                = "Start your full access to all game modes";
+"After 2 days"                  = "After 2 days";
+"After 2 days.subtitle"         = "Receive a notification that your trial is ending";
+"After 3 days"                  = "After 3 days";
+"After 3 days.subtitle"         = "Payment date can be canceled at any time";
+"Privacy Policy"                = "Privacy Policy";
+"Restore purchase"              = "Restore purchase";
+"Term of Use"                   = "Term of Use";
+"save money"                    = "save";
+
+"Try 3 days for free"           = "Try 3 days for free";
+"Save time and money with app"  = "Save time and money with Shopping List";
+"Cancel anytime"                = "Cancel anytime";
+
+// New Paywall
+"Unlock Premium"                = "Unlock Premium";
+"with useful features"          = "with useful features";
+"NewPaywall.Feature.0"          = "Lists: unlimited number and functionality";
+"NewPaywall.Feature.1"          = "Auto-selection of categories and photos";
+"NewPaywall.Feature.2"          = "Sharing, collaborative lists";
+"NewPaywall.Feature.3"          = "Shop selection, price entry, cost calculation";
+"NewPaywall.Feature.4"          = "Pantry & Stocks lists. Write down all the products and goods that should always be and track their availability";
+"NewPaywall.Feature.5"          = "Automate recurring purchases, receive notifications within the program";
+"NewPaywall.Feature.6"          = "Constantly updated collections of recipes, indicating Macros and calories. Find recipes with filters";
+"NewPaywall.Feature.7"          = "Importing recipes from websites. Find recipes with filters";
+"NewPaywall.Feature.8"          = "Create your own recipes and collections, the ability to share recipes";
+"NewPaywall.Feature.9"          = "Adding ingredients to the shopping list for the selected number of servings";

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "SignUpAcceptChackmark.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "grocery_Wheat.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

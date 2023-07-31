@@ -1,0 +1,451 @@
+/*
+  Localazible.strings
+  GroceryList
+
+  Created by Шамиль Моллачиев on 01.11.2022.
+  
+*/
+
+"SafeTimeAndMoney"          = "Sparen Sie Zeit und Geld \nmit uns";
+"Next"                      = "Fortsetzen";
+"CreateLists"               = "Erstellen Sie Listen mit einem Tastendruck\nProdukte werden automatisch kategorisiert.\nNie mehr im Supermarkt herumrennen";
+"Synchronize"               = "Listen synchronisieren mit Verwandten und Freunden";
+"OrganizeRecepts"           = "Aufgefüllte Rezeptsammlungen in der App\nSchreibe deine Rezepte auf und organisiere sie";
+"AddRecipes"                = "Fügen Sie Zutaten aus Rezepten direkt zu Ihrer Einkaufsliste hinzu";
+//"AddRecipes"                = "Fügen Sie Rezepte aus dem Internet zur Sammlung und Einkaufsliste hinzu";
+"Grocery Lists"             = "Einkaufslisten";
+"Recipes"                   = "Rezepte";
+"CreateList"                = "Erstelle Liste";
+//"Supermarket"               = "Supermarkt";
+"today"                     = "Heute";
+"week"                      = "Letzte 7 Tage";
+"month"                     = "Letzte 30 Tage";
+"NameOfNewList"             = "Der Name der neuen Liste...";
+"Save"                      = "Speichern";
+"PickFromAnotherList"       = "Elemente aus einer anderen Liste auswählen";
+"AutomaticSorting"          = "Automatische Zuordnung von Produktkategorien und Gruppierung";
+"AddItem"                   = "Hinzufügen";
+"Parametrs"                 = "Listenoptionen";
+"Done"                      = "Bereit";
+"Purchased"                 = "Gekauft";
+"rename"                    = "Umbenennen";
+"pinch"                     = "Stift";
+"changeColor"               = "Farbe ändern";
+"sort"                      = "Sortieren";
+"byUsers"                   = "Nach Benutzern";
+"byCategory"                = "Nach Kategorie";
+"byRecipe"                  = "Nach Rezept";
+"byTime"                    = "Mit der Zeit hinzugefügt";
+"byAlphabet"                = "alphabetisch";
+"byStore"                   = "Nach Geschäft";
+"copy"                      = "In Galerie speichern";
+"pictureMatching"           = "Bildanpassung";
+"print"                     = "Siegel";
+"send"                      = "Schicken";
+"delete"                    = "Löschen";
+"Grocery List"              = "Einkaufsliste";
+"Cancel"                    = "Stornieren";
+"AlphabeticalSorted"        = "Alphabetisch sortieren";
+"DateSorted"                = "Nach Erstellungsdatum sortieren";
+"Supermarket"               = "Geschäft";
+"PickItem"                  = "Aus einer anderen Liste auswählen";
+"selectAll"                 = "Alles auswählen";
+"Name"                      = "Name";
+"AddNote"                   = "Notiz hinzufügen";
+"Quantity"                  = "Menge (optional)";
+"Quantity1"                 = "Menge";
+"pieces"                    = "Stücke";
+"Category"                  = "Kategorie";
+"SelectCategory"            = "Kategorie wählen";
+"SearcInCategory"           = "SucheInKategorie";
+"Create"                    = "Erstellen";
+"NewCategory"               = "Neue Kategorie";
+"Long press on an Item"     = "Langes Drücken auf ein Element, kehrt zur Bearbeitung zurück";
+"Buy"                       = "Kaufen";
+"Sorting"                   = "Sortierung";
+"Purchased"                 = "Kaufen";
+"autoCategoryTitleOn"       = "Sie können die Kategorie verfeinern ";
+"autoCategoryDescOn"        = "oder eine eigene erstellen. Ihre Auswahl wird gespeichert und gilt in Zukunft";
+"autoCategoryDescOff"       = "Sie können eine Produktkategorie auswählen oder eine eigene erstellen. In Zukunft wird Ihre Auswahl gespeichert und die Produkte in den Listen werden bestellt";
+
+
+
+"Store"                     = "Speichern";
+"cost"                      = "Kosten";
+"Any store"                 = "Beliebiges Geschäft";
+"Create a new store"        = "Einen neuen Shop erstellen";
+"New Store"                 = "Neuer Laden";
+"units"                     = "Maßeinheit";
+"Display cost and store"    = "Kosten und Shop anzeigen";
+"Total Cost: "              = "Gesamtkosten: ";
+"Purchased Cost: "          = "Anschaffungskosten: ";
+
+"Alcohol"                   = "Alkohol";
+"Grocery"                   = "Lebensmittelgeschäft";
+"ReadyFood"                 = "Fertiges Essen";
+"Frozen"                    = "gefrorenes Essen";
+"HealtyFood"                = "Gesundes Essen";
+"WorldCitchen"              = "WorldCitchen";
+"Milk"                      = "Milchprodukte";
+"Drinks"                    = "Getränke";
+"FruitsAndVegetables"       = "Früchte und Gemüse";
+"Fish"                      = "Fisch, Meeresfrüchte";
+"Sweet"                     = "Süßigkeiten";
+"Bread"                     = "Brot";
+"Tea"                       = "Tee und Kaffee";
+"Meat"                      = "Fleisch und Vogel";
+"Baby"                      = "Babybedarf";
+"Health & Beauty"           = "Gesundheit & Schönheit";
+"Home, Garden & Patio"      = "Haus, Garten & Terrasse";
+"Household & Cleaning"      = "Haushaltsreinigung";
+"Pet Care"                  = "Tierpflege";
+"Stationery"                = "Schreibwaren";
+
+"ozz"                       = "Unze";
+"lbс"                       = "lbс";
+"pt"                        = "Punkt";
+"fluidOz"                   = "FlüssigkeitOz";
+
+"gram"                      = "Gramm";
+"kilogram"                  = "Kilogramm";
+"liter"                     = "Liter";
+"mililiter"                 = "Milliliter";
+
+"can"                       = "Krug";
+"piece"                     = "Stück";
+"pack"                      = "Pack";
+"bottle"                    = "Flasche";
+"other"                     = "andere";
+
+"gallon"                    = "gal";
+"quart"                     = "qt";
+
+"preferencies"              = "Vorlieben";
+"Problems?"                 = "Probleme?";
+"DoYouLikeApp?"             = "Magst du App?";
+"Haptic Feedback"           = "Haptisches Feedback";
+"Quantity Units"            = "Mengeneinheiten";
+"Metric"                    = "Metrisch";
+"Imperial"                  = "U.S.-Norm";
+
+"Warning"                   = "Warnung";
+"NoInternet"                = "Kein Internet";
+
+"Choose the right plan"     = "Wählen Sie den richtigen Plan";
+"MostPopular"               = "Am beliebtesten";
+"Error"                     = "Fehler";
+
+"yearly"                    = "Jährlich";
+"6 Month"                   = "6 Monate";
+"Monthly"                   = "Monatlich";
+"Loading info"              = "Wird geladen";
+"Month"                     = "im Monat";
+"Loading"                   = "Wird geladen";
+
+"Recipe"                    = "Rezept ";
+"Recipes"                   = " Rezepte";
+//"Breakfast"                 = "Frühstück";
+//"Lunch"                     = "Mittagessen";
+//"Dinner"                    = "Abendessen";
+//"Snacks"                    = "Snacks";
+"weekly"                    = "wöchentlich";
+"Week"                      = "Woche";
+"Favorites"                 = "Favoriten";
+"/WEEK"                     = "/ WOCHE";
+"3 days free"               = "3 Tage kostenlos";
+
+"Select list"               = "Liste auswählen";
+
+"min" = "das Minute";
+"Ingredients" = "Zutaten";
+"servings" = "Portionen";
+"servings-1" = "Portionen";
+"servings-2-4" = "Portionen";
+"servings>4" = "Portionen";
+"by taste" = "nach Geschmack";
+"Instructions" = "Anweisungen";
+"AddedEarlier" = "Früher hinzugefügt";
+"Back" = " Zurück";
+
+"review.mainTitle" = "Bewerten Sie die App im AppStore";
+"review.subtitle" = "Dies wird dazu beitragen, dass es besser wird.";
+
+// AlternativePaywallController
+"Save time and money" = "Sparen Sie Zeit und Geld";
+"Plan your shopping list for the week" = "Planen Sie Ihre Einkaufsliste für die Woche";
+"Quick add recipe ingredients into your lists" = "Fügen Sie Rezeptzutaten schnell zu Ihren Listen hinzu";
+
+// WriteReviewController
+"Your opinion matter to us!"    = "Ihre Meinung ist uns wichtig!";
+"Like the app?"                 = "Wie die App?";
+"Yes"                           = "Ja";
+"No"                            = "Nein";
+"Write a review"                = "Eine Rezension schreiben";
+"Send us feedback"              = "Sende uns Feedback";
+
+// Registration
+"REGISTER"                      = "ANMELDUNG";
+"RegistrationRequired"          = "Registrierung erforderlich, um die Funktionen der geteilten Liste zu nutzen";
+"Sing Up"                       = "Anmelden";
+"Sing In"                       = "Eingang";
+"email"                         = "Email";
+"password"                      = "Passwort";
+"signUpTerms" = "I accept the terms and conditions I have read the Privacy Policy and acknowledge my rights as a user";
+"IHaveAccount"                  = "Ich habe einen Account";
+"IDontHaveAccount"              = "Ich habe kein Konto";
+"resetPassword"                 = "Setzen Sie das Passwort zurück";
+"signInWithApple"               = "Melden Sie sich bei Apple an";
+
+// sharing
+"Shared lists"                  = "Gemeinsam genutzte Listen können von mehreren Personen gleichzeitig angezeigt und aktualisiert werden.";
+"Sync With Family & Friends"    = "Synchronisieren mit Family & Friends";
+"Shared"                        = "Geteilt";
+"Send Invitation"               = "Einladung senden";
+"Hello! Here is a great app"    = "Hallo! Hier ist eine großartige App für gemeinsames Einkaufen und Rezepte!";
+
+// context menu
+"createRecipe"                  = "Rezept erstellen";
+"importRecipe"                  = "Webrezepte importieren";
+"createCollection"              = "Sammlung erstellen";
+
+// Создание рецепта
+"recipeCreation"                = "Rezepterstellung";
+"Step 1 of 2"                   = "Schritt 1 von 2";
+"Required"                      = "Erforderlich";
+"Optional"                      = "fakultativ";
+"Collection"                    = "Sammlung";
+"Photo"                         = "Foto";
+"You can add photo"             = "Sie können dem Rezept jederzeit später ein Foto hinzufügen";
+
+"Step"                          = "Schritt";
+"Step 1"                        = "Schritt 1";
+"Step 2 of 2"                   = "Schritt 2 von 2";
+"Preparation Time (minutes)"    = "Zubereitungszeit (Minuten)";
+"Description"                   = "Beschreibung";
+"Required (minimum 2)"          = "Erforderlich (mindestens 2)";
+"Add Ingredient"                = "Zutat hinzufügen";
+"Preparation Steps"             = "Vorbereitungsschritte";
+"Add Step"                      = "Schritt hinzufügen";
+"Complete"                      = "Komplett";
+
+// Коллекция/папка с рецептами
+"Miscellaneous"                 = "Diverses";
+"Note"                          = "Beachten";
+"Collections"                   = "Sammlung";
+"SelectOneOrMoreCollections"    = "Wählen Sie eine oder mehrere Sammlungen aus, in denen Ihr Rezept gespeichert werden soll. Sie können eine neue Sammlung erstellen.";
+"Add to collection"             = "Zur Kollektion hinzufügen";
+
+"Add recipes to favorites"      = "Rezepte zu Favoriten hinzufügen";
+"Share recipes"                 = "Rezepte teilen";
+"AdjustNumberOfServings"        = "Legen Sie die Anzahl der Portionen fest und fügen Sie die Zutaten zur Einkaufsliste hinzu";
+
+// Поиск
+"Search in "                    = "Suche in ";
+"Lists"                         = "Listen";
+"AllRecipes"                    = "Rezepten";
+"Search in all recipes"         = "Suche in allen Rezepten";
+
+// Редактирование продукта в списке
+"edit"                          = "Bearbeiten";
+"selectAllTabBar"               = "Alles\nauswählen";
+"copyTabBar"                    = "Kopieren";
+"move"                          = "Bewegen";
+"clearAll"                      = "Alles\nlöschen";
+"itemSelected"                  = "%@ artikel ausgewählt";
+"WantDeleteTheseTasks?"         = "Sind Sie sicher, dass Sie diese Aufgaben dauerhaft löschen möchten?";
+"Move to..."                    = "Umzug nach...";
+"Copy to..."                    = "Kopieren nach...";
+
+// Feedback
+"Your experience"               = "Erzählen Sie uns, wie Sie mit der Einkaufslisten-App eingekauft haben?";
+"How can we improve?"           = "Wie können wir uns verbessern?";
+"Give Suggestions"              = "Vorschläge machen";
+"Thanks for your feedback"      = "Danke für Ihr Feedback";
+"You can also write a review"   = "Sie können auch eine Bewertung schreiben. \n Wir werden uns sehr freuen";
+"No Thanks"                     = "Nein Danke";
+
+// Tab Bar
+"List"                          = "Listen";
+"Pantry"                        = "Vorräte";
+"Recipes"                       = "Rezepte";
+
+// Pantry & Stocks
+"Pantry & Stocks"               = "Speisekammer & Vorräte";
+"PantryEnterStocks"             = "Speisekammer\n& Vorräte";
+"PantryStarterPackDescription"  = "Sie können eine detailliertere Beschreibung, Menge, Marke und Foto hinzufügen\n\nSie können die Vorratsliste mit jeder Einkaufsliste verbinden und die fertigen Artikel werden automatisch darin angezeigt\n\nSie können flexibel automatische Statusänderungen einrichten und die Ware endet in festgelegten Intervallen\n\nLaden Sie Ihre Familie ein, Ihren Haushalt zu teilen. Die Vorräte werden aufgefüllt, der Kühlschrank wird voll und alles wird in bester Ordnung sein!";
+"Excellent!"                    = "Hervorragend!";
+"Baby"                          = "Baby";
+"Medications"                   = "Medikament";
+"Cooking supplies"              = "Kochzubehör";
+"Car"                           = "Auto";
+"Tools"                         = "Tools";
+"Handiwork"                     = "Handarbeit";
+"Subscriptions"                 = "Abonnement";
+"Sport"                         = "Sport";
+"Gifts"                         = "Geschenk";
+
+"List name"                     = "Listenname";
+"Icon"                          = "Ikone";
+"Synchronize stock list"        = "Lagerliste mit Einkaufsliste synchronisieren";
+"Food automatically appear"     = "Lebensmittel oder Waren, die ausgehen, werden automatisch in der ausgewählten Einkaufsliste angezeigt.";
+"More"                          = "Mehr ";
+"Select Icon"                   = "Symbol auswählen";
+"Select List to Synchronize"    = "Liste zum Synchronisieren auswählen";
+"Edit List"                     = "Liste bearbeiten";
+
+"item"                          = "ARTIKEL";
+"Select List to Synchronize"    = "Liste zum Synchronisieren auswählen";
+"out of stock"                  = "Nicht auf Lager";
+"Pantry: Name"                  = "Pantry: %@";
+"in stock"                      = "Bootsbestand";
+"Out: "                         = "Aus: ";
+"Link to Shopping List"         = "Link zur Einkaufsliste";
+"Auto Repeat"                   = "Automatische Wiederholung";
+"every weekly "                 = "Jede %@ Woche: %@";
+"weekly weekday"                = "Wöchentlich: %@";
+"every times period"            = "Jeder %@ %@";
+"Auto repeat setting"           = "Automatische Wiederholungseinstellung";
+"Food goods will be marked"     = "Lebensmittel oder Waren werden als 'nicht vorrätig' gekennzeichnet, wenn der angegebene Zeitraum erreicht ist.";
+"Set Reminder"                  = "Erinnerung einstellen";
+"AutoDaily"                     = "Täglich";
+"AutoWeekly"                    = "Wöchentlich";
+"AutoMonthly"                   = "Monatlich";
+"AutoYearly"                    = "Jährlich";
+"AutoCustom"                    = "Benutzerdefinierte";
+"Set"                           = "Setzen";
+"Repeat every ..."              = "Wiederhole jeden ...";
+"days"                          = "Days";
+"weeks"                         = "Wochenlang";
+"months"                        = "Monat";
+"years"                         = "Jahrelang";
+"Stocks are over"               = "Die Bestände sind vorbei";
+"ADD TO SHOPPING LIST"          = "ZUR EINKAUFSLISTE HINZUFÜGEN";
+
+// Default Pantry
+
+"Fridge"                        = "Kühlschrank";
+"Grocery"                       = "Lebensmittelgeschäft";
+"Spices & Herbs"                = "Gewürze & Kräuter";
+"Beauty & Health"               = "Schönheit & Gesundheit";
+"Household"                     = "Haushalt";
+"Hobby"                         = "Hobby";
+"Milk"                          = "Milch";
+"Mayonnaise"                    = "Mayonnaise";
+"Tomatoes"                      = "Tomate";
+"Lettuce"                       = "Kopfsalat";
+"Cream cheese"                  = "Frischkäse";
+"Parmesan"                      = "Parmesankäse";
+"Smoked bacon"                  = "Geräucherter Speck";
+"Butter, unsalted"              = "Butter, ungesalzen";
+"Chicken fillet"                = "Hähnchenfilet";
+"Frozen vegetables"             = "Gefrorenes Gemüse";
+"Frozen mushrooms"              = "Gefrorene Pilze";
+"Frozen broccoli"               = "Gefrorener Brokkoli";
+"Big pack"                      = "Große Packung";
+"Olive oil"                     = "Olivenöl";
+"Canned corn"                   = "Mais in Dosen";
+"Spaghetti"                     = "Spaghettitrgern";
+"Breakfast cereal"              = "Frühstückscerealien";
+"Long shelf life milk"          = "Milch mit langer Haltbarkeit";
+"Ground coffee"                 = "Gemahlener Kaffee";
+"Green tea bags"                = "Grüne Teebeutel";
+"Oatmeal, medium size"          = "Haferflocken, mittlere Größe";
+"Honey"                         = "Honig";
+"Tuna chunks"                   = "Thunfischstücke";
+"Eggs"                          = "Ei";
+"Wheat flour"                   = "Weizenmehl";
+"Sea salt"                      = "Meersalz";
+"Ground black pepper"           = "Gemahlener schwarzer Pfeffer";
+"Garlic powder"                 = "Knoblauchpulver";
+"Red chili flakes"              = "Rote Chiliflocken";
+"Paprika"                       = "Paprika";
+"Cinnamon"                      = "Zimt";
+"Toilet paper"                  = "Toilettenpapier";
+"Cotton pads"                   = "Wattepad";
+"Cotton buds"                   = "Wattestäbchen";
+"Liquid soap"                   = "Flüssigseife";
+"Toothpaste"                    = "Zahnpasta";
+"Shower gel"                    = "Duschgel";
+"Kitchen Scrub Sponges"         = "Küchenpeeling Schwämme";
+"Dishwashing liquid"            = "Spülmittel";
+"Paper towels"                  = "Papierhandtuch";
+"Toilet paper"                  = "Toilettenpapier";
+"Trash bags"                    = "Müllsäcke";
+"Fabric softener"               = "Weichspüler";
+"Cleaning Cloth"                = "Reinigungstuch";
+"AA batteries"                  = "AA-Batterien";
+
+// Recipe
+"Search by name or ingredient"  = "Suche nach Name oder Zutat";
+"willCook"                      = "Ich werde es kochen";
+"drafts"                        = "Entwurf";
+"inbox"                         = "Posteingang";
+
+"addToFavorites"                = "zu Favoriten hinzufügen";
+"added to"                      = "Hinzugefügt zu";
+
+"Delete Collection?"            = "Sammlung löschen?";
+"You are deleting a collection" = "Sie löschen eine Sammlung. Alle darin enthaltenen Rezepte werden nicht aus der Datenbank oder anderen Sammlungen gelöscht.";
+"SelectOneOrMoreCollections"    = "Wählen Sie eine oder mehrere Sammlungen";
+
+"continue"                      = "Weiter";
+"Save to Drafts"                = "In Entwürfen speichern";
+"Saved in Drafts"               = "In Entwürfen gespeichert";
+"You can find your drafts"      = "Sie finden Ihre Entwürfe auf dem Hauptbildschirm in Sammlungen";
+"Leave Creating a Recipe"       = "Lassen Sie das Erstellen eines Rezepts";
+"Continue Work"                 = "Arbeit fortsetzen";
+
+"Nutrition Facts per Serving"   = "Nährwertangaben pro Portion *";
+"If these data are known"       = "Wenn diese Daten bekannt oder berechnet sind. Sie können nur ungefähre Kalorien eingeben oder diesen Abschnitt leer lassen.";
+"carb"                          = "Kickloch";
+"protein"                       = "Protein";
+"fat"                           = "Fett";
+"kcal"                          = "Kcal";
+"Calories"                      = "Kalorien";
+"recommended"                   = "ratsam";
+"SAVE RECIPE TO..."             = "REZEPT SPEICHERN UNTER...";
+
+"search"                        = "Suche";
+"Add Filter"                    = "Filter hinzufügen";
+
+// FAQ
+"Help & FAQ"                    = "Hilfe & FAQ";
+"Check Internet connection"     = "Internetverbindung prüfen";
+
+// FAQ
+"Help & FAQ"                    = "Hilfe & FAQ";
+"Check Internet connection"     = "Internetverbindung prüfen";
+
+// Updated Paywall
+"three days "                   = "3 tage ";
+"free"                          = "kostenlos";
+"HowDoesYourTrialPeriodWork"    = "Wie funktioniert Ihre Probezeit?";
+
+"Today.subtitle"                = "Starte deinen vollen Zugriff auf alle Spielmodi";
+"After 2 days"                  = "Nach 2 Tagen";
+"After 2 days.subtitle"         = "Erhalten Sie eine Benachrichtigung, dass Ihre Testversion endet ";
+"After 3 days"                  = "Nach 3 Tagen";
+"After 3 days.subtitle"         = "Zahlungstermin kann jederzeit storniert werden";
+"Privacy Policy"                = "Privacy Policy";
+"Restore purchase"              = "Kauf wiederherstellen";
+"Term of Use"                   = "Term of Use";
+"save money"                    = "sparen";
+
+"Try 3 days for free"           = "3 Tage kostenlos testen";
+"Save time and money with app"  = "Sparen Sie Zeit und Geld mit Einkaufsliste";
+"Cancel anytime"                = "Jederzeit kündbar";
+
+
+// New Paywall
+"Unlock Premium"                = "Premium freischalten";
+"with useful features"          = "mit nützlichen Funktionen";
+"NewPaywall.Feature.0"          = "Listen: unbegrenzte Anzahl und Funktionalität";
+"NewPaywall.Feature.1"          = "Automatische Auswahl von Kategorien und Fotos";
+"NewPaywall.Feature.2"          = "Gemeinsame, kollaborative Listen";
+"NewPaywall.Feature.3"          = "Shopauswahl, Preiseingabe, Kostenkalkulation";
+"NewPaywall.Feature.4"          = "Speisekammer- und Lagerlisten. Schreiben Sie alle Produkte und Waren auf, die immer sein sollten, und verfolgen Sie deren Verfügbarkeit.";
+"NewPaywall.Feature.5"          = "Automatisieren Sie wiederkehrende Einkäufe, erhalten Sie Benachrichtigungen innerhalb des Programms";
+"NewPaywall.Feature.6"          = "Ständig aktualisierte Rezeptsammlungen mit Angabe von Makros und Kalorien. Rezepte mit Filtern finden";
+"NewPaywall.Feature.7"          = "Importieren von Rezepten von Websites. Rezepte mit Filtern finden";
+"NewPaywall.Feature.8"          = "Erstellen Sie Ihre eigenen Rezepte und Sammlungen, die Möglichkeit, Rezepte zu teilen";
+"NewPaywall.Feature.9"          = "Zutaten für die ausgewählte Anzahl von Portionen zur Einkaufsliste hinzufügen";

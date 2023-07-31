@@ -41,4 +41,8 @@ extension UIScreen {
         return false
     }
     
+    var isSmallSize: Bool {
+        return bounds.height == 667
+    }
+    
 }

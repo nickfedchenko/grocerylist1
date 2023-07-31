@@ -1,21 +1,35 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "scale" : "1x"
+      "filename" : "forthSideView 1.svg",
+      "idiom" : "universal"
     },
     {
+      "filename" : "forthSideView.svg",
       "idiom" : "universal",
-      "scale" : "2x"
+      "locale" : "en"
     },
     {
-      "filename" : "forthSideView.png",
+      "filename" : "forthSideViewRu.svg",
       "idiom" : "universal",
-      "scale" : "3x"
+      "locale" : "ru"
+    },
+    {
+      "filename" : "fourthSideViewFr.svg",
+      "idiom" : "universal",
+      "locale" : "fr"
+    },
+    {
+      "filename" : "fourthSideViewDe.svg",
+      "idiom" : "universal",
+      "locale" : "de"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
   }
 }

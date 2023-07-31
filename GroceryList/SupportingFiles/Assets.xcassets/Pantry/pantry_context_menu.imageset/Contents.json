@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "pantry_context_menu.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

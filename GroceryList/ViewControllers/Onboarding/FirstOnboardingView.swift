@@ -163,7 +163,7 @@ class FirstOnboardingView: UIView {
     
     private let bottomViewLabel: UILabel = {
         let label = UILabel()
-        label.font = .SFPro.medium(size: 22).font
+        label.font = .SFPro.medium(size: Locale.current.languageCode == "fr" ? 20 : 22).font
         label.textColor = UIColor(hex: "#31635A")
         label.text = "SafeTimeAndMoney".localized
         label.numberOfLines = 2
@@ -254,7 +254,7 @@ class FirstOnboardingView: UIView {
         
         playView.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(14)
-            make.centerX.equalToSuperview().multipliedBy(1.35)
+            make.leading.equalToSuperview().offset(Locale.current.languageCode == "fr" ? 232 : 230)
             make.height.width.equalTo(23)
         }
         

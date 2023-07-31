@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "product_empty_checkmark.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
