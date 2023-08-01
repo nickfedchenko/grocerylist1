@@ -66,6 +66,16 @@ final class MainTabBarViewModel {
         }
     }
     
+    func importRecipeTapped() {
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            showPaywall()
+            return
+        }
+#endif
+        router?.goToImportWebRecipe()
+    }
+    
     func createNewCollectionTapped() {
 #if RELEASE
         if !Apphud.hasActiveSubscription() {

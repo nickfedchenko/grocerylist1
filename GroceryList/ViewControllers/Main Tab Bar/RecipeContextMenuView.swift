@@ -1,5 +1,5 @@
 //
-//  MainScreenMenuView.swift
+//  RecipeContextMenuView.swift
 //  GroceryList
 //
 //  Created by Хандымаа Чульдум on 28.02.2023.
@@ -7,19 +7,19 @@
 
 import UIKit
 
-final class MainScreenMenuView: UIView {
+final class RecipeContextMenuView: UIView {
     
     var selectedState: ((MainMenuState) -> Void)?
     
     enum MainMenuState: Int, CaseIterable {
         case createRecipe
-//        case importRecipe
+        case importRecipe
         case createCollection
         
         var title: String {
             switch self {
             case .createRecipe:     return R.string.localizable.createRecipe()
-//            case .importRecipe:     return R.string.localizable.importRecipe()
+            case .importRecipe:     return R.string.localizable.importRecipe()
             case .createCollection: return R.string.localizable.createCollection()
             }
         }
@@ -27,7 +27,7 @@ final class MainScreenMenuView: UIView {
         var image: UIImage? {
             switch self {
             case .createRecipe:     return R.image.recipe()
-//            case .importRecipe:     return R.image.web()
+            case .importRecipe:     return R.image.web()
             case .createCollection: return R.image.collection()
             }
         }
@@ -117,8 +117,7 @@ private final class MainScreenMenuSubView: UIView {
         let label = UILabel()
         label.font = UIFont.SFProRounded.semibold(size: 17).font
         label.textColor = R.color.primaryDark()
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.5
+        label.numberOfLines = 0
         return label
     }()
     
@@ -161,8 +160,8 @@ private final class MainScreenMenuSubView: UIView {
         titleLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalTo(imageView.snp.leading).offset(-8)
-            $0.top.equalToSuperview().offset(19)
-            $0.height.equalTo(24)
+            $0.centerY.equalToSuperview()
+            $0.height.greaterThanOrEqualTo(24)
         }
         
         imageView.snp.makeConstraints {

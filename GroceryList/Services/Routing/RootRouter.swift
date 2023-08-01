@@ -592,6 +592,11 @@ final class RootRouter: RootRouterProtocol {
         recipeNavController.pushViewController(recipeVC, animated: true)
     }
     
+    func goToImportWebRecipe(animated: Bool = true) {
+        let controller = viewControllerFactory.createImportWebRecipeController(router: self)
+        navigationPushViewController(controller, animated: animated)
+    }
+    
     // pop
     func popToRoot() {
         navigationPopToRootViewController(animated: true)
