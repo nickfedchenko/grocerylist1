@@ -15,16 +15,11 @@ class ImportWebRecipesViewController: UIViewController {
     
     private lazy var backButton: UIButton = {
         let button = UIButton(type: .system)
-        let attributedTitle = NSAttributedString(
-            string: R.string.localizable.back(),
-            attributes: [
-                .font: UIFont.SFProRounded.semibold(size: 17).font ?? .systemFont(ofSize: 17),
-                .foregroundColor: R.color.primaryDark() ?? UIColor(hex: "#045C5C")
-            ]
-        )
         button.setImage(R.image.back_Chevron(), for: .normal)
         button.tintColor = R.color.primaryDark()
-        button.setAttributedTitle(attributedTitle, for: .normal)
+        button.setTitle(R.string.localizable.recipes(), for: .normal)
+        button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 17).font
+        button.titleLabel?.textColor = R.color.primaryDark()
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -48,7 +43,7 @@ class ImportWebRecipesViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
         label.textColor = .black
-        label.text = "Our iOS action extension allows you to import recipes directly into AnyList while browsing the web."
+        label.text = "Our iOS action extension allows you to import recipes directly into Grocery List while browsing the web."
         label.numberOfLines = 0
         return label
     }()
@@ -112,7 +107,7 @@ class ImportWebRecipesViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.rowHeight = 32
-        tableView.contentInset.top = 110
+        tableView.contentInset.top = 100
         tableView.register(classCell: ImportWebRecipeCell.self)
         return tableView
     }()
@@ -174,6 +169,7 @@ class ImportWebRecipesViewController: UIViewController {
     @objc
     private func activateButtonTapped() {
         viewModel.showManual()
+        self.navigationController?.pushViewController(EnableRecipeImportActionViewController(), animated: true)
     }
     
     @objc

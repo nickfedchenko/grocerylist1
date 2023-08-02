@@ -2766,7 +2766,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 318 images.
+  /// This `_R.image` struct is generated, and contains static references to 323 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -3403,6 +3403,21 @@ struct _R {
     /// Image `logoShoppy`.
     var logoShoppy: RswiftResources.ImageResource { .init(name: "logoShoppy", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `manual_0`.
+    var manual_0: RswiftResources.ImageResource { .init(name: "manual_0", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `manual_1`.
+    var manual_1: RswiftResources.ImageResource { .init(name: "manual_1", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `manual_2`.
+    var manual_2: RswiftResources.ImageResource { .init(name: "manual_2", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `manual_3`.
+    var manual_3: RswiftResources.ImageResource { .init(name: "manual_3", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `manual_4`.
+    var manual_4: RswiftResources.ImageResource { .init(name: "manual_4", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `media library`.
     var mediaLibrary: RswiftResources.ImageResource { .init(name: "media library", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -3725,17 +3740,21 @@ struct _R {
     var whitePlusImage: RswiftResources.ImageResource { .init(name: "whitePlusImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
   }
 
-  /// This `_R.entitlements` struct is generated, and contains static references to 2 properties.
+  /// This `_R.entitlements` struct is generated, and contains static references to 3 properties.
   struct entitlements {
     let apsEnvironment: String = "development"
     let comAppleDeveloperApplesignin = comAppleDeveloperApplesignin()
     let comAppleDeveloperAssociatedDomains = comAppleDeveloperAssociatedDomains()
+    let comAppleSecurityApplicationGroups = comAppleSecurityApplicationGroups()
     struct comAppleDeveloperApplesignin {
       let `default`: String = "Default"
     }
     struct comAppleDeveloperAssociatedDomains {
       let applinksShoppinglistPro: String = "applinks:shoppinglist.pro"
       let webcredentialsShoppinglistPro: String = "webcredentials:shoppinglist.pro"
+    }
+    struct comAppleSecurityApplicationGroups {
+      let groupComKsensShopp: String = "group.com.ksens.shopp"
     }
   }
 

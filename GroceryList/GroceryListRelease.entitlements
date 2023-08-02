@@ -13,5 +13,9 @@
 		<string>applinks:shoppinglist.pro</string>
 		<string>webcredentials:shoppinglist.pro</string>
 	</array>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.ksens.shopp</string>
+	</array>
 </dict>
 </plist>

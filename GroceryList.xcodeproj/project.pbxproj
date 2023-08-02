@@ -190,6 +190,13 @@
 		33E31AD52A77DA290011B41E /* ImportWebRecipesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E31AD42A77DA290011B41E /* ImportWebRecipesViewModel.swift */; };
 		33E31AD72A7801C40011B41E /* ImportAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E31AD62A7801C40011B41E /* ImportAlertView.swift */; };
 		33E31AD92A78DA9C0011B41E /* UITapGestureRecognizerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E31AD82A78DA9C0011B41E /* UITapGestureRecognizerExtension.swift */; };
+		33E31AE02A792D6E0011B41E /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33E31ADF2A792D6E0011B41E /* UniformTypeIdentifiers.framework */; };
+		33E31AE32A792D6E0011B41E /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33E31AE22A792D6E0011B41E /* Media.xcassets */; };
+		33E31AE52A792D6E0011B41E /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E31AE42A792D6E0011B41E /* ActionViewController.swift */; };
+		33E31AEC2A792D6E0011B41E /* ActionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 33E31ADE2A792D6E0011B41E /* ActionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		33E31AF42A7946E80011B41E /* EnableRecipeImportActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E31AF32A7946E80011B41E /* EnableRecipeImportActionViewController.swift */; };
+		33E31AF62A7949460011B41E /* StepToEnableActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E31AF52A7949460011B41E /* StepToEnableActionsView.swift */; };
+		33E31AF82A7953E40011B41E /* ImportSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E31AF72A7953E40011B41E /* ImportSteps.swift */; };
 		33E544A929C98C27008D84F8 /* PredictiveTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E544A829C98C27008D84F8 /* PredictiveTextView.swift */; };
 		33E544AC29CA1122008D84F8 /* FeatureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E544AB29CA1122008D84F8 /* FeatureManager.swift */; };
 		33E8A8B22A5D5482007D7ED9 /* UpdatedPaywallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8B12A5D5482007D7ED9 /* UpdatedPaywallViewController.swift */; };
@@ -369,6 +376,30 @@
 		B3FECE4429375AA80077F8EF /* DBCategories+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FECE4229375AA80077F8EF /* DBCategories+CoreDataClass.swift */; };
 		EF84F46FAFBAF3BBEEB5E7C0 /* Pods_GroceryList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025222570B015E69FF5973D3 /* Pods_GroceryList.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		33E31AEA2A792D6E0011B41E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B33EFF03290FF02800AD9BEE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 33E31ADD2A792D6E0011B41E;
+			remoteInfo = ActionExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		33E31AF02A792D6E0011B41E /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				33E31AEC2A792D6E0011B41E /* ActionExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		025222570B015E69FF5973D3 /* Pods_GroceryList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GroceryList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -556,6 +587,15 @@
 		33E31AD42A77DA290011B41E /* ImportWebRecipesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportWebRecipesViewModel.swift; sourceTree = "<group>"; };
 		33E31AD62A7801C40011B41E /* ImportAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportAlertView.swift; sourceTree = "<group>"; };
 		33E31AD82A78DA9C0011B41E /* UITapGestureRecognizerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITapGestureRecognizerExtension.swift; sourceTree = "<group>"; };
+		33E31ADE2A792D6E0011B41E /* ActionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ActionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		33E31ADF2A792D6E0011B41E /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
+		33E31AE22A792D6E0011B41E /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		33E31AE42A792D6E0011B41E /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
+		33E31AE92A792D6E0011B41E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		33E31AF12A7930810011B41E /* ActionExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ActionExtension.entitlements; sourceTree = "<group>"; };
+		33E31AF32A7946E80011B41E /* EnableRecipeImportActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableRecipeImportActionViewController.swift; sourceTree = "<group>"; };
+		33E31AF52A7949460011B41E /* StepToEnableActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepToEnableActionsView.swift; sourceTree = "<group>"; };
+		33E31AF72A7953E40011B41E /* ImportSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportSteps.swift; sourceTree = "<group>"; };
 		33E544A829C98C27008D84F8 /* PredictiveTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictiveTextView.swift; sourceTree = "<group>"; };
 		33E544AB29CA1122008D84F8 /* FeatureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureManager.swift; sourceTree = "<group>"; };
 		33E8A8B12A5D5482007D7ED9 /* UpdatedPaywallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPaywallViewController.swift; sourceTree = "<group>"; };
@@ -746,6 +786,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		33E31ADB2A792D6E0011B41E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33E31AE02A792D6E0011B41E /* UniformTypeIdentifiers.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B33EFF08290FF02800AD9BEE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1307,6 +1355,7 @@
 		33E31ACC2A77AC350011B41E /* Web recipe */ = {
 			isa = PBXGroup;
 			children = (
+				33E31AF22A7946570011B41E /* Enable Recipe Import Action */,
 				33E31ACD2A77AC480011B41E /* Import Web Recipes */,
 			);
 			path = "Web recipe";
@@ -1322,6 +1371,27 @@
 				33E31AD02A77B8E40011B41E /* RecipeWebsites.swift */,
 			);
 			path = "Import Web Recipes";
+			sourceTree = "<group>";
+		};
+		33E31AE12A792D6E0011B41E /* ActionExtension */ = {
+			isa = PBXGroup;
+			children = (
+				33E31AF12A7930810011B41E /* ActionExtension.entitlements */,
+				33E31AE22A792D6E0011B41E /* Media.xcassets */,
+				33E31AE42A792D6E0011B41E /* ActionViewController.swift */,
+				33E31AE92A792D6E0011B41E /* Info.plist */,
+			);
+			path = ActionExtension;
+			sourceTree = "<group>";
+		};
+		33E31AF22A7946570011B41E /* Enable Recipe Import Action */ = {
+			isa = PBXGroup;
+			children = (
+				33E31AF32A7946E80011B41E /* EnableRecipeImportActionViewController.swift */,
+				33E31AF52A7949460011B41E /* StepToEnableActionsView.swift */,
+				33E31AF72A7953E40011B41E /* ImportSteps.swift */,
+			);
+			path = "Enable Recipe Import Action";
 			sourceTree = "<group>";
 		};
 		33E544AA29CA1107008D84F8 /* Feature Manager */ = {
@@ -1484,6 +1554,7 @@
 			children = (
 				8458A6CC2A155ECA00179871 /* StoreKit.framework */,
 				025222570B015E69FF5973D3 /* Pods_GroceryList.framework */,
+				33E31ADF2A792D6E0011B41E /* UniformTypeIdentifiers.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1627,6 +1698,7 @@
 			isa = PBXGroup;
 			children = (
 				B33EFF0D290FF02800AD9BEE /* GroceryList */,
+				33E31AE12A792D6E0011B41E /* ActionExtension */,
 				B33EFF0C290FF02800AD9BEE /* Products */,
 				63F454BEA0A39B416C42036E /* Pods */,
 				9BCFA37A03FAA44487B60585 /* Frameworks */,
@@ -1637,6 +1709,7 @@
 			isa = PBXGroup;
 			children = (
 				B33EFF0B290FF02800AD9BEE /* GroceryList.app */,
+				33E31ADE2A792D6E0011B41E /* ActionExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2230,6 +2303,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		33E31ADD2A792D6E0011B41E /* ActionExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 33E31AED2A792D6E0011B41E /* Build configuration list for PBXNativeTarget "ActionExtension" */;
+			buildPhases = (
+				33E31ADA2A792D6E0011B41E /* Sources */,
+				33E31ADB2A792D6E0011B41E /* Frameworks */,
+				33E31ADC2A792D6E0011B41E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ActionExtension;
+			productName = ActionExtension;
+			productReference = 33E31ADE2A792D6E0011B41E /* ActionExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		B33EFF0A290FF02800AD9BEE /* GroceryList */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B33EFF1F290FF02900AD9BEE /* Build configuration list for PBXNativeTarget "GroceryList" */;
@@ -2242,10 +2332,12 @@
 				D16B002746908D53B9512E9C /* [CP] Embed Pods Frameworks */,
 				B37A2CF12911062C003C01AD /* Run Script */,
 				33897D1429C885D9009C6932 /* FirebaseCrashlytics */,
+				33E31AF02A792D6E0011B41E /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				33E31AEB2A792D6E0011B41E /* PBXTargetDependency */,
 			);
 			name = GroceryList;
 			productName = GroceryList;
@@ -2259,9 +2351,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1320;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
+					33E31ADD2A792D6E0011B41E = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
 					B33EFF0A290FF02800AD9BEE = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
@@ -2284,11 +2379,20 @@
 			projectRoot = "";
 			targets = (
 				B33EFF0A290FF02800AD9BEE /* GroceryList */,
+				33E31ADD2A792D6E0011B41E /* ActionExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		33E31ADC2A792D6E0011B41E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33E31AE32A792D6E0011B41E /* Media.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B33EFF09290FF02800AD9BEE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2423,6 +2527,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		33E31ADA2A792D6E0011B41E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33E31AE52A792D6E0011B41E /* ActionViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B33EFF07290FF02800AD9BEE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2487,6 +2599,7 @@
 				334BAE55299E700B005F52F5 /* Table+CollectionExtension.swift in Sources */,
 				337224C82A5542E500A23270 /* RecipeKcalView.swift in Sources */,
 				33995D372A1F9FE5003FECAE /* PantryListTemplateView.swift in Sources */,
+				33E31AF42A7946E80011B41E /* EnableRecipeImportActionViewController.swift in Sources */,
 				334764662A2A2610008F4834 /* PantryListOptionViewModel.swift in Sources */,
 				B3693402291BA62F00AFFAA6 /* CreateNewListViewModel.swift in Sources */,
 				B3777E202938D8210074BE38 /* InternetConnection.swift in Sources */,
@@ -2579,6 +2692,7 @@
 				B36AF94D2913FAD000944E9D /* GroceryCollectionViewHeader.swift in Sources */,
 				3347646F2A2B7DE2008F4834 /* CreateNewStockViewModel.swift in Sources */,
 				334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */,
+				33E31AF82A7953E40011B41E /* ImportSteps.swift in Sources */,
 				3379B65729B9AED50080923A /* IngredientViewModel.swift in Sources */,
 				3379B65229B870A70080923A /* ShowCollectionCell.swift in Sources */,
 				3356653B2A575013006F92E6 /* RecipeFilterCell.swift in Sources */,
@@ -2692,6 +2806,7 @@
 				B3476902291D010D0045A287 /* ProductsViewController.swift in Sources */,
 				336073612A4C5173002427BE /* CreateNewRecipeShowCostView.swift in Sources */,
 				33D4807B2A53917500541291 /* CreateNewRecipeKcalView.swift in Sources */,
+				33E31AF62A7949460011B41E /* StepToEnableActionsView.swift in Sources */,
 				339254AA2A3161710047807E /* PantryResponse.swift in Sources */,
 				B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */,
 				33995D342A1F96C7003FECAE /* CreateNewPantryViewModel.swift in Sources */,
@@ -2768,6 +2883,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		33E31AEB2A792D6E0011B41E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 33E31ADD2A792D6E0011B41E /* ActionExtension */;
+			targetProxy = 33E31AEA2A792D6E0011B41E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		B33EFF19290FF02900AD9BEE /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -2793,6 +2916,66 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		33E31AEE2A792D6E0011B41E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconExtension;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = ActionExtension/ActionExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ActionExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Grocery List Recipe Import";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ksens.shopp.ActionExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		33E31AEF2A792D6E0011B41E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconExtension;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = ActionExtension/ActionExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ActionExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Grocery List Recipe Import";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ksens.shopp.ActionExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		B33EFF1D290FF02900AD9BEE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2915,6 +3098,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BA1E0A38753E53B699F8E323 /* Pods-GroceryList.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GroceryList/GroceryList.entitlements;
@@ -2953,6 +3137,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 262EB22BC930A385DC81E51C /* Pods-GroceryList.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GroceryList/GroceryListRelease.entitlements;
@@ -2990,6 +3175,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		33E31AED2A792D6E0011B41E /* Build configuration list for PBXNativeTarget "ActionExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				33E31AEE2A792D6E0011B41E /* Debug */,
+				33E31AEF2A792D6E0011B41E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B33EFF06290FF02800AD9BEE /* Build configuration list for PBXProject "GroceryList" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
