@@ -86,6 +86,7 @@ class RecipeListContextMenuView: UIView {
     
     func setupMenuFunctions(isDefaultRecipe: Bool, isFavorite: Bool) {
         guard isDefaultRecipe else {
+            setupMenuStackView(isFavorite: isFavorite)
             return
         }
         

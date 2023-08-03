@@ -1,20 +1,24 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'GroceryList' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
-  
+def base_pods
   pod 'Amplitude'
   pod 'Alamofire'
   pod 'SwiftLint'
   pod 'GzipSwift'
   pod 'SnapKit'
   pod 'Kingfisher', '~> 7.6.1'
-  pod 'ApphudSDK'
   pod 'R.swift'
-  pod 'GzipSwift'
   pod 'PusherSwift', '~> 8.0'
+end
+
+target 'GroceryList' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+  
+  base_pods
+  
+  pod 'ApphudSDK'
 
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
@@ -25,7 +29,6 @@ target 'GroceryList' do
   pod 'TagListView'
   
   # Pods for GroceryList
-
   post_install do |installer|
       installer.generated_projects.each do |project|
             project.targets.each do |target|
@@ -36,4 +39,12 @@ target 'GroceryList' do
      end
   end
   
+end
+
+################################
+# iOS ACTION EXTENSION
+target 'ActionExtension' do
+    use_frameworks!
+    
+    base_pods
 end

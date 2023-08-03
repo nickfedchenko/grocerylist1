@@ -80,10 +80,10 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goToOnboarding() {
-        if UserDefaultsManager.shouldShowOnboarding {
+        if UserDefaultsManager.shared.shouldShowOnboarding {
             guard let onboardingController = viewControllerFactory.createOnboardingController(router: self) else { return }
             navigationPushViewController(onboardingController, animated: false)
-            UserDefaultsManager.firstLaunchDate = Date()
+            UserDefaultsManager.shared.firstLaunchDate = Date()
             FeatureManager.shared.activeFeaturesOnFirstLaunch()
         }
     }
@@ -93,9 +93,9 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func popToRootFromOnboarding() {
-        UserDefaultsManager.coldStartState = 0
+        UserDefaultsManager.shared.coldStartState = 0
         navigationPopToRootViewController(animated: true)
-        UserDefaultsManager.shouldShowOnboarding = false
+        UserDefaultsManager.shared.shouldShowOnboarding = false
     }
     
     func goCreateNewList(compl: @escaping (GroceryListsModel, [Product]) -> Void) {
@@ -113,13 +113,13 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goReviewController() {
-        guard !UserDefaultsManager.isReviewShowedAfterSharing else { return }
+        guard !UserDefaultsManager.shared.isReviewShowedAfterSharing else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self = self else { return }
             guard let controller = self.viewControllerFactory.createReviewController(router: self) else { return }
             self.navigationPresent(controller, animated: false)
         }
-        UserDefaultsManager.isReviewShowedAfterSharing = true
+        UserDefaultsManager.shared.isReviewShowedAfterSharing = true
     }
     
     func goProductsVC(model: GroceryListsModel, compl: @escaping () -> Void) {

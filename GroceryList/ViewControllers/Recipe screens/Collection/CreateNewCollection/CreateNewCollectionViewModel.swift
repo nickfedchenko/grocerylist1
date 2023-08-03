@@ -55,7 +55,7 @@ final class CreateNewCollectionViewModel {
         }
         
         CoreDataManager.shared.saveCollection(collections: [newCollection])
-        AmplitudeManager.shared.logEvent(.recipeCreateCollection)
+//        AmplitudeManager.shared.logEvent(.recipeCreateCollection)
         updateUICallBack?(newCollection)
     }
 }

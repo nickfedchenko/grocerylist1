@@ -1,5 +1,5 @@
 //
-//  UserDefaultsManager.swift
+//  UserDefaultsManager.shared.swift
 //  GroceryList
 //
 //  Created by Шамиль Моллачиев on 21.11.2022.
@@ -8,113 +8,79 @@
 import Foundation
 
 class UserDefaultsManager {
+    
     enum UDKeys: String {
         case favoriteRecipes
     }
     
-    static var shouldShowOnboarding: Bool {
+    static let shared = UserDefaultsManager()
+    private let userDefaults = UserDefaults(suiteName: "group.com.ksens.shopp") ?? UserDefaults.standard
+    
+    private init() {
+        migrateUserDefaultsToAppGroups()
+    }
+
+    var shouldShowOnboarding: Bool {
         get {
-            guard let shouldShow = UserDefaults.standard.value(forKey: "shouldShowOnboarding") as? Bool else {
+            guard let shouldShow = userDefaults.value(forKey: "shouldShowOnboarding") as? Bool else {
                 return true
             }
             return shouldShow
         }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "shouldShowOnboarding")
-        }
+        set { userDefaults.set(newValue, forKey: "shouldShowOnboarding") }
     }
     
-    static var firstLaunchDate: Date? {
-        get {
-            return UserDefaults.standard.object(forKey: "firstLaunchDate") as? Date
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "firstLaunchDate")
-        }
+    var firstLaunchDate: Date? {
+        get { userDefaults.object(forKey: "firstLaunchDate") as? Date }
+        set { userDefaults.set(newValue, forKey: "firstLaunchDate") }
     }
     
-    static var coldStartState: Int {
-        get {
-            return UserDefaults.standard.integer(forKey: "coldStartState")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "coldStartState")
-        }
+    var coldStartState: Int {
+        get { userDefaults.integer(forKey: "coldStartState") }
+        set { userDefaults.set(newValue, forKey: "coldStartState") }
     }
     
-    static var isMetricSystem: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "isMetricSystem")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "isMetricSystem")
-        }
+     var isMetricSystem: Bool {
+        get { userDefaults.bool(forKey: "isMetricSystem") }
+        set { userDefaults.set(newValue, forKey: "isMetricSystem") }
     }
     
-    static var isHapticOn: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "isHapticOn")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "isHapticOn")
-        }
+     var isHapticOn: Bool {
+        get { userDefaults.bool(forKey: "isHapticOn") }
+        set { userDefaults.set(newValue, forKey: "isHapticOn") }
     }
     
-    static var isReviewShowed: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "shouldOpenWriteReview")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "shouldOpenWriteReview")
-        }
+     var isReviewShowed: Bool {
+        get { userDefaults.bool(forKey: "shouldOpenWriteReview") }
+        set { userDefaults.set(newValue, forKey: "shouldOpenWriteReview") }
     }
     
-    static var isReviewShowedAfterSharing: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "isReviewShowedAfterSharing")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "isReviewShowedAfterSharing")
-        }
+     var isReviewShowedAfterSharing: Bool {
+        get { userDefaults.bool(forKey: "isReviewShowedAfterSharing") }
+        set { userDefaults.set(newValue, forKey: "isReviewShowedAfterSharing") }
     }
     
-    static var isNativeRateUsShowed: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "isNativeRateUsShowed")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "isNativeRateUsShowed")
-        }
+     var isNativeRateUsShowed: Bool {
+        get { userDefaults.bool(forKey: "isNativeRateUsShowed") }
+        set { userDefaults.set(newValue, forKey: "isNativeRateUsShowed") }
     }
     
-    static var isFirstListCreated: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "isFirstListCreated")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "isFirstListCreated")
-        }
+     var isFirstListCreated: Bool {
+        get { userDefaults.bool(forKey: "isFirstListCreated") }
+        set { userDefaults.set(newValue, forKey: "isFirstListCreated") }
     }
     
-    static var countInfoMessage: Int {
-        get {
-            return UserDefaults.standard.integer(forKey: "countInfoMessage")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "countInfoMessage")
-        }
+     var countInfoMessage: Int {
+        get { userDefaults.integer(forKey: "countInfoMessage") }
+        set { userDefaults.set(newValue, forKey: "countInfoMessage") }
     }
     
-    static var userTokens: [String]? {
-        get {
-            return UserDefaults.standard.array(forKey: "userTokens") as? [String]
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "userTokens")
-        }
+     var userTokens: [String]? {
+        get { userDefaults.array(forKey: "userTokens") as? [String] }
+        set { userDefaults.set(newValue, forKey: "userTokens") }
     }
     
-    static var favoritesRecipeIds: [Int] {
+     var favoritesRecipeIds: [Int] {
         get {
             guard
                 let data: Data = getValue(for: .favoriteRecipes),
@@ -130,98 +96,136 @@ class UserDefaultsManager {
         }
     }
     
-    static var isCollectionFilling: Bool {
-        get { UserDefaults.standard.bool(forKey: "isCollectionFilling") }
-        set { UserDefaults.standard.set(newValue, forKey: "isCollectionFilling") }
+     var isCollectionFilling: Bool {
+        get { userDefaults.bool(forKey: "isCollectionFilling") }
+        set { userDefaults.set(newValue, forKey: "isCollectionFilling") }
     }
     
-    static var isFillingDefaultCollection: Bool {
-        get { UserDefaults.standard.bool(forKey: "isFillingDefaultCollection") }
-        set { UserDefaults.standard.set(newValue, forKey: "isFillingDefaultCollection") }
+     var isFillingDefaultCollection: Bool {
+        get { userDefaults.bool(forKey: "isFillingDefaultCollection") }
+        set { userDefaults.set(newValue, forKey: "isFillingDefaultCollection") }
     }
     
-    static var miscellaneousCollectionId: Int {
-        get { UserDefaults.standard.integer(forKey: "miscellaneousCollectionId") }
-        set { UserDefaults.standard.set(newValue, forKey: "miscellaneousCollectionId") }
+     var miscellaneousCollectionId: Int {
+        get { userDefaults.integer(forKey: "miscellaneousCollectionId") }
+        set { userDefaults.set(newValue, forKey: "miscellaneousCollectionId") }
     }
     
-    static var isShowRecipePrompting: Bool {
-        get { UserDefaults.standard.bool(forKey: "isShowRecipePrompting") }
-        set { UserDefaults.standard.set(newValue, forKey: "isShowRecipePrompting") }
+     var isShowRecipePrompting: Bool {
+        get { userDefaults.bool(forKey: "isShowRecipePrompting") }
+        set { userDefaults.set(newValue, forKey: "isShowRecipePrompting") }
     }
     
-    static var isShowImage: Bool {
-        get { !UserDefaults.standard.bool(forKey: "isShowImage") }
-        set { UserDefaults.standard.set(!newValue, forKey: "isShowImage") }
+     var isShowImage: Bool {
+        get { !userDefaults.bool(forKey: "isShowImage") }
+        set { userDefaults.set(!newValue, forKey: "isShowImage") }
     }
     
-    static var countAutoCategoryInfo: Int {
-        get { UserDefaults.standard.integer(forKey: "countAutoCategoryInfo") }
-        set { UserDefaults.standard.set(newValue, forKey: "countAutoCategoryInfo") }
+     var countAutoCategoryInfo: Int {
+        get { userDefaults.integer(forKey: "countAutoCategoryInfo") }
+        set { userDefaults.set(newValue, forKey: "countAutoCategoryInfo") }
     }
     
-    static var isActiveAutoCategory: Bool? {
+     var isActiveAutoCategory: Bool? {
         get {
-            guard let shouldShow = UserDefaults.standard.value(forKey: "isActiveAutoCategory") as? Bool else {
+            guard let shouldShow = userDefaults.value(forKey: "isActiveAutoCategory") as? Bool else {
                 return nil
             }
             return shouldShow
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "isActiveAutoCategory")
+            userDefaults.set(newValue, forKey: "isActiveAutoCategory")
         }
     }
     
-    static var isFillingDefaultPantry: Bool {
-        get { UserDefaults.standard.bool(forKey: "isFillingDefaultPantry") }
-        set { UserDefaults.standard.set(newValue, forKey: "isFillingDefaultPantry") }
+     var isFillingDefaultPantry: Bool {
+        get { userDefaults.bool(forKey: "isFillingDefaultPantry") }
+        set { userDefaults.set(newValue, forKey: "isFillingDefaultPantry") }
     }
     
-    static var isShowPantryStarterPack: Bool {
-        get { UserDefaults.standard.bool(forKey: "isShowPantryStarterPack") }
-        set { UserDefaults.standard.set(newValue, forKey: "isShowPantryStarterPack") }
+     var isShowPantryStarterPack: Bool {
+        get { userDefaults.bool(forKey: "isShowPantryStarterPack") }
+        set { userDefaults.set(newValue, forKey: "isShowPantryStarterPack") }
     }
     
-    static var pantryUserTokens: [String]? {
-        get { UserDefaults.standard.array(forKey: "pantryUserTokens") as? [String] }
-        set { UserDefaults.standard.set(newValue, forKey: "pantryUserTokens") }
+     var pantryUserTokens: [String]? {
+        get { userDefaults.array(forKey: "pantryUserTokens") as? [String] }
+        set { userDefaults.set(newValue, forKey: "pantryUserTokens") }
     }
     
-    static var lastUpdateStockDate: Date? {
-        get { UserDefaults.standard.object(forKey: "lastUpdateStockDate") as? Date }
-        set { UserDefaults.standard.set(newValue, forKey: "lastUpdateStockDate") }
+     var lastUpdateStockDate: Date? {
+        get { userDefaults.object(forKey: "lastUpdateStockDate") as? Date }
+        set { userDefaults.set(newValue, forKey: "lastUpdateStockDate") }
     }
     
-    static var lastShowStockReminderDate: Date? {
-        get { UserDefaults.standard.object(forKey: "lastShowStockReminderDate") as? Date }
-        set { UserDefaults.standard.set(newValue, forKey: "lastShowStockReminderDate") }
+     var lastShowStockReminderDate: Date? {
+        get { userDefaults.object(forKey: "lastShowStockReminderDate") as? Date }
+        set { userDefaults.set(newValue, forKey: "lastShowStockReminderDate") }
     }
     
-    static var recipeIsFolderView: Bool {
-        get { UserDefaults.standard.bool(forKey: "recipeIsFolderView") }
-        set { UserDefaults.standard.set(newValue, forKey: "recipeIsFolderView") }
+     var recipeIsFolderView: Bool {
+        get { userDefaults.bool(forKey: "recipeIsFolderView") }
+        set { userDefaults.set(newValue, forKey: "recipeIsFolderView") }
     }
     
-    static var isFillingDefaultTechnicalCollection: Bool {
-        get { UserDefaults.standard.bool(forKey: "isFillingDefaultTechnicalCollection") }
-        set { UserDefaults.standard.set(newValue, forKey: "isFillingDefaultTechnicalCollection") }
+     var isFillingDefaultTechnicalCollection: Bool {
+        get { userDefaults.bool(forKey: "isFillingDefaultTechnicalCollection") }
+        set { userDefaults.set(newValue, forKey: "isFillingDefaultTechnicalCollection") }
     }
     
-    static var recipeIsTableView: Bool {
-        get { UserDefaults.standard.bool(forKey: "recipeIsTableView") }
-        set { UserDefaults.standard.set(newValue, forKey: "recipeIsTableView") }
+     var recipeIsTableView: Bool {
+        get { userDefaults.bool(forKey: "recipeIsTableView") }
+        set { userDefaults.set(newValue, forKey: "recipeIsTableView") }
     }
     
-    static var isUpdateRecipeWithCollection: Bool {
-        get { UserDefaults.standard.bool(forKey: "isUpdateRecipeWithCollection") }
-        set { UserDefaults.standard.set(newValue, forKey: "isUpdateRecipeWithCollection") }
+     var isUpdateRecipeWithCollection: Bool {
+        get { userDefaults.bool(forKey: "isUpdateRecipeWithCollection") }
+        set { userDefaults.set(newValue, forKey: "isUpdateRecipeWithCollection") }
     }
     
-    private static func setValue<T>(value: T, for key: UDKeys) {
-        UserDefaults.standard.set(value, forKey: key.rawValue)
+     var isDoneFeedBack: Bool {
+        get {
+            guard let shouldShow = userDefaults.value(forKey: "isDoneFeedBack") as? Bool else {
+                return false
+            }
+            return shouldShow
+        }
+        set {
+            userDefaults.set(newValue, forKey: "isDoneFeedBack")
+        }
     }
     
-    private static func getValue<T>(for key: UDKeys) -> T? {
-        UserDefaults.standard.object(forKey: key.rawValue) as? T
+     var lastShowDate: Date? {
+        get { userDefaults.object(forKey: "lastShowFeedBackDate") as? Date }
+        set { userDefaults.set(newValue, forKey: "lastShowFeedBackDate") }
+    }
+    
+    private func setValue<T>(value: T, for key: UDKeys) {
+        userDefaults.set(value, forKey: key.rawValue)
+    }
+    
+    private func getValue<T>(for key: UDKeys) -> T? {
+        userDefaults.object(forKey: key.rawValue) as? T
+    }
+    
+    private func migrateUserDefaultsToAppGroups() {
+        let userDefaults = UserDefaults.standard
+        let groupDefaults = UserDefaults(suiteName: "group.com.ksens.shopp")
+        let didMigrateToAppGroups = "DidMigrateToAppGroups"
+        
+        if let groupDefaults = groupDefaults {
+            if !groupDefaults.bool(forKey: didMigrateToAppGroups) {
+                for key in userDefaults.dictionaryRepresentation().keys {
+                    groupDefaults.set(userDefaults.dictionaryRepresentation()[key], forKey: key)
+                }
+                groupDefaults.set(true, forKey: didMigrateToAppGroups)
+                groupDefaults.synchronize()
+                print("Successfully migrated defaults")
+            } else {
+                print("No need to migrate defaults")
+            }
+        } else {
+            print("Unable to create NSUserDefaults with given app group")
+        }
     }
 }

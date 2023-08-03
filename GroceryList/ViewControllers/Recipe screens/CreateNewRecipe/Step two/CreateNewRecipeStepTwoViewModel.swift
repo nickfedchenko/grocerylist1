@@ -150,7 +150,7 @@ final class CreateNewRecipeStepTwoViewModel {
                                          properties: [.ingredientsAndSteps: "\(recipe.ingredients.count) : \(recipe.instructions?.count ?? 0)"])
         saveCollection(recipe: recipe)
         if isSaveToFavorites {
-            UserDefaultsManager.favoritesRecipeIds.append(recipe.id)
+            UserDefaultsManager.shared.favoritesRecipeIds.append(recipe.id)
         }
         self.recipe = recipe
         isSaved = true

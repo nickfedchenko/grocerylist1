@@ -32,6 +32,7 @@ struct Recipe: Codable, Hashable, Equatable {
     var localImage: Data?
     var isDefaultRecipe: Bool = true
     var isShowCost: Bool = false
+    var sourceUrl: String? = nil
 
     enum CodingKeys: String, CodingKey {
         case id, title
@@ -128,15 +129,6 @@ struct Values: Codable {
     var hundred: Value?
 }
 
-struct Value: Codable {
-    var weight: Double?
-    var kcal: Double?
-    var netCarbs: Double?
-    var proteins: Double?
-    var fats: Double?
-    var carbohydrates: Double?
-}
-
 // MARK: - Ingredient
 struct Ingredient: Codable {
     let id: Int
@@ -170,6 +162,24 @@ struct Unit: Codable {
 struct MarketCategory: Codable {
     let id: Int
     let title: String
+}
+
+struct Store: Hashable, Equatable, Codable {
+    var id: UUID
+    var title: String
+    var createdAt: Date
+    
+    init(title: String) {
+        self.id = UUID()
+        self.createdAt = Date()
+        self.title = title
+    }
+    
+    init?(from dbStore: DBStore) {
+        id = dbStore.id ?? UUID()
+        title = dbStore.title ?? ""
+        createdAt = dbStore.createdAt ?? Date()
+    }
 }
 
 // MARK: - MarketUnitClass
@@ -229,54 +239,9 @@ struct AdditionalTag: Codable {
     }
 }
 
-enum EatingTime: Int, CaseIterable {
-    case breakfast = 8
-    case dinner = 10
-    case lunch = 9
-    case snack = 11
-    
-    case willCook = -103
-    case drafts = -102
-    case favorites = -101
-    case inbox = -100
-    
-    var color: Int {
-        switch self {
-        case .breakfast:    return 4
-        case .dinner:       return 6
-        case .lunch:        return 12
-        case .snack:        return 8
-            
-        case .willCook:     return 0
-        case .drafts:       return 16
-        case .favorites:    return 7
-        case .inbox:        return 13
-        }
-    }
-    
-    var isTechnicalCollection: Bool {
-        self == .willCook || self == .drafts || self == .favorites || self == .inbox
-    }
-    
-    static var getTechnicalCollection: [EatingTime] {
-        [.willCook, .drafts, .favorites, .inbox]
-    }
-    
-    static var defaults: [EatingTime] {
-        [.breakfast, .dinner, .lunch, .snack]
-    }
-}
-
 // MARK: - Collection
 struct NetworkCollectionResponse: Codable {
     let error: Bool
     let messages: [String]
     let data: [NetworkCollection]
-}
-
-struct NetworkCollection: Codable {
-    let id: Int
-    let pos: Int
-    let title: String
-    let dishes: [Int]
 }

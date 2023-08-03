@@ -17,7 +17,7 @@ final class RecipeViewController: UIViewController {
     var backButtonTitle: String
     
     private var isFavorite: Bool {
-        UserDefaultsManager.favoritesRecipeIds.contains(viewModel.recipe.id)
+        UserDefaultsManager.shared.favoritesRecipeIds.contains(viewModel.recipe.id)
     }
 
     private lazy var header: RecipeScreenHeader = {
@@ -297,7 +297,7 @@ final class RecipeViewController: UIViewController {
     
     private func setupPromptingView() {
         promptingView.isHidden = true
-        if !UserDefaultsManager.isShowRecipePrompting {
+        if !UserDefaultsManager.shared.isShowRecipePrompting {
             overlayView.backgroundColor = .black.withAlphaComponent(0.2)
             let tapOnView = UITapGestureRecognizer(target: self, action: #selector(promptingTapped))
             promptingView.addGestureRecognizer(tapOnView)
@@ -359,7 +359,7 @@ final class RecipeViewController: UIViewController {
         overlayView.fadeOut()
         mainImageView.promptingView.fadeOut()
         promptingView.fadeOut()
-        UserDefaultsManager.isShowRecipePrompting = true
+        UserDefaultsManager.shared.isShowRecipePrompting = true
     }
     
     @objc

@@ -204,7 +204,7 @@ extension RecipesListViewController: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let isTable = UserDefaultsManager.recipeIsTableView
+        let isTable = UserDefaultsManager.shared.recipeIsTableView
         
         guard isTable else {
             let cell = collectionView.reusableCell(classCell: RecipeListCell.self, indexPath: indexPath)
@@ -228,7 +228,7 @@ extension RecipesListViewController: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let isTable = UserDefaultsManager.recipeIsTableView
+        let isTable = UserDefaultsManager.shared.recipeIsTableView
         let width = view.bounds.width - 40
         return isTable ? CGSize(width: width / 2, height: 137)
                        : CGSize(width: width, height: 64)
@@ -262,7 +262,7 @@ extension RecipesListViewController: RecipesListHeaderViewDelegate {
     }
     
     func changeViewButtonTapped() {
-        if UserDefaultsManager.recipeIsTableView {
+        if UserDefaultsManager.shared.recipeIsTableView {
             AmplitudeManager.shared.logEvent(.recipeCollectionToggleTable)
         } else {
             AmplitudeManager.shared.logEvent(.recipeCollectionToggleGrid)

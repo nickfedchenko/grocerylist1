@@ -149,7 +149,7 @@ class ProductsViewController: UIViewController {
             }
             return
         }
-        messageView.isHidden = UserDefaultsManager.countInfoMessage >= 4 || (viewModel?.arrayWithSections.isEmpty ?? true)
+        messageView.isHidden = UserDefaultsManager.shared.countInfoMessage >= 4 || (viewModel?.arrayWithSections.isEmpty ?? true)
         messageView.updateView()
         messageView.snp.updateConstraints {
             $0.top.equalToSuperview().offset(collectionView.contentSize.height - 85)
@@ -326,7 +326,7 @@ class ProductsViewController: UIViewController {
             return
         }
         
-        UserDefaultsManager.countInfoMessage += 1
+        UserDefaultsManager.shared.countInfoMessage += 1
         messageView.fadeOut()
         taprecognizer.isEnabled = false
     }
@@ -403,7 +403,7 @@ class ProductsViewController: UIViewController {
             let isVisibleCost = self?.viewModel?.isVisibleCost ?? false
             let image = child.imageData
             let description = child.description
-            let isVisibleImageBySettings = self?.viewModel?.isVisibleImage ?? UserDefaultsManager.isShowImage
+            let isVisibleImageBySettings = self?.viewModel?.isVisibleImage ?? UserDefaultsManager.shared.isShowImage
             let isUserImage = (child.isUserImage ?? false) ? true : isVisibleImageBySettings
             let isEditCell = self?.viewModel?.editProducts.contains(where: { $0.id == child.id }) ?? false
             let storeTitle = child.store?.title ?? ""
@@ -805,7 +805,7 @@ extension ProductsViewController {
         let tapSharingRecognizer = UITapGestureRecognizer(target: self, action: #selector(sharingViewPressed))
         sharingView.addGestureRecognizer(tapSharingRecognizer)
         
-        if UserDefaultsManager.countInfoMessage < 4 {
+        if UserDefaultsManager.shared.countInfoMessage < 4 {
             taprecognizer = UITapGestureRecognizer(target: self, action: #selector(tapPressAction))
             self.view.addGestureRecognizer(taprecognizer)
         }

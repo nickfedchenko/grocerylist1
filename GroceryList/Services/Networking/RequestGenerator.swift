@@ -50,6 +50,8 @@ enum RequestGenerator: Codable {
     case saveUserPantryList(pantryTitle: String, stockTitle: String)
     
     case fetchFAQState
+    
+    case parseWebLink(url: String)
 }
 
 extension RequestGenerator {
@@ -101,6 +103,8 @@ extension RequestGenerator {
         case .saveUserPantryList: return "https://ketodietapplication.site/api/pantryList/userList"
             
         case .fetchFAQState: return "https://ketodietapplication.site/api/faq/state"
+            
+        case .parseWebLink: return "https://ketodietapplication.site/api/parseWebLink"
         }
     }
     
@@ -231,6 +235,10 @@ extension RequestGenerator {
             }
         case .fetchFAQState:
             return requestCreator(basicURL: url, method: .get) { _ in }
+        case .parseWebLink(url: let recipeUrl):
+            return requestCreator(basicURL: url, method: .get) { components in
+                injectWebRecipeUrl(in: &components, recipeUrl: recipeUrl)
+            }
         }
     }
     
@@ -383,6 +391,13 @@ extension RequestGenerator {
         let queries: [URLQueryItem] = [
             .init(name: "title", value: pantryTitle),
             .init(name: "record", value: stockTitle)
+        ]
+        insert(queries: queries, components: &components)
+    }
+    
+    private func injectWebRecipeUrl(in components: inout URLComponents, recipeUrl: String) {
+        let queries: [URLQueryItem] = [
+            .init(name: "url", value: recipeUrl)
         ]
         insert(queries: queries, components: &components)
     }
