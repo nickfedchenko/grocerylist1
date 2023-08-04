@@ -13,7 +13,7 @@ class RecipeIngredientsView: UIView {
         let label = UILabel()
         label.font = UIFont.SFProRounded.bold(size: 18).font
         label.textColor = R.color.primaryDark()
-        label.text = R.string.localizable.ingredients()
+        label.text = "Ingredients".localized
         return label
     }()
     
@@ -21,7 +21,6 @@ class RecipeIngredientsView: UIView {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
         label.textColor = R.color.primaryDark()
-        label.text = R.string.localizable.servings()
         return label
     }()
     
@@ -47,13 +46,13 @@ class RecipeIngredientsView: UIView {
             var servingsString = ""
             switch servings {
             case 1:
-                servingsString = R.string.localizable.servings1()
+                servingsString = "servings-1".localized
             case 2...4:
-                servingsString = R.string.localizable.servings24()
+                servingsString = "servings-2-4".localized
             case 5...:
-                servingsString = R.string.localizable.servings4()
+                servingsString = "servings>4".localized
             default:
-                servingsString = R.string.localizable.servings1()
+                servingsString = "servings-1".localized
             }
             servingLabel.text = "\(servings) " + servingsString
         }

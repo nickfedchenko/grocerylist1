@@ -38,7 +38,7 @@ final class CookingTimeBadge: UIView {
             timerCountLabel.text = "--"
             return
         }
-        timerCountLabel.text = String(time) + " " + R.string.localizable.min()
+        timerCountLabel.text = String(time) + " " + "min".localized
     }
     
     private func setupAppearance() {

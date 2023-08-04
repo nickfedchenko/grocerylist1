@@ -450,7 +450,7 @@
 "RangeRequiredImportStandard"   = "required import standard";
 "Required import standard"      = "Required import standard";
 "It's clear!"                   = "It's clear!";
-"GroceryListCanImportRecipes"   = "Grocery List can import recipes from sites that support the microdata or hrecipe standards. Most major recipe websites support; these standards";
+"GroceryListCanImportRecipes"   = "Grocery List can import recipes from sites that support the microdata or hrecipe standards. Most major recipe websites support these standards";
 "RangeMicrodata"                = "microdata";
 "RangeHrecipe"                  = "hrecipe";
 "Enable Recipe Import Action"   = "Enable the Recipe Import Action";
@@ -471,7 +471,7 @@
 "Recipe Source"                 = "Recipe Source";
 
 "Import failed"                 = "Import failed";
-"Grocery List was unable"       = "Grocery List was unable to find a recipe on this page and import it automatically. If recipe import fails, one alternative is to; manually copy and paste the recipe into Grocery List App";
+"Grocery List was unable"       = "Grocery List was unable to find a recipe on this page and import it automatically. If recipe import fails, one alternative is to manually copy and paste the recipe into Grocery List App";
 
 // FAQ
 "Help & FAQ"                    = "Help & FAQ";

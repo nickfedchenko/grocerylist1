@@ -13,7 +13,7 @@ class RecipeDescriptionView: UIView {
         let label = UILabel()
         label.font = R.font.sfProRoundedBold(size: 18)
         label.textColor = R.color.primaryDark()
-        label.text = R.string.localizable.description()
+        label.text = "Description".localized
         return label
     }()
     

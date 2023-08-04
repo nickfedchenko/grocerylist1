@@ -50,7 +50,7 @@ class ImportAlertView: UIView {
                                          value: UIColor(hex: "023B46"),
                                          range: range)
         }
-        label.text = descriptionText
+//        label.text = descriptionText
         label.attributedText = underlineString
         label.font = UIFont.SFPro.regular(size: 17).font
         label.textColor = UIColor(hex: "023B46")
@@ -123,14 +123,14 @@ class ImportAlertView: UIView {
     }
     
     @objc
-    private func itsClearButtonTapped(gesture: UITapGestureRecognizer) {
+    private func itsClearButtonTapped() {
         delegate?.tappedItsClear()
     }
     
     private func makeConstraints() {
         addSubview(blurView)
-        blurView.contentView.addSubviews([containerView])
-        containerView.addSubviews([titleLabel, descriptionLabel, itsClearButton])
+        blurView.contentView.addSubviews([containerView, descriptionLabel])
+        containerView.addSubviews([titleLabel, itsClearButton])
         
         blurView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -148,11 +148,11 @@ class ImportAlertView: UIView {
         
         descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-            $0.leading.trailing.equalTo(titleLabel)
+            $0.leading.trailing.equalTo(containerView).inset(16)
+            $0.bottom.equalTo(itsClearButton.snp.top).offset(-24)
         }
         
         itsClearButton.snp.makeConstraints {
-            $0.top.equalTo(descriptionLabel.snp.bottom).offset(24)
             $0.leading.equalToSuperview().offset(48)
             $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-32)

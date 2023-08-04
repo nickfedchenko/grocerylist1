@@ -752,12 +752,12 @@ struct _R {
       /// Locales: en, ru, fr, de
       var groceryListAppAllows: RswiftResources.StringResource { .init(key: "Grocery List App allows", tableName: "Localizable", source: source, developmentValue: "Grocery List App allows you to quickly import a recipe to your collection from a website.", comment: nil) }
 
-      /// en translation: Grocery List was unable to find a recipe on this page and import it automatically. If recipe import fails, one alternative is to; manually copy and paste the recipe into Grocery List App
+      /// en translation: Grocery List was unable to find a recipe on this page and import it automatically. If recipe import fails, one alternative is to manually copy and paste the recipe into Grocery List App
       ///
       /// Key: Grocery List was unable
       ///
       /// Locales: en, ru, fr, de
-      var groceryListWasUnable: RswiftResources.StringResource { .init(key: "Grocery List was unable", tableName: "Localizable", source: source, developmentValue: "Grocery List was unable to find a recipe on this page and import it automatically. If recipe import fails, one alternative is to; manually copy and paste the recipe into Grocery List App", comment: nil) }
+      var groceryListWasUnable: RswiftResources.StringResource { .init(key: "Grocery List was unable", tableName: "Localizable", source: source, developmentValue: "Grocery List was unable to find a recipe on this page and import it automatically. If recipe import fails, one alternative is to manually copy and paste the recipe into Grocery List App", comment: nil) }
 
       /// en translation: Grocery Lists
       ///
@@ -766,12 +766,12 @@ struct _R {
       /// Locales: en, ru, fr, de
       var groceryLists: RswiftResources.StringResource { .init(key: "Grocery Lists", tableName: "Localizable", source: source, developmentValue: "Grocery Lists", comment: nil) }
 
-      /// en translation: Grocery List can import recipes from sites that support the microdata or hrecipe standards. Most major recipe websites support; these standards
+      /// en translation: Grocery List can import recipes from sites that support the microdata or hrecipe standards. Most major recipe websites support these standards
       ///
       /// Key: GroceryListCanImportRecipes
       ///
       /// Locales: en, ru, fr, de
-      var groceryListCanImportRecipes: RswiftResources.StringResource { .init(key: "GroceryListCanImportRecipes", tableName: "Localizable", source: source, developmentValue: "Grocery List can import recipes from sites that support the microdata or hrecipe standards. Most major recipe websites support; these standards", comment: nil) }
+      var groceryListCanImportRecipes: RswiftResources.StringResource { .init(key: "GroceryListCanImportRecipes", tableName: "Localizable", source: source, developmentValue: "Grocery List can import recipes from sites that support the microdata or hrecipe standards. Most major recipe websites support these standards", comment: nil) }
 
       /// en translation: Ground black pepper
       ///

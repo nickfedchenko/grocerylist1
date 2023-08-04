@@ -15,7 +15,7 @@ class ImportFailedView: UIView {
         let label = UILabel()
         label.font = UIFont.SFProRounded.bold(size: 22).font
         label.textColor = UIColor(hex: "045C5C")
-        label.text = "Import failed"
+        label.text = "Import failed".localized
         return label
     }()
     
@@ -23,7 +23,7 @@ class ImportFailedView: UIView {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
         label.textColor = UIColor(hex: "045C5C")
-        label.text = R.string.localizable.groceryListWasUnable()
+        label.text = "Grocery List was unable".localized
         label.numberOfLines = 0
         return label
     }()
@@ -72,8 +72,8 @@ class ImportFailedView: UIView {
     
     private let alertView = ImportAlertView()
     
-    private let bottomDescriptionText = R.string.localizable.weHaveCompiledAList()
-    private lazy var requiredRange = (bottomDescriptionText as NSString).range(of: R.string.localizable.rangeRequiredImportStandard())
+    private let bottomDescriptionText = "We have compiled a list".localized
+    private lazy var requiredRange = (bottomDescriptionText as NSString).range(of: "RangeRequiredImportStandard".localized)
     
     private let websites = RecipeWebsite.allCases
     

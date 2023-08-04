@@ -25,7 +25,7 @@ class CollectionsViewController: UIViewController {
         label.font = UIFont.SFProDisplay.heavy(size: 32).font
         label.textColor = R.color.primaryDark()
         label.numberOfLines = 0
-        label.text = R.string.localizable.collections()
+        label.text = "Collections".localized
         return label
     }()
     
@@ -34,7 +34,7 @@ class CollectionsViewController: UIViewController {
         label.font = UIFont.SFCompactDisplay.semibold(size: 16).font
         label.textColor = R.color.darkGray()
         label.numberOfLines = 0
-        label.text = R.string.localizable.selectOneOrMoreCollections()
+        label.text = "SelectOneOrMoreCollections".localized
         return label
     }()
     

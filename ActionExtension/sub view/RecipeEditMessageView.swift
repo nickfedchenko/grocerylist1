@@ -15,7 +15,7 @@ class RecipeEditMessageView: UIView {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
         label.textColor = .black
-        label.text = R.string.localizable.youCanEditTheRecipeLater()
+        label.text = "You can edit the recipe later".localized
         label.numberOfLines = 0
         return label
     }()

@@ -20,7 +20,7 @@ class ActionViewController: UIViewController {
     
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
-        button.setTitle(R.string.localizable.cancel(), for: .normal)
+        button.setTitle("Cancel".localized, for: .normal)
         button.setTitleColor(UIColor(hex: "045C5C"), for: .normal)
         button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 17).font
         button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
@@ -30,7 +30,7 @@ class ActionViewController: UIViewController {
     private lazy var saveButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(hex: "045C5C")
-        button.setTitle(R.string.localizable.saveRecipe(), for: .normal)
+        button.setTitle("Save Recipe".localized, for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.SFProRounded.heavy(size: 17).font
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
@@ -157,7 +157,7 @@ class ActionViewController: UIViewController {
         recipeView.isHidden = true
         importFailedView.fadeIn()
         cancelButton.fadeOut()
-        saveButton.setTitle(R.string.localizable.cancel(), for: .normal)
+        saveButton.setTitle("Cancel".localized, for: .normal)
     }
     
     @objc
@@ -167,7 +167,7 @@ class ActionViewController: UIViewController {
     
     @objc
     private func saveButtonTapped() {
-        guard saveButton.titleLabel?.text != R.string.localizable.cancel() else {
+        guard saveButton.titleLabel?.text != "Cancel".localized else {
             cancelButtonTapped()
             return
         }
