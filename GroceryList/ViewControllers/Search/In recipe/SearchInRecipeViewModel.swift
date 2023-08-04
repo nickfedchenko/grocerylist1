@@ -65,7 +65,7 @@ final class SearchInRecipeViewModel {
         guard let recipe = editableRecipes[safe: index] else {
             return false
         }
-        return UserDefaultsManager.favoritesRecipeIds.contains(recipe.id)
+        return UserDefaultsManager.shared.favoritesRecipeIds.contains(recipe.id)
     }
     
     func search(text: String?) {
@@ -184,7 +184,7 @@ final class SearchInRecipeViewModel {
         }
         
         let favoriteCollection = CollectionModel(from: dbCollection)
-        let isFavorite = !UserDefaultsManager.favoritesRecipeIds.contains(recipeId)
+        let isFavorite = !UserDefaultsManager.shared.favoritesRecipeIds.contains(recipeId)
         
         defer {
             CoreDataManager.shared.saveRecipes(recipes: [recipe])
@@ -194,7 +194,7 @@ final class SearchInRecipeViewModel {
         }
         
         guard isFavorite else {
-            UserDefaultsManager.favoritesRecipeIds.removeAll { $0 == recipeId }
+            UserDefaultsManager.shared.favoritesRecipeIds.removeAll { $0 == recipeId }
             if var localCollection = recipe.localCollection {
                 localCollection.removeAll { $0.id == favoriteCollection.id }
                 recipe.localCollection = localCollection
@@ -202,7 +202,7 @@ final class SearchInRecipeViewModel {
             return
         }
 
-        UserDefaultsManager.favoritesRecipeIds.append(recipeId)
+        UserDefaultsManager.shared.favoritesRecipeIds.append(recipeId)
         if var localCollection = recipe.localCollection {
             localCollection.append(favoriteCollection)
             recipe.localCollection = localCollection
@@ -302,7 +302,7 @@ final class SearchInRecipeViewModel {
         }
         allRecipes = dbRecipes.compactMap { dbRecipe in
             RecipeForSearchModel(dbModel: dbRecipe,
-                                 isFavorite: UserDefaultsManager.favoritesRecipeIds.contains(where: { $0 == dbRecipe.id }))
+                                 isFavorite: UserDefaultsManager.shared.favoritesRecipeIds.contains(where: { $0 == dbRecipe.id }))
         }
         guard let drafts = CoreDataManager.shared.getCollection(by: EatingTime.drafts.rawValue),
               let draftDishes = (try? JSONDecoder().decode([Int].self, from: drafts.dishes ?? Data())) else {

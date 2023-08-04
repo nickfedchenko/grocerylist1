@@ -11,47 +11,26 @@ final class FeedbackManager {
     
     static let shared = FeedbackManager()
     
-    private var isDoneFeedBack: Bool {
-        get {
-            guard let shouldShow = UserDefaults.standard.value(forKey: "isDoneFeedBack") as? Bool else {
-                return false
-            }
-            return shouldShow
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "isDoneFeedBack")
-        }
-    }
-    
-    private var lastShowDate: Date? {
-        get {
-            return UserDefaults.standard.object(forKey: "lastShowFeedBackDate") as? Date
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "lastShowFeedBackDate")
-        }
-    }
-    
     private var firstLaunchDate: Date? {
-        UserDefaultsManager.firstLaunchDate
+        UserDefaultsManager.shared.firstLaunchDate
     }
 
     private init() { }
     
     func setDoneFeedBack() {
-        isDoneFeedBack = true
+        UserDefaultsManager.shared.isDoneFeedBack = true
     }
     
     func setLastShowDate() {
-        lastShowDate = Date()
+        UserDefaultsManager.shared.lastShowDate = Date()
     }
     
     func isShowFeedbackScreen() -> Bool {
-        guard !isDoneFeedBack else {
+        guard !UserDefaultsManager.shared.isDoneFeedBack else {
             return false
         }
         
-        guard lastShowDate?.onlyDate != Date().onlyDate else {
+        guard UserDefaultsManager.shared.lastShowDate?.onlyDate != Date().onlyDate else {
             return false
         }
         

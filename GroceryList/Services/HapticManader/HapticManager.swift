@@ -10,10 +10,10 @@ import Foundation
 class HapticManager {
     
     var isHapticOn: Bool {
-        UserDefaultsManager.isHapticOn
+        UserDefaultsManager.shared.isHapticOn
     }
     
     func setupHaptic(isOn: Bool) {
-        UserDefaultsManager.isHapticOn = isOn
+        UserDefaultsManager.shared.isHapticOn = isOn
     }
 }

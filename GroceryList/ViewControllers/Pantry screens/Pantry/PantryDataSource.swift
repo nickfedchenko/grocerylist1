@@ -19,7 +19,7 @@ final class PantryDataSource {
         if today.todayWithSetting(hour: stocksUpdateHours) <= today,
            isUpdateStockRequired() {
             checkThatItemIsOutOfStock()
-            UserDefaultsManager.lastUpdateStockDate = today.todayWithSetting(hour: stocksUpdateHours)
+            UserDefaultsManager.shared.lastUpdateStockDate = today.todayWithSetting(hour: stocksUpdateHours)
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(defaultPantry),
@@ -75,7 +75,7 @@ final class PantryDataSource {
     }
     
     private func isUpdateStockRequired() -> Bool {
-        guard let lastRefreshDate = UserDefaultsManager.lastUpdateStockDate else {
+        guard let lastRefreshDate = UserDefaultsManager.shared.lastUpdateStockDate else {
             return true
         }
         if let diff = Calendar.current.dateComponents(
@@ -172,7 +172,7 @@ final class PantryDataSource {
     
     @objc
     private func defaultPantry() {
-        if !UserDefaultsManager.isFillingDefaultPantry,
+        if !UserDefaultsManager.shared.isFillingDefaultPantry,
             let allProducts = CoreDataManager.shared.getAllNetworkProducts(),
            allProducts.count > 1000 {
             
@@ -204,7 +204,7 @@ final class PantryDataSource {
                 }
             }
             
-            UserDefaultsManager.isFillingDefaultPantry = true
+            UserDefaultsManager.shared.isFillingDefaultPantry = true
         }
     }
     

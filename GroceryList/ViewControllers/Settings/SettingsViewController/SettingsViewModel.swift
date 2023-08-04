@@ -24,7 +24,7 @@ class SettingsViewModel {
     var network: NetworkEngine
    
     var isMetricSystem: Bool {
-        UserDefaultsManager.isMetricSystem
+        UserDefaultsManager.shared.isMetricSystem
     }
     
     private var user: User?
@@ -121,9 +121,9 @@ class SettingsViewModel {
     func systemSelected(system: SelectedUnitSystem) {
         switch system {
         case .metric:
-            UserDefaultsManager.isMetricSystem = true
+            UserDefaultsManager.shared.isMetricSystem = true
         case .imperial:
-            UserDefaultsManager.isMetricSystem = false
+            UserDefaultsManager.shared.isMetricSystem = false
         }
         delegate?.updateSelectionView()
     }

@@ -66,6 +66,17 @@ final class MainTabBarViewModel {
         }
     }
     
+    func importRecipeTapped() {
+        AmplitudeManager.shared.logEvent(.recipeImportWebRecipe)
+#if RELEASE
+        if !Apphud.hasActiveSubscription() {
+            showPaywall()
+            return
+        }
+#endif
+        router?.goToImportWebRecipe()
+    }
+    
     func createNewCollectionTapped() {
 #if RELEASE
         if !Apphud.hasActiveSubscription() {
@@ -74,6 +85,7 @@ final class MainTabBarViewModel {
         }
 #endif
         router?.goToCreateNewCollection(compl: { [weak self] _ in
+            AmplitudeManager.shared.logEvent(.recipeCreateCollection)
             self?.delegate?.updateRecipeUI(nil)
         })
     }
@@ -108,9 +120,9 @@ final class MainTabBarViewModel {
     
     func showPantryStarterPack() {
 #if RELEASE
-        if !UserDefaultsManager.isShowPantryStarterPack {
+        if !UserDefaultsManager.shared.isShowPantryStarterPack {
             router?.goToPantryStarterPack()
-            UserDefaultsManager.isShowPantryStarterPack = true
+            UserDefaultsManager.shared.isShowPantryStarterPack = true
         } else if !Apphud.hasActiveSubscription() {
             router?.goToPantryStarterPack()
         }
@@ -128,7 +140,7 @@ final class MainTabBarViewModel {
                 self?.delegate?.updateListUI()
             })
             
-            UserDefaultsManager.lastShowStockReminderDate = today.todayWithSetting(hour: stocksUpdateHours)
+            UserDefaultsManager.shared.lastShowStockReminderDate = today.todayWithSetting(hour: stocksUpdateHours)
         }
     }
     
@@ -182,7 +194,7 @@ final class MainTabBarViewModel {
     }
     
     private func isShowStockReminderRequired() -> Bool {
-        guard let lastRefreshDate = UserDefaultsManager.lastShowStockReminderDate else {
+        guard let lastRefreshDate = UserDefaultsManager.shared.lastShowStockReminderDate else {
             return true
         }
         if let diff = Calendar.current.dateComponents(

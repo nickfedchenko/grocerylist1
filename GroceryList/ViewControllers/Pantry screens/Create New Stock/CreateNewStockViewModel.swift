@@ -87,9 +87,9 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
     
     override var isVisibleImage: Bool {
         guard let model else {
-            return UserDefaultsManager.isShowImage
+            return UserDefaultsManager.shared.isShowImage
         }
-        return model.isShowImage.getBool(defaultValue: UserDefaultsManager.isShowImage)
+        return model.isShowImage.getBool(defaultValue: UserDefaultsManager.shared.isShowImage)
     }
     
     override var isVisibleStore: Bool {

@@ -7,13 +7,6 @@
 
 import UIKit
 
-enum NutritionFacts: Int, CaseIterable {
-    case carb
-    case protein
-    case fat
-    case kcal
-}
-
 class CreateNewRecipeKcalView: UIView {
     
     var requiredHeight: Int {
@@ -161,40 +154,6 @@ class CreateNewRecipeKcalView: UIView {
             $0.trailing.equalToSuperview().offset(-16)
             $0.height.equalTo(30)
             $0.bottom.equalToSuperview().offset(-4)
-        }
-    }
-}
-
-extension NutritionFacts {
-    var title: String {
-        switch self {
-        case .carb:     return R.string.localizable.carb()
-        case .protein:  return R.string.localizable.protein()
-        case .fat:      return R.string.localizable.fat()
-        case .kcal:     return R.string.localizable.kcal()
-        }
-    }
-    
-    var recipeTitle: String {
-        switch self {
-        case .kcal:     return R.string.localizable.calories()
-        default:        return title
-        }
-    }
-    
-    var activeColor: UIColor {
-        switch self {
-        case .carb:     return UIColor(hex: "CAAA00")
-        case .protein:  return UIColor(hex: "1EB824")
-        case .fat:      return UIColor(hex: "00B6CE")
-        case .kcal:     return UIColor(hex: "EF6033")
-        }
-    }
-    
-    var placeholder: String {
-        switch self {
-        case .kcal:     return ""
-        default:        return R.string.localizable.gram()
         }
     }
 }

@@ -68,7 +68,7 @@ final class FeedbackViewModel {
     }
     
     private func sendGrade(feedbackText: String?) {
-        guard let isAutoCategory = UserDefaultsManager.isActiveAutoCategory else {
+        guard let isAutoCategory = UserDefaultsManager.shared.isActiveAutoCategory else {
             return
         }
         let userToken = Apphud.userID()

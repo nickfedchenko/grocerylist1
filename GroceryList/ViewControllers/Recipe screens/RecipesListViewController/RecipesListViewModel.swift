@@ -47,7 +47,7 @@ class RecipesListViewModel {
         guard let recipe = section.recipes[safe: index] else {
             return false
         }
-        return UserDefaultsManager.favoritesRecipeIds.contains(recipe.id)
+        return UserDefaultsManager.shared.favoritesRecipeIds.contains(recipe.id)
     }
     
     func showRecipe(by indexPath: IndexPath) {
@@ -119,7 +119,7 @@ class RecipesListViewModel {
         }
         
         let favoriteCollection = CollectionModel(from: dbCollection)
-        let isFavorite = !UserDefaultsManager.favoritesRecipeIds.contains(recipeId)
+        let isFavorite = !UserDefaultsManager.shared.favoritesRecipeIds.contains(recipeId)
         
         defer {
             CoreDataManager.shared.saveRecipes(recipes: [recipe])
@@ -129,7 +129,7 @@ class RecipesListViewModel {
         }
         
         guard isFavorite else {
-            UserDefaultsManager.favoritesRecipeIds.removeAll { $0 == recipeId }
+            UserDefaultsManager.shared.favoritesRecipeIds.removeAll { $0 == recipeId }
             if var localCollection = recipe.localCollection {
                 localCollection.removeAll { $0.id == favoriteCollection.id }
                 recipe.localCollection = localCollection
@@ -137,7 +137,7 @@ class RecipesListViewModel {
             return
         }
 
-        UserDefaultsManager.favoritesRecipeIds.append(recipeId)
+        UserDefaultsManager.shared.favoritesRecipeIds.append(recipeId)
         if var localCollection = recipe.localCollection {
             localCollection.append(favoriteCollection)
             recipe.localCollection = localCollection

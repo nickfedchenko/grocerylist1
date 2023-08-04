@@ -19,8 +19,8 @@ class SharedListManager {
     private var newListId: String?
     private var isNewListId = false
     private var tokens: [String] {
-        get { UserDefaultsManager.userTokens ?? [] }
-        set { UserDefaultsManager.userTokens = newValue }
+        get { UserDefaultsManager.shared.userTokens ?? [] }
+        set { UserDefaultsManager.shared.userTokens = newValue }
     }
 
     init() {
@@ -264,7 +264,7 @@ class SharedListManager {
                 CoreDataManager.shared.createProduct(product: product)
             }
         }
-        UserDefaultsManager.coldStartState = 2
+        UserDefaultsManager.shared.coldStartState = 2
 
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }

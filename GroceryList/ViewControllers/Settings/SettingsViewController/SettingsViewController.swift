@@ -39,10 +39,10 @@ class SettingsViewController: UIViewController {
     private lazy var hapticView: SettingsParametrView = {
         let view = SettingsParametrView()
         view.setupView(text: "Haptic Feedback".localized, isSwitchView: true)
-        view.updateSwitcher(isOn: UserDefaultsManager.isHapticOn)
+        view.updateSwitcher(isOn: UserDefaultsManager.shared.isHapticOn)
         view.switchValueChanged = { switchValue in
             AmplitudeManager.shared.logEvent(.prefHapticToggle, properties: [.isActive: switchValue ? .yes : .valueNo])
-            UserDefaultsManager.isHapticOn = switchValue
+            UserDefaultsManager.shared.isHapticOn = switchValue
         }
         return view
     }()
@@ -50,10 +50,10 @@ class SettingsViewController: UIViewController {
     private lazy var showProductImageView: SettingsParametrView = {
         let view = SettingsParametrView()
         view.setupView(text: R.string.localizable.pictureMatching(), isSwitchView: true)
-        view.updateSwitcher(isOn: UserDefaultsManager.isShowImage)
+        view.updateSwitcher(isOn: UserDefaultsManager.shared.isShowImage)
         view.switchValueChanged = { switchValue in
             AmplitudeManager.shared.logEvent(.prefPictureToggle, properties: [.isActive: switchValue ? .yes : .valueNo])
-            UserDefaultsManager.isShowImage = switchValue
+            UserDefaultsManager.shared.isShowImage = switchValue
         }
         return view
     }()

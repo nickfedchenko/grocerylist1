@@ -40,7 +40,7 @@ class CreateNewProductViewModel {
     var networkBaseProductTitles: [String] = []
     var networkDishesProductTitles: [String] = []
     var userProductTitles: [String] = []
-    var isMetricSystem = UserDefaultsManager.isMetricSystem
+    var isMetricSystem = UserDefaultsManager.shared.isMetricSystem
     
     init() {
         networkBaseProducts = CoreDataManager.shared.getAllNetworkProducts()?
@@ -156,9 +156,9 @@ class CreateNewProductViewModel {
     
     var isVisibleImage: Bool {
         guard let model else {
-            return UserDefaultsManager.isShowImage
+            return UserDefaultsManager.shared.isShowImage
         }
-        return model.isShowImage.getBool(defaultValue: UserDefaultsManager.isShowImage)
+        return model.isShowImage.getBool(defaultValue: UserDefaultsManager.shared.isShowImage)
     }
     
     var isVisibleStore: Bool {
@@ -280,7 +280,7 @@ class CreateNewProductViewModel {
             
         }
         router?.showAlertVC(title: title, message: message, completion: {
-            UserDefaultsManager.countInfoMessage = 11
+            UserDefaultsManager.shared.countInfoMessage = 11
         })
     }
     

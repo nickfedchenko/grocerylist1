@@ -80,7 +80,7 @@ final class RecipesListHeaderView: UIView {
         
         changeViewButton.addAction(
             UIAction { [weak self] _ in
-                UserDefaultsManager.recipeIsTableView = !UserDefaultsManager.recipeIsTableView
+                UserDefaultsManager.shared.recipeIsTableView = !UserDefaultsManager.shared.recipeIsTableView
                 self?.updateImageChangeViewButton()
                 self?.delegate?.changeViewButtonTapped()
             }
@@ -91,7 +91,7 @@ final class RecipesListHeaderView: UIView {
     private func updateImageChangeViewButton() {
         let tableIcon = R.image.recipeTableView()?.withTintColor(mainColor)
         let gridIcon = R.image.recipeGridView()?.withTintColor(mainColor)
-        let image = UserDefaultsManager.recipeIsTableView ? tableIcon : gridIcon
+        let image = UserDefaultsManager.shared.recipeIsTableView ? tableIcon : gridIcon
         
         changeViewButton.setImage(image, for: .normal)
     }

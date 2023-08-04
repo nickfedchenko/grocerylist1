@@ -70,7 +70,7 @@ final class InfoMessageView: UIView {
     }
     
     func updateView() {
-        blackView.isHidden = UserDefaultsManager.countInfoMessage != 0
+        blackView.isHidden = UserDefaultsManager.shared.countInfoMessage != 0
     }
     
     private func setup() {
@@ -98,7 +98,7 @@ final class InfoMessageView: UIView {
     
     @objc
     private func closeButtonTapped() {
-        UserDefaultsManager.countInfoMessage = 5
+        UserDefaultsManager.shared.countInfoMessage = 5
         UIView.animate(withDuration: 0.5) { self.isHidden = true }
     }
     

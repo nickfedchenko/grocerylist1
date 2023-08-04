@@ -152,6 +152,8 @@ class IngredientView: UIView {
             make.trailing.equalTo(servingLabel.snp.leading).inset(-18)
         }
         
+        servingLabel.setContentHuggingPriority(.init(1000), for: .horizontal)
+        servingLabel.setContentCompressionResistancePriority(.init(1000), for: .horizontal)
         servingLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(15)
             make.top.greaterThanOrEqualTo(15)

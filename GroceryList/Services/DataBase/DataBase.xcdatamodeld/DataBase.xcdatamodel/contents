@@ -125,6 +125,7 @@
         <attribute name="photo" optional="YES" attributeType="String"/>
         <attribute name="processingTypeTags" optional="YES" attributeType="Binary"/>
         <attribute name="recipeDescription" attributeType="String" defaultValueString=""/>
+        <attribute name="sourceUrl" optional="YES" attributeType="String"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <attribute name="totalServings" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="values" optional="YES" attributeType="Binary"/>

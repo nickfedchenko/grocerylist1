@@ -159,7 +159,7 @@ struct ShortRecipeModel {
         localImage = model.localImage
         values = model.values
         time = Int32(model.cookingTime ?? -1)
-        isFavorite = UserDefaultsManager.favoritesRecipeIds.contains(model.id)
+        isFavorite = UserDefaultsManager.shared.favoritesRecipeIds.contains(model.id)
         isDefaultRecipe = model.isDefaultRecipe
     }
     
@@ -171,7 +171,7 @@ struct ShortRecipeModel {
         localImage = modelForSearch.localImage
         values = modelForSearch.values
         time = Int32(modelForSearch.time)
-        isFavorite = UserDefaultsManager.favoritesRecipeIds.contains(modelForSearch.id)
+        isFavorite = UserDefaultsManager.shared.favoritesRecipeIds.contains(modelForSearch.id)
         isDefaultRecipe = modelForSearch.isDefaultRecipe
     }
 }
@@ -449,24 +449,6 @@ class Category: Hashable, Equatable {
         return lhs.name == rhs.name && lhs.products == rhs.products &&
         lhs.isExpanded == rhs.isExpanded && lhs.typeOFCell == rhs.typeOFCell &&
         lhs.cost == rhs.cost && lhs.isVisibleCost == rhs.isVisibleCost
-    }
-}
-
-struct Store: Hashable, Equatable, Codable {
-    var id: UUID
-    var title: String
-    var createdAt: Date
-    
-    init(title: String) {
-        self.id = UUID()
-        self.createdAt = Date()
-        self.title = title
-    }
-    
-    init?(from dbStore: DBStore) {
-        id = dbStore.id ?? UUID()
-        title = dbStore.title ?? ""
-        createdAt = dbStore.createdAt ?? Date()
     }
 }
 

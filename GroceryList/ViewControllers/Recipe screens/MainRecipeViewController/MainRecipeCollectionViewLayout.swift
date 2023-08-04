@@ -16,7 +16,7 @@ final class MainRecipeCollectionViewLayout {
     }
     
     func makeRecipesLayout() -> UICollectionViewCompositionalLayout {
-        let isFolder = UserDefaultsManager.recipeIsFolderView
+        let isFolder = UserDefaultsManager.shared.recipeIsFolderView
         return isFolder ? folderLayout() : collectionLayout()
     }
     
