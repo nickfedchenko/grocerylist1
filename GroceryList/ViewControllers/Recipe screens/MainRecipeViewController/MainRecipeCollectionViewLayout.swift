@@ -37,10 +37,8 @@ final class MainRecipeCollectionViewLayout {
         let colorGroup = makeColorRecipeGroup()
         colorGroup.interItemSpacing = .fixed(8)
         
-        let recipeSize = NSCollectionLayoutSize(
-            widthDimension: .estimated(128),
-            heightDimension: .estimated(1)
-        )
+        let recipeSize = NSCollectionLayoutSize(widthDimension: .estimated(128),
+                                                heightDimension: .estimated(1))
         
         let recipeItem = NSCollectionLayoutItem(layoutSize: recipeSize)
         let recipeGroupSize = NSCollectionLayoutSize(
@@ -66,10 +64,8 @@ final class MainRecipeCollectionViewLayout {
                                                                 trailing: .fixed(8),
                                                                 bottom: .fixed(0))
         
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(40)
-        )
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                heightDimension: .estimated(40))
         
         let header = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,

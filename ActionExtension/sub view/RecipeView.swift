@@ -116,12 +116,7 @@ class RecipeView: UIView {
             $0.horizontalEdges.equalToSuperview().inset(20)
         }
         
-        descriptionView.setContentHuggingPriority(.init(1000), for: .vertical)
-        descriptionView.setContentCompressionResistancePriority(.init(1000), for: .vertical)
-        descriptionView.snp.makeConstraints {
-            $0.top.equalTo(imageAndKcalView.snp.bottom).offset(24)
-            $0.horizontalEdges.equalToSuperview().inset(20)
-        }
+        descriptionViewMakeConstraints()
         
         ingredientsView.snp.makeConstraints {
             $0.top.equalTo(descriptionView.snp.bottom).offset(24)
@@ -137,6 +132,15 @@ class RecipeView: UIView {
             $0.top.equalTo(instructionsView.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.bottom.equalToSuperview()
+        }
+    }
+    
+    func descriptionViewMakeConstraints() {
+        descriptionView.setContentHuggingPriority(.init(1000), for: .vertical)
+        descriptionView.setContentCompressionResistancePriority(.init(1000), for: .vertical)
+        descriptionView.snp.makeConstraints {
+            $0.top.equalTo(imageAndKcalView.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview().inset(20)
         }
     }
 }

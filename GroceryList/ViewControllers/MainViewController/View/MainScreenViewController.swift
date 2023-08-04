@@ -151,6 +151,10 @@ class MainScreenViewController: UIViewController {
             }
         }
         
+        showSynchronizationActivity()
+    }
+    
+    private func showSynchronizationActivity() {
         viewModel?.showSynchronizationActivity = { [weak self] isShow in
             guard let self else { return }
             DispatchQueue.main.async {

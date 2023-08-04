@@ -48,6 +48,7 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
         updateSection()
     }
     
+    // swiftlint:disable:next function_body_length
     func updateSection() {
         guard var allDBCollection = CoreDataManager.shared.getAllCollection(),
               let allDBRecipes = CoreDataManager.shared.getAllRecipes() else {

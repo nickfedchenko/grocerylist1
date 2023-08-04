@@ -223,6 +223,14 @@ class ImportWebRecipesViewController: UIViewController {
             $0.bottom.equalToSuperview().inset(20)
         }
         
+        bottomViewMakeConstraints()
+        
+        alertView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    func bottomViewMakeConstraints() {
         bottomImageView.snp.makeConstraints {
             $0.horizontalEdges.bottom.equalToSuperview()
             $0.top.equalTo(topInfoView.snp.bottom)
@@ -241,10 +249,6 @@ class ImportWebRecipesViewController: UIViewController {
             $0.bottom.equalTo(tableView.snp.top).offset(-8)
             $0.leading.equalTo(self.view).offset(20)
             $0.trailing.equalTo(self.view).offset(-20)
-        }
-        
-        alertView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
         }
     }
 }

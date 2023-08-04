@@ -205,17 +205,13 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             stock = currentStock
         } else {
             let index = CoreDataManager.shared.getAllStocks(for: pantry.id.uuidString)?.count ?? 1
-            stock = Stock(index: -index,
-                          pantryId: pantry.id, name: productName,
+            stock = Stock(index: -index, pantryId: pantry.id, name: productName,
                           imageData: imageData, description: description,
-                          category: category,
-                          store: store, cost: costOfProductPerUnit ?? -1,
+                          category: category, store: store, cost: costOfProductPerUnit ?? -1,
                           quantity: quantity == 0 ? nil : quantity,
                           unitId: currentSelectedUnit,
-                          isAvailability: isAvailability,
-                          isAutoRepeat: isAutoRepeat,
-                          autoRepeat: autoRepeatSetting,
-                          isReminder: isReminder,
+                          isAvailability: isAvailability, isAutoRepeat: isAutoRepeat,
+                          autoRepeat: autoRepeatSetting, isReminder: isReminder,
                           isUserImage: isUserImage)
         }
         

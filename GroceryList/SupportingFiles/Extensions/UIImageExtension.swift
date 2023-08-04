@@ -51,6 +51,7 @@ extension UIImage {
 }
 
 extension UIImage {
+    // swiftlint:disable:next function_body_length
     func fixedOrientation() -> UIImage {
         if imageOrientation == .up {  return self }
         var transform: CGAffineTransform = CGAffineTransform.identity

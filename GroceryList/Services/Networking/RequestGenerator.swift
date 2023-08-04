@@ -308,8 +308,6 @@ extension RequestGenerator {
         return String(format: url, currentLocale)
     }
     
-    
-    
     private func insert(queries: [URLQueryItem], components: inout URLComponents) {
         if components.queryItems == nil {
             components.queryItems = queries

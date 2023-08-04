@@ -134,6 +134,10 @@ final class SearchInRecipeViewController: SearchViewController {
             return
         }
         
+        updateConstraintsWhenAllRecipe()
+    }
+    
+    private func updateConstraintsWhenAllRecipe() {
         titleView.setTitle(viewModel?.section?.sectionType.title)
         cancelButton.setTitle("   " + R.string.localizable.cancel(), for: .normal)
         cancelButton.titleLabel?.font = UIFont.SFProRounded.bold(size: 16).font
@@ -238,11 +242,7 @@ final class SearchInRecipeViewController: SearchViewController {
     private func makeConstraints() {
         navigationView.insertSubview(titleView, belowSubview: searchView)
         navigationView.addSubviews([filterTagsView, addFilterButton])
-        navigationView.snp.removeConstraints()
-        cancelButton.snp.removeConstraints()
-        searchView.snp.removeConstraints()
-        crossCleanerButton.snp.removeConstraints()
-        collectionView.snp.removeConstraints()
+        removeConstraints()
         self.view.addSubview(contextMenuBackgroundView)
         contextMenuBackgroundView.addSubviews([contextMenuView])
         
@@ -310,6 +310,14 @@ final class SearchInRecipeViewController: SearchViewController {
             $0.height.equalTo(contextMenuView.requiredHeight)
             $0.width.equalTo(250)
         }
+    }
+    
+    private func removeConstraints() {
+        navigationView.snp.removeConstraints()
+        cancelButton.snp.removeConstraints()
+        searchView.snp.removeConstraints()
+        crossCleanerButton.snp.removeConstraints()
+        collectionView.snp.removeConstraints()
     }
 }
 

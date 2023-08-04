@@ -5,10 +5,10 @@
 //  Created by Хандымаа Чульдум on 01.08.2023.
 //
 
-import UIKit
 import MobileCoreServices
-import UniformTypeIdentifiers
 import SnapKit
+import UIKit
+import UniformTypeIdentifiers
 
 enum ActionExtensionError: Error {
     case userCancelledRequest

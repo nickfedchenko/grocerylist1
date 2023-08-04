@@ -240,6 +240,7 @@ final class SearchInRecipeViewModel {
         router?.showPaywallVC()
     }
     
+    // swiftlint:disable:next function_body_length
     private func appendFilters() {
         var filterRecipe: [RecipeForSearchModel] = allRecipes
         

@@ -32,7 +32,7 @@ struct Recipe: Codable, Hashable, Equatable {
     var localImage: Data?
     var isDefaultRecipe: Bool = true
     var isShowCost: Bool = false
-    var sourceUrl: String? = nil
+    var sourceUrl: String?
 
     enum CodingKeys: String, CodingKey {
         case id, title

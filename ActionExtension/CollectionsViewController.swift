@@ -227,7 +227,7 @@ extension CollectionsViewController: UITableViewDataSource {
 extension CollectionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            goToCreateNewCollection { [weak self] newCollection in
+            goToCreateNewCollection { [weak self] _ in
                 self?.updateCollection()
             }
             

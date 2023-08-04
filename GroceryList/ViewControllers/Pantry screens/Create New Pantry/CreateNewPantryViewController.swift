@@ -419,8 +419,9 @@ extension CreateNewPantryViewController: UITextViewDelegate {
         var textWidth = CGRectGetWidth(textView.frame.inset(by: textView.textContainerInset))
         textWidth -= 2.0 * textView.textContainer.lineFragmentPadding
 
-        let boundingRect = sizeOfString(string: newText, constrainedToWidth: Double(textWidth), font: textView.font!)
-        let numberOfLines = boundingRect.height / textView.font!.lineHeight
+        let boundingRect = sizeOfString(string: newText, constrainedToWidth: Double(textWidth),
+                                        font: textView.font ?? UIFont.systemFont(ofSize: 16))
+        let numberOfLines = boundingRect.height / (textView.font?.lineHeight ?? 1)
 
         return numberOfLines <= 2
     }
