@@ -64,7 +64,13 @@ extension CoreDataManager {
         return ingredients
     }
     
-    private func getValue(webRecipe: WebRecipe) -> Value {
+    private func getValue(webRecipe: WebRecipe) -> Value? {
+        guard webRecipe.kcal != nil && webRecipe.carbohydrates != nil &&
+                webRecipe.protein != nil && webRecipe.fat != nil else {
+
+            return nil
+        }
+        
         return Value(kcal: intToDouble(intValue: webRecipe.kcal),
                      netCarbs: intToDouble(intValue: webRecipe.carbohydrates),
                      proteins: intToDouble(intValue: webRecipe.protein),

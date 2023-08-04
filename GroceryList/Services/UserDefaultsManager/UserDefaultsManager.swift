@@ -19,7 +19,7 @@ class UserDefaultsManager {
     private init() {
         migrateUserDefaultsToAppGroups()
     }
-
+    
     var shouldShowOnboarding: Bool {
         get {
             guard let shouldShow = userDefaults.value(forKey: "shouldShowOnboarding") as? Bool else {
@@ -40,47 +40,47 @@ class UserDefaultsManager {
         set { userDefaults.set(newValue, forKey: "coldStartState") }
     }
     
-     var isMetricSystem: Bool {
+    var isMetricSystem: Bool {
         get { userDefaults.bool(forKey: "isMetricSystem") }
         set { userDefaults.set(newValue, forKey: "isMetricSystem") }
     }
     
-     var isHapticOn: Bool {
+    var isHapticOn: Bool {
         get { userDefaults.bool(forKey: "isHapticOn") }
         set { userDefaults.set(newValue, forKey: "isHapticOn") }
     }
     
-     var isReviewShowed: Bool {
+    var isReviewShowed: Bool {
         get { userDefaults.bool(forKey: "shouldOpenWriteReview") }
         set { userDefaults.set(newValue, forKey: "shouldOpenWriteReview") }
     }
     
-     var isReviewShowedAfterSharing: Bool {
+    var isReviewShowedAfterSharing: Bool {
         get { userDefaults.bool(forKey: "isReviewShowedAfterSharing") }
         set { userDefaults.set(newValue, forKey: "isReviewShowedAfterSharing") }
     }
     
-     var isNativeRateUsShowed: Bool {
+    var isNativeRateUsShowed: Bool {
         get { userDefaults.bool(forKey: "isNativeRateUsShowed") }
         set { userDefaults.set(newValue, forKey: "isNativeRateUsShowed") }
     }
     
-     var isFirstListCreated: Bool {
+    var isFirstListCreated: Bool {
         get { userDefaults.bool(forKey: "isFirstListCreated") }
         set { userDefaults.set(newValue, forKey: "isFirstListCreated") }
     }
     
-     var countInfoMessage: Int {
+    var countInfoMessage: Int {
         get { userDefaults.integer(forKey: "countInfoMessage") }
         set { userDefaults.set(newValue, forKey: "countInfoMessage") }
     }
     
-     var userTokens: [String]? {
+    var userTokens: [String]? {
         get { userDefaults.array(forKey: "userTokens") as? [String] }
         set { userDefaults.set(newValue, forKey: "userTokens") }
     }
     
-     var favoritesRecipeIds: [Int] {
+    var favoritesRecipeIds: [Int] {
         get {
             guard
                 let data: Data = getValue(for: .favoriteRecipes),
@@ -96,37 +96,37 @@ class UserDefaultsManager {
         }
     }
     
-     var isCollectionFilling: Bool {
+    var isCollectionFilling: Bool {
         get { userDefaults.bool(forKey: "isCollectionFilling") }
         set { userDefaults.set(newValue, forKey: "isCollectionFilling") }
     }
     
-     var isFillingDefaultCollection: Bool {
+    var isFillingDefaultCollection: Bool {
         get { userDefaults.bool(forKey: "isFillingDefaultCollection") }
         set { userDefaults.set(newValue, forKey: "isFillingDefaultCollection") }
     }
     
-     var miscellaneousCollectionId: Int {
+    var miscellaneousCollectionId: Int {
         get { userDefaults.integer(forKey: "miscellaneousCollectionId") }
         set { userDefaults.set(newValue, forKey: "miscellaneousCollectionId") }
     }
     
-     var isShowRecipePrompting: Bool {
+    var isShowRecipePrompting: Bool {
         get { userDefaults.bool(forKey: "isShowRecipePrompting") }
         set { userDefaults.set(newValue, forKey: "isShowRecipePrompting") }
     }
     
-     var isShowImage: Bool {
+    var isShowImage: Bool {
         get { !userDefaults.bool(forKey: "isShowImage") }
         set { userDefaults.set(!newValue, forKey: "isShowImage") }
     }
     
-     var countAutoCategoryInfo: Int {
+    var countAutoCategoryInfo: Int {
         get { userDefaults.integer(forKey: "countAutoCategoryInfo") }
         set { userDefaults.set(newValue, forKey: "countAutoCategoryInfo") }
     }
     
-     var isActiveAutoCategory: Bool? {
+    var isActiveAutoCategory: Bool? {
         get {
             guard let shouldShow = userDefaults.value(forKey: "isActiveAutoCategory") as? Bool else {
                 return nil
@@ -138,52 +138,52 @@ class UserDefaultsManager {
         }
     }
     
-     var isFillingDefaultPantry: Bool {
+    var isFillingDefaultPantry: Bool {
         get { userDefaults.bool(forKey: "isFillingDefaultPantry") }
         set { userDefaults.set(newValue, forKey: "isFillingDefaultPantry") }
     }
     
-     var isShowPantryStarterPack: Bool {
+    var isShowPantryStarterPack: Bool {
         get { userDefaults.bool(forKey: "isShowPantryStarterPack") }
         set { userDefaults.set(newValue, forKey: "isShowPantryStarterPack") }
     }
     
-     var pantryUserTokens: [String]? {
+    var pantryUserTokens: [String]? {
         get { userDefaults.array(forKey: "pantryUserTokens") as? [String] }
         set { userDefaults.set(newValue, forKey: "pantryUserTokens") }
     }
     
-     var lastUpdateStockDate: Date? {
+    var lastUpdateStockDate: Date? {
         get { userDefaults.object(forKey: "lastUpdateStockDate") as? Date }
         set { userDefaults.set(newValue, forKey: "lastUpdateStockDate") }
     }
     
-     var lastShowStockReminderDate: Date? {
+    var lastShowStockReminderDate: Date? {
         get { userDefaults.object(forKey: "lastShowStockReminderDate") as? Date }
         set { userDefaults.set(newValue, forKey: "lastShowStockReminderDate") }
     }
     
-     var recipeIsFolderView: Bool {
+    var recipeIsFolderView: Bool {
         get { userDefaults.bool(forKey: "recipeIsFolderView") }
         set { userDefaults.set(newValue, forKey: "recipeIsFolderView") }
     }
     
-     var isFillingDefaultTechnicalCollection: Bool {
+    var isFillingDefaultTechnicalCollection: Bool {
         get { userDefaults.bool(forKey: "isFillingDefaultTechnicalCollection") }
         set { userDefaults.set(newValue, forKey: "isFillingDefaultTechnicalCollection") }
     }
     
-     var recipeIsTableView: Bool {
+    var recipeIsTableView: Bool {
         get { userDefaults.bool(forKey: "recipeIsTableView") }
         set { userDefaults.set(newValue, forKey: "recipeIsTableView") }
     }
     
-     var isUpdateRecipeWithCollection: Bool {
+    var isUpdateRecipeWithCollection: Bool {
         get { userDefaults.bool(forKey: "isUpdateRecipeWithCollection") }
         set { userDefaults.set(newValue, forKey: "isUpdateRecipeWithCollection") }
     }
     
-     var isDoneFeedBack: Bool {
+    var isDoneFeedBack: Bool {
         get {
             guard let shouldShow = userDefaults.value(forKey: "isDoneFeedBack") as? Bool else {
                 return false
@@ -195,9 +195,14 @@ class UserDefaultsManager {
         }
     }
     
-     var lastShowDate: Date? {
+    var lastShowDate: Date? {
         get { userDefaults.object(forKey: "lastShowFeedBackDate") as? Date }
         set { userDefaults.set(newValue, forKey: "lastShowFeedBackDate") }
+    }
+    
+    var isVisibleEditMessageView: Bool {
+        get { userDefaults.bool(forKey: "isVisibleEditMessageView") }
+        set { userDefaults.set(newValue, forKey: "isVisibleEditMessageView") }
     }
     
     private func setValue<T>(value: T, for key: UDKeys) {

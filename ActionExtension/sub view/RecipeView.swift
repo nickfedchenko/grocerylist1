@@ -28,6 +28,7 @@ class RecipeView: UIView {
         return label
     }()
     
+    private let messageView = RecipeEditMessageView()
     private let imageAndKcalView = RecipeImageAndKcalView()
     private let descriptionView = RecipeDescriptionView()
     private let ingredientsView = RecipeIngredientsView()
@@ -37,6 +38,12 @@ class RecipeView: UIView {
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
         makeConstraints()
+        
+        updateMessageViewConstraints(isVisible: !UserDefaultsManager.shared.isVisibleEditMessageView)
+        messageView.tappedCrossButton = { [weak self] in
+            UserDefaultsManager.shared.isVisibleEditMessageView = true
+            self?.updateMessageViewConstraints(isVisible: false)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -61,10 +68,27 @@ class RecipeView: UIView {
                                          radius: 6, offset: .init(width: 0, height: 4))
     }
     
+    private func updateMessageViewConstraints(isVisible: Bool) {
+        messageView.snp.remakeConstraints {
+            $0.top.horizontalEdges.equalToSuperview()
+            
+            if isVisible {
+                $0.height.greaterThanOrEqualTo(53)
+            } else {
+                $0.height.equalTo(0)
+            }
+        }
+        UIView.animate(withDuration: 0.3) {[weak self] in
+            self?.layoutIfNeeded()
+        } completion: { _ in
+            self.messageView.isVisible(isVisible)
+        }
+    }
+    
     private func makeConstraints() {
         self.addSubview(scrollView)
         self.scrollView.addSubview(contentView)
-        contentView.addSubviews([titleLabel, imageAndKcalView, descriptionView,
+        contentView.addSubviews([messageView, titleLabel, imageAndKcalView, descriptionView,
                                  ingredientsView, instructionsView, sourceView])
 
         scrollView.snp.makeConstraints {
@@ -77,8 +101,13 @@ class RecipeView: UIView {
             $0.width.equalTo(self)
         }
         
+        messageView.snp.makeConstraints {
+            $0.top.horizontalEdges.equalToSuperview()
+            $0.height.greaterThanOrEqualTo(53)
+        }
+        
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(16)
+            $0.top.equalTo(messageView.snp.bottom).offset(16)
             $0.horizontalEdges.equalToSuperview().inset(20)
         }
         

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1E8404CBA572F11453DEFA8E /* Pods_GroceryList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8817C4077364FACA63EFA1 /* Pods_GroceryList.framework */; };
 		3318E5A02A7CC10900D357E4 /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3329595298A667E002DF1EE /* AmplitudeManager.swift */; };
+		3318E5A22A7CE5E200D357E4 /* RecipeEditMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3318E5A12A7CE5E200D357E4 /* RecipeEditMessageView.swift */; };
 		3320531C2A0CD5ED00E19EA8 /* ProductsSortViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3320531B2A0CD5ED00E19EA8 /* ProductsSortViewModel.swift */; };
 		3320531E2A0E6CAB00E19EA8 /* DictionaryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3320531D2A0E6CAB00E19EA8 /* DictionaryExtension.swift */; };
 		332340922A1B31CC00609813 /* MainNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332340912A1B31CC00609813 /* MainNavigationView.swift */; };
@@ -489,6 +490,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3318E5A12A7CE5E200D357E4 /* RecipeEditMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeEditMessageView.swift; sourceTree = "<group>"; };
 		3320531B2A0CD5ED00E19EA8 /* ProductsSortViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsSortViewModel.swift; sourceTree = "<group>"; };
 		3320531D2A0E6CAB00E19EA8 /* DictionaryExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExtension.swift; sourceTree = "<group>"; };
 		332340912A1B31CC00609813 /* MainNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationView.swift; sourceTree = "<group>"; };
@@ -1521,6 +1523,7 @@
 			children = (
 				33AF979E2A7A7FAA00716104 /* ImportFailedView.swift */,
 				33AF97A62A7A973B00716104 /* RecipeView.swift */,
+				3318E5A12A7CE5E200D357E4 /* RecipeEditMessageView.swift */,
 				33AF97B22A7A9F6700716104 /* RecipeImageAndKcalView.swift */,
 				33AF97BA2A7AB1BF00716104 /* RecipeDescriptionView.swift */,
 				33AF97BD2A7AB67300716104 /* RecipeIngredientsView.swift */,
@@ -2721,6 +2724,7 @@
 			files = (
 				33AF97C72A7B6D5500716104 /* RecipeSourceView.swift in Sources */,
 				33AF97A72A7A973B00716104 /* RecipeView.swift in Sources */,
+				3318E5A22A7CE5E200D357E4 /* RecipeEditMessageView.swift in Sources */,
 				33AF97EB2A7BBAA800716104 /* UUIDExtension.swift in Sources */,
 				33AF97A02A7A815C00716104 /* ImportWebRecipeCell.swift in Sources */,
 				33AF97F02A7BD25000716104 /* RecipeResponse.swift in Sources */,
