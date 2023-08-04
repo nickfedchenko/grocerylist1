@@ -190,7 +190,6 @@ enum EventName: String {
     case recipeMenuDeleteFromCollection = "recipe_menu_delete_from_collection"
     case recipeShowPriceStores = "recipe_show_price_stores"
     case recipeSendOnPhoto = "recipe_send_on_photo"
-    case recipeImportWebRecipe = "recipe_import_web-recipe"
     case recipeImported = "recipe_imported"
     case recipeFromImportSave = "recipe_from_import_save"
     case recipeCreateRecipe = "recipe_create_recipe"
@@ -201,6 +200,14 @@ enum EventName: String {
     case recipeCreateInputMacros = "recipe_create_input_macros"
     case recipeCreateAddPhoto = "recipe_create_add_photo"
     case recipeCreateSave = "recipe_create_save"
+    
+    // Import
+    case recipeImportWebRecipe = "recipe_import_web-recipe"
+    case recipeActivateExtension = "recipe_activate_extension"
+    case recipeGoToLink = "recipe_go-to-link"
+    case recipeImportDone = "recipe_import_done"
+    case recipeImportSave = "recipe_import_save"
+    case recipeImportFailed = "recipe_import_failed"
 }
 
 typealias PropertyKey = String

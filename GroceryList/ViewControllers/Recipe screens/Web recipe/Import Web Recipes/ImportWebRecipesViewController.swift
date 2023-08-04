@@ -168,6 +168,7 @@ class ImportWebRecipesViewController: UIViewController {
     
     @objc
     private func activateButtonTapped() {
+        AmplitudeManager.shared.logEvent(.recipeActivateExtension)
         viewModel.showManual()
         self.navigationController?.pushViewController(EnableRecipeImportActionViewController(), animated: true)
     }
@@ -255,6 +256,7 @@ extension ImportWebRecipesViewController: UITableViewDataSource {
         let cell = tableView.reusableCell(classCell: ImportWebRecipeCell.self, indexPath: indexPath)
         cell.configure(title: viewModel.websites[safe: indexPath.row]?.title ?? "")
         cell.tapTitle = { [weak self] in
+            AmplitudeManager.shared.logEvent(.recipeGoToLink)
             self?.openUrl(string: self?.viewModel.websites[safe: indexPath.row]?.urlString)
         }
         return cell

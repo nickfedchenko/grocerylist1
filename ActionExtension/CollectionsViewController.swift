@@ -137,6 +137,7 @@ class CollectionsViewController: UIViewController {
     }
     
     private func hideContentView() {
+        AmplitudeManager.shared.logEvent(.recipeImportSave)
         let selectedCollection = collections.filter { $0.isSelected }
                                             .map { $0.collection }
         CoreDataManager.shared.saveWebRecipe(webRecipe: recipe, url: url,

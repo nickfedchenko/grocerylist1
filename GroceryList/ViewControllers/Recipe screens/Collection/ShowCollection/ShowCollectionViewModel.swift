@@ -45,6 +45,7 @@ final class ShowCollectionViewModel {
         editCollections = collections.map { $0.collection }
         router?.goToCreateNewCollection(collections: editCollections,
                                         compl: { [weak self] newCollection in
+            AmplitudeManager.shared.logEvent(.recipeCreateCollection)
             self?.editCollections.append(newCollection)
             self?.newUpdateCollection()
             self?.changedCollection = true

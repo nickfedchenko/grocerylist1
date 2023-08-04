@@ -10,6 +10,7 @@ def base_pods
   pod 'Kingfisher', '~> 7.6.1'
   pod 'R.swift'
   pod 'PusherSwift', '~> 8.0'
+  pod 'ApphudSDK'
 end
 
 target 'GroceryList' do
@@ -18,7 +19,7 @@ target 'GroceryList' do
   
   base_pods
   
-  pod 'ApphudSDK'
+#  pod 'ApphudSDK'
 
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'

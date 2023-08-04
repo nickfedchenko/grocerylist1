@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1E8404CBA572F11453DEFA8E /* Pods_GroceryList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8817C4077364FACA63EFA1 /* Pods_GroceryList.framework */; };
+		3318E5A02A7CC10900D357E4 /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3329595298A667E002DF1EE /* AmplitudeManager.swift */; };
 		3320531C2A0CD5ED00E19EA8 /* ProductsSortViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3320531B2A0CD5ED00E19EA8 /* ProductsSortViewModel.swift */; };
 		3320531E2A0E6CAB00E19EA8 /* DictionaryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3320531D2A0E6CAB00E19EA8 /* DictionaryExtension.swift */; };
 		332340922A1B31CC00609813 /* MainNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332340912A1B31CC00609813 /* MainNavigationView.swift */; };
@@ -2742,6 +2743,7 @@
 				33AF97C22A7B69E700716104 /* InstructionView.swift in Sources */,
 				33AF97E82A7BAEF200716104 /* DataBase.xcdatamodeld in Sources */,
 				33AF97B32A7A9F6700716104 /* RecipeImageAndKcalView.swift in Sources */,
+				3318E5A02A7CC10900D357E4 /* AmplitudeManager.swift in Sources */,
 				33AF97C12A7AB72F00716104 /* CostOfProductListView.swift in Sources */,
 				33AF97D82A7B836300716104 /* CookingTimeBadge.swift in Sources */,
 				33AF97F42A7BD34200716104 /* UserDefaultsManager.swift in Sources */,

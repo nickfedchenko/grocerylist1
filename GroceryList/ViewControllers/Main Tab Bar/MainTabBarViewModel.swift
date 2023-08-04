@@ -67,6 +67,7 @@ final class MainTabBarViewModel {
     }
     
     func importRecipeTapped() {
+        AmplitudeManager.shared.logEvent(.recipeImportWebRecipe)
 #if RELEASE
         if !Apphud.hasActiveSubscription() {
             showPaywall()
@@ -84,6 +85,7 @@ final class MainTabBarViewModel {
         }
 #endif
         router?.goToCreateNewCollection(compl: { [weak self] _ in
+            AmplitudeManager.shared.logEvent(.recipeCreateCollection)
             self?.delegate?.updateRecipeUI(nil)
         })
     }

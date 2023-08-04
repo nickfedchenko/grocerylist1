@@ -131,6 +131,7 @@ class ActionViewController: UIViewController {
     }
     
     private func showRecipe(webRecipe: WebRecipe?, url: String) {
+        AmplitudeManager.shared.logEvent(.recipeImportDone)
         guard let webRecipe else {
             showImportFailedView()
             return
@@ -151,6 +152,7 @@ class ActionViewController: UIViewController {
     }
     
     private func showImportFailedView() {
+        AmplitudeManager.shared.logEvent(.recipeImportFailed)
         saveButton.isUserInteractionEnabled = true
         recipeView.isHidden = true
         importFailedView.fadeIn()
