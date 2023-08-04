@@ -23,7 +23,7 @@ class ImportFailedView: UIView {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
         label.textColor = UIColor(hex: "045C5C")
-        label.text = "Grocery List was unable to find a recipe on this page and import it automatically. If recipe import fails, one alternative is to manually copy and paste the recipe into Grocery List App"
+        label.text = R.string.localizable.groceryListWasUnable()
         label.numberOfLines = 0
         return label
     }()
@@ -72,8 +72,8 @@ class ImportFailedView: UIView {
     
     private let alertView = ImportAlertView()
     
-    private let bottomDescriptionText = "We have compiled a list of some suggested recipe websites that support the required import standard."
-    private lazy var requiredRange = (bottomDescriptionText as NSString).range(of: "required import standard")
+    private let bottomDescriptionText = R.string.localizable.weHaveCompiledAList()
+    private lazy var requiredRange = (bottomDescriptionText as NSString).range(of: R.string.localizable.rangeRequiredImportStandard())
     
     private let websites = RecipeWebsite.allCases
     

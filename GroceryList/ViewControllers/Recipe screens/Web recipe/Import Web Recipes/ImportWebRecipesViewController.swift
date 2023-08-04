@@ -35,7 +35,7 @@ class ImportWebRecipesViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.SFProRounded.bold(size: 22).font
         label.textColor = R.color.primaryDark()
-        label.text = "Import Web Recipes"
+        label.text = R.string.localizable.importWebRecipes()
         return label
     }()
     
@@ -43,14 +43,14 @@ class ImportWebRecipesViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
         label.textColor = .black
-        label.text = "Our iOS action extension allows you to import recipes directly into Grocery List while browsing the web."
+        label.text = R.string.localizable.ourIOSActionExtension()
         label.numberOfLines = 0
         return label
     }()
     
     private lazy var activateButton: UIButton = {
         let button = UIButton()
-        button.setTitle("ACTIVATE EXTENSION", for: .normal)
+        button.setTitle(R.string.localizable.activateextensioN(), for: .normal)
         button.titleLabel?.font = UIFont.SFProDisplay.semibold(size: 20).font
         button.backgroundColor = UIColor(hex: "1A645A")
         button.layer.cornerRadius = 16
@@ -72,7 +72,8 @@ class ImportWebRecipesViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.SFProRounded.bold(size: 22).font
         label.textColor = R.color.primaryDark()
-        label.text = "Suggested recipe websites"
+        label.text = R.string.localizable.suggestedRecipeWebsites()
+        label.numberOfLines = 0
         return label
     }()
     
@@ -91,10 +92,8 @@ class ImportWebRecipesViewController: UIViewController {
         label.attributedText = underlineString
         label.font = UIFont.SFPro.medium(size: 14).font
         label.textColor = R.color.darkGray()
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         label.isUserInteractionEnabled = true
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.8
         label.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(tapLabel(gesture:))))
         return label
     }()
@@ -107,7 +106,7 @@ class ImportWebRecipesViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.rowHeight = 32
-        tableView.contentInset.top = 100
+        tableView.contentInset.top = 150
         tableView.register(classCell: ImportWebRecipeCell.self)
         return tableView
     }()
@@ -115,8 +114,8 @@ class ImportWebRecipesViewController: UIViewController {
     private let alertView = ImportAlertView()
     private var viewDidLayout = false
     
-    private let bottomDescriptionText = "We have compiled a list of some suggested recipe websites that support the required import standard"
-    private lazy var requiredRange = (bottomDescriptionText as NSString).range(of: "required import standard")
+    private let bottomDescriptionText = R.string.localizable.weHaveCompiledAList()
+    private lazy var requiredRange = (bottomDescriptionText as NSString).range(of: R.string.localizable.rangeRequiredImportStandard())
     
     init(viewModel: ImportWebRecipesViewModel) {
         self.viewModel = viewModel
@@ -142,7 +141,10 @@ class ImportWebRecipesViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if !viewDidLayout {
-            tableView.setContentOffset(.init(x: 0, y: -150), animated: false)
+            var offset = bottomTitleLabel.intrinsicContentSize.height + bottomDescriptionLabel.intrinsicContentSize.height
+            offset += 50
+            tableView.contentInset.top = offset
+            tableView.setContentOffset(.init(x: 0, y: -offset - 30), animated: false)
             viewDidLayout = true
         }
     }
@@ -232,11 +234,11 @@ class ImportWebRecipesViewController: UIViewController {
         
         bottomTitleLabel.snp.makeConstraints {
             $0.bottom.equalTo(bottomDescriptionLabel.snp.top).offset(-8)
-            $0.leading.equalToSuperview().offset(20)
+            $0.leading.trailing.equalTo(self.view).inset(20)
         }
         
         bottomDescriptionLabel.snp.makeConstraints {
-            $0.bottom.equalTo(tableView.snp.top).offset(-12)
+            $0.bottom.equalTo(tableView.snp.top).offset(-8)
             $0.leading.equalTo(self.view).offset(20)
             $0.trailing.equalTo(self.view).offset(-20)
         }

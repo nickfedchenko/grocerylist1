@@ -2188,9 +2188,9 @@
 				B3179EA4291E304700455419 /* ColorManager */,
 				B35F0F642937975900C19891 /* MeashureManager */,
 				33E544AA29CA1107008D84F8 /* Feature Manager */,
+				33AF97902A7A6DE700716104 /* for shared sheet */,
 				B371CCAF299E36BB00E0E197 /* KeychainManager.swift */,
 				3342C9BC2A146D290010DA4A /* FeedbackManager.swift */,
-				33AF97902A7A6DE700716104 /* for shared sheet */,
 			);
 			path = Services;
 			sourceTree = "<group>";

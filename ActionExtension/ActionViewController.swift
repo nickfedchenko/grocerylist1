@@ -30,7 +30,7 @@ class ActionViewController: UIViewController {
     private lazy var saveButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(hex: "045C5C")
-        button.setTitle("Save Recipe", for: .normal)
+        button.setTitle(R.string.localizable.saveRecipe(), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.SFProRounded.heavy(size: 17).font
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)

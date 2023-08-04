@@ -30,7 +30,7 @@ class ImportAlertView: UIView {
         let label = UILabel()
         label.font = UIFont.SFProRounded.bold(size: 22).font
         label.textColor = R.color.primaryDark()
-        label.text = "Required import standard"
+        label.text = R.string.localizable.requiredImportStandard()
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.8
@@ -63,7 +63,7 @@ class ImportAlertView: UIView {
     
     private lazy var itsClearButton: UIButton = {
         let button = UIButton()
-        button.setTitle("It's clear!", for: .normal)
+        button.setTitle(R.string.localizable.itSClear(), for: .normal)
         button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 18).font
         button.backgroundColor = UIColor(hex: "1A645A")
         button.layer.cornerRadius = 8
@@ -76,9 +76,9 @@ class ImportAlertView: UIView {
     private let blurView = UIVisualEffectView(effect: nil)
     private var blurRadiusDriver: UIViewPropertyAnimator?
     
-    private let descriptionText = "Grocery List can import recipes from sites that support the microdata or hrecipe standards. Most major recipe websites support these standards"
-    private lazy var microdataRange = (descriptionText as NSString).range(of: "microdata")
-    private lazy var hrecipeRange = (descriptionText as NSString).range(of: "hrecipe")
+    private let descriptionText = R.string.localizable.groceryListCanImportRecipes()
+    private lazy var microdataRange = (descriptionText as NSString).range(of: R.string.localizable.rangeMicrodata())
+    private lazy var hrecipeRange = (descriptionText as NSString).range(of: R.string.localizable.rangeHrecipe())
     
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)

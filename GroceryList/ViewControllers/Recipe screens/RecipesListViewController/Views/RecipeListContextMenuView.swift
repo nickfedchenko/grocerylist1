@@ -137,7 +137,7 @@ class RecipeListContextMenuView: UIView {
             let view = RecipeListContextMenuSubView()
             let color = (state == .delete ? R.color.attention() : mainColor?.dark) ?? .black
             if isFavorite && state == .addToFavorites {
-                view.configure(title: "Удалить из избранного", image: state.image, color: color)
+                view.configure(title: R.string.localizable.deleteFromFavorites(), image: state.image, color: color)
             } else {
                 view.configure(title: state.title, image: state.image, color: color)
             }
@@ -199,6 +199,7 @@ private final class RecipeListContextMenuSubView: UIView {
         label.font = UIFont.SFPro.medium(size: 16).font
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.5
+        label.numberOfLines = 0
         return label
     }()
     
@@ -250,8 +251,7 @@ private final class RecipeListContextMenuSubView: UIView {
         titleLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalTo(imageView.snp.leading).offset(-8)
-            $0.centerY.equalToSuperview()
-            $0.height.equalTo(33)
+            $0.centerY.top.bottom.equalToSuperview()
         }
         
         imageView.snp.makeConstraints {

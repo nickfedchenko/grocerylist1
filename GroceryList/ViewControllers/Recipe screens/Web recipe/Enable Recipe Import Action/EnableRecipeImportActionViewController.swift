@@ -41,7 +41,8 @@ class EnableRecipeImportActionViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.SFProRounded.bold(size: 22).font
         label.textColor = R.color.primaryDark()
-        label.text = "Enable the Recipe Import Action"
+        label.text = R.string.localizable.enableRecipeImportAction()
+        label.numberOfLines = 0
         return label
     }()
     
@@ -49,7 +50,7 @@ class EnableRecipeImportActionViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 16).font
         label.textColor = .black
-        label.text = "Grocery List App allows you to quickly import a recipe to your collection from a website."
+        label.text = R.string.localizable.groceryListAppAllows()
         label.numberOfLines = 0
         return label
     }()
