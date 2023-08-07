@@ -16,10 +16,7 @@ end
 target 'GroceryList' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-  
   base_pods
-  
-#  pod 'ApphudSDK'
 
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
@@ -31,13 +28,14 @@ target 'GroceryList' do
   
   # Pods for GroceryList
   post_install do |installer|
-      installer.generated_projects.each do |project|
-            project.targets.each do |target|
-                target.build_configurations.each do |config|
-                    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
-                 end
-            end
-     end
+    installer.generated_projects.each do |project|
+      project.targets.each do |target|
+        target.build_configurations.each do |config|
+          config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+          config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'No'
+        end
+      end
+    end
   end
   
 end
@@ -46,6 +44,6 @@ end
 # iOS ACTION EXTENSION
 target 'ActionExtension' do
     use_frameworks!
-    
     base_pods
+    
 end

@@ -416,7 +416,7 @@ extension CreateNewPantryViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
                   replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
-        var textWidth = CGRectGetWidth(textView.frame.inset(by: textView.textContainerInset))
+        var textWidth = textView.frame.inset(by: textView.textContainerInset).width
         textWidth -= 2.0 * textView.textContainer.lineFragmentPadding
 
         let boundingRect = sizeOfString(string: newText, constrainedToWidth: Double(textWidth),

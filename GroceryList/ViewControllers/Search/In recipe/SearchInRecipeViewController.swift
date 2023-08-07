@@ -6,8 +6,8 @@
 //
 
 import ApphudSDK
-import UIKit
 import TagListView
+import UIKit
 
 final class SearchInRecipeViewController: SearchViewController {
 
@@ -283,19 +283,7 @@ final class SearchInRecipeViewController: SearchViewController {
             $0.height.equalTo(40)
         }
 
-        filterTagsView.snp.makeConstraints {
-            $0.top.equalTo(titleView.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalTo(addFilterButton.snp.top).offset(-12)
-            $0.height.greaterThanOrEqualTo(1).priority(.high)
-        }
-        
-        addFilterButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-8)
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(40)
-        }
-        
+        makeFilterTagsViewConstraints()
         makeContextMenuViewConstraints()
     }
     
@@ -309,6 +297,21 @@ final class SearchInRecipeViewController: SearchViewController {
             $0.center.equalToSuperview()
             $0.height.equalTo(contextMenuView.requiredHeight)
             $0.width.equalTo(250)
+        }
+    }
+    
+    private func makeFilterTagsViewConstraints() {
+        filterTagsView.snp.makeConstraints {
+            $0.top.equalTo(titleView.snp.bottom).offset(24)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalTo(addFilterButton.snp.top).offset(-12)
+            $0.height.greaterThanOrEqualTo(1).priority(.high)
+        }
+        
+        addFilterButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-8)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(40)
         }
     }
     

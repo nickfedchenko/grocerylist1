@@ -12,8 +12,8 @@ extension UITapGestureRecognizer {
     func didTapAttributedTextInLabel(label: UILabel, inRange targetRange: NSRange) -> Bool {
         guard let attributedText = label.attributedText else { return false }
 
-        let mutableStr = NSMutableAttributedString.init(attributedString: attributedText)
-        mutableStr.addAttributes([NSAttributedString.Key.font : label.font!], range: NSRange.init(location: 0, length: attributedText.length))
+        let mutableStr = NSMutableAttributedString(attributedString: attributedText)
+        mutableStr.addAttributes([NSAttributedString.Key.font : label.font!], range: NSRange(location: 0, length: attributedText.length))
         
         // If the label have text alignment. Delete this code if label have a default (left) aligment. Possible to add the attribute in previous adding.
         let paragraphStyle = NSMutableParagraphStyle()
@@ -40,9 +40,9 @@ extension UITapGestureRecognizer {
         let locationOfTouchInLabel = self.location(in: label)
         let textBoundingBox = layoutManager.usedRect(for: textContainer)
         let textContainerOffset = CGPoint(x: (labelSize.width - textBoundingBox.size.width) * 0.5 - textBoundingBox.origin.x,
-                                          y: (labelSize.height - textBoundingBox.size.height) * 0.5 - textBoundingBox.origin.y);
+                                          y: (labelSize.height - textBoundingBox.size.height) * 0.5 - textBoundingBox.origin.y)
         let locationOfTouchInTextContainer = CGPoint(x: locationOfTouchInLabel.x - textContainerOffset.x,
-                                                     y: locationOfTouchInLabel.y - textContainerOffset.y);
+                                                     y: locationOfTouchInLabel.y - textContainerOffset.y)
         let indexOfCharacter = layoutManager.characterIndex(for: locationOfTouchInTextContainer, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
         return NSLocationInRange(indexOfCharacter, targetRange)
     }
