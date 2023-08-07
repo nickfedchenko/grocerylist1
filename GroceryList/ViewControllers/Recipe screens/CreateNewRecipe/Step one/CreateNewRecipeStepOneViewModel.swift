@@ -66,6 +66,9 @@ final class CreateNewRecipeStepOneViewModel {
     
     func back() {
         router?.navigationPopViewController(animated: true)
+        if let draft {
+            competeRecipe?(draft)
+        }
     }
 
     func presentIngredient() {
@@ -160,7 +163,7 @@ final class CreateNewRecipeStepOneViewModel {
         draft.ingredients = ingredients
         draft.instructions = steps
         draft.isShowCost = isShowCost
-        
+        self.draft = draft
         CoreDataManager.shared.saveRecipes(recipes: [draft])
     }
     
