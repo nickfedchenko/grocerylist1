@@ -128,9 +128,9 @@
 "Quantity Units"            = "Quantity Units";
 "Metric"                    = "Metric";
 "Imperial"                  = "U.S. standard";
+"settings.pictureMatching"  = "Picture matching";
 
 "Warning"                   = "Warning";
-"NoInternet"                = "No internet connection";
 
 "Choose the right plan"     = "Choose the right plan for using the Shoppy";
 "MostPopular"               = "Most Popular";
