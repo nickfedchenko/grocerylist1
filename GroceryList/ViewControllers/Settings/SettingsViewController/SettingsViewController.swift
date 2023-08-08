@@ -49,7 +49,7 @@ class SettingsViewController: UIViewController {
     
     private lazy var showProductImageView: SettingsParametrView = {
         let view = SettingsParametrView()
-        view.setupView(text: R.string.localizable.pictureMatching(), isSwitchView: true)
+        view.setupView(text: R.string.localizable.settingsPictureMatching(), isSwitchView: true)
         view.updateSwitcher(isOn: UserDefaultsManager.shared.isShowImage)
         view.switchValueChanged = { switchValue in
             AmplitudeManager.shared.logEvent(.prefPictureToggle, properties: [.isActive: switchValue ? .yes : .valueNo])

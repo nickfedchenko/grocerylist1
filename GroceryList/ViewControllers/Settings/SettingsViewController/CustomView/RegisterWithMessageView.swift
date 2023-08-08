@@ -14,7 +14,8 @@ final class RegisterWithMessageView: UIView {
     
     private lazy var nextButton: UIButton = {
         let button = UIButton()
-        let attributedTitle = NSAttributedString(string: R.string.localizable.registeR(), attributes: [
+        let attributedTitle = NSAttributedString(string: R.string.localizable.registeR().uppercased(),
+                                                 attributes: [
             .font: UIFont.SFPro.semibold(size: 20).font ?? UIFont(),
             .foregroundColor: UIColor(hex: "#FFFFFF")
         ])

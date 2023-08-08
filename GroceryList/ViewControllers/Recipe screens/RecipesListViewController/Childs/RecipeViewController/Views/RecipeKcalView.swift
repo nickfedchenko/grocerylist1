@@ -13,7 +13,7 @@ class RecipeKcalView: UIView {
     
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fillProportionally
         stackView.axis = .horizontal
         return stackView
     }()
@@ -123,6 +123,8 @@ private final class RecipeKcalSubView: UIView {
     private func makeConstraints() {
         self.addSubviews([titleLabel, gramLabel])
         
+        titleLabel.setContentHuggingPriority(.init(1000), for: .horizontal)
+        titleLabel.setContentCompressionResistancePriority(.init(1000), for: .horizontal)
         titleLabel.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
         }

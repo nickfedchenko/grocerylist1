@@ -239,7 +239,7 @@ final class PantryDataSource {
             }
             
             let defaultsStock = Stock(index: stock.rawValue, pantryId: groceryId,
-                                      name: stock.title,
+                                      name: netProduct?.title ?? stock.title,
                                       imageData: stock.imageData,
                                       description: stock.description,
                                       category: netProduct?.marketCategory,

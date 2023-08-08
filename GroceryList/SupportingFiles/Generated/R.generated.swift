@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 406 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 407 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -1820,14 +1820,14 @@ struct _R {
       ///
       /// Key: Settings.Account
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var settingsAccount: RswiftResources.StringResource { .init(key: "Settings.Account", tableName: "Localizable", source: source, developmentValue: "Account", comment: nil) }
 
       /// en translation: Cancel
       ///
       /// Key: Settings.Account.Cancel
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var settingsAccountCancel: RswiftResources.StringResource { .init(key: "Settings.Account.Cancel", tableName: "Localizable", source: source, developmentValue: "Cancel", comment: nil) }
 
       /// en translation: Delete
@@ -1848,14 +1848,14 @@ struct _R {
       ///
       /// Key: Settings.Account.DeleteAccount
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var settingsAccountDeleteAccount: RswiftResources.StringResource { .init(key: "Settings.Account.DeleteAccount", tableName: "Localizable", source: source, developmentValue: "Delete Account", comment: nil) }
 
       /// en translation: Log Out
       ///
       /// Key: Settings.Account.LogOut
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var settingsAccountLogOut: RswiftResources.StringResource { .init(key: "Settings.Account.LogOut", tableName: "Localizable", source: source, developmentValue: "Log Out", comment: nil) }
 
       /// en translation: You are about to permanently delete your account along with all data associated to it
@@ -1876,28 +1876,28 @@ struct _R {
       ///
       /// Key: Settings.AddPhoto
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var settingsAddPhoto: RswiftResources.StringResource { .init(key: "Settings.AddPhoto", tableName: "Localizable", source: source, developmentValue: "Add your photo, it will be more beautiful", comment: nil) }
 
       /// en translation: Grocery List App
       ///
       /// Key: Settings.GroceryListApp
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var settingsGroceryListApp: RswiftResources.StringResource { .init(key: "Settings.GroceryListApp", tableName: "Localizable", source: source, developmentValue: "Grocery List App", comment: nil) }
 
       /// en translation: Profile
       ///
       /// Key: Settings.Profile
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var settingsProfile: RswiftResources.StringResource { .init(key: "Settings.Profile", tableName: "Localizable", source: source, developmentValue: "Profile", comment: nil) }
 
       /// en translation: Screen Name
       ///
       /// Key: Settings.ScreenName
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var settingsScreenName: RswiftResources.StringResource { .init(key: "Settings.ScreenName", tableName: "Localizable", source: source, developmentValue: "Screen Name", comment: nil) }
 
       /// en translation: Share recipes
@@ -2625,7 +2625,7 @@ struct _R {
       ///
       /// Key: orLog
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var orLog: RswiftResources.StringResource { .init(key: "orLog", tableName: "Localizable", source: source, developmentValue: "Or login with", comment: nil) }
 
       /// en translation: Other
@@ -2830,6 +2830,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var servings4: RswiftResources.StringResource { .init(key: "servings>4", tableName: "Localizable", source: source, developmentValue: "servings", comment: nil) }
+
+      /// en translation: Picture matching
+      ///
+      /// Key: settings.pictureMatching
+      ///
+      /// Locales: en, ru, fr, de
+      var settingsPictureMatching: RswiftResources.StringResource { .init(key: "settings.pictureMatching", tableName: "Localizable", source: source, developmentValue: "Picture matching", comment: nil) }
 
       /// en translation: Sign in with Apple
       ///

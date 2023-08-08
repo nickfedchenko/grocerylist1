@@ -125,9 +125,9 @@
 "Quantity Units"            = "Единицы измерения";
 "Metric"                    = "Метрическая";
 "Imperial"                  = "Cтандарт США";
+"settings.pictureMatching"  = "Подбор картинок";
 
 "Warning"                   = "Внимание";
-"NoInternet"                = "Отсутствует соединение с сервером";
 
 "Choose the right plan"     = "Выберите правильный план использования Shoppy";
 "MostPopular"               = "Популярно";
@@ -317,7 +317,6 @@
 "Edit List"                     = "Редактировать";
 
 "item"                          = "Добавить";
-"Select List to Synchronize"    = "Выберите список для синхронизации";
 "out of stock"                  = "Нет в наличии";
 "Pantry: Name"                  = "Кладовая: %@";
 "in stock"                      = "В наличии";
