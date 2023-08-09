@@ -223,11 +223,10 @@ final class RecipeViewController: UIViewController {
     
     @objc
     private func addToCartTapped() {
+        let photos: [Data?] = ingredientViews.map { $0.photo }
         let recipeTitle = viewModel.recipe.title
         let products: [Product] = viewModel.recipe.ingredients.enumerated().map { index, ingredient in
             let netProduct = ingredient.product
-//            let step = ingredient.product.marketUnit?.step?.defaultQuantityStep ?? 1
-//            let description = String(format: "%.0f", ingredient.product.marketUnit?.step?.defaultQuantityStep ?? 1) + " " + String(ingredient.product.marketUnit?.shortTitle ?? "г")
             let description = ingredientViews[safe: index]?.servingText ?? ""
             let product = Product(
                 name: netProduct.title,
@@ -235,6 +234,7 @@ final class RecipeViewController: UIViewController {
                 dateOfCreation: Date(),
                 category: netProduct.marketCategory?.title ?? "",
                 isFavorite: false,
+                imageData: photos[index],
                 description: description,
                 fromRecipeTitle: recipeTitle
             )
@@ -556,7 +556,9 @@ extension RecipeViewController: RecipeListContextMenuViewDelegate {
 
             switch state {
             case .addToShoppingList:
-                self.viewModel.addToShoppingList(contentViewHeigh: self.view.frame.height, delegate: self)
+                let photos: [Data?] = self.ingredientViews.map { $0.photo }
+                self.viewModel.addToShoppingList(contentViewHeigh: self.view.frame.height,
+                                                 photo: photos, delegate: self)
             case .addToFavorites:
                 self.viewModel.updateFavoriteState(isSelected: !self.isFavorite)
                 self.mainImageView.setIsFavorite(shouldSetFavorite: self.isFavorite)

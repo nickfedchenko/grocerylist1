@@ -138,7 +138,6 @@ final class SharingListViewController: UIViewController {
     }
     
     private func sharingList(url: String) {
-
         if let urlToShare = NSURL(string: url) {
             let objectsToShare = [urlToShare] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)

@@ -28,6 +28,9 @@ class UpdatedPaywallViewController: UIViewController {
         let button = UIButton()
         button.addTarget(self, action: #selector(closeButtonAction), for: .touchUpInside)
         button.setImage(R.image.updatedPaywall_crossButton(), for: .normal)
+#if RELEASE
+        button.isHidden = true
+#endif
         return button
     }()
     

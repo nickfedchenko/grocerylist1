@@ -2969,7 +2969,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 323 images.
+  /// This `_R.image` struct is generated, and contains static references to 334 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -3077,6 +3077,39 @@ struct _R {
 
     /// Image `Handiwork`.
     var handiwork: RswiftResources.ImageResource { .init(name: "Handiwork", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `IMG for export (PNG or JPEG) 1`.
+    var imgForExportPNGOrJPEG1: RswiftResources.ImageResource { .init(name: "IMG for export (PNG or JPEG) 1", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `IMG for export (PNG or JPEG) 10`.
+    var imgForExportPNGOrJPEG10: RswiftResources.ImageResource { .init(name: "IMG for export (PNG or JPEG) 10", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `IMG for export (PNG or JPEG) 11`.
+    var imgForExportPNGOrJPEG11: RswiftResources.ImageResource { .init(name: "IMG for export (PNG or JPEG) 11", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `IMG for export (PNG or JPEG) 2`.
+    var imgForExportPNGOrJPEG2: RswiftResources.ImageResource { .init(name: "IMG for export (PNG or JPEG) 2", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `IMG for export (PNG or JPEG) 3`.
+    var imgForExportPNGOrJPEG3: RswiftResources.ImageResource { .init(name: "IMG for export (PNG or JPEG) 3", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `IMG for export (PNG or JPEG) 4`.
+    var imgForExportPNGOrJPEG4: RswiftResources.ImageResource { .init(name: "IMG for export (PNG or JPEG) 4", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `IMG for export (PNG or JPEG) 5`.
+    var imgForExportPNGOrJPEG5: RswiftResources.ImageResource { .init(name: "IMG for export (PNG or JPEG) 5", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `IMG for export (PNG or JPEG) 6`.
+    var imgForExportPNGOrJPEG6: RswiftResources.ImageResource { .init(name: "IMG for export (PNG or JPEG) 6", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `IMG for export (PNG or JPEG) 7`.
+    var imgForExportPNGOrJPEG7: RswiftResources.ImageResource { .init(name: "IMG for export (PNG or JPEG) 7", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `IMG for export (PNG or JPEG) 8`.
+    var imgForExportPNGOrJPEG8: RswiftResources.ImageResource { .init(name: "IMG for export (PNG or JPEG) 8", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `IMG for export (PNG or JPEG) 9`.
+    var imgForExportPNGOrJPEG9: RswiftResources.ImageResource { .init(name: "IMG for export (PNG or JPEG) 9", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `LinkBig`.
     var linkBig: RswiftResources.ImageResource { .init(name: "LinkBig", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

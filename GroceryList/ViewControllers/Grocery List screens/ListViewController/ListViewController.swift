@@ -40,6 +40,7 @@ final class ListViewController: UIViewController {
     private var collectionViewLayoutManager = ListCollectionViewLayout()
     private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, GroceryListsModel>?
     private let synchronizationActivityView = SynchronizationActivityView()
+    private var viewDidAppear = false
     
     init(viewModel: ListViewModel) {
         self.viewModel = viewModel
@@ -68,6 +69,14 @@ final class ListViewController: UIViewController {
         updateImageConstraint()
         (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: false)
         (self.tabBarController as? MainTabBarController)?.setTextTabBar()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !viewDidAppear {
+            viewModel.router?.showPaywallVC()
+            viewDidAppear = true
+        }
     }
     
     private func viewModelChanges() {

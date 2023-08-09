@@ -261,7 +261,6 @@ final class RootRouter: RootRouterProtocol {
     func goToSearchInRecipe(section: RecipeSectionsModel? = nil) {
         let controller = viewControllerFactory.createSearchInRecipe(router: self, section: section)
         controller.modalTransitionStyle = .crossDissolve
-//        navigationPresent(controller, animated: true)
         navigationPushViewController(controller, animated: true)
     }
     
@@ -434,54 +433,59 @@ final class RootRouter: RootRouterProtocol {
     
     func showPaywallVC() { 
         guard !Apphud.hasActiveSubscription() else { return }
-        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
-            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
-
-                if let paywall = paywalls.first(where: { $0.isDefault }),
-                   let targetPaywallName = paywall.json?["name"] as? String {
-                    self?.showPaywall(by: targetPaywallName)
-                    return
-                }
-
-                self?.showNewPaywall(isTrial: false)
-                return
-            }
-
-            if let targetPaywallName = paywall.json?["name"] as? String {
-                self?.showPaywall(by: targetPaywallName)
-            } else {
-                self?.showNewPaywall(isTrial: false)
-            }
-        }
+        showUpdatedPaywall()
+//        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
+//            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+//
+//                if let paywall = paywalls.first(where: { $0.isDefault }),
+//                   let targetPaywallName = paywall.json?["name"] as? String {
+//                    self?.showPaywall(by: targetPaywallName)
+//                    return
+//                }
+//
+//                self?.showNewPaywall(isTrial: false)
+//                return
+//            }
+//
+//            if let targetPaywallName = paywall.json?["name"] as? String {
+//                self?.showPaywall(by: targetPaywallName)
+//            } else {
+//                self?.showNewPaywall(isTrial: false)
+//            }
+//        }
     }
     
     func showPaywallVCOnTopController() {
         guard !Apphud.hasActiveSubscription() else { return }
-        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
-            var controller: UIViewController
-            guard let self else {
-                return
-            }
-            controller = self.viewControllerFactory.createNewPaywallController(isTrial: false)
-            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
-
-                if let paywall = paywalls.first(where: { $0.isDefault }),
-                   let targetPaywallName = paywall.json?["name"] as? String {
-                    controller = self.getPaywall(by: targetPaywallName)
-                }
-                
-                controller.modalPresentationStyle = .overCurrentContext
-                UIViewController.currentController()?.present(controller, animated: true)
-                return
-            }
-
-            if let targetPaywallName = paywall.json?["name"] as? String {
-                controller = self.getPaywall(by: targetPaywallName)
-            }
-
-            controller.modalPresentationStyle = .overCurrentContext
-            UIViewController.currentController()?.present(controller, animated: true)
-        }
+        let controller = viewControllerFactory.createUpdatedPaywallController()
+        controller.modalPresentationStyle = .overCurrentContext
+        UIViewController.currentController()?.present(controller, animated: true)
+        
+//        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
+//            var controller: UIViewController
+//            guard let self else {
+//                return
+//            }
+//            controller = self.viewControllerFactory.createNewPaywallController(isTrial: false)
+//            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+//
+//                if let paywall = paywalls.first(where: { $0.isDefault }),
+//                   let targetPaywallName = paywall.json?["name"] as? String {
+//                    controller = self.getPaywall(by: targetPaywallName)
+//                }
+//                
+//                controller.modalPresentationStyle = .overCurrentContext
+//                UIViewController.currentController()?.present(controller, animated: true)
+//                return
+//            }
+//
+//            if let targetPaywallName = paywall.json?["name"] as? String {
+//                controller = self.getPaywall(by: targetPaywallName)
+//            }
+//
+//            controller.modalPresentationStyle = .overCurrentContext
+//            UIViewController.currentController()?.present(controller, animated: true)
+//        }
     }
     
     private func showPaywall(by name: String) {

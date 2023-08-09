@@ -138,7 +138,7 @@ final private class ProductView: UIView {
     func configure(product: PayWallModel) {
         periodLabel.text = product.period
         priceLabel.text = product.price
-        perWeekLabel.text = product.description + R.string.localizable.weeK().lowercased()
+        perWeekLabel.text = product.description
         
         badgeView.isHidden = !product.isVisibleSave
         badgeView.backgroundColor = product.badgeColor

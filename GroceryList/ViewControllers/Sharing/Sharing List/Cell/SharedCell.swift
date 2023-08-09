@@ -57,15 +57,13 @@ final class SharedCell: UITableViewCell {
             return userPhotoImageView.image = R.image.profile_icon()
         }
         
-        userPhotoImageView.kf.setImage(
-            with: url,
-            placeholder: nil,
-            options: [
-                .processor(DownsamplingImageProcessor(size: CGSize(width: 30, height: 30))),
-                .scaleFactor(UIScreen.main.scale),
-                .cacheOriginalImage
-            ])
-        
+        let resource = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
+        userPhotoImageView.kf.setImage(with: resource,
+                                       options: [
+            .processor(DownsamplingImageProcessor(size: CGSize(width: 30, height: 30))),
+            .scaleFactor(UIScreen.main.scale),
+            .cacheOriginalImage
+        ])
     }
 
     private func setup() {

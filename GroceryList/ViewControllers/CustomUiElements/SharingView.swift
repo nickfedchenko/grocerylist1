@@ -156,14 +156,13 @@ final class SharingView: UIView {
                 return imageView.image = R.image.profile_icon()
             }
             
-            imageView.kf.setImage(
-                with: url,
-                placeholder: nil,
-                options: [
-                    .processor(DownsamplingImageProcessor(size: CGSize(width: 30, height: 30))),
-                    .scaleFactor(UIScreen.main.scale),
-                    .cacheOriginalImage
-                ])
+            let resource = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
+            imageView.kf.setImage(with: resource,
+                                  options: [
+                                    .processor(DownsamplingImageProcessor(size: CGSize(width: 30, height: 30))),
+                                    .scaleFactor(UIScreen.main.scale),
+                                    .cacheOriginalImage
+                                  ])
         }
     }
     
