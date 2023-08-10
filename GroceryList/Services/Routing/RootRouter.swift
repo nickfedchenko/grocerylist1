@@ -79,21 +79,30 @@ final class RootRouter: RootRouterProtocol {
         goToSignUpController(animated: false, isFromResetPassword: true)
     }
     
-    func showTestOnboarding() {    
+    func showTestOnboarding() {
         if !InternetConnection.isConnected() {
-            goToOnboarding()
+            if let testOnboardingValue = UserDefaultsManager.shared.testOnboardingValue,
+               testOnboardingValue.lowercased() == "new" {
+                goToNewOnboarding()
+            } else {
+                goToOnboarding()
+            }
             return
         }
-
+        
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
                 self?.goToOnboarding()
                 return
             }
-
-            if let targetOnboarding = paywall.json?["onboarding"] as? String,
-               targetOnboarding.lowercased() == "new" {
-                self?.goToNewOnboarding()
+            
+            if let targetOnboarding = paywall.json?["onboarding"] as? String {
+                UserDefaultsManager.shared.testOnboardingValue = targetOnboarding
+                if targetOnboarding.lowercased() == "new" {
+                    self?.goToNewOnboarding()
+                } else {
+                    self?.goToOnboarding()
+                }
             } else {
                 self?.goToOnboarding()
             }

@@ -22,7 +22,7 @@ final class FeedbackManager {
     }
     
     func setLastShowDate() {
-        UserDefaultsManager.shared.lastShowDate = Date()
+        UserDefaultsManager.shared.lastShowFeedBackDate = Date()
     }
     
     func isShowFeedbackScreen() -> Bool {
@@ -30,7 +30,7 @@ final class FeedbackManager {
             return false
         }
         
-        guard UserDefaultsManager.shared.lastShowDate?.onlyDate != Date().onlyDate else {
+        guard UserDefaultsManager.shared.lastShowFeedBackDate?.onlyDate != Date().onlyDate else {
             return false
         }
         
