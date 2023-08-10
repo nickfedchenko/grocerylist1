@@ -12,6 +12,17 @@ class CoreDataStorage {
     
     let containerName = "DataBase"
     
+    var sharedStoreURL: URL? {
+        let id = "group.com.ksens.shopp"
+        let groupContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: id)
+        return groupContainer?.appendingPathComponent("DataBase.sqlite")
+    }
+    
+    var oldStoreURL: URL? {
+        let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+        return appSupport?.appendingPathComponent("DataBase.sqlite")
+    }
+    
     lazy var context: NSManagedObjectContext = container.viewContext
     lazy var taskContext: NSManagedObjectContext = {
         let taskContext = container.newBackgroundContext()
@@ -26,20 +37,54 @@ class CoreDataStorage {
         return context
     }()
     
-    lazy var container: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: containerName)
-        let storeURL = URL.storeURL(for: "group.com.ksens.shopp", databaseName: containerName)
-        let storeDescription = NSPersistentStoreDescription(url: storeURL)
-        container.persistentStoreDescriptions = [storeDescription]
-        
-        container.loadPersistentStores(completionHandler: { (_, error) in
-            guard let error = error as NSError? else { return }
-            container.viewContext.mergePolicy = NSMergePolicy(merge: .overwriteMergePolicyType)
-            container.viewContext.automaticallyMergesChangesFromParent = true
-            fatalError("Unresolved error \(error), \(error.userInfo)")
-        })
-        return container
-    }()
+    var container: NSPersistentContainer
+    
+    init() {
+        container = NSPersistentContainer(name: containerName)
+        if let oldStoreURL,
+            !FileManager.default.fileExists(atPath: oldStoreURL.path) {
+            container.persistentStoreDescriptions.first?.url = sharedStoreURL
+        }
+
+        container.loadPersistentStores { _, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+        migrateStore(for: container)
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    }
+    
+    
+    func migrateStore(for container: NSPersistentContainer) {
+        guard let sharedStoreURL,
+              let oldStoreURL else {
+            return
+        }
+        guard !FileManager.default.fileExists(atPath: sharedStoreURL.path),
+              !UserDefaultsManager.shared.isFixCoreDataMigration else {
+            return
+        }
+        let coordinator = container.persistentStoreCoordinator
+        guard let oldStore = coordinator.persistentStore(for: oldStoreURL) else {
+            return
+        }
+        do {
+            try coordinator.migratePersistentStore(oldStore,
+                                                   to: sharedStoreURL,
+                                                   options: nil,
+                                                   withType: NSSQLiteStoreType)
+            UserDefaultsManager.shared.isFixCoreDataMigration = true
+        } catch {
+            print("Something went wrong migrating the store: \(error)")
+        }
+        do {
+            try FileManager.default.removeItem(at: oldStoreURL)
+        } catch {
+            print("Something went wrong migrating the store: \(error)")
+        }
+    }
 }
 
 class SafeMergePolicy: NSMergePolicy {
@@ -66,15 +111,5 @@ class SafeMergePolicy: NSMergePolicy {
             }
         }
         try super.resolve(constraintConflicts: list)
-    }
-}
-
-extension URL {
-    static func storeURL(for appGroup: String, databaseName: String) -> URL {
-        guard let fileContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
-            fatalError("Shared file container could not be created.")
-        }
-
-        return fileContainer.appendingPathComponent("\(databaseName).sqlite")
     }
 }

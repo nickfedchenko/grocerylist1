@@ -215,6 +215,12 @@ class UserDefaultsManager {
         set { userDefaults.set(newValue, forKey: "testOnboardingValue") }
     }
     
+    var isFixCoreDataMigration: Bool {
+        get { userDefaults.bool(forKey: "isFixCoreDataMigration") }
+        set { userDefaults.set(newValue, forKey: "isFixCoreDataMigration") }
+    }
+    
+    
     private func setValue<T>(value: T, for key: UDKeys) {
         userDefaults.set(value, forKey: key.rawValue)
     }
