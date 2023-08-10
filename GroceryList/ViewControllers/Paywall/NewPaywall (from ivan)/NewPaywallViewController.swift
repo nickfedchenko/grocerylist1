@@ -10,6 +10,8 @@ import UIKit
 
 class NewPaywallViewController: UIViewController {
 
+    var isHardPaywall = false
+    
     private let contentView = UIView()
     private lazy var closeCrossButton: UIButton = {
         let button = UIButton()
@@ -51,6 +53,8 @@ class NewPaywallViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         makeConstraints()
+        
+        closeCrossButton.isHidden = isHardPaywall
         
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard let products = paywalls.first(where: { $0.isDefault })?.products,

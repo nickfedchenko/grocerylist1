@@ -530,11 +530,11 @@ final class RootRouter: RootRouterProtocol {
     
     private func showPaywall(by name: String, isHard: Bool) {
         if name == "VaninPaywall" {
-            showUpdatedPaywall()
+            showUpdatedPaywall(isHard: isHard)
         } else if name == "IvanTrialPaywall" {
-            showNewPaywall(isTrial: true)
+            showNewPaywall(isTrial: true, isHard: isHard)
         } else if name == "IvanNoTrialPaywall" {
-            showNewPaywall(isTrial: false)
+            showNewPaywall(isTrial: false, isHard: isHard)
         } else if name == "AlternativePaywall" {
             showAlternativePaywallVC(isHard: isHard)
         } else {
@@ -544,11 +544,11 @@ final class RootRouter: RootRouterProtocol {
     
     private func getPaywall(by name: String, isHard: Bool) -> UIViewController {
         if name == "VaninPaywall" {
-            return viewControllerFactory.createUpdatedPaywallController()
+            return viewControllerFactory.createUpdatedPaywallController(isHard: isHard)
         } else if name == "IvanTrialPaywall" {
-            return viewControllerFactory.createNewPaywallController(isTrial: true)
+            return viewControllerFactory.createNewPaywallController(isTrial: true, isHard: isHard)
         } else if name == "IvanNoTrialPaywall" {
-            return viewControllerFactory.createNewPaywallController(isTrial: false)
+            return viewControllerFactory.createNewPaywallController(isTrial: false, isHard: isHard)
         } else if name == "AlternativePaywall" {
             return viewControllerFactory.createAlternativePaywallController(isHard: isHard)
         } else {
@@ -568,14 +568,14 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func showUpdatedPaywall() {
-        let controller = viewControllerFactory.createUpdatedPaywallController()
+    func showUpdatedPaywall(isHard: Bool) {
+        let controller = viewControllerFactory.createUpdatedPaywallController(isHard: isHard)
         guard !Apphud.hasActiveSubscription() else { return }
         navigationPresent(controller, animated: true)
     }
     
-    func showNewPaywall(isTrial: Bool) {
-        let controller = viewControllerFactory.createNewPaywallController(isTrial: isTrial)
+    func showNewPaywall(isTrial: Bool, isHard: Bool) {
+        let controller = viewControllerFactory.createNewPaywallController(isTrial: isTrial, isHard: isHard)
         guard !Apphud.hasActiveSubscription() else { return }
         navigationPresent(controller, animated: true)
     }
