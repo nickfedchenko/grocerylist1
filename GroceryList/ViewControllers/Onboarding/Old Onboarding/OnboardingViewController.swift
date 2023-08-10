@@ -114,7 +114,7 @@ class OnboardingViewController: UIViewController {
 
     private lazy var nextButton: UIButton = {
         let button = UIButton(type: .system)
-        let attributedTitle = NSAttributedString(string: "Next".localized, attributes: [
+        let attributedTitle = NSAttributedString(string: "Next".localized.uppercased(), attributes: [
             .font: UIFont.SFPro.semibold(size: 20).font ?? UIFont(),
             .foregroundColor: UIColor(hex: "#FFFFFF")
         ])
