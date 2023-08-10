@@ -434,7 +434,7 @@ struct _R {
       ///
       /// Key: Close
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var close: RswiftResources.StringResource { .init(key: "Close", tableName: "Localizable", source: source, developmentValue: "Close", comment: nil) }
 
       /// en translation: Collection
@@ -602,7 +602,7 @@ struct _R {
       ///
       /// Key: EmailTaken
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var emailTaken: RswiftResources.StringResource { .init(key: "EmailTaken", tableName: "Localizable", source: source, developmentValue: "This e-mail is already taken", comment: nil) }
 
       /// en translation: Enable the Recipe Import Action
@@ -1421,7 +1421,7 @@ struct _R {
       ///
       /// Key: PasswordReset
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var passwordReset: RswiftResources.StringResource { .init(key: "PasswordReset", tableName: "Localizable", source: source, developmentValue: "Password reset", comment: nil) }
 
       /// en translation: Pet Care
@@ -1568,7 +1568,7 @@ struct _R {
       ///
       /// Key: RecievePasswordShortly
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var recievePasswordShortly: RswiftResources.StringResource { .init(key: "RecievePasswordShortly", tableName: "Localizable", source: source, developmentValue: "If you entered a correct e-mail address, you will receive password reset e-mail shortly", comment: nil) }
 
       /// en translation: Recipe 
@@ -1638,21 +1638,21 @@ struct _R {
       ///
       /// Key: ResetPassword.ChangePassword
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var resetPasswordChangePassword: RswiftResources.StringResource { .init(key: "ResetPassword.ChangePassword", tableName: "Localizable", source: source, developmentValue: "Change password", comment: nil) }
 
       /// en translation: Enter new password
       ///
       /// Key: ResetPassword.EnterNewPassw
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var resetPasswordEnterNewPassw: RswiftResources.StringResource { .init(key: "ResetPassword.EnterNewPassw", tableName: "Localizable", source: source, developmentValue: "Enter new password", comment: nil) }
 
       /// en translation: This link can be used only once and will become inactive in 1 hour.  Please reset again.
       ///
       /// Key: ResetPassword.LinkInactive
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var resetPasswordLinkInactive: RswiftResources.StringResource { .init(key: "ResetPassword.LinkInactive", tableName: "Localizable", source: source, developmentValue: "This link can be used only once and will become inactive in 1 hour. \nPlease reset again.", comment: nil) }
 
       /// en translation: Restore purchase
@@ -1834,14 +1834,14 @@ struct _R {
       ///
       /// Key: Settings.Account.Delete
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var settingsAccountDelete: RswiftResources.StringResource { .init(key: "Settings.Account.Delete", tableName: "Localizable", source: source, developmentValue: "Delete", comment: nil) }
 
       /// en translation: Delete account?
       ///
       /// Key: Settings.Account.DeleteAcc?
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var settingsAccountDeleteAcc: RswiftResources.StringResource { .init(key: "Settings.Account.DeleteAcc?", tableName: "Localizable", source: source, developmentValue: "Delete account?", comment: nil) }
 
       /// en translation: Delete Account
@@ -1862,14 +1862,14 @@ struct _R {
       ///
       /// Key: Settings.Account.PremanentDel
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var settingsAccountPremanentDel: RswiftResources.StringResource { .init(key: "Settings.Account.PremanentDel", tableName: "Localizable", source: source, developmentValue: "You are about to permanently delete your account along with all data associated to it", comment: nil) }
 
       /// en translation: To use Shared Notes, please login again.
       ///
       /// Key: Settings.Account.ToUseShared
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var settingsAccountToUseShared: RswiftResources.StringResource { .init(key: "Settings.Account.ToUseShared", tableName: "Localizable", source: source, developmentValue: "To use Shared Notes, please login again.", comment: nil) }
 
       /// en translation: Add your photo, it will be more beautiful
@@ -2268,7 +2268,7 @@ struct _R {
       ///
       /// Key: YourEmail
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var yourEmail: RswiftResources.StringResource { .init(key: "YourEmail", tableName: "Localizable", source: source, developmentValue: "Your e-mail:", comment: nil) }
 
       /// en translation: Add to Favorites
@@ -2618,7 +2618,7 @@ struct _R {
       ///
       /// Key: ok
       ///
-      /// Locales: en, ru
+      /// Locales: en, ru, fr, de
       var ok: RswiftResources.StringResource { .init(key: "ok", tableName: "Localizable", source: source, developmentValue: "Ok", comment: nil) }
 
       /// en translation: Or login with

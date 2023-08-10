@@ -99,10 +99,10 @@
 "Pet Care"                  = "soins aux animaux";
 "Stationery"                = "papeterie";
 
-"ozz"                       = "once";
-"lbс"                       = "lbс";
+"ozz"                       = "oz";
+"lbс"                       = "lb";
 "pt"                        = "pt";
-"fluidOz"                   = "liquideOz";
+"fluidOz"                   = "fl oz";
 
 "gram"                      = "g";
 "kilogram"                  = "kg";
@@ -127,7 +127,7 @@
 "Imperial"                  = "Standard américain";
 "settings.pictureMatching"  = "Sélection d'images";
 
-"Warning"                   = "avertissement";
+"Warning"                   = "Attention";
 "NoInternet"                = "Pas d'Internet";
 
 "Choose the right plan"     = "Choisissez le bon forfait";
@@ -189,12 +189,19 @@
 "Sing In"                       = "Entrée";
 "email"                         = "E-mail";
 "password"                      = "Mot de passe";
-"signUpTerms" = "J'accepte les termes et conditions J'ai lu la politique de confidentialité et reconnais mes droits en tant qu'utilisateur";
+"signUpTerms"                   = "J'accepte les termes et conditions\nJ'ai lu la politique de confidentialité et reconnais mes droits en tant qu'utilisateur";
 "IHaveAccount"                  = "J'ai un compte";
 "IDontHaveAccount"              = "je n'ai pas de compte";
 "resetPassword"                 = "Réinitialiser le mot de passe";
 "signInWithApple"               = "Connexion avec Apple";
+"EmailTaken"                    = "Cette adresse est déjà prise";
 "orLog"                         = "Ou connectez-vous avec";
+"NoInternet"                    = "Pas de connexion Internet";
+"PasswordReset"                 = "Réinitialisation du mot de passe";
+"YourEmail"                     = "Votre adresse e-mail";
+"Close"                         = "Fermer";
+"ok"                            = "Ок";
+"RecievePasswordShortly"        = "Si vous avez entré la bonne adresse e-mail, vous recevrez sous peu un e-mail de réinitialisation du mot de passe";
 
 // sharing
 "Shared lists"                  = "Les listes partagées peuvent être consultées et mises à jour simultanément par plusieurs utilisateurs";
@@ -210,7 +217,15 @@
 "Settings.GroceryListApp"       = "Application de la liste de courses";
 "Settings.Account.LogOut"       = "Se déconnecter";
 "Settings.Account.DeleteAccount"= "Supprimer le compte";
+"Settings.Account.ToUseShared"  = "Pour utiliser les notes partagées, veuillez vous reconnecter.";
 "Settings.Account.Cancel"       = "Annuler";
+"Settings.Account.DeleteAcc?"   = "Supprimer le compte?";
+"Settings.Account.PremanentDel" = "Vous êtes sur le point de supprimer définitivement votre compte ainsi que toutes les données qui y sont associées";
+"Settings.Account.Delete"       = "Supprimer";
+
+"ResetPassword.EnterNewPassw"   = "Entrer un nouveau mot de passe";
+"ResetPassword.LinkInactive"    = "Ce lien ne peut être utilisé qu'une seule fois et devient inactif après 1 heure. Veuillez réinitialiser à nouveau votre mot de passe.";
+"ResetPassword.ChangePassword"  = "Changer le mot de passe";
 
 // context menu
 "createRecipe"                  = "Créer une recette";
@@ -241,7 +256,7 @@
 "Miscellaneous"                 = "Divers";
 "Note"                          = "Note";
 "Collections"                   = "Collection";
-"SelectOneOrMoreCollections"    = "Sélectionnez une ou plusieurs collections où votre recette sera stockée. Vous pouvez créer une nouvelle collection.";
+//"SelectOneOrMoreCollections"    = "Sélectionnez une ou plusieurs collections où votre recette sera stockée. Vous pouvez créer une nouvelle collection.";
 "Add to collection"             = "Ajouter à la collection";
 
 "Add recipes to favorites"      = "Ajoutez des recettes aux favoris";
@@ -275,59 +290,59 @@
 
 // Tab Bar
 "List"                          = "Liste";
-"Pantry"                        = "Pantry";
+"Pantry"                        = "Garage";
 "Recipes"                       = "Recettes";
 
 // Pantry & Stocks
 "Pantry & Stocks"               = "Garage et réserves";
-"PantryEnterStocks"             = "Cellier\net réserves";
+"PantryEnterStocks"             = "Garage\net réserves";
 "PantryStarterPackDescription"  = "Vous pouvez ajouter une description plus détaillée, la quantité, la marque et une photo\n\nVous pouvez connecter la réserve à n'importe quelle liste de courses et les produits épuisés apparaîtront automatiquement dedans\n\nVous pouvez configurer de manière flexible la modification automatique du statut et les produits se termineront dans des intervalles de temps spécifiés\n\nInvitez la famille à gérer ensemble les tâches domestiques. Les provisions seront reconstituées, le réfrigérateur sera plein et tout sera en ordre!";
 "Excellent!"                    = "Super!";
 "Baby"                          = "Bébé";
 "Medications"                   = "Médicaments";
-"Cooking supplies"              = "Fournitures de cuisine";
-"Car"                           = "Voiture";
+"Cooking supplies"              = "Ustensiles de cuisine";
+"Car"                           = "Auto";
 "Tools"                         = "Outils";
-"Handiwork"                     = "Travail manuel";
+"Handiwork"                     = "Fait main";
 "Subscriptions"                 = "Abonnements";
 "Sport"                         = "Sport";
-"Gifts"                         = "Cadeaux";
+"Gifts"                         = "Cadeau";
 
-"List name"                     = "Nom de la liste";
+"List name"                     = "Liste de noms";
 "Icon"                          = "Icône";
-"Synchronize stock list"        = "Synchroniser la liste de stock avec la liste de courses";
-"Food automatically appear"     = "Les aliments ou les marchandises épuisés apparaîtront automatiquement dans la liste de courses sélectionnée";
-"More"                          = "Plus ";
-"Select Icon"                   = "Sélectionnez l'icône";
-"Select List to Synchronize"    = "Sélectionner la liste à synchroniser";
-"Edit List"                     = "Modifier la Liste";
+"Synchronize stock list"        = "Synchroniser la liste d'inventaire avec la liste d'achats";
+"Food automatically appear"     = "Les produits ou articles en rupture de stock apparaîtront automatiquement dans la liste de courses sélectionnée";
+"More"                          = "Plus";
+"Select Icon"                   = "Choisissez un icône";
+"Select List to Synchronize"    = "Sélectionnez une liste à synchroniser";
+"Edit List"                     = "Modifier";
 
-"item"                          = "Ajouter à";
-"out of stock"                  = "Rupture de stock";
-"Pantry: Name"                  = "Cellier: %@";
+"item"                          = "Ajouter§";
+"out of stock"                  = "Pas disponible";
+"Pantry: Name"                  = "Garage: %@";
 "in stock"                      = "En stock ";
-"Out: "                         = "Rupture: ";
+"Out: "                         = "Non: ";
 "Link to Shopping List"         = "Lien vers la liste de courses";
 "Auto Repeat"                   = "Répétition automatique";
-"every weekly "                 = "Chaque % @ Hebdomadaire: %@";
+"every weekly "                 = "Chaque %@ Hebdomadaire: %@";
 "weekly weekday"                = "Hebdomadaire: %@";
-"every times period"            = "Tous les %@ %@";
+"every times period"            = "Chaque %@ %@";
 "Auto repeat setting"           = "Réglage de répétition automatique";
-"Food goods will be marked"     = "Les aliments ou les marchandises seront marqués 'en rupture de stock' lorsque la période spécifiée sera atteinte";
+"Food goods will be marked"     = "Les aliments ou les marchandises seront marqués comme 'en rupture de stock' après la période spécifiée";
 "Set Reminder"                  = "Définir un rappel";
 "AutoDaily"                     = "Quotidien";
 "AutoWeekly"                    = "Hebdomadaire";
 "AutoMonthly"                   = "Mensuel";
-"AutoYearly"                    = "Annuel";
-"AutoCustom"                    = "Personnalisé";
-"Set"                           = "Activer";
-"Repeat every ..."              = "Répétez tous les ...";
-"days"                          = "Jours";
-"weeks"                         = "Semaines";
-"months"                        = "Mensuel";
+"AutoYearly"                    = "Annuellement";
+"AutoCustom"                    = "Coutume";
+"Set"                           = "Prêt";
+"Repeat every ..."              = "Répétez chaque...";
+"days"                          = "Jour";
+"weeks"                         = "Semaine";
+"months"                        = "Mois";
 "years"                         = "Année";
-"Stocks are over"               = "Les stocks sont terminés";
-"ADD TO SHOPPING LIST"          = "AJOUTER À LA LISTE D'ACHATS";
+"Stocks are over"               = "Les stocks se sont épuisés";
+"ADD TO SHOPPING LIST"          = "AJOUTER À LA LISTE DE MAGASIN";
 
 // Default Pantry
 "Fridge"                        = "Réfrigérateur";
@@ -389,12 +404,12 @@
 "inbox"                         = "Boîte de réception";
 
 "addToFavorites"                = "ajouter Aux Favoris";
-"deleteFromFavorites"           = "Supprimer des favoris";
+"deleteFromFavorites"           = "Retirer des Favoris";
 "added to"                      = "Ajouté à";
 
 "Delete Collection?"            = "Supprimer la collection?";
 "You are deleting a collection" = "Vous supprimez une collection. Toutes les recettes qui s'y trouvent ne seront pas supprimées de la base de données ou d'autres collections.";
-"SelectOneOrMoreCollections"    = "Sélectionner une ou plusieurs collections";
+"SelectOneOrMoreCollections"    = "Sélectionnez une ou plusieurs collections";
 
 "continue"                      = "Continuer";
 "Save to Drafts"                = "Enregistrer en brouillons";
@@ -417,36 +432,36 @@
 "Add Filter"                    = "Ajouter un filtre";
 
 // Import web recipe
-"Import Web Recipes"            = "Importer des recettes Web";
-"Our iOS action extension"      = "Notre extension d'action iOS vous permet d'importer des recettes directement dans Grocery List tout en naviguant sur le Web.";
-"ACTIVATE EXTENSION"            = "ACTIVER L'EXTENSION";
-"Suggested recipe websites"     = "Sites de suggestions de recettes";
-"We have compiled a list"       = "Nous avons compilé une liste de sites Web de recettes suggérées qui prennent en charge la norme d'importation requise";
+"Import Web Recipes"            = "Importation de recettes Web";
+"Our iOS action extension"      = "Notre extension iOS vous permet d'importer des recettes directement dans la ”Liste d'épicerie” tout en naviguant sur le Web.";
+"ACTIVATE EXTENSION"            = "ACTIVER LA PROLONGATION";
+"Suggested recipe websites"     = "Sites Web de recettes recommandés";
+"We have compiled a list"       = "Nous avons compilé une liste de certains sites Web de recettes recommandés qui prennent en charge la norme d'importation requise.";
 "RangeRequiredImportStandard"   = "norme d'importation requise";
-"Required import standard"      = "Norme d'importation requise";
-"It's clear!"                   = "Il est clair!";
-"GroceryListCanImportRecipes"   = "Grocery List peut importer des recettes à partir de sites qui prennent en charge les normes de microdonnées ou de hrecette. La plupart des principaux sites Web de recettes prennent en charge ces normes";
+"Required import standard"      = "Erforderlicher Importstandard";
+"It's clear!"                   = "Clair!";
+"GroceryListCanImportRecipes"   = "Grocery List peut importer des recettes à partir de sites qui prennent en charge les normes de microdonnées ou de recettes. La plupart des principaux sites de recettes prennent en charge ces normes.";
 "RangeMicrodata"                = "microdonnées";
-"RangeHrecipe"                  = "hrecette";
-"Enable Recipe Import Action"   = "Activer l'action d'importation de recette";
-"Grocery List App allows"       = "L'application Grocery List vous permet d'importer rapidement une recette dans votre collection à partir d'un site Web.";
+"RangeHrecipe"                  = "de recettes";
+"Enable Recipe Import Action"   = "Activer l'extension d'importation de recette";
+"Grocery List App allows"       = "L'application ”Grocery List” vous permet d'importer rapidement une recette dans votre collection à partir du site Web.";
 
-"ImportManual.1"                = "Tout d'abord, appuyez sur le bouton Partager dans la barre d'outils Safari";
+"ImportManual.1"                = "Tout d'abord, cliquez sur le bouton Partager de la barre d'outils Safari";
 "ImportManual.1.Bold"           = "Partager";
-"ImportManual.2"                = "Faites défiler vers le bas de la feuille de partage, puis sélectionnez Modifier les actions...";
+"ImportManual.2"                = "Faites défiler jusqu'en bas de Partage, puis sélectionnez Modifier les actions...";
 "ImportManual.2.Bold"           = "Modifier les actions...";
-"ImportManual.3"                = "Trouvez l'action ”Grocery List Recipe Import” d'épicerie et activez le commutateur à côté. Facultativement, appuyez sur l'icône verte plus à gauche du nom de l'action pour en faire l'une de vos actions préférées. Appuyez ensuite sur Terminé.";
-"ImportManual.4"                = "Maintenant, l'action ”Grocery List Recipe Import” d'épicerie sera disponible. Appuyez dessus lorsque vous consultez une page Web contenant une recette.";
+"ImportManual.3"                = "Recherchez l'action ”Grocery List Recipe Import” et activez la bascule à côté. Si vous le souhaitez, appuyez sur l'icône plus verte à gauche du nom de l'action pour en faire l'une de vos actions préférées. Cliquez ensuite sur Terminé.";
+"ImportManual.4"                = "L'action ”Grocery List Recipe Import” sera désormais disponible. Cliquez dessus lorsque vous consultez une page Web contenant une recette.";
 "ImportManual.3.4.Bold"         = "Grocery List Recipe Import";
-"ImportManual.5"                = "Examinez la recette importée, puis appuyez sur le bouton Enregistrer pour l'enregistrer dans votre collection de recettes dans l'application Grocery List. Vous pouvez la modifier plus tard, dans l'application";
+"ImportManual.5"                = "Affichez la recette importée, puis cliquez sur le bouton Enregistrer pour l'enregistrer dans votre collection de recettes dans l'application Grocery List. Vous pouvez le modifier plus tard dans l'application";
 "ImportManual.5.Bold"           = "Enregistrer";
 
 "Save Recipe"                   = "Enregistrer la recette";
-"You can edit the recipe later" = "Vous pouvez modifier la recette plus tard, dans l'application";
+"You can edit the recipe later" = "Vous pouvez modifier la recette plus tard dans l'application";
 "Recipe Source"                 = "Origine de la recette";
 
 "Import failed"                 = "Échec de l'importation";
-"Grocery List was unable"       = "Grocery List n'a pas pu trouver une recette sur cette page et l'importer automatiquement. Si l'importation de la recette échoue, une alternative consiste à copier et coller manuellement la recette dans l'application Grocery List";
+"Grocery List was unable"       = "”Liste d'épicerie” n'a pas pu trouver la recette sur cette page et l'importer automatiquement. Si l'importation de la recette échoue, vous pouvez copier et coller manuellement la recette dans l'application ”Liste d'épicerie”.";
 
 // FAQ
 "Help & FAQ"                    = "Aide et FAQ";
