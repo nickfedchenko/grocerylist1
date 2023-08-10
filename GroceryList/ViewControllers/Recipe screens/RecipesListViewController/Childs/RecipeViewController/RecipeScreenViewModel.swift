@@ -6,8 +6,14 @@
 //
 
 import Foundation
+import Kingfisher
 
 protocol RecipeScreenViewModelProtocol {
+    var updateCollection: (() -> Void)? { get set }
+    var recipe: Recipe { get }
+    var theme: Theme { get set }
+    var fromSearch: Bool { get set }
+    
     func getNumberOfIngredients() -> Int
     func getRecipeTitle() -> String
     func getIngredientsSizeAccordingToServings(servings: Double) -> [String]
@@ -17,11 +23,7 @@ protocol RecipeScreenViewModelProtocol {
     func haveCollections() -> Bool
     func showCollection()
     func updateFavoriteState(isSelected: Bool)
-    var updateCollection: (() -> Void)? { get set }
-    var recipe: Recipe { get }
-    var theme: Theme { get set }
-    var fromSearch: Bool { get set }
-    func addToShoppingList(contentViewHeigh: CGFloat, delegate: AddProductsSelectionListDelegate)
+    func addToShoppingList(contentViewHeigh: CGFloat, photo: [Data?], delegate: AddProductsSelectionListDelegate)
     func addToCollection()
     func edit()
     func removeRecipe()
@@ -185,16 +187,17 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
       
     }
     
-    func addToShoppingList(contentViewHeigh: CGFloat, delegate: AddProductsSelectionListDelegate) {
+    func addToShoppingList(contentViewHeigh: CGFloat, photo: [Data?], delegate: AddProductsSelectionListDelegate) {
         let recipeTitle = recipe.title
-        let products: [Product] = recipe.ingredients.map({
-            let netProduct = $0.product
+        let products: [Product] = recipe.ingredients.enumerated().map({ index, ingredient in
+            let netProduct = ingredient.product
             let product = Product(
                 name: netProduct.title,
                 isPurchased: false,
                 dateOfCreation: Date(),
                 category: netProduct.marketCategory?.title ?? "",
                 isFavorite: false,
+                imageData: photo[index],
                 description: "",
                 fromRecipeTitle: recipeTitle
             )

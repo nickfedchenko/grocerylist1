@@ -34,6 +34,7 @@ class ImportAlertView: UIView {
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.8
+        label.numberOfLines = 2
         return label
     }()
     
