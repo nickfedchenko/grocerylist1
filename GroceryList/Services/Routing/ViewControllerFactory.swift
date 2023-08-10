@@ -22,6 +22,8 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
+    
+    
     func createMainTabBarController(router: RootRouter, controllers: [UIViewController]) -> UITabBarController {
         let isRightHanded = true
         let viewModel = MainTabBarViewModel(isRightHanded: isRightHanded, viewControllers: controllers)
@@ -247,12 +249,16 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return controller
     }
     
-    func createUpdatedPaywallController() -> UIViewController {
-        return UpdatedPaywallViewController()
+    func createUpdatedPaywallController(isHard: Bool) -> UIViewController {
+        let controller = UpdatedPaywallViewController()
+        controller.isHardPaywall = isHard
+        return controller
     }
     
-    func createNewPaywallController(isTrial: Bool) -> UIViewController {
-        return NewPaywallViewController(isTrial: isTrial)
+    func createNewPaywallController(isTrial: Bool, isHard: Bool) -> UIViewController {
+        let controller = NewPaywallViewController(isTrial: isTrial)
+        controller.isHardPaywall = isHard
+        return controller
     }
     
     func createReviewsController(router: RootRouter) -> UIViewController {

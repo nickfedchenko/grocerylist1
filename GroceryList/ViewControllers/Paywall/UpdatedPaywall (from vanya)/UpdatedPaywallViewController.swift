@@ -10,6 +10,8 @@ import UIKit
 
 class UpdatedPaywallViewController: UIViewController {
     
+    var isHardPaywall = false
+    
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -28,9 +30,6 @@ class UpdatedPaywallViewController: UIViewController {
         let button = UIButton()
         button.addTarget(self, action: #selector(closeButtonAction), for: .touchUpInside)
         button.setImage(R.image.updatedPaywall_crossButton(), for: .normal)
-#if RELEASE
-        button.isHidden = true
-#endif
         return button
     }()
     
@@ -116,6 +115,8 @@ class UpdatedPaywallViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         makeConstraints()
+        
+        closeCrossButton.isHidden = isHardPaywall
         
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard let products = paywalls.first(where: { $0.isDefault })?.products,
