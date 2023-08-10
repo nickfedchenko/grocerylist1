@@ -1,5 +1,5 @@
 //
-//  OnboardingCell.swift
+//  NewOnboardingCell.swift
 //  GroceryList
 //
 //  Created by Хандымаа Чульдум on 08.08.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class OnboardingCell: UICollectionViewCell {
+final class NewOnboardingCell: UICollectionViewCell {
     
     let imageView = UIImageView()
     

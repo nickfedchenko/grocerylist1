@@ -228,7 +228,7 @@
 
 // context menu
 "createRecipe"                  = "Создать рецепт";
-"importRecipe"                  = "Скачать рецепт из интернета";
+"importRecipe"                  = "Импорт с веб-сайта";
 "createCollection"              = "Создать коллекцию";
 
 // Создание рецепта

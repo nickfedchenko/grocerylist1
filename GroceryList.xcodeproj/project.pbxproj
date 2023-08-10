@@ -97,8 +97,11 @@
 		3368FD7929B7348100D97291 /* DBCollection+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD7729B7348100D97291 /* DBCollection+CoreDataClass.swift */; };
 		3368FD7A29B7348100D97291 /* DBCollection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368FD7829B7348100D97291 /* DBCollection+CoreDataProperties.swift */; };
 		336A112729F2D1F4008CFF33 /* BundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336A112629F2D1F4008CFF33 /* BundleExtension.swift */; };
-		3370EFBE2A8285E400885C30 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3370EFBD2A8285E400885C30 /* OnboardingViewController.swift */; };
-		3370EFC02A82A08300885C30 /* OnboardingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3370EFBF2A82A08300885C30 /* OnboardingCell.swift */; };
+		3370EFBE2A8285E400885C30 /* NewOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3370EFBD2A8285E400885C30 /* NewOnboardingViewController.swift */; };
+		3370EFC02A82A08300885C30 /* NewOnboardingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3370EFBF2A82A08300885C30 /* NewOnboardingCell.swift */; };
+		3370EFC52A83D0DD00885C30 /* OnboardingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3370EFC22A83D0DD00885C30 /* OnboardingContentView.swift */; };
+		3370EFC62A83D0DD00885C30 /* FirstOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3370EFC32A83D0DD00885C30 /* FirstOnboardingView.swift */; };
+		3370EFC72A83D0DD00885C30 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3370EFC42A83D0DD00885C30 /* OnboardingViewController.swift */; };
 		337224C82A5542E500A23270 /* RecipeKcalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337224C72A5542E500A23270 /* RecipeKcalView.swift */; };
 		337224CA2A5632D100A23270 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337224C92A5632D100A23270 /* PaddingLabel.swift */; };
 		337719AA29B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337719A929B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift */; };
@@ -577,8 +580,11 @@
 		3368FD7729B7348100D97291 /* DBCollection+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBCollection+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3368FD7829B7348100D97291 /* DBCollection+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBCollection+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		336A112629F2D1F4008CFF33 /* BundleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtension.swift; sourceTree = "<group>"; };
-		3370EFBD2A8285E400885C30 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
-		3370EFBF2A82A08300885C30 /* OnboardingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCell.swift; sourceTree = "<group>"; };
+		3370EFBD2A8285E400885C30 /* NewOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOnboardingViewController.swift; sourceTree = "<group>"; };
+		3370EFBF2A82A08300885C30 /* NewOnboardingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOnboardingCell.swift; sourceTree = "<group>"; };
+		3370EFC22A83D0DD00885C30 /* OnboardingContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingContentView.swift; sourceTree = "<group>"; };
+		3370EFC32A83D0DD00885C30 /* FirstOnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstOnboardingView.swift; sourceTree = "<group>"; };
+		3370EFC42A83D0DD00885C30 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		337224C72A5542E500A23270 /* RecipeKcalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeKcalView.swift; sourceTree = "<group>"; };
 		337224C92A5632D100A23270 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		337719A929B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewRecipeStepTwoViewController.swift; sourceTree = "<group>"; };
@@ -1243,6 +1249,25 @@
 				844FC63A2978B825008173AA /* ReviewCell.swift */,
 			);
 			path = Review;
+			sourceTree = "<group>";
+		};
+		3370EFC82A83D15D00885C30 /* New Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				3370EFBD2A8285E400885C30 /* NewOnboardingViewController.swift */,
+				3370EFBF2A82A08300885C30 /* NewOnboardingCell.swift */,
+			);
+			path = "New Onboarding";
+			sourceTree = "<group>";
+		};
+		3370EFC92A83D17600885C30 /* Old Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				3370EFC42A83D0DD00885C30 /* OnboardingViewController.swift */,
+				3370EFC22A83D0DD00885C30 /* OnboardingContentView.swift */,
+				3370EFC32A83D0DD00885C30 /* FirstOnboardingView.swift */,
+			);
+			path = "Old Onboarding";
 			sourceTree = "<group>";
 		};
 		337719A729B198A9000791BD /* Step one */ = {
@@ -2227,8 +2252,8 @@
 		B37A2CDD2911027E003C01AD /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				3370EFBD2A8285E400885C30 /* OnboardingViewController.swift */,
-				3370EFBF2A82A08300885C30 /* OnboardingCell.swift */,
+				3370EFC82A83D15D00885C30 /* New Onboarding */,
+				3370EFC92A83D17600885C30 /* Old Onboarding */,
 				3370EFC12A838B9200885C30 /* Review */,
 			);
 			path = Onboarding;
@@ -2873,6 +2898,7 @@
 				33AF97B72A7AA60C00716104 /* ActivityIndicatorView.swift in Sources */,
 				33E8A8B82A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift in Sources */,
 				33A51B972A17749200BE11C1 /* MainRecipeViewController.swift in Sources */,
+				3370EFC52A83D0DD00885C30 /* OnboardingContentView.swift in Sources */,
 				338EB6B429C1BACC00D6A03F /* SearchInRecipeViewController.swift in Sources */,
 				33AF97AF2A7A9EC200716104 /* NutritionFacts.swift in Sources */,
 				335519C229ACC00F00AD2B77 /* ProductImageView.swift in Sources */,
@@ -3023,7 +3049,7 @@
 				B3F7C9CB299645F80081B245 /* PasswordResetView.swift in Sources */,
 				389DCF4829460A1B00DB9382 /* RecipeScreenHeader.swift in Sources */,
 				3379B65A29B9B2ED0080923A /* CategoryView.swift in Sources */,
-				3370EFC02A82A08300885C30 /* OnboardingCell.swift in Sources */,
+				3370EFC02A82A08300885C30 /* NewOnboardingCell.swift in Sources */,
 				33A51B9F2A1780DA00BE11C1 /* MainRecipeCollectionViewLayout.swift in Sources */,
 				3379B65C29B9B3030080923A /* AddIngredientView.swift in Sources */,
 				339FF37E2A65793E00C6D6E3 /* NewPaywallProductView.swift in Sources */,
@@ -3032,7 +3058,7 @@
 				B371CCB2299F7B0200E0E197 /* GroceryListResponse.swift in Sources */,
 				3380D1B429C2D1E500A57F25 /* AllRecipesCell.swift in Sources */,
 				3368FD6E29B700F300D97291 /* UUIDExtension.swift in Sources */,
-				3370EFBE2A8285E400885C30 /* OnboardingViewController.swift in Sources */,
+				3370EFBE2A8285E400885C30 /* NewOnboardingViewController.swift in Sources */,
 				339254AC2A3161D50047807E /* RequestGenerator.swift in Sources */,
 				337E79CE29E595F700668578 /* ViewWithOverriddenPoint.swift in Sources */,
 				333E2D3529F1226D00F705E7 /* DisplayCostListCell.swift in Sources */,
@@ -3058,6 +3084,7 @@
 				B34BB813292E4C4500748E8E /* SelectListCollectionCell.swift in Sources */,
 				33995D342A1F96C7003FECAE /* CreateNewPantryViewModel.swift in Sources */,
 				33C6F0E62A4439CB00E71023 /* PhotoFromRecipesViewModel.swift in Sources */,
+				3370EFC62A83D0DD00885C30 /* FirstOnboardingView.swift in Sources */,
 				33796E612A139F5D009AD385 /* FeedbackViewController.swift in Sources */,
 				B3777E1D2938CBF40074BE38 /* SettingsParametrView.swift in Sources */,
 				B37A2CEB2911034D003C01AD /* StringExtension.swift in Sources */,
@@ -3092,6 +3119,7 @@
 				38F4903F2946DC6A00529D1F /* IngredientView.swift in Sources */,
 				B381EF33299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift in Sources */,
 				B34EAC9C2934E95E00FBD0E0 /* SelectCategoryCell.swift in Sources */,
+				3370EFC72A83D0DD00885C30 /* OnboardingViewController.swift in Sources */,
 				B3F7C9C729963F0A0081B245 /* PasswordResetViewController.swift in Sources */,
 				3360735D2A4B3B5C002427BE /* ShowCollectionDeleteAlertView.swift in Sources */,
 				336A112729F2D1F4008CFF33 /* BundleExtension.swift in Sources */,

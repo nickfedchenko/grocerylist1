@@ -60,7 +60,7 @@ final class RootRouter: RootRouterProtocol {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
-        goToOnboarding()
+        showTestOnboarding()
     }
     
     func openResetPassword(token: String) {
@@ -79,9 +79,45 @@ final class RootRouter: RootRouterProtocol {
         goToSignUpController(animated: false, isFromResetPassword: true)
     }
     
+    func showTestOnboarding() {    
+        if !InternetConnection.isConnected() {
+            goToOnboarding()
+            return
+        }
+
+        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
+            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+                self?.goToOnboarding()
+                return
+            }
+
+            if let targetOnboarding = paywall.json?["onboarding"] as? String,
+               targetOnboarding.lowercased() == "new" {
+                self?.goToNewOnboarding()
+            } else {
+                self?.goToOnboarding()
+            }
+        }
+    }
+    
+    func goToNewOnboarding() {
+        if !UserDefaultsManager.shared.isFirstLaunch {
+            UserDefaultsManager.shared.firstLaunchDate = Date()
+            FeatureManager.shared.activeFeaturesOnFirstLaunch()
+            UserDefaultsManager.shared.isFirstLaunch = true
+        }
+        
+        if Apphud.hasActiveSubscription(),
+           UserDefaultsManager.shared.shouldShowOnboarding {
+            return
+        }
+        let onboardingController = viewControllerFactory.createNewOnboardingController(router: self)
+        navigationPushViewController(onboardingController, animated: false)
+    }
+    
     func goToOnboarding() {
         if UserDefaultsManager.shared.shouldShowOnboarding {
-            guard let onboardingController = viewControllerFactory.createOnboardingController(router: self) else { return }
+            let onboardingController = viewControllerFactory.createOnboardingController(router: self)
             navigationPushViewController(onboardingController, animated: false)
             UserDefaultsManager.shared.firstLaunchDate = Date()
             FeatureManager.shared.activeFeaturesOnFirstLaunch()
@@ -431,64 +467,59 @@ final class RootRouter: RootRouterProtocol {
         topViewController?.present(controller, animated: true, completion: nil)
     }
     
-    func showPaywallVC() { 
-        guard !Apphud.hasActiveSubscription() else { return }
-        showUpdatedPaywall()
-//        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
-//            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
-//
-//                if let paywall = paywalls.first(where: { $0.isDefault }),
-//                   let targetPaywallName = paywall.json?["name"] as? String {
-//                    self?.showPaywall(by: targetPaywallName)
-//                    return
-//                }
-//
-//                self?.showNewPaywall(isTrial: false)
-//                return
-//            }
-//
-//            if let targetPaywallName = paywall.json?["name"] as? String {
-//                self?.showPaywall(by: targetPaywallName)
-//            } else {
-//                self?.showNewPaywall(isTrial: false)
-//            }
-//        }
+    func showPaywallVC() {
+        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
+            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+                if let paywall = paywalls.first(where: { $0.isDefault }),
+                   let targetPaywallName = paywall.json?["name"] as? String {
+                    let isHard = (paywall.json?["onboarding"] as? String) ?? ""
+                    self?.showPaywall(by: targetPaywallName, isHard: isHard == "new")
+                    return
+                }
+
+                self?.showAlternativePaywallVC(isHard: false)
+                return
+            }
+
+            if let targetPaywallName = paywall.json?["name"] as? String {
+                let isHard = (paywall.json?["onboarding"] as? String) ?? ""
+                self?.showPaywall(by: targetPaywallName, isHard: isHard == "new")
+            } else {
+                self?.showAlternativePaywallVC(isHard: false)
+            }
+        }
     }
     
     func showPaywallVCOnTopController() {
         guard !Apphud.hasActiveSubscription() else { return }
-        let controller = viewControllerFactory.createUpdatedPaywallController()
-        controller.modalPresentationStyle = .overCurrentContext
-        UIViewController.currentController()?.present(controller, animated: true)
-        
-//        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
-//            var controller: UIViewController
-//            guard let self else {
-//                return
-//            }
-//            controller = self.viewControllerFactory.createNewPaywallController(isTrial: false)
-//            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
-//
-//                if let paywall = paywalls.first(where: { $0.isDefault }),
-//                   let targetPaywallName = paywall.json?["name"] as? String {
-//                    controller = self.getPaywall(by: targetPaywallName)
-//                }
-//                
-//                controller.modalPresentationStyle = .overCurrentContext
-//                UIViewController.currentController()?.present(controller, animated: true)
-//                return
-//            }
-//
-//            if let targetPaywallName = paywall.json?["name"] as? String {
-//                controller = self.getPaywall(by: targetPaywallName)
-//            }
-//
-//            controller.modalPresentationStyle = .overCurrentContext
-//            UIViewController.currentController()?.present(controller, animated: true)
-//        }
+        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
+            var controller: UIViewController
+            guard let self else {
+                return
+            }
+            controller = self.viewControllerFactory.createAlternativePaywallController(isHard: false)
+            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+
+                if let paywall = paywalls.first(where: { $0.isDefault }),
+                   let targetPaywallName = paywall.json?["name"] as? String {
+                    controller = self.getPaywall(by: targetPaywallName, isHard: false)
+                }
+                
+                controller.modalPresentationStyle = .overCurrentContext
+                UIViewController.currentController()?.present(controller, animated: true)
+                return
+            }
+
+            if let targetPaywallName = paywall.json?["name"] as? String {
+                controller = self.getPaywall(by: targetPaywallName, isHard: false)
+            }
+
+            controller.modalPresentationStyle = .overCurrentContext
+            UIViewController.currentController()?.present(controller, animated: true)
+        }
     }
     
-    private func showPaywall(by name: String) {
+    private func showPaywall(by name: String, isHard: Bool) {
         if name == "VaninPaywall" {
             showUpdatedPaywall()
         } else if name == "IvanTrialPaywall" {
@@ -496,13 +527,13 @@ final class RootRouter: RootRouterProtocol {
         } else if name == "IvanNoTrialPaywall" {
             showNewPaywall(isTrial: false)
         } else if name == "AlternativePaywall" {
-            showAlternativePaywallVC()
+            showAlternativePaywallVC(isHard: isHard)
         } else {
-            showNewPaywall(isTrial: false)
+            showAlternativePaywallVC(isHard: isHard)
         }
     }
     
-    private func getPaywall(by name: String) -> UIViewController {
+    private func getPaywall(by name: String, isHard: Bool) -> UIViewController {
         if name == "VaninPaywall" {
             return viewControllerFactory.createUpdatedPaywallController()
         } else if name == "IvanTrialPaywall" {
@@ -510,9 +541,9 @@ final class RootRouter: RootRouterProtocol {
         } else if name == "IvanNoTrialPaywall" {
             return viewControllerFactory.createNewPaywallController(isTrial: false)
         } else if name == "AlternativePaywall" {
-            return viewControllerFactory.createAlternativePaywallController()
+            return viewControllerFactory.createAlternativePaywallController(isHard: isHard)
         } else {
-            return viewControllerFactory.createNewPaywallController(isTrial: false)
+            return viewControllerFactory.createAlternativePaywallController(isHard: isHard)
         }
     }
     
@@ -522,8 +553,8 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func showAlternativePaywallVC() {
-        let controller = viewControllerFactory.createAlternativePaywallController()
+    func showAlternativePaywallVC(isHard: Bool) {
+        let controller = viewControllerFactory.createAlternativePaywallController(isHard: isHard)
         guard !Apphud.hasActiveSubscription() else { return }
         navigationPresent(controller, animated: true)
     }

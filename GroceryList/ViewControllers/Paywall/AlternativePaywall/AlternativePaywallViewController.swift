@@ -12,6 +12,8 @@ import UIKit
 // swiftlint:disable:next type_body_length
 class AlternativePaywallViewController: UIViewController {
   
+    var isHardPaywall = false
+    
     private var products: [ApphudProduct] = []
     private var selectedPrice: PayWallModel?
     private var selectedProduct: ApphudProduct?
@@ -178,6 +180,8 @@ class AlternativePaywallViewController: UIViewController {
         super.viewDidLoad()
         setupConstraints()
         setupCollectionView()
+        
+        closeButton.isHidden = isHardPaywall
         
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard let products = paywalls.first(where: { $0.isDefault })?.products,

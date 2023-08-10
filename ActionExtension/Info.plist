@@ -9,11 +9,12 @@
 			<key>NSExtensionActionWantsFullScreenPresentation</key>
 			<false/>
 			<key>NSExtensionActivationRule</key>
-			<dict/>
-			<key>NSExtensionActivationSupportsWebPageWithMaxCount</key>
-			<integer>1</integer>
-			<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
-			<integer>1</integer>
+			<dict>
+				<key>NSExtensionActivationSupportsWebPageWithMaxCount</key>
+				<integer>1</integer>
+				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
+				<integer>1</integer>
+			</dict>
 			<key>NSExtensionJavaScriptPreprocessingFile</key>
 			<string>Action</string>
 			<key>NSExtensionServiceAllowsFinderPreviewItem</key>

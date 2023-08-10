@@ -30,6 +30,11 @@ class UserDefaultsManager {
         set { userDefaults.set(newValue, forKey: "shouldShowOnboarding") }
     }
     
+    var isFirstLaunch: Bool {
+        get { userDefaults.bool(forKey: "isFirstLaunch") }
+        set { userDefaults.set(newValue, forKey: "isFirstLaunch") }
+    }
+    
     var firstLaunchDate: Date? {
         get { userDefaults.object(forKey: "firstLaunchDate") as? Date }
         set { userDefaults.set(newValue, forKey: "firstLaunchDate") }

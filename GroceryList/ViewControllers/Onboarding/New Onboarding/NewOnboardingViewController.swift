@@ -1,5 +1,5 @@
 //
-//  OnboardingViewController.swift
+//  NewOnboardingViewController.swift
 //  GroceryList
 //
 //  Created by Хандымаа Чульдум on 08.08.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OnboardingViewController: UIViewController {
+class NewOnboardingViewController: UIViewController {
 
     weak var router: RootRouter?
     
@@ -15,7 +15,7 @@ class OnboardingViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(classCell: OnboardingCell.self)
+        collectionView.register(classCell: NewOnboardingCell.self)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
@@ -123,20 +123,20 @@ class OnboardingViewController: UIViewController {
     }
 }
 
-extension OnboardingViewController: UICollectionViewDataSource {
+extension NewOnboardingViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         screenNames.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.reusableCell(classCell: OnboardingCell.self,
+        let cell = collectionView.reusableCell(classCell: NewOnboardingCell.self,
                                                           indexPath: indexPath)
         cell.imageView.image = UIImage(named: screenNames[indexPath.row]) 
         return cell
     }
 }
 
-extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension NewOnboardingViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {

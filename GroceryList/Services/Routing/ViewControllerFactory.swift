@@ -10,8 +10,14 @@ import UIKit
 // swiftlint:disable:next type_body_length
 final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
-    func createOnboardingController(router: RootRouter) -> UIViewController? {
+    func createOnboardingController(router: RootRouter) -> UIViewController {
         let viewController = OnboardingViewController()
+        viewController.router = router
+        return viewController
+    }
+    
+    func createNewOnboardingController(router: RootRouter) -> UIViewController {
+        let viewController = NewOnboardingViewController()
         viewController.router = router
         return viewController
     }
@@ -235,8 +241,10 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return PaywallViewController()
     }
     
-    func createAlternativePaywallController() -> UIViewController {
-        return AlternativePaywallViewController()
+    func createAlternativePaywallController(isHard: Bool) -> UIViewController {
+        let controller = AlternativePaywallViewController()
+        controller.isHardPaywall = isHard
+        return controller
     }
     
     func createUpdatedPaywallController() -> UIViewController {
