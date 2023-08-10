@@ -5,8 +5,8 @@
 //  Created by Хандымаа Чульдум on 07.07.2023.
 //
 
-import UIKit
 import TagListView
+import UIKit
 
 class FiltersView: TagListView {
 

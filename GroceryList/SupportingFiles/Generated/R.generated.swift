@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 378 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 406 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -100,6 +100,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var aaBatteries: RswiftResources.StringResource { .init(key: "AA batteries", tableName: "Localizable", source: source, developmentValue: "AA batteries", comment: nil) }
+
+      /// en translation: ACTIVATE EXTENSION
+      ///
+      /// Key: ACTIVATE EXTENSION
+      ///
+      /// Locales: en, ru, fr, de
+      var activateextensioN: RswiftResources.StringResource { .init(key: "ACTIVATE EXTENSION", tableName: "Localizable", source: source, developmentValue: "ACTIVATE EXTENSION", comment: nil) }
 
       /// en translation: ADD TO SHOPPING LIST
       ///
@@ -598,6 +605,13 @@ struct _R {
       /// Locales: en, ru
       var emailTaken: RswiftResources.StringResource { .init(key: "EmailTaken", tableName: "Localizable", source: source, developmentValue: "This e-mail is already taken", comment: nil) }
 
+      /// en translation: Enable the Recipe Import Action
+      ///
+      /// Key: Enable Recipe Import Action
+      ///
+      /// Locales: en, ru, fr, de
+      var enableRecipeImportAction: RswiftResources.StringResource { .init(key: "Enable Recipe Import Action", tableName: "Localizable", source: source, developmentValue: "Enable the Recipe Import Action", comment: nil) }
+
       /// en translation: Error
       ///
       /// Key: Error
@@ -731,12 +745,33 @@ struct _R {
       /// Locales: en, ru, fr, de
       var groceryList: RswiftResources.StringResource { .init(key: "Grocery List", tableName: "Localizable", source: source, developmentValue: "Grocery List", comment: nil) }
 
+      /// en translation: Grocery List App allows you to quickly import a recipe to your collection from a website.
+      ///
+      /// Key: Grocery List App allows
+      ///
+      /// Locales: en, ru, fr, de
+      var groceryListAppAllows: RswiftResources.StringResource { .init(key: "Grocery List App allows", tableName: "Localizable", source: source, developmentValue: "Grocery List App allows you to quickly import a recipe to your collection from a website.", comment: nil) }
+
+      /// en translation: Grocery List was unable to find a recipe on this page and import it automatically. If recipe import fails, one alternative is to manually copy and paste the recipe into Grocery List App
+      ///
+      /// Key: Grocery List was unable
+      ///
+      /// Locales: en, ru, fr, de
+      var groceryListWasUnable: RswiftResources.StringResource { .init(key: "Grocery List was unable", tableName: "Localizable", source: source, developmentValue: "Grocery List was unable to find a recipe on this page and import it automatically. If recipe import fails, one alternative is to manually copy and paste the recipe into Grocery List App", comment: nil) }
+
       /// en translation: Grocery Lists
       ///
       /// Key: Grocery Lists
       ///
       /// Locales: en, ru, fr, de
       var groceryLists: RswiftResources.StringResource { .init(key: "Grocery Lists", tableName: "Localizable", source: source, developmentValue: "Grocery Lists", comment: nil) }
+
+      /// en translation: Grocery List can import recipes from sites that support the microdata or hrecipe standards. Most major recipe websites support these standards
+      ///
+      /// Key: GroceryListCanImportRecipes
+      ///
+      /// Locales: en, ru, fr, de
+      var groceryListCanImportRecipes: RswiftResources.StringResource { .init(key: "GroceryListCanImportRecipes", tableName: "Localizable", source: source, developmentValue: "Grocery List can import recipes from sites that support the microdata or hrecipe standards. Most major recipe websites support these standards", comment: nil) }
 
       /// en translation: Ground black pepper
       ///
@@ -878,6 +913,83 @@ struct _R {
       /// Locales: en, ru, fr, de
       var imperial: RswiftResources.StringResource { .init(key: "Imperial", tableName: "Localizable", source: source, developmentValue: "U.S. standard", comment: nil) }
 
+      /// en translation: Import Web Recipes
+      ///
+      /// Key: Import Web Recipes
+      ///
+      /// Locales: en, ru, fr, de
+      var importWebRecipes: RswiftResources.StringResource { .init(key: "Import Web Recipes", tableName: "Localizable", source: source, developmentValue: "Import Web Recipes", comment: nil) }
+
+      /// en translation: Import failed
+      ///
+      /// Key: Import failed
+      ///
+      /// Locales: en, ru, fr, de
+      var importFailed: RswiftResources.StringResource { .init(key: "Import failed", tableName: "Localizable", source: source, developmentValue: "Import failed", comment: nil) }
+
+      /// en translation: First, tap the Share button in the Safari toolbar
+      ///
+      /// Key: ImportManual.1
+      ///
+      /// Locales: en, ru, fr, de
+      var importManual1: RswiftResources.StringResource { .init(key: "ImportManual.1", tableName: "Localizable", source: source, developmentValue: "First, tap the Share button in the Safari toolbar", comment: nil) }
+
+      /// en translation: Share
+      ///
+      /// Key: ImportManual.1.Bold
+      ///
+      /// Locales: en, ru, fr, de
+      var importManual1Bold: RswiftResources.StringResource { .init(key: "ImportManual.1.Bold", tableName: "Localizable", source: source, developmentValue: "Share", comment: nil) }
+
+      /// en translation: Scroll to the bottom of the share sheet, then select Edit Actions...
+      ///
+      /// Key: ImportManual.2
+      ///
+      /// Locales: en, ru, fr, de
+      var importManual2: RswiftResources.StringResource { .init(key: "ImportManual.2", tableName: "Localizable", source: source, developmentValue: "Scroll to the bottom of the share sheet, then select Edit Actions...", comment: nil) }
+
+      /// en translation: Edit Actions...
+      ///
+      /// Key: ImportManual.2.Bold
+      ///
+      /// Locales: en, ru, fr, de
+      var importManual2Bold: RswiftResources.StringResource { .init(key: "ImportManual.2.Bold", tableName: "Localizable", source: source, developmentValue: "Edit Actions...", comment: nil) }
+
+      /// en translation: Find the Grocery List Recipe Import action, and turn on the switch next to it. Optionaly, tap the green plus icon to left of the; action name to make it one of your favorite actions. Then tap Done.
+      ///
+      /// Key: ImportManual.3
+      ///
+      /// Locales: en, ru, fr, de
+      var importManual3: RswiftResources.StringResource { .init(key: "ImportManual.3", tableName: "Localizable", source: source, developmentValue: "Find the Grocery List Recipe Import action, and turn on the switch next to it. Optionaly, tap the green plus icon to left of the; action name to make it one of your favorite actions. Then tap Done.", comment: nil) }
+
+      /// en translation: Grocery List Recipe Import
+      ///
+      /// Key: ImportManual.3.4.Bold
+      ///
+      /// Locales: en, ru, fr, de
+      var importManual34Bold: RswiftResources.StringResource { .init(key: "ImportManual.3.4.Bold", tableName: "Localizable", source: source, developmentValue: "Grocery List Recipe Import", comment: nil) }
+
+      /// en translation: Now the Grocery List Recipe Import action will be available. Tap on it while viewing a web page that contains a recipe.
+      ///
+      /// Key: ImportManual.4
+      ///
+      /// Locales: en, ru, fr, de
+      var importManual4: RswiftResources.StringResource { .init(key: "ImportManual.4", tableName: "Localizable", source: source, developmentValue: "Now the Grocery List Recipe Import action will be available. Tap on it while viewing a web page that contains a recipe.", comment: nil) }
+
+      /// en translation: Review the imported recipe, than tap the Save button to save it to your collection of recipes in Grocery List App. You can edit; it later, inside the application
+      ///
+      /// Key: ImportManual.5
+      ///
+      /// Locales: en, ru, fr, de
+      var importManual5: RswiftResources.StringResource { .init(key: "ImportManual.5", tableName: "Localizable", source: source, developmentValue: "Review the imported recipe, than tap the Save button to save it to your collection of recipes in Grocery List App. You can edit; it later, inside the application", comment: nil) }
+
+      /// en translation: Save
+      ///
+      /// Key: ImportManual.5.Bold
+      ///
+      /// Locales: en, ru, fr, de
+      var importManual5Bold: RswiftResources.StringResource { .init(key: "ImportManual.5.Bold", tableName: "Localizable", source: source, developmentValue: "Save", comment: nil) }
+
       /// en translation: Ingredients
       ///
       /// Key: Ingredients
@@ -891,6 +1003,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var instructions: RswiftResources.StringResource { .init(key: "Instructions", tableName: "Localizable", source: source, developmentValue: "Instructions", comment: nil) }
+
+      /// en translation: It's clear!
+      ///
+      /// Key: It's clear!
+      ///
+      /// Locales: en, ru, fr, de
+      var itSClear: RswiftResources.StringResource { .init(key: "It's clear!", tableName: "Localizable", source: source, developmentValue: "It's clear!", comment: nil) }
 
       /// en translation: Kitchen Scrub Sponges
       ///
@@ -1221,6 +1340,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var organizeRecepts: RswiftResources.StringResource { .init(key: "OrganizeRecepts", tableName: "Localizable", source: source, developmentValue: "Replenished collections of recipes in the app\nWrite down and organize your recipes", comment: nil) }
 
+      /// en translation: Our iOS action extension allows you to import recipes directly into Grocery List while browsing the web.
+      ///
+      /// Key: Our iOS action extension
+      ///
+      /// Locales: en, ru, fr, de
+      var ourIOSActionExtension: RswiftResources.StringResource { .init(key: "Our iOS action extension", tableName: "Localizable", source: source, developmentValue: "Our iOS action extension allows you to import recipes directly into Grocery List while browsing the web.", comment: nil) }
+
       /// en translation: Out: 
       ///
       /// Key: Out: 
@@ -1410,6 +1536,27 @@ struct _R {
       /// Locales: en, ru, fr, de
       var registeR: RswiftResources.StringResource { .init(key: "REGISTER", tableName: "Localizable", source: source, developmentValue: "REGISTER", comment: nil) }
 
+      /// en translation: hrecipe
+      ///
+      /// Key: RangeHrecipe
+      ///
+      /// Locales: en, ru, fr, de
+      var rangeHrecipe: RswiftResources.StringResource { .init(key: "RangeHrecipe", tableName: "Localizable", source: source, developmentValue: "hrecipe", comment: nil) }
+
+      /// en translation: microdata
+      ///
+      /// Key: RangeMicrodata
+      ///
+      /// Locales: en, ru, fr, de
+      var rangeMicrodata: RswiftResources.StringResource { .init(key: "RangeMicrodata", tableName: "Localizable", source: source, developmentValue: "microdata", comment: nil) }
+
+      /// en translation: required import standard
+      ///
+      /// Key: RangeRequiredImportStandard
+      ///
+      /// Locales: en, ru, fr, de
+      var rangeRequiredImportStandard: RswiftResources.StringResource { .init(key: "RangeRequiredImportStandard", tableName: "Localizable", source: source, developmentValue: "required import standard", comment: nil) }
+
       /// en translation: Ready-made food
       ///
       /// Key: ReadyFood
@@ -1430,6 +1577,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var recipe: RswiftResources.StringResource { .init(key: "Recipe", tableName: "Localizable", source: source, developmentValue: "Recipe ", comment: nil) }
+
+      /// en translation: Recipe Source
+      ///
+      /// Key: Recipe Source
+      ///
+      /// Locales: en, ru, fr, de
+      var recipeSource: RswiftResources.StringResource { .init(key: "Recipe Source", tableName: "Localizable", source: source, developmentValue: "Recipe Source", comment: nil) }
 
       /// en translation: Recipes
       ///
@@ -1472,6 +1626,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var requiredMinimum2: RswiftResources.StringResource { .init(key: "Required (minimum 2)", tableName: "Localizable", source: source, developmentValue: "Required (minimum 2)", comment: nil) }
+
+      /// en translation: Required import standard
+      ///
+      /// Key: Required import standard
+      ///
+      /// Locales: en, ru, fr, de
+      var requiredImportStandard: RswiftResources.StringResource { .init(key: "Required import standard", tableName: "Localizable", source: source, developmentValue: "Required import standard", comment: nil) }
 
       /// en translation: Change password
       ///
@@ -1521,6 +1682,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var save: RswiftResources.StringResource { .init(key: "Save", tableName: "Localizable", source: source, developmentValue: "Save", comment: nil) }
+
+      /// en translation: Save Recipe
+      ///
+      /// Key: Save Recipe
+      ///
+      /// Locales: en, ru, fr, de
+      var saveRecipe: RswiftResources.StringResource { .init(key: "Save Recipe", tableName: "Localizable", source: source, developmentValue: "Save Recipe", comment: nil) }
 
       /// en translation: Save time and money
       ///
@@ -1865,6 +2033,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var subscriptions: RswiftResources.StringResource { .init(key: "Subscriptions", tableName: "Localizable", source: source, developmentValue: "Subscriptions", comment: nil) }
 
+      /// en translation: Suggested recipe websites
+      ///
+      /// Key: Suggested recipe websites
+      ///
+      /// Locales: en, ru, fr, de
+      var suggestedRecipeWebsites: RswiftResources.StringResource { .init(key: "Suggested recipe websites", tableName: "Localizable", source: source, developmentValue: "Suggested recipe websites", comment: nil) }
+
       /// en translation: Supermarket
       ///
       /// Key: Supermarket
@@ -2005,6 +2180,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var warning: RswiftResources.StringResource { .init(key: "Warning", tableName: "Localizable", source: source, developmentValue: "Warning", comment: nil) }
 
+      /// en translation: We have compiled a list of some suggested recipe websites that support the required import standard.
+      ///
+      /// Key: We have compiled a list
+      ///
+      /// Locales: en, ru, fr, de
+      var weHaveCompiledAList: RswiftResources.StringResource { .init(key: "We have compiled a list", tableName: "Localizable", source: source, developmentValue: "We have compiled a list of some suggested recipe websites that support the required import standard.", comment: nil) }
+
       /// en translation: Wheat flour
       ///
       /// Key: Wheat flour
@@ -2053,6 +2235,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var youCanAlsoWriteAReview: RswiftResources.StringResource { .init(key: "You can also write a review", tableName: "Localizable", source: source, developmentValue: "You can also write a review. \n We will be very pleased", comment: nil) }
+
+      /// en translation: You can edit the recipe later, inside the app
+      ///
+      /// Key: You can edit the recipe later
+      ///
+      /// Locales: en, ru, fr, de
+      var youCanEditTheRecipeLater: RswiftResources.StringResource { .init(key: "You can edit the recipe later", tableName: "Localizable", source: source, developmentValue: "You can edit the recipe later, inside the app", comment: nil) }
 
       /// en translation: You can find your drafts on the main screen, in collections
       ///
@@ -2256,6 +2445,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var delete: RswiftResources.StringResource { .init(key: "delete", tableName: "Localizable", source: source, developmentValue: "Delete", comment: nil) }
+
+      /// en translation: Delete from favorites
+      ///
+      /// Key: deleteFromFavorites
+      ///
+      /// Locales: en, ru, fr, de
+      var deleteFromFavorites: RswiftResources.StringResource { .init(key: "deleteFromFavorites", tableName: "Localizable", source: source, developmentValue: "Delete from favorites", comment: nil) }
 
       /// en translation: Drafts
       ///
@@ -2766,7 +2962,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 317 images.
+  /// This `_R.image` struct is generated, and contains static references to 323 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -3403,6 +3599,21 @@ struct _R {
     /// Image `logoShoppy`.
     var logoShoppy: RswiftResources.ImageResource { .init(name: "logoShoppy", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `manual_0`.
+    var manual_0: RswiftResources.ImageResource { .init(name: "manual_0", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `manual_1`.
+    var manual_1: RswiftResources.ImageResource { .init(name: "manual_1", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `manual_2`.
+    var manual_2: RswiftResources.ImageResource { .init(name: "manual_2", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `manual_3`.
+    var manual_3: RswiftResources.ImageResource { .init(name: "manual_3", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `manual_4`.
+    var manual_4: RswiftResources.ImageResource { .init(name: "manual_4", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `media library`.
     var mediaLibrary: RswiftResources.ImageResource { .init(name: "media library", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -3709,6 +3920,9 @@ struct _R {
     /// Image `vectorArrow`.
     var vectorArrow: RswiftResources.ImageResource { .init(name: "vectorArrow", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `web-recipe`.
+    var webRecipe: RswiftResources.ImageResource { .init(name: "web-recipe", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `whiteArrowRight`.
     var whiteArrowRight: RswiftResources.ImageResource { .init(name: "whiteArrowRight", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -3722,17 +3936,21 @@ struct _R {
     var whitePlusImage: RswiftResources.ImageResource { .init(name: "whitePlusImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
   }
 
-  /// This `_R.entitlements` struct is generated, and contains static references to 2 properties.
+  /// This `_R.entitlements` struct is generated, and contains static references to 3 properties.
   struct entitlements {
     let apsEnvironment: String = "development"
     let comAppleDeveloperApplesignin = comAppleDeveloperApplesignin()
     let comAppleDeveloperAssociatedDomains = comAppleDeveloperAssociatedDomains()
+    let comAppleSecurityApplicationGroups = comAppleSecurityApplicationGroups()
     struct comAppleDeveloperApplesignin {
       let `default`: String = "Default"
     }
     struct comAppleDeveloperAssociatedDomains {
       let applinksShoppinglistPro: String = "applinks:shoppinglist.pro"
       let webcredentialsShoppinglistPro: String = "webcredentials:shoppinglist.pro"
+    }
+    struct comAppleSecurityApplicationGroups {
+      let groupComKsensShopp: String = "group.com.ksens.shopp"
     }
   }
 

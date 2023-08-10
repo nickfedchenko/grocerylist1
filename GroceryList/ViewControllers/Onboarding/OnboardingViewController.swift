@@ -16,8 +16,8 @@ class OnboardingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        UserDefaultsManager.isMetricSystem = true
-        UserDefaultsManager.isHapticOn = true
+        UserDefaultsManager.shared.isMetricSystem = true
+        UserDefaultsManager.shared.isHapticOn = true
         setupConstraints()
         setupCallbacks()
         generator.prepare()

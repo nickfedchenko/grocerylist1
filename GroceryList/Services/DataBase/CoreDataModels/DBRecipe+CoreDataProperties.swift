@@ -39,6 +39,7 @@ extension DBRecipe {
     @NSManaged public var localCollection: Data?
     @NSManaged public var localImage: Data?
     @NSManaged public var isDefaultRecipe: Bool
+    @NSManaged public var sourceUrl: String?
     
     static func prepare(fromPlainModel model: Recipe, context: NSManagedObjectContext) -> DBRecipe {
         let recipe = DBRecipe(context: context)
@@ -65,7 +66,7 @@ extension DBRecipe {
         recipe.localImage = model.localImage
         recipe.values = try? JSONEncoder().encode(model.values)
         recipe.isDefaultRecipe = model.isDefaultRecipe
-        
+        recipe.sourceUrl = model.sourceUrl
         return recipe
     }
     

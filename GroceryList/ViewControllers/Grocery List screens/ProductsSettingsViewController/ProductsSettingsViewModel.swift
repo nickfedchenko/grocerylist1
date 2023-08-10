@@ -87,7 +87,7 @@ class ProductsSettingsViewModel {
     func switchValue(at ind: Int) -> Bool {
         guard let content = allContent[safe: ind] else { return false }
         if content == .imageMatching {
-            return model.isShowImage.getBool(defaultValue: UserDefaultsManager.isShowImage)
+            return model.isShowImage.getBool(defaultValue: UserDefaultsManager.shared.isShowImage)
         }
         if content == .storeAndCost {
 #if RELEASE

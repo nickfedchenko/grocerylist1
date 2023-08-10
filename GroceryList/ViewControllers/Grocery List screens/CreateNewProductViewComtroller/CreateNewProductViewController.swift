@@ -133,15 +133,15 @@ class CreateNewProductViewController: UIViewController {
         
         guard !UIDevice.isSEorXor12mini else {
             autoCategoryView.isHidden = true
-            if UserDefaultsManager.countInfoMessage < 10 {
+            if UserDefaultsManager.shared.countInfoMessage < 10 {
                 viewModel?.showAutoCategoryAlert()
             }
             return
         }
         
-        autoCategoryView.isHidden = UserDefaultsManager.countInfoMessage >= 10
+        autoCategoryView.isHidden = UserDefaultsManager.shared.countInfoMessage >= 10
         autoCategoryView.tappedOk = { [weak self] in
-            UserDefaultsManager.countInfoMessage = 11
+            UserDefaultsManager.shared.countInfoMessage = 11
             self?.autoCategoryHideTap()
         }
         autoCategoryView.tappedOnView = { [weak self] in
@@ -154,7 +154,7 @@ class CreateNewProductViewController: UIViewController {
             return
         }
         
-        UserDefaultsManager.countInfoMessage += 1
+        UserDefaultsManager.shared.countInfoMessage += 1
         autoCategoryView.fadeOut()
     }
     

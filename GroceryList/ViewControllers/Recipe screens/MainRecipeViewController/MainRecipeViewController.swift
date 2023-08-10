@@ -83,6 +83,10 @@ final class MainRecipeViewController: UIViewController {
         setupConstraints()
         viewModelChanges()
         updateCollectionContentInset()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground),
+                                               name: UIApplication.willEnterForegroundNotification,
+                                               object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -133,11 +137,11 @@ final class MainRecipeViewController: UIViewController {
     }
     
     private func updateCollectionContentInset() {
-        let offset: CGFloat = UserDefaultsManager.recipeIsFolderView ? 0 : -24
+        let offset: CGFloat = UserDefaultsManager.shared.recipeIsFolderView ? 0 : -24
         searchView.snp.updateConstraints {
             $0.bottom.equalTo(recipesCollectionView.snp.top).offset(offset)
         }
-        let contentInset: CGFloat = UserDefaultsManager.recipeIsFolderView ? 78 : 108
+        let contentInset: CGFloat = UserDefaultsManager.shared.recipeIsFolderView ? 78 : 108
         recipesCollectionView.contentInset.top = topContentInset + contentInset
     }
     
@@ -190,6 +194,11 @@ final class MainRecipeViewController: UIViewController {
         viewModel.showSearch()
     }
     
+    @objc
+    private func appWillEnterForeground() {
+        viewModel.updateUI()
+    }
+    
     private func setupConstraints() {
         view.backgroundColor = R.color.background()
         view.addSubviews([recipesCollectionView, titleBackgroundView, activityView])
@@ -238,7 +247,7 @@ final class MainRecipeViewController: UIViewController {
 // MARK: - CollectionView
 extension MainRecipeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let isFolder = UserDefaultsManager.recipeIsFolderView
+        let isFolder = UserDefaultsManager.shared.recipeIsFolderView
         
         guard isFolder else {
             viewModel.showRecipe(by: indexPath)
@@ -260,16 +269,16 @@ extension MainRecipeViewController: UICollectionViewDelegate {
 
 extension MainRecipeViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        UserDefaultsManager.recipeIsFolderView ? 1 : viewModel.numberOfSections
+        UserDefaultsManager.shared.recipeIsFolderView ? 1 : viewModel.numberOfSections
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        UserDefaultsManager.recipeIsFolderView ? viewModel.numberOfSections : viewModel.recipeCount(for: section)
+        UserDefaultsManager.shared.recipeIsFolderView ? viewModel.numberOfSections : viewModel.recipeCount(for: section)
     }
     
     func collectionView( _ collectionView: UICollectionView,
                          cellForItemAt indexPath: IndexPath ) -> UICollectionViewCell {
-        let isFolder = UserDefaultsManager.recipeIsFolderView
+        let isFolder = UserDefaultsManager.shared.recipeIsFolderView
         
         guard isFolder else {
             return setupCollectionViewCell(indexPath: indexPath)
@@ -313,7 +322,7 @@ extension MainRecipeViewController: MainTabBarControllerRecipeDelegate {
     }
     
     func tappedChangeView() {
-        if UserDefaultsManager.recipeIsFolderView {
+        if UserDefaultsManager.shared.recipeIsFolderView {
             AmplitudeManager.shared.logEvent(.recipeToggleFolderViev)
         } else {
             AmplitudeManager.shared.logEvent(.recipeToggleCollectionView)
@@ -327,7 +336,7 @@ extension MainRecipeViewController: MainTabBarControllerRecipeDelegate {
             self.recipesCollectionView.setCollectionViewLayout(layout, animated: false)
             self.recipesCollectionView.collectionViewLayout.collectionView?.reloadData()
             
-            if UserDefaultsManager.recipeIsFolderView {
+            if UserDefaultsManager.shared.recipeIsFolderView {
                 self.recipesCollectionView.reloadData()
             }
         }

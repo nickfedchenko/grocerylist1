@@ -22,8 +22,8 @@ final class FeatureManager {
     
     static var shared = FeatureManager()
     var isActiveAutoCategory: Bool? {
-        get { return UserDefaultsManager.isActiveAutoCategory }
-        set { UserDefaultsManager.isActiveAutoCategory = newValue }
+        get { return UserDefaultsManager.shared.isActiveAutoCategory }
+        set { UserDefaultsManager.shared.isActiveAutoCategory = newValue }
     }
     var isActiveFAQ = false
     
@@ -79,7 +79,7 @@ final class FeatureManager {
     private func autoCategoryFeature(_ value: String) {
         isActiveAutoCategory = value == "on"
         if let isActiveAutoCategory {
-            UserDefaultsManager.isActiveAutoCategory = isActiveAutoCategory
+            UserDefaultsManager.shared.isActiveAutoCategory = isActiveAutoCategory
             let type = isActiveAutoCategory ? "autocategory_on" : "autocategory_off"
             AmplitudeManager.shared.setUserProperty(properties: ["user_type": type])
         }

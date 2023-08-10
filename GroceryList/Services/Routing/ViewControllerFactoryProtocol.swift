@@ -109,4 +109,5 @@ protocol ViewControllerFactoryProtocol {
                                               state: EditListState) -> UIViewController
     func createStockReminderController(outOfStocks: [Stock], updateUI: (() -> Void)?,
                                        router: RootRouter) -> UIViewController
+    func createImportWebRecipeController(router: RootRouter) -> UIViewController 
 }

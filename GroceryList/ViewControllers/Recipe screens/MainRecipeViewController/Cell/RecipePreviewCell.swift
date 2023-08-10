@@ -74,6 +74,7 @@ final class RecipePreviewCell: UICollectionViewCell {
         }
     }
     
+    // swiftlint:disable:next function_body_length
     func configure(with recipe: ShortRecipeModel, color: Theme) {
         titleLabel.textColor = color.dark
         contentView.backgroundColor = color.light

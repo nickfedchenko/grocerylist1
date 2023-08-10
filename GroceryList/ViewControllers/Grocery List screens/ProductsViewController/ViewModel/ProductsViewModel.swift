@@ -54,7 +54,7 @@ class ProductsViewModel {
     }
     
     var isVisibleImage: Bool {
-        model.isShowImage.getBool(defaultValue: UserDefaultsManager.isShowImage)
+        model.isShowImage.getBool(defaultValue: UserDefaultsManager.shared.isShowImage)
     }
     
     var totalCost: Double? {
@@ -390,13 +390,13 @@ class ProductsViewModel {
     }
     
     private func showRequest() {
-        guard !UserDefaultsManager.isNativeRateUsShowed, UserDefaultsManager.isFirstListCreated else {
+        guard !UserDefaultsManager.shared.isNativeRateUsShowed, UserDefaultsManager.shared.isFirstListCreated else {
             return
         }
         
         guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
         SKStoreReviewController.requestReview(in: scene)
         
-        UserDefaultsManager.isNativeRateUsShowed = true
+        UserDefaultsManager.shared.isNativeRateUsShowed = true
     }
 }

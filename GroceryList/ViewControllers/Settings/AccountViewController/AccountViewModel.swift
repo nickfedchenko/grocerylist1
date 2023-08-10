@@ -38,7 +38,7 @@ class AccountViewModel {
         UserAccountManager.shared.deleteUser()
         CoreDataManager.shared.removeSharedLists()
         CoreDataManager.shared.removeSharedPantryLists()
-        UserDefaultsManager.userTokens = []
+        UserDefaultsManager.shared.userTokens = []
         router?.popToRoot()
     }
     

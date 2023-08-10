@@ -48,13 +48,14 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
         updateSection()
     }
     
+    // swiftlint:disable:next function_body_length
     func updateSection() {
         guard var allDBCollection = CoreDataManager.shared.getAllCollection(),
               let allDBRecipes = CoreDataManager.shared.getAllRecipes() else {
             return
         }
         
-        let favoritesID = UserDefaultsManager.favoritesRecipeIds
+        let favoritesID = UserDefaultsManager.shared.favoritesRecipeIds
         allDBCollection.removeAll { $0.isDelete == true }
         var collections = allDBCollection.compactMap { CollectionModel(from: $0) }
         var recipes = allDBRecipes.compactMap {
@@ -136,7 +137,7 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
     }
     
     private func createDefaultsCollection() {
-        if !UserDefaultsManager.isFillingDefaultCollection {
+        if !UserDefaultsManager.shared.isFillingDefaultCollection {
             let breakfast = CollectionModel(
                 id: EatingTime.breakfast.rawValue,
                 index: 0,
@@ -166,21 +167,21 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
             
             createTechnicalCollection()
             
-            UserDefaultsManager.isFillingDefaultCollection = true
+            UserDefaultsManager.shared.isFillingDefaultCollection = true
         }
     }
     
     private func updateOldCollectionIfNeeded() {
         let collections = CoreDataManager.shared.getAllCollection() ?? []
-        guard UserDefaultsManager.isFillingDefaultCollection && !collections.isEmpty else {
+        guard UserDefaultsManager.shared.isFillingDefaultCollection && !collections.isEmpty else {
             return
         }
         
-        guard !UserDefaultsManager.isFillingDefaultTechnicalCollection else {
+        guard !UserDefaultsManager.shared.isFillingDefaultTechnicalCollection else {
             return
         }
         
-        CoreDataManager.shared.deleteCollection(by: UserDefaultsManager.miscellaneousCollectionId)
+        CoreDataManager.shared.deleteCollection(by: UserDefaultsManager.shared.miscellaneousCollectionId)
         
         collections.forEach({ dbCollection in
             EatingTime.allCases.forEach { defaultCollection in
@@ -198,7 +199,7 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
     }
     
     private func createTechnicalCollection() {
-        if !UserDefaultsManager.isFillingDefaultCollection {
+        if !UserDefaultsManager.shared.isFillingDefaultCollection {
             let iWillCookIt = CollectionModel(
                 id: EatingTime.willCook.rawValue,
                 index: EatingTime.willCook.rawValue,
@@ -225,18 +226,18 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
                 isDefault: true)
             
             CoreDataManager.shared.saveCollection(collections: [iWillCookIt, drafts, favorites, inbox])
-            UserDefaultsManager.isFillingDefaultCollection = true
+            UserDefaultsManager.shared.isFillingDefaultCollection = true
         }
     }
     
     private func updateFavoritesCollection() {
         guard let favoriteDBCollection = CoreDataManager.shared.getCollection(by: EatingTime.favorites.rawValue),
               let allRecipes: [DBRecipe] = CoreDataManager.shared.getAllRecipes() else {
-            UserDefaultsManager.isFillingDefaultTechnicalCollection = true
+            UserDefaultsManager.shared.isFillingDefaultTechnicalCollection = true
             return
         }
         let domainFavorites = allRecipes.filter {
-            UserDefaultsManager.favoritesRecipeIds.contains(Int($0.id))
+            UserDefaultsManager.shared.favoritesRecipeIds.contains(Int($0.id))
         }
         let favorites = domainFavorites.compactMap {
             ShortRecipeModel(withCollection: $0, isFavorite: true)
@@ -255,6 +256,6 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
             }
         }
         
-        UserDefaultsManager.isFillingDefaultTechnicalCollection = true
+        UserDefaultsManager.shared.isFillingDefaultTechnicalCollection = true
     }
 }

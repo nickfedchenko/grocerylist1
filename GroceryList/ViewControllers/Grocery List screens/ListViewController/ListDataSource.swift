@@ -33,11 +33,11 @@ class ListDataSource: ListDataSourceProtocol {
     
     private var coldStartState: ColdStartState {
         get {
-           return ColdStartState(rawValue: UserDefaultsManager.coldStartState) ?? .initial
+            return ColdStartState(rawValue: UserDefaultsManager.shared.coldStartState) ?? .initial
         }
         
         set {
-            UserDefaultsManager.coldStartState = newValue.rawValue
+            UserDefaultsManager.shared.coldStartState = newValue.rawValue
         }
     }
     
@@ -108,7 +108,7 @@ class ListDataSource: ListDataSourceProtocol {
     }
 
     private func createWorkingArray() {
-        if coldStartState == .initial && !UserDefaultsManager.shouldShowOnboarding {
+        if coldStartState == .initial && !UserDefaultsManager.shared.shouldShowOnboarding {
             let isAutomaticCategory = FeatureManager.shared.isActiveAutoCategory ?? true
             CoreDataManager.shared.saveList(list: GroceryListsModel(dateOfCreation: Date(), name: "Supermarket".localized, color: 0, isFavorite: true, products: [], isAutomaticCategory: isAutomaticCategory, typeOfSorting: 0))
             coldStartState = .firstItemAdded

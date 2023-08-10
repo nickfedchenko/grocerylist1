@@ -9,7 +9,9 @@ import Foundation
 import CoreData
 
 class CoreDataStorage {
+    
     let containerName = "DataBase"
+    
     lazy var context: NSManagedObjectContext = container.viewContext
     lazy var taskContext: NSManagedObjectContext = {
         let taskContext = container.newBackgroundContext()
@@ -26,6 +28,10 @@ class CoreDataStorage {
     
     lazy var container: NSPersistentContainer = {
         let container = NSPersistentContainer(name: containerName)
+        let storeURL = URL.storeURL(for: "group.com.ksens.shopp", databaseName: containerName)
+        let storeDescription = NSPersistentStoreDescription(url: storeURL)
+        container.persistentStoreDescriptions = [storeDescription]
+        
         container.loadPersistentStores(completionHandler: { (_, error) in
             guard let error = error as NSError? else { return }
             container.viewContext.mergePolicy = NSMergePolicy(merge: .overwriteMergePolicyType)
@@ -34,7 +40,6 @@ class CoreDataStorage {
         })
         return container
     }()
-    
 }
 
 class SafeMergePolicy: NSMergePolicy {
@@ -61,5 +66,15 @@ class SafeMergePolicy: NSMergePolicy {
             }
         }
         try super.resolve(constraintConflicts: list)
+    }
+}
+
+extension URL {
+    static func storeURL(for appGroup: String, databaseName: String) -> URL {
+        guard let fileContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
+            fatalError("Shared file container could not be created.")
+        }
+
+        return fileContainer.appendingPathComponent("\(databaseName).sqlite")
     }
 }

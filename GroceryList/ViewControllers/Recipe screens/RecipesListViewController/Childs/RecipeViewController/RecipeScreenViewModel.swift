@@ -44,7 +44,7 @@ final class RecipeScreenViewModel {
     var theme: Theme
     var fromSearch = false
     private(set) var recipe: Recipe
-    private var isMetricSystem = UserDefaultsManager.isMetricSystem
+    private var isMetricSystem = UserDefaultsManager.shared.isMetricSystem
     private var recipeUnit: RecipeUnit?
     private var sectionColor: Theme?
     
@@ -155,9 +155,9 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
         
         if isSelected {
             AmplitudeManager.shared.logEvent(.recipeAddFavorites)
-            UserDefaultsManager.favoritesRecipeIds.append(recipe.id)
+            UserDefaultsManager.shared.favoritesRecipeIds.append(recipe.id)
         } else {
-            UserDefaultsManager.favoritesRecipeIds.removeAll(where: { $0 == recipe.id })
+            UserDefaultsManager.shared.favoritesRecipeIds.removeAll(where: { $0 == recipe.id })
         }
 
         if var localCollection = recipe.localCollection {

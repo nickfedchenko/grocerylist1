@@ -414,6 +414,7 @@
 "inbox"                         = "Inbox";
 
 "addToFavorites"                = "Add to Favorites";
+"deleteFromFavorites"           = "Delete from favorites";
 "added to"                      = "Added to";
 
 "Delete Collection?"            = "Delete Collection?";
@@ -440,9 +441,37 @@
 "search"                        = "Search";
 "Add Filter"                    = "Add Filter";
 
-// FAQ
-"Help & FAQ"                    = "Help & FAQ";
-"Check Internet connection"     = "Check Internet connection";
+// Import web recipe
+"Import Web Recipes"            = "Import Web Recipes";
+"Our iOS action extension"      = "Our iOS action extension allows you to import recipes directly into Grocery List while browsing the web.";
+"ACTIVATE EXTENSION"            = "ACTIVATE EXTENSION";
+"Suggested recipe websites"     = "Suggested recipe websites";
+"We have compiled a list"       = "We have compiled a list of some suggested recipe websites that support the required import standard.";
+"RangeRequiredImportStandard"   = "required import standard";
+"Required import standard"      = "Required import standard";
+"It's clear!"                   = "It's clear!";
+"GroceryListCanImportRecipes"   = "Grocery List can import recipes from sites that support the microdata or hrecipe standards. Most major recipe websites support these standards";
+"RangeMicrodata"                = "microdata";
+"RangeHrecipe"                  = "hrecipe";
+"Enable Recipe Import Action"   = "Enable the Recipe Import Action";
+"Grocery List App allows"       = "Grocery List App allows you to quickly import a recipe to your collection from a website.";
+
+"ImportManual.1"                = "First, tap the Share button in the Safari toolbar";
+"ImportManual.1.Bold"           = "Share";
+"ImportManual.2"                = "Scroll to the bottom of the share sheet, then select Edit Actions...";
+"ImportManual.2.Bold"           = "Edit Actions...";
+"ImportManual.3"                = "Find the Grocery List Recipe Import action, and turn on the switch next to it. Optionaly, tap the green plus icon to left of the; action name to make it one of your favorite actions. Then tap Done.";
+"ImportManual.4"                = "Now the Grocery List Recipe Import action will be available. Tap on it while viewing a web page that contains a recipe.";
+"ImportManual.3.4.Bold"         = "Grocery List Recipe Import";
+"ImportManual.5"                = "Review the imported recipe, than tap the Save button to save it to your collection of recipes in Grocery List App. You can edit; it later, inside the application";
+"ImportManual.5.Bold"           = "Save";
+
+"Save Recipe"                   = "Save Recipe";
+"You can edit the recipe later" = "You can edit the recipe later, inside the app";
+"Recipe Source"                 = "Recipe Source";
+
+"Import failed"                 = "Import failed";
+"Grocery List was unable"       = "Grocery List was unable to find a recipe on this page and import it automatically. If recipe import fails, one alternative is to manually copy and paste the recipe into Grocery List App";
 
 // FAQ
 "Help & FAQ"                    = "Help & FAQ";

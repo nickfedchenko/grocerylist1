@@ -58,16 +58,7 @@ class RecipeFilterViewModel {
             return
         }
         
-        var editFilters: [RecipeTag]
-        switch filter {
-        case .exception:                editFilters = exceptionFilter
-        case .diet:                     editFilters = dietFilter
-        case .typeOfDish:               editFilters = typeOfDishFilter
-        case .cookingMethod:            editFilters = cookingMethodFilter
-        case .caloriesPerServing:       editFilters = caloriesPerServingFilter
-        case .cookingTime:              editFilters = cookingTimeFilter
-        case .quantityOfIngredients:    editFilters = quantityOfIngredientsFilter
-        }
+        var editFilters = getEditFilters(filter: filter)
         
         if editFilters.contains(where: { $0.id == tag.id }) {
             editFilters.removeAll { $0.id == tag.id }
@@ -101,5 +92,19 @@ class RecipeFilterViewModel {
                 AmplitudeManager.shared.logEvent(.recipeSelectFilter, properties: [.filterName: tag.title])
             }
         }
+    }
+    
+    private func getEditFilters(filter: RecipeFilter) -> [RecipeTag] {
+        var editFilters: [RecipeTag]
+        switch filter {
+        case .exception:                editFilters = exceptionFilter
+        case .diet:                     editFilters = dietFilter
+        case .typeOfDish:               editFilters = typeOfDishFilter
+        case .cookingMethod:            editFilters = cookingMethodFilter
+        case .caloriesPerServing:       editFilters = caloriesPerServingFilter
+        case .cookingTime:              editFilters = cookingTimeFilter
+        case .quantityOfIngredients:    editFilters = quantityOfIngredientsFilter
+        }
+        return editFilters
     }
 }

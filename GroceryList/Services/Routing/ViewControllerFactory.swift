@@ -548,6 +548,13 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let viewController = StockReminderViewController(viewModel: viewModel)
         return viewController
     }
+    
+    func createImportWebRecipeController(router: RootRouter) -> UIViewController {
+        let viewModel = ImportWebRecipesViewModel()
+        viewModel.router = router
+        let controller = ImportWebRecipesViewController(viewModel: viewModel)
+        return controller
+    }
 }
 
 class MyNavigationController: UINavigationController {

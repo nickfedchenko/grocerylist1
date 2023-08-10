@@ -130,7 +130,7 @@ final class MainNavigationView: UIView {
     }
     
     private func updateImageChangeViewButton() {
-        let isFolder = UserDefaultsManager.recipeIsFolderView
+        let isFolder = UserDefaultsManager.shared.recipeIsFolderView
         let image = isFolder ? R.image.recipeCollectionView() : R.image.recipeFolderView()
         recipeChangeViewButton.setImage(image, for: .normal)
     }
@@ -147,7 +147,7 @@ final class MainNavigationView: UIView {
     
     @objc
     private func recipeChangeViewAction() {
-        UserDefaultsManager.recipeIsFolderView = !UserDefaultsManager.recipeIsFolderView
+        UserDefaultsManager.shared.recipeIsFolderView = !UserDefaultsManager.shared.recipeIsFolderView
         updateImageChangeViewButton()
         delegate?.recipeChangeViewTapped()
     }

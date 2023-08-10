@@ -35,9 +35,9 @@ class PantryViewModel {
     }
     
     func showStarterPackIfNeeded() {
-        if !UserDefaultsManager.isShowPantryStarterPack {
+        if !UserDefaultsManager.shared.isShowPantryStarterPack {
             router?.goToPantryStarterPack()
-            UserDefaultsManager.isShowPantryStarterPack = true
+            UserDefaultsManager.shared.isShowPantryStarterPack = true
         }
     }
     

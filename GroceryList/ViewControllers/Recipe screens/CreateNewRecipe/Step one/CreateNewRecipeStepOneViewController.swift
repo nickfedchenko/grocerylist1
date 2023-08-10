@@ -149,15 +149,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
     
     private func setupCustomView() {
         titleView.setStep(R.string.localizable.step1Of2())
-        nameView.maxLineNumber = 1
-        nameView.configure(title: R.string.localizable.name(), state: .required)
-        nameView.textView.becomeFirstResponder()
-        nameView.textFieldReturnPressed = { [weak self] in
-            self?.descriptionView.textView.becomeFirstResponder()
-        }
-        nameView.textFieldDidChange = { [weak self] in
-            self?.updateSavedToDraftsButton()
-        }
+        setupNameView()
         
         descriptionView.configure(title: R.string.localizable.description(), state: .optional,
                                   modeIsTextField: false)
@@ -195,6 +187,18 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
         let name = nameView.textView.text?.trimmingCharacters(in: .whitespaces)
         let isActive = !(name?.isEmpty ?? true) && ingredientsView.stackSubviewsCount >= 2
         updateNextButton(isActive: isActive)
+    }
+    
+    private func setupNameView() {
+        nameView.maxLineNumber = 1
+        nameView.configure(title: R.string.localizable.name(), state: .required)
+        nameView.textView.becomeFirstResponder()
+        nameView.textFieldReturnPressed = { [weak self] in
+            self?.descriptionView.textView.becomeFirstResponder()
+        }
+        nameView.textFieldDidChange = { [weak self] in
+            self?.updateSavedToDraftsButton()
+        }
     }
     
     private func setupIngredientView() {

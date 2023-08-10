@@ -68,7 +68,7 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
     override func switchValue(at ind: Int) -> Bool {
         guard let content = allContent[safe: ind] else { return false }
         if content == .imageMatching {
-            return pantry.isShowImage.getBool(defaultValue: UserDefaultsManager.isShowImage)
+            return pantry.isShowImage.getBool(defaultValue: UserDefaultsManager.shared.isShowImage)
         }
         if content == .storeAndCost {
             

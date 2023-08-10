@@ -19,7 +19,7 @@ final class MainTabBarController: UITabBarController {
     let customTabBar = CustomTabBarView()
     
     private var viewModel: MainTabBarViewModel
-    private let contextMenu = MainScreenMenuView()
+    private let recipeContextMenu = RecipeContextMenuView()
     private var navView = MainNavigationView()
     private(set) var navBackgroundView = UIView()
     private let contextMenuBackgroundView = UIView()
@@ -106,18 +106,20 @@ final class MainTabBarController: UITabBarController {
         contextMenuBackgroundView.addGestureRecognizer(menuTapRecognizer)
         contextMenuBackgroundView.backgroundColor = .black.withAlphaComponent(0.2)
         
-        contextMenu.isHidden = true
+        recipeContextMenu.isHidden = true
         contextMenuBackgroundView.isHidden = true
-        contextMenu.selectedState = { [weak self] state in
-            self?.contextMenu.fadeOut {
+        recipeContextMenu.selectedState = { [weak self] state in
+            self?.recipeContextMenu.fadeOut {
                 self?.contextMenuBackgroundView.isHidden = true
                 switch state {
                 case .createRecipe:
                     self?.viewModel.createNewRecipeTapped()
+                case .importRecipe:
+                    self?.viewModel.importRecipeTapped()
                 case .createCollection:
                     self?.viewModel.createNewCollectionTapped()
                 }
-                self?.contextMenu.removeSelected()
+                self?.recipeContextMenu.removeSelected()
             }
         }
     }
@@ -137,7 +139,7 @@ final class MainTabBarController: UITabBarController {
     
     @objc
     private func menuTapAction() {
-        contextMenu.fadeOut()
+        recipeContextMenu.fadeOut()
         contextMenuBackgroundView.isHidden = true
     }
     
@@ -153,7 +155,7 @@ final class MainTabBarController: UITabBarController {
     
     private func makeConstraints() {
         self.view.addSubview(customTabBar)
-        self.view.addSubviews([navBackgroundView, navView, contextMenuBackgroundView, contextMenu])
+        self.view.addSubviews([navBackgroundView, navView, contextMenuBackgroundView, recipeContextMenu])
         
         navBackgroundView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
@@ -171,10 +173,10 @@ final class MainTabBarController: UITabBarController {
             $0.height.equalTo(tabBarHeight)
         }
         
-        contextMenu.snp.makeConstraints { make in
+        recipeContextMenu.snp.makeConstraints { make in
             make.bottom.equalTo(customTabBar.snp.top).offset(-9)
             make.centerX.equalToSuperview()
-            make.height.equalTo(contextMenu.requiredHeight)
+            make.height.equalTo(recipeContextMenu.requiredHeight)
             make.width.equalTo(254)
         }
         
@@ -244,7 +246,7 @@ extension MainTabBarController: CustomTabBarViewDelegate {
                     stocksDelegate?.tappedAddItem()
                 }
             case .recipe:
-                contextMenu.fadeIn()
+                recipeContextMenu.fadeIn()
                 contextMenuBackgroundView.isHidden = false
             }
         }

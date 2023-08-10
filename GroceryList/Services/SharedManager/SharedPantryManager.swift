@@ -19,8 +19,8 @@ class SharedPantryManager {
     private var isNewListId = false
     
     private var tokens: [String] {
-        get { UserDefaultsManager.pantryUserTokens ?? [] }
-        set { UserDefaultsManager.pantryUserTokens = newValue }
+        get { UserDefaultsManager.shared.pantryUserTokens ?? [] }
+        set { UserDefaultsManager.shared.pantryUserTokens = newValue }
     }
 
     deinit {

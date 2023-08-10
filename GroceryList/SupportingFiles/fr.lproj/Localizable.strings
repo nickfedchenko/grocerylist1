@@ -380,6 +380,7 @@
 "inbox"                         = "Boîte de réception";
 
 "addToFavorites"                = "ajouter Aux Favoris";
+"deleteFromFavorites"           = "Supprimer des favoris";
 "added to"                      = "Ajouté à";
 
 "Delete Collection?"            = "Supprimer la collection?";
@@ -406,12 +407,41 @@
 "search"                        = "Chercher";
 "Add Filter"                    = "Ajouter un filtre";
 
-// FAQ
-"Help & FAQ"                    = "Aide et FAQ";
-"Check Internet connection"     = "Vérifier la connexion Internet";
+// Import web recipe
+"Import Web Recipes"            = "Importer des recettes Web";
+"Our iOS action extension"      = "Notre extension d'action iOS vous permet d'importer des recettes directement dans Grocery List tout en naviguant sur le Web.";
+"ACTIVATE EXTENSION"            = "ACTIVER L'EXTENSION";
+"Suggested recipe websites"     = "Sites de suggestions de recettes";
+"We have compiled a list"       = "Nous avons compilé une liste de sites Web de recettes suggérées qui prennent en charge la norme d'importation requise";
+"RangeRequiredImportStandard"   = "norme d'importation requise";
+"Required import standard"      = "Norme d'importation requise";
+"It's clear!"                   = "Il est clair!";
+"GroceryListCanImportRecipes"   = "Grocery List peut importer des recettes à partir de sites qui prennent en charge les normes de microdonnées ou de hrecette. La plupart des principaux sites Web de recettes prennent en charge ces normes";
+"RangeMicrodata"                = "microdonnées";
+"RangeHrecipe"                  = "hrecette";
+"Enable Recipe Import Action"   = "Activer l'action d'importation de recette";
+"Grocery List App allows"       = "L'application Grocery List vous permet d'importer rapidement une recette dans votre collection à partir d'un site Web.";
+
+"ImportManual.1"                = "Tout d'abord, appuyez sur le bouton Partager dans la barre d'outils Safari";
+"ImportManual.1.Bold"           = "Partager";
+"ImportManual.2"                = "Faites défiler vers le bas de la feuille de partage, puis sélectionnez Modifier les actions...";
+"ImportManual.2.Bold"           = "Modifier les actions...";
+"ImportManual.3"                = "Trouvez l'action ”Grocery List Recipe Import” d'épicerie et activez le commutateur à côté. Facultativement, appuyez sur l'icône verte plus à gauche du nom de l'action pour en faire l'une de vos actions préférées. Appuyez ensuite sur Terminé.";
+"ImportManual.4"                = "Maintenant, l'action ”Grocery List Recipe Import” d'épicerie sera disponible. Appuyez dessus lorsque vous consultez une page Web contenant une recette.";
+"ImportManual.3.4.Bold"         = "Grocery List Recipe Import";
+"ImportManual.5"                = "Examinez la recette importée, puis appuyez sur le bouton Enregistrer pour l'enregistrer dans votre collection de recettes dans l'application Grocery List. Vous pouvez la modifier plus tard, dans l'application";
+"ImportManual.5.Bold"           = "Enregistrer";
+
+"Save Recipe"                   = "Enregistrer la recette";
+"You can edit the recipe later" = "Vous pouvez modifier la recette plus tard, dans l'application";
+"Recipe Source"                 = "Origine de la recette";
+
+"Import failed"                 = "Échec de l'importation";
+"Grocery List was unable"       = "Grocery List n'a pas pu trouver une recette sur cette page et l'importer automatiquement. Si l'importation de la recette échoue, une alternative consiste à copier et coller manuellement la recette dans l'application Grocery List";
 
 // FAQ
 "Help & FAQ"                    = "Aide et FAQ";
+"Check Internet connection"     = "Vérifier la connexion Internet";
 
 // Updated Paywall
 "three days "                   = "3 jours ";
