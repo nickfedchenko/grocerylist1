@@ -68,6 +68,13 @@ extension ApphudProduct {
         return loadingInfo
     }
     
+    var isFamilyShareable: Bool {
+        guard let skProduct = self.skProduct else {
+            return false
+        }
+        return skProduct.isFamilyShareable
+    }
+    
     var priceString: String {
         guard let skProduct = self.skProduct else {
             return loadingInfo
