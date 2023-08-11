@@ -30,6 +30,11 @@ class UserDefaultsManager {
         set { userDefaults.set(newValue, forKey: "shouldShowOnboarding") }
     }
     
+    var isFirstLaunch: Bool {
+        get { userDefaults.bool(forKey: "isFirstLaunch") }
+        set { userDefaults.set(newValue, forKey: "isFirstLaunch") }
+    }
+    
     var firstLaunchDate: Date? {
         get { userDefaults.object(forKey: "firstLaunchDate") as? Date }
         set { userDefaults.set(newValue, forKey: "firstLaunchDate") }
@@ -195,7 +200,7 @@ class UserDefaultsManager {
         }
     }
     
-    var lastShowDate: Date? {
+    var lastShowFeedBackDate: Date? {
         get { userDefaults.object(forKey: "lastShowFeedBackDate") as? Date }
         set { userDefaults.set(newValue, forKey: "lastShowFeedBackDate") }
     }
@@ -204,6 +209,17 @@ class UserDefaultsManager {
         get { userDefaults.bool(forKey: "isVisibleEditMessageView") }
         set { userDefaults.set(newValue, forKey: "isVisibleEditMessageView") }
     }
+    
+    var testOnboardingValue: String? {
+        get { userDefaults.string(forKey: "testOnboardingValue") }
+        set { userDefaults.set(newValue, forKey: "testOnboardingValue") }
+    }
+    
+    var isFixCoreDataMigration: Bool {
+        get { userDefaults.bool(forKey: "isFixCoreDataMigration") }
+        set { userDefaults.set(newValue, forKey: "isFixCoreDataMigration") }
+    }
+    
     
     private func setValue<T>(value: T, for key: UDKeys) {
         userDefaults.set(value, forKey: key.rawValue)

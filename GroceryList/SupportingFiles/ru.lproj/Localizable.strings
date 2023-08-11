@@ -7,7 +7,7 @@
 */
 
 "SafeTimeAndMoney"          = "Экономьте время и деньги\nс нами";
-"Next"                      = "ДАЛЕЕ    ";
+"Next"                      = "ДАЛЕЕ";
 "CreateLists"               = "Удобное добавление продуктов и автоматическая сортировка по отделам в супермаркете";
 "Synchronize"               = "Синхронизируйте списки с семьей и друзьями";
 "OrganizeRecepts"           = "Пополняемая коллекция рецептов в приложении \nЗаписывайте и систематизируйте свои рецепты";
@@ -125,9 +125,9 @@
 "Quantity Units"            = "Единицы измерения";
 "Metric"                    = "Метрическая";
 "Imperial"                  = "Cтандарт США";
+"settings.pictureMatching"  = "Подбор картинок";
 
 "Warning"                   = "Внимание";
-"NoInternet"                = "Отсутствует соединение с сервером";
 
 "Choose the right plan"     = "Выберите правильный план использования Shoppy";
 "MostPopular"               = "Популярно";
@@ -188,7 +188,7 @@
 "Sing In"                       = "Вход";
 "email"                         = "E-mail";
 "password"                      = "Пароль";
-"signUpTerms" = "I accept the terms and conditions I have read the Privacy Policy and acknowledge my rights as a user";
+"signUpTerms"                   = "Я принимаю положения и условия\nЯ ознакомился с Политикой конфиденциальности и подтверждаю свои права как пользователя";
 "IHaveAccount"                  = "У меня есть аккаунт";
 "IDontHaveAccount"              = "У меня нет аккаунта";
 "resetPassword"                 = "Сбросить пароль";
@@ -228,7 +228,7 @@
 
 // context menu
 "createRecipe"                  = "Создать рецепт";
-"importRecipe"                  = "Скачать рецепт из интернета";
+"importRecipe"                  = "Импорт с веб-сайта";
 "createCollection"              = "Создать коллекцию";
 
 // Создание рецепта
@@ -255,7 +255,7 @@
 "Miscellaneous"                 = "Разное";
 "Note"                          = "Комментарий";
 "Collections"                   = "Коллекции";
-"SelectOneOrMoreCollections"    = "Выберите одну или несколько коллекций, в которых будет храниться ваш рецепт. Вы можете создать новую коллекцию.";
+//"SelectOneOrMoreCollections"    = "Выберите одну или несколько коллекций, в которых будет храниться ваш рецепт. Вы можете создать новую коллекцию.";
 "Add to collection"             = "Добавить в коллекцию";
 
 "Add recipes to favorites"      = "Добавляйте рецепты в избранное";
@@ -317,7 +317,6 @@
 "Edit List"                     = "Редактировать";
 
 "item"                          = "Добавить";
-"Select List to Synchronize"    = "Выберите список для синхронизации";
 "out of stock"                  = "Нет в наличии";
 "Pantry: Name"                  = "Кладовая: %@";
 "in stock"                      = "В наличии";

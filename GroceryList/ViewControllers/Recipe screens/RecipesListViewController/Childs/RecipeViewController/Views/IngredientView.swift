@@ -54,6 +54,10 @@ class IngredientView: UIView {
         servingLabel.text
     }
     
+    var photo: Data? {
+        imageView.image?.pngData()
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupAppearance()

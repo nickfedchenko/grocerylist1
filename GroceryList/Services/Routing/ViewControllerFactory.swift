@@ -10,11 +10,19 @@ import UIKit
 // swiftlint:disable:next type_body_length
 final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
-    func createOnboardingController(router: RootRouter) -> UIViewController? {
+    func createOnboardingController(router: RootRouter) -> UIViewController {
         let viewController = OnboardingViewController()
         viewController.router = router
         return viewController
     }
+    
+    func createNewOnboardingController(router: RootRouter) -> UIViewController {
+        let viewController = NewOnboardingViewController()
+        viewController.router = router
+        return viewController
+    }
+    
+    
     
     func createMainTabBarController(router: RootRouter, controllers: [UIViewController]) -> UITabBarController {
         let isRightHanded = true
@@ -235,16 +243,22 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return PaywallViewController()
     }
     
-    func createAlternativePaywallController() -> UIViewController {
-        return AlternativePaywallViewController()
+    func createAlternativePaywallController(isHard: Bool) -> UIViewController {
+        let controller = AlternativePaywallViewController()
+        controller.isHardPaywall = isHard
+        return controller
     }
     
-    func createUpdatedPaywallController() -> UIViewController {
-        return UpdatedPaywallViewController()
+    func createUpdatedPaywallController(isHard: Bool) -> UIViewController {
+        let controller = UpdatedPaywallViewController()
+        controller.isHardPaywall = isHard
+        return controller
     }
     
-    func createNewPaywallController(isTrial: Bool) -> UIViewController {
-        return NewPaywallViewController(isTrial: isTrial)
+    func createNewPaywallController(isTrial: Bool, isHard: Bool) -> UIViewController {
+        let controller = NewPaywallViewController(isTrial: isTrial)
+        controller.isHardPaywall = isHard
+        return controller
     }
     
     func createReviewsController(router: RootRouter) -> UIViewController {

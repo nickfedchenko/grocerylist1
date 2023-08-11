@@ -100,11 +100,6 @@ final class MainRecipeViewController: UIViewController {
             updateRecipeCollectionView()
             isShowFirstViewWillAppear = true
         }
-        
-        DispatchQueue.main.async {
-            self.viewModel.updateRecipesSection()
-            self.recipesCollectionView.reloadData()
-        }
     }
 
     private func viewModelChanges() {
@@ -316,9 +311,6 @@ extension MainRecipeViewController: RecipesFolderHeaderDelegate {
 extension MainRecipeViewController: MainTabBarControllerRecipeDelegate {
     func updateRecipeUI(_ recipe: Recipe?) {
         viewModel.updateUI()
-//        if let recipe {
-//            viewModel.showCustomRecipe(recipe: recipe)
-//        }
     }
     
     func tappedChangeView() {
