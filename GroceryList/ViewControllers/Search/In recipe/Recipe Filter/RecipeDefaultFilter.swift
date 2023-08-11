@@ -30,13 +30,13 @@ enum RecipeFilter: Int, CaseIterable {
     
     var title: String {
         switch self {
-        case .exception:                return "exception"
-        case .diet:                     return "DIET"
-        case .typeOfDish:               return "Type of dish"
-        case .cookingMethod:            return "Cooking method"
-        case .caloriesPerServing:       return "calories PER SERVING (KCAL)"
-        case .cookingTime:              return "Cooking time (min)"
-        case .quantityOfIngredients:    return "Quantity of ingredients"
+        case .exception:                return R.string.localizable.exception()
+        case .diet:                     return R.string.localizable.diet()
+        case .typeOfDish:               return R.string.localizable.typeOfDish()
+        case .cookingMethod:            return R.string.localizable.cookingMethod()
+        case .caloriesPerServing:       return R.string.localizable.caloriesPerServingKcal()
+        case .cookingTime:              return R.string.localizable.cookingTimeMin()
+        case .quantityOfIngredients:    return R.string.localizable.quantityOfIngredients()
         }
     }
     
@@ -81,18 +81,18 @@ enum ExceptionFilter: Int, RecipeTag, CaseIterable {
     
     var title: String {
         switch self {
-        case .gluten:               return "Gluten"
-        case .peanuts:              return "Peanuts"
-        case .eggs:                 return "Eggs"
-        case .fish:                 return "Fish"
-        case .dairy:                return "Dairy"
-        case .treeNuts:             return "Tree Nuts"
-        case .soy:                  return "Soy"
-        case .seafood:              return "Seafood"
-        case .honey:                return "Honey"
-        case .meat:                 return "Meat"
-        case .poultry:              return "Poultry"
-        case .starchyVegetables:    return "Starchy vegetables"
+        case .gluten:               return R.string.localizable.gluten()
+        case .peanuts:              return R.string.localizable.peanuts()
+        case .eggs:                 return R.string.localizable.eggs()
+        case .fish:                 return R.string.localizable.fish()
+        case .dairy:                return R.string.localizable.dairy()
+        case .treeNuts:             return R.string.localizable.treeNuts()
+        case .soy:                  return R.string.localizable.soy()
+        case .seafood:              return R.string.localizable.seafood()
+        case .honey:                return R.string.localizable.honey()
+        case .meat:                 return R.string.localizable.meat()
+        case .poultry:              return R.string.localizable.poultry()
+        case .starchyVegetables:    return R.string.localizable.starchyVegetables()
         }
     }
 }
@@ -120,13 +120,13 @@ enum DietFilter: Int, RecipeTag, CaseIterable {
     
     var title: String {
         switch self {
-        case .lowCarb:      return "Low carb"
-        case .highProtein:  return "High protein"
-        case .lowFat:       return "Low fat"
-        case .keto:         return "Keto"
-        case .pescatarian:  return "Pescatarian"
-        case .vegetarian:   return "Vegetarian"
-        case .vegan:        return "Vegan"
+        case .lowCarb:      return R.string.localizable.lowCarb()
+        case .highProtein:  return R.string.localizable.highProtein()
+        case .lowFat:       return R.string.localizable.lowFat()
+        case .keto:         return R.string.localizable.keto()
+        case .pescatarian:  return R.string.localizable.pescatarian()
+        case .vegetarian:   return R.string.localizable.vegetarian()
+        case .vegan:        return R.string.localizable.vegan()
         }
     }
 }
@@ -157,16 +157,16 @@ enum TypeOfDishFilter: Int, RecipeTag, CaseIterable {
     
     var title: String {
         switch self {
-        case .salad:            return "Salad"
-        case .sideDish:         return "Side Dish"
-        case .soup:             return "Soup"
-        case .beverage:         return "Beverage"
-        case .pizza:            return "Pizza"
-        case .bakeryProducts:   return "Bakery products"
-        case .sandwich:         return "Sandwich"
-        case .appetizer:        return "Appetizer"
-        case .sauce:            return "Sauce"
-        case .dessert:          return "Dessert"
+        case .salad:            return R.string.localizable.salad()
+        case .sideDish:         return R.string.localizable.sideDish()
+        case .soup:             return R.string.localizable.soup()
+        case .beverage:         return R.string.localizable.beverage()
+        case .pizza:            return R.string.localizable.pizza()
+        case .bakeryProducts:   return R.string.localizable.bakeryProducts()
+        case .sandwich:         return R.string.localizable.sandwich()
+        case .appetizer:        return R.string.localizable.appetizer()
+        case .sauce:            return R.string.localizable.sauce()
+        case .dessert:          return R.string.localizable.dessert()
         }
     }
 }
@@ -199,18 +199,18 @@ enum CookingMethodFilter: Int, RecipeTag, CaseIterable {
     
     var title: String {
         switch self {
-        case .withoutHeatTreatment: return "Without heat treatment"
-        case .boil:                 return "Boil"
-        case .bake:                 return "Bake"
-        case .steam:                return "Steam"
-        case .fry:                  return "Fry"
-        case .stew:                 return "Stew"
-        case .microwave:            return "Microwave"
-        case .onTheCoals:           return "On the coals"
-        case .deepFrying:           return "Deep frying"
-        case .sousVide:             return "Sous vide"
-        case .airFryer:             return "Air Fryer"
-        case .multicooker:          return "Multicooker"
+        case .withoutHeatTreatment: return R.string.localizable.withoutHeatTreatment()
+        case .boil:                 return R.string.localizable.boil()
+        case .bake:                 return R.string.localizable.bake()
+        case .steam:                return R.string.localizable.steam()
+        case .fry:                  return R.string.localizable.fry()
+        case .stew:                 return R.string.localizable.stew()
+        case .microwave:            return R.string.localizable.microwave()
+        case .onTheCoals:           return R.string.localizable.onTheCoals()
+        case .deepFrying:           return R.string.localizable.deepFrying()
+        case .sousVide:             return R.string.localizable.sousVide()
+        case .airFryer:             return R.string.localizable.airFryer()
+        case .multicooker:          return R.string.localizable.multicooker()
         }
     }
 }
@@ -288,14 +288,14 @@ enum CookingTimeFilter: Int, RecipeTag, CaseIterable {
     
     var title: String {
         switch self {
-        case .time10OrLess: return "10 or less"
-        case .time15OrLess: return "15 or less"
-        case .time20OrLess: return "20 or less"
-        case .time25OrLess: return "25 or less"
-        case .time30OrLess: return "30 or less"
-        case .time40OrLess: return "40 or less"
-        case .time50OrLess: return "50 or less"
-        case .time60OrLess: return "60 or less"
+        case .time10OrLess: return R.string.localizable.orLess("10")
+        case .time15OrLess: return R.string.localizable.orLess("15")
+        case .time20OrLess: return R.string.localizable.orLess("20")
+        case .time25OrLess: return R.string.localizable.orLess("25")
+        case .time30OrLess: return R.string.localizable.orLess("30")
+        case .time40OrLess: return R.string.localizable.orLess("40")
+        case .time50OrLess: return R.string.localizable.orLess("50")
+        case .time60OrLess: return R.string.localizable.orLess("60")
         }
     }
     
@@ -337,14 +337,14 @@ enum QuantityOfIngredientsFilter: Int, RecipeTag, CaseIterable {
     
     var title: String {
         switch self {
-        case .ingredients3OrLess:   return "3 or less"
-        case .ingredients4OrLess:   return "4 or less"
-        case .ingredients5OrLess:   return "5 or less"
-        case .ingredients6OrLess:   return "6 or less"
-        case .ingredients7OrLess:   return "7 or less"
-        case .ingredients8OrLess:   return "8 or less"
-        case .ingredients9OrLess:   return "9 or less"
-        case .ingredients10OrLess:  return "10 or less"
+        case .ingredients3OrLess:   return R.string.localizable.orLess("3")
+        case .ingredients4OrLess:   return R.string.localizable.orLess("4")
+        case .ingredients5OrLess:   return R.string.localizable.orLess("5")
+        case .ingredients6OrLess:   return R.string.localizable.orLess("6")
+        case .ingredients7OrLess:   return R.string.localizable.orLess("7")
+        case .ingredients8OrLess:   return R.string.localizable.orLess("8")
+        case .ingredients9OrLess:   return R.string.localizable.orLess("9")
+        case .ingredients10OrLess:  return R.string.localizable.orLess("10")
         }
     }
     
