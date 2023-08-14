@@ -113,11 +113,10 @@ final class RootRouter: RootRouterProtocol {
         if !UserDefaultsManager.shared.isFirstLaunch {
             UserDefaultsManager.shared.firstLaunchDate = Date()
             FeatureManager.shared.activeFeaturesOnFirstLaunch()
-            UserDefaultsManager.shared.isFirstLaunch = true
         }
         
         if Apphud.hasActiveSubscription(),
-           UserDefaultsManager.shared.shouldShowOnboarding {
+           !UserDefaultsManager.shared.shouldShowOnboarding {
             return
         }
         let onboardingController = viewControllerFactory.createNewOnboardingController(router: self)
@@ -138,7 +137,12 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func popToRootFromOnboarding() {
-        UserDefaultsManager.shared.coldStartState = 0
+        if UserDefaultsManager.shared.isFirstLaunch {
+            UserDefaultsManager.shared.coldStartState = 2
+        } else {
+            UserDefaultsManager.shared.coldStartState = 0
+            UserDefaultsManager.shared.isFirstLaunch = true
+        }
         navigationPopToRootViewController(animated: true)
         UserDefaultsManager.shared.shouldShowOnboarding = false
     }
