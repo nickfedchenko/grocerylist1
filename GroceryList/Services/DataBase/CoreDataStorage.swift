@@ -24,6 +24,7 @@ class CoreDataStorage {
     }
     
     lazy var context: NSManagedObjectContext = container.viewContext
+    
     lazy var taskContext: NSManagedObjectContext = {
         let taskContext = container.newBackgroundContext()
         taskContext.mergePolicy = SafeMergePolicy()
@@ -41,46 +42,45 @@ class CoreDataStorage {
     
     init() {
         container = NSPersistentContainer(name: containerName)
-        if let oldStoreURL,
-            !FileManager.default.fileExists(atPath: oldStoreURL.path) {
+        if let oldStoreURL, !FileManager.default.fileExists(atPath: oldStoreURL.path) {
             container.persistentStoreDescriptions.first?.url = sharedStoreURL
+        } else if UserDefaultsManager.shared.isFixReplaceCoreData {
+            container.persistentStoreDescriptions.first?.url = sharedStoreURL
+        } else {
+            container.persistentStoreDescriptions.first?.url = oldStoreURL
         }
-
+        
         container.loadPersistentStores { _, error in
             if let error = error {
                 print(error.localizedDescription)
             }
         }
-        migrateStore(for: container)
+        container.viewContext.mergePolicy = NSMergePolicy(merge: .overwriteMergePolicyType)
         container.viewContext.automaticallyMergesChangesFromParent = true
-        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        replaceStore(for: container)
     }
     
-    
-    func migrateStore(for container: NSPersistentContainer) {
+    func replaceStore(for container: NSPersistentContainer) {
+        guard !UserDefaultsManager.shared.isFixReplaceCoreData else {
+            return
+        }
         guard let sharedStoreURL,
               let oldStoreURL else {
             return
         }
-        guard !FileManager.default.fileExists(atPath: sharedStoreURL.path),
-              !UserDefaultsManager.shared.isFixCoreDataMigration else {
-            return
-        }
+        
         let coordinator = container.persistentStoreCoordinator
-        guard let oldStore = coordinator.persistentStore(for: oldStoreURL) else {
+        guard coordinator.persistentStore(for: oldStoreURL) != nil else {
+            UserDefaultsManager.shared.isFixReplaceCoreData = true
+            self.container.persistentStoreDescriptions.first?.url = sharedStoreURL
             return
         }
         do {
-            try coordinator.migratePersistentStore(oldStore,
-                                                   to: sharedStoreURL,
-                                                   options: nil,
-                                                   withType: NSSQLiteStoreType)
-            UserDefaultsManager.shared.isFixCoreDataMigration = true
-        } catch {
-            print("Something went wrong migrating the store: \(error)")
-        }
-        do {
-            try FileManager.default.removeItem(at: oldStoreURL)
+            try coordinator.replacePersistentStore(at: sharedStoreURL,
+                                                   withPersistentStoreFrom: oldStoreURL,
+                                                   ofType: NSSQLiteStoreType)
+            UserDefaultsManager.shared.isFixReplaceCoreData = true
+            self.container.persistentStoreDescriptions.first?.url = sharedStoreURL
         } catch {
             print("Something went wrong migrating the store: \(error)")
         }
