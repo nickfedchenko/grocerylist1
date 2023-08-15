@@ -26,6 +26,7 @@ class UpdatedPaywallTitleView: UIView {
                                                             attributes: attributesRed)
         attributedStringGreen.append(attributedStringRed)
         label.attributedText = attributedStringGreen
+        label.textAlignment = .center
         return label
     }()
     
