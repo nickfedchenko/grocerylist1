@@ -479,6 +479,7 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func showPaywallVC() {
+        guard !Apphud.hasActiveSubscription() else { return }
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
                 if let paywall = paywalls.first(where: { $0.isDefault }),

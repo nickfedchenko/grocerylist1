@@ -68,6 +68,7 @@ final private class ProductView: UIView {
         var label = UILabel()
         label.font = UIFont.SFProDisplay.semibold(size: 15).font
         label.textColor = .black
+        label.textAlignment = .center
         return label
     }()
     
@@ -120,6 +121,26 @@ final private class ProductView: UIView {
         return label
     }()
     
+    private let familyPlanPeriodLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFProDisplay.semibold(size: 12).font
+        label.textColor = .black
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.3
+        return label
+    }()
+    
+    private let membersLabel: UILabel = {
+        let label = UILabel()
+        label.text = R.string.localizable.upTo6Members()
+        label.font = UIFont.SFProDisplay.semibold(size: 12).font
+        label.textColor = UIColor(hex: "FF0000")
+        label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.3
+        return label
+    }()
+    
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
         self.backgroundColor = UIColor(hex: "DDFFF6")
@@ -127,6 +148,9 @@ final private class ProductView: UIView {
         
         let tapOnView = UITapGestureRecognizer(target: self, action: #selector(tappedOnView))
         self.addGestureRecognizer(tapOnView)
+        
+        familyPlanPeriodLabel.isHidden = true
+        membersLabel.isHidden = true
         
         makeConstraints()
     }
@@ -143,6 +167,13 @@ final private class ProductView: UIView {
         badgeView.isHidden = !product.isVisibleSave
         badgeView.backgroundColor = product.badgeColor
         badgeLabel.text = R.string.localizable.saveMoney().uppercased() + " " + product.savePrecent.asString + "%"
+        
+        if product.isFamily {
+            periodLabel.text = R.string.localizable.familyPlan()
+            familyPlanPeriodLabel.text = "(\(product.period))"
+            familyPlanPeriodLabel.isHidden = false
+            membersLabel.isHidden = false
+        }
     }
     
     func markAsSelect(_ select: Bool) {
@@ -157,6 +188,7 @@ final private class ProductView: UIView {
     
     private func makeConstraints() {
         self.addSubviews([borderView, periodLabel, priceLabel, perWeekLabel, threeDaysFreeLabel,
+                          familyPlanPeriodLabel, membersLabel,
                           selectImageView, badgeView])
         badgeView.addSubview(badgeLabel)
 
@@ -166,6 +198,7 @@ final private class ProductView: UIView {
         
         periodLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(8)
+            $0.leading.equalToSuperview()
             $0.centerX.equalToSuperview()
         }
 
@@ -199,6 +232,17 @@ final private class ProductView: UIView {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().offset(2)
             $0.center.equalToSuperview()
+        }
+        
+        familyPlanPeriodLabel.snp.makeConstraints {
+            $0.top.equalTo(periodLabel.snp.bottom).offset(-2)
+            $0.centerX.equalToSuperview()
+        }
+        
+        membersLabel.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-23)
+            $0.leading.equalToSuperview().offset(2)
+            $0.centerX.equalToSuperview()
         }
     }
 

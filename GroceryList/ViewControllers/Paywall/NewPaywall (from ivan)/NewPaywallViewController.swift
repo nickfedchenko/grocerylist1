@@ -70,7 +70,7 @@ class NewPaywallViewController: UIViewController {
                           savePrecent: product.savePercent(allProducts: products),
                           period: product.period,
                           price: product.priceString,
-                          description: product.pricePerWeek)
+                          description: product.getPricePerMinPeriod(allProducts: products))
             }
             self.productsView.configure(products: self.choiceOfCostArray)
             self.selectedProductIndex = lastNumber

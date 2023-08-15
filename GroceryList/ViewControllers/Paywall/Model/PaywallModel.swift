@@ -10,6 +10,7 @@ import UIKit
 struct PayWallModel {
     var isPopular: Bool = false
     var isVisibleSave: Bool = false
+    var isFamily: Bool = false
     var badgeColor: UIColor?
     var savePrecent: Int = 0
     var period: String = "Loading".localized

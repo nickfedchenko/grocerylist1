@@ -536,6 +536,14 @@
 "Save time and money with app"  = "Gagnez du temps et de l'argent avec la liste de courses";
 "Cancel anytime"                = "Annuler à tout moment";
 
+"Up to 6 members"               = "Jusqu'à 6 membres";
+"Family Plan"                   = "Plan familial";
+
+"perDay"                        = "jour";
+"perWeek"                       = "semaine";
+"perMonth"                      = "mois";
+"perYear"                       = "an";
+
 // New Paywall
 "Unlock Premium"                = "Débloquer Premium";
 "with useful features"          = "avec des fonctionnalités utiles";

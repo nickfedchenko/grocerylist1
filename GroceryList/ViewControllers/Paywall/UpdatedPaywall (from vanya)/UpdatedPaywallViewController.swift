@@ -119,21 +119,17 @@ class UpdatedPaywallViewController: UIViewController {
         closeCrossButton.isHidden = isHardPaywall
         
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
-            guard let products = paywalls.first(where: { $0.isDefault })?.products,
-                  let self = self else {
+            guard let self = self,
+                  let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+
+                guard let products = paywalls.first(where: { $0.isDefault })?.products else {
+                    return
+                }
+                self?.setupProducts(products: products)
                 return
             }
-            self.products = products
-            self.choiceOfCostArray = self.products.enumerated().map { index, product in
-                .init(isVisibleSave: index != 0,
-                      badgeColor: index == 1 ? UIColor(hex: "FF7A00") : index == 2 ? UIColor(hex: "FF0000") : nil,
-                      savePrecent: product.savePercent(allProducts: products),
-                      period: product.period,
-                      price: product.priceString,
-                      description: product.pricePerWeek)
-            }
-            self.productsView.configure(products: self.choiceOfCostArray)
-            self.selectedProductIndex = 1
+
+            self.setupProducts(products: paywall.products)
         }
     }
     
@@ -147,7 +143,22 @@ class UpdatedPaywallViewController: UIViewController {
         }
     }
     
-    func setGradientBackground() {
+    private func setupProducts(products: [ApphudProduct]) {
+        self.products = products
+        self.choiceOfCostArray = self.products.enumerated().map { index, product in
+            .init(isVisibleSave: index != 0,
+                  isFamily: product.isFamilyShareable,
+                  badgeColor: index == 1 ? UIColor(hex: "FF7A00") : index == 2 ? UIColor(hex: "FF0000") : nil,
+                  savePrecent: product.savePercent(allProducts: products),
+                  period: product.period,
+                  price: product.priceString,
+                  description: product.getPricePerMinPeriod(allProducts: products))
+        }
+        self.productsView.configure(products: self.choiceOfCostArray)
+        self.selectedProductIndex = 1
+    }
+    
+    private func setGradientBackground() {
         let colorTop = UIColor(hex: "86FFD9").cgColor
         let colorBottom = UIColor(hex: "40F3DA").cgColor
                     

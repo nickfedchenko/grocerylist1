@@ -6,20 +6,21 @@
 //
 
 import ApphudSDK
+import StoreKit
 import Foundation
 
 extension ApphudProduct {
-
+    
     var loadingInfo: String {
         "Loading info".localized
     }
-
+    
     var duration: String? {
         guard let skProduct = self.skProduct else {
             return nil
         }
         let numberOfUnits = skProduct.subscriptionPeriod?.numberOfUnits
- 
+        
         switch skProduct.subscriptionPeriod?.unit {
         case .year:
             return .yearly
@@ -46,7 +47,7 @@ extension ApphudProduct {
             return loadingInfo
         }
         let numberOfUnits = skProduct.subscriptionPeriod?.numberOfUnits
- 
+        
         switch skProduct.subscriptionPeriod?.unit {
         case .year:
             return "yearly".localized
@@ -102,37 +103,37 @@ extension ApphudProduct {
         return loadingInfo
     }
     
-    var pricePerWeek: String {
+    func getPricePerMinPeriod(allProducts: [ApphudProduct]) -> String {
         guard let skProduct = self.skProduct else {
             return loadingInfo
         }
         let price = skProduct.price.doubleValue
         let numberOfUnits = skProduct.subscriptionPeriod?.numberOfUnits
         let currencySymbol = "\(skProduct.priceLocale.currencySymbol ?? "$")"
-        let perWeek = " / " + "weekly".localized
+        let minPeriod = getMinimumPeriod(allProducts: allProducts)
+        let perMinPeriod = getPerMinPeriod(minPeriod: minPeriod)
+        let perPeriod = getPeriodPerPeriod(unit: skProduct.subscriptionPeriod?.unit,
+                                              minPeriod: minPeriod,
+                                              numberOfUnits: numberOfUnits)
         
         switch skProduct.subscriptionPeriod?.unit {
         case .year:
-            return currencySymbol + String(format: "%.2f", price / 52.1786) + perWeek
+            return currencySymbol + String(format: "%.2f", price / perPeriod) + perMinPeriod
         case .month:
-            if numberOfUnits == 6 {
-                return currencySymbol + String(format: "%.2f", price / 26.0715) + perWeek
-            } else if numberOfUnits == 1 {
-                return currencySymbol + String(format: "%.2f", price / 4.345) + perWeek
-            }
+            return currencySymbol + String(format: "%.2f", price / perPeriod) + perMinPeriod
         case .week:
             if skProduct.subscriptionPeriod?.numberOfUnits == 1 {
-                return currencySymbol + String(format: "%.2f", price) + perWeek
+                return currencySymbol + String(format: "%.2f", price) + perMinPeriod
             }
         case .day:
             if skProduct.subscriptionPeriod?.numberOfUnits == 7 {
-                return currencySymbol + String(format: "%.2f", price) + perWeek
+                return currencySymbol + String(format: "%.2f", price) + perMinPeriod
             }
         default: break
         }
         return loadingInfo
     }
-
+    
     func savePercent(allProducts: [ApphudProduct]) -> Int {
         guard let skProduct = self.skProduct else {
             return 0
@@ -140,19 +141,11 @@ extension ApphudProduct {
         let price = skProduct.price.doubleValue
         let numberOfUnits = skProduct.subscriptionPeriod?.numberOfUnits
         let minPrice = findPriceOfMinimumPeriod(allProducts: allProducts)
-        switch skProduct.subscriptionPeriod?.unit {
-        case .year:
-            return minPrice == 0 ? 0 : Int(100 - (price * 100) / (minPrice * 52.1786))
-        case .month:
-            if numberOfUnits == 6 {
-                return minPrice == 0 ? 0 : Int(100 - (price * 100) / (minPrice * 26.0715))
-            } else if numberOfUnits == 1 {
-                return minPrice == 0 ? 0 : Int(100 - (price * 100) / (minPrice * 4.345))
-            }
-        default: return 0
-        }
-        
-        return 0
+        let minPeriod = getMinimumPeriod(allProducts: allProducts)
+        let perMinPeriod = getPeriodPerPeriod(unit: skProduct.subscriptionPeriod?.unit,
+                                              minPeriod: minPeriod,
+                                              numberOfUnits: numberOfUnits)
+        return minPrice == 0 ? 0 : Int(100 - (price * 100) / (minPrice * perMinPeriod))
     }
     
     func findPriceOfMinimumPeriod(allProducts: [ApphudProduct]) -> Double {
@@ -163,5 +156,52 @@ extension ApphudProduct {
         }
         
         return minPrice.skProduct?.price.doubleValue ?? 0
+    }
+    
+    func getMinimumPeriod(allProducts: [ApphudProduct]) -> SKProduct.PeriodUnit {
+        guard let minPeriod = allProducts.min(by: {
+            $0.skProduct?.subscriptionPeriod?.unit.rawValue ?? 0 < $1.skProduct?.subscriptionPeriod?.unit.rawValue ?? 0
+        }) else {
+            return .week
+        }
+        
+        if minPeriod.skProduct?.subscriptionPeriod?.unit == .day &&
+            minPeriod.skProduct?.subscriptionPeriod?.numberOfUnits == 7 {
+            return .week
+        }
+        
+        return minPeriod.skProduct?.subscriptionPeriod?.unit ?? .week
+    }
+    
+    func getPeriodPerPeriod(unit: SKProduct.PeriodUnit?, minPeriod: SKProduct.PeriodUnit, numberOfUnits: Int?) -> Double {
+        if minPeriod == .week {
+            switch unit {
+            case .month:
+                return numberOfUnits == 6 ? 26.0715 : numberOfUnits == 1 ? 4.345 : 1
+            case .year:
+                return 52.1786
+            default:
+                return 1
+            }
+        } else if minPeriod == .month {
+            switch unit {
+            case .year:
+                return 12
+            default:
+                return 1
+            }
+        }
+        return 1
+    }
+    
+    func getPerMinPeriod(minPeriod: SKProduct.PeriodUnit) -> String {
+        switch minPeriod {
+        case .day:      return " / " +  R.string.localizable.perDay()
+        case .week:     return " / " +  R.string.localizable.perWeek()
+        case .month:    return " / " +  R.string.localizable.perMonth()
+        case .year:     return " / " +  R.string.localizable.perYear()
+        @unknown default:
+            return ""
+        }
     }
 }

@@ -544,6 +544,14 @@
 "Save time and money with app"  = "Save time and money with Shopping List";
 "Cancel anytime"                = "Cancel anytime";
 
+"Up to 6 members"               = "Up to 6 members";
+"Family Plan"                   = "Family Plan";
+
+"perDay"                        = "day";
+"perWeek"                       = "week";
+"perMonth"                      = "month";
+"perYear"                       = "year";
+
 // New Paywall
 "Unlock Premium"                = "Unlock Premium";
 "with useful features"          = "with useful features";

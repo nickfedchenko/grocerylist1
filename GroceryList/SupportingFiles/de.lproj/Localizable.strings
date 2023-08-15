@@ -538,6 +538,13 @@
 "Save time and money with app"  = "Sparen Sie Zeit und Geld mit Einkaufsliste";
 "Cancel anytime"                = "Jederzeit kündbar";
 
+"Up to 6 members"               = "Bis zu 6 Mitglieder";
+"Family Plan"                   = "Familienplan";
+
+"perDay"                        = "Tag";
+"perWeek"                       = "Woche";
+"perMonth"                      = "Monat";
+"perYear"                       = "Jahr";
 
 // New Paywall
 "Unlock Premium"                = "Premium freischalten";
