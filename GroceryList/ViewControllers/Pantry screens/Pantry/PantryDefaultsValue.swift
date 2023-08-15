@@ -8,6 +8,17 @@
 import UIKit
 
 extension PantryDataSource.DefaultsPantry {
+    var pantryId: UUID {
+        switch self {
+        case .fridge:       return UUID(number: 0)
+        case .grocery:      return UUID(number: 1)
+        case .spicesHerbs:  return UUID(number: 2)
+        case .beautyHealth: return UUID(number: 3)
+        case .household:    return UUID(number: 4)
+        case .hobby:        return UUID(number: 5)
+        }
+    }
+    
     var title: String {
         switch self {
         case .fridge:       return R.string.localizable.fridge()

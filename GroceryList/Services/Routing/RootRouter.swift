@@ -115,10 +115,8 @@ final class RootRouter: RootRouterProtocol {
             FeatureManager.shared.activeFeaturesOnFirstLaunch()
         }
         
-        if Apphud.hasActiveSubscription(),
-           !UserDefaultsManager.shared.shouldShowOnboarding {
-            return
-        }
+        guard !Apphud.hasActiveSubscription() else { return }
+        
         let onboardingController = viewControllerFactory.createNewOnboardingController(router: self)
         navigationPushViewController(onboardingController, animated: false)
     }
