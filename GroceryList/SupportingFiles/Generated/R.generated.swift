@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 453 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 459 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -730,6 +730,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var fabricSoftener: RswiftResources.StringResource { .init(key: "Fabric softener", tableName: "Localizable", source: source, developmentValue: "Fabric softener", comment: nil) }
+
+      /// en translation: Family Plan
+      ///
+      /// Key: Family Plan
+      ///
+      /// Locales: en, ru, fr, de
+      var familyPlan: RswiftResources.StringResource { .init(key: "Family Plan", tableName: "Localizable", source: source, developmentValue: "Family Plan", comment: nil) }
 
       /// en translation: Favorites
       ///
@@ -2460,6 +2467,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var unlockPremium: RswiftResources.StringResource { .init(key: "Unlock Premium", tableName: "Localizable", source: source, developmentValue: "Unlock Premium", comment: nil) }
 
+      /// en translation: Up to 6 members
+      ///
+      /// Key: Up to 6 members
+      ///
+      /// Locales: en, ru, fr, de
+      var upTo6Members: RswiftResources.StringResource { .init(key: "Up to 6 members", tableName: "Localizable", source: source, developmentValue: "Up to 6 members", comment: nil) }
+
       /// en translation: Vegan
       ///
       /// Key: Vegan
@@ -2984,6 +2998,34 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var password: RswiftResources.StringResource { .init(key: "password", tableName: "Localizable", source: source, developmentValue: "Password", comment: nil) }
+
+      /// en translation: day
+      ///
+      /// Key: perDay
+      ///
+      /// Locales: en, ru, fr, de
+      var perDay: RswiftResources.StringResource { .init(key: "perDay", tableName: "Localizable", source: source, developmentValue: "day", comment: nil) }
+
+      /// en translation: month
+      ///
+      /// Key: perMonth
+      ///
+      /// Locales: en, ru, fr, de
+      var perMonth: RswiftResources.StringResource { .init(key: "perMonth", tableName: "Localizable", source: source, developmentValue: "month", comment: nil) }
+
+      /// en translation: week
+      ///
+      /// Key: perWeek
+      ///
+      /// Locales: en, ru, fr, de
+      var perWeek: RswiftResources.StringResource { .init(key: "perWeek", tableName: "Localizable", source: source, developmentValue: "week", comment: nil) }
+
+      /// en translation: year
+      ///
+      /// Key: perYear
+      ///
+      /// Locales: en, ru, fr, de
+      var perYear: RswiftResources.StringResource { .init(key: "perYear", tableName: "Localizable", source: source, developmentValue: "year", comment: nil) }
 
       /// en translation: Picture matching
       ///

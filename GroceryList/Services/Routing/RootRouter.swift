@@ -113,13 +113,10 @@ final class RootRouter: RootRouterProtocol {
         if !UserDefaultsManager.shared.isFirstLaunch {
             UserDefaultsManager.shared.firstLaunchDate = Date()
             FeatureManager.shared.activeFeaturesOnFirstLaunch()
-            UserDefaultsManager.shared.isFirstLaunch = true
         }
         
-        if Apphud.hasActiveSubscription(),
-           UserDefaultsManager.shared.shouldShowOnboarding {
-            return
-        }
+        guard !Apphud.hasActiveSubscription() else { return }
+        
         let onboardingController = viewControllerFactory.createNewOnboardingController(router: self)
         navigationPushViewController(onboardingController, animated: false)
     }
@@ -138,7 +135,12 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func popToRootFromOnboarding() {
-        UserDefaultsManager.shared.coldStartState = 0
+        if UserDefaultsManager.shared.isFirstLaunch {
+            UserDefaultsManager.shared.coldStartState = 2
+        } else {
+            UserDefaultsManager.shared.coldStartState = 0
+            UserDefaultsManager.shared.isFirstLaunch = true
+        }
         navigationPopToRootViewController(animated: true)
         UserDefaultsManager.shared.shouldShowOnboarding = false
     }
@@ -477,6 +479,7 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func showPaywallVC() {
+        guard !Apphud.hasActiveSubscription() else { return }
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
                 if let paywall = paywalls.first(where: { $0.isDefault }),

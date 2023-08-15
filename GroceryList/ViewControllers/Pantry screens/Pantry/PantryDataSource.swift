@@ -179,7 +179,8 @@ final class PantryDataSource {
             var defaultsPantry: [PantryModel] = []
             
             DefaultsPantry.allCases.forEach { pantry in
-                defaultsPantry.append(PantryModel(name: pantry.title, index: pantry.rawValue,
+                defaultsPantry.append(PantryModel(id: pantry.pantryId,
+                                                  name: pantry.title, index: pantry.rawValue,
                                                   color: pantry.color, icon: pantry.imageData))
             }
             

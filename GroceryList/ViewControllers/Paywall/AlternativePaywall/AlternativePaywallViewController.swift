@@ -184,25 +184,17 @@ class AlternativePaywallViewController: UIViewController {
         closeButton.isHidden = isHardPaywall
         
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
-            guard let products = paywalls.first(where: { $0.isDefault })?.products,
-                  let self = self else {
+            guard let self = self,
+                  let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+                
+                guard let products = paywalls.first(where: { $0.isDefault })?.products else {
+                    return
+                }
+                self?.setupProducts(products: products)
                 return
             }
-            self.products = products.reversed()
-            
-            self.choiceOfCostArray = self.products.map {
-                .init(
-                    isPopular: false,
-                    period: self.getTitle(from: $0),
-                    price: self.getPriceString(from: $0),
-                    description: self.getAdviceString(from: $0)
-                )
-            }
-            self.choiceOfCostArray[0].isPopular = true
-            self.selectedProduct = products[0]
-            self.collectionView(self.collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
-            self.collectionView.reloadData()
-            self.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .top)
+
+            self.setupProducts(products: paywall.products)
         }
     }
     
@@ -215,6 +207,24 @@ class AlternativePaywallViewController: UIViewController {
     private func unlockUI() {
         lockScreenView.isHidden = true
         activityIndicator.stopAnimating()
+    }
+    
+    private func setupProducts(products: [ApphudProduct]) {
+        self.products = products.reversed()
+
+        self.choiceOfCostArray = self.products.map {
+            .init(
+                isPopular: false,
+                period: self.getTitle(from: $0),
+                price: self.getPriceString(from: $0),
+                description: self.getAdviceString(from: $0)
+            )
+        }
+        self.choiceOfCostArray[0].isPopular = true
+        self.selectedProduct = products[0]
+        self.collectionView(self.collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
+        self.collectionView.reloadData()
+        self.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .top)
     }
     
     private func getAdviceString(from product: ApphudProduct) -> String {

@@ -541,6 +541,14 @@
 "Save time and money with app"  = "Сохраните время и деньги с Shopping List";
 "Cancel anytime"                = "Отменить в любое время";
 
+"Up to 6 members"               = "До 6 участников";
+"Family Plan"                   = "Семейный план";
+
+"perDay"                        = "день";
+"perWeek"                       = "неделя";
+"perMonth"                      = "месяц";
+"perYear"                       = "год";
+
 // New Paywall
 "Unlock Premium"                = "Разблокировать премиум";
 "with useful features"          = "с полезными функциями";

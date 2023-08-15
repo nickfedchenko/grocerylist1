@@ -215,11 +215,10 @@ class UserDefaultsManager {
         set { userDefaults.set(newValue, forKey: "testOnboardingValue") }
     }
     
-    var isFixCoreDataMigration: Bool {
-        get { userDefaults.bool(forKey: "isFixCoreDataMigration") }
-        set { userDefaults.set(newValue, forKey: "isFixCoreDataMigration") }
+    var isFixReplaceCoreData: Bool {
+        get { userDefaults.bool(forKey: "isFixReplaceCoreData") }
+        set { userDefaults.set(newValue, forKey: "isFixReplaceCoreData") }
     }
-    
     
     private func setValue<T>(value: T, for key: UDKeys) {
         userDefaults.set(value, forKey: key.rawValue)
@@ -242,9 +241,7 @@ class UserDefaultsManager {
                 groupDefaults.set(true, forKey: didMigrateToAppGroups)
                 groupDefaults.synchronize()
                 print("Successfully migrated defaults")
-            } else {
-                print("No need to migrate defaults")
-            }
+            } 
         } else {
             print("Unable to create NSUserDefaults with given app group")
         }

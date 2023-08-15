@@ -131,8 +131,10 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
     }
     
     private func removeDefaultsCollection() {
-        EatingTime.defaults.forEach {
-            CoreDataManager.shared.deleteCollection(by: $0.rawValue)
+        if !UserDefaultsManager.shared.isFillingDefaultCollection {
+            EatingTime.defaults.forEach {
+                CoreDataManager.shared.deleteCollection(by: $0.rawValue)
+            }
         }
     }
     
