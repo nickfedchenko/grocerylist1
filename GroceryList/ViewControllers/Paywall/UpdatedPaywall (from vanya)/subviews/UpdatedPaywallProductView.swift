@@ -81,14 +81,14 @@ final private class ProductView: UIView {
     
     private let perWeekLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.medium(size: 12).font
+        label.font = UIFont.SFPro.medium(size: UIDevice.isSE2 ? 11 : 12).font
         label.textColor = R.color.darkGray()
         return label
     }()
     
     private let threeDaysFreeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFProDisplay.medium(size: 12).font
+        label.font = UIFont.SFProDisplay.medium(size: UIDevice.isSE2 ? 11 : 12).font
         label.textColor = UIColor(hex: "#045C5")
         label.text = R.string.localizable.daysFree()
         return label
@@ -133,7 +133,7 @@ final private class ProductView: UIView {
     private let membersLabel: UILabel = {
         let label = UILabel()
         label.text = R.string.localizable.upTo6Members()
-        label.font = UIFont.SFProDisplay.semibold(size: 12).font
+        label.font = UIFont.SFProDisplay.semibold(size: UIDevice.isSE2 ? 11 : 12).font
         label.textColor = UIColor(hex: "FF0000")
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
@@ -198,7 +198,7 @@ final private class ProductView: UIView {
         
         periodLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(8)
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().offset(2)
             $0.centerX.equalToSuperview()
         }
 
@@ -213,7 +213,7 @@ final private class ProductView: UIView {
         }
         
         threeDaysFreeLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-8)
+            $0.bottom.equalToSuperview().offset(UIDevice.isSE2 ? -6 : -8)
             $0.centerX.equalToSuperview()
         }
         
@@ -240,7 +240,7 @@ final private class ProductView: UIView {
         }
         
         membersLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-23)
+            $0.bottom.equalToSuperview().offset(UIDevice.isSE2 ? -16 : -23)
             $0.leading.equalToSuperview().offset(2)
             $0.centerX.equalToSuperview()
         }
