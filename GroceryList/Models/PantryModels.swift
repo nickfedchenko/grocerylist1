@@ -5,10 +5,13 @@
 //  Created by Хандымаа Чульдум on 24.05.2023.
 //
 
+import CloudKit
 import Foundation
 
 struct PantryModel: Hashable, Codable {
     var id = UUID()
+    var recordId = ""
+    
     var name: String
     var index: Int = 0
     var color: Int
@@ -74,10 +77,29 @@ struct PantryModel: Hashable, Codable {
         dateOfCreation = Date()
         synchronizedLists = []
     }
+    
+    init(record: CKRecord, imageData: Data?) {
+        id = record.value(forKey: "id") as? UUID ?? UUID()
+        sharedId = record.value(forKey: "sharedId") as? String ?? ""
+        recordId = record.recordID.recordName
+        
+        name = record.value(forKey: "name") as? String ?? ""
+        index = record.value(forKey: "index") as? Int ?? 0
+        color = record.value(forKey: "color") as? Int ?? 0
+        let stockData = record.value(forKey: "stock") as? Data ?? Data()
+        stock = (try? JSONDecoder().decode([Stock].self, from: stockData)) ?? []
+        let synchronizedListsData = record.value(forKey: "synchronizedLists") as? Data ?? Data()
+        synchronizedLists = (try? JSONDecoder().decode([UUID].self, from: synchronizedListsData)) ?? []
+        dateOfCreation = record.value(forKey: "dateOfCreation") as? Date ?? Date()
+        
+        isShared = record.value(forKey: "isShared") as? Bool ?? false
+        isSharedListOwner = record.value(forKey: "isSharedListOwner") as? Bool ?? false
+    }
 }
 
 struct Stock: Hashable, Codable {
     var id = UUID()
+    var recordId = ""
     var index: Int = 0
     var pantryId: UUID
     var name: String
@@ -96,7 +118,7 @@ struct Stock: Hashable, Codable {
     var dateOfCreation: Date
     var isUserImage: Bool = false
     var userToken: String?
-    var isVisibleСost: Bool = false
+    var isVisibleCost: Bool = false
     
     init(copyStock: Stock) {
         self.id = UUID()
@@ -162,7 +184,7 @@ struct Stock: Hashable, Codable {
         dateOfCreation = dbModel.dateOfCreation
         isUserImage = dbModel.isUserImage
         userToken = dbModel.userToken
-        self.isVisibleСost = isVisibleСost
+        self.isVisibleCost = isVisibleСost
     }
     
     init(sharedStock: SharedStock) {
@@ -184,6 +206,38 @@ struct Stock: Hashable, Codable {
         isUserImage = sharedStock.isUserImage
         userToken = sharedStock.userToken ?? "0"
         dateOfCreation = Date()
+    }
+    
+    init?(record: CKRecord, imageData: Data?) {
+        guard let pantryId = record.value(forKey: "pantryId") as? UUID else {
+            return nil
+        }
+        
+        id = record.value(forKey: "id") as? UUID ?? UUID()
+        self.pantryId = pantryId
+        recordId = record.recordID.recordName
+        
+        index = record.value(forKey: "index") as? Int ?? 0
+        name = record.value(forKey: "name") as? String ?? ""
+        self.imageData = imageData
+        description = record.value(forKey: "description") as? String
+        category = record.value(forKey: "category") as? String
+        dateOfCreation = record.value(forKey: "dateOfCreation") as? Date ?? Date()
+        let storeData = record.value(forKey: "store") as? Data ?? Data()
+        let storeFromCloud = (try? JSONDecoder().decode(Store.self, from: storeData))
+        store = storeFromCloud?.title == "" ? nil : storeFromCloud
+        cost = record.value(forKey: "cost") as? Double
+        quantity = record.value(forKey: "quantity") as? Double
+        unitId = UnitSystem(rawValue: Int(record.value(forKey: "unitId") as? Int ?? -1))
+        let autoRepeatData = record.value(forKey: "autoRepeat") as? Data ?? Data()
+        autoRepeat = (try? JSONDecoder().decode(AutoRepeatModel.self, from: autoRepeatData))
+        userToken = record.value(forKey: "userToken") as? String ?? "0"
+        
+        isAvailability = record.value(forKey: "isAvailability") as? Bool ?? false
+        isAutoRepeat = record.value(forKey: "isAutoRepeat") as? Bool ?? false
+        isReminder = record.value(forKey: "isReminder") as? Bool ?? false
+        isUserImage = record.value(forKey: "isUserImage") as? Bool ?? false
+        isVisibleCost = record.value(forKey: "isVisibleCost") as? Bool ?? false
     }
 }
 

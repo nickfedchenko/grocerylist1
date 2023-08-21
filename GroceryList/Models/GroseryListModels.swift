@@ -5,6 +5,7 @@
 //  Created by Шамиль Моллачиев on 04.11.2022.
 //
 
+import CloudKit
 import UIKit
 
 struct RecipeSectionsModel {
@@ -193,21 +194,24 @@ struct SectionModel: Hashable {
 
 struct GroceryListsModel: Hashable, Codable {
     var id = UUID()
+    var sharedId: String = ""
+    var recordId = ""
+    
     var dateOfCreation: Date
     var name: String?
     var color: Int
-    var isFavorite: Bool = false
     var products: [Product]
-    var isAutomaticCategory: Bool = true
     var typeOfSorting: Int
     var typeOfSortingPurchased: Int
+    
+    var isFavorite: Bool = false
+    var isAutomaticCategory: Bool = true
     var isAscendingOrder = true
     var isAscendingOrderPurchased: BoolWithNilForCD = .nothing
-    var sharedId: String = ""
-    var isShared: Bool = false
-    var isSharedListOwner: Bool = false
     var isShowImage: BoolWithNilForCD = .nothing
     var isVisibleCost: Bool = false
+    var isShared: Bool = false
+    var isSharedListOwner: Bool = false
     
     static func == (lhs: GroceryListsModel, rhs: GroceryListsModel) -> Bool {
         lhs.id == rhs.id
@@ -219,6 +223,7 @@ struct GroceryListsModel: Hashable, Codable {
     
     init?(from dbModel: DBGroceryListModel) {
         id = dbModel.id ?? UUID()
+//        sharedId = dbModel.sharedId ?? UUID()
         name = dbModel.name
         dateOfCreation = dbModel.dateOfCreation ?? Date()
         color = Int(dbModel.color)
@@ -262,29 +267,57 @@ struct GroceryListsModel: Hashable, Codable {
         self.isAscendingOrderPurchased = isAscendingOrderPurchased
         self.isAutomaticCategory = isAutomaticCategory
     }
+    
+    init(record: CKRecord) {
+        id = record.value(forKey: "id") as? UUID ?? UUID()
+        sharedId = record.value(forKey: "sharedId") as? String ?? ""
+        recordId = record.recordID.recordName
+        
+        dateOfCreation = record.value(forKey: "dateOfCreation") as? Date ?? Date()
+        name = record.value(forKey: "name") as? String
+        color = record.value(forKey: "color") as? Int ?? 0
+        typeOfSorting = record.value(forKey: "typeOfSorting") as? Int ?? 0
+        typeOfSortingPurchased = record.value(forKey: "typeOfSortingPurchased") as? Int ?? 0
+        products = record.value(forKey: "products") as? [Product] ?? []
+        
+        isFavorite = record.value(forKey: "isFavorite") as? Bool ?? false
+        isAutomaticCategory = record.value(forKey: "isAutomaticCategory") as? Bool ?? true
+        isAscendingOrder = record.value(forKey: "isAscendingOrder") as? Bool ?? true
+        isVisibleCost = record.value(forKey: "isVisibleCost") as? Bool ?? false
+        isShared = record.value(forKey: "isShared") as? Bool ?? false
+        isSharedListOwner = record.value(forKey: "isSharedListOwner") as? Bool ?? false
+        let isAscendingOrderPurchasedRawValue = record.value(forKey: "isAscendingOrderPurchased") as? Int16 ?? 0
+        let isShowImageRawValue = record.value(forKey: "isShowImage") as? Int16 ?? 0
+        isAscendingOrderPurchased = BoolWithNilForCD(rawValue: isAscendingOrderPurchasedRawValue) ?? .nothing
+        isShowImage = BoolWithNilForCD(rawValue: isShowImageRawValue) ?? .nothing
+    }
 }
 
 struct Product: Hashable, Equatable, Codable {
     var id = UUID()
     var listId: UUID
-    var name: String
-    var isPurchased: Bool
+    var recordId = ""
+    
     var dateOfCreation: Date
-    var category: String
-    var isFavorite: Bool
-    var isSelected = false
-    var imageData: Data?
+    var name: String
     var description: String
+    var category: String
+    var imageData: Data?
     var fromRecipeTitle: String?
     var unitId: UnitSystem?
-    var isUserImage: Bool? = false
-    var userToken: String?
     var store: Store?
     var cost: Double?
     var quantity: Double?
-    var isVisibleСost: Bool = false // не нужно сохранять в базу, нужно чтобы показать цену
-    var isOutOfStock: Bool = false // не нужно сохранять в базу, продукт из Кладовой
-    var inStock: UUID? // не нужно сохранять в базу, продукт из Кладовой
+    var userToken: String?
+    
+    var isPurchased: Bool
+    var isFavorite: Bool
+    var isUserImage: Bool? = false
+    
+    var isSelected = false
+    var isVisibleСost: Bool = false
+    var isOutOfStock: Bool = false
+    var inStock: UUID?
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -421,6 +454,31 @@ struct Product: Hashable, Equatable, Codable {
         cost = stock.cost
         quantity = stock.quantity
         isOutOfStock = true
+    }
+    
+    init(record: CKRecord, imageData: Data?) {
+        id = record.value(forKey: "id") as? UUID ?? UUID()
+        listId = record.value(forKey: "listId") as? UUID ?? UUID()
+        recordId = record.recordID.recordName
+        
+        dateOfCreation = record.value(forKey: "dateOfCreation") as? Date ?? Date()
+        name = record.value(forKey: "name") as? String ?? ""
+        description = record.value(forKey: "description") as? String ?? ""
+        category = record.value(forKey: "category") as? String ?? ""
+        self.imageData = imageData
+        fromRecipeTitle = record.value(forKey: "fromRecipeTitle") as? String
+        unitId = UnitSystem(rawValue: Int(record.value(forKey: "unitId") as? Int ?? -1))
+        cost = record.value(forKey: "cost") as? Double
+        quantity = record.value(forKey: "quantity") as? Double
+        userToken = record.value(forKey: "userToken") as? String
+        
+        let storeData = record.value(forKey: "store") as? Data ?? Data()
+        let storeFromCloud = (try? JSONDecoder().decode(Store.self, from: storeData))
+        store = storeFromCloud?.title == "" ? nil : storeFromCloud
+        
+        isFavorite = record.value(forKey: "isFavorite") as? Bool ?? false
+        isPurchased = record.value(forKey: "isPurchased") as? Bool ?? false
+        isUserImage = record.value(forKey: "isUserImage") as? Bool ?? false
     }
 }
 

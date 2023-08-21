@@ -219,10 +219,26 @@ extension CoreDataManager {
     // MARK: - Categories
     func saveCategory(category: CategoryModel) {
         let context = coreData.container.viewContext
+        if let dbCategories = getCategory(id: Int64(category.ind)) {
+            dbCategories.id = Int64(category.ind)
+            dbCategories.name = category.name
+            try? context.save()
+            return
+        }
+       
         let object = DBCategories(context: context)
         object.id = Int64(category.ind)
         object.name = category.name
         try? context.save()
+    }
+    
+    func getCategory(id: Int64) -> DBCategories? {
+        let fetchRequest: NSFetchRequest<DBCategories> = DBCategories.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest).first else {
+            return nil
+        }
+        return object
     }
     
     func getUserCategories() -> [DBCategories]? {

@@ -4340,11 +4340,13 @@ struct _R {
     var whitePlusImage: RswiftResources.ImageResource { .init(name: "whitePlusImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
   }
 
-  /// This `_R.entitlements` struct is generated, and contains static references to 3 properties.
+  /// This `_R.entitlements` struct is generated, and contains static references to 5 properties.
   struct entitlements {
     let apsEnvironment: String = "development"
     let comAppleDeveloperApplesignin = comAppleDeveloperApplesignin()
     let comAppleDeveloperAssociatedDomains = comAppleDeveloperAssociatedDomains()
+    let comAppleDeveloperIcloudContainerIdentifiers = comAppleDeveloperIcloudContainerIdentifiers()
+    let comAppleDeveloperIcloudServices = comAppleDeveloperIcloudServices()
     let comAppleSecurityApplicationGroups = comAppleSecurityApplicationGroups()
     struct comAppleDeveloperApplesignin {
       let `default`: String = "Default"
@@ -4352,6 +4354,12 @@ struct _R {
     struct comAppleDeveloperAssociatedDomains {
       let applinksShoppinglistPro: String = "applinks:shoppinglist.pro"
       let webcredentialsShoppinglistPro: String = "webcredentials:shoppinglist.pro"
+    }
+    struct comAppleDeveloperIcloudContainerIdentifiers {
+      let iCloudComKsensShopp: String = "iCloud.com.ksens.shopp"
+    }
+    struct comAppleDeveloperIcloudServices {
+      let cloudKit: String = "CloudKit"
     }
     struct comAppleSecurityApplicationGroups {
       let groupComKsensShopp: String = "group.com.ksens.shopp"

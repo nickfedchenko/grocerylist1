@@ -22,8 +22,6 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    
-    
     func createMainTabBarController(router: RootRouter, controllers: [UIViewController]) -> UITabBarController {
         let isRightHanded = true
         let viewModel = MainTabBarViewModel(isRightHanded: isRightHanded, viewControllers: controllers)

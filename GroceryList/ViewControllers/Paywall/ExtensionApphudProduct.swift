@@ -6,8 +6,8 @@
 //
 
 import ApphudSDK
-import StoreKit
 import Foundation
+import StoreKit
 
 extension ApphudProduct {
     
@@ -196,10 +196,10 @@ extension ApphudProduct {
     
     func getPerMinPeriod(minPeriod: SKProduct.PeriodUnit) -> String {
         switch minPeriod {
-        case .day:      return " / " +  R.string.localizable.perDay()
-        case .week:     return " / " +  R.string.localizable.perWeek()
-        case .month:    return " / " +  R.string.localizable.perMonth()
-        case .year:     return " / " +  R.string.localizable.perYear()
+        case .day:      return " / " + R.string.localizable.perDay()
+        case .week:     return " / " + R.string.localizable.perWeek()
+        case .month:    return " / " + R.string.localizable.perMonth()
+        case .year:     return " / " + R.string.localizable.perYear()
         @unknown default:
             return ""
         }

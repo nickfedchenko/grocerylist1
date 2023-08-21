@@ -35,16 +35,16 @@ extension UIDevice {
     }
     
     enum ScreenType {
-        case iPhones5andSE              //320x568
-        case iPhones678SE2              //375x667
-        case iPhones678Plus             //414x736
-        case iPhonesXXS11Pro            //375x812
-        case iPhoneXR11                 //414x896
-        case iPhoneXSMax11ProMax        //375x812, 414x896
+        case iPhones5andSE              // 320x568
+        case iPhones678SE2              // 375x667
+        case iPhones678Plus             // 414x736
+        case iPhonesXXS11Pro            // 375x812
+        case iPhoneXR11                 // 414x896
+        case iPhoneXSMax11ProMax        // 375x812, 414x896
 
-        case iPhone121314               //390x844
-        case iPhone14ProMax14Plus       //430x932, 428x926
-        case iPhone1213mini             //360x780
+        case iPhone121314               // 390x844
+        case iPhone14ProMax14Plus       // 430x932, 428x926
+        case iPhone1213mini             // 360x780
         
         case unknown
     }

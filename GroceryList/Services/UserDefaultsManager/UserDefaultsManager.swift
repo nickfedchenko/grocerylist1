@@ -220,6 +220,11 @@ class UserDefaultsManager {
         set { userDefaults.set(newValue, forKey: "isFixReplaceCoreData") }
     }
     
+    var settingsRecordId: String {
+        get { userDefaults.string(forKey: "settingsRecordId") ?? "" }
+        set { userDefaults.set(newValue, forKey: "settingsRecordId") }
+    }
+    
     private func setValue<T>(value: T, for key: UDKeys) {
         userDefaults.set(value, forKey: key.rawValue)
     }

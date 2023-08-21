@@ -139,7 +139,6 @@ final class RecipeViewController: UIViewController {
         guard let instructions = viewModel.recipe.instructions else {
             print("failed to get instructions")
             return []
-            
         }
         
         for (index, instruction) in instructions.enumerated() {
@@ -204,7 +203,6 @@ final class RecipeViewController: UIViewController {
 #if RELEASE
         if !Apphud.hasActiveSubscription() {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                
                 self.navigationController?.popViewController(animated: true)
                 self.viewModel.showPaywall()
             }
@@ -228,16 +226,14 @@ final class RecipeViewController: UIViewController {
         let products: [Product] = viewModel.recipe.ingredients.enumerated().map { index, ingredient in
             let netProduct = ingredient.product
             let description = ingredientViews[safe: index]?.servingText ?? ""
-            let product = Product(
-                name: netProduct.title,
-                isPurchased: false,
-                dateOfCreation: Date(),
-                category: netProduct.marketCategory?.title ?? "",
-                isFavorite: false,
-                imageData: photos[index],
-                description: description,
-                fromRecipeTitle: recipeTitle
-            )
+            let product = Product(name: netProduct.title,
+                                  isPurchased: false,
+                                  dateOfCreation: Date(),
+                                  category: netProduct.marketCategory?.title ?? "",
+                                  isFavorite: false,
+                                  imageData: photos[index],
+                                  description: description,
+                                  fromRecipeTitle: recipeTitle)
             return product
         }
         
@@ -425,8 +421,6 @@ final class RecipeViewController: UIViewController {
         ingredientsStack.snp.makeConstraints { make in
             make.leading.trailing.equalTo(mainImageView)
             make.top.equalTo(servingSelector.snp.bottom).offset(16)
-//            make.height.equalTo((ingredientViews.count * 48) + (8 * (ingredientViews.count - 1)))
-//            make.bottom.equalToSuperview().inset(40)
         }
         
         showCostView.snp.makeConstraints { make in

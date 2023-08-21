@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 21.07.2023.
 //
 
+import CloudKit
 import Foundation
 
 struct AllRecipesResponse: Codable {
@@ -14,6 +15,7 @@ struct AllRecipesResponse: Codable {
 
 struct Recipe: Codable, Hashable, Equatable {
     let id: Int
+    var recordId = ""
     var title, description: String
     var cookingTime: Int?
     var totalServings: Int
@@ -106,6 +108,48 @@ struct Recipe: Codable, Hashable, Equatable {
         isDefaultRecipe = false
     }
     
+    init?(record: CKRecord, imageData: Data?) {
+        guard let recipeId = record.value(forKey: "id") as? Int else {
+            return nil
+        }
+        
+        id = recipeId
+        recordId = record.recordID.recordName
+        
+        title = record.value(forKey: "title") as? String ?? ""
+        description = record.value(forKey: "description") as? String ?? ""
+        cookingTime = record.value(forKey: "cookingTime") as? Int
+        totalServings = record.value(forKey: "totalServings") as? Int ?? -1
+        dishWeight = record.value(forKey: "dishWeight") as? Double
+        dishWeightType = record.value(forKey: "dishWeightType") as? Int
+        values = (try? JSONDecoder().decode(Values.self,
+                                            from: record.value(forKey: "values") as? Data ?? Data()))
+        countries = (try? JSONDecoder().decode([String].self,
+                                               from: record.value(forKey: "countries") as? Data ?? Data())) ?? []
+        instructions = (try? JSONDecoder().decode([String].self,
+                                                  from: record.value(forKey: "instructions") as? Data ?? Data()))
+        ingredients = (try? JSONDecoder().decode([Ingredient].self,
+                                                 from: record.value(forKey: "ingredients") as? Data ?? Data())) ?? []
+        eatingTags = (try? JSONDecoder().decode([AdditionalTag].self,
+                                                from: record.value(forKey: "eatingTags") as? Data ?? Data())) ?? []
+        dishTypeTags = (try? JSONDecoder().decode([AdditionalTag].self,
+                                                  from: record.value(forKey: "dishTypeTags") as? Data ?? Data())) ?? []
+        processingTypeTags = (try? JSONDecoder().decode([AdditionalTag].self,
+                                                        from: record.value(forKey: "processingTypeTags") as? Data ?? Data())) ?? []
+        additionalTags = (try? JSONDecoder().decode([AdditionalTag].self,
+                                                    from: record.value(forKey: "additionalTags") as? Data ?? Data())) ?? []
+        dietTags = (try? JSONDecoder().decode([AdditionalTag].self,
+                                              from: record.value(forKey: "dietTags") as? Data ?? Data())) ?? []
+        exceptionTags = (try? JSONDecoder().decode([AdditionalTag].self,
+                                                   from: record.value(forKey: "exceptionTags") as? Data ?? Data())) ?? []
+        photo = record.value(forKey: "photo") as? String ?? ""
+        isDraft = record.value(forKey: "isDraft") as? Bool ?? false
+        createdAt =  record.value(forKey: "createdAt") as? Date ?? Date()
+        localImage = imageData
+        isDefaultRecipe = record.value(forKey: "isDefaultRecipe") as? Bool ?? false
+        sourceUrl = record.value(forKey: "sourceUrl") as? String
+    }
+    
     func hasDefaultCollection() -> Bool {
         var hasDefaultCollection = false
         localCollection?.forEach({
@@ -166,6 +210,7 @@ struct MarketCategory: Codable {
 
 struct Store: Hashable, Equatable, Codable {
     var id: UUID
+    var recordId = ""
     var title: String
     var createdAt: Date
     
@@ -179,6 +224,13 @@ struct Store: Hashable, Equatable, Codable {
         id = dbStore.id ?? UUID()
         title = dbStore.title ?? ""
         createdAt = dbStore.createdAt ?? Date()
+    }
+    
+    init(record: CKRecord) {
+        id = record.value(forKey: "id") as? UUID ?? UUID()
+        recordId = record.recordID.recordName
+        title = record.value(forKey: "title") as? String ?? ""
+        createdAt = record.value(forKey: "createdAt") as? Date ?? Date()
     }
 }
 

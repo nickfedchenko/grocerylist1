@@ -5,10 +5,12 @@
 //  Created by Хандымаа Чульдум on 07.03.2023.
 //
 
+import CloudKit
 import Foundation
 
 struct CollectionModel: Codable {
     var id: Int
+    var recordId = ""
     var index: Int
     var title: String
     var color: Int?
@@ -56,6 +58,24 @@ struct CollectionModel: Codable {
         } else {
             self.color = newColor
         }
+    }
+    
+    init?(record: CKRecord, imageData: Data?) {
+        guard let collectionId = record.value(forKey: "id") as? Int else {
+            return nil
+        }
         
+        id = collectionId
+        recordId = record.recordID.recordName
+        
+        index = record.value(forKey: "index") as? Int ?? 0
+        title = record.value(forKey: "title") as? String ?? ""
+        color = record.value(forKey: "color") as? Int
+        isDefault = record.value(forKey: "isDefault") as? Bool ?? false
+        localImage = imageData
+        let dishesData = record.value(forKey: "dishes") as? Data ?? Data()
+        let dishesFromCloud = (try? JSONDecoder().decode([Int].self, from: dishesData))
+        dishes = dishesFromCloud
+        isDeleteDefault = record.value(forKey: "isDeleteDefault") as? Bool
     }
 }

@@ -252,6 +252,7 @@
 		33AF97F62A7BD37100716104 /* DBStore+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2F29EFC2E000F705E7 /* DBStore+CoreDataProperties.swift */; };
 		33AF97F72A7BD3B600716104 /* NotificationsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3329597298A8F19002DF1EE /* NotificationsExtension.swift */; };
 		33AF97F82A7BF6E300716104 /* RecipeSourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AF97C62A7B6D5500716104 /* RecipeSourceView.swift */; };
+		33B306632A8E149300F87659 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B306622A8E149300F87659 /* CloudManager.swift */; };
 		33C6F0D32A408BED00E71023 /* RecipeSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0D22A408BED00E71023 /* RecipeSearchView.swift */; };
 		33C6F0D52A4097CD00E71023 /* RecipeColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0D42A4097CD00E71023 /* RecipeColorCell.swift */; };
 		33C6F0D72A41445600E71023 /* FolderRecipePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0D62A41445600E71023 /* FolderRecipePreviewCell.swift */; };
@@ -674,6 +675,7 @@
 		33AF97D92A7B8BB000716104 /* CollectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsViewController.swift; sourceTree = "<group>"; };
 		33AF97DB2A7B92C000716104 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		33AF97DE2A7B934400716104 /* Ext CoreDataManager for shared .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext CoreDataManager for shared .swift"; sourceTree = "<group>"; };
+		33B306622A8E149300F87659 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
 		33C6F0D22A408BED00E71023 /* RecipeSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeSearchView.swift; sourceTree = "<group>"; };
 		33C6F0D42A4097CD00E71023 /* RecipeColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeColorCell.swift; sourceTree = "<group>"; };
 		33C6F0D62A41445600E71023 /* FolderRecipePreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderRecipePreviewCell.swift; sourceTree = "<group>"; };
@@ -1493,6 +1495,22 @@
 			path = "for shared sheet";
 			sourceTree = "<group>";
 		};
+		33B306602A8E147000F87659 /* KeyChainManager */ = {
+			isa = PBXGroup;
+			children = (
+				B371CCAF299E36BB00E0E197 /* KeychainManager.swift */,
+			);
+			path = KeyChainManager;
+			sourceTree = "<group>";
+		};
+		33B306612A8E147700F87659 /* FeedbackManager */ = {
+			isa = PBXGroup;
+			children = (
+				3342C9BC2A146D290010DA4A /* FeedbackManager.swift */,
+			);
+			path = FeedbackManager;
+			sourceTree = "<group>";
+		};
 		33C6F0E42A4437F500E71023 /* Photo from recipes */ = {
 			isa = PBXGroup;
 			children = (
@@ -2214,8 +2232,9 @@
 				B35F0F642937975900C19891 /* MeashureManager */,
 				33E544AA29CA1107008D84F8 /* Feature Manager */,
 				33AF97902A7A6DE700716104 /* for shared sheet */,
-				B371CCAF299E36BB00E0E197 /* KeychainManager.swift */,
-				3342C9BC2A146D290010DA4A /* FeedbackManager.swift */,
+				33B306602A8E147000F87659 /* KeyChainManager */,
+				33B306612A8E147700F87659 /* FeedbackManager */,
+				33B306622A8E149300F87659 /* CloudManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -3051,6 +3070,7 @@
 				3379B65A29B9B2ED0080923A /* CategoryView.swift in Sources */,
 				3370EFC02A82A08300885C30 /* NewOnboardingCell.swift in Sources */,
 				33A51B9F2A1780DA00BE11C1 /* MainRecipeCollectionViewLayout.swift in Sources */,
+				33B306632A8E149300F87659 /* CloudManager.swift in Sources */,
 				3379B65C29B9B3030080923A /* AddIngredientView.swift in Sources */,
 				339FF37E2A65793E00C6D6E3 /* NewPaywallProductView.swift in Sources */,
 				3347645B2A287EA5008F4834 /* StocksNavigationView.swift in Sources */,
