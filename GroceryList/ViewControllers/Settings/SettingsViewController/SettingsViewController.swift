@@ -15,6 +15,8 @@ class SettingsViewController: UIViewController {
     var viewModel: SettingsViewModel?
     private var imagePicker = UIImagePickerController()
 
+    private let navigationView = UIView()
+    
     private let preferenciesLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProRounded.bold(size: 22).font
@@ -30,9 +32,28 @@ class SettingsViewController: UIViewController {
         return button
     }()
     
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+//        scrollView.contentInset.top = 80 + UIView.safeAreaTop
+        return scrollView
+    }()
+    
+    private let contentView = UIView()
+    
     private lazy var unitsView: SettingsParametrView = {
         let view = SettingsParametrView()
         view.setupView(text: "Quantity Units".localized, unitSustemText: viewModel?.getTextForUnitSystemView())
+        return view
+    }()
+    
+    private lazy var iCloudDataBackupView: SettingsParametrView = {
+        let view = SettingsParametrView()
+        view.setupView(text: R.string.localizable.iCloudDataBackup(), isSwitchView: true)
+        view.updateSwitcher(isOn: UserDefaultsManager.shared.isICloudDataBackupOn)
+        view.switchValueChanged = { switchValue in
+            UserDefaultsManager.shared.isICloudDataBackupOn = switchValue
+        }
         return view
     }()
     
@@ -140,9 +161,20 @@ class SettingsViewController: UIViewController {
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
         view.backgroundColor = R.color.background()
-        view.addSubviews([preferenciesLabel, closeButton, profileView, unitsView, likeAppView,
-                          hapticView, showProductImageView, contactUsView, selectUnitsView, helpAndFaqView,
-                          registerView])
+        navigationView.backgroundColor = R.color.background()?.withAlphaComponent(0.9)
+        
+        self.view.addSubviews([scrollView, navigationView])
+        self.scrollView.addSubview(contentView)
+        navigationView.addSubviews([preferenciesLabel, closeButton])
+        contentView.addSubviews([profileView, unitsView, iCloudDataBackupView, likeAppView,
+                                 hapticView, showProductImageView, contactUsView,
+                                 selectUnitsView, helpAndFaqView, registerView])
+        
+        navigationView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+            make.top.equalToSuperview()
+            make.bottom.equalTo(preferenciesLabel).offset(8)
+        }
         
         preferenciesLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
@@ -154,9 +186,20 @@ class SettingsViewController: UIViewController {
             make.centerY.equalTo(preferenciesLabel)
             make.height.width.equalTo(40)
         }
+
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(UIScreen.main.bounds.width)
+        }
+
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.height.greaterThanOrEqualTo(self.view.frame.height - UIView.safeAreaTop)
+            make.width.equalTo(UIScreen.main.bounds.width)
+        }
         
         profileView.snp.makeConstraints { make in
-            make.top.equalTo(preferenciesLabel.snp.bottom).inset(-24)
+            make.top.equalToSuperview().offset(72)
             make.left.right.equalToSuperview()
         }
         
@@ -166,9 +209,15 @@ class SettingsViewController: UIViewController {
             make.height.equalTo(54)
         }
         
-        hapticView.snp.makeConstraints { make in
+        iCloudDataBackupView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
             make.top.equalTo(unitsView.snp.bottom)
+            make.height.equalTo(54)
+        }
+        
+        hapticView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(20)
+            make.top.equalTo(iCloudDataBackupView.snp.bottom)
             make.height.equalTo(54)
         }
         
@@ -204,8 +253,9 @@ class SettingsViewController: UIViewController {
         }
         
         registerView.snp.makeConstraints { make in
+            make.top.greaterThanOrEqualTo(helpAndFaqView.snp.bottom).offset(-24)
             make.left.right.equalToSuperview()
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).inset(30)
+            make.bottom.equalToSuperview().inset(30)
         }
     }
 }
@@ -305,11 +355,23 @@ extension SettingsViewController: SettingsViewModelDelegate {
     func setupRegisteredView(avatarImage: UIImage?, userName: String?, email: String) {
         registerView.isHidden = true
         profileView.isHidden = false
+        scrollView.isScrollEnabled = true
         
-        unitsView.snp.remakeConstraints { make in
-            make.left.right.equalToSuperview().inset(20)
-            make.top.equalTo(profileView.snp.bottom).inset(-5)
-            make.height.equalTo(54)
+        profileView.snp.remakeConstraints { make in
+            make.top.equalToSuperview().offset(72)
+            make.left.right.equalToSuperview()
+        }
+        
+//        unitsView.snp.remakeConstraints { make in
+//            make.left.right.equalToSuperview().inset(20)
+//            make.top.equalTo(profileView.snp.bottom).inset(-5)
+//            make.height.equalTo(54)
+//        }
+        
+        registerView.snp.remakeConstraints { make in
+            make.top.greaterThanOrEqualTo(helpAndFaqView.snp.bottom).offset(-24)
+            make.height.equalTo(0)
+            make.bottom.equalToSuperview().inset(30)
         }
         
         profileView.setupView(avatarImage: avatarImage, email: email, userName: userName)
@@ -319,11 +381,24 @@ extension SettingsViewController: SettingsViewModelDelegate {
     func setupNotRegisteredView() {
         registerView.isHidden = false
         profileView.isHidden = true
+        scrollView.isScrollEnabled = false
      
-        unitsView.snp.remakeConstraints { make in
-            make.left.right.equalToSuperview().inset(20)
-            make.top.equalTo(preferenciesLabel.snp.bottom).inset(-42)
-            make.height.equalTo(54)
+        profileView.snp.remakeConstraints { make in
+            make.top.equalToSuperview().offset(72)
+            make.height.equalTo(0)
+            make.left.right.equalToSuperview()
+        }
+        
+//        unitsView.snp.remakeConstraints { make in
+//            make.left.right.equalToSuperview().inset(20)
+//            make.top.equalTo(preferenciesLabel.snp.bottom).inset(-42)
+//            make.height.equalTo(54)
+//        }
+        
+        registerView.snp.remakeConstraints { make in
+            make.top.greaterThanOrEqualTo(helpAndFaqView.snp.bottom).offset(-24)
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview().inset(30)
         }
     }
     
