@@ -178,7 +178,6 @@ final class CloudManager {
     // MARK: save/update Data
     static func saveCloudData(groceryList: GroceryListsModel) {
         let recordID = CKRecord.ID(recordName: groceryList.recordId)
-        
         let record = CKRecord(recordType: "GroceryListsModel")
         record.setValue(groceryList.id, forKey: "id")
         record.setValue(groceryList.name, forKey: "name")

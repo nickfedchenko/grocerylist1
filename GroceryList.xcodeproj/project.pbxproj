@@ -299,6 +299,9 @@
 		33E8A8B82A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8B72A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift */; };
 		33E8A8BA2A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8B92A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift */; };
 		33E8A8BE2A5FB4EE007D7ED9 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8BD2A5FB4EE007D7ED9 /* FAQViewController.swift */; };
+		33F6298C2A937A2E007592F4 /* NewFeatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298B2A937A2E007592F4 /* NewFeatureViewController.swift */; };
+		33F6298E2A937B32007592F4 /* NewFeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298D2A937B32007592F4 /* NewFeatureViewModel.swift */; };
+		33F629902A938B65007592F4 /* FeatureCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298F2A938B65007592F4 /* FeatureCloudView.swift */; };
 		33F8253729C050DC00B349D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253629C050DC00B349D5 /* SearchViewController.swift */; };
 		33F8253929C0559000B349D5 /* SearchInListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253829C0559000B349D5 /* SearchInListViewModel.swift */; };
 		33F8253B29C0632700B349D5 /* SearchInListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253A29C0632700B349D5 /* SearchInListViewController.swift */; };
@@ -716,6 +719,9 @@
 		33E8A8B72A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPaywallProductView.swift; sourceTree = "<group>"; };
 		33E8A8B92A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPaywallTitleView.swift; sourceTree = "<group>"; };
 		33E8A8BD2A5FB4EE007D7ED9 /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
+		33F6298B2A937A2E007592F4 /* NewFeatureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeatureViewController.swift; sourceTree = "<group>"; };
+		33F6298D2A937B32007592F4 /* NewFeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeatureViewModel.swift; sourceTree = "<group>"; };
+		33F6298F2A938B65007592F4 /* FeatureCloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCloudView.swift; sourceTree = "<group>"; };
 		33F8253629C050DC00B349D5 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		33F8253829C0559000B349D5 /* SearchInListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewModel.swift; sourceTree = "<group>"; };
 		33F8253A29C0632700B349D5 /* SearchInListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewController.swift; sourceTree = "<group>"; };
@@ -1616,6 +1622,16 @@
 			path = FAQ;
 			sourceTree = "<group>";
 		};
+		33F6298A2A9379F4007592F4 /* Feature View */ = {
+			isa = PBXGroup;
+			children = (
+				33F6298D2A937B32007592F4 /* NewFeatureViewModel.swift */,
+				33F6298B2A937A2E007592F4 /* NewFeatureViewController.swift */,
+				33F6298F2A938B65007592F4 /* FeatureCloudView.swift */,
+			);
+			path = "Feature View";
+			sourceTree = "<group>";
+		};
 		33F8253529C050B700B349D5 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -2256,6 +2272,7 @@
 				B3D858462939D43B00CCE230 /* Paywall */,
 				B37A2CDD2911027E003C01AD /* Onboarding */,
 				33796E622A139F71009AD385 /* Feedback */,
+				33F6298A2A9379F4007592F4 /* Feature View */,
 				33A51B852A163C4200BE11C1 /* Main Tab Bar */,
 				335B54082A3822AD00B53314 /* Grocery List screens */,
 				335B54092A38231100B53314 /* Pantry screens */,
@@ -2863,6 +2880,7 @@
 				333D2FB82A30173D0072F779 /* StockHeaderCell.swift in Sources */,
 				B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */,
 				38F4904129476FFD00529D1F /* UIBezierPath+MaskedCorners.swift in Sources */,
+				33F6298C2A937A2E007592F4 /* NewFeatureViewController.swift in Sources */,
 				33E31AD92A78DA9C0011B41E /* UITapGestureRecognizerExtension.swift in Sources */,
 				B315F9DC29892EA00009CEB8 /* CheckmarkView.swift in Sources */,
 				840C189F2978D2230006F975 /* Int+Extensions.swift in Sources */,
@@ -3051,6 +3069,7 @@
 				B381EF31299BAA4800DCDE40 /* EnterNewPasswordViewController.swift in Sources */,
 				3391163329CD96E700881E1D /* SynchronizationActivityView.swift in Sources */,
 				B381EF18299A02A100DCDE40 /* DomainUser+CoreDataClass.swift in Sources */,
+				33F629902A938B65007592F4 /* FeatureCloudView.swift in Sources */,
 				3379B65529B9AEC10080923A /* IngredientViewController.swift in Sources */,
 				333DCC272A6101E500E3F92B /* NewPaywallFeatureView.swift in Sources */,
 				846600E9294A024800D85415 /* DBRecipe+CoreDataClass.swift in Sources */,
@@ -3153,6 +3172,7 @@
 				3366BEE02A2C1D3A00D50704 /* AutoRepeatSettingView.swift in Sources */,
 				B315F9D72988FF270009CEB8 /* AlternativePaywallCell.swift in Sources */,
 				335519C429AE26CE00AD2B77 /* RecipeContextMenuView.swift in Sources */,
+				33F6298E2A937B32007592F4 /* NewFeatureViewModel.swift in Sources */,
 				33AF97D72A7B835100716104 /* CookingTimeBadge.swift in Sources */,
 				38F49043294771A500529D1F /* InstructionView.swift in Sources */,
 				333E2D3029EFC2E000F705E7 /* DBStore+CoreDataClass.swift in Sources */,

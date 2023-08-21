@@ -110,6 +110,10 @@ final class MainTabBarViewModel {
         }
     }
     
+    func showNewFeature() {
+        router?.goToFeatureController()
+    }
+    
     func settingsTapped() {
         router?.goToSettingsController()
     }
@@ -210,13 +214,12 @@ final class MainTabBarViewModel {
         let allStocks = CoreDataManager.shared.getAllStock() ?? []
         let reminderStock = allStocks.filter { $0.isReminder }
         let dbStock = reminderStock.filter({ !$0.isAvailability })
-
-        var outOfStocks = dbStock.map({ Stock(dbModel: $0) })
+        let outOfStocks = dbStock.map({ Stock(dbModel: $0) })
         
         for stock in outOfStocks {
             guard let autoRepeat = stock.autoRepeat else { break }
             let startDate = stock.dateOfCreation.onlyDate
-            let resetDay = today.todayWithSetting(hour: 7)
+//            let resetDay = today.todayWithSetting(hour: 7)
             switch autoRepeat.state {
             case .daily:
                 self.outOfStocks.append(stock)

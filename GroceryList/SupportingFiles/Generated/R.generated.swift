@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 459 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 466 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -850,6 +850,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var gluten: RswiftResources.StringResource { .init(key: "Gluten", tableName: "Localizable", source: source, developmentValue: "Gluten", comment: nil) }
 
+      /// en translation: Great! Enable
+      ///
+      /// Key: Great! Enable
+      ///
+      /// Locales: en, ru, fr, de
+      var greatEnable: RswiftResources.StringResource { .init(key: "Great! Enable", tableName: "Localizable", source: source, developmentValue: "Great! Enable", comment: nil) }
+
       /// en translation: Green tea bags
       ///
       /// Key: Green tea bags
@@ -1255,6 +1262,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var lowFat: RswiftResources.StringResource { .init(key: "Low fat", tableName: "Localizable", source: source, developmentValue: "Low fat", comment: nil) }
+
+      /// en translation: Maybe Later
+      ///
+      /// Key: Maybe Later
+      ///
+      /// Locales: en, ru, fr, de
+      var maybeLater: RswiftResources.StringResource { .init(key: "Maybe Later", tableName: "Localizable", source: source, developmentValue: "Maybe Later", comment: nil) }
 
       /// en translation: Mayonnaise
       ///
@@ -2362,6 +2376,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var synchronizeStockList: RswiftResources.StringResource { .init(key: "Synchronize stock list", tableName: "Localizable", source: source, developmentValue: "Synchronize stock list with shopping list", comment: nil) }
 
+      /// en translation: Synchronize your data with the cloud. Your lists and recipes will be securely stored*. 
+      ///
+      /// Key: Synchronize your data
+      ///
+      /// Locales: en, ru, fr, de
+      var synchronizeYourData: RswiftResources.StringResource { .init(key: "Synchronize your data", tableName: "Localizable", source: source, developmentValue: "Synchronize your data with the cloud. Your lists and recipes will be securely stored*. ", comment: nil) }
+
       /// en translation: Tea and coffee
       ///
       /// Key: Tea
@@ -2452,6 +2473,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var tunaChunks: RswiftResources.StringResource { .init(key: "Tuna chunks", tableName: "Localizable", source: source, developmentValue: "Tuna chunks", comment: nil) }
+
+      /// en translation: Turn on iCloud Data Backup  in settings
+      ///
+      /// Key: Turn on iCloud Data Backup
+      ///
+      /// Locales: en, ru, fr, de
+      var turnOnICloudDataBackup: RswiftResources.StringResource { .init(key: "Turn on iCloud Data Backup", tableName: "Localizable", source: source, developmentValue: "Turn on iCloud Data Backup  in settings", comment: nil) }
 
       /// en translation: Type of dish
       ///
@@ -2851,6 +2879,27 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var gram: RswiftResources.StringResource { .init(key: "gram", tableName: "Localizable", source: source, developmentValue: "g", comment: nil) }
+
+      /// en translation: iCloud Data Backup
+      ///
+      /// Key: iCloud Data Backup
+      ///
+      /// Locales: en, ru, fr, de
+      var iCloudDataBackup: RswiftResources.StringResource { .init(key: "iCloud Data Backup", tableName: "Localizable", source: source, developmentValue: "iCloud Data Backup", comment: nil) }
+
+      /// en translation: *Registration required
+      ///
+      /// Key: iCloud Registration required
+      ///
+      /// Locales: en, ru, fr, de
+      var iCloudRegistrationRequired: RswiftResources.StringResource { .init(key: "iCloud Registration required", tableName: "Localizable", source: source, developmentValue: "*Registration required", comment: nil) }
+
+      /// en translation: 􀪺 iCloud Data Backup
+      ///
+      /// Key: icon iCloud Data Backup
+      ///
+      /// Locales: en, ru, fr, de
+      var iconICloudDataBackup: RswiftResources.StringResource { .init(key: "icon iCloud Data Backup", tableName: "Localizable", source: source, developmentValue: "􀪺 iCloud Data Backup", comment: nil) }
 
       /// en translation: Import Web Recipes
       ///
@@ -3333,7 +3382,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 334 images.
+  /// This `_R.image` struct is generated, and contains static references to 335 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -3495,6 +3544,9 @@ struct _R {
 
     /// Image `Move_TabBar`.
     var move_TabBar: RswiftResources.ImageResource { .init(name: "Move_TabBar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `NewFeatureImage`.
+    var newFeatureImage: RswiftResources.ImageResource { .init(name: "NewFeatureImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Pin`.
     var pin: RswiftResources.ImageResource { .init(name: "Pin", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

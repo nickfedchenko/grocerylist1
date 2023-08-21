@@ -522,6 +522,15 @@
 "Help & FAQ"                    = "Справка и часто задаваемые вопросы";
 "Check Internet connection"     = "Проверьте Интернет соединение";
 
+// iCloud
+"icon iCloud Data Backup"       = "􀪺 Резервное копирование данных iCloud";
+"Synchronize your data"         = "Синхронизируйте свои данные с облаком. Ваши списки и рецепты будут надежно сохранены*. ";
+"iCloud Registration required"  = "*Требуется регистрация";
+"Great! Enable"                 = "Отлично! Включить";
+"Maybe Later"                   = "Возможно, позже";
+"Turn on iCloud Data Backup"    = "Включите резервное копирование данных iCloud в настройках";
+"iCloud Data Backup"            = "Pезервное копирование данных iCloud";
+
 // Updated Paywall
 "three days "                   = "3 дня ";
 "free"                          = "бесплатно";

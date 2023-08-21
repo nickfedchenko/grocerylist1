@@ -69,6 +69,7 @@ final class MainTabBarController: UITabBarController {
             viewModel.pantryAnalytics()
             initAnalytic.toggle()
             viewModel.showFeedback()
+            viewModel.showNewFeature()
         }
         viewModel.showStockReminderIfNeeded()
     }

@@ -58,6 +58,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
+    func createFeatureViewController(router: RootRouter) -> UIViewController {
+        let viewModel = NewFeatureViewModel()
+        viewModel.router = router
+        
+        let viewController = NewFeatureViewController(viewModel: viewModel)
+        return viewController
+    }
+    
     func createCreateNewListController(model: GroceryListsModel?, router: RootRouter,
                                        compl: @escaping (GroceryListsModel, [Product]) -> Void) -> UIViewController? {
         let viewController = CreateNewListViewController()

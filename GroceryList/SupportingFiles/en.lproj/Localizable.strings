@@ -525,6 +525,15 @@
 "Help & FAQ"                    = "Help & FAQ";
 "Check Internet connection"     = "Check Internet connection";
 
+// iCloud
+"icon iCloud Data Backup"       = "􀪺 iCloud Data Backup";
+"Synchronize your data"         = "Synchronize your data with the cloud. Your lists and recipes will be securely stored*. ";
+"iCloud Registration required"  = "*Registration required";
+"Great! Enable"                 = "Great! Enable";
+"Maybe Later"                   = "Maybe Later";
+"Turn on iCloud Data Backup"    = "Turn on iCloud Data Backup  in settings";
+"iCloud Data Backup"            = "iCloud Data Backup";
+
 // Updated Paywall
 "three days "                   = "3 days ";
 "free"                          = "free";
