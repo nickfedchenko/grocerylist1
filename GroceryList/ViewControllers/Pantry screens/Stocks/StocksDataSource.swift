@@ -27,7 +27,7 @@ final class StocksDataSource {
         var stock = stock
         stock.isAvailability = !stock.isAvailability
         CoreDataManager.shared.saveStock(stock: [stock], for: pantryId.uuidString)
-        
+        CloudManager.saveCloudData(stock: stock)
         updateStocks()
     }
     
@@ -47,7 +47,9 @@ final class StocksDataSource {
             updatedStocks[newIndex].index = newIndex
         }
         CoreDataManager.shared.saveStock(stock: updatedStocks, for: pantryId.uuidString)
-        
+        updatedStocks.forEach { stock in
+            CloudManager.saveCloudData(stock: stock)
+        }
         updateStocks()
     }
     
@@ -66,6 +68,7 @@ final class StocksDataSource {
     
     func delete(stock: Stock) {
         CoreDataManager.shared.deleteStock(by: stock.id)
+        CloudManager.deleteStock(recordId: stock.recordId)
         updateStocks()
     }
     

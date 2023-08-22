@@ -69,6 +69,7 @@ class ListDataSource: ListDataSourceProtocol {
         if coldStartState == .firstItemAdded { coldStartState = .coldStartFinished }
         if let index = transformedModels?.firstIndex(of: model ) {
             CoreDataManager.shared.removeList(model.id)
+            CloudManager.deleteGroceryList(recordId: model.recordId)
             transformedModels?.remove(at: index)
         }
         updateFirstAndLastModels()

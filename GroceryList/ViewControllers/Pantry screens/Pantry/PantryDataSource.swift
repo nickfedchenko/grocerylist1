@@ -37,6 +37,9 @@ final class PantryDataSource {
             updatedPantries[newIndex].index = newIndex
         }
         CoreDataManager.shared.savePantry(pantry: updatedPantries)
+        updatedPantries.forEach { pantry in
+            CloudManager.saveCloudData(pantryModel: pantry)
+        }
         
         updatePantry()
     }
@@ -53,6 +56,7 @@ final class PantryDataSource {
     
     func delete(pantry: PantryModel) {
         CoreDataManager.shared.deletePantry(by: pantry.id)
+        CloudManager.deletePantry(recordId: pantry.recordId)
         updatePantry()
     }
     
@@ -100,17 +104,20 @@ final class PantryDataSource {
                 outOfStocks[index].isAvailability = resetDay > today
                 CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
                                                  for: stock.pantryId.uuidString)
+                CloudManager.saveCloudData(stock: outOfStocks[index])
             case .weekly:
                 if startDate.dayNumberOfWeek == today.dayNumberOfWeek {
                     outOfStocks[index].isAvailability = resetDay > today
                     CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
                                                      for: stock.pantryId.uuidString)
+                    CloudManager.saveCloudData(stock: outOfStocks[index])
                 }
             case .monthly:
                 if startDate.day == today.day {
                     outOfStocks[index].isAvailability = resetDay > today
                     CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
                                                      for: stock.pantryId.uuidString)
+                    CloudManager.saveCloudData(stock: outOfStocks[index])
                 }
             case .yearly:
                 if startDate.month == today.month,
@@ -118,6 +125,7 @@ final class PantryDataSource {
                     outOfStocks[index].isAvailability = resetDay > today
                     CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
                                                      for: stock.pantryId.uuidString)
+                    CloudManager.saveCloudData(stock: outOfStocks[index])
                 }
             case .custom:
                 if checkCustomAutoRepeat(autoRepeat: autoRepeat,
@@ -125,6 +133,7 @@ final class PantryDataSource {
                     outOfStocks[index].isAvailability = resetDay > today
                     CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
                                                      for: stock.pantryId.uuidString)
+                    CloudManager.saveCloudData(stock: outOfStocks[index])
                 }
             }
         }
@@ -229,6 +238,9 @@ final class PantryDataSource {
         }
         
         CoreDataManager.shared.saveStock(stock: defaultsFridgeStocks, for: fridgeId.uuidString)
+        defaultsFridgeStocks.forEach { stock in
+            CloudManager.saveCloudData(stock: stock)
+        }
     }
     
     private func defaultGroceryStocks(groceryId: UUID, allProducts: [DBNewNetProduct]) {
@@ -251,6 +263,9 @@ final class PantryDataSource {
         }
         
         CoreDataManager.shared.saveStock(stock: defaultGroceryStocks, for: groceryId.uuidString)
+        defaultGroceryStocks.forEach { stock in
+            CloudManager.saveCloudData(stock: stock)
+        }
     }
     
     private func defaultSpicesHerbsStocks(spicesHerbsId: UUID, allProducts: [DBNewNetProduct]) {
@@ -269,6 +284,9 @@ final class PantryDataSource {
         }
         
         CoreDataManager.shared.saveStock(stock: defaultsSpicesHerbsStocks, for: spicesHerbsId.uuidString)
+        defaultsSpicesHerbsStocks.forEach { stock in
+            CloudManager.saveCloudData(stock: stock)
+        }
     }
     
     private func defaultBeautyHealthStocks(beautyHealthId: UUID, allProducts: [DBNewNetProduct]) {
@@ -287,6 +305,9 @@ final class PantryDataSource {
         }
         
         CoreDataManager.shared.saveStock(stock: defaultBeautyHealthStocks, for: beautyHealthId.uuidString)
+        defaultBeautyHealthStocks.forEach { stock in
+            CloudManager.saveCloudData(stock: stock)
+        }
     }
     
     private func defaultHouseholdStocks(householdId: UUID, allProducts: [DBNewNetProduct]) {
@@ -306,6 +327,9 @@ final class PantryDataSource {
         }
         
         CoreDataManager.shared.saveStock(stock: defaultHouseholdStocks, for: householdId.uuidString)
+        defaultHouseholdStocks.forEach { stock in
+            CloudManager.saveCloudData(stock: stock)
+        }
     }
 }
 

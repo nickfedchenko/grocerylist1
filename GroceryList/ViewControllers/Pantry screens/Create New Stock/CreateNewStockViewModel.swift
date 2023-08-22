@@ -216,6 +216,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
         }
         
         CoreDataManager.shared.saveStock(stock: [stock], for: pantry.id.uuidString)
+        CloudManager.saveCloudData(stock: stock)
 #if RELEASE
         sendUserStock(pantry: pantry.name, stock: stock.name)
 #endif

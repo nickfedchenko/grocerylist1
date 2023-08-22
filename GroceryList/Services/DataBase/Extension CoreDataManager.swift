@@ -197,6 +197,7 @@ extension CoreDataManager {
         let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "sharedListId = '\(sharedListId)'")
         if let object = try? context.fetch(fetchRequest).first {
+            CloudManager.deleteGroceryList(recordId: object.recordId ?? "")
             context.delete(object)
         }
         try? context.save()
@@ -209,6 +210,7 @@ extension CoreDataManager {
       
         if let objects = try? context.fetch(fetchRequest){
             objects.forEach {
+                CloudManager.deleteGroceryList(recordId: $0.recordId ?? "")
                 context.delete($0)
             }
         }
@@ -222,6 +224,7 @@ extension CoreDataManager {
         if let dbCategories = getCategory(id: Int64(category.ind)) {
             dbCategories.id = Int64(category.ind)
             dbCategories.name = category.name
+            dbCategories.recordId = category.recordId
             try? context.save()
             return
         }
@@ -229,6 +232,7 @@ extension CoreDataManager {
         let object = DBCategories(context: context)
         object.id = Int64(category.ind)
         object.name = category.name
+        object.recordId = category.recordId
         try? context.save()
     }
     
@@ -378,6 +382,7 @@ extension CoreDataManager {
         let object = DBStore(context: context)
         object.id = store.id
         object.title = store.title
+        object.recordId = store.recordId
         try? context.save()
     }
     
@@ -446,6 +451,7 @@ extension CoreDataManager {
         let fetchRequest: NSFetchRequest<DBPantry> = DBPantry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
         if let object = try? context.fetch(fetchRequest).first {
+            
             context.delete(object)
         }
         try? context.save()
@@ -456,6 +462,7 @@ extension CoreDataManager {
         let fetchRequest: NSFetchRequest<DBPantry> = DBPantry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "sharedId = '\(sharedListId)'")
         if let object = try? context.fetch(fetchRequest).first {
+            CloudManager.deletePantry(recordId: object.recordId ?? "")
             context.delete(object)
         }
         try? context.save()
@@ -467,6 +474,7 @@ extension CoreDataManager {
         fetchRequest.predicate = NSPredicate(format: "isShared = %d", true)
         if let objects = try? context.fetch(fetchRequest) {
             objects.forEach {
+                CloudManager.deletePantry(recordId: $0.recordId ?? "")
                 context.delete($0)
             }
         }

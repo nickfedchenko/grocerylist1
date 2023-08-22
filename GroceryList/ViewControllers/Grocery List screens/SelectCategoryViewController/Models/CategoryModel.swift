@@ -14,9 +14,10 @@ struct CategoryModel {
     var name: String
     var isSelected = false
     
-    init(ind: Int, name: String) {
+    init(ind: Int, name: String, recordId: String = "") {
         self.ind = ind
         self.name = name
+        self.recordId = recordId
     }
     
     init?(record: CKRecord) {

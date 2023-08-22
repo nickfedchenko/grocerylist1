@@ -230,6 +230,11 @@ class UserDefaultsManager {
         set { userDefaults.set(newValue, forKey: "isICloudDataBackupOn") }
     }
     
+    var isNewFeature: Bool {
+        get { userDefaults.bool(forKey: "isNewFeatureICloud") }
+        set { userDefaults.set(newValue, forKey: "isNewFeatureICloud") }
+    }
+    
     private func setValue<T>(value: T, for key: UDKeys) {
         userDefaults.set(value, forKey: key.rawValue)
     }

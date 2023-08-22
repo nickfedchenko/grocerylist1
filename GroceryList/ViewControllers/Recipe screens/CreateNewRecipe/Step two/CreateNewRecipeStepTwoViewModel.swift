@@ -111,6 +111,7 @@ final class CreateNewRecipeStepTwoViewModel {
         draft.values = Values(dish: kcal)
         
         CoreDataManager.shared.saveRecipes(recipes: [draft])
+        CloudManager.saveCloudData(recipe: draft)
         saveCollection(recipe: draft)
     }
     
@@ -130,6 +131,7 @@ final class CreateNewRecipeStepTwoViewModel {
         
         recipe = currentRecipe
         CoreDataManager.shared.saveRecipes(recipes: [currentRecipe])
+        CloudManager.saveCloudData(recipe: currentRecipe)
         saveCollection(recipe: currentRecipe)
         isSaved = true
     }
@@ -146,6 +148,7 @@ final class CreateNewRecipeStepTwoViewModel {
             return
         }
         CoreDataManager.shared.saveRecipes(recipes: [recipe])
+        CloudManager.saveCloudData(recipe: recipe)
         AmplitudeManager.shared.logEvent(.recipeCreateSave,
                                          properties: [.ingredientsAndSteps: "\(recipe.ingredients.count) : \(recipe.instructions?.count ?? 0)"])
         saveCollection(recipe: recipe)

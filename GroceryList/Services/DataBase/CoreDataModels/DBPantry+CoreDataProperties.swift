@@ -29,6 +29,7 @@ extension DBPantry {
     @NSManaged public var sharedId: String?
     @NSManaged public var synchronizedLists: Data?
     @NSManaged public var stocks: NSSet?
+    @NSManaged public var recordId: String?
 
     static func prepare(fromPlainModel model: PantryModel, context: NSManagedObjectContext) -> DBPantry {
         let dbPantry = DBPantry(context: context)
@@ -44,6 +45,7 @@ extension DBPantry {
         dbPantry.isSharedListOwner = model.isSharedListOwner
         dbPantry.isShowImage = model.isShowImage.rawValue
         dbPantry.isVisibleCost = model.isVisibleCost
+        dbPantry.recordId = model.recordId
         return dbPantry
     }
 }

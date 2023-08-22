@@ -107,7 +107,7 @@ class CoreDataManager {
         guard !UserDefaultsManager.shared.isUpdateRecipeWithCollection else {
             return
         }
-        var allRecipe = getAllRecipes()
+        let allRecipe = getAllRecipes()
         var recipes = allRecipe?.compactMap({ Recipe(from: $0) }) ?? []
         recipes.sort { $0.id < $1.id }
         

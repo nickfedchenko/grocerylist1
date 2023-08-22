@@ -302,6 +302,8 @@
 		33F6298C2A937A2E007592F4 /* NewFeatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298B2A937A2E007592F4 /* NewFeatureViewController.swift */; };
 		33F6298E2A937B32007592F4 /* NewFeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298D2A937B32007592F4 /* NewFeatureViewModel.swift */; };
 		33F629902A938B65007592F4 /* FeatureCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298F2A938B65007592F4 /* FeatureCloudView.swift */; };
+		33F629952A948179007592F4 /* Extension CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F629942A948179007592F4 /* Extension CloudManager.swift */; };
+		33F629962A9481D8007592F4 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B306622A8E149300F87659 /* CloudManager.swift */; };
 		33F8253729C050DC00B349D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253629C050DC00B349D5 /* SearchViewController.swift */; };
 		33F8253929C0559000B349D5 /* SearchInListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253829C0559000B349D5 /* SearchInListViewModel.swift */; };
 		33F8253B29C0632700B349D5 /* SearchInListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253A29C0632700B349D5 /* SearchInListViewController.swift */; };
@@ -722,6 +724,7 @@
 		33F6298B2A937A2E007592F4 /* NewFeatureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeatureViewController.swift; sourceTree = "<group>"; };
 		33F6298D2A937B32007592F4 /* NewFeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeatureViewModel.swift; sourceTree = "<group>"; };
 		33F6298F2A938B65007592F4 /* FeatureCloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCloudView.swift; sourceTree = "<group>"; };
+		33F629942A948179007592F4 /* Extension CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension CloudManager.swift"; sourceTree = "<group>"; };
 		33F8253629C050DC00B349D5 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		33F8253829C0559000B349D5 /* SearchInListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewModel.swift; sourceTree = "<group>"; };
 		33F8253A29C0632700B349D5 /* SearchInListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewController.swift; sourceTree = "<group>"; };
@@ -2247,10 +2250,11 @@
 				B3179EA4291E304700455419 /* ColorManager */,
 				B35F0F642937975900C19891 /* MeashureManager */,
 				33E544AA29CA1107008D84F8 /* Feature Manager */,
-				33AF97902A7A6DE700716104 /* for shared sheet */,
 				33B306602A8E147000F87659 /* KeyChainManager */,
 				33B306612A8E147700F87659 /* FeedbackManager */,
+				33AF97902A7A6DE700716104 /* for shared sheet */,
 				33B306622A8E149300F87659 /* CloudManager.swift */,
+				33F629942A948179007592F4 /* Extension CloudManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -2792,6 +2796,7 @@
 				33E31B102A7A48DC0011B41E /* CoreDataStorage.swift in Sources */,
 				33AF97BB2A7AB1BF00716104 /* RecipeDescriptionView.swift in Sources */,
 				33AF97AA2A7A9C9B00716104 /* RecipeKcalView.swift in Sources */,
+				33F629962A9481D8007592F4 /* CloudManager.swift in Sources */,
 				33AF97972A7A6FB100716104 /* Network.swift in Sources */,
 				33AF978A2A7A550C00716104 /* R.generated.swift in Sources */,
 				33E31AE52A792D6E0011B41E /* ActionViewController.swift in Sources */,
@@ -2912,6 +2917,7 @@
 				33C6F0DF2A434FE400E71023 /* RecipeListTableCell.swift in Sources */,
 				3368FD7929B7348100D97291 /* DBCollection+CoreDataClass.swift in Sources */,
 				B3329598298A8F19002DF1EE /* NotificationsExtension.swift in Sources */,
+				33F629952A948179007592F4 /* Extension CloudManager.swift in Sources */,
 				3323409B2A1B91CB00609813 /* PantryDataSource.swift in Sources */,
 				33323C722A529A0000F552E3 /* TextViewWithPlaceholder.swift in Sources */,
 				3347645D2A2889E4008F4834 /* StocksLinkView.swift in Sources */,

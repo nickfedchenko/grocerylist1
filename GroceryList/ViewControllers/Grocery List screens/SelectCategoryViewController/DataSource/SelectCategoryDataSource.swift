@@ -28,7 +28,8 @@ class SelectCategoryDataSource {
     }
     
     func transformCoreDataModels() {
-        allCategories += usersCategories.compactMap({ CategoryModel(ind: Int($0.id), name: $0.name ?? "") })
+        allCategories += usersCategories.compactMap({ CategoryModel(ind: Int($0.id), name: $0.name ?? "",
+                                                                    recordId: $0.recordId ?? "") })
         allCategories += defaultCategories.compactMap({ CategoryModel(ind: Int($0.id), name: $0.name ?? "") })
         allCategories.sort(by: { $0.name < $1.name })
     }

@@ -97,7 +97,11 @@ class SharedPantryManager {
         CoreDataManager.shared.removeSharedPantryList(by: localList.sharedId)
         
         CoreDataManager.shared.savePantry(pantry: [localList])
+        CloudManager.saveCloudData(pantryModel: localList)
         CoreDataManager.shared.saveStock(stock: localList.stock, for: localList.id.uuidString)
+        localList.stock.forEach { stock in
+            CloudManager.saveCloudData(stock: stock)
+        }
         
         NotificationCenter.default.post(name: .sharedPantryDownloadedAndSaved, object: nil)
 //        if isNewListId {
@@ -108,11 +112,11 @@ class SharedPantryManager {
     
     // MARK: - удаление листа из сокета
     func deleteListFromSocket(response: SocketDeleteResponse) {
-        CoreDataManager.shared.removeSharedList(by: response.listId)
+        CoreDataManager.shared.removeSharedPantryList(by: response.listId)
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
 
-    private func removeProductsIfNeeded(list: GroceryListsModel) {
+    private func removeProductsIfNeeded(list: PantryModel) {
         let products = CoreDataManager.shared.getProducts(for: list.id.uuidString)
 
         var arrayOfLocalProductId: [UUID?] = []
@@ -121,15 +125,15 @@ class SharedPantryManager {
         })
 
         var newArrayOfProducts: [UUID?] = []
-        list.products.forEach({ product in
+        list.stock.forEach({ product in
             newArrayOfProducts.append(product.id)
         })
-        
+
         let arrayToDelete = arrayOfLocalProductId.filter { !newArrayOfProducts.contains($0) }
-        
+
         arrayToDelete.forEach { id in
-            guard let id = id?.uuidString else { return }
-            CoreDataManager.shared.removeProduct(id: id)
+            guard let id else { return }
+            CoreDataManager.shared.deleteStock(by: id)
         }
     }
 
@@ -264,6 +268,9 @@ class SharedPantryManager {
         
         arrayOfLists.forEach { list in
             CoreDataManager.shared.saveStock(stock: list.stock, for: list.id.uuidString)
+            list.stock.forEach { stock in
+                CloudManager.saveCloudData(stock: stock)
+            }
         }
 
         NotificationCenter.default.post(name: .sharedPantryDownloadedAndSaved, object: nil)

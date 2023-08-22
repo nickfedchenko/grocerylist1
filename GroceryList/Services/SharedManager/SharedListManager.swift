@@ -98,9 +98,11 @@ class SharedListManager {
         removeProductsIfNeeded(list: list)
         
         CoreDataManager.shared.saveList(list: list)
+        CloudManager.saveCloudData(groceryList: list)
         
         list.products.forEach { product in
             CoreDataManager.shared.createProduct(product: product)
+            CloudManager.saveCloudData(product: product)
         }
         
         appendToUsersDict(id: response.listId, users: response.listUsers)
@@ -121,9 +123,9 @@ class SharedListManager {
     private func removeProductsIfNeeded(list: GroceryListsModel) {
         let products = CoreDataManager.shared.getProducts(for: list.id.uuidString)
 
-        var arrayOfLocalProductId: [UUID?] = []
+        var arrayOfLocalProductId: [(id: UUID?, recordId: String?)] = []
         products.forEach({ product in
-            arrayOfLocalProductId.append(product.id)
+            arrayOfLocalProductId.append((product.id, product.recordId))
         })
 
         var newArrayOfProducts: [UUID?] = []
@@ -131,11 +133,12 @@ class SharedListManager {
             newArrayOfProducts.append(product.id)
         })
         
-        let arrayToDelete = arrayOfLocalProductId.filter { !newArrayOfProducts.contains($0) }
+        let arrayToDelete = arrayOfLocalProductId.filter { !newArrayOfProducts.contains($0.id) }
         
-        arrayToDelete.forEach { id in
-            guard let id = id?.uuidString else { return }
+        arrayToDelete.forEach { product in
+            guard let id = product.id?.uuidString else { return }
             CoreDataManager.shared.removeProduct(id: id)
+            CloudManager.deleteProduct(recordId: product.recordId ?? "")
         }
     }
 
@@ -260,8 +263,10 @@ class SharedListManager {
 
         arrayOfLists.forEach { list in
             CoreDataManager.shared.saveList(list: list)
+            CloudManager.saveCloudData(groceryList: list)
             list.products.forEach { product in
                 CoreDataManager.shared.createProduct(product: product)
+                CloudManager.saveCloudData(product: product)
             }
         }
         UserDefaultsManager.shared.coldStartState = 2

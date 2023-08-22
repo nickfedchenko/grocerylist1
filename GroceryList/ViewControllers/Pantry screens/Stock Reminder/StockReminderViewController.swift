@@ -253,7 +253,7 @@ extension StockReminderViewController: UICollectionViewDelegate {
         guard let stock = dataSource?.itemIdentifier(for: indexPath) else {
             return
         }
-        let cell = collectionView.cellForItem(at: indexPath) as? StockCell
+        _ = collectionView.cellForItem(at: indexPath) as? StockCell
         viewModel.updateStockStatus(stock: stock)
     }
 }

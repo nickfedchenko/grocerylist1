@@ -223,7 +223,6 @@ struct GroceryListsModel: Hashable, Codable {
     
     init?(from dbModel: DBGroceryListModel) {
         id = dbModel.id ?? UUID()
-//        sharedId = dbModel.sharedId ?? UUID()
         name = dbModel.name
         dateOfCreation = dbModel.dateOfCreation ?? Date()
         color = Int(dbModel.color)
@@ -239,6 +238,7 @@ struct GroceryListsModel: Hashable, Codable {
         isAscendingOrder = dbModel.isAscendingOrder
         isAscendingOrderPurchased = BoolWithNilForCD(rawValue: dbModel.isAscendingOrderPurchased) ?? .nothing
         isAutomaticCategory = dbModel.isAutomaticCategory
+        recordId = dbModel.recordId ?? ""
     }
     
     init(id: UUID = UUID(), dateOfCreation: Date,
@@ -268,8 +268,11 @@ struct GroceryListsModel: Hashable, Codable {
         self.isAutomaticCategory = isAutomaticCategory
     }
     
-    init(record: CKRecord) {
-        id = record.value(forKey: "id") as? UUID ?? UUID()
+    init?(record: CKRecord) {
+        guard let idAsInt = record.value(forKey: "id") as? Int64 else {
+            return nil
+        }
+        id = idAsInt.uuid
         sharedId = record.value(forKey: "sharedId") as? String ?? ""
         recordId = record.recordID.recordName
         
@@ -280,12 +283,12 @@ struct GroceryListsModel: Hashable, Codable {
         typeOfSortingPurchased = record.value(forKey: "typeOfSortingPurchased") as? Int ?? 0
         products = record.value(forKey: "products") as? [Product] ?? []
         
-        isFavorite = record.value(forKey: "isFavorite") as? Bool ?? false
-        isAutomaticCategory = record.value(forKey: "isAutomaticCategory") as? Bool ?? true
-        isAscendingOrder = record.value(forKey: "isAscendingOrder") as? Bool ?? true
-        isVisibleCost = record.value(forKey: "isVisibleCost") as? Bool ?? false
-        isShared = record.value(forKey: "isShared") as? Bool ?? false
-        isSharedListOwner = record.value(forKey: "isSharedListOwner") as? Bool ?? false
+        isFavorite = (record.value(forKey: "isFavorite") as? Int64 ?? 0).boolValue
+        isAutomaticCategory = (record.value(forKey: "isAutomaticCategory") as? Int64 ?? 0).boolValue
+        isAscendingOrder = (record.value(forKey: "isAscendingOrder") as? Int64 ?? 0).boolValue
+        isVisibleCost = (record.value(forKey: "isVisibleCost") as? Int64 ?? 0).boolValue
+        isShared = (record.value(forKey: "isShared") as? Int64 ?? 0).boolValue
+        isSharedListOwner = (record.value(forKey: "isSharedListOwner") as? Int64 ?? 0).boolValue
         let isAscendingOrderPurchasedRawValue = record.value(forKey: "isAscendingOrderPurchased") as? Int16 ?? 0
         let isShowImageRawValue = record.value(forKey: "isShowImage") as? Int16 ?? 0
         isAscendingOrderPurchased = BoolWithNilForCD(rawValue: isAscendingOrderPurchasedRawValue) ?? .nothing
@@ -353,6 +356,7 @@ struct Product: Hashable, Equatable, Codable {
         store = storeFromDB?.title == "" ? nil : storeFromDB
         cost = dbProduct.cost == -1 ? nil : dbProduct.cost
         quantity = dbProduct.quantity == -1 ? nil : dbProduct.quantity
+        recordId = dbProduct.recordId ?? ""
     }
     
     init(id: UUID = UUID(), listId: UUID = UUID(),
@@ -456,9 +460,13 @@ struct Product: Hashable, Equatable, Codable {
         isOutOfStock = true
     }
     
-    init(record: CKRecord, imageData: Data?) {
-        id = record.value(forKey: "id") as? UUID ?? UUID()
-        listId = record.value(forKey: "listId") as? UUID ?? UUID()
+    init?(record: CKRecord, imageData: Data?) {
+        guard let idAsInt = record.value(forKey: "id") as? Int64,
+              let listIdAsInt = record.value(forKey: "listId") as? Int64 else {
+            return nil
+        }
+        id = idAsInt.uuid
+        listId = listIdAsInt.uuid
         recordId = record.recordID.recordName
         
         dateOfCreation = record.value(forKey: "dateOfCreation") as? Date ?? Date()
@@ -476,9 +484,9 @@ struct Product: Hashable, Equatable, Codable {
         let storeFromCloud = (try? JSONDecoder().decode(Store.self, from: storeData))
         store = storeFromCloud?.title == "" ? nil : storeFromCloud
         
-        isFavorite = record.value(forKey: "isFavorite") as? Bool ?? false
-        isPurchased = record.value(forKey: "isPurchased") as? Bool ?? false
-        isUserImage = record.value(forKey: "isUserImage") as? Bool ?? false
+        isFavorite = (record.value(forKey: "isFavorite") as? Int64 ?? 0).boolValue
+        isPurchased = (record.value(forKey: "isPurchased") as? Int64 ?? 0).boolValue
+        isUserImage = (record.value(forKey: "isUserImage") as? Int64 ?? 0).boolValue
     }
 }
 

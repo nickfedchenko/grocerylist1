@@ -123,6 +123,7 @@ class RecipesListViewModel {
         
         defer {
             CoreDataManager.shared.saveRecipes(recipes: [recipe])
+            CloudManager.saveCloudData(recipe: recipe)
             var updateRecipe = section.recipes.remove(at: recipeIndex)
             updateRecipe.isFavorite = isFavorite
             section.recipes.insert(updateRecipe, at: recipeIndex)

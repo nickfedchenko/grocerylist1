@@ -60,7 +60,6 @@ final class IngredientViewController: CreateNewProductViewController {
             return
         }
         
-        let colorForForeground = viewModel?.getColorForForeground ?? .black
         updateCategory(isActive: !(currentIngredient.product.marketCategory?.title.isEmpty ?? true),
                        categoryTitle: currentIngredient.product.marketCategory?.title)
         ingredientView.productTextField.text = currentIngredient.product.title

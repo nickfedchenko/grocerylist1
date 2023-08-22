@@ -63,6 +63,7 @@ struct PantryModel: Hashable, Codable {
         isSharedListOwner = dbModel.isSharedListOwner
         isShowImage = BoolWithNilForCD(rawValue: dbModel.isShowImage) ?? .nothing
         isVisibleCost = dbModel.isVisibleCost
+        recordId = dbModel.recordId ?? ""
     }
     
     init(sharedList: SharedPantryModel, stock: [Stock]) {
@@ -78,22 +79,23 @@ struct PantryModel: Hashable, Codable {
         synchronizedLists = []
     }
     
-    init(record: CKRecord, imageData: Data?) {
-        id = record.value(forKey: "id") as? UUID ?? UUID()
+    init?(record: CKRecord, imageData: Data?) {
+        guard let idAsInt = record.value(forKey: "id") as? Int64 else {
+            return nil
+        }
+        id = idAsInt.uuid
         sharedId = record.value(forKey: "sharedId") as? String ?? ""
         recordId = record.recordID.recordName
         
         name = record.value(forKey: "name") as? String ?? ""
         index = record.value(forKey: "index") as? Int ?? 0
         color = record.value(forKey: "color") as? Int ?? 0
-        let stockData = record.value(forKey: "stock") as? Data ?? Data()
-        stock = (try? JSONDecoder().decode([Stock].self, from: stockData)) ?? []
-        let synchronizedListsData = record.value(forKey: "synchronizedLists") as? Data ?? Data()
-        synchronizedLists = (try? JSONDecoder().decode([UUID].self, from: synchronizedListsData)) ?? []
+        stock = record.value(forKey: "stock") as? [Stock] ?? []
+        synchronizedLists = record.value(forKey: "synchronizedLists") as? [UUID] ?? []
         dateOfCreation = record.value(forKey: "dateOfCreation") as? Date ?? Date()
         
-        isShared = record.value(forKey: "isShared") as? Bool ?? false
-        isSharedListOwner = record.value(forKey: "isSharedListOwner") as? Bool ?? false
+        isShared = (record.value(forKey: "isShared") as? Int64 ?? 0).boolValue
+        isSharedListOwner = (record.value(forKey: "isSharedListOwner") as? Int64 ?? 0).boolValue
     }
 }
 
@@ -184,6 +186,7 @@ struct Stock: Hashable, Codable {
         dateOfCreation = dbModel.dateOfCreation
         isUserImage = dbModel.isUserImage
         userToken = dbModel.userToken
+        recordId = dbModel.recordId ?? ""
         self.isVisibleCost = isVisibleСost
     }
     
@@ -209,12 +212,13 @@ struct Stock: Hashable, Codable {
     }
     
     init?(record: CKRecord, imageData: Data?) {
-        guard let pantryId = record.value(forKey: "pantryId") as? UUID else {
+        guard let idAsInt = record.value(forKey: "id") as? Int64,
+              let pantryIdAsInt = record.value(forKey: "pantryId") as? Int64 else {
             return nil
         }
-        
-        id = record.value(forKey: "id") as? UUID ?? UUID()
-        self.pantryId = pantryId
+
+        id = idAsInt.uuid
+        pantryId = pantryIdAsInt.uuid
         recordId = record.recordID.recordName
         
         index = record.value(forKey: "index") as? Int ?? 0
@@ -223,21 +227,23 @@ struct Stock: Hashable, Codable {
         description = record.value(forKey: "description") as? String
         category = record.value(forKey: "category") as? String
         dateOfCreation = record.value(forKey: "dateOfCreation") as? Date ?? Date()
-        let storeData = record.value(forKey: "store") as? Data ?? Data()
-        let storeFromCloud = (try? JSONDecoder().decode(Store.self, from: storeData))
-        store = storeFromCloud?.title == "" ? nil : storeFromCloud
+//        let storeData = record.value(forKey: "store") as? Data ?? Data()
+//        let storeFromCloud = (try? JSONDecoder().decode(Store.self, from: storeData))
+//        store = storeFromCloud?.title == "" ? nil : storeFromCloud
+        store = record.value(forKey: "store") as? Store
         cost = record.value(forKey: "cost") as? Double
         quantity = record.value(forKey: "quantity") as? Double
         unitId = UnitSystem(rawValue: Int(record.value(forKey: "unitId") as? Int ?? -1))
-        let autoRepeatData = record.value(forKey: "autoRepeat") as? Data ?? Data()
-        autoRepeat = (try? JSONDecoder().decode(AutoRepeatModel.self, from: autoRepeatData))
+//        let autoRepeatData = record.value(forKey: "autoRepeat") as? Data ?? Data()
+//        autoRepeat = (try? JSONDecoder().decode(AutoRepeatModel.self, from: autoRepeatData))
+        autoRepeat = record.value(forKey: "autoRepeat") as? AutoRepeatModel
         userToken = record.value(forKey: "userToken") as? String ?? "0"
         
-        isAvailability = record.value(forKey: "isAvailability") as? Bool ?? false
-        isAutoRepeat = record.value(forKey: "isAutoRepeat") as? Bool ?? false
-        isReminder = record.value(forKey: "isReminder") as? Bool ?? false
-        isUserImage = record.value(forKey: "isUserImage") as? Bool ?? false
-        isVisibleCost = record.value(forKey: "isVisibleCost") as? Bool ?? false
+        isAvailability = (record.value(forKey: "isAvailability") as? Int64 ?? 0).boolValue
+        isAutoRepeat = (record.value(forKey: "isAutoRepeat") as? Int64 ?? 0).boolValue
+        isReminder = (record.value(forKey: "isReminder") as? Int64 ?? 0).boolValue
+        isUserImage = (record.value(forKey: "isUserImage") as? Int64 ?? 0).boolValue
+        isVisibleCost = (record.value(forKey: "isVisibleCost") as? Int64 ?? 0).boolValue
     }
 }
 

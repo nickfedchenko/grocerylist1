@@ -180,6 +180,7 @@ class ProductsViewModel {
     func updateNameOfList(_ name: String) {
         model.name = name
         CoreDataManager.shared.saveList(list: model)
+        CloudManager.saveCloudData(groceryList: model)
         delegate?.updateController()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             self.updateList()
@@ -307,6 +308,7 @@ class ProductsViewModel {
     func updateCostVisible(_ isVisible: Bool) {
         model.isVisibleCost = isVisible
         CoreDataManager.shared.saveList(list: model)
+        CloudManager.saveCloudData(groceryList: model)
         dataSource.createDataSourceArray()
     }
     

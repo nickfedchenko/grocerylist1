@@ -32,6 +32,7 @@ extension DBGroceryListModel {
     @NSManaged public var isAscendingOrder: Bool
     @NSManaged public var isAscendingOrderPurchased: Int16
     @NSManaged public var isAutomaticCategory: Bool
+    @NSManaged public var recordId: String?
 
     static func prepare(fromPlainModel model: GroceryListsModel, context: NSManagedObjectContext) -> DBGroceryListModel {
         let object = DBGroceryListModel(context: context)
@@ -50,6 +51,7 @@ extension DBGroceryListModel {
         object.isAscendingOrder = model.isAscendingOrder
         object.isAscendingOrderPurchased = model.isAscendingOrderPurchased.rawValue
         object.isAutomaticCategory = model.isAutomaticCategory
+        object.recordId = model.recordId
         return object
     }
 }

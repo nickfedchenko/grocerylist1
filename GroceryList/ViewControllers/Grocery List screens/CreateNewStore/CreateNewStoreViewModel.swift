@@ -15,6 +15,7 @@ class CreateNewStoreViewModel: CreateNewCategoryViewModel {
         AmplitudeManager.shared.logEvent(.shopSaveNewShop)
         let newStore = Store(title: name)
         CoreDataManager.shared.saveStore(newStore)
+        CloudManager.saveCloudData(store: newStore)
         storeCreatedCallBack?(newStore)
     }
     
