@@ -163,13 +163,43 @@ extension CloudManager {
     
     // MARK: save/update Data
     static func saveCloudData(groceryList: GroceryListsModel) {
-        let record = CKRecord(recordType: "GroceryListsModel")
+        if groceryList.recordId.isEmpty {
+            var record = CKRecord(recordType: "GroceryListsModel")
+            record = fillInRecord(record: record, groceryList: groceryList)
+            
+            save(record: record) { recordID in
+                var updateGroceryList = groceryList
+                updateGroceryList.recordId = recordID
+                CoreDataManager.shared.saveList(list: updateGroceryList)
+            }
+            return
+        }
+        
+        let recordID = CKRecord.ID(recordName: groceryList.recordId)
+        privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
+            if let error {
+                print(error.localizedDescription)
+                return
+            }
+            if var record {
+                record = fillInRecord(record: record, groceryList: groceryList)
+                
+                DispatchQueue.main.async {
+                    self.save(record: record, imageUrl: nil) { _ in }
+                }
+            }
+        }
+    }
+    
+    private static func fillInRecord(record: CKRecord, groceryList: GroceryListsModel) -> CKRecord {
+        let record = record
+        let products = groceryList.products.map { CKProduct(product: $0) }
         record.setValue(groceryList.id.int64, forKey: "id")
         record.setValue(groceryList.name, forKey: "name")
         record.setValue(groceryList.dateOfCreation, forKey: "dateOfCreation")
         record.setValue(groceryList.isFavorite, forKey: "isFavorite")
         record.setValue(groceryList.color, forKey: "color")
-        record.setValue(groceryList.products, forKey: "products")
+        record.setValue(products, forKey: "products")
         record.setValue(groceryList.typeOfSorting, forKey: "typeOfSorting")
         record.setValue(groceryList.isShared, forKey: "isShared")
         record.setValue(groceryList.sharedId, forKey: "sharedId")
@@ -180,71 +210,16 @@ extension CloudManager {
         record.setValue(groceryList.isAscendingOrder, forKey: "isAscendingOrder")
         record.setValue(groceryList.isAscendingOrderPurchased.rawValue, forKey: "isAscendingOrderPurchased")
         record.setValue(groceryList.isAutomaticCategory, forKey: "isAutomaticCategory")
-        
-        if groceryList.recordId.isEmpty {
-            save(record: record) { recordID in
-                var updateGroceryList = groceryList
-                updateGroceryList.recordId = recordID
-                CoreDataManager.shared.saveList(list: updateGroceryList)
-            }
-            return
-        }
-        updateCloudData(groceryList: groceryList)
-    }
-    
-    static func updateCloudData(groceryList: GroceryListsModel) {
-        let recordID = CKRecord.ID(recordName: groceryList.recordId)
-        privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
-            if let error {
-                print(error.localizedDescription)
-                return
-            }
-            if let record {
-                record.setValue(groceryList.id.int64, forKey: "id")
-                record.setValue(groceryList.name, forKey: "name")
-                record.setValue(groceryList.dateOfCreation, forKey: "dateOfCreation")
-                record.setValue(groceryList.isFavorite, forKey: "isFavorite")
-                record.setValue(groceryList.color, forKey: "color")
-                record.setValue(groceryList.products, forKey: "products")
-                record.setValue(groceryList.typeOfSorting, forKey: "typeOfSorting")
-                record.setValue(groceryList.isShared, forKey: "isShared")
-                record.setValue(groceryList.sharedId, forKey: "sharedId")
-                record.setValue(groceryList.isSharedListOwner, forKey: "isSharedListOwner")
-                record.setValue(groceryList.isShowImage.rawValue, forKey: "isShowImage")
-                record.setValue(groceryList.isVisibleCost, forKey: "isVisibleCost")
-                record.setValue(groceryList.typeOfSortingPurchased, forKey: "typeOfSortingPurchased")
-                record.setValue(groceryList.isAscendingOrder, forKey: "isAscendingOrder")
-                record.setValue(groceryList.isAscendingOrderPurchased.rawValue, forKey: "isAscendingOrderPurchased")
-                record.setValue(groceryList.isAutomaticCategory, forKey: "isAutomaticCategory")
-                DispatchQueue.main.async {
-                    self.save(record: record, imageUrl: nil) { _ in }
-                }
-            }
-        }
+        return record
     }
     
     static func saveCloudData(product: Product) {
         let image = prepareImageToSaveToCloud(name: product.id.uuidString,
                                               imageData: product.imageData)
-        let record = CKRecord(recordType: RecordType.product.rawValue)
-        record.setValue(product.id.int64, forKey: "id")
-        record.setValue(product.listId.int64, forKey: "listId")
-        record.setValue(product.dateOfCreation, forKey: "dateOfCreation")
-        record.setValue(product.name, forKey: "name")
-        record.setValue(product.description, forKey: "description")
-        record.setValue(image.asset, forKey: "imageData")
-        record.setValue(product.category, forKey: "category")
-        record.setValue(product.isFavorite, forKey: "isFavorite")
-        record.setValue(product.isPurchased, forKey: "isPurchased")
-        record.setValue(product.fromRecipeTitle, forKey: "fromRecipeTitle")
-        record.setValue(product.unitId?.rawValue, forKey: "unitId")
-        record.setValue(product.isUserImage, forKey: "isUserImage")
-        record.setValue(product.userToken, forKey: "userToken")
-        record.setValue(product.store, forKey: "store")
-        record.setValue(product.cost, forKey: "cost")
-        record.setValue(product.quantity, forKey: "quantity")
-        
         if product.recordId.isEmpty {
+            var record = CKRecord(recordType: RecordType.product.rawValue)
+            record = fillInRecord(record: record, product: product, asset: image.asset)
+            
             save(record: record, imageUrl: image.url) { recordID in
                 var updateProduct = product
                 updateProduct.recordId = recordID
@@ -252,33 +227,16 @@ extension CloudManager {
             }
             return
         }
-        updateCloudData(product: product, image: image)
-    }
-    
-    static func updateCloudData(product: Product, image: (asset: CKAsset?, url: URL?)) {
+        
         let recordID = CKRecord.ID(recordName: product.recordId)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
                 print(error.localizedDescription)
                 return
             }
-            if let record {
-                record.setValue(product.id.int64, forKey: "id")
-                record.setValue(product.listId.int64, forKey: "listId")
-                record.setValue(product.dateOfCreation, forKey: "dateOfCreation")
-                record.setValue(product.name, forKey: "name")
-                record.setValue(product.description, forKey: "description")
-                record.setValue(image.asset, forKey: "imageData")
-                record.setValue(product.category, forKey: "category")
-                record.setValue(product.isFavorite, forKey: "isFavorite")
-                record.setValue(product.isPurchased, forKey: "isPurchased")
-                record.setValue(product.fromRecipeTitle, forKey: "fromRecipeTitle")
-                record.setValue(product.unitId?.rawValue, forKey: "unitId")
-                record.setValue(product.isUserImage, forKey: "isUserImage")
-                record.setValue(product.userToken, forKey: "userToken")
-                record.setValue(product.store, forKey: "store")
-                record.setValue(product.cost, forKey: "cost")
-                record.setValue(product.quantity, forKey: "quantity")
+            if var record {
+                record = fillInRecord(record: record, product: product, asset: image.asset)
+                
                 DispatchQueue.main.async {
                     self.save(record: record, imageUrl: image.url) { _ in }
                 }
@@ -286,12 +244,33 @@ extension CloudManager {
         }
     }
     
+    private static func fillInRecord(record: CKRecord, product: Product, asset: CKAsset?) -> CKRecord {
+        let record = record
+        record.setValue(product.id.int64, forKey: "id")
+        record.setValue(product.listId.int64, forKey: "listId")
+        record.setValue(product.dateOfCreation, forKey: "dateOfCreation")
+        record.setValue(product.name, forKey: "name")
+        record.setValue(product.description, forKey: "description")
+        record.setValue(asset, forKey: "imageData")
+        record.setValue(product.category, forKey: "category")
+        record.setValue(product.isFavorite, forKey: "isFavorite")
+        record.setValue(product.isPurchased, forKey: "isPurchased")
+        record.setValue(product.fromRecipeTitle, forKey: "fromRecipeTitle")
+        record.setValue(product.unitId?.rawValue, forKey: "unitId")
+        record.setValue(product.isUserImage, forKey: "isUserImage")
+        record.setValue(product.userToken, forKey: "userToken")
+        record.setValue(CKStore(store: product.store), forKey: "store")
+        record.setValue(product.cost, forKey: "cost")
+        record.setValue(product.quantity, forKey: "quantity")
+        return record
+    }
+    
     static func saveCloudData(category: CategoryModel) {
-        let record = CKRecord(recordType: RecordType.categoryModel.rawValue)
-        record.setValue(category.ind, forKey: "ind")
-        record.setValue(category.name, forKey: "name")
-        
         if category.recordId.isEmpty {
+            let record = CKRecord(recordType: RecordType.categoryModel.rawValue)
+            record.setValue(category.ind, forKey: "ind")
+            record.setValue(category.name, forKey: "name")
+            
             save(record: record) { recordID in
                 var updateCategory = category
                 updateCategory.recordId = recordID
@@ -302,7 +281,7 @@ extension CloudManager {
         updateCloudData(category: category)
     }
     
-    static func updateCloudData(category: CategoryModel) {
+    private static func updateCloudData(category: CategoryModel) {
         let recordID = CKRecord.ID(recordName: category.recordId)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
@@ -320,12 +299,12 @@ extension CloudManager {
     }
     
     static func saveCloudData(store: Store) {
-        let record = CKRecord(recordType: RecordType.store.rawValue)
-        record.setValue(store.id.int64, forKey: "id")
-        record.setValue(store.title, forKey: "title")
-        record.setValue(store.createdAt, forKey: "createdAt")
-        
         if store.recordId.isEmpty {
+            let record = CKRecord(recordType: RecordType.store.rawValue)
+            record.setValue(store.id.int64, forKey: "id")
+            record.setValue(store.title, forKey: "title")
+            record.setValue(store.createdAt, forKey: "createdAt")
+            
             save(record: record) { recordID in
                 var updateStore = store
                 updateStore.recordId = recordID
@@ -336,7 +315,7 @@ extension CloudManager {
         updateCloudData(store: store)
     }
     
-    static func updateCloudData(store: Store) {
+    private static func updateCloudData(store: Store) {
         let recordID = CKRecord.ID(recordName: store.recordId)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
@@ -357,20 +336,21 @@ extension CloudManager {
     static func saveCloudData(pantryModel: PantryModel) {
         let image = prepareImageToSaveToCloud(name: pantryModel.id.uuidString,
                                               imageData: pantryModel.icon)
-        let record = CKRecord(recordType: RecordType.pantryModel.rawValue)
-        record.setValue(pantryModel.id.int64, forKey: "id")
-        record.setValue(pantryModel.name, forKey: "name")
-        record.setValue(pantryModel.index, forKey: "index")
-        record.setValue(pantryModel.color, forKey: "color")
-        record.setValue(image.asset, forKey: "icon")
-        record.setValue(pantryModel.stock, forKey: "stock")
-        record.setValue(pantryModel.synchronizedLists, forKey: "synchronizedLists")
-        record.setValue(pantryModel.dateOfCreation, forKey: "dateOfCreation")
-        record.setValue(pantryModel.sharedId, forKey: "sharedId")
-        record.setValue(pantryModel.isShared, forKey: "isShared")
-        record.setValue(pantryModel.isSharedListOwner, forKey: "isSharedListOwner")
-        
         if pantryModel.recordId.isEmpty {
+            let record = CKRecord(recordType: RecordType.pantryModel.rawValue)
+            let stocks = pantryModel.stock.map { CKStock(stock: $0) }
+            record.setValue(pantryModel.id.int64, forKey: "id")
+            record.setValue(pantryModel.name, forKey: "name")
+            record.setValue(pantryModel.index, forKey: "index")
+            record.setValue(pantryModel.color, forKey: "color")
+            record.setValue(image.asset, forKey: "icon")
+            record.setValue(stocks, forKey: "stock")
+            record.setValue(pantryModel.synchronizedLists, forKey: "synchronizedLists")
+            record.setValue(pantryModel.dateOfCreation, forKey: "dateOfCreation")
+            record.setValue(pantryModel.sharedId, forKey: "sharedId")
+            record.setValue(pantryModel.isShared, forKey: "isShared")
+            record.setValue(pantryModel.isSharedListOwner, forKey: "isSharedListOwner")
+            
             save(record: record, imageUrl: image.url) { recordID in
                 var updatePantryModel = pantryModel
                 updatePantryModel.recordId = recordID
@@ -381,7 +361,7 @@ extension CloudManager {
         updateCloudData(pantryModel: pantryModel, image: image)
     }
     
-    static func updateCloudData(pantryModel: PantryModel, image: (asset: CKAsset?, url: URL?)) {
+    private static func updateCloudData(pantryModel: PantryModel, image: (asset: CKAsset?, url: URL?)) {
         let recordID = CKRecord.ID(recordName: pantryModel.recordId)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
@@ -389,12 +369,13 @@ extension CloudManager {
                 return
             }
             if let record {
+                let stocks = pantryModel.stock.map { CKStock(stock: $0) }
                 record.setValue(pantryModel.id.int64, forKey: "id")
                 record.setValue(pantryModel.name, forKey: "name")
                 record.setValue(pantryModel.index, forKey: "index")
                 record.setValue(pantryModel.color, forKey: "color")
                 record.setValue(image.asset, forKey: "icon")
-                record.setValue(pantryModel.stock, forKey: "stock")
+                record.setValue(stocks, forKey: "stock")
                 record.setValue(pantryModel.synchronizedLists, forKey: "synchronizedLists")
                 record.setValue(pantryModel.dateOfCreation, forKey: "dateOfCreation")
                 record.setValue(pantryModel.sharedId, forKey: "sharedId")
@@ -410,28 +391,27 @@ extension CloudManager {
     static func saveCloudData(stock: Stock) {
         let image = prepareImageToSaveToCloud(name: stock.id.uuidString,
                                               imageData: stock.imageData)
-        let record = CKRecord(recordType: RecordType.stock.rawValue)
-        record.setValue(stock.id.int64, forKey: "id")
-        record.setValue(stock.index, forKey: "index")
-        record.setValue(stock.pantryId.int64, forKey: "pantryId")
-        record.setValue(stock.name, forKey: "name")
-        record.setValue(stock.description, forKey: "description")
-        record.setValue(image.asset, forKey: "imageData")
-        record.setValue(stock.category, forKey: "category")
-        record.setValue(stock.store, forKey: "store")
-        record.setValue(stock.cost, forKey: "cost")
-        record.setValue(stock.quantity, forKey: "quantity")
-        record.setValue(stock.unitId?.rawValue, forKey: "unitId")
-        record.setValue(stock.isAvailability, forKey: "isAvailability")
-        record.setValue(stock.isAutoRepeat, forKey: "isAutoRepeat")
-        record.setValue(stock.autoRepeat, forKey: "autoRepeat")
-        record.setValue(stock.isReminder, forKey: "isReminder")
-        record.setValue(stock.dateOfCreation, forKey: "dateOfCreation")
-        record.setValue(stock.isUserImage, forKey: "isUserImage")
-        record.setValue(stock.userToken, forKey: "userToken")
-        record.setValue(stock.isVisibleCost, forKey: "isVisibleCost")
-        
         if stock.recordId.isEmpty {
+            let record = CKRecord(recordType: RecordType.stock.rawValue)
+            record.setValue(stock.id.int64, forKey: "id")
+            record.setValue(stock.index, forKey: "index")
+            record.setValue(stock.pantryId.int64, forKey: "pantryId")
+            record.setValue(stock.name, forKey: "name")
+            record.setValue(stock.description, forKey: "description")
+            record.setValue(image.asset, forKey: "imageData")
+            record.setValue(stock.category, forKey: "category")
+            record.setValue(CKStore(store: stock.store), forKey: "store")
+            record.setValue(stock.cost, forKey: "cost")
+            record.setValue(stock.quantity, forKey: "quantity")
+            record.setValue(stock.unitId?.rawValue, forKey: "unitId")
+            record.setValue(stock.isAvailability, forKey: "isAvailability")
+            record.setValue(stock.isAutoRepeat, forKey: "isAutoRepeat")
+            record.setValue(stock.autoRepeat, forKey: "autoRepeat")
+            record.setValue(stock.isReminder, forKey: "isReminder")
+            record.setValue(stock.dateOfCreation, forKey: "dateOfCreation")
+            record.setValue(stock.isUserImage, forKey: "isUserImage")
+            record.setValue(stock.userToken, forKey: "userToken")
+            
             save(record: record, imageUrl: image.url) { recordID in
                 var updateStock = stock
                 updateStock.recordId = recordID
@@ -442,7 +422,7 @@ extension CloudManager {
         updateCloudData(stock: stock, image: image)
     }
     
-    static func updateCloudData(stock: Stock, image: (asset: CKAsset?, url: URL?)) {
+    private static func updateCloudData(stock: Stock, image: (asset: CKAsset?, url: URL?)) {
         let recordID = CKRecord.ID(recordName: stock.recordId)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
@@ -457,7 +437,7 @@ extension CloudManager {
                 record.setValue(stock.description, forKey: "description")
                 record.setValue(image.asset, forKey: "imageData")
                 record.setValue(stock.category, forKey: "category")
-                record.setValue(stock.store, forKey: "store")
+                record.setValue(CKStore(store: stock.store), forKey: "store")
                 record.setValue(stock.cost, forKey: "cost")
                 record.setValue(stock.quantity, forKey: "quantity")
                 record.setValue(stock.unitId?.rawValue, forKey: "unitId")
@@ -497,7 +477,7 @@ extension CloudManager {
         updateCloudSettings()
     }
     
-    static func updateCloudSettings() {
+    private static func updateCloudSettings() {
         let recordID = CKRecord.ID(recordName: UserDefaultsManager.shared.settingsRecordId)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {

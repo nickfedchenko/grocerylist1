@@ -69,6 +69,7 @@ final class CloudManager {
     
     static func updateCloudData(recipe: Recipe, image: (asset: CKAsset?, url: URL?)) {
         let recordID = CKRecord.ID(recordName: recipe.recordId)
+        
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
                 print(error.localizedDescription)

@@ -304,6 +304,7 @@
 		33F629902A938B65007592F4 /* FeatureCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298F2A938B65007592F4 /* FeatureCloudView.swift */; };
 		33F629952A948179007592F4 /* Extension CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F629942A948179007592F4 /* Extension CloudManager.swift */; };
 		33F629962A9481D8007592F4 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B306622A8E149300F87659 /* CloudManager.swift */; };
+		33F629982A94E8B9007592F4 /* CloudModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F629972A94E8B9007592F4 /* CloudModels.swift */; };
 		33F8253729C050DC00B349D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253629C050DC00B349D5 /* SearchViewController.swift */; };
 		33F8253929C0559000B349D5 /* SearchInListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253829C0559000B349D5 /* SearchInListViewModel.swift */; };
 		33F8253B29C0632700B349D5 /* SearchInListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253A29C0632700B349D5 /* SearchInListViewController.swift */; };
@@ -725,6 +726,7 @@
 		33F6298D2A937B32007592F4 /* NewFeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeatureViewModel.swift; sourceTree = "<group>"; };
 		33F6298F2A938B65007592F4 /* FeatureCloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCloudView.swift; sourceTree = "<group>"; };
 		33F629942A948179007592F4 /* Extension CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension CloudManager.swift"; sourceTree = "<group>"; };
+		33F629972A94E8B9007592F4 /* CloudModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudModels.swift; sourceTree = "<group>"; };
 		33F8253629C050DC00B349D5 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		33F8253829C0559000B349D5 /* SearchInListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewModel.swift; sourceTree = "<group>"; };
 		33F8253A29C0632700B349D5 /* SearchInListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewController.swift; sourceTree = "<group>"; };
@@ -2255,6 +2257,7 @@
 				33AF97902A7A6DE700716104 /* for shared sheet */,
 				33B306622A8E149300F87659 /* CloudManager.swift */,
 				33F629942A948179007592F4 /* Extension CloudManager.swift */,
+				33F629972A94E8B9007592F4 /* CloudModels.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -2928,6 +2931,7 @@
 				33E8A8BE2A5FB4EE007D7ED9 /* FAQViewController.swift in Sources */,
 				332340922A1B31CC00609813 /* MainNavigationView.swift in Sources */,
 				333DCC2B2A61156E00E3F92B /* ExtensionApphudProduct.swift in Sources */,
+				33F629982A94E8B9007592F4 /* CloudModels.swift in Sources */,
 				337719AC29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift in Sources */,
 				33A51B942A176D1200BE11C1 /* ListDataSource.swift in Sources */,
 				B36AF9552915410400944E9D /* InstructionCell.swift in Sources */,

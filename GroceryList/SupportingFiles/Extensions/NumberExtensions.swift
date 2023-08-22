@@ -17,6 +17,10 @@ extension Int {
     var asString: String {
         return "\(self)"
     }
+    
+    var asInt64: Int64 {
+        Int64(self)
+    }
 }
 
 extension Double {
@@ -44,5 +48,15 @@ extension Int64 {
     
     var boolValue: Bool {
         self > 0
+    }
+    
+    var asInt: Int {
+        Int(self)
+    }
+}
+
+extension Bool {
+    var asInt64: Int64 {
+        return self == true ? 1 : 0
     }
 }
