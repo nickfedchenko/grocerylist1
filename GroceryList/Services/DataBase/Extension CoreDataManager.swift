@@ -64,6 +64,7 @@ extension CoreDataManager {
             object.store = try? JSONEncoder().encode(product.store)
             object.cost = product.cost ?? -1
             object.quantity = product.quantity ?? -1
+            object.recordId = product.recordId
         }
         
         try? context.save()
@@ -137,6 +138,7 @@ extension CoreDataManager {
         object.isAscendingOrder = list.isAscendingOrder
         object.isAscendingOrderPurchased = list.isAscendingOrderPurchased.rawValue
         object.isAutomaticCategory = list.isAutomaticCategory
+        object.recordId = list.recordId
         try? context.save()
     }
     
@@ -169,6 +171,7 @@ extension CoreDataManager {
             object.isAscendingOrder = list.isAscendingOrder
             object.isAscendingOrderPurchased = list.isAscendingOrderPurchased.rawValue
             object.isAutomaticCategory = list.isAutomaticCategory
+            object.recordId = list.recordId
         }
         try? context.save()
     }

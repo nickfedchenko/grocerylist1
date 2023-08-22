@@ -11,7 +11,7 @@ import UIKit
 final class CloudManager {
     
     // TODO: перед релизом поменять на CKContainer.default().privateCloudDatabase
-    private static let privateCloudDataBase = CKContainer.default().publicCloudDatabase
+    static let privateCloudDataBase = CKContainer.default().publicCloudDatabase
     
     enum RecordType: String {
         case groceryListsModel = "GroceryListsModel"

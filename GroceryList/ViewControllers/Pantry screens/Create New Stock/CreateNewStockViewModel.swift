@@ -225,7 +225,8 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
     }
     
     override func goToCreateNewStore() {
-        let modelForColor = GroceryListsModel(dateOfCreation: Date(), color: pantry.color, products: [], typeOfSorting: 0)
+        let modelForColor = GroceryListsModel(dateOfCreation: Date(), color: pantry.color,
+                                              products: [], typeOfSorting: 0)
         router?.goToCreateStore(model: modelForColor, compl: { [weak self] store in
             if let store {
                 self?.stores.append(store)

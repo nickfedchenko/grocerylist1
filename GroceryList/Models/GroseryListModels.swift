@@ -249,7 +249,7 @@ struct GroceryListsModel: Hashable, Codable {
          isShowImage: BoolWithNilForCD = .nothing,
          typeOfSortingPurchased: Int = 1,
          isAscendingOrder: Bool = true, isAscendingOrderPurchased: BoolWithNilForCD = .nothing,
-         isVisibleCost: Bool = false) {
+         isVisibleCost: Bool = false, recordId: String? = nil) {
         self.dateOfCreation = dateOfCreation
         self.color = color
         self.products = products
@@ -266,6 +266,7 @@ struct GroceryListsModel: Hashable, Codable {
         self.isAscendingOrder = isAscendingOrder
         self.isAscendingOrderPurchased = isAscendingOrderPurchased
         self.isAutomaticCategory = isAutomaticCategory
+        self.recordId = recordId ?? ""
     }
     
     init?(record: CKRecord) {
@@ -367,7 +368,7 @@ struct Product: Hashable, Equatable, Codable {
          fromRecipeTitle: String? = nil,
          unitId: UnitSystem? = nil, isUserImage: Bool? = false,
          userToken: String? = nil, store: Store? = nil, cost: Double? = nil,
-         quantity: Double? = nil, isVisibleСost: Bool = false) {
+         quantity: Double? = nil, isVisibleСost: Bool = false, recordId: String? = nil) {
         self.id = id
         self.listId = listId
         self.name = name
@@ -386,6 +387,7 @@ struct Product: Hashable, Equatable, Codable {
         self.cost = cost
         self.quantity = quantity
         self.isVisibleСost = isVisibleСost
+        self.recordId = recordId ?? ""
     }
     
     private enum CodingKeys: String, CodingKey {

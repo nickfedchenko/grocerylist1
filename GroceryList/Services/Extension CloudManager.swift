@@ -190,7 +190,34 @@ extension CloudManager {
             return
         }
         let recordID = CKRecord.ID(recordName: groceryList.recordId)
-        fetch(recordID: recordID, newRecord: record)
+        
+        privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
+            if let error {
+                print(error.localizedDescription)
+                return
+            }
+            if let record {
+                record.setValue(groceryList.id.int64, forKey: "id")
+                record.setValue(groceryList.name, forKey: "name")
+                record.setValue(groceryList.dateOfCreation, forKey: "dateOfCreation")
+                record.setValue(groceryList.isFavorite, forKey: "isFavorite")
+                record.setValue(groceryList.color, forKey: "color")
+                record.setValue(groceryList.products, forKey: "products")
+                record.setValue(groceryList.typeOfSorting, forKey: "typeOfSorting")
+                record.setValue(groceryList.isShared, forKey: "isShared")
+                record.setValue(groceryList.sharedId, forKey: "sharedId")
+                record.setValue(groceryList.isSharedListOwner, forKey: "isSharedListOwner")
+                record.setValue(groceryList.isShowImage.rawValue, forKey: "isShowImage")
+                record.setValue(groceryList.isVisibleCost, forKey: "isVisibleCost")
+                record.setValue(groceryList.typeOfSortingPurchased, forKey: "typeOfSortingPurchased")
+                record.setValue(groceryList.isAscendingOrder, forKey: "isAscendingOrder")
+                record.setValue(groceryList.isAscendingOrderPurchased.rawValue, forKey: "isAscendingOrderPurchased")
+                record.setValue(groceryList.isAutomaticCategory, forKey: "isAutomaticCategory")
+                DispatchQueue.main.async {
+                    self.save(record: record, imageUrl: nil) { _ in }
+                }
+            }
+        }
     }
     
     static func saveCloudData(product: Product) {

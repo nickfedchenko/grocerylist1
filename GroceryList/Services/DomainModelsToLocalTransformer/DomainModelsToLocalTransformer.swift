@@ -39,7 +39,8 @@ class DomainModelsToLocalTransformer {
                                  typeOfSortingPurchased: typeOfSortingPurchased,
                                  isAscendingOrder: isAscendingOrder,
                                  isAscendingOrderPurchased: isAscendingOrderPurchased,
-                                 isVisibleCost: dbModel.isVisibleCost)
+                                 isVisibleCost: dbModel.isVisibleCost,
+                                 recordId: dbModel.recordId)
     }
     
     func transformCoreDataProducts(product: DBProduct?, isVisibleCost: Bool) -> Product {
@@ -69,6 +70,7 @@ class DomainModelsToLocalTransformer {
                        dateOfCreation: dateOfCreation, category: category, isFavorite: isFavorite, imageData: imageData,
                        description: description, fromRecipeTitle: fromRecipeTitle,
                        isUserImage: isUserImage, userToken: userToken,
-                       store: store, cost: cost, quantity: quantity, isVisibleСost: isVisibleCost)
+                       store: store, cost: cost, quantity: quantity, isVisibleСost: isVisibleCost,
+                       recordId: product.recordId)
     }
 }
