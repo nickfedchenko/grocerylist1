@@ -34,7 +34,7 @@ extension CloudManager {
         let collections = CoreDataManager.shared.getAllCollection()?.compactMap({ CollectionModel(from: $0) }) ?? []
         collections.forEach { saveCloudData(collectionModel: $0) }
         
-        let recipes = CoreDataManager.shared.getAllRecipes()?.compactMap({ Recipe(from: $0) }) ?? []
+        let recipes = CoreDataManager.shared.getAllRecipes()?.compactMap({ $0.isDefaultRecipe ? nil : Recipe(from: $0) }) ?? []
         recipes.forEach { saveCloudData(recipe: $0) }
     }
     
@@ -419,14 +419,13 @@ extension CloudManager {
     
     private static func fillInRecord(record: CKRecord, pantryModel: PantryModel, asset: CKAsset?) -> CKRecord {
         let record = record
-        let stocks = pantryModel.stock.map { try? JSONEncoder().encode($0) }
         record.setValue(pantryModel.id.uuidString, forKey: "id")
         record.setValue(pantryModel.name, forKey: "name")
         record.setValue(pantryModel.index, forKey: "index")
         record.setValue(pantryModel.color, forKey: "color")
         record.setValue(asset, forKey: "icon")
-        record.setValue(stocks, forKey: "stock")
-        record.setValue(pantryModel.synchronizedLists, forKey: "synchronizedLists")
+        record.setValue(try? JSONEncoder().encode(pantryModel.stock), forKey: "stock")
+        record.setValue(try? JSONEncoder().encode(pantryModel.synchronizedLists), forKey: "synchronizedLists")
         record.setValue(pantryModel.dateOfCreation, forKey: "dateOfCreation")
         record.setValue(pantryModel.sharedId, forKey: "sharedId")
         record.setValue(pantryModel.isShared, forKey: "isShared")
@@ -472,7 +471,7 @@ extension CloudManager {
         let record = record
         record.setValue(stock.id.uuidString, forKey: "id")
         record.setValue(stock.index, forKey: "index")
-        record.setValue(stock.pantryId.int64, forKey: "pantryId")
+        record.setValue(stock.pantryId.uuidString, forKey: "pantryId")
         record.setValue(stock.name, forKey: "name")
         record.setValue(stock.description, forKey: "description")
         record.setValue(asset, forKey: "imageData")
@@ -532,7 +531,8 @@ extension CloudManager {
         record.setValue(UserDefaultsManager.shared.pantryUserTokens, forKey: "pantryUserTokens")
         record.setValue(UserDefaultsManager.shared.recipeIsFolderView, forKey: "recipeIsFolderView")
         record.setValue(UserDefaultsManager.shared.recipeIsTableView, forKey: "recipeIsTableView")
-        record.setValue(UserDefaultsManager.shared.favoritesRecipeIds, forKey: "favoritesRecipeIds")
+        let favoritesRecipeIds = UserDefaultsManager.shared.favoritesRecipeIds
+        record.setValue(favoritesRecipeIds.isEmpty ? nil : favoritesRecipeIds , forKey: "favoritesRecipeIds")
         return record
     }
     
