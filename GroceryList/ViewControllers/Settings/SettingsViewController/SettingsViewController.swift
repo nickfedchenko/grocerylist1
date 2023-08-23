@@ -52,7 +52,7 @@ class SettingsViewController: UIViewController {
         view.setupView(text: R.string.localizable.iCloudDataBackup(), isSwitchView: true)
         view.updateSwitcher(isOn: UserDefaultsManager.shared.isICloudDataBackupOn)
         view.switchValueChanged = { switchValue in
-            UserDefaultsManager.shared.isICloudDataBackupOn = switchValue
+            self.viewModel?.tappedICloudDataBackup(switchValue)
         }
         return view
     }()

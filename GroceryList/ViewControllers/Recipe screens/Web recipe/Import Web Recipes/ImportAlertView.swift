@@ -51,7 +51,6 @@ class ImportAlertView: UIView {
                                          value: UIColor(hex: "023B46"),
                                          range: range)
         }
-//        label.text = descriptionText
         label.attributedText = underlineString
         label.font = UIFont.SFPro.regular(size: 17).font
         label.textColor = UIColor(hex: "023B46")

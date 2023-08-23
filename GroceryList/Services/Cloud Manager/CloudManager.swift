@@ -29,6 +29,10 @@ final class CloudManager {
     }
 
     static func saveCloudData(recipe: Recipe) {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
+
         let image = prepareImageToSaveToCloud(name: recipe.id.asString,
                                               imageData: recipe.localImage)
         if recipe.recordId.isEmpty {
@@ -87,6 +91,10 @@ final class CloudManager {
     }
     
     static func saveCloudData(collectionModel: CollectionModel) {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
+
         let image = prepareImageToSaveToCloud(name: collectionModel.id.asString,
                                               imageData: collectionModel.localImage)
         if collectionModel.recordId.isEmpty {
@@ -132,6 +140,9 @@ final class CloudManager {
     // swiftlint:disable:next function_body_length
     static func fetchDataFromCloud(recordType: RecordType, sortKey: String, desiredKeys: [String],
                                    completion: @escaping ((Result<CKRecord, Error>) -> Void)) {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
         let query = CKQuery(recordType: recordType.rawValue, predicate: NSPredicate(value: true))
         query.sortDescriptors = [NSSortDescriptor(key: sortKey, ascending: true)]
         
@@ -206,6 +217,9 @@ final class CloudManager {
     }
     
     static func delete(recordType: RecordType, recordID: String) {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
         guard !recordID.isEmpty else {
             return
         }

@@ -12,6 +12,7 @@ protocol MainTabBarViewModelDelegate: AnyObject {
     func updateRecipeUI(_ recipe: Recipe?)
     func updatePantryUI(_ pantry: PantryModel)
     func updateListUI()
+    func showFeatureMessageView()
 }
 
 final class MainTabBarViewModel {
@@ -111,7 +112,9 @@ final class MainTabBarViewModel {
     }
     
     func showNewFeature() {
-        router?.goToFeatureController()
+        router?.goToFeatureController(compl: { [weak self] in
+            self?.delegate?.showFeatureMessageView()
+        })
     }
     
     func settingsTapped() {

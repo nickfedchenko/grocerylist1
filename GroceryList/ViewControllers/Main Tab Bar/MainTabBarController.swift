@@ -23,6 +23,7 @@ final class MainTabBarController: UITabBarController {
     private var navView = MainNavigationView()
     private(set) var navBackgroundView = UIView()
     private let contextMenuBackgroundView = UIView()
+    private let featureView = ICloudFeatureMessageView()
     private var initAnalytic = false
     private var didLayoutSubviews = false
     
@@ -73,6 +74,7 @@ final class MainTabBarController: UITabBarController {
                 UserDefaultsManager.shared.isNewFeature = true
             } else {
                 viewModel.showFeedback()
+                setupFeatureView()
             }
         }
         viewModel.showStockReminderIfNeeded()
@@ -129,6 +131,15 @@ final class MainTabBarController: UITabBarController {
         }
     }
     
+    private func setupFeatureView() {
+        featureView.tapOnView = { [weak self] in
+            self?.featureView.fadeOut()
+        }
+        let isNewFeature = UserDefaultsManager.shared.isNewFeature
+        let countShowMessageNewFeature = UserDefaultsManager.shared.countShowMessageNewFeature
+        featureView.isHidden = isNewFeature || countShowMessageNewFeature >= 4
+    }
+    
     private func updateUserInfo() {
         navView.setupName(name: viewModel.userName)
         navView.setupImage(photo: viewModel.userPhoto.url,
@@ -161,6 +172,7 @@ final class MainTabBarController: UITabBarController {
     private func makeConstraints() {
         self.view.addSubview(customTabBar)
         self.view.addSubviews([navBackgroundView, navView, contextMenuBackgroundView, recipeContextMenu])
+        self.view.addSubview(featureView)
         
         navBackgroundView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
@@ -186,6 +198,10 @@ final class MainTabBarController: UITabBarController {
         }
         
         contextMenuBackgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        featureView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
@@ -269,5 +285,9 @@ extension MainTabBarController: MainTabBarViewModelDelegate {
     
     func updatePantryUI(_ pantry: PantryModel) {
         pantryDelegate?.updatePantryUI(pantry)
+    }
+    
+    func showFeatureMessageView() {
+        setupFeatureView()
     }
 }

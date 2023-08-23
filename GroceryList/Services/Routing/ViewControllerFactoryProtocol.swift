@@ -20,7 +20,7 @@ protocol ViewControllerFactoryProtocol {
     func createListController(router: RootRouter) -> UIViewController
     func createPantryController(router: RootRouter) -> UIViewController
     func createRecipeController(router: RootRouter) -> UIViewController
-    func createFeatureViewController(router: RootRouter) -> UIViewController
+    func createFeatureViewController(router: RootRouter, compl: (() -> Void)?) -> UIViewController
     
     func createCreateNewListController(model: GroceryListsModel?, router: RootRouter,
                                        compl: @escaping (GroceryListsModel, [Product]) -> Void) -> UIViewController?

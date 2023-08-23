@@ -304,6 +304,7 @@
 		33F629902A938B65007592F4 /* FeatureCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298F2A938B65007592F4 /* FeatureCloudView.swift */; };
 		33F629952A948179007592F4 /* Extension CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F629942A948179007592F4 /* Extension CloudManager.swift */; };
 		33F629962A9481D8007592F4 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B306622A8E149300F87659 /* CloudManager.swift */; };
+		33F6299B2A95BC7A007592F4 /* ICloudFeatureMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6299A2A95BC7A007592F4 /* ICloudFeatureMessageView.swift */; };
 		33F8253729C050DC00B349D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253629C050DC00B349D5 /* SearchViewController.swift */; };
 		33F8253929C0559000B349D5 /* SearchInListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253829C0559000B349D5 /* SearchInListViewModel.swift */; };
 		33F8253B29C0632700B349D5 /* SearchInListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253A29C0632700B349D5 /* SearchInListViewController.swift */; };
@@ -725,6 +726,7 @@
 		33F6298D2A937B32007592F4 /* NewFeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeatureViewModel.swift; sourceTree = "<group>"; };
 		33F6298F2A938B65007592F4 /* FeatureCloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCloudView.swift; sourceTree = "<group>"; };
 		33F629942A948179007592F4 /* Extension CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension CloudManager.swift"; sourceTree = "<group>"; };
+		33F6299A2A95BC7A007592F4 /* ICloudFeatureMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICloudFeatureMessageView.swift; sourceTree = "<group>"; };
 		33F8253629C050DC00B349D5 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		33F8253829C0559000B349D5 /* SearchInListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewModel.swift; sourceTree = "<group>"; };
 		33F8253A29C0632700B349D5 /* SearchInListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewController.swift; sourceTree = "<group>"; };
@@ -1631,8 +1633,18 @@
 				33F6298D2A937B32007592F4 /* NewFeatureViewModel.swift */,
 				33F6298B2A937A2E007592F4 /* NewFeatureViewController.swift */,
 				33F6298F2A938B65007592F4 /* FeatureCloudView.swift */,
+				33F6299A2A95BC7A007592F4 /* ICloudFeatureMessageView.swift */,
 			);
 			path = "Feature View";
+			sourceTree = "<group>";
+		};
+		33F629992A95B1C7007592F4 /* Cloud Manager */ = {
+			isa = PBXGroup;
+			children = (
+				33B306622A8E149300F87659 /* CloudManager.swift */,
+				33F629942A948179007592F4 /* Extension CloudManager.swift */,
+			);
+			path = "Cloud Manager";
 			sourceTree = "<group>";
 		};
 		33F8253529C050B700B349D5 /* Search */ = {
@@ -2253,8 +2265,7 @@
 				33B306602A8E147000F87659 /* KeyChainManager */,
 				33B306612A8E147700F87659 /* FeedbackManager */,
 				33AF97902A7A6DE700716104 /* for shared sheet */,
-				33B306622A8E149300F87659 /* CloudManager.swift */,
-				33F629942A948179007592F4 /* Extension CloudManager.swift */,
+				33F629992A95B1C7007592F4 /* Cloud Manager */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -3166,6 +3177,7 @@
 				B34EAC9C2934E95E00FBD0E0 /* SelectCategoryCell.swift in Sources */,
 				3370EFC72A83D0DD00885C30 /* OnboardingViewController.swift in Sources */,
 				B3F7C9C729963F0A0081B245 /* PasswordResetViewController.swift in Sources */,
+				33F6299B2A95BC7A007592F4 /* ICloudFeatureMessageView.swift in Sources */,
 				3360735D2A4B3B5C002427BE /* ShowCollectionDeleteAlertView.swift in Sources */,
 				336A112729F2D1F4008CFF33 /* BundleExtension.swift in Sources */,
 				33C6F0E32A44360400E71023 /* PhotoFromRecipesViewController.swift in Sources */,

@@ -10,6 +10,34 @@ import Foundation
 
 extension CloudManager {
     
+    static func saveCloudAllData() {
+        saveCloudSettings()
+    
+        let groceryLists = CoreDataManager.shared.getAllLists()?.compactMap({ GroceryListsModel(from: $0) }) ?? []
+        groceryLists.forEach { saveCloudData(groceryList: $0) }
+        
+        let products = CoreDataManager.shared.getAllProducts()?.compactMap({ Product(from: $0) }) ?? []
+        products.forEach { saveCloudData(product: $0) }
+        
+        let categories = CoreDataManager.shared.getUserCategories()?.compactMap({ CategoryModel(from: $0) }) ?? []
+        categories.forEach { saveCloudData(category: $0) }
+        
+        let stores = CoreDataManager.shared.getAllStores()?.compactMap({ Store(from: $0) }) ?? []
+        stores.forEach { saveCloudData(store: $0) }
+        
+        let pantries = CoreDataManager.shared.getAllPantries()?.compactMap({ PantryModel(dbModel: $0) }) ?? []
+        pantries.forEach { saveCloudData(pantryModel: $0) }
+        
+        let stocks = CoreDataManager.shared.getAllStock()?.compactMap({ Stock(dbModel: $0) }) ?? []
+        stocks.forEach { saveCloudData(stock: $0) }
+        
+        let collections = CoreDataManager.shared.getAllCollection()?.compactMap({ CollectionModel(from: $0) }) ?? []
+        collections.forEach { saveCloudData(collectionModel: $0) }
+        
+        let recipes = CoreDataManager.shared.getAllRecipes()?.compactMap({ Recipe(from: $0) }) ?? []
+        recipes.forEach { saveCloudData(recipe: $0) }
+    }
+    
     // MARK: fetch Data
     static func fetchGroceryListFromCloud() {
         let desiredKeys = ["recordId", "id", "sharedId", "dateOfCreation", "name", "color",
@@ -163,6 +191,10 @@ extension CloudManager {
     
     // MARK: save/update Data
     static func saveCloudData(groceryList: GroceryListsModel) {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
+        
         if groceryList.recordId.isEmpty {
             var record = CKRecord(recordType: "GroceryListsModel")
             record = fillInRecord(record: record, groceryList: groceryList)
@@ -214,6 +246,10 @@ extension CloudManager {
     }
     
     static func saveCloudData(product: Product) {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
+
         let image = prepareImageToSaveToCloud(name: product.id.uuidString,
                                               imageData: product.imageData)
         if product.recordId.isEmpty {
@@ -266,6 +302,10 @@ extension CloudManager {
     }
     
     static func saveCloudData(category: CategoryModel) {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
+
         if category.recordId.isEmpty {
             var record = CKRecord(recordType: RecordType.categoryModel.rawValue)
             record = fillInRecord(record: record, category: category)
@@ -302,6 +342,10 @@ extension CloudManager {
     }
     
     static func saveCloudData(store: Store) {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
+
         if store.recordId.isEmpty {
             var record = CKRecord(recordType: RecordType.store.rawValue)
             record = fillInRecord(record: record, store: store)
@@ -339,6 +383,10 @@ extension CloudManager {
     }
     
     static func saveCloudData(pantryModel: PantryModel) {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
+
         let image = prepareImageToSaveToCloud(name: pantryModel.id.uuidString,
                                               imageData: pantryModel.icon)
         if pantryModel.recordId.isEmpty {
@@ -387,6 +435,10 @@ extension CloudManager {
     }
     
     static func saveCloudData(stock: Stock) {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
+
         let image = prepareImageToSaveToCloud(name: stock.id.uuidString,
                                               imageData: stock.imageData)
         if stock.recordId.isEmpty {
@@ -441,6 +493,10 @@ extension CloudManager {
     }
 
     static func saveCloudSettings() {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
+
         if UserDefaultsManager.shared.settingsRecordId.isEmpty {
             var record = CKRecord(recordType: RecordType.settings.rawValue)
             record = fillInRecordSettings(record: record)

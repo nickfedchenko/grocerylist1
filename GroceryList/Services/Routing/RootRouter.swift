@@ -149,8 +149,8 @@ final class RootRouter: RootRouterProtocol {
         UserDefaultsManager.shared.shouldShowOnboarding = false
     }
     
-    func goToFeatureController() {
-        let controller = self.viewControllerFactory.createFeatureViewController(router: self)
+    func goToFeatureController(compl: (() -> Void)?) {
+        let controller = self.viewControllerFactory.createFeatureViewController(router: self, compl: compl)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: false)
     }
@@ -691,7 +691,7 @@ final class RootRouter: RootRouterProtocol {
         pantryNavController = UINavigationController(rootViewController: pantryController)
         recipeNavController = UINavigationController(rootViewController: recipeController)
         
-        var controllers: [UIViewController] = [listNavController, pantryNavController, recipeNavController]
+        let controllers: [UIViewController] = [listNavController, pantryNavController, recipeNavController]
 
         let rootTabBarController = viewControllerFactory.createMainTabBarController(
             router: self, controllers: controllers

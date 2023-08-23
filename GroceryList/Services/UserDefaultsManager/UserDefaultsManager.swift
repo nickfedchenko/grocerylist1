@@ -235,6 +235,11 @@ class UserDefaultsManager {
         set { userDefaults.set(newValue, forKey: "isNewFeatureICloud") }
     }
     
+    var countShowMessageNewFeature: Int {
+        get { userDefaults.integer(forKey: "countShowMessageNewFeatureICloud") }
+        set { userDefaults.set(newValue, forKey: "countShowMessageNewFeatureICloud") }
+    }
+    
     private func setValue<T>(value: T, for key: UDKeys) {
         userDefaults.set(value, forKey: key.rawValue)
     }

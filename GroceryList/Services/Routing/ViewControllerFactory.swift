@@ -58,10 +58,10 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createFeatureViewController(router: RootRouter) -> UIViewController {
+    func createFeatureViewController(router: RootRouter, compl: (() -> Void)?) -> UIViewController {
         let viewModel = NewFeatureViewModel()
         viewModel.router = router
-        
+        viewModel.dismiss = compl
         let viewController = NewFeatureViewController(viewModel: viewModel)
         return viewController
     }

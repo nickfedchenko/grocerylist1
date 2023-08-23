@@ -10,12 +10,19 @@ import Foundation
 final class NewFeatureViewModel {
     
     weak var router: RootRouter?
+    var dismiss: (() -> Void)?
     
     func tappedGreatEnable() {
-        
+        UserDefaultsManager.shared.isICloudDataBackupOn = true
+        DispatchQueue.main.async {
+            CloudManager.saveCloudAllData()
+        }
+        router?.navigationDismiss()
+        dismiss?()
     }
     
     func tappedMaybeLater() {
         router?.navigationDismiss()
+        dismiss?()
     }
 }

@@ -128,6 +128,15 @@ class SettingsViewModel {
         delegate?.updateSelectionView()
     }
     
+    func tappedICloudDataBackup(_ value: Bool) {
+        UserDefaultsManager.shared.isICloudDataBackupOn = value
+        if value {
+            DispatchQueue.main.async {
+                CloudManager.saveCloudAllData()
+            }
+        }
+    }
+    
     func downloadImage(user: User) {
         guard user.avatarAsData == nil,
               let userAvatarUrl = user.avatar,

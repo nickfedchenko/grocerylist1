@@ -20,6 +20,12 @@ struct CategoryModel {
         self.recordId = recordId
     }
     
+    init(from dbModel: DBCategories) {
+        ind = dbModel.id.asInt
+        name = dbModel.name ?? ""
+        recordId = dbModel.recordId ?? ""
+    }
+    
     init?(record: CKRecord) {
         guard let index = record.value(forKey: "ind") as? Int else {
             return nil

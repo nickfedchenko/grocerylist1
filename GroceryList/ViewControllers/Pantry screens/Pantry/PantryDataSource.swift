@@ -95,48 +95,40 @@ final class PantryDataSource {
         let dbStock = CoreDataManager.shared.getAllStock()?.filter { $0.isAutoRepeat } ?? []
         var outOfStocks = dbStock.map({ Stock(dbModel: $0) })
         
-        for (index, stock) in outOfStocks.enumerated() {
+        for stock in outOfStocks {
             guard let autoRepeat = stock.autoRepeat else { break }
             let startDate = stock.dateOfCreation.onlyDate
             let resetDay = today.todayWithSetting(hour: stocksUpdateHours)
             switch autoRepeat.state {
             case .daily:
-                outOfStocks[index].isAvailability = resetDay > today
-                CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
-                                                 for: stock.pantryId.uuidString)
-                CloudManager.saveCloudData(stock: outOfStocks[index])
+                updateStock(stock: stock, isAvailability: resetDay > today)
             case .weekly:
                 if startDate.dayNumberOfWeek == today.dayNumberOfWeek {
-                    outOfStocks[index].isAvailability = resetDay > today
-                    CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
-                                                     for: stock.pantryId.uuidString)
-                    CloudManager.saveCloudData(stock: outOfStocks[index])
+                    updateStock(stock: stock, isAvailability: resetDay > today)
                 }
             case .monthly:
                 if startDate.day == today.day {
-                    outOfStocks[index].isAvailability = resetDay > today
-                    CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
-                                                     for: stock.pantryId.uuidString)
-                    CloudManager.saveCloudData(stock: outOfStocks[index])
+                    updateStock(stock: stock, isAvailability: resetDay > today)
                 }
             case .yearly:
                 if startDate.month == today.month,
                    startDate.day == today.day {
-                    outOfStocks[index].isAvailability = resetDay > today
-                    CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
-                                                     for: stock.pantryId.uuidString)
-                    CloudManager.saveCloudData(stock: outOfStocks[index])
+                    updateStock(stock: stock, isAvailability: resetDay > today)
                 }
             case .custom:
                 if checkCustomAutoRepeat(autoRepeat: autoRepeat,
                                          today: today, startDate: startDate) {
-                    outOfStocks[index].isAvailability = resetDay > today
-                    CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
-                                                     for: stock.pantryId.uuidString)
-                    CloudManager.saveCloudData(stock: outOfStocks[index])
+                    updateStock(stock: stock, isAvailability: resetDay > today)
                 }
             }
         }
+    }
+    
+    private func updateStock(stock: Stock, isAvailability: Bool) {
+        var stock = stock
+        stock.isAvailability = isAvailability
+        CoreDataManager.shared.saveStock(stock: [stock], for: stock.pantryId.uuidString)
+        CloudManager.saveCloudData(stock: stock)
     }
     
     private func checkCustomAutoRepeat(autoRepeat: AutoRepeatModel,

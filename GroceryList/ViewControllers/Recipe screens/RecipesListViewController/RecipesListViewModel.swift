@@ -150,7 +150,7 @@ class RecipesListViewModel {
     func addToCollection(recipeIndex: Int) {
         guard let recipeId = section.recipes[safe: recipeIndex]?.id,
               let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
-              var recipe = Recipe(from: dbRecipe) else {
+              let recipe = Recipe(from: dbRecipe) else {
             return
         }
         router?.goToShowCollection(state: .select, recipe: recipe, updateUI: { 
@@ -162,7 +162,7 @@ class RecipesListViewModel {
     func edit(recipeIndex: Int) {
         guard let recipeId = section.recipes[safe: recipeIndex]?.id,
               let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
-              var recipe = Recipe(from: dbRecipe) else {
+              let recipe = Recipe(from: dbRecipe) else {
             return
         }
         router?.goToCreateNewRecipe(currentRecipe: recipe, compl: { [weak self] recipe in
