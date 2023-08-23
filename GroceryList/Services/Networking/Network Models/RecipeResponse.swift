@@ -119,22 +119,31 @@ struct Recipe: Codable, Hashable, Equatable {
         totalServings = record.value(forKey: "totalServings") as? Int ?? -1
         dishWeight = record.value(forKey: "dishWeight") as? Double
         dishWeightType = record.value(forKey: "dishWeightType") as? Int
-        values = record.value(forKey: "values") as? Values
         countries = record.value(forKey: "countries") as? [String] ?? []
         instructions = record.value(forKey: "instructions") as? [String] ?? []
-        ingredients = record.value(forKey: "ingredients") as? [Ingredient] ?? []
-        eatingTags = record.value(forKey: "eatingTags") as? [AdditionalTag] ?? []
-        dishTypeTags = record.value(forKey: "dishTypeTags") as? [AdditionalTag] ?? []
-        processingTypeTags = record.value(forKey: "processingTypeTags") as? [AdditionalTag] ?? []
-        additionalTags = record.value(forKey: "additionalTags") as? [AdditionalTag] ?? []
-        dietTags = record.value(forKey: "dietTags") as? [AdditionalTag] ?? []
-        exceptionTags = record.value(forKey: "exceptionTags") as? [AdditionalTag] ?? []
         photo = record.value(forKey: "photo") as? String ?? ""
         isDraft = (record.value(forKey: "isDraft") as? Int64 ?? 0).boolValue
         createdAt = record.value(forKey: "createdAt") as? Date ?? Date()
         localImage = imageData
         isDefaultRecipe = (record.value(forKey: "isDefaultRecipe") as? Int64 ?? 0).boolValue
         sourceUrl = record.value(forKey: "sourceUrl") as? String
+        
+        let valuesData = record.value(forKey: "values") as? Data
+        values = (try? JSONDecoder().decode(Values.self, from: valuesData ?? Data()))
+        let ingredientsData = record.value(forKey: "ingredients") as? Data
+        ingredients = (try? JSONDecoder().decode([Ingredient].self, from: ingredientsData ?? Data())) ?? []
+        let eatingTagsData = record.value(forKey: "eatingTags") as? Data
+        eatingTags = (try? JSONDecoder().decode([AdditionalTag].self, from: eatingTagsData ?? Data())) ?? []
+        let dishTypeTagsData = record.value(forKey: "dishTypeTags") as? Data
+        dishTypeTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dishTypeTagsData ?? Data())) ?? []
+        let processingTypeTagsData = record.value(forKey: "processingTypeTags") as? Data
+        processingTypeTags = (try? JSONDecoder().decode([AdditionalTag].self, from: processingTypeTagsData ?? Data())) ?? []
+        let additionalTagsData = record.value(forKey: "additionalTags") as? Data
+        additionalTags = (try? JSONDecoder().decode([AdditionalTag].self, from: additionalTagsData ?? Data())) ?? []
+        let dietTagsData = record.value(forKey: "dietTags") as? Data
+        dietTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dietTagsData ?? Data())) ?? []
+        let exceptionTagsData = record.value(forKey: "exceptionTags") as? Data
+        exceptionTags = (try? JSONDecoder().decode([AdditionalTag].self, from: exceptionTagsData ?? Data())) ?? []
     }
     
     func hasDefaultCollection() -> Bool {
@@ -215,10 +224,11 @@ struct Store: Hashable, Equatable, Codable {
     }
     
     init?(record: CKRecord) {
-        guard let idAsInt = record.value(forKey: "id") as? Int64 else {
+        guard let idAsString = record.value(forKey: "id") as? String,
+        let id = UUID(uuidString: idAsString) else {
             return nil
         }
-        id = idAsInt.uuid
+        self.id = id
         recordId = record.recordID.recordName
         title = record.value(forKey: "title") as? String ?? ""
         createdAt = record.value(forKey: "createdAt") as? Date ?? Date()

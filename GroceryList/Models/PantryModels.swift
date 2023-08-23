@@ -80,19 +80,26 @@ struct PantryModel: Hashable, Codable {
     }
     
     init?(record: CKRecord, imageData: Data?) {
-        guard let idAsInt = record.value(forKey: "id") as? Int64 else {
+        guard let idAsString = record.value(forKey: "id") as? String,
+              let id = UUID(uuidString: idAsString) else {
             return nil
         }
-        id = idAsInt.uuid
+        self.id = id
         sharedId = record.value(forKey: "sharedId") as? String ?? ""
         recordId = record.recordID.recordName
         
         name = record.value(forKey: "name") as? String ?? ""
         index = record.value(forKey: "index") as? Int ?? 0
         color = record.value(forKey: "color") as? Int ?? 0
-        stock = record.value(forKey: "stock") as? [Stock] ?? []
-        synchronizedLists = record.value(forKey: "synchronizedLists") as? [UUID] ?? []
         dateOfCreation = record.value(forKey: "dateOfCreation") as? Date ?? Date()
+        
+        let stockData = record.value(forKey: "store") as? Data ?? Data()
+        let stockFromCloud = (try? JSONDecoder().decode([Stock].self, from: stockData))
+        stock = stockFromCloud ?? []
+        
+        let synchronizedListsData = record.value(forKey: "synchronizedLists") as? Data ?? Data()
+        let synchronizedListsFromCloud = (try? JSONDecoder().decode([UUID].self, from: synchronizedListsData))
+        synchronizedLists = synchronizedListsFromCloud ?? []
         
         isShared = (record.value(forKey: "isShared") as? Int64 ?? 0).boolValue
         isSharedListOwner = (record.value(forKey: "isSharedListOwner") as? Int64 ?? 0).boolValue
@@ -212,13 +219,14 @@ struct Stock: Hashable, Codable {
     }
     
     init?(record: CKRecord, imageData: Data?) {
-        guard let idAsInt = record.value(forKey: "id") as? Int64,
-              let pantryIdAsInt = record.value(forKey: "pantryId") as? Int64 else {
+        guard let idAsString = record.value(forKey: "id") as? String,
+              let id = UUID(uuidString: idAsString),
+              let pantryIdAsString = record.value(forKey: "pantryId") as? String,
+              let pantryId = UUID(uuidString: pantryIdAsString) else {
             return nil
         }
-
-        id = idAsInt.uuid
-        pantryId = pantryIdAsInt.uuid
+        self.id = id
+        self.pantryId = pantryId
         recordId = record.recordID.recordName
         
         index = record.value(forKey: "index") as? Int ?? 0
@@ -227,16 +235,14 @@ struct Stock: Hashable, Codable {
         description = record.value(forKey: "description") as? String
         category = record.value(forKey: "category") as? String
         dateOfCreation = record.value(forKey: "dateOfCreation") as? Date ?? Date()
-//        let storeData = record.value(forKey: "store") as? Data ?? Data()
-//        let storeFromCloud = (try? JSONDecoder().decode(Store.self, from: storeData))
-//        store = storeFromCloud?.title == "" ? nil : storeFromCloud
-        store = record.value(forKey: "store") as? Store
+        let storeData = record.value(forKey: "store") as? Data ?? Data()
+        let storeFromCloud = (try? JSONDecoder().decode(Store.self, from: storeData))
+        store = storeFromCloud?.title == "" ? nil : storeFromCloud
         cost = record.value(forKey: "cost") as? Double
         quantity = record.value(forKey: "quantity") as? Double
         unitId = UnitSystem(rawValue: Int(record.value(forKey: "unitId") as? Int ?? -1))
-//        let autoRepeatData = record.value(forKey: "autoRepeat") as? Data ?? Data()
-//        autoRepeat = (try? JSONDecoder().decode(AutoRepeatModel.self, from: autoRepeatData))
-        autoRepeat = record.value(forKey: "autoRepeat") as? AutoRepeatModel
+        let autoRepeatData = record.value(forKey: "autoRepeat") as? Data ?? Data()
+        autoRepeat = (try? JSONDecoder().decode(AutoRepeatModel.self, from: autoRepeatData))
         userToken = record.value(forKey: "userToken") as? String ?? "0"
         
         isAvailability = (record.value(forKey: "isAvailability") as? Int64 ?? 0).boolValue

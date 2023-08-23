@@ -31,32 +31,10 @@ final class CloudManager {
     static func saveCloudData(recipe: Recipe) {
         let image = prepareImageToSaveToCloud(name: recipe.id.asString,
                                               imageData: recipe.localImage)
-        let record = CKRecord(recordType: RecordType.recipe.rawValue)
-        record.setValue(recipe.id, forKey: "id")
-        record.setValue(recipe.title, forKey: "title")
-        record.setValue(image.asset, forKey: "localImage")
-        record.setValue(recipe.photo, forKey: "photo")
-        record.setValue(recipe.description, forKey: "description")
-        record.setValue(recipe.cookingTime, forKey: "cookingTime")
-        record.setValue(recipe.totalServings, forKey: "totalServings")
-        record.setValue(recipe.dishWeight, forKey: "dishWeight")
-        record.setValue(recipe.dishWeightType, forKey: "dishWeightType")
-        record.setValue(recipe.values, forKey: "values")
-        record.setValue(recipe.countries, forKey: "countries")
-        record.setValue(recipe.instructions, forKey: "instructions")
-        record.setValue(recipe.ingredients, forKey: "ingredients")
-        record.setValue(recipe.eatingTags, forKey: "eatingTags")
-        record.setValue(recipe.dishTypeTags, forKey: "dishTypeTags")
-        record.setValue(recipe.processingTypeTags, forKey: "processingTypeTags")
-        record.setValue(recipe.additionalTags, forKey: "additionalTags")
-        record.setValue(recipe.dietTags, forKey: "dietTags")
-        record.setValue(recipe.exceptionTags, forKey: "exceptionTags")
-        record.setValue(recipe.isDraft, forKey: "isDraft")
-        record.setValue(recipe.createdAt, forKey: "createdAt")
-        record.setValue(recipe.isDefaultRecipe, forKey: "isDefaultRecipe")
-        record.setValue(recipe.sourceUrl, forKey: "sourceUrl")
-
         if recipe.recordId.isEmpty {
+            var record = CKRecord(recordType: RecordType.recipe.rawValue)
+            record = fillInRecord(record: record, recipe: recipe, asset: image.asset)
+
             save(record: record, imageUrl: image.url) { recordID in
                 var updateRecipe = recipe
                 updateRecipe.recordId = recordID
@@ -64,41 +42,15 @@ final class CloudManager {
             }
             return
         }
-        updateCloudData(recipe: recipe, image: image)
-    }
-    
-    static func updateCloudData(recipe: Recipe, image: (asset: CKAsset?, url: URL?)) {
-        let recordID = CKRecord.ID(recordName: recipe.recordId)
         
+        let recordID = CKRecord.ID(recordName: recipe.recordId)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
                 print(error.localizedDescription)
                 return
             }
-            if let record {
-                record.setValue(recipe.id, forKey: "id")
-                record.setValue(recipe.title, forKey: "title")
-                record.setValue(image.asset, forKey: "localImage")
-                record.setValue(recipe.photo, forKey: "photo")
-                record.setValue(recipe.description, forKey: "description")
-                record.setValue(recipe.cookingTime, forKey: "cookingTime")
-                record.setValue(recipe.totalServings, forKey: "totalServings")
-                record.setValue(recipe.dishWeight, forKey: "dishWeight")
-                record.setValue(recipe.dishWeightType, forKey: "dishWeightType")
-                record.setValue(recipe.values, forKey: "values")
-                record.setValue(recipe.countries, forKey: "countries")
-                record.setValue(recipe.instructions, forKey: "instructions")
-                record.setValue(recipe.ingredients, forKey: "ingredients")
-                record.setValue(recipe.eatingTags, forKey: "eatingTags")
-                record.setValue(recipe.dishTypeTags, forKey: "dishTypeTags")
-                record.setValue(recipe.processingTypeTags, forKey: "processingTypeTags")
-                record.setValue(recipe.additionalTags, forKey: "additionalTags")
-                record.setValue(recipe.dietTags, forKey: "dietTags")
-                record.setValue(recipe.exceptionTags, forKey: "exceptionTags")
-                record.setValue(recipe.isDraft, forKey: "isDraft")
-                record.setValue(recipe.createdAt, forKey: "createdAt")
-                record.setValue(recipe.isDefaultRecipe, forKey: "isDefaultRecipe")
-                record.setValue(recipe.sourceUrl, forKey: "sourceUrl")
+            if var record {
+                record = fillInRecord(record: record, recipe: recipe, asset: image.asset)
                 DispatchQueue.main.async {
                     self.save(record: record, imageUrl: image.url) { _ in }
                 }
@@ -106,20 +58,41 @@ final class CloudManager {
         }
     }
     
+    private static func fillInRecord(record: CKRecord, recipe: Recipe, asset: CKAsset?) -> CKRecord {
+        let record = record
+        record.setValue(recipe.id, forKey: "id")
+        record.setValue(recipe.title, forKey: "title")
+        record.setValue(asset, forKey: "localImage")
+        record.setValue(recipe.photo, forKey: "photo")
+        record.setValue(recipe.description, forKey: "description")
+        record.setValue(recipe.cookingTime, forKey: "cookingTime")
+        record.setValue(recipe.totalServings, forKey: "totalServings")
+        record.setValue(recipe.dishWeight, forKey: "dishWeight")
+        record.setValue(recipe.dishWeightType, forKey: "dishWeightType")
+        record.setValue(try? JSONEncoder().encode(recipe.values), forKey: "values")
+        record.setValue(recipe.countries, forKey: "countries")
+        record.setValue(recipe.instructions, forKey: "instructions")
+        record.setValue(try? JSONEncoder().encode(recipe.ingredients), forKey: "ingredients")
+        record.setValue(try? JSONEncoder().encode(recipe.eatingTags), forKey: "eatingTags")
+        record.setValue(try? JSONEncoder().encode(recipe.dishTypeTags), forKey: "dishTypeTags")
+        record.setValue(try? JSONEncoder().encode(recipe.processingTypeTags), forKey: "processingTypeTags")
+        record.setValue(try? JSONEncoder().encode(recipe.additionalTags), forKey: "additionalTags")
+        record.setValue(try? JSONEncoder().encode(recipe.dietTags), forKey: "dietTags")
+        record.setValue(try? JSONEncoder().encode(recipe.exceptionTags), forKey: "exceptionTags")
+        record.setValue(recipe.isDraft, forKey: "isDraft")
+        record.setValue(recipe.createdAt, forKey: "createdAt")
+        record.setValue(recipe.isDefaultRecipe, forKey: "isDefaultRecipe")
+        record.setValue(recipe.sourceUrl, forKey: "sourceUrl")
+        return record
+    }
+    
     static func saveCloudData(collectionModel: CollectionModel) {
         let image = prepareImageToSaveToCloud(name: collectionModel.id.asString,
                                               imageData: collectionModel.localImage)
-        let record = CKRecord(recordType: RecordType.collectionModel.rawValue)
-        record.setValue(collectionModel.id, forKey: "id")
-        record.setValue(collectionModel.index, forKey: "index")
-        record.setValue(collectionModel.title, forKey: "title")
-        record.setValue(collectionModel.color, forKey: "color")
-        record.setValue(collectionModel.isDefault, forKey: "isDefault")
-        record.setValue(image.asset, forKey: "localImage")
-        record.setValue(collectionModel.dishes, forKey: "dishes")
-        record.setValue(collectionModel.isDeleteDefault, forKey: "isDeleteDefault")
-        
         if collectionModel.recordId.isEmpty {
+            var record = CKRecord(recordType: RecordType.collectionModel.rawValue)
+            record = fillInRecord(record: record, collectionModel: collectionModel, asset: image.asset)
+            
             save(record: record, imageUrl: image.url) { recordID in
                 var updateCollectionModel = collectionModel
                 updateCollectionModel.recordId = recordID
@@ -127,31 +100,33 @@ final class CloudManager {
             }
             return
         }
-        let recordID = CKRecord.ID(recordName: collectionModel.recordId)
-        updateCloudData(collectionModel: collectionModel, image: image)
-    }
-    
-    static func updateCloudData(collectionModel: CollectionModel, image: (asset: CKAsset?, url: URL?)) {
+        
         let recordID = CKRecord.ID(recordName: collectionModel.recordId)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
                 print(error.localizedDescription)
                 return
             }
-            if let record {
-                record.setValue(collectionModel.id, forKey: "id")
-                record.setValue(collectionModel.index, forKey: "index")
-                record.setValue(collectionModel.title, forKey: "title")
-                record.setValue(collectionModel.color, forKey: "color")
-                record.setValue(collectionModel.isDefault, forKey: "isDefault")
-                record.setValue(image.asset, forKey: "localImage")
-                record.setValue(collectionModel.dishes, forKey: "dishes")
-                record.setValue(collectionModel.isDeleteDefault, forKey: "isDeleteDefault")
+            if var record {
+                record = fillInRecord(record: record, collectionModel: collectionModel, asset: image.asset)
                 DispatchQueue.main.async {
                     self.save(record: record, imageUrl: image.url) { _ in }
                 }
             }
         }
+    }
+    
+    private static func fillInRecord(record: CKRecord, collectionModel: CollectionModel, asset: CKAsset?) -> CKRecord {
+        let record = record
+        record.setValue(collectionModel.id, forKey: "id")
+        record.setValue(collectionModel.index, forKey: "index")
+        record.setValue(collectionModel.title, forKey: "title")
+        record.setValue(collectionModel.color, forKey: "color")
+        record.setValue(collectionModel.isDefault, forKey: "isDefault")
+        record.setValue(asset, forKey: "localImage")
+        record.setValue(collectionModel.dishes, forKey: "dishes")
+        record.setValue(collectionModel.isDeleteDefault, forKey: "isDeleteDefault")
+        return record
     }
     
     // swiftlint:disable:next function_body_length

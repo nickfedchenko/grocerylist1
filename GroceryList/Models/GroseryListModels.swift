@@ -270,10 +270,11 @@ struct GroceryListsModel: Hashable, Codable {
     }
     
     init?(record: CKRecord) {
-        guard let idAsInt = record.value(forKey: "id") as? Int64 else {
+        guard let idAsString = record.value(forKey: "id") as? String,
+              let id = UUID(uuidString: idAsString) else {
             return nil
         }
-        id = idAsInt.uuid
+        self.id = id
         sharedId = record.value(forKey: "sharedId") as? String ?? ""
         recordId = record.recordID.recordName
         
@@ -282,7 +283,9 @@ struct GroceryListsModel: Hashable, Codable {
         color = record.value(forKey: "color") as? Int ?? 0
         typeOfSorting = record.value(forKey: "typeOfSorting") as? Int ?? 0
         typeOfSortingPurchased = record.value(forKey: "typeOfSortingPurchased") as? Int ?? 0
-        products = record.value(forKey: "products") as? [Product] ?? []
+        
+        let productDatas = record.value(forKey: "products") as? [Data] ?? []
+        products = productDatas.compactMap({ (try? JSONDecoder().decode(Product.self, from: $0)) })
         
         isFavorite = (record.value(forKey: "isFavorite") as? Int64 ?? 0).boolValue
         isAutomaticCategory = (record.value(forKey: "isAutomaticCategory") as? Int64 ?? 0).boolValue
@@ -463,12 +466,14 @@ struct Product: Hashable, Equatable, Codable {
     }
     
     init?(record: CKRecord, imageData: Data?) {
-        guard let idAsInt = record.value(forKey: "id") as? Int64,
-              let listIdAsInt = record.value(forKey: "listId") as? Int64 else {
+        guard let idAsString = record.value(forKey: "id") as? String,
+              let id = UUID(uuidString: idAsString),
+              let listIdAsString = record.value(forKey: "listId") as? String,
+              let listId = UUID(uuidString: listIdAsString) else {
             return nil
         }
-        id = idAsInt.uuid
-        listId = listIdAsInt.uuid
+        self.id = id
+        self.listId = listId
         recordId = record.recordID.recordName
         
         dateOfCreation = record.value(forKey: "dateOfCreation") as? Date ?? Date()
