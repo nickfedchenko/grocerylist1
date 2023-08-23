@@ -13,6 +13,7 @@ final class NewFeatureViewModel {
     var dismiss: (() -> Void)?
     
     func tappedGreatEnable() {
+        AmplitudeManager.shared.logEvent(.iCloudAccept)
         UserDefaultsManager.shared.isICloudDataBackupOn = true
         DispatchQueue.main.async {
             CloudManager.saveCloudAllData()
@@ -22,6 +23,7 @@ final class NewFeatureViewModel {
     }
     
     func tappedMaybeLater() {
+        AmplitudeManager.shared.logEvent(.iCloudLater)
         router?.navigationDismiss()
         dismiss?()
     }

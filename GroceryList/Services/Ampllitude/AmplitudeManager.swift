@@ -208,6 +208,11 @@ enum EventName: String {
     case recipeImportDone = "recipe_import_done"
     case recipeImportSave = "recipe_import_save"
     case recipeImportFailed = "recipe_import_failed"
+    
+    // iCloud_Sync
+    case iCloudAccept = "icloud_accept"
+    case iCloudLater = "icloud_later"
+    case iCloudSettingsOnOff = "icloud_settings_on-off"
 }
 
 typealias PropertyKey = String
@@ -222,6 +227,7 @@ extension PropertyKey {
     static let filterName = "filterName"
     static let succes = "succes"
     static let ingredientsAndSteps = "ingredients count : steps count"
+    static let status = "status"
 }
 
 typealias PropertyValue = String

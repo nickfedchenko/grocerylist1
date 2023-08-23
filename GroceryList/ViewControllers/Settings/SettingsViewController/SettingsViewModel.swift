@@ -130,6 +130,7 @@ class SettingsViewModel {
     
     func tappedICloudDataBackup(_ value: Bool) {
         UserDefaultsManager.shared.isICloudDataBackupOn = value
+        AmplitudeManager.shared.logEvent(.iCloudSettingsOnOff, properties: [.status: value ? .valueOn : .off])
         if value {
             DispatchQueue.main.async {
                 CloudManager.saveCloudAllData()
