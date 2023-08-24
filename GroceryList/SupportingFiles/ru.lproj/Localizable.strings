@@ -530,6 +530,10 @@
 "Maybe Later"                   = "Возможно, позже";
 "Turn on iCloud Data Backup"    = "Включите Pезервное копирование данных iCloud в настройках";
 "iCloud Data Backup"            = "Pезервное копирование данных iCloud";
+"couldNotDetermine"             = "Ошибка при получении статуса учетной записи iCloud пользователя. Попробуйте позже.";
+"restricted"                    = "Система отказывает в доступе к учетной записи iCloud пользователя";
+"noAccount"                     = "Устройство не имеет учетной записи iCloud";
+"temporarilyUnavailable"        = "Учетная запись iCloud пользователя временно недоступна";
 
 // Updated Paywall
 "three days "                   = "3 дня ";

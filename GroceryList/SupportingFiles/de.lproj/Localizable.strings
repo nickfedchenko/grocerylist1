@@ -527,6 +527,10 @@
 "Maybe Later"                   = "Vielleicht später";
 "Turn on iCloud Data Backup"    = "Aktiviere die iCloud-Datensicherung in den Einstellungen";
 "iCloud Data Backup"            = "iCloud-Datensicherung";
+"couldNotDetermine"             = "Fehler beim Abrufen des Status des iCloud-Kontos des Benutzers. Versuchen Sie es später erneut.";
+"restricted"                    = "Das System verweigert den Zugriff auf das iCloud-Konto des Benutzers.";
+"noAccount"                     = "Das Gerät hat kein iCloud-Konto.";
+"temporarilyUnavailable"        = "Das iCloud-Konto des Benutzers ist vorübergehend nicht verfügbar.";
 
 // Updated Paywall
 "three days "                   = "3 tage ";

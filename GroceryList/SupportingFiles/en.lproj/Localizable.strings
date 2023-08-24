@@ -533,6 +533,11 @@
 "Maybe Later"                   = "Maybe Later";
 "Turn on iCloud Data Backup"    = "Turn on iCloud Data Backup  in settings";
 "iCloud Data Backup"            = "iCloud Data Backup";
+"couldNotDetermine"             = "Error retrieving the status of the user's iCloud account. Try again later.";
+"restricted"                    = "The system denies access to the user’s iCloud account.";
+"noAccount"                     = "The device doesn’t have an iCloud account.";
+"temporarilyUnavailable"        = "The user’s iCloud account is temporarily unavailable.";
+
 
 // Updated Paywall
 "three days "                   = "3 days ";

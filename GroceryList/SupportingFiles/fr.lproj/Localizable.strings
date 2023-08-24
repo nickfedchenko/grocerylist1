@@ -524,7 +524,10 @@
 "Great! Enable"                 = "Génial ! Activer";
 "Maybe Later"                   = "Peut-être plus tard";
 "Turn on iCloud Data Backup"    = "Activez la Sauvegarde des données iCloud dans les paramètres";
-"iCloud Data Backup"            = "Sauvegarde des données iCloud";
+"couldNotDetermine"             = "Erreur lors de la récupération du statut du compte iCloud de l'utilisateur. Réessayez plus tard.";
+"restricted"                    = "Le système refuse l'accès au compte iCloud de l'utilisateur.";
+"noAccount"                     = "L'appareil n'a pas de compte iCloud.";
+"temporarilyUnavailable"        = "Le compte iCloud de l'utilisateur est temporairement indisponible.";
 
 // Updated Paywall
 "three days "                   = "3 jours ";

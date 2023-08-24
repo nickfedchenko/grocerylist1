@@ -128,13 +128,38 @@ class SettingsViewModel {
         delegate?.updateSelectionView()
     }
     
-    func tappedICloudDataBackup(_ value: Bool) {
+    func tappedICloudDataBackup(_ value: Bool, completion: (() -> Void)?) {
         UserDefaultsManager.shared.isICloudDataBackupOn = value
         AmplitudeManager.shared.logEvent(.iCloudSettingsOnOff, properties: [.status: value ? .valueOn : .off])
-        if value {
-            DispatchQueue.main.async {
-                CloudManager.saveCloudAllData()
+        guard value else { return }
+        
+        CloudManager.getICloudStatus { [weak self] status in
+            if status == .available {
+                UserDefaultsManager.shared.isICloudDataBackupOn = true
+                completion?()
+                DispatchQueue.main.async {
+                    CloudManager.saveCloudAllData()
+                }
+                return
             }
+            
+            UserDefaultsManager.shared.isICloudDataBackupOn = false
+            completion?()
+            var alertTitle = "Error"
+            switch status {
+            case .couldNotDetermine:
+                alertTitle = R.string.localizable.couldNotDetermine()
+            case .restricted:
+                alertTitle = R.string.localizable.restricted()
+            case .noAccount:
+                alertTitle = R.string.localizable.noAccount()
+            case .temporarilyUnavailable:
+                alertTitle = R.string.localizable.temporarilyUnavailable()
+            default:
+                break
+            }
+            
+            self?.router?.showAlertVC(title: "", message: alertTitle)
         }
     }
     

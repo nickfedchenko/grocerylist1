@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 466 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 470 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -2775,6 +2775,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var cost: RswiftResources.StringResource { .init(key: "cost", tableName: "Localizable", source: source, developmentValue: "cost", comment: nil) }
 
+      /// en translation: Error retrieving the status of the user's iCloud account. Try again later.
+      ///
+      /// Key: couldNotDetermine
+      ///
+      /// Locales: en, ru, fr, de
+      var couldNotDetermine: RswiftResources.StringResource { .init(key: "couldNotDetermine", tableName: "Localizable", source: source, developmentValue: "Error retrieving the status of the user's iCloud account. Try again later.", comment: nil) }
+
       /// en translation: Create Collection
       ///
       /// Key: createCollection
@@ -2884,7 +2891,7 @@ struct _R {
       ///
       /// Key: iCloud Data Backup
       ///
-      /// Locales: en, ru, fr, de
+      /// Locales: en, ru, de
       var iCloudDataBackup: RswiftResources.StringResource { .init(key: "iCloud Data Backup", tableName: "Localizable", source: source, developmentValue: "iCloud Data Backup", comment: nil) }
 
       /// en translation: *Registration required
@@ -2991,6 +2998,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var move: RswiftResources.StringResource { .init(key: "move", tableName: "Localizable", source: source, developmentValue: "Move", comment: nil) }
+
+      /// en translation: The device doesn’t have an iCloud account.
+      ///
+      /// Key: noAccount
+      ///
+      /// Locales: en, ru, fr, de
+      var noAccount: RswiftResources.StringResource { .init(key: "noAccount", tableName: "Localizable", source: source, developmentValue: "The device doesn’t have an iCloud account.", comment: nil) }
 
       /// en translation: Ok
       ///
@@ -3167,6 +3181,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var resetPassword: RswiftResources.StringResource { .init(key: "resetPassword", tableName: "Localizable", source: source, developmentValue: "Reset password", comment: nil) }
 
+      /// en translation: The system denies access to the user’s iCloud account.
+      ///
+      /// Key: restricted
+      ///
+      /// Locales: en, ru, fr, de
+      var restricted: RswiftResources.StringResource { .init(key: "restricted", tableName: "Localizable", source: source, developmentValue: "The system denies access to the user’s iCloud account.", comment: nil) }
+
       /// en translation: Rate the app in the AppStore
       ///
       /// Key: review.mainTitle
@@ -3271,6 +3292,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var sort: RswiftResources.StringResource { .init(key: "sort", tableName: "Localizable", source: source, developmentValue: "Sort", comment: nil) }
+
+      /// en translation: The user’s iCloud account is temporarily unavailable.
+      ///
+      /// Key: temporarilyUnavailable
+      ///
+      /// Locales: en, ru, fr, de
+      var temporarilyUnavailable: RswiftResources.StringResource { .init(key: "temporarilyUnavailable", tableName: "Localizable", source: source, developmentValue: "The user’s iCloud account is temporarily unavailable.", comment: nil) }
 
       /// en translation: 3 days 
       ///

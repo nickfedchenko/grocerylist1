@@ -28,6 +28,18 @@ final class CloudManager {
         case settings = "Settings"
     }
 
+    static func getICloudStatus(completion: @escaping ((CKAccountStatus) -> Void)) {
+        CKContainer.default().accountStatus { status, error in
+            if let error {
+                print(error.localizedDescription)
+                return
+            }
+            DispatchQueue.main.async {
+                completion(status)
+            }
+        }
+    }
+    
     static func saveCloudData(recipe: Recipe) {
         guard UserDefaultsManager.shared.isICloudDataBackupOn else {
             return
