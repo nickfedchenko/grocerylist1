@@ -172,7 +172,7 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
         }
         
         CoreDataManager.shared.saveRecipes(recipes: [recipe])
-        CloudManager.saveCloudData(recipe: recipe)
+        CloudManager.shared.saveCloudData(recipe: recipe)
     }
     
     @objc
@@ -222,7 +222,7 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
     
     func removeRecipe() {
         CoreDataManager.shared.deleteRecipe(by: recipe.id)
-        CloudManager.deleteRecipe(recordId: recipe.recordId)
+        CloudManager.shared.delete(recordType: .recipe, recordID: recipe.recordId)
         updateRecipeRemove?(recipe)
     }
     

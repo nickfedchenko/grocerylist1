@@ -141,7 +141,7 @@ class ProductsSortViewModel: ProductsSettingsViewModel {
         delegate?.reloadController()
         updateModel?(model)
         CoreDataManager.shared.saveList(list: model)
-        CloudManager.saveCloudData(groceryList: model)
+        CloudManager.shared.saveCloudData(groceryList: model)
     }
 }
 

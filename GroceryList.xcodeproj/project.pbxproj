@@ -303,7 +303,6 @@
 		33F6298E2A937B32007592F4 /* NewFeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298D2A937B32007592F4 /* NewFeatureViewModel.swift */; };
 		33F629902A938B65007592F4 /* FeatureCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298F2A938B65007592F4 /* FeatureCloudView.swift */; };
 		33F629952A948179007592F4 /* Extension CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F629942A948179007592F4 /* Extension CloudManager.swift */; };
-		33F629962A9481D8007592F4 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B306622A8E149300F87659 /* CloudManager.swift */; };
 		33F6299B2A95BC7A007592F4 /* ICloudFeatureMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6299A2A95BC7A007592F4 /* ICloudFeatureMessageView.swift */; };
 		33F8253729C050DC00B349D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253629C050DC00B349D5 /* SearchViewController.swift */; };
 		33F8253929C0559000B349D5 /* SearchInListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253829C0559000B349D5 /* SearchInListViewModel.swift */; };
@@ -2807,7 +2806,6 @@
 				33E31B102A7A48DC0011B41E /* CoreDataStorage.swift in Sources */,
 				33AF97BB2A7AB1BF00716104 /* RecipeDescriptionView.swift in Sources */,
 				33AF97AA2A7A9C9B00716104 /* RecipeKcalView.swift in Sources */,
-				33F629962A9481D8007592F4 /* CloudManager.swift in Sources */,
 				33AF97972A7A6FB100716104 /* Network.swift in Sources */,
 				33AF978A2A7A550C00716104 /* R.generated.swift in Sources */,
 				33E31AE52A792D6E0011B41E /* ActionViewController.swift in Sources */,

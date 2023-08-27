@@ -210,7 +210,7 @@ final class StocksViewModel {
             }
             self.pantry.synchronizedLists = uuids
             CoreDataManager.shared.savePantry(pantry: [self.pantry])
-            CloudManager.saveCloudData(pantryModel: self.pantry)
+            CloudManager.shared.saveCloudData(pantryModel: self.pantry)
             
             self.delegate?.updateLinkButton()
             if !uuids.isEmpty {

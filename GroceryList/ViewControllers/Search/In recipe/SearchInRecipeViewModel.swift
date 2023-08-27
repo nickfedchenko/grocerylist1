@@ -188,7 +188,7 @@ final class SearchInRecipeViewModel {
         
         defer {
             CoreDataManager.shared.saveRecipes(recipes: [recipe])
-            CloudManager.saveCloudData(recipe: recipe)
+            CloudManager.shared.saveCloudData(recipe: recipe)
             var updateRecipe = editableRecipes.remove(at: recipeIndex)
             updateRecipe.isFavorite = isFavorite
             editableRecipes.insert(updateRecipe, at: recipeIndex)

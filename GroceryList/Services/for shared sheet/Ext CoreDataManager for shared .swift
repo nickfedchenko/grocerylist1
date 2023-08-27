@@ -26,7 +26,7 @@ extension CoreDataManager {
         recipe.photo = webRecipe.image ?? ""
         recipe.sourceUrl = url
         saveRecipes(recipes: [recipe])
-        CloudManager.saveCloudData(recipe: recipe)
+//        CloudManager.shared.saveCloudData(recipe: recipe)
         
         var updateCollection = collections
         
@@ -47,7 +47,7 @@ extension CoreDataManager {
         
         saveCollection(collections: updateCollection)
         updateCollection.forEach { collectionModel in
-            CloudManager.saveCloudData(collectionModel: collectionModel)
+//            CloudManager.shared.saveCloudData(collectionModel: collectionModel)
         }
     }
     

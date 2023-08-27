@@ -165,7 +165,7 @@ final class CreateNewRecipeStepOneViewModel {
         draft.isShowCost = isShowCost
         self.draft = draft
         CoreDataManager.shared.saveRecipes(recipes: [draft])
-        CloudManager.saveCloudData(recipe: draft)
+        CloudManager.shared.saveCloudData(recipe: draft)
     }
     
     private func saveCurrentRecipe(title: String?, description: String?) {

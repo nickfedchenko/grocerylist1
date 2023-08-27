@@ -7,6 +7,7 @@
 
 import Amplitude
 import ApphudSDK
+import CloudKit
 import Firebase
 import Kingfisher
 import UIKit
@@ -21,8 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         application.registerForRemoteNotifications()
-        Apphud.start(apiKey: "app_UumawTKYjWf9iUejoRkxntPLZQa7eq")
+        _ = CloudManager.shared
         _ = AmplitudeManager.shared
+        
+        Apphud.start(apiKey: "app_UumawTKYjWf9iUejoRkxntPLZQa7eq")
         FirebaseApp.configure()
         FeatureManager.shared.activeFeatures()
         FeatureManager.shared.activeFAQFeature()
@@ -145,6 +148,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         return true
+    }
+    
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("Уведомление получено!")
+        
+        if let stringObjectUserInfo = userInfo as? [String: NSObject] {
+            let notification = CKNotification(fromRemoteNotificationDictionary: stringObjectUserInfo)
+            
+            if notification?.subscriptionID == CloudManager.shared.privateSubscriptionID {
+                CloudManager.shared.fetchChanges()
+                completionHandler(.newData)
+            }
+        } else {
+            completionHandler(.noData)
+        }
     }
 }
 

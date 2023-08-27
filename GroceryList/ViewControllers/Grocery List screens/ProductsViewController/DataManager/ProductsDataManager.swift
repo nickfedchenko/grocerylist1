@@ -79,7 +79,7 @@ class ProductsDataManager {
         var newProduct = product
         newProduct.isPurchased = !product.isPurchased
         CoreDataManager.shared.createProduct(product: newProduct)
-        CloudManager.saveCloudData(product: newProduct)
+        CloudManager.shared.saveCloudData(product: newProduct)
         createDataSourceArray()
     }
     
@@ -87,7 +87,7 @@ class ProductsDataManager {
         var newProduct = product
         newProduct.isFavorite = !product.isFavorite
         CoreDataManager.shared.createProduct(product: newProduct)
-        CloudManager.saveCloudData(product: newProduct)
+        CloudManager.shared.saveCloudData(product: newProduct)
         createDataSourceArray()
     }
     
@@ -100,19 +100,19 @@ class ProductsDataManager {
         var stock = Stock(dbModel: dbStock)
         stock.isAvailability = true
         CoreDataManager.shared.saveStock(stock: [stock], for: stock.pantryId.uuidString)
-        CloudManager.saveCloudData(stock: stock)
+        CloudManager.shared.saveCloudData(stock: stock)
         createDataSourceArray()
     }
     
     func updateImage(for product: Product) {
         CoreDataManager.shared.createProduct(product: product)
-        CloudManager.saveCloudData(product: product)
+        CloudManager.shared.saveCloudData(product: product)
         createDataSourceArray()
     }
     
     func delete(product: Product) {
         CoreDataManager.shared.removeProduct(product: product)
-        CloudManager.deleteProduct(recordId: product.recordId)
+        CloudManager.shared.delete(recordType: .product, recordID: product.recordId)
         createDataSourceArray()
     }
     

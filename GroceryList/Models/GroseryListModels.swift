@@ -293,10 +293,10 @@ struct GroceryListsModel: Hashable, Codable {
         isVisibleCost = (record.value(forKey: "isVisibleCost") as? Int64 ?? 0).boolValue
         isShared = (record.value(forKey: "isShared") as? Int64 ?? 0).boolValue
         isSharedListOwner = (record.value(forKey: "isSharedListOwner") as? Int64 ?? 0).boolValue
-        let isAscendingOrderPurchasedRawValue = record.value(forKey: "isAscendingOrderPurchased") as? Int16 ?? 0
-        let isShowImageRawValue = record.value(forKey: "isShowImage") as? Int16 ?? 0
-        isAscendingOrderPurchased = BoolWithNilForCD(rawValue: isAscendingOrderPurchasedRawValue) ?? .nothing
-        isShowImage = BoolWithNilForCD(rawValue: isShowImageRawValue) ?? .nothing
+        let isAscendingOrderPurchasedRawValue = record.value(forKey: "isAscendingOrderPurchased") as? Int64 ?? 0
+        let isShowImageRawValue = record.value(forKey: "isShowImage") as? Int64 ?? 0
+        isAscendingOrderPurchased = BoolWithNilForCD(rawValue: Int16(isAscendingOrderPurchasedRawValue)) ?? .nothing
+        isShowImage = BoolWithNilForCD(rawValue: Int16(isShowImageRawValue)) ?? .nothing
     }
 }
 

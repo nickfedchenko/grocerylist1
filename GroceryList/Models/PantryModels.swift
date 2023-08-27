@@ -149,7 +149,7 @@ struct Stock: Hashable, Codable {
         self.isUserImage = copyStock.isUserImage
     }
     
-    init(index: Int, pantryId: UUID, name: String, imageData: Data?,
+    init(id: UUID = UUID(), index: Int, pantryId: UUID, name: String, imageData: Data?,
          description: String? = nil, category: String? = nil,
          store: Store? = nil, cost: Double? = nil, quantity: Double? = nil,
          unitId: UnitSystem? = nil, isAvailability: Bool = true,

@@ -236,8 +236,28 @@ class UserDefaultsManager {
     }
     
     var countShowMessageNewFeature: Int {
-        get { userDefaults.integer(forKey: "countShowMessageNewFeatureICloud") }
-        set { userDefaults.set(newValue, forKey: "countShowMessageNewFeatureICloud") }
+        get { userDefaults.integer(forKey: "createdCustomZone") }
+        set { userDefaults.set(newValue, forKey: "createdCustomZone") }
+    }
+    
+    var createdCustomZone: Bool {
+        get { userDefaults.bool(forKey: "createdCustomZone") }
+        set { userDefaults.set(newValue, forKey: "createdCustomZone") }
+    }
+    
+    var subscribedToPrivateChanges: Bool {
+        get { userDefaults.bool(forKey: "subscribedToPrivateChanges") }
+        set { userDefaults.set(newValue, forKey: "subscribedToPrivateChanges") }
+    }
+    
+    var databaseChangeTokenKey: Data? {
+        get { userDefaults.data(forKey: "databaseChangeTokenKey") }
+        set { userDefaults.set(newValue, forKey: "databaseChangeTokenKey") }
+    }
+    
+    var zoneChangeTokenKey: Data? {
+        get { userDefaults.data(forKey: "zoneChangeTokenKey") }
+        set { userDefaults.set(newValue, forKey: "zoneChangeTokenKey") }
     }
     
     private func setValue<T>(value: T, for key: UDKeys) {

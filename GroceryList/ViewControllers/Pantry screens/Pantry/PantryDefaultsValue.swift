@@ -54,7 +54,7 @@ extension PantryDataSource.DefaultsPantry {
 }
 
 extension PantryDataSource.DefaultsFridgeStocks {
-    var netProductId: Int? {
+    var netProductId: Int {
         switch self {
         case .milk:             return 130833
         case .mayonnaise:       return 112605
@@ -170,7 +170,7 @@ extension PantryDataSource.DefaultsFridgeStocks {
 }
 
 extension PantryDataSource.DefaultsGroceryStocks {
-    var netProductId: Int? {
+    var netProductId: Int {
         switch self {
         case .oliveOil:             return 112537
         case .cannedCorn:           return 130324
@@ -285,7 +285,7 @@ extension PantryDataSource.DefaultsGroceryStocks {
 }
 
 extension PantryDataSource.DefaultsSpicesHerbsStocks {
-    var netProductId: Int? {
+    var netProductId: Int {
         switch self {
         case .salt:     return 130418
         case .pepper:   return 130242
@@ -320,7 +320,7 @@ extension PantryDataSource.DefaultsSpicesHerbsStocks {
 }
 
 extension PantryDataSource.DefaultsBeautyHealthStocks {
-    var netProductId: Int? {
+    var netProductId: Int {
         switch self {
         case .toiletPaper:  return 51
         case .cottonPads:   return 44
@@ -355,7 +355,7 @@ extension PantryDataSource.DefaultsBeautyHealthStocks {
 }
 
 extension PantryDataSource.DefaultsHouseholdStocks {
-    var netProductId: Int? {
+    var netProductId: Int {
         switch self {
         case .sponges:          return 9
         case .dishwashing:      return 8

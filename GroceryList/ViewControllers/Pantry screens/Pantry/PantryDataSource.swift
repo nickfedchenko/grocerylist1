@@ -38,7 +38,7 @@ final class PantryDataSource {
         }
         CoreDataManager.shared.savePantry(pantry: updatedPantries)
         updatedPantries.forEach { pantry in
-            CloudManager.saveCloudData(pantryModel: pantry)
+            CloudManager.shared.saveCloudData(pantryModel: pantry)
         }
         
         updatePantry()
@@ -56,7 +56,7 @@ final class PantryDataSource {
     
     func delete(pantry: PantryModel) {
         CoreDataManager.shared.deletePantry(by: pantry.id)
-        CloudManager.deletePantry(recordId: pantry.recordId)
+        CloudManager.shared.delete(recordType: .pantryModel, recordID: pantry.recordId)
         updatePantry()
     }
     
@@ -93,7 +93,7 @@ final class PantryDataSource {
     private func checkThatItemIsOutOfStock() {
         let today = Date()
         let dbStock = CoreDataManager.shared.getAllStock()?.filter { $0.isAutoRepeat } ?? []
-        var outOfStocks = dbStock.map({ Stock(dbModel: $0) })
+        let outOfStocks = dbStock.map({ Stock(dbModel: $0) })
         
         for stock in outOfStocks {
             guard let autoRepeat = stock.autoRepeat else { break }
@@ -128,7 +128,7 @@ final class PantryDataSource {
         var stock = stock
         stock.isAvailability = isAvailability
         CoreDataManager.shared.saveStock(stock: [stock], for: stock.pantryId.uuidString)
-        CloudManager.saveCloudData(stock: stock)
+        CloudManager.shared.saveCloudData(stock: stock)
     }
     
     private func checkCustomAutoRepeat(autoRepeat: AutoRepeatModel,
@@ -213,12 +213,9 @@ final class PantryDataSource {
     private func defaultFridgeStocks(fridgeId: UUID, allProducts: [DBNewNetProduct]) {
         var defaultsFridgeStocks: [Stock] = []
         DefaultsFridgeStocks.allCases.forEach { stock in
-            var netProduct: DBNewNetProduct?
-            if let netProductId = stock.netProductId {
-                netProduct = allProducts.first(where: { $0.id == netProductId })
-            }
-            
-            let defaultsStock = Stock(index: stock.rawValue, pantryId: fridgeId,
+            let netProduct = allProducts.first(where: { $0.id == stock.netProductId })
+            let defaultsStock = Stock(id: UUID(number: stock.netProductId),
+                                      index: stock.rawValue, pantryId: fridgeId,
                                       name: stock.title,
                                       imageData: stock.imageData,
                                       description: stock.description,
@@ -231,19 +228,16 @@ final class PantryDataSource {
         
         CoreDataManager.shared.saveStock(stock: defaultsFridgeStocks, for: fridgeId.uuidString)
         defaultsFridgeStocks.forEach { stock in
-            CloudManager.saveCloudData(stock: stock)
+            CloudManager.shared.saveCloudData(stock: stock)
         }
     }
     
     private func defaultGroceryStocks(groceryId: UUID, allProducts: [DBNewNetProduct]) {
         var defaultGroceryStocks: [Stock] = []
         DefaultsGroceryStocks.allCases.forEach { stock in
-            var netProduct: DBNewNetProduct?
-            if let netProductId = stock.netProductId {
-                netProduct = allProducts.first(where: { $0.id == netProductId })
-            }
-            
-            let defaultsStock = Stock(index: stock.rawValue, pantryId: groceryId,
+            let netProduct = allProducts.first(where: { $0.id == stock.netProductId })
+            let defaultsStock = Stock(id: UUID(number: stock.netProductId),
+                                      index: stock.rawValue, pantryId: groceryId,
                                       name: netProduct?.title ?? stock.title,
                                       imageData: stock.imageData,
                                       description: stock.description,
@@ -256,19 +250,16 @@ final class PantryDataSource {
         
         CoreDataManager.shared.saveStock(stock: defaultGroceryStocks, for: groceryId.uuidString)
         defaultGroceryStocks.forEach { stock in
-            CloudManager.saveCloudData(stock: stock)
+            CloudManager.shared.saveCloudData(stock: stock)
         }
     }
     
     private func defaultSpicesHerbsStocks(spicesHerbsId: UUID, allProducts: [DBNewNetProduct]) {
         var defaultsSpicesHerbsStocks: [Stock] = []
         DefaultsSpicesHerbsStocks.allCases.forEach { stock in
-            var netProduct: DBNewNetProduct?
-            if let netProductId = stock.netProductId {
-                netProduct = allProducts.first(where: { $0.id == netProductId })
-            }
-            
-            let defaultsStock = Stock(index: stock.rawValue, pantryId: spicesHerbsId,
+            let netProduct = allProducts.first(where: { $0.id == stock.netProductId })
+            let defaultsStock = Stock(id: UUID(number: stock.netProductId),
+                                      index: stock.rawValue, pantryId: spicesHerbsId,
                                       name: stock.title,
                                       imageData: stock.imageData,
                                       category: netProduct?.marketCategory)
@@ -277,19 +268,16 @@ final class PantryDataSource {
         
         CoreDataManager.shared.saveStock(stock: defaultsSpicesHerbsStocks, for: spicesHerbsId.uuidString)
         defaultsSpicesHerbsStocks.forEach { stock in
-            CloudManager.saveCloudData(stock: stock)
+            CloudManager.shared.saveCloudData(stock: stock)
         }
     }
     
     private func defaultBeautyHealthStocks(beautyHealthId: UUID, allProducts: [DBNewNetProduct]) {
         var defaultBeautyHealthStocks: [Stock] = []
         DefaultsBeautyHealthStocks.allCases.forEach { stock in
-            var netProduct: DBNewNetProduct?
-            if let netProductId = stock.netProductId {
-                netProduct = allProducts.first(where: { $0.id == netProductId })
-            }
-            
-            let defaultsStock = Stock(index: stock.rawValue, pantryId: beautyHealthId,
+            let netProduct = allProducts.first(where: { $0.id == stock.netProductId })
+            let defaultsStock = Stock(id: UUID(number: stock.netProductId),
+                                      index: stock.rawValue, pantryId: beautyHealthId,
                                       name: stock.title,
                                       imageData: stock.imageData,
                                       category: netProduct?.marketCategory)
@@ -298,19 +286,16 @@ final class PantryDataSource {
         
         CoreDataManager.shared.saveStock(stock: defaultBeautyHealthStocks, for: beautyHealthId.uuidString)
         defaultBeautyHealthStocks.forEach { stock in
-            CloudManager.saveCloudData(stock: stock)
+            CloudManager.shared.saveCloudData(stock: stock)
         }
     }
     
     private func defaultHouseholdStocks(householdId: UUID, allProducts: [DBNewNetProduct]) {
         var defaultHouseholdStocks: [Stock] = []
         DefaultsHouseholdStocks.allCases.forEach { stock in
-            var netProduct: DBNewNetProduct?
-            if let netProductId = stock.netProductId {
-                netProduct = allProducts.first(where: { $0.id == netProductId })
-            }
-            
-            let defaultsStock = Stock(index: stock.rawValue, pantryId: householdId,
+            let netProduct = allProducts.first(where: { $0.id == stock.netProductId })
+            let defaultsStock = Stock(id: UUID(number: stock.netProductId),
+                                      index: stock.rawValue, pantryId: householdId,
                                       name: stock.title,
                                       imageData: stock.imageData,
                                       category: netProduct?.marketCategory,
@@ -320,7 +305,7 @@ final class PantryDataSource {
         
         CoreDataManager.shared.saveStock(stock: defaultHouseholdStocks, for: householdId.uuidString)
         defaultHouseholdStocks.forEach { stock in
-            CloudManager.saveCloudData(stock: stock)
+            CloudManager.shared.saveCloudData(stock: stock)
         }
     }
 }

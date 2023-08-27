@@ -220,7 +220,7 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
                 }
                 
                 CoreDataManager.shared.saveRecipes(recipes: [recipe])
-                CloudManager.saveCloudData(recipe: recipe)
+                CloudManager.shared.saveCloudData(recipe: recipe)
             }
         }
         

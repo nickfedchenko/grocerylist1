@@ -7,6 +7,7 @@
 
 import Kingfisher
 import UIKit
+import CloudKit
 
 class ListViewModel {
     
@@ -34,6 +35,7 @@ class ListViewModel {
 
         addObserver()
         downloadMySharedLists()
+        downloadCloudLists()
     }
 
     func cellTapped(with model: GroceryListsModel) {
@@ -147,23 +149,27 @@ class ListViewModel {
         })
     }
     
-    // MARK: - Shared List Functions
-    
-    private func downloadMySharedLists() {
-        SharedListManager.shared.fetchMyGroceryLists()
-    }
-    
     private func addObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(sharedListDownloaded),
                                                name: .sharedListDownloadedAndSaved, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(sharedListLoading),
                                                name: .sharedListLoading, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLists),
+                                               name: .cloudListDownloadedAndSaved, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLists),
+                                               name: .cloudProductsDownloadedAndSaved, object: nil)
+    }
+    
+    // MARK: - Shared List Functions
+    private func downloadMySharedLists() {
+        SharedListManager.shared.fetchMyGroceryLists()
     }
     
     @objc
     private func sharedListDownloaded() {
-//        updateCells?(dataSource.updateListOfModels())
         sharingUpdate?()
         showSynchronizationActivity?(false)
         if let startTime {
@@ -178,5 +184,17 @@ class ListViewModel {
     private func sharedListLoading() {
         showSynchronizationActivity?(true)
         startTime = Date()
+    }
+    
+    // MARK: - Cloud Functions
+    
+    private func downloadCloudLists() {
+        CloudManager.shared.fetchGroceryListFromCloud()
+        CloudManager.shared.fetchProductFromCloud()
+    }
+    
+    @objc
+    private func updateLists() {
+        reloadDataFromStorage()
     }
 }

@@ -15,4 +15,7 @@ extension Notification.Name {
     
     static let sharedPantryDownloadedAndSaved = Notification.Name("sharedPantryDownloadedAndSaved")
     static let sharedPantryListLoading = Notification.Name("sharedPantryListLoading")
+    
+    static let cloudListDownloadedAndSaved = Notification.Name("cloudListDownloadedAndSaved")
+    static let cloudProductsDownloadedAndSaved = Notification.Name("cloudProductsDownloadedAndSaved")
 }

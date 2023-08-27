@@ -38,7 +38,7 @@ final class PhotoFromRecipesViewModel {
         var collection = CollectionModel(from: dbCollection)
         collection.localImage = image.pngData()
         CoreDataManager.shared.saveCollection(collections: [collection])
-        CloudManager.saveCloudData(collectionModel: collection)
+        CloudManager.shared.saveCloudData(collectionModel: collection)
         updateUI?(image)
     }
 }

@@ -98,11 +98,11 @@ class SharedListManager {
         removeProductsIfNeeded(list: list)
         
         CoreDataManager.shared.saveList(list: list)
-        CloudManager.saveCloudData(groceryList: list)
+        CloudManager.shared.saveCloudData(groceryList: list)
         
         list.products.forEach { product in
             CoreDataManager.shared.createProduct(product: product)
-            CloudManager.saveCloudData(product: product)
+            CloudManager.shared.saveCloudData(product: product)
         }
         
         appendToUsersDict(id: response.listId, users: response.listUsers)
@@ -138,7 +138,7 @@ class SharedListManager {
         arrayToDelete.forEach { product in
             guard let id = product.id?.uuidString else { return }
             CoreDataManager.shared.removeProduct(id: id)
-            CloudManager.deleteProduct(recordId: product.recordId ?? "")
+            CloudManager.shared.delete(recordType: .product, recordID: product.recordId ?? "")
         }
     }
 
@@ -263,10 +263,10 @@ class SharedListManager {
 
         arrayOfLists.forEach { list in
             CoreDataManager.shared.saveList(list: list)
-            CloudManager.saveCloudData(groceryList: list)
+            CloudManager.shared.saveCloudData(groceryList: list)
             list.products.forEach { product in
                 CoreDataManager.shared.createProduct(product: product)
-                CloudManager.saveCloudData(product: product)
+                CloudManager.shared.saveCloudData(product: product)
             }
         }
         UserDefaultsManager.shared.coldStartState = 2

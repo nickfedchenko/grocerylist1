@@ -114,10 +114,10 @@ final class ShowCollectionViewModel {
         if collection.isDefault {
             collection.isDeleteDefault = true
             CoreDataManager.shared.saveCollection(collections: [collection])
-            CloudManager.saveCloudData(collectionModel: collection)
+            CloudManager.shared.saveCloudData(collectionModel: collection)
         } else {
             CoreDataManager.shared.deleteCollection(by: collection.id)
-            CloudManager.deleteCollection(recordId: collection.recordId)
+            CloudManager.shared.delete(recordType: .collectionModel, recordID: collection.recordId)
         }
         
         editCollections.removeAll { $0.id == collection.id }
@@ -172,7 +172,7 @@ final class ShowCollectionViewModel {
         }
         CoreDataManager.shared.saveCollection(collections: selectCollections)
         selectCollections.forEach { collectionModel in
-            CloudManager.saveCloudData(collectionModel: collectionModel)
+            CloudManager.shared.saveCloudData(collectionModel: collectionModel)
         }
         selectedCollection?(selectCollections)
         changedCollection = true
@@ -195,7 +195,7 @@ final class ShowCollectionViewModel {
             DispatchQueue.main.async {
                 CoreDataManager.shared.saveCollection(collections: updateCollections)
                 updateCollections.forEach { collectionModel in
-                    CloudManager.saveCloudData(collectionModel: collectionModel)
+                    CloudManager.shared.saveCloudData(collectionModel: collectionModel)
                 }
             }
         }

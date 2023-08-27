@@ -15,11 +15,12 @@ final class NewFeatureViewModel {
     func tappedGreatEnable() {
         AmplitudeManager.shared.logEvent(.iCloudAccept)
         
-        CloudManager.getICloudStatus { [weak self] status in
+        CloudManager.shared.getICloudStatus { [weak self] status in
             if status == .available {
                 UserDefaultsManager.shared.isICloudDataBackupOn = true
                 DispatchQueue.main.async {
-                    CloudManager.saveCloudAllData()
+                    CloudManager.shared.enable()
+                    CloudManager.shared.saveCloudAllData()
                 }
                 self?.router?.navigationDismiss()
                 self?.dismiss?()

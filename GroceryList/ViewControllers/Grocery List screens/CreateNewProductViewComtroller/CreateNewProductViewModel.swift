@@ -240,7 +240,7 @@ class CreateNewProductViewModel {
         }
         
         CoreDataManager.shared.createProduct(product: product)
-        CloudManager.saveCloudData(product: product)
+        CloudManager.shared.saveCloudData(product: product)
         valueChangedCallback?(product)
         
         idsOfChangedProducts.insert(product.id)

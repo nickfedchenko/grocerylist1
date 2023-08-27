@@ -60,7 +60,7 @@ final class RootRouter: RootRouterProtocol {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
-        showTestOnboarding()
+//        showTestOnboarding()
     }
     
     func openResetPassword(token: String) {
@@ -110,7 +110,7 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goToNewOnboarding() {
-#if RELEASE
+
         if !UserDefaultsManager.shared.isFirstLaunch {
             UserDefaultsManager.shared.firstLaunchDate = Date()
             FeatureManager.shared.activeFeaturesOnFirstLaunch()
@@ -121,8 +121,7 @@ final class RootRouter: RootRouterProtocol {
         let onboardingController = viewControllerFactory.createNewOnboardingController(router: self)
         navigationPushViewController(onboardingController, animated: false)
         return
-#endif
-        goToOnboarding()
+
     }
     
     func goToOnboarding() {

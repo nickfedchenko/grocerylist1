@@ -9,26 +9,161 @@ import CloudKit
 import UIKit
 
 final class CloudManager {
+    static let shared = CloudManager()
+
+    let privateCloudDataBase = CKContainer.default().privateCloudDatabase
+    let privateSubscriptionID = "private-changes"
+    let zoneID = CKRecordZone.ID(zoneName: "GroceryList", ownerName: CKCurrentUserDefaultName)
     
-    // TODO: перед релизом поменять на CKContainer.default().privateCloudDatabase
-    static let privateCloudDataBase = CKContainer.default().publicCloudDatabase
-    
-    enum RecordType: String {
+    enum RecordType: String, CaseIterable {
         case groceryListsModel = "GroceryListsModel"
         case product = "Product"
         case categoryModel = "CategoryModel"
         case store = "Store"
-        
         case pantryModel = "PantryModel"
         case stock = "Stock"
-        
         case collectionModel = "CollectionModel"
         case recipe = "Recipe"
-        
         case settings = "Settings"
     }
+    
+    private init() {
+        enable()
+    }
+    
+    func enable() {
+        if UserDefaultsManager.shared.isICloudDataBackupOn {
+            // https://developer.apple.com/library/archive/documentation/DataManagement/Conceptual/CloudKitQuickStart/MaintainingaLocalCacheofCloudKitRecords/MaintainingaLocalCacheofCloudKitRecords.html#//apple_ref/doc/uid/TP40014987-CH12-SW7
 
-    static func getICloudStatus(completion: @escaping ((CKAccountStatus) -> Void)) {
+            let createZoneGroup = DispatchGroup()
+            createCustomZone(createZoneGroup: createZoneGroup)
+            subscribingToChangeNotifications()
+            
+            createZoneGroup.notify(queue: DispatchQueue.global()) {
+                if UserDefaultsManager.shared.createdCustomZone {
+                    self.fetchChanges()
+                }
+            }
+        }
+    }
+    
+    func createCustomZone(createZoneGroup: DispatchGroup) {
+        if !UserDefaultsManager.shared.createdCustomZone {
+            createZoneGroup.enter()
+            let customZone = CKRecordZone(zoneID: zoneID)
+            let createZoneOperation = CKModifyRecordZonesOperation(recordZonesToSave: [customZone], recordZoneIDsToDelete: [])
+            createZoneOperation.modifyRecordZonesCompletionBlock = { _, _, error in
+                if let error {
+                    print("Error creating custom zone: \(error.localizedDescription)")
+                } else {
+                    UserDefaultsManager.shared.createdCustomZone = true
+                }
+                createZoneGroup.leave()
+            }
+            createZoneOperation.qualityOfService = .userInitiated
+            privateCloudDataBase.add(createZoneOperation)
+        }
+    }
+    
+    func subscribingToChangeNotifications() {
+        if !UserDefaultsManager.shared.subscribedToPrivateChanges {
+            let subscription = CKDatabaseSubscription(subscriptionID: privateSubscriptionID)
+            let notificationInfo = CKSubscription.NotificationInfo()
+            notificationInfo.shouldSendContentAvailable = true
+            subscription.notificationInfo = notificationInfo
+            
+            let modifySubscriptionsOperation = CKModifySubscriptionsOperation(subscriptionsToSave: [subscription],
+                                                                              subscriptionIDsToDelete: [])
+            modifySubscriptionsOperation.qualityOfService = .utility
+            modifySubscriptionsOperation.modifySubscriptionsCompletionBlock = { _, _, error in
+                if let error {
+                    print("Error creating subscription to private database: \(error.localizedDescription)")
+                } else {
+                    UserDefaultsManager.shared.subscribedToPrivateChanges = true
+                }
+            }
+            privateCloudDataBase.add(modifySubscriptionsOperation)
+        }
+    }
+    
+    func fetchChanges() {
+        var changedZoneIDs: [CKRecordZone.ID] = []
+        var serverChangeToken = getToken(changeTokenKey: UserDefaultsManager.shared.databaseChangeTokenKey)
+        let databaseOperation = CKFetchDatabaseChangesOperation(previousServerChangeToken: serverChangeToken)
+        
+        databaseOperation.recordZoneWithIDChangedBlock = { zoneID in
+            changedZoneIDs.append(zoneID)
+        }
+        
+        databaseOperation.changeTokenUpdatedBlock = { token in
+            let changeTokenData = try? NSKeyedArchiver.archivedData(withRootObject: token, requiringSecureCoding: true)
+            UserDefaultsManager.shared.databaseChangeTokenKey = changeTokenData
+        }
+        
+        databaseOperation.fetchDatabaseChangesCompletionBlock = { token, _, error in
+            if let error = error {
+                print("Error during fetch database changes operation", error.localizedDescription)
+            }
+            if let token {
+                let changeTokenData = try? NSKeyedArchiver.archivedData(withRootObject: token, requiringSecureCoding: true)
+                UserDefaultsManager.shared.databaseChangeTokenKey = changeTokenData
+            }
+            if !changedZoneIDs.isEmpty {
+                self.fetchZoneChanges(zoneIDs: changedZoneIDs)
+            }
+        }
+        
+        databaseOperation.qualityOfService = .userInitiated
+        privateCloudDataBase.add(databaseOperation)
+    }
+    
+    func fetchZoneChanges(zoneIDs: [CKRecordZone.ID]) {
+        var serverChangeToken = getToken(changeTokenKey: UserDefaultsManager.shared.zoneChangeTokenKey)
+        var configurations = [CKRecordZone.ID: CKFetchRecordZoneChangesOperation.ZoneConfiguration]()
+        for zoneID in zoneIDs {
+            let options = CKFetchRecordZoneChangesOperation.ZoneConfiguration()
+            options.previousServerChangeToken = serverChangeToken
+            configurations[zoneID] = options
+        }
+
+        let zoneOperation = CKFetchRecordZoneChangesOperation(recordZoneIDs: zoneIDs,
+                                                              configurationsByRecordZoneID: configurations)
+        
+        zoneOperation.recordChangedBlock = { record in
+            self.updateData(by: record)
+        }
+        
+        zoneOperation.recordWithIDWasDeletedBlock = { recordId, recordType in
+            self.deleteData(recordId: recordId, recordType: recordType)
+        }
+        
+        zoneOperation.recordZoneChangeTokensUpdatedBlock = { _, token, _ in
+            if let token {
+                let changeTokenData = try? NSKeyedArchiver.archivedData(withRootObject: token, requiringSecureCoding: true)
+                UserDefaultsManager.shared.zoneChangeTokenKey = changeTokenData
+            }
+        }
+        
+        zoneOperation.recordZoneFetchCompletionBlock = { (_, changeToken, _, _, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            if let changeToken {
+                let changeTokenData = try? NSKeyedArchiver.archivedData(withRootObject: changeToken, requiringSecureCoding: true)
+                UserDefaultsManager.shared.zoneChangeTokenKey = changeTokenData
+            }
+        }
+        
+        zoneOperation.fetchRecordZoneChangesCompletionBlock = { error in
+            if let error {
+                print(error.localizedDescription)
+            }
+        }
+        zoneOperation.qualityOfService = .userInitiated
+        privateCloudDataBase.add(zoneOperation)
+    }
+    
+    func getICloudStatus(completion: @escaping ((CKAccountStatus) -> Void)) {
         CKContainer.default().accountStatus { status, error in
             if let error {
                 print(error.localizedDescription)
@@ -40,7 +175,7 @@ final class CloudManager {
         }
     }
     
-    static func saveCloudData(recipe: Recipe) {
+    func saveCloudData(recipe: Recipe) {
         guard UserDefaultsManager.shared.isICloudDataBackupOn else {
             return
         }
@@ -48,7 +183,7 @@ final class CloudManager {
         let image = prepareImageToSaveToCloud(name: recipe.id.asString,
                                               imageData: recipe.localImage)
         if recipe.recordId.isEmpty {
-            var record = CKRecord(recordType: RecordType.recipe.rawValue)
+            var record = CKRecord(recordType: RecordType.recipe.rawValue, recordID: CKRecord.ID(zoneID: zoneID))
             record = fillInRecord(record: record, recipe: recipe, asset: image.asset)
 
             save(record: record, imageUrl: image.url) { recordID in
@@ -59,14 +194,14 @@ final class CloudManager {
             return
         }
         
-        let recordID = CKRecord.ID(recordName: recipe.recordId)
+        let recordID = CKRecord.ID(recordName: recipe.recordId, zoneID: zoneID)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
                 print(error.localizedDescription)
                 return
             }
             if var record {
-                record = fillInRecord(record: record, recipe: recipe, asset: image.asset)
+                record = self.fillInRecord(record: record, recipe: recipe, asset: image.asset)
                 DispatchQueue.main.async {
                     self.save(record: record, imageUrl: image.url) { _ in }
                 }
@@ -74,7 +209,7 @@ final class CloudManager {
         }
     }
     
-    private static func fillInRecord(record: CKRecord, recipe: Recipe, asset: CKAsset?) -> CKRecord {
+    func fillInRecord(record: CKRecord, recipe: Recipe, asset: CKAsset?) -> CKRecord {
         let record = record
         record.setValue(recipe.id, forKey: "id")
         record.setValue(recipe.title, forKey: "title")
@@ -102,7 +237,7 @@ final class CloudManager {
         return record
     }
     
-    static func saveCloudData(collectionModel: CollectionModel) {
+    func saveCloudData(collectionModel: CollectionModel) {
         guard UserDefaultsManager.shared.isICloudDataBackupOn else {
             return
         }
@@ -110,7 +245,7 @@ final class CloudManager {
         let image = prepareImageToSaveToCloud(name: collectionModel.id.asString,
                                               imageData: collectionModel.localImage)
         if collectionModel.recordId.isEmpty {
-            var record = CKRecord(recordType: RecordType.collectionModel.rawValue)
+            var record = CKRecord(recordType: RecordType.collectionModel.rawValue, recordID: CKRecord.ID(zoneID: zoneID))
             record = fillInRecord(record: record, collectionModel: collectionModel, asset: image.asset)
             
             save(record: record, imageUrl: image.url) { recordID in
@@ -121,14 +256,14 @@ final class CloudManager {
             return
         }
         
-        let recordID = CKRecord.ID(recordName: collectionModel.recordId)
+        let recordID = CKRecord.ID(recordName: collectionModel.recordId, zoneID: zoneID)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
                 print(error.localizedDescription)
                 return
             }
             if var record {
-                record = fillInRecord(record: record, collectionModel: collectionModel, asset: image.asset)
+                record = self.fillInRecord(record: record, collectionModel: collectionModel, asset: image.asset)
                 DispatchQueue.main.async {
                     self.save(record: record, imageUrl: image.url) { _ in }
                 }
@@ -136,7 +271,7 @@ final class CloudManager {
         }
     }
     
-    private static func fillInRecord(record: CKRecord, collectionModel: CollectionModel, asset: CKAsset?) -> CKRecord {
+    private func fillInRecord(record: CKRecord, collectionModel: CollectionModel, asset: CKAsset?) -> CKRecord {
         let record = record
         record.setValue(collectionModel.id, forKey: "id")
         record.setValue(collectionModel.index, forKey: "index")
@@ -150,8 +285,8 @@ final class CloudManager {
     }
     
     // swiftlint:disable:next function_body_length
-    static func fetchDataFromCloud(recordType: RecordType, sortKey: String, desiredKeys: [String],
-                                   completion: @escaping ((Result<CKRecord, Error>) -> Void)) {
+    func fetchDataFromCloud(recordType: RecordType, sortKey: String, desiredKeys: [String]? = nil,
+                            completion: @escaping ((Result<CKRecord, Error>) -> Void)) {
         guard UserDefaultsManager.shared.isICloudDataBackupOn else {
             return
         }
@@ -159,6 +294,7 @@ final class CloudManager {
         query.sortDescriptors = [NSSortDescriptor(key: sortKey, ascending: true)]
         
         let queryOperation = CKQueryOperation(query: query)
+        queryOperation.zoneID = zoneID
         queryOperation.desiredKeys = desiredKeys
         queryOperation.resultsLimit = 10
         queryOperation.queuePriority = .veryHigh
@@ -188,7 +324,7 @@ final class CloudManager {
                     }
                     
                     secondQueryOperation.queryCompletionBlock = queryOperation.queryCompletionBlock
-                    privateCloudDataBase.add(secondQueryOperation)
+                    self.privateCloudDataBase.add(secondQueryOperation)
                 }
             }
         } else {
@@ -207,15 +343,15 @@ final class CloudManager {
                 }
                 
                 secondQueryOperation.queryCompletionBlock = queryOperation.queryCompletionBlock
-                privateCloudDataBase.add(secondQueryOperation)
+                self.privateCloudDataBase.add(secondQueryOperation)
             }
         }
         
         privateCloudDataBase.add(queryOperation)
     }
     
-    static func save(record: CKRecord, imageUrl: URL? = nil,
-                     completion: @escaping ((String) -> Void)) {
+    func save(record: CKRecord, imageUrl: URL? = nil,
+              completion: @escaping ((String) -> Void)) {
         privateCloudDataBase.save(record) { record, error in
             if let error {
                 print(error.localizedDescription)
@@ -224,11 +360,11 @@ final class CloudManager {
             if let record {
                 completion(record.recordID.recordName)
             }
-            deleteTempImage(imageUrl: imageUrl)
+            self.deleteTempImage(imageUrl: imageUrl)
         }
     }
     
-    static func delete(recordType: RecordType, recordID: String) {
+    func delete(recordType: RecordType, recordID: String) {
         guard UserDefaultsManager.shared.isICloudDataBackupOn else {
             return
         }
@@ -237,12 +373,13 @@ final class CloudManager {
         }
         let query = CKQuery(recordType: recordType.rawValue, predicate: NSPredicate(value: true))
         let queryOperation = CKQueryOperation(query: query)
+        queryOperation.zoneID = zoneID
         queryOperation.desiredKeys = ["recordId"]
         queryOperation.queuePriority = .veryHigh
         
         queryOperation.recordFetchedBlock = { record in
             if record.recordID.recordName == recordID {
-                privateCloudDataBase.delete(withRecordID: record.recordID, completionHandler: { (_, error) in
+                self.privateCloudDataBase.delete(withRecordID: record.recordID, completionHandler: { (_, error) in
                     if let error {
                         print(error.localizedDescription)
                         return
@@ -261,7 +398,7 @@ final class CloudManager {
         privateCloudDataBase.add(queryOperation)
     }
     
-    static func prepareImageToSaveToCloud(name: String, imageData: Data?) -> (asset: CKAsset?, url: URL?) {
+    func prepareImageToSaveToCloud(name: String, imageData: Data?) -> (asset: CKAsset?, url: URL?) {
         guard let imageData else {
             return (nil, nil)
         }
@@ -283,7 +420,7 @@ final class CloudManager {
         return (imageAsset, imageUrl)
     }
     
-    static func deleteTempImage(imageUrl: URL?) {
+    func deleteTempImage(imageUrl: URL?) {
         guard let imageUrl else {
             return
         }
@@ -294,12 +431,21 @@ final class CloudManager {
         }
     }
     
-    static func getImageData(image: Any?) -> Data? {
+    func getImageData(image: Any?) -> Data? {
         guard let imageAsset = image as? CKAsset,
               let url = imageAsset.fileURL,
               let imageData = try? Data(contentsOf: url) else {
             return nil
         }
         return imageData
+    }
+    
+    private func getToken(changeTokenKey: Data?) -> CKServerChangeToken? {
+        var serverChangeToken: CKServerChangeToken?
+        let changeTokenData = changeTokenKey
+        if let changeTokenData {
+            serverChangeToken = try? NSKeyedUnarchiver.unarchivedObject(ofClass: CKServerChangeToken.self, from: changeTokenData)
+        }
+        return serverChangeToken
     }
 }

@@ -133,12 +133,13 @@ class SettingsViewModel {
         AmplitudeManager.shared.logEvent(.iCloudSettingsOnOff, properties: [.status: value ? .valueOn : .off])
         guard value else { return }
         
-        CloudManager.getICloudStatus { [weak self] status in
+        CloudManager.shared.getICloudStatus { [weak self] status in
             if status == .available {
                 UserDefaultsManager.shared.isICloudDataBackupOn = true
                 completion?()
                 DispatchQueue.main.async {
-                    CloudManager.saveCloudAllData()
+                    CloudManager.shared.enable()
+                    CloudManager.shared.saveCloudAllData()
                 }
                 return
             }
