@@ -532,7 +532,8 @@
 "iCloud Data Backup"            = "Pезервное копирование данных iCloud";
 "couldNotDetermine"             = "Ошибка при получении статуса учетной записи iCloud пользователя. Попробуйте позже.";
 "restricted"                    = "Система отказывает в доступе к учетной записи iCloud пользователя";
-"noAccount"                     = "Устройство не имеет учетной записи iCloud";
+"noAccountTitle"                = "Включите iCloud";
+"noAccount"                     = "Перейдите в «Настройки» > «iCloud»\nНайдите в списке приложений Grocery List и включите";
 "temporarilyUnavailable"        = "Учетная запись iCloud пользователя временно недоступна";
 
 // Updated Paywall

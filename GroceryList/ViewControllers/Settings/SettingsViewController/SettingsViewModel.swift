@@ -138,7 +138,9 @@ class SettingsViewModel {
                 UserDefaultsManager.shared.isICloudDataBackupOn = true
                 completion?()
                 DispatchQueue.main.async {
-                    CloudManager.shared.enable()
+                    let enableGroup = DispatchGroup()
+                    CloudManager.shared.enable(enableGroup: enableGroup)
+                    enableGroup.wait()
                     CloudManager.shared.saveCloudAllData()
                 }
                 return
@@ -146,21 +148,23 @@ class SettingsViewModel {
             
             UserDefaultsManager.shared.isICloudDataBackupOn = false
             completion?()
-            var alertTitle = "Error"
+            var alertTitle = ""
+            var alertMessage = "Error"
             switch status {
             case .couldNotDetermine:
-                alertTitle = R.string.localizable.couldNotDetermine()
+                alertMessage = R.string.localizable.couldNotDetermine()
             case .restricted:
-                alertTitle = R.string.localizable.restricted()
+                alertMessage = R.string.localizable.restricted()
             case .noAccount:
-                alertTitle = R.string.localizable.noAccount()
+                alertTitle = R.string.localizable.noAccountTitle()
+                alertMessage = R.string.localizable.noAccount()
             case .temporarilyUnavailable:
-                alertTitle = R.string.localizable.temporarilyUnavailable()
+                alertMessage = R.string.localizable.temporarilyUnavailable()
             default:
                 break
             }
             
-            self?.router?.showAlertVC(title: "", message: alertTitle)
+            self?.router?.showAlertVC(title: alertTitle, message: alertMessage)
         }
     }
     

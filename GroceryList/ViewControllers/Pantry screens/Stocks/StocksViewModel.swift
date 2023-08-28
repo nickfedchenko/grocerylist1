@@ -39,6 +39,8 @@ final class StocksViewModel {
         
         NotificationCenter.default.addObserver(self, selector: #selector(sharedPantryDownloaded),
                                                name: .sharedPantryDownloadedAndSaved, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadStorageData),
+                                               name: .cloudStock, object: nil)
     }
     
     var necessaryOffsetToLink: Double {
@@ -289,6 +291,7 @@ final class StocksViewModel {
         delegate?.updateUIEditTabBar()
     }
     
+    @objc
     func reloadStorageData() {
         dataSource.updateStocks()
     }

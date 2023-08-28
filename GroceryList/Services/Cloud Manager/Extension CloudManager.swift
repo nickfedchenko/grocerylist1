@@ -8,161 +8,10 @@
 import CloudKit
 import Foundation
 
-// MARK: fetch Data
-extension CloudManager {
-    func fetchGroceryListFromCloud() {
-        let desiredKeys = ["recordId", "id", "sharedId", "dateOfCreation", "name", "color",
-                           "isFavorite", "isShared"]
-        fetchDataFromCloud(recordType: .groceryListsModel, sortKey: "dateOfCreation",
-                           desiredKeys: desiredKeys) { result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let record):
-                if let groceryList = GroceryListsModel(record: record) {
-                    CoreDataManager.shared.saveList(list: groceryList)
-                    NotificationCenter.default.post(name: .cloudListDownloadedAndSaved, object: nil)
-                }
-            }
-        }
-    }
-    
-    func fetchProductFromCloud() {
-        let desiredKeys = ["recordId", "id", "listId", "dateOfCreation", "description", "category",
-                           "fromRecipeTitle", "unitId", "isFavorite", "isPurchased"]
-        fetchDataFromCloud(recordType: .product, sortKey: "dateOfCreation",
-                           desiredKeys: desiredKeys) { result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let record):
-                let imageData = self.getImageData(image: record.value(forKey: "imageData"))
-                if let product = Product(record: record, imageData: imageData) {
-                    CoreDataManager.shared.createProduct(product: product)
-                    NotificationCenter.default.post(name: .cloudProductsDownloadedAndSaved, object: nil)
-                }
-            }
-        }
-    }
-    
-    func fetchCategoryFromCloud() {
-        let desiredKeys = ["recordId", "ind", "name"]
-        fetchDataFromCloud(recordType: .categoryModel, sortKey: "ind",
-                           desiredKeys: desiredKeys) { result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let record):
-                if let category = CategoryModel(record: record) {
-                    CoreDataManager.shared.saveCategory(category: category)
-                }
-            }
-        }
-    }
-    
-    func fetchStoreFromCloud() {
-        let desiredKeys = ["recordId", "id", "title", "createdAt"]
-        fetchDataFromCloud(recordType: .store, sortKey: "createdAt",
-                           desiredKeys: desiredKeys) { result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let record):
-                if let store = Store(record: record) {
-                    CoreDataManager.shared.saveStore(store)
-                }
-            }
-        }
-    }
-    
-    func fetchPantryFromCloud() {
-        let desiredKeys = ["recordId", "id", "name", "index", "color", "dateOfCreation",
-                           "sharedId", "isShared", "isSharedListOwner"]
-        fetchDataFromCloud(recordType: .pantryModel, sortKey: "index",
-                           desiredKeys: desiredKeys) { result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let record):
-                let imageData = self.getImageData(image: record.value(forKey: "icon"))
-                if let pantry = PantryModel(record: record, imageData: imageData) {
-                    CoreDataManager.shared.savePantry(pantry: [pantry])
-                }
-            }
-        }
-    }
-    
-    func fetchStockFromCloud() {
-        let desiredKeys = ["recordId", "id", "pantryId", "name", "index", "description", "category", "dateOfCreation"]
-        fetchDataFromCloud(recordType: .stock, sortKey: "index",
-                           desiredKeys: desiredKeys) { result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let record):
-                let imageData = self.getImageData(image: record.value(forKey: "imageData"))
-                if let stock = Stock(record: record, imageData: imageData) {
-                    CoreDataManager.shared.saveStock(stock: [stock], for: stock.pantryId.uuidString)
-                }
-            }
-        }
-    }
-    
-    func fetchCollectionFromCloud() {
-        let desiredKeys = ["recordId", "id", "title", "index", "color", "isDefault", "isDeleteDefault"]
-        fetchDataFromCloud(recordType: .collectionModel, sortKey: "index",
-                           desiredKeys: desiredKeys) { result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let record):
-                let imageData = self.getImageData(image: record.value(forKey: "localImage"))
-                if let collection = CollectionModel(record: record, imageData: imageData) {
-                    CoreDataManager.shared.saveCollection(collections: [collection])
-                }
-            }
-        }
-    }
-    
-    func fetchRecipeFromCloud() {
-        let desiredKeys = ["recordId", "id", "title", "photo", "description", "cookingTime",
-                           "values", "createdAt"]
-        fetchDataFromCloud(recordType: .recipe, sortKey: "createdAt",
-                           desiredKeys: desiredKeys) { result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let record):
-                let imageData = self.getImageData(image: record.value(forKey: "icon"))
-                if let recipe = Recipe(record: record, imageData: imageData) {
-                    CoreDataManager.shared.saveRecipes(recipes: [recipe])
-                }
-            }
-        }
-    }
-    
-    func fetchSettingsFromCloud() {
-        fetchDataFromCloud(recordType: .settings, sortKey: "") { result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let record):
-                UserDefaultsManager.shared.isMetricSystem = record.value(forKey: "isMetricSystem") as? Bool ?? false
-                UserDefaultsManager.shared.isHapticOn = record.value(forKey: "isHapticOn") as? Bool ?? false
-                UserDefaultsManager.shared.isShowImage = record.value(forKey: "isShowImage") as? Bool ?? false
-                UserDefaultsManager.shared.isActiveAutoCategory = record.value(forKey: "isActiveAutoCategory") as? Bool ?? false
-                UserDefaultsManager.shared.recipeIsFolderView = record.value(forKey: "recipeIsFolderView") as? Bool ?? false
-                UserDefaultsManager.shared.recipeIsTableView = record.value(forKey: "recipeIsTableView") as? Bool ?? false
-                UserDefaultsManager.shared.userTokens = record.value(forKey: "userTokens") as? [String] ?? []
-                UserDefaultsManager.shared.pantryUserTokens = record.value(forKey: "pantryUserTokens") as? [String] ?? []
-                UserDefaultsManager.shared.favoritesRecipeIds = record.value(forKey: "favoritesRecipeIds") as? [Int] ?? []
-            }
-        }
-    }
-}
-    
 // MARK: save/update Data
 extension CloudManager {
+    // swiftlint:disable: cyclomatic_complexity
+    // swiftlint:disable:next function_body_length
     func updateData(by record: CKRecord) {
         guard let recordType = RecordType(rawValue: record.recordType) else {
             return
@@ -172,11 +21,13 @@ extension CloudManager {
         case .groceryListsModel:
             if let groceryList = GroceryListsModel(record: record) {
                 CoreDataManager.shared.saveList(list: groceryList)
+                NotificationCenter.default.post(name: .cloudList, object: nil)
             }
         case .product:
             let imageData = self.getImageData(image: record.value(forKey: "imageData"))
             if let product = Product(record: record, imageData: imageData) {
                 CoreDataManager.shared.createProduct(product: product)
+                NotificationCenter.default.post(name: .cloudProducts, object: nil)
             }
         case .categoryModel:
             if let category = CategoryModel(record: record) {
@@ -190,21 +41,25 @@ extension CloudManager {
             let imageData = self.getImageData(image: record.value(forKey: "icon"))
             if let pantry = PantryModel(record: record, imageData: imageData) {
                 CoreDataManager.shared.savePantry(pantry: [pantry])
+                NotificationCenter.default.post(name: .cloudPantry, object: nil)
             }
         case .stock:
             let imageData = self.getImageData(image: record.value(forKey: "imageData"))
             if let stock = Stock(record: record, imageData: imageData) {
                 CoreDataManager.shared.saveStock(stock: [stock], for: stock.pantryId.uuidString)
+                NotificationCenter.default.post(name: .cloudStock, object: nil)
             }
         case .collectionModel:
             let imageData = self.getImageData(image: record.value(forKey: "localImage"))
             if let collection = CollectionModel(record: record, imageData: imageData) {
                 CoreDataManager.shared.saveCollection(collections: [collection])
+                NotificationCenter.default.post(name: .cloudCollection, object: nil)
             }
         case .recipe:
             let imageData = self.getImageData(image: record.value(forKey: "icon"))
             if let recipe = Recipe(record: record, imageData: imageData) {
                 CoreDataManager.shared.saveRecipes(recipes: [recipe])
+                NotificationCenter.default.post(name: .cloudRecipe, object: nil)
             }
         case .settings:
             UserDefaultsManager.shared.isMetricSystem = record.value(forKey: "isMetricSystem") as? Bool ?? false
@@ -253,9 +108,14 @@ extension CloudManager {
         guard UserDefaultsManager.shared.isICloudDataBackupOn else {
             return
         }
+        var groceryList = groceryList
+        if let dbList = CoreDataManager.shared.getList(list: groceryList.id.uuidString),
+           let list = GroceryListsModel(from: dbList) {
+            groceryList = list
+        }
         
         if groceryList.recordId.isEmpty {
-            var record = CKRecord(recordType: RecordType.groceryListsModel.rawValue)
+            var record = CKRecord(recordType: RecordType.groceryListsModel.rawValue, recordID: CKRecord.ID(zoneID: zoneID))
             record = fillInRecord(record: record, groceryList: groceryList)
             
             save(record: record) { recordID in
@@ -269,7 +129,7 @@ extension CloudManager {
         let recordID = CKRecord.ID(recordName: groceryList.recordId, zoneID: zoneID)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
-                print(error.localizedDescription)
+                print("[CloudKit]:", error.localizedDescription)
                 return
             }
             if var record {
@@ -326,7 +186,7 @@ extension CloudManager {
         let recordID = CKRecord.ID(recordName: product.recordId, zoneID: zoneID)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
-                print(error.localizedDescription)
+                print("[CloudKit]:", error.localizedDescription)
                 return
             }
             if var record {
@@ -380,7 +240,7 @@ extension CloudManager {
         let recordID = CKRecord.ID(recordName: category.recordId, zoneID: zoneID)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
-                print(error.localizedDescription)
+                print("[CloudKit]:", error.localizedDescription)
                 return
             }
             if var record {
@@ -420,7 +280,7 @@ extension CloudManager {
         let recordID = CKRecord.ID(recordName: store.recordId, zoneID: zoneID)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
-                print(error.localizedDescription)
+                print("[CloudKit]:", error.localizedDescription)
                 return
             }
             if var record {
@@ -463,7 +323,7 @@ extension CloudManager {
         let recordID = CKRecord.ID(recordName: pantryModel.recordId, zoneID: zoneID)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
-                print(error.localizedDescription)
+                print("[CloudKit]:", error.localizedDescription)
                 return
             }
             if var record {
@@ -514,7 +374,7 @@ extension CloudManager {
         let recordID = CKRecord.ID(recordName: stock.recordId, zoneID: zoneID)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
-                print(error.localizedDescription)
+                print("[CloudKit]:", error.localizedDescription)
                 return
             }
             if var record {
@@ -550,6 +410,115 @@ extension CloudManager {
         return record
     }
 
+    func saveCloudData(recipe: Recipe) {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
+
+        let image = prepareImageToSaveToCloud(name: recipe.id.asString,
+                                              imageData: recipe.localImage)
+        if recipe.recordId.isEmpty {
+            var record = CKRecord(recordType: RecordType.recipe.rawValue, recordID: CKRecord.ID(zoneID: zoneID))
+            record = fillInRecord(record: record, recipe: recipe, asset: image.asset)
+
+            save(record: record, imageUrl: image.url) { recordID in
+                var updateRecipe = recipe
+                updateRecipe.recordId = recordID
+                CoreDataManager.shared.saveRecipes(recipes: [updateRecipe])
+            }
+            return
+        }
+        
+        let recordID = CKRecord.ID(recordName: recipe.recordId, zoneID: zoneID)
+        privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
+            if let error {
+                print("[CloudKit]:", error.localizedDescription)
+                return
+            }
+            if var record {
+                record = self.fillInRecord(record: record, recipe: recipe, asset: image.asset)
+                DispatchQueue.main.async {
+                    self.save(record: record, imageUrl: image.url) { _ in }
+                }
+            }
+        }
+    }
+    
+    func fillInRecord(record: CKRecord, recipe: Recipe, asset: CKAsset?) -> CKRecord {
+        let record = record
+        record.setValue(recipe.id, forKey: "id")
+        record.setValue(recipe.title, forKey: "title")
+        record.setValue(asset, forKey: "localImage")
+        record.setValue(recipe.photo, forKey: "photo")
+        record.setValue(recipe.description, forKey: "description")
+        record.setValue(recipe.cookingTime, forKey: "cookingTime")
+        record.setValue(recipe.totalServings, forKey: "totalServings")
+        record.setValue(recipe.dishWeight, forKey: "dishWeight")
+        record.setValue(recipe.dishWeightType, forKey: "dishWeightType")
+        record.setValue(try? JSONEncoder().encode(recipe.values), forKey: "values")
+        record.setValue(recipe.countries, forKey: "countries")
+        record.setValue(recipe.instructions, forKey: "instructions")
+//        record.setValue(try? JSONEncoder().encode(recipe.ingredients), forKey: "ingredients")
+        record.setValue(try? JSONEncoder().encode(recipe.eatingTags), forKey: "eatingTags")
+        record.setValue(try? JSONEncoder().encode(recipe.dishTypeTags), forKey: "dishTypeTags")
+        record.setValue(try? JSONEncoder().encode(recipe.processingTypeTags), forKey: "processingTypeTags")
+        record.setValue(try? JSONEncoder().encode(recipe.additionalTags), forKey: "additionalTags")
+        record.setValue(try? JSONEncoder().encode(recipe.dietTags), forKey: "dietTags")
+        record.setValue(try? JSONEncoder().encode(recipe.exceptionTags), forKey: "exceptionTags")
+        record.setValue(recipe.isDraft, forKey: "isDraft")
+        record.setValue(recipe.createdAt, forKey: "createdAt")
+        record.setValue(recipe.isDefaultRecipe, forKey: "isDefaultRecipe")
+        record.setValue(recipe.sourceUrl, forKey: "sourceUrl")
+        return record
+    }
+    
+    func saveCloudData(collectionModel: CollectionModel) {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
+
+        let image = prepareImageToSaveToCloud(name: collectionModel.id.asString,
+                                              imageData: collectionModel.localImage)
+        if collectionModel.recordId.isEmpty {
+            var record = CKRecord(recordType: RecordType.collectionModel.rawValue, recordID: CKRecord.ID(zoneID: zoneID))
+            record = fillInRecord(record: record, collectionModel: collectionModel, asset: image.asset)
+            
+            save(record: record, imageUrl: image.url) { recordID in
+                var updateCollectionModel = collectionModel
+                updateCollectionModel.recordId = recordID
+                CoreDataManager.shared.saveCollection(collections: [updateCollectionModel])
+            }
+            return
+        }
+        
+        let recordID = CKRecord.ID(recordName: collectionModel.recordId, zoneID: zoneID)
+        privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
+            if let error {
+                print("[CloudKit]:", error.localizedDescription)
+                return
+            }
+            if var record {
+                record = self.fillInRecord(record: record, collectionModel: collectionModel, asset: image.asset)
+                DispatchQueue.main.async {
+                    self.save(record: record, imageUrl: image.url) { _ in }
+                }
+            }
+        }
+    }
+    
+    private func fillInRecord(record: CKRecord, collectionModel: CollectionModel, asset: CKAsset?) -> CKRecord {
+        let record = record
+        record.setValue(collectionModel.id, forKey: "id")
+        record.setValue(collectionModel.index, forKey: "index")
+        record.setValue(collectionModel.title, forKey: "title")
+        record.setValue(collectionModel.color, forKey: "color")
+        record.setValue(collectionModel.isDefault, forKey: "isDefault")
+        record.setValue(asset, forKey: "localImage")
+        record.setValue(collectionModel.dishes, forKey: "dishes")
+        record.setValue(collectionModel.isDeleteDefault, forKey: "isDeleteDefault")
+        return record
+    }
+    
     func saveCloudSettings() {
         guard UserDefaultsManager.shared.isICloudDataBackupOn else {
             return
@@ -568,7 +537,7 @@ extension CloudManager {
         let recordID = CKRecord.ID(recordName: UserDefaultsManager.shared.settingsRecordId, zoneID: zoneID)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
-                print(error.localizedDescription)
+                print("[CloudKit]:", error.localizedDescription)
                 return
             }
             if var record {

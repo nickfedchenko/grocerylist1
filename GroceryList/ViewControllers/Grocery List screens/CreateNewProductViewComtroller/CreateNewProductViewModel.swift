@@ -241,6 +241,7 @@ class CreateNewProductViewModel {
         
         CoreDataManager.shared.createProduct(product: product)
         CloudManager.shared.saveCloudData(product: product)
+        CloudManager.shared.saveCloudData(groceryList: model)
         valueChangedCallback?(product)
         
         idsOfChangedProducts.insert(product.id)

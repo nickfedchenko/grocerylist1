@@ -5,9 +5,9 @@
 //  Created by Хандымаа Чульдум on 19.05.2023.
 //
 
+import CloudKit
 import Kingfisher
 import UIKit
-import CloudKit
 
 class ListViewModel {
     
@@ -35,7 +35,6 @@ class ListViewModel {
 
         addObserver()
         downloadMySharedLists()
-        downloadCloudLists()
     }
 
     func cellTapped(with model: GroceryListsModel) {
@@ -157,10 +156,9 @@ class ListViewModel {
                                                name: .sharedListLoading, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateLists),
-                                               name: .cloudListDownloadedAndSaved, object: nil)
-        
+                                               name: .cloudList, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateLists),
-                                               name: .cloudProductsDownloadedAndSaved, object: nil)
+                                               name: .cloudProducts, object: nil)
     }
     
     // MARK: - Shared List Functions
@@ -187,14 +185,10 @@ class ListViewModel {
     }
     
     // MARK: - Cloud Functions
-    
-    private func downloadCloudLists() {
-        CloudManager.shared.fetchGroceryListFromCloud()
-        CloudManager.shared.fetchProductFromCloud()
-    }
-    
     @objc
     private func updateLists() {
-        reloadDataFromStorage()
+        DispatchQueue.main.async {
+            self.reloadDataFromStorage()
+        }
     }
 }

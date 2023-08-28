@@ -115,7 +115,6 @@ extension CoreDataManager {
     }
     
     // MARK: - NetworkProducts
-    
     func getAllNetworkProducts() -> [DBNewNetProduct]? {
         let fetchRequest: NSFetchRequest<DBNewNetProduct> = DBNewNetProduct.fetchRequest()
         guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {

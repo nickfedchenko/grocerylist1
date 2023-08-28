@@ -151,6 +151,7 @@ final class CreateNewRecipeStepOneViewModel {
                 dishes.insert(draft.id)
                 draftsCollection.dishes = Array(dishes)
                 CoreDataManager.shared.saveCollection(collections: [draftsCollection])
+                CloudManager.shared.saveCloudData(collectionModel: draftsCollection)
             }
             savedToDrafts(title: title, description: description)
             return

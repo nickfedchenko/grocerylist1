@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 470 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 471 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -2999,12 +2999,19 @@ struct _R {
       /// Locales: en, ru, fr, de
       var move: RswiftResources.StringResource { .init(key: "move", tableName: "Localizable", source: source, developmentValue: "Move", comment: nil) }
 
-      /// en translation: The device doesn’t have an iCloud account.
+      /// en translation: Go to Settings > iCloud Find Grocery List in the list of applications and turn on
       ///
       /// Key: noAccount
       ///
       /// Locales: en, ru, fr, de
-      var noAccount: RswiftResources.StringResource { .init(key: "noAccount", tableName: "Localizable", source: source, developmentValue: "The device doesn’t have an iCloud account.", comment: nil) }
+      var noAccount: RswiftResources.StringResource { .init(key: "noAccount", tableName: "Localizable", source: source, developmentValue: "Go to Settings > iCloud\nFind Grocery List in the list of applications and turn on", comment: nil) }
+
+      /// en translation: Turn on iCloud
+      ///
+      /// Key: noAccountTitle
+      ///
+      /// Locales: en, ru, fr, de
+      var noAccountTitle: RswiftResources.StringResource { .init(key: "noAccountTitle", tableName: "Localizable", source: source, developmentValue: "Turn on iCloud", comment: nil) }
 
       /// en translation: Ok
       ///

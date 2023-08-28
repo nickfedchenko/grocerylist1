@@ -535,7 +535,8 @@
 "iCloud Data Backup"            = "iCloud Data Backup";
 "couldNotDetermine"             = "Error retrieving the status of the user's iCloud account. Try again later.";
 "restricted"                    = "The system denies access to the user’s iCloud account.";
-"noAccount"                     = "The device doesn’t have an iCloud account.";
+"noAccountTitle"                = "Turn on iCloud";
+"noAccount"                     = "Go to Settings > iCloud\nFind Grocery List in the list of applications and turn on";
 "temporarilyUnavailable"        = "The user’s iCloud account is temporarily unavailable.";
 
 

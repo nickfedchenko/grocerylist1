@@ -42,6 +42,7 @@ class CreateNewListViewModel {
         CoreDataManager.shared.saveList(list: list)
         CloudManager.shared.saveCloudData(groceryList: list)
         UserDefaultsManager.shared.coldStartState = 2
+        AmplitudeManager.shared.logEvent(.listCreate)
         
         copiedProducts.forEach({ saveCopiedProduct(product: $0, listId: list.id) })
         list.products = newSavedProducts

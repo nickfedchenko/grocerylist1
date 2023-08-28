@@ -170,6 +170,9 @@ final class CreateNewRecipeStepTwoViewModel {
             collections[index].dishes = Array(dishes)
         }
         CoreDataManager.shared.saveCollection(collections: collections)
+        collections.forEach { collectionModel in
+            CloudManager.shared.saveCloudData(collectionModel: collectionModel)
+        }
     }
 
     private func updateRecipe() {

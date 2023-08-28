@@ -330,6 +330,7 @@ class ProductsViewModel {
         dataSource.removeInStockInfo(product: product)
     }
     
+    @objc
     func reloadStorageData() {
         dataSource.createDataSourceArray()
     }
@@ -339,12 +340,10 @@ class ProductsViewModel {
     }
     
     private func addObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(sharedListDownloaded),
-            name: .sharedListDownloadedAndSaved,
-            object: nil
-        )
+        NotificationCenter.default.addObserver(self, selector: #selector(sharedListDownloaded),
+                                               name: .sharedListDownloadedAndSaved, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadStorageData),
+                                               name: .cloudProducts, object: nil)
     }
     
     @objc

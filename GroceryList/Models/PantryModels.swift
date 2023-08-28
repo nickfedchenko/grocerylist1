@@ -91,9 +91,10 @@ struct PantryModel: Hashable, Codable {
         name = record.value(forKey: "name") as? String ?? ""
         index = record.value(forKey: "index") as? Int ?? 0
         color = record.value(forKey: "color") as? Int ?? 0
+        icon = imageData
         dateOfCreation = record.value(forKey: "dateOfCreation") as? Date ?? Date()
         
-        let stockData = record.value(forKey: "store") as? Data ?? Data()
+        let stockData = record.value(forKey: "stock") as? Data ?? Data()
         let stockFromCloud = (try? JSONDecoder().decode([Stock].self, from: stockData))
         stock = stockFromCloud ?? []
         
@@ -155,6 +156,7 @@ struct Stock: Hashable, Codable {
          unitId: UnitSystem? = nil, isAvailability: Bool = true,
          isAutoRepeat: Bool = false, autoRepeat: AutoRepeatModel? = nil,
          isReminder: Bool = false, isUserImage: Bool = true) {
+        self.id = id
         self.index = index
         self.pantryId = pantryId
         self.name = name
