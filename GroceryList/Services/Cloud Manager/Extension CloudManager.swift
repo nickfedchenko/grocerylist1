@@ -16,24 +16,15 @@ extension CloudManager {
         }
         
         switch recordType {
-        case .groceryListsModel:
-            setupGroceryList(record: record)
-        case .product:
-            setupProduct(record: record)
-        case .categoryModel:
-            setupCategory(record: record)
-        case .store:
-            setupStore(record: record)
-        case .pantryModel:
-            setupPantry(record: record)
-        case .stock:
-            setupStock(record: record)
-        case .collectionModel:
-            setupCollection(record: record)
-        case .recipe:
-            setupRecipe(record: record)
-        case .settings:
-            setupSettings(record: record)
+        case .groceryListsModel:    setupGroceryList(record: record)
+        case .product:              setupProduct(record: record)
+        case .categoryModel:        setupCategory(record: record)
+        case .store:                setupStore(record: record)
+        case .pantryModel:          setupPantry(record: record)
+        case .stock:                setupStock(record: record)
+        case .collectionModel:      setupCollection(record: record)
+        case .recipe:               setupRecipe(record: record)
+        case .settings:             setupSettings(record: record)
         }
     }
     
@@ -45,7 +36,7 @@ extension CloudManager {
     }
     
     private func setupProduct(record: CKRecord) {
-        let imageData = self.getImageData(image: record.value(forKey: "imageData"))
+        let imageData = self.convertAssetToData(asset: record.value(forKey: "imageData"))
         if let product = Product(record: record, imageData: imageData) {
             CoreDataManager.shared.createProduct(product: product)
             NotificationCenter.default.post(name: .cloudProducts, object: nil)
@@ -65,7 +56,7 @@ extension CloudManager {
     }
     
     private func setupPantry(record: CKRecord) {
-        let imageData = self.getImageData(image: record.value(forKey: "icon"))
+        let imageData = self.convertAssetToData(asset: record.value(forKey: "icon"))
         if let pantry = PantryModel(record: record, imageData: imageData) {
             CoreDataManager.shared.savePantry(pantry: [pantry])
             NotificationCenter.default.post(name: .cloudPantry, object: nil)
@@ -73,7 +64,7 @@ extension CloudManager {
     }
     
     private func setupStock(record: CKRecord) {
-        let imageData = self.getImageData(image: record.value(forKey: "imageData"))
+        let imageData = self.convertAssetToData(asset: record.value(forKey: "imageData"))
         if let stock = Stock(record: record, imageData: imageData) {
             CoreDataManager.shared.saveStock(stock: [stock], for: stock.pantryId.uuidString)
             NotificationCenter.default.post(name: .cloudStock, object: nil)
@@ -81,7 +72,7 @@ extension CloudManager {
     }
     
     private func setupCollection(record: CKRecord) {
-        let imageData = self.getImageData(image: record.value(forKey: "localImage"))
+        let imageData = self.convertAssetToData(asset: record.value(forKey: "localImage"))
         if let collection = CollectionModel(record: record, imageData: imageData) {
             CoreDataManager.shared.saveCollection(collections: [collection])
             NotificationCenter.default.post(name: .cloudCollection, object: nil)
@@ -89,20 +80,21 @@ extension CloudManager {
     }
     
     private func setupRecipe(record: CKRecord) {
-        let imageData = self.getImageData(image: record.value(forKey: "icon"))
-        if let recipe = Recipe(record: record, imageData: imageData) {
+        let imageData = self.convertAssetToData(asset: record.value(forKey: "icon"))
+        let ingredients = self.convertAssetToData(asset: record.value(forKey: "ingredients"))
+        if let recipe = Recipe(record: record, imageData: imageData, ingredientsData: ingredients) {
             CoreDataManager.shared.saveRecipes(recipes: [recipe])
             NotificationCenter.default.post(name: .cloudRecipe, object: nil)
         }
     }
     
     private func setupSettings(record: CKRecord) {
-        UserDefaultsManager.shared.isMetricSystem = record.value(forKey: "isMetricSystem") as? Bool ?? false
-        UserDefaultsManager.shared.isHapticOn = record.value(forKey: "isHapticOn") as? Bool ?? false
-        UserDefaultsManager.shared.isShowImage = record.value(forKey: "isShowImage") as? Bool ?? false
-        UserDefaultsManager.shared.isActiveAutoCategory = record.value(forKey: "isActiveAutoCategory") as? Bool ?? false
-        UserDefaultsManager.shared.recipeIsFolderView = record.value(forKey: "recipeIsFolderView") as? Bool ?? false
-        UserDefaultsManager.shared.recipeIsTableView = record.value(forKey: "recipeIsTableView") as? Bool ?? false
+        UserDefaultsManager.shared.isMetricSystem = (record.value(forKey: "isMetricSystem") as? Int64 ?? 0).boolValue
+        UserDefaultsManager.shared.isHapticOn = (record.value(forKey: "isHapticOn") as? Int64 ?? 0).boolValue
+        UserDefaultsManager.shared.isShowImage = (record.value(forKey: "isShowImage") as? Int64 ?? 0).boolValue
+        UserDefaultsManager.shared.isActiveAutoCategory = (record.value(forKey: "isActiveAutoCategory") as? Int64 ?? 0).boolValue
+        UserDefaultsManager.shared.recipeIsFolderView = (record.value(forKey: "recipeIsFolderView") as? Int64 ?? 0).boolValue
+        UserDefaultsManager.shared.recipeIsTableView = (record.value(forKey: "recipeIsTableView") as? Int64 ?? 0).boolValue
         UserDefaultsManager.shared.userTokens = record.value(forKey: "userTokens") as? [String] ?? []
         UserDefaultsManager.shared.pantryUserTokens = record.value(forKey: "pantryUserTokens") as? [String] ?? []
         UserDefaultsManager.shared.favoritesRecipeIds = record.value(forKey: "favoritesRecipeIds") as? [Int] ?? []
@@ -170,7 +162,7 @@ extension CloudManager {
                 record = self.fillInRecord(record: record, groceryList: groceryList)
                 
                 DispatchQueue.main.async {
-                    self.save(record: record, imageUrl: nil) { _ in }
+                    self.save(record: record) { _ in }
                 }
             }
         }
@@ -203,13 +195,13 @@ extension CloudManager {
             return
         }
 
-        let image = prepareImageToSaveToCloud(name: product.id.uuidString,
-                                              imageData: product.imageData)
+        let image = convertDataToAsset(name: product.id.uuidString,
+                                              data: product.imageData)
         if product.recordId.isEmpty {
             var record = CKRecord(recordType: RecordType.product.rawValue, recordID: CKRecord.ID(zoneID: zoneID))
-            record = fillInRecord(record: record, product: product, asset: image.asset)
+            record = fillInRecord(record: record, product: product, asset: image)
             
-            save(record: record, imageUrl: image.url) { recordID in
+            save(record: record) { recordID in
                 var updateProduct = product
                 updateProduct.recordId = recordID
                 CoreDataManager.shared.createProduct(product: updateProduct)
@@ -224,10 +216,10 @@ extension CloudManager {
                 return
             }
             if var record {
-                record = self.fillInRecord(record: record, product: product, asset: image.asset)
+                record = self.fillInRecord(record: record, product: product, asset: image)
                 
                 DispatchQueue.main.async {
-                    self.save(record: record, imageUrl: image.url) { _ in }
+                    self.save(record: record) { _ in }
                 }
             }
         }
@@ -281,7 +273,7 @@ extension CloudManager {
                 record = self.fillInRecord(record: record, category: category)
                 
                 DispatchQueue.main.async {
-                    self.save(record: record, imageUrl: nil) { _ in }
+                    self.save(record: record) { _ in }
                 }
             }
         }
@@ -321,7 +313,7 @@ extension CloudManager {
                 record = self.fillInRecord(record: record, store: store)
                 
                 DispatchQueue.main.async {
-                    self.save(record: record, imageUrl: nil) { _ in }
+                    self.save(record: record) { _ in }
                 }
             }
         }
@@ -340,13 +332,18 @@ extension CloudManager {
             return
         }
 
-        let image = prepareImageToSaveToCloud(name: pantryModel.id.uuidString,
-                                              imageData: pantryModel.icon)
+        var pantryModel = pantryModel
+        if let dbPantry = CoreDataManager.shared.getPantry(id: pantryModel.id.uuidString) {
+            pantryModel = PantryModel(dbModel: dbPantry)
+        }
+        
+        let image = convertDataToAsset(name: pantryModel.id.uuidString,
+                                              data: pantryModel.icon)
         if pantryModel.recordId.isEmpty {
             var record = CKRecord(recordType: RecordType.pantryModel.rawValue, recordID: CKRecord.ID(zoneID: zoneID))
-            record = fillInRecord(record: record, pantryModel: pantryModel, asset: image.asset)
+            record = fillInRecord(record: record, pantryModel: pantryModel, asset: image)
             
-            save(record: record, imageUrl: image.url) { recordID in
+            save(record: record) { recordID in
                 var updatePantryModel = pantryModel
                 updatePantryModel.recordId = recordID
                 CoreDataManager.shared.savePantry(pantry: [updatePantryModel])
@@ -357,14 +354,14 @@ extension CloudManager {
         let recordID = CKRecord.ID(recordName: pantryModel.recordId, zoneID: zoneID)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
-                print("[CloudKit]:", error.localizedDescription)
+                print("[CloudKit]: ", error.localizedDescription)
                 return
             }
             if var record {
-                record = self.fillInRecord(record: record, pantryModel: pantryModel, asset: image.asset)
+                record = self.fillInRecord(record: record, pantryModel: pantryModel, asset: image)
                 
                 DispatchQueue.main.async {
-                    self.save(record: record, imageUrl: image.url) { _ in }
+                    self.save(record: record) { _ in }
                 }
             }
         }
@@ -391,13 +388,13 @@ extension CloudManager {
             return
         }
 
-        let image = prepareImageToSaveToCloud(name: stock.id.uuidString,
-                                              imageData: stock.imageData)
+        let image = convertDataToAsset(name: stock.id.uuidString,
+                                       data: stock.imageData)
         if stock.recordId.isEmpty {
             var record = CKRecord(recordType: RecordType.stock.rawValue, recordID: CKRecord.ID(zoneID: zoneID))
-            record = fillInRecord(record: record, stock: stock, asset: image.asset)
+            record = fillInRecord(record: record, stock: stock, asset: image)
             
-            save(record: record, imageUrl: image.url) { recordID in
+            save(record: record) { recordID in
                 var updateStock = stock
                 updateStock.recordId = recordID
                 CoreDataManager.shared.saveStock(stock: [updateStock], for: stock.pantryId.uuidString)
@@ -412,9 +409,9 @@ extension CloudManager {
                 return
             }
             if var record {
-                record = self.fillInRecord(record: record, stock: stock, asset: image.asset)
+                record = self.fillInRecord(record: record, stock: stock, asset: image)
                 DispatchQueue.main.async {
-                    self.save(record: record, imageUrl: image.url) { _ in }
+                    self.save(record: record) { _ in }
                 }
             }
         }
@@ -448,14 +445,14 @@ extension CloudManager {
         guard UserDefaultsManager.shared.isICloudDataBackupOn else {
             return
         }
-
-        let image = prepareImageToSaveToCloud(name: recipe.id.asString,
-                                              imageData: recipe.localImage)
+        let image = convertDataToAsset(name: recipe.id.asString, data: recipe.localImage)
+        let ingredients = convertDataToAsset(name: "ingredients" + recipe.id.asString,
+                                             data: try? JSONEncoder().encode(recipe.ingredients))
         if recipe.recordId.isEmpty {
             var record = CKRecord(recordType: RecordType.recipe.rawValue, recordID: CKRecord.ID(zoneID: zoneID))
-            record = fillInRecord(record: record, recipe: recipe, asset: image.asset)
+            record = fillInRecord(record: record, recipe: recipe, image: image, ingredients: ingredients)
 
-            save(record: record, imageUrl: image.url) { recordID in
+            save(record: record) { recordID in
                 var updateRecipe = recipe
                 updateRecipe.recordId = recordID
                 CoreDataManager.shared.saveRecipes(recipes: [updateRecipe])
@@ -470,19 +467,19 @@ extension CloudManager {
                 return
             }
             if var record {
-                record = self.fillInRecord(record: record, recipe: recipe, asset: image.asset)
+                record = self.fillInRecord(record: record, recipe: recipe, image: image, ingredients: ingredients)
                 DispatchQueue.main.async {
-                    self.save(record: record, imageUrl: image.url) { _ in }
+                    self.save(record: record) { _ in }
                 }
             }
         }
     }
     
-    func fillInRecord(record: CKRecord, recipe: Recipe, asset: CKAsset?) -> CKRecord {
+    func fillInRecord(record: CKRecord, recipe: Recipe, image: CKAsset?, ingredients: CKAsset?) -> CKRecord {
         let record = record
         record.setValue(recipe.id, forKey: "id")
         record.setValue(recipe.title, forKey: "title")
-        record.setValue(asset, forKey: "localImage")
+        record.setValue(image, forKey: "localImage")
         record.setValue(recipe.photo, forKey: "photo")
         record.setValue(recipe.description, forKey: "description")
         record.setValue(recipe.cookingTime, forKey: "cookingTime")
@@ -492,6 +489,7 @@ extension CloudManager {
         record.setValue(try? JSONEncoder().encode(recipe.values), forKey: "values")
         record.setValue(recipe.countries, forKey: "countries")
         record.setValue(recipe.instructions, forKey: "instructions")
+//        record.setValue(ingredients, forKey: "ingredients")
         record.setValue(try? JSONEncoder().encode(recipe.ingredients), forKey: "ingredients")
         record.setValue(try? JSONEncoder().encode(recipe.eatingTags), forKey: "eatingTags")
         record.setValue(try? JSONEncoder().encode(recipe.dishTypeTags), forKey: "dishTypeTags")
@@ -511,13 +509,13 @@ extension CloudManager {
             return
         }
 
-        let image = prepareImageToSaveToCloud(name: collectionModel.id.asString,
-                                              imageData: collectionModel.localImage)
+        let image = convertDataToAsset(name: collectionModel.id.asString,
+                                              data: collectionModel.localImage)
         if collectionModel.recordId.isEmpty {
             var record = CKRecord(recordType: RecordType.collectionModel.rawValue, recordID: CKRecord.ID(zoneID: zoneID))
-            record = fillInRecord(record: record, collectionModel: collectionModel, asset: image.asset)
+            record = fillInRecord(record: record, collectionModel: collectionModel, asset: image)
             
-            save(record: record, imageUrl: image.url) { recordID in
+            save(record: record) { recordID in
                 var updateCollectionModel = collectionModel
                 updateCollectionModel.recordId = recordID
                 CoreDataManager.shared.saveCollection(collections: [updateCollectionModel])
@@ -528,13 +526,13 @@ extension CloudManager {
         let recordID = CKRecord.ID(recordName: collectionModel.recordId, zoneID: zoneID)
         privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
             if let error {
-                print("[CloudKit]:", error.localizedDescription)
+                print("[CloudKit]: ", error.localizedDescription)
                 return
             }
             if var record {
-                record = self.fillInRecord(record: record, collectionModel: collectionModel, asset: image.asset)
+                record = self.fillInRecord(record: record, collectionModel: collectionModel, asset: image)
                 DispatchQueue.main.async {
-                    self.save(record: record, imageUrl: image.url) { _ in }
+                    self.save(record: record) { _ in }
                 }
             }
         }
@@ -577,7 +575,7 @@ extension CloudManager {
             if var record {
                 record = self.fillInRecordSettings(record: record)
                 DispatchQueue.main.async {
-                    self.save(record: record, imageUrl: nil) { _ in }
+                    self.save(record: record) { _ in }
                 }
             }
         }

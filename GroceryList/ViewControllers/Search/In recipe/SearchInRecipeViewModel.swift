@@ -196,6 +196,7 @@ final class SearchInRecipeViewModel {
         
         guard isFavorite else {
             UserDefaultsManager.shared.favoritesRecipeIds.removeAll { $0 == recipeId }
+            CloudManager.shared.saveCloudSettings()
             if var localCollection = recipe.localCollection {
                 localCollection.removeAll { $0.id == favoriteCollection.id }
                 recipe.localCollection = localCollection
@@ -204,6 +205,7 @@ final class SearchInRecipeViewModel {
         }
 
         UserDefaultsManager.shared.favoritesRecipeIds.append(recipeId)
+        CloudManager.shared.saveCloudSettings()
         if var localCollection = recipe.localCollection {
             localCollection.append(favoriteCollection)
             recipe.localCollection = localCollection

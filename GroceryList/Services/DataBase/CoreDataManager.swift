@@ -24,9 +24,6 @@ class CoreDataManager {
     
     private init() {
         coreData = CoreDataStorage()
-        
-        // удаление старой базы продуктов
-        deleteOldEntities()
     }
     
     func saveRecipes(recipes: [Recipe]) {
@@ -129,14 +126,5 @@ class CoreDataManager {
         
         UserDefaultsManager.shared.isUpdateRecipeWithCollection = true
         NotificationCenter.default.post(name: .recipesDownloadedAndSaved, object: nil)
-    }
-    
-    private func deleteOldEntities() {
-        let oldEntityNames = ["DBNetworkProduct", "DBNetProduct"]
-        oldEntityNames.forEach { oldEntityName in
-            if coreData.container.managedObjectModel.entities.contains(where: { $0.name == oldEntityName }) {
-                delete(entityName: oldEntityName)
-            }
-        }
     }
 }

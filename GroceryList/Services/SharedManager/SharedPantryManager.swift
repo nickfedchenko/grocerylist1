@@ -20,7 +20,10 @@ class SharedPantryManager {
     
     private var tokens: [String] {
         get { UserDefaultsManager.shared.pantryUserTokens ?? [] }
-        set { UserDefaultsManager.shared.pantryUserTokens = newValue }
+        set {
+            UserDefaultsManager.shared.pantryUserTokens = newValue
+            CloudManager.shared.saveCloudSettings()
+        }
     }
 
     deinit {

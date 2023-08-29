@@ -154,6 +154,7 @@ final class CreateNewRecipeStepTwoViewModel {
         saveCollection(recipe: recipe)
         if isSaveToFavorites {
             UserDefaultsManager.shared.favoritesRecipeIds.append(recipe.id)
+            CloudManager.shared.saveCloudSettings()
         }
         self.recipe = recipe
         isSaved = true

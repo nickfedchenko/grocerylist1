@@ -105,7 +105,7 @@ struct Recipe: Codable, Hashable, Equatable {
         isDefaultRecipe = false
     }
     
-    init?(record: CKRecord, imageData: Data?) {
+    init?(record: CKRecord, imageData: Data?, ingredientsData: Data?) {
         guard let recipeId = record.value(forKey: "id") as? Int else {
             return nil
         }
@@ -128,10 +128,9 @@ struct Recipe: Codable, Hashable, Equatable {
         isDefaultRecipe = (record.value(forKey: "isDefaultRecipe") as? Int64 ?? 0).boolValue
         sourceUrl = record.value(forKey: "sourceUrl") as? String
         
+        ingredients = (try? JSONDecoder().decode([Ingredient].self, from: ingredientsData ?? Data())) ?? []
         let valuesData = record.value(forKey: "values") as? Data
         values = (try? JSONDecoder().decode(Values.self, from: valuesData ?? Data()))
-        let ingredientsData = record.value(forKey: "ingredients") as? Data
-        ingredients = (try? JSONDecoder().decode([Ingredient].self, from: ingredientsData ?? Data())) ?? []
         let eatingTagsData = record.value(forKey: "eatingTags") as? Data
         eatingTags = (try? JSONDecoder().decode([AdditionalTag].self, from: eatingTagsData ?? Data())) ?? []
         let dishTypeTagsData = record.value(forKey: "dishTypeTags") as? Data

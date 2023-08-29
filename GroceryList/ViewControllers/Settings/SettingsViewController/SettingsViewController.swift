@@ -66,6 +66,7 @@ class SettingsViewController: UIViewController {
         view.switchValueChanged = { switchValue in
             AmplitudeManager.shared.logEvent(.prefHapticToggle, properties: [.isActive: switchValue ? .yes : .valueNo])
             UserDefaultsManager.shared.isHapticOn = switchValue
+            CloudManager.shared.saveCloudSettings()
         }
         return view
     }()
@@ -77,6 +78,7 @@ class SettingsViewController: UIViewController {
         view.switchValueChanged = { switchValue in
             AmplitudeManager.shared.logEvent(.prefPictureToggle, properties: [.isActive: switchValue ? .yes : .valueNo])
             UserDefaultsManager.shared.isShowImage = switchValue
+            CloudManager.shared.saveCloudSettings()
         }
         return view
     }()

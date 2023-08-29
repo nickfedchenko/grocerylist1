@@ -35,6 +35,7 @@ extension CoreDataManager {
             let favoritesCollection = CollectionModel(from: dbFavoritesCollection)
             updateCollection = [favoritesCollection]
             UserDefaultsManager.shared.favoritesRecipeIds.append(recipe.id)
+//            CloudManager.shared.saveCloudSettings()
         }
         
         for (index, collection) in updateCollection.enumerated() {

@@ -73,7 +73,7 @@ final class CloudManager {
             }
         }
         
-        databaseOperation.qualityOfService = .utility
+        databaseOperation.qualityOfService = .background
         privateCloudDataBase.add(databaseOperation)
     }
     
@@ -89,8 +89,7 @@ final class CloudManager {
         }
     }
     
-    func save(record: CKRecord, imageUrl: URL? = nil,
-              completion: @escaping ((String) -> Void)) {
+    func save(record: CKRecord, completion: @escaping ((String) -> Void)) {
         privateCloudDataBase.save(record) { returnedRecord, error in
             if let error {
                 print("[CloudKit]: \(String(describing: record.recordType))", error.localizedDescription)
@@ -118,29 +117,28 @@ final class CloudManager {
         })
     }
     
-    func prepareImageToSaveToCloud(name: String, imageData: Data?) -> (asset: CKAsset?, url: URL?) {
-        guard let imageData,
+    func convertDataToAsset(name: String, data: Data?) -> CKAsset? {
+        guard let data,
               let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent(name) else {
-            return (nil, nil)
+            return nil
         }
         
         do {
-            try imageData.write(to: url)
+            try data.write(to: url)
         } catch {
             print(error.localizedDescription)
         }
 
-        let asset = CKAsset(fileURL: url)
-        return (asset, url)
+        return CKAsset(fileURL: url)
     }
     
-    func getImageData(image: Any?) -> Data? {
-        guard let imageAsset = image as? CKAsset,
-              let url = imageAsset.fileURL,
-              let imageData = try? Data(contentsOf: url) else {
+    func convertAssetToData(asset: Any?) -> Data? {
+        guard let ckAsset = asset as? CKAsset,
+              let url = ckAsset.fileURL,
+              let data = try? Data(contentsOf: url) else {
             return nil
         }
-        return imageData
+        return data
     }
     
     private func createCustomZone(createZoneGroup: DispatchGroup) {
@@ -156,7 +154,7 @@ final class CloudManager {
                 }
                 createZoneGroup.leave()
             }
-            createZoneOperation.qualityOfService = .userInteractive
+            createZoneOperation.qualityOfService = .background
             privateCloudDataBase.add(createZoneOperation)
         }
     }
@@ -170,7 +168,7 @@ final class CloudManager {
             
             let modifySubscriptionsOperation = CKModifySubscriptionsOperation(subscriptionsToSave: [subscription],
                                                                               subscriptionIDsToDelete: [])
-            modifySubscriptionsOperation.qualityOfService = .utility
+            modifySubscriptionsOperation.qualityOfService = .background
             modifySubscriptionsOperation.modifySubscriptionsCompletionBlock = { _, _, error in
                 if let error {
                     print("[CloudKit]:", error.localizedDescription)
@@ -227,7 +225,7 @@ final class CloudManager {
                 print("[CloudKit]:", error.localizedDescription)
             }
         }
-//        zoneOperation.qualityOfService = .utility
+        zoneOperation.qualityOfService = .background
         privateCloudDataBase.add(zoneOperation)
     }
     

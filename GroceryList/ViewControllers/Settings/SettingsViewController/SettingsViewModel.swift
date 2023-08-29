@@ -122,8 +122,10 @@ class SettingsViewModel {
         switch system {
         case .metric:
             UserDefaultsManager.shared.isMetricSystem = true
+            CloudManager.shared.saveCloudSettings()
         case .imperial:
             UserDefaultsManager.shared.isMetricSystem = false
+            CloudManager.shared.saveCloudSettings()
         }
         delegate?.updateSelectionView()
     }

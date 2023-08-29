@@ -158,8 +158,10 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
         if isSelected {
             AmplitudeManager.shared.logEvent(.recipeAddFavorites)
             UserDefaultsManager.shared.favoritesRecipeIds.append(recipe.id)
+            CloudManager.shared.saveCloudSettings()
         } else {
             UserDefaultsManager.shared.favoritesRecipeIds.removeAll(where: { $0 == recipe.id })
+            CloudManager.shared.saveCloudSettings()
         }
 
         if var localCollection = recipe.localCollection {
