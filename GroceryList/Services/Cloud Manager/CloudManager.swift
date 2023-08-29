@@ -62,6 +62,7 @@ final class CloudManager {
         databaseOperation.fetchDatabaseChangesCompletionBlock = { token, _, error in
             if let error = error {
                 print("[CloudKit]:", error.localizedDescription)
+                return
             }
             if !changedZoneIDs.isEmpty {
                 self.fetchZoneChanges(zoneIDs: changedZoneIDs)
@@ -98,7 +99,6 @@ final class CloudManager {
             if let returnedRecord {
                 completion(returnedRecord.recordID.recordName)
             }
-            self.deleteTempImage(imageUrl: imageUrl)
         }
     }
     
@@ -109,66 +109,29 @@ final class CloudManager {
         guard !recordID.isEmpty else {
             return
         }
-        let query = CKQuery(recordType: recordType.rawValue, predicate: NSPredicate(value: true))
-        let queryOperation = CKQueryOperation(query: query)
-        queryOperation.zoneID = zoneID
-        queryOperation.desiredKeys = ["recordId"]
-        queryOperation.queuePriority = .veryHigh
-        
-        queryOperation.recordFetchedBlock = { record in
-            if record.recordID.recordName == recordID {
-                self.privateCloudDataBase.delete(withRecordID: record.recordID, completionHandler: { (_, error) in
-                    if let error {
-                        print("[CloudKit]:", error.localizedDescription)
-                        return
-                    }
-                })
+        let recordID = CKRecord.ID(recordName: recordID, zoneID: zoneID)
+        self.privateCloudDataBase.delete(withRecordID: recordID, completionHandler: { (_, error) in
+            if let error {
+                print("[CloudKit]: ", error.localizedDescription)
+                return
             }
-            
-            queryOperation.queryCompletionBlock = { _, error in
-                if let error {
-                    print("[CloudKit]:", error.localizedDescription)
-                    return
-                }
-            }
-        }
-        
-        privateCloudDataBase.add(queryOperation)
+        })
     }
     
     func prepareImageToSaveToCloud(name: String, imageData: Data?) -> (asset: CKAsset?, url: URL?) {
         guard let imageData,
-              let image = UIImage(data: imageData) else {
-            return (nil, nil)
-        }
-        let scale = image.size.width > 270 ? 270 / image.size.width : 1
-        let scaleImage = UIImage(data: imageData, scale: scale)
-        let imageFilePath = NSTemporaryDirectory() + name
-        let imageUrl = URL(fileURLWithPath: imageFilePath)
-        
-        guard let dataToPath = scaleImage?.jpegData(compressionQuality: 1) else {
+              let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent(name) else {
             return (nil, nil)
         }
         
         do {
-            try dataToPath.write(to: imageUrl, options:  .atomic)
+            try imageData.write(to: url)
         } catch {
             print(error.localizedDescription)
         }
-        
-        let imageAsset = CKAsset(fileURL: imageUrl)
-        return (imageAsset, imageUrl)
-    }
-    
-    func deleteTempImage(imageUrl: URL?) {
-        guard let imageUrl else {
-            return
-        }
-        do {
-            try FileManager.default.removeItem(at: imageUrl)
-        } catch {
-            print(error.localizedDescription)
-        }
+
+        let asset = CKAsset(fileURL: url)
+        return (asset, url)
     }
     
     func getImageData(image: Any?) -> Data? {
@@ -193,7 +156,7 @@ final class CloudManager {
                 }
                 createZoneGroup.leave()
             }
-            createZoneOperation.qualityOfService = .utility
+            createZoneOperation.qualityOfService = .userInteractive
             privateCloudDataBase.add(createZoneOperation)
         }
     }
@@ -220,23 +183,25 @@ final class CloudManager {
     }
     
     private func fetchZoneChanges(zoneIDs: [CKRecordZone.ID]) {
-        var serverChangeToken = getToken(changeTokenKey: UserDefaultsManager.shared.zoneChangeTokenKey)
+        let serverChangeToken = getToken(changeTokenKey: UserDefaultsManager.shared.zoneChangeTokenKey)
         var configurations = [CKRecordZone.ID: CKFetchRecordZoneChangesOperation.ZoneConfiguration]()
         for zoneID in zoneIDs {
             let options = CKFetchRecordZoneChangesOperation.ZoneConfiguration()
             options.previousServerChangeToken = serverChangeToken
             configurations[zoneID] = options
         }
-
-        let zoneOperation = CKFetchRecordZoneChangesOperation(recordZoneIDs: zoneIDs,
-                                                              configurationsByRecordZoneID: configurations)
+        let zoneOperation = CKFetchRecordZoneChangesOperation(recordZoneIDs: zoneIDs, configurationsByRecordZoneID: configurations)
         
         zoneOperation.recordChangedBlock = { record in
-            self.updateData(by: record)
+            DispatchQueue.main.async {
+                self.updateData(by: record)
+            }
         }
         
         zoneOperation.recordWithIDWasDeletedBlock = { recordId, recordType in
-            self.deleteData(recordId: recordId, recordType: recordType)
+            DispatchQueue.main.async {
+                self.deleteData(recordId: recordId, recordType: recordType)
+            }
         }
         
         zoneOperation.recordZoneChangeTokensUpdatedBlock = { _, token, _ in
@@ -249,6 +214,7 @@ final class CloudManager {
         zoneOperation.recordZoneFetchCompletionBlock = { (_, changeToken, _, _, error) in
             if let error = error {
                 print("[CloudKit]:", error.localizedDescription)
+                return
             }
             if let changeToken {
                 let changeTokenData = try? NSKeyedArchiver.archivedData(withRootObject: changeToken, requiringSecureCoding: true)
@@ -261,7 +227,7 @@ final class CloudManager {
                 print("[CloudKit]:", error.localizedDescription)
             }
         }
-        zoneOperation.qualityOfService = .utility
+//        zoneOperation.qualityOfService = .utility
         privateCloudDataBase.add(zoneOperation)
     }
     

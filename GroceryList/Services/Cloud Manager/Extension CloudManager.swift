@@ -10,8 +10,6 @@ import Foundation
 
 // MARK: save/update Data
 extension CloudManager {
-    // swiftlint:disable: cyclomatic_complexity
-    // swiftlint:disable:next function_body_length
     func updateData(by record: CKRecord) {
         guard let recordType = RecordType(rawValue: record.recordType) else {
             return
@@ -19,59 +17,95 @@ extension CloudManager {
         
         switch recordType {
         case .groceryListsModel:
-            if let groceryList = GroceryListsModel(record: record) {
-                CoreDataManager.shared.saveList(list: groceryList)
-                NotificationCenter.default.post(name: .cloudList, object: nil)
-            }
+            setupGroceryList(record: record)
         case .product:
-            let imageData = self.getImageData(image: record.value(forKey: "imageData"))
-            if let product = Product(record: record, imageData: imageData) {
-                CoreDataManager.shared.createProduct(product: product)
-                NotificationCenter.default.post(name: .cloudProducts, object: nil)
-            }
+            setupProduct(record: record)
         case .categoryModel:
-            if let category = CategoryModel(record: record) {
-                CoreDataManager.shared.saveCategory(category: category)
-            }
+            setupCategory(record: record)
         case .store:
-            if let store = Store(record: record) {
-                CoreDataManager.shared.saveStore(store)
-            }
+            setupStore(record: record)
         case .pantryModel:
-            let imageData = self.getImageData(image: record.value(forKey: "icon"))
-            if let pantry = PantryModel(record: record, imageData: imageData) {
-                CoreDataManager.shared.savePantry(pantry: [pantry])
-                NotificationCenter.default.post(name: .cloudPantry, object: nil)
-            }
+            setupPantry(record: record)
         case .stock:
-            let imageData = self.getImageData(image: record.value(forKey: "imageData"))
-            if let stock = Stock(record: record, imageData: imageData) {
-                CoreDataManager.shared.saveStock(stock: [stock], for: stock.pantryId.uuidString)
-                NotificationCenter.default.post(name: .cloudStock, object: nil)
-            }
+            setupStock(record: record)
         case .collectionModel:
-            let imageData = self.getImageData(image: record.value(forKey: "localImage"))
-            if let collection = CollectionModel(record: record, imageData: imageData) {
-                CoreDataManager.shared.saveCollection(collections: [collection])
-                NotificationCenter.default.post(name: .cloudCollection, object: nil)
-            }
+            setupCollection(record: record)
         case .recipe:
-            let imageData = self.getImageData(image: record.value(forKey: "icon"))
-            if let recipe = Recipe(record: record, imageData: imageData) {
-                CoreDataManager.shared.saveRecipes(recipes: [recipe])
-                NotificationCenter.default.post(name: .cloudRecipe, object: nil)
-            }
+            setupRecipe(record: record)
         case .settings:
-            UserDefaultsManager.shared.isMetricSystem = record.value(forKey: "isMetricSystem") as? Bool ?? false
-            UserDefaultsManager.shared.isHapticOn = record.value(forKey: "isHapticOn") as? Bool ?? false
-            UserDefaultsManager.shared.isShowImage = record.value(forKey: "isShowImage") as? Bool ?? false
-            UserDefaultsManager.shared.isActiveAutoCategory = record.value(forKey: "isActiveAutoCategory") as? Bool ?? false
-            UserDefaultsManager.shared.recipeIsFolderView = record.value(forKey: "recipeIsFolderView") as? Bool ?? false
-            UserDefaultsManager.shared.recipeIsTableView = record.value(forKey: "recipeIsTableView") as? Bool ?? false
-            UserDefaultsManager.shared.userTokens = record.value(forKey: "userTokens") as? [String] ?? []
-            UserDefaultsManager.shared.pantryUserTokens = record.value(forKey: "pantryUserTokens") as? [String] ?? []
-            UserDefaultsManager.shared.favoritesRecipeIds = record.value(forKey: "favoritesRecipeIds") as? [Int] ?? []
+            setupSettings(record: record)
         }
+    }
+    
+    private func setupGroceryList(record: CKRecord) {
+        if let groceryList = GroceryListsModel(record: record) {
+            CoreDataManager.shared.saveList(list: groceryList)
+            NotificationCenter.default.post(name: .cloudList, object: nil)
+        }
+    }
+    
+    private func setupProduct(record: CKRecord) {
+        let imageData = self.getImageData(image: record.value(forKey: "imageData"))
+        if let product = Product(record: record, imageData: imageData) {
+            CoreDataManager.shared.createProduct(product: product)
+            NotificationCenter.default.post(name: .cloudProducts, object: nil)
+        }
+    }
+    
+    private func setupCategory(record: CKRecord) {
+        if let category = CategoryModel(record: record) {
+            CoreDataManager.shared.saveCategory(category: category)
+        }
+    }
+    
+    private func setupStore(record: CKRecord) {
+        if let store = Store(record: record) {
+            CoreDataManager.shared.saveStore(store)
+        }
+    }
+    
+    private func setupPantry(record: CKRecord) {
+        let imageData = self.getImageData(image: record.value(forKey: "icon"))
+        if let pantry = PantryModel(record: record, imageData: imageData) {
+            CoreDataManager.shared.savePantry(pantry: [pantry])
+            NotificationCenter.default.post(name: .cloudPantry, object: nil)
+        }
+    }
+    
+    private func setupStock(record: CKRecord) {
+        let imageData = self.getImageData(image: record.value(forKey: "imageData"))
+        if let stock = Stock(record: record, imageData: imageData) {
+            CoreDataManager.shared.saveStock(stock: [stock], for: stock.pantryId.uuidString)
+            NotificationCenter.default.post(name: .cloudStock, object: nil)
+        }
+    }
+    
+    private func setupCollection(record: CKRecord) {
+        let imageData = self.getImageData(image: record.value(forKey: "localImage"))
+        if let collection = CollectionModel(record: record, imageData: imageData) {
+            CoreDataManager.shared.saveCollection(collections: [collection])
+            NotificationCenter.default.post(name: .cloudCollection, object: nil)
+        }
+    }
+    
+    private func setupRecipe(record: CKRecord) {
+        let imageData = self.getImageData(image: record.value(forKey: "icon"))
+        if let recipe = Recipe(record: record, imageData: imageData) {
+            CoreDataManager.shared.saveRecipes(recipes: [recipe])
+            NotificationCenter.default.post(name: .cloudRecipe, object: nil)
+        }
+    }
+    
+    private func setupSettings(record: CKRecord) {
+        UserDefaultsManager.shared.isMetricSystem = record.value(forKey: "isMetricSystem") as? Bool ?? false
+        UserDefaultsManager.shared.isHapticOn = record.value(forKey: "isHapticOn") as? Bool ?? false
+        UserDefaultsManager.shared.isShowImage = record.value(forKey: "isShowImage") as? Bool ?? false
+        UserDefaultsManager.shared.isActiveAutoCategory = record.value(forKey: "isActiveAutoCategory") as? Bool ?? false
+        UserDefaultsManager.shared.recipeIsFolderView = record.value(forKey: "recipeIsFolderView") as? Bool ?? false
+        UserDefaultsManager.shared.recipeIsTableView = record.value(forKey: "recipeIsTableView") as? Bool ?? false
+        UserDefaultsManager.shared.userTokens = record.value(forKey: "userTokens") as? [String] ?? []
+        UserDefaultsManager.shared.pantryUserTokens = record.value(forKey: "pantryUserTokens") as? [String] ?? []
+        UserDefaultsManager.shared.favoritesRecipeIds = record.value(forKey: "favoritesRecipeIds") as? [Int] ?? []
     }
 }
 
@@ -458,7 +492,7 @@ extension CloudManager {
         record.setValue(try? JSONEncoder().encode(recipe.values), forKey: "values")
         record.setValue(recipe.countries, forKey: "countries")
         record.setValue(recipe.instructions, forKey: "instructions")
-//        record.setValue(try? JSONEncoder().encode(recipe.ingredients), forKey: "ingredients")
+        record.setValue(try? JSONEncoder().encode(recipe.ingredients), forKey: "ingredients")
         record.setValue(try? JSONEncoder().encode(recipe.eatingTags), forKey: "eatingTags")
         record.setValue(try? JSONEncoder().encode(recipe.dishTypeTags), forKey: "dishTypeTags")
         record.setValue(try? JSONEncoder().encode(recipe.processingTypeTags), forKey: "processingTypeTags")

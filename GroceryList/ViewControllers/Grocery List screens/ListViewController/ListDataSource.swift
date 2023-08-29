@@ -27,7 +27,7 @@ class ListDataSource: ListDataSourceProtocol {
 
     var imageHeight: ImageHeight = .empty {
         didSet {
-          print("image height is \(imageHeight)")
+//          print("image height is \(imageHeight)")
         }
     }
     
