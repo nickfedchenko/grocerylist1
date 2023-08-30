@@ -253,6 +253,8 @@
 		33AF97F72A7BD3B600716104 /* NotificationsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3329597298A8F19002DF1EE /* NotificationsExtension.swift */; };
 		33AF97F82A7BF6E300716104 /* RecipeSourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AF97C62A7B6D5500716104 /* RecipeSourceView.swift */; };
 		33B306632A8E149300F87659 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B306622A8E149300F87659 /* CloudManager.swift */; };
+		33C5F1E82A9EF53D00E864A8 /* CloudManagerForShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */; };
+		33C5F1E92A9EF55300E864A8 /* CloudManagerForShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */; };
 		33C6F0D32A408BED00E71023 /* RecipeSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0D22A408BED00E71023 /* RecipeSearchView.swift */; };
 		33C6F0D52A4097CD00E71023 /* RecipeColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0D42A4097CD00E71023 /* RecipeColorCell.swift */; };
 		33C6F0D72A41445600E71023 /* FolderRecipePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0D62A41445600E71023 /* FolderRecipePreviewCell.swift */; };
@@ -681,6 +683,7 @@
 		33AF97DB2A7B92C000716104 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		33AF97DE2A7B934400716104 /* Ext CoreDataManager for shared .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext CoreDataManager for shared .swift"; sourceTree = "<group>"; };
 		33B306622A8E149300F87659 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
+		33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManagerForShared.swift; sourceTree = "<group>"; };
 		33C6F0D22A408BED00E71023 /* RecipeSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeSearchView.swift; sourceTree = "<group>"; };
 		33C6F0D42A4097CD00E71023 /* RecipeColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeColorCell.swift; sourceTree = "<group>"; };
 		33C6F0D62A41445600E71023 /* FolderRecipePreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderRecipePreviewCell.swift; sourceTree = "<group>"; };
@@ -1499,6 +1502,7 @@
 			children = (
 				33AF97912A7A6E2800716104 /* Extension NetworkEngine.swift */,
 				33AF97DE2A7B934400716104 /* Ext CoreDataManager for shared .swift */,
+				33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */,
 				33AF97B62A7AA60C00716104 /* ActivityIndicatorView.swift */,
 				33AF97B42A7AA5BF00716104 /* Shared Extensions.swift */,
 			);
@@ -2834,6 +2838,7 @@
 				33AF97E52A7BA11000716104 /* CollectionModel.swift in Sources */,
 				33AF97B92A7AA93700716104 /* Shared Extensions.swift in Sources */,
 				33AF97932A7A6E2C00716104 /* Extension NetworkEngine.swift in Sources */,
+				33C5F1E92A9EF55300E864A8 /* CloudManagerForShared.swift in Sources */,
 				33AF97A12A7A819400716104 /* UITapGestureRecognizerExtension.swift in Sources */,
 				33AF97B12A7A9F0800716104 /* UIStackViewExtension.swift in Sources */,
 				33AF97F52A7BD36C00716104 /* DBStore+CoreDataClass.swift in Sources */,
@@ -2898,6 +2903,7 @@
 				33E31AD92A78DA9C0011B41E /* UITapGestureRecognizerExtension.swift in Sources */,
 				B315F9DC29892EA00009CEB8 /* CheckmarkView.swift in Sources */,
 				840C189F2978D2230006F975 /* Int+Extensions.swift in Sources */,
+				33C5F1E82A9EF53D00E864A8 /* CloudManagerForShared.swift in Sources */,
 				B381EF1D299A573500DCDE40 /* UserAccountManager.swift in Sources */,
 				334764482A24EE48008F4834 /* SelectIconViewController.swift in Sources */,
 				33A51B8D2A17171400BE11C1 /* MainTabBarViewModel.swift in Sources */,

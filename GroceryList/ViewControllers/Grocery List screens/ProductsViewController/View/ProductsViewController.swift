@@ -348,7 +348,7 @@ class ProductsViewController: UIViewController {
     }
     
     // MARK: - CollectionView
-    // swiftlint: disable function_body_length
+    // swiftlint:disable:next function_body_length
     func setupCollectionView() {
         collectionView.contentInset.bottom = 120
         

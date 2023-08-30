@@ -47,7 +47,7 @@ final class CloudManager {
     
     func fetchChanges() {
         var changedZoneIDs: [CKRecordZone.ID] = []
-        var serverChangeToken = getToken(changeTokenKey: UserDefaultsManager.shared.databaseChangeTokenKey)
+        let serverChangeToken = getToken(changeTokenKey: UserDefaultsManager.shared.databaseChangeTokenKey)
         let databaseOperation = CKFetchDatabaseChangesOperation(previousServerChangeToken: serverChangeToken)
         
         databaseOperation.recordZoneWithIDChangedBlock = { zoneID in
@@ -191,15 +191,11 @@ final class CloudManager {
         let zoneOperation = CKFetchRecordZoneChangesOperation(recordZoneIDs: zoneIDs, configurationsByRecordZoneID: configurations)
         
         zoneOperation.recordChangedBlock = { record in
-            DispatchQueue.main.async {
-                self.updateData(by: record)
-            }
+            self.updateData(by: record)
         }
         
         zoneOperation.recordWithIDWasDeletedBlock = { recordId, recordType in
-            DispatchQueue.main.async {
-                self.deleteData(recordId: recordId, recordType: recordType)
-            }
+            self.deleteData(recordId: recordId, recordType: recordType)
         }
         
         zoneOperation.recordZoneChangeTokensUpdatedBlock = { _, token, _ in

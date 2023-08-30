@@ -11,20 +11,22 @@ import Foundation
 // MARK: save/update Data
 extension CloudManager {
     func updateData(by record: CKRecord) {
-        guard let recordType = RecordType(rawValue: record.recordType) else {
-            return
-        }
-        
-        switch recordType {
-        case .groceryListsModel:    setupGroceryList(record: record)
-        case .product:              setupProduct(record: record)
-        case .categoryModel:        setupCategory(record: record)
-        case .store:                setupStore(record: record)
-        case .pantryModel:          setupPantry(record: record)
-        case .stock:                setupStock(record: record)
-        case .collectionModel:      setupCollection(record: record)
-        case .recipe:               setupRecipe(record: record)
-        case .settings:             setupSettings(record: record)
+        DispatchQueue.main.async {
+            guard let recordType = RecordType(rawValue: record.recordType) else {
+                return
+            }
+            
+            switch recordType {
+            case .groceryListsModel:    self.setupGroceryList(record: record)
+            case .product:              self.setupProduct(record: record)
+            case .categoryModel:        self.setupCategory(record: record)
+            case .store:                self.setupStore(record: record)
+            case .pantryModel:          self.setupPantry(record: record)
+            case .stock:                self.setupStock(record: record)
+            case .collectionModel:      self.setupCollection(record: record)
+            case .recipe:               self.setupRecipe(record: record)
+            case .settings:             self.setupSettings(record: record)
+            }
         }
     }
     
@@ -600,29 +602,31 @@ extension CloudManager {
 // MARK: delete Data
 extension CloudManager {
     func deleteData(recordId: CKRecord.ID, recordType: CKRecord.RecordType) {
-        guard let recordType = RecordType(rawValue: recordType) else {
-            return
-        }
-        
-        switch recordType {
-        case .groceryListsModel:
-            CoreDataManager.shared.removeList(recordId: recordId.recordName)
-        case .product:
-            CoreDataManager.shared.removeProduct(recordId: recordId.recordName)
-        case .categoryModel:
-            CoreDataManager.shared.removeCategory(recordId: recordId.recordName)
-        case .store:
-            CoreDataManager.shared.removeStore(recordId: recordId.recordName)
-        case .pantryModel:
-            CoreDataManager.shared.removePantryList(recordId: recordId.recordName)
-        case .stock:
-            CoreDataManager.shared.removeStock(recordId: recordId.recordName)
-        case .collectionModel:
-            CoreDataManager.shared.removeCollection(recordId: recordId.recordName)
-        case .recipe:
-            CoreDataManager.shared.removeRecipe(recordId: recordId.recordName)
-        case .settings:
-            break
+        DispatchQueue.main.async {
+            guard let recordType = RecordType(rawValue: recordType) else {
+                return
+            }
+            
+            switch recordType {
+            case .groceryListsModel:
+                CoreDataManager.shared.removeList(recordId: recordId.recordName)
+            case .product:
+                CoreDataManager.shared.removeProduct(recordId: recordId.recordName)
+            case .categoryModel:
+                CoreDataManager.shared.removeCategory(recordId: recordId.recordName)
+            case .store:
+                CoreDataManager.shared.removeStore(recordId: recordId.recordName)
+            case .pantryModel:
+                CoreDataManager.shared.removePantryList(recordId: recordId.recordName)
+            case .stock:
+                CoreDataManager.shared.removeStock(recordId: recordId.recordName)
+            case .collectionModel:
+                CoreDataManager.shared.removeCollection(recordId: recordId.recordName)
+            case .recipe:
+                CoreDataManager.shared.removeRecipe(recordId: recordId.recordName)
+            case .settings:
+                break
+            }
         }
     }
 }
