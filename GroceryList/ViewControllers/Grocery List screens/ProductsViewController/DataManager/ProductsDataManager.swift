@@ -99,7 +99,7 @@ class ProductsDataManager {
         
         var stock = Stock(dbModel: dbStock)
         stock.isAvailability = true
-        CoreDataManager.shared.saveStock(stock: [stock], for: stock.pantryId.uuidString)
+        CoreDataManager.shared.saveStock(stocks: [stock], for: stock.pantryId.uuidString)
         CloudManager.shared.saveCloudData(stock: stock)
         createDataSourceArray()
     }

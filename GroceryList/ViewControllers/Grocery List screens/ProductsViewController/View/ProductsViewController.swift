@@ -10,7 +10,7 @@ import SnapKit
 import UIKit
 
 // swiftlint:disable file_length
-// swiftlint:disable type_body_length
+// swiftlint:disable:next type_body_length
 class ProductsViewController: UIViewController {
     
     enum Section: Hashable {

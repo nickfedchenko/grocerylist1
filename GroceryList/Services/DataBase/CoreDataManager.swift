@@ -56,11 +56,10 @@ class CoreDataManager {
     }
     
     func saveCollection(collections: [CollectionModel]) {
-        let asyncContext = coreData.viewContext
-        let _ = collections.map { DBCollection.prepare(fromPlainModel: $0, context: asyncContext)}
-        guard asyncContext.hasChanges else { return }
+        let asyncContext = coreData.taskContext
         asyncContext.perform {
             do {
+                let _ = collections.map { DBCollection.prepare(fromPlainModel: $0, context: asyncContext)}
                 try asyncContext.save()
             } catch let error {
                 print(error)

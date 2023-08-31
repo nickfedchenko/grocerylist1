@@ -22,7 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         application.registerForRemoteNotifications()
-        _ = CloudManager.shared
         _ = AmplitudeManager.shared
         
         Apphud.start(apiKey: "app_UumawTKYjWf9iUejoRkxntPLZQa7eq")
@@ -45,6 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         rootRouter?.presentRootNavigationControllerInWindow()
         SharedListManager.shared.router = rootRouter
         SharedPantryManager.shared.router = rootRouter
+        CloudManager.shared.router = rootRouter
         
         self.window = window
         return true
@@ -153,8 +153,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable : Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        print("Уведомление получено!")
-        
         if let stringObjectUserInfo = userInfo as? [String: NSObject] {
             let notification = CKNotification(fromRemoteNotificationDictionary: stringObjectUserInfo)
             

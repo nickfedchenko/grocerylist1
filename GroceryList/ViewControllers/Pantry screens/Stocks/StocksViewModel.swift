@@ -293,7 +293,9 @@ final class StocksViewModel {
     
     @objc
     func reloadStorageData() {
-        dataSource.updateStocks()
+        DispatchQueue.main.async { [weak self] in
+            self?.dataSource.updateStocks()
+        }
     }
     
     func showPaywall() {

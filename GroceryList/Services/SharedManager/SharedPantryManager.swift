@@ -101,7 +101,7 @@ class SharedPantryManager {
         
         CoreDataManager.shared.savePantry(pantry: [localList])
         CloudManager.shared.saveCloudData(pantryModel: localList)
-        CoreDataManager.shared.saveStock(stock: localList.stock, for: localList.id.uuidString)
+        CoreDataManager.shared.saveStock(stocks: localList.stock, for: localList.id.uuidString)
         localList.stock.forEach { stock in
             CloudManager.shared.saveCloudData(stock: stock)
         }
@@ -270,7 +270,7 @@ class SharedPantryManager {
         CoreDataManager.shared.savePantry(pantry: arrayOfLists)
         
         arrayOfLists.forEach { list in
-            CoreDataManager.shared.saveStock(stock: list.stock, for: list.id.uuidString)
+            CoreDataManager.shared.saveStock(stocks: list.stock, for: list.id.uuidString)
             list.stock.forEach { stock in
                 CloudManager.shared.saveCloudData(stock: stock)
             }

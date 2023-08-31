@@ -597,6 +597,12 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
+    func showSynchronizationController(isVisible: Bool) {
+        let controller = SynchronizationViewController()
+        controller.modalTransitionStyle = .crossDissolve
+        topViewController?.present(controller, animated: true, completion: nil)
+    }
+    
     // просто создание вью - контролер сам будет презентить их, т.к топ контролер уже презентит вью и эти не получается так запрезентить
     func prepareSelectProductController(height: Double, model: GroceryListsModel,
                                         setOfSelectedProd: Set<Product>, compl: @escaping ((Set<Product>) -> Void)) -> UIViewController {

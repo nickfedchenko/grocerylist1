@@ -187,8 +187,8 @@ class ListViewModel {
     // MARK: - Cloud Functions
     @objc
     private func updateLists() {
-        DispatchQueue.main.async {
-            self.reloadDataFromStorage()
+        DispatchQueue.main.async { [weak self] in
+            self?.reloadDataFromStorage()
         }
     }
 }

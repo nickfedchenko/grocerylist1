@@ -255,6 +255,7 @@
 		33B306632A8E149300F87659 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B306622A8E149300F87659 /* CloudManager.swift */; };
 		33C5F1E82A9EF53D00E864A8 /* CloudManagerForShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */; };
 		33C5F1E92A9EF55300E864A8 /* CloudManagerForShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */; };
+		33C5F1EB2AA05DB900E864A8 /* SynchronizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C5F1EA2AA05DB900E864A8 /* SynchronizationViewController.swift */; };
 		33C6F0D32A408BED00E71023 /* RecipeSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0D22A408BED00E71023 /* RecipeSearchView.swift */; };
 		33C6F0D52A4097CD00E71023 /* RecipeColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0D42A4097CD00E71023 /* RecipeColorCell.swift */; };
 		33C6F0D72A41445600E71023 /* FolderRecipePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0D62A41445600E71023 /* FolderRecipePreviewCell.swift */; };
@@ -684,6 +685,7 @@
 		33AF97DE2A7B934400716104 /* Ext CoreDataManager for shared .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext CoreDataManager for shared .swift"; sourceTree = "<group>"; };
 		33B306622A8E149300F87659 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
 		33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManagerForShared.swift; sourceTree = "<group>"; };
+		33C5F1EA2AA05DB900E864A8 /* SynchronizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizationViewController.swift; sourceTree = "<group>"; };
 		33C6F0D22A408BED00E71023 /* RecipeSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeSearchView.swift; sourceTree = "<group>"; };
 		33C6F0D42A4097CD00E71023 /* RecipeColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeColorCell.swift; sourceTree = "<group>"; };
 		33C6F0D62A41445600E71023 /* FolderRecipePreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderRecipePreviewCell.swift; sourceTree = "<group>"; };
@@ -2153,6 +2155,7 @@
 		B36AF9482913FA5B00944E9D /* CustomUiElements */ = {
 			isa = PBXGroup;
 			children = (
+				33C5F1EA2AA05DB900E864A8 /* SynchronizationViewController.swift */,
 				3328AD85299CF40800187B57 /* SharingView.swift */,
 				B34BB809292D1C4600748E8E /* ShimmerView.swift */,
 				B36AF9402913D37300944E9D /* CustomSegmentControl.swift */,
@@ -3215,6 +3218,7 @@
 				38817892293BEC8E0094344D /* DataProviderFacade.swift in Sources */,
 				33995D232A1CC1DE003FECAE /* CustomTabBarView.swift in Sources */,
 				B381EF2A299B977700DCDE40 /* TermsView.swift in Sources */,
+				33C5F1EB2AA05DB900E864A8 /* SynchronizationViewController.swift in Sources */,
 				B381EF24299B660D00DCDE40 /* LogOutView.swift in Sources */,
 				33C6F0E82A44415800E71023 /* PhotoFromRecipesCell.swift in Sources */,
 			);

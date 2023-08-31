@@ -332,7 +332,9 @@ class ProductsViewModel {
     
     @objc
     func reloadStorageData() {
-        dataSource.createDataSourceArray()
+        DispatchQueue.main.async { [weak self] in
+            self?.dataSource.createDataSourceArray()
+        }
     }
     
     func showPaywall() {

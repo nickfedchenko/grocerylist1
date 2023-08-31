@@ -84,9 +84,9 @@ final class MainRecipeViewModel {
     
     @objc
     func updateUI() {
-        DispatchQueue.main.async {
-            self.updateRecipesSection()
-            self.reloadRecipes?()
+        DispatchQueue.main.async { [weak self] in
+            self?.updateRecipesSection()
+            self?.reloadRecipes?()
         }
     }
     

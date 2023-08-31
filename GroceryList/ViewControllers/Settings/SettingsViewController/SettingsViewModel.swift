@@ -139,11 +139,12 @@ class SettingsViewModel {
             if status == .available {
                 UserDefaultsManager.shared.isICloudDataBackupOn = true
                 completion?()
-                DispatchQueue.main.async {
-                    let enableGroup = DispatchGroup()
-                    CloudManager.shared.enable(enableGroup: enableGroup)
-                    enableGroup.wait()
-                    CloudManager.shared.saveCloudAllData()
+                DispatchQueue.global(qos: .default).async {
+                    let group = DispatchGroup()
+                    CloudManager.shared.enable(enableGroup: group)
+                    group.notify(queue: DispatchQueue.global()) {
+                        CloudManager.shared.saveCloudAllData()
+                    }
                 }
                 return
             }

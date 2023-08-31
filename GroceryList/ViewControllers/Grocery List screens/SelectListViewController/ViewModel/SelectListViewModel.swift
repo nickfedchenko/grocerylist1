@@ -38,6 +38,7 @@ class SelectListViewModel: ListViewModel {
             newProduct.listId = list.id
             CoreDataManager.shared.createProduct(product: newProduct)
             CloudManager.shared.saveCloudData(product: newProduct)
+            CloudManager.shared.saveCloudData(groceryList: list)
         }
         SharedListManager.shared.updateGroceryList(listId: list.id.uuidString)
     }
@@ -53,6 +54,7 @@ class SelectListViewModel: ListViewModel {
                                      description: product.description)
             CoreDataManager.shared.createProduct(product: newProduct)
             CloudManager.shared.saveCloudData(product: newProduct)
+            CloudManager.shared.saveCloudData(groceryList: list)
         }
         
         router?.popList()

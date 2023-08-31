@@ -10,105 +10,19 @@ import Foundation
 
 // MARK: save/update Data
 extension CloudManager {
-    func updateData(by record: CKRecord) {
-        DispatchQueue.main.async {
-            guard let recordType = RecordType(rawValue: record.recordType) else {
-                return
-            }
-            
-            switch recordType {
-            case .groceryListsModel:    self.setupGroceryList(record: record)
-            case .product:              self.setupProduct(record: record)
-            case .categoryModel:        self.setupCategory(record: record)
-            case .store:                self.setupStore(record: record)
-            case .pantryModel:          self.setupPantry(record: record)
-            case .stock:                self.setupStock(record: record)
-            case .collectionModel:      self.setupCollection(record: record)
-            case .recipe:               self.setupRecipe(record: record)
-            case .settings:             self.setupSettings(record: record)
-            }
-        }
-    }
-    
-    private func setupGroceryList(record: CKRecord) {
-        if let groceryList = GroceryListsModel(record: record) {
-            CoreDataManager.shared.saveList(list: groceryList)
-            NotificationCenter.default.post(name: .cloudList, object: nil)
-        }
-    }
-    
-    private func setupProduct(record: CKRecord) {
-        let imageData = self.convertAssetToData(asset: record.value(forKey: "imageData"))
-        if let product = Product(record: record, imageData: imageData) {
-            CoreDataManager.shared.createProduct(product: product)
-            NotificationCenter.default.post(name: .cloudProducts, object: nil)
-        }
-    }
-    
-    private func setupCategory(record: CKRecord) {
-        if let category = CategoryModel(record: record) {
-            CoreDataManager.shared.saveCategory(category: category)
-        }
-    }
-    
-    private func setupStore(record: CKRecord) {
-        if let store = Store(record: record) {
-            CoreDataManager.shared.saveStore(store)
-        }
-    }
-    
-    private func setupPantry(record: CKRecord) {
-        let imageData = self.convertAssetToData(asset: record.value(forKey: "icon"))
-        if let pantry = PantryModel(record: record, imageData: imageData) {
-            CoreDataManager.shared.savePantry(pantry: [pantry])
-            NotificationCenter.default.post(name: .cloudPantry, object: nil)
-        }
-    }
-    
-    private func setupStock(record: CKRecord) {
-        let imageData = self.convertAssetToData(asset: record.value(forKey: "imageData"))
-        if let stock = Stock(record: record, imageData: imageData) {
-            CoreDataManager.shared.saveStock(stock: [stock], for: stock.pantryId.uuidString)
-            NotificationCenter.default.post(name: .cloudStock, object: nil)
-        }
-    }
-    
-    private func setupCollection(record: CKRecord) {
-        let imageData = self.convertAssetToData(asset: record.value(forKey: "localImage"))
-        if let collection = CollectionModel(record: record, imageData: imageData) {
-            CoreDataManager.shared.saveCollection(collections: [collection])
-            NotificationCenter.default.post(name: .cloudCollection, object: nil)
-        }
-    }
-    
-    private func setupRecipe(record: CKRecord) {
-        let imageData = self.convertAssetToData(asset: record.value(forKey: "icon"))
-        let ingredients = self.convertAssetToData(asset: record.value(forKey: "ingredients"))
-        if let recipe = Recipe(record: record, imageData: imageData, ingredientsData: ingredients) {
-            CoreDataManager.shared.saveRecipes(recipes: [recipe])
-            NotificationCenter.default.post(name: .cloudRecipe, object: nil)
-        }
-    }
-    
-    private func setupSettings(record: CKRecord) {
-        UserDefaultsManager.shared.isMetricSystem = (record.value(forKey: "isMetricSystem") as? Int64 ?? 0).boolValue
-        UserDefaultsManager.shared.isHapticOn = (record.value(forKey: "isHapticOn") as? Int64 ?? 0).boolValue
-        UserDefaultsManager.shared.isShowImage = (record.value(forKey: "isShowImage") as? Int64 ?? 0).boolValue
-        UserDefaultsManager.shared.isActiveAutoCategory = (record.value(forKey: "isActiveAutoCategory") as? Int64 ?? 0).boolValue
-        UserDefaultsManager.shared.recipeIsFolderView = (record.value(forKey: "recipeIsFolderView") as? Int64 ?? 0).boolValue
-        UserDefaultsManager.shared.recipeIsTableView = (record.value(forKey: "recipeIsTableView") as? Int64 ?? 0).boolValue
-        UserDefaultsManager.shared.userTokens = record.value(forKey: "userTokens") as? [String] ?? []
-        UserDefaultsManager.shared.pantryUserTokens = record.value(forKey: "pantryUserTokens") as? [String] ?? []
-        UserDefaultsManager.shared.favoritesRecipeIds = record.value(forKey: "favoritesRecipeIds") as? [Int] ?? []
-    }
-}
-
-extension CloudManager {
     func saveCloudAllData() {
         saveCloudSettings()
         
         let groceryLists = CoreDataManager.shared.getAllLists()?.compactMap({ GroceryListsModel(from: $0) }) ?? []
-        groceryLists.forEach { saveCloudData(groceryList: $0) }
+        groceryLists.forEach {
+            if $0.isShared {
+                if $0.isSharedListOwner {
+                    saveCloudData(groceryList: $0)
+                }
+            } else {
+                saveCloudData(groceryList: $0)
+            }
+        }
         
         let products = CoreDataManager.shared.getAllProducts()?.compactMap({ Product(from: $0) }) ?? []
         products.forEach { saveCloudData(product: $0) }
@@ -120,7 +34,15 @@ extension CloudManager {
         stores.forEach { saveCloudData(store: $0) }
         
         let pantries = CoreDataManager.shared.getAllPantries()?.compactMap({ PantryModel(dbModel: $0) }) ?? []
-        pantries.forEach { saveCloudData(pantryModel: $0) }
+        pantries.forEach {
+            if $0.isShared {
+                if $0.isSharedListOwner {
+                    saveCloudData(pantryModel: $0)
+                }
+            } else {
+                saveCloudData(pantryModel: $0)
+            }
+        }
         
         let stocks = CoreDataManager.shared.getAllStock()?.compactMap({ Stock(dbModel: $0) }) ?? []
         stocks.forEach { saveCloudData(stock: $0) }
@@ -399,7 +321,7 @@ extension CloudManager {
             save(record: record) { recordID in
                 var updateStock = stock
                 updateStock.recordId = recordID
-                CoreDataManager.shared.saveStock(stock: [updateStock], for: stock.pantryId.uuidString)
+                CoreDataManager.shared.saveStock(stocks: [updateStock], for: stock.pantryId.uuidString)
             }
             return
         }
@@ -596,37 +518,5 @@ extension CloudManager {
         let favoritesRecipeIds = UserDefaultsManager.shared.favoritesRecipeIds
         record.setValue(favoritesRecipeIds.isEmpty ? nil : favoritesRecipeIds , forKey: "favoritesRecipeIds")
         return record
-    }
-}
-
-// MARK: delete Data
-extension CloudManager {
-    func deleteData(recordId: CKRecord.ID, recordType: CKRecord.RecordType) {
-        DispatchQueue.main.async {
-            guard let recordType = RecordType(rawValue: recordType) else {
-                return
-            }
-            
-            switch recordType {
-            case .groceryListsModel:
-                CoreDataManager.shared.removeList(recordId: recordId.recordName)
-            case .product:
-                CoreDataManager.shared.removeProduct(recordId: recordId.recordName)
-            case .categoryModel:
-                CoreDataManager.shared.removeCategory(recordId: recordId.recordName)
-            case .store:
-                CoreDataManager.shared.removeStore(recordId: recordId.recordName)
-            case .pantryModel:
-                CoreDataManager.shared.removePantryList(recordId: recordId.recordName)
-            case .stock:
-                CoreDataManager.shared.removeStock(recordId: recordId.recordName)
-            case .collectionModel:
-                CoreDataManager.shared.removeCollection(recordId: recordId.recordName)
-            case .recipe:
-                CoreDataManager.shared.removeRecipe(recordId: recordId.recordName)
-            case .settings:
-                break
-            }
-        }
     }
 }

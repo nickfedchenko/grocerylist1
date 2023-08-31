@@ -93,6 +93,7 @@ class ListDataSource: ListDataSourceProtocol {
             transformedModels?.remove(at: index)
             transformedModels?.insert(newModel, at: 0)
             CoreDataManager.shared.saveList(list: newModel)
+            CloudManager.shared.saveCloudData(groceryList: newModel)
         }
         updateFirstAndLastModels()
         return setOfModelsToUpdate

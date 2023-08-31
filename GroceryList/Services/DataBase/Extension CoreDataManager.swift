@@ -459,12 +459,9 @@ extension CoreDataManager {
     // MARK: - Pantry
     func savePantry(pantry: [PantryModel]) {
         let asyncContext = coreData.viewContext
-        let _ = pantry.map { DBPantry.prepare(fromPlainModel: $0, context: asyncContext)}
-        guard asyncContext.hasChanges else {
-            return
-        }
         asyncContext.performAndWait {
             do {
+                let _ = pantry.map { DBPantry.prepare(fromPlainModel: $0, context: asyncContext)}
                 try asyncContext.save()
             } catch let error {
                 print(error)
@@ -553,25 +550,19 @@ extension CoreDataManager {
     }
     
     // MARK: - Stocks
-    func saveStock(stock: [Stock], for pantryId: String) {
-        let asyncContext: NSManagedObjectContext
-        if Thread.isMainThread {
-            asyncContext = coreData.viewContext
-        } else {
-            asyncContext = coreData.taskContext
-        }
+    func saveStock(stocks: [Stock], for pantryId: String) {
+        let asyncContext = coreData.taskContext
         let fetchRequest: NSFetchRequest<DBPantry> = DBPantry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(pantryId)'")
         guard let pantry = try? asyncContext.fetch(fetchRequest).first else {
             return
         }
-        let _ = stock.map {
-            let object = DBStock.prepare(fromPlainModel: $0, context: asyncContext)
-            object.pantry = pantry
-        }
-        guard asyncContext.hasChanges else { return }
-        asyncContext.performAndWait {
+        asyncContext.perform {
             do {
+                let _ = stocks.map {
+                    let object = DBStock.prepare(fromPlainModel: $0, context: asyncContext)
+                    object.pantry = pantry
+                }
                 try asyncContext.save()
             } catch let error {
                 print(error)

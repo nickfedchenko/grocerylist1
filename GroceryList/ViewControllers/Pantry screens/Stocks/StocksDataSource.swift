@@ -26,7 +26,7 @@ final class StocksDataSource {
     func updateStockStatus(stock: Stock) {
         var stock = stock
         stock.isAvailability = !stock.isAvailability
-        CoreDataManager.shared.saveStock(stock: [stock], for: pantryId.uuidString)
+        CoreDataManager.shared.saveStock(stocks: [stock], for: pantryId.uuidString)
         CloudManager.shared.saveCloudData(stock: stock)
         updateStocks()
     }
@@ -46,7 +46,7 @@ final class StocksDataSource {
         for newIndex in updatedStocks.indices {
             updatedStocks[newIndex].index = newIndex
         }
-        CoreDataManager.shared.saveStock(stock: updatedStocks, for: pantryId.uuidString)
+        CoreDataManager.shared.saveStock(stocks: updatedStocks, for: pantryId.uuidString)
         updatedStocks.forEach { stock in
             CloudManager.shared.saveCloudData(stock: stock)
         }

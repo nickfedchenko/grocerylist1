@@ -282,12 +282,6 @@ struct PantryStocks: Hashable {
     var stock: [Stock]
     var typeOFCell: TypeOfCellPantryStocks
     
-    init(name: String, stock: [Stock], typeOFCell: TypeOfCellPantryStocks) {
-        self.name = name
-        self.stock = stock
-        self.typeOFCell = typeOFCell
-    }
-    
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
     }

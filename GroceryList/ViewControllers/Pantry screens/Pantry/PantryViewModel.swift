@@ -124,7 +124,9 @@ class PantryViewModel {
     
     @objc
     func reloadDataFromStorage() {
-        dataSource.updatePantry()
+        DispatchQueue.main.async { [weak self] in
+            self?.dataSource.updatePantry()
+        }
     }
     
     func showPaywall() {
