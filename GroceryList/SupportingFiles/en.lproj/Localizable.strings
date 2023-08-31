@@ -538,7 +538,7 @@
 "noAccountTitle"                = "Turn on iCloud";
 "noAccount"                     = "Go to Settings > iCloud\nFind Grocery List in the list of applications and turn on";
 "temporarilyUnavailable"        = "The user’s iCloud account is temporarily unavailable.";
-
+"Synchronization"               = "Synchronization";
 
 // Updated Paywall
 "three days "                   = "3 days ";

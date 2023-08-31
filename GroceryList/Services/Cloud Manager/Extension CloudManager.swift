@@ -412,7 +412,6 @@ extension CloudManager {
         record.setValue(recipe.dishWeightType, forKey: "dishWeightType")
         record.setValue(try? JSONEncoder().encode(recipe.values), forKey: "values")
         record.setValue(recipe.countries, forKey: "countries")
-        record.setValue(recipe.instructions, forKey: "instructions")
 //        record.setValue(ingredients, forKey: "ingredients")
         record.setValue(try? JSONEncoder().encode(recipe.ingredients), forKey: "ingredients")
         record.setValue(try? JSONEncoder().encode(recipe.eatingTags), forKey: "eatingTags")

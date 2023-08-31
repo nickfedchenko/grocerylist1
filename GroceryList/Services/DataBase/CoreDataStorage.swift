@@ -31,6 +31,12 @@ class CoreDataStorage {
         return taskContext
     }()
     
+    lazy var newBackgroundContext: NSManagedObjectContext = {
+        let taskContext = container.newBackgroundContext()
+        taskContext.mergePolicy = SafeMergePolicy()
+        return taskContext
+    }()
+    
     lazy var viewContext: NSManagedObjectContext = {
         let context = context
         context.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)

@@ -51,19 +51,25 @@ final class CloudManager {
             
             enableGroup.notify(queue: DispatchQueue.global()) {
                 if UserDefaultsManager.shared.createdCustomZone {
-                    self.fetchChanges()
+                    self.fetchChanges(isShowSyncController: true)
                 }
             }
         }
     }
     
-    func fetchChanges() {
+    func fetchChanges(isShowSyncController: Bool = false) {
         var changedZoneIDs: [CKRecordZone.ID] = []
         let serverChangeToken = getToken(changeTokenKey: UserDefaultsManager.shared.databaseChangeTokenKey)
         let databaseOperation = CKFetchDatabaseChangesOperation(previousServerChangeToken: serverChangeToken)
         
         databaseOperation.recordZoneWithIDChangedBlock = { zoneID in
             changedZoneIDs.append(zoneID)
+        }
+        
+        databaseOperation.recordZoneWithIDWasDeletedBlock = { zoneID in
+            if zoneID.zoneName == self.zoneID.zoneName {
+                self.iCloudBackupOff()
+            }
         }
         
         databaseOperation.changeTokenUpdatedBlock = { token in
@@ -73,28 +79,18 @@ final class CloudManager {
         
         databaseOperation.fetchDatabaseChangesCompletionBlock = { token, _, error in
             if let error = error {
-                print("[CloudKit]:", error.localizedDescription)
+                print("[CloudKit]: ", error.localizedDescription)
                 return
             }
             if !changedZoneIDs.isEmpty {
-                DispatchQueue.main.async {
-                    self.controller.loadingIndicator(isVisible: true)
-                    self.controller.modalTransitionStyle = .crossDissolve
-                    self.controller.modalPresentationStyle = .overCurrentContext
-                    self.router?.topViewController?.present(self.controller, animated: true, completion: nil)
-                }
-
+                self.presentSyncController(isShowSyncController: isShowSyncController)
                 self.fetchZoneChanges(zoneIDs: changedZoneIDs) { [weak self] in
                     self?.saveRecords()
                     if let token {
                         let changeTokenData = try? NSKeyedArchiver.archivedData(withRootObject: token, requiringSecureCoding: true)
                         UserDefaultsManager.shared.databaseChangeTokenKey = changeTokenData
                     }
-                    
-                    DispatchQueue.main.async {
-                        self?.controller.loadingIndicator(isVisible: false)
-                        self?.controller.dismiss(animated: true)
-                    }
+                    self?.dismissSyncController(isShowSyncController: isShowSyncController)
                 }
             }
         }
@@ -382,6 +378,34 @@ final class CloudManager {
                 case .settings:             break
                 }
             }
+        }
+    }
+    
+    private func iCloudBackupOff() {
+        UserDefaultsManager.shared.isICloudDataBackupOn = false
+        UserDefaultsManager.shared.createdCustomZone = false
+        UserDefaultsManager.shared.subscribedToPrivateChanges = false
+    }
+    
+    private func presentSyncController(isShowSyncController: Bool) {
+        guard isShowSyncController else {
+            return
+        }
+        DispatchQueue.main.async {
+            self.controller.loadingIndicator(isVisible: true)
+            self.controller.modalTransitionStyle = .crossDissolve
+            self.controller.modalPresentationStyle = .overCurrentContext
+            self.router?.topViewController?.present(self.controller, animated: true, completion: nil)
+        }
+    }
+    
+    private func dismissSyncController(isShowSyncController: Bool) {
+        guard isShowSyncController else {
+            return
+        }
+        DispatchQueue.main.async {
+            self.controller.loadingIndicator(isVisible: false)
+            self.controller.dismiss(animated: true)
         }
     }
 }

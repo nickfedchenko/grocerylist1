@@ -551,13 +551,24 @@ extension CoreDataManager {
     
     // MARK: - Stocks
     func saveStock(stocks: [Stock], for pantryId: String) {
-        let asyncContext = coreData.taskContext
+        let asyncContext = coreData.newBackgroundContext
         let fetchRequest: NSFetchRequest<DBPantry> = DBPantry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(pantryId)'")
         guard let pantry = try? asyncContext.fetch(fetchRequest).first else {
             return
         }
-        asyncContext.perform {
+        
+        guard Thread.isMainThread else {
+            asyncContext.perform {
+                save()
+            }
+            return
+        }
+        asyncContext.performAndWait {
+            save()
+        }
+        
+        func save() {
             do {
                 let _ = stocks.map {
                     let object = DBStock.prepare(fromPlainModel: $0, context: asyncContext)

@@ -535,6 +535,7 @@
 "noAccountTitle"                = "Включите iCloud";
 "noAccount"                     = "Перейдите в «Настройки» > «iCloud»\nНайдите в списке приложений Grocery List и включите";
 "temporarilyUnavailable"        = "Учетная запись iCloud пользователя временно недоступна";
+"Synchronization"               = "Синхронизация";
 
 // Updated Paywall
 "three days "                   = "3 дня ";

@@ -529,6 +529,7 @@
 "noAccountTitle"                = "Allumez iCloud";
 "noAccount"                     = "Allez dans Paramètres > iCloud\nRecherchez la liste d'épicerie dans la liste des applications et activez";
 "temporarilyUnavailable"        = "Le compte iCloud de l'utilisateur est temporairement indisponible.";
+"Synchronization"               = "Synchronisation";
 
 // Updated Paywall
 "three days "                   = "3 jours ";

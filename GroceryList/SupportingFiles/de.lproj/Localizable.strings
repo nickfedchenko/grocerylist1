@@ -532,6 +532,7 @@
 "noAccountTitle"                = "Schalten Sie iCloud ein";
 "noAccount"                     = "Gehen Sie zu Einstellungen > iCloud\nSuchen Sie in der Liste der Anwendungen nach „Einkaufsliste“ und aktivieren Sie sie";
 "temporarilyUnavailable"        = "Das iCloud-Konto des Benutzers ist vorübergehend nicht verfügbar.";
+"Synchronization"               = "Synchronisation";
 
 // Updated Paywall
 "three days "                   = "3 tage ";
