@@ -276,15 +276,6 @@ class SharedListManager {
                 if let stringUrl = $0.avatar,
                    let url = URL(string: stringUrl) {
                     _ = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
-                    
-//                    KingfisherManager.shared.retrieveImage(with: url) { result in
-//                        switch result {
-//                        case .success(let value):
-//                            ImageCache.default.store(value.image, forKey: url.absoluteString)
-//                        case .failure(let error):
-//                            print(error.localizedDescription)
-//                        }
-//                    }
                 }
             }
         }

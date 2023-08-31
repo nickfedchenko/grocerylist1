@@ -18,7 +18,7 @@ class RecipeFilterViewController: UIViewController {
         let button = UIButton(type: .system)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         button.setImage(R.image.greenArrowBack(), for: .normal)
-        button.setTitle("   Search", for: .normal)
+        button.setTitle("   " + R.string.localizable.search(), for: .normal)
         button.titleLabel?.font = UIFont.SFProRounded.bold(size: 16).font
         button.setTitleColor(R.color.darkGray(), for: .normal)
         button.semanticContentAttribute = .forceLeftToRight
@@ -29,7 +29,7 @@ class RecipeFilterViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFProDisplay.heavy(size: 40).font
-        label.text = "Filters"
+        label.text = R.string.localizable.filters()
         return label
     }()
     

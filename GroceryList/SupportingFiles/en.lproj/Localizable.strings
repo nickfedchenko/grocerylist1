@@ -101,7 +101,6 @@
 "Pet Care"                  = "Pet Care";
 "Stationery"                = "Stationery";
 
-
 "ozz"                       = "oz";
 "lbс"                       = "lb";
 "pt"                        = "pt";
@@ -349,7 +348,6 @@
 "ADD TO SHOPPING LIST"          = "ADD TO SHOPPING LIST";
 
 // Default Pantry
-
 "Fridge"                        = "Fridge";
 "Grocery"                       = "Grocery";
 "Spices & Herbs"                = "Spices & Herbs";
@@ -440,6 +438,56 @@
 
 "search"                        = "Search";
 "Add Filter"                    = "Add Filter";
+"Filters"                       = "Filters";
+"Exception"                     = "Exception";
+"Gluten"                        = "Gluten";
+"Peanuts"                       = "Peanuts";
+"Eggs"                          = "Eggs";
+"Fish"                          = "Fish";
+"Dairy"                         = "Dairy";
+"Tree Nuts"                     = "Tree Nuts";
+"Soy"                           = "Soy";
+"Seafood"                       = "Seafood";
+"Honey"                         = "Honey";
+"Meat"                          = "Meat";
+"Poultry"                       = "Poultry";
+"Starchy vegetables"            = "Starchy vegetables";
+"Diet"                          = "Diet";
+"Low carb"                      = "Low carb";
+"High protein"                  = "High protein";
+"Low fat"                       = "Low fat";
+"Keto"                          = "Keto";
+"Pescatarian"                   = "Pescatarian";
+"Vegetarian"                    = "Vegetarian";
+"Vegan"                         = "Vegan";
+"Type of dish"                  = "Type of dish";
+"Salad"                         = "Salad";
+"Side Dish"                     = "Side Dish";
+"Soup"                          = "Soup";
+"Beverage"                      = "Beverage";
+"Pizza"                         = "Pizza";
+"Bakery products"               = "Bakery products";
+"Sandwich"                      = "Sandwich";
+"Appetizer"                     = "Appetizer";
+"Sauce"                         = "Sauce";
+"Dessert"                       = "Dessert";
+"Cooking method"                = "Cooking method";
+"Without heat treatment"        = "Without heat treatment";
+"Boil"                          = "Boil";
+"Bake"                          = "Bake";
+"Steam"                         = "Steam";
+"Fry"                           = "Fry";
+"Stew"                          = "Stew";
+"Microwave"                     = "Microwave";
+"On the coals"                  = "On the coals";
+"Deep frying"                   = "Deep frying";
+"Sous vide"                     = "Sous vide";
+"Air Fryer"                     = "Air Fryer";
+"Multicooker"                   = "Multicooker";
+"Calories per serving (kcal)"   = "Calories per serving (kcal)";
+"Cooking time (min)"            = "Cooking time (min)";
+"Quantity of ingredients"       = "Quantity of ingredients";
+"or less"                       = "%@ or less";
 
 // Import web recipe
 "Import Web Recipes"            = "Import Web Recipes";
@@ -495,6 +543,14 @@
 "Try 3 days for free"           = "Try 3 days for free";
 "Save time and money with app"  = "Save time and money with Shopping List";
 "Cancel anytime"                = "Cancel anytime";
+
+"Up to 6 members"               = "Up to 6 members";
+"Family Plan"                   = "Family Plan";
+
+"perDay"                        = "day";
+"perWeek"                       = "week";
+"perMonth"                      = "month";
+"perYear"                       = "year";
 
 // New Paywall
 "Unlock Premium"                = "Unlock Premium";
