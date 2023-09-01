@@ -22,9 +22,6 @@ final class NewFeatureViewModel {
                 DispatchQueue.global(qos: .default).async {
                     let group = DispatchGroup()
                     CloudManager.shared.enable(enableGroup: group)
-                    group.notify(queue: DispatchQueue.global()) {
-                        CloudManager.shared.saveCloudAllData()
-                    }
                 }
                 self?.router?.navigationDismiss()
                 self?.dismiss?()

@@ -9,9 +9,9 @@ import Foundation
 
 class DomainModelsToLocalTransformer {
     
-    deinit {
-        print("DomainModelsToLocalTransformer")
-    }
+//    deinit {
+//        print("DomainModelsToLocalTransformer")
+//    }
     
     func transformCoreDataModelToModel(_ dbModel: DBGroceryListModel) -> GroceryListsModel {
         let id = dbModel.id ?? UUID()

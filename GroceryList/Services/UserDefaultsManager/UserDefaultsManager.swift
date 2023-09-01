@@ -220,16 +220,6 @@ class UserDefaultsManager {
         set { userDefaults.set(newValue, forKey: "isFixReplaceCoreData") }
     }
     
-    var settingsRecordId: String {
-        get { userDefaults.string(forKey: "settingsRecordId") ?? "" }
-        set { userDefaults.set(newValue, forKey: "settingsRecordId") }
-    }
-    
-    var isICloudDataBackupOn: Bool {
-        get { userDefaults.bool(forKey: "isICloudDataBackupOn") }
-        set { userDefaults.set(newValue, forKey: "isICloudDataBackupOn") }
-    }
-    
     var isNewFeature: Bool {
         get { userDefaults.bool(forKey: "isNewFeatureICloud") }
         set { userDefaults.set(newValue, forKey: "isNewFeatureICloud") }
@@ -238,6 +228,16 @@ class UserDefaultsManager {
     var countShowMessageNewFeature: Int {
         get { userDefaults.integer(forKey: "createdCustomZone") }
         set { userDefaults.set(newValue, forKey: "createdCustomZone") }
+    }
+    
+    var settingsRecordId: String {
+        get { userDefaults.string(forKey: "settingsRecordId") ?? "" }
+        set { userDefaults.set(newValue, forKey: "settingsRecordId") }
+    }
+    
+    var isICloudDataBackupOn: Bool {
+        get { userDefaults.bool(forKey: "isICloudDataBackupOn") }
+        set { userDefaults.set(newValue, forKey: "isICloudDataBackupOn") }
     }
     
     var createdCustomZone: Bool {

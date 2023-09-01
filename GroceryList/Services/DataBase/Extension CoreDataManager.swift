@@ -624,6 +624,39 @@ extension CoreDataManager {
         }
         try? context.save()
     }
+    
+    func resetRecordIdForAllData() {
+        resetRecordId(request: DBGroceryListModel.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBProduct.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBCategories.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBStore.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBPantry.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBStock.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBCollection.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBRecipe.fetchRequest()) { $0.recordId = "" }
+    }
+
+    private func resetRecordId<T: NSManagedObject>(request: NSFetchRequest<T>,
+                                                   configurationBlock: @escaping ((T) -> Void)) {
+        let asyncContext = coreData.taskContext
+        request.predicate = NSPredicate(format: "recordId != '\("")'")
+        let objects = fetch(request: request, context: asyncContext)
+        guard !objects.isEmpty else {
+            return
+        }
+        asyncContext.performAndWait {
+            for object in objects {
+                var updateObject = object
+                configurationBlock(updateObject)
+            }
+            try? asyncContext.save()
+        }
+    }
+    
+    private func fetch<T: NSManagedObject>(request: NSFetchRequest<T>,
+                                           context: NSManagedObjectContext) -> [T] {
+        return (try? context.fetch(request)) ?? []
+    }
 }
 
 extension CoreDataManager: CoredataSyncProtocol {

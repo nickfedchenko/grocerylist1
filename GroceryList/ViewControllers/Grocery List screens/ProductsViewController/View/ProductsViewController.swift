@@ -221,9 +221,9 @@ class ProductsViewController: UIViewController {
         totalCostLabel.attributedText = titleAttr
     }
     
-    deinit {
-        print("ProductView deinited")
-    }
+//    deinit {
+//        print("ProductView deinited")
+//    }
     
     // MARK: - buttonPressed
     

@@ -34,9 +34,9 @@ class CreateNewCategoryViewController: UIViewController {
         contentView.makeCustomRound(topLeft: 4, topRight: 40, bottomLeft: 0, bottomRight: 0)
     }
     
-    deinit {
-        print("create new list deinited")
-    }
+//    deinit {
+//        print("create new list deinited")
+//    }
     
     func setupStore() {
         topCategoryLabel.text = R.string.localizable.createANewStore()

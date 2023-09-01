@@ -9,51 +9,7 @@ import CloudKit
 import Foundation
 
 // MARK: save/update Data
-extension CloudManager {
-    func saveCloudAllData() {
-        saveCloudSettings()
-        
-        let groceryLists = CoreDataManager.shared.getAllLists()?.compactMap({ GroceryListsModel(from: $0) }) ?? []
-        groceryLists.forEach {
-            if $0.isShared {
-                if $0.isSharedListOwner {
-                    saveCloudData(groceryList: $0)
-                }
-            } else {
-                saveCloudData(groceryList: $0)
-            }
-        }
-        
-        let products = CoreDataManager.shared.getAllProducts()?.compactMap({ Product(from: $0) }) ?? []
-        products.forEach { saveCloudData(product: $0) }
-        
-        let categories = CoreDataManager.shared.getUserCategories()?.compactMap({ CategoryModel(from: $0) }) ?? []
-        categories.forEach { saveCloudData(category: $0) }
-        
-        let stores = CoreDataManager.shared.getAllStores()?.compactMap({ Store(from: $0) }) ?? []
-        stores.forEach { saveCloudData(store: $0) }
-        
-        let pantries = CoreDataManager.shared.getAllPantries()?.compactMap({ PantryModel(dbModel: $0) }) ?? []
-        pantries.forEach {
-            if $0.isShared {
-                if $0.isSharedListOwner {
-                    saveCloudData(pantryModel: $0)
-                }
-            } else {
-                saveCloudData(pantryModel: $0)
-            }
-        }
-        
-        let stocks = CoreDataManager.shared.getAllStock()?.compactMap({ Stock(dbModel: $0) }) ?? []
-        stocks.forEach { saveCloudData(stock: $0) }
-        
-        let collections = CoreDataManager.shared.getAllCollection()?.compactMap({ CollectionModel(from: $0) }) ?? []
-        collections.forEach { saveCloudData(collectionModel: $0) }
-        
-        let recipes = CoreDataManager.shared.getAllRecipes()?.compactMap({ $0.isDefaultRecipe ? nil : Recipe(from: $0) }) ?? []
-        recipes.forEach { saveCloudData(recipe: $0) }
-    }
-    
+extension CloudManager {    
     func saveCloudData(groceryList: GroceryListsModel) {
         guard UserDefaultsManager.shared.isICloudDataBackupOn else {
             return

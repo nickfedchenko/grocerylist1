@@ -40,8 +40,8 @@ final class CloudManager {
     private let recordsQueue = DispatchQueue(label: "com.ksens.shopp.recordsQueue", attributes: .concurrent)
 
     private init() {
-        let createZoneGroup = DispatchGroup()
-        enable(enableGroup: createZoneGroup)
+        let enableGroup = DispatchGroup()
+        enable(enableGroup: enableGroup)
     }
     
     func enable(enableGroup: DispatchGroup) {
@@ -51,6 +51,7 @@ final class CloudManager {
             
             enableGroup.notify(queue: DispatchQueue.global()) {
                 if UserDefaultsManager.shared.createdCustomZone {
+                    self.saveCloudAllData()
                     self.fetchChanges(isShowSyncController: true)
                 }
             }
@@ -58,6 +59,7 @@ final class CloudManager {
     }
     
     func fetchChanges(isShowSyncController: Bool = false) {
+        print("[CloudKit]: fetchChanges")
         var changedZoneIDs: [CKRecordZone.ID] = []
         let serverChangeToken = getToken(changeTokenKey: UserDefaultsManager.shared.databaseChangeTokenKey)
         let databaseOperation = CKFetchDatabaseChangesOperation(previousServerChangeToken: serverChangeToken)
@@ -98,6 +100,11 @@ final class CloudManager {
         databaseOperation.qualityOfService = .userInteractive
         privateCloudDataBase.add(databaseOperation)
     }
+    
+    /*
+     [CloudKit]: Error fetching changes in zone <CKRecordZoneID: 0x6000005b67f0; zoneName=GroceryList, ownerName=__defaultOwner__>: Zone was purged by user
+     [CloudKit]: Couldn't fetch some items when fetching changes
+     */
     
     func getICloudStatus(completion: @escaping ((CKAccountStatus) -> Void)) {
         CKContainer.default().accountStatus { status, error in
@@ -173,6 +180,7 @@ final class CloudManager {
                     print("[CloudKit]: ", error.localizedDescription)
                 } else {
                     UserDefaultsManager.shared.createdCustomZone = true
+                    print("[CloudKit]: createCustomZone")
                 }
                 createZoneGroup.leave()
             }
@@ -195,6 +203,7 @@ final class CloudManager {
                     print("[CloudKit]:", error.localizedDescription)
                 } else {
                     UserDefaultsManager.shared.subscribedToPrivateChanges = true
+                    print("[CloudKit]: subscribedToPrivateChanges")
                 }
             }
             modifySubscriptionsOperation.qualityOfService = .userInteractive
@@ -256,7 +265,7 @@ final class CloudManager {
         }
         return serverChangeToken
     }
-
+    
     private func updateData(by record: CKRecord) {
         DispatchQueue.global(qos: .background).async {
             guard let recordType = RecordType(rawValue: record.recordType) else {
@@ -385,8 +394,82 @@ final class CloudManager {
         UserDefaultsManager.shared.isICloudDataBackupOn = false
         UserDefaultsManager.shared.createdCustomZone = false
         UserDefaultsManager.shared.subscribedToPrivateChanges = false
+        CoreDataManager.shared.resetRecordIdForAllData()
+    }
+}
+
+extension CloudManager {
+    private func saveCloudAllData() {
+        if UserDefaultsManager.shared.settingsRecordId.isEmpty {
+            saveCloudSettings()
+        }
+        
+        saveCloudAllGroceryLists()
+        saveCloudAllPantryLists()
+        
+        let collections = CoreDataManager.shared.getAllCollection()?.compactMap({
+            $0.recordId == "" ? CollectionModel(from: $0) : nil
+        }) ?? []
+        collections.forEach { saveCloudData(collectionModel: $0) }
+        
+        let recipes = CoreDataManager.shared.getAllRecipes()?.compactMap({
+            $0.isDefaultRecipe ? nil : $0.recordId == "" ? Recipe(from: $0) : nil
+        }) ?? []
+        recipes.forEach { saveCloudData(recipe: $0) }
     }
     
+    private func saveCloudAllGroceryLists() {
+        let groceryLists = CoreDataManager.shared.getAllLists()?.compactMap({
+            $0.recordId == "" ? GroceryListsModel(from: $0) : nil
+        }) ?? []
+        groceryLists.forEach {
+            if $0.isShared {
+                if $0.isSharedListOwner {
+                    saveCloudData(groceryList: $0)
+                }
+            } else {
+                saveCloudData(groceryList: $0)
+            }
+        }
+        
+        let products = CoreDataManager.shared.getAllProducts()?.compactMap({
+            $0.recordId == "" ? Product(from: $0) : nil
+        }) ?? []
+        products.forEach { saveCloudData(product: $0) }
+        
+        let categories = CoreDataManager.shared.getUserCategories()?.compactMap({
+            $0.recordId == "" ? CategoryModel(from: $0) : nil
+        }) ?? []
+        categories.forEach { saveCloudData(category: $0) }
+        
+        let stores = CoreDataManager.shared.getAllStores()?.compactMap({
+            $0.recordId == "" ? Store(from: $0) : nil
+        }) ?? []
+        stores.forEach { saveCloudData(store: $0) }
+    }
+    
+    private func saveCloudAllPantryLists() {
+        let pantries = CoreDataManager.shared.getAllPantries()?.compactMap({
+            $0.recordId == "" ? PantryModel(dbModel: $0) : nil
+        }) ?? []
+        pantries.forEach {
+            if $0.isShared {
+                if $0.isSharedListOwner {
+                    saveCloudData(pantryModel: $0)
+                }
+            } else {
+                saveCloudData(pantryModel: $0)
+            }
+        }
+        
+        let stocks = CoreDataManager.shared.getAllStock()?.compactMap({
+            $0.recordId == "" ? Stock(dbModel: $0) : nil
+        }) ?? []
+        stocks.forEach { saveCloudData(stock: $0) }
+    }
+}
+
+extension CloudManager {
     private func presentSyncController(isShowSyncController: Bool) {
         guard isShowSyncController else {
             return

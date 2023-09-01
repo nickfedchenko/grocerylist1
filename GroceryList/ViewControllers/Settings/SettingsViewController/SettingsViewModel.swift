@@ -142,9 +142,6 @@ class SettingsViewModel {
                 DispatchQueue.global(qos: .default).async {
                     let group = DispatchGroup()
                     CloudManager.shared.enable(enableGroup: group)
-                    group.notify(queue: DispatchQueue.global()) {
-                        CloudManager.shared.saveCloudAllData()
-                    }
                 }
                 return
             }
