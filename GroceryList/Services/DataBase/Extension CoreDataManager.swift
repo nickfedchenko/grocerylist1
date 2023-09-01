@@ -559,14 +559,10 @@ extension CoreDataManager {
         }
         
         guard Thread.isMainThread else {
-            asyncContext.perform {
-                save()
-            }
+            asyncContext.perform { save() }
             return
         }
-        asyncContext.performAndWait {
-            save()
-        }
+        asyncContext.performAndWait { save() }
         
         func save() {
             do {
@@ -626,6 +622,7 @@ extension CoreDataManager {
     }
     
     func resetRecordIdForAllData() {
+        print("[CoreData: resetRecordIdForAllData]")
         resetRecordId(request: DBGroceryListModel.fetchRequest()) { $0.recordId = "" }
         resetRecordId(request: DBProduct.fetchRequest()) { $0.recordId = "" }
         resetRecordId(request: DBCategories.fetchRequest()) { $0.recordId = "" }
@@ -650,6 +647,7 @@ extension CoreDataManager {
                 configurationBlock(updateObject)
             }
             try? asyncContext.save()
+            print("[CoreData: save resetRecordId \(T.self)]")
         }
     }
     

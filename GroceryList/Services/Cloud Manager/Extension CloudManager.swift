@@ -267,6 +267,10 @@ extension CloudManager {
         guard UserDefaultsManager.shared.isICloudDataBackupOn else {
             return
         }
+        
+        if let dbPantry = CoreDataManager.shared.getPantry(id: stock.pantryId.uuidString) {
+            saveCloudData(pantryModel: PantryModel(dbModel: dbPantry))
+        }
 
         let image = convertDataToAsset(name: stock.id.uuidString,
                                        data: stock.imageData)
@@ -317,7 +321,6 @@ extension CloudManager {
         record.setValue(stock.dateOfCreation, forKey: "dateOfCreation")
         record.setValue(stock.isUserImage, forKey: "isUserImage")
         record.setValue(stock.userToken, forKey: "userToken")
-        record.setValue(stock.isVisibleCost, forKey: "isVisibleCost")
         return record
     }
 

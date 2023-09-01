@@ -222,14 +222,12 @@ final class PantryDataSource {
                                       category: netProduct?.marketCategory,
                                       quantity: stock.quantity,
                                       unitId: stock.unitId,
-                                      isAvailability: stock.isAvailability)
+                                      isAvailability: stock.isAvailability,
+                                      isDefault: true)
             defaultsFridgeStocks.append(defaultsStock)
         }
         
         CoreDataManager.shared.saveStock(stocks: defaultsFridgeStocks, for: fridgeId.uuidString)
-        defaultsFridgeStocks.forEach { stock in
-            CloudManager.shared.saveCloudData(stock: stock)
-        }
     }
     
     private func defaultGroceryStocks(groceryId: UUID, allProducts: [DBNewNetProduct]) {
@@ -244,14 +242,12 @@ final class PantryDataSource {
                                       category: netProduct?.marketCategory,
                                       quantity: stock.quantity,
                                       unitId: stock.unitId,
-                                      isAvailability: stock.isAvailability)
+                                      isAvailability: stock.isAvailability,
+                                      isDefault: true)
             defaultGroceryStocks.append(defaultsStock)
         }
         
         CoreDataManager.shared.saveStock(stocks: defaultGroceryStocks, for: groceryId.uuidString)
-        defaultGroceryStocks.forEach { stock in
-            CloudManager.shared.saveCloudData(stock: stock)
-        }
     }
     
     private func defaultSpicesHerbsStocks(spicesHerbsId: UUID, allProducts: [DBNewNetProduct]) {
@@ -262,14 +258,12 @@ final class PantryDataSource {
                                       index: stock.rawValue, pantryId: spicesHerbsId,
                                       name: stock.title,
                                       imageData: stock.imageData,
-                                      category: netProduct?.marketCategory)
+                                      category: netProduct?.marketCategory,
+                                      isDefault: true)
             defaultsSpicesHerbsStocks.append(defaultsStock)
         }
         
         CoreDataManager.shared.saveStock(stocks: defaultsSpicesHerbsStocks, for: spicesHerbsId.uuidString)
-        defaultsSpicesHerbsStocks.forEach { stock in
-            CloudManager.shared.saveCloudData(stock: stock)
-        }
     }
     
     private func defaultBeautyHealthStocks(beautyHealthId: UUID, allProducts: [DBNewNetProduct]) {
@@ -280,14 +274,12 @@ final class PantryDataSource {
                                       index: stock.rawValue, pantryId: beautyHealthId,
                                       name: stock.title,
                                       imageData: stock.imageData,
-                                      category: netProduct?.marketCategory)
+                                      category: netProduct?.marketCategory,
+                                      isDefault: true)
             defaultBeautyHealthStocks.append(defaultsStock)
         }
         
         CoreDataManager.shared.saveStock(stocks: defaultBeautyHealthStocks, for: beautyHealthId.uuidString)
-        defaultBeautyHealthStocks.forEach { stock in
-            CloudManager.shared.saveCloudData(stock: stock)
-        }
     }
     
     private func defaultHouseholdStocks(householdId: UUID, allProducts: [DBNewNetProduct]) {
@@ -299,14 +291,12 @@ final class PantryDataSource {
                                       name: stock.title,
                                       imageData: stock.imageData,
                                       category: netProduct?.marketCategory,
-                                      isAvailability: stock.isAvailability)
+                                      isAvailability: stock.isAvailability,
+                                      isDefault: true)
             defaultHouseholdStocks.append(defaultsStock)
         }
         
         CoreDataManager.shared.saveStock(stocks: defaultHouseholdStocks, for: householdId.uuidString)
-        defaultHouseholdStocks.forEach { stock in
-            CloudManager.shared.saveCloudData(stock: stock)
-        }
     }
 }
 

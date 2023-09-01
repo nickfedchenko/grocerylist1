@@ -40,18 +40,18 @@ final class CloudManager {
     private let recordsQueue = DispatchQueue(label: "com.ksens.shopp.recordsQueue", attributes: .concurrent)
 
     private init() {
-        let enableGroup = DispatchGroup()
-        enable(enableGroup: enableGroup)
+        enable()
     }
     
-    func enable(enableGroup: DispatchGroup) {
+    func enable() {
+        let enableGroup = DispatchGroup()
         if UserDefaultsManager.shared.isICloudDataBackupOn {
             createCustomZone(createZoneGroup: enableGroup)
             subscribingToChangeNotifications()
             
             enableGroup.notify(queue: DispatchQueue.global()) {
                 if UserDefaultsManager.shared.createdCustomZone {
-                    self.saveCloudAllData()
+                    self.syncAllDataWithICloud()
                     self.fetchChanges(isShowSyncController: true)
                 }
             }
@@ -100,12 +100,7 @@ final class CloudManager {
         databaseOperation.qualityOfService = .userInteractive
         privateCloudDataBase.add(databaseOperation)
     }
-    
-    /*
-     [CloudKit]: Error fetching changes in zone <CKRecordZoneID: 0x6000005b67f0; zoneName=GroceryList, ownerName=__defaultOwner__>: Zone was purged by user
-     [CloudKit]: Couldn't fetch some items when fetching changes
-     */
-    
+
     func getICloudStatus(completion: @escaping ((CKAccountStatus) -> Void)) {
         CKContainer.default().accountStatus { status, error in
             if let error {
@@ -317,16 +312,7 @@ final class CloudManager {
             NotificationCenter.default.post(name: .cloudRecipe, object: nil)
         }
         
-        let stocks = stocks.compactMap { record in
-            let imageData = self.convertAssetToData(asset: record.value(forKey: "imageData"))
-            return Stock(record: record, imageData: imageData)
-        }
-        let stocksDistributedByPantries = Dictionary(grouping: stocks, by: \.pantryId)
-        stocksDistributedByPantries.forEach { pantryId, stocks in
-            self.recordsQueue.async(flags: .barrier) {
-                CoreDataManager.shared.saveStock(stocks: stocks, for: pantryId.uuidString)
-            }
-        }
+        setupStock()
     }
     
     private func setupGroceryList(record: CKRecord) {
@@ -353,6 +339,29 @@ final class CloudManager {
     private func setupStore(record: CKRecord) {
         if let store = Store(record: record) {
             CoreDataManager.shared.saveStore(store)
+        }
+    }
+    
+    private func setupStock() {
+        if stocks.isEmpty { return }
+        let stocksFromCloud = stocks.compactMap { record in
+            let imageData = self.convertAssetToData(asset: record.value(forKey: "imageData"))
+            return Stock(record: record, imageData: imageData)
+        }
+        let stocksFromDB = CoreDataManager.shared.getAllStock()?.compactMap({ Stock(dbModel: $0) }) ?? []
+        for stockDB in stocksFromDB where stockDB.isDefault {
+            stocksFromCloud.forEach { stockFromCloud in
+                if stockDB.isEqual(to: stockFromCloud) {
+                    CoreDataManager.shared.deleteStock(by: stockDB.id)
+                }
+            }
+        }
+        
+        let stocksDistributedByPantries = Dictionary(grouping: stocksFromCloud, by: \.pantryId)
+        stocksDistributedByPantries.forEach { pantryId, stocks in
+            self.recordsQueue.async(flags: .barrier) {
+                CoreDataManager.shared.saveStock(stocks: stocks, for: pantryId.uuidString)
+            }
         }
     }
     
@@ -399,7 +408,7 @@ final class CloudManager {
 }
 
 extension CloudManager {
-    private func saveCloudAllData() {
+    private func syncAllDataWithICloud() {
         if UserDefaultsManager.shared.settingsRecordId.isEmpty {
             saveCloudSettings()
         }
@@ -408,19 +417,19 @@ extension CloudManager {
         saveCloudAllPantryLists()
         
         let collections = CoreDataManager.shared.getAllCollection()?.compactMap({
-            $0.recordId == "" ? CollectionModel(from: $0) : nil
+            ($0.recordId?.isEmpty ?? true) ? CollectionModel(from: $0) : nil
         }) ?? []
         collections.forEach { saveCloudData(collectionModel: $0) }
         
         let recipes = CoreDataManager.shared.getAllRecipes()?.compactMap({
-            $0.isDefaultRecipe ? nil : $0.recordId == "" ? Recipe(from: $0) : nil
+            $0.isDefaultRecipe ? nil : ($0.recordId?.isEmpty ?? true) ? Recipe(from: $0) : nil
         }) ?? []
         recipes.forEach { saveCloudData(recipe: $0) }
     }
     
     private func saveCloudAllGroceryLists() {
         let groceryLists = CoreDataManager.shared.getAllLists()?.compactMap({
-            $0.recordId == "" ? GroceryListsModel(from: $0) : nil
+            ($0.recordId?.isEmpty ?? true) ? GroceryListsModel(from: $0) : nil
         }) ?? []
         groceryLists.forEach {
             if $0.isShared {
@@ -433,24 +442,24 @@ extension CloudManager {
         }
         
         let products = CoreDataManager.shared.getAllProducts()?.compactMap({
-            $0.recordId == "" ? Product(from: $0) : nil
+            ($0.recordId?.isEmpty ?? true) ? Product(from: $0) : nil
         }) ?? []
         products.forEach { saveCloudData(product: $0) }
         
         let categories = CoreDataManager.shared.getUserCategories()?.compactMap({
-            $0.recordId == "" ? CategoryModel(from: $0) : nil
+            ($0.recordId?.isEmpty ?? true) ? CategoryModel(from: $0) : nil
         }) ?? []
         categories.forEach { saveCloudData(category: $0) }
         
         let stores = CoreDataManager.shared.getAllStores()?.compactMap({
-            $0.recordId == "" ? Store(from: $0) : nil
+            ($0.recordId?.isEmpty ?? true) ? Store(from: $0) : nil
         }) ?? []
         stores.forEach { saveCloudData(store: $0) }
     }
     
     private func saveCloudAllPantryLists() {
         let pantries = CoreDataManager.shared.getAllPantries()?.compactMap({
-            $0.recordId == "" ? PantryModel(dbModel: $0) : nil
+            ($0.recordId?.isEmpty ?? true) ? PantryModel(dbModel: $0) : nil
         }) ?? []
         pantries.forEach {
             if $0.isShared {
@@ -463,7 +472,7 @@ extension CloudManager {
         }
         
         let stocks = CoreDataManager.shared.getAllStock()?.compactMap({
-            $0.recordId == "" ? Stock(dbModel: $0) : nil
+            $0.isDefault ? nil : ($0.recordId?.isEmpty ?? true) ? Stock(dbModel: $0) : nil
         }) ?? []
         stocks.forEach { saveCloudData(stock: $0) }
     }

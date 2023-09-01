@@ -151,6 +151,7 @@
         <attribute name="index" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="isAutoRepeat" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isAvailability" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isDefault" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isReminder" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isUserImage" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>

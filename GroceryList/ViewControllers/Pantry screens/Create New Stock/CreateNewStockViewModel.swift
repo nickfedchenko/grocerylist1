@@ -202,6 +202,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             currentStock.isAutoRepeat = isAutoRepeat
             currentStock.isReminder = isReminder
             currentStock.autoRepeat = autoRepeatSetting
+            currentStock.isDefault = false
             stock = currentStock
         } else {
             let index = CoreDataManager.shared.getAllStocks(for: pantry.id.uuidString)?.count ?? 1

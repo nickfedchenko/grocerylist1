@@ -30,6 +30,7 @@ class SettingsViewModel {
     private var user: User?
     private var userName: String?
     private var originalUserName: String?
+    private var isChangedBackupSwitch = false
     
     init(network: NetworkEngine) {
         self.network = network
@@ -61,6 +62,11 @@ class SettingsViewModel {
     func closeButtonTapped() {
         if let userName, originalUserName != userName {
             saveNewUserName(name: userName)
+        }
+        if isChangedBackupSwitch, UserDefaultsManager.shared.isICloudDataBackupOn {
+            DispatchQueue.global(qos: .default).async {
+                CloudManager.shared.enable()
+            }
         }
         router?.popToRoot()
     }
@@ -131,6 +137,7 @@ class SettingsViewModel {
     }
     
     func tappedICloudDataBackup(_ value: Bool, completion: (() -> Void)?) {
+        isChangedBackupSwitch = true
         UserDefaultsManager.shared.isICloudDataBackupOn = value
         AmplitudeManager.shared.logEvent(.iCloudSettingsOnOff, properties: [.status: value ? .valueOn : .off])
         guard value else { return }
@@ -139,10 +146,6 @@ class SettingsViewModel {
             if status == .available {
                 UserDefaultsManager.shared.isICloudDataBackupOn = true
                 completion?()
-                DispatchQueue.global(qos: .default).async {
-                    let group = DispatchGroup()
-                    CloudManager.shared.enable(enableGroup: group)
-                }
                 return
             }
             

@@ -124,6 +124,7 @@ struct Stock: Hashable, Codable {
     var isAutoRepeat: Bool
     var autoRepeat: AutoRepeatModel?
     var isReminder: Bool
+    var isDefault: Bool = false
     
     var dateOfCreation: Date
     var isUserImage: Bool = false
@@ -155,7 +156,7 @@ struct Stock: Hashable, Codable {
          store: Store? = nil, cost: Double? = nil, quantity: Double? = nil,
          unitId: UnitSystem? = nil, isAvailability: Bool = true,
          isAutoRepeat: Bool = false, autoRepeat: AutoRepeatModel? = nil,
-         isReminder: Bool = false, isUserImage: Bool = true) {
+         isReminder: Bool = false, isUserImage: Bool = true, isDefault: Bool = false) {
         self.id = id
         self.index = index
         self.pantryId = pantryId
@@ -173,6 +174,7 @@ struct Stock: Hashable, Codable {
         self.isReminder = isReminder
         self.isUserImage = isUserImage
         self.dateOfCreation = Date()
+        self.isDefault = isDefault
     }
     
     init(dbModel: DBStock, isVisibleСost: Bool = false) {
@@ -196,6 +198,7 @@ struct Stock: Hashable, Codable {
         isUserImage = dbModel.isUserImage
         userToken = dbModel.userToken
         recordId = dbModel.recordId ?? ""
+        isDefault = dbModel.isDefault
         self.isVisibleCost = isVisibleСost
     }
     
@@ -251,7 +254,16 @@ struct Stock: Hashable, Codable {
         isAutoRepeat = (record.value(forKey: "isAutoRepeat") as? Int64 ?? 0).boolValue
         isReminder = (record.value(forKey: "isReminder") as? Int64 ?? 0).boolValue
         isUserImage = (record.value(forKey: "isUserImage") as? Int64 ?? 0).boolValue
-        isVisibleCost = (record.value(forKey: "isVisibleCost") as? Int64 ?? 0).boolValue
+    }
+    
+    func isEqual(to cloudRecord: Stock) -> Bool {
+        return self.isDefault && self.id != cloudRecord.id && self.pantryId == cloudRecord.pantryId &&
+        self.index == cloudRecord.index && self.name == cloudRecord.name &&
+        self.imageData == cloudRecord.imageData && self.description == cloudRecord.description &&
+        self.store == cloudRecord.store && self.cost == cloudRecord.cost &&
+        self.quantity == cloudRecord.quantity && self.unitId == cloudRecord.unitId &&
+        self.isAvailability == cloudRecord.isAvailability && self.isAutoRepeat == cloudRecord.isAutoRepeat &&
+        self.isReminder == cloudRecord.isReminder && self.isUserImage == cloudRecord.isUserImage
     }
 }
 

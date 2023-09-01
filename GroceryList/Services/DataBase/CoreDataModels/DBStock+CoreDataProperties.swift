@@ -36,6 +36,7 @@ extension DBStock {
     @NSManaged public var userToken: String?
     @NSManaged public var pantry: DBPantry?
     @NSManaged public var recordId: String?
+    @NSManaged public var isDefault: Bool
 
     static func prepare(fromPlainModel model: Stock, context: NSManagedObjectContext) -> DBStock {
         let dbStock = DBStock(context: context)
@@ -58,6 +59,7 @@ extension DBStock {
         dbStock.isUserImage = model.isUserImage
         dbStock.userToken = model.userToken
         dbStock.recordId = model.recordId
+        dbStock.isDefault = model.isDefault
         return dbStock
     }
 }

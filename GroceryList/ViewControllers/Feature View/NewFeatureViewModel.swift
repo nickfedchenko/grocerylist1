@@ -20,8 +20,7 @@ final class NewFeatureViewModel {
             if status == .available {
                 UserDefaultsManager.shared.isICloudDataBackupOn = true
                 DispatchQueue.global(qos: .default).async {
-                    let group = DispatchGroup()
-                    CloudManager.shared.enable(enableGroup: group)
+                    CloudManager.shared.enable()
                 }
                 self?.router?.navigationDismiss()
                 self?.dismiss?()
