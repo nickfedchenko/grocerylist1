@@ -15,6 +15,8 @@ final class SharingListViewModel {
     
     weak var router: RootRouter?
     weak var delegate: SharingListViewModelDelegate?
+    var updateUsers: (() -> Void)?
+    
     var necessaryHeight: Double {
         sharedUsers.isEmpty ? 0 : Double(sharedUsers.count * 56 + 32)
     }
@@ -70,6 +72,61 @@ final class SharingListViewModel {
             return "-"
         }
         return user.username ?? user.email
+    }
+    
+    func showStopSharingPopUp(by index: Int) {
+//        guard isOwner() else { return }
+        let user = sharedUsers[index]
+        router?.goToStopSharingPopUp(user: user,
+                                     listToShareModel: listToShareModel,
+                                     pantryToShareModel: pantryToShareModel,
+                                     updateUI: { [weak self] isStop in
+            guard isStop else { return }
+            guard let self else { return }
+            
+            if let grocery = listToShareModel {
+                self.network.groceryListUserDelete(userToken: user.token,
+                                                   listId: grocery.sharedId) {  result in
+                    switch result {
+                    case .failure(let error):
+                        print(error)
+                    case .success(let result):
+                        print(result)
+                        if !result.error {
+                            self.sharedUsers.remove(at: index)
+                            self.updateUsers?()
+                        } else {
+                            
+                        }
+                    }
+                }
+            }
+            if let pantry = pantryToShareModel {
+                self.network.pantryListUserDelete(userToken: user.token,
+                                                  pantryId: pantry.sharedId) {  result in
+                    switch result {
+                    case .failure(let error):
+                        print(error)
+                    case .success(let result):
+                        print(result)
+                        if !result.error {
+                            self.sharedUsers.remove(at: index)
+                            self.updateUsers?()
+                        }
+                    }
+                }
+            }
+        })
+    }
+    
+    private func isOwner() -> Bool {
+        if let listToShareModel {
+            return listToShareModel.isSharedListOwner
+        }
+        if let pantryToShareModel {
+            return pantryToShareModel.isSharedListOwner
+        }
+        return false
     }
     
     private func shareGrocery(listToShareModel: GroceryListsModel) {

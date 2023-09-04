@@ -239,7 +239,6 @@ extension CoreDataManager {
         try? context.save()
     }
     
-    
     // MARK: - Categories
     func saveCategory(category: CategoryModel) {
         let context = coreData.container.viewContext

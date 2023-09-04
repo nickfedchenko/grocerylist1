@@ -89,7 +89,17 @@ class SharedListManager {
 
     // MARK: - сохранение листа из сокета
     func saveListFromSocket(response: SocketResponse) {
-        var list = transform(sharedList: response.groceryList)
+        guard let groceryList = response.groceryList else {
+            if !response.listUsers.contains(where: { $0.token == UserAccountManager.shared.getUser()?.token }) {
+                CoreDataManager.shared.removeSharedList(by: response.listId)
+            } else {
+                sharedListsUsers.removeValue(forKey: response.listId)
+                appendToUsersDict(id: response.listId, users: response.listUsers)
+            }
+            NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
+            return
+        }
+        var list = transform(sharedList: groceryList)
         let dbList = CoreDataManager.shared.getList(list: list.id.uuidString)
         list.isShared = true
         list.sharedId = response.listId
@@ -148,8 +158,7 @@ class SharedListManager {
     // MARK: - отписка от списка
     func unsubscribeFromGroceryList(listId: String) {
         guard let user = UserAccountManager.shared.getUser() else { return }
-        network.groceryListUserDelete(userToken: user.token,
-                                              listId: listId) { result in
+        network.groceryListUserDelete(userToken: user.token, listId: listId) { result in
             switch result {
             case .failure(let error):
                 print(error)
@@ -163,8 +172,7 @@ class SharedListManager {
     func deleteGroceryList(listId: String) {
         let listId = listId == "-1" ? "" : listId
         guard let user = UserAccountManager.shared.getUser() else { return }
-        network.groceryListDelete(userToken: user.token,
-                                              listId: listId) { result in
+        network.groceryListDelete(userToken: user.token, listId: listId) { result in
             switch result {
             case .failure(let error):
                 print(error)
@@ -177,8 +185,7 @@ class SharedListManager {
     // MARK: - Fetch grocery list users
     func fetchGroceryListUsers(listId: String, completion: @escaping ((FetchGroceryListUsersResponse) -> Void)) {
         guard let user = UserAccountManager.shared.getUser() else { return }
-        network.fetchGroceryListUsers(userToken: user.token,
-                                              listId: listId) { result in
+        network.fetchGroceryListUsers(userToken: user.token, listId: listId) { result in
             switch result {
             case .failure(let error):
                 print(error)
@@ -203,8 +210,8 @@ class SharedListManager {
             }
         }
         
-        network.updateGroceryList(userToken: user.token,
-                                          listId: localList.sharedId, listModel: localList) { result in
+        network.updateGroceryList(userToken: user.token, listId: localList.sharedId,
+                                  listModel: localList) { result in
             switch result {
             case .failure(let error):
                 print(error)
@@ -215,7 +222,6 @@ class SharedListManager {
     }
 
     // MARK: - Share grocery list
-
     func shareGroceryList(listModel: GroceryListsModel, compl: ((String) -> Void)?) {
         guard let user = UserAccountManager.shared.getUser() else { return }
         let sharedId = listModel.sharedId.isEmpty ? nil : listModel.sharedId

@@ -313,6 +313,10 @@
 		33F8253E29C0859D00B349D5 /* SearchInListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253D29C0859D00B349D5 /* SearchInListCell.swift */; };
 		33F8254029C1648800B349D5 /* SearchInListProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253F29C1648700B349D5 /* SearchInListProductView.swift */; };
 		33F8254229C18FCE00B349D5 /* UIStackViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8254129C18FCE00B349D5 /* UIStackViewExtension.swift */; };
+		33FCBE772AA56FCA00CB61C7 /* StopSharingPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBE762AA56FCA00CB61C7 /* StopSharingPopUpViewController.swift */; };
+		33FCBE792AA574F800CB61C7 /* StopSharingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBE782AA574F800CB61C7 /* StopSharingViewModel.swift */; };
+		33FCBE7C2AA5755000CB61C7 /* StopSharingPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBE7B2AA5755000CB61C7 /* StopSharingPopUpView.swift */; };
+		33FCBE7E2AA5956E00CB61C7 /* GroceryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBE7D2AA5956E00CB61C7 /* GroceryView.swift */; };
 		383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */; };
 		383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */; };
 		383C77F3293F799E0030AE78 /* RecipesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77F2293F799E0030AE78 /* RecipesListViewController.swift */; };
@@ -737,6 +741,10 @@
 		33F8253D29C0859D00B349D5 /* SearchInListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListCell.swift; sourceTree = "<group>"; };
 		33F8253F29C1648700B349D5 /* SearchInListProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListProductView.swift; sourceTree = "<group>"; };
 		33F8254129C18FCE00B349D5 /* UIStackViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackViewExtension.swift; sourceTree = "<group>"; };
+		33FCBE762AA56FCA00CB61C7 /* StopSharingPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopSharingPopUpViewController.swift; sourceTree = "<group>"; };
+		33FCBE782AA574F800CB61C7 /* StopSharingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopSharingViewModel.swift; sourceTree = "<group>"; };
+		33FCBE7B2AA5755000CB61C7 /* StopSharingPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopSharingPopUpView.swift; sourceTree = "<group>"; };
+		33FCBE7D2AA5956E00CB61C7 /* GroceryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryView.swift; sourceTree = "<group>"; };
 		383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipePreviewCell.swift; sourceTree = "<group>"; };
 		383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipesFolderHeader.swift; sourceTree = "<group>"; };
 		383C77F2293F799E0030AE78 /* RecipesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesListViewController.swift; sourceTree = "<group>"; };
@@ -1088,6 +1096,7 @@
 			isa = PBXGroup;
 			children = (
 				334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */,
+				33FCBE7A2AA5751A00CB61C7 /* Stop sharing */,
 			);
 			path = "Pop up";
 			sourceTree = "<group>";
@@ -1671,6 +1680,17 @@
 				33F8253F29C1648700B349D5 /* SearchInListProductView.swift */,
 			);
 			path = "In list";
+			sourceTree = "<group>";
+		};
+		33FCBE7A2AA5751A00CB61C7 /* Stop sharing */ = {
+			isa = PBXGroup;
+			children = (
+				33FCBE762AA56FCA00CB61C7 /* StopSharingPopUpViewController.swift */,
+				33FCBE782AA574F800CB61C7 /* StopSharingViewModel.swift */,
+				33FCBE7B2AA5755000CB61C7 /* StopSharingPopUpView.swift */,
+				33FCBE7D2AA5956E00CB61C7 /* GroceryView.swift */,
+			);
+			path = "Stop sharing";
 			sourceTree = "<group>";
 		};
 		383C77F4293F79D60030AE78 /* RecipesListViewController */ = {
@@ -2986,6 +3006,7 @@
 				B3AD42DA299117980043A37F /* RegistrationResponse.swift in Sources */,
 				335665372A56B213006F92E6 /* RecipeDefaultFilter.swift in Sources */,
 				389DCF4A29461B2000DB9382 /* RecipeMainImageView.swift in Sources */,
+				33FCBE7E2AA5956E00CB61C7 /* GroceryView.swift in Sources */,
 				33AF97F82A7BF6E300716104 /* RecipeSourceView.swift in Sources */,
 				335665332A569EAB006F92E6 /* RecipeFilterViewController.swift in Sources */,
 				B315F9E6298A3F420009CEB8 /* WriteReviewViewController.swift in Sources */,
@@ -3169,6 +3190,7 @@
 				B3802315292BC7DA0039EDE0 /* UserDefaultsManager.swift in Sources */,
 				B3329596298A667E002DF1EE /* AmplitudeManager.swift in Sources */,
 				339254B22A3333AA0047807E /* MainTabBarControllerDelegates.swift in Sources */,
+				33FCBE792AA574F800CB61C7 /* StopSharingViewModel.swift in Sources */,
 				33796E5F2A139457009AD385 /* UIDeviceExtension.swift in Sources */,
 				B3777E232938E4E90074BE38 /* HapticManager.swift in Sources */,
 				33995D2B2A1DA398003FECAE /* PantryModels.swift in Sources */,
@@ -3208,10 +3230,12 @@
 				B34EACAA293501E100FBD0E0 /* CreateNewCategoryViewModel.swift in Sources */,
 				334009ED29E98AB800A04978 /* CreateNewProductButtonView.swift in Sources */,
 				B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */,
+				33FCBE772AA56FCA00CB61C7 /* StopSharingPopUpViewController.swift in Sources */,
 				386CFAC7299542BE00B4AD76 /* R.generated.swift in Sources */,
 				B381EF2C299BA18500DCDE40 /* PasswordExpiredViewController.swift in Sources */,
 				33A51B922A176CFC00BE11C1 /* ListViewModel.swift in Sources */,
 				B36091902927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */,
+				33FCBE7C2AA5755000CB61C7 /* StopSharingPopUpView.swift in Sources */,
 				B34BB81D292E567B00748E8E /* SelectProductViewController.swift in Sources */,
 				B360918F2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */,
 				B3D20456292F6C0600599A01 /* SelectProductCell.swift in Sources */,
