@@ -203,6 +203,7 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
     
     private func deleteList() {
         CoreDataManager.shared.deletePantry(by: pantry.id)
+        CloudManager.shared.delete(recordType: .pantryModel, recordID: pantry.recordId)
         delegate?.dismissController(comp: { [weak self] in
             self?.editCallback?(.delete)
         })
@@ -210,6 +211,7 @@ final class PantryListOptionViewModel: ProductsSettingsViewModel {
     
     private func saveParameters() {
         CoreDataManager.shared.savePantry(pantry: [pantry])
+        CloudManager.shared.saveCloudData(pantryModel: pantry)
         delegate?.reloadController()
         updateUI?(pantry)        
     }

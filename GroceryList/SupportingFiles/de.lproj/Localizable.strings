@@ -519,6 +519,21 @@
 "Help & FAQ"                    = "Hilfe und FAQ";
 "Check Internet connection"     = "Internetverbindung prüfen";
 
+// iCloud
+"icon iCloud Data Backup"       = "􀪺 iCloud Datensicherung";
+"Synchronize your data"         = "Synchronisieren Sie Ihre Daten mit der Cloud. Ihre Listen und Rezepte werden sicher gespeichert*. ";
+"iCloud Registration required"  = "*Registrierung erforderlich";
+"Great! Enable"                 = "Super! Aktivieren";
+"Maybe Later"                   = "Vielleicht später";
+"Turn on iCloud Data Backup"    = "Aktiviere die iCloud-Datensicherung in den Einstellungen";
+"iCloud Data Backup"            = "iCloud-Datensicherung";
+"couldNotDetermine"             = "Fehler beim Abrufen des Status des iCloud-Kontos des Benutzers. Versuchen Sie es später erneut.";
+"restricted"                    = "Das System verweigert den Zugriff auf das iCloud-Konto des Benutzers.";
+"noAccountTitle"                = "Schalten Sie iCloud ein";
+"noAccount"                     = "Gehen Sie zu Einstellungen > iCloud\nSuchen Sie in der Liste der Anwendungen nach „Einkaufsliste“ und aktivieren Sie sie";
+"temporarilyUnavailable"        = "Das iCloud-Konto des Benutzers ist vorübergehend nicht verfügbar.";
+"Synchronization"               = "Synchronisation";
+
 // Updated Paywall
 "three days "                   = "3 tage ";
 "free"                          = "kostenlos";

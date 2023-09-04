@@ -202,6 +202,7 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
             currentStock.isAutoRepeat = isAutoRepeat
             currentStock.isReminder = isReminder
             currentStock.autoRepeat = autoRepeatSetting
+            currentStock.isDefault = false
             stock = currentStock
         } else {
             let index = CoreDataManager.shared.getAllStocks(for: pantry.id.uuidString)?.count ?? 1
@@ -215,7 +216,8 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
                           isUserImage: isUserImage)
         }
         
-        CoreDataManager.shared.saveStock(stock: [stock], for: pantry.id.uuidString)
+        CoreDataManager.shared.saveStock(stocks: [stock], for: pantry.id.uuidString)
+        CloudManager.shared.saveCloudData(stock: stock)
 #if RELEASE
         sendUserStock(pantry: pantry.name, stock: stock.name)
 #endif
@@ -224,7 +226,8 @@ class CreateNewStockViewModel: CreateNewProductViewModel {
     }
     
     override func goToCreateNewStore() {
-        let modelForColor = GroceryListsModel(dateOfCreation: Date(), color: pantry.color, products: [], typeOfSorting: 0)
+        let modelForColor = GroceryListsModel(dateOfCreation: Date(), color: pantry.color,
+                                              products: [], typeOfSorting: 0)
         router?.goToCreateStore(model: modelForColor, compl: { [weak self] store in
             if let store {
                 self?.stores.append(store)

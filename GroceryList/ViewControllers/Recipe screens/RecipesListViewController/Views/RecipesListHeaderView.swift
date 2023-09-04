@@ -81,6 +81,7 @@ final class RecipesListHeaderView: UIView {
         changeViewButton.addAction(
             UIAction { [weak self] _ in
                 UserDefaultsManager.shared.recipeIsTableView = !UserDefaultsManager.shared.recipeIsTableView
+                CloudManager.shared.saveCloudSettings()
                 self?.updateImageChangeViewButton()
                 self?.delegate?.changeViewButtonTapped()
             }

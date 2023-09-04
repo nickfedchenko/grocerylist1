@@ -34,9 +34,9 @@ class CreateNewListViewController: UIViewController {
         setupTextFieldParametrs()
     }
     
-    deinit {
-        print("create new list deinited")
-    }
+//    deinit {
+//        print("create new list deinited")
+//    }
     
     private func setupTextFieldParametrs() {
         textfield.delegate = self

@@ -10,7 +10,7 @@ import SnapKit
 import UIKit
 
 // swiftlint:disable file_length
-// swiftlint:disable type_body_length
+// swiftlint:disable:next type_body_length
 class ProductsViewController: UIViewController {
     
     enum Section: Hashable {
@@ -221,9 +221,9 @@ class ProductsViewController: UIViewController {
         totalCostLabel.attributedText = titleAttr
     }
     
-    deinit {
-        print("ProductView deinited")
-    }
+//    deinit {
+//        print("ProductView deinited")
+//    }
     
     // MARK: - buttonPressed
     
@@ -348,7 +348,7 @@ class ProductsViewController: UIViewController {
     }
     
     // MARK: - CollectionView
-    // swiftlint: disable function_body_length
+    // swiftlint:disable:next function_body_length
     func setupCollectionView() {
         collectionView.contentInset.bottom = 120
         

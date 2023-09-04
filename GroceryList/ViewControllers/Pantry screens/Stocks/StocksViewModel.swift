@@ -39,6 +39,8 @@ final class StocksViewModel {
         
         NotificationCenter.default.addObserver(self, selector: #selector(sharedPantryDownloaded),
                                                name: .sharedPantryDownloadedAndSaved, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadStorageData),
+                                               name: .cloudStock, object: nil)
     }
     
     var necessaryOffsetToLink: Double {
@@ -210,6 +212,7 @@ final class StocksViewModel {
             }
             self.pantry.synchronizedLists = uuids
             CoreDataManager.shared.savePantry(pantry: [self.pantry])
+            CloudManager.shared.saveCloudData(pantryModel: self.pantry)
             
             self.delegate?.updateLinkButton()
             if !uuids.isEmpty {
@@ -288,8 +291,11 @@ final class StocksViewModel {
         delegate?.updateUIEditTabBar()
     }
     
+    @objc
     func reloadStorageData() {
-        dataSource.updateStocks()
+        DispatchQueue.main.async { [weak self] in
+            self?.dataSource.updateStocks()
+        }
     }
     
     func showPaywall() {

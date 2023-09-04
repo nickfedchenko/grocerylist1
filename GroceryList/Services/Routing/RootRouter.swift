@@ -60,7 +60,7 @@ final class RootRouter: RootRouterProtocol {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
-        showTestOnboarding()
+//        showTestOnboarding()
     }
     
     func openResetPassword(token: String) {
@@ -110,6 +110,7 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goToNewOnboarding() {
+
         if !UserDefaultsManager.shared.isFirstLaunch {
             UserDefaultsManager.shared.firstLaunchDate = Date()
             FeatureManager.shared.activeFeaturesOnFirstLaunch()
@@ -119,6 +120,8 @@ final class RootRouter: RootRouterProtocol {
         
         let onboardingController = viewControllerFactory.createNewOnboardingController(router: self)
         navigationPushViewController(onboardingController, animated: false)
+        return
+
     }
     
     func goToOnboarding() {
@@ -143,6 +146,12 @@ final class RootRouter: RootRouterProtocol {
         }
         navigationPopToRootViewController(animated: true)
         UserDefaultsManager.shared.shouldShowOnboarding = false
+    }
+    
+    func goToFeatureController(compl: (() -> Void)?) {
+        let controller = self.viewControllerFactory.createFeatureViewController(router: self, compl: compl)
+        controller.modalTransitionStyle = .crossDissolve
+        navigationPresent(controller, animated: false)
     }
     
     func goCreateNewList(compl: @escaping (GroceryListsModel, [Product]) -> Void) {
@@ -588,6 +597,12 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
+    func showSynchronizationController(isVisible: Bool) {
+        let controller = SynchronizationViewController()
+        controller.modalTransitionStyle = .crossDissolve
+        topViewController?.present(controller, animated: true, completion: nil)
+    }
+    
     // просто создание вью - контролер сам будет презентить их, т.к топ контролер уже презентит вью и эти не получается так запрезентить
     func prepareSelectProductController(height: Double, model: GroceryListsModel,
                                         setOfSelectedProd: Set<Product>, compl: @escaping ((Set<Product>) -> Void)) -> UIViewController {
@@ -681,7 +696,7 @@ final class RootRouter: RootRouterProtocol {
         pantryNavController = UINavigationController(rootViewController: pantryController)
         recipeNavController = UINavigationController(rootViewController: recipeController)
         
-        var controllers: [UIViewController] = [listNavController, pantryNavController, recipeNavController]
+        let controllers: [UIViewController] = [listNavController, pantryNavController, recipeNavController]
 
         let rootTabBarController = viewControllerFactory.createMainTabBarController(
             router: self, controllers: controllers

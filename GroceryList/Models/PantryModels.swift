@@ -5,10 +5,13 @@
 //  Created by Хандымаа Чульдум on 24.05.2023.
 //
 
+import CloudKit
 import Foundation
 
 struct PantryModel: Hashable, Codable {
     var id = UUID()
+    var recordId = ""
+    
     var name: String
     var index: Int = 0
     var color: Int
@@ -60,6 +63,7 @@ struct PantryModel: Hashable, Codable {
         isSharedListOwner = dbModel.isSharedListOwner
         isShowImage = BoolWithNilForCD(rawValue: dbModel.isShowImage) ?? .nothing
         isVisibleCost = dbModel.isVisibleCost
+        recordId = dbModel.recordId ?? ""
     }
     
     init(sharedList: SharedPantryModel, stock: [Stock]) {
@@ -74,10 +78,38 @@ struct PantryModel: Hashable, Codable {
         dateOfCreation = Date()
         synchronizedLists = []
     }
+    
+    init?(record: CKRecord, imageData: Data?) {
+        guard let idAsString = record.value(forKey: "id") as? String,
+              let id = UUID(uuidString: idAsString) else {
+            return nil
+        }
+        self.id = id
+        sharedId = record.value(forKey: "sharedId") as? String ?? ""
+        recordId = record.recordID.recordName
+        
+        name = record.value(forKey: "name") as? String ?? ""
+        index = record.value(forKey: "index") as? Int ?? 0
+        color = record.value(forKey: "color") as? Int ?? 0
+        icon = imageData
+        dateOfCreation = record.value(forKey: "dateOfCreation") as? Date ?? Date()
+        
+        let stockData = record.value(forKey: "stock") as? Data ?? Data()
+        let stockFromCloud = (try? JSONDecoder().decode([Stock].self, from: stockData))
+        stock = stockFromCloud ?? []
+        
+        let synchronizedListsData = record.value(forKey: "synchronizedLists") as? Data ?? Data()
+        let synchronizedListsFromCloud = (try? JSONDecoder().decode([UUID].self, from: synchronizedListsData))
+        synchronizedLists = synchronizedListsFromCloud ?? []
+        
+        isShared = (record.value(forKey: "isShared") as? Int64 ?? 0).boolValue
+        isSharedListOwner = (record.value(forKey: "isSharedListOwner") as? Int64 ?? 0).boolValue
+    }
 }
 
 struct Stock: Hashable, Codable {
     var id = UUID()
+    var recordId = ""
     var index: Int = 0
     var pantryId: UUID
     var name: String
@@ -92,11 +124,12 @@ struct Stock: Hashable, Codable {
     var isAutoRepeat: Bool
     var autoRepeat: AutoRepeatModel?
     var isReminder: Bool
+    var isDefault: Bool = false
     
     var dateOfCreation: Date
     var isUserImage: Bool = false
     var userToken: String?
-    var isVisibleСost: Bool = false
+    var isVisibleCost: Bool = false
     
     init(copyStock: Stock) {
         self.id = UUID()
@@ -118,12 +151,13 @@ struct Stock: Hashable, Codable {
         self.isUserImage = copyStock.isUserImage
     }
     
-    init(index: Int, pantryId: UUID, name: String, imageData: Data?,
+    init(id: UUID = UUID(), index: Int, pantryId: UUID, name: String, imageData: Data?,
          description: String? = nil, category: String? = nil,
          store: Store? = nil, cost: Double? = nil, quantity: Double? = nil,
          unitId: UnitSystem? = nil, isAvailability: Bool = true,
          isAutoRepeat: Bool = false, autoRepeat: AutoRepeatModel? = nil,
-         isReminder: Bool = false, isUserImage: Bool = true) {
+         isReminder: Bool = false, isUserImage: Bool = true, isDefault: Bool = false) {
+        self.id = id
         self.index = index
         self.pantryId = pantryId
         self.name = name
@@ -140,6 +174,7 @@ struct Stock: Hashable, Codable {
         self.isReminder = isReminder
         self.isUserImage = isUserImage
         self.dateOfCreation = Date()
+        self.isDefault = isDefault
     }
     
     init(dbModel: DBStock, isVisibleСost: Bool = false) {
@@ -162,7 +197,9 @@ struct Stock: Hashable, Codable {
         dateOfCreation = dbModel.dateOfCreation
         isUserImage = dbModel.isUserImage
         userToken = dbModel.userToken
-        self.isVisibleСost = isVisibleСost
+        recordId = dbModel.recordId ?? ""
+        isDefault = dbModel.isDefault
+        self.isVisibleCost = isVisibleСost
     }
     
     init(sharedStock: SharedStock) {
@@ -184,6 +221,49 @@ struct Stock: Hashable, Codable {
         isUserImage = sharedStock.isUserImage
         userToken = sharedStock.userToken ?? "0"
         dateOfCreation = Date()
+    }
+    
+    init?(record: CKRecord, imageData: Data?) {
+        guard let idAsString = record.value(forKey: "id") as? String,
+              let id = UUID(uuidString: idAsString),
+              let pantryIdAsString = record.value(forKey: "pantryId") as? String,
+              let pantryId = UUID(uuidString: pantryIdAsString) else {
+            return nil
+        }
+        self.id = id
+        self.pantryId = pantryId
+        recordId = record.recordID.recordName
+        
+        index = record.value(forKey: "index") as? Int ?? 0
+        name = record.value(forKey: "name") as? String ?? ""
+        self.imageData = imageData
+        description = record.value(forKey: "description") as? String
+        category = record.value(forKey: "category") as? String
+        dateOfCreation = record.value(forKey: "dateOfCreation") as? Date ?? Date()
+        let storeData = record.value(forKey: "store") as? Data ?? Data()
+        let storeFromCloud = (try? JSONDecoder().decode(Store.self, from: storeData))
+        store = storeFromCloud?.title == "" ? nil : storeFromCloud
+        cost = record.value(forKey: "cost") as? Double
+        quantity = record.value(forKey: "quantity") as? Double
+        unitId = UnitSystem(rawValue: Int(record.value(forKey: "unitId") as? Int ?? -1))
+        let autoRepeatData = record.value(forKey: "autoRepeat") as? Data ?? Data()
+        autoRepeat = (try? JSONDecoder().decode(AutoRepeatModel.self, from: autoRepeatData))
+        userToken = record.value(forKey: "userToken") as? String ?? "0"
+        
+        isAvailability = (record.value(forKey: "isAvailability") as? Int64 ?? 0).boolValue
+        isAutoRepeat = (record.value(forKey: "isAutoRepeat") as? Int64 ?? 0).boolValue
+        isReminder = (record.value(forKey: "isReminder") as? Int64 ?? 0).boolValue
+        isUserImage = (record.value(forKey: "isUserImage") as? Int64 ?? 0).boolValue
+    }
+    
+    func isEqual(to cloudRecord: Stock) -> Bool {
+        return self.isDefault && self.id != cloudRecord.id && self.pantryId == cloudRecord.pantryId &&
+        self.index == cloudRecord.index && self.name == cloudRecord.name &&
+        self.imageData == cloudRecord.imageData && self.description == cloudRecord.description &&
+        self.store == cloudRecord.store && self.cost == cloudRecord.cost &&
+        self.quantity == cloudRecord.quantity && self.unitId == cloudRecord.unitId &&
+        self.isAvailability == cloudRecord.isAvailability && self.isAutoRepeat == cloudRecord.isAutoRepeat &&
+        self.isReminder == cloudRecord.isReminder && self.isUserImage == cloudRecord.isUserImage
     }
 }
 
@@ -213,12 +293,6 @@ struct PantryStocks: Hashable {
     var name: String
     var stock: [Stock]
     var typeOFCell: TypeOfCellPantryStocks
-    
-    init(name: String, stock: [Stock], typeOFCell: TypeOfCellPantryStocks) {
-        self.name = name
-        self.stock = stock
-        self.typeOFCell = typeOFCell
-    }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)

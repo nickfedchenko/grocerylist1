@@ -28,6 +28,8 @@ class PantryViewModel {
         SharedPantryManager.shared.fetchMyPantryLists()
         NotificationCenter.default.addObserver(self, selector: #selector(sharedPantryDownloaded),
                                                name: .sharedPantryDownloadedAndSaved, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadDataFromStorage),
+                                               name: .cloudPantry, object: nil)
     }
     
     var pantries: [PantryModel] {
@@ -120,8 +122,11 @@ class PantryViewModel {
         router?.goToSharingList(pantryToShare: model, users: users)
     }
     
+    @objc
     func reloadDataFromStorage() {
-        dataSource.updatePantry()
+        DispatchQueue.main.async { [weak self] in
+            self?.dataSource.updatePantry()
+        }
     }
     
     func showPaywall() {

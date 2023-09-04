@@ -51,6 +51,7 @@ class SettingsParametrView: UIView {
         let label = UILabel()
         label.font = UIFont.SFProRounded.medium(size: 16).font
         label.textColor = UIColor(hex: "#31635A")
+        label.numberOfLines = 2
         return label
     }()
     
@@ -91,8 +92,8 @@ class SettingsParametrView: UIView {
         
         textLabel.snp.makeConstraints { make in
             make.left.equalToSuperview()
-            make.centerY.equalToSuperview()
-            make.height.equalTo(20)
+//            make.centerY.equalToSuperview()
+            make.top.bottom.equalToSuperview()
         }
         
         unitSystemLabel.snp.makeConstraints { make in
@@ -107,6 +108,7 @@ class SettingsParametrView: UIView {
         }
         
         switchView.snp.makeConstraints { make in
+            make.left.equalTo(textLabel.snp.right)
             make.right.equalToSuperview()
             make.centerY.equalToSuperview()
         }

@@ -25,6 +25,11 @@ final class MainRecipeViewModel {
         self.dataSource.recipeUpdate = { [weak self] in
             self?.updateRecipeLoaded?()
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUI),
+                                               name: .cloudCollection, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUI),
+                                               name: .cloudRecipe, object: nil)
     }
     
     var numberOfSections: Int {
@@ -77,10 +82,11 @@ final class MainRecipeViewModel {
         dataSource.updateSection()
     }
     
+    @objc
     func updateUI() {
-        DispatchQueue.main.async {
-            self.updateRecipesSection()
-            self.reloadRecipes?()
+        DispatchQueue.main.async { [weak self] in
+            self?.updateRecipesSection()
+            self?.reloadRecipes?()
         }
     }
     

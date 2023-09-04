@@ -111,6 +111,7 @@ final class CreateNewRecipeStepTwoViewModel {
         draft.values = Values(dish: kcal)
         
         CoreDataManager.shared.saveRecipes(recipes: [draft])
+        CloudManager.shared.saveCloudData(recipe: draft)
         saveCollection(recipe: draft)
     }
     
@@ -130,6 +131,7 @@ final class CreateNewRecipeStepTwoViewModel {
         
         recipe = currentRecipe
         CoreDataManager.shared.saveRecipes(recipes: [currentRecipe])
+        CloudManager.shared.saveCloudData(recipe: currentRecipe)
         saveCollection(recipe: currentRecipe)
         isSaved = true
     }
@@ -146,11 +148,13 @@ final class CreateNewRecipeStepTwoViewModel {
             return
         }
         CoreDataManager.shared.saveRecipes(recipes: [recipe])
+        CloudManager.shared.saveCloudData(recipe: recipe)
         AmplitudeManager.shared.logEvent(.recipeCreateSave,
                                          properties: [.ingredientsAndSteps: "\(recipe.ingredients.count) : \(recipe.instructions?.count ?? 0)"])
         saveCollection(recipe: recipe)
         if isSaveToFavorites {
             UserDefaultsManager.shared.favoritesRecipeIds.append(recipe.id)
+            CloudManager.shared.saveCloudSettings()
         }
         self.recipe = recipe
         isSaved = true
@@ -167,6 +171,9 @@ final class CreateNewRecipeStepTwoViewModel {
             collections[index].dishes = Array(dishes)
         }
         CoreDataManager.shared.saveCollection(collections: collections)
+        collections.forEach { collectionModel in
+            CloudManager.shared.saveCloudData(collectionModel: collectionModel)
+        }
     }
 
     private func updateRecipe() {

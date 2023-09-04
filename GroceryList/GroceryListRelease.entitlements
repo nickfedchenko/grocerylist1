@@ -13,6 +13,14 @@
 		<string>applinks:shoppinglist.pro</string>
 		<string>webcredentials:shoppinglist.pro</string>
 	</array>
+	<key>com.apple.developer.icloud-container-identifiers</key>
+	<array>
+		<string>iCloud.com.ksens.shopp</string>
+	</array>
+	<key>com.apple.developer.icloud-services</key>
+	<array>
+		<string>CloudKit</string>
+	</array>
 	<key>com.apple.security.application-groups</key>
 	<array>
 		<string>group.com.ksens.shopp</string>

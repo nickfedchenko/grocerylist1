@@ -148,6 +148,7 @@ final class MainNavigationView: UIView {
     @objc
     private func recipeChangeViewAction() {
         UserDefaultsManager.shared.recipeIsFolderView = !UserDefaultsManager.shared.recipeIsFolderView
+        CloudManager.shared.saveCloudSettings()
         updateImageChangeViewButton()
         delegate?.recipeChangeViewTapped()
     }

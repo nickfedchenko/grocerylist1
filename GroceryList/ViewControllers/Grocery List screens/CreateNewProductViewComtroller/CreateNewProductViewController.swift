@@ -164,7 +164,6 @@ class CreateNewProductViewController: UIViewController {
             return
         }
         
-        let colorForForeground = viewModel?.getColorForForeground ?? .black
         updateCategory(isActive: !(viewModel?.productCategory?.isEmpty ?? true), categoryTitle: viewModel?.productCategory)
         productView.productTextView.text = viewModel?.productName
         productView.descriptionTextField.text = viewModel?.userComment

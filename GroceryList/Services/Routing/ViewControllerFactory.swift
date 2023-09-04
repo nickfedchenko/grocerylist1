@@ -22,8 +22,6 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    
-    
     func createMainTabBarController(router: RootRouter, controllers: [UIViewController]) -> UITabBarController {
         let isRightHanded = true
         let viewModel = MainTabBarViewModel(isRightHanded: isRightHanded, viewControllers: controllers)
@@ -57,6 +55,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         viewModel.router = router
         
         let viewController = MainRecipeViewController(viewModel: viewModel)
+        return viewController
+    }
+    
+    func createFeatureViewController(router: RootRouter, compl: (() -> Void)?) -> UIViewController {
+        let viewModel = NewFeatureViewModel()
+        viewModel.router = router
+        viewModel.dismiss = compl
+        let viewController = NewFeatureViewController(viewModel: viewModel)
         return viewController
     }
     

@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 19.05.2023.
 //
 
+import CloudKit
 import Kingfisher
 import UIKit
 
@@ -147,23 +148,26 @@ class ListViewModel {
         })
     }
     
-    // MARK: - Shared List Functions
-    
-    private func downloadMySharedLists() {
-        SharedListManager.shared.fetchMyGroceryLists()
-    }
-    
     private func addObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(sharedListDownloaded),
                                                name: .sharedListDownloadedAndSaved, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(sharedListLoading),
                                                name: .sharedListLoading, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLists),
+                                               name: .cloudList, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLists),
+                                               name: .cloudProducts, object: nil)
+    }
+    
+    // MARK: - Shared List Functions
+    private func downloadMySharedLists() {
+        SharedListManager.shared.fetchMyGroceryLists()
     }
     
     @objc
     private func sharedListDownloaded() {
-//        updateCells?(dataSource.updateListOfModels())
         sharingUpdate?()
         showSynchronizationActivity?(false)
         if let startTime {
@@ -178,5 +182,13 @@ class ListViewModel {
     private func sharedListLoading() {
         showSynchronizationActivity?(true)
         startTime = Date()
+    }
+    
+    // MARK: - Cloud Functions
+    @objc
+    private func updateLists() {
+        DispatchQueue.main.async { [weak self] in
+            self?.reloadDataFromStorage()
+        }
     }
 }

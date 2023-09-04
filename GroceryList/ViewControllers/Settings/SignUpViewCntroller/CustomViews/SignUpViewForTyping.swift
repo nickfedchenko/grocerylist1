@@ -63,7 +63,7 @@ class SignUpViewForTyping: UIView {
     }
     
     func makeTextfieldFirstResponder() {
-        textfield.becomeFirstResponder()
+        _ = textfield.becomeFirstResponder()
     }
     
     func resignTextfieldFirstResponder() {

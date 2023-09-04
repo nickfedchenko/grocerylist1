@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F82" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F66" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="DBCategory" representedClassName=".DBCategories" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="recordId" optional="YES" attributeType="String"/>
     </entity>
     <entity name="DBCollection" representedClassName=".DBCollection" syncable="YES">
         <attribute name="color" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -12,6 +13,7 @@
         <attribute name="isDefault" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isDelete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="localImage" optional="YES" attributeType="Binary"/>
+        <attribute name="recordId" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
@@ -32,6 +34,7 @@
         <attribute name="isShowImage" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="isVisibleCost" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="recordId" optional="YES" attributeType="String"/>
         <attribute name="sharedListId" optional="YES" attributeType="String"/>
         <attribute name="typeOfSorting" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="typeOfSortingPurchased" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -71,6 +74,7 @@
         <attribute name="isShowImage" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="isVisibleCost" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="recordId" optional="YES" attributeType="String"/>
         <attribute name="sharedId" optional="YES" attributeType="String"/>
         <attribute name="synchronizedLists" optional="YES" attributeType="Binary"/>
         <relationship name="stocks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DBStock" inverseName="pantry" inverseEntity="DBStock"/>
@@ -93,6 +97,7 @@
         <attribute name="listId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="quantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="recordId" optional="YES" attributeType="String"/>
         <attribute name="store" optional="YES" attributeType="Binary"/>
         <attribute name="unitId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="userDescription" optional="YES" attributeType="String"/>
@@ -125,6 +130,7 @@
         <attribute name="photo" optional="YES" attributeType="String"/>
         <attribute name="processingTypeTags" optional="YES" attributeType="Binary"/>
         <attribute name="recipeDescription" attributeType="String" defaultValueString=""/>
+        <attribute name="recordId" optional="YES" attributeType="String"/>
         <attribute name="sourceUrl" optional="YES" attributeType="String"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <attribute name="totalServings" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -145,11 +151,13 @@
         <attribute name="index" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="isAutoRepeat" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isAvailability" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isDefault" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isReminder" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isUserImage" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="pantryId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="quantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="recordId" optional="YES" attributeType="String"/>
         <attribute name="stockDescription" optional="YES" attributeType="String"/>
         <attribute name="store" optional="YES" attributeType="Binary"/>
         <attribute name="unitId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -164,6 +172,7 @@
     <entity name="DBStore" representedClassName=".DBStore" syncable="YES">
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="recordId" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <uniquenessConstraints>
             <uniquenessConstraint>

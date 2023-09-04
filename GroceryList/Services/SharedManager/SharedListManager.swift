@@ -20,7 +20,10 @@ class SharedListManager {
     private var isNewListId = false
     private var tokens: [String] {
         get { UserDefaultsManager.shared.userTokens ?? [] }
-        set { UserDefaultsManager.shared.userTokens = newValue }
+        set {
+            UserDefaultsManager.shared.userTokens = newValue
+            CloudManager.shared.saveCloudSettings()
+        }
     }
 
     init() {
@@ -98,9 +101,11 @@ class SharedListManager {
         removeProductsIfNeeded(list: list)
         
         CoreDataManager.shared.saveList(list: list)
+        CloudManager.shared.saveCloudData(groceryList: list)
         
         list.products.forEach { product in
             CoreDataManager.shared.createProduct(product: product)
+            CloudManager.shared.saveCloudData(product: product)
         }
         
         appendToUsersDict(id: response.listId, users: response.listUsers)
@@ -121,9 +126,9 @@ class SharedListManager {
     private func removeProductsIfNeeded(list: GroceryListsModel) {
         let products = CoreDataManager.shared.getProducts(for: list.id.uuidString)
 
-        var arrayOfLocalProductId: [UUID?] = []
+        var arrayOfLocalProductId: [(id: UUID?, recordId: String?)] = []
         products.forEach({ product in
-            arrayOfLocalProductId.append(product.id)
+            arrayOfLocalProductId.append((product.id, product.recordId))
         })
 
         var newArrayOfProducts: [UUID?] = []
@@ -131,11 +136,12 @@ class SharedListManager {
             newArrayOfProducts.append(product.id)
         })
         
-        let arrayToDelete = arrayOfLocalProductId.filter { !newArrayOfProducts.contains($0) }
+        let arrayToDelete = arrayOfLocalProductId.filter { !newArrayOfProducts.contains($0.id) }
         
-        arrayToDelete.forEach { id in
-            guard let id = id?.uuidString else { return }
+        arrayToDelete.forEach { product in
+            guard let id = product.id?.uuidString else { return }
             CoreDataManager.shared.removeProduct(id: id)
+            CloudManager.shared.delete(recordType: .product, recordID: product.recordId ?? "")
         }
     }
 
@@ -260,8 +266,10 @@ class SharedListManager {
 
         arrayOfLists.forEach { list in
             CoreDataManager.shared.saveList(list: list)
+            CloudManager.shared.saveCloudData(groceryList: list)
             list.products.forEach { product in
                 CoreDataManager.shared.createProduct(product: product)
+                CloudManager.shared.saveCloudData(product: product)
             }
         }
         UserDefaultsManager.shared.coldStartState = 2

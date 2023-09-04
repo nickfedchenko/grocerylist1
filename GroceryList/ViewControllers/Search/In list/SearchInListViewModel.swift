@@ -85,6 +85,7 @@ final class SearchInListViewModel {
         var newProduct = product
         newProduct.isPurchased = !product.isPurchased
         CoreDataManager.shared.createProduct(product: newProduct)
+        CloudManager.shared.saveCloudData(product: newProduct)
         updateList()
         search(text: searchText)
     }

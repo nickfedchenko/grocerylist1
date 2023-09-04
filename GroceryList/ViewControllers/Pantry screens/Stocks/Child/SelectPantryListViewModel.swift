@@ -22,7 +22,8 @@ class SelectPantryListViewModel: PantryViewModel {
         copiedStocks.forEach { stock in
             var newStock = Stock(copyStock: stock)
             newStock.pantryId = list.id
-            CoreDataManager.shared.saveStock(stock: [newStock], for: list.id.uuidString)
+            CoreDataManager.shared.saveStock(stocks: [newStock], for: list.id.uuidString)
+            CloudManager.shared.saveCloudData(stock: newStock)
         }
     }
     

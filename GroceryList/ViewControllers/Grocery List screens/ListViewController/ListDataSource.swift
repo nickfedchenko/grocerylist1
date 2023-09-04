@@ -27,7 +27,7 @@ class ListDataSource: ListDataSourceProtocol {
 
     var imageHeight: ImageHeight = .empty {
         didSet {
-          print("image height is \(imageHeight)")
+//          print("image height is \(imageHeight)")
         }
     }
     
@@ -69,6 +69,7 @@ class ListDataSource: ListDataSourceProtocol {
         if coldStartState == .firstItemAdded { coldStartState = .coldStartFinished }
         if let index = transformedModels?.firstIndex(of: model ) {
             CoreDataManager.shared.removeList(model.id)
+            CloudManager.shared.delete(recordType: .groceryListsModel, recordID: model.recordId)
             transformedModels?.remove(at: index)
         }
         updateFirstAndLastModels()
@@ -92,6 +93,7 @@ class ListDataSource: ListDataSourceProtocol {
             transformedModels?.remove(at: index)
             transformedModels?.insert(newModel, at: 0)
             CoreDataManager.shared.saveList(list: newModel)
+            CloudManager.shared.saveCloudData(groceryList: newModel)
         }
         updateFirstAndLastModels()
         return setOfModelsToUpdate

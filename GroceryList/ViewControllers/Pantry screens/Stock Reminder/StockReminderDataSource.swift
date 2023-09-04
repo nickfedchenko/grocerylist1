@@ -22,8 +22,8 @@ class StockReminderDataSource {
     func updateStockStatus(stock: Stock) {
         var stock = stock
         stock.isAvailability = !stock.isAvailability
-        CoreDataManager.shared.saveStock(stock: [stock], for: stock.pantryId.uuidString)
-        
+        CoreDataManager.shared.saveStock(stocks: [stock], for: stock.pantryId.uuidString)
+        CloudManager.shared.saveCloudData(stock: stock)
         outOfStocks.removeAll { $0.id == stock.id }
         outOfStocks.append(stock)
         outOfStocks.sort { $0.name < $1.name }
@@ -46,5 +46,8 @@ class StockReminderDataSource {
         }
         
         CoreDataManager.shared.savePantry(pantry: pantries)
+        pantries.forEach { pantry in
+            CloudManager.shared.saveCloudData(pantryModel: pantry)
+        }
     }
 }

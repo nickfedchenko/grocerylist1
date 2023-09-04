@@ -158,8 +158,10 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
         if isSelected {
             AmplitudeManager.shared.logEvent(.recipeAddFavorites)
             UserDefaultsManager.shared.favoritesRecipeIds.append(recipe.id)
+            CloudManager.shared.saveCloudSettings()
         } else {
             UserDefaultsManager.shared.favoritesRecipeIds.removeAll(where: { $0 == recipe.id })
+            CloudManager.shared.saveCloudSettings()
         }
 
         if var localCollection = recipe.localCollection {
@@ -172,6 +174,7 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
         }
         
         CoreDataManager.shared.saveRecipes(recipes: [recipe])
+        CloudManager.shared.saveCloudData(recipe: recipe)
     }
     
     @objc
@@ -221,6 +224,7 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
     
     func removeRecipe() {
         CoreDataManager.shared.deleteRecipe(by: recipe.id)
+        CloudManager.shared.delete(recordType: .recipe, recordID: recipe.recordId)
         updateRecipeRemove?(recipe)
     }
     

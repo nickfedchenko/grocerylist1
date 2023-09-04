@@ -58,7 +58,7 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
         let favoritesID = UserDefaultsManager.shared.favoritesRecipeIds
         allDBCollection.removeAll { $0.isDelete == true }
         var collections = allDBCollection.compactMap { CollectionModel(from: $0) }
-        var recipes = allDBRecipes.compactMap {
+        let recipes = allDBRecipes.compactMap {
             let isFavorite = favoritesID.contains(Int($0.id))
             return ShortRecipeModel(withCollection: $0, isFavorite: isFavorite)
         }
@@ -109,7 +109,7 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
         for recipe in recipes {
             if let imageData = recipe.localImage {
                 return (nil, imageData)
-            } else if let url = URL(string: recipe.photo) {
+            } else if URL(string: recipe.photo) != nil {
                 return (recipe.photo, nil)
             }
         }
@@ -135,41 +135,6 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
             EatingTime.defaults.forEach {
                 CoreDataManager.shared.deleteCollection(by: $0.rawValue)
             }
-        }
-    }
-    
-    private func createDefaultsCollection() {
-        if !UserDefaultsManager.shared.isFillingDefaultCollection {
-            let breakfast = CollectionModel(
-                id: EatingTime.breakfast.rawValue,
-                index: 0,
-                title: RecipeSectionsModel.RecipeSectionType.breakfast.title,
-                color: EatingTime.breakfast.color,
-                isDefault: true)
-            let lunch = CollectionModel(
-                id: EatingTime.lunch.rawValue,
-                index: 1,
-                title: RecipeSectionsModel.RecipeSectionType.lunch.title,
-                color: EatingTime.lunch.color,
-                isDefault: true)
-            let dinner = CollectionModel(
-                id: EatingTime.dinner.rawValue,
-                index: 2,
-                title: RecipeSectionsModel.RecipeSectionType.dinner.title,
-                color: EatingTime.dinner.color,
-                isDefault: true)
-            let snack = CollectionModel(
-                id: EatingTime.snack.rawValue,
-                index: 3,
-                title: RecipeSectionsModel.RecipeSectionType.snacks.title,
-                color: EatingTime.snack.color,
-                isDefault: true)
-
-            CoreDataManager.shared.saveCollection(collections: [breakfast, lunch, dinner, snack])
-            
-            createTechnicalCollection()
-            
-            UserDefaultsManager.shared.isFillingDefaultCollection = true
         }
     }
     
@@ -241,7 +206,7 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
         let domainFavorites = allRecipes.filter {
             UserDefaultsManager.shared.favoritesRecipeIds.contains(Int($0.id))
         }
-        let favorites = domainFavorites.compactMap {
+        _ = domainFavorites.compactMap {
             ShortRecipeModel(withCollection: $0, isFavorite: true)
         }
         let favoriteCollection = CollectionModel(from: favoriteDBCollection)
@@ -255,6 +220,7 @@ class MainRecipeDataSource: MainRecipeDataSourceProtocol {
                 }
                 
                 CoreDataManager.shared.saveRecipes(recipes: [recipe])
+                CloudManager.shared.saveCloudData(recipe: recipe)
             }
         }
         

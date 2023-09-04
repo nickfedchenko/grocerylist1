@@ -252,6 +252,10 @@
 		33AF97F62A7BD37100716104 /* DBStore+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2F29EFC2E000F705E7 /* DBStore+CoreDataProperties.swift */; };
 		33AF97F72A7BD3B600716104 /* NotificationsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3329597298A8F19002DF1EE /* NotificationsExtension.swift */; };
 		33AF97F82A7BF6E300716104 /* RecipeSourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AF97C62A7B6D5500716104 /* RecipeSourceView.swift */; };
+		33B306632A8E149300F87659 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B306622A8E149300F87659 /* CloudManager.swift */; };
+		33C5F1E82A9EF53D00E864A8 /* CloudManagerForShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */; };
+		33C5F1E92A9EF55300E864A8 /* CloudManagerForShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */; };
+		33C5F1EB2AA05DB900E864A8 /* SynchronizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C5F1EA2AA05DB900E864A8 /* SynchronizationViewController.swift */; };
 		33C6F0D32A408BED00E71023 /* RecipeSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0D22A408BED00E71023 /* RecipeSearchView.swift */; };
 		33C6F0D52A4097CD00E71023 /* RecipeColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0D42A4097CD00E71023 /* RecipeColorCell.swift */; };
 		33C6F0D72A41445600E71023 /* FolderRecipePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0D62A41445600E71023 /* FolderRecipePreviewCell.swift */; };
@@ -298,6 +302,11 @@
 		33E8A8B82A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8B72A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift */; };
 		33E8A8BA2A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8B92A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift */; };
 		33E8A8BE2A5FB4EE007D7ED9 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8BD2A5FB4EE007D7ED9 /* FAQViewController.swift */; };
+		33F6298C2A937A2E007592F4 /* NewFeatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298B2A937A2E007592F4 /* NewFeatureViewController.swift */; };
+		33F6298E2A937B32007592F4 /* NewFeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298D2A937B32007592F4 /* NewFeatureViewModel.swift */; };
+		33F629902A938B65007592F4 /* FeatureCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298F2A938B65007592F4 /* FeatureCloudView.swift */; };
+		33F629952A948179007592F4 /* Extension CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F629942A948179007592F4 /* Extension CloudManager.swift */; };
+		33F6299B2A95BC7A007592F4 /* ICloudFeatureMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6299A2A95BC7A007592F4 /* ICloudFeatureMessageView.swift */; };
 		33F8253729C050DC00B349D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253629C050DC00B349D5 /* SearchViewController.swift */; };
 		33F8253929C0559000B349D5 /* SearchInListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253829C0559000B349D5 /* SearchInListViewModel.swift */; };
 		33F8253B29C0632700B349D5 /* SearchInListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253A29C0632700B349D5 /* SearchInListViewController.swift */; };
@@ -674,6 +683,9 @@
 		33AF97D92A7B8BB000716104 /* CollectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsViewController.swift; sourceTree = "<group>"; };
 		33AF97DB2A7B92C000716104 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		33AF97DE2A7B934400716104 /* Ext CoreDataManager for shared .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext CoreDataManager for shared .swift"; sourceTree = "<group>"; };
+		33B306622A8E149300F87659 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
+		33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManagerForShared.swift; sourceTree = "<group>"; };
+		33C5F1EA2AA05DB900E864A8 /* SynchronizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizationViewController.swift; sourceTree = "<group>"; };
 		33C6F0D22A408BED00E71023 /* RecipeSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeSearchView.swift; sourceTree = "<group>"; };
 		33C6F0D42A4097CD00E71023 /* RecipeColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeColorCell.swift; sourceTree = "<group>"; };
 		33C6F0D62A41445600E71023 /* FolderRecipePreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderRecipePreviewCell.swift; sourceTree = "<group>"; };
@@ -714,6 +726,11 @@
 		33E8A8B72A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPaywallProductView.swift; sourceTree = "<group>"; };
 		33E8A8B92A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPaywallTitleView.swift; sourceTree = "<group>"; };
 		33E8A8BD2A5FB4EE007D7ED9 /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
+		33F6298B2A937A2E007592F4 /* NewFeatureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeatureViewController.swift; sourceTree = "<group>"; };
+		33F6298D2A937B32007592F4 /* NewFeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeatureViewModel.swift; sourceTree = "<group>"; };
+		33F6298F2A938B65007592F4 /* FeatureCloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCloudView.swift; sourceTree = "<group>"; };
+		33F629942A948179007592F4 /* Extension CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension CloudManager.swift"; sourceTree = "<group>"; };
+		33F6299A2A95BC7A007592F4 /* ICloudFeatureMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICloudFeatureMessageView.swift; sourceTree = "<group>"; };
 		33F8253629C050DC00B349D5 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		33F8253829C0559000B349D5 /* SearchInListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewModel.swift; sourceTree = "<group>"; };
 		33F8253A29C0632700B349D5 /* SearchInListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewController.swift; sourceTree = "<group>"; };
@@ -1487,10 +1504,27 @@
 			children = (
 				33AF97912A7A6E2800716104 /* Extension NetworkEngine.swift */,
 				33AF97DE2A7B934400716104 /* Ext CoreDataManager for shared .swift */,
+				33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */,
 				33AF97B62A7AA60C00716104 /* ActivityIndicatorView.swift */,
 				33AF97B42A7AA5BF00716104 /* Shared Extensions.swift */,
 			);
 			path = "for shared sheet";
+			sourceTree = "<group>";
+		};
+		33B306602A8E147000F87659 /* KeyChainManager */ = {
+			isa = PBXGroup;
+			children = (
+				B371CCAF299E36BB00E0E197 /* KeychainManager.swift */,
+			);
+			path = KeyChainManager;
+			sourceTree = "<group>";
+		};
+		33B306612A8E147700F87659 /* FeedbackManager */ = {
+			isa = PBXGroup;
+			children = (
+				3342C9BC2A146D290010DA4A /* FeedbackManager.swift */,
+			);
+			path = FeedbackManager;
 			sourceTree = "<group>";
 		};
 		33C6F0E42A4437F500E71023 /* Photo from recipes */ = {
@@ -1596,6 +1630,26 @@
 				33E8A8BD2A5FB4EE007D7ED9 /* FAQViewController.swift */,
 			);
 			path = FAQ;
+			sourceTree = "<group>";
+		};
+		33F6298A2A9379F4007592F4 /* Feature View */ = {
+			isa = PBXGroup;
+			children = (
+				33F6298D2A937B32007592F4 /* NewFeatureViewModel.swift */,
+				33F6298B2A937A2E007592F4 /* NewFeatureViewController.swift */,
+				33F6298F2A938B65007592F4 /* FeatureCloudView.swift */,
+				33F6299A2A95BC7A007592F4 /* ICloudFeatureMessageView.swift */,
+			);
+			path = "Feature View";
+			sourceTree = "<group>";
+		};
+		33F629992A95B1C7007592F4 /* Cloud Manager */ = {
+			isa = PBXGroup;
+			children = (
+				33B306622A8E149300F87659 /* CloudManager.swift */,
+				33F629942A948179007592F4 /* Extension CloudManager.swift */,
+			);
+			path = "Cloud Manager";
 			sourceTree = "<group>";
 		};
 		33F8253529C050B700B349D5 /* Search */ = {
@@ -2101,6 +2155,7 @@
 		B36AF9482913FA5B00944E9D /* CustomUiElements */ = {
 			isa = PBXGroup;
 			children = (
+				33C5F1EA2AA05DB900E864A8 /* SynchronizationViewController.swift */,
 				3328AD85299CF40800187B57 /* SharingView.swift */,
 				B34BB809292D1C4600748E8E /* ShimmerView.swift */,
 				B36AF9402913D37300944E9D /* CustomSegmentControl.swift */,
@@ -2213,9 +2268,10 @@
 				B3179EA4291E304700455419 /* ColorManager */,
 				B35F0F642937975900C19891 /* MeashureManager */,
 				33E544AA29CA1107008D84F8 /* Feature Manager */,
+				33B306602A8E147000F87659 /* KeyChainManager */,
+				33B306612A8E147700F87659 /* FeedbackManager */,
 				33AF97902A7A6DE700716104 /* for shared sheet */,
-				B371CCAF299E36BB00E0E197 /* KeychainManager.swift */,
-				3342C9BC2A146D290010DA4A /* FeedbackManager.swift */,
+				33F629992A95B1C7007592F4 /* Cloud Manager */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -2237,6 +2293,7 @@
 				B3D858462939D43B00CCE230 /* Paywall */,
 				B37A2CDD2911027E003C01AD /* Onboarding */,
 				33796E622A139F71009AD385 /* Feedback */,
+				33F6298A2A9379F4007592F4 /* Feature View */,
 				33A51B852A163C4200BE11C1 /* Main Tab Bar */,
 				335B54082A3822AD00B53314 /* Grocery List screens */,
 				335B54092A38231100B53314 /* Pantry screens */,
@@ -2784,6 +2841,7 @@
 				33AF97E52A7BA11000716104 /* CollectionModel.swift in Sources */,
 				33AF97B92A7AA93700716104 /* Shared Extensions.swift in Sources */,
 				33AF97932A7A6E2C00716104 /* Extension NetworkEngine.swift in Sources */,
+				33C5F1E92A9EF55300E864A8 /* CloudManagerForShared.swift in Sources */,
 				33AF97A12A7A819400716104 /* UITapGestureRecognizerExtension.swift in Sources */,
 				33AF97B12A7A9F0800716104 /* UIStackViewExtension.swift in Sources */,
 				33AF97F52A7BD36C00716104 /* DBStore+CoreDataClass.swift in Sources */,
@@ -2844,9 +2902,11 @@
 				333D2FB82A30173D0072F779 /* StockHeaderCell.swift in Sources */,
 				B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */,
 				38F4904129476FFD00529D1F /* UIBezierPath+MaskedCorners.swift in Sources */,
+				33F6298C2A937A2E007592F4 /* NewFeatureViewController.swift in Sources */,
 				33E31AD92A78DA9C0011B41E /* UITapGestureRecognizerExtension.swift in Sources */,
 				B315F9DC29892EA00009CEB8 /* CheckmarkView.swift in Sources */,
 				840C189F2978D2230006F975 /* Int+Extensions.swift in Sources */,
+				33C5F1E82A9EF53D00E864A8 /* CloudManagerForShared.swift in Sources */,
 				B381EF1D299A573500DCDE40 /* UserAccountManager.swift in Sources */,
 				334764482A24EE48008F4834 /* SelectIconViewController.swift in Sources */,
 				33A51B8D2A17171400BE11C1 /* MainTabBarViewModel.swift in Sources */,
@@ -2875,6 +2935,7 @@
 				33C6F0DF2A434FE400E71023 /* RecipeListTableCell.swift in Sources */,
 				3368FD7929B7348100D97291 /* DBCollection+CoreDataClass.swift in Sources */,
 				B3329598298A8F19002DF1EE /* NotificationsExtension.swift in Sources */,
+				33F629952A948179007592F4 /* Extension CloudManager.swift in Sources */,
 				3323409B2A1B91CB00609813 /* PantryDataSource.swift in Sources */,
 				33323C722A529A0000F552E3 /* TextViewWithPlaceholder.swift in Sources */,
 				3347645D2A2889E4008F4834 /* StocksLinkView.swift in Sources */,
@@ -3032,6 +3093,7 @@
 				B381EF31299BAA4800DCDE40 /* EnterNewPasswordViewController.swift in Sources */,
 				3391163329CD96E700881E1D /* SynchronizationActivityView.swift in Sources */,
 				B381EF18299A02A100DCDE40 /* DomainUser+CoreDataClass.swift in Sources */,
+				33F629902A938B65007592F4 /* FeatureCloudView.swift in Sources */,
 				3379B65529B9AEC10080923A /* IngredientViewController.swift in Sources */,
 				333DCC272A6101E500E3F92B /* NewPaywallFeatureView.swift in Sources */,
 				846600E9294A024800D85415 /* DBRecipe+CoreDataClass.swift in Sources */,
@@ -3051,6 +3113,7 @@
 				3379B65A29B9B2ED0080923A /* CategoryView.swift in Sources */,
 				3370EFC02A82A08300885C30 /* NewOnboardingCell.swift in Sources */,
 				33A51B9F2A1780DA00BE11C1 /* MainRecipeCollectionViewLayout.swift in Sources */,
+				33B306632A8E149300F87659 /* CloudManager.swift in Sources */,
 				3379B65C29B9B3030080923A /* AddIngredientView.swift in Sources */,
 				339FF37E2A65793E00C6D6E3 /* NewPaywallProductView.swift in Sources */,
 				3347645B2A287EA5008F4834 /* StocksNavigationView.swift in Sources */,
@@ -3121,6 +3184,7 @@
 				B34EAC9C2934E95E00FBD0E0 /* SelectCategoryCell.swift in Sources */,
 				3370EFC72A83D0DD00885C30 /* OnboardingViewController.swift in Sources */,
 				B3F7C9C729963F0A0081B245 /* PasswordResetViewController.swift in Sources */,
+				33F6299B2A95BC7A007592F4 /* ICloudFeatureMessageView.swift in Sources */,
 				3360735D2A4B3B5C002427BE /* ShowCollectionDeleteAlertView.swift in Sources */,
 				336A112729F2D1F4008CFF33 /* BundleExtension.swift in Sources */,
 				33C6F0E32A44360400E71023 /* PhotoFromRecipesViewController.swift in Sources */,
@@ -3133,6 +3197,7 @@
 				3366BEE02A2C1D3A00D50704 /* AutoRepeatSettingView.swift in Sources */,
 				B315F9D72988FF270009CEB8 /* AlternativePaywallCell.swift in Sources */,
 				335519C429AE26CE00AD2B77 /* RecipeContextMenuView.swift in Sources */,
+				33F6298E2A937B32007592F4 /* NewFeatureViewModel.swift in Sources */,
 				33AF97D72A7B835100716104 /* CookingTimeBadge.swift in Sources */,
 				38F49043294771A500529D1F /* InstructionView.swift in Sources */,
 				333E2D3029EFC2E000F705E7 /* DBStore+CoreDataClass.swift in Sources */,
@@ -3153,6 +3218,7 @@
 				38817892293BEC8E0094344D /* DataProviderFacade.swift in Sources */,
 				33995D232A1CC1DE003FECAE /* CustomTabBarView.swift in Sources */,
 				B381EF2A299B977700DCDE40 /* TermsView.swift in Sources */,
+				33C5F1EB2AA05DB900E864A8 /* SynchronizationViewController.swift in Sources */,
 				B381EF24299B660D00DCDE40 /* LogOutView.swift in Sources */,
 				33C6F0E82A44415800E71023 /* PhotoFromRecipesCell.swift in Sources */,
 			);
@@ -3377,7 +3443,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 871B55B860CCE77B83E21B2D /* Pods-GroceryList.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GroceryList/GroceryList.entitlements;
@@ -3416,7 +3481,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 95B72FFDC8116578D0D9BC99 /* Pods-GroceryList.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GroceryList/GroceryListRelease.entitlements;
