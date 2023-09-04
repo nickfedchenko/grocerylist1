@@ -498,7 +498,7 @@ final class RootRouter: RootRouterProtocol {
     func showAlertVC(title: String, message: String, completion: (() -> Void)? = nil) {
         guard let controller = viewControllerFactory.createAlertController(title: title, message: message,
                                                                            completion) else { return }
-        topViewController?.present(controller, animated: true, completion: nil)
+        UIViewController.currentController()?.present(controller, animated: true, completion: nil)
     }
     
     func showPaywallVC() {

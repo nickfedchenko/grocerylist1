@@ -118,7 +118,7 @@ class PantryViewModel {
             router?.goToSharingPopUp()
             return
         }
-        let users = SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
+        let users = SharedPantryManager.shared.sharedListsUsers[model.sharedId] ?? []
         router?.goToSharingList(pantryToShare: model, users: users)
     }
     
@@ -152,7 +152,9 @@ class PantryViewModel {
     
     @objc
     private func sharedPantryDownloaded() {
-        sharingUpdate?()
+        DispatchQueue.main.async { [weak self] in
+            self?.dataSource.updatePantry()
+        }
     }
     
     private func updateSharedPantryList(model: PantryModel) {

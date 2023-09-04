@@ -11,7 +11,7 @@ class StopSharingPopUpViewController: UIViewController {
 
     private let viewModel: StopSharingViewModel
     
-    private let pantryView = UIView()
+    private let pantryView = PantryView()
     private let groceryView = GroceryView()
     private let popUpView = StopSharingPopUpView()
     
@@ -33,7 +33,8 @@ class StopSharingPopUpViewController: UIViewController {
         if let grocery = viewModel.listToShareModel {
             groceryView.configureList(grocery)
             pantryView.isHidden = true
-        } else if let pantry = viewModel.pantryToShareModel {
+        } else if let pantry = viewModel.getPantry() {
+            pantryView.configure(pantry)
             groceryView.isHidden = true
         }
     }
@@ -57,8 +58,8 @@ class StopSharingPopUpViewController: UIViewController {
 
         pantryView.snp.makeConstraints {
             $0.leading.trailing.equalTo(popUpView)
-            $0.height.equalTo(88)
-            $0.bottom.equalTo(popUpView.snp.top).offset(12)
+            $0.height.equalTo(96)
+            $0.bottom.equalTo(popUpView.snp.top).offset(20)
         }
 
         groceryView.snp.makeConstraints {

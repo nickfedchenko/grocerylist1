@@ -228,6 +228,7 @@
 "ResetPassword.EnterNewPassw"   = "Geben Sie ein neues Passwort ein";
 "ResetPassword.LinkInactive"    = "Dieser Link kann nur einmal verwendet werden und wird nach 1 Stunde ungültig.\nBitte setzen Sie das Passwort erneut zurück.";
 "ResetPassword.ChangePassword"  = "Passwort ändern";
+"You cannot remove owner"       = "Sie können den Listeneigentümer nicht entfernen";
 
 // context menu
 "createRecipe"                  = "Ein Rezept erstellen";

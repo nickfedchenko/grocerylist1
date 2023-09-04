@@ -157,7 +157,24 @@ struct SocketDeleteResponse: Codable {
 
 struct SocketPantryResponse: Codable {
     var sendForUserToken: String
-    var pantryList: SharedPantryModel
+    var pantryList: SharedPantryModel?
     var listUsers: [User]
     var listId: String
+    
+    enum CodingKeys: String, CodingKey {
+        case sendForUserToken, pantryList, listUsers, listId
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        sendForUserToken = try container.decode(String.self, forKey: .sendForUserToken)
+        listUsers = try container.decode([User].self, forKey: .listUsers)
+        listId = try container.decode(String.self, forKey: .listId)
+
+        if let groceryList = try? container.decode(SharedPantryModel.self, forKey: .pantryList) {
+            self.pantryList = groceryList
+        } else {
+            pantryList = nil
+        }
+    }
 }

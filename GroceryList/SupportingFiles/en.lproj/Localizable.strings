@@ -228,6 +228,7 @@
 "ResetPassword.EnterNewPassw"   = "Enter new password";
 "ResetPassword.LinkInactive"    = "This link can be used only once and will become inactive in 1 hour. \nPlease reset again.";
 "ResetPassword.ChangePassword"  = "Change password";
+"You cannot remove owner"       = "You cannot remove the list owner";
 
 // context menu
 "createRecipe"                  = "Create Recipe";
