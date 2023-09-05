@@ -284,7 +284,7 @@ class SharedPantryManager {
 
     private func appendToUsersDict(id: String, users: [User]) {
         sharedListsUsers[id] = users
-        DispatchQueue.main.async {
+        DispatchQueue.global().async {
             users.forEach {
                 if let stringUrl = $0.avatar,
                    let url = URL(string: stringUrl) {

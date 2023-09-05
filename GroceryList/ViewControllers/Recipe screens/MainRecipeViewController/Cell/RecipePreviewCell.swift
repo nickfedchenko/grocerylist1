@@ -117,15 +117,13 @@ final class RecipePreviewCell: UICollectionViewCell {
             return
         }
         
-        if let photoUrl = URL(string: recipe.photo) {
-            mainImage.kf.setImage(
-                with: photoUrl,
-                placeholder: nil,
-                options: [
-                    .processor(DownsamplingImageProcessor(size: CGSize(width: 100, height: 100))),
-                    .scaleFactor(UIScreen.main.scale),
-                    .cacheOriginalImage
-                ])
+        if let url = URL(string: recipe.photo) {
+            let resource = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
+            mainImage.kf.setImage(with: resource, options: [
+                .processor(DownsamplingImageProcessor(size: CGSize(width: 100, height: 100))),
+                .scaleFactor(UIScreen.main.scale),
+                .cacheOriginalImage
+            ])
             return
         }
         mainImage.image = nil
