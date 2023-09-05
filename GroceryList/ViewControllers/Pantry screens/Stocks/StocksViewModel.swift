@@ -44,7 +44,7 @@ final class StocksViewModel {
     }
     
     var necessaryOffsetToLink: Double {
-        dataSource.allStocks.isEmpty ? 0 : Double(dataSource.allStocks.count * 56)
+        dataSource.allStocks.isEmpty ? 0 : Double(dataSource.allStocks.count * 55)
     }
     
     var pantryName: String {
@@ -115,10 +115,12 @@ final class StocksViewModel {
     }
     
     func getCostCellModel(model: Stock) -> StockCell.CostCellModel {
-        var isVisibleCost = false
+        var isVisibleCost = model.isVisibleCost
 #if RELEASE
         if Apphud.hasActiveSubscription() {
             isVisibleCost = model.isVisibleСost
+        } else {
+            isVisibleCost = false
         }
 #endif
         
@@ -340,7 +342,7 @@ final class StocksViewModel {
     }
     
     private func calculateCost(quantity: Double?, cost: Double?) -> Double? {
-        guard quantity != 0 && cost != 0 else {
+        guard quantity ?? -1 >= 0 && cost ?? -1 >= 0 else {
             return nil
         }
         

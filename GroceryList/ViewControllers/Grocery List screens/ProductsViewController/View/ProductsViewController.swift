@@ -195,9 +195,6 @@ class ProductsViewController: UIViewController {
         totalCostLabel.isHidden = !isVisible
         totalCostLabel.snp.updateConstraints { $0.height.equalTo(isVisible ? 19 : 0) }
         navigationView.snp.updateConstraints { $0.height.equalTo(isVisible ? 113 : 84) }
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.view.layoutIfNeeded()
-        }
         guard isVisible else { return }
         
         totalCostLabel.textAlignment = .right
@@ -343,6 +340,9 @@ class ProductsViewController: UIViewController {
     private func updateCost(isVisibleCost: Bool) {
         viewModel?.updateCostVisible(isVisibleCost)
         updateTotalCost(isVisible: isVisibleCost)
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
         reloadData()
     }
     

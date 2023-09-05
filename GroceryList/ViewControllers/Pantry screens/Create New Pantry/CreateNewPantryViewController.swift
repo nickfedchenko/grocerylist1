@@ -396,6 +396,7 @@ extension CreateNewPantryViewController: PantryListTemplateViewDelegate {
         iconView.configure(icon: template.icon, name: template.title)
         nameTextView.text = template.title
         nameTextView.checkPlaceholder()
+        updateSaveButton(isActive: nameTextView.text.count >= 1)
     }
 }
 
