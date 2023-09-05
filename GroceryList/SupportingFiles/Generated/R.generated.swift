@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 472 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 473 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -2613,6 +2613,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var youCanFindYourDrafts: RswiftResources.StringResource { .init(key: "You can find your drafts", tableName: "Localizable", source: source, developmentValue: "You can find your drafts on the main screen, in collections", comment: nil) }
+
+      /// en translation: You cannot remove the list owner
+      ///
+      /// Key: You cannot remove owner
+      ///
+      /// Locales: en, ru, fr, de
+      var youCannotRemoveOwner: RswiftResources.StringResource { .init(key: "You cannot remove owner", tableName: "Localizable", source: source, developmentValue: "You cannot remove the list owner", comment: nil) }
 
       /// en translation: Tell us how was your experience of shopping with Grocery List App?
       ///

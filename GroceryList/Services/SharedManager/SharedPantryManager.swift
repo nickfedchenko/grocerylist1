@@ -87,10 +87,20 @@ class SharedPantryManager {
 
     // MARK: - сохранение листа из сокета
     func saveListFromSocket(response: SocketPantryResponse) {
-        appendToUsersDict(id: response.listId, users: response.listUsers)
+        guard let pantryList = response.pantryList else {
+            if !response.listUsers.contains(where: { $0.token == UserAccountManager.shared.getUser()?.token }) {
+                CoreDataManager.shared.removeSharedPantryList(by: response.listId)
+            } else {
+                sharedListsUsers.removeValue(forKey: response.listId)
+                appendToUsersDict(id: response.listId, users: response.listUsers)
+            }
+            NotificationCenter.default.post(name: .sharedPantryDownloadedAndSaved, object: nil)
+            return
+        }
         
-        var localList = transform(sharedList: response.pantryList)
-        let dbList = CoreDataManager.shared.getPantry(id: response.pantryList.id.uuidString)
+        appendToUsersDict(id: response.listId, users: response.listUsers)
+        var localList = transform(sharedList: pantryList)
+        let dbList = CoreDataManager.shared.getPantry(id: pantryList.id.uuidString)
         localList.sharedId = response.listId
         localList.isShowImage = BoolWithNilForCD(rawValue: dbList?.isShowImage ?? 0) ?? .nothing
         localList.synchronizedLists = (try? JSONDecoder().decode([UUID].self,
@@ -100,11 +110,7 @@ class SharedPantryManager {
         CoreDataManager.shared.removeSharedPantryList(by: localList.sharedId)
         
         CoreDataManager.shared.savePantry(pantry: [localList])
-        CloudManager.shared.saveCloudData(pantryModel: localList)
         CoreDataManager.shared.saveStock(stocks: localList.stock, for: localList.id.uuidString)
-        localList.stock.forEach { stock in
-            CloudManager.shared.saveCloudData(stock: stock)
-        }
         
         NotificationCenter.default.post(name: .sharedPantryDownloadedAndSaved, object: nil)
 //        if isNewListId {
@@ -271,9 +277,6 @@ class SharedPantryManager {
         
         arrayOfLists.forEach { list in
             CoreDataManager.shared.saveStock(stocks: list.stock, for: list.id.uuidString)
-            list.stock.forEach { stock in
-                CloudManager.shared.saveCloudData(stock: stock)
-            }
         }
 
         NotificationCenter.default.post(name: .sharedPantryDownloadedAndSaved, object: nil)

@@ -15,6 +15,8 @@ final class SharingListViewModel {
     
     weak var router: RootRouter?
     weak var delegate: SharingListViewModelDelegate?
+    var updateUsers: (() -> Void)?
+    
     var necessaryHeight: Double {
         sharedUsers.isEmpty ? 0 : Double(sharedUsers.count * 56 + 32)
     }
@@ -70,6 +72,73 @@ final class SharingListViewModel {
             return "-"
         }
         return user.username ?? user.email
+    }
+    
+    func showStopSharingPopUp(by index: Int) {
+        let user = sharedUsers[index]
+        router?.goToStopSharingPopUp(user: user, listToShareModel: listToShareModel,
+                                     pantryToShareModel: pantryToShareModel, updateUI: { [weak self] isStop in
+            guard isStop else { return }
+            guard let self else { return }
+            self.deleteUserGrocery(user: user, index: index)
+            self.deleteUserPantry(user: user, index: index)
+        })
+    }
+    
+    private func deleteUserGrocery(user: User, index: Int) {
+        guard let grocery = listToShareModel else {
+            return
+        }
+        self.network.groceryListUserDelete(userToken: user.token,
+                                           listId: grocery.sharedId) {  result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let result):
+                guard result.error else {
+                    self.sharedUsers.remove(at: index)
+                    self.updateUsers?()
+                    return
+                }
+                print(result)
+                guard let messages = result.messages.first else {
+                    return
+                }
+                if messages == "Owner can not delete yourself" {
+                    self.router?.showAlertVC(title: "", message: R.string.localizable.youCannotRemoveOwner())
+                } else {
+                    self.router?.showAlertVC(title: "Error", message: messages)
+                }
+            }
+        }
+    }
+    
+    private func deleteUserPantry(user: User, index: Int) {
+        guard let pantry = pantryToShareModel else {
+            return
+        }
+        self.network.pantryListUserDelete(userToken: user.token,
+                                          pantryId: pantry.sharedId) {  result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let result):
+                guard result.error else {
+                    self.sharedUsers.remove(at: index)
+                    self.updateUsers?()
+                    return
+                }
+                print(result)
+                guard let messages = result.messages.first else {
+                    return
+                }
+                if messages == "Owner can not delete yourself" {
+                    self.router?.showAlertVC(title: "", message: R.string.localizable.youCannotRemoveOwner())
+                } else {
+                    self.router?.showAlertVC(title: "Error", message: messages)
+                }
+            }
+        }
     }
     
     private func shareGrocery(listToShareModel: GroceryListsModel) {

@@ -54,13 +54,14 @@ final class RootRouter: RootRouterProtocol {
     
     func presentRootNavigationControllerInWindow() {
         setupTabBarController()
-
         viewController = navigationController
         
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
-//        showTestOnboarding()
+#if RELEASE
+        showTestOnboarding()
+#endif
     }
     
     func openResetPassword(token: String) {
@@ -236,6 +237,19 @@ final class RootRouter: RootRouterProtocol {
         let controller = viewControllerFactory.createSharingPopUpController(router: self, compl: compl)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
+    }
+    
+    func goToStopSharingPopUp(user: User,
+                              listToShareModel: GroceryListsModel?,
+                              pantryToShareModel: PantryModel?,
+                              updateUI: ((Bool) -> Void)?) {
+        let controller = viewControllerFactory.createStopSharingPopUpController(user: user,
+                                                                                listToShareModel: listToShareModel,
+                                                                                pantryToShareModel: pantryToShareModel,
+                                                                                updateUI: updateUI)
+        controller.modalTransitionStyle = .crossDissolve
+        controller.modalPresentationStyle = .overCurrentContext
+        UIViewController.currentController()?.present(controller, animated: true)
     }
     
     func goToSharingList(listToShare: GroceryListsModel? = nil,
@@ -484,7 +498,7 @@ final class RootRouter: RootRouterProtocol {
     func showAlertVC(title: String, message: String, completion: (() -> Void)? = nil) {
         guard let controller = viewControllerFactory.createAlertController(title: title, message: message,
                                                                            completion) else { return }
-        topViewController?.present(controller, animated: true, completion: nil)
+        UIViewController.currentController()?.present(controller, animated: true, completion: nil)
     }
     
     func showPaywallVC() {

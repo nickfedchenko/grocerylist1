@@ -225,6 +225,7 @@
 "ResetPassword.EnterNewPassw"   = "Введите новый пароль";
 "ResetPassword.LinkInactive"    = "Эта ссылка может быть использована только один раз и становится неактивной через 1 час. \nПожалуйста, сбросьте пароль еще раз.";
 "ResetPassword.ChangePassword"  = "Cменить пароль";
+"You cannot remove owner"       = "Вы не можете удалить владельца списка";
 
 // context menu
 "createRecipe"                  = "Создать рецепт";

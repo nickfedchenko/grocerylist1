@@ -209,7 +209,6 @@ extension CoreDataManager {
         let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "sharedListId = '\(sharedListId)'")
         if let object = try? context.fetch(fetchRequest).first {
-            CloudManager.shared.delete(recordType: .groceryListsModel, recordID: object.recordId ?? "")
             context.delete(object)
         }
         try? context.save()
@@ -222,7 +221,6 @@ extension CoreDataManager {
       
         if let objects = try? context.fetch(fetchRequest){
             objects.forEach {
-                CloudManager.shared.delete(recordType: .groceryListsModel, recordID: $0.recordId ?? "")
                 context.delete($0)
             }
         }
@@ -238,7 +236,6 @@ extension CoreDataManager {
         }
         try? context.save()
     }
-    
     
     // MARK: - Categories
     func saveCategory(category: CategoryModel) {
@@ -520,7 +517,6 @@ extension CoreDataManager {
         let fetchRequest: NSFetchRequest<DBPantry> = DBPantry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "sharedId = '\(sharedListId)'")
         if let object = try? context.fetch(fetchRequest).first {
-            CloudManager.shared.delete(recordType: .pantryModel, recordID: object.recordId ?? "")
             context.delete(object)
         }
         try? context.save()
@@ -532,7 +528,6 @@ extension CoreDataManager {
         fetchRequest.predicate = NSPredicate(format: "isShared = %d", true)
         if let objects = try? context.fetch(fetchRequest) {
             objects.forEach {
-                CloudManager.shared.delete(recordType: .pantryModel, recordID: $0.recordId ?? "")
                 context.delete($0)
             }
         }
