@@ -395,6 +395,7 @@ extension CreateNewPantryViewController: PantryListTemplateViewDelegate {
         let template = viewModel.selectedTemplate(by: index)
         iconView.configure(icon: template.icon, name: template.title)
         nameTextView.text = template.title
+        nameTextView.checkPlaceholder()
     }
 }
 
