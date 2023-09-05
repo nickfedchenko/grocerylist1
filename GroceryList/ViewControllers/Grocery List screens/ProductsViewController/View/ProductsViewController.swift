@@ -124,7 +124,7 @@ class ProductsViewController: UIViewController {
         let darkColor = viewModel?.getDarkColor() ?? .black
         nameOfListTextField.text = viewModel?.getNameOfList()
         view.backgroundColor = colorForBackground
-        navigationView.backgroundColor = colorForBackground
+        navigationView.backgroundColor = colorForBackground?.withAlphaComponent(0.9)
         (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: R.string.localizable.item(),
                                                                         color: colorForForeground)
         nameOfListTextField.textColor = darkColor
@@ -139,7 +139,6 @@ class ProductsViewController: UIViewController {
         setupSharingView()
         let isVisibleCost = viewModel?.isVisibleCost ?? false
         updateTotalCost(isVisible: isVisibleCost)
-        navigationView.snp.updateConstraints { $0.height.equalTo(84 + (isVisibleCost ? 19 : 0)) }
     }
     
     private func setupInfoMessage() {
@@ -195,6 +194,10 @@ class ProductsViewController: UIViewController {
         guard let viewModel else { return }
         totalCostLabel.isHidden = !isVisible
         totalCostLabel.snp.updateConstraints { $0.height.equalTo(isVisible ? 19 : 0) }
+        navigationView.snp.updateConstraints { $0.height.equalTo(isVisible ? 113 : 84) }
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
         guard isVisible else { return }
         
         totalCostLabel.textAlignment = .right
@@ -339,10 +342,6 @@ class ProductsViewController: UIViewController {
     
     private func updateCost(isVisibleCost: Bool) {
         viewModel?.updateCostVisible(isVisibleCost)
-        navigationView.snp.updateConstraints { $0.height.equalTo(84 + (isVisibleCost ? 19 : 0)) }
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.view.layoutIfNeeded()
-        }
         updateTotalCost(isVisible: isVisibleCost)
         reloadData()
     }
@@ -610,7 +609,8 @@ class ProductsViewController: UIViewController {
         totalCostLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
-            make.top.equalTo(nameOfListTextField.snp.bottom).offset(4)
+            make.top.equalTo(nameOfListTextField.snp.bottom).offset(5)
+            make.bottom.equalToSuperview().offset(-5)
             make.height.equalTo(19)
         }
     }
