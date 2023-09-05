@@ -258,7 +258,7 @@ struct Stock: Hashable, Codable {
     
     func isEqual(to cloudRecord: Stock) -> Bool {
         return self.isDefault && self.id != cloudRecord.id && self.pantryId == cloudRecord.pantryId &&
-        self.index == cloudRecord.index && self.name == cloudRecord.name &&
+        self.index == cloudRecord.index && self.name.localized == cloudRecord.name.localized &&
         self.imageData == cloudRecord.imageData && self.description == cloudRecord.description &&
         self.store == cloudRecord.store && self.cost == cloudRecord.cost &&
         self.quantity == cloudRecord.quantity && self.unitId == cloudRecord.unitId &&

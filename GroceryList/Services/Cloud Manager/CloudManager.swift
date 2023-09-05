@@ -59,7 +59,6 @@ final class CloudManager {
     }
     
     func fetchChanges(isShowSyncController: Bool = false) {
-        print("[CloudKit]: fetchChanges")
         var changedZoneIDs: [CKRecordZone.ID] = []
         let serverChangeToken = getToken(changeTokenKey: UserDefaultsManager.shared.databaseChangeTokenKey)
         let databaseOperation = CKFetchDatabaseChangesOperation(previousServerChangeToken: serverChangeToken)
@@ -175,7 +174,6 @@ final class CloudManager {
                     print("[CloudKit]: ", error.localizedDescription)
                 } else {
                     UserDefaultsManager.shared.createdCustomZone = true
-                    print("[CloudKit]: createCustomZone")
                 }
                 createZoneGroup.leave()
             }
@@ -198,7 +196,6 @@ final class CloudManager {
                     print("[CloudKit]:", error.localizedDescription)
                 } else {
                     UserDefaultsManager.shared.subscribedToPrivateChanges = true
-                    print("[CloudKit]: subscribedToPrivateChanges")
                 }
             }
             modifySubscriptionsOperation.qualityOfService = .userInteractive

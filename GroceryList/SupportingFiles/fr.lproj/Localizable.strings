@@ -520,7 +520,7 @@
 
 // iCloud
 "icon iCloud Data Backup"       = "􀪺 Sauvegarde des données iCloud";
-"Synchronize your data"         = "Synchronisez vos données avec le nuage. Vos listes et vos recettes seront stockées en toute sécurité*. ";
+"Synchronize your data"         = "Synchronisez vos données avec le nuage. Vos listes et vos recettes seront stockées en toute sécurité. ";
 "iCloud Registration required"  = "*Enregistrement requis";
 "Great! Enable"                 = "Génial ! Activer";
 "Maybe Later"                   = "Peut-être plus tard";

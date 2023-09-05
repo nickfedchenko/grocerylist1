@@ -2383,12 +2383,12 @@ struct _R {
       /// Locales: en, ru, fr, de
       var synchronizeStockList: RswiftResources.StringResource { .init(key: "Synchronize stock list", tableName: "Localizable", source: source, developmentValue: "Synchronize stock list with shopping list", comment: nil) }
 
-      /// en translation: Synchronize your data with the cloud. Your lists and recipes will be securely stored*. 
+      /// en translation: Synchronize your data with the cloud. Your lists and recipes will be securely stored. 
       ///
       /// Key: Synchronize your data
       ///
       /// Locales: en, ru, fr, de
-      var synchronizeYourData: RswiftResources.StringResource { .init(key: "Synchronize your data", tableName: "Localizable", source: source, developmentValue: "Synchronize your data with the cloud. Your lists and recipes will be securely stored*. ", comment: nil) }
+      var synchronizeYourData: RswiftResources.StringResource { .init(key: "Synchronize your data", tableName: "Localizable", source: source, developmentValue: "Synchronize your data with the cloud. Your lists and recipes will be securely stored. ", comment: nil) }
 
       /// en translation: Tea and coffee
       ///

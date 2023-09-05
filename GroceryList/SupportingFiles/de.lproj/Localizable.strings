@@ -522,7 +522,7 @@
 
 // iCloud
 "icon iCloud Data Backup"       = "􀪺 iCloud Datensicherung";
-"Synchronize your data"         = "Synchronisieren Sie Ihre Daten mit der Cloud. Ihre Listen und Rezepte werden sicher gespeichert*. ";
+"Synchronize your data"         = "Synchronisieren Sie Ihre Daten mit der Cloud. Ihre Listen und Rezepte werden sicher gespeichert. ";
 "iCloud Registration required"  = "*Registrierung erforderlich";
 "Great! Enable"                 = "Super! Aktivieren";
 "Maybe Later"                   = "Vielleicht später";

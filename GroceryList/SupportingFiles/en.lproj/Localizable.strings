@@ -528,7 +528,7 @@
 
 // iCloud
 "icon iCloud Data Backup"       = "􀪺 iCloud Data Backup";
-"Synchronize your data"         = "Synchronize your data with the cloud. Your lists and recipes will be securely stored*. ";
+"Synchronize your data"         = "Synchronize your data with the cloud. Your lists and recipes will be securely stored. ";
 "iCloud Registration required"  = "*Registration required";
 "Great! Enable"                 = "Great! Enable";
 "Maybe Later"                   = "Maybe Later";
