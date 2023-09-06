@@ -211,6 +211,9 @@
 "Shared"                        = "Shared";
 "Send Invitation"               = "Send Invitation";
 "Hello! Here is a great app"    = "Hello! Here is a great app for joint shopping and recipes!";
+"You cannot remove owner"       = "You cannot remove the list owner";
+"invited to the Common List"    = "invited to the Common List";
+"Stop sharing"                  = "Stop sharing";
 
 "Settings.Profile"              = "Profile";
 "Settings.AddPhoto"             = "Add your photo, it will be more beautiful";
@@ -228,7 +231,6 @@
 "ResetPassword.EnterNewPassw"   = "Enter new password";
 "ResetPassword.LinkInactive"    = "This link can be used only once and will become inactive in 1 hour. \nPlease reset again.";
 "ResetPassword.ChangePassword"  = "Change password";
-"You cannot remove owner"       = "You cannot remove the list owner";
 
 // context menu
 "createRecipe"                  = "Create Recipe";

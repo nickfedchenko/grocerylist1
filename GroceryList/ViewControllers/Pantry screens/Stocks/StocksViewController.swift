@@ -235,9 +235,8 @@ final class StocksViewController: UIViewController {
     private func calculateLinkViewOffset() {
         let topSafeArea = UIView.safeAreaTop
         let bottomOffset = topSafeArea > 24 ? 114 : 84
-        linkViewOffset = 30
         let maxHeight = self.view.frame.height - 170
-        linkViewOffset += viewModel.necessaryOffsetToLink
+        linkViewOffset = collectionView.collectionViewLayout.collectionViewContentSize.height + 64
         
         linkView.snp.remakeConstraints {
             $0.centerX.equalToSuperview()
@@ -380,7 +379,7 @@ final class StocksViewController: UIViewController {
         linkView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(40)
-            $0.bottom.equalToSuperview().offset(viewModel.necessaryOffsetToLink + 124)
+            $0.bottom.equalToSuperview().offset(0)
         }
         
         linkBackgroundView.snp.makeConstraints {

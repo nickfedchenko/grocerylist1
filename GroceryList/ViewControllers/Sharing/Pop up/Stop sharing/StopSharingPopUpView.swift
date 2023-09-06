@@ -24,7 +24,7 @@ class StopSharingPopUpView: UIView {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
         label.textColor = .black
-        label.text = "invited to the Common List".localized
+        label.text = R.string.localizable.invitedToTheCommonList()
         label.textAlignment = .center
         return label
     }()
@@ -32,18 +32,23 @@ class StopSharingPopUpView: UIView {
     private lazy var stopSharingButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = R.color.primaryDark()
-        button.setTitle("Stop sharing", for: .normal)
+        button.setTitle(R.string.localizable.stopSharing(), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 18).font
         button.layer.cornerRadius = 8
         button.layer.cornerCurve = .continuous
         button.addTarget(self, action: #selector(tappedStopSharingButton), for: .touchUpInside)
+        button.addDefaultShadowForPopUp()
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.minimumScaleFactor = 0.5
+        button.contentEdgeInsets.left = 10
+        button.contentEdgeInsets.right = 10
         return button
     }()
     
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Cancel", for: .normal)
+        button.setTitle(R.string.localizable.cancel(), for: .normal)
         button.setTitleColor(UIColor(hex: "617774"), for: .normal)
         button.titleLabel?.font = UIFont.SFProRounded.semibold(size: 18).font
         button.addTarget(self, action: #selector(tappedCancelButton), for: .touchUpInside)
@@ -73,7 +78,7 @@ class StopSharingPopUpView: UIView {
         let grayColor = [NSAttributedString.Key.foregroundColor: UIColor(hex: "617774")]
 
         let name = NSMutableAttributedString(string: userName, attributes: blackColor)
-        let email = NSMutableAttributedString(string: user.email, attributes: grayColor)
+        let email = NSMutableAttributedString(string: "(\(user.email))", attributes: grayColor)
 
         name.append(NSAttributedString(string: " "))
         name.append(email)

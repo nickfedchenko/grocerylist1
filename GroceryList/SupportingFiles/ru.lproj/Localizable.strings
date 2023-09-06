@@ -208,6 +208,9 @@
 "Shared"                        = "Общий";
 "Send Invitation"               = "Отправить приглашение";
 "Hello! Here is a great app"    = "Привет! Вот отличное приложение для совместных покупок и рецептов!";
+"You cannot remove owner"       = "Вы не можете удалить владельца списка";
+"invited to the Common List"    = "приглашен в Общий список";
+"Stop sharing"                  = "Прекратить совместное использование";
 
 "Settings.Profile"              = "Профиль";
 "Settings.AddPhoto"             = "Добавьте фотографию, так будет красивее";
@@ -225,7 +228,6 @@
 "ResetPassword.EnterNewPassw"   = "Введите новый пароль";
 "ResetPassword.LinkInactive"    = "Эта ссылка может быть использована только один раз и становится неактивной через 1 час. \nПожалуйста, сбросьте пароль еще раз.";
 "ResetPassword.ChangePassword"  = "Cменить пароль";
-"You cannot remove owner"       = "Вы не можете удалить владельца списка";
 
 // context menu
 "createRecipe"                  = "Создать рецепт";

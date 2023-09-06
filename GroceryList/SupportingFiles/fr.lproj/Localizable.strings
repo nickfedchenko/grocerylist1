@@ -209,6 +209,9 @@
 "Shared"                        = "Général";
 "Send Invitation"               = "Envoyer une invitation";
 "Hello! Here is a great app"    = "Salut! Voici une excellente application pour les achats et les recettes partagés!";
+"You cannot remove owner"       = "Vous ne pouvez pas supprimer le propriétaire de la liste";
+"invited to the Common List"    = "invité à la liste commune";
+"Stop sharing"                  = "Arrêter le partage";
 
 "Settings.Profile"              = "Profil";
 "Settings.AddPhoto"             = "Ajoutez une photo, cela rendra l'application plus agréable";
@@ -226,7 +229,6 @@
 "ResetPassword.EnterNewPassw"   = "Entrer un nouveau mot de passe";
 "ResetPassword.LinkInactive"    = "Ce lien ne peut être utilisé qu'une seule fois et devient inactif après 1 heure. Veuillez réinitialiser à nouveau votre mot de passe.";
 "ResetPassword.ChangePassword"  = "Changer le mot de passe";
-"You cannot remove owner"       = "Vous ne pouvez pas supprimer le propriétaire de la liste";
 
 // context menu
 "createRecipe"                  = "Créer une recette";

@@ -43,10 +43,6 @@ final class StocksViewModel {
                                                name: .cloudStock, object: nil)
     }
     
-    var necessaryOffsetToLink: Double {
-        dataSource.allStocks.isEmpty ? 0 : Double(dataSource.allStocks.count * 55)
-    }
-    
     var pantryName: String {
         pantry.name
     }
