@@ -114,7 +114,7 @@ final class StocksViewModel {
         var isVisibleCost = model.isVisibleCost
 #if RELEASE
         if Apphud.hasActiveSubscription() {
-            isVisibleCost = model.isVisibleСost
+            isVisibleCost = model.isVisibleCost
         } else {
             isVisibleCost = false
         }
