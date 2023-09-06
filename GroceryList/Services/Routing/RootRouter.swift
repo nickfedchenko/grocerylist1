@@ -111,7 +111,6 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goToNewOnboarding() {
-
         if !UserDefaultsManager.shared.isFirstLaunch {
             UserDefaultsManager.shared.firstLaunchDate = Date()
             FeatureManager.shared.activeFeaturesOnFirstLaunch()
@@ -122,7 +121,6 @@ final class RootRouter: RootRouterProtocol {
         let onboardingController = viewControllerFactory.createNewOnboardingController(router: self)
         navigationPushViewController(onboardingController, animated: false)
         return
-
     }
     
     func goToOnboarding() {

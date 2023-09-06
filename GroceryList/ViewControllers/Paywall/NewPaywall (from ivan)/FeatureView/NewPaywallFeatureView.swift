@@ -16,6 +16,10 @@ class NewPaywallFeatureView: UIView {
         let free: Bool
     }
     
+    var isHard = false {
+        didSet { updateUI() }
+    }
+    
     private let iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -119,6 +123,18 @@ class NewPaywallFeatureView: UIView {
         collectionView.reloadData()
     }
     
+    private func updateUI() {
+        guard isHard else {
+            return
+        }
+        collectionView.contentInset.top = 90
+        iconImageView.snp.updateConstraints { $0.top.equalToSuperview().offset(-75) }
+        titleLabel.snp.updateConstraints { $0.top.equalToSuperview().offset(-70) }
+        freeView.isHidden = true
+        premiumView.isHidden = true
+        collectionView.reloadData()
+    }
+    
     private func makeConstraints() {
         self.addSubviews([collectionView])
         collectionView.addSubviews([radialGradientView, iconImageView, titleLabel, subtitleLabel,
@@ -176,18 +192,14 @@ extension NewPaywallFeatureView: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.reusableCell(classCell: NewPaywallFeatureCell.self,
                                                           indexPath: indexPath)
-        cell.configure(feature: features[indexPath.row])
+        cell.configure(feature: features[indexPath.row], isHard: isHard)
         return cell
     }
-
 }
 
-extension NewPaywallFeatureView: UICollectionViewDelegate {
-    
-}
+extension NewPaywallFeatureView: UICollectionViewDelegate { }
 
 class RadialGradientView: UIView {
-    
     private lazy var pulse: CAGradientLayer = {
         let gradientLayer = CAGradientLayer()
         gradientLayer.type = .radial
