@@ -163,6 +163,7 @@ final class CreateNewStockViewController: UIViewController {
             storeView.setCost(value: cost)
         }
         viewModel.setCostOfProductPerUnit()
+        updateSaveButton(isActive: productView.productTextView.text.count >= 1)
     }
     
     private func updateSaveButton(isActive: Bool) {

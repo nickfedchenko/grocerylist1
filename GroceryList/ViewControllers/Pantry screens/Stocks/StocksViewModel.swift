@@ -124,7 +124,7 @@ final class StocksViewModel {
         }
 #endif
         
-        let newLine = (model.description?.count ?? 0 + (model.store?.title.count ?? 0)) > 30 && isVisibleCost
+        let newLine = ((model.description?.count ?? 0) + (model.store?.title.count ?? 0)) > 30 && isVisibleCost
         let theme = colorManager.getGradient(index: pantry.color)
         let productCost = calculateCost(quantity: model.quantity, cost: model.cost)
         

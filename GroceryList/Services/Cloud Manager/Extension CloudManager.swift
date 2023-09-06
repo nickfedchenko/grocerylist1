@@ -505,10 +505,8 @@ extension CloudManager {
         let record = record
         record.setValue(UserDefaultsManager.shared.isMetricSystem, forKey: "isMetricSystem")
         record.setValue(UserDefaultsManager.shared.isHapticOn, forKey: "isHapticOn")
-        record.setValue(UserDefaultsManager.shared.userTokens, forKey: "userTokens")
         record.setValue(UserDefaultsManager.shared.isShowImage, forKey: "isShowImage")
         record.setValue(UserDefaultsManager.shared.isActiveAutoCategory, forKey: "isActiveAutoCategory")
-        record.setValue(UserDefaultsManager.shared.pantryUserTokens, forKey: "pantryUserTokens")
         record.setValue(UserDefaultsManager.shared.recipeIsFolderView, forKey: "recipeIsFolderView")
         record.setValue(UserDefaultsManager.shared.recipeIsTableView, forKey: "recipeIsTableView")
         let favoritesRecipeIds = UserDefaultsManager.shared.favoritesRecipeIds

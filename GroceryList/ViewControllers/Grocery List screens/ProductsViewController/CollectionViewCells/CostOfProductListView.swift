@@ -69,9 +69,9 @@ class CostOfProductListView: UIView {
         let quantityString = String(format: "%.\(value.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", value)
         
         if Locale.current.languageCode == "en" {
-            costLabel.text = quantityString + " " + currencySymbol
-        } else {
             costLabel.text = currencySymbol + " " + quantityString
+        } else {
+            costLabel.text = quantityString + " " + currencySymbol
         }
     }
     

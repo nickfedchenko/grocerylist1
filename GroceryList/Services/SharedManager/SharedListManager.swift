@@ -20,10 +20,7 @@ class SharedListManager {
     private var isNewListId = false
     private var tokens: [String] {
         get { UserDefaultsManager.shared.userTokens ?? [] }
-        set {
-            UserDefaultsManager.shared.userTokens = newValue
-            CloudManager.shared.saveCloudSettings()
-        }
+        set { UserDefaultsManager.shared.userTokens = newValue }
     }
 
     init() {

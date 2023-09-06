@@ -208,13 +208,19 @@ class ProductsViewController: UIViewController {
             cost = "---"
         }
         
+        if Locale.current.languageCode == "en" {
+            cost = currency + " " + cost
+        } else {
+            cost = cost + " " + currency
+        }
+        
         let titleFont = UIFont.SFPro.medium(size: 16).font ?? .systemFont(ofSize: 16)
         let costFont = UIFont.SFPro.semibold(size: 16).font ?? .systemFont(ofSize: 16)
         
         let titleAttr = NSMutableAttributedString(string: title,
                                                   attributes: [.font: titleFont,
                                                                .foregroundColor: color])
-        let costAttr = NSAttributedString(string: cost + " " + currency,
+        let costAttr = NSAttributedString(string: cost,
                                           attributes: [.font: costFont,
                                                        .foregroundColor: color])
         titleAttr.append(costAttr)
