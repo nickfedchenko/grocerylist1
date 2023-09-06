@@ -168,6 +168,7 @@ final class StocksNavigationView: UIView {
             capitalLetterLabel.text = title.first?.uppercased()
         }
         titleLabel.text = title
+        titleLabel.setMaximumLineHeight(value: 22)
     }
     
     func configureSharingView(sharingState: SharingView.SharingState,
