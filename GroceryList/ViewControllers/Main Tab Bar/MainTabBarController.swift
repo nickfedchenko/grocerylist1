@@ -23,7 +23,8 @@ final class MainTabBarController: UITabBarController {
     private var navView = MainNavigationView()
     private(set) var navBackgroundView = UIView()
     private let contextMenuBackgroundView = UIView()
-    private let featureView = ICloudFeatureMessageView()
+    private let featureMessageView = ICloudFeatureMessageView()
+    private let featureView = NewFeatureView()
     private var initAnalytic = false
     private var didLayoutSubviews = false
     
@@ -45,6 +46,7 @@ final class MainTabBarController: UITabBarController {
         setupTabBar()
         setupCustomNavBar()
         setupContextMenu()
+        setupFeatureView()
         
         self.selectedViewController = viewModel.initialViewController
     }
@@ -69,13 +71,8 @@ final class MainTabBarController: UITabBarController {
             viewModel.groceryAnalytics()
             viewModel.pantryAnalytics()
             initAnalytic.toggle()
-            if !UserDefaultsManager.shared.isNewFeature {
-                viewModel.showNewFeature()
-                UserDefaultsManager.shared.isNewFeature = true
-            } else {
-                viewModel.showFeedback()
-                setupFeatureView()
-            }
+            viewModel.showNewFeature()
+            viewModel.showFeedback()
         }
         viewModel.showStockReminderIfNeeded()
     }
@@ -132,12 +129,22 @@ final class MainTabBarController: UITabBarController {
     }
     
     private func setupFeatureView() {
-        featureView.tapOnView = { [weak self] in
-            self?.featureView.fadeOut()
+        featureView.isHidden = true
+        featureView.greatEnable = { [weak self] in
+            self?.viewModel.tappedGreatEnable()
         }
-        let isNewFeature = UserDefaultsManager.shared.isNewFeature
-        let countShowMessageNewFeature = UserDefaultsManager.shared.countShowMessageNewFeature
-        featureView.isHidden = isNewFeature || countShowMessageNewFeature >= 4
+        
+        featureView.maybeLater = { [weak self] in
+            self?.viewModel.tappedMaybeLater()
+        }
+        
+        featureMessageView.isHidden = true
+        featureMessageView.tapOnView = { [weak self] in
+            self?.featureMessageView.fadeOut()
+        }
+        if UserDefaultsManager.shared.isNewFeature {
+            featureMessageView.isHidden = UserDefaultsManager.shared.countShowMessageNewFeature >= 4
+        }
     }
     
     private func updateUserInfo() {
@@ -172,7 +179,7 @@ final class MainTabBarController: UITabBarController {
     private func makeConstraints() {
         self.view.addSubview(customTabBar)
         self.view.addSubviews([navBackgroundView, navView, contextMenuBackgroundView, recipeContextMenu])
-        self.view.addSubview(featureView)
+        self.view.addSubviews([featureMessageView, featureView])
         
         navBackgroundView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
@@ -198,6 +205,10 @@ final class MainTabBarController: UITabBarController {
         }
         
         contextMenuBackgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        featureMessageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
@@ -289,5 +300,14 @@ extension MainTabBarController: MainTabBarViewModelDelegate {
     
     func showFeatureMessageView() {
         setupFeatureView()
+    }
+    
+    func hideFeatureView() {
+        featureView.fadeOut()
+        featureView.stopViewPropertyAnimator()
+    }
+    
+    func showFeatureView() {
+        featureView.isHidden = false
     }
 }

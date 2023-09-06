@@ -49,6 +49,8 @@ class IngredientView: UIView {
     }()
     
     let costView = CostOfProductListView()
+    let shadowOneView = UIView()
+    let shadowTwoView = UIView()
     
     var servingText: String? {
         servingLabel.text
@@ -85,6 +87,16 @@ class IngredientView: UIView {
         contentView.layer.cornerCurve = .continuous
         
         costView.isHidden = true
+        
+        [shadowOneView, shadowTwoView].forEach {
+            $0.backgroundColor = .white
+            $0.layer.cornerRadius = 8
+            $0.layer.cornerCurve = .continuous
+        }
+        shadowOneView.addCustomShadow(color: UIColor(hex: "858585"), opacity: 0.1,
+                                      radius: 6, offset: CGSize(width: 0, height: 4))
+        shadowTwoView.addCustomShadow(color: UIColor(hex: "484848"), opacity: 0.15,
+                                      radius: 1, offset: CGSize(width: 0, height: 0.5))
     }
     
     func setTitle(title: String) {
@@ -136,12 +148,16 @@ class IngredientView: UIView {
     }
     
     private func setupSubviews() {
-        addSubview(contentView)
+        addSubviews([shadowOneView, shadowTwoView, contentView])
         contentView.addSubviews([imageView, titleLabel, servingLabel, costView])
         
         contentView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.bottom.equalToSuperview()
+        }
+        
+        [shadowOneView, shadowTwoView].forEach { shadowView in
+            shadowView.snp.makeConstraints { $0.edges.equalTo(contentView) }
         }
         
         imageView.snp.makeConstraints { make in

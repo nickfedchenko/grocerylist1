@@ -24,6 +24,8 @@ class StockReminderViewController: UIViewController {
         label.text = R.string.localizable.stocksAreOver()
         label.textColor = R.color.darkGray()
         label.font = UIFont.SFPro.bold(size: 22).font
+        label.numberOfLines = 2
+        label.setMaximumLineHeight(value: 32)
         return label
     }()
     
@@ -234,6 +236,8 @@ class StockReminderViewController: UIViewController {
             $0.centerY.equalTo(iconImageView)
         }
         
+        doneButton.setContentHuggingPriority(.init(999), for: .horizontal)
+        doneButton.setContentCompressionResistancePriority(.init(999), for: .horizontal)
         doneButton.snp.makeConstraints {
             $0.top.trailing.equalToSuperview()
             $0.height.equalTo(48)

@@ -35,6 +35,7 @@ class RecipeListTitleView: UIView {
     
     func setTitle(_ title: String?) {
         titleLabel.text = title
+        titleLabel.setMaximumLineHeight(value: 32)
     }
     
     func setColor(_ theme: Theme) {
@@ -48,14 +49,14 @@ class RecipeListTitleView: UIView {
 
         iconImageView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
-            $0.centerY.equalToSuperview()
+            $0.top.equalTo(titleLabel)
             $0.height.width.equalTo(40)
         }
         
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(8)
             $0.centerY.equalToSuperview()
-            $0.leading.equalTo(iconImageView.snp.trailing)
+            $0.leading.equalTo(iconImageView.snp.trailing).offset(8)
             $0.trailing.equalToSuperview()
         }
     }

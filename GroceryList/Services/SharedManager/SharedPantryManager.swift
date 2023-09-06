@@ -20,10 +20,7 @@ class SharedPantryManager {
     
     private var tokens: [String] {
         get { UserDefaultsManager.shared.pantryUserTokens ?? [] }
-        set {
-            UserDefaultsManager.shared.pantryUserTokens = newValue
-            CloudManager.shared.saveCloudSettings()
-        }
+        set { UserDefaultsManager.shared.pantryUserTokens = newValue }
     }
 
     deinit {
@@ -284,7 +281,7 @@ class SharedPantryManager {
 
     private func appendToUsersDict(id: String, users: [User]) {
         sharedListsUsers[id] = users
-        DispatchQueue.main.async {
+        DispatchQueue.global().async {
             users.forEach {
                 if let stringUrl = $0.avatar,
                    let url = URL(string: stringUrl) {

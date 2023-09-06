@@ -242,12 +242,12 @@ class ProductListCell: UICollectionViewListCell {
             let image = R.image.profile_icon()
             return userImageView.image = image
         }
-        let size = CGSize(width: 30, height: 30)
-        userImageView.kf.setImage(with: url, placeholder: nil,
-                                  options: [.processor(DownsamplingImageProcessor(size: size)),
-                                            .scaleFactor(UIScreen.main.scale),
-                                            .cacheOriginalImage])
-        
+        let resource = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
+        userImageView.kf.setImage(with: resource, options: [
+            .processor(DownsamplingImageProcessor(size: CGSize(width: 30, height: 30))),
+            .scaleFactor(UIScreen.main.scale),
+            .cacheOriginalImage
+        ])
     }
     
     func setupCost(isVisible: Bool, isAddNewLine: Bool, color: UIColor?, storeTitle: String?, costValue: Double?) {

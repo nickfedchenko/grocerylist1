@@ -124,7 +124,7 @@ class ProductsViewController: UIViewController {
         let darkColor = viewModel?.getDarkColor() ?? .black
         nameOfListTextField.text = viewModel?.getNameOfList()
         view.backgroundColor = colorForBackground
-        navigationView.backgroundColor = colorForBackground
+        navigationView.backgroundColor = colorForBackground?.withAlphaComponent(0.9)
         (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: R.string.localizable.item(),
                                                                         color: colorForForeground)
         nameOfListTextField.textColor = darkColor
@@ -139,7 +139,6 @@ class ProductsViewController: UIViewController {
         setupSharingView()
         let isVisibleCost = viewModel?.isVisibleCost ?? false
         updateTotalCost(isVisible: isVisibleCost)
-        navigationView.snp.updateConstraints { $0.height.equalTo(84 + (isVisibleCost ? 19 : 0)) }
     }
     
     private func setupInfoMessage() {
@@ -195,6 +194,7 @@ class ProductsViewController: UIViewController {
         guard let viewModel else { return }
         totalCostLabel.isHidden = !isVisible
         totalCostLabel.snp.updateConstraints { $0.height.equalTo(isVisible ? 19 : 0) }
+        navigationView.snp.updateConstraints { $0.height.equalTo(isVisible ? 113 : 84) }
         guard isVisible else { return }
         
         totalCostLabel.textAlignment = .right
@@ -202,10 +202,16 @@ class ProductsViewController: UIViewController {
         let title = R.string.localizable.totalCost()
         let currency = (Locale.current.currencySymbol ?? "")
         var cost = ""
-        if let totalCost = viewModel.totalCost {
+        if let totalCost = viewModel.totalCost, totalCost > 0 {
             cost = "\(totalCost)"
         } else {
             cost = "---"
+        }
+        
+        if Locale.current.languageCode == "en" || currency == "$" {
+            cost = currency + " " + cost
+        } else {
+            cost = cost + " " + currency
         }
         
         let titleFont = UIFont.SFPro.medium(size: 16).font ?? .systemFont(ofSize: 16)
@@ -214,7 +220,7 @@ class ProductsViewController: UIViewController {
         let titleAttr = NSMutableAttributedString(string: title,
                                                   attributes: [.font: titleFont,
                                                                .foregroundColor: color])
-        let costAttr = NSAttributedString(string: cost + " " + currency,
+        let costAttr = NSAttributedString(string: cost,
                                           attributes: [.font: costFont,
                                                        .foregroundColor: color])
         titleAttr.append(costAttr)
@@ -339,11 +345,10 @@ class ProductsViewController: UIViewController {
     
     private func updateCost(isVisibleCost: Bool) {
         viewModel?.updateCostVisible(isVisibleCost)
-        navigationView.snp.updateConstraints { $0.height.equalTo(84 + (isVisibleCost ? 19 : 0)) }
+        updateTotalCost(isVisible: isVisibleCost)
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.view.layoutIfNeeded()
         }
-        updateTotalCost(isVisible: isVisibleCost)
         reloadData()
     }
     
@@ -610,7 +615,8 @@ class ProductsViewController: UIViewController {
         totalCostLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
-            make.top.equalTo(nameOfListTextField.snp.bottom).offset(4)
+            make.top.equalTo(nameOfListTextField.snp.bottom).offset(5)
+            make.bottom.equalToSuperview().offset(-5)
             make.height.equalTo(19)
         }
     }
@@ -880,24 +886,25 @@ extension ProductsViewController: EditTabBarViewDelegate {
     
     func tappedDelete() {
         viewModel?.deleteProducts()
-        cancelEditButtonPressed()
+        cancelEditButton.setTitle(R.string.localizable.done(), for: .normal)
     }
     
     func tappedClearAll() {
         viewModel?.resetEditProducts()
         collectionView.reloadData()
     }
-    
 }
 
 extension ProductsViewController: EditSelectListDelegate {
     func productsSuccessfullyMoved() {
         viewModel?.moveProducts()
-        cancelEditButtonPressed()
+        cancelEditButton.setTitle(R.string.localizable.done(), for: .normal)
     }
     
     func productsSuccessfullyCopied() {
-        cancelEditButtonPressed()
+        viewModel?.resetEditProducts()
+        cancelEditButton.setTitle(R.string.localizable.done(), for: .normal)
+        collectionView.reloadData()
     }
 }
 

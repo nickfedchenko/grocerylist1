@@ -20,10 +20,7 @@ class SharedListManager {
     private var isNewListId = false
     private var tokens: [String] {
         get { UserDefaultsManager.shared.userTokens ?? [] }
-        set {
-            UserDefaultsManager.shared.userTokens = newValue
-            CloudManager.shared.saveCloudSettings()
-        }
+        set { UserDefaultsManager.shared.userTokens = newValue }
     }
 
     init() {
@@ -280,7 +277,7 @@ class SharedListManager {
 
     private func appendToUsersDict(id: String, users: [User]) {
         sharedListsUsers[id] = users
-        DispatchQueue.main.async {
+        DispatchQueue.global().async {
             users.forEach {
                 if let stringUrl = $0.avatar,
                    let url = URL(string: stringUrl) {

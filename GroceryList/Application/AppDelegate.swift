@@ -37,6 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         syncService.updateCategories()
         syncService.updateCollections()
         SocketManager.shared.connect()
+
+        ImageCache.default.memoryStorage.config.totalCostLimit = 1024 * 1024 * 10
+        ImageCache.default.diskStorage.config.sizeLimit = 1024 * 1024 * 100
         
         let window = UIWindow(frame: UIScreen.main.bounds)
         

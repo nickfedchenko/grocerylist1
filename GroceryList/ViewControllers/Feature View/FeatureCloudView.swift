@@ -69,7 +69,7 @@ final class FeatureCloudView: UIView {
     }
     
     private func makeConstraints() {
-        self.addSubviews([titleLabel, descriptionLabel, asteriskLabel, greatEnableButton])
+        self.addSubviews([titleLabel, descriptionLabel, greatEnableButton])
         
         titleLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
@@ -82,14 +82,7 @@ final class FeatureCloudView: UIView {
             $0.centerX.equalToSuperview()
             $0.leading.equalToSuperview().offset(20)
             $0.height.equalTo(72)
-            $0.bottom.equalTo(asteriskLabel.snp.top).offset(2)
-        }
-        
-        asteriskLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.leading.equalToSuperview().offset(20)
-            $0.height.equalTo(24)
-            $0.bottom.equalTo(greatEnableButton.snp.top).offset(-13)
+            $0.bottom.equalTo(greatEnableButton.snp.top).offset(-24)
         }
         
         greatEnableButton.snp.makeConstraints {

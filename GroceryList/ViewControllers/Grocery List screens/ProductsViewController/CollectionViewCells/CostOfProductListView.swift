@@ -59,11 +59,20 @@ class CostOfProductListView: UIView {
     func configureCost(value: Double?) {
         let currencySymbol = Locale.current.currencySymbol ?? ""
         guard let value else {
-            costLabel.text = "--- " + currencySymbol
+            if Locale.current.languageCode == "en" || currencySymbol == "$" {
+                costLabel.text = currencySymbol + " ---"
+            } else {
+                costLabel.text = "--- " + currencySymbol
+            }
             return
         }
         let quantityString = String(format: "%.\(value.truncatingRemainder(dividingBy: 1) == 0.0 ? 0 : 1)f", value)
-        costLabel.text = quantityString + " " + currencySymbol
+        
+        if Locale.current.languageCode == "en" || currencySymbol == "$" {
+            costLabel.text = currencySymbol + " " + quantityString
+        } else {
+            costLabel.text = quantityString + " " + currencySymbol
+        }
     }
     
     private func setup() {

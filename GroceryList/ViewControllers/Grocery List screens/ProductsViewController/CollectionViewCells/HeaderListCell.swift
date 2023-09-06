@@ -116,9 +116,7 @@ class HeaderListCell: UICollectionViewListCell {
         collapsedColoredView.backgroundColor = .clear
         userImageView.image = nil
         userImageView.layer.borderColor = UIColor.clear.cgColor
-        collapsedColoredView.snp.updateConstraints {
-            $0.right.equalTo(titleLabel.snp.right).inset(-26)
-        }
+
         purchasedCostLabel.isHidden = true
         purchasedCostLabel.snp.updateConstraints {
             $0.top.equalTo(coloredView.snp.bottom).offset(0)
@@ -126,6 +124,7 @@ class HeaderListCell: UICollectionViewListCell {
         }
         titleLabel.snp.updateConstraints { make in
             make.centerY.equalTo(collapsedColoredView.snp.centerY)
+            make.right.equalTo(collapsedColoredView.snp.right).offset(-26)
         }
         containerView.snp.updateConstraints { make in
             make.height.equalTo(56 + purchasedCostHeight).priority(1000)
@@ -215,7 +214,9 @@ class HeaderListCell: UICollectionViewListCell {
         guard let image else { return }
         userImageView.isHidden = false
         userImageView.layer.borderColor = color?.cgColor
-        collapsedColoredView.snp.updateConstraints { $0.right.equalTo(titleLabel.snp.right).inset(-44) }
+        titleLabel.snp.updateConstraints { make in
+            make.right.equalTo(collapsedColoredView.snp.right).offset(-44)
+        }
         guard let url = URL(string: image) else {
             let image = R.image.profile_icon()
             return userImageView.image = image
@@ -294,7 +295,7 @@ class HeaderListCell: UICollectionViewListCell {
         
         collapsedColoredView.snp.makeConstraints { make in
             make.left.equalToSuperview()
-            make.right.equalTo(titleLabel.snp.right).inset(-26)
+            make.right.lessThanOrEqualTo(checkmarkView.snp.left).offset(-4)
             make.height.equalTo(32)
             make.bottom.equalTo(coloredView)
         }
@@ -315,6 +316,7 @@ class HeaderListCell: UICollectionViewListCell {
         
         titleLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(28)
+            make.right.equalTo(collapsedColoredView.snp.right).offset(-26)
             make.centerY.equalTo(collapsedColoredView.snp.centerY)
         }
         

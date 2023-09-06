@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 473 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 475 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -2320,6 +2320,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var stocksAreOver: RswiftResources.StringResource { .init(key: "Stocks are over", tableName: "Localizable", source: source, developmentValue: "Stocks are over", comment: nil) }
 
+      /// en translation: Stop sharing
+      ///
+      /// Key: Stop sharing
+      ///
+      /// Locales: en, ru, fr, de
+      var stopSharing: RswiftResources.StringResource { .init(key: "Stop sharing", tableName: "Localizable", source: source, developmentValue: "Stop sharing", comment: nil) }
+
       /// en translation: Store
       ///
       /// Key: Store
@@ -2383,12 +2390,12 @@ struct _R {
       /// Locales: en, ru, fr, de
       var synchronizeStockList: RswiftResources.StringResource { .init(key: "Synchronize stock list", tableName: "Localizable", source: source, developmentValue: "Synchronize stock list with shopping list", comment: nil) }
 
-      /// en translation: Synchronize your data with the cloud. Your lists and recipes will be securely stored*. 
+      /// en translation: Synchronize your data with the cloud. Your lists and recipes will be securely stored. 
       ///
       /// Key: Synchronize your data
       ///
       /// Locales: en, ru, fr, de
-      var synchronizeYourData: RswiftResources.StringResource { .init(key: "Synchronize your data", tableName: "Localizable", source: source, developmentValue: "Synchronize your data with the cloud. Your lists and recipes will be securely stored*. ", comment: nil) }
+      var synchronizeYourData: RswiftResources.StringResource { .init(key: "Synchronize your data", tableName: "Localizable", source: source, developmentValue: "Synchronize your data with the cloud. Your lists and recipes will be securely stored. ", comment: nil) }
 
       /// en translation: Tea and coffee
       ///
@@ -2942,6 +2949,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var inbox: RswiftResources.StringResource { .init(key: "inbox", tableName: "Localizable", source: source, developmentValue: "Inbox", comment: nil) }
+
+      /// en translation: invited to the Common List
+      ///
+      /// Key: invited to the Common List
+      ///
+      /// Locales: en, ru, fr, de
+      var invitedToTheCommonList: RswiftResources.StringResource { .init(key: "invited to the Common List", tableName: "Localizable", source: source, developmentValue: "invited to the Common List", comment: nil) }
 
       /// en translation: Item
       ///

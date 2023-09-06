@@ -56,9 +56,6 @@ class SelectListViewModel: ListViewModel {
             CloudManager.shared.saveCloudData(product: newProduct)
             CloudManager.shared.saveCloudData(groceryList: list)
         }
-        
-        router?.popList()
-        router?.goProductsVC(model: list, compl: { })
     }
     
     func createNewListWithEditModeTapped() {

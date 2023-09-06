@@ -65,6 +65,7 @@ final class StockCell: UICollectionViewCell {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.regular(size: 13).font
+        label.numberOfLines = 0
         return label
     }()
     
@@ -117,9 +118,9 @@ final class StockCell: UICollectionViewCell {
         costView.configureColor(costModel.color ?? UIColor(hex: "#58B168"))
         costView.configureStore(title: costModel.storeTitle)
         costView.configureCost(value: costModel.costValue)
-//        descriptionLabel.snp.updateConstraints {
-//            $0.bottom.equalToSuperview().inset(costModel.isAddNewLine ? 16 : 6)
-//        }
+        descriptionLabel.snp.updateConstraints {
+            $0.bottom.equalToSuperview().offset(costModel.isAddNewLine ? -16 : -5)
+        }
     }
     
     func addDragAndDropShadow() {
@@ -208,6 +209,14 @@ final class StockCell: UICollectionViewCell {
             imageView.snp.updateConstraints { $0.width.equalTo(0) }
         }
         
+        nameLabel.snp.updateConstraints {
+            $0.height.equalTo(nameLabel.intrinsicContentSize.height)
+        }
+        
+        descriptionLabel.snp.updateConstraints {
+            $0.height.equalTo(descriptionLabel.intrinsicContentSize.height)
+        }
+        
         editView.isHidden = cellModel.state == .normal
     }
     
@@ -240,6 +249,7 @@ final class StockCell: UICollectionViewCell {
         mainContainer.snp.makeConstraints {
             $0.top.centerX.equalToSuperview()
             $0.leading.equalToSuperview().offset(16)
+            $0.height.greaterThanOrEqualTo(48)
             $0.bottom.equalToSuperview().offset(-8)
         }
         
@@ -251,11 +261,6 @@ final class StockCell: UICollectionViewCell {
             $0.edges.equalTo(mainContainer)
         }
         
-        makeCellConstraints()
-        makeEditViewConstraints()
-    }
-    
-    private func makeCellConstraints() {
         imageView.snp.makeConstraints {
             $0.leading.top.equalToSuperview().offset(4)
             $0.height.width.equalTo(40)
@@ -265,11 +270,17 @@ final class StockCell: UICollectionViewCell {
             $0.leading.equalTo(imageView.snp.trailing).offset(8)
             $0.top.equalToSuperview().offset(13.5)
             $0.trailing.equalTo(stockView.snp.leading).offset(-15)
+            $0.height.equalTo(nameLabel.intrinsicContentSize.height)
         }
         
+        makeCellConstraints()
+        makeEditViewConstraints()
+    }
+    
+    private func makeCellConstraints() {
         repeatImageView.snp.makeConstraints {
             $0.leading.equalTo(imageView.snp.trailing).offset(8)
-            $0.top.equalTo(nameLabel.snp.bottom)
+            $0.top.equalTo(descriptionLabel.snp.top)
             $0.height.width.equalTo(15)
         }
         
@@ -278,12 +289,13 @@ final class StockCell: UICollectionViewCell {
             $0.centerY.equalTo(repeatImageView)
             $0.height.width.equalTo(15)
         }
-        
+
         descriptionLabel.snp.makeConstraints {
             $0.leading.equalTo(reminderImageView.snp.trailing).offset(4)
-            $0.centerY.equalTo(repeatImageView)
+            $0.top.equalTo(nameLabel.snp.bottom)
             $0.trailing.equalTo(stockView.snp.leading).offset(-15)
-            $0.bottom.equalToSuperview().offset(-4)
+            $0.height.equalTo(descriptionLabel.intrinsicContentSize.height)
+            $0.bottom.equalToSuperview().offset(-5)
         }
         
         stockView.snp.makeConstraints {

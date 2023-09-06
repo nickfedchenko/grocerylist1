@@ -59,7 +59,6 @@ final class CloudManager {
     }
     
     func fetchChanges(isShowSyncController: Bool = false) {
-        print("[CloudKit]: fetchChanges")
         var changedZoneIDs: [CKRecordZone.ID] = []
         let serverChangeToken = getToken(changeTokenKey: UserDefaultsManager.shared.databaseChangeTokenKey)
         let databaseOperation = CKFetchDatabaseChangesOperation(previousServerChangeToken: serverChangeToken)
@@ -175,7 +174,6 @@ final class CloudManager {
                     print("[CloudKit]: ", error.localizedDescription)
                 } else {
                     UserDefaultsManager.shared.createdCustomZone = true
-                    print("[CloudKit]: createCustomZone")
                 }
                 createZoneGroup.leave()
             }
@@ -198,7 +196,6 @@ final class CloudManager {
                     print("[CloudKit]:", error.localizedDescription)
                 } else {
                     UserDefaultsManager.shared.subscribedToPrivateChanges = true
-                    print("[CloudKit]: subscribedToPrivateChanges")
                 }
             }
             modifySubscriptionsOperation.qualityOfService = .userInteractive
@@ -372,8 +369,6 @@ final class CloudManager {
         UserDefaultsManager.shared.isActiveAutoCategory = (record.value(forKey: "isActiveAutoCategory") as? Int64 ?? 0).boolValue
         UserDefaultsManager.shared.recipeIsFolderView = (record.value(forKey: "recipeIsFolderView") as? Int64 ?? 0).boolValue
         UserDefaultsManager.shared.recipeIsTableView = (record.value(forKey: "recipeIsTableView") as? Int64 ?? 0).boolValue
-        UserDefaultsManager.shared.userTokens = record.value(forKey: "userTokens") as? [String] ?? []
-        UserDefaultsManager.shared.pantryUserTokens = record.value(forKey: "pantryUserTokens") as? [String] ?? []
         UserDefaultsManager.shared.favoritesRecipeIds = record.value(forKey: "favoritesRecipeIds") as? [Int] ?? []
     }
     

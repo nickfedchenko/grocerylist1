@@ -39,6 +39,7 @@ final class NewPaywallProductView: UIView {
         label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.3
+        label.textAlignment = .center
         return label
     }()
     

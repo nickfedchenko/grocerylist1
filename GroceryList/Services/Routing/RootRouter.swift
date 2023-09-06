@@ -111,7 +111,6 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goToNewOnboarding() {
-
         if !UserDefaultsManager.shared.isFirstLaunch {
             UserDefaultsManager.shared.firstLaunchDate = Date()
             FeatureManager.shared.activeFeaturesOnFirstLaunch()
@@ -122,7 +121,6 @@ final class RootRouter: RootRouterProtocol {
         let onboardingController = viewControllerFactory.createNewOnboardingController(router: self)
         navigationPushViewController(onboardingController, animated: false)
         return
-
     }
     
     func goToOnboarding() {
@@ -147,12 +145,6 @@ final class RootRouter: RootRouterProtocol {
         }
         navigationPopToRootViewController(animated: true)
         UserDefaultsManager.shared.shouldShowOnboarding = false
-    }
-    
-    func goToFeatureController(compl: (() -> Void)?) {
-        let controller = self.viewControllerFactory.createFeatureViewController(router: self, compl: compl)
-        controller.modalTransitionStyle = .crossDissolve
-        navigationPresent(controller, animated: false)
     }
     
     func goCreateNewList(compl: @escaping (GroceryListsModel, [Product]) -> Void) {

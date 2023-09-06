@@ -105,23 +105,21 @@ extension DataProviderFacade: DataSyncProtocol {
     
     private func saveRecipesInPersistentStore(recipes: [Recipe]) {
         domainSyncManager?.saveRecipes(recipes: recipes)
+        DispatchQueue.global().async {
+            recipes.forEach {
+                if let url = URL(string: $0.photo) {
+                    _ = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
+                }
+            }
+        }
     }
     
     private func saveProductsInPersistentStore(products: [NetworkProductModel]) {
         domainSyncManager?.saveProducts(products: products)
-        let imageView = UIImageView()
-        let size = CGSize(width: 100, height: 100)
-        let cache = ImageCache.default
-        cache.memoryStorage.config.totalCostLimit = 1024 * 1024 * 10
-        cache.diskStorage.config.sizeLimit = 1024 * 1024 * 100
-        DispatchQueue.main.async {
+        DispatchQueue.global().async {
             products.forEach {
                 if let url = URL(string: $0.photo) {
-                    KingfisherManager.shared.retrieveImage(with: url) { _ in }
-                    imageView.kf.setImage(with: url, placeholder: nil,
-                                              options: [.processor(DownsamplingImageProcessor(size: size)),
-                                                        .scaleFactor(UIScreen.main.scale),
-                                                        .cacheOriginalImage])
+                    _ = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
                 }
             }
         }

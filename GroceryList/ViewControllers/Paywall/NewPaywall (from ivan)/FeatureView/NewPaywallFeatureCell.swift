@@ -41,11 +41,17 @@ final class NewPaywallFeatureCell: UICollectionViewCell {
         freeImageView.isHidden = true
     }
     
-    func configure(feature: NewPaywallFeatureView.FeatureModel) {
+    func configure(feature: NewPaywallFeatureView.FeatureModel, isHard: Bool) {
         colorView.backgroundColor = feature.color
         imageView.image = feature.image
         titleLabel.text = feature.title
-        freeImageView.isHidden = feature.free
+        freeImageView.isHidden = isHard ? true : feature.free
+        
+        guard isHard else {
+            return
+        }
+        freeImageView.snp.updateConstraints { $0.height.width.equalTo(0) }
+        titleLabel.snp.updateConstraints { $0.trailing.equalTo(freeImageView.snp.leading).offset(0) }
     }
     
     required init?(coder: NSCoder) {

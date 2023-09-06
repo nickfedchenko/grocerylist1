@@ -44,7 +44,7 @@ final class StockReminderViewModel {
         return StockCell.CellModel(state: .normal,
                                    theme: theme, name: model.name,
                                    description: model.description, image: image,
-                                   isRepeat: model.isAutoRepeat, isReminder: model.isReminder,
+                                   isRepeat: false, isReminder: false,
                                    inStock: model.isAvailability)
     }
     
