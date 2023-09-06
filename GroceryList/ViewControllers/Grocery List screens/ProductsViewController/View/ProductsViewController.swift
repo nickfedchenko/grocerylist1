@@ -886,24 +886,25 @@ extension ProductsViewController: EditTabBarViewDelegate {
     
     func tappedDelete() {
         viewModel?.deleteProducts()
-        cancelEditButtonPressed()
+        cancelEditButton.setTitle(R.string.localizable.done(), for: .normal)
     }
     
     func tappedClearAll() {
         viewModel?.resetEditProducts()
         collectionView.reloadData()
     }
-    
 }
 
 extension ProductsViewController: EditSelectListDelegate {
     func productsSuccessfullyMoved() {
         viewModel?.moveProducts()
-        cancelEditButtonPressed()
+        cancelEditButton.setTitle(R.string.localizable.done(), for: .normal)
     }
     
     func productsSuccessfullyCopied() {
-        cancelEditButtonPressed()
+        viewModel?.resetEditProducts()
+        cancelEditButton.setTitle(R.string.localizable.done(), for: .normal)
+        collectionView.reloadData()
     }
 }
 

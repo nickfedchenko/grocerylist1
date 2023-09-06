@@ -547,7 +547,7 @@ extension StocksViewController: EditTabBarViewDelegate {
     
     func tappedDelete() {
         viewModel.deleteProducts()
-        cancelEditButtonPressed()
+        cancelEditButton.setTitle(R.string.localizable.done(), for: .normal)
     }
     
     func tappedClearAll() {
@@ -560,11 +560,13 @@ extension StocksViewController: EditSelectListDelegate {
     func productsSuccessfullyMoved() {
         AmplitudeManager.shared.logEvent(.pantryMoveItems)
         viewModel.moveProducts()
-        cancelEditButtonPressed()
+        cancelEditButton.setTitle(R.string.localizable.done(), for: .normal)
     }
     
     func productsSuccessfullyCopied() {
         AmplitudeManager.shared.logEvent(.pantryCopyItems)
-        cancelEditButtonPressed()
+        cancelEditButton.setTitle(R.string.localizable.done(), for: .normal)
+        viewModel.resetEditProducts()
+        collectionView.reloadData()
     }
 }
