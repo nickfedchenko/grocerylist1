@@ -7,9 +7,10 @@
 
 import UIKit
 
-class NewFeatureViewController: UIViewController {
-    
-    private var viewModel: NewFeatureViewModel
+class NewFeatureView: UIView {
+  
+    var greatEnable: (() -> Void)?
+    var maybeLater: (() -> Void)?
     
     private lazy var baseImageView: UIImageView = {
         let imageView = UIImageView()
@@ -48,39 +49,41 @@ class NewFeatureViewController: UIViewController {
     
     private let blurView = UIVisualEffectView(effect: nil)
     private var blurRadiusDriver: UIViewPropertyAnimator?
-    
-    init(viewModel: NewFeatureViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
+
+    override init(frame: CGRect = .zero) {
+        super.init(frame: frame)
+        setup()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = .black.withAlphaComponent(0.5)
-        
-        makeConstraints()
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         reinitBlurView()
-        
-        whiteView.tappedGreatEnable = { [weak self] in
-            self?.viewModel.tappedGreatEnable()
-        }
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        stopViewPropertyAnimator()
-    }
-    
-    private func stopViewPropertyAnimator() {
+    func stopViewPropertyAnimator() {
         blurRadiusDriver?.stopAnimation(true)
         blurRadiusDriver?.finishAnimation(at: .current)
         blurRadiusDriver = nil
     }
     
+    private func setup() {
+        self.backgroundColor = .black.withAlphaComponent(0.5)
+        
+        let tapOnView = UITapGestureRecognizer(target: self, action: #selector(tappedMaybeLaterButton))
+        self.addGestureRecognizer(tapOnView)
+        
+        makeConstraints()
+        reinitBlurView()
+        
+        whiteView.tappedGreatEnable = { [weak self] in
+            self?.greatEnable?()
+        }
+    }
+
     private func reinitBlurView() {
         blurRadiusDriver?.stopAnimation(true)
         blurRadiusDriver?.finishAnimation(at: .current)
@@ -94,11 +97,11 @@ class NewFeatureViewController: UIViewController {
 
     @objc
     private func tappedMaybeLaterButton() {
-        viewModel.tappedMaybeLater()
+        maybeLater?()
     }
     
     private func makeConstraints() {
-        self.view.addSubview(blurView)
+        self.addSubview(blurView)
         blurView.contentView.addSubviews([baseShadowView, baseImageView])
         baseImageView.addSubviews([whiteView, maybeLaterButton])
         

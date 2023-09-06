@@ -147,12 +147,6 @@ final class RootRouter: RootRouterProtocol {
         UserDefaultsManager.shared.shouldShowOnboarding = false
     }
     
-    func goToFeatureController(compl: (() -> Void)?) {
-        let controller = self.viewControllerFactory.createFeatureViewController(router: self, compl: compl)
-        controller.modalTransitionStyle = .crossDissolve
-        navigationPresent(controller, animated: false)
-    }
-    
     func goCreateNewList(compl: @escaping (GroceryListsModel, [Product]) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewListController(model: nil, router: self,
                                                                                    compl: compl) else { return }

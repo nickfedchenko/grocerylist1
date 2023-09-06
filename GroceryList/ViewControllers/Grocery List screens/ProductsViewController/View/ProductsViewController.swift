@@ -202,13 +202,13 @@ class ProductsViewController: UIViewController {
         let title = R.string.localizable.totalCost()
         let currency = (Locale.current.currencySymbol ?? "")
         var cost = ""
-        if let totalCost = viewModel.totalCost {
+        if let totalCost = viewModel.totalCost, totalCost > 0 {
             cost = "\(totalCost)"
         } else {
             cost = "---"
         }
         
-        if Locale.current.languageCode == "en" {
+        if Locale.current.languageCode == "en" || currency == "$" {
             cost = currency + " " + cost
         } else {
             cost = cost + " " + currency

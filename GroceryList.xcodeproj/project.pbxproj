@@ -303,7 +303,6 @@
 		33E8A8BA2A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8B92A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift */; };
 		33E8A8BE2A5FB4EE007D7ED9 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8BD2A5FB4EE007D7ED9 /* FAQViewController.swift */; };
 		33F6298C2A937A2E007592F4 /* NewFeatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298B2A937A2E007592F4 /* NewFeatureViewController.swift */; };
-		33F6298E2A937B32007592F4 /* NewFeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298D2A937B32007592F4 /* NewFeatureViewModel.swift */; };
 		33F629902A938B65007592F4 /* FeatureCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298F2A938B65007592F4 /* FeatureCloudView.swift */; };
 		33F629952A948179007592F4 /* Extension CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F629942A948179007592F4 /* Extension CloudManager.swift */; };
 		33F6299B2A95BC7A007592F4 /* ICloudFeatureMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6299A2A95BC7A007592F4 /* ICloudFeatureMessageView.swift */; };
@@ -732,7 +731,6 @@
 		33E8A8B92A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPaywallTitleView.swift; sourceTree = "<group>"; };
 		33E8A8BD2A5FB4EE007D7ED9 /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
 		33F6298B2A937A2E007592F4 /* NewFeatureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeatureViewController.swift; sourceTree = "<group>"; };
-		33F6298D2A937B32007592F4 /* NewFeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeatureViewModel.swift; sourceTree = "<group>"; };
 		33F6298F2A938B65007592F4 /* FeatureCloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCloudView.swift; sourceTree = "<group>"; };
 		33F629942A948179007592F4 /* Extension CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension CloudManager.swift"; sourceTree = "<group>"; };
 		33F6299A2A95BC7A007592F4 /* ICloudFeatureMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICloudFeatureMessageView.swift; sourceTree = "<group>"; };
@@ -1646,7 +1644,6 @@
 		33F6298A2A9379F4007592F4 /* Feature View */ = {
 			isa = PBXGroup;
 			children = (
-				33F6298D2A937B32007592F4 /* NewFeatureViewModel.swift */,
 				33F6298B2A937A2E007592F4 /* NewFeatureViewController.swift */,
 				33F6298F2A938B65007592F4 /* FeatureCloudView.swift */,
 				33F6299A2A95BC7A007592F4 /* ICloudFeatureMessageView.swift */,
@@ -3223,7 +3220,6 @@
 				3366BEE02A2C1D3A00D50704 /* AutoRepeatSettingView.swift in Sources */,
 				B315F9D72988FF270009CEB8 /* AlternativePaywallCell.swift in Sources */,
 				335519C429AE26CE00AD2B77 /* RecipeContextMenuView.swift in Sources */,
-				33F6298E2A937B32007592F4 /* NewFeatureViewModel.swift in Sources */,
 				33AF97D72A7B835100716104 /* CookingTimeBadge.swift in Sources */,
 				38F49043294771A500529D1F /* InstructionView.swift in Sources */,
 				333E2D3029EFC2E000F705E7 /* DBStore+CoreDataClass.swift in Sources */,

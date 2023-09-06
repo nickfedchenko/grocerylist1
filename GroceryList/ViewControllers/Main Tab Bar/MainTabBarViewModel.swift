@@ -13,6 +13,8 @@ protocol MainTabBarViewModelDelegate: AnyObject {
     func updatePantryUI(_ pantry: PantryModel)
     func updateListUI()
     func showFeatureMessageView()
+    func showFeatureView()
+    func hideFeatureView()
 }
 
 final class MainTabBarViewModel {
@@ -106,19 +108,64 @@ final class MainTabBarViewModel {
     }
 
     func showFeedback() {
+        guard UserDefaultsManager.shared.isNewFeature else {
+            return
+        }
         if FeedbackManager.shared.isShowFeedbackScreen() {
             router?.goToFeedback()
         }
     }
     
     func showNewFeature() {
-        router?.goToFeatureController(compl: { [weak self] in
-            self?.delegate?.showFeatureMessageView()
-        })
+        guard !UserDefaultsManager.shared.isNewFeature else {
+            return
+        }
+        delegate?.showFeatureView()
     }
     
     func settingsTapped() {
         router?.goToSettingsController()
+    }
+    
+    func tappedGreatEnable() {
+        AmplitudeManager.shared.logEvent(.iCloudAccept)
+        UserDefaultsManager.shared.isNewFeature = true
+        CloudManager.shared.getICloudStatus { [weak self] status in
+            if status == .available {
+                UserDefaultsManager.shared.isICloudDataBackupOn = true
+                DispatchQueue.global(qos: .default).async {
+                    CloudManager.shared.enable()
+                }
+                self?.delegate?.hideFeatureView()
+                return
+            }
+            
+            UserDefaultsManager.shared.isICloudDataBackupOn = false
+            var alertTitle = ""
+            switch status {
+            case .couldNotDetermine:
+                alertTitle = R.string.localizable.couldNotDetermine()
+            case .restricted:
+                alertTitle = R.string.localizable.restricted()
+            case .noAccount:
+                alertTitle = R.string.localizable.noAccount()
+            case .temporarilyUnavailable:
+                alertTitle = R.string.localizable.temporarilyUnavailable()
+            default:
+                break
+            }
+            
+            self?.router?.showAlertVC(title: "", message: alertTitle,
+                                      completion: { [weak self] in
+                self?.delegate?.hideFeatureView()
+            })
+        }
+    }
+    
+    func tappedMaybeLater() {
+        AmplitudeManager.shared.logEvent(.iCloudLater)
+        UserDefaultsManager.shared.isNewFeature = true
+        delegate?.hideFeatureView()
     }
     
     func showPaywall() {

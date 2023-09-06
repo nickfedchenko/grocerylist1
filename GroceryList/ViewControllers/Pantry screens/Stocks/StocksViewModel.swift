@@ -122,8 +122,8 @@ final class StocksViewModel {
         
         let newLine = ((model.description?.count ?? 0) + (model.store?.title.count ?? 0)) > 30 && isVisibleCost
         let theme = colorManager.getGradient(index: pantry.color)
-        let productCost = calculateCost(quantity: model.quantity, cost: model.cost)
-        
+        var productCost = calculateCost(quantity: model.quantity, cost: model.cost)
+        productCost = (productCost ?? 0) <= 0 ? nil : productCost
         return StockCell.CostCellModel(isVisible: isVisibleCost,
                                        isAddNewLine: newLine,
                                        color: theme.medium,
@@ -338,7 +338,7 @@ final class StocksViewModel {
     }
     
     private func calculateCost(quantity: Double?, cost: Double?) -> Double? {
-        guard quantity ?? -1 >= 0 && cost ?? -1 >= 0 else {
+        guard quantity ?? -1 <= 0 || cost ?? -1 <= 0 else {
             return nil
         }
         
