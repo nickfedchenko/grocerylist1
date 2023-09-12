@@ -102,6 +102,12 @@ final class MainRecipeViewModel {
         router?.goToRecipe(recipe: model, sectionColor: color, removeRecipe: nil)
     }
     
+    func showCollection() {
+        router?.goToShowCollection(state: .edit, updateUI: { [weak self] in
+            self?.updateUI()
+        })
+    }
+    
     func showSearch() {
         AmplitudeManager.shared.logEvent(.recipeSearch)
 #if RELEASE

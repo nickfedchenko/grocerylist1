@@ -13,6 +13,7 @@ final class MainTabBarController: UITabBarController {
     weak var listDelegate: MainTabBarControllerListDelegate?
     weak var pantryDelegate: MainTabBarControllerPantryDelegate?
     weak var recipeDelegate: MainTabBarControllerRecipeDelegate?
+    weak var mealDelegate: MainTabBarControllerMealPlanDelegate?
     weak var stocksDelegate: MainTabBarControllerStocksDelegate?
     weak var productsDelegate: MainTabBarControllerProductsDelegate?
     
@@ -222,7 +223,8 @@ final class MainTabBarController: UITabBarController {
 
 extension MainTabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController,
-                          animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+                          animationControllerForTransitionFrom fromVC: UIViewController,
+                          to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return CustomTransition(viewControllers: tabBarController.viewControllers)
     }
 }
@@ -259,27 +261,35 @@ extension MainTabBarController: CustomTabBarViewDelegate {
     
     func tabAddItem() {
         let itemTag = selectedIndex
-        if let item = TabBarItemView.Item(rawValue: itemTag) {
-            switch item {
-            case .list:
-                let navController = self.selectedViewController as? UINavigationController
-                let topViewController = navController?.topViewController
-                if topViewController is ListViewController {
-                    listDelegate?.tappedAddItem()
-                }
-                if topViewController is ProductsViewController {
-                    productsDelegate?.tappedAddItem()
-                }
-            case .pantry:
-                let navController = self.selectedViewController as? UINavigationController
-                let topViewController = navController?.topViewController
-                if topViewController is PantryViewController {
-                    pantryDelegate?.tappedAddItem()
-                }
-                if topViewController is StocksViewController {
-                    stocksDelegate?.tappedAddItem()
-                }
-            case .recipe:
+        guard let item = TabBarItemView.Item(rawValue: itemTag) else {
+            return
+        }
+        switch item {
+        case .list:
+            let navController = self.selectedViewController as? UINavigationController
+            let topViewController = navController?.topViewController
+            if topViewController is ListViewController {
+                listDelegate?.tappedAddItem()
+            }
+            if topViewController is ProductsViewController {
+                productsDelegate?.tappedAddItem()
+            }
+        case .pantry:
+            let navController = self.selectedViewController as? UINavigationController
+            let topViewController = navController?.topViewController
+            if topViewController is PantryViewController {
+                pantryDelegate?.tappedAddItem()
+            }
+            if topViewController is StocksViewController {
+                stocksDelegate?.tappedAddItem()
+            }
+        case .recipe:
+            let navController = self.selectedViewController as? UINavigationController
+            let topViewController = navController?.topViewController as? ParentMealPlanRecipeViewController
+            if topViewController?.currentIndex == 0 {
+                mealDelegate?.tappedAddRecipeToMealPlan()
+            }
+            if topViewController?.currentIndex == 1 {
                 recipeContextMenu.fadeIn()
                 contextMenuBackgroundView.isHidden = false
             }

@@ -189,15 +189,8 @@ class UserDefaultsManager {
     }
     
     var isDoneFeedBack: Bool {
-        get {
-            guard let shouldShow = userDefaults.value(forKey: "isDoneFeedBack") as? Bool else {
-                return false
-            }
-            return shouldShow
-        }
-        set {
-            userDefaults.set(newValue, forKey: "isDoneFeedBack")
-        }
+        get { userDefaults.bool(forKey: "isDoneFeedBack") }
+        set { userDefaults.set(newValue, forKey: "isDoneFeedBack") }
     }
     
     var lastShowFeedBackDate: Date? {
@@ -258,6 +251,16 @@ class UserDefaultsManager {
     var zoneChangeTokenKey: Data? {
         get { userDefaults.data(forKey: "zoneChangeTokenKey") }
         set { userDefaults.set(newValue, forKey: "zoneChangeTokenKey") }
+    }
+    
+    var selectedMealPlannerOrRecipes: Int {
+        get { userDefaults.integer(forKey: "selectedMealPlannerOfRecipes") }
+        set { userDefaults.set(newValue, forKey: "selectedMealPlannerOfRecipes") }
+    }
+    
+    var selectedMonthOrWeek: Int {
+        get { userDefaults.integer(forKey: "selectedMonthOrWeek") }
+        set { userDefaults.set(newValue, forKey: "selectedMonthOrWeek") }
     }
     
     private func setValue<T>(value: T, for key: UDKeys) {

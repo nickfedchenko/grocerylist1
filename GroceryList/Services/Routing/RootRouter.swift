@@ -697,7 +697,7 @@ final class RootRouter: RootRouterProtocol {
     private func setupTabBarController() {
         let listController = viewControllerFactory.createListController(router: self)
         let pantryController = viewControllerFactory.createPantryController(router: self)
-        let recipeController = viewControllerFactory.createRecipeController(router: self)
+        let recipeController = viewControllerFactory.createParentMealPlanViewController(router: self)
         listNavController = UINavigationController(rootViewController: listController)
         pantryNavController = UINavigationController(rootViewController: pantryController)
         recipeNavController = UINavigationController(rootViewController: recipeController)

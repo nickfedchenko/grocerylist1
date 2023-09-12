@@ -540,6 +540,10 @@
 "temporarilyUnavailable"        = "Le compte iCloud de l'utilisateur est temporairement indisponible.";
 "Synchronization"               = "Synchronisation";
 
+// Meal Plan
+"Meal Plan"                     = "Plan de repas";
+"TabBar.Meal Plan"              = "Plan de repas";
+
 // Updated Paywall
 "three days "                   = "3 jours ";
 "free"                          = "gratuitement";

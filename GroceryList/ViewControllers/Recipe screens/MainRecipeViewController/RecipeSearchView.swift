@@ -15,7 +15,7 @@ final class RecipeSearchView: UIView {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
         label.textColor = R.color.mediumGray()
-        label.text = R.string.localizable.searchByNameOrIngredient()
+        label.text = R.string.localizable.search()
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.5
         return label
@@ -45,9 +45,9 @@ final class RecipeSearchView: UIView {
         whiteView.addSubviews([placeholderLabel, searchImageView, filterImageView])
         
         whiteView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(8)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
             $0.height.equalTo(40)
         }
         

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "Chevron Mini Right.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
