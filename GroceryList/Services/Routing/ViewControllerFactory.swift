@@ -49,12 +49,30 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createRecipeController(router: RootRouter) -> UIViewController {
+    func createParentMealPlanViewController(router: RootRouter) -> UIViewController {
+        let recipeViewController = createRecipeController(router: router)
+        let mealPlanViewController = createMealPlanController(router: router)
+        
+        let viewController = ParentMealPlanRecipeViewController(headerViewController: nil,
+                                                                segmentControllers: [mealPlanViewController, recipeViewController])
+        return viewController
+    }
+    
+    func createRecipeController(router: RootRouter) -> MainRecipeViewController {
         let dataSource = MainRecipeDataSource()
         let viewModel = MainRecipeViewModel(dataSource: dataSource)
         viewModel.router = router
         
         let viewController = MainRecipeViewController(viewModel: viewModel)
+        return viewController
+    }
+    
+    func createMealPlanController(router: RootRouter) -> MealPlanViewController {
+        let dataSource = MealPlanDataSource()
+        let viewModel = MealPlanViewModel(dataSource: dataSource)
+        viewModel.router = router
+        
+        let viewController = MealPlanViewController(viewModel: viewModel)
         return viewController
     }
     

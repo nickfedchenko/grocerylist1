@@ -21,6 +21,18 @@ extension Int {
     var asInt64: Int64 {
         Int64(self)
     }
+    
+    var asUUID: UUID {
+        var number = self
+        let numberData = Data(bytes: &number, count: MemoryLayout<Int64>.size)
+
+        let bytes = [UInt8](numberData)
+
+        let tuple: uuid_t = (0, 0, 0, 0, 0, 0, 0, 0,
+                             bytes[0], bytes[1], bytes[2], bytes[3],
+                             bytes[4], bytes[5], bytes[6], bytes[7])
+        return UUID(uuid: tuple)
+    }
 }
 
 extension Double {

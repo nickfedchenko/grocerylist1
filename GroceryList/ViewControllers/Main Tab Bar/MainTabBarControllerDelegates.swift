@@ -29,3 +29,7 @@ protocol MainTabBarControllerStocksDelegate: AnyObject {
 protocol MainTabBarControllerProductsDelegate: AnyObject {
     func tappedAddItem()
 }
+
+protocol MainTabBarControllerMealPlanDelegate: AnyObject {
+    func tappedAddRecipeToMealPlan()
+}

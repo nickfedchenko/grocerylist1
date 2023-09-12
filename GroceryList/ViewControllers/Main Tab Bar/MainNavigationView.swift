@@ -43,19 +43,6 @@ final class MainNavigationView: UIView {
         return button
     }()
     
-    private lazy var recipeEditCollectionButton: UIButton = {
-        let button = UIButton()
-        button.addTarget(self, action: #selector(sortButtonAction), for: .touchUpInside)
-        button.setImage(R.image.editCell()?.withTintColor(R.color.primaryDark() ?? .black), for: .normal)
-        return button
-    }()
-    
-    private lazy var recipeChangeViewButton: UIButton = {
-        let button = UIButton()
-        button.addTarget(self, action: #selector(recipeChangeViewAction), for: .touchUpInside)
-        return button
-    }()
-    
     private lazy var profileView: UIView = {
         let view = UIView()
         let tapOnView = UITapGestureRecognizer(target: self, action: #selector(settingsButtonAction))
@@ -68,7 +55,7 @@ final class MainNavigationView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupConstraints()
-        updateImageChangeViewButton()
+//        updateImageChangeViewButton()
     }
     
     required init?(coder: NSCoder) {
@@ -76,13 +63,13 @@ final class MainNavigationView: UIView {
     }
     
     func configure(with mode: TabBarItemView.Item, animate: Bool = true) {
-        recipeEditCollectionButton.snp.updateConstraints {
-            $0.width.height.equalTo(mode == .recipe ? 40 : 0)
-        }
-        
-        recipeChangeViewButton.snp.updateConstraints {
-            $0.width.height.equalTo(mode == .recipe ? 40 : 0)
-        }
+//        recipeEditCollectionButton.snp.updateConstraints {
+//            $0.width.height.equalTo(mode == .recipe ? 40 : 0)
+//        }
+//
+//        recipeChangeViewButton.snp.updateConstraints {
+//            $0.width.height.equalTo(mode == .recipe ? 40 : 0)
+//        }
         
         searchButton.snp.updateConstraints {
             $0.width.height.equalTo(mode == .list ? 40 : 0)
@@ -129,12 +116,6 @@ final class MainNavigationView: UIView {
         })
     }
     
-    private func updateImageChangeViewButton() {
-        let isFolder = UserDefaultsManager.shared.recipeIsFolderView
-        let image = isFolder ? R.image.recipeCollectionView() : R.image.recipeFolderView()
-        recipeChangeViewButton.setImage(image, for: .normal)
-    }
-    
     @objc
     private func searchButtonAction() {
         delegate?.searchButtonTapped()
@@ -144,23 +125,10 @@ final class MainNavigationView: UIView {
     private func settingsButtonAction() {
         delegate?.settingsTapped()
     }
-    
-    @objc
-    private func recipeChangeViewAction() {
-        UserDefaultsManager.shared.recipeIsFolderView = !UserDefaultsManager.shared.recipeIsFolderView
-        CloudManager.shared.saveCloudSettings()
-        updateImageChangeViewButton()
-        delegate?.recipeChangeViewTapped()
-    }
-    
-    @objc
-    private func sortButtonAction() {
-        delegate?.sortCollectionTapped()
-    }
         
     private func setupConstraints() {
-        self.addSubviews([profileView, searchButton,
-                          recipeChangeViewButton, recipeEditCollectionButton])
+        self.addSubviews([profileView, searchButton]) //,
+//                          recipeChangeViewButton, recipeEditCollectionButton])
         profileView.addSubviews([settingsButton, userNameLabel, gearIconImageView])
 
         profileView.snp.makeConstraints {
@@ -189,22 +157,22 @@ final class MainNavigationView: UIView {
         }
         
         searchButton.snp.makeConstraints {
-            $0.trailing.equalTo(recipeEditCollectionButton.snp.leading).inset(-8)
+            $0.trailing.equalToSuperview().offset(-19)
             $0.centerY.equalTo(settingsButton)
             $0.width.height.equalTo(40)
         }
         
-        recipeChangeViewButton.snp.makeConstraints {
-            $0.trailing.equalTo(recipeEditCollectionButton.snp.leading).inset(-8)
-            $0.centerY.equalTo(settingsButton)
-            $0.width.height.equalTo(40)
-        }
-        
-        recipeEditCollectionButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(28)
-            $0.centerY.equalTo(settingsButton)
-            $0.width.height.equalTo(40)
-        }
+//        recipeChangeViewButton.snp.makeConstraints {
+//            $0.trailing.equalTo(recipeEditCollectionButton.snp.leading).inset(-8)
+//            $0.centerY.equalTo(settingsButton)
+//            $0.width.height.equalTo(40)
+//        }
+//
+//        recipeEditCollectionButton.snp.makeConstraints {
+//            $0.trailing.equalToSuperview().inset(28)
+//            $0.centerY.equalTo(settingsButton)
+//            $0.width.height.equalTo(40)
+//        }
     }
 
 }

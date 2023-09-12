@@ -17,12 +17,17 @@ final class MainRecipeViewController: UIViewController {
     
     private var viewModel: MainRecipeViewModel
     
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = R.string.localizable.recipes()
-        label.font = UIFont.SFProDisplay.heavy(size: 32).font
-        label.textColor = R.color.primaryDark()
-        return label
+    private lazy var recipeChangeViewButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(recipeChangeViewAction), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var recipeEditCollectionButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(sortButtonAction), for: .touchUpInside)
+        button.setImage(R.image.editCell()?.withTintColor(R.color.primaryDark() ?? .black), for: .normal)
+        return button
     }()
     
     private lazy var searchIconButton: UIButton = {
@@ -72,17 +77,16 @@ final class MainRecipeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tabBar = (self.tabBarController as? MainTabBarController)
-        tabBar?.recipeDelegate = self
-        tabBar?.navBackgroundView.backgroundColor = R.color.background()?.withAlphaComponent(0.95)
+        (self.tabBarController as? MainTabBarController)?.recipeDelegate = self
         titleBackgroundView.backgroundColor = R.color.background()?.withAlphaComponent(0.95)
-        
-        let tapOnSearch = UITapGestureRecognizer(target: self, action: #selector(tappedOnSearch))
-        searchView.addGestureRecognizer(tapOnSearch)
         
         setupConstraints()
         viewModelChanges()
         updateCollectionContentInset()
+        updateImageChangeViewButton()
+        
+        let tapOnSearch = UITapGestureRecognizer(target: self, action: #selector(tappedOnSearch))
+        searchView.addGestureRecognizer(tapOnSearch)
         
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground),
                                                name: UIApplication.willEnterForegroundNotification,
@@ -90,12 +94,7 @@ final class MainRecipeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: false)
-        (self.tabBarController as? MainTabBarController)?.setTextTabBar(
-            text: R.string.localizable.create().uppercased()
-        )
-        
+        super.viewWillAppear(animated)        
         if !isShowFirstViewWillAppear {
             updateRecipeCollectionView()
             isShowFirstViewWillAppear = true
@@ -132,11 +131,7 @@ final class MainRecipeViewController: UIViewController {
     }
     
     private func updateCollectionContentInset() {
-        let offset: CGFloat = UserDefaultsManager.shared.recipeIsFolderView ? 0 : -24
-        searchView.snp.updateConstraints {
-            $0.bottom.equalTo(recipesCollectionView.snp.top).offset(offset)
-        }
-        let contentInset: CGFloat = UserDefaultsManager.shared.recipeIsFolderView ? 78 : 108
+        let contentInset: CGFloat = UserDefaultsManager.shared.recipeIsFolderView ? 58 : 68
         recipesCollectionView.contentInset.top = topContentInset + contentInset
     }
     
@@ -184,6 +179,12 @@ final class MainRecipeViewController: UIViewController {
         return cell
     }
     
+    private func updateImageChangeViewButton() {
+        let isFolder = UserDefaultsManager.shared.recipeIsFolderView
+        let image = isFolder ? R.image.recipeCollectionView() : R.image.recipeFolderView()
+        recipeChangeViewButton.setImage(image, for: .normal)
+    }
+    
     @objc
     private func tappedOnSearch() {
         viewModel.showSearch()
@@ -194,14 +195,27 @@ final class MainRecipeViewController: UIViewController {
         viewModel.updateUI()
     }
     
+    @objc
+    private func recipeChangeViewAction() {
+        UserDefaultsManager.shared.recipeIsFolderView = !UserDefaultsManager.shared.recipeIsFolderView
+        CloudManager.shared.saveCloudSettings()
+        updateImageChangeViewButton()
+        tappedChangeView()
+    }
+    
+    @objc
+    private func sortButtonAction() {
+        viewModel.showCollection()
+    }
+    
     private func setupConstraints() {
         view.backgroundColor = R.color.background()
         view.addSubviews([recipesCollectionView, titleBackgroundView, activityView])
-        titleBackgroundView.addSubviews([titleLabel, searchIconButton])
-        recipesCollectionView.addSubview(searchView)
+        titleBackgroundView.addSubviews([searchView, recipeChangeViewButton, recipeEditCollectionButton])
 
         recipesCollectionView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
 
@@ -213,28 +227,28 @@ final class MainRecipeViewController: UIViewController {
         }
         
         titleBackgroundView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(44)
-            $0.leading.trailing.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+        }
+        
+        searchView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(76)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalTo(recipeChangeViewButton.snp.leading).offset(-16)
             $0.height.equalTo(40)
+            $0.bottom.equalToSuperview().offset(-8)
         }
         
-        titleLabel.snp.makeConstraints {
-            $0.top.equalTo(titleBackgroundView).offset(4)
-            $0.leading.equalToSuperview().offset(24)
-            $0.height.equalTo(32)
+        recipeChangeViewButton.snp.makeConstraints {
+            $0.top.equalTo(searchView)
+            $0.trailing.equalTo(recipeEditCollectionButton.snp.leading).offset(-8)
+            $0.width.height.equalTo(40)
         }
         
-        searchIconButton.snp.makeConstraints {
-            $0.leading.equalTo(titleLabel.snp.trailing)
-            $0.centerY.equalTo(titleLabel)
-            $0.height.width.equalTo(40)
-        }
-        
-        searchView.snp.makeConstraints { make in
-            make.bottom.equalTo(recipesCollectionView.snp.top).offset(-24)
-            make.leading.trailing.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalTo(48)
+        recipeEditCollectionButton.snp.makeConstraints {
+            $0.top.equalTo(searchView)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.width.height.equalTo(40)
         }
     }
 }

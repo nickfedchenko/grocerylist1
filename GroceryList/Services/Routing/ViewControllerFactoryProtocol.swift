@@ -19,7 +19,7 @@ protocol ViewControllerFactoryProtocol {
     func createMainTabBarController(router: RootRouter, controllers: [UIViewController]) -> UITabBarController
     func createListController(router: RootRouter) -> UIViewController
     func createPantryController(router: RootRouter) -> UIViewController
-    func createRecipeController(router: RootRouter) -> UIViewController
+    func createParentMealPlanViewController(router: RootRouter) -> UIViewController
     
     func createCreateNewListController(model: GroceryListsModel?, router: RootRouter,
                                        compl: @escaping (GroceryListsModel, [Product]) -> Void) -> UIViewController?

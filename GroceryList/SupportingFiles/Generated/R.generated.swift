@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 475 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 477 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -1277,6 +1277,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var mayonnaise: RswiftResources.StringResource { .init(key: "Mayonnaise", tableName: "Localizable", source: source, developmentValue: "Mayonnaise", comment: nil) }
 
+      /// en translation: Meal Plan
+      ///
+      /// Key: Meal Plan
+      ///
+      /// Locales: en, ru, fr, de
+      var mealPlan: RswiftResources.StringResource { .init(key: "Meal Plan", tableName: "Localizable", source: source, developmentValue: "Meal Plan", comment: nil) }
+
       /// en translation: Meat
       ///
       /// Key: Meat
@@ -2397,6 +2404,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var synchronizeYourData: RswiftResources.StringResource { .init(key: "Synchronize your data", tableName: "Localizable", source: source, developmentValue: "Synchronize your data with the cloud. Your lists and recipes will be securely stored. ", comment: nil) }
 
+      /// en translation: Meal Plan
+      ///
+      /// Key: TabBar.Meal Plan
+      ///
+      /// Locales: en, ru, fr, de
+      var tabBarMealPlan: RswiftResources.StringResource { .init(key: "TabBar.Meal Plan", tableName: "Localizable", source: source, developmentValue: "Meal Plan", comment: nil) }
+
       /// en translation: Tea and coffee
       ///
       /// Key: Tea
@@ -3445,7 +3459,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 336 images.
+  /// This `_R.image` struct is generated, and contains static references to 340 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -3511,6 +3525,12 @@ struct _R {
 
     /// Image `Chevron`.
     var chevron: RswiftResources.ImageResource { .init(name: "Chevron", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Chevron Mini Left`.
+    var chevronMiniLeft: RswiftResources.ImageResource { .init(name: "Chevron Mini Left", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Chevron Mini Right`.
+    var chevronMiniRight: RswiftResources.ImageResource { .init(name: "Chevron Mini Right", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ChevronDownGreen`.
     var chevronDownGreen: RswiftResources.ImageResource { .init(name: "ChevronDownGreen", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -4135,6 +4155,12 @@ struct _R {
 
     /// Image `manual_4`.
     var manual_4: RswiftResources.ImageResource { .init(name: "manual_4", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `mealplan_tabbar_active`.
+    var mealplan_tabbar_active: RswiftResources.ImageResource { .init(name: "mealplan_tabbar_active", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `mealplan_tabbar_inactive`.
+    var mealplan_tabbar_inactive: RswiftResources.ImageResource { .init(name: "mealplan_tabbar_inactive", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `media library`.
     var mediaLibrary: RswiftResources.ImageResource { .init(name: "media library", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
