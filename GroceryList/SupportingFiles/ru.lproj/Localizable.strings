@@ -550,6 +550,10 @@
 "Meal Plan"                     = "План Питания";
 "TabBar.Meal Plan"              = "План\nПитания";
 
+"Meal Plan.Month"               = "Месяц";
+"Meal Plan.Week"                = "Неделя";
+"No entires"                    = "Нет записей";
+
 // Updated Paywall
 "three days "                   = "3 дня ";
 "free"                          = "бесплатно";

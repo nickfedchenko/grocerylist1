@@ -40,12 +40,21 @@ final class CalendarCell: FSCalendarCell {
     
     private var selectedCellLayer = CAShapeLayer()
     
+    private let labelStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.spacing = 2
+        return stackView
+    }()
+    
     private var typeOfSelection: TypeOfSelection = .none {
         didSet { setNeedsLayout() }
     }
     
     override init!(frame: CGRect) {
         super.init(frame: frame)
+        setupStackView()
     }
     
     required init!(coder aDecoder: NSCoder!) {
@@ -65,10 +74,29 @@ final class CalendarCell: FSCalendarCell {
         selectedCellLayer.strokeColor = UIColor.clear.cgColor
         selectedCellLayer.lineWidth = 0
         titleLabel.font = UIFont.SFPro.medium(size: 16).font
+        labelStackView.removeAllArrangedSubviews()
     }
     
     func configure(selection: TypeOfSelection) {
         typeOfSelection = selection
+    }
+    
+    func configure(labelColors: [UIColor]) {
+        labelStackView.removeAllArrangedSubviews()
+        labelColors.enumerated().forEach { index, color in
+            if index > 4 {
+                return
+            }
+            let view = UIView()
+            view.backgroundColor = color
+            view.setCornerRadius(3)
+            
+            labelStackView.addArrangedSubview(view)
+            view.snp.makeConstraints {
+                $0.verticalEdges.equalToSuperview()
+                $0.width.height.equalTo(6)
+            }
+        }
     }
     
     private func updateLayer() {
@@ -94,6 +122,15 @@ final class CalendarCell: FSCalendarCell {
             titleLabel.font = UIFont.SFPro.medium(size: 16).font
         case .selectedToday, .selected:
             titleLabel.font = UIFont.SFPro.heavy(size: 16).font
+        }
+    }
+    
+    private func setupStackView() {
+        self.contentView.addSubview(labelStackView)
+        labelStackView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(36)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(6)
         }
     }
 }

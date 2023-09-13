@@ -10,6 +10,7 @@ import UIKit
 
 protocol CalendarViewDelegate: AnyObject {
     func selectedDate(_ date: Date)
+    func getLabelColors(by date: Date) -> [UIColor]
     func pageDidChange()
 }
 
@@ -31,7 +32,7 @@ final class CalendarView: UIView {
         calendar.register(CalendarCell.self, forCellReuseIdentifier: "cell")
 
         calendar.scope = scope
-        calendar.firstWeekday = 2
+//        calendar.firstWeekday = UInt(Calendar.current.firstWeekday)
         calendar.scrollDirection = .vertical
         calendar.pagingEnabled = true
         calendar.headerHeight = 0
@@ -202,6 +203,7 @@ extension CalendarView: FSCalendarDataSource {
         }
 
         cell.configure(selection: type)
+        cell.configure(labelColors: delegate?.getLabelColors(by: date) ?? [])
         return cell
     }
 }
@@ -210,8 +212,9 @@ extension CalendarView: FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, didSelect date: Date,
                   at monthPosition: FSCalendarMonthPosition) {
         selectedDate = date
-        calendar.reloadData()
         delegate?.selectedDate(date)
+        
+        calendar.reloadData()
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {

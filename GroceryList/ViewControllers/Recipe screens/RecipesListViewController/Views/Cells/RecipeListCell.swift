@@ -17,6 +17,8 @@ class RecipeListCell: UICollectionViewCell {
     
     var selectedIndex = -1
 
+    let containerView = UIView()
+    
     let mainImage: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 7
@@ -63,16 +65,16 @@ class RecipeListCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOpacity = 0.1
-        self.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.layer.shadowRadius = 3
-        self.layer.masksToBounds = false
         
-        contentView.backgroundColor = .white
-        contentView.layer.cornerRadius = 8
-        contentView.layer.masksToBounds = true
-        contentView.layer.cornerCurve = .continuous
+        containerView.layer.shadowColor = UIColor.black.cgColor
+        containerView.layer.shadowOpacity = 0.1
+        containerView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        containerView.layer.shadowRadius = 3
+        containerView.layer.masksToBounds = false
+        
+        containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = 8
+        containerView.layer.cornerCurve = .continuous
 
         [timeBadgeView, kcalBadgeView].forEach {
             $0.layer.cornerRadius = 4
@@ -163,10 +165,16 @@ class RecipeListCell: UICollectionViewCell {
     }
     
     func setupSubviews() {
-        contentView.addSubviews([titleLabel, mainImage, contextMenuButton])
-        contentView.addSubviews([timeBadgeView, kcalBadgeView, favoriteImage])
+        contentView.addSubview(containerView)
+        
+        containerView.addSubviews([titleLabel, mainImage, contextMenuButton])
+        containerView.addSubviews([timeBadgeView, kcalBadgeView, favoriteImage])
         timeBadgeView.addSubviews([timeLabel, timeImage])
         kcalBadgeView.addSubviews([kcalImage, kcalLabel])
+        
+        containerView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
         mainImage.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().offset(1)
@@ -234,7 +242,7 @@ class RecipeListCell: UICollectionViewCell {
     }
         
     private func drawInlinedStroke() {
-        contentView.layer.borderColor = UIColor.white.cgColor
-        contentView.layer.borderWidth = 1
+        containerView.layer.borderColor = UIColor.white.cgColor
+        containerView.layer.borderWidth = 1
     }
 }

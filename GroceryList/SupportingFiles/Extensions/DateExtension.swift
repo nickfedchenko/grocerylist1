@@ -89,11 +89,23 @@ extension Date {
         return weekDates
     }
     
+    func getDates(by date: Date) -> [Date] {
+        var dates: [Date] = []
+        var startDate = self
+        let endDate = date
+        
+        while startDate <= endDate {
+            dates.append(startDate)
+            startDate = startDate.nextDay
+        }
+        return dates
+    }
+    
     func after(dayCount: Int) -> Date {
         return Calendar.current.date(byAdding: .day, value: dayCount, to: self) ?? self
     }
     
-    func getDateFor(days:Int) -> Date? {
+    func getDateFor(days: Int) -> Date? {
         return Calendar.current.date(byAdding: .day, value: days, to: Date())
     }
     
