@@ -538,6 +538,11 @@
 "Meal Plan"                     = "Plan de repas";
 "TabBar.Meal Plan"              = "Plan de repas";
 
+"Meal Plan.Month"               = "Mois";
+"Meal Plan.Week"                = "Semaine";
+"No entires"                    = "Aucune entrée";
+
+
 // Updated Paywall
 "three days "                   = "3 jours ";
 "free"                          = "gratuitement";

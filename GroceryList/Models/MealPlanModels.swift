@@ -11,7 +11,7 @@ struct MealPlan: Hashable, Codable {
     let id: UUID
     let recipeId: Int
     var date: Date
-    var label: MealPlanLabel
+    var label: MealPlanLabel?
     var destinationListId: UUID?
     
     init(id: UUID = UUID(), recipeId: Int, date: Date,
@@ -23,6 +23,13 @@ struct MealPlan: Hashable, Codable {
         self.destinationListId = destinationListId
     }
     
+    init(date: Date) {
+        id = 0.asUUID
+        recipeId = -1
+        self.date = date
+        label = nil
+        destinationListId = nil
+    }
 }
 
 struct MealPlanLabel: Hashable, Codable {
@@ -43,4 +50,41 @@ struct MealPlanNote: Hashable, Codable {
     let details: String
     var date: Date
     var label: MealPlanLabel
+}
+
+struct MealPlanSection: Hashable {
+    var sectionType: MealPlanSectionType
+    var date: Date
+    var mealPlans: [MealPlanCellModel]
+}
+
+struct MealPlanCellModel: Hashable {
+    var type: MealPlanCellType
+    var date: Date
+    var mealPlan: MealPlan?
+    var note: String?
+    
+    init(type: MealPlanCellType,
+         date: Date,
+         mealPlan: MealPlan? = nil,
+         note: String? = nil) {
+        self.type = type
+        self.date = date
+        self.mealPlan = mealPlan
+        self.note = note
+    }
+}
+
+enum MealPlanSectionType {
+    case month
+    case weekStart
+    case week
+}
+
+enum MealPlanCellType {
+    case plan
+    case planEmpty
+    case note
+    case noteEmpty
+    case noteFilled
 }

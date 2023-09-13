@@ -1,5 +1,5 @@
 //
-//  MealPlanEmptyView.swift
+//  MealPlanEmptyCell.swift
 //  GroceryList
 //
 //  Created by Хандымаа Чульдум on 12.09.2023.
@@ -7,47 +7,16 @@
 
 import UIKit
 
-class MealPlanEmptyView: UIView {
-    
-    enum State {
-        case recipe
-        case note
-        case filledNote
-        
-        var color: UIColor {
-            switch self {
-            case .recipe:       return UIColor(hex: "DBF6F6")
-            case .note:         return UIColor(hex: "FEFEEB")
-            case .filledNote:   return .clear
-            }
-        }
-        
-        var title: String {
-            switch self {
-            case .recipe:
-                return R.string.localizable.recipe().uppercased()
-            case .note, .filledNote:
-                return R.string.localizable.note().uppercased()
-            }
-        }
-        
-        var border: (color: UIColor?, width: CGFloat) {
-            switch self {
-            case .recipe, .note:
-                return (UIColor.clear, 0)
-            case .filledNote:
-                return (R.color.mediumGray(), 1)
-            }
-        }
-    }
+class MealPlanEmptyCell: UICollectionViewCell {
     
     private let containerView = UIView()
     
     private let plusImageView: UIImageView = {
-        let image = UIImageView()
-        image.clipsToBounds = true
-        image.contentMode = .scaleAspectFill
-        return image
+        let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        imageView.image = R.image.mealPlanPlus()
+        imageView.contentMode = .scaleAspectFill
+        return imageView
     }()
     
     private let titleLabel: UILabel = {
@@ -66,7 +35,7 @@ class MealPlanEmptyView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(state: State) {
+    func configure(state: MealPlanCellType) {
         containerView.backgroundColor = state.color
         containerView.layer.borderColor = state.border.color?.cgColor
         containerView.layer.borderWidth = state.border.width
@@ -85,7 +54,10 @@ class MealPlanEmptyView: UIView {
         containerView.addSubviews([plusImageView, titleLabel])
         
         containerView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(64)
+            $0.bottom.equalToSuperview().offset(-8)
         }
         
         plusImageView.snp.makeConstraints {
@@ -96,6 +68,39 @@ class MealPlanEmptyView: UIView {
         
         titleLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
+        }
+    }
+}
+
+private extension MealPlanCellType {
+    var color: UIColor {
+        switch self {
+        case .planEmpty:    return UIColor(hex: "DBF6F6")
+        case .noteEmpty:    return UIColor(hex: "FEFEEB")
+        case .noteFilled:   return .clear
+        default:            return .clear
+        }
+    }
+    
+    var title: String {
+        switch self {
+        case .planEmpty:
+            return R.string.localizable.recipe().uppercased()
+        case .noteEmpty, .noteFilled:
+            return R.string.localizable.note().uppercased()
+        default:
+            return ""
+        }
+    }
+    
+    var border: (color: UIColor?, width: CGFloat) {
+        switch self {
+        case .planEmpty, .noteEmpty:
+            return (UIColor.clear, 0)
+        case .noteFilled:
+            return (R.color.mediumGray(), 1)
+        default:
+            return (UIColor.clear, 0)
         }
     }
 }

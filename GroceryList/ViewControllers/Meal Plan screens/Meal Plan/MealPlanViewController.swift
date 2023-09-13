@@ -9,10 +9,6 @@ import UIKit
 
 class MealPlanViewController: UIViewController {
 
-    enum Section: Hashable {
-        case main
-    }
-    
     private let viewModel: MealPlanViewModel
     
     private var navigationView = UIView()
@@ -45,7 +41,8 @@ class MealPlanViewController: UIViewController {
             borderWidth: 0,
             backgroundColor: .clear
         )
-        let segmentedControl = CustomSegmentedControlView(items: ["Month", "Week"],
+        let segmentedControl = CustomSegmentedControlView(items: [R.string.localizable.mealPlanMonth(),
+                                                                  R.string.localizable.mealPlanWeek()],
                                                           select: selectConfiguration,
                                                           unselect: unselectConfiguration)
         segmentedControl.delegate = self
@@ -71,14 +68,16 @@ class MealPlanViewController: UIViewController {
     }()
 
     private lazy var collectionView: UICollectionView = {
-        let layout = collectionViewLayoutManager.createCompositionalLayout()
+        let layout = compositionalLayout
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.contentInset.bottom = 110
         collectionView.contentInset.top = 16
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
-        collectionView.register(classCell: PantryCell.self)
+        collectionView.register(classCell: MealPlanCell.self)
+        collectionView.register(classCell: MealPlanEmptyCell.self)
+        collectionView.registerHeader(classHeader: MealPlanHeaderCell.self)
         return collectionView
     }()
     
@@ -86,12 +85,40 @@ class MealPlanViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
         label.textColor = R.color.lightGray()
-        label.text = "No entires".uppercased()
+        label.text = R.string.localizable.noEntires().uppercased()
+        label.textAlignment = .center
         return label
     }()
     
-    private var dataSource: UICollectionViewDiffableDataSource<Section, MealPlan>?
-    private var collectionViewLayoutManager = MealPlanCollectionViewLayout()
+    private lazy var compositionalLayout: UICollectionViewLayout = {
+        let layout = UICollectionViewCompositionalLayout { (_, _) -> NSCollectionLayoutSection? in
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                  heightDimension: .estimated(1))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                   heightDimension: .estimated(1))
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
+                                                         subitems: [item])
+            let section = NSCollectionLayoutSection(group: group)
+            let header = self.createSectionHeader
+            section.boundarySupplementaryItems = [header]
+            return section
+        }
+        return layout
+    }()
+    
+    private lazy var createSectionHeader: NSCollectionLayoutBoundarySupplementaryItem = {
+        let layoutHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                      heightDimension: .estimated(1))
+        let layoutSectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: layoutHeaderSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        return layoutSectionHeader
+    }()
+    
+    private var dataSource: UICollectionViewDiffableDataSource<MealPlanSection, MealPlanCellModel>?
     
     private var UDMSelectedMonthOrWeek: Int {
         get { UserDefaultsManager.shared.selectedMonthOrWeek }
@@ -124,6 +151,9 @@ class MealPlanViewController: UIViewController {
         self.view.backgroundColor = R.color.background()
         (self.tabBarController as? MainTabBarController)?.mealDelegate = self
 
+        createDataSource()
+        reloadDataSource()
+        
         updatedTodayButton()
         makeConstraints()
     }
@@ -135,23 +165,92 @@ class MealPlanViewController: UIViewController {
     
     private func createDataSource() {
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
-                                                        cellProvider: { [weak self] collectionView, indexPath, model in
-            guard let self else { return UICollectionViewCell() }
-            let cell = self.collectionView.reusableCell(classCell: PantryCell.self, indexPath: indexPath)
-//            let cellModel = viewModel.getCellModel(by: indexPath, and: model)
-//            cell.delegate = self
-//            cell.configure(cellModel)
-            return cell
+                                                        cellProvider: { [weak self] _, indexPath, model in
+            guard let self else {
+                return UICollectionViewCell()
+            }
+            
+            switch model.type {
+            case .plan:
+                return self.setupMealPlanCell(by: indexPath)
+            case .note:
+                return UICollectionViewCell()
+            case .planEmpty, .noteEmpty, .noteFilled:
+                return self.setupEmptyCell(by: indexPath, type: model.type)
+            }
         })
         
-//        dataSource?.reorderingHandlers.canReorderItem = { _ in
-//            return true
+        dataSource?.supplementaryViewProvider = { [weak self] collectionView, _, indexPath in
+            guard let self else {
+                return UICollectionViewCell()
+            }
+            let sectionHeader = collectionView.reusableHeader(classHeader: MealPlanHeaderCell.self, indexPath: indexPath)
+            guard let model = self.dataSource?.itemIdentifier(for: indexPath),
+                  let section = self.dataSource?.snapshot().sectionIdentifier(containingItem: model) else {
+                return sectionHeader ?? UICollectionReusableView()
+            }
+            sectionHeader?.setupHeader(section: section)
+            sectionHeader?.configure(labelColors: self.viewModel.getLabelColors(by: section.date))
+            sectionHeader?.delegate = self
+            return sectionHeader
+        }
+        
+//        dataSource?.reorderingHandlers.canReorderItem = { [weak self] _ in
+//            return self?.viewModel.stateCellModel == .edit
 //        }
 //
 //        dataSource?.reorderingHandlers.didReorder = { [weak self] transaction in
 //            let backingStore = transaction.finalSnapshot.itemIdentifiers
-//            self?.viewModel.updatePantriesAfterMove(updatedPantries: backingStore)
+//            self?.viewModel.updateStocksAfterMove(stocks: backingStore)
 //        }
+    }
+    
+    private func setupMealPlanCell(by indexPath: IndexPath) -> MealPlanCell {
+        let cell = self.collectionView.reusableCell(classCell: MealPlanCell.self, indexPath: indexPath)
+        guard let model = self.viewModel.getRecipe(by: self.calendarView.selectedDate, for: indexPath) else {
+            cell.configureWithoutRecipe()
+            return cell
+        }
+        cell.configure(with: model)
+        cell.configureColor(theme: self.viewModel.theme)
+        cell.selectedIndex = indexPath.item
+        let label = viewModel.getLabel(by: self.calendarView.selectedDate, for: indexPath)
+        cell.configureMealPlanLabel(text: label.text, color: label.color)
+        cell.mealPlanDelegate = self
+        return cell
+    }
+    
+    private func setupEmptyCell(by indexPath: IndexPath, type: MealPlanCellType) -> MealPlanEmptyCell {
+        let cell = self.collectionView.reusableCell(classCell: MealPlanEmptyCell.self, indexPath: indexPath)
+        cell.configure(state: type)
+        return cell
+    }
+    
+    private func reloadDataSource() {
+        var snapshot = NSDiffableDataSourceSnapshot<MealPlanSection, MealPlanCellModel>()
+        let sections = viewModel.getMealPlanSections(by: calendarView.selectedDate)
+        
+        for section in sections {
+            snapshot.appendSections([section])
+            snapshot.appendItems(section.mealPlans, toSection: section)
+        }
+        
+        DispatchQueue.main.async {
+            if self.UDMSelectedMonthOrWeek == 0 {
+                if let cellModel = sections.first?.mealPlans.first {
+                    let isNoEntires = cellModel.note == nil && cellModel.mealPlan == nil
+                    self.collectionView.contentInset.top = isNoEntires ? 52 : 16
+                        self.noEntiresLabel.isHidden = !isNoEntires
+                } else {
+                    self.collectionView.contentInset.top = 52
+                    self.noEntiresLabel.isHidden = false
+                }
+            } else {
+                self.collectionView.contentInset.top = 16
+                self.noEntiresLabel.isHidden = true
+            }
+            self.dataSource?.apply(snapshot, animatingDifferences: true)
+        }
     }
     
     private func updatedTodayButton(isActive: Bool = false) {
@@ -169,6 +268,10 @@ class MealPlanViewController: UIViewController {
     private func tappedTodayButton() {
         calendarView.setToday()
         updatedTodayButton()
+        
+        DispatchQueue.main.async {
+            self.reloadDataSource()
+        }
     }
     
     @objc
@@ -181,7 +284,6 @@ class MealPlanViewController: UIViewController {
         UIView.animate(withDuration: animated ? 0.2 : 0) { [weak self] in
             self?.view.layoutIfNeeded()
         }
-//        reloadData()
     }
     
     private func fixCalendarViewConstraints() {
@@ -204,6 +306,7 @@ class MealPlanViewController: UIViewController {
     private func makeConstraints() {
         self.view.addSubviews([navigationView, calendarView, collectionView])
         navigationView.addSubviews([todayButton, segmentedControl, menuButton])
+        collectionView.addSubview(noEntiresLabel)
         
         navigationView.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -241,16 +344,26 @@ class MealPlanViewController: UIViewController {
             $0.top.equalTo(calendarView.snp.bottom)
             $0.horizontalEdges.bottom.equalToSuperview()
         }
+        
+        noEntiresLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(-36)
+            $0.centerX.equalToSuperview()
+        }
     }
 }
 
 extension MealPlanViewController: CalendarViewDelegate {
     func selectedDate(_ date: Date) {
         updatedTodayButton(isActive: calendarView.selectedDate.onlyDate != Date().onlyDate)
+        reloadDataSource()
     }
     
     func pageDidChange() {
         updatedTodayButton(isActive: true)
+    }
+    
+    func getLabelColors(by date: Date) -> [UIColor] {
+        return viewModel.getLabelColors(by: date)
     }
 }
 
@@ -260,6 +373,10 @@ extension MealPlanViewController: CustomSegmentedControlViewDelegate {
         UDMSelectedMonthOrWeek = selectedSegmentIndex
         calendarView.setScope()
         updateCalendarView()
+        
+        DispatchQueue.main.async {
+            self.reloadDataSource()
+        }
     }
 }
 
@@ -269,27 +386,22 @@ extension MealPlanViewController: MainTabBarControllerMealPlanDelegate {
     }
 }
 
-extension MealPlanViewController: UICollectionViewDelegate {
-    
+extension MealPlanViewController: MealPlanCellDelegate {
+    func moveCell(gesture: UILongPressGestureRecognizer) {
+        
+    }
 }
 
-final class MealPlanCollectionViewLayout {
-    func createCompositionalLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, _) -> NSCollectionLayoutSection? in
-            return self.createLayout(sectionIndex: sectionIndex)
-        }
-        return layout
+extension MealPlanViewController: MealPlanHeaderCellDelegate {
+    func addNote() {
+        
     }
     
-    private func createLayout(sectionIndex: Int) -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                              heightDimension: .fractionalHeight(96))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                               heightDimension: .estimated(1))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
-                                                     subitems: [item])
-        let section = NSCollectionLayoutSection(group: group)
-        return section
+    func addRecipe() {
+        
     }
+}
+
+extension MealPlanViewController: UICollectionViewDelegate {
+    
 }
