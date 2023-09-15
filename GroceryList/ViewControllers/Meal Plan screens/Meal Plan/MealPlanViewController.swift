@@ -223,6 +223,7 @@ class MealPlanViewController: UIViewController {
     private func setupEmptyCell(by indexPath: IndexPath, type: MealPlanCellType) -> MealPlanEmptyCell {
         let cell = self.collectionView.reusableCell(classCell: MealPlanEmptyCell.self, indexPath: indexPath)
         cell.configure(state: type)
+        cell.delegate = self
         return cell
     }
     
@@ -382,7 +383,7 @@ extension MealPlanViewController: CustomSegmentedControlViewDelegate {
 
 extension MealPlanViewController: MainTabBarControllerMealPlanDelegate {
     func tappedAddRecipeToMealPlan() {
-        print("tappedAddRecipeToMealPlan")
+        viewModel.showSelectRecipeToMealPlan()
     }
 }
 
@@ -398,10 +399,25 @@ extension MealPlanViewController: MealPlanHeaderCellDelegate {
     }
     
     func addRecipe() {
-        
+        viewModel.showSelectRecipeToMealPlan()
+    }
+}
+
+extension MealPlanViewController: MealPlanEmptyCellDelegate {
+    func tapAdd(state: MealPlanCellType) {
+        switch state {
+        case .plan, .note:
+            break
+        case .planEmpty:
+            viewModel.showSelectRecipeToMealPlan()
+        case .noteEmpty, .noteFilled:
+            break
+        }
     }
 }
 
 extension MealPlanViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+    }
 }

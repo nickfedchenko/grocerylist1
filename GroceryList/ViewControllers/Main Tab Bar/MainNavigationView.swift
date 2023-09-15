@@ -11,7 +11,6 @@ import UIKit
 protocol MainNavigationViewDelegate: AnyObject {
     func searchButtonTapped()
     func settingsTapped()
-    func recipeChangeViewTapped()
     func sortCollectionTapped()
 }
 

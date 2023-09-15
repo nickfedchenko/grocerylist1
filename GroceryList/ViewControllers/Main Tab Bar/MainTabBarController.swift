@@ -236,10 +236,6 @@ extension MainTabBarController: MainNavigationViewDelegate {
         viewModel.settingsTapped()
     }
     
-    func recipeChangeViewTapped() {
-        recipeDelegate?.tappedChangeView()
-    }
-    
     func sortCollectionTapped() {
         viewModel.showCollection()
     }

@@ -37,6 +37,8 @@ struct MealPlanLabel: Hashable, Codable {
     let title: String
     let color: Int
     
+    var isSelected = false
+    
     init(defaultLabel: DefaultLabel) {
         self.id = defaultLabel.id
         self.title = defaultLabel.title

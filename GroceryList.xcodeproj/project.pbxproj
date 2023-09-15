@@ -327,6 +327,18 @@
 		33FCBE972AB014BC00CB61C7 /* MealPlanEmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBE962AB014BC00CB61C7 /* MealPlanEmptyCell.swift */; };
 		33FCBE992AB03BE400CB61C7 /* MealPlanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBE982AB03BE400CB61C7 /* MealPlanCell.swift */; };
 		33FCBE9B2AB0A49200CB61C7 /* MealPlanHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBE9A2AB0A49200CB61C7 /* MealPlanHeaderCell.swift */; };
+		33FCBE9E2AB2ADC900CB61C7 /* SelectRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBE9D2AB2ADC900CB61C7 /* SelectRecipeViewController.swift */; };
+		33FCBEA02AB2DBA600CB61C7 /* SearchInRecipeMealPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBE9F2AB2DBA600CB61C7 /* SearchInRecipeMealPlanViewController.swift */; };
+		33FCBEA22AB2F1DB00CB61C7 /* RecipesListFromMealPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBEA12AB2F1DB00CB61C7 /* RecipesListFromMealPlanViewController.swift */; };
+		33FCBEA42AB3200200CB61C7 /* AddRecipeToMealPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBEA32AB3200200CB61C7 /* AddRecipeToMealPlanViewController.swift */; };
+		33FCBEA62AB3486A00CB61C7 /* RecipeDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AF97BA2A7AB1BF00716104 /* RecipeDescriptionView.swift */; };
+		33FCBEA72AB3486C00CB61C7 /* RecipeIngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AF97BD2A7AB67300716104 /* RecipeIngredientsView.swift */; };
+		33FCBEA82AB3486F00CB61C7 /* RecipeInstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AF97C42A7B6A7C00716104 /* RecipeInstructionsView.swift */; };
+		33FCBEAA2AB3F2DF00CB61C7 /* MealPlanRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBEA92AB3F2DF00CB61C7 /* MealPlanRecipeView.swift */; };
+		33FCBEAC2AB3FBE200CB61C7 /* MealPlanDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBEAB2AB3FBE200CB61C7 /* MealPlanDateView.swift */; };
+		33FCBEAE2AB3FBF100CB61C7 /* MealPlanLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBEAD2AB3FBF100CB61C7 /* MealPlanLabelView.swift */; };
+		33FCBEB02AB3FC0300CB61C7 /* MealPlanDestinationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBEAF2AB3FC0300CB61C7 /* MealPlanDestinationListView.swift */; };
+		33FCBEB22AB45A7300CB61C7 /* AddRecipeToMealPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBEB12AB45A7300CB61C7 /* AddRecipeToMealPlanViewModel.swift */; };
 		383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */; };
 		383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */; };
 		383C77F3293F799E0030AE78 /* RecipesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77F2293F799E0030AE78 /* RecipesListViewController.swift */; };
@@ -765,6 +777,15 @@
 		33FCBE962AB014BC00CB61C7 /* MealPlanEmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanEmptyCell.swift; sourceTree = "<group>"; };
 		33FCBE982AB03BE400CB61C7 /* MealPlanCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanCell.swift; sourceTree = "<group>"; };
 		33FCBE9A2AB0A49200CB61C7 /* MealPlanHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanHeaderCell.swift; sourceTree = "<group>"; };
+		33FCBE9D2AB2ADC900CB61C7 /* SelectRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRecipeViewController.swift; sourceTree = "<group>"; };
+		33FCBE9F2AB2DBA600CB61C7 /* SearchInRecipeMealPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInRecipeMealPlanViewController.swift; sourceTree = "<group>"; };
+		33FCBEA12AB2F1DB00CB61C7 /* RecipesListFromMealPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesListFromMealPlanViewController.swift; sourceTree = "<group>"; };
+		33FCBEA32AB3200200CB61C7 /* AddRecipeToMealPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecipeToMealPlanViewController.swift; sourceTree = "<group>"; };
+		33FCBEA92AB3F2DF00CB61C7 /* MealPlanRecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanRecipeView.swift; sourceTree = "<group>"; };
+		33FCBEAB2AB3FBE200CB61C7 /* MealPlanDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanDateView.swift; sourceTree = "<group>"; };
+		33FCBEAD2AB3FBF100CB61C7 /* MealPlanLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanLabelView.swift; sourceTree = "<group>"; };
+		33FCBEAF2AB3FC0300CB61C7 /* MealPlanDestinationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanDestinationListView.swift; sourceTree = "<group>"; };
+		33FCBEB12AB45A7300CB61C7 /* AddRecipeToMealPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecipeToMealPlanViewModel.swift; sourceTree = "<group>"; };
 		383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipePreviewCell.swift; sourceTree = "<group>"; };
 		383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipesFolderHeader.swift; sourceTree = "<group>"; };
 		383C77F2293F799E0030AE78 /* RecipesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesListViewController.swift; sourceTree = "<group>"; };
@@ -1545,6 +1566,7 @@
 			children = (
 				33B3065D2A8C7F2200F87659 /* Parent Meal Plan  */,
 				33B3065A2A8C7E5700F87659 /* Meal Plan */,
+				33FCBE9C2AB2AD7700CB61C7 /* Add recipe to meal plan */,
 			);
 			path = "Meal Plan screens";
 			sourceTree = "<group>";
@@ -1759,6 +1781,30 @@
 				33FCBE962AB014BC00CB61C7 /* MealPlanEmptyCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		33FCBE9C2AB2AD7700CB61C7 /* Add recipe to meal plan */ = {
+			isa = PBXGroup;
+			children = (
+				33FCBE9D2AB2ADC900CB61C7 /* SelectRecipeViewController.swift */,
+				33FCBE9F2AB2DBA600CB61C7 /* SearchInRecipeMealPlanViewController.swift */,
+				33FCBEA12AB2F1DB00CB61C7 /* RecipesListFromMealPlanViewController.swift */,
+				33FCBEA32AB3200200CB61C7 /* AddRecipeToMealPlanViewController.swift */,
+				33FCBEB12AB45A7300CB61C7 /* AddRecipeToMealPlanViewModel.swift */,
+				33FCBEA52AB3469A00CB61C7 /* subviews */,
+			);
+			path = "Add recipe to meal plan";
+			sourceTree = "<group>";
+		};
+		33FCBEA52AB3469A00CB61C7 /* subviews */ = {
+			isa = PBXGroup;
+			children = (
+				33FCBEA92AB3F2DF00CB61C7 /* MealPlanRecipeView.swift */,
+				33FCBEAB2AB3FBE200CB61C7 /* MealPlanDateView.swift */,
+				33FCBEAD2AB3FBF100CB61C7 /* MealPlanLabelView.swift */,
+				33FCBEAF2AB3FC0300CB61C7 /* MealPlanDestinationListView.swift */,
+			);
+			path = subviews;
 			sourceTree = "<group>";
 		};
 		383C77F4293F79D60030AE78 /* RecipesListViewController */ = {
@@ -2958,6 +3004,8 @@
 				3366BEE22A2C583D00D50704 /* AutoRepeatCustomSettingView.swift in Sources */,
 				33F8253B29C0632700B349D5 /* SearchInListViewController.swift in Sources */,
 				B315F9DE2989339A0009CEB8 /* CheckmarkCompositionView.swift in Sources */,
+				33FCBE9E2AB2ADC900CB61C7 /* SelectRecipeViewController.swift in Sources */,
+				33FCBEA72AB3486C00CB61C7 /* RecipeIngredientsView.swift in Sources */,
 				334764572A283FAB008F4834 /* StocksEmptyView.swift in Sources */,
 				33E31AD52A77DA290011B41E /* ImportWebRecipesViewModel.swift in Sources */,
 				B36AF93F2913D1AE00944E9D /* SegmentControlExtension.swift in Sources */,
@@ -3013,6 +3061,7 @@
 				33E8A8B22A5D5482007D7ED9 /* UpdatedPaywallViewController.swift in Sources */,
 				B35F0F632937975200C19891 /* MeashureManager.swift in Sources */,
 				B3B45E5A2934C01D00D60E82 /* SelectCategoryViewController.swift in Sources */,
+				33FCBEB22AB45A7300CB61C7 /* AddRecipeToMealPlanViewModel.swift in Sources */,
 				33995D392A1FC461003FECAE /* IconSubView.swift in Sources */,
 				333E2D3129EFC2E000F705E7 /* DBStore+CoreDataProperties.swift in Sources */,
 				334BAE55299E700B005F52F5 /* Table+CollectionExtension.swift in Sources */,
@@ -3050,6 +3099,7 @@
 				389DCF432945CDFA00DB9382 /* RecipeViewController.swift in Sources */,
 				B35F0F612937972700C19891 /* UnitSystemModel.swift in Sources */,
 				339254B42A3347DA0047807E /* StockReminderDataSource.swift in Sources */,
+				33FCBEA02AB2DBA600CB61C7 /* SearchInRecipeMealPlanViewController.swift in Sources */,
 				33AF97B72A7AA60C00716104 /* ActivityIndicatorView.swift in Sources */,
 				33E8A8B82A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift in Sources */,
 				33A51B972A17749200BE11C1 /* MainRecipeViewController.swift in Sources */,
@@ -3147,6 +3197,7 @@
 				B37A2CE72911034D003C01AD /* UIColorExtension.swift in Sources */,
 				333DCC292A6101F400E3F92B /* NewPaywallBottomProductsView.swift in Sources */,
 				33796E642A13A25A009AD385 /* FeedbackView.swift in Sources */,
+				33FCBEAA2AB3F2DF00CB61C7 /* MealPlanRecipeView.swift in Sources */,
 				3368FD6829B6DA0300D97291 /* CreateNewCollectionViewController.swift in Sources */,
 				339FF37B2A65116F00C6D6E3 /* NewPaywallFeatureCell.swift in Sources */,
 				B371CCB0299E36BB00E0E197 /* KeychainManager.swift in Sources */,
@@ -3161,6 +3212,7 @@
 				B3B45E5C2934C02B00D60E82 /* SelectCategoryViewModel.swift in Sources */,
 				B3777E1B2938BF830074BE38 /* SettingsViewModel.swift in Sources */,
 				3347646D2A2B6945008F4834 /* NameOfStockView.swift in Sources */,
+				33FCBEB02AB3FC0300CB61C7 /* MealPlanDestinationListView.swift in Sources */,
 				33E8A8BA2A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift in Sources */,
 				33AF97922A7A6E2800716104 /* Extension NetworkEngine.swift in Sources */,
 				33F8254029C1648800B349D5 /* SearchInListProductView.swift in Sources */,
@@ -3176,6 +3228,7 @@
 				B315F9E12989373A0009CEB8 /* TryForFreeView.swift in Sources */,
 				33A73F1D2A0CD2D300844610 /* ProductsSortViewController.swift in Sources */,
 				B3F7C9B429939E0B0081B245 /* SignUpViewController.swift in Sources */,
+				33FCBEA22AB2F1DB00CB61C7 /* RecipesListFromMealPlanViewController.swift in Sources */,
 				334764612A29CCA4008F4834 /* StockCell.swift in Sources */,
 				333E2D2D29EEAE9D00F705E7 /* CreateNewStoreViewModel.swift in Sources */,
 				B36AF9412913D37300944E9D /* CustomSegmentControl.swift in Sources */,
@@ -3219,6 +3272,7 @@
 				B371CCB2299F7B0200E0E197 /* GroceryListResponse.swift in Sources */,
 				3380D1B429C2D1E500A57F25 /* AllRecipesCell.swift in Sources */,
 				3368FD6E29B700F300D97291 /* UUIDExtension.swift in Sources */,
+				33FCBEA82AB3486F00CB61C7 /* RecipeInstructionsView.swift in Sources */,
 				3370EFBE2A8285E400885C30 /* NewOnboardingViewController.swift in Sources */,
 				339254AC2A3161D50047807E /* RequestGenerator.swift in Sources */,
 				337E79CE29E595F700668578 /* ViewWithOverriddenPoint.swift in Sources */,
@@ -3285,6 +3339,7 @@
 				3370EFC72A83D0DD00885C30 /* OnboardingViewController.swift in Sources */,
 				B3F7C9C729963F0A0081B245 /* PasswordResetViewController.swift in Sources */,
 				33F6299B2A95BC7A007592F4 /* ICloudFeatureMessageView.swift in Sources */,
+				33FCBEA42AB3200200CB61C7 /* AddRecipeToMealPlanViewController.swift in Sources */,
 				3360735D2A4B3B5C002427BE /* ShowCollectionDeleteAlertView.swift in Sources */,
 				336A112729F2D1F4008CFF33 /* BundleExtension.swift in Sources */,
 				33C6F0E32A44360400E71023 /* PhotoFromRecipesViewController.swift in Sources */,
@@ -3303,12 +3358,14 @@
 				33FCBE902AAF22CC00CB61C7 /* CalendarCell.swift in Sources */,
 				333E2D3029EFC2E000F705E7 /* DBStore+CoreDataClass.swift in Sources */,
 				3347644F2A25DA07008F4834 /* SelectListToSynchronizeViewController.swift in Sources */,
+				33FCBEAC2AB3FBE200CB61C7 /* MealPlanDateView.swift in Sources */,
 				B3AD42D72991135E0043A37F /* CurrentLocale.swift in Sources */,
 				844FC63B2978B825008173AA /* ReviewCell.swift in Sources */,
 				B30573BD29222D4500CA8BDE /* ProductListCell.swift in Sources */,
 				B34EACAA293501E100FBD0E0 /* CreateNewCategoryViewModel.swift in Sources */,
 				334009ED29E98AB800A04978 /* CreateNewProductButtonView.swift in Sources */,
 				B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */,
+				33FCBEAE2AB3FBF100CB61C7 /* MealPlanLabelView.swift in Sources */,
 				33FCBE772AA56FCA00CB61C7 /* StopSharingPopUpViewController.swift in Sources */,
 				386CFAC7299542BE00B4AD76 /* R.generated.swift in Sources */,
 				B381EF2C299BA18500DCDE40 /* PasswordExpiredViewController.swift in Sources */,
@@ -3323,6 +3380,7 @@
 				B381EF2A299B977700DCDE40 /* TermsView.swift in Sources */,
 				33C5F1EB2AA05DB900E864A8 /* SynchronizationViewController.swift in Sources */,
 				33FCBE922AAF285700CB61C7 /* MealPlanModels.swift in Sources */,
+				33FCBEA62AB3486A00CB61C7 /* RecipeDescriptionView.swift in Sources */,
 				B381EF24299B660D00DCDE40 /* LogOutView.swift in Sources */,
 				33C6F0E82A44415800E71023 /* PhotoFromRecipesCell.swift in Sources */,
 			);

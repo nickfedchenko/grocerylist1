@@ -1,25 +1,17 @@
 //
-//  RecipeListCell.swift
+//  MealPlanRecipeView.swift
 //  GroceryList
 //
-//  Created by Vladimir Banushkin on 06.12.2022.
+//  Created by Хандымаа Чульдум on 15.09.2023.
 //
 
 import UIKit
 
-protocol RecipeListCellDelegate: AnyObject {
-    func contextMenuTapped(at index: Int, point: CGPoint, cell: RecipeListCell)
-}
+class MealPlanRecipeView: UIView {
 
-class RecipeListCell: UICollectionViewCell {
-
-    weak var delegate: RecipeListCellDelegate?
+    private let containerView = UIView()
     
-    var selectedIndex = -1
-
-    let containerView = UIView()
-    
-    let mainImage: UIImageView = {
+    private let mainImage: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 7
         image.layer.cornerCurve = .continuous
@@ -29,7 +21,7 @@ class RecipeListCell: UICollectionViewCell {
         return image
     }()
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = R.font.sfProTextSemibold(size: 16)
         label.textColor = .black
@@ -37,31 +29,25 @@ class RecipeListCell: UICollectionViewCell {
         return label
     }()
     
-    let timeLabel: UILabel = {
+    private let timeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 12).font
         label.textColor = .white
         return label
     }()
     
-    let kcalLabel: UILabel = {
+    private let kcalLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 12).font
         return label
     }()
     
-    let timeImage = UIImageView(image: R.image.recipeTimeIcon())
-    let kcalImage = UIImageView(image: R.image.recipeKcalIcon())
-    let favoriteImage = UIImageView(image: R.image.recipeFavoriteIcon())
+    private let timeImage = UIImageView(image: R.image.recipeTimeIcon())
+    private let kcalImage = UIImageView(image: R.image.recipeKcalIcon())
+    private let favoriteImage = UIImageView(image: R.image.recipeFavoriteIcon())
     
-    let timeBadgeView = UIView()
-    let kcalBadgeView = UIView()
-    
-    let contextMenuButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(R.image.pantry_context_menu(), for: .normal)
-        return button
-    }()
+    private let timeBadgeView = UIView()
+    private let kcalBadgeView = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -82,24 +68,10 @@ class RecipeListCell: UICollectionViewCell {
         }
         
         setupSubviews()
-        setupActions()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if contextMenuButton.frame.contains(point) {
-            return contextMenuButton
-        } else {
-            return super.hitTest(point, with: event)
-        }
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        mainImage.image = nil
     }
     
     override func layoutSubviews() {
@@ -113,14 +85,13 @@ class RecipeListCell: UICollectionViewCell {
         
         kcalLabel.textColor = theme.dark
         kcalImage.image = R.image.recipeKcalIcon()?.withTintColor(theme.medium)
-        
-        contextMenuButton.tintColor = theme.dark
     }
     
-    func configure(with recipe: ShortRecipeModel) {
+    func configure(with recipe: Recipe) {
         titleLabel.text = recipe.title
-        timeLabel.text = recipe.time < 0 ? "--" : "\(recipe.time)"
-        favoriteImage.isHidden = !recipe.isFavorite
+        let time = recipe.cookingTime ?? -1
+        timeLabel.text = time < 0 ? "--" : "\(time)"
+        favoriteImage.isHidden = !UserDefaultsManager.shared.favoritesRecipeIds.contains(recipe.id)
         
         if let kcal = recipe.values?.serving?.kcal ?? recipe.values?.dish?.kcal {
             kcalBadgeView.isHidden = false
@@ -139,40 +110,9 @@ class RecipeListCell: UICollectionViewCell {
         }
     }
     
-    func setSuccessfullyAddedIngredients(isSuccess: Bool) {
-        contextMenuButton.isSelected = isSuccess
-        contextMenuButton.isUserInteractionEnabled = !isSuccess
-    }
-    
-    func setupPlusOnButton(color: UIColor) {
-        let image = R.image.mealPlanPlus()?.withTintColor(color)
-        contextMenuButton.setImage(image, for: .normal)
-    }
-    
-    private func setupActions() {
-        contextMenuButton.addAction(
-            UIAction { [weak self] _ in
-                guard let self else {
-                    return
-                }
-                UIView.animate(withDuration: 0.1) {
-                    self.contextMenuButton.alpha = 0.5
-                } completion: { _ in
-                    UIView.animate(withDuration: 0.1) {
-                        self.contextMenuButton.alpha = 1
-                    }
-                }
-                self.delegate?.contextMenuTapped(at: self.selectedIndex,
-                                                 point: self.contextMenuButton.center, cell: self)
-            },
-            for: .touchUpInside
-        )
-    }
-    
     func setupSubviews() {
-        contentView.addSubview(containerView)
-        
-        containerView.addSubviews([titleLabel, mainImage, contextMenuButton])
+        self.addSubview(containerView)
+        containerView.addSubviews([titleLabel, mainImage])
         containerView.addSubviews([timeBadgeView, kcalBadgeView, favoriteImage])
         timeBadgeView.addSubviews([timeLabel, timeImage])
         kcalBadgeView.addSubviews([kcalImage, kcalLabel])
@@ -193,12 +133,6 @@ class RecipeListCell: UICollectionViewCell {
             make.leading.equalTo(mainImage.snp.trailing).offset(8)
             make.trailing.equalToSuperview().inset(64)
             make.bottom.equalToSuperview()
-        }
-        
-        contextMenuButton.snp.makeConstraints { make in
-            make.width.height.equalTo(40)
-            make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(8)
         }
         
         favoriteImage.snp.makeConstraints {
@@ -250,4 +184,5 @@ class RecipeListCell: UICollectionViewCell {
         containerView.layer.borderColor = UIColor.white.cgColor
         containerView.layer.borderWidth = 1
     }
+
 }

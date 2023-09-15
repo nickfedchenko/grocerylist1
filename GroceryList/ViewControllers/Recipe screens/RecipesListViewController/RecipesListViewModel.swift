@@ -173,6 +173,15 @@ class RecipesListViewModel {
         })
     }
  
+    func showRecipeForMealPlan(recipeIndex: Int) {
+        guard let recipeId = section.recipes[safe: recipeIndex]?.id,
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
+              let recipe = Recipe(from: dbRecipe) else {
+            return
+        }
+        router?.goToRecipeFromMealPlan(recipe: recipe)
+    }
+    
     func showPaywall() {
         router?.showPaywallVC()
     }

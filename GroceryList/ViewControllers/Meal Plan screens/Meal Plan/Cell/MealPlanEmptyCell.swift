@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol MealPlanEmptyCellDelegate: AnyObject {
+    func tapAdd(state: MealPlanCellType)
+}
+
 class MealPlanEmptyCell: UICollectionViewCell {
+    
+    weak var delegate: MealPlanEmptyCellDelegate?
     
     private let containerView = UIView()
     
@@ -16,6 +22,7 @@ class MealPlanEmptyCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         imageView.image = R.image.mealPlanPlus()
         imageView.contentMode = .scaleAspectFill
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -26,9 +33,14 @@ class MealPlanEmptyCell: UICollectionViewCell {
         return label
     }()
     
+    private var state: MealPlanCellType = .planEmpty
+    
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
         setup()
+        
+        let tapOnView = UITapGestureRecognizer(target: self, action: #selector(tappedOnView))
+        containerView.addGestureRecognizer(tapOnView)
     }
     
     required init?(coder: NSCoder) {
@@ -36,6 +48,7 @@ class MealPlanEmptyCell: UICollectionViewCell {
     }
     
     func configure(state: MealPlanCellType) {
+        self.state = state
         containerView.backgroundColor = state.color
         containerView.layer.borderColor = state.border.color?.cgColor
         containerView.layer.borderWidth = state.border.width
@@ -47,6 +60,11 @@ class MealPlanEmptyCell: UICollectionViewCell {
         containerView.setCornerRadius(8)
         
         makeConstraints()
+    }
+    
+    @objc
+    private func tappedOnView() {
+        delegate?.tapAdd(state: state)
     }
     
     private func makeConstraints() {
