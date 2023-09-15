@@ -35,11 +35,15 @@ class RecipeInstructionsView: UIView {
     }
     
     func configure(recipe: WebRecipe) {
-        instructionsStack.removeAllArrangedSubviews()
-
         guard let instructions = recipe.methods else {
             return
         }
+        
+        setupInstructions(instructions: instructions)
+    }
+    
+    func setupInstructions(instructions: [String]) {
+        instructionsStack.removeAllArrangedSubviews()
         
         for (index, instruction) in instructions.enumerated() {
             let view = InstructionView()

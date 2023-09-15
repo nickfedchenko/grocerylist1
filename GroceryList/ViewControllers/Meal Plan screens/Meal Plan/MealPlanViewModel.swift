@@ -16,9 +16,7 @@ class MealPlanViewModel {
     private let colorManager = ColorManager.shared
     
     var theme: Theme {
-        Theme(dark: UIColor(hex: "045C5C"),
-              medium: UIColor(hex: "045C5C"),
-              light: UIColor(hex: "EBFEFE"))
+        colorManager.colorMealPlan
     }
     
     init(dataSource: MealPlanDataSource) {
@@ -46,4 +44,17 @@ class MealPlanViewModel {
         return colorNumbers.map { colorManager.getLabelColor(index: $0) }
     }
     
+    func showSelectRecipeToMealPlan() {
+        router?.goToSelectRecipeToMealPlan()
+    }
+    
+    func showAddRecipeToMealPlan(by index: IndexPath) {
+        guard let mealPlan = dataSource.getMealPlan(by: index),
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: mealPlan.recipeId),
+              let recipe = Recipe(from: dbRecipe) else {
+            return
+        }
+        
+        router?.goToRecipeFromMealPlan(recipe: recipe, mealPlan: mealPlan)
+    }
 }

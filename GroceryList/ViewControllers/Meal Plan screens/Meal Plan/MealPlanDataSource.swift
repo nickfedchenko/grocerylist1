@@ -63,12 +63,21 @@ class MealPlanDataSource {
     
     func getMealPlans(by date: Date) -> [MealPlanSection] {
         guard sortType == .month else {
-            return getMealPlanForWeekState(date: date)
+            section = getMealPlanForWeekState(date: date)
+            return section
         }
         
         let mealPlansByDate = mealPlan.filter { $0.date.onlyDate == date.onlyDate }
         let cellModel = mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate)
-        return [MealPlanSection(sectionType: .month, date: date, mealPlans: cellModel)]
+        section = [MealPlanSection(sectionType: .month, date: date, mealPlans: cellModel)]
+        return section
+    }
+    
+    func getMealPlan(by indexPath: IndexPath) -> MealPlan? {
+        guard let plan = section[safe: indexPath.section]?.mealPlans[safe: indexPath.row]?.mealPlan else {
+            return nil
+        }
+        return plan
     }
     
     func getRecipe(by date: Date, for index: IndexPath) -> ShortRecipeModel? {

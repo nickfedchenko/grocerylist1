@@ -239,6 +239,15 @@ final class SearchInRecipeViewModel {
         })
     }
     
+    func showRecipeForMealPlan(recipeIndex: Int) {
+        guard let recipeId = editableRecipes[safe: recipeIndex]?.id,
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
+              let recipe = Recipe(from: dbRecipe) else {
+            return
+        }
+        router?.goToRecipeFromMealPlan(recipe: recipe)
+    }
+    
     func showPaywall() {
         router?.showPaywallVC()
     }

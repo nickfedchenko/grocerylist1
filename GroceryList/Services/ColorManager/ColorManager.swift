@@ -21,6 +21,12 @@ class ColorManager {
         rawGradientColors.count
     }
     
+    var colorMealPlan: Theme {
+        Theme(dark: UIColor(hex: "045C5C"),
+              medium: UIColor(hex: "045C5C"),
+              light: UIColor(hex: "EBFEFE"))
+    }
+    
     private let rawGradientColors: [Theme] = [
         Theme(dark: UIColor(hex: "#6F8617"), medium: UIColor(hex: "#A5B957"), light: UIColor(hex: "#FCFFF3")), // 0 - 9
         Theme(dark: UIColor(hex: "#278337"), medium: UIColor(hex: "#58B168"), light: UIColor(hex: "#F4FFF6")), // 1 - 1

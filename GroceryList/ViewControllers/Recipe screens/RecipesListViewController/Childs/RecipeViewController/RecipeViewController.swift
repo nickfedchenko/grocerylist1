@@ -8,7 +8,8 @@
 import ApphudSDK
 import UIKit
 
-final class RecipeViewController: UIViewController {
+class RecipeViewController: UIViewController {
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
     }

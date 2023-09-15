@@ -476,6 +476,41 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func goToSelectRecipeToMealPlan() {
+        let dataSource = MainRecipeDataSource()
+        let viewModel = SelectRecipeViewModel(dataSource: dataSource)
+        viewModel.router = self
+        let controller = SelectRecipeViewController(viewModel: viewModel)
+        let navigationController = UINavigationController(rootViewController: controller)
+        navigationController.navigationBar.isHidden = true
+        topViewController?.present(navigationController, animated: true)
+    }
+    
+    func goToSearchInMealPlan() {
+        let viewModel = SearchInRecipeViewModel(section: nil)
+        viewModel.router = self
+        let controller = SearchInRecipeMealPlanViewController()
+        controller.viewModel = viewModel
+        let navController = topViewController?.navigationController
+        navController?.pushViewController(controller, animated: true)
+    }
+    
+    func goToRecipeCollectionFromMealPlan(for section: RecipeSectionsModel) {
+        let viewModel = RecipesListViewModel(with: section)
+        viewModel.router = self
+        let recipeListVC = RecipesListFromMealPlanViewController(viewModel: viewModel)
+        let navController = topViewController?.navigationController
+        navController?.pushViewController(recipeListVC, animated: true)
+    }
+    
+    func goToRecipeFromMealPlan(recipe: Recipe, mealPlan: MealPlan? = nil) {
+        let viewModel = AddRecipeToMealPlanViewModel(recipe: recipe)
+        viewModel.router = self
+        let controller = AddRecipeToMealPlanViewController(viewModel: viewModel)
+        let navController = topViewController?.navigationController
+        navController?.pushViewController(controller, animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
