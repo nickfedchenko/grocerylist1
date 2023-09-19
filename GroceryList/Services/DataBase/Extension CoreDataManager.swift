@@ -590,6 +590,7 @@ extension CoreDataManager {
         try? context.save()
     }
     
+    // MARK: - iCloud
     func resetRecordIdForAllData() {
         resetRecordId(request: DBGroceryListModel.fetchRequest()) { $0.recordId = "" }
         resetRecordId(request: DBProduct.fetchRequest()) { $0.recordId = "" }
@@ -599,6 +600,74 @@ extension CoreDataManager {
         resetRecordId(request: DBStock.fetchRequest()) { $0.recordId = "" }
         resetRecordId(request: DBCollection.fetchRequest()) { $0.recordId = "" }
         resetRecordId(request: DBRecipe.fetchRequest()) { $0.recordId = "" }
+    }
+    
+    // MARK: - Meal Plan
+    func saveLabel(_ label: [MealPlanLabel]) {
+        let asyncContext = coreData.viewContext
+        asyncContext.performAndWait {
+            do {
+                _ = label.map({ DBLabel.prepare(fromPlainModel: $0, context: asyncContext) }) 
+                try asyncContext.save()
+            } catch let error {
+                print(error)
+                asyncContext.rollback()
+            }
+        }
+    }
+    
+    func getAllLabels() -> [DBLabel]? {
+        let fetchRequest = DBLabel.fetchRequest()
+        let sort = NSSortDescriptor(key: "index", ascending: true)
+        fetchRequest.sortDescriptors = [sort]
+        return fetch(request: fetchRequest, context: coreData.context)
+    }
+    
+    func getLabel(id: String) -> DBLabel? {
+        let fetchRequest = DBLabel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        guard let object = fetch(request: fetchRequest, context: coreData.context).first else {
+            return nil
+        }
+        return object
+    }
+    
+    func saveMealPlan(_ mealPlan: MealPlan) {
+        let asyncContext = coreData.viewContext
+        asyncContext.performAndWait {
+            do {
+                _ = DBMealPlan.prepare(fromPlainModel: mealPlan, context: asyncContext)
+                try asyncContext.save()
+            } catch let error {
+                print(error)
+                asyncContext.rollback()
+            }
+        }
+    }
+    
+    func getAllMealPlans() -> [DBMealPlan]? {
+//        let fetchRequest = DBLabel.fetchRequest()
+//        let sort = NSSortDescriptor(key: "index", ascending: true)
+//        fetchRequest.sortDescriptors = [sort]
+        fetch(request: DBMealPlan.fetchRequest(), context: coreData.context)
+    }
+    
+    func getMealPlan(date: Date) -> DBMealPlan? {
+        let fetchRequest = DBMealPlan.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "date = '\(date)'")
+        guard let object = fetch(request: fetchRequest, context: coreData.context).first else {
+            return nil
+        }
+        return object
+    }
+    
+    func getMealPlan(id: String) -> DBMealPlan? {
+        let fetchRequest = DBMealPlan.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        guard let object = fetch(request: fetchRequest, context: coreData.context).first else {
+            return nil
+        }
+        return object
     }
 
     private func resetRecordId<T: NSManagedObject>(request: NSFetchRequest<T>,

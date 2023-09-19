@@ -596,6 +596,63 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let controller = ImportWebRecipesViewController(viewModel: viewModel)
         return controller
     }
+    
+    func createSelectRecipeToMealPlan(router: RootRouter, date: Date, updateUI: (() -> Void)?) -> UIViewController {
+        let dataSource = MainRecipeDataSource()
+        let viewModel = SelectRecipeViewModel(dataSource: dataSource)
+        viewModel.router = router
+        viewModel.selectedDate = date
+        let controller = SelectRecipeViewController(viewModel: viewModel)
+        let navigationController = MealPlanNavigationController(rootViewController: controller)
+        navigationController.dismissController = updateUI
+        navigationController.navigationBar.isHidden = true
+        return navigationController
+    }
+    
+    func createSearchInMealPlan(router: RootRouter, date: Date) -> UIViewController {
+        let viewModel = SearchInRecipeViewModel(section: nil)
+        viewModel.router = router
+        viewModel.mealPlanDate = date
+        let controller = SearchInRecipeMealPlanViewController()
+        controller.viewModel = viewModel
+        return controller
+    }
+    
+    func createRecipeCollectionFromMealPlan(for section: RecipeSectionsModel, date: Date, router: RootRouter) -> UIViewController {
+        let viewModel = RecipesListViewModel(with: section)
+        viewModel.router = router
+        viewModel.mealPlanDate = date
+        let recipeListVC = RecipesListFromMealPlanViewController(viewModel: viewModel)
+        return recipeListVC
+    }
+    
+    func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe, date: Date) -> UIViewController {
+        let viewModel = AddRecipeToMealPlanViewModel(recipe: recipe, mealPlanDate: date)
+        viewModel.router = router
+        let controller = AddRecipeToMealPlanViewController(viewModel: viewModel)
+        return controller
+    }
+    
+    func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe, mealPlan: MealPlan, updateUI: (() -> Void)?) -> UIViewController {
+        let viewModel = AddRecipeToMealPlanViewModel(recipe: recipe, mealPlanDate: mealPlan.date)
+        viewModel.router = router
+        viewModel.mealPlan = mealPlan
+        let controller = AddRecipeToMealPlanViewController(viewModel: viewModel)
+        let navigationController = MealPlanNavigationController(rootViewController: controller)
+        navigationController.dismissController = updateUI
+        navigationController.navigationBar.isHidden = true
+        return navigationController
+    }
+    
+    func createDestinationList(router: RootRouter, delegate: DestinationListDelegate) -> UIViewController {
+        let dataSource = SelectListDataManager()
+        let viewModel = SelectListViewModel(dataSource: dataSource)
+        viewModel.router = router
+        let controller = DestinationListViewController()
+        controller.viewModel = viewModel
+        controller.destinationListDelegate = delegate
+        return controller
+    }
 }
 
 class MyNavigationController: UINavigationController {

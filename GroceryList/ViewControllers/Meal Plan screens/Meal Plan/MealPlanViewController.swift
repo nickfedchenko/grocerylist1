@@ -55,7 +55,7 @@ class MealPlanViewController: UIViewController {
     private lazy var menuButton: UIButton = {
         let button = UIButton()
         let color = R.color.primaryDark() ?? UIColor(hex: "045C5C")
-        button.setImage(R.image.pantry_move()?.withTintColor(color), for: .normal)
+        button.setImage(R.image.recipe_menu(), for: .normal)
         button.addTarget(self, action: #selector(tappedMenuButton), for: .touchUpInside)
         return button
     }()
@@ -151,6 +151,13 @@ class MealPlanViewController: UIViewController {
         self.view.backgroundColor = R.color.background()
         (self.tabBarController as? MainTabBarController)?.mealDelegate = self
 
+        viewModel.reloadData = { [weak self] in
+            DispatchQueue.main.async {
+                self?.reloadDataSource()
+                self?.calendarView.reloadData()
+            }
+        }
+        
         createDataSource()
         reloadDataSource()
         
@@ -383,7 +390,7 @@ extension MealPlanViewController: CustomSegmentedControlViewDelegate {
 
 extension MealPlanViewController: MainTabBarControllerMealPlanDelegate {
     func tappedAddRecipeToMealPlan() {
-        viewModel.showSelectRecipeToMealPlan()
+        viewModel.showSelectRecipeToMealPlan(selectedDate: calendarView.selectedDate)
     }
 }
 
@@ -399,7 +406,7 @@ extension MealPlanViewController: MealPlanHeaderCellDelegate {
     }
     
     func addRecipe() {
-        viewModel.showSelectRecipeToMealPlan()
+        viewModel.showSelectRecipeToMealPlan(selectedDate: calendarView.selectedDate)
     }
 }
 
@@ -409,7 +416,7 @@ extension MealPlanViewController: MealPlanEmptyCellDelegate {
         case .plan, .note:
             break
         case .planEmpty:
-            viewModel.showSelectRecipeToMealPlan()
+            viewModel.showSelectRecipeToMealPlan(selectedDate: calendarView.selectedDate)
         case .noteEmpty, .noteFilled:
             break
         }

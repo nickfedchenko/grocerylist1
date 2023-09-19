@@ -86,6 +86,10 @@ final class CalendarView: UIView {
         calendar.collectionViewLayout.invalidateLayout()
     }
     
+    func reloadData() {
+        calendar.reloadData()
+    }
+    
     func setToday() {
         setDate(Date())
     }

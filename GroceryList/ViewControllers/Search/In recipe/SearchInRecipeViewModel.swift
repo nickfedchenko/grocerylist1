@@ -29,6 +29,8 @@ final class SearchInRecipeViewModel {
         return ColorManager.shared.getGradient(index: colorIndex)
     }
     
+    var mealPlanDate: Date?
+    
     private(set) var recipeTags: [RecipeTag] = []
     private(set) var placeholder = ""
     private(set) var section: RecipeSectionsModel?
@@ -245,7 +247,7 @@ final class SearchInRecipeViewModel {
               let recipe = Recipe(from: dbRecipe) else {
             return
         }
-        router?.goToRecipeFromMealPlan(recipe: recipe)
+        router?.goToRecipeFromMealPlan(recipe: recipe, date: mealPlanDate ?? Date())
     }
     
     func showPaywall() {

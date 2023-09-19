@@ -10,6 +10,8 @@ import UIKit
 
 class SelectRecipeViewModel: MainRecipeViewModel {
     
+    var selectedDate: Date = Date()
+    
     override func showSearch() {
 #if RELEASE
         if !Apphud.hasActiveSubscription() {
@@ -17,14 +19,14 @@ class SelectRecipeViewModel: MainRecipeViewModel {
             return
         }
 #endif
-        router?.goToSearchInMealPlan()
+        router?.goToSearchInMealPlan(date: selectedDate)
     }
     
     override func showSection(by index: Int) {
         guard let section = getRecipeSectionsModel(for: index) else {
             return
         }
-        router?.goToRecipeCollectionFromMealPlan(for: section)
+        router?.goToRecipeCollectionFromMealPlan(for: section, date: selectedDate)
     }
     
     override func showRecipe(by indexPath: IndexPath) {
@@ -34,7 +36,7 @@ class SelectRecipeViewModel: MainRecipeViewModel {
               let model = Recipe(from: dbRecipe) else {
             return
         }
-        router?.goToRecipeFromMealPlan(recipe: model)
+        router?.goToRecipeFromMealPlan(recipe: model, date: selectedDate)
     }
 }
 

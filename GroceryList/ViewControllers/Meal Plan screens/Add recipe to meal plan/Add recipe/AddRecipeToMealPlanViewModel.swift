@@ -18,23 +18,24 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     private var allMealPlans: [MealPlan] = []
     private let colorManager = ColorManager.shared
     private(set) var labels: [MealPlanLabel] = []
-    private var mealPlanDate = Date()
+    private(set) var mealPlanDate: Date
     private var destinationListId: UUID?
-    private var mealPlanLabel: MealPlanLabel? {
+    private var mealPlanLabel: MealPlanLabel {
         didSet { selectedLabel() }
     }
     private var isContinueSaving = false
     private var isContinueAddToCart = false
     private var ingredientsPhoto: [Data?] = []
     
-    init(recipe: Recipe) {
+    init(recipe: Recipe, mealPlanDate: Date) {
+        self.mealPlanDate = mealPlanDate
+        mealPlanLabel = MealPlanLabel(defaultLabel: .none)
+        destinationListId = UserDefaultsManager.shared.defaultDestinationListId
+        
         super.init(recipe: recipe, sectionColor: ColorManager.shared.colorMealPlan)
         
-        destinationListId = UserDefaultsManager.shared.defaultDestinationListId
-        mealPlanLabel = MealPlanLabel(defaultLabel: .none)
-        
-        setDefaultLabels()
-        getMealPlans()
+        getMealPlansFromStorage()
+        getLabelsFromStorage()
     }
     
     func getListName() -> String? {
@@ -61,10 +62,20 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
             return
         }
         
-        mealPlan = MealPlan(recipeId: recipe.id, date: date,
-                            label: mealPlanLabel ?? MealPlanLabel(defaultLabel: .none),
-                            destinationListId: destinationListId)
+        let label = mealPlanLabel
+        let newMealPlan: MealPlan
+        if var mealPlan {
+            mealPlan.date = date
+            mealPlan.label = label
+            mealPlan.destinationListId = destinationListId
+            newMealPlan = mealPlan
+        } else {
+            newMealPlan = MealPlan(recipeId: recipe.id, date: date,
+                                   label: label,
+                                   destinationListId: destinationListId)
+        }
         
+        CoreDataManager.shared.saveMealPlan(newMealPlan)
         router?.dismissAddRecipeToMealPlan()
     }
     
@@ -114,37 +125,26 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
         }
         
         destinationListId = mealPlan.destinationListId
-        mealPlanLabel = mealPlan.label
+        mealPlanLabel = mealPlan.label ?? MealPlanLabel(defaultLabel: .none)
     }
     
     private func selectedLabel() {
         for (index, label) in labels.enumerated() {
-            labels[index].isSelected = label.id == mealPlanLabel?.id
+            labels[index].isSelected = label.id == mealPlanLabel.id
         }
         updateLabels?()
     }
     
-    private func getMealPlans() {
-        let allDBRecipes = CoreDataManager.shared.getAllRecipes() ?? []
-        let recipes = allDBRecipes.compactMap { Recipe(from: $0) }
-        
-        let dates = [Date().after(dayCount: -2), Date().after(dayCount: -2),
-                     Date().after(dayCount: -2), Date().after(dayCount: -2),
-                     Date().after(dayCount: -2), Date().after(dayCount: -2), Date(),
-                     Date().after(dayCount: 3), Date().after(dayCount: 3), Date().after(dayCount: 3)]
-        
-        dates.forEach {
-            if let recipe = recipes.randomElement(),
-               let label = labels.randomElement() {
-                allMealPlans.append(MealPlan(recipeId: recipe.id, date: $0, label: label))
-            }
-        }
+    private func getMealPlansFromStorage() {
+        allMealPlans = CoreDataManager.shared.getAllMealPlans()?.map({ MealPlan(dbModel: $0) }) ?? []
     }
     
-    private func setDefaultLabels() {
-        DefaultLabel.allCases.forEach {
-            labels.append(MealPlanLabel(defaultLabel: $0))
-        }
+    private func getLabelsFromStorage() {
+        labels = CoreDataManager.shared.getAllLabels()?.map({
+            var label = MealPlanLabel(dbModel: $0)
+            label.isSelected = label.id == mealPlanLabel.id
+            return label
+        }) ?? []
     }
 }
 
