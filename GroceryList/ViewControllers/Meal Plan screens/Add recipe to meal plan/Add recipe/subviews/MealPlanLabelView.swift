@@ -135,9 +135,10 @@ class MealPlanLabelView: UIView {
             $0.bottom.equalTo(labelStackView)
         }
         
+        let stackViewHeight = labelStackView.arrangedSubviews.count * 42 - 2
         labelStackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(labelStackView.arrangedSubviews.count * 42 - 2)
+            $0.height.equalTo(stackViewHeight < 0 ? 0 : stackViewHeight)
         }
     }
 }

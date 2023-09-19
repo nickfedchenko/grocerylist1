@@ -551,6 +551,12 @@
 "Meal Plan Label"               = "Speiseplan-Etikett";
 "Not selected"                  = "Nicht ausgewählt";
 
+"DefaultLabel_none"             = "Keiner";
+"DefaultLabel_breakfast"        = "Frühstück";
+"DefaultLabel_lunch"            = "Mittagessen";
+"DefaultLabel_dinner"           = "Abendessen";
+"DefaultLabel_snack"            = "Snacks";
+
 // Updated Paywall
 "three days "                   = "3 tage ";
 "free"                          = "kostenlos";

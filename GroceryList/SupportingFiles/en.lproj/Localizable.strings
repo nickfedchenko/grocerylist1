@@ -557,6 +557,12 @@
 "Meal Plan Label"               = "Meal Plan Label";
 "Not selected"                  = "Not selected";
 
+"DefaultLabel_none"             = "None";
+"DefaultLabel_breakfast"        = "Breakfast";
+"DefaultLabel_lunch"            = "Lunch";
+"DefaultLabel_dinner"           = "Dinner";
+"DefaultLabel_snack"            = "Snacks";
+
 // Updated Paywall
 "three days "                   = "3 days ";
 "free"                          = "free";

@@ -23,6 +23,7 @@ struct MealPlan: Hashable, Codable {
         self.destinationListId = destinationListId
     }
     
+    // для пустых дат
     init(date: Date) {
         id = 0.asUUID
         recipeId = -1
@@ -30,12 +31,21 @@ struct MealPlan: Hashable, Codable {
         label = nil
         destinationListId = nil
     }
+    
+    init(dbModel: DBMealPlan) {
+        self.id = dbModel.id
+        self.recipeId = dbModel.recipeId.asInt
+        self.date = dbModel.date
+        self.label = (try? JSONDecoder().decode(MealPlanLabel.self, from: dbModel.label ?? Data()))
+        self.destinationListId = dbModel.destinationListId
+    }
 }
 
 struct MealPlanLabel: Hashable, Codable {
     let id: UUID
     let title: String
     let color: Int
+    let index: Int
     
     var isSelected = false
     
@@ -43,6 +53,14 @@ struct MealPlanLabel: Hashable, Codable {
         self.id = defaultLabel.id
         self.title = defaultLabel.title
         self.color = defaultLabel.color
+        self.index = defaultLabel.rawValue
+    }
+    
+    init(dbModel: DBLabel) {
+        self.id = dbModel.id
+        self.title = (dbModel.title ?? "").localized
+        self.color = Int(dbModel.color)
+        self.index = Int(dbModel.index)
     }
 }
 

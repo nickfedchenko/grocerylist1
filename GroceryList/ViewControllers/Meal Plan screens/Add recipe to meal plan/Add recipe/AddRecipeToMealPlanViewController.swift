@@ -133,15 +133,8 @@ class AddRecipeToMealPlanViewController: UIViewController {
     
     private func setupMealPlan() {
         mealPlanLabelView.configure(allLabels: viewModel.labels)
-        
-        guard let mealPlan = viewModel.mealPlan else {
-            return
-        }
-        backButton.isHidden = true
-        
-        calendarView.configure(date: mealPlan.date)
-        dateView.configure(date: mealPlan.date)
-        destinationListView.configure(list: viewModel.getListName())
+        dateView.configure(date: viewModel.mealPlanDate)
+        calendarView.configure(date: viewModel.mealPlanDate)
         
         calendarView.labelColors = { [weak self] date in
             self?.viewModel.getLabelColors(by: date) ?? []
@@ -153,6 +146,15 @@ class AddRecipeToMealPlanViewController: UIViewController {
                 self?.dateView.configure(date: selectedDate)
             }
         }
+        
+        guard let mealPlan = viewModel.mealPlan else {
+            return
+        }
+        backButton.isHidden = true
+        
+        dateView.configure(date: mealPlan.date)
+        calendarView.configure(date: mealPlan.date)
+        destinationListView.configure(list: viewModel.getListName())
     }
     
     @objc

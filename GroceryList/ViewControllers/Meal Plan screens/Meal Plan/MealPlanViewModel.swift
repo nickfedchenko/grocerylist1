@@ -21,6 +21,10 @@ class MealPlanViewModel {
     
     init(dataSource: MealPlanDataSource) {
         self.dataSource = dataSource
+        
+        dataSource.reloadData = { [weak self] in
+            self?.reloadData?()
+        }
     }
     
     func getMealPlanSections(by date: Date) -> [MealPlanSection] {
@@ -44,8 +48,11 @@ class MealPlanViewModel {
         return colorNumbers.map { colorManager.getLabelColor(index: $0) }
     }
     
-    func showSelectRecipeToMealPlan() {
-        router?.goToSelectRecipeToMealPlan()
+    func showSelectRecipeToMealPlan(selectedDate: Date) {
+        router?.goToSelectRecipeToMealPlan(date: selectedDate, updateUI: { [weak self] in
+            self?.dataSource.getMealPlansFromStorage()
+            self?.reloadData?()
+        })
     }
     
     func showAddRecipeToMealPlan(by index: IndexPath) {
@@ -55,6 +62,9 @@ class MealPlanViewModel {
             return
         }
         
-        router?.goToRecipeFromMealPlan(recipe: recipe, mealPlan: mealPlan)
+        router?.goToRecipeFromMealPlan(recipe: recipe, mealPlan: mealPlan, updateUI: { [weak self] in
+            self?.dataSource.getMealPlansFromStorage()
+            self?.reloadData?()
+        })
     }
 }

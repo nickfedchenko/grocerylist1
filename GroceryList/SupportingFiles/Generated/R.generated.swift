@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 485 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 490 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -618,6 +618,41 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var deepFrying: RswiftResources.StringResource { .init(key: "Deep frying", tableName: "Localizable", source: source, developmentValue: "Deep frying", comment: nil) }
+
+      /// en translation: Breakfast
+      ///
+      /// Key: DefaultLabel_breakfast
+      ///
+      /// Locales: en, ru, fr, de
+      var defaultLabel_breakfast: RswiftResources.StringResource { .init(key: "DefaultLabel_breakfast", tableName: "Localizable", source: source, developmentValue: "Breakfast", comment: nil) }
+
+      /// en translation: Dinner
+      ///
+      /// Key: DefaultLabel_dinner
+      ///
+      /// Locales: en, ru, fr, de
+      var defaultLabel_dinner: RswiftResources.StringResource { .init(key: "DefaultLabel_dinner", tableName: "Localizable", source: source, developmentValue: "Dinner", comment: nil) }
+
+      /// en translation: Lunch
+      ///
+      /// Key: DefaultLabel_lunch
+      ///
+      /// Locales: en, ru, fr, de
+      var defaultLabel_lunch: RswiftResources.StringResource { .init(key: "DefaultLabel_lunch", tableName: "Localizable", source: source, developmentValue: "Lunch", comment: nil) }
+
+      /// en translation: None
+      ///
+      /// Key: DefaultLabel_none
+      ///
+      /// Locales: en, ru, fr, de
+      var defaultLabel_none: RswiftResources.StringResource { .init(key: "DefaultLabel_none", tableName: "Localizable", source: source, developmentValue: "None", comment: nil) }
+
+      /// en translation: Snacks
+      ///
+      /// Key: DefaultLabel_snack
+      ///
+      /// Locales: en, ru, fr, de
+      var defaultLabel_snack: RswiftResources.StringResource { .init(key: "DefaultLabel_snack", tableName: "Localizable", source: source, developmentValue: "Snacks", comment: nil) }
 
       /// en translation: Delete Collection?
       ///

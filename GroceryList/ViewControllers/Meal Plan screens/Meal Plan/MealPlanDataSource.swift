@@ -14,9 +14,9 @@ class MealPlanDataSource {
         case week
     }
     
+    var reloadData: (() -> Void)?
+    
     private var mealPlan: [MealPlan] = []
-    private var labels: [MealPlanLabel] = []
-    private var dates: [Date] = []
     private var weekSection: [MealPlanSection] = []
     
     private var sortType: SortType {
@@ -26,39 +26,8 @@ class MealPlanDataSource {
     private(set) var section: [MealPlanSection] = []
     
     init() {
-        // mock
-        let allDBRecipes = CoreDataManager.shared.getAllRecipes() ?? []
-        let recipes = allDBRecipes.compactMap { Recipe(from: $0) }
-        
-        dates = [Date().after(dayCount: -2), Date().after(dayCount: -2),
-                 Date().after(dayCount: -2), Date().after(dayCount: -2), 
-                 Date().after(dayCount: -2), Date().after(dayCount: -2), Date(),
-                 Date().after(dayCount: 3), Date().after(dayCount: 3), Date().after(dayCount: 3)]
+        getMealPlansFromStorage()
         setDefaultLabels()
-        
-        dates.forEach {
-            if let recipe = recipes.randomElement(),
-               let label = labels.randomElement() {
-                mealPlan.append(MealPlan(recipeId: recipe.id, date: $0, label: label))
-            }
-        }
-        
-        DispatchQueue.main.async {
-            var section: [MealPlanSection] = []
-            let dates = Date().after(dayCount: -365).getDates(by: Date().after(dayCount: 365))
-            dates.forEach { date in
-                let type: MealPlanSectionType
-                type = date.onlyDate == date.startOfWeek.onlyDate ? .weekStart : .week
-                var mealPlansByDate = self.mealPlan.filter { $0.date.onlyDate == date.onlyDate }
-                if mealPlansByDate.isEmpty {
-                    mealPlansByDate.append(MealPlan(date: date))
-                }
-                let cellModel = self.mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate)
-                section.append(MealPlanSection(sectionType: type, date: date, mealPlans: cellModel))
-            }
-            self.weekSection = section
-        }
-        
     }
     
     func getMealPlans(by date: Date) -> [MealPlanSection] {
@@ -68,7 +37,7 @@ class MealPlanDataSource {
         }
         
         let mealPlansByDate = mealPlan.filter { $0.date.onlyDate == date.onlyDate }
-        let cellModel = mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate)
+        let cellModel = mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate, sortType: .month)
         section = [MealPlanSection(sectionType: .month, date: date, mealPlans: cellModel)]
         return section
     }
@@ -98,6 +67,29 @@ class MealPlanDataSource {
         return mealPlansByDate.compactMap { $0.label?.color }
     }
     
+    func getMealPlansFromStorage() {
+        mealPlan = CoreDataManager.shared.getAllMealPlans()?.map({ MealPlan(dbModel: $0) }) ?? []
+        
+        DispatchQueue.main.async {
+            var section: [MealPlanSection] = []
+            let dates = Date().after(dayCount: -365).getDates(by: Date().after(dayCount: 365))
+            dates.forEach { date in
+                let type: MealPlanSectionType
+                type = date.onlyDate == date.startOfWeek.onlyDate ? .weekStart : .week
+                var mealPlansByDate = self.mealPlan.filter { $0.date.onlyDate == date.onlyDate }
+                if mealPlansByDate.isEmpty {
+                    mealPlansByDate.append(MealPlan(date: date))
+                }
+                let cellModel = self.mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate, sortType: .week)
+                section.append(MealPlanSection(sectionType: type, date: date, mealPlans: cellModel))
+            }
+            self.weekSection = section
+            if self.sortType == .week {
+                self.reloadData?()
+            }
+        }
+    }
+    
     private func getMealPlan(by date: Date, for index: IndexPath) -> MealPlan? {
         let section = getMealPlans(by: date)
         return section[safe: index.section]?.mealPlans[safe: index.row]?.mealPlan
@@ -118,13 +110,13 @@ class MealPlanDataSource {
             if mealPlansByDate.isEmpty {
                 mealPlansByDate.append(MealPlan(date: date))
             }
-            let cellModel = mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate)
+            let cellModel = mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate, sortType: .week)
             section.append(MealPlanSection(sectionType: type, date: date, mealPlans: cellModel))
         }
         return section
     }
     
-    private func mapMealPlanToCellModel(date: Date, mealPlan: [MealPlan]) -> [MealPlanCellModel] {
+    private func mapMealPlanToCellModel(date: Date, mealPlan: [MealPlan], sortType: SortType) -> [MealPlanCellModel] {
         var cellModel: [MealPlanCellModel] = []
         guard sortType == .month else {
             cellModel = mealPlan.map {
@@ -146,9 +138,14 @@ class MealPlanDataSource {
     }
     
     private func setDefaultLabels() {
+        guard !UserDefaultsManager.shared.isFillingDefaultLabels else {
+            return
+        }
+        var labels: [MealPlanLabel] = []
         DefaultLabel.allCases.forEach {
             labels.append(MealPlanLabel(defaultLabel: $0))
         }
+        CoreDataManager.shared.saveLabel(labels)
     }
 }
 
@@ -165,11 +162,11 @@ enum DefaultLabel: Int, CaseIterable {
     
     var title: String {
         switch self {
-        case .none:         return "none"
-        case .breakfast:    return "breakfast"
-        case .lunch:        return "lunch"
-        case .dinner:       return "dinner"
-        case .snack:        return "snack"
+        case .none:         return "DefaultLabel_none"
+        case .breakfast:    return "DefaultLabel_breakfast"
+        case .lunch:        return "DefaultLabel_lunch"
+        case .dinner:       return "DefaultLabel_dinner"
+        case .snack:        return "DefaultLabel_snack"
         }
     }
     

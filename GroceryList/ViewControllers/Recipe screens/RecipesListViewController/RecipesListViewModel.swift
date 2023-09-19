@@ -13,6 +13,7 @@ class RecipesListViewModel {
     
     weak var router: RootRouter?
     var updatePhoto: ((UIImage) -> Void)?
+    var mealPlanDate: Date?
     
     private var section: RecipeSectionsModel
     private var colorManager = ColorManager.shared
@@ -179,7 +180,7 @@ class RecipesListViewModel {
               let recipe = Recipe(from: dbRecipe) else {
             return
         }
-        router?.goToRecipeFromMealPlan(recipe: recipe)
+        router?.goToRecipeFromMealPlan(recipe: recipe, date: mealPlanDate ?? Date())
     }
     
     func showPaywall() {

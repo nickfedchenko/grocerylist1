@@ -476,58 +476,42 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func goToSelectRecipeToMealPlan() {
-        let dataSource = MainRecipeDataSource()
-        let viewModel = SelectRecipeViewModel(dataSource: dataSource)
-        viewModel.router = self
-        let controller = SelectRecipeViewController(viewModel: viewModel)
-        let navigationController = UINavigationController(rootViewController: controller)
-        navigationController.navigationBar.isHidden = true
+    func goToSelectRecipeToMealPlan(date: Date, updateUI: (() -> Void)?) {
+        let navigationController = viewControllerFactory.createSelectRecipeToMealPlan(
+            router: self, date: date, updateUI: updateUI
+        )
         topViewController?.present(navigationController, animated: true)
     }
     
-    func goToSearchInMealPlan() {
-        let viewModel = SearchInRecipeViewModel(section: nil)
-        viewModel.router = self
-        let controller = SearchInRecipeMealPlanViewController()
-        controller.viewModel = viewModel
+    func goToSearchInMealPlan(date: Date) {
+        let controller = viewControllerFactory.createSearchInMealPlan(router: self, date: date)
         let navController = topViewController?.navigationController
         navController?.pushViewController(controller, animated: true)
     }
     
-    func goToRecipeCollectionFromMealPlan(for section: RecipeSectionsModel) {
-        let viewModel = RecipesListViewModel(with: section)
-        viewModel.router = self
-        let recipeListVC = RecipesListFromMealPlanViewController(viewModel: viewModel)
+    func goToRecipeCollectionFromMealPlan(for section: RecipeSectionsModel, date: Date) {
+        let recipeListVC = viewControllerFactory.createRecipeCollectionFromMealPlan(
+            for: section, date: date, router: self
+        )
         let navController = topViewController?.navigationController
         navController?.pushViewController(recipeListVC, animated: true)
     }
     
-    func goToRecipeFromMealPlan(recipe: Recipe) {
-        let viewModel = AddRecipeToMealPlanViewModel(recipe: recipe)
-        viewModel.router = self
-        let controller = AddRecipeToMealPlanViewController(viewModel: viewModel)
+    func goToRecipeFromMealPlan(recipe: Recipe, date: Date) {
+        let controller = viewControllerFactory.createRecipeFromMealPlan(router: self, recipe: recipe, date: date)
         let navController = topViewController?.navigationController
         navController?.pushViewController(controller, animated: true)
     }
     
-    func goToRecipeFromMealPlan(recipe: Recipe, mealPlan: MealPlan) {
-        let viewModel = AddRecipeToMealPlanViewModel(recipe: recipe)
-        viewModel.router = self
-        viewModel.mealPlan = mealPlan
-        let controller = AddRecipeToMealPlanViewController(viewModel: viewModel)
-        let navigationController = UINavigationController(rootViewController: controller)
-        navigationController.navigationBar.isHidden = true
-        topViewController?.present(navigationController, animated: true)
+    func goToRecipeFromMealPlan(recipe: Recipe, mealPlan: MealPlan, updateUI: (() -> Void)?) {
+        let controller = viewControllerFactory.createRecipeFromMealPlan(
+            router: self, recipe: recipe, mealPlan: mealPlan, updateUI: updateUI
+        )
+        topViewController?.present(controller, animated: true)
     }
     
     func goToDestinationList(delegate: DestinationListDelegate) {
-        let dataSource = SelectListDataManager()
-        let viewModel = SelectListViewModel(dataSource: dataSource)
-        viewModel.router = self
-        let controller = DestinationListViewController()
-        controller.viewModel = viewModel
-        controller.destinationListDelegate = delegate
+        let controller = viewControllerFactory.createDestinationList(router: self, delegate: delegate)
         topViewController?.present(controller, animated: true)
     }
 
@@ -782,5 +766,20 @@ final class RootRouter: RootRouterProtocol {
 class BlackNavigationController: UINavigationController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
+    }
+}
+
+
+class MealPlanNavigationController: UINavigationController {
+    
+    var dismissController: (() -> Void)?
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        dismissController?()
     }
 }

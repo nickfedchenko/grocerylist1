@@ -279,6 +279,11 @@ class UserDefaultsManager {
         }
     }
     
+    var isFillingDefaultLabels: Bool {
+        get { userDefaults.bool(forKey: "isFillingDefaultLabels") }
+        set { userDefaults.set(newValue, forKey: "isFillingDefaultLabels") }
+    }
+    
     private func setValue<T>(value: T, for key: UDKeys) {
         userDefaults.set(value, forKey: key.rawValue)
     }
