@@ -100,17 +100,17 @@ final class PantryCell: UICollectionViewCell {
     }
     
     func addDragAndDropShadow() {
-        mainContainerShadowOneView.addCustomShadow(color: UIColor(hex: "858585"), opacity: 0.3,
+        mainContainerShadowOneView.addShadow(color: UIColor(hex: "858585"), opacity: 0.3,
                                                    radius: 6, offset: CGSize(width: 0, height: 8))
-        mainContainerShadowTwoView.addCustomShadow(color: UIColor(hex: "484848"), opacity: 0.55,
+        mainContainerShadowTwoView.addShadow(color: UIColor(hex: "484848"), opacity: 0.55,
                                                    radius: 2, offset: CGSize(width: 0, height: 2))
     }
     
     func removeDragAndDropShadow() {
         DispatchQueue.main.async {
-            self.mainContainerShadowOneView.addCustomShadow(color: UIColor(hex: "858585"), opacity: 0.1,
+            self.mainContainerShadowOneView.addShadow(color: UIColor(hex: "858585"), opacity: 0.1,
                                                        radius: 6, offset: CGSize(width: 0, height: 4))
-            self.mainContainerShadowTwoView.addCustomShadow(color: UIColor(hex: "484848"), opacity: 0.15,
+            self.mainContainerShadowTwoView.addShadow(color: UIColor(hex: "484848"), opacity: 0.15,
                                                        radius: 1, offset: CGSize(width: 0, height: 0.5))
         }
     }
@@ -122,9 +122,9 @@ final class PantryCell: UICollectionViewCell {
             $0.layer.cornerCurve = .continuous
         }
         mainContainer.clipsToBounds = true
-        mainContainerShadowOneView.addCustomShadow(color: UIColor(hex: "858585"), opacity: 0.1,
+        mainContainerShadowOneView.addShadow(color: UIColor(hex: "858585"), opacity: 0.1,
                                                    radius: 6, offset: CGSize(width: 0, height: 4))
-        mainContainerShadowTwoView.addCustomShadow(color: UIColor(hex: "484848"), opacity: 0.15,
+        mainContainerShadowTwoView.addShadow(color: UIColor(hex: "484848"), opacity: 0.15,
                                                    radius: 1, offset: CGSize(width: 0, height: 0.5))
         
         topContainer.backgroundColor = .white

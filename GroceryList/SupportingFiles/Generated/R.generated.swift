@@ -76,6 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
+    /// This `_R.string.localizable` struct is generated, and contains static references to 485 localization keys.
     /// This `_R.string.localizable` struct is generated, and contains static references to 480 localization keys.
     /// This `_R.string.localizable` struct is generated, and contains static references to 479 localization keys.
     struct localizable {
@@ -626,6 +627,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var dairy: RswiftResources.StringResource { .init(key: "Dairy", tableName: "Localizable", source: source, developmentValue: "Dairy", comment: nil) }
 
+      /// en translation: Date
+      ///
+      /// Key: Date
+      ///
+      /// Locales: en, ru, fr, de
+      var date: RswiftResources.StringResource { .init(key: "Date", tableName: "Localizable", source: source, developmentValue: "Date", comment: nil) }
+
       /// en translation: Sorting by creation date
       ///
       /// Key: DateSorted
@@ -660,6 +668,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var dessert: RswiftResources.StringResource { .init(key: "Dessert", tableName: "Localizable", source: source, developmentValue: "Dessert", comment: nil) }
+
+      /// en translation: Destination List
+      ///
+      /// Key: Destination List
+      ///
+      /// Locales: en, ru, fr, de
+      var destinationList: RswiftResources.StringResource { .init(key: "Destination List", tableName: "Localizable", source: source, developmentValue: "Destination List", comment: nil) }
 
       /// en translation: Diet
       ///
@@ -1312,6 +1327,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var mealPlan: RswiftResources.StringResource { .init(key: "Meal Plan", tableName: "Localizable", source: source, developmentValue: "Meal Plan", comment: nil) }
 
+      /// en translation: Meal Plan Label
+      ///
+      /// Key: Meal Plan Label
+      ///
+      /// Locales: en, ru, fr, de
+      var mealPlanLabel: RswiftResources.StringResource { .init(key: "Meal Plan Label", tableName: "Localizable", source: source, developmentValue: "Meal Plan Label", comment: nil) }
+
       /// en translation: Month
       ///
       /// Key: Meal Plan.Month
@@ -1535,6 +1557,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var noInternet: RswiftResources.StringResource { .init(key: "NoInternet", tableName: "Localizable", source: source, developmentValue: "No internet connection", comment: nil) }
+
+      /// en translation: Not selected
+      ///
+      /// Key: Not selected
+      ///
+      /// Locales: en, ru, fr, de
+      var notSelected: RswiftResources.StringResource { .init(key: "Not selected", tableName: "Localizable", source: source, developmentValue: "Not selected", comment: nil) }
 
       /// en translation: Note
       ///
@@ -2074,6 +2103,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var selectListToSynchronize: RswiftResources.StringResource { .init(key: "Select List to Synchronize", tableName: "Localizable", source: source, developmentValue: "Select List to Synchronize", comment: nil) }
+
+      /// en translation: Select Recipe
+      ///
+      /// Key: Select Recipe
+      ///
+      /// Locales: en, ru, fr, de
+      var selectRecipe: RswiftResources.StringResource { .init(key: "Select Recipe", tableName: "Localizable", source: source, developmentValue: "Select Recipe", comment: nil) }
 
       /// en translation: Select list
       ///

@@ -17,14 +17,19 @@ class RecipeDescriptionView: UIView {
         return label
     }()
     
+    private lazy var descriptionView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 8
+        view.layer.cornerCurve = .continuous
+        view.clipsToBounds = true
+        return view
+    }()
+    
     private lazy var descriptionRecipeLabel: UILabel = {
-        let label = PaddingLabel(withInsets: 8, 8, 8, 8)
+        let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 15).font
         label.textColor = .black
-        label.backgroundColor = .white
-        label.layer.cornerRadius = 8
-        label.layer.cornerCurve = .continuous
-        label.clipsToBounds = true
         label.numberOfLines = 0
         return label
     }()
@@ -42,21 +47,44 @@ class RecipeDescriptionView: UIView {
     func configure(description: String) {
         descriptionRecipeLabel.isHidden = false
         descriptionRecipeLabel.text = description
+        
+        self.layoutIfNeeded()
+    }
+    
+    func updateTitle() {
+        descriptionTitleLabel.font = UIFont.SFProRounded.bold(size: 18).font
+        descriptionTitleLabel.textColor = R.color.darkGray()
+        
+        descriptionTitleLabel.snp.removeConstraints()
+        descriptionTitleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().offset(8)
+            $0.height.equalTo(40)
+        }
+        
+        descriptionView.snp.updateConstraints {
+            $0.top.equalTo(descriptionTitleLabel.snp.bottom).offset(0)
+        }
     }
     
     private func makeConstraints() {
-        self.addSubviews([descriptionTitleLabel, descriptionRecipeLabel])
+        self.addSubviews([descriptionTitleLabel, descriptionView])
+        descriptionView.addSubview(descriptionRecipeLabel)
         
         descriptionTitleLabel.snp.makeConstraints {
             $0.horizontalEdges.top.equalToSuperview()
             $0.height.equalTo(24)
         }
         
+        descriptionView.snp.makeConstraints {
+            $0.top.equalTo(descriptionTitleLabel.snp.bottom).offset(8)
+            $0.horizontalEdges.bottom.equalToSuperview()
+        }
+        
         descriptionRecipeLabel.setContentHuggingPriority(.init(1000), for: .vertical)
         descriptionRecipeLabel.setContentCompressionResistancePriority(.init(1000), for: .vertical)
         descriptionRecipeLabel.snp.makeConstraints {
-            $0.top.equalTo(descriptionTitleLabel.snp.bottom).offset(8)
-            $0.horizontalEdges.bottom.equalToSuperview()
+            $0.horizontalEdges.verticalEdges.equalToSuperview().inset(8)
         }
     }
 }

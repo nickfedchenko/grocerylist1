@@ -31,7 +31,7 @@ protocol RecipeScreenViewModelProtocol {
     func showPaywall()
 }
 
-final class RecipeScreenViewModel {
+class RecipeScreenViewModel {
     
     enum RecipeUnit: Int {
         case gram = 1
@@ -45,7 +45,7 @@ final class RecipeScreenViewModel {
     var updateRecipeRemove: ((Recipe) -> Void)?
     var theme: Theme
     var fromSearch = false
-    private(set) var recipe: Recipe
+    var recipe: Recipe
     private var isMetricSystem = UserDefaultsManager.shared.isMetricSystem
     private var recipeUnit: RecipeUnit?
     private var sectionColor: Theme?

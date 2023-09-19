@@ -201,11 +201,11 @@ class NameOfProductView: UIView {
             shadowView.backgroundColor = UIColor(hex: "#E5F5F3")
             shadowView.layer.cornerRadius = 16
         }
-        shadowOneView.addCustomShadow(color: UIColor(hex: "#484848"),
+        shadowOneView.addShadow(color: UIColor(hex: "#484848"),
                                       opacity: 0.15,
                                       radius: 1,
                                       offset: .init(width: 0, height: 0.5))
-        shadowTwoView.addCustomShadow(color: UIColor(hex: "#858585"),
+        shadowTwoView.addShadow(color: UIColor(hex: "#858585"),
                                       opacity: 0.1,
                                       radius: 6,
                                       offset: .init(width: 0, height: 6))

@@ -17,7 +17,7 @@ final class SelectIconViewController: UIViewController {
         view.layer.cornerRadius = 32
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         view.layer.cornerCurve = .continuous
-        view.addCustomShadow(radius: 11, offset: CGSize(width: 0, height: -12))
+        view.addShadow(radius: 11, offset: CGSize(width: 0, height: -12))
         return view
     }()
     

@@ -38,7 +38,7 @@ final class RecipeSearchView: UIView {
         whiteView.backgroundColor = .white
         whiteView.layer.cornerRadius = 8
         whiteView.layer.cornerCurve = .continuous
-        whiteView.addCustomShadow(color: UIColor(hex: "484848"),
+        whiteView.addShadow(color: UIColor(hex: "484848"),
                                   offset: .init(width: 0, height: 1))
         
         self.addSubviews([whiteView])

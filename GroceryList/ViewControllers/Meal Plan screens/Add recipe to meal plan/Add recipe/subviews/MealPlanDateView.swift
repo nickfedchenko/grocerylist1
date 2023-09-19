@@ -15,14 +15,22 @@ class MealPlanDateView: UIView {
     
     weak var delegate: MealPlanDateViewDelegate?
     
-    private let containerView = UIView()
+    private let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.setCornerRadius(8)
+        view.addShadow(color: .init(hex: "858585"), opacity: 0.1,
+                       radius: 6, offset: .init(width: 0, height: 4))
+        return view
+    }()
+    
     private let actionView = UIView()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
         label.textColor = R.color.darkGray()
-        label.text = "Date"
+        label.text =  R.string.localizable.date()
         return label
     }()
     
@@ -39,6 +47,8 @@ class MealPlanDateView: UIView {
         return imageView
     }()
     
+    private(set) var currentDate: Date = Date()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -50,20 +60,11 @@ class MealPlanDateView: UIView {
     }
     
     func configure(date: Date = Date()) {
+        currentDate = date
         dateLabel.text = date.getStringDate(format: "EE, MMM d, yyyy")
     }
     
     private func setup() {
-        containerView.layer.shadowColor = UIColor.black.cgColor
-        containerView.layer.shadowOpacity = 0.1
-        containerView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        containerView.layer.shadowRadius = 3
-        containerView.layer.masksToBounds = false
-        
-        containerView.backgroundColor = .white
-        containerView.layer.cornerRadius = 8
-        containerView.layer.cornerCurve = .continuous
-        
         let tapOnDate = UITapGestureRecognizer(target: self, action: #selector(tappedOnDate))
         actionView.addGestureRecognizer(tapOnDate)
         

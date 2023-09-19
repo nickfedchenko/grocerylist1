@@ -418,6 +418,6 @@ extension MealPlanViewController: MealPlanEmptyCellDelegate {
 
 extension MealPlanViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        viewModel.showAddRecipeToMealPlan(by: indexPath)
     }
 }

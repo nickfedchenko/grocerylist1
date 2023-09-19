@@ -340,6 +340,10 @@
 		33FCBEAE2AB3FBF100CB61C7 /* MealPlanLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBEAD2AB3FBF100CB61C7 /* MealPlanLabelView.swift */; };
 		33FCBEB02AB3FC0300CB61C7 /* MealPlanDestinationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBEAF2AB3FC0300CB61C7 /* MealPlanDestinationListView.swift */; };
 		33FCBEB22AB45A7300CB61C7 /* AddRecipeToMealPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBEB12AB45A7300CB61C7 /* AddRecipeToMealPlanViewModel.swift */; };
+		33FCBEB42AB836BA00CB61C7 /* MealPlanIngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBEB32AB836BA00CB61C7 /* MealPlanIngredientsView.swift */; };
+		33FCBEB62AB87DDB00CB61C7 /* MealPlanUpdateDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBEB52AB87DDB00CB61C7 /* MealPlanUpdateDateView.swift */; };
+		33FCBEB92AB913CB00CB61C7 /* DestinationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBEB82AB913CB00CB61C7 /* DestinationListViewController.swift */; };
+		33FCBEBC2AB9656B00CB61C7 /* MealPlanLabelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBEBB2AB9656B00CB61C7 /* MealPlanLabelsViewController.swift */; };
 		383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */; };
 		383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */; };
 		383C77F3293F799E0030AE78 /* RecipesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77F2293F799E0030AE78 /* RecipesListViewController.swift */; };
@@ -788,6 +792,10 @@
 		33FCBEAD2AB3FBF100CB61C7 /* MealPlanLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanLabelView.swift; sourceTree = "<group>"; };
 		33FCBEAF2AB3FC0300CB61C7 /* MealPlanDestinationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanDestinationListView.swift; sourceTree = "<group>"; };
 		33FCBEB12AB45A7300CB61C7 /* AddRecipeToMealPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecipeToMealPlanViewModel.swift; sourceTree = "<group>"; };
+		33FCBEB32AB836BA00CB61C7 /* MealPlanIngredientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanIngredientsView.swift; sourceTree = "<group>"; };
+		33FCBEB52AB87DDB00CB61C7 /* MealPlanUpdateDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanUpdateDateView.swift; sourceTree = "<group>"; };
+		33FCBEB82AB913CB00CB61C7 /* DestinationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationListViewController.swift; sourceTree = "<group>"; };
+		33FCBEBB2AB9656B00CB61C7 /* MealPlanLabelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanLabelsViewController.swift; sourceTree = "<group>"; };
 		383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipePreviewCell.swift; sourceTree = "<group>"; };
 		383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipesFolderHeader.swift; sourceTree = "<group>"; };
 		383C77F2293F799E0030AE78 /* RecipesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesListViewController.swift; sourceTree = "<group>"; };
@@ -1578,6 +1586,7 @@
 				33B3065D2A8C7F2200F87659 /* Parent Meal Plan  */,
 				33B3065A2A8C7E5700F87659 /* Meal Plan */,
 				33FCBE9C2AB2AD7700CB61C7 /* Add recipe to meal plan */,
+				33FCBEBA2AB9654A00CB61C7 /* Meal Plan Labels */,
 			);
 			path = "Meal Plan screens";
 			sourceTree = "<group>";
@@ -1800,9 +1809,8 @@
 				33FCBE9D2AB2ADC900CB61C7 /* SelectRecipeViewController.swift */,
 				33FCBE9F2AB2DBA600CB61C7 /* SearchInRecipeMealPlanViewController.swift */,
 				33FCBEA12AB2F1DB00CB61C7 /* RecipesListFromMealPlanViewController.swift */,
-				33FCBEA32AB3200200CB61C7 /* AddRecipeToMealPlanViewController.swift */,
-				33FCBEB12AB45A7300CB61C7 /* AddRecipeToMealPlanViewModel.swift */,
-				33FCBEA52AB3469A00CB61C7 /* subviews */,
+				33FCBEB82AB913CB00CB61C7 /* DestinationListViewController.swift */,
+				33FCBEB72AB9139A00CB61C7 /* Add recipe */,
 			);
 			path = "Add recipe to meal plan";
 			sourceTree = "<group>";
@@ -1812,10 +1820,30 @@
 			children = (
 				33FCBEA92AB3F2DF00CB61C7 /* MealPlanRecipeView.swift */,
 				33FCBEAB2AB3FBE200CB61C7 /* MealPlanDateView.swift */,
+				33FCBEB52AB87DDB00CB61C7 /* MealPlanUpdateDateView.swift */,
 				33FCBEAD2AB3FBF100CB61C7 /* MealPlanLabelView.swift */,
 				33FCBEAF2AB3FC0300CB61C7 /* MealPlanDestinationListView.swift */,
+				33FCBEB32AB836BA00CB61C7 /* MealPlanIngredientsView.swift */,
 			);
 			path = subviews;
+			sourceTree = "<group>";
+		};
+		33FCBEB72AB9139A00CB61C7 /* Add recipe */ = {
+			isa = PBXGroup;
+			children = (
+				33FCBEB12AB45A7300CB61C7 /* AddRecipeToMealPlanViewModel.swift */,
+				33FCBEA32AB3200200CB61C7 /* AddRecipeToMealPlanViewController.swift */,
+				33FCBEA52AB3469A00CB61C7 /* subviews */,
+			);
+			path = "Add recipe";
+			sourceTree = "<group>";
+		};
+		33FCBEBA2AB9654A00CB61C7 /* Meal Plan Labels */ = {
+			isa = PBXGroup;
+			children = (
+				33FCBEBB2AB9656B00CB61C7 /* MealPlanLabelsViewController.swift */,
+			);
+			path = "Meal Plan Labels";
 			sourceTree = "<group>";
 		};
 		383C77F4293F79D60030AE78 /* RecipesListViewController */ = {
@@ -3036,12 +3064,14 @@
 				334BAE5B299E734A005F52F5 /* SendInvitationCell.swift in Sources */,
 				339FF3792A650DC300C6D6E3 /* FeatureFreePremiumView.swift in Sources */,
 				33D912BE29A342AA00C32117 /* NumberExtensions.swift in Sources */,
+				33FCBEB42AB836BA00CB61C7 /* MealPlanIngredientsView.swift in Sources */,
 				3320531E2A0E6CAB00E19EA8 /* DictionaryExtension.swift in Sources */,
 				335519C729AF1AE600AD2B77 /* CreateNewRecipeStepOneViewController.swift in Sources */,
 				B381EF1A299A08ED00DCDE40 /* SettingsProfileView.swift in Sources */,
 				33C6F0DD2A4309C800E71023 /* RecipeListPhotoView.swift in Sources */,
 				334009F129E9956800A04978 /* QuantityOfProductView.swift in Sources */,
 				B3F7C9BA2994BF830081B245 /* SignUpViewForTyping.swift in Sources */,
+				33FCBEB62AB87DDB00CB61C7 /* MealPlanUpdateDateView.swift in Sources */,
 				33C8DB8529DFCE95009F4760 /* EditTabBarView.swift in Sources */,
 				383C77F3293F799E0030AE78 /* RecipesListViewController.swift in Sources */,
 				33B3065F2A8C7F5E00F87659 /* ParentMealPlanRecipeViewController.swift in Sources */,
@@ -3117,7 +3147,9 @@
 				3370EFC52A83D0DD00885C30 /* OnboardingContentView.swift in Sources */,
 				338EB6B429C1BACC00D6A03F /* SearchInRecipeViewController.swift in Sources */,
 				33AF97AF2A7A9EC200716104 /* NutritionFacts.swift in Sources */,
+				33FCBEBC2AB9656B00CB61C7 /* MealPlanLabelsViewController.swift in Sources */,
 				335519C229ACC00F00AD2B77 /* ProductImageView.swift in Sources */,
+				33FCBEB92AB913CB00CB61C7 /* DestinationListViewController.swift in Sources */,
 				33C6F0D72A41445600E71023 /* FolderRecipePreviewCell.swift in Sources */,
 				334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */,
 				33C6F0D92A42DE0000E71023 /* RecipesListViewModel.swift in Sources */,

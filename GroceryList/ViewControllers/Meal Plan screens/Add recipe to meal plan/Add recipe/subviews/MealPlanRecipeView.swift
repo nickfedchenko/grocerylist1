@@ -9,12 +9,18 @@ import UIKit
 
 class MealPlanRecipeView: UIView {
 
-    private let containerView = UIView()
+    private let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.setCornerRadius(8)
+        view.addShadow(color: .init(hex: "858585"), opacity: 0.15,
+                             radius: 6, offset: .init(width: 0, height: 4))
+        return view
+    }()
     
     private let mainImage: UIImageView = {
         let image = UIImageView()
-        image.layer.cornerRadius = 7
-        image.layer.cornerCurve = .continuous
+        image.setCornerRadius(7)
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
         image.backgroundColor = .white
@@ -52,19 +58,8 @@ class MealPlanRecipeView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        containerView.layer.shadowColor = UIColor.black.cgColor
-        containerView.layer.shadowOpacity = 0.1
-        containerView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        containerView.layer.shadowRadius = 3
-        containerView.layer.masksToBounds = false
-        
-        containerView.backgroundColor = .white
-        containerView.layer.cornerRadius = 8
-        containerView.layer.cornerCurve = .continuous
-
         [timeBadgeView, kcalBadgeView].forEach {
-            $0.layer.cornerRadius = 4
-            $0.layer.cornerCurve = .continuous
+            $0.setCornerRadius(4)
         }
         
         setupSubviews()

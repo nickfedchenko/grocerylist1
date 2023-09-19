@@ -24,7 +24,7 @@ enum EditListState {
     }
 }
 
-final class EditSelectListViewController: SelectListViewController {
+class EditSelectListViewController: SelectListViewController {
     weak var delegate: EditSelectListDelegate?
     var productsToAdd: [Product]
     var state: EditListState

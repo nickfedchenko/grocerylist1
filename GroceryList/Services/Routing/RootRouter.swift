@@ -503,12 +503,45 @@ final class RootRouter: RootRouterProtocol {
         navController?.pushViewController(recipeListVC, animated: true)
     }
     
-    func goToRecipeFromMealPlan(recipe: Recipe, mealPlan: MealPlan? = nil) {
+    func goToRecipeFromMealPlan(recipe: Recipe) {
         let viewModel = AddRecipeToMealPlanViewModel(recipe: recipe)
         viewModel.router = self
         let controller = AddRecipeToMealPlanViewController(viewModel: viewModel)
         let navController = topViewController?.navigationController
         navController?.pushViewController(controller, animated: true)
+    }
+    
+    func goToRecipeFromMealPlan(recipe: Recipe, mealPlan: MealPlan) {
+        let viewModel = AddRecipeToMealPlanViewModel(recipe: recipe)
+        viewModel.router = self
+        viewModel.mealPlan = mealPlan
+        let controller = AddRecipeToMealPlanViewController(viewModel: viewModel)
+        let navigationController = UINavigationController(rootViewController: controller)
+        navigationController.navigationBar.isHidden = true
+        topViewController?.present(navigationController, animated: true)
+    }
+    
+    func goToDestinationList(delegate: DestinationListDelegate) {
+        let dataSource = SelectListDataManager()
+        let viewModel = SelectListViewModel(dataSource: dataSource)
+        viewModel.router = self
+        let controller = DestinationListViewController()
+        controller.viewModel = viewModel
+        controller.destinationListDelegate = delegate
+        topViewController?.present(controller, animated: true)
+    }
+
+    func goToMealPlanLabels() {
+//        let viewModel = SelectListViewModel(dataSource: dataSource)
+//        viewModel.router = self
+        let controller = MealPlanLabelsViewController()
+//        controller.viewModel = viewModel
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func dismissAddRecipeToMealPlan() {
+        let navController = topViewController?.navigationController
+        navController?.dismiss(animated: true)
     }
     
     // алерты / активити и принтер

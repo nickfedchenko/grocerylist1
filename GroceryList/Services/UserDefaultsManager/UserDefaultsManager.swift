@@ -11,6 +11,7 @@ class UserDefaultsManager {
     
     enum UDKeys: String {
         case favoriteRecipes
+        case destinationListId
     }
     
     static let shared = UserDefaultsManager()
@@ -261,6 +262,21 @@ class UserDefaultsManager {
     var selectedMonthOrWeek: Int {
         get { userDefaults.integer(forKey: "selectedMonthOrWeek") }
         set { userDefaults.set(newValue, forKey: "selectedMonthOrWeek") }
+    }
+    
+    var defaultDestinationListId: UUID? {
+        get {
+            guard let data: Data = getValue(for: .destinationListId),
+                    let ids = try? JSONDecoder().decode(UUID.self, from: data) else {
+                return nil
+            }
+            return ids
+        }
+        set {
+            if let data = try? JSONEncoder().encode(newValue) {
+                setValue(value: data, for: .destinationListId)
+            }
+        }
     }
     
     private func setValue<T>(value: T, for key: UDKeys) {

@@ -119,7 +119,7 @@ class SegmentView: UIView {
         view.backgroundColor = .white
         view.layer.cornerRadius = 8
         view.layer.cornerCurve = .continuous
-        view.addCustomShadow(color: UIColor(hex: "858585"), opacity: 0.1, radius: 6, offset: CGSize(width: 0, height: 4))
+        view.addShadow(color: UIColor(hex: "858585"), opacity: 0.1, radius: 6, offset: CGSize(width: 0, height: 4))
         return view
     }()
     
@@ -127,7 +127,7 @@ class SegmentView: UIView {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.layer.cornerCurve = .continuous
-        view.addCustomShadow(color: UIColor(hex: "484848"), opacity: 0.15, radius: 1, offset: CGSize(width: 0, height: 0.5))
+        view.addShadow(color: UIColor(hex: "484848"), opacity: 0.15, radius: 1, offset: CGSize(width: 0, height: 0.5))
         return view
     }()
     

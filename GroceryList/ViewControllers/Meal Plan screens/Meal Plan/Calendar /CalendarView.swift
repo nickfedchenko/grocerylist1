@@ -87,8 +87,12 @@ final class CalendarView: UIView {
     }
     
     func setToday() {
-        selectedDate = Date()
-        calendar.select(Date())
+        setDate(Date())
+    }
+    
+    func setDate(_ date: Date) {
+        selectedDate = date
+        calendar.select(date)
         calendar.reloadData()
     }
     
