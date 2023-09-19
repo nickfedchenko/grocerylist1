@@ -22,7 +22,7 @@ class RecipeFilterCell: PredictiveTextCell {
         super.setup()
         self.contentView.backgroundColor = .white
         self.layer.borderWidth = 1
-        self.addCustomShadow(color: UIColor(hex: "484848"), radius: 1.5, offset: .init(width: 0, height: 0.8))
+        self.addShadow(color: UIColor(hex: "484848"), radius: 1.5, offset: .init(width: 0, height: 0.8))
     }
     
     override func tappedOnView() {

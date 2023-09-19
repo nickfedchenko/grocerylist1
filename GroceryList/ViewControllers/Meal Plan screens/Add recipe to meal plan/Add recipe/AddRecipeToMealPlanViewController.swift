@@ -63,9 +63,11 @@ class AddRecipeToMealPlanViewController: UIViewController {
     private let dateView = MealPlanDateView()
     private let mealPlanLabelView = MealPlanLabelView()
     private let destinationListView = MealPlanDestinationListView()
-    private let ingredientsView = RecipeIngredientsView()
+    private let ingredientsView = MealPlanIngredientsView()
     private let descriptionView = RecipeDescriptionView()
     private let instructionsView = RecipeInstructionsView()
+    
+    private let calendarView = MealPlanUpdateDateView()
     
     init(viewModel: AddRecipeToMealPlanViewModel) {
         self.viewModel = viewModel
@@ -78,47 +80,55 @@ class AddRecipeToMealPlanViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = R.color.background()
-        grabberBackgroundView.backgroundColor = viewModel.theme.light.withAlphaComponent(0.95)
+        setup()
+        makeConstraints()
         
         setupRecipe()
         setupMealPlan()
-        makeConstraints()
+    }
+    
+    private func setup() {
+        self.view.backgroundColor = R.color.background()
+        grabberBackgroundView.backgroundColor = viewModel.theme.light.withAlphaComponent(0.95)
+        
+        dateView.delegate = self
+        mealPlanLabelView.delegate = self
+        destinationListView.delegate = self
+        ingredientsView.delegate = self
+        
+        calendarView.fadeOut()
+        
+        viewModel.updateDestinationList = { [weak self] in
+            self?.destinationListView.configure(list: self?.viewModel.getListName())
+        }
+        
+        viewModel.updateLabels = { [weak self] in
+            self?.mealPlanLabelView.updateLabels(allLabels: self?.viewModel.labels ?? [])
+        }
     }
     
     private func setupRecipe() {
         let recipe = viewModel.recipe
+        let theme = viewModel.theme
         recipeView.configure(with: recipe)
-        recipeView.configureColor(theme: viewModel.theme)
+        recipeView.configureColor(theme: theme)
         
         if !recipe.description.isEmpty {
             descriptionView.configure(description: recipe.description)
+            descriptionView.updateTitle()
         } else {
             descriptionView.snp.remakeConstraints {
                 $0.top.equalTo(ingredientsView.snp.bottom).offset(0)
                 $0.height.equalTo(0)
             }
+            descriptionView.isHidden = true
         }
+        
+        ingredientsView.setupIngredients(recipe: recipe)
+        ingredientsView.setupColor(theme: theme)
         
         instructionsView.setupInstructions(instructions: recipe.instructions ?? [])
-        setupIngredients(recipe: recipe)
-    }
-    
-    private func setupIngredients(recipe: Recipe) {
-        ingredientsView.setupServings(servings: 0)
-        
-        ingredientsView.ingredientsStack.removeAllArrangedSubviews()
-
-        for ingredient in recipe.ingredients {
-            let title = ingredient.product.title.firstCharacterUpperCase()
-            let quantity = ingredient.quantity
-            let unitTitle = ingredient.unit?.shortTitle ?? ""
-            let view = IngredientView()
-            view.setTitle(title: title)
-            view.setServing(serving: quantity <= 0 ? R.string.localizable.byTaste()
-                            : quantity.asString + " " + unitTitle)
-            ingredientsView.ingredientsStack.addArrangedSubview(view)
-        }
+        instructionsView.updateViewsConstraints()
     }
     
     private func setupMealPlan() {
@@ -127,9 +137,22 @@ class AddRecipeToMealPlanViewController: UIViewController {
         guard let mealPlan = viewModel.mealPlan else {
             return
         }
+        backButton.isHidden = true
         
+        calendarView.configure(date: mealPlan.date)
         dateView.configure(date: mealPlan.date)
         destinationListView.configure(list: viewModel.getListName())
+        
+        calendarView.labelColors = { [weak self] date in
+            self?.viewModel.getLabelColors(by: date) ?? []
+        }
+        
+        calendarView.selectDate = { [weak self] selectedDate in
+            self?.calendarView.fadeOut()
+            if let selectedDate {
+                self?.dateView.configure(date: selectedDate)
+            }
+        }
     }
     
     @objc
@@ -139,7 +162,7 @@ class AddRecipeToMealPlanViewController: UIViewController {
     
     @objc
     private func tappedDoneButton() {
-//        self.
+        viewModel.saveMealPlan(date: dateView.currentDate)
     }
     
     private func makeConstraints() {
@@ -147,6 +170,7 @@ class AddRecipeToMealPlanViewController: UIViewController {
         self.scrollView.addSubview(contentView)
         contentView.addSubviews([recipeView, dateView, mealPlanLabelView, destinationListView,
                                  ingredientsView, descriptionView, instructionsView])
+        self.view.addSubviews([calendarView])
         
         navigationMakeConstraints()
 
@@ -174,7 +198,7 @@ class AddRecipeToMealPlanViewController: UIViewController {
         
         mealPlanLabelView.snp.makeConstraints {
             $0.top.equalTo(dateView.snp.bottom).offset(16)
-            $0.height.greaterThanOrEqualTo(96)
+            $0.height.greaterThanOrEqualTo(viewModel.labels.count * 42 + 38)
             $0.leading.trailing.equalTo(recipeView)
         }
         
@@ -182,6 +206,10 @@ class AddRecipeToMealPlanViewController: UIViewController {
             $0.top.equalTo(mealPlanLabelView.snp.bottom).offset(16)
             $0.height.equalTo(96)
             $0.leading.trailing.equalTo(recipeView)
+        }
+        
+        calendarView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
         infoRecipeMakeConstraints()
@@ -231,9 +259,50 @@ class AddRecipeToMealPlanViewController: UIViewController {
         }
         
         instructionsView.snp.makeConstraints {
-            $0.top.equalTo(descriptionView.snp.bottom).offset(24)
+            $0.top.equalTo(descriptionView.snp.bottom).offset(16)
             $0.leading.trailing.equalTo(recipeView)
             $0.bottom.equalToSuperview()
         }
+    }
+}
+
+extension AddRecipeToMealPlanViewController: MealPlanDateViewDelegate {
+    func selectDate() {
+        calendarView.fadeIn()
+    }
+}
+
+extension AddRecipeToMealPlanViewController: MealPlanLabelViewDelegate {
+    func tapMenuLabel() {
+        viewModel.showLabels()
+    }
+    
+    func tapLabel(index: Int) {
+        viewModel.selectLabel(index: index)
+    }
+}
+
+extension AddRecipeToMealPlanViewController: MealPlanDestinationListViewDelegate {
+    func selectList() {
+        viewModel.showDestinationLabel()
+    }
+}
+
+extension AddRecipeToMealPlanViewController: MealPlanIngredientsViewDelegate {
+    func unit(unitID: Int?) -> UnitSystem? {
+        viewModel.unit(unitID: unitID)
+    }
+    
+    func convertValue() -> Double {
+        viewModel.convertValue()
+    }
+    
+    func servingChangedTo(count: Double) {
+        let servings = viewModel.getIngredientsSizeAccordingToServings(servings: count)
+        ingredientsView.updateIngredientsCount(by: servings)
+    }
+    
+    func addToCartButton() {
+        viewModel.addToCart(photo: ingredientsView.photos)
     }
 }

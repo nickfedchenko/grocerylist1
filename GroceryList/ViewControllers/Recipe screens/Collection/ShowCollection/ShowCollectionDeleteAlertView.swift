@@ -65,7 +65,7 @@ final class ShowCollectionDeleteAlertView: UIView {
     private func setup() {
         self.layer.cornerRadius = 14
         self.backgroundColor = UIColor(hex: "F3FFFE")
-        self.addCustomShadow(opacity: 0.13, radius: 11, offset: CGSize(width: 0, height: 8))
+        self.addShadow(opacity: 0.13, radius: 11, offset: CGSize(width: 0, height: 8))
         
         makeConstraints()
     }

@@ -551,6 +551,12 @@
 "Meal Plan.Week"                = "Week";
 "No entires"                    = "No entries";
 
+"Select Recipe"                 = "Select Recipe";
+"Destination List"              = "Destination List";
+"Date"                          = "Date";
+"Meal Plan Label"               = "Meal Plan Label";
+"Not selected"                  = "Not selected";
+
 // Updated Paywall
 "three days "                   = "3 days ";
 "free"                          = "free";

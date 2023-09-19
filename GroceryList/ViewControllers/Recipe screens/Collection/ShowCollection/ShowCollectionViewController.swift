@@ -21,7 +21,7 @@ final class ShowCollectionViewController: UIViewController {
         let view = UIView()
         view.layer.cornerRadius = 20
         view.backgroundColor = UIColor(hex: "#E5F5F3")
-        view.addCustomShadow(opacity: 0.15, radius: 11, offset: CGSize(width: 0, height: -12))
+        view.addShadow(opacity: 0.15, radius: 11, offset: CGSize(width: 0, height: -12))
         return view
     }()
     

@@ -89,7 +89,7 @@ final class AddListView: UIView {
         self.backgroundColor = .white
         self.layer.borderColor = UIColor(hex: "#EBFEFE").cgColor
         self.layer.borderWidth = 2
-        self.addCustomShadow(color: UIColor(hex: "#484848"), offset: CGSize(width: 0, height: 0.5))
+        self.addShadow(color: UIColor(hex: "#484848"), offset: CGSize(width: 0, height: 0.5))
         
         makeConstraints()
     }

@@ -9,6 +9,7 @@ import UIKit
 
 protocol MealPlanLabelViewDelegate: AnyObject {
     func tapMenuLabel()
+    func tapLabel(index: Int)
 }
 
 class MealPlanLabelView: UIView {
@@ -19,15 +20,15 @@ class MealPlanLabelView: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.SFPro.medium(size: 16).font
+        label.font = UIFont.SFProRounded.bold(size: 18).font
         label.textColor = R.color.darkGray()
-        label.text = "Meal Plan Label"
+        label.text = R.string.localizable.mealPlanLabel()
         return label
     }()
     
     private lazy var menuButton: UIButton = {
         let button = UIButton()
-        button.setImage(R.image.contextMenu(), for: .normal)
+        button.setImage(R.image.recipe_menu(), for: .normal)
         button.addTarget(self, action: #selector(tappedOnMenuButton), for: .touchUpInside)
         return button
     }()
@@ -35,22 +36,17 @@ class MealPlanLabelView: UIView {
     private lazy var labelBackgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = R.color.primaryLight()
-        view.layer.cornerRadius = 8
-        view.layer.cornerCurve = .continuous
+        view.setCornerRadius(8)
+        view.layer.masksToBounds = true
         return view
     }()
     
     private lazy var labelShadowView: UIView = {
         let view = UIView()
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.1
-        view.layer.shadowOffset = CGSize(width: 0, height: 0)
-        view.layer.shadowRadius = 3
-        view.layer.masksToBounds = false
-        
         view.backgroundColor = .white
-        view.layer.cornerRadius = 8
-        view.layer.cornerCurve = .continuous
+        view.setCornerRadius(8)
+        view.addShadow(color: .init(hex: "858585"), opacity: 0.1,
+                       radius: 6, offset: .init(width: 0, height: 4))
         return view
     }()
     
@@ -61,7 +57,7 @@ class MealPlanLabelView: UIView {
         stackView.alignment = .fill
         stackView.spacing = 1
         
-        stackView.layer.cornerRadius = 8
+        stackView.setCornerRadius(8)
         return stackView
     }()
     
@@ -77,14 +73,25 @@ class MealPlanLabelView: UIView {
     func configure(allLabels: [MealPlanLabel]) {
         labelStackView.removeAllArrangedSubviews()
         
-        allLabels.forEach { label in
+        allLabels.enumerated().forEach { index, label in
             let view = LabelView()
+            view.tag = index
             view.configure(label)
             view.isSelected = label.isSelected
-            view.selectedView = { _ in
-                
+            view.selectedView = { [weak self] view in
+                self?.delegate?.tapLabel(index: view.tag)
             }
             labelStackView.addArrangedSubview(view)
+        }
+        
+        labelStackView.snp.updateConstraints {
+            $0.height.equalTo(labelStackView.arrangedSubviews.count * 42 - 2)
+        }
+    }
+    
+    func updateLabels(allLabels: [MealPlanLabel]) {
+        labelStackView.arrangedSubviews.enumerated().forEach { index, view in
+            (view as? LabelView)?.isSelected = allLabels[index].isSelected
         }
     }
     
@@ -115,20 +122,22 @@ class MealPlanLabelView: UIView {
         menuButton.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.trailing.equalToSuperview()
-            $0.trailing.verticalEdges.equalToSuperview()
+            $0.width.height.equalTo(40)
         }
 
         labelShadowView.snp.makeConstraints {
-            $0.edges.equalTo(labelShadowView)
+            $0.edges.equalTo(labelBackgroundView)
         }
         
         labelBackgroundView.snp.makeConstraints {
-            $0.edges.equalTo(labelStackView)
+            $0.top.equalTo(menuButton.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(labelStackView)
         }
         
         labelStackView.snp.makeConstraints {
-            $0.top.equalTo(menuButton.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.edges.equalToSuperview()
+            $0.height.equalTo(labelStackView.arrangedSubviews.count * 42 - 2)
         }
     }
 }
@@ -146,7 +155,7 @@ class LabelView: UIView {
     
     let checkmarkImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = R.image.checkmark()
+        imageView.image = R.image.autorepeat_checkmark()?.withTintColor(R.color.primaryDark() ?? .black)
         return imageView
     }()
     
@@ -180,6 +189,10 @@ class LabelView: UIView {
     private func makeConstraints() {
         self.addSubviews([titleLabel, checkmarkImageView])
         
+        self.snp.makeConstraints {
+            $0.height.equalTo(40)
+        }
+        
         titleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().offset(16)
@@ -187,7 +200,7 @@ class LabelView: UIView {
 
         checkmarkImageView.snp.makeConstraints {
             $0.verticalEdges.trailing.equalToSuperview()
-            $0.height.equalTo(40)
+            $0.height.width.equalTo(40)
         }
     }
 }

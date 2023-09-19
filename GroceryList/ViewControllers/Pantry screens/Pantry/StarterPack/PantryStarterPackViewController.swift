@@ -15,7 +15,7 @@ final class PantryStarterPackViewController: UIViewController {
         view.layer.cornerRadius = 32
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         view.layer.cornerCurve = .continuous
-        view.addCustomShadow(radius: 11, offset: CGSize(width: 0, height: -12))
+        view.addShadow(radius: 11, offset: CGSize(width: 0, height: -12))
         return view
     }()
     
@@ -64,7 +64,7 @@ final class PantryStarterPackViewController: UIViewController {
         button.layer.borderColor = R.color.action()?.cgColor
         button.layer.borderWidth = 1
         button.addTarget(self, action: #selector(tappedExcellentButton), for: .touchUpInside)
-        button.addCustomShadow(color: UIColor(hex: "03694A"), opacity: 0.35,
+        button.addShadow(color: UIColor(hex: "03694A"), opacity: 0.35,
                                radius: 0.5, offset: CGSize(width: 0, height: 1))
         return button
     }()
@@ -74,7 +74,7 @@ final class PantryStarterPackViewController: UIViewController {
         view.backgroundColor = R.color.primaryDark()
         view.layer.cornerRadius = 16
         view.layer.cornerCurve = .continuous
-        view.addCustomShadow(color: UIColor(hex: "005138"), opacity: 0.45,
+        view.addShadow(color: UIColor(hex: "005138"), opacity: 0.45,
                              radius: 6, offset: CGSize(width: 0, height: 3))
         return view
     }()
@@ -84,7 +84,7 @@ final class PantryStarterPackViewController: UIViewController {
         view.backgroundColor = R.color.primaryDark()
         view.layer.cornerRadius = 16
         view.layer.cornerCurve = .continuous
-        view.addCustomShadow(color: UIColor(hex: "03694A"), opacity: 0.4,
+        view.addShadow(color: UIColor(hex: "03694A"), opacity: 0.4,
                              radius: 20, offset: CGSize(width: 0, height: 8))
         return view
     }()

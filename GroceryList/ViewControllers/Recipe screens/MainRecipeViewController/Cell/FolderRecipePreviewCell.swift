@@ -93,7 +93,7 @@ final class FolderRecipePreviewCell: UICollectionViewCell {
         layer.cornerCurve = .continuous
         contentView.layer.cornerRadius = 12
         contentView.layer.cornerCurve = .continuous
-        contentView.addCustomShadow(color: UIColor(hex: "484848"),
+        contentView.addShadow(color: UIColor(hex: "484848"),
                                     offset: .init(width: 0, height: 1))
         contentView.backgroundColor = .white
         topWhiteView.backgroundColor = .white

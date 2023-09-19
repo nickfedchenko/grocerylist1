@@ -21,7 +21,7 @@ class MealPlanDestinationListView: UIView {
         let label = UILabel()
         label.font = UIFont.SFProRounded.bold(size: 18).font
         label.textColor = R.color.darkGray()
-        label.text = "Destination List"
+        label.text = R.string.localizable.destinationList()
         return label
     }()
     
@@ -29,27 +29,18 @@ class MealPlanDestinationListView: UIView {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
         label.textColor = R.color.darkGray()
-        label.text = "Not selected"
+        label.text = R.string.localizable.notSelected()
         return label
     }()
     
-    private let listImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = R.image.mealplan_tabbar_inactive()
-        return imageView
-    }()
+    private let listImageView = UIImageView(image: R.image.list_tabbar_inactive())
     
     private lazy var listView: UIView = {
         let view = UIView()
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.1
-        view.layer.shadowOffset = CGSize(width: 0, height: 0)
-        view.layer.shadowRadius = 3
-        view.layer.masksToBounds = false
-        
         view.backgroundColor = .white
-        view.layer.cornerRadius = 8
-        view.layer.cornerCurve = .continuous
+        view.setCornerRadius(8)
+        view.addShadow(color: .init(hex: "858585"), opacity: 0.1,
+                       radius: 6, offset: .init(width: 0, height: 4))
         return view
     }()
     

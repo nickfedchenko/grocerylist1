@@ -60,6 +60,10 @@ class IngredientView: UIView {
         imageView.image?.pngData()
     }
     
+    var servingTextColor: UIColor = .black {
+        didSet { servingLabel.textColor = servingTextColor }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupAppearance()
@@ -93,9 +97,9 @@ class IngredientView: UIView {
             $0.layer.cornerRadius = 8
             $0.layer.cornerCurve = .continuous
         }
-        shadowOneView.addCustomShadow(color: UIColor(hex: "858585"), opacity: 0.1,
+        shadowOneView.addShadow(color: UIColor(hex: "858585"), opacity: 0.1,
                                       radius: 6, offset: CGSize(width: 0, height: 4))
-        shadowTwoView.addCustomShadow(color: UIColor(hex: "484848"), opacity: 0.15,
+        shadowTwoView.addShadow(color: UIColor(hex: "484848"), opacity: 0.15,
                                       radius: 1, offset: CGSize(width: 0, height: 0.5))
     }
     

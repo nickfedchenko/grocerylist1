@@ -20,7 +20,7 @@ class ProductListCell: UICollectionViewListCell {
         let view = ViewWithOverriddenPoint()
         view.backgroundColor = .white
         view.layer.cornerRadius = 8
-        view.addCustomShadow(color: UIColor(hex: "#858585"), radius: 6, offset: CGSize(width: 0, height: 4))
+        view.addShadow(color: UIColor(hex: "#858585"), radius: 6, offset: CGSize(width: 0, height: 4))
         return view
     }()
     
@@ -112,7 +112,7 @@ class ProductListCell: UICollectionViewListCell {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 8
-        view.addCustomShadow(color: UIColor(hex: "#484848"), radius: 1, offset: CGSize(width: 0, height: 0.5))
+        view.addShadow(color: UIColor(hex: "#484848"), radius: 1, offset: CGSize(width: 0, height: 0.5))
         return view
     }()
     

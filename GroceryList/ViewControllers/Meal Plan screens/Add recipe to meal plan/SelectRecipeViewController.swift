@@ -62,7 +62,7 @@ class SelectRecipeViewController: MainRecipeViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Select Recipe"
+        label.text = R.string.localizable.selectRecipe()
         label.font = UIFont.SFPro.bold(size: 16).font
         label.textColor = R.color.darkGray()
         return label

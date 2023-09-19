@@ -112,8 +112,8 @@ final class QuantityOfProductView: CreateNewProductButtonView {
         minusButton.layer.borderColor = tintColor.cgColor
         plusButton.layer.borderColor = tintColor.cgColor
         
-        minusButton.addCustomShadow(color: tintColor, opacity: 0.1, radius: 5, offset: .init(width: 0, height: 4))
-        plusButton.addCustomShadow(color: tintColor, opacity: 0.1, radius: 5, offset: .init(width: 0, height: 4))
+        minusButton.addShadow(color: tintColor, opacity: 0.1, radius: 5, offset: .init(width: 0, height: 4))
+        plusButton.addShadow(color: tintColor, opacity: 0.1, radius: 5, offset: .init(width: 0, height: 4))
     }
     
     override func shortViewTapped() {
