@@ -43,9 +43,9 @@ struct MealPlan: Hashable, Codable {
 
 struct MealPlanLabel: Hashable, Codable {
     let id: UUID
-    let title: String
-    let color: Int
-    let index: Int
+    var title: String
+    var color: Int
+    var index: Int
     
     var isSelected = false
     
@@ -61,6 +61,13 @@ struct MealPlanLabel: Hashable, Codable {
         self.title = (dbModel.title ?? "").localized
         self.color = Int(dbModel.color)
         self.index = Int(dbModel.index)
+    }
+    
+    init(title: String, color: Int, index: Int) {
+        self.id = UUID()
+        self.title = title
+        self.color = color
+        self.index = index
     }
 }
 

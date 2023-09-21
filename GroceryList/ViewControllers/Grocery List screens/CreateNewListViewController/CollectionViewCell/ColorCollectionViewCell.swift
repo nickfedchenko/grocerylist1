@@ -10,7 +10,9 @@ import UIKit
 
 class ColorCollectionViewCell: UICollectionViewCell {
     
-    var isGroceryListCell = true
+    var isGroceryListCell = true {
+        didSet { self.layoutIfNeeded() }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)

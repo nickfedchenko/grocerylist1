@@ -116,7 +116,12 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     }
     
     func showLabels() {
-        router?.goToMealPlanLabels()
+        router?.goToMealPlanLabels(label: mealPlanLabel,
+                                   updateUI: { [weak self] selectedLabel in
+            self?.mealPlanLabel = selectedLabel
+            self?.getLabelsFromStorage()
+            self?.updateLabels?()
+        })
     }
     
     private func setMealPlan() {
