@@ -126,8 +126,7 @@ final class MainNavigationView: UIView {
     }
         
     private func setupConstraints() {
-        self.addSubviews([profileView, searchButton]) //,
-//                          recipeChangeViewButton, recipeEditCollectionButton])
+        self.addSubviews([profileView, searchButton])
         profileView.addSubviews([settingsButton, userNameLabel, gearIconImageView])
 
         profileView.snp.makeConstraints {
@@ -152,7 +151,6 @@ final class MainNavigationView: UIView {
             $0.leading.equalTo(settingsButton.snp.trailing).offset(10)
             $0.trailing.equalToSuperview()
             $0.centerY.equalTo(settingsButton)
-//            $0.height.equalTo(24)
         }
         
         searchButton.snp.makeConstraints {
@@ -160,18 +158,6 @@ final class MainNavigationView: UIView {
             $0.centerY.equalTo(settingsButton)
             $0.width.height.equalTo(40)
         }
-        
-//        recipeChangeViewButton.snp.makeConstraints {
-//            $0.trailing.equalTo(recipeEditCollectionButton.snp.leading).inset(-8)
-//            $0.centerY.equalTo(settingsButton)
-//            $0.width.height.equalTo(40)
-//        }
-//
-//        recipeEditCollectionButton.snp.makeConstraints {
-//            $0.trailing.equalToSuperview().inset(28)
-//            $0.centerY.equalTo(settingsButton)
-//            $0.width.height.equalTo(40)
-//        }
     }
 
 }

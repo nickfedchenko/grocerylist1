@@ -569,6 +569,8 @@
 "DefaultLabel_dinner"           = "Dinner";
 "DefaultLabel_snack"            = "Snacks";
 
+"Edit Meal plan label"          = "Tap and drag on the icon on the left to rearrange.\nTap on the Name to edit.\nSwipe left to delete";
+
 // Updated Paywall
 "three days "                   = "3 days ";
 "free"                          = "free";

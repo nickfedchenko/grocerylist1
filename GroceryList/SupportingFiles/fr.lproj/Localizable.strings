@@ -560,6 +560,8 @@
 "DefaultLabel_dinner"           = "Dîner";
 "DefaultLabel_snack"            = "Collations";
 
+"Edit Meal plan label"          = "Appuyez et faites glisser sur l'icône de gauche pour réorganiser.\nAppuyez sur le nom à modifier.\nBalayez vers la gauche pour supprimer";
+
 // Updated Paywall
 "three days "                   = "3 jours ";
 "free"                          = "gratuitement";

@@ -515,11 +515,15 @@ final class RootRouter: RootRouterProtocol {
         topViewController?.present(controller, animated: true)
     }
 
-    func goToMealPlanLabels() {
-//        let viewModel = SelectListViewModel(dataSource: dataSource)
-//        viewModel.router = self
-        let controller = MealPlanLabelsViewController()
-//        controller.viewModel = viewModel
+    func goToMealPlanLabels(label: MealPlanLabel, updateUI: ((MealPlanLabel) -> Void)?) {
+        let controller = viewControllerFactory.createMealPlanLabels(router: self, label: label, updateUI: updateUI)
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func goToCreateMealPlanLabel(label: MealPlanLabel?, updateUI: (() -> Void)?) {
+        let controller = viewControllerFactory.createCreateMealPlanLabel(label: label, updateUI: updateUI)
+        controller.modalPresentationStyle = .overCurrentContext
+        controller.modalTransitionStyle = .crossDissolve
         topViewController?.present(controller, animated: true)
     }
     
@@ -766,20 +770,5 @@ final class RootRouter: RootRouterProtocol {
 class BlackNavigationController: UINavigationController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
-    }
-}
-
-
-class MealPlanNavigationController: UINavigationController {
-    
-    var dismissController: (() -> Void)?
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .darkContent
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        dismissController?()
     }
 }

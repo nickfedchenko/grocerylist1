@@ -48,7 +48,7 @@ class ColorManager {
         Theme(dark: UIColor(hex: "#66493C"), medium: UIColor(hex: "#95776A"), light: UIColor(hex: "#FFFBF9"))  // 17 - 13
     ]
     
-    private var labelColor: [UIColor] = [
+    private(set) var labelColor: [UIColor] = [
         UIColor(hex: "#537979"), // none
         
         UIColor(hex: "#35DAAF"),

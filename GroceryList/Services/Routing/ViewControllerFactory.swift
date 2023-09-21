@@ -7,6 +7,7 @@
 
 import UIKit
 
+// swiftlint:disable file_length
 // swiftlint:disable:next type_body_length
 final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
@@ -653,6 +654,22 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         controller.destinationListDelegate = delegate
         return controller
     }
+    
+    func createMealPlanLabels(router: RootRouter, label: MealPlanLabel,
+                              updateUI: ((MealPlanLabel) -> Void)?) -> UIViewController {
+        let viewModel = MealPlanLabelsViewModel(label: label)
+        viewModel.router = router
+        viewModel.updateUI = updateUI
+        let controller = MealPlanLabelsViewController(viewModel: viewModel)
+        return controller
+    }
+    
+    func createCreateMealPlanLabel(label: MealPlanLabel?, updateUI: (() -> Void)?) -> UIViewController {
+        let viewModel = CreateMealPlanLabelViewModel(currentLabel: label)
+        viewModel.updateLabels = updateUI
+        let controller = CreateMealPlanLabelViewController(viewModel: viewModel)
+        return controller
+    }
 }
 
 class MyNavigationController: UINavigationController {
@@ -660,3 +677,4 @@ class MyNavigationController: UINavigationController {
         topViewController
     }
 }
+// swiftlint:enable file_length

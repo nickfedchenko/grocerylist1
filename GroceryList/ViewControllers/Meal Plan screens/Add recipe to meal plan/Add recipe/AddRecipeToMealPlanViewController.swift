@@ -103,7 +103,12 @@ class AddRecipeToMealPlanViewController: UIViewController {
         }
         
         viewModel.updateLabels = { [weak self] in
-            self?.mealPlanLabelView.updateLabels(allLabels: self?.viewModel.labels ?? [])
+            guard let self else { return }
+            self.mealPlanLabelView.configure(allLabels: self.viewModel.labels)
+            self.mealPlanLabelView.snp.updateConstraints {
+                $0.height.greaterThanOrEqualTo(self.viewModel.labels.count * 42 + 38)
+            }
+            self.view.layoutIfNeeded()
         }
     }
     
