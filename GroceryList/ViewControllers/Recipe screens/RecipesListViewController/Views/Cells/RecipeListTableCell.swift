@@ -16,12 +16,18 @@ final class RecipeListTableCell: RecipeListCell {
         titleLabel.textAlignment = .left
         mainImage.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMaxYCorner]
         
-        contentView.addSubviews([titleLabel, mainImage, contextMenuButton])
-        contentView.addSubviews([timeBadgeView, kcalBadgeView, favoriteImage])
+        contentView.addSubview(containerView)
+
+        containerView.addSubviews([titleLabel, mainImage, contextMenuButton])
+        containerView.addSubviews([timeBadgeView, kcalBadgeView, favoriteImage])
         timeBadgeView.addSubviews([timeView])
         kcalBadgeView.addSubviews([kcalView])
         timeView.addSubviews([timeLabel, timeImage])
         kcalView.addSubviews([kcalImage, kcalLabel])
+        
+        containerView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
         mainImage.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().offset(1)

@@ -9,6 +9,11 @@ import UIKit
 
 extension UIView {
     
+    func setCornerRadius(_ radius: CGFloat) {
+        self.layer.cornerRadius = radius
+        self.layer.cornerCurve = .circular
+    }
+    
     func blink() {
         UIView.animate(withDuration: 0.9, delay: 0.0, options: [.curveLinear, .repeat, .autoreverse], animations: {
             self.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)

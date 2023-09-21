@@ -17,6 +17,16 @@ class ColorManager {
     
     static var shared = ColorManager()
     
+    var gradientsCount: Int {
+        rawGradientColors.count
+    }
+    
+    var colorMealPlan: Theme {
+        Theme(dark: UIColor(hex: "045C5C"),
+              medium: UIColor(hex: "045C5C"),
+              light: UIColor(hex: "EBFEFE"))
+    }
+    
     private let rawGradientColors: [Theme] = [
         Theme(dark: UIColor(hex: "#6F8617"), medium: UIColor(hex: "#A5B957"), light: UIColor(hex: "#FCFFF3")), // 0 - 9
         Theme(dark: UIColor(hex: "#278337"), medium: UIColor(hex: "#58B168"), light: UIColor(hex: "#F4FFF6")), // 1 - 1
@@ -38,13 +48,23 @@ class ColorManager {
         Theme(dark: UIColor(hex: "#66493C"), medium: UIColor(hex: "#95776A"), light: UIColor(hex: "#FFFBF9"))  // 17 - 13
     ]
     
+    private var labelColor: [UIColor] = [
+        UIColor(hex: "#537979"), // none
+        
+        UIColor(hex: "#35DAAF"),
+        UIColor(hex: "#5B7FFF"),
+        UIColor(hex: "#1AF0D7"),
+        UIColor(hex: "#FF800A"),
+        UIColor(hex: "#F963E1"),
+        UIColor(hex: "#6FEC6D"),
+        UIColor(hex: "#FFC228"),
+        UIColor(hex: "#FE7055"),
+        UIColor(hex: "#9D66F8")
+    ]
+    
     private let emptyCellColors: [UIColor] = [
         #colorLiteral(red: 0.87116611, green: 0.9110933542, blue: 0.910405457, alpha: 1), #colorLiteral(red: 0.8280456662, green: 0.9286016822, blue: 0.9183422923, alpha: 1), #colorLiteral(red: 0.8989184499, green: 0.8939521909, blue: 0.8940405846, alpha: 1)
     ]
-    
-    var gradientsCount: Int {
-        rawGradientColors.count
-    }
     
     private init() { }
     
@@ -74,6 +94,10 @@ class ColorManager {
     
     func getColorForRecipe() -> Theme {
         Theme(dark: UIColor(hex: "045C5C"), medium: UIColor(hex: "1A645A"), light: UIColor(hex: "E5F5F3"))
+    }
+    
+    func getLabelColor(index: Int) -> UIColor {
+        labelColor[index]
     }
     
 }

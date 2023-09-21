@@ -16,7 +16,7 @@ class ProductsSettingsViewController: UIViewController {
         let view = UIView()
         view.layer.cornerRadius = 20
         view.backgroundColor = .white
-        view.addCustomShadow(opacity: 0.7, radius: 11, offset: CGSize(width: 0, height: 12))
+        view.addShadow(opacity: 0.7, radius: 11, offset: CGSize(width: 0, height: 12))
         return view
     }()
     

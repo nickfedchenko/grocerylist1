@@ -56,7 +56,7 @@ final class EditDeleteAlertView: UIView {
         self.layer.cornerRadius = 14
         self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         self.backgroundColor = .white
-        self.addCustomShadow(opacity: 0.13, radius: 11, offset: CGSize(width: 0, height: 8))
+        self.addShadow(opacity: 0.13, radius: 11, offset: CGSize(width: 0, height: 8))
         
         makeConstraints()
     }

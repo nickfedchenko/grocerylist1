@@ -9,23 +9,29 @@ import ApphudSDK
 import SnapKit
 import UIKit
 
-final class MainRecipeViewController: UIViewController {
+class MainRecipeViewController: UIViewController {
    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
     }
     
-    private var viewModel: MainRecipeViewModel
+    let searchView = RecipeSearchView()
+    let navigationView = UIView()
     
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = R.string.localizable.recipes()
-        label.font = UIFont.SFProDisplay.heavy(size: 32).font
-        label.textColor = R.color.primaryDark()
-        return label
+    lazy var recipeChangeViewButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(recipeChangeViewAction), for: .touchUpInside)
+        return button
     }()
     
-    private lazy var searchIconButton: UIButton = {
+    lazy var recipeEditCollectionButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(sortButtonAction), for: .touchUpInside)
+        button.setImage(R.image.editCell()?.withTintColor(R.color.primaryDark() ?? .black), for: .normal)
+        return button
+    }()
+    
+    lazy var searchIconButton: UIButton = {
         let button = UIButton()
         button.setImage(R.image.searchButtonImage()?.withTintColor(R.color.primaryDark() ?? .black),
                         for: .normal)
@@ -33,8 +39,8 @@ final class MainRecipeViewController: UIViewController {
         return button
     }()
     
-    private lazy var recipesCollectionView: UICollectionView = {
-        let layout = collectionViewLayoutManager.makeRecipesLayout()
+    lazy var recipesCollectionView: UICollectionView = {
+        let layout = collectionViewLayoutManager.makeRecipesLayout(isFolder: recipeIsFolderView)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(classCell: RecipePreviewCell.self)
         collectionView.register(classCell: MoreRecipeCell.self)
@@ -50,16 +56,21 @@ final class MainRecipeViewController: UIViewController {
         return collectionView
     }()
     
-    private lazy var collectionViewLayoutManager = MainRecipeCollectionViewLayout(recipeCount: viewModel.defaultRecipeCount)
-    private let activityView = ActivityIndicatorView()
-    private let searchView = RecipeSearchView()
-    private let titleBackgroundView = UIView()
-    
-    private var isShowFirstViewWillAppear = false
-    private var topContentInset: CGFloat {
+    var topContentInset: CGFloat {
         let topSafeArea = UIView.safeAreaTop
         return topSafeArea > 24 ? topSafeArea : topSafeArea + 44
     }
+    
+    var recipeIsFolderView: Bool {
+        UserDefaultsManager.shared.recipeIsFolderView
+    }
+    
+    lazy var collectionViewLayoutManager = MainRecipeCollectionViewLayout(recipeCount: viewModel.defaultRecipeCount)
+    
+    var viewModel: MainRecipeViewModel
+    
+    private let activityView = ActivityIndicatorView()
+    private var isShowFirstViewWillAppear = false
 
     init(viewModel: MainRecipeViewModel) {
         self.viewModel = viewModel
@@ -72,17 +83,16 @@ final class MainRecipeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tabBar = (self.tabBarController as? MainTabBarController)
-        tabBar?.recipeDelegate = self
-        tabBar?.navBackgroundView.backgroundColor = R.color.background()?.withAlphaComponent(0.95)
-        titleBackgroundView.backgroundColor = R.color.background()?.withAlphaComponent(0.95)
-        
-        let tapOnSearch = UITapGestureRecognizer(target: self, action: #selector(tappedOnSearch))
-        searchView.addGestureRecognizer(tapOnSearch)
+        (self.tabBarController as? MainTabBarController)?.recipeDelegate = self
+        navigationView.backgroundColor = R.color.background()?.withAlphaComponent(0.95)
         
         setupConstraints()
         viewModelChanges()
         updateCollectionContentInset()
+        updateImageChangeViewButton()
+        
+        let tapOnSearch = UITapGestureRecognizer(target: self, action: #selector(tappedOnSearch))
+        searchView.addGestureRecognizer(tapOnSearch)
         
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground),
                                                name: UIApplication.willEnterForegroundNotification,
@@ -90,12 +100,7 @@ final class MainRecipeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: false)
-        (self.tabBarController as? MainTabBarController)?.setTextTabBar(
-            text: R.string.localizable.create().uppercased()
-        )
-        
+        super.viewWillAppear(animated)        
         if !isShowFirstViewWillAppear {
             updateRecipeCollectionView()
             isShowFirstViewWillAppear = true
@@ -132,11 +137,7 @@ final class MainRecipeViewController: UIViewController {
     }
     
     private func updateCollectionContentInset() {
-        let offset: CGFloat = UserDefaultsManager.shared.recipeIsFolderView ? 0 : -24
-        searchView.snp.updateConstraints {
-            $0.bottom.equalTo(recipesCollectionView.snp.top).offset(offset)
-        }
-        let contentInset: CGFloat = UserDefaultsManager.shared.recipeIsFolderView ? 78 : 108
+        let contentInset: CGFloat = recipeIsFolderView ? 58 : 68
         recipesCollectionView.contentInset.top = topContentInset + contentInset
     }
     
@@ -184,6 +185,25 @@ final class MainRecipeViewController: UIViewController {
         return cell
     }
     
+    private func updateImageChangeViewButton() {
+        let image = recipeIsFolderView ? R.image.recipeCollectionView() : R.image.recipeFolderView()
+        recipeChangeViewButton.setImage(image, for: .normal)
+    }
+    
+    private func tappedChangeView() {
+        let isFolder = recipeIsFolderView
+        AmplitudeManager.shared.logEvent(isFolder ? .recipeToggleFolderViev : .recipeToggleCollectionView)
+        
+        DispatchQueue.main.async {
+            self.updateCollectionContentInset()
+            self.recipesCollectionView.reloadData()
+            self.recipesCollectionView.collectionViewLayout.invalidateLayout()
+            let layout = self.collectionViewLayoutManager.makeRecipesLayout(isFolder: isFolder)
+            self.recipesCollectionView.setCollectionViewLayout(layout, animated: false)
+            self.recipesCollectionView.collectionViewLayout.collectionView?.reloadData()
+        }
+    }
+    
     @objc
     private func tappedOnSearch() {
         viewModel.showSearch()
@@ -194,14 +214,27 @@ final class MainRecipeViewController: UIViewController {
         viewModel.updateUI()
     }
     
+    @objc
+    func recipeChangeViewAction() {
+        UserDefaultsManager.shared.recipeIsFolderView = !UserDefaultsManager.shared.recipeIsFolderView
+        CloudManager.shared.saveCloudSettings()
+        updateImageChangeViewButton()
+        tappedChangeView()
+    }
+    
+    @objc
+    private func sortButtonAction() {
+        viewModel.showCollection()
+    }
+    
     private func setupConstraints() {
         view.backgroundColor = R.color.background()
-        view.addSubviews([recipesCollectionView, titleBackgroundView, activityView])
-        titleBackgroundView.addSubviews([titleLabel, searchIconButton])
-        recipesCollectionView.addSubview(searchView)
+        view.addSubviews([recipesCollectionView, navigationView, activityView])
+        navigationView.addSubviews([searchView, recipeChangeViewButton, recipeEditCollectionButton])
 
         recipesCollectionView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
 
@@ -212,29 +245,29 @@ final class MainRecipeViewController: UIViewController {
             make.leading.equalTo(recipesCollectionView)
         }
         
-        titleBackgroundView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(44)
-            $0.leading.trailing.equalToSuperview()
+        navigationView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+        }
+        
+        searchView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(76)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalTo(recipeChangeViewButton.snp.leading).offset(-16)
             $0.height.equalTo(40)
+            $0.bottom.equalToSuperview().offset(-8)
         }
         
-        titleLabel.snp.makeConstraints {
-            $0.top.equalTo(titleBackgroundView).offset(4)
-            $0.leading.equalToSuperview().offset(24)
-            $0.height.equalTo(32)
+        recipeChangeViewButton.snp.makeConstraints {
+            $0.top.equalTo(searchView)
+            $0.trailing.equalTo(recipeEditCollectionButton.snp.leading).offset(-8)
+            $0.width.height.equalTo(40)
         }
         
-        searchIconButton.snp.makeConstraints {
-            $0.leading.equalTo(titleLabel.snp.trailing)
-            $0.centerY.equalTo(titleLabel)
-            $0.height.width.equalTo(40)
-        }
-        
-        searchView.snp.makeConstraints { make in
-            make.bottom.equalTo(recipesCollectionView.snp.top).offset(-24)
-            make.leading.trailing.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalTo(48)
+        recipeEditCollectionButton.snp.makeConstraints {
+            $0.top.equalTo(searchView)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.width.height.equalTo(40)
         }
     }
 }
@@ -242,17 +275,12 @@ final class MainRecipeViewController: UIViewController {
 // MARK: - CollectionView
 extension MainRecipeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let isFolder = UserDefaultsManager.shared.recipeIsFolderView
-        
-        guard isFolder else {
+        guard recipeIsFolderView else {
             viewModel.showRecipe(by: indexPath)
             return
         }
         
-        guard let section = viewModel.getRecipeSectionsModel(for: indexPath.item) else {
-            return
-        }
-        viewModel.router?.goToRecipes(for: section)
+        viewModel.showSection(by: indexPath.item)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -264,18 +292,16 @@ extension MainRecipeViewController: UICollectionViewDelegate {
 
 extension MainRecipeViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        UserDefaultsManager.shared.recipeIsFolderView ? 1 : viewModel.numberOfSections
+        recipeIsFolderView ? 1 : viewModel.numberOfSections
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        UserDefaultsManager.shared.recipeIsFolderView ? viewModel.numberOfSections : viewModel.recipeCount(for: section)
+        recipeIsFolderView ? viewModel.numberOfSections : viewModel.recipeCount(for: section)
     }
     
     func collectionView( _ collectionView: UICollectionView,
                          cellForItemAt indexPath: IndexPath ) -> UICollectionViewCell {
-        let isFolder = UserDefaultsManager.shared.recipeIsFolderView
-        
-        guard isFolder else {
+        guard recipeIsFolderView else {
             return setupCollectionViewCell(indexPath: indexPath)
         }
         
@@ -301,36 +327,12 @@ extension MainRecipeViewController: UICollectionViewDataSource {
 
 extension MainRecipeViewController: RecipesFolderHeaderDelegate {
     func headerTapped(at index: Int) {
-        guard let section = viewModel.getRecipeSectionsModel(for: index) else {
-            return
-        }
-        viewModel.router?.goToRecipes(for: section)
+        viewModel.showSection(by: index)
     }
 }
 
 extension MainRecipeViewController: MainTabBarControllerRecipeDelegate {
     func updateRecipeUI(_ recipe: Recipe?) {
         viewModel.updateUI()
-    }
-    
-    func tappedChangeView() {
-        if UserDefaultsManager.shared.recipeIsFolderView {
-            AmplitudeManager.shared.logEvent(.recipeToggleFolderViev)
-        } else {
-            AmplitudeManager.shared.logEvent(.recipeToggleCollectionView)
-        }
-        
-        DispatchQueue.main.async {
-            self.updateCollectionContentInset()
-            self.recipesCollectionView.reloadData()
-            self.recipesCollectionView.collectionViewLayout.invalidateLayout()
-            let layout = self.collectionViewLayoutManager.makeRecipesLayout()
-            self.recipesCollectionView.setCollectionViewLayout(layout, animated: false)
-            self.recipesCollectionView.collectionViewLayout.collectionView?.reloadData()
-            
-            if UserDefaultsManager.shared.recipeIsFolderView {
-                self.recipesCollectionView.reloadData()
-            }
-        }
     }
 }

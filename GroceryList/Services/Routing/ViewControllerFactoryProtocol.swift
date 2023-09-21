@@ -19,7 +19,7 @@ protocol ViewControllerFactoryProtocol {
     func createMainTabBarController(router: RootRouter, controllers: [UIViewController]) -> UITabBarController
     func createListController(router: RootRouter) -> UIViewController
     func createPantryController(router: RootRouter) -> UIViewController
-    func createRecipeController(router: RootRouter) -> UIViewController
+    func createParentMealPlanViewController(router: RootRouter) -> UIViewController
     
     func createCreateNewListController(model: GroceryListsModel?, router: RootRouter,
                                        compl: @escaping (GroceryListsModel, [Product]) -> Void) -> UIViewController?
@@ -115,5 +115,12 @@ protocol ViewControllerFactoryProtocol {
                                               state: EditListState) -> UIViewController
     func createStockReminderController(outOfStocks: [Stock], updateUI: (() -> Void)?,
                                        router: RootRouter) -> UIViewController
-    func createImportWebRecipeController(router: RootRouter) -> UIViewController 
+    func createImportWebRecipeController(router: RootRouter) -> UIViewController
+    
+    func createSelectRecipeToMealPlan(router: RootRouter, date: Date, updateUI: (() -> Void)?) -> UIViewController
+    func createSearchInMealPlan(router: RootRouter, date: Date) -> UIViewController
+    func createRecipeCollectionFromMealPlan(for section: RecipeSectionsModel, date: Date, router: RootRouter) -> UIViewController
+    func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe, date: Date) -> UIViewController
+    func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe, mealPlan: MealPlan, updateUI: (() -> Void)?) -> UIViewController
+    func createDestinationList(router: RootRouter, delegate: DestinationListDelegate) -> UIViewController
 }

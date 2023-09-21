@@ -82,10 +82,10 @@ class CreateNewRecipePhotoView: UIView {
             shadowView.backgroundColor = UIColor(hex: "#7A948F")
             shadowView.layer.cornerRadius = 8
         }
-        shadowOneView.addCustomShadow(opacity: 0.03,
+        shadowOneView.addShadow(opacity: 0.03,
                                       radius: 8,
                                       offset: .init(width: 0, height: 1))
-        shadowTwoView.addCustomShadow(opacity: 0.03,
+        shadowTwoView.addShadow(opacity: 0.03,
                                       radius: 4,
                                       offset: .init(width: 0, height: 6))
     }

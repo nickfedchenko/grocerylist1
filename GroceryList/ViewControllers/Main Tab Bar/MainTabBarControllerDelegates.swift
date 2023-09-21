@@ -9,7 +9,6 @@ import Foundation
 
 protocol MainTabBarControllerRecipeDelegate: AnyObject {
     func updateRecipeUI(_ recipe: Recipe?)
-    func tappedChangeView()
 }
 
 protocol MainTabBarControllerPantryDelegate: AnyObject {
@@ -28,4 +27,8 @@ protocol MainTabBarControllerStocksDelegate: AnyObject {
 
 protocol MainTabBarControllerProductsDelegate: AnyObject {
     func tappedAddItem()
+}
+
+protocol MainTabBarControllerMealPlanDelegate: AnyObject {
+    func tappedAddRecipeToMealPlan()
 }

@@ -11,6 +11,7 @@ class UserDefaultsManager {
     
     enum UDKeys: String {
         case favoriteRecipes
+        case destinationListId
     }
     
     static let shared = UserDefaultsManager()
@@ -189,15 +190,8 @@ class UserDefaultsManager {
     }
     
     var isDoneFeedBack: Bool {
-        get {
-            guard let shouldShow = userDefaults.value(forKey: "isDoneFeedBack") as? Bool else {
-                return false
-            }
-            return shouldShow
-        }
-        set {
-            userDefaults.set(newValue, forKey: "isDoneFeedBack")
-        }
+        get { userDefaults.bool(forKey: "isDoneFeedBack") }
+        set { userDefaults.set(newValue, forKey: "isDoneFeedBack") }
     }
     
     var lastShowFeedBackDate: Date? {
@@ -258,6 +252,36 @@ class UserDefaultsManager {
     var zoneChangeTokenKey: Data? {
         get { userDefaults.data(forKey: "zoneChangeTokenKey") }
         set { userDefaults.set(newValue, forKey: "zoneChangeTokenKey") }
+    }
+    
+    var selectedMealPlannerOrRecipes: Int {
+        get { userDefaults.integer(forKey: "selectedMealPlannerOfRecipes") }
+        set { userDefaults.set(newValue, forKey: "selectedMealPlannerOfRecipes") }
+    }
+    
+    var selectedMonthOrWeek: Int {
+        get { userDefaults.integer(forKey: "selectedMonthOrWeek") }
+        set { userDefaults.set(newValue, forKey: "selectedMonthOrWeek") }
+    }
+    
+    var defaultDestinationListId: UUID? {
+        get {
+            guard let data: Data = getValue(for: .destinationListId),
+                    let ids = try? JSONDecoder().decode(UUID.self, from: data) else {
+                return nil
+            }
+            return ids
+        }
+        set {
+            if let data = try? JSONEncoder().encode(newValue) {
+                setValue(value: data, for: .destinationListId)
+            }
+        }
+    }
+    
+    var isFillingDefaultLabels: Bool {
+        get { userDefaults.bool(forKey: "isFillingDefaultLabels") }
+        set { userDefaults.set(newValue, forKey: "isFillingDefaultLabels") }
     }
     
     private func setValue<T>(value: T, for key: UDKeys) {

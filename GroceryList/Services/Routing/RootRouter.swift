@@ -476,6 +476,58 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func goToSelectRecipeToMealPlan(date: Date, updateUI: (() -> Void)?) {
+        let navigationController = viewControllerFactory.createSelectRecipeToMealPlan(
+            router: self, date: date, updateUI: updateUI
+        )
+        topViewController?.present(navigationController, animated: true)
+    }
+    
+    func goToSearchInMealPlan(date: Date) {
+        let controller = viewControllerFactory.createSearchInMealPlan(router: self, date: date)
+        let navController = topViewController?.navigationController
+        navController?.pushViewController(controller, animated: true)
+    }
+    
+    func goToRecipeCollectionFromMealPlan(for section: RecipeSectionsModel, date: Date) {
+        let recipeListVC = viewControllerFactory.createRecipeCollectionFromMealPlan(
+            for: section, date: date, router: self
+        )
+        let navController = topViewController?.navigationController
+        navController?.pushViewController(recipeListVC, animated: true)
+    }
+    
+    func goToRecipeFromMealPlan(recipe: Recipe, date: Date) {
+        let controller = viewControllerFactory.createRecipeFromMealPlan(router: self, recipe: recipe, date: date)
+        let navController = topViewController?.navigationController
+        navController?.pushViewController(controller, animated: true)
+    }
+    
+    func goToRecipeFromMealPlan(recipe: Recipe, mealPlan: MealPlan, updateUI: (() -> Void)?) {
+        let controller = viewControllerFactory.createRecipeFromMealPlan(
+            router: self, recipe: recipe, mealPlan: mealPlan, updateUI: updateUI
+        )
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func goToDestinationList(delegate: DestinationListDelegate) {
+        let controller = viewControllerFactory.createDestinationList(router: self, delegate: delegate)
+        topViewController?.present(controller, animated: true)
+    }
+
+    func goToMealPlanLabels() {
+//        let viewModel = SelectListViewModel(dataSource: dataSource)
+//        viewModel.router = self
+        let controller = MealPlanLabelsViewController()
+//        controller.viewModel = viewModel
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func dismissAddRecipeToMealPlan() {
+        let navController = topViewController?.navigationController
+        navController?.dismiss(animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
@@ -697,7 +749,7 @@ final class RootRouter: RootRouterProtocol {
     private func setupTabBarController() {
         let listController = viewControllerFactory.createListController(router: self)
         let pantryController = viewControllerFactory.createPantryController(router: self)
-        let recipeController = viewControllerFactory.createRecipeController(router: self)
+        let recipeController = viewControllerFactory.createParentMealPlanViewController(router: self)
         listNavController = UINavigationController(rootViewController: listController)
         pantryNavController = UINavigationController(rootViewController: pantryController)
         recipeNavController = UINavigationController(rootViewController: recipeController)
@@ -714,5 +766,20 @@ final class RootRouter: RootRouterProtocol {
 class BlackNavigationController: UINavigationController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
+    }
+}
+
+
+class MealPlanNavigationController: UINavigationController {
+    
+    var dismissController: (() -> Void)?
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        dismissController?()
     }
 }

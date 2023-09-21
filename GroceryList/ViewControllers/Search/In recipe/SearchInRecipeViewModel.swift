@@ -29,6 +29,8 @@ final class SearchInRecipeViewModel {
         return ColorManager.shared.getGradient(index: colorIndex)
     }
     
+    var mealPlanDate: Date?
+    
     private(set) var recipeTags: [RecipeTag] = []
     private(set) var placeholder = ""
     private(set) var section: RecipeSectionsModel?
@@ -237,6 +239,15 @@ final class SearchInRecipeViewModel {
             self?.editableRecipes.insert(RecipeForSearchModel(shortRecipeModel: ShortRecipeModel(withCollection: recipe)),
                                          at: recipeIndex)
         })
+    }
+    
+    func showRecipeForMealPlan(recipeIndex: Int) {
+        guard let recipeId = editableRecipes[safe: recipeIndex]?.id,
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
+              let recipe = Recipe(from: dbRecipe) else {
+            return
+        }
+        router?.goToRecipeFromMealPlan(recipe: recipe, date: mealPlanDate ?? Date())
     }
     
     func showPaywall() {

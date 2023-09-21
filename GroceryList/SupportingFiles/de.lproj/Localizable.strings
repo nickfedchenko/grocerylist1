@@ -537,6 +537,26 @@
 "temporarilyUnavailable"        = "Das iCloud-Konto des Benutzers ist vorübergehend nicht verfügbar.";
 "Synchronization"               = "Synchronisation";
 
+// Meal Plan
+"Meal Plan"                     = "Essensplan";
+"TabBar.Meal Plan"              = "Essensplan";
+
+"Meal Plan.Month"               = "Monat";
+"Meal Plan.Week"                = "Woche";
+"No entires"                    = "Keine Einträge";
+
+"Select Recipe"                 = "Rezept auswählen";
+"Destination List"              = "Zielliste";
+"Date"                          = "Datum";
+"Meal Plan Label"               = "Speiseplan-Etikett";
+"Not selected"                  = "Nicht ausgewählt";
+
+"DefaultLabel_none"             = "Keiner";
+"DefaultLabel_breakfast"        = "Frühstück";
+"DefaultLabel_lunch"            = "Mittagessen";
+"DefaultLabel_dinner"           = "Abendessen";
+"DefaultLabel_snack"            = "Snacks";
+
 // Updated Paywall
 "three days "                   = "3 tage ";
 "free"                          = "kostenlos";

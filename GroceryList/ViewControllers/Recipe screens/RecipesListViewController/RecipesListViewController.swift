@@ -8,15 +8,15 @@
 import ApphudSDK
 import UIKit
 
-final class RecipesListViewController: UIViewController {
+class RecipesListViewController: UIViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
     }
     
-    private var viewModel: RecipesListViewModel
+    var viewModel: RecipesListViewModel
     
-    private lazy var recipesListCollectionView: UICollectionView = {
+    lazy var recipesListCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -33,14 +33,22 @@ final class RecipesListViewController: UIViewController {
         return collectionView
     }()
     
-    private let headerBackgroundView = UIView()
-    private let header = RecipesListHeaderView()
-    private let titleView = RecipeListTitleView()
-    private let photoView = RecipeListPhotoView()
-    private let contextMenuBackgroundView = UIView()
-    private let contextMenuView = RecipeListContextMenuView()
-    private let messageView = RecipeListMessageView()
-    private var currentlySelectedIndex: Int = -1
+    let headerBackgroundView = UIView()
+    let header = RecipesListHeaderView()
+    let titleView = RecipeListTitleView()
+    let photoView = RecipeListPhotoView()
+    let contextMenuBackgroundView = UIView()
+    let contextMenuView = RecipeListContextMenuView()
+    let messageView = RecipeListMessageView()
+    var currentlySelectedIndex: Int = -1
+    
+    var recipeIsTableView: Bool {
+        UserDefaultsManager.shared.recipeIsTableView
+    }
+    
+    var isMealPlanMode: Bool {
+        false
+    }
     
     init(viewModel: RecipesListViewModel) {
         self.viewModel = viewModel
@@ -80,14 +88,7 @@ final class RecipesListViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        photoView.layoutIfNeeded()
-        
-        let topInset = 280 + titleView.necessaryHeight
-        recipesListCollectionView.contentInset.top = topInset
-        photoView.snp.updateConstraints {
-            let offset = -titleView.necessaryHeight - 8
-            $0.bottom.equalTo(recipesListCollectionView.snp.top).offset(offset > -76 ? -76 : offset)
-        }
+        photoViewUpdateConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -121,6 +122,60 @@ final class RecipesListViewController: UIViewController {
         }
     }
     
+    func photoViewUpdateConstraints() {
+        photoView.layoutIfNeeded()
+        
+        let topInset = 280 + titleView.necessaryHeight
+        recipesListCollectionView.contentInset.top = topInset
+        photoView.snp.updateConstraints {
+            let offset = -titleView.necessaryHeight - 8
+            $0.bottom.equalTo(recipesListCollectionView.snp.top).offset(offset > -76 ? -76 : offset)
+        }
+    }
+    
+    func changeListView() {
+        if UserDefaultsManager.shared.recipeIsTableView {
+            AmplitudeManager.shared.logEvent(.recipeCollectionToggleTable)
+        } else {
+            AmplitudeManager.shared.logEvent(.recipeCollectionToggleGrid)
+        }
+        
+        UserDefaultsManager.shared.recipeIsTableView = !UserDefaultsManager.shared.recipeIsTableView
+        CloudManager.shared.saveCloudSettings()
+        header.updateImageChangeViewButton(recipeIsTableView: recipeIsTableView)
+        
+        recipesListCollectionView.reloadData()
+    }
+    
+    func showContextMenu(_ cell: RecipeListCell, _ point: CGPoint, _ index: Int) {
+        let convertPointOnView = cell.convert(point, to: self.view)
+        
+        currentlySelectedIndex = index
+        contextMenuView.removeDeleteButton()
+        contextMenuView.setupMenuFunctions(isDefaultRecipe: viewModel.isDefaultRecipe(by: index),
+                                           isFavorite: viewModel.isFavoriteRecipe(by: index))
+        contextMenuView.snp.updateConstraints { $0.height.equalTo(contextMenuView.requiredHeight) }
+        contextMenuBackgroundView.isHidden = false
+        contextMenuView.isHidden = false
+        
+        contextMenuBackgroundView.snp.updateConstraints {
+            $0.height.equalTo(self.view.frame.height)
+        }
+        
+        contextMenuView.alpha = 0.0
+        contextMenuView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+            .translatedBy(x: convertPointOnView.x - 125,
+                          y: convertPointOnView.y - 300)
+        UIView.animate(withDuration: 0.3) {
+            self.contextMenuView.alpha = 1.0
+            self.contextMenuView.transform = .identity
+        }
+    }
+    
+    func tapCell(_ indexPath: IndexPath) {
+        viewModel.showRecipe(by: indexPath)
+    }
+    
     @objc
     private func menuTapAction() {
         UIView.animate(withDuration: 0.4) {
@@ -136,7 +191,7 @@ final class RecipesListViewController: UIViewController {
         }
     }
     
-    private func setupSubviews() {
+    func setupSubviews() {
         self.view.addSubviews([recipesListCollectionView, header, messageView])
         recipesListCollectionView.addSubviews([photoView, headerBackgroundView, titleView])
         (self.tabBarController as? MainTabBarController)?.customTabBar.addSubviews([contextMenuBackgroundView])
@@ -204,15 +259,16 @@ extension RecipesListViewController: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let isTable = UserDefaultsManager.shared.recipeIsTableView
-        
-        guard isTable else {
+        guard recipeIsTableView else {
             let cell = collectionView.reusableCell(classCell: RecipeListCell.self, indexPath: indexPath)
             let model = viewModel.getModel(by: indexPath)
             cell.configure(with: model)
             cell.configureColor(theme: viewModel.theme)
             cell.selectedIndex = indexPath.item
             cell.delegate = self
+            if isMealPlanMode {
+                cell.setupPlusOnButton(color: viewModel.theme.dark)
+            }
             return cell
         }
 
@@ -222,16 +278,18 @@ extension RecipesListViewController: UICollectionViewDataSource, UICollectionVie
         cell.configureColor(theme: viewModel.theme)
         cell.selectedIndex = indexPath.item
         cell.delegate = self
+        if isMealPlanMode {
+            cell.setupPlusOnButton(color: viewModel.theme.dark)
+        }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let isTable = UserDefaultsManager.shared.recipeIsTableView
         let width = view.bounds.width - 40
-        return isTable ? CGSize(width: width / 2, height: 137)
-                       : CGSize(width: width, height: 64)
+        return recipeIsTableView ? CGSize(width: width / 2, height: 137)
+                                 : CGSize(width: width, height: 64)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -248,7 +306,7 @@ extension RecipesListViewController: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        viewModel.showRecipe(by: indexPath)
+        tapCell(indexPath)
     }
 }
 
@@ -262,13 +320,7 @@ extension RecipesListViewController: RecipesListHeaderViewDelegate {
     }
     
     func changeViewButtonTapped() {
-        if UserDefaultsManager.shared.recipeIsTableView {
-            AmplitudeManager.shared.logEvent(.recipeCollectionToggleTable)
-        } else {
-            AmplitudeManager.shared.logEvent(.recipeCollectionToggleGrid)
-        }
-        
-        recipesListCollectionView.reloadData()
+        changeListView()
     }
 }
 
@@ -286,28 +338,7 @@ extension RecipesListViewController:  RecipeListPhotoViewDelegate {
 
 extension RecipesListViewController: RecipeListCellDelegate {
     func contextMenuTapped(at index: Int, point: CGPoint, cell: RecipeListCell) {
-        let convertPointOnView = cell.convert(point, to: self.view)
-        
-        currentlySelectedIndex = index
-        contextMenuView.removeDeleteButton()
-        contextMenuView.setupMenuFunctions(isDefaultRecipe: viewModel.isDefaultRecipe(by: index),
-                                           isFavorite: viewModel.isFavoriteRecipe(by: index))
-        contextMenuView.snp.updateConstraints { $0.height.equalTo(contextMenuView.requiredHeight) }
-        contextMenuBackgroundView.isHidden = false
-        contextMenuView.isHidden = false
-        
-        contextMenuBackgroundView.snp.updateConstraints {
-            $0.height.equalTo(self.view.frame.height)
-        }
-        
-        contextMenuView.alpha = 0.0
-        contextMenuView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-                                        .translatedBy(x: convertPointOnView.x - 125,
-                                                      y: convertPointOnView.y - 300)
-        UIView.animate(withDuration: 0.3) {
-            self.contextMenuView.alpha = 1.0
-            self.contextMenuView.transform = .identity
-        }
+        showContextMenu(cell, point, index)
     }
 }
 

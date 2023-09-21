@@ -81,9 +81,9 @@ class PantryView: UIView {
         mainContainer.clipsToBounds = true
         mainContainer.layer.borderColor = UIColor.white.cgColor
         mainContainer.layer.borderWidth = 1
-        mainContainerShadowOneView.addCustomShadow(color: .black, opacity: 0.15,
+        mainContainerShadowOneView.addShadow(color: .black, opacity: 0.15,
                                                    radius: 11, offset: .init(width: 0, height: 12))
-        mainContainerShadowTwoView.addCustomShadow(color: .black, opacity: 0.06,
+        mainContainerShadowTwoView.addShadow(color: .black, opacity: 0.06,
                                                    radius: 3, offset: .init(width: 0, height: 2))
         
         topContainer.backgroundColor = .white

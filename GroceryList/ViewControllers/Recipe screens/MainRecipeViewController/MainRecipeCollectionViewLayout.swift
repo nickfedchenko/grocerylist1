@@ -15,8 +15,7 @@ final class MainRecipeCollectionViewLayout {
         self.recipeCount = recipeCount
     }
     
-    func makeRecipesLayout() -> UICollectionViewCompositionalLayout {
-        let isFolder = UserDefaultsManager.shared.recipeIsFolderView
+    func makeRecipesLayout(isFolder: Bool) -> UICollectionViewCompositionalLayout {
         return isFolder ? folderLayout() : collectionLayout()
     }
     

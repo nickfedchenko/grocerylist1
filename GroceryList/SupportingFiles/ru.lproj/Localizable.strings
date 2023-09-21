@@ -540,6 +540,26 @@
 "temporarilyUnavailable"        = "Учетная запись iCloud пользователя временно недоступна";
 "Synchronization"               = "Синхронизация";
 
+// Meal Plan
+"Meal Plan"                     = "План Питания";
+"TabBar.Meal Plan"              = "План\nПитания";
+
+"Meal Plan.Month"               = "Месяц";
+"Meal Plan.Week"                = "Неделя";
+"No entires"                    = "Нет записей";
+
+"Select Recipe"                 = "Выбрать рецепт";
+"Destination List"              = "Список покупок";
+"Date"                          = "Дата";
+"Meal Plan Label"               = "Ярлык плана питания";
+"Not selected"                  = "Не выбрано";
+
+"DefaultLabel_none"             = "Нет";
+"DefaultLabel_breakfast"        = "Завтрак";
+"DefaultLabel_lunch"            = "Обед";
+"DefaultLabel_dinner"           = "Ужин";
+"DefaultLabel_snack"            = "Закуски";
+
 // Updated Paywall
 "three days "                   = "3 дня ";
 "free"                          = "бесплатно";

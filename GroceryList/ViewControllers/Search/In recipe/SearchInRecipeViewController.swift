@@ -9,10 +9,14 @@ import ApphudSDK
 import TagListView
 import UIKit
 
-final class SearchInRecipeViewController: SearchViewController {
+class SearchInRecipeViewController: SearchViewController {
 
     var viewModel: SearchInRecipeViewModel?
 
+    var isMealPlanMode: Bool {
+        false
+    }
+    
     private lazy var addFilterButton: UIButton = {
         let button = UIButton()
         button.setTitle(R.string.localizable.addFilter(), for: .normal)
@@ -99,6 +103,39 @@ final class SearchInRecipeViewController: SearchViewController {
         contextMenuView.delegate = self
         contextMenuView.isHidden = true
         contextMenuBackgroundView.isHidden = true
+    }
+    
+    func showContextMenu(_ cell: RecipeListCell, _ point: CGPoint, _ index: Int) {
+        let convertPointOnView = cell.convert(point, to: self.view)
+        
+        currentlySelectedIndex = index
+        contextMenuView.setupMenuStackView(isFavorite: viewModel?.isFavoriteRecipe(by: index) ?? false)
+        contextMenuView.removeDeleteButton()
+        contextMenuView.setupMenuFunctions(isDefaultRecipe: viewModel?.isDefaultRecipe(by: index) ?? true,
+                                           isFavorite: viewModel?.isFavoriteRecipe(by: index) ?? false)
+        contextMenuView.snp.updateConstraints { $0.height.equalTo(contextMenuView.requiredHeight) }
+        contextMenuBackgroundView.isHidden = false
+        contextMenuView.isHidden = false
+        
+        contextMenuBackgroundView.snp.updateConstraints {
+            $0.height.equalTo(self.view.frame.height)
+        }
+        
+        contextMenuView.alpha = 0.0
+        contextMenuView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+            .translatedBy(x: convertPointOnView.x - 125,
+                          y: convertPointOnView.y - 300)
+        UIView.animate(withDuration: 0.3) {
+            self.contextMenuView.alpha = 1.0
+            self.contextMenuView.transform = .identity
+        }
+    }
+    
+    func tapCell(_ indexPath: IndexPath) {
+        guard let recipe = viewModel?.getRecipe(by: indexPath.row) else {
+            return
+        }
+        self.viewModel?.showRecipe(recipe)
     }
     
     private func updateTitleViewConstraints() {
@@ -339,20 +376,21 @@ extension SearchInRecipeViewController: UICollectionViewDataSource {
             }
             return lastCell
         }
+        let theme = viewModel?.theme ?? ColorManager.shared.getColorForRecipe()
         cell.configure(with: ShortRecipeModel(modelForSearch: recipe))
-        cell.configureColor(theme: viewModel?.theme ?? ColorManager.shared.getColorForRecipe())
+        cell.configureColor(theme: theme)
         cell.selectedIndex = indexPath.item
         cell.delegate = self
+        if isMealPlanMode {
+            cell.setupPlusOnButton(color: theme.dark)
+        }
         return cell
     }
 }
 
 extension SearchInRecipeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let recipe = viewModel?.getRecipe(by: indexPath.row) else {
-            return
-        }
-        self.viewModel?.showRecipe(recipe)
+        tapCell(indexPath)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -374,29 +412,7 @@ extension SearchInRecipeViewController: UITextFieldDelegate {
 
 extension SearchInRecipeViewController: RecipeListCellDelegate {
     func contextMenuTapped(at index: Int, point: CGPoint, cell: RecipeListCell) {
-        let convertPointOnView = cell.convert(point, to: self.view)
-        
-        currentlySelectedIndex = index
-        contextMenuView.setupMenuStackView(isFavorite: viewModel?.isFavoriteRecipe(by: index) ?? false)
-        contextMenuView.removeDeleteButton()
-        contextMenuView.setupMenuFunctions(isDefaultRecipe: viewModel?.isDefaultRecipe(by: index) ?? true,
-                                           isFavorite: viewModel?.isFavoriteRecipe(by: index) ?? false)
-        contextMenuView.snp.updateConstraints { $0.height.equalTo(contextMenuView.requiredHeight) }
-        contextMenuBackgroundView.isHidden = false
-        contextMenuView.isHidden = false
-        
-        contextMenuBackgroundView.snp.updateConstraints {
-            $0.height.equalTo(self.view.frame.height)
-        }
-        
-        contextMenuView.alpha = 0.0
-        contextMenuView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-                                        .translatedBy(x: convertPointOnView.x - 125,
-                                                      y: convertPointOnView.y - 300)
-        UIView.animate(withDuration: 0.3) {
-            self.contextMenuView.alpha = 1.0
-            self.contextMenuView.transform = .identity
-        }
+        showContextMenu(cell, point, index)
     }
 }
 

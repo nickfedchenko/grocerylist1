@@ -33,8 +33,8 @@ final class RecipesListHeaderView: UIView {
         return button
     }()
     
-    private let searchButton = UIButton()
-    private let changeViewButton = UIButton()
+    let searchButton = UIButton()
+    let changeViewButton = UIButton()
     private var mainColor: UIColor = .black
 
     override init(frame: CGRect) {
@@ -60,7 +60,15 @@ final class RecipesListHeaderView: UIView {
         backButton.setAttributedTitle(attrTitle, for: .normal)
         backButton.tintColor = color
         searchButton.setImage(R.image.searchButtonImage()?.withTintColor(color), for: .normal)
-        updateImageChangeViewButton()
+        updateImageChangeViewButton(recipeIsTableView: UserDefaultsManager.shared.recipeIsTableView)
+    }
+    
+    func updateImageChangeViewButton(recipeIsTableView: Bool) {
+        let tableIcon = R.image.recipeTableView()?.withTintColor(mainColor)
+        let gridIcon = R.image.recipeGridView()?.withTintColor(mainColor)
+        let image = recipeIsTableView ? tableIcon : gridIcon
+        
+        changeViewButton.setImage(image, for: .normal)
     }
     
     private func setupActions() {
@@ -80,21 +88,10 @@ final class RecipesListHeaderView: UIView {
         
         changeViewButton.addAction(
             UIAction { [weak self] _ in
-                UserDefaultsManager.shared.recipeIsTableView = !UserDefaultsManager.shared.recipeIsTableView
-                CloudManager.shared.saveCloudSettings()
-                self?.updateImageChangeViewButton()
                 self?.delegate?.changeViewButtonTapped()
             }
             , for: .touchUpInside
         )
-    }
-    
-    private func updateImageChangeViewButton() {
-        let tableIcon = R.image.recipeTableView()?.withTintColor(mainColor)
-        let gridIcon = R.image.recipeGridView()?.withTintColor(mainColor)
-        let image = UserDefaultsManager.shared.recipeIsTableView ? tableIcon : gridIcon
-        
-        changeViewButton.setImage(image, for: .normal)
     }
     
     private func setupSubviews() {

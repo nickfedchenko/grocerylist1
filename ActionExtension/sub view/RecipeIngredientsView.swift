@@ -43,32 +43,36 @@ class RecipeIngredientsView: UIView {
     
     func configure(recipe: WebRecipe) {
         if let servings = recipe.servings {
-            var servingsString = ""
-            switch servings {
-            case 1:
-                servingsString = "servings-1".localized
-            case 2...4:
-                servingsString = "servings-2-4".localized
-            case 5...:
-                servingsString = "servings>4".localized
-            default:
-                servingsString = "servings-1".localized
-            }
-            servingLabel.text = "\(servings) " + servingsString
+            setupServings(servings: servings)
         }
         
         ingredientsStack.removeAllArrangedSubviews()
 
         for ingredient in recipe.ingredients where !ingredient.name.isEmpty {
             let title = ingredient.name.firstCharacterUpperCase()
-            var quantity = ingredient.amount
-            var unitTitle = ingredient.unit
+            let quantity = ingredient.amount
+            let unitTitle = ingredient.unit
             let view = IngredientView()
             view.setTitle(title: title)
             view.setServing(serving: quantity == "" ? R.string.localizable.byTaste()
-                            : quantity + " " + unitTitle)
+                                                    : quantity + " " + unitTitle)
             ingredientsStack.addArrangedSubview(view)
         }
+    }
+    
+    func setupServings(servings: Int) {
+        var servingsString = ""
+        switch servings {
+        case 1:
+            servingsString = "servings-1".localized
+        case 2...4:
+            servingsString = "servings-2-4".localized
+        case 5...:
+            servingsString = "servings>4".localized
+        default:
+            servingsString = "servings-1".localized
+        }
+        servingLabel.text = "\(servings) " + servingsString
     }
     
     private func makeConstraints() {
