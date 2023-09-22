@@ -54,7 +54,7 @@ class MealPlanLabelsViewModel {
         return labels.count + 1
     }
     
-    func getCollectionTitle(by index: Int) -> String? {
+    func getLabelTitle(by index: Int) -> String? {
         return labels[safe: index]?.title.localized
     }
     
@@ -83,7 +83,10 @@ class MealPlanLabelsViewModel {
         guard let label = labels[safe: index] else {
             return
         }
-
+        if label.id == currentLabel.id {
+            labels.removeAll { label.id == $0.id }
+            currentLabel = labels.first ?? MealPlanLabel(defaultLabel: .none)
+        }
         CoreDataManager.shared.deleteLabel(by: label.id)
         getLabelFromStorage()
         hasBeenChangedLabel = true
@@ -94,17 +97,27 @@ class MealPlanLabelsViewModel {
         return indexPath.row != 0
     }
     
-    func swapCategories(from firstIndex: Int, to secondIndex: Int) {
+    func swapLabels(from firstIndex: Int, to secondIndex: Int) {
         let swapItem = labels.remove(at: firstIndex)
         labels.insert(swapItem, at: secondIndex)
+        reloadData?()
     }
     
     func saveChanges() {
-//        guard viewState == .select else {
-//            saveEditCollections()
-//            return
-//        }
-//        saveSelectCollections()
+        var updateLabels: [MealPlanLabel] = []
+        let editLabels = labels
+        editLabels.enumerated().forEach { index, label in
+            if label.index != index {
+                updateLabels.append(MealPlanLabel(id: label.id,
+                                                  title: label.title,
+                                                  color: label.color,
+                                                  index: index))
+            }
+        }
+        if !updateLabels.isEmpty {
+            hasBeenChangedLabel = true
+            CoreDataManager.shared.saveLabel(updateLabels)
+        }
     }
     
     func dismissView() {
@@ -114,53 +127,8 @@ class MealPlanLabelsViewModel {
         updateUI?(currentLabel)
     }
     
-    private func saveSelectCollections() {
-//        var selectCollections = collections.filter({ $0.select }).map({ $0.collection })
-//        guard let recipe else {
-//            selectedCollection?(selectCollections)
-//            return
-//        }
-//        selectCollections.enumerated().forEach { index, collection in
-//            var dishes = Set(collection.dishes ?? [])
-//            dishes.insert(recipe.id)
-//            selectCollections[index].dishes = Array(dishes)
-//        }
-//        CoreDataManager.shared.saveCollection(collections: selectCollections)
-//        selectCollections.forEach { collectionModel in
-//            CloudManager.shared.saveCloudData(collectionModel: collectionModel)
-//        }
-//        selectedCollection?(selectCollections)
-//        hasBeenChangedLabel = true
-    }
-    
-    private func saveEditCollections() {
-//        var updateCollections: [CollectionModel] = []
-//        let editCollections = collections.map { $0.collection }
-//        editCollections.enumerated().forEach { index, collection in
-//            if collection.index != index {
-//                updateCollections.append(CollectionModel(id: collection.id,
-//                                                         index: index,
-//                                                         title: collection.title,
-//                                                         color: collection.color ?? 0,
-//                                                         dishes: collection.dishes))
-//            }
-//        }
-//        if !updateCollections.isEmpty {
-//            hasBeenChangedLabel = true
-//            DispatchQueue.main.async {
-//                CoreDataManager.shared.saveCollection(collections: updateCollections)
-//                updateCollections.forEach { collectionModel in
-//                    CloudManager.shared.saveCloudData(collectionModel: collectionModel)
-//                }
-//            }
-//        }
-    }
-    
     @objc
     private func getLabelFromStorage() {
-        if currentLabel == nil {
-            
-        }
         labels = CoreDataManager.shared.getAllLabels()?.map({
             var label = MealPlanLabel(dbModel: $0)
             label.isSelected = label.id == currentLabel.id

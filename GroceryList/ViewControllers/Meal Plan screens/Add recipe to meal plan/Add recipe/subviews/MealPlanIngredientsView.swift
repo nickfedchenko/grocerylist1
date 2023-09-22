@@ -37,6 +37,7 @@ class MealPlanIngredientsView: UIView {
     private lazy var servingView: RecipeServingSelector = {
        let view = RecipeServingSelector()
         view.delegate = self
+        view.setColorForMealPlan()
         return view
     }()
     
@@ -44,12 +45,17 @@ class MealPlanIngredientsView: UIView {
         let button = UIButton(type: .system)
         button.setImage(R.image.addToCartFilled(), for: .normal)
         button.addTarget(self, action: #selector(tappedAddToCartButton), for: .touchUpInside)
+        button.backgroundColor = UIColor(hex: "1A645A")
         button.setCornerRadius(8)
         button.clipsToBounds = true
         return button
     }()
     
-    private let vectorArrowImage = UIImageView()
+    private let vectorArrowImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = R.image.vectorArrow()?.withTintColor(UIColor(hex: "617774"))
+        return imageView
+    }()
     
     private let ingredientsStack: UIStackView = {
         let stackView = UIStackView()
@@ -66,12 +72,6 @@ class MealPlanIngredientsView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setupColor(theme: Theme) {
-        servingView.setupColor(color: theme)
-        addToCartButton.backgroundColor = theme.dark
-        vectorArrowImage.image = R.image.vectorArrow()?.withTintColor(theme.dark)
     }
     
     func setupIngredients(recipe: Recipe) {

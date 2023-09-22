@@ -77,6 +77,12 @@ class SelectRecipeViewController: MainRecipeViewController {
         makeConstraints()
     }
     
+    override func updateCollectionContentInset() {
+        let topContentInset = navigationView.frame.height
+        let contentInset: CGFloat = recipeIsFolderView ? 0 : 8
+        recipesCollectionView.contentInset.top = topContentInset + contentInset
+    }
+    
     override func recipeChangeViewAction() {
         isFolder.toggle()
         let image = isFolder ? R.image.recipeCollectionView() : R.image.recipeFolderView()

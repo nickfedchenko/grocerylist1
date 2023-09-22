@@ -65,6 +65,13 @@ final class RecipeServingSelector: UIView {
         servingsLabel.textColor = color.dark
     }
     
+    func setColorForMealPlan() {
+        layer.borderColor = UIColor(hex: "617774").cgColor
+        minusButton.backgroundColor = UIColor(hex: "1A645A")
+        plusButton.backgroundColor = UIColor(hex: "1A645A")
+        servingsLabel.textColor = UIColor(hex: "1A645A")
+    }
+    
     func setCountInitially(to count: Int) {
         currentCount = count <= 0 ? 1 : Double(count)
     }
