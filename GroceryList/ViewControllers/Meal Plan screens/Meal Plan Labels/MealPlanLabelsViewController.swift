@@ -99,14 +99,11 @@ class MealPlanLabelsViewController: UIViewController {
         tableView.contentInset.top = offset
         updateConstraintsDescriptionLabel()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        viewModel.dismissView()
-    }
 
     @objc
     private func tappedDoneButton() {
+        viewModel.saveChanges()
+        viewModel.dismissView()
         self.dismiss(animated: true)
     }
     
@@ -176,7 +173,7 @@ extension MealPlanLabelsViewController: UITableViewDataSource {
         }
         
         let index = indexPath.row - 1
-        cell.configure(title: viewModel.getCollectionTitle(by: index),
+        cell.configure(title: viewModel.getLabelTitle(by: index),
                        color: viewModel.getColor(by: index))
         cell.configure(isSelect: viewModel.isSelect(by: index))
         cell.tapOnTitle = { [weak self] in
@@ -214,7 +211,7 @@ extension MealPlanLabelsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    moveRowAt sourceIndexPath: IndexPath,
                    to destinationIndexPath: IndexPath) {
-        viewModel.swapCategories(from: sourceIndexPath.row - 1, to: destinationIndexPath.row - 1)
+        viewModel.swapLabels(from: sourceIndexPath.row - 1, to: destinationIndexPath.row - 1)
     }
     
     func tableView(_ tableView: UITableView,

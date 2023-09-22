@@ -17,6 +17,7 @@
 		332340992A1B91C100609813 /* PantryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332340982A1B91C100609813 /* PantryViewModel.swift */; };
 		3323409B2A1B91CB00609813 /* PantryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3323409A2A1B91CB00609813 /* PantryDataSource.swift */; };
 		332619E22ABC91290010F412 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332619E12ABC91290010F412 /* UILabelExtension.swift */; };
+		332619E32ABD7E480010F412 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332619E12ABC91290010F412 /* UILabelExtension.swift */; };
 		3328AD86299CF40800187B57 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3328AD85299CF40800187B57 /* SharingView.swift */; };
 		33323C722A529A0000F552E3 /* TextViewWithPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33323C712A529A0000F552E3 /* TextViewWithPlaceholder.swift */; };
 		333D2FB82A30173D0072F779 /* StockHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333D2FB72A30173D0072F779 /* StockHeaderCell.swift */; };
@@ -3052,6 +3053,7 @@
 				33AF97C32A7B6A2900716104 /* UIBezierPath+MaskedCorners.swift in Sources */,
 				33AF97F12A7BD2A000716104 /* DBRecipe+CoreDataClass.swift in Sources */,
 				33E31B1A2A7A4E0A0011B41E /* UIColorExtension.swift in Sources */,
+				332619E32ABD7E480010F412 /* UILabelExtension.swift in Sources */,
 				33AF97992A7A6FEA00716104 /* RegistrationResponse.swift in Sources */,
 				33AF97BC2A7AB22100716104 /* PaddingLabel.swift in Sources */,
 				33AF97BF2A7AB72000716104 /* IngredientView.swift in Sources */,

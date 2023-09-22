@@ -63,8 +63,8 @@ struct MealPlanLabel: Hashable, Codable {
         self.index = Int(dbModel.index)
     }
     
-    init(title: String, color: Int, index: Int) {
-        self.id = UUID()
+    init(id: UUID = UUID(), title: String, color: Int, index: Int) {
+        self.id = id
         self.title = title
         self.color = color
         self.index = index

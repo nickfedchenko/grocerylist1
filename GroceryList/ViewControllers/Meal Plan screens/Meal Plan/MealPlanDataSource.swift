@@ -146,6 +146,7 @@ class MealPlanDataSource {
             labels.append(MealPlanLabel(defaultLabel: $0))
         }
         CoreDataManager.shared.saveLabel(labels)
+        UserDefaultsManager.shared.isFillingDefaultLabels = true
     }
 }
 

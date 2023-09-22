@@ -61,7 +61,7 @@ class CreateMealPlanLabelViewModel {
             newLabel = currentLabel
         } else {
             let index = CoreDataManager.shared.getAllLabels()?.count ?? 0
-            newLabel = MealPlanLabel(title: title, color: color, index: -index)
+            newLabel = MealPlanLabel(title: title, color: color, index: -index - 10)
         }
         
         CoreDataManager.shared.saveLabel([newLabel])

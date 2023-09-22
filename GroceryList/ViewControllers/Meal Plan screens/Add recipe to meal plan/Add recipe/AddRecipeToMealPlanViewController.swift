@@ -23,7 +23,7 @@ class AddRecipeToMealPlanViewController: UIViewController {
     private lazy var backButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
-        button.setTitle("  " + R.string.localizable.back(), for: .normal)
+        button.setTitle("   " + R.string.localizable.back(), for: .normal)
         button.setImage(R.image.greenArrowBack()?.withTintColor(UIColor(hex: "045C5C")), for: .normal)
         button.titleLabel?.font = UIFont.SFProRounded.bold(size: 16).font
         button.setTitleColor(R.color.primaryDark(), for: .normal)
@@ -130,7 +130,6 @@ class AddRecipeToMealPlanViewController: UIViewController {
         }
         
         ingredientsView.setupIngredients(recipe: recipe)
-        ingredientsView.setupColor(theme: theme)
         
         instructionsView.setupInstructions(instructions: recipe.instructions ?? [])
         instructionsView.updateViewsConstraints()
@@ -237,7 +236,7 @@ class AddRecipeToMealPlanViewController: UIViewController {
         
         backButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(22)
-            $0.leading.equalToSuperview().offset(8)
+            $0.leading.equalToSuperview().offset(4)
             $0.height.equalTo(40)
             $0.width.greaterThanOrEqualTo(96)
         }
