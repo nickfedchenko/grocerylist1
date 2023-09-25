@@ -124,7 +124,7 @@ protocol ViewControllerFactoryProtocol {
     func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe, mealPlan: MealPlan, updateUI: (() -> Void)?) -> UIViewController
     func createDestinationList(router: RootRouter, delegate: DestinationListDelegate) -> UIViewController
     
-    func createMealPlanLabels(router: RootRouter, label: MealPlanLabel,
-                              updateUI: ((MealPlanLabel) -> Void)?) -> UIViewController
+    func createMealPlanLabels(router: RootRouter, label: MealPlanLabel?,
+                              updateUI: ((MealPlanLabel?) -> Void)?) -> UIViewController
     func createCreateMealPlanLabel(label: MealPlanLabel?, updateUI: (() -> Void)?) -> UIViewController 
 }

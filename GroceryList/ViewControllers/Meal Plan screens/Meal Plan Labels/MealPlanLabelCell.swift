@@ -130,14 +130,11 @@ final class MealPlanLabelCell: UITableViewCell {
     func configure(isSelect: Bool) {
         checkmarkImageView.isHidden = !isSelect
     }
-
-    private func setup() {
-        self.selectionStyle = .none
-        self.backgroundColor = .clear
-        trashButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
-        
-        makeConstraints()
-        
+    
+    func canDeleteCell(_ canDelete: Bool) {
+        guard canDelete else {
+            return
+        }
         let swipeRightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
         swipeRightRecognizer.direction = .right
         containerView.addGestureRecognizer(swipeRightRecognizer)
@@ -145,6 +142,14 @@ final class MealPlanLabelCell: UITableViewCell {
         let swipeLeftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
         swipeLeftRecognizer.direction = .left
         containerView.addGestureRecognizer(swipeLeftRecognizer)
+    }
+
+    private func setup() {
+        self.selectionStyle = .none
+        self.backgroundColor = .clear
+        trashButton.transform = CGAffineTransform(scaleX: 0.0, y: 1)
+        
+        makeConstraints()
     }
     
     @objc
@@ -169,10 +174,6 @@ final class MealPlanLabelCell: UITableViewCell {
         case .left:
             if state == .normal {
                 showTrash()
-            } else {
-                hideTrash { [weak self] in
-                    self?.tapDelete?()
-                }
             }
         default: break
         }

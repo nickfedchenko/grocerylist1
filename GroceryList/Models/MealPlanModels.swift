@@ -11,11 +11,11 @@ struct MealPlan: Hashable, Codable {
     let id: UUID
     let recipeId: Int
     var date: Date
-    var label: MealPlanLabel?
+    var label: UUID?
     var destinationListId: UUID?
     
     init(id: UUID = UUID(), recipeId: Int, date: Date,
-         label: MealPlanLabel, destinationListId: UUID? = nil) {
+         label: UUID?, destinationListId: UUID? = nil) {
         self.id = id
         self.recipeId = recipeId
         self.date = date
@@ -36,7 +36,7 @@ struct MealPlan: Hashable, Codable {
         self.id = dbModel.id
         self.recipeId = dbModel.recipeId.asInt
         self.date = dbModel.date
-        self.label = (try? JSONDecoder().decode(MealPlanLabel.self, from: dbModel.label ?? Data()))
+        self.label = dbModel.label
         self.destinationListId = dbModel.destinationListId
     }
 }
