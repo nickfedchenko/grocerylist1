@@ -10,7 +10,7 @@ import UIKit
 class MealPlanLabelsViewModel {
     
     weak var router: RootRouter?
-    var updateUI: ((MealPlanLabel) -> Void)?
+    var updateUI: ((MealPlanLabel?) -> Void)?
     
     var reloadData: (() -> Void)?
     var necessaryHeight: Double {
@@ -22,11 +22,11 @@ class MealPlanLabelsViewModel {
     }
     
     private var labels: [MealPlanLabel] = []
-    private var currentLabel: MealPlanLabel
+    private var currentLabel: MealPlanLabel?
     private var hasBeenChangedLabel = false
     private let colorManager = ColorManager.shared
     
-    init(label: MealPlanLabel) {
+    init(label: MealPlanLabel?) {
         currentLabel = label
         getLabelFromStorage()
     }
@@ -73,7 +73,7 @@ class MealPlanLabelsViewModel {
     func updateSelect(by index: Int) {
         currentLabel = labels[index]
         for (index, label) in labels.enumerated() {
-            labels[index].isSelected = label.id == currentLabel.id
+            labels[index].isSelected = label.id == currentLabel?.id
         }
         reloadData?()
         hasBeenChangedLabel = true
@@ -83,9 +83,8 @@ class MealPlanLabelsViewModel {
         guard let label = labels[safe: index] else {
             return
         }
-        if label.id == currentLabel.id {
-            labels.removeAll { label.id == $0.id }
-            currentLabel = labels.first ?? MealPlanLabel(defaultLabel: .none)
+        if label.id == currentLabel?.id {
+            currentLabel = MealPlanLabel(defaultLabel: .none)
         }
         CoreDataManager.shared.deleteLabel(by: label.id)
         getLabelFromStorage()
@@ -95,6 +94,13 @@ class MealPlanLabelsViewModel {
     
     func canMove(by indexPath: IndexPath) -> Bool {
         return indexPath.row != 0
+    }
+    
+    func canDeleteLabel(by index: Int) -> Bool {
+        guard let label = labels[safe: index] else {
+            return false
+        }
+        return label.id != DefaultLabel.none.id
     }
     
     func swapLabels(from firstIndex: Int, to secondIndex: Int) {
@@ -131,7 +137,7 @@ class MealPlanLabelsViewModel {
     private func getLabelFromStorage() {
         labels = CoreDataManager.shared.getAllLabels()?.map({
             var label = MealPlanLabel(dbModel: $0)
-            label.isSelected = label.id == currentLabel.id
+            label.isSelected = label.id == currentLabel?.id
             return label
         }) ?? []
         

@@ -655,8 +655,8 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return controller
     }
     
-    func createMealPlanLabels(router: RootRouter, label: MealPlanLabel,
-                              updateUI: ((MealPlanLabel) -> Void)?) -> UIViewController {
+    func createMealPlanLabels(router: RootRouter, label: MealPlanLabel?,
+                              updateUI: ((MealPlanLabel?) -> Void)?) -> UIViewController {
         let viewModel = MealPlanLabelsViewModel(label: label)
         viewModel.router = router
         viewModel.updateUI = updateUI

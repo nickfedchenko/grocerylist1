@@ -139,6 +139,7 @@ class AddRecipeToMealPlanViewController: UIViewController {
         mealPlanLabelView.configure(allLabels: viewModel.labels)
         dateView.configure(date: viewModel.mealPlanDate)
         calendarView.configure(date: viewModel.mealPlanDate)
+        destinationListView.configure(list: viewModel.getListName())
         
         calendarView.labelColors = { [weak self] date in
             self?.viewModel.getLabelColors(by: date) ?? []

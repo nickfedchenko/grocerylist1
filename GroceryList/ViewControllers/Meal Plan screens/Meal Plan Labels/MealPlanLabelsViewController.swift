@@ -176,6 +176,7 @@ extension MealPlanLabelsViewController: UITableViewDataSource {
         cell.configure(title: viewModel.getLabelTitle(by: index),
                        color: viewModel.getColor(by: index))
         cell.configure(isSelect: viewModel.isSelect(by: index))
+        cell.canDeleteCell(viewModel.canDeleteLabel(by: index))
         cell.tapOnTitle = { [weak self] in
             self?.viewModel.editLabel(by: index)
         }

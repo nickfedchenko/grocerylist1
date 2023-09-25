@@ -18,7 +18,7 @@ extension DBMealPlan {
     @NSManaged public var id: UUID
     @NSManaged public var recipeId: Int64
     @NSManaged public var date: Date
-    @NSManaged public var label: Data?
+    @NSManaged public var label: UUID?
     @NSManaged public var destinationListId: UUID?
 
     static func prepare(fromPlainModel model: MealPlan, context: NSManagedObjectContext) -> DBMealPlan {
@@ -26,7 +26,7 @@ extension DBMealPlan {
         dbLabel.id = model.id
         dbLabel.recipeId = Int64(model.recipeId)
         dbLabel.date = model.date
-        dbLabel.label = try? JSONEncoder().encode(model.label)
+        dbLabel.label = model.label
         dbLabel.destinationListId = model.destinationListId
         return dbLabel
     }
