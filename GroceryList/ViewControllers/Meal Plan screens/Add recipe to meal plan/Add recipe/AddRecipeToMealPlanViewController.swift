@@ -205,7 +205,7 @@ class AddRecipeToMealPlanViewController: UIViewController {
         
         mealPlanLabelView.snp.makeConstraints {
             $0.top.equalTo(dateView.snp.bottom).offset(16)
-            $0.height.greaterThanOrEqualTo(viewModel.labels.count * 42 + 38)
+            $0.height.greaterThanOrEqualTo(viewModel.labels.count * 41 + 38)
             $0.leading.trailing.equalTo(recipeView)
         }
         

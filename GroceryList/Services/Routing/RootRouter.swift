@@ -524,12 +524,20 @@ final class RootRouter: RootRouterProtocol {
         let controller = viewControllerFactory.createCreateMealPlanLabel(label: label, updateUI: updateUI)
         controller.modalPresentationStyle = .overCurrentContext
         controller.modalTransitionStyle = .crossDissolve
-        topViewController?.present(controller, animated: true)
+        UIViewController.currentController()?.present(controller, animated: true)
     }
     
     func dismissAddRecipeToMealPlan() {
         let navController = topViewController?.navigationController
         navController?.dismiss(animated: true)
+    }
+    
+    func goToAddNoteToMealPlan(note: MealPlanNote?, date: Date, updateUI: (() -> Void)?) {
+        let viewModel = AddNoteToMealPlanViewModel(note: note, date: date)
+        viewModel.router = self
+        viewModel.updateUI = updateUI
+        let controller = AddNoteToMealPlanViewController(viewModel: viewModel)
+        topViewController?.present(controller, animated: true)
     }
     
     // алерты / активити и принтер

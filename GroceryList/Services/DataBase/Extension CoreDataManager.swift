@@ -659,7 +659,7 @@ extension CoreDataManager {
     }
     
     func deleteLabel(by id: UUID) {
-        let context =  coreData.context
+        let context = coreData.context
         let fetchRequest = DBLabel.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
         if let object = fetch(request: fetchRequest, context: context).first {
@@ -704,6 +704,42 @@ extension CoreDataManager {
             return nil
         }
         return object
+    }
+    
+    func saveMealPlanNote(_ note: MealPlanNote) {
+        let asyncContext = coreData.taskContext
+        asyncContext.performAndWait {
+            do {
+                _ = DBMealPlanNote.prepare(fromPlainModel: note, context: asyncContext)
+                try asyncContext.save()
+            } catch let error {
+                print(error)
+                asyncContext.rollback()
+            }
+        }
+    }
+    
+    func getMealPlanNotes() -> [DBMealPlanNote]? {
+        fetch(request: DBMealPlanNote.fetchRequest(), context: coreData.context)
+    }
+
+    func getMealPlanNote(id: String) -> DBMealPlanNote? {
+        let fetchRequest = DBMealPlanNote.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        guard let object = fetch(request: fetchRequest, context: coreData.context).first else {
+            return nil
+        }
+        return object
+    }
+    
+    func deleteMealPlanNote(by id: UUID) {
+        let context = coreData.context
+        let fetchRequest = DBMealPlanNote.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        if let object = fetch(request: fetchRequest, context: context).first {
+            context.delete(object)
+        }
+        try? context.save()
     }
 
     private func resetRecordId<T: NSManagedObject>(request: NSFetchRequest<T>,

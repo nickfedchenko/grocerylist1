@@ -7,7 +7,12 @@
 
 import Foundation
 
-struct MealPlan: Hashable, Codable {
+protocol ItemWithLabelProtocol {
+    var label: UUID? { get set }
+    var date: Date { get set }
+}
+
+struct MealPlan: Hashable, Codable, ItemWithLabelProtocol {
     let id: UUID
     let recipeId: Int
     var date: Date
@@ -71,12 +76,28 @@ struct MealPlanLabel: Hashable, Codable {
     }
 }
 
-struct MealPlanNote: Hashable, Codable {
+struct MealPlanNote: Hashable, Codable, ItemWithLabelProtocol {
     let id: UUID
-    let title: String
-    let details: String
+    var title: String
+    var details: String?
     var date: Date
-    var label: MealPlanLabel
+    var label: UUID?
+    
+    init(id: UUID = UUID(), title: String, details: String?, date: Date, label: UUID?) {
+        self.id = id
+        self.title = title
+        self.details = details
+        self.date = date
+        self.label = label
+    }
+    
+    init(dbModel: DBMealPlanNote) {
+        self.id = dbModel.id
+        self.title = dbModel.title
+        self.details = dbModel.details
+        self.date = dbModel.date
+        self.label = dbModel.label
+    }
 }
 
 struct MealPlanSection: Hashable {
@@ -89,12 +110,12 @@ struct MealPlanCellModel: Hashable {
     var type: MealPlanCellType
     var date: Date
     var mealPlan: MealPlan?
-    var note: String?
+    var note: MealPlanNote?
     
     init(type: MealPlanCellType,
          date: Date,
          mealPlan: MealPlan? = nil,
-         note: String? = nil) {
+         note: MealPlanNote? = nil) {
         self.type = type
         self.date = date
         self.mealPlan = mealPlan
