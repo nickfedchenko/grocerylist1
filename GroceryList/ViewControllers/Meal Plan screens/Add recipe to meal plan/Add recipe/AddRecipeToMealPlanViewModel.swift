@@ -20,7 +20,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     private(set) var labels: [MealPlanLabel] = []
     private(set) var mealPlanDate: Date
     private var destinationListId: UUID?
-    private var mealPlanLabel: MealPlanLabel {
+    private var mealPlanLabel: MealPlanLabel? {
         didSet { selectedLabel() }
     }
     private var isContinueSaving = false
@@ -49,7 +49,15 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     
     func getLabelColors(by date: Date) -> [UIColor] {
         let mealPlansByDate = allMealPlans.filter { $0.date.onlyDate == date.onlyDate }
-        let colorNumbers = mealPlansByDate.compactMap { $0.label?.color }
+        let labels = mealPlansByDate.compactMap {
+            if let labelId = $0.label,
+               let dbLabel = CoreDataManager.shared.getLabel(id: labelId.uuidString) {
+                return MealPlanLabel(dbModel: dbLabel)
+            } else {
+                return MealPlanLabel(defaultLabel: .none)
+            }
+        }
+        let colorNumbers = labels.compactMap { $0.color }
         return colorNumbers.map { colorManager.getLabelColor(index: $0) }
     }
     
@@ -66,12 +74,12 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
         let newMealPlan: MealPlan
         if var mealPlan {
             mealPlan.date = date
-            mealPlan.label = label
+            mealPlan.label = label?.id
             mealPlan.destinationListId = destinationListId
             newMealPlan = mealPlan
         } else {
             newMealPlan = MealPlan(recipeId: recipe.id, date: date,
-                                   label: label,
+                                   label: label?.id,
                                    destinationListId: destinationListId)
         }
         
@@ -116,7 +124,12 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     }
     
     func showLabels() {
-        router?.goToMealPlanLabels()
+        router?.goToMealPlanLabels(label: mealPlanLabel,
+                                   updateUI: { [weak self] selectedLabel in
+            self?.mealPlanLabel = selectedLabel
+            self?.getLabelsFromStorage()
+            self?.updateLabels?()
+        })
     }
     
     private func setMealPlan() {
@@ -125,12 +138,17 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
         }
         
         destinationListId = mealPlan.destinationListId
-        mealPlanLabel = mealPlan.label ?? MealPlanLabel(defaultLabel: .none)
+        if let labelId = mealPlan.label,
+           let dbLabel = CoreDataManager.shared.getLabel(id: labelId.uuidString) {
+            mealPlanLabel = MealPlanLabel(dbModel: dbLabel)
+        } else {
+            mealPlanLabel = nil
+        }
     }
     
     private func selectedLabel() {
         for (index, label) in labels.enumerated() {
-            labels[index].isSelected = label.id == mealPlanLabel.id
+            labels[index].isSelected = label.id == mealPlanLabel?.id
         }
         updateLabels?()
     }
@@ -142,7 +160,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     private func getLabelsFromStorage() {
         labels = CoreDataManager.shared.getAllLabels()?.map({
             var label = MealPlanLabel(dbModel: $0)
-            label.isSelected = label.id == mealPlanLabel.id
+            label.isSelected = label.id == mealPlanLabel?.id
             return label
         }) ?? []
     }

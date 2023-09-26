@@ -11,11 +11,11 @@ struct MealPlan: Hashable, Codable {
     let id: UUID
     let recipeId: Int
     var date: Date
-    var label: MealPlanLabel?
+    var label: UUID?
     var destinationListId: UUID?
     
     init(id: UUID = UUID(), recipeId: Int, date: Date,
-         label: MealPlanLabel, destinationListId: UUID? = nil) {
+         label: UUID?, destinationListId: UUID? = nil) {
         self.id = id
         self.recipeId = recipeId
         self.date = date
@@ -36,16 +36,16 @@ struct MealPlan: Hashable, Codable {
         self.id = dbModel.id
         self.recipeId = dbModel.recipeId.asInt
         self.date = dbModel.date
-        self.label = (try? JSONDecoder().decode(MealPlanLabel.self, from: dbModel.label ?? Data()))
+        self.label = dbModel.label
         self.destinationListId = dbModel.destinationListId
     }
 }
 
 struct MealPlanLabel: Hashable, Codable {
     let id: UUID
-    let title: String
-    let color: Int
-    let index: Int
+    var title: String
+    var color: Int
+    var index: Int
     
     var isSelected = false
     
@@ -61,6 +61,13 @@ struct MealPlanLabel: Hashable, Codable {
         self.title = (dbModel.title ?? "").localized
         self.color = Int(dbModel.color)
         self.index = Int(dbModel.index)
+    }
+    
+    init(id: UUID = UUID(), title: String, color: Int, index: Int) {
+        self.id = id
+        self.title = title
+        self.color = color
+        self.index = index
     }
 }
 

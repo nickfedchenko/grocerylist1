@@ -212,5 +212,4 @@ final class ShowCollectionCell: UITableViewCell {
             $0.centerY.equalTo(iconImageView)
         }
     }
-
 }

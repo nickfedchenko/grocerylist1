@@ -48,7 +48,6 @@ class MainRecipeViewController: UIViewController {
         collectionView.register(classCell: FolderRecipePreviewCell.self)
         collectionView.registerHeader(classHeader: RecipesFolderHeader.self)
         collectionView.contentInset.bottom = 90
-        collectionView.contentInset.top = topContentInset + 108
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
@@ -88,7 +87,6 @@ class MainRecipeViewController: UIViewController {
         
         setupConstraints()
         viewModelChanges()
-        updateCollectionContentInset()
         updateImageChangeViewButton()
         
         let tapOnSearch = UITapGestureRecognizer(target: self, action: #selector(tappedOnSearch))
@@ -106,7 +104,18 @@ class MainRecipeViewController: UIViewController {
             isShowFirstViewWillAppear = true
         }
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateCollectionContentInset()
+    }
 
+    func updateCollectionContentInset() {
+        let topContentInset = navigationView.frame.height - topContentInset
+        let contentInset: CGFloat = recipeIsFolderView ? -8 : 8
+        recipesCollectionView.contentInset.top = topContentInset + contentInset
+    }
+    
     private func viewModelChanges() {
         viewModel.reloadRecipes = { [weak self] in
             DispatchQueue.main.async {
@@ -134,11 +143,6 @@ class MainRecipeViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    private func updateCollectionContentInset() {
-        let contentInset: CGFloat = recipeIsFolderView ? 58 : 68
-        recipesCollectionView.contentInset.top = topContentInset + contentInset
     }
     
     private func setupCollectionViewCell(indexPath: IndexPath) -> UICollectionViewCell {

@@ -59,12 +59,25 @@ class MealPlanDataSource {
     }
     
     func getLabel(by date: Date, for index: IndexPath) -> MealPlanLabel? {
-        return getMealPlan(by: date, for: index)?.label
+        guard let labelId = getMealPlan(by: date, for: index)?.label,
+              let dbLabel = CoreDataManager.shared.getLabel(id: labelId.uuidString) else {
+            return nil
+        }
+        return MealPlanLabel(dbModel: dbLabel)
     }
     
     func getLabelColors(by date: Date) -> [Int] {
         let mealPlansByDate = mealPlan.filter { $0.date.onlyDate == date.onlyDate }
-        return mealPlansByDate.compactMap { $0.label?.color }
+        let labels = mealPlansByDate.compactMap {
+            if let labelId = $0.label,
+               let dbLabel = CoreDataManager.shared.getLabel(id: labelId.uuidString) {
+                return MealPlanLabel(dbModel: dbLabel)
+            } else {
+                return MealPlanLabel(defaultLabel: .none)
+            }
+        }
+        
+        return labels.compactMap { $0.color }
     }
     
     func getMealPlansFromStorage() {
@@ -146,6 +159,7 @@ class MealPlanDataSource {
             labels.append(MealPlanLabel(defaultLabel: $0))
         }
         CoreDataManager.shared.saveLabel(labels)
+        UserDefaultsManager.shared.isFillingDefaultLabels = true
     }
 }
 

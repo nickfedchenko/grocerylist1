@@ -55,6 +55,9 @@ class RecipeDescriptionView: UIView {
         descriptionTitleLabel.font = UIFont.SFProRounded.bold(size: 18).font
         descriptionTitleLabel.textColor = R.color.darkGray()
         
+        descriptionRecipeLabel.setMaximumLineHeight(value: 20)
+        descriptionRecipeLabel.textColor = UIColor(hex: "514631")
+        
         descriptionTitleLabel.snp.removeConstraints()
         descriptionTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()

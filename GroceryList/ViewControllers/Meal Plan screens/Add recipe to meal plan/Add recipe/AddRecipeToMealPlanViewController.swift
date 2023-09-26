@@ -23,7 +23,7 @@ class AddRecipeToMealPlanViewController: UIViewController {
     private lazy var backButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
-        button.setTitle("  " + R.string.localizable.back(), for: .normal)
+        button.setTitle("   " + R.string.localizable.back(), for: .normal)
         button.setImage(R.image.greenArrowBack()?.withTintColor(UIColor(hex: "045C5C")), for: .normal)
         button.titleLabel?.font = UIFont.SFProRounded.bold(size: 16).font
         button.setTitleColor(R.color.primaryDark(), for: .normal)
@@ -103,7 +103,12 @@ class AddRecipeToMealPlanViewController: UIViewController {
         }
         
         viewModel.updateLabels = { [weak self] in
-            self?.mealPlanLabelView.updateLabels(allLabels: self?.viewModel.labels ?? [])
+            guard let self else { return }
+            self.mealPlanLabelView.configure(allLabels: self.viewModel.labels)
+            self.mealPlanLabelView.snp.updateConstraints {
+                $0.height.greaterThanOrEqualTo(self.viewModel.labels.count * 42 + 38)
+            }
+            self.view.layoutIfNeeded()
         }
     }
     
@@ -125,7 +130,6 @@ class AddRecipeToMealPlanViewController: UIViewController {
         }
         
         ingredientsView.setupIngredients(recipe: recipe)
-        ingredientsView.setupColor(theme: theme)
         
         instructionsView.setupInstructions(instructions: recipe.instructions ?? [])
         instructionsView.updateViewsConstraints()
@@ -135,6 +139,7 @@ class AddRecipeToMealPlanViewController: UIViewController {
         mealPlanLabelView.configure(allLabels: viewModel.labels)
         dateView.configure(date: viewModel.mealPlanDate)
         calendarView.configure(date: viewModel.mealPlanDate)
+        destinationListView.configure(list: viewModel.getListName())
         
         calendarView.labelColors = { [weak self] date in
             self?.viewModel.getLabelColors(by: date) ?? []
@@ -232,7 +237,7 @@ class AddRecipeToMealPlanViewController: UIViewController {
         
         backButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(22)
-            $0.leading.equalToSuperview().offset(8)
+            $0.leading.equalToSuperview().offset(4)
             $0.height.equalTo(40)
             $0.width.greaterThanOrEqualTo(96)
         }

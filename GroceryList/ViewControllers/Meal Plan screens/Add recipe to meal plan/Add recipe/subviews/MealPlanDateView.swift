@@ -30,7 +30,7 @@ class MealPlanDateView: UIView {
         let label = UILabel()
         label.font = UIFont.SFPro.medium(size: 16).font
         label.textColor = R.color.darkGray()
-        label.text =  R.string.localizable.date()
+        label.text = R.string.localizable.date()
         return label
     }()
     

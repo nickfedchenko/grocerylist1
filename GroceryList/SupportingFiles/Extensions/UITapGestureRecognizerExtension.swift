@@ -13,7 +13,8 @@ extension UITapGestureRecognizer {
         guard let attributedText = label.attributedText else { return false }
 
         let mutableStr = NSMutableAttributedString(attributedString: attributedText)
-        mutableStr.addAttributes([NSAttributedString.Key.font : label.font!], range: NSRange(location: 0, length: attributedText.length))
+        mutableStr.addAttributes([NSAttributedString.Key.font : label.font ?? UIFont()],
+                                 range: NSRange(location: 0, length: attributedText.length))
         
         // If the label have text alignment. Delete this code if label have a default (left) aligment. Possible to add the attribute in previous adding.
         let paragraphStyle = NSMutableParagraphStyle()

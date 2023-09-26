@@ -630,7 +630,7 @@ extension CoreDataManager {
     
     // MARK: - Meal Plan
     func saveLabel(_ label: [MealPlanLabel]) {
-        let asyncContext = coreData.viewContext
+        let asyncContext = coreData.taskContext
         asyncContext.performAndWait {
             do {
                 _ = label.map({ DBLabel.prepare(fromPlainModel: $0, context: asyncContext) }) 
@@ -658,8 +658,18 @@ extension CoreDataManager {
         return object
     }
     
+    func deleteLabel(by id: UUID) {
+        let context =  coreData.context
+        let fetchRequest = DBLabel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        if let object = fetch(request: fetchRequest, context: context).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
     func saveMealPlan(_ mealPlan: MealPlan) {
-        let asyncContext = coreData.viewContext
+        let asyncContext = coreData.taskContext
         asyncContext.performAndWait {
             do {
                 _ = DBMealPlan.prepare(fromPlainModel: mealPlan, context: asyncContext)
