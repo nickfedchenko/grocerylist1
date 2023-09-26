@@ -17,6 +17,7 @@ class MealPlanDataSource {
     var reloadData: (() -> Void)?
     
     private var mealPlan: [MealPlan] = []
+    private var note: [MealPlanNote] = []
     private var weekSection: [MealPlanSection] = []
     
     private var sortType: SortType {
@@ -37,16 +38,18 @@ class MealPlanDataSource {
         }
         
         let mealPlansByDate = mealPlan.filter { $0.date.onlyDate == date.onlyDate }
-        let cellModel = mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate, sortType: .month)
+        let noteByDate = note.filter { $0.date.onlyDate == date.onlyDate }
+        let cellModel = mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate, note: noteByDate, sortType: .month)
         section = [MealPlanSection(sectionType: .month, date: date, mealPlans: cellModel)]
         return section
     }
     
     func getMealPlan(by indexPath: IndexPath) -> MealPlan? {
-        guard let plan = section[safe: indexPath.section]?.mealPlans[safe: indexPath.row]?.mealPlan else {
-            return nil
-        }
-        return plan
+        section[safe: indexPath.section]?.mealPlans[safe: indexPath.row]?.mealPlan
+    }
+    
+    func getNote(by indexPath: IndexPath) -> MealPlanNote? {
+        section[safe: indexPath.section]?.mealPlans[safe: indexPath.row]?.note
     }
     
     func getRecipe(by date: Date, for index: IndexPath) -> ShortRecipeModel? {
@@ -58,8 +61,32 @@ class MealPlanDataSource {
         return ShortRecipeModel(withCollection: dbRecipe, isFavorite: isFavorite)
     }
     
-    func getLabel(by date: Date, for index: IndexPath) -> MealPlanLabel? {
-        guard let labelId = getMealPlan(by: date, for: index)?.label,
+    func getLabel(by date: Date, for index: IndexPath, type: MealPlanCellType) -> MealPlanLabel? {
+        let section = getMealPlans(by: date)
+        let item = section[safe: index.section]?.mealPlans[safe: index.row]
+        let itemWithLabel: ItemWithLabelProtocol?
+        if type == .plan {
+            itemWithLabel = item?.mealPlan
+        } else if type == .note {
+            itemWithLabel = item?.note
+        } else {
+            return nil
+        }
+        
+        guard let labelId = itemWithLabel?.label,
+              let dbLabel = CoreDataManager.shared.getLabel(id: labelId.uuidString) else {
+            return nil
+        }
+        return MealPlanLabel(dbModel: dbLabel)
+    }
+    
+    func getNote(by date: Date, for index: IndexPath) -> MealPlanNote? {
+        let section = getMealPlans(by: date)
+        return section[safe: index.section]?.mealPlans[safe: index.row]?.note
+    }
+    
+    func getLabelForNote(by date: Date, for index: IndexPath) -> MealPlanLabel? {
+        guard let labelId = getNote(by: date, for: index)?.label,
               let dbLabel = CoreDataManager.shared.getLabel(id: labelId.uuidString) else {
             return nil
         }
@@ -67,8 +94,10 @@ class MealPlanDataSource {
     }
     
     func getLabelColors(by date: Date) -> [Int] {
-        let mealPlansByDate = mealPlan.filter { $0.date.onlyDate == date.onlyDate }
-        let labels = mealPlansByDate.compactMap {
+        let mealPlansByDate: [ItemWithLabelProtocol] = mealPlan.filter { $0.date.onlyDate == date.onlyDate }
+        let noteByDate: [ItemWithLabelProtocol] = note.filter { $0.date.onlyDate == date.onlyDate }
+        let allLabels: [ItemWithLabelProtocol] = mealPlansByDate + noteByDate
+        let labels = allLabels.compactMap {
             if let labelId = $0.label,
                let dbLabel = CoreDataManager.shared.getLabel(id: labelId.uuidString) {
                 return MealPlanLabel(dbModel: dbLabel)
@@ -82,6 +111,7 @@ class MealPlanDataSource {
     
     func getMealPlansFromStorage() {
         mealPlan = CoreDataManager.shared.getAllMealPlans()?.map({ MealPlan(dbModel: $0) }) ?? []
+        note = CoreDataManager.shared.getMealPlanNotes()?.map({ MealPlanNote(dbModel: $0) }) ?? []
         
         DispatchQueue.main.async {
             var section: [MealPlanSection] = []
@@ -93,7 +123,7 @@ class MealPlanDataSource {
                 if mealPlansByDate.isEmpty {
                     mealPlansByDate.append(MealPlan(date: date))
                 }
-                let cellModel = self.mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate, sortType: .week)
+                let cellModel = self.mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate, note: [], sortType: .week)
                 section.append(MealPlanSection(sectionType: type, date: date, mealPlans: cellModel))
             }
             self.weekSection = section
@@ -123,18 +153,23 @@ class MealPlanDataSource {
             if mealPlansByDate.isEmpty {
                 mealPlansByDate.append(MealPlan(date: date))
             }
-            let cellModel = mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate, sortType: .week)
+            let cellModel = mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate, note: [], sortType: .week)
             section.append(MealPlanSection(sectionType: type, date: date, mealPlans: cellModel))
         }
         return section
     }
     
-    private func mapMealPlanToCellModel(date: Date, mealPlan: [MealPlan], sortType: SortType) -> [MealPlanCellModel] {
+    private func mapMealPlanToCellModel(date: Date, mealPlan: [MealPlan], note: [MealPlanNote], sortType: SortType) -> [MealPlanCellModel] {
         var cellModel: [MealPlanCellModel] = []
         guard sortType == .month else {
             cellModel = mealPlan.map {
                 MealPlanCellModel(type: .plan, date: date, mealPlan: $0)
             }
+            
+            note.forEach {
+                cellModel.append(MealPlanCellModel(type: .note, date: date, note: $0))
+            }
+            
             return cellModel
         }
         
@@ -146,7 +181,15 @@ class MealPlanDataSource {
             }
         }
         
-        cellModel.append(MealPlanCellModel(type: .noteEmpty, date: date))
+        if note.isEmpty {
+            cellModel.append(MealPlanCellModel(type: .noteEmpty, date: date))
+        } else {
+            note.forEach {
+                cellModel.append(MealPlanCellModel(type: .note, date: date, note: $0))
+            }
+            cellModel.append(MealPlanCellModel(type: .noteFilled, date: date))
+        }
+        
         return cellModel
     }
     

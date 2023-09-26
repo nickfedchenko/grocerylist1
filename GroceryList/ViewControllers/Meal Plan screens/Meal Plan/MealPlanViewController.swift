@@ -76,6 +76,7 @@ class MealPlanViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
         collectionView.register(classCell: MealPlanCell.self)
+        collectionView.register(classCell: MealPlanNoteCell.self)
         collectionView.register(classCell: MealPlanEmptyCell.self)
         collectionView.registerHeader(classHeader: MealPlanHeaderCell.self)
         return collectionView
@@ -179,9 +180,9 @@ class MealPlanViewController: UIViewController {
             
             switch model.type {
             case .plan:
-                return self.setupMealPlanCell(by: indexPath)
+                return self.setupMealPlanCell(by: indexPath, type: model.type)
             case .note:
-                return UICollectionViewCell()
+                return self.setupNoteCell(by: indexPath, type: model.type)
             case .planEmpty, .noteEmpty, .noteFilled:
                 return self.setupEmptyCell(by: indexPath, type: model.type)
             }
@@ -212,7 +213,7 @@ class MealPlanViewController: UIViewController {
 //        }
     }
     
-    private func setupMealPlanCell(by indexPath: IndexPath) -> MealPlanCell {
+    private func setupMealPlanCell(by indexPath: IndexPath, type: MealPlanCellType) -> MealPlanCell {
         let cell = self.collectionView.reusableCell(classCell: MealPlanCell.self, indexPath: indexPath)
         guard let model = self.viewModel.getRecipe(by: self.calendarView.selectedDate, for: indexPath) else {
             cell.configureWithoutRecipe()
@@ -221,9 +222,22 @@ class MealPlanViewController: UIViewController {
         cell.configure(with: model)
         cell.configureColor(theme: self.viewModel.theme)
         cell.selectedIndex = indexPath.item
-        let label = viewModel.getLabel(by: self.calendarView.selectedDate, for: indexPath)
+        let label = viewModel.getLabel(by: self.calendarView.selectedDate, for: indexPath, type: type)
         cell.configureMealPlanLabel(text: label.text, color: label.color)
         cell.mealPlanDelegate = self
+        return cell
+    }
+    
+    private func setupNoteCell(by indexPath: IndexPath, type: MealPlanCellType) -> MealPlanNoteCell {
+        let cell = self.collectionView.reusableCell(classCell: MealPlanNoteCell.self, indexPath: indexPath)
+        guard let note = self.viewModel.getNote(by: self.calendarView.selectedDate, for: indexPath) else {
+            return cell
+        }
+        cell.configure(title: note.title, details: note.details)
+        let label = viewModel.getLabel(by: self.calendarView.selectedDate, for: indexPath, type: type)
+        cell.configureMealPlanLabel(text: label.text, color: label.color)
+        cell.mealPlanDelegate = self
+        cell.layoutSubviews()
         return cell
     }
     
@@ -236,7 +250,8 @@ class MealPlanViewController: UIViewController {
     
     private func reloadDataSource() {
         var snapshot = NSDiffableDataSourceSnapshot<MealPlanSection, MealPlanCellModel>()
-        let sections = viewModel.getMealPlanSections(by: calendarView.selectedDate)
+        let date = calendarView.selectedDate
+        let sections = viewModel.getMealPlanSections(by: date)
         
         for section in sections {
             snapshot.appendSections([section])
@@ -245,10 +260,10 @@ class MealPlanViewController: UIViewController {
         
         DispatchQueue.main.async {
             if self.UDMSelectedMonthOrWeek == 0 {
-                if let cellModel = sections.first?.mealPlans.first {
-                    let isNoEntires = cellModel.note == nil && cellModel.mealPlan == nil
+                let isNoEntires = self.viewModel.isEmptySection(by: date)
+                if !isNoEntires {
                     self.collectionView.contentInset.top = isNoEntires ? 52 : 16
-                        self.noEntiresLabel.isHidden = !isNoEntires
+                    self.noEntiresLabel.isHidden = !isNoEntires
                 } else {
                     self.collectionView.contentInset.top = 52
                     self.noEntiresLabel.isHidden = false
@@ -257,6 +272,7 @@ class MealPlanViewController: UIViewController {
                 self.collectionView.contentInset.top = 16
                 self.noEntiresLabel.isHidden = true
             }
+            
             self.dataSource?.apply(snapshot, animatingDifferences: true)
         }
     }
@@ -402,7 +418,7 @@ extension MealPlanViewController: MealPlanCellDelegate {
 
 extension MealPlanViewController: MealPlanHeaderCellDelegate {
     func addNote() {
-        
+        viewModel.showAddNoteToMealPlan(by: calendarView.selectedDate)
     }
     
     func addRecipe() {
@@ -418,13 +434,26 @@ extension MealPlanViewController: MealPlanEmptyCellDelegate {
         case .planEmpty:
             viewModel.showSelectRecipeToMealPlan(selectedDate: calendarView.selectedDate)
         case .noteEmpty, .noteFilled:
-            break
+            viewModel.showAddNoteToMealPlan(by: calendarView.selectedDate)
         }
     }
 }
 
 extension MealPlanViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.showAddRecipeToMealPlan(by: indexPath)
+        guard let model = dataSource?.itemIdentifier(for: indexPath),
+              let section = self.dataSource?.snapshot().sectionIdentifier(containingItem: model),
+              let type = section.mealPlans[safe: indexPath.row]?.type else {
+            return
+        }
+        
+        switch type {
+        case .plan:
+            viewModel.showAddRecipeToMealPlan(by: indexPath)
+        case .note:
+            viewModel.showAddNoteToMealPlan(by: calendarView.selectedDate, for: indexPath)
+        default:
+            return
+        }
     }
 }
