@@ -25,6 +25,7 @@ protocol RecipeScreenViewModelProtocol {
     func updateFavoriteState(isSelected: Bool)
     func addToShoppingList(contentViewHeigh: CGFloat, photo: [Data?], delegate: AddProductsSelectionListDelegate)
     func addToCollection()
+    func addToMealPlan()
     func edit()
     func removeRecipe()
     func getStoreAndCost(by index: Int) -> (store: String?, cost: Double?)
@@ -214,6 +215,10 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
 //            self?.updateCollection?()
         })
 
+    }
+    
+    func addToMealPlan() {
+        router?.goToRecipeFromMealPlan(recipe: recipe, date: Date())
     }
     
     func edit() {

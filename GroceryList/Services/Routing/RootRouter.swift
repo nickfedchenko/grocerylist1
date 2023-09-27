@@ -499,8 +499,11 @@ final class RootRouter: RootRouterProtocol {
     
     func goToRecipeFromMealPlan(recipe: Recipe, date: Date) {
         let controller = viewControllerFactory.createRecipeFromMealPlan(router: self, recipe: recipe, date: date)
-        let navController = topViewController?.navigationController
-        navController?.pushViewController(controller, animated: true)
+        if let navController = topViewController?.navigationController as? MealPlanNavigationController {
+            navController.pushViewController(controller, animated: true)
+        } else {
+            UIViewController.currentController()?.present(controller, animated: true)
+        }
     }
     
     func goToRecipeFromMealPlan(recipe: Recipe, mealPlan: MealPlan, updateUI: (() -> Void)?) {
@@ -528,8 +531,11 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func dismissAddRecipeToMealPlan() {
-        let navController = topViewController?.navigationController
-        navController?.dismiss(animated: true)
+        if let navController = topViewController?.navigationController {
+            navController.dismiss(animated: true)
+        } else {
+            UIViewController.currentController()?.dismiss(animated: true)
+        }
     }
     
     func goToAddNoteToMealPlan(note: MealPlanNote?, date: Date, updateUI: (() -> Void)?) {

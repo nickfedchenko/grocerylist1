@@ -73,14 +73,12 @@ class MealPlanViewModel {
     
     func updateIndexAfterMove(cellModels: [MealPlanCellModel]) {
         dataSource.updateIndexAfterMove(cellModels: cellModels)
-        dataSource.getMealPlansFromStorage()
-        reloadData?()
+        updateStorage()
     }
     
     func showSelectRecipeToMealPlan(selectedDate: Date) {
         router?.goToSelectRecipeToMealPlan(date: selectedDate, updateUI: { [weak self] in
-            self?.dataSource.getMealPlansFromStorage()
-            self?.reloadData?()
+            self?.updateStorage()
         })
     }
     
@@ -92,8 +90,7 @@ class MealPlanViewModel {
         }
         
         router?.goToRecipeFromMealPlan(recipe: recipe, mealPlan: mealPlan, updateUI: { [weak self] in
-            self?.dataSource.getMealPlansFromStorage()
-            self?.reloadData?()
+            self?.updateStorage()
         })
     }
     
@@ -105,8 +102,12 @@ class MealPlanViewModel {
         
         router?.goToAddNoteToMealPlan(note: note, date: note?.date ?? date,
                                       updateUI: { [weak self] in
-            self?.dataSource.getMealPlansFromStorage()
-            self?.reloadData?()
+            self?.updateStorage()
         })
+    }
+    
+    func updateStorage() {
+        dataSource.getMealPlansFromStorage()
+        reloadData?()
     }
 }
