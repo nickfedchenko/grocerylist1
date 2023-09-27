@@ -99,7 +99,13 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
             return
         }
         
-        let recipeTitle = recipe.title
+        if let dbList = CoreDataManager.shared.getList(list: destinationListId.uuidString),
+           var list = GroceryListsModel(from: dbList),
+            list.products.isEmpty {
+            list.typeOfSorting = SortingType.recipe.rawValue
+            CoreDataManager.shared.saveList(list: list)
+        }
+        
         recipe.ingredients.enumerated().forEach({ index, ingredient in
             let netProduct = ingredient.product
             let product = Product(listId: destinationListId,
@@ -110,7 +116,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
                                   isFavorite: false,
                                   imageData: photo[index],
                                   description: "",
-                                  fromRecipeTitle: recipeTitle)
+                                  fromMealPlan: mealPlan?.id)
             CoreDataManager.shared.createProduct(product: product)
         })
     }

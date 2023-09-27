@@ -22,11 +22,11 @@ extension DBNetCategory {
 
     static func prepare(from category: NetworkCategory,
                         using context: NSManagedObjectContext) -> DBNetCategory {
-        let dbProduct = DBNetCategory(context: context)
-        dbProduct.id = Int64(category.id)
-        dbProduct.netId = category.netId
-        dbProduct.name = category.title
-        return dbProduct
+        let dbNetCategory = DBNetCategory(context: context)
+        dbNetCategory.id = Int64(category.id)
+        dbNetCategory.netId = category.netId
+        dbNetCategory.name = category.title
+        return dbNetCategory
     }
     
 }
