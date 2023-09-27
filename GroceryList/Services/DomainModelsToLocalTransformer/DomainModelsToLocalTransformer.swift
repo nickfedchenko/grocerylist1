@@ -65,10 +65,11 @@ class DomainModelsToLocalTransformer {
         let store = storeFromDB?.title == "" ? nil : storeFromDB
         let cost = product.cost == -1 ? nil : product.cost
         let quantity = product.quantity == -1 ? nil : product.quantity
+        let fromMealPlan = product.fromMealPlan
         let isVisibleCost = isVisibleCost
         return Product(id: id, listId: listId, name: name, isPurchased: isPurchased,
                        dateOfCreation: dateOfCreation, category: category, isFavorite: isFavorite, imageData: imageData,
-                       description: description, fromRecipeTitle: fromRecipeTitle,
+                       description: description, fromRecipeTitle: fromRecipeTitle, fromMealPlan: fromMealPlan,
                        isUserImage: isUserImage, userToken: userToken,
                        store: store, cost: cost, quantity: quantity, isVisibleСost: isVisibleCost,
                        recordId: product.recordId)

@@ -25,14 +25,14 @@ extension DBNewNetProduct {
 
     static func prepare(fromProduct product: NetworkProductModel,
                         using context: NSManagedObjectContext) -> DBNewNetProduct {
-        let dbProduct = DBNewNetProduct(context: context)
-        dbProduct.title = product.title
-        dbProduct.id = Int64(product.id)
-        dbProduct.marketCategory = product.marketCategory?.title
-        dbProduct.photo = product.photo
-        dbProduct.defaultMarketUnitID = Int16(product.marketUnit?.id ?? -1)
-        dbProduct.productTypeId = Int16(product.productTypeId ?? -1)
-        return dbProduct
+        let dbNetProduct = DBNewNetProduct(context: context)
+        dbNetProduct.title = product.title
+        dbNetProduct.id = Int64(product.id)
+        dbNetProduct.marketCategory = product.marketCategory?.title
+        dbNetProduct.photo = product.photo
+        dbNetProduct.defaultMarketUnitID = Int16(product.marketUnit?.id ?? -1)
+        dbNetProduct.productTypeId = Int16(product.productTypeId ?? -1)
+        return dbNetProduct
     }
 }
 
