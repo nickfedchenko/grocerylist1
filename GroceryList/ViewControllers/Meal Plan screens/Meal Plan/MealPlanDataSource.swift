@@ -96,7 +96,8 @@ class MealPlanDataSource {
     func getLabelColors(by date: Date) -> [Int] {
         let mealPlansByDate: [ItemWithLabelProtocol] = mealPlan.filter { $0.date.onlyDate == date.onlyDate }
         let noteByDate: [ItemWithLabelProtocol] = note.filter { $0.date.onlyDate == date.onlyDate }
-        let allLabels: [ItemWithLabelProtocol] = mealPlansByDate + noteByDate
+        var allLabels: [ItemWithLabelProtocol] = mealPlansByDate + noteByDate
+        allLabels.sort { $0.index < $1.index }
         let labels = allLabels.compactMap {
             if let labelId = $0.label,
                let dbLabel = CoreDataManager.shared.getLabel(id: labelId.uuidString) {
@@ -107,6 +108,19 @@ class MealPlanDataSource {
         }
         
         return labels.compactMap { $0.color }
+    }
+    
+    func updateIndexAfterMove(cellModels: [MealPlanCellModel]) {
+        for (newIndex, model) in cellModels.enumerated() {
+            if var plan = model.mealPlan {
+                plan.index = newIndex
+                CoreDataManager.shared.saveMealPlan(plan)
+            }
+            if var note = model.note {
+                note.index = newIndex
+                CoreDataManager.shared.saveMealPlanNote(note)
+            }
+        }
     }
     
     func getMealPlansFromStorage() {
@@ -120,10 +134,12 @@ class MealPlanDataSource {
                 let type: MealPlanSectionType
                 type = date.onlyDate == date.startOfWeek.onlyDate ? .weekStart : .week
                 var mealPlansByDate = self.mealPlan.filter { $0.date.onlyDate == date.onlyDate }
+                let noteByDate = self.note.filter { $0.date.onlyDate == date.onlyDate }
                 if mealPlansByDate.isEmpty {
                     mealPlansByDate.append(MealPlan(date: date))
                 }
-                let cellModel = self.mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate, note: [], sortType: .week)
+                let cellModel = self.mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate,
+                                                            note: noteByDate, sortType: .week)
                 section.append(MealPlanSection(sectionType: type, date: date, mealPlans: cellModel))
             }
             self.weekSection = section
@@ -150,47 +166,48 @@ class MealPlanDataSource {
             let type: MealPlanSectionType
             type = date.onlyDate == date.startOfWeek.onlyDate ? .weekStart : .week
             var mealPlansByDate = mealPlan.filter { $0.date.onlyDate == date.onlyDate }
+            let noteByDate = note.filter { $0.date.onlyDate == date.onlyDate }
             if mealPlansByDate.isEmpty {
                 mealPlansByDate.append(MealPlan(date: date))
             }
-            let cellModel = mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate, note: [], sortType: .week)
+            let cellModel = mapMealPlanToCellModel(date: date, mealPlan: mealPlansByDate, note: noteByDate, sortType: .week)
             section.append(MealPlanSection(sectionType: type, date: date, mealPlans: cellModel))
         }
         return section
     }
     
     private func mapMealPlanToCellModel(date: Date, mealPlan: [MealPlan], note: [MealPlanNote], sortType: SortType) -> [MealPlanCellModel] {
-        var cellModel: [MealPlanCellModel] = []
+        var cellModels: [MealPlanCellModel] = []
         guard sortType == .month else {
-            cellModel = mealPlan.map {
-                MealPlanCellModel(type: .plan, date: date, mealPlan: $0)
+            cellModels = mealPlan.map {
+                MealPlanCellModel(type: .plan, date: date, index: $0.index, mealPlan: $0)
             }
-            
             note.forEach {
-                cellModel.append(MealPlanCellModel(type: .note, date: date, note: $0))
+                cellModels.append(MealPlanCellModel(type: .note, date: date, index: $0.index, note: $0))
             }
             
-            return cellModel
+            cellModels.sort { $0.index < $1.index }
+            return cellModels
         }
         
         if mealPlan.isEmpty {
-            cellModel = [MealPlanCellModel(type: .planEmpty, date: date)]
+            cellModels = [MealPlanCellModel(type: .planEmpty, date: date, index: -100)]
         } else {
-            cellModel = mealPlan.map {
-                MealPlanCellModel(type: .plan, date: date, mealPlan: $0)
+            cellModels = mealPlan.map {
+                MealPlanCellModel(type: .plan, date: date, index: $0.index, mealPlan: $0)
             }
         }
         
         if note.isEmpty {
-            cellModel.append(MealPlanCellModel(type: .noteEmpty, date: date))
+            cellModels.append(MealPlanCellModel(type: .noteEmpty, date: date, index: 100))
         } else {
             note.forEach {
-                cellModel.append(MealPlanCellModel(type: .note, date: date, note: $0))
+                cellModels.append(MealPlanCellModel(type: .note, date: date, index: $0.index, note: $0))
             }
-            cellModel.append(MealPlanCellModel(type: .noteFilled, date: date))
+            cellModels.append(MealPlanCellModel(type: .noteFilled, date: date, index: 100))
         }
-        
-        return cellModel
+        cellModels.sort { $0.index < $1.index }
+        return cellModels
     }
     
     private func setDefaultLabels() {

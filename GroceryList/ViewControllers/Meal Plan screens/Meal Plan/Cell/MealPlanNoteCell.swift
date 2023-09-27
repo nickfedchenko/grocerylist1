@@ -62,6 +62,9 @@ class MealPlanNoteCell: UICollectionViewCell {
         super.init(frame: frame)
         
         makeConstraints()
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressOnMoveButton))
+        containerView.addGestureRecognizer(longPressGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -70,6 +73,9 @@ class MealPlanNoteCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        mealPlanLabel.text = ""
+        titleLabel.text = ""
+        detailsLabel.text = ""
     }
     
     override func layoutSubviews() {
@@ -103,6 +109,11 @@ class MealPlanNoteCell: UICollectionViewCell {
     func configureMealPlanLabel(text: String, color: UIColor) {
         mealPlanLabel.text = text
         mealPlanLabel.textColor = color
+    }
+    
+    @objc
+    private func longPressOnMoveButton(_ gesture: UILongPressGestureRecognizer) {
+        mealPlanDelegate?.moveCell(gesture: gesture)
     }
     
     private func makeConstraints() {

@@ -203,14 +203,14 @@ class MealPlanViewController: UIViewController {
             return sectionHeader
         }
         
-//        dataSource?.reorderingHandlers.canReorderItem = { [weak self] _ in
-//            return self?.viewModel.stateCellModel == .edit
-//        }
-//
-//        dataSource?.reorderingHandlers.didReorder = { [weak self] transaction in
-//            let backingStore = transaction.finalSnapshot.itemIdentifiers
-//            self?.viewModel.updateStocksAfterMove(stocks: backingStore)
-//        }
+        dataSource?.reorderingHandlers.canReorderItem = { item in
+            return item.type == .note || item.type == .plan
+        }
+
+        dataSource?.reorderingHandlers.didReorder = { [weak self] transaction in
+            let backingStore = transaction.finalSnapshot.itemIdentifiers
+            self?.viewModel.updateIndexAfterMove(cellModels: backingStore)
+        }
     }
     
     private func setupMealPlanCell(by indexPath: IndexPath, type: MealPlanCellType) -> MealPlanCell {
@@ -412,7 +412,34 @@ extension MealPlanViewController: MainTabBarControllerMealPlanDelegate {
 
 extension MealPlanViewController: MealPlanCellDelegate {
     func moveCell(gesture: UILongPressGestureRecognizer) {
+        let gestureLocation = gesture.location(in: collectionView)
         
+        switch gesture.state {
+        case .began:
+            guard let targetIndexPath = collectionView.indexPathForItem(at: gestureLocation) else {
+                collectionView.cancelInteractiveMovement()
+                return
+            }
+            collectionView.beginInteractiveMovementForItem(at: targetIndexPath)
+        case .changed:
+            collectionView.updateInteractiveMovementTargetPosition(gestureLocation)
+        case .ended:
+            guard let endIndexPath = collectionView.indexPathForItem(at: gestureLocation),
+                  let model = dataSource?.itemIdentifier(for: endIndexPath),
+                  let section = self.dataSource?.snapshot().sectionIdentifier(containingItem: model),
+                  let type = section.mealPlans[safe: endIndexPath.row]?.type else {
+                collectionView.cancelInteractiveMovement()
+                return
+            }
+            switch type {
+            case .plan, .note:
+                collectionView.endInteractiveMovement()
+            default:
+                collectionView.cancelInteractiveMovement()
+            }
+        default:
+            collectionView.cancelInteractiveMovement()
+        }
     }
 }
 
