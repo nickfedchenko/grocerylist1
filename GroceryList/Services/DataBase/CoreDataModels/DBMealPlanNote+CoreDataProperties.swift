@@ -21,15 +21,17 @@ extension DBMealPlanNote {
     @NSManaged public var details: String?
     @NSManaged public var date: Date
     @NSManaged public var label: UUID?
+    @NSManaged public var index: Int16
 
     static func prepare(fromPlainModel model: MealPlanNote, context: NSManagedObjectContext) -> DBMealPlanNote {
-        let dbLabel = DBMealPlanNote(context: context)
-        dbLabel.id = model.id
-        dbLabel.title = model.title
-        dbLabel.details = model.details
-        dbLabel.date = model.date
-        dbLabel.label = model.label
-        return dbLabel
+        let dbNote = DBMealPlanNote(context: context)
+        dbNote.id = model.id
+        dbNote.title = model.title
+        dbNote.details = model.details
+        dbNote.date = model.date
+        dbNote.label = model.label
+        dbNote.index = Int16(model.index)
+        return dbNote
     }
 }
 

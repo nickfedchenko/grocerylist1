@@ -10,6 +10,7 @@ import Foundation
 protocol ItemWithLabelProtocol {
     var label: UUID? { get set }
     var date: Date { get set }
+    var index: Int { get set }
 }
 
 struct MealPlan: Hashable, Codable, ItemWithLabelProtocol {
@@ -18,6 +19,7 @@ struct MealPlan: Hashable, Codable, ItemWithLabelProtocol {
     var date: Date
     var label: UUID?
     var destinationListId: UUID?
+    var index: Int = 0
     
     init(id: UUID = UUID(), recipeId: Int, date: Date,
          label: UUID?, destinationListId: UUID? = nil) {
@@ -43,6 +45,7 @@ struct MealPlan: Hashable, Codable, ItemWithLabelProtocol {
         self.date = dbModel.date
         self.label = dbModel.label
         self.destinationListId = dbModel.destinationListId
+        self.index = Int(dbModel.index)
     }
 }
 
@@ -82,6 +85,7 @@ struct MealPlanNote: Hashable, Codable, ItemWithLabelProtocol {
     var details: String?
     var date: Date
     var label: UUID?
+    var index: Int = 0
     
     init(id: UUID = UUID(), title: String, details: String?, date: Date, label: UUID?) {
         self.id = id
@@ -97,6 +101,7 @@ struct MealPlanNote: Hashable, Codable, ItemWithLabelProtocol {
         self.details = dbModel.details
         self.date = dbModel.date
         self.label = dbModel.label
+        self.index = Int(dbModel.index)
     }
 }
 
@@ -109,15 +114,18 @@ struct MealPlanSection: Hashable {
 struct MealPlanCellModel: Hashable {
     var type: MealPlanCellType
     var date: Date
+    var index: Int
     var mealPlan: MealPlan?
     var note: MealPlanNote?
     
     init(type: MealPlanCellType,
          date: Date,
+         index: Int,
          mealPlan: MealPlan? = nil,
          note: MealPlanNote? = nil) {
         self.type = type
         self.date = date
+        self.index = index
         self.mealPlan = mealPlan
         self.note = note
     }

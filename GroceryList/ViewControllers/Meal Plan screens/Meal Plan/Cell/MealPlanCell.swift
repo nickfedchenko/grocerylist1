@@ -26,20 +26,10 @@ class MealPlanCell: RecipeListCell {
         
         contextMenuButton.setImage(R.image.chevronMealPlan(), for: .normal)
         
-        containerView.snp.removeConstraints()
-        containerView.addSubview(mealPlanLabel)
+        makeConstraints()
         
-        containerView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(64)
-            $0.bottom.equalToSuperview().offset(-8)
-        }
-        
-        mealPlanLabel.snp.makeConstraints {
-            $0.leading.equalTo(kcalBadgeView.snp.trailing).offset(6)
-            $0.bottom.equalTo(kcalLabel)
-        }
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressOnMoveButton))
+        containerView.addGestureRecognizer(longPressGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -88,6 +78,11 @@ class MealPlanCell: RecipeListCell {
         }
     }
     
+    @objc
+    private func longPressOnMoveButton(_ gesture: UILongPressGestureRecognizer) {
+        mealPlanDelegate?.moveCell(gesture: gesture)
+    }
+    
     private func updateAllConstraints() {
         
         containerView.backgroundColor = .white
@@ -117,6 +112,23 @@ class MealPlanCell: RecipeListCell {
         kcalBadgeView.snp.updateConstraints {
             $0.top.equalToSuperview().offset(4)
             $0.height.equalTo(20)
+        }
+    }
+    
+    private func makeConstraints() {
+        containerView.snp.removeConstraints()
+        containerView.addSubview(mealPlanLabel)
+        
+        containerView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(64)
+            $0.bottom.equalToSuperview().offset(-8)
+        }
+        
+        mealPlanLabel.snp.makeConstraints {
+            $0.leading.equalTo(kcalBadgeView.snp.trailing).offset(6)
+            $0.bottom.equalTo(kcalLabel)
         }
     }
 }

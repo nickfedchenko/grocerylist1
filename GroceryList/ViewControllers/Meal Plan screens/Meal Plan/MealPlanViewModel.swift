@@ -71,6 +71,12 @@ class MealPlanViewModel {
         return dataSource.getNote(by: date, for: index)
     }
     
+    func updateIndexAfterMove(cellModels: [MealPlanCellModel]) {
+        dataSource.updateIndexAfterMove(cellModels: cellModels)
+        dataSource.getMealPlansFromStorage()
+        reloadData?()
+    }
+    
     func showSelectRecipeToMealPlan(selectedDate: Date) {
         router?.goToSelectRecipeToMealPlan(date: selectedDate, updateUI: { [weak self] in
             self?.dataSource.getMealPlansFromStorage()
