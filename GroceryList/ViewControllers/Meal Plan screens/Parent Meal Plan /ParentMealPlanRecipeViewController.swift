@@ -73,6 +73,12 @@ class ParentMealPlanRecipeViewController: SJSegmentedViewController {
         
         let tabBarText = index == 0 ? R.string.localizable.recipe() : R.string.localizable.create()
         (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: tabBarText.uppercased())
+        
+        if index == 0 {
+            self.segmentControllers.forEach {
+                ($0 as? MealPlanViewController)?.viewModel.updateStorage()
+            }
+        }
     }
     
     private func makeConstraints() {

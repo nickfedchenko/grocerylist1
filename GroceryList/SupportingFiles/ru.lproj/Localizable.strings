@@ -411,6 +411,7 @@
 "drafts"                        = "Черновики";
 "inbox"                         = "Входящие";
 
+"addToMealPlan"                 = "Добавить в план питания";
 "addToFavorites"                = "Добавить в Избранное";
 "deleteFromFavorites"           = "Удалить из избранного";
 "added to"                      = "Добавлено в";

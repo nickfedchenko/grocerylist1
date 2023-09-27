@@ -164,7 +164,11 @@ class AddRecipeToMealPlanViewController: UIViewController {
     
     @objc
     private func tappedBackButton() {
-        self.navigationController?.popViewController(animated: true)
+        if self.navigationController != nil {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true)
+        }
     }
     
     @objc

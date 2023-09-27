@@ -406,6 +406,7 @@
 "drafts"                        = "Brouillons";
 "inbox"                         = "Boîte de réception";
 
+"addToMealPlan"                 = "ajouter au plan de repas";
 "addToFavorites"                = "ajouter Aux Favoris";
 "deleteFromFavorites"           = "Retirer des Favoris";
 "added to"                      = "Ajouté à";

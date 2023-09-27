@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 491 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 492 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -2768,6 +2768,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var addToFavorites: RswiftResources.StringResource { .init(key: "addToFavorites", tableName: "Localizable", source: source, developmentValue: "Add to Favorites", comment: nil) }
 
+      /// en translation: Add to Meal Plan
+      ///
+      /// Key: addToMealPlan
+      ///
+      /// Locales: en, ru, fr, de
+      var addToMealPlan: RswiftResources.StringResource { .init(key: "addToMealPlan", tableName: "Localizable", source: source, developmentValue: "Add to Meal Plan", comment: nil) }
+
       /// en translation: Added to
       ///
       /// Key: added to
@@ -3557,7 +3564,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 344 images.
+  /// This `_R.image` struct is generated, and contains static references to 345 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -3992,6 +3999,9 @@ struct _R {
 
     /// Image `contextMenu`.
     var contextMenu: RswiftResources.ImageResource { .init(name: "contextMenu", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `contextMenuAddToMealPlan`.
+    var contextMenuAddToMealPlan: RswiftResources.ImageResource { .init(name: "contextMenuAddToMealPlan", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `contextualMenu`.
     var contextualMenu: RswiftResources.ImageResource { .init(name: "contextualMenu", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

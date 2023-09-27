@@ -414,6 +414,7 @@
 "drafts"                        = "Drafts";
 "inbox"                         = "Inbox";
 
+"addToMealPlan"                 = "Add to Meal Plan";
 "addToFavorites"                = "Add to Favorites";
 "deleteFromFavorites"           = "Delete from favorites";
 "added to"                      = "Added to";

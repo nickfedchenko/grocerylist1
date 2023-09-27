@@ -408,6 +408,7 @@
 "drafts"                        = "Entwürfe";
 "inbox"                         = "Eingehende";
 
+"addToMealPlan"                 = "zum Speiseplan hinzufügen";
 "addToFavorites"                = "zu Favoriten hinzufügen";
 "deleteFromFavorites"           = "Aus Favoriten entfernen";
 "added to"                      = "Hinzugefügt zu";
