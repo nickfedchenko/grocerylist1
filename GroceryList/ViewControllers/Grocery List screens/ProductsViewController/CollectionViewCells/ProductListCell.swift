@@ -201,7 +201,7 @@ class ProductListCell: UICollectionViewListCell {
         }
         
         if let mealPlan {
-            let mealPlanDate = mealPlan.date.getStringDate(format: "MMM d") ?? ""
+            let mealPlanDate = mealPlan.date.getStringDate(format: "MMMd")
             let date = mealPlanDate.attributed(font: UIFont.SFProRounded.bold(size: 14).font,
                                                color: textColor ?? UIColor(hex: "#58B368"))
             date.append(NSAttributedString(string: description))

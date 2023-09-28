@@ -210,7 +210,7 @@ class HeaderListCell: UICollectionViewListCell {
             return
         }
         dateLabel.isHidden = false
-        dateLabel.text = date.getStringDate(format: "MMM d")
+        dateLabel.text = date.getStringDate(format: "MMMd")
     }
     
     func setupUserImage(image: String?, color: UIColor?) {

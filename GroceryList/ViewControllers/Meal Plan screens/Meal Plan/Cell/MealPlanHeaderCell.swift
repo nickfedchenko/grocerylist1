@@ -78,8 +78,8 @@ class MealPlanHeaderCell: UICollectionReusableView {
     }
     
     func setupHeader(section: MealPlanSection) {
-        weekdayLabel.text = section.date.getStringDate(format: "EEEE")?.uppercased()
-        dateLabel.text = section.date.getStringDate(format: "dd.MM.yyyy")
+        weekdayLabel.text = section.date.getStringDate(format: "EEEE").uppercased()
+        dateLabel.text = section.date.getStringDate(format: "ddMMyyyy")
         
         let bottomOffset: Int
         let height: Int

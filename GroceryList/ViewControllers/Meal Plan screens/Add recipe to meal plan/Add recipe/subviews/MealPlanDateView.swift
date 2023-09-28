@@ -61,7 +61,7 @@ class MealPlanDateView: UIView {
     
     func configure(date: Date = Date()) {
         currentDate = date
-        dateLabel.text = date.getStringDate(format: "EE, MMM d, yyyy")
+        dateLabel.text = date.getStringDate(format: "EEMMMdyyyy")
     }
     
     private func setup() {
