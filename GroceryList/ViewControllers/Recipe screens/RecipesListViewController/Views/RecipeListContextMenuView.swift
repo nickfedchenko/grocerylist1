@@ -17,7 +17,7 @@ class RecipeListContextMenuView: UIView {
     
     enum MainMenuState: Int, CaseIterable {
         case addToShoppingList
-//        case addToIWillCookIt
+        case addToMealPlan
         case addToFavorites
         case addToCollection
         case edit
@@ -29,6 +29,7 @@ class RecipeListContextMenuView: UIView {
         var title: String {
             switch self {
             case .addToShoppingList:    return R.string.localizable.addtoshoppinglisT().firstCharacterUpperCase()
+            case .addToMealPlan:        return R.string.localizable.addToMealPlan()
             case .addToFavorites:       return R.string.localizable.addToFavorites()
             case .addToCollection:      return R.string.localizable.addToCollection()
             case .edit:                 return R.string.localizable.edit()
@@ -39,6 +40,7 @@ class RecipeListContextMenuView: UIView {
         var image: UIImage? {
             switch self {
             case .addToShoppingList:    return R.image.contextMenuAddToCart()
+            case .addToMealPlan:        return R.image.contextMenuAddToMealPlan()
             case .addToFavorites:       return R.image.contextMenuFavorite()
             case .addToCollection:      return R.image.contextMenuCollection()
             case .edit:                 return R.image.contextMenuEdit()
@@ -165,6 +167,8 @@ class RecipeListContextMenuView: UIView {
         switch state {
         case .addToShoppingList:
             AmplitudeManager.shared.logEvent(.recipeMenuAddToShoppingList)
+        case .addToMealPlan:
+            break
         case .addToFavorites:
             AmplitudeManager.shared.logEvent(.recipeMenuAddToFav)
         case .addToCollection:

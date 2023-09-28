@@ -554,6 +554,8 @@ extension RecipeViewController: RecipeListContextMenuViewDelegate {
                 let photos: [Data?] = self.ingredientViews.map { $0.photo }
                 self.viewModel.addToShoppingList(contentViewHeigh: self.view.frame.height,
                                                  photo: photos, delegate: self)
+            case .addToMealPlan:
+                self.viewModel.addToMealPlan()
             case .addToFavorites:
                 self.viewModel.updateFavoriteState(isSelected: !self.isFavorite)
                 self.mainImageView.setIsFavorite(shouldSetFavorite: self.isFavorite)

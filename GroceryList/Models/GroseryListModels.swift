@@ -311,6 +311,7 @@ struct Product: Hashable, Equatable, Codable {
     var category: String
     var imageData: Data?
     var fromRecipeTitle: String?
+    var fromMealPlan: UUID?
     var unitId: UnitSystem?
     var store: Store?
     var cost: Double?
@@ -353,6 +354,7 @@ struct Product: Hashable, Equatable, Codable {
         imageData = dbProduct.image
         description = dbProduct.userDescription ?? ""
         fromRecipeTitle = dbProduct.fromRecipeTitle
+        fromMealPlan = dbProduct.fromMealPlan
         unitId = UnitSystem(rawValue: Int(dbProduct.unitId))
         isUserImage = dbProduct.isUserImage
         userToken = dbProduct.userToken
@@ -369,9 +371,11 @@ struct Product: Hashable, Equatable, Codable {
          isFavorite: Bool, isSelected: Bool = false,
          imageData: Data? = nil, description: String,
          fromRecipeTitle: String? = nil,
+         fromMealPlan: UUID? = nil,
          unitId: UnitSystem? = nil, isUserImage: Bool? = false,
          userToken: String? = nil, store: Store? = nil, cost: Double? = nil,
-         quantity: Double? = nil, isVisibleСost: Bool = false, recordId: String? = nil) {
+         quantity: Double? = nil, isVisibleСost: Bool = false,
+         recordId: String? = nil) {
         self.id = id
         self.listId = listId
         self.name = name
@@ -383,6 +387,7 @@ struct Product: Hashable, Equatable, Codable {
         self.description = description
         self.isSelected = isSelected
         self.fromRecipeTitle = fromRecipeTitle
+        self.fromMealPlan = fromMealPlan
         self.unitId = unitId
         self.isUserImage = isUserImage
         self.userToken = userToken

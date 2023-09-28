@@ -9,7 +9,7 @@ import UIKit
 
 class MealPlanViewController: UIViewController {
 
-    private let viewModel: MealPlanViewModel
+    let viewModel: MealPlanViewModel
     
     private var navigationView = UIView()
     

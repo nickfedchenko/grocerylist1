@@ -166,21 +166,13 @@ class ProductListCell: UICollectionViewListCell {
     }
     
     func setupCell(bcgColor: UIColor?, textColor: UIColor?, text: String?,
-                   isPurchased: Bool, description: String, isRecipe: Bool,
-                   isOutOfStock: Bool) {
+                   isPurchased: Bool, description: String, isOutOfStock: Bool) {
         contentView.backgroundColor = bcgColor
         guard let text = text else { return }
-        setupCheckmarkImage(isPurchased: isPurchased, color: textColor, isRecipe: isRecipe)
+        setupCheckmarkImage(isPurchased: isPurchased, color: textColor)
         nameLabel.attributedText = NSAttributedString(string: text)
         nameWithDescriptionLabel.attributedText = NSAttributedString(string: text)
         secondDescriptionLabel.text = description
-        
-        if isRecipe {
-            let recipe = "Recipe".localized.attributed(font: UIFont.SFProRounded.bold(size: 14).font,
-                                                       color: textColor ?? UIColor(hex: "#58B368"))
-            recipe.append(NSAttributedString(string: description))
-            secondDescriptionLabel.attributedText = recipe
-        }
         
         if isPurchased {
             nameLabel.textColor = textColor
@@ -188,7 +180,7 @@ class ProductListCell: UICollectionViewListCell {
             secondDescriptionLabel.textColor = textColor
         }
         
-        if !description.isEmpty || isRecipe {
+        if !(secondDescriptionLabel.text?.isEmpty ?? true) {
             viewWithDescription.isHidden = false
         }
         
@@ -196,6 +188,28 @@ class ProductListCell: UICollectionViewListCell {
         checkmarkView.layer.cornerRadius = isOutOfStock ? 5 : 18
         if isOutOfStock {
             checkmarkImage.image = R.image.product_outOfStock()
+        }
+    }
+    
+    func setupRecipeMealPlan(textColor: UIColor?, isRecipe: Bool, mealPlan: MealPlan?) {
+        let description = secondDescriptionLabel.text ?? ""
+        if isRecipe {
+            let recipe = "Recipe".localized.attributed(font: UIFont.SFProRounded.bold(size: 14).font,
+                                                       color: textColor ?? UIColor(hex: "#58B368"))
+            recipe.append(NSAttributedString(string: description))
+            secondDescriptionLabel.attributedText = recipe
+        }
+        
+        if let mealPlan {
+            let mealPlanDate = mealPlan.date.getStringDate(format: "MMMd")
+            let date = mealPlanDate.attributed(font: UIFont.SFProRounded.bold(size: 14).font,
+                                               color: textColor ?? UIColor(hex: "#58B368"))
+            date.append(NSAttributedString(string: description))
+            secondDescriptionLabel.attributedText = date
+        }
+        
+        if !(secondDescriptionLabel.attributedText?.string.isEmpty ?? true) {
+            viewWithDescription.isHidden = false
         }
     }
     
@@ -324,7 +338,7 @@ class ProductListCell: UICollectionViewListCell {
         self.checkmarkImage.image = self.getImageWithColor(color: UIColor(hex: "#6319FF"))
     }
     
-    private func setupCheckmarkImage(isPurchased: Bool, color: UIColor?, isRecipe: Bool) {
+    private func setupCheckmarkImage(isPurchased: Bool, color: UIColor?) {
         guard state != .stock else {
             return
         }

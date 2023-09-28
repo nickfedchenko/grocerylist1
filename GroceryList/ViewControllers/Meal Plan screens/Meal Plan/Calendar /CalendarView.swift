@@ -32,7 +32,7 @@ final class CalendarView: UIView {
         calendar.register(CalendarCell.self, forCellReuseIdentifier: "cell")
 
         calendar.scope = scope
-//        calendar.firstWeekday = UInt(Calendar.current.firstWeekday)
+        calendar.firstWeekday = UInt(Calendar.current.firstWeekday)
         calendar.scrollDirection = .vertical
         calendar.pagingEnabled = true
         calendar.headerHeight = 0
@@ -129,7 +129,7 @@ final class CalendarView: UIView {
     }
     
     private func changeMonthLabel(_ date: Date) {
-        self.monthLabel.text = date.getStringDate(format: "MMMM yyyy")?.uppercased()
+        self.monthLabel.text = date.getStringDate(format: "MMMMyyyy").uppercased()
     }
     
     private func updateScope() {

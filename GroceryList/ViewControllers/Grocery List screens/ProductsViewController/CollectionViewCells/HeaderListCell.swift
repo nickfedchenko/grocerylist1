@@ -63,6 +63,13 @@ class HeaderListCell: UICollectionViewListCell {
         return label
     }()
     
+    private let dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.SFPro.medium(size: 16).font
+        label.textColor = .white
+        return label
+    }()
+    
     private let pinchView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -110,28 +117,24 @@ class HeaderListCell: UICollectionViewListCell {
         pinchView.isHidden = true
         checkmarkView.isHidden = false
         coloredViewForSorting.isHidden = true
+        dateLabel.isHidden = true
+        purchasedCostLabel.isHidden = true
         coloredView.backgroundColor = .clear
+        collapsedColoredView.backgroundColor = .clear
         titleLabel.textColor = .white
         titleLabel.font = UIFont.SFPro.semibold(size: 15).font
-        collapsedColoredView.backgroundColor = .clear
+        titleLabel.numberOfLines = 1
         userImageView.image = nil
         userImageView.layer.borderColor = UIColor.clear.cgColor
-
-        purchasedCostLabel.isHidden = true
-        purchasedCostLabel.snp.updateConstraints {
-            $0.top.equalTo(coloredView.snp.bottom).offset(0)
-            $0.height.equalTo(0)
-        }
-        titleLabel.snp.updateConstraints { make in
-            make.centerY.equalTo(collapsedColoredView.snp.centerY)
-            make.right.equalTo(collapsedColoredView.snp.right).offset(-26)
-        }
-        containerView.snp.updateConstraints { make in
-            make.height.equalTo(56 + purchasedCostHeight).priority(1000)
-        }
+        
+        resetConstraints()
     }
     
-    func collapsing(color: UIColor?, isPurchased: Bool) {
+    func collapsing(color: UIColor?, typeOfCell: TypeOfCell) {
+        guard typeOfCell != .sortedByRecipe else {
+            return
+        }
+        let isPurchased = typeOfCell == .purchased
         UIView.animate(withDuration: 0.5) {
             if !isPurchased {
                 self.coloredView.backgroundColor = color
@@ -147,7 +150,11 @@ class HeaderListCell: UICollectionViewListCell {
         }
     }
     
-    func expanding(color: UIColor?, isPurchased: Bool) {
+    func expanding(color: UIColor?, typeOfCell: TypeOfCell) {
+        guard typeOfCell != .sortedByRecipe else {
+            return
+        }
+        let isPurchased = typeOfCell == .purchased
         UIView.animate(withDuration: 0.5) {
             if !isPurchased {
                 self.coloredView.backgroundColor = .clear
@@ -173,26 +180,17 @@ class HeaderListCell: UICollectionViewListCell {
             pinchView.tintColor = color
             if !isExpand { coloredView.backgroundColor = color }
         case .purchased:
-            titleLabel.font = UIFont.SFPro.semibold(size: 18).font
-            coloredView.backgroundColor = color
-            titleLabel.textColor = .white
-            titleLabel.text = text
-            titleLabel.snp.updateConstraints { make in
-                make.centerY.equalTo(collapsedColoredView.snp.centerY).offset(-5)
-            }
-            collapsedColoredView.backgroundColor = color
-            checkmarkView.tintColor = .white
+            setupPurchasedCell(color, text)
         case .sortedByAlphabet:
-            checkmarkView.isHidden = true
-            titleLabel.text = "AlphabeticalSorted".localized
-            coloredViewForSorting.backgroundColor = color
-            coloredViewForSorting.isHidden = false
-        case .normal, .sortedByRecipe, .sortedByDate, .sortedByUser:
+            setupAlphabeticalSortedCell(color)
+        case .normal, .sortedByDate, .sortedByUser:
             titleLabel.text = text
             collapsedColoredView.backgroundColor = color
             if !isExpand {
                 coloredView.backgroundColor = color
             }
+        case .sortedByRecipe:
+            setupRecipeCell(text, color)
         case .withoutCategory:
             titleLabel.text = ""
             checkmarkView.isHidden = true
@@ -201,6 +199,18 @@ class HeaderListCell: UICollectionViewListCell {
             }
         case .displayCostSwitch: return
         }
+    }
+    
+    func setupDate(date: Date?) {
+        guard let date else {
+            dateLabel.isHidden = true
+            titleLabel.snp.updateConstraints { make in
+                make.right.equalTo(collapsedColoredView.snp.right).offset(30)
+            }
+            return
+        }
+        dateLabel.isHidden = false
+        dateLabel.text = date.getStringDate(format: "MMMd")
     }
     
     func setupUserImage(image: String?, color: UIColor?) {
@@ -268,6 +278,69 @@ class HeaderListCell: UICollectionViewListCell {
         purchasedCostHeight = 25
     }
     
+    private func setupPurchasedCell(_ color: UIColor?, _ text: String?) {
+        titleLabel.font = UIFont.SFPro.semibold(size: 18).font
+        coloredView.backgroundColor = color
+        titleLabel.textColor = .white
+        titleLabel.text = text
+        titleLabel.snp.updateConstraints { make in
+            make.centerY.equalTo(collapsedColoredView.snp.centerY).offset(-5)
+        }
+        collapsedColoredView.backgroundColor = color
+        checkmarkView.tintColor = .white
+    }
+    
+    private func setupAlphabeticalSortedCell(_ color: UIColor?) {
+        checkmarkView.isHidden = true
+        titleLabel.text = "AlphabeticalSorted".localized
+        coloredViewForSorting.backgroundColor = color
+        coloredViewForSorting.isHidden = false
+    }
+
+    private func setupRecipeCell(_ text: String?, _ color: UIColor?) {
+        checkmarkView.isHidden = true
+        titleLabel.font = UIFont.SFPro.bold(size: 16).font
+        titleLabel.text = text
+        titleLabel.numberOfLines = 2
+        coloredView.backgroundColor = color
+
+        containerView.snp.updateConstraints { make in
+            make.height.equalTo(64 + purchasedCostHeight).priority(1000)
+        }
+        
+        coloredView.snp.updateConstraints { make in
+            make.height.equalTo(48)
+        }
+        
+        collapsedColoredView.snp.updateConstraints { make in
+            make.height.equalTo(48)
+        }
+        
+        titleLabel.snp.updateConstraints { make in
+            make.right.equalTo(collapsedColoredView.snp.right).offset(-46)
+        }
+    }
+    
+    private func resetConstraints() {
+        purchasedCostLabel.snp.updateConstraints {
+            $0.top.equalTo(coloredView.snp.bottom).offset(0)
+            $0.height.equalTo(0)
+        }
+        titleLabel.snp.updateConstraints { make in
+            make.centerY.equalTo(collapsedColoredView.snp.centerY)
+            make.right.equalTo(collapsedColoredView.snp.right).offset(-26)
+        }
+        containerView.snp.updateConstraints { make in
+            make.height.equalTo(56 + purchasedCostHeight).priority(1000)
+        }
+        collapsedColoredView.snp.updateConstraints { make in
+            make.height.equalTo(32)
+        }
+        coloredView.snp.updateConstraints { make in
+            make.height.equalTo(40)
+        }
+    }
+    
     @objc
     private func sortButtonPressed() {
         tapSortPurchased?()
@@ -276,7 +349,7 @@ class HeaderListCell: UICollectionViewListCell {
     // MARK: - UI
     // swiftlint:disable:next function_body_length
     private func setupConstraints() {
-        contentView.addSubviews([containerView])
+        contentView.addSubviews([containerView, dateLabel])
         containerView.addSubviews([coloredView, collapsedColoredView, coloredViewForSorting,
                                    titleLabel, checkmarkView, pinchView, userImageView,
                                    purchasedCostLabel, sortButton])
@@ -350,6 +423,11 @@ class HeaderListCell: UICollectionViewListCell {
             make.trailing.equalToSuperview().offset(-24)
             make.top.equalTo(coloredView.snp.bottom).offset(8)
             make.height.equalTo(19)
+        }
+        
+        dateLabel.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-16)
+            make.centerY.equalTo(titleLabel)
         }
     }
 }

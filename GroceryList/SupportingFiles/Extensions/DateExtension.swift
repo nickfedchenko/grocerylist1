@@ -109,7 +109,7 @@ extension Date {
         return Calendar.current.date(byAdding: .day, value: days, to: Date())
     }
     
-    func getStringDate(format: String) -> String? {
+    func getStringDate(format: String) -> String {
         return DateFormatter().getString(format: format, from: self)
     }
     
@@ -123,11 +123,8 @@ extension Date {
 }
 
 extension DateFormatter {
-    func getString(format: String, from date: Date?) -> String? {
-        self.dateFormat = format
-        guard let date = date else {
-            return nil
-        }
+    func getString(format: String, from date: Date) -> String {
+        self.setLocalizedDateFormatFromTemplate(format)
         return self.string(from: date)
     }
 }

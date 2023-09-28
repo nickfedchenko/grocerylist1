@@ -112,10 +112,10 @@ class ProductsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel?.reloadStorageData()
-        let colorForForeground = viewModel?.getColorForForeground() ?? .black
+        let darkColor = viewModel?.getDarkColor() ?? .black
         (self.tabBarController as? MainTabBarController)?.isHideNavView(isHide: true)
         (self.tabBarController as? MainTabBarController)?.setTextTabBar(
-            text: R.string.localizable.item(), color: colorForForeground)
+            text: R.string.localizable.item(), color: darkColor)
     }
     
     private func setupController() {
@@ -126,7 +126,7 @@ class ProductsViewController: UIViewController {
         view.backgroundColor = colorForBackground
         navigationView.backgroundColor = colorForBackground?.withAlphaComponent(0.9)
         (self.tabBarController as? MainTabBarController)?.setTextTabBar(text: R.string.localizable.item(),
-                                                                        color: colorForForeground)
+                                                                        color: darkColor)
         nameOfListTextField.textColor = darkColor
         
         sortButton.setImage(R.image.sort()?.withTintColor(colorForForeground), for: .normal)
@@ -372,6 +372,9 @@ class ProductsViewController: UIViewController {
                            isExpand: parent.isExpanded, typeOfCell: parent.typeOFCell)
             cell.setupTotalCost(isVisible: isVisibleCost, color: color,
                                 purchasedCost: parent.cost, typeOfCell: parent.typeOFCell)
+            if parent.typeOFCell == .sortedByRecipe {
+                cell.setupDate(date: self?.viewModel?.getMealPlanForHeader(by: parent.products.first))
+            }
             if parent.typeOFCell == .sortedByUser {
                 cell.setupUserImage(image: self?.viewModel?.getUserImage(by: parent.name), color: color)
             }
@@ -400,7 +403,7 @@ class ProductsViewController: UIViewController {
         }
         
         let childCellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { [weak self] (cell, _, child) in
-            
+
             let isVisibleInStock = self?.viewModel?.isInStock(product: child) ?? false
             let pantryColor = self?.viewModel?.getPantryColor(product: child)
             let color = isVisibleInStock ? pantryColor?.dark : self?.viewModel?.getColorForForeground()
@@ -418,7 +421,12 @@ class ProductsViewController: UIViewController {
             cell.setState(state: child.isOutOfStock ? .stock : self?.cellState ?? .normal)
             cell.setupCell(bcgColor: bcgColor, textColor: color, text: child.name,
                            isPurchased: child.isPurchased, description: description,
-                           isRecipe: child.fromRecipeTitle != nil, isOutOfStock: child.isOutOfStock)
+                           isOutOfStock: child.isOutOfStock)
+            cell.setupRecipeMealPlan(
+                textColor: color,
+                isRecipe: self?.viewModel?.getRecipeTitle(title: child.fromRecipeTitle, isPurchased: child.isPurchased) ?? false,
+                mealPlan: self?.viewModel?.getMealPlanForCell(by: child.fromMealPlan, isPurchased: child.isPurchased)
+            )
             cell.setupImage(isVisible: isUserImage, image: image)
             cell.setupUserImage(image: self?.viewModel?.getUserImage(by: child.userToken, isPurchased: child.isPurchased))
             cell.updateEditCheckmark(isSelect: isEditCell)
@@ -759,21 +767,21 @@ extension ProductsViewController: UICollectionViewDelegate {
         case .parent(let category):
             guard let ind = self.viewModel?.getCellIndex(with: category) else { return }
             self.viewModel?.arrayWithSections[ind].isExpanded = isExpanded
-            let cellTypeIsPurchased = category.typeOFCell == .purchased
             self.shouldExpandCell(isExpanded: isExpanded, ind: indexPath,
-                                  color: viewModel?.getColorForForeground(), isPurchased: cellTypeIsPurchased)
+                                  color: viewModel?.getColorForForeground(),
+                                  typeOfCell: category.typeOFCell)
         case .child:
             print("")
         }
     }
     
-    private func shouldExpandCell(isExpanded: Bool, ind: IndexPath, color: UIColor?, isPurchased: Bool) {
+    private func shouldExpandCell(isExpanded: Bool, ind: IndexPath, color: UIColor?, typeOfCell: TypeOfCell) {
         let cell = collectionView.cellForItem(at: ind) as? HeaderListCell
         
         if isExpanded {
-            cell?.expanding(color: color, isPurchased: isPurchased)
+            cell?.expanding(color: color, typeOfCell: typeOfCell)
         } else {
-            cell?.collapsing(color: color, isPurchased: isPurchased)
+            cell?.collapsing(color: color, typeOfCell: typeOfCell)
         }
     }
 }

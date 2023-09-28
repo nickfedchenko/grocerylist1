@@ -452,6 +452,8 @@ extension SearchInRecipeViewController: RecipeListContextMenuViewDelegate {
                 self.viewModel?.addToShoppingList(recipeIndex: self.currentlySelectedIndex,
                                                  contentViewHeigh: self.view.frame.height,
                                                  delegate: self)
+            case .addToMealPlan:
+                self.viewModel?.showRecipeForMealPlan(recipeIndex: self.currentlySelectedIndex)
             case .addToFavorites:
                 self.viewModel?.addToFavorites(recipeIndex: self.currentlySelectedIndex)
                 let index = IndexPath(item: self.currentlySelectedIndex, section: 0)
