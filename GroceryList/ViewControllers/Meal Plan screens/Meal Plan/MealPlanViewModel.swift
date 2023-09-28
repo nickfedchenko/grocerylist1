@@ -31,12 +31,31 @@ class MealPlanViewModel {
         return dataSource.getMealPlans(by: date)
     }
 
+    func isEmptySection(by date: Date) -> Bool {
+        var planEmpty = true
+        var noteEmpty = true
+        let section = dataSource.getMealPlans(by: date)
+        
+        section.forEach { section in
+            section.mealPlans.forEach {
+                if $0.type == .plan {
+                    planEmpty = false
+                }
+                if $0.type == .note {
+                    noteEmpty = false
+                }
+            }
+        }
+        
+        return planEmpty && noteEmpty
+    }
+    
     func getRecipe(by date: Date, for index: IndexPath) -> ShortRecipeModel? {
         return dataSource.getRecipe(by: date, for: index)
     }
     
-    func getLabel(by date: Date, for index: IndexPath) -> (text: String, color: UIColor) {
-        guard let label = dataSource.getLabel(by: date, for: index) else {
+    func getLabel(by date: Date, for index: IndexPath, type: MealPlanCellType) -> (text: String, color: UIColor) {
+        guard let label = dataSource.getLabel(by: date, for: index, type: type) else {
             return ("", .clear)
         }
         let color = colorManager.getLabelColor(index: label.color)
@@ -46,6 +65,16 @@ class MealPlanViewModel {
     func getLabelColors(by date: Date) -> [UIColor] {
         let colorNumbers = dataSource.getLabelColors(by: date)
         return colorNumbers.map { colorManager.getLabelColor(index: $0) }
+    }
+    
+    func getNote(by date: Date, for index: IndexPath) -> MealPlanNote? {
+        return dataSource.getNote(by: date, for: index)
+    }
+    
+    func updateIndexAfterMove(cellModels: [MealPlanCellModel]) {
+        dataSource.updateIndexAfterMove(cellModels: cellModels)
+        dataSource.getMealPlansFromStorage()
+        reloadData?()
     }
     
     func showSelectRecipeToMealPlan(selectedDate: Date) {
@@ -63,6 +92,19 @@ class MealPlanViewModel {
         }
         
         router?.goToRecipeFromMealPlan(recipe: recipe, mealPlan: mealPlan, updateUI: { [weak self] in
+            self?.dataSource.getMealPlansFromStorage()
+            self?.reloadData?()
+        })
+    }
+    
+    func showAddNoteToMealPlan(by date: Date, for index: IndexPath? = nil) {
+        var note: MealPlanNote?
+        if let index {
+            note = dataSource.getNote(by: index)
+        }
+        
+        router?.goToAddNoteToMealPlan(note: note, date: note?.date ?? date,
+                                      updateUI: { [weak self] in
             self?.dataSource.getMealPlansFromStorage()
             self?.reloadData?()
         })

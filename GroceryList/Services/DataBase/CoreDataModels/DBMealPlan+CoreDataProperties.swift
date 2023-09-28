@@ -20,15 +20,17 @@ extension DBMealPlan {
     @NSManaged public var date: Date
     @NSManaged public var label: UUID?
     @NSManaged public var destinationListId: UUID?
+    @NSManaged public var index: Int16
 
     static func prepare(fromPlainModel model: MealPlan, context: NSManagedObjectContext) -> DBMealPlan {
-        let dbLabel = DBMealPlan(context: context)
-        dbLabel.id = model.id
-        dbLabel.recipeId = Int64(model.recipeId)
-        dbLabel.date = model.date
-        dbLabel.label = model.label
-        dbLabel.destinationListId = model.destinationListId
-        return dbLabel
+        let dbPlan = DBMealPlan(context: context)
+        dbPlan.id = model.id
+        dbPlan.recipeId = Int64(model.recipeId)
+        dbPlan.date = model.date
+        dbPlan.label = model.label
+        dbPlan.destinationListId = model.destinationListId
+        dbPlan.index = Int16(model.index)
+        return dbPlan
     }
 }
 
