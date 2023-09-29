@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 492 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 496 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -723,6 +723,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var drinks: RswiftResources.StringResource { .init(key: "Drinks", tableName: "Localizable", source: source, developmentValue: "Drinks", comment: nil) }
+
+      /// en translation: Edit Labels
+      ///
+      /// Key: Edit Labels
+      ///
+      /// Locales: en, ru, fr, de
+      var editLabels: RswiftResources.StringResource { .init(key: "Edit Labels", tableName: "Localizable", source: source, developmentValue: "Edit Labels", comment: nil) }
 
       /// en translation: Edit List
       ///
@@ -1430,6 +1437,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var moveTo: RswiftResources.StringResource { .init(key: "Move to...", tableName: "Localizable", source: source, developmentValue: "Move to...", comment: nil) }
+
+      /// en translation: Move, Copy & Delete
+      ///
+      /// Key: Move, Copy & Delete
+      ///
+      /// Locales: en, ru, fr, de
+      var moveCopyDelete: RswiftResources.StringResource { .init(key: "Move, Copy & Delete", tableName: "Localizable", source: source, developmentValue: "Move, Copy & Delete", comment: nil) }
 
       /// en translation: Multicooker
       ///
@@ -2152,6 +2166,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var sendInvitation: RswiftResources.StringResource { .init(key: "Send Invitation", tableName: "Localizable", source: source, developmentValue: "Send Invitation", comment: nil) }
 
+      /// en translation: Send to...
+      ///
+      /// Key: Send to...
+      ///
+      /// Locales: en, ru, fr, de
+      var sendTo: RswiftResources.StringResource { .init(key: "Send to...", tableName: "Localizable", source: source, developmentValue: "Send to...", comment: nil) }
+
       /// en translation: Send us feedback
       ///
       /// Key: Send us feedback
@@ -2256,6 +2277,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var settingsScreenName: RswiftResources.StringResource { .init(key: "Settings.ScreenName", tableName: "Localizable", source: source, developmentValue: "Screen Name", comment: nil) }
+
+      /// en translation: Share
+      ///
+      /// Key: Share
+      ///
+      /// Locales: en, ru, fr, de
+      var share: RswiftResources.StringResource { .init(key: "Share", tableName: "Localizable", source: source, developmentValue: "Share", comment: nil) }
 
       /// en translation: Share recipes
       ///
@@ -3564,7 +3592,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 345 images.
+  /// This `_R.image` struct is generated, and contains static references to 347 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -3654,6 +3682,9 @@ struct _R {
 
     /// Image `Color`.
     var color: RswiftResources.ImageResource { .init(name: "Color", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Context menu Marker`.
+    var contextMenuMarker: RswiftResources.ImageResource { .init(name: "Context menu Marker", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ContextMenuPlus`.
     var contextMenuPlus: RswiftResources.ImageResource { .init(name: "ContextMenuPlus", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -3972,6 +4003,9 @@ struct _R {
 
     /// Image `collectionsAlarmImage`.
     var collectionsAlarmImage: RswiftResources.ImageResource { .init(name: "collectionsAlarmImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `context menu Add User`.
+    var contextMenuAddUser: RswiftResources.ImageResource { .init(name: "context menu Add User", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `context menu Add to Cart`.
     var contextMenuAddToCart: RswiftResources.ImageResource { .init(name: "context menu Add to Cart", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

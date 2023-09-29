@@ -300,7 +300,7 @@ class MealPlanViewController: UIViewController {
     
     @objc
     private func tappedMenuButton() {
-        
+        viewModel.showContextMenu(date: calendarView.selectedDate)
     }
     
     private func updateCalendarView(animated: Bool = true) {

@@ -123,6 +123,11 @@ class MealPlanDataSource {
         }
     }
     
+    func sdsd(date: Date) -> MealPlan? {
+        let mealPlansByDate = mealPlan.filter { $0.date.onlyDate == date.onlyDate }
+        return mealPlansByDate.first
+    }
+    
     func getMealPlansFromStorage() {
         mealPlan = CoreDataManager.shared.getAllMealPlans()?.map({ MealPlan(dbModel: $0) }) ?? []
         note = CoreDataManager.shared.getMealPlanNotes()?.map({ MealPlanNote(dbModel: $0) }) ?? []

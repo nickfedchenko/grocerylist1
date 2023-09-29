@@ -408,7 +408,6 @@
 "drafts"                        = "Entwürfe";
 "inbox"                         = "Eingehende";
 
-"addToMealPlan"                 = "zum Speiseplan hinzufügen";
 "addToFavorites"                = "zu Favoriten hinzufügen";
 "deleteFromFavorites"           = "Aus Favoriten entfernen";
 "added to"                      = "Hinzugefügt zu";
@@ -559,6 +558,12 @@
 "DefaultLabel_snack"            = "Snacks";
 
 "Edit Meal plan label"          = "Tippen Sie auf das Symbol links und ziehen Sie es, um es neu anzuordnen.\nTippen Sie zum Bearbeiten auf den Namen.\nZum Löschen nach links wischen";
+
+"addToMealPlan"                 = "zum Speiseplan hinzufügen";
+"Move, Copy & Delete"           = "Verschieben, Kopieren und Löschen";
+"Edit Labels"                   = "Etiketten bearbeiten";
+"Share"                         = "Aktie";
+"Send to..."                    = "Senden an...";
 
 // Updated Paywall
 "three days "                   = "3 tage ";
