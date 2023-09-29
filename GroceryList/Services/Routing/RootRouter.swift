@@ -546,6 +546,26 @@ final class RootRouter: RootRouterProtocol {
         topViewController?.present(controller, animated: true)
     }
     
+    func goToMealPlanContextMenu(contextDelegate: MealPlanContextMenuViewDelegate, mealPlan: MealPlan?) {
+        let controller = MealPlanContextMenuViewController(contextDelegate: contextDelegate,
+                                                           mealPlan: mealPlan)
+        controller.modalPresentationStyle = .overCurrentContext
+        controller.modalTransitionStyle = .crossDissolve
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func goToAddIngredientsToList(startDate: Date) {
+        let viewModel = AddIngredientsToListViewModel(date: startDate)
+        viewModel.router = self
+        let controller = AddIngredientsToListViewController(viewModel: viewModel)
+        
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func dismissMealPlanContextMenu() {
+        UIViewController.currentController()?.dismiss(animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }

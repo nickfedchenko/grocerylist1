@@ -420,7 +420,6 @@
 "drafts"                        = "Drafts";
 "inbox"                         = "Inbox";
 
-"addToMealPlan"                 = "Add to Meal Plan";
 "addToFavorites"                = "Add to Favorites";
 "deleteFromFavorites"           = "Delete from favorites";
 "added to"                      = "Added to";
@@ -571,6 +570,12 @@
 "DefaultLabel_snack"            = "Snacks";
 
 "Edit Meal plan label"          = "Tap and drag on the icon on the left to rearrange.\nTap on the Name to edit.\nSwipe left to delete";
+
+"addToMealPlan"                 = "Add to Meal Plan";
+"Move, Copy & Delete"           = "Move, Copy & Delete";
+"Edit Labels"                   = "Edit Labels";
+"Share"                         = "Share";
+"Send to..."                    = "Send to...";
 
 // Updated Paywall
 "three days "                   = "3 days ";
