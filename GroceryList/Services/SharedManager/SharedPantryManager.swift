@@ -285,7 +285,7 @@ class SharedPantryManager {
             users.forEach {
                 if let stringUrl = $0.avatar,
                    let url = URL(string: stringUrl) {
-                    _ = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
+                    _ = Kingfisher.ImageResource(downloadURL: url, cacheKey: url.absoluteString)
                 }
             }
         }

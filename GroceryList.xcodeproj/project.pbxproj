@@ -2848,9 +2848,9 @@
 				B33EFF08290FF02800AD9BEE /* Frameworks */,
 				B33EFF09290FF02800AD9BEE /* Resources */,
 				B37A2CF12911062C003C01AD /* Run Script */,
-				33897D1429C885D9009C6932 /* FirebaseCrashlytics */,
 				33E31AF02A792D6E0011B41E /* Embed Foundation Extensions */,
 				4F62E1DE2B9F8555EF782837 /* [CP] Embed Pods Frameworks */,
+				33897D1429C885D9009C6932 /* FirebaseCrashlytics */,
 			);
 			buildRules = (
 			);
