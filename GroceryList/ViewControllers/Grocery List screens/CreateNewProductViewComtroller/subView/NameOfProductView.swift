@@ -150,7 +150,7 @@ class NameOfProductView: UIView {
         }
         productImageView.kf.indicatorType = .activity        
         if let url = URL(string: imageURL) {
-            let resource = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
+            let resource = Kingfisher.ImageResource(downloadURL: url, cacheKey: url.absoluteString)
             productImageView.kf.setImage(with: resource, options: [
                 .processor(DownsamplingImageProcessor(size: CGSize(width: 30, height: 30))),
                 .scaleFactor(UIScreen.main.scale),

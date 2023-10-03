@@ -57,7 +57,7 @@ final class SharedCell: UITableViewCell {
             return userPhotoImageView.image = R.image.profile_icon()
         }
         
-        let resource = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
+        let resource = Kingfisher.ImageResource(downloadURL: url, cacheKey: url.absoluteString)
         userPhotoImageView.kf.setImage(with: resource,
                                        options: [
             .processor(DownsamplingImageProcessor(size: CGSize(width: 30, height: 30))),
