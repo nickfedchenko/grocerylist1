@@ -150,7 +150,8 @@ final class RootRouter: RootRouterProtocol {
     func goCreateNewList(compl: @escaping (GroceryListsModel, [Product]) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewListController(model: nil, router: self,
                                                                                    compl: compl) else { return }
-        navigationPresent(controller, animated: false)
+        controller.modalPresentationStyle = .overCurrentContext
+        UIViewController.currentController()?.present(controller, animated: false)
     }
     
     func presentCreateNewList(model: GroceryListsModel,
@@ -562,7 +563,7 @@ final class RootRouter: RootRouterProtocol {
         topViewController?.present(controller, animated: true)
     }
     
-    func dismissMealPlanContextMenu() {
+    func dismissCurrentController() {
         UIViewController.currentController()?.dismiss(animated: true)
     }
     

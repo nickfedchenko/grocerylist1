@@ -577,6 +577,13 @@
 "Share"                         = "Share";
 "Send to..."                    = "Send to...";
 
+"Add to Shopping  List"         = "Add to Shopping  List";
+"Sort by Recipe"                = "Sort by Recipe";
+"Sort by Category"              = "Sort by Category";
+"Add All to List"               = "Add All to List";
+"Custom dates"                  = "Custom dates";
+"Various Lists"                 = "Various Lists";
+
 // Updated Paywall
 "three days "                   = "3 days ";
 "free"                          = "free";

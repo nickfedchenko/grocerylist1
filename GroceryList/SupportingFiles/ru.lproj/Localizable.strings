@@ -574,6 +574,13 @@
 "Share"                         = "Делиться";
 "Send to..."                    = "Отправить...";
 
+"Add to Shopping  List"         = "Добавить в список покупок";
+"Sort by Recipe"                = "Сортировать по рецептам";
+"Sort by Category"              = "Сортировать по категориям";
+"Add All to List"               = "Добавить все в список";
+"Custom dates"                  = "Пользовательские даты";
+"Various Lists"                 = "Различные списки";
+
 // Updated Paywall
 "three days "                   = "3 дня ";
 "free"                          = "бесплатно";

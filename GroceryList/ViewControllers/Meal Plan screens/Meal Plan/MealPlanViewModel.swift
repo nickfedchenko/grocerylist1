@@ -222,7 +222,7 @@ class MealPlanViewModel {
 
 extension MealPlanViewModel: MealPlanContextMenuViewDelegate {
     func selectedState(state: MealPlanContextMenuView.MainMenuState) {
-        router?.dismissMealPlanContextMenu()
+        router?.dismissCurrentController()
         
         switch state {
         case .addToShoppingList:

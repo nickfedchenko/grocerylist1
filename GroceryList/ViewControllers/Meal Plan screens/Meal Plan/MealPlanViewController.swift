@@ -389,6 +389,8 @@ extension MealPlanViewController: CalendarViewDelegate {
     func getLabelColors(by date: Date) -> [UIColor] {
         return viewModel.getLabelColors(by: date)
     }
+    
+    func selectedDates() { }
 }
 
 extension MealPlanViewController: CustomSegmentedControlViewDelegate {
