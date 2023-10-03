@@ -11,6 +11,8 @@ class MealPlanViewModel {
     
     weak var router: RootRouter?
     var reloadData: (() -> Void)?
+    var updateEditMode: (() -> Void)?
+    var updateEditTabBar: (() -> Void)?
     
     private let dataSource: MealPlanDataSource
     private let colorManager = ColorManager.shared
@@ -18,6 +20,10 @@ class MealPlanViewModel {
     
     var theme: Theme {
         colorManager.colorMealPlan
+    }
+    
+    var isEditMode: Bool {
+        dataSource.isEditMode
     }
     
     init(dataSource: MealPlanDataSource) {
@@ -116,6 +122,54 @@ class MealPlanViewModel {
         selectedDate = date
         let mealPlan = dataSource.sdsd(date: date)
         router?.goToMealPlanContextMenu(contextDelegate: self, mealPlan: mealPlan)
+    }
+    
+    func editMode(isEdit: Bool) {
+        dataSource.updateEditMode(isEdit: isEdit)
+        reloadData?()
+        updateEditMode?()
+    }
+    
+    func updateEditMealPlan(_ mealPlan: MealPlanCellModel) {
+        dataSource.updateEditMealPlan(mealPlan)
+        reloadData?()
+        updateEditTabBar?()
+    }
+    
+    func editMealPlansCount() -> Int {
+        dataSource.editMealPlan.count
+    }
+    
+    func addAllMealPlansToEdit() {
+        dataSource.addEditAllMealPlans()
+        updateEditTabBar?()
+    }
+    
+    func moveEditMeals() {
+        deleteEditMealPlans()
+    }
+    
+    func showCalendar(currentDate: Date, isCopy: Bool) {
+        router?.goToMealPlanCalendar(currentDate: currentDate,
+                                     selectedDate: { [weak self] date in
+            self?.dataSource.copyEditMealPlans(date: date)
+            if !isCopy {
+                self?.moveEditMeals()
+            }
+            self?.resetEditProducts()
+            self?.updateStorage()
+        })
+    }
+    
+    func deleteEditMealPlans() {
+        dataSource.deleteEditMealPlans()
+        updateStorage()
+        updateEditTabBar?()
+    }
+    
+    func resetEditProducts() {
+        dataSource.resetEditMealPlans()
+        updateEditTabBar?()
     }
     
     private func showAddIngredientsToList() {
@@ -228,7 +282,7 @@ extension MealPlanViewModel: MealPlanContextMenuViewDelegate {
         case .addToShoppingList:
             showAddIngredientsToList()
         case .moveCopyDelete:
-            break
+            editMode(isEdit: true)
         case .editLabels:
             showLabel()
         case .share:

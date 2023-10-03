@@ -15,10 +15,17 @@ class MealPlanCell: RecipeListCell {
 
     weak var mealPlanDelegate: MealPlanCellDelegate?
     
-    let mealPlanLabel: UILabel = {
+    private let mealPlanLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 12).font
         return label
+    }()
+    
+    private let editImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = R.image.mealplanEdit_Off()
+        imageView.isHidden = true
+        return imageView
     }()
     
     override init(frame: CGRect) {
@@ -39,6 +46,10 @@ class MealPlanCell: RecipeListCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         updateAllConstraints()
+        
+        editImageView.isHidden = true
+        contextMenuButton.setImage(R.image.chevronMealPlan(), for: .normal)
+        contextMenuButton.tintColor = nil
     }
     
     func configureMealPlanLabel(text: String, color: UIColor) {
@@ -46,8 +57,19 @@ class MealPlanCell: RecipeListCell {
         mealPlanLabel.textColor = color
     }
     
-    func configureWithoutRecipe() {
+    func configureEditMode(isEdit: Bool, isSelect: Bool) {
+        guard isEdit else {
+            return
+        }
         
+        contextMenuButton.setImage(R.image.rearrange(), for: .normal)
+        contextMenuButton.tintColor = R.color.edit()
+        
+        editImageView.isHidden = false
+        editImageView.image = isSelect ? R.image.mealplanEdit_On() : R.image.mealplanEdit_Off()
+    }
+    
+    func configureWithoutRecipe() {
         containerView.backgroundColor = .clear
         containerView.snp.updateConstraints {
             $0.height.equalTo(0)
@@ -117,7 +139,7 @@ class MealPlanCell: RecipeListCell {
     
     private func makeConstraints() {
         containerView.snp.removeConstraints()
-        containerView.addSubview(mealPlanLabel)
+        containerView.addSubviews([mealPlanLabel, editImageView])
         
         containerView.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -129,6 +151,12 @@ class MealPlanCell: RecipeListCell {
         mealPlanLabel.snp.makeConstraints {
             $0.leading.equalTo(kcalBadgeView.snp.trailing).offset(6)
             $0.bottom.equalTo(kcalLabel)
+        }
+        
+        editImageView.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(3)
+            $0.centerY.equalToSuperview()
+            $0.width.height.equalTo(36)
         }
     }
 }

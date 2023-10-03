@@ -563,6 +563,14 @@ final class RootRouter: RootRouterProtocol {
         topViewController?.present(controller, animated: true)
     }
     
+    func goToMealPlanCalendar(currentDate: Date, selectedDate: ((Date) -> Void)?) {
+        let controller = CalendarViewController(currentDate: currentDate)
+        controller.selectedDate = selectedDate
+        controller.modalPresentationStyle = .overCurrentContext
+        controller.modalTransitionStyle = .crossDissolve
+        topViewController?.present(controller, animated: true)
+    }
+    
     func dismissCurrentController() {
         UIViewController.currentController()?.dismiss(animated: true)
     }

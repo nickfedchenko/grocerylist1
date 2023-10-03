@@ -15,6 +15,8 @@ final class CalendarCell: FSCalendarCell {
         case selectedToday
         case selected
         case none
+        
+        case edit
     }
     
     private var size: CGFloat {
@@ -65,6 +67,10 @@ final class CalendarCell: FSCalendarCell {
         super.layoutSubviews()
         updateLayer()
         updateFont()
+        
+        if typeOfSelection == .edit {
+            titleLabel.textColor = .white
+        }
     }
 
     override func prepareForReuse() {
@@ -74,6 +80,7 @@ final class CalendarCell: FSCalendarCell {
         selectedCellLayer.strokeColor = UIColor.clear.cgColor
         selectedCellLayer.lineWidth = 0
         titleLabel.font = UIFont.SFPro.medium(size: 16).font
+        titleLabel.textColor = R.color.primaryDark()
         labelStackView.removeAllArrangedSubviews()
     }
     
@@ -111,6 +118,8 @@ final class CalendarCell: FSCalendarCell {
             selectedCellLayer.lineWidth = 2
         case .none:
             selectedCellLayer.fillColor = UIColor.clear.cgColor
+        case .edit:
+            selectedCellLayer.fillColor = R.color.edit()?.cgColor
         }
         selectedCellLayer.path = roundedRect
         self.contentView.layer.insertSublayer(selectedCellLayer, below: self.titleLabel?.layer ?? self.layer)
@@ -118,7 +127,7 @@ final class CalendarCell: FSCalendarCell {
     
     private func updateFont() {
         switch typeOfSelection {
-        case .today, .none:
+        case .today, .none, .edit:
             titleLabel.font = UIFont.SFPro.medium(size: 16).font
         case .selectedToday, .selected:
             titleLabel.font = UIFont.SFPro.heavy(size: 16).font

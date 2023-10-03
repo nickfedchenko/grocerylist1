@@ -25,6 +25,9 @@ final class CalendarView: UIView {
         }
     }
     
+    var isEditMode: Bool = false
+    var isSelectedEdit: Bool = false
+    
     private lazy var monthLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 16).font
@@ -215,12 +218,12 @@ extension CalendarView: FSCalendarDataSource {
         if allowsMultipleSelection {
             selectedDates = self.selectedDates
         }
-        
+        let isEdit = isSelectedEdit ? isEditMode : false
         if selectedDates.contains(where: { $0.onlyDate == date.onlyDate }) {
             if date.onlyDate == Date().onlyDate {
-                type = .selectedToday
+                type = isEdit ? .edit : .selectedToday
             } else {
-                type = .selected
+                type = isEdit ? .edit : .selected
             }
         } else {
             if date.onlyDate == Date().onlyDate {
@@ -240,6 +243,7 @@ extension CalendarView: FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, didSelect date: Date,
                   at monthPosition: FSCalendarMonthPosition) {
         selectedDate = date
+        isSelectedEdit = true
         
         if selectedDates.contains(where: { $0.onlyDate == date.onlyDate }) {
             selectedDates.removeAll { $0.onlyDate == date.onlyDate }

@@ -47,6 +47,15 @@ struct MealPlan: Hashable, Codable, ItemWithLabelProtocol {
         self.destinationListId = dbModel.destinationListId
         self.index = Int(dbModel.index)
     }
+    
+    init(copy: MealPlan, date: Date) {
+        self.id = UUID()
+        self.recipeId = copy.recipeId
+        self.date = date
+        self.label = copy.label
+        self.destinationListId = copy.destinationListId
+        self.index = copy.index
+    }
 }
 
 struct MealPlanLabel: Hashable, Codable {
@@ -117,17 +126,19 @@ struct MealPlanCellModel: Hashable {
     var index: Int
     var mealPlan: MealPlan?
     var note: MealPlanNote?
+    var isEdit: Bool = false
+    var isSelectedEditMode: Bool = false
     
-    init(type: MealPlanCellType,
-         date: Date,
-         index: Int,
-         mealPlan: MealPlan? = nil,
-         note: MealPlanNote? = nil) {
+    init(type: MealPlanCellType, date: Date, index: Int,
+         mealPlan: MealPlan? = nil,  note: MealPlanNote? = nil,
+         isEdit: Bool = false, isSelectedEditMode: Bool = false) {
         self.type = type
         self.date = date
         self.index = index
         self.mealPlan = mealPlan
         self.note = note
+        self.isEdit = isEdit
+        self.isSelectedEditMode = isSelectedEditMode
     }
 }
 
