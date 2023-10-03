@@ -10,6 +10,7 @@ import UIKit
 
 protocol CalendarViewDelegate: AnyObject {
     func selectedDate(_ date: Date)
+    func selectedDates()
     func getLabelColors(by date: Date) -> [UIColor]
     func pageDidChange()
 }
@@ -17,6 +18,12 @@ protocol CalendarViewDelegate: AnyObject {
 final class CalendarView: UIView {
     
     weak var delegate: CalendarViewDelegate?
+    
+    var allowsMultipleSelection: Bool = false {
+        didSet {
+            calendar.allowsMultipleSelection = allowsMultipleSelection
+        }
+    }
     
     private lazy var monthLabel: UILabel = {
         let label = UILabel()
@@ -70,6 +77,7 @@ final class CalendarView: UIView {
         UserDefaultsManager.shared.selectedMonthOrWeek == 0 ? .month : .week
     }
     private(set) var selectedDate = Date()
+    private(set) var selectedDates: [Date] = []
 
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
@@ -116,6 +124,13 @@ final class CalendarView: UIView {
             self?.calendar.alpha = 1
             self?.layoutIfNeeded()
         }
+    }
+    
+    func setDates(dates: [Date]) {
+        guard allowsMultipleSelection else {
+            return
+        }
+        selectedDates = dates
     }
     
     private func setup() {
@@ -196,7 +211,12 @@ extension CalendarView: FSCalendarDataSource {
             return cell
         }
         let type: CalendarCell.TypeOfSelection
-        if date.onlyDate == selectedDate.onlyDate {
+        var selectedDates: [Date] = [selectedDate]
+        if allowsMultipleSelection {
+            selectedDates = self.selectedDates
+        }
+        
+        if selectedDates.contains(where: { $0.onlyDate == date.onlyDate }) {
             if date.onlyDate == Date().onlyDate {
                 type = .selectedToday
             } else {
@@ -220,8 +240,18 @@ extension CalendarView: FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, didSelect date: Date,
                   at monthPosition: FSCalendarMonthPosition) {
         selectedDate = date
-        delegate?.selectedDate(date)
         
+        if selectedDates.contains(where: { $0.onlyDate == date.onlyDate }) {
+            selectedDates.removeAll { $0.onlyDate == date.onlyDate }
+        } else {
+            selectedDates.append(date)
+        }
+        
+        if !allowsMultipleSelection {
+            delegate?.selectedDate(date)
+        } else {
+            delegate?.selectedDates()
+        }
         calendar.reloadData()
     }
     

@@ -565,6 +565,13 @@
 "Share"                         = "Aktie";
 "Send to..."                    = "Senden an...";
 
+"Add to Shopping  List"         = "Zur Einkaufsliste hinzufügen";
+"Sort by Recipe"                = "Nach Rezept sortieren";
+"Sort by Category"              = "Nach Kategorie sortieren";
+"Add All to List"               = "Alle zur Liste hinzufügen";
+"Custom dates"                  = "Benutzerdefinierte Daten";
+"Various Lists"                 = "Verschiedene Listen";
+
 // Updated Paywall
 "three days "                   = "3 tage ";
 "free"                          = "kostenlos";

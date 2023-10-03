@@ -1,15 +1,16 @@
 //
-//  MealPlanUpdateDateView.swift
+//  AddIngredientsToListCalendarView.swift
 //  GroceryList
 //
-//  Created by Хандымаа Чульдум on 18.09.2023.
+//  Created by Хандымаа Чульдум on 02.10.2023.
 //
 
 import UIKit
 
-class MealPlanUpdateDateView: UIView {
+class AddIngredientsToListCalendarView: UIView {
 
-    var selectDate: ((Date?) -> Void)?
+    var selectDates: (([Date]) -> Void)?
+    var fadeOutView: (() -> Void)?
     var labelColors: ((Date) -> [UIColor])?
     
     private let containerView: UIView = {
@@ -23,6 +24,7 @@ class MealPlanUpdateDateView: UIView {
     private lazy var calendarView: CalendarView = {
         let view = CalendarView()
         view.delegate = self
+        view.allowsMultipleSelection = true
         view.backgroundColor = .clear
         return view
     }()
@@ -37,8 +39,8 @@ class MealPlanUpdateDateView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(date: Date = Date()) {
-        calendarView.setDate(date)
+    func configure(dates: [Date] = []) {
+        calendarView.setDates(dates: dates)
     }
     
     private func setup() {
@@ -53,7 +55,8 @@ class MealPlanUpdateDateView: UIView {
     
     @objc
     private func tappedOnView() {
-        selectDate?(nil)
+        selectDates?(calendarView.selectedDates)
+        fadeOutView?()
     }
     
     private func makeConstraints() {
@@ -73,21 +76,23 @@ class MealPlanUpdateDateView: UIView {
     }
 }
 
-extension MealPlanUpdateDateView: CalendarViewDelegate {
-    func selectedDate(_ date: Date) {
-        selectDate?(date)
+extension AddIngredientsToListCalendarView: CalendarViewDelegate {
+    func selectedDates() {
+        selectDates?(calendarView.selectedDates)
     }
+    
+    func selectedDate(_ date: Date) { }
     
     func getLabelColors(by date: Date) -> [UIColor] {
         labelColors?(date) ?? []
     }
     
     func pageDidChange() { }
-    func selectedDates() { }
 }
 
-extension MealPlanUpdateDateView: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+extension AddIngredientsToListCalendarView: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldReceive touch: UITouch) -> Bool {
         return !(touch.view?.isDescendant(of: self.calendarView) ?? false)
     }
 }

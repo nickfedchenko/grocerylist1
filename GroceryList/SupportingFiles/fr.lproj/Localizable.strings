@@ -562,6 +562,13 @@
 "Share"                         = "Partager";
 "Send to..."                    = "Envoyer à...";
 
+"Add to Shopping  List"         = "Ajouter à la liste d'achats";
+"Sort by Recipe"                = "Trier par recette";
+"Sort by Category"              = "Trier par catégorie";
+"Add All to List"               = "Ajouter tout à la liste";
+"Custom dates"                  = "Dates personnalisées" ;
+"Various Lists"                 = "Listes diverses" ;
+
 // Updated Paywall
 "three days "                   = "3 jours ";
 "free"                          = "gratuitement";
