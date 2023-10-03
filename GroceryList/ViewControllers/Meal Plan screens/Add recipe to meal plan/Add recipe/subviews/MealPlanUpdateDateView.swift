@@ -41,6 +41,10 @@ class MealPlanUpdateDateView: UIView {
         calendarView.setDate(date)
     }
     
+    func configure(isEditMode: Bool) {
+        calendarView.isEditMode = isEditMode
+    }
+    
     private func setup() {
         self.backgroundColor = .black.withAlphaComponent(0.2)
         
