@@ -13,6 +13,7 @@ protocol CalendarViewDelegate: AnyObject {
     func selectedDates()
     func getLabelColors(by date: Date) -> [UIColor]
     func pageDidChange()
+    func movedToDate(date: Date)
 }
 
 final class CalendarView: UIView {
@@ -35,7 +36,7 @@ final class CalendarView: UIView {
         return label
     }()
     
-    private lazy var calendar: FSCalendar = {
+    private(set) lazy var calendar: FSCalendar = {
         let calendar = FSCalendar()
         calendar.dataSource = self
         calendar.delegate = self
@@ -59,6 +60,11 @@ final class CalendarView: UIView {
         calendar.appearance.selectionColor = .clear
         calendar.appearance.todaySelectionColor = .clear
         calendar.appearance.todayColor = .clear
+        
+        calendar.layer.masksToBounds = false
+        calendar.clipsToBounds = false
+        calendar.collectionView.layer.masksToBounds = false
+        calendar.collectionView.clipsToBounds = false
         return calendar
     }()
     
@@ -76,6 +82,18 @@ final class CalendarView: UIView {
         return button
     }()
 
+    private var recipeDragImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.setCornerRadius(8)
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.backgroundColor = .white
+        imageView.isHidden = true
+        return imageView
+    }()
+    private var currentCalendarCell: CalendarCell?
     private var scope: FSCalendarScope {
         UserDefaultsManager.shared.selectedMonthOrWeek == 0 ? .month : .week
     }
@@ -136,6 +154,60 @@ final class CalendarView: UIView {
         selectedDates = dates
     }
     
+    func setRecipeImage(recipe: ShortRecipeModel) {
+        if let url = URL(string: recipe.photo) {
+            recipeDragImageView.kf.setImage(with: url)
+            return
+        }
+        if let imageData = recipe.localImage,
+           let image = UIImage(data: imageData) {
+            recipeDragImageView.image = image
+        }
+    }
+    
+    func moveRecipe(gesture: UILongPressGestureRecognizer) {
+        let calendarLocation = gesture.location(in: calendar.collectionView)
+        
+        switch gesture.state {
+        case .began:
+            break
+        case .changed:
+            currentCalendarCell?.editHighlight(isVisible: false)
+            guard let index = calendar.collectionView.indexPathForItem(at: calendarLocation),
+                  let calendarCell = calendar.collectionView.cellForItem(at: index) as? CalendarCell else {
+                return
+            }
+            currentCalendarCell = calendarCell
+            calendarCell.editHighlight(isVisible: true)
+            
+            recipeDragImageView.isHidden = false
+            let viewLocation = gesture.location(in: self)
+            self.bringSubviewToFront(recipeDragImageView)
+            recipeDragImageView.center = CGPoint(x: viewLocation.x, y: viewLocation.y + 20)
+        case .ended:
+            guard let index = calendar.collectionView.indexPathForItem(at: calendarLocation),
+                  let calendarCell = calendar.collectionView.cellForItem(at: index) as? CalendarCell else {
+                recipeHidden()
+                return
+            }
+            
+            if let date = calendar.date(for: calendarCell) {
+                delegate?.movedToDate(date: date)
+            }
+
+            calendarCell.editSelect()
+            recipeHidden()
+        default:
+            recipeHidden()
+        }
+    }
+    
+    private func recipeHidden() {
+        currentCalendarCell = nil
+        recipeDragImageView.isHidden = true
+        currentCalendarCell?.editHighlight(isVisible: false)
+    }
+    
     private func setup() {
         let isMonth = scope == .month
         previousMonthButton.alpha = isMonth ? 0 : 1
@@ -144,6 +216,15 @@ final class CalendarView: UIView {
         
         changeMonthLabel(selectedDate)
         makeConstraints()
+        
+        calendar.subviews.forEach { subview in
+            subview.layer.masksToBounds = false
+            subview.clipsToBounds = false
+            subview.subviews.forEach {
+                $0.layer.masksToBounds = false
+                $0.clipsToBounds = false
+            }
+        }
     }
     
     private func changeMonthLabel(_ date: Date) {
@@ -174,7 +255,8 @@ final class CalendarView: UIView {
     }
     
     private func makeConstraints() {
-        self.addSubviews([monthLabel, calendar, previousMonthButton, nextMonthButton])
+        self.addSubviews([monthLabel, calendar, previousMonthButton, nextMonthButton,
+                          recipeDragImageView])
         
         monthLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -202,6 +284,11 @@ final class CalendarView: UIView {
             $0.trailing.equalToSuperview().offset(-4)
             $0.height.equalTo(32)
             $0.width.equalTo(16)
+        }
+        
+        recipeDragImageView.snp.makeConstraints {
+            $0.height.equalTo(64)
+            $0.width.equalTo(94)
         }
     }
 }
@@ -233,7 +320,7 @@ extension CalendarView: FSCalendarDataSource {
             }
         }
 
-        cell.configure(selection: type)
+        cell.configure(selection: type, date: date)
         cell.configure(labelColors: delegate?.getLabelColors(by: date) ?? [])
         return cell
     }

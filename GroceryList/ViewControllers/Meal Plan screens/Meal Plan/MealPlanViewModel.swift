@@ -149,6 +149,14 @@ class MealPlanViewModel {
         deleteEditMealPlans()
     }
     
+    func moveToCalendar(date: Date) {
+        dataSource.copyEditMealPlans(date: date)
+        
+        moveEditMeals()
+        resetEditProducts()
+        updateStorage()
+    }
+    
     func showCalendar(currentDate: Date, isCopy: Bool) {
         router?.goToMealPlanCalendar(currentDate: currentDate,
                                      selectedDate: { [weak self] date in

@@ -88,6 +88,7 @@ extension AddIngredientsToListCalendarView: CalendarViewDelegate {
     }
     
     func pageDidChange() { }
+    func movedToDate(date: Date) { }
 }
 
 extension AddIngredientsToListCalendarView: UIGestureRecognizerDelegate {
