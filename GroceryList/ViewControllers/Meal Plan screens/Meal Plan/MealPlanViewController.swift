@@ -447,6 +447,10 @@ extension MealPlanViewController: CalendarViewDelegate {
         return viewModel.getLabelColors(by: date)
     }
     
+    func movedToDate(date: Date) {
+        viewModel.moveToCalendar(date: date)
+    }
+    
     func selectedDates() { }
 }
 
@@ -472,6 +476,9 @@ extension MealPlanViewController: MainTabBarControllerMealPlanDelegate {
 extension MealPlanViewController: MealPlanCellDelegate {
     func moveCell(gesture: UILongPressGestureRecognizer) {
         let gestureLocation = gesture.location(in: collectionView)
+        if viewModel.isEditMode {
+            calendarView.moveRecipe(gesture: gesture)
+        }
         
         switch gesture.state {
         case .began:
@@ -480,6 +487,12 @@ extension MealPlanViewController: MealPlanCellDelegate {
                 return
             }
             collectionView.beginInteractiveMovementForItem(at: targetIndexPath)
+            
+            if viewModel.isEditMode,
+               let recipe = self.viewModel.getRecipe(by: self.calendarView.selectedDate,
+                                                     for: targetIndexPath) {
+                calendarView.setRecipeImage(recipe: recipe)
+            }
         case .changed:
             collectionView.updateInteractiveMovementTargetPosition(gestureLocation)
         case .ended:

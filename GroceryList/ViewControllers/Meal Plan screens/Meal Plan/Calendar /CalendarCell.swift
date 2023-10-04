@@ -42,6 +42,24 @@ final class CalendarCell: FSCalendarCell {
     
     private var selectedCellLayer = CAShapeLayer()
     
+    private var popoverImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = R.image.calendarPopover()
+        imageView.addShadow(opacity: 0.3, radius: 50, offset: .init(width: 0, height: 10))
+        imageView.isHidden = true
+        return imageView
+    }()
+    
+    private var dateLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.SFPro.semibold(size: 16).font
+        label.textAlignment = .center
+        label.numberOfLines = 2
+        label.isHidden = true
+        return label
+    }()
+    
     private let labelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -56,7 +74,7 @@ final class CalendarCell: FSCalendarCell {
     
     override init!(frame: CGRect) {
         super.init(frame: frame)
-        setupStackView()
+        makeConstraints()
     }
     
     required init!(coder aDecoder: NSCoder!) {
@@ -75,17 +93,20 @@ final class CalendarCell: FSCalendarCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        selectedCellLayer.path = nil
-        selectedCellLayer.fillColor = UIColor.clear.cgColor
-        selectedCellLayer.strokeColor = UIColor.clear.cgColor
-        selectedCellLayer.lineWidth = 0
+        clearLayer()
         titleLabel.font = UIFont.SFPro.medium(size: 16).font
         titleLabel.textColor = R.color.primaryDark()
         labelStackView.removeAllArrangedSubviews()
+        
+        dateLabel.text = ""
+        dateLabel.isHidden = true
+        popoverImageView.isHidden = true
     }
     
-    func configure(selection: TypeOfSelection) {
+    func configure(selection: TypeOfSelection, date: Date) {
         typeOfSelection = selection
+
+        dateLabel.text = date.getStringDate(format: "E") + "\n" + date.getStringDate(format: "d")
     }
     
     func configure(labelColors: [UIColor]) {
@@ -103,6 +124,38 @@ final class CalendarCell: FSCalendarCell {
                 $0.verticalEdges.equalToSuperview()
                 $0.width.height.equalTo(6)
             }
+        }
+    }
+    
+    func editHighlight(isVisible: Bool) {
+        dateLabel.isHidden = !isVisible
+        popoverImageView.isHidden = !isVisible
+        
+        guard isVisible else {
+            clearLayer()
+            updateLayer()
+            updateFont()
+            return
+        }
+        
+        selectedCellLayer.fillColor = UIColor.white.cgColor
+        selectedCellLayer.strokeColor = R.color.primaryDark()?.cgColor
+        selectedCellLayer.lineWidth = 2
+        titleLabel.font = UIFont.SFPro.heavy(size: 16).font
+    }
+    
+    func editSelect() {
+        dateLabel.isHidden = true
+        popoverImageView.isHidden = true
+        
+        selectedCellLayer.fillColor = UIColor.white.cgColor
+        selectedCellLayer.strokeColor = R.color.edit()?.cgColor
+        selectedCellLayer.lineWidth = 4
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.clearLayer()
+            self.updateLayer()
+            self.updateFont()
         }
     }
     
@@ -134,12 +187,32 @@ final class CalendarCell: FSCalendarCell {
         }
     }
     
-    private func setupStackView() {
-        self.contentView.addSubview(labelStackView)
+    private func clearLayer() {
+        selectedCellLayer.path = nil
+        selectedCellLayer.fillColor = UIColor.white.cgColor
+        selectedCellLayer.strokeColor = UIColor.clear.cgColor
+        selectedCellLayer.lineWidth = 0
+    }
+    
+    private func makeConstraints() {
+        self.contentView.addSubviews([labelStackView, popoverImageView, dateLabel])
+        
         labelStackView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(36)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(6)
+        }
+        
+        popoverImageView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(-73)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(73)
+            $0.width.equalTo(60)
+        }
+        
+        dateLabel.snp.makeConstraints {
+            $0.top.equalTo(popoverImageView).offset(10)
+            $0.leading.centerX.equalTo(popoverImageView)
         }
     }
 }

@@ -88,6 +88,7 @@ extension MealPlanUpdateDateView: CalendarViewDelegate {
     
     func pageDidChange() { }
     func selectedDates() { }
+    func movedToDate(date: Date) { }
 }
 
 extension MealPlanUpdateDateView: UIGestureRecognizerDelegate {
