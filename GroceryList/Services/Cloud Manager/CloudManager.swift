@@ -298,7 +298,7 @@ final class CloudManager {
         CoreDataManager.shared.saveCollection(collections: collections)
 
         let recipes = recipes.compactMap { record in
-            let imageData = self.convertAssetToData(asset: record.value(forKey: "icon"))
+            let imageData = self.convertAssetToData(asset: record.value(forKey: "localImage"))
             let ingredients = self.convertAssetToData(asset: record.value(forKey: "ingredients"))
             return Recipe(record: record, imageData: imageData, ingredientsData: ingredients)
         }

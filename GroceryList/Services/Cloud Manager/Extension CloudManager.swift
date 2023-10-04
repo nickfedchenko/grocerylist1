@@ -47,9 +47,8 @@ extension CloudManager {
     
     private func fillInRecord(record: CKRecord, groceryList: GroceryListsModel) -> CKRecord {
         let record = record
-        let products = groceryList.products.compactMap { try? JSONEncoder().encode($0) }
-//        let products = convertDataToAsset(name: "products" + groceryList.id.uuidString,
-//                                          data: try? JSONEncoder().encode(groceryList.products))
+        let products = convertDataToAsset(name: "products" + groceryList.id.uuidString,
+                                          data: try? JSONEncoder().encode(groceryList.products))
         record.setValue(groceryList.id.uuidString, forKey: "id")
         record.setValue(groceryList.name, forKey: "name")
         record.setValue(groceryList.dateOfCreation, forKey: "dateOfCreation")
@@ -261,8 +260,7 @@ extension CloudManager {
         record.setValue(pantryModel.index, forKey: "index")
         record.setValue(pantryModel.color, forKey: "color")
         record.setValue(image, forKey: "icon")
-//        record.setValue(stocks, forKey: "stock")
-        record.setValue(try? JSONEncoder().encode(pantryModel.stock), forKey: "stock")
+        record.setValue(stocks, forKey: "stock")
         record.setValue(try? JSONEncoder().encode(pantryModel.synchronizedLists), forKey: "synchronizedLists")
         record.setValue(pantryModel.dateOfCreation, forKey: "dateOfCreation")
         record.setValue(pantryModel.sharedId, forKey: "sharedId")
@@ -392,8 +390,8 @@ extension CloudManager {
         record.setValue(recipe.dishWeightType, forKey: "dishWeightType")
         record.setValue(try? JSONEncoder().encode(recipe.values), forKey: "values")
         record.setValue(recipe.countries, forKey: "countries")
-//        record.setValue(ingredients, forKey: "ingredients")
-        record.setValue(try? JSONEncoder().encode(recipe.ingredients), forKey: "ingredients")
+        record.setValue(ingredients, forKey: "ingredients")
+        record.setValue(recipe.instructions, forKey: "instructions")
         record.setValue(try? JSONEncoder().encode(recipe.eatingTags), forKey: "eatingTags")
         record.setValue(try? JSONEncoder().encode(recipe.dishTypeTags), forKey: "dishTypeTags")
         record.setValue(try? JSONEncoder().encode(recipe.processingTypeTags), forKey: "processingTypeTags")
