@@ -80,13 +80,15 @@ final class CreateNewRecipeViewWithTextField: UIView {
         textView.keyboardType = .numberPad
     }
     
-    func setMaxLine(_ number: Int) {
-        
-    }
-    
     func setText(_ text: String?) {
         textView.text = text
         textView.checkPlaceholder()
+    }
+    
+    func setTextFieldHeight(height: Int) {
+        contentView.snp.updateConstraints() {
+            $0.height.greaterThanOrEqualTo(height)
+        }
     }
     
     private func setup() {

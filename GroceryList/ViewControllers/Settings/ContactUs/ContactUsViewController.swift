@@ -61,7 +61,8 @@ class ContactUsViewController: UIViewController {
     
     private let emailView = CreateNewRecipeViewWithTextField()
     private let messageView = CreateNewRecipeViewWithTextField()
-
+    private let messageHeight = 40 + 2 * 48
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -97,10 +98,14 @@ class ContactUsViewController: UIViewController {
                               state: .required, modeIsTextField: false)
         messageView.updateLayout = { [weak self] in
             guard let self else { return }
+            let requiredHeight = self.messageView.requiredHeight
+            let messageHeight = requiredHeight > self.messageHeight ? requiredHeight : self.messageHeight
             self.messageView.snp.updateConstraints {
-                $0.height.equalTo(self.messageView.requiredHeight)
+                $0.height.greaterThanOrEqualTo(messageHeight)
             }
         }
+        
+        messageView.setTextFieldHeight(height: 2 * 48)
         
         checkSendButton()
     }
@@ -163,6 +168,8 @@ OS version: \(systemVersion)
                                 message: message + setInfo())
         
         NetworkEngine().sendMail(sendMail: sendMail) { _ in }
+        
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc
@@ -252,7 +259,7 @@ OS version: \(systemVersion)
         }
 
         messageView.snp.makeConstraints {
-            $0.height.equalTo(messageView.requiredHeight)
+            $0.height.greaterThanOrEqualTo(messageHeight)
             $0.width.equalToSuperview()
         }
     }
