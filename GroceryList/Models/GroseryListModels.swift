@@ -238,6 +238,7 @@ struct GroceryListsModel: Hashable, Codable {
         isAscendingOrder = dbModel.isAscendingOrder
         isAscendingOrderPurchased = BoolWithNilForCD(rawValue: dbModel.isAscendingOrderPurchased) ?? .nothing
         isAutomaticCategory = dbModel.isAutomaticCategory
+        isVisibleCost = dbModel.isVisibleCost
         recordId = dbModel.recordId ?? ""
     }
     
