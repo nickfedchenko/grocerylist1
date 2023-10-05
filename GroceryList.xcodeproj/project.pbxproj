@@ -120,6 +120,7 @@
 		3379B65729B9AED50080923A /* IngredientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65629B9AED50080923A /* IngredientViewModel.swift */; };
 		3379B65A29B9B2ED0080923A /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65929B9B2ED0080923A /* CategoryView.swift */; };
 		3379B65C29B9B3030080923A /* AddIngredientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65B29B9B3030080923A /* AddIngredientView.swift */; };
+		337B9F082ACEA96700C28884 /* ContactUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B9F072ACEA96700C28884 /* ContactUsViewController.swift */; };
 		337E79C829E51B2D00668578 /* EditSelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79C729E51B2D00668578 /* EditSelectListViewController.swift */; };
 		337E79CA29E51D6200668578 /* AddListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79C929E51D6200668578 /* AddListView.swift */; };
 		337E79CC29E547D600668578 /* EditDeleteAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79CB29E547D600668578 /* EditDeleteAlertView.swift */; };
@@ -616,6 +617,7 @@
 		3379B65629B9AED50080923A /* IngredientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientViewModel.swift; sourceTree = "<group>"; };
 		3379B65929B9B2ED0080923A /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		3379B65B29B9B3030080923A /* AddIngredientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIngredientView.swift; sourceTree = "<group>"; };
+		337B9F072ACEA96700C28884 /* ContactUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactUsViewController.swift; sourceTree = "<group>"; };
 		337E79C729E51B2D00668578 /* EditSelectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSelectListViewController.swift; sourceTree = "<group>"; };
 		337E79C929E51D6200668578 /* AddListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListView.swift; sourceTree = "<group>"; };
 		337E79CB29E547D600668578 /* EditDeleteAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDeleteAlertView.swift; sourceTree = "<group>"; };
@@ -1210,6 +1212,7 @@
 			children = (
 				B3777E172938BE790074BE38 /* SettingsViewController */,
 				33E8A8BC2A5FB4D6007D7ED9 /* FAQ */,
+				337B9F062ACEA7D700C28884 /* ContactUs */,
 				B381EF29299B904A00DCDE40 /* PasswordExpiredController */,
 				B3F7C9C529963EEA0081B245 /* PasswordResetViewController */,
 				B3F7C9B82993A0F70081B245 /* SignUpViewCntroller */,
@@ -1362,6 +1365,14 @@
 				3379B65B29B9B3030080923A /* AddIngredientView.swift */,
 			);
 			path = subviews;
+			sourceTree = "<group>";
+		};
+		337B9F062ACEA7D700C28884 /* ContactUs */ = {
+			isa = PBXGroup;
+			children = (
+				337B9F072ACEA96700C28884 /* ContactUsViewController.swift */,
+			);
+			path = ContactUs;
 			sourceTree = "<group>";
 		};
 		338EB6B229C1BA8D00D6A03F /* In recipe */ = {
@@ -2991,6 +3002,7 @@
 				33A51B872A163C7A00BE11C1 /* MainTabBarController.swift in Sources */,
 				339254A42A3047600047807E /* DBStock+CoreDataProperties.swift in Sources */,
 				383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */,
+				337B9F082ACEA96700C28884 /* ContactUsViewController.swift in Sources */,
 				3356653F2A578728006F92E6 /* FiltersView.swift in Sources */,
 				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,
 				3342C9BD2A146D290010DA4A /* FeedbackManager.swift in Sources */,

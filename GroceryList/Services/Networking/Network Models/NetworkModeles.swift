@@ -88,3 +88,12 @@ struct FetchArchiveList: Codable {
     let archiveType: String
     let updatedAt: String
 }
+
+// MARK: - SendMail
+struct SendMail: Codable {
+    let name: String
+    let email: String
+    var appCode = "grl23"
+    let subject: String
+    let message: String
+}

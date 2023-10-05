@@ -47,3 +47,4 @@ typealias FetchMyPantryListsResult = (Result<FetchMyPantryListsResponse, AFError
 typealias FetchPantryListUsersResult = (Result<FetchPantryListUsersResponse, AFError>) -> Void
 
 typealias FetchFAQStateResult = (Result<FetchFAQStateResponse, AFError>) -> Void
+typealias SendMailResult = (Result<String, AFError>) -> Void

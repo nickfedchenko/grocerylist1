@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 475 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 479 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -506,6 +506,34 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var complete: RswiftResources.StringResource { .init(key: "Complete", tableName: "Localizable", source: source, developmentValue: "Complete", comment: nil) }
+
+      /// en translation: How we can help?
+      ///
+      /// Key: Contact Us.How can we help?
+      ///
+      /// Locales: en, ru, fr, de
+      var contactUsHowCanWeHelp: RswiftResources.StringResource { .init(key: "Contact Us.How can we help?", tableName: "Localizable", source: source, developmentValue: "How we can help?", comment: nil) }
+
+      /// en translation: Please, enter a short subject
+      ///
+      /// Key: Contact Us.Subject
+      ///
+      /// Locales: en, ru, fr, de
+      var contactUsSubject: RswiftResources.StringResource { .init(key: "Contact Us.Subject", tableName: "Localizable", source: source, developmentValue: "Please, enter a short subject", comment: nil) }
+
+      /// en translation: Please, enter your email
+      ///
+      /// Key: Contact Us.Your email
+      ///
+      /// Locales: en, ru, fr, de
+      var contactUsYourEmail: RswiftResources.StringResource { .init(key: "Contact Us.Your email", tableName: "Localizable", source: source, developmentValue: "Please, enter your email", comment: nil) }
+
+      /// en translation: Please, enter your name
+      ///
+      /// Key: Contact Us.Your name
+      ///
+      /// Locales: en, ru, fr, de
+      var contactUsYourName: RswiftResources.StringResource { .init(key: "Contact Us.Your name", tableName: "Localizable", source: source, developmentValue: "Please, enter your name", comment: nil) }
 
       /// en translation: Continue Work
       ///

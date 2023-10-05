@@ -232,6 +232,12 @@
 "ResetPassword.LinkInactive"    = "This link can be used only once and will become inactive in 1 hour. \nPlease reset again.";
 "ResetPassword.ChangePassword"  = "Change password";
 
+// Contact Us
+"Contact Us.Your name"          = "Please, enter your name";
+"Contact Us.Your email"         = "Please, enter your email";
+"Contact Us.Subject"            = "Please, enter a short subject";
+"Contact Us.How can we help?"   = "How we can help?";
+
 // context menu
 "createRecipe"                  = "Create Recipe";
 "importRecipe"                  = "Import Web Recipes";

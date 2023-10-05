@@ -229,6 +229,12 @@
 "ResetPassword.LinkInactive"    = "Эта ссылка может быть использована только один раз и становится неактивной через 1 час. \nПожалуйста, сбросьте пароль еще раз.";
 "ResetPassword.ChangePassword"  = "Cменить пароль";
 
+// Contact Us
+"Contact Us.Your name"          = "Пожалуйста, введите ваше имя";
+"Contact Us.Your email"         = "Пожалуйста, введите свой e-mail";
+"Contact Us.Subject"            = "Пожалуйста, введите короткую тему";
+"Contact Us.How can we help?"   = "Чем мы можем помочь?";
+
 // context menu
 "createRecipe"                  = "Создать рецепт";
 "importRecipe"                  = "Импорт с веб-сайта";

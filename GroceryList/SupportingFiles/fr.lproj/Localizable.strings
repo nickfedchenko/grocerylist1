@@ -230,6 +230,12 @@
 "ResetPassword.LinkInactive"    = "Ce lien ne peut être utilisé qu'une seule fois et devient inactif après 1 heure. Veuillez réinitialiser à nouveau votre mot de passe.";
 "ResetPassword.ChangePassword"  = "Changer le mot de passe";
 
+// Contact Us
+"Contact Us.Your name"          = "Veuillez saisir votre nom" ;
+"Contact Us.Your email"         = "Veuillez saisir votre adresse e-mail" ;
+"Contact Us.Subject"            = "Veuillez saisir un sujet court" ;
+"Contact Us.How can we help?"   = "Comment pouvons-nous vous aider?";
+
 // context menu
 "createRecipe"                  = "Créer une recette";
 "importRecipe"                  = "Importer des recettes Web";

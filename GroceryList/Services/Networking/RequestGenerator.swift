@@ -50,8 +50,8 @@ enum RequestGenerator: Codable {
     case saveUserPantryList(pantryTitle: String, stockTitle: String)
     
     case fetchFAQState
-    
     case parseWebLink(url: String)
+    case sendMail
 }
 
 extension RequestGenerator {
@@ -103,8 +103,8 @@ extension RequestGenerator {
         case .saveUserPantryList: return "https://ketodietapplication.site/api/pantryList/userList"
             
         case .fetchFAQState: return "https://ketodietapplication.site/api/faq/state"
-            
         case .parseWebLink: return "https://ketodietapplication.site/api/parseWebLink"
+        case .sendMail: return "https://ketodietapplication.site/api/mail"
         }
     }
     
@@ -239,6 +239,8 @@ extension RequestGenerator {
             return requestCreator(basicURL: url, method: .get) { components in
                 injectWebRecipeUrl(in: &components, recipeUrl: recipeUrl)
             }
+        case .sendMail:
+            return requestCreator(basicURL: url, method: .get) { _ in }
         }
     }
     

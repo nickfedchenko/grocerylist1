@@ -327,16 +327,8 @@ extension SettingsViewController {
     @objc
     private func contactUsAction(_ recognizer: UIPanGestureRecognizer) {
         AmplitudeManager.shared.logEvent(.problemTell)
-        if MFMailComposeViewController.canSendMail() {
-            let mail = MFMailComposeViewController()
-            mail.mailComposeDelegate = self
-            mail.setToRecipients(["ksennn.vasko0222@yandex.ru"])
-            mail.setSubject("Version \(Bundle.main.appVersionLong)(\(Bundle.main.appBuild))")
-            mail.setMessageBody("<p>Hey! I have some questions!</p>", isHTML: true)
-            present(mail, animated: true)
-        } else {
-            print("Send mail not allowed")
-        }
+        let controller = ContactUsViewController()
+        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     @objc

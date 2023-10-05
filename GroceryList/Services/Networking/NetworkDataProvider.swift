@@ -199,4 +199,11 @@ extension NetworkEngine: NetworkDataProvider {
         performDecodableRequest(request: .saveUserPantryList(pantryTitle: pantryTitle, stockTitle: stockTitle),
                                 completion: completion)
     }
+    
+    ///   oтправка фидбека юзера через наше API
+    func sendMail(sendMail: SendMail, completion: @escaping SendMailResult) {
+        performDecodableRequestSend(request: .sendMail,
+                                    params: sendMail,
+                                    completion: completion)
+    }
 }

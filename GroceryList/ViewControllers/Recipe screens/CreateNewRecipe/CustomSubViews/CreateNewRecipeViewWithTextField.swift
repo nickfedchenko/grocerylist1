@@ -17,6 +17,9 @@ final class CreateNewRecipeViewWithTextField: UIView {
         contentHeight = textView.text == "" ? 0 : contentHeight
         return 16 + 20 + 4 + (contentHeight == 0 ? 48 : contentHeight + 14)
     }
+    var isEmpty: Bool {
+        textView.text?.trimmingCharacters(in: .whitespaces).isEmpty ?? true
+    }
     
     var maxLineNumber = 0
     
@@ -181,7 +184,7 @@ extension CreateNewRecipeViewWithTextField: UITextViewDelegate {
             textWidth -= 2.0 * textView.textContainer.lineFragmentPadding
 
             let boundingRect = sizeOfString(string: newText, constrainedToWidth: Double(textWidth), font: textView.font!)
-            let numberOfLines = boundingRect.height / textView.font!.lineHeight
+            let numberOfLines = boundingRect.height / (textView.font?.lineHeight ?? 16)
 
             return numberOfLines <= CGFloat(maxLineNumber)
         }
