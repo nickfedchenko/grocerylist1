@@ -22,8 +22,6 @@ final class PantryDataSource {
             UserDefaultsManager.shared.lastUpdateStockDate = today.todayWithSetting(hour: stocksUpdateHours)
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(defaultPantry),
-                                               name: .productsDownloadedAndSaved, object: nil)
         getPantriesFromDB()
     }
     
@@ -45,6 +43,8 @@ final class PantryDataSource {
     }
     
     func updatePantry() {
+        defaultPantry()
+        
         getPantriesFromDB()
         reloadData?()
     }

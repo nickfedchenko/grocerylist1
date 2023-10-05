@@ -129,6 +129,10 @@ class PantryViewModel {
         }
     }
     
+    func ifNeedActivity() -> Bool {
+        return !UserDefaultsManager.shared.isFillingDefaultPantry
+    }
+    
     func showPaywall() {
         router?.showPaywallVC()
     }

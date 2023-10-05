@@ -143,7 +143,9 @@ final class MainTabBarController: UITabBarController {
             self?.featureMessageView.fadeOut()
         }
         if UserDefaultsManager.shared.isNewFeature {
-            featureMessageView.isHidden = UserDefaultsManager.shared.countShowMessageNewFeature >= 4
+            let messageCount = UserDefaultsManager.shared.countShowMessageNewFeature
+            let isBackupOn = UserDefaultsManager.shared.isICloudDataBackupOn
+            featureMessageView.isHidden = messageCount >= 4 || isBackupOn
         }
     }
     
