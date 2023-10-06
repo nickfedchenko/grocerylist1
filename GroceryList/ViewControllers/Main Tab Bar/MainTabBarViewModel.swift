@@ -117,7 +117,8 @@ final class MainTabBarViewModel {
     }
     
     func showNewFeature() {
-        guard !UserDefaultsManager.shared.isNewFeature else {
+        guard !UserDefaultsManager.shared.isNewFeature &&
+        !UserDefaultsManager.shared.shouldShowOnboarding else {
             return
         }
         delegate?.showFeatureView()

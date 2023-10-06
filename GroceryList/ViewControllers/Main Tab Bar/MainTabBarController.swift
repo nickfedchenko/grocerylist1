@@ -71,9 +71,9 @@ final class MainTabBarController: UITabBarController {
             viewModel.groceryAnalytics()
             viewModel.pantryAnalytics()
             initAnalytic.toggle()
-            viewModel.showNewFeature()
             viewModel.showFeedback()
         }
+        viewModel.showNewFeature()
         viewModel.showStockReminderIfNeeded()
     }
     

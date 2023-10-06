@@ -316,6 +316,7 @@ final class CloudManager {
         if let groceryList = GroceryListsModel(record: record) {
             CoreDataManager.shared.saveList(list: groceryList)
             NotificationCenter.default.post(name: .cloudList, object: nil)
+            UserDefaultsManager.shared.coldStartState = 2
         }
     }
     
