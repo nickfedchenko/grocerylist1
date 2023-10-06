@@ -280,8 +280,19 @@ final class CloudManager {
     }
     
     private func saveRecords() {
-        groceryLists.forEach { setupGroceryList(record: $0) }
-        products.forEach { setupProduct(record: $0) }
+        groceryLists.enumerated().forEach { (index, list) in
+            setupGroceryList(record: list)
+            if index == groceryLists.count - 1 {
+                NotificationCenter.default.post(name: .cloudList, object: nil)
+                UserDefaultsManager.shared.coldStartState = 2
+            }
+        }
+        products.enumerated().forEach { (index, product) in
+            setupProduct(record: product)
+            if index == products.count - 1 {
+                NotificationCenter.default.post(name: .cloudProducts, object: nil)
+            }
+        }
         categories.forEach { setupCategory(record: $0) }
         stores.forEach { setupStore(record: $0) }
         
@@ -315,8 +326,6 @@ final class CloudManager {
     private func setupGroceryList(record: CKRecord) {
         if let groceryList = GroceryListsModel(record: record) {
             CoreDataManager.shared.saveList(list: groceryList)
-            NotificationCenter.default.post(name: .cloudList, object: nil)
-            UserDefaultsManager.shared.coldStartState = 2
         }
     }
     
@@ -324,7 +333,6 @@ final class CloudManager {
         let imageData = self.convertAssetToData(asset: record.value(forKey: "imageData"))
         if let product = Product(record: record, imageData: imageData) {
             CoreDataManager.shared.createProduct(product: product)
-            NotificationCenter.default.post(name: .cloudProducts, object: nil)
         }
     }
     

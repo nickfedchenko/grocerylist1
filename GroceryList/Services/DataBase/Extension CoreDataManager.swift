@@ -19,19 +19,28 @@ extension CoreDataManager {
     
     // MARK: - Products
     func createProduct(product: Product) {
-        guard getProduct(id: product.id) == nil else {
-            updateProduct(product: product)
+        let asyncContext = coreData.context
+        let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "\(#keyPath(DBGroceryListModel.id)) = '\(product.listId)'")
+        guard let list = try? asyncContext.fetch(fetchRequest).first else {
             return
         }
         
-        let context = coreData.container.viewContext
-        let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "\(#keyPath(DBGroceryListModel.id)) = '\(product.listId)'")
-        guard let list = try? context.fetch(fetchRequest).first else { return }
+        guard Thread.isMainThread else {
+            asyncContext.perform { save() }
+            return
+        }
+        asyncContext.performAndWait { save() }
         
-        let object = DBProduct.prepare(fromPlainModel: product, context: context)
-        object.list = list
-        try? context.save()
+        func save() {
+            do {
+                let _ = DBProduct.prepare(fromPlainModel: product, list: list, context: asyncContext)
+                try asyncContext.save()
+            } catch let error {
+                print(error)
+                asyncContext.rollback()
+            }
+        }
     }
     
     func getProduct(id: UUID) -> DBProduct? {
@@ -41,33 +50,6 @@ extension CoreDataManager {
             return nil
         }
         return object
-    }
-    
-    func updateProduct(product: Product) {
-        let context = coreData.container.viewContext
-        let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
-        if let object = try? context.fetch(fetchRequest).first {
-            object.listId = product.listId
-            object.isPurchased = product.isPurchased
-            object.name = product.name
-            object.userDescription = product.description
-            object.image = product.imageData
-            object.dateOfCreation = product.dateOfCreation
-            object.category = product.category
-            object.isFavorite = product.isFavorite
-            object.fromRecipeTitle = product.fromRecipeTitle
-            object.userDescription = product.description
-            object.unitId = Int16(product.unitId?.rawValue ?? 0)
-            object.isUserImage = product.isUserImage ?? false
-            object.userToken = product.userToken
-            object.store = try? JSONEncoder().encode(product.store)
-            object.cost = product.cost ?? -1
-            object.quantity = product.quantity ?? -1
-            object.recordId = product.recordId
-        }
-        
-        try? context.save()
     }
     
     func getProducts(for listId: String) -> [DBProduct] {
@@ -617,7 +599,6 @@ extension CoreDataManager {
     }
     
     func resetRecordIdForAllData() {
-        print("[CoreData: resetRecordIdForAllData]")
         resetRecordId(request: DBGroceryListModel.fetchRequest()) { $0.recordId = "" }
         resetRecordId(request: DBProduct.fetchRequest()) { $0.recordId = "" }
         resetRecordId(request: DBCategories.fetchRequest()) { $0.recordId = "" }
@@ -638,11 +619,10 @@ extension CoreDataManager {
         }
         asyncContext.performAndWait {
             for object in objects {
-                var updateObject = object
+                let updateObject = object
                 configurationBlock(updateObject)
             }
             try? asyncContext.save()
-            print("[CoreData: save resetRecordId \(T.self)]")
         }
     }
     

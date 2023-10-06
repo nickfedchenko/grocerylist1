@@ -35,7 +35,7 @@ extension DBProduct {
     @NSManaged public var quantity: Double
     @NSManaged public var recordId: String?
     
-    static func prepare(fromPlainModel model: Product, context: NSManagedObjectContext) -> DBProduct {
+    static func prepare(fromPlainModel model: Product, list: DBGroceryListModel, context: NSManagedObjectContext) -> DBProduct {
         let dbProduct = DBProduct(context: context)
         dbProduct.isPurchased = model.isPurchased
         dbProduct.name = model.name
@@ -54,6 +54,7 @@ extension DBProduct {
         dbProduct.cost = model.cost ?? -1
         dbProduct.quantity = model.quantity ?? -1
         dbProduct.recordId = model.recordId
+        dbProduct.list = list
         return dbProduct
     }
 }
