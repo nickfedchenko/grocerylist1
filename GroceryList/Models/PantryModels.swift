@@ -79,7 +79,7 @@ struct PantryModel: Hashable, Codable {
         synchronizedLists = []
     }
     
-    init?(record: CKRecord, imageData: Data?) {
+    init?(record: CKRecord, imageData: Data?, stocksData: Data?) {
         guard let idAsString = record.value(forKey: "id") as? String,
               let id = UUID(uuidString: idAsString) else {
             return nil
@@ -93,9 +93,8 @@ struct PantryModel: Hashable, Codable {
         color = record.value(forKey: "color") as? Int ?? 0
         icon = imageData
         dateOfCreation = record.value(forKey: "dateOfCreation") as? Date ?? Date()
-        
-        let stockData = record.value(forKey: "stock") as? Data ?? Data()
-        let stockFromCloud = (try? JSONDecoder().decode([Stock].self, from: stockData))
+
+        let stockFromCloud = (try? JSONDecoder().decode([Stock].self, from: stocksData ?? Data()))
         stock = stockFromCloud ?? []
         
         let synchronizedListsData = record.value(forKey: "synchronizedLists") as? Data ?? Data()

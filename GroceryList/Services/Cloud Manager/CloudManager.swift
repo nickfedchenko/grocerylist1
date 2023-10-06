@@ -288,17 +288,15 @@ final class CloudManager {
             }
         }
         products.enumerated().forEach { (index, product) in
-            setupProduct(record: product)
-            if index == products.count - 1 {
-                NotificationCenter.default.post(name: .cloudProducts, object: nil)
-            }
+            setupProduct(record: product, isLast: index == products.count - 1)
         }
         categories.forEach { setupCategory(record: $0) }
         stores.forEach { setupStore(record: $0) }
         
         let pantries = pantries.compactMap { record in
             let imageData = self.convertAssetToData(asset: record.value(forKey: "icon"))
-            return PantryModel(record: record, imageData: imageData)
+            let stocksData = self.convertAssetToData(asset: record.value(forKey: "stocks"))
+            return PantryModel(record: record, imageData: imageData, stocksData: stocksData)
         }
         CoreDataManager.shared.savePantry(pantry: pantries)
         
@@ -324,15 +322,20 @@ final class CloudManager {
     }
     
     private func setupGroceryList(record: CKRecord) {
-        if let groceryList = GroceryListsModel(record: record) {
+        let products = self.convertAssetToData(asset: record.value(forKey: "products"))
+        if let groceryList = GroceryListsModel(record: record, productsData: products) {
             CoreDataManager.shared.saveList(list: groceryList)
         }
     }
     
-    private func setupProduct(record: CKRecord) {
+    private func setupProduct(record: CKRecord, isLast: Bool) {
         let imageData = self.convertAssetToData(asset: record.value(forKey: "imageData"))
         if let product = Product(record: record, imageData: imageData) {
-            CoreDataManager.shared.createProduct(product: product)
+            CoreDataManager.shared.createProduct(product: product) {
+                if isLast {
+                    NotificationCenter.default.post(name: .cloudProducts, object: nil)
+                }
+            }
         }
     }
     

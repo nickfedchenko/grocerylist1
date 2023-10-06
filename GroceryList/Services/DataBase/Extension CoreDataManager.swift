@@ -18,7 +18,7 @@ protocol CoredataSyncProtocol {
 extension CoreDataManager {
     
     // MARK: - Products
-    func createProduct(product: Product) {
+    func createProduct(product: Product, successSave: (() -> Void)? = nil) {
         let asyncContext = coreData.context
         let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "\(#keyPath(DBGroceryListModel.id)) = '\(product.listId)'")
@@ -36,6 +36,7 @@ extension CoreDataManager {
             do {
                 let _ = DBProduct.prepare(fromPlainModel: product, list: list, context: asyncContext)
                 try asyncContext.save()
+                successSave?()
             } catch let error {
                 print(error)
                 asyncContext.rollback()
@@ -113,24 +114,15 @@ extension CoreDataManager {
             return
         }
         let context = coreData.container.viewContext
-        let object = DBGroceryListModel(context: context)
-        object.id = list.id
-        object.isFavorite = list.isFavorite
-        object.color = Int64(list.color)
-        object.name = list.name
-        object.dateOfCreation = list.dateOfCreation
-        object.typeOfSorting = Int64(list.typeOfSorting)
-        object.isShared = list.isShared
-        object.sharedListId = list.sharedId
-        object.isSharedListOwner = list.isSharedListOwner
-        object.isShowImage = list.isShowImage.rawValue
-        object.isVisibleCost = list.isVisibleCost
-        object.typeOfSortingPurchased = Int64(list.typeOfSortingPurchased)
-        object.isAscendingOrder = list.isAscendingOrder
-        object.isAscendingOrderPurchased = list.isAscendingOrderPurchased.rawValue
-        object.isAutomaticCategory = list.isAutomaticCategory
-        object.recordId = list.recordId
-        try? context.save()
+        context.performAndWait {
+            do {
+                let _ = DBGroceryListModel.prepare(fromPlainModel: list, context: context)
+                try context.save()
+            } catch let error {
+                print(error)
+                context.rollback()
+            }
+        }
     }
     
     

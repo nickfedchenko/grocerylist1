@@ -214,7 +214,9 @@ struct GroceryListsModel: Hashable, Codable {
     var isSharedListOwner: Bool = false
     
     static func == (lhs: GroceryListsModel, rhs: GroceryListsModel) -> Bool {
-        lhs.id == rhs.id
+        lhs.id == rhs.id && lhs.sharedId == rhs.sharedId &&
+        lhs.name == rhs.name && lhs.color == rhs.color &&
+        lhs.products == rhs.products
     }
     
     func hash(into hasher: inout Hasher) {
@@ -270,7 +272,7 @@ struct GroceryListsModel: Hashable, Codable {
         self.recordId = recordId ?? ""
     }
     
-    init?(record: CKRecord) {
+    init?(record: CKRecord, productsData: Data?) {
         guard let idAsString = record.value(forKey: "id") as? String,
               let id = UUID(uuidString: idAsString) else {
             return nil
@@ -285,8 +287,7 @@ struct GroceryListsModel: Hashable, Codable {
         typeOfSorting = record.value(forKey: "typeOfSorting") as? Int ?? 0
         typeOfSortingPurchased = record.value(forKey: "typeOfSortingPurchased") as? Int ?? 0
         
-        let productDatas = record.value(forKey: "products") as? [Data] ?? []
-        products = productDatas.compactMap({ (try? JSONDecoder().decode(Product.self, from: $0)) })
+        products = (try? JSONDecoder().decode([Product].self, from: productsData ?? Data())) ?? []
         
         isFavorite = (record.value(forKey: "isFavorite") as? Int64 ?? 0).boolValue
         isAutomaticCategory = (record.value(forKey: "isAutomaticCategory") as? Int64 ?? 0).boolValue
