@@ -707,6 +707,16 @@ extension CoreDataManager {
         return object
     }
     
+    func deleteMealPlan(by id: UUID) {
+        let context = coreData.context
+        let fetchRequest = DBMealPlan.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        if let object = fetch(request: fetchRequest, context: context).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
     func saveMealPlanNote(_ note: MealPlanNote) {
         let asyncContext = coreData.taskContext
         asyncContext.performAndWait {

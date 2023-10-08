@@ -406,7 +406,6 @@
 "drafts"                        = "Brouillons";
 "inbox"                         = "Boîte de réception";
 
-"addToMealPlan"                 = "ajouter au plan de repas";
 "addToFavorites"                = "ajouter Aux Favoris";
 "deleteFromFavorites"           = "Retirer des Favoris";
 "added to"                      = "Ajouté à";
@@ -556,6 +555,19 @@
 "DefaultLabel_snack"            = "Collations";
 
 "Edit Meal plan label"          = "Appuyez et faites glisser sur l'icône de gauche pour réorganiser.\nAppuyez sur le nom à modifier.\nBalayez vers la gauche pour supprimer";
+
+"addToMealPlan"                 = "ajouter au plan de repas";
+"Move, Copy & Delete"           = "Déplacer, copier et supprimer";
+"Edit Labels"                   = "Modifier les étiquettes";
+"Share"                         = "Partager";
+"Send to..."                    = "Envoyer à...";
+
+"Add to Shopping  List"         = "Ajouter à la liste d'achats";
+"Sort by Recipe"                = "Trier par recette";
+"Sort by Category"              = "Trier par catégorie";
+"Add All to List"               = "Ajouter tout à la liste";
+"Custom dates"                  = "Dates personnalisées" ;
+"Various Lists"                 = "Listes diverses" ;
 
 // Updated Paywall
 "three days "                   = "3 jours ";

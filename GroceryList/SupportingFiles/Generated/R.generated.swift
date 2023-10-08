@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 492 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 502 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -115,6 +115,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var addtoshoppinglisT: RswiftResources.StringResource { .init(key: "ADD TO SHOPPING LIST", tableName: "Localizable", source: source, developmentValue: "ADD TO SHOPPING LIST", comment: nil) }
 
+      /// en translation: Add All to List
+      ///
+      /// Key: Add All to List
+      ///
+      /// Locales: en, ru, fr, de
+      var addAllToList: RswiftResources.StringResource { .init(key: "Add All to List", tableName: "Localizable", source: source, developmentValue: "Add All to List", comment: nil) }
+
       /// en translation: Add Filter
       ///
       /// Key: Add Filter
@@ -142,6 +149,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var addRecipesToFavorites: RswiftResources.StringResource { .init(key: "Add recipes to favorites", tableName: "Localizable", source: source, developmentValue: "Add recipes to favorites", comment: nil) }
+
+      /// en translation: Add to Shopping  List
+      ///
+      /// Key: Add to Shopping  List
+      ///
+      /// Locales: en, ru, fr, de
+      var addToShoppingList: RswiftResources.StringResource { .init(key: "Add to Shopping  List", tableName: "Localizable", source: source, developmentValue: "Add to Shopping  List", comment: nil) }
 
       /// en translation: Add to collection
       ///
@@ -591,6 +605,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var createLists: RswiftResources.StringResource { .init(key: "CreateLists", tableName: "Localizable", source: source, developmentValue: "Create lists with one touch Products are automatically categorized. No more running around the supermarket", comment: nil) }
 
+      /// en translation: Custom dates
+      ///
+      /// Key: Custom dates
+      ///
+      /// Locales: en, ru, fr, de
+      var customDates: RswiftResources.StringResource { .init(key: "Custom dates", tableName: "Localizable", source: source, developmentValue: "Custom dates", comment: nil) }
+
       /// en translation: Dairy
       ///
       /// Key: Dairy
@@ -723,6 +744,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var drinks: RswiftResources.StringResource { .init(key: "Drinks", tableName: "Localizable", source: source, developmentValue: "Drinks", comment: nil) }
+
+      /// en translation: Edit Labels
+      ///
+      /// Key: Edit Labels
+      ///
+      /// Locales: en, ru, fr, de
+      var editLabels: RswiftResources.StringResource { .init(key: "Edit Labels", tableName: "Localizable", source: source, developmentValue: "Edit Labels", comment: nil) }
 
       /// en translation: Edit List
       ///
@@ -1430,6 +1458,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var moveTo: RswiftResources.StringResource { .init(key: "Move to...", tableName: "Localizable", source: source, developmentValue: "Move to...", comment: nil) }
+
+      /// en translation: Move, Copy & Delete
+      ///
+      /// Key: Move, Copy & Delete
+      ///
+      /// Locales: en, ru, fr, de
+      var moveCopyDelete: RswiftResources.StringResource { .init(key: "Move, Copy & Delete", tableName: "Localizable", source: source, developmentValue: "Move, Copy & Delete", comment: nil) }
 
       /// en translation: Multicooker
       ///
@@ -2152,6 +2187,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var sendInvitation: RswiftResources.StringResource { .init(key: "Send Invitation", tableName: "Localizable", source: source, developmentValue: "Send Invitation", comment: nil) }
 
+      /// en translation: Send to...
+      ///
+      /// Key: Send to...
+      ///
+      /// Locales: en, ru, fr, de
+      var sendTo: RswiftResources.StringResource { .init(key: "Send to...", tableName: "Localizable", source: source, developmentValue: "Send to...", comment: nil) }
+
       /// en translation: Send us feedback
       ///
       /// Key: Send us feedback
@@ -2257,6 +2299,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var settingsScreenName: RswiftResources.StringResource { .init(key: "Settings.ScreenName", tableName: "Localizable", source: source, developmentValue: "Screen Name", comment: nil) }
 
+      /// en translation: Share
+      ///
+      /// Key: Share
+      ///
+      /// Locales: en, ru, fr, de
+      var share: RswiftResources.StringResource { .init(key: "Share", tableName: "Localizable", source: source, developmentValue: "Share", comment: nil) }
+
       /// en translation: Share recipes
       ///
       /// Key: Share recipes
@@ -2312,6 +2361,20 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var smokedBacon: RswiftResources.StringResource { .init(key: "Smoked bacon", tableName: "Localizable", source: source, developmentValue: "Smoked bacon", comment: nil) }
+
+      /// en translation: Sort by Category
+      ///
+      /// Key: Sort by Category
+      ///
+      /// Locales: en, ru, fr, de
+      var sortByCategory: RswiftResources.StringResource { .init(key: "Sort by Category", tableName: "Localizable", source: source, developmentValue: "Sort by Category", comment: nil) }
+
+      /// en translation: Sort by Recipe
+      ///
+      /// Key: Sort by Recipe
+      ///
+      /// Locales: en, ru, fr, de
+      var sortByRecipe: RswiftResources.StringResource { .init(key: "Sort by Recipe", tableName: "Localizable", source: source, developmentValue: "Sort by Recipe", comment: nil) }
 
       /// en translation: Sorting
       ///
@@ -2627,6 +2690,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var upTo6Members: RswiftResources.StringResource { .init(key: "Up to 6 members", tableName: "Localizable", source: source, developmentValue: "Up to 6 members", comment: nil) }
+
+      /// en translation: Various Lists
+      ///
+      /// Key: Various Lists
+      ///
+      /// Locales: en, ru, fr, de
+      var variousLists: RswiftResources.StringResource { .init(key: "Various Lists", tableName: "Localizable", source: source, developmentValue: "Various Lists", comment: nil) }
 
       /// en translation: Vegan
       ///
@@ -3564,7 +3634,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 345 images.
+  /// This `_R.image` struct is generated, and contains static references to 355 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -3654,6 +3724,9 @@ struct _R {
 
     /// Image `Color`.
     var color: RswiftResources.ImageResource { .init(name: "Color", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `Context menu Marker`.
+    var contextMenuMarker: RswiftResources.ImageResource { .init(name: "Context menu Marker", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ContextMenuPlus`.
     var contextMenuPlus: RswiftResources.ImageResource { .init(name: "ContextMenuPlus", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -3847,6 +3920,9 @@ struct _R {
     /// Image `add recipe to meal plan`.
     var addRecipeToMealPlan: RswiftResources.ImageResource { .init(name: "add recipe to meal plan", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `addAllToList`.
+    var addAllToList: RswiftResources.ImageResource { .init(name: "addAllToList", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `addItemImage`.
     var addItemImage: RswiftResources.ImageResource { .init(name: "addItemImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -3916,6 +3992,9 @@ struct _R {
     /// Image `byUsers`.
     var byUsers: RswiftResources.ImageResource { .init(name: "byUsers", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `calendarPopover`.
+    var calendarPopover: RswiftResources.ImageResource { .init(name: "calendarPopover", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `camera`.
     var camera: RswiftResources.ImageResource { .init(name: "camera", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -3972,6 +4051,9 @@ struct _R {
 
     /// Image `collectionsAlarmImage`.
     var collectionsAlarmImage: RswiftResources.ImageResource { .init(name: "collectionsAlarmImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `context menu Add User`.
+    var contextMenuAddUser: RswiftResources.ImageResource { .init(name: "context menu Add User", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `context menu Add to Cart`.
     var contextMenuAddToCart: RswiftResources.ImageResource { .init(name: "context menu Add to Cart", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -4275,6 +4357,24 @@ struct _R {
 
     /// Image `meal plan plus`.
     var mealPlanPlus: RswiftResources.ImageResource { .init(name: "meal plan plus", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `mealPlanAddIngredientsPurchased`.
+    var mealPlanAddIngredientsPurchased: RswiftResources.ImageResource { .init(name: "mealPlanAddIngredientsPurchased", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `mealPlanAddIngredientsSelected`.
+    var mealPlanAddIngredientsSelected: RswiftResources.ImageResource { .init(name: "mealPlanAddIngredientsSelected", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `mealPlanAddIngredientsStock`.
+    var mealPlanAddIngredientsStock: RswiftResources.ImageResource { .init(name: "mealPlanAddIngredientsStock", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `mealPlanAddIngredientsUnselected`.
+    var mealPlanAddIngredientsUnselected: RswiftResources.ImageResource { .init(name: "mealPlanAddIngredientsUnselected", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `mealplanEdit_Off`.
+    var mealplanEdit_Off: RswiftResources.ImageResource { .init(name: "mealplanEdit_Off", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `mealplanEdit_On`.
+    var mealplanEdit_On: RswiftResources.ImageResource { .init(name: "mealplanEdit_On", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `mealplan_tabbar_active`.
     var mealplan_tabbar_active: RswiftResources.ImageResource { .init(name: "mealplan_tabbar_active", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

@@ -150,7 +150,8 @@ final class RootRouter: RootRouterProtocol {
     func goCreateNewList(compl: @escaping (GroceryListsModel, [Product]) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewListController(model: nil, router: self,
                                                                                    compl: compl) else { return }
-        navigationPresent(controller, animated: false)
+        controller.modalPresentationStyle = .overCurrentContext
+        UIViewController.currentController()?.present(controller, animated: false)
     }
     
     func presentCreateNewList(model: GroceryListsModel,
@@ -544,6 +545,34 @@ final class RootRouter: RootRouterProtocol {
         viewModel.updateUI = updateUI
         let controller = AddNoteToMealPlanViewController(viewModel: viewModel)
         topViewController?.present(controller, animated: true)
+    }
+    
+    func goToMealPlanContextMenu(contextDelegate: MealPlanContextMenuViewDelegate, mealPlan: MealPlan?) {
+        let controller = MealPlanContextMenuViewController(contextDelegate: contextDelegate,
+                                                           mealPlan: mealPlan)
+        controller.modalPresentationStyle = .overCurrentContext
+        controller.modalTransitionStyle = .crossDissolve
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func goToAddIngredientsToList(startDate: Date) {
+        let viewModel = AddIngredientsToListViewModel(date: startDate)
+        viewModel.router = self
+        let controller = AddIngredientsToListViewController(viewModel: viewModel)
+        
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func goToMealPlanCalendar(currentDate: Date, selectedDate: ((Date) -> Void)?) {
+        let controller = CalendarViewController(currentDate: currentDate)
+        controller.selectedDate = selectedDate
+        controller.modalPresentationStyle = .overCurrentContext
+        controller.modalTransitionStyle = .crossDissolve
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func dismissCurrentController() {
+        UIViewController.currentController()?.dismiss(animated: true)
     }
     
     // алерты / активити и принтер

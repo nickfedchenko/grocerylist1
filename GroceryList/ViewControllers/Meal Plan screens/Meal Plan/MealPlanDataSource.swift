@@ -25,6 +25,8 @@ class MealPlanDataSource {
     }
     
     private(set) var section: [MealPlanSection] = []
+    private(set) var isEditMode = false
+    private(set) var editMealPlan: [MealPlan] = []
     
     init() {
         getMealPlansFromStorage()
@@ -123,6 +125,58 @@ class MealPlanDataSource {
         }
     }
     
+    func sdsd(date: Date) -> MealPlan? {
+        let mealPlansByDate = mealPlan.filter { $0.date.onlyDate == date.onlyDate }
+        return mealPlansByDate.first
+    }
+    
+    func updateEditMode(isEdit: Bool) {
+        isEditMode = isEdit
+    }
+    
+    func updateEditMealPlan(_ mealPlanCellModel: MealPlanCellModel) {
+        guard let mealPlan = mealPlanCellModel.mealPlan else {
+            return
+        }
+        if editMealPlan.contains(where: { $0.id == mealPlan.id }) {
+            editMealPlan.removeAll { $0.id == mealPlan.id }
+            return
+        }
+        editMealPlan.append(mealPlan)
+    }
+    
+    func isSelectedMealPlanForEditing(_ mealPlan: MealPlan) -> Bool {
+        return editMealPlan.contains(where: { $0.id == mealPlan.id })
+    }
+    
+    func addEditAllMealPlans() {
+        editMealPlan.removeAll()
+        editMealPlan = mealPlan
+    }
+    
+    func copyEditMealPlans(date: Date) {
+        editMealPlan.forEach {
+            var updatePlan = MealPlan(copy: $0, date: date)
+            CoreDataManager.shared.saveMealPlan(updatePlan)
+        }
+    }
+    
+    func deleteEditMealPlans() {
+        editMealPlan.forEach {
+            delete(mealPlan: $0)
+        }
+        editMealPlan.removeAll()
+    }
+    
+    func delete(mealPlan: MealPlan) {
+        CoreDataManager.shared.deleteMealPlan(by: mealPlan.id)
+        reloadData?()
+    }
+    
+    func resetEditMealPlans() {
+        editMealPlan.removeAll()
+    }
+    
     func getMealPlansFromStorage() {
         mealPlan = CoreDataManager.shared.getAllMealPlans()?.map({ MealPlan(dbModel: $0) }) ?? []
         note = CoreDataManager.shared.getMealPlanNotes()?.map({ MealPlanNote(dbModel: $0) }) ?? []
@@ -180,7 +234,8 @@ class MealPlanDataSource {
         var cellModels: [MealPlanCellModel] = []
         guard sortType == .month else {
             cellModels = mealPlan.map {
-                MealPlanCellModel(type: .plan, date: date, index: $0.index, mealPlan: $0)
+                MealPlanCellModel(type: .plan, date: date, index: $0.index, mealPlan: $0,
+                                  isEdit: isEditMode, isSelectedEditMode: isSelectedMealPlanForEditing($0))
             }
             note.forEach {
                 cellModels.append(MealPlanCellModel(type: .note, date: date, index: $0.index, note: $0))
@@ -194,7 +249,8 @@ class MealPlanDataSource {
             cellModels = [MealPlanCellModel(type: .planEmpty, date: date, index: -100)]
         } else {
             cellModels = mealPlan.map {
-                MealPlanCellModel(type: .plan, date: date, index: $0.index, mealPlan: $0)
+                MealPlanCellModel(type: .plan, date: date, index: $0.index, mealPlan: $0,
+                                  isEdit: isEditMode, isSelectedEditMode: isSelectedMealPlanForEditing($0))
             }
         }
         

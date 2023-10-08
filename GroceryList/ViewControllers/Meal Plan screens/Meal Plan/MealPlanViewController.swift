@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 16.08.2023.
 //
 
+import SnapKit
 import UIKit
 
 class MealPlanViewController: UIViewController {
@@ -54,9 +55,10 @@ class MealPlanViewController: UIViewController {
     
     private lazy var menuButton: UIButton = {
         let button = UIButton()
-        let color = R.color.primaryDark() ?? UIColor(hex: "045C5C")
         button.setImage(R.image.recipe_menu(), for: .normal)
         button.addTarget(self, action: #selector(tappedMenuButton), for: .touchUpInside)
+        button.setTitleColor(R.color.edit(), for: .normal)
+        button.titleLabel?.font = UIFont.SFPro.semibold(size: 16).font
         return button
     }()
     
@@ -91,6 +93,8 @@ class MealPlanViewController: UIViewController {
         return label
     }()
     
+    private let editTabBarView = EditTabBarView()
+    
     private lazy var compositionalLayout: UICollectionViewLayout = {
         let layout = UICollectionViewCompositionalLayout { (_, _) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
@@ -120,7 +124,8 @@ class MealPlanViewController: UIViewController {
     }()
     
     private var dataSource: UICollectionViewDiffableDataSource<MealPlanSection, MealPlanCellModel>?
-    
+    private var menuWidthConstraint: Constraint?
+
     private var UDMSelectedMonthOrWeek: Int {
         get { UserDefaultsManager.shared.selectedMonthOrWeek }
         set { UserDefaultsManager.shared.selectedMonthOrWeek = newValue }
@@ -151,7 +156,8 @@ class MealPlanViewController: UIViewController {
         navigationView.backgroundColor = .white
         self.view.backgroundColor = R.color.background()
         (self.tabBarController as? MainTabBarController)?.mealDelegate = self
-
+        editTabBarView.delegate = self
+        
         viewModel.reloadData = { [weak self] in
             DispatchQueue.main.async {
                 self?.reloadDataSource()
@@ -159,9 +165,16 @@ class MealPlanViewController: UIViewController {
             }
         }
         
+        viewModel.updateEditMode = { [weak self] in
+            self?.isVisibleEditMode(isVisible: self?.viewModel.isEditMode ?? false)
+        }
+        
+        viewModel.updateEditTabBar = { [weak self] in
+            self?.editTabBarView.setCountSelectedItems(self?.viewModel.editMealPlansCount() ?? 0)
+        }
+        
         createDataSource()
         reloadDataSource()
-        
         updatedTodayButton()
         makeConstraints()
     }
@@ -180,7 +193,7 @@ class MealPlanViewController: UIViewController {
             
             switch model.type {
             case .plan:
-                return self.setupMealPlanCell(by: indexPath, type: model.type)
+                return self.setupMealPlanCell(by: indexPath, cellModel: model)
             case .note:
                 return self.setupNoteCell(by: indexPath, type: model.type)
             case .planEmpty, .noteEmpty, .noteFilled:
@@ -213,18 +226,20 @@ class MealPlanViewController: UIViewController {
         }
     }
     
-    private func setupMealPlanCell(by indexPath: IndexPath, type: MealPlanCellType) -> MealPlanCell {
+    private func setupMealPlanCell(by indexPath: IndexPath, cellModel: MealPlanCellModel) -> MealPlanCell {
         let cell = self.collectionView.reusableCell(classCell: MealPlanCell.self, indexPath: indexPath)
-        guard let model = self.viewModel.getRecipe(by: self.calendarView.selectedDate, for: indexPath) else {
+        guard let recipe = self.viewModel.getRecipe(by: self.calendarView.selectedDate, for: indexPath) else {
             cell.configureWithoutRecipe()
             return cell
         }
-        cell.configure(with: model)
+        cell.configure(with: recipe)
         cell.configureColor(theme: self.viewModel.theme)
         cell.selectedIndex = indexPath.item
-        let label = viewModel.getLabel(by: self.calendarView.selectedDate, for: indexPath, type: type)
+        let label = viewModel.getLabel(by: self.calendarView.selectedDate, for: indexPath, type: cellModel.type)
         cell.configureMealPlanLabel(text: label.text, color: label.color)
         cell.mealPlanDelegate = self
+        cell.configureEditMode(isEdit: cellModel.isEdit,
+                               isSelect: cellModel.isSelectedEditMode)
         return cell
     }
     
@@ -288,6 +303,33 @@ class MealPlanViewController: UIViewController {
         todayButton.isUserInteractionEnabled = isActive
     }
     
+    private func isVisibleEditMode(isVisible: Bool) {
+        if isVisible {
+            let safeAreaBottom = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0
+            let bottomPadding = safeAreaBottom == 0 ? 12 : safeAreaBottom
+            let editTabBarHeight = 72 + bottomPadding
+            editTabBarView.snp.updateConstraints { $0.height.equalTo(editTabBarHeight) }
+        } else {
+            editTabBarView.snp.updateConstraints { $0.height.equalTo(0) }
+            editTabBarView.setCountSelectedItems(0)
+        }
+
+        UIView.animate(withDuration: 0.6) { [weak self] in
+            self?.menuButton.alpha = 0
+            self?.view.layoutIfNeeded()
+            (self?.tabBarController as? MainTabBarController)?.customTabBar.layoutIfNeeded()
+        } completion: { [weak self] _ in
+            self?.menuButton.alpha = 1
+            self?.updatedMenuButton(isEditMode: isVisible)
+        }
+    }
+
+    private func updatedMenuButton(isEditMode: Bool) {
+        menuWidthConstraint?.isActive = !isEditMode
+        menuButton.setImage(isEditMode ? nil : R.image.recipe_menu(), for: .normal)
+        menuButton.setTitle(isEditMode ? R.string.localizable.done() : nil, for: .normal)
+    }
+    
     @objc
     private func tappedTodayButton() {
         calendarView.setToday()
@@ -300,7 +342,11 @@ class MealPlanViewController: UIViewController {
     
     @objc
     private func tappedMenuButton() {
-        
+        guard viewModel.isEditMode else {
+            viewModel.showContextMenu(date: calendarView.selectedDate)
+            return
+        }
+        viewModel.editMode(isEdit: false)
     }
     
     private func updateCalendarView(animated: Bool = true) {
@@ -331,12 +377,9 @@ class MealPlanViewController: UIViewController {
         self.view.addSubviews([navigationView, calendarView, collectionView])
         navigationView.addSubviews([todayButton, segmentedControl, menuButton])
         collectionView.addSubview(noEntiresLabel)
+        (self.tabBarController as? MainTabBarController)?.customTabBar.addSubview(editTabBarView)
         
-        navigationView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.height.equalTo(Int(UIView.safeAreaTop) + 127 + calendarMonthHeight)
-            $0.horizontalEdges.equalToSuperview()
-        }
+        makeConstraintsForNavigationView()
         
         todayButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(78)
@@ -344,18 +387,12 @@ class MealPlanViewController: UIViewController {
             $0.height.equalTo(36)
             $0.width.equalTo(72)
         }
-        
-        segmentedControl.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(76)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(40)
-            $0.width.equalTo(164)
-        }
-        
+
         menuButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(76)
             $0.trailing.equalToSuperview().offset(-16)
-            $0.height.width.equalTo(40)
+            $0.height.equalTo(40)
+            menuWidthConstraint = $0.width.equalTo(40).constraint
         }
         
         calendarView.snp.makeConstraints {
@@ -373,6 +410,26 @@ class MealPlanViewController: UIViewController {
             $0.top.equalToSuperview().offset(-36)
             $0.centerX.equalToSuperview()
         }
+        
+        editTabBarView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(0)
+        }
+    }
+    
+    private func makeConstraintsForNavigationView() {
+        navigationView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.height.equalTo(Int(UIView.safeAreaTop) + 127 + calendarMonthHeight)
+            $0.horizontalEdges.equalToSuperview()
+        }
+
+        segmentedControl.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(76)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(40)
+            $0.width.equalTo(164)
+        }
     }
 }
 
@@ -389,6 +446,12 @@ extension MealPlanViewController: CalendarViewDelegate {
     func getLabelColors(by date: Date) -> [UIColor] {
         return viewModel.getLabelColors(by: date)
     }
+    
+    func movedToDate(date: Date) {
+        viewModel.moveToCalendar(date: date)
+    }
+    
+    func selectedDates() { }
 }
 
 extension MealPlanViewController: CustomSegmentedControlViewDelegate {
@@ -413,6 +476,9 @@ extension MealPlanViewController: MainTabBarControllerMealPlanDelegate {
 extension MealPlanViewController: MealPlanCellDelegate {
     func moveCell(gesture: UILongPressGestureRecognizer) {
         let gestureLocation = gesture.location(in: collectionView)
+        if viewModel.isEditMode {
+            calendarView.moveRecipe(gesture: gesture)
+        }
         
         switch gesture.state {
         case .began:
@@ -421,12 +487,18 @@ extension MealPlanViewController: MealPlanCellDelegate {
                 return
             }
             collectionView.beginInteractiveMovementForItem(at: targetIndexPath)
+            
+            if viewModel.isEditMode,
+               let recipe = self.viewModel.getRecipe(by: self.calendarView.selectedDate,
+                                                     for: targetIndexPath) {
+                calendarView.setRecipeImage(recipe: recipe)
+            }
         case .changed:
             collectionView.updateInteractiveMovementTargetPosition(gestureLocation)
         case .ended:
             guard let endIndexPath = collectionView.indexPathForItem(at: gestureLocation),
                   let model = dataSource?.itemIdentifier(for: endIndexPath),
-                  let section = self.dataSource?.snapshot().sectionIdentifier(containingItem: model),
+                  let section = dataSource?.snapshot().sectionIdentifier(containingItem: model),
                   let type = section.mealPlans[safe: endIndexPath.row]?.type else {
                 collectionView.cancelInteractiveMovement()
                 return
@@ -469,11 +541,16 @@ extension MealPlanViewController: MealPlanEmptyCellDelegate {
 extension MealPlanViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let model = dataSource?.itemIdentifier(for: indexPath),
-              let section = self.dataSource?.snapshot().sectionIdentifier(containingItem: model),
+              let section = dataSource?.snapshot().sectionIdentifier(containingItem: model),
               let type = section.mealPlans[safe: indexPath.row]?.type else {
             return
         }
         
+        guard !viewModel.isEditMode else {
+            viewModel.updateEditMealPlan(model)
+            reloadDataSource()
+            return
+        }
         switch type {
         case .plan:
             viewModel.showAddRecipeToMealPlan(by: indexPath)
@@ -482,5 +559,27 @@ extension MealPlanViewController: UICollectionViewDelegate {
         default:
             return
         }
+    }
+}
+
+extension MealPlanViewController: EditTabBarViewDelegate {
+    func tappedSelectAll() {
+        viewModel.addAllMealPlansToEdit()
+    }
+    
+    func tappedMove() {
+        viewModel.showCalendar(currentDate: calendarView.selectedDate, isCopy: false)
+    }
+    
+    func tappedCopy() {
+        viewModel.showCalendar(currentDate: calendarView.selectedDate, isCopy: true)
+    }
+    
+    func tappedDelete() {
+        viewModel.deleteEditMealPlans()
+    }
+    
+    func tappedClearAll() {
+        viewModel.resetEditProducts()
     }
 }

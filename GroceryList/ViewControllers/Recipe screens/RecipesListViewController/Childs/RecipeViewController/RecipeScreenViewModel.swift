@@ -238,7 +238,7 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
     }
 }
 
-private extension UnitSystem {
+extension UnitSystem {
     var convertValue: Double {
         switch self {
         case .ozz: return 28.3495
