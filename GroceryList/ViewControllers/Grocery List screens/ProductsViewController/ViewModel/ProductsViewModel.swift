@@ -180,6 +180,7 @@ class ProductsViewModel {
     func updateNameOfList(_ name: String) {
         model.name = name
         CoreDataManager.shared.saveList(list: model)
+        CloudManager.shared.saveCloudData(groceryList: model)
         delegate?.updateController()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             self.updateList()
@@ -307,6 +308,7 @@ class ProductsViewModel {
     func updateCostVisible(_ isVisible: Bool) {
         model.isVisibleCost = isVisible
         CoreDataManager.shared.saveList(list: model)
+        CloudManager.shared.saveCloudData(groceryList: model)
         dataSource.createDataSourceArray()
     }
     
@@ -328,8 +330,11 @@ class ProductsViewModel {
         dataSource.removeInStockInfo(product: product)
     }
     
+    @objc
     func reloadStorageData() {
-        dataSource.createDataSourceArray()
+        DispatchQueue.main.async { [weak self] in
+            self?.dataSource.createDataSourceArray()
+        }
     }
     
     func showPaywall() {
@@ -337,12 +342,10 @@ class ProductsViewModel {
     }
     
     private func addObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(sharedListDownloaded),
-            name: .sharedListDownloadedAndSaved,
-            object: nil
-        )
+        NotificationCenter.default.addObserver(self, selector: #selector(sharedListDownloaded),
+                                               name: .sharedListDownloadedAndSaved, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadStorageData),
+                                               name: .cloudProducts, object: nil)
     }
     
     @objc

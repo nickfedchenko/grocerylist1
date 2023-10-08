@@ -30,6 +30,7 @@ class SettingsViewModel {
     private var user: User?
     private var userName: String?
     private var originalUserName: String?
+    private var isChangedBackupSwitch = false
     
     init(network: NetworkEngine) {
         self.network = network
@@ -61,6 +62,11 @@ class SettingsViewModel {
     func closeButtonTapped() {
         if let userName, originalUserName != userName {
             saveNewUserName(name: userName)
+        }
+        if isChangedBackupSwitch, UserDefaultsManager.shared.isICloudDataBackupOn {
+            DispatchQueue.global(qos: .default).async {
+                CloudManager.shared.enable()
+            }
         }
         router?.popToRoot()
     }
@@ -122,10 +128,47 @@ class SettingsViewModel {
         switch system {
         case .metric:
             UserDefaultsManager.shared.isMetricSystem = true
+            CloudManager.shared.saveCloudSettings()
         case .imperial:
             UserDefaultsManager.shared.isMetricSystem = false
+            CloudManager.shared.saveCloudSettings()
         }
         delegate?.updateSelectionView()
+    }
+    
+    func tappedICloudDataBackup(_ value: Bool, completion: (() -> Void)?) {
+        isChangedBackupSwitch = true
+        UserDefaultsManager.shared.isICloudDataBackupOn = value
+        AmplitudeManager.shared.logEvent(.iCloudSettingsOnOff, properties: [.status: value ? .valueOn : .off])
+        guard value else { return }
+        
+        CloudManager.shared.getICloudStatus { [weak self] status in
+            if status == .available {
+                UserDefaultsManager.shared.isICloudDataBackupOn = true
+                completion?()
+                return
+            }
+            
+            UserDefaultsManager.shared.isICloudDataBackupOn = false
+            completion?()
+            var alertTitle = ""
+            var alertMessage = "Error"
+            switch status {
+            case .couldNotDetermine:
+                alertMessage = R.string.localizable.couldNotDetermine()
+            case .restricted:
+                alertMessage = R.string.localizable.restricted()
+            case .noAccount:
+                alertTitle = R.string.localizable.noAccountTitle()
+                alertMessage = R.string.localizable.noAccount()
+            case .temporarilyUnavailable:
+                alertMessage = R.string.localizable.temporarilyUnavailable()
+            default:
+                break
+            }
+            
+            self?.router?.showAlertVC(title: alertTitle, message: alertMessage)
+        }
     }
     
     func downloadImage(user: User) {

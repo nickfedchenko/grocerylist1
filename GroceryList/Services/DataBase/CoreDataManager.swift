@@ -24,9 +24,6 @@ class CoreDataManager {
     
     private init() {
         coreData = CoreDataStorage()
-        
-        // удаление старой базы продуктов
-        deleteOldEntities()
     }
     
     func saveRecipes(recipes: [Recipe]) {
@@ -59,11 +56,10 @@ class CoreDataManager {
     }
     
     func saveCollection(collections: [CollectionModel]) {
-        let asyncContext = coreData.viewContext
-        let _ = collections.map { DBCollection.prepare(fromPlainModel: $0, context: asyncContext)}
-        guard asyncContext.hasChanges else { return }
+        let asyncContext = coreData.taskContext
         asyncContext.perform {
             do {
+                let _ = collections.map { DBCollection.prepare(fromPlainModel: $0, context: asyncContext)}
                 try asyncContext.save()
             } catch let error {
                 print(error)
@@ -107,7 +103,7 @@ class CoreDataManager {
         guard !UserDefaultsManager.shared.isUpdateRecipeWithCollection else {
             return
         }
-        var allRecipe = getAllRecipes()
+        let allRecipe = getAllRecipes()
         var recipes = allRecipe?.compactMap({ Recipe(from: $0) }) ?? []
         recipes.sort { $0.id < $1.id }
         
@@ -129,14 +125,5 @@ class CoreDataManager {
         
         UserDefaultsManager.shared.isUpdateRecipeWithCollection = true
         NotificationCenter.default.post(name: .recipesDownloadedAndSaved, object: nil)
-    }
-    
-    private func deleteOldEntities() {
-        let oldEntityNames = ["DBNetworkProduct", "DBNetProduct"]
-        oldEntityNames.forEach { oldEntityName in
-            if coreData.container.managedObjectModel.entities.contains(where: { $0.name == oldEntityName }) {
-                delete(entityName: oldEntityName)
-            }
-        }
     }
 }

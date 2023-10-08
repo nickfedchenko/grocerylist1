@@ -211,6 +211,9 @@
 "Shared"                        = "Allgemein";
 "Send Invitation"               = "Einladung senden";
 "Hello! Here is a great app"    = "Hallo! Hier ist eine großartige App für gemeinsame Einkäufe und Rezepte!";
+"You cannot remove owner"       = "Sie können den Listeneigentümer nicht entfernen";
+"invited to the Common List"    = "zur gemeinsamen Liste eingeladen";
+"Stop sharing"                  = "Nicht mehr teilen";
 
 "Settings.Profile"              = "Profil";
 "Settings.AddPhoto"             = "Fügen Sie ein Foto hinzu, es wird schöner sein";
@@ -228,6 +231,12 @@
 "ResetPassword.EnterNewPassw"   = "Geben Sie ein neues Passwort ein";
 "ResetPassword.LinkInactive"    = "Dieser Link kann nur einmal verwendet werden und wird nach 1 Stunde ungültig.\nBitte setzen Sie das Passwort erneut zurück.";
 "ResetPassword.ChangePassword"  = "Passwort ändern";
+
+// Contact Us
+"Contact Us.Your name"          = "Bitte geben Sie Ihren Namen ein";
+"Contact Us.Your email"         = "Bitte geben Sie Ihre E-Mail-Adresse ein";
+"Contact Us.Subject"            = "Bitte geben Sie einen kurzen Betreff ein";
+"Contact Us.How can we help?"   = "Wie können wir helfen?";
 
 // context menu
 "createRecipe"                  = "Ein Rezept erstellen";
@@ -518,6 +527,21 @@
 // FAQ
 "Help & FAQ"                    = "Hilfe und FAQ";
 "Check Internet connection"     = "Internetverbindung prüfen";
+
+// iCloud
+"icon iCloud Data Backup"       = "􀪺 iCloud Datensicherung";
+"Synchronize your data"         = "Synchronisieren Sie Ihre Daten mit der Cloud. Ihre Listen und Rezepte werden sicher gespeichert. ";
+"iCloud Registration required"  = "*Registrierung erforderlich";
+"Great! Enable"                 = "Super! Aktivieren";
+"Maybe Later"                   = "Vielleicht später";
+"Turn on iCloud Data Backup"    = "Aktiviere die iCloud-Datensicherung in den Einstellungen";
+"iCloud Data Backup"            = "iCloud-Datensicherung";
+"couldNotDetermine"             = "Fehler beim Abrufen des Status des iCloud-Kontos des Benutzers. Versuchen Sie es später erneut.";
+"restricted"                    = "Das System verweigert den Zugriff auf das iCloud-Konto des Benutzers.";
+"noAccountTitle"                = "Schalten Sie iCloud ein";
+"noAccount"                     = "Gehen Sie zu Einstellungen > iCloud\nSuchen Sie in der Liste der Anwendungen nach „Einkaufsliste“ und aktivieren Sie sie";
+"temporarilyUnavailable"        = "Das iCloud-Konto des Benutzers ist vorübergehend nicht verfügbar.";
+"Synchronization"               = "Synchronisation";
 
 // Updated Paywall
 "three days "                   = "3 tage ";

@@ -18,20 +18,30 @@ protocol CoredataSyncProtocol {
 extension CoreDataManager {
     
     // MARK: - Products
-    func createProduct(product: Product) {
-        guard getProduct(id: product.id) == nil else {
-            updateProduct(product: product)
+    func createProduct(product: Product, successSave: (() -> Void)? = nil) {
+        let asyncContext = coreData.context
+        let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "\(#keyPath(DBGroceryListModel.id)) = '\(product.listId)'")
+        guard let list = try? asyncContext.fetch(fetchRequest).first else {
             return
         }
         
-        let context = coreData.container.viewContext
-        let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "\(#keyPath(DBGroceryListModel.id)) = '\(product.listId)'")
-        guard let list = try? context.fetch(fetchRequest).first else { return }
+        guard Thread.isMainThread else {
+            asyncContext.perform { save() }
+            return
+        }
+        asyncContext.performAndWait { save() }
         
-        let object = DBProduct.prepare(fromPlainModel: product, context: context)
-        object.list = list
-        try? context.save()
+        func save() {
+            do {
+                let _ = DBProduct.prepare(fromPlainModel: product, list: list, context: asyncContext)
+                try asyncContext.save()
+                successSave?()
+            } catch let error {
+                print(error)
+                asyncContext.rollback()
+            }
+        }
     }
     
     func getProduct(id: UUID) -> DBProduct? {
@@ -41,32 +51,6 @@ extension CoreDataManager {
             return nil
         }
         return object
-    }
-    
-    func updateProduct(product: Product) {
-        let context = coreData.container.viewContext
-        let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id = '\(product.id)'")
-        if let object = try? context.fetch(fetchRequest).first {
-            object.listId = product.listId
-            object.isPurchased = product.isPurchased
-            object.name = product.name
-            object.userDescription = product.description
-            object.image = product.imageData
-            object.dateOfCreation = product.dateOfCreation
-            object.category = product.category
-            object.isFavorite = product.isFavorite
-            object.fromRecipeTitle = product.fromRecipeTitle
-            object.userDescription = product.description
-            object.unitId = Int16(product.unitId?.rawValue ?? 0)
-            object.isUserImage = product.isUserImage ?? false
-            object.userToken = product.userToken
-            object.store = try? JSONEncoder().encode(product.store)
-            object.cost = product.cost ?? -1
-            object.quantity = product.quantity ?? -1
-        }
-        
-        try? context.save()
     }
     
     func getProducts(for listId: String) -> [DBProduct] {
@@ -95,6 +79,16 @@ extension CoreDataManager {
         try? context.save()
     }
     
+    func removeProduct(recordId: String) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "recordId = '\(recordId)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
     func getAllProducts() -> [DBProduct]? {
         let fetchRequest: NSFetchRequest<DBProduct> = DBProduct.fetchRequest()
         guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
@@ -104,7 +98,6 @@ extension CoreDataManager {
     }
     
     // MARK: - NetworkProducts
-    
     func getAllNetworkProducts() -> [DBNewNetProduct]? {
         let fetchRequest: NSFetchRequest<DBNewNetProduct> = DBNewNetProduct.fetchRequest()
         guard let object = try? coreData.container.viewContext.fetch(fetchRequest) else {
@@ -121,23 +114,15 @@ extension CoreDataManager {
             return
         }
         let context = coreData.container.viewContext
-        let object = DBGroceryListModel(context: context)
-        object.id = list.id
-        object.isFavorite = list.isFavorite
-        object.color = Int64(list.color)
-        object.name = list.name
-        object.dateOfCreation = list.dateOfCreation
-        object.typeOfSorting = Int64(list.typeOfSorting)
-        object.isShared = list.isShared
-        object.sharedListId = list.sharedId
-        object.isSharedListOwner = list.isSharedListOwner
-        object.isShowImage = list.isShowImage.rawValue
-        object.isVisibleCost = list.isVisibleCost
-        object.typeOfSortingPurchased = Int64(list.typeOfSortingPurchased)
-        object.isAscendingOrder = list.isAscendingOrder
-        object.isAscendingOrderPurchased = list.isAscendingOrderPurchased.rawValue
-        object.isAutomaticCategory = list.isAutomaticCategory
-        try? context.save()
+        context.performAndWait {
+            do {
+                let _ = DBGroceryListModel.prepare(fromPlainModel: list, context: context)
+                try context.save()
+            } catch let error {
+                print(error)
+                context.rollback()
+            }
+        }
     }
     
     
@@ -169,6 +154,7 @@ extension CoreDataManager {
             object.isAscendingOrder = list.isAscendingOrder
             object.isAscendingOrderPurchased = list.isAscendingOrderPurchased.rawValue
             object.isAutomaticCategory = list.isAutomaticCategory
+            object.recordId = list.recordId
         }
         try? context.save()
     }
@@ -215,13 +201,50 @@ extension CoreDataManager {
         try? context.save()
     }
     
+    func removeList(recordId: String) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "recordId = '\(recordId)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
     
     // MARK: - Categories
     func saveCategory(category: CategoryModel) {
         let context = coreData.container.viewContext
+        if let dbCategories = getCategory(id: Int64(category.ind)) {
+            dbCategories.id = Int64(category.ind)
+            dbCategories.name = category.name
+            dbCategories.recordId = category.recordId
+            try? context.save()
+            return
+        }
+       
         let object = DBCategories(context: context)
         object.id = Int64(category.ind)
         object.name = category.name
+        object.recordId = category.recordId
+        try? context.save()
+    }
+    
+    func getCategory(id: Int64) -> DBCategories? {
+        let fetchRequest: NSFetchRequest<DBCategories> = DBCategories.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
+        guard let object = try? coreData.container.viewContext.fetch(fetchRequest).first else {
+            return nil
+        }
+        return object
+    }
+    
+    func removeCategory(recordId: String) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBCategories> = DBCategories.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "recordId = '\(recordId)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
         try? context.save()
     }
     
@@ -336,6 +359,16 @@ extension CoreDataManager {
         try? context.save()
     }
     
+    func removeCollection(recordId: String) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBCollection> = DBCollection.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "recordId = '\(recordId)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
     // MARK: - Recipe
     func getRecipe(by id: Int) -> DBRecipe? {
         let fetchRequest: NSFetchRequest<DBRecipe> = DBRecipe.fetchRequest()
@@ -356,12 +389,23 @@ extension CoreDataManager {
         try? context.save()
     }
     
+    func removeRecipe(recordId: String) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBRecipe> = DBRecipe.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "recordId = '\(recordId)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
     // MARK: - Store
     func saveStore(_ store: Store) {
         let context = coreData.container.viewContext
         let object = DBStore(context: context)
         object.id = store.id
         object.title = store.title
+        object.recordId = store.recordId
         try? context.save()
     }
     
@@ -373,22 +417,28 @@ extension CoreDataManager {
         return object
     }
     
+    func removeStore(recordId: String) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBStore> = DBStore.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "recordId = '\(recordId)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
     // MARK: - Pantry
     func savePantry(pantry: [PantryModel]) {
         let asyncContext = coreData.viewContext
-        let _ = pantry.map { DBPantry.prepare(fromPlainModel: $0, context: asyncContext)}
-        guard asyncContext.hasChanges else {
-            return
-        }
         asyncContext.performAndWait {
             do {
+                let _ = pantry.map { DBPantry.prepare(fromPlainModel: $0, context: asyncContext)}
                 try asyncContext.save()
             } catch let error {
                 print(error)
                 asyncContext.rollback()
             }
         }
-
     }
     
     func getAllPantries() -> [DBPantry]? {
@@ -430,6 +480,7 @@ extension CoreDataManager {
         let fetchRequest: NSFetchRequest<DBPantry> = DBPantry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
         if let object = try? context.fetch(fetchRequest).first {
+            
             context.delete(object)
         }
         try? context.save()
@@ -457,21 +508,37 @@ extension CoreDataManager {
         try? context.save()
     }
     
+    func removePantryList(recordId: String) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBPantry> = DBPantry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "recordId = '\(recordId)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
     // MARK: - Stocks
-    func saveStock(stock: [Stock], for pantryId: String) {
-        let asyncContext = coreData.viewContext
+    func saveStock(stocks: [Stock], for pantryId: String) {
+        let asyncContext = coreData.newBackgroundContext
         let fetchRequest: NSFetchRequest<DBPantry> = DBPantry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(pantryId)'")
         guard let pantry = try? asyncContext.fetch(fetchRequest).first else {
             return
         }
-        let _ = stock.map {
-            let object = DBStock.prepare(fromPlainModel: $0, context: asyncContext)
-            object.pantry = pantry
+        
+        guard Thread.isMainThread else {
+            asyncContext.perform { save() }
+            return
         }
-        guard asyncContext.hasChanges else { return }
-        asyncContext.performAndWait {
+        asyncContext.performAndWait { save() }
+        
+        func save() {
             do {
+                let _ = stocks.map {
+                    let object = DBStock.prepare(fromPlainModel: $0, context: asyncContext)
+                    object.pantry = pantry
+                }
                 try asyncContext.save()
             } catch let error {
                 print(error)
@@ -511,6 +578,49 @@ extension CoreDataManager {
             context.delete(object)
         }
         try? context.save()
+    }
+    
+    func removeStock(recordId: String) {
+        let context = coreData.container.viewContext
+        let fetchRequest: NSFetchRequest<DBStock> = DBStock.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "recordId = '\(recordId)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
+    func resetRecordIdForAllData() {
+        resetRecordId(request: DBGroceryListModel.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBProduct.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBCategories.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBStore.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBPantry.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBStock.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBCollection.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBRecipe.fetchRequest()) { $0.recordId = "" }
+    }
+
+    private func resetRecordId<T: NSManagedObject>(request: NSFetchRequest<T>,
+                                                   configurationBlock: @escaping ((T) -> Void)) {
+        let asyncContext = coreData.taskContext
+        request.predicate = NSPredicate(format: "recordId != '\("")'")
+        let objects = fetch(request: request, context: asyncContext)
+        guard !objects.isEmpty else {
+            return
+        }
+        asyncContext.performAndWait {
+            for object in objects {
+                let updateObject = object
+                configurationBlock(updateObject)
+            }
+            try? asyncContext.save()
+        }
+    }
+    
+    private func fetch<T: NSManagedObject>(request: NSFetchRequest<T>,
+                                           context: NSManagedObjectContext) -> [T] {
+        return (try? context.fetch(request)) ?? []
     }
 }
 

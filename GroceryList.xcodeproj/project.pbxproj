@@ -120,6 +120,7 @@
 		3379B65729B9AED50080923A /* IngredientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65629B9AED50080923A /* IngredientViewModel.swift */; };
 		3379B65A29B9B2ED0080923A /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65929B9B2ED0080923A /* CategoryView.swift */; };
 		3379B65C29B9B3030080923A /* AddIngredientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65B29B9B3030080923A /* AddIngredientView.swift */; };
+		337B9F082ACEA96700C28884 /* ContactUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B9F072ACEA96700C28884 /* ContactUsViewController.swift */; };
 		337E79C829E51B2D00668578 /* EditSelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79C729E51B2D00668578 /* EditSelectListViewController.swift */; };
 		337E79CA29E51D6200668578 /* AddListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79C929E51D6200668578 /* AddListView.swift */; };
 		337E79CC29E547D600668578 /* EditDeleteAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79CB29E547D600668578 /* EditDeleteAlertView.swift */; };
@@ -252,6 +253,10 @@
 		33AF97F62A7BD37100716104 /* DBStore+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333E2D2F29EFC2E000F705E7 /* DBStore+CoreDataProperties.swift */; };
 		33AF97F72A7BD3B600716104 /* NotificationsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3329597298A8F19002DF1EE /* NotificationsExtension.swift */; };
 		33AF97F82A7BF6E300716104 /* RecipeSourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AF97C62A7B6D5500716104 /* RecipeSourceView.swift */; };
+		33B306632A8E149300F87659 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B306622A8E149300F87659 /* CloudManager.swift */; };
+		33C5F1E82A9EF53D00E864A8 /* CloudManagerForShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */; };
+		33C5F1E92A9EF55300E864A8 /* CloudManagerForShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */; };
+		33C5F1EB2AA05DB900E864A8 /* SynchronizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C5F1EA2AA05DB900E864A8 /* SynchronizationViewController.swift */; };
 		33C6F0D32A408BED00E71023 /* RecipeSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0D22A408BED00E71023 /* RecipeSearchView.swift */; };
 		33C6F0D52A4097CD00E71023 /* RecipeColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0D42A4097CD00E71023 /* RecipeColorCell.swift */; };
 		33C6F0D72A41445600E71023 /* FolderRecipePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C6F0D62A41445600E71023 /* FolderRecipePreviewCell.swift */; };
@@ -298,12 +303,21 @@
 		33E8A8B82A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8B72A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift */; };
 		33E8A8BA2A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8B92A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift */; };
 		33E8A8BE2A5FB4EE007D7ED9 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8BD2A5FB4EE007D7ED9 /* FAQViewController.swift */; };
+		33F6298C2A937A2E007592F4 /* NewFeatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298B2A937A2E007592F4 /* NewFeatureViewController.swift */; };
+		33F629902A938B65007592F4 /* FeatureCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6298F2A938B65007592F4 /* FeatureCloudView.swift */; };
+		33F629952A948179007592F4 /* Extension CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F629942A948179007592F4 /* Extension CloudManager.swift */; };
+		33F6299B2A95BC7A007592F4 /* ICloudFeatureMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6299A2A95BC7A007592F4 /* ICloudFeatureMessageView.swift */; };
 		33F8253729C050DC00B349D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253629C050DC00B349D5 /* SearchViewController.swift */; };
 		33F8253929C0559000B349D5 /* SearchInListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253829C0559000B349D5 /* SearchInListViewModel.swift */; };
 		33F8253B29C0632700B349D5 /* SearchInListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253A29C0632700B349D5 /* SearchInListViewController.swift */; };
 		33F8253E29C0859D00B349D5 /* SearchInListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253D29C0859D00B349D5 /* SearchInListCell.swift */; };
 		33F8254029C1648800B349D5 /* SearchInListProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8253F29C1648700B349D5 /* SearchInListProductView.swift */; };
 		33F8254229C18FCE00B349D5 /* UIStackViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F8254129C18FCE00B349D5 /* UIStackViewExtension.swift */; };
+		33FCBE772AA56FCA00CB61C7 /* StopSharingPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBE762AA56FCA00CB61C7 /* StopSharingPopUpViewController.swift */; };
+		33FCBE792AA574F800CB61C7 /* StopSharingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBE782AA574F800CB61C7 /* StopSharingViewModel.swift */; };
+		33FCBE7C2AA5755000CB61C7 /* StopSharingPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBE7B2AA5755000CB61C7 /* StopSharingPopUpView.swift */; };
+		33FCBE7E2AA5956E00CB61C7 /* GroceryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBE7D2AA5956E00CB61C7 /* GroceryView.swift */; };
+		33FCBE802AA602EE00CB61C7 /* PantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCBE7F2AA602EE00CB61C7 /* PantryView.swift */; };
 		383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */; };
 		383C77E5293DC5000030AE78 /* RecipesFolderHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */; };
 		383C77F3293F799E0030AE78 /* RecipesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383C77F2293F799E0030AE78 /* RecipesListViewController.swift */; };
@@ -603,6 +617,7 @@
 		3379B65629B9AED50080923A /* IngredientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientViewModel.swift; sourceTree = "<group>"; };
 		3379B65929B9B2ED0080923A /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		3379B65B29B9B3030080923A /* AddIngredientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIngredientView.swift; sourceTree = "<group>"; };
+		337B9F072ACEA96700C28884 /* ContactUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactUsViewController.swift; sourceTree = "<group>"; };
 		337E79C729E51B2D00668578 /* EditSelectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSelectListViewController.swift; sourceTree = "<group>"; };
 		337E79C929E51D6200668578 /* AddListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListView.swift; sourceTree = "<group>"; };
 		337E79CB29E547D600668578 /* EditDeleteAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDeleteAlertView.swift; sourceTree = "<group>"; };
@@ -674,6 +689,9 @@
 		33AF97D92A7B8BB000716104 /* CollectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsViewController.swift; sourceTree = "<group>"; };
 		33AF97DB2A7B92C000716104 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		33AF97DE2A7B934400716104 /* Ext CoreDataManager for shared .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext CoreDataManager for shared .swift"; sourceTree = "<group>"; };
+		33B306622A8E149300F87659 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
+		33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManagerForShared.swift; sourceTree = "<group>"; };
+		33C5F1EA2AA05DB900E864A8 /* SynchronizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizationViewController.swift; sourceTree = "<group>"; };
 		33C6F0D22A408BED00E71023 /* RecipeSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeSearchView.swift; sourceTree = "<group>"; };
 		33C6F0D42A4097CD00E71023 /* RecipeColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeColorCell.swift; sourceTree = "<group>"; };
 		33C6F0D62A41445600E71023 /* FolderRecipePreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderRecipePreviewCell.swift; sourceTree = "<group>"; };
@@ -714,12 +732,21 @@
 		33E8A8B72A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPaywallProductView.swift; sourceTree = "<group>"; };
 		33E8A8B92A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPaywallTitleView.swift; sourceTree = "<group>"; };
 		33E8A8BD2A5FB4EE007D7ED9 /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
+		33F6298B2A937A2E007592F4 /* NewFeatureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeatureViewController.swift; sourceTree = "<group>"; };
+		33F6298F2A938B65007592F4 /* FeatureCloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCloudView.swift; sourceTree = "<group>"; };
+		33F629942A948179007592F4 /* Extension CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension CloudManager.swift"; sourceTree = "<group>"; };
+		33F6299A2A95BC7A007592F4 /* ICloudFeatureMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICloudFeatureMessageView.swift; sourceTree = "<group>"; };
 		33F8253629C050DC00B349D5 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		33F8253829C0559000B349D5 /* SearchInListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewModel.swift; sourceTree = "<group>"; };
 		33F8253A29C0632700B349D5 /* SearchInListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListViewController.swift; sourceTree = "<group>"; };
 		33F8253D29C0859D00B349D5 /* SearchInListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListCell.swift; sourceTree = "<group>"; };
 		33F8253F29C1648700B349D5 /* SearchInListProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInListProductView.swift; sourceTree = "<group>"; };
 		33F8254129C18FCE00B349D5 /* UIStackViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackViewExtension.swift; sourceTree = "<group>"; };
+		33FCBE762AA56FCA00CB61C7 /* StopSharingPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopSharingPopUpViewController.swift; sourceTree = "<group>"; };
+		33FCBE782AA574F800CB61C7 /* StopSharingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopSharingViewModel.swift; sourceTree = "<group>"; };
+		33FCBE7B2AA5755000CB61C7 /* StopSharingPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopSharingPopUpView.swift; sourceTree = "<group>"; };
+		33FCBE7D2AA5956E00CB61C7 /* GroceryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryView.swift; sourceTree = "<group>"; };
+		33FCBE7F2AA602EE00CB61C7 /* PantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryView.swift; sourceTree = "<group>"; };
 		383C77E2293DC5000030AE78 /* RecipePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipePreviewCell.swift; sourceTree = "<group>"; };
 		383C77E3293DC5000030AE78 /* RecipesFolderHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipesFolderHeader.swift; sourceTree = "<group>"; };
 		383C77F2293F799E0030AE78 /* RecipesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesListViewController.swift; sourceTree = "<group>"; };
@@ -1071,6 +1098,7 @@
 			isa = PBXGroup;
 			children = (
 				334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */,
+				33FCBE7A2AA5751A00CB61C7 /* Stop sharing */,
 			);
 			path = "Pop up";
 			sourceTree = "<group>";
@@ -1184,6 +1212,7 @@
 			children = (
 				B3777E172938BE790074BE38 /* SettingsViewController */,
 				33E8A8BC2A5FB4D6007D7ED9 /* FAQ */,
+				337B9F062ACEA7D700C28884 /* ContactUs */,
 				B381EF29299B904A00DCDE40 /* PasswordExpiredController */,
 				B3F7C9C529963EEA0081B245 /* PasswordResetViewController */,
 				B3F7C9B82993A0F70081B245 /* SignUpViewCntroller */,
@@ -1338,6 +1367,14 @@
 			path = subviews;
 			sourceTree = "<group>";
 		};
+		337B9F062ACEA7D700C28884 /* ContactUs */ = {
+			isa = PBXGroup;
+			children = (
+				337B9F072ACEA96700C28884 /* ContactUsViewController.swift */,
+			);
+			path = ContactUs;
+			sourceTree = "<group>";
+		};
 		338EB6B229C1BA8D00D6A03F /* In recipe */ = {
 			isa = PBXGroup;
 			children = (
@@ -1487,10 +1524,27 @@
 			children = (
 				33AF97912A7A6E2800716104 /* Extension NetworkEngine.swift */,
 				33AF97DE2A7B934400716104 /* Ext CoreDataManager for shared .swift */,
+				33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */,
 				33AF97B62A7AA60C00716104 /* ActivityIndicatorView.swift */,
 				33AF97B42A7AA5BF00716104 /* Shared Extensions.swift */,
 			);
 			path = "for shared sheet";
+			sourceTree = "<group>";
+		};
+		33B306602A8E147000F87659 /* KeyChainManager */ = {
+			isa = PBXGroup;
+			children = (
+				B371CCAF299E36BB00E0E197 /* KeychainManager.swift */,
+			);
+			path = KeyChainManager;
+			sourceTree = "<group>";
+		};
+		33B306612A8E147700F87659 /* FeedbackManager */ = {
+			isa = PBXGroup;
+			children = (
+				3342C9BC2A146D290010DA4A /* FeedbackManager.swift */,
+			);
+			path = FeedbackManager;
 			sourceTree = "<group>";
 		};
 		33C6F0E42A4437F500E71023 /* Photo from recipes */ = {
@@ -1598,6 +1652,25 @@
 			path = FAQ;
 			sourceTree = "<group>";
 		};
+		33F6298A2A9379F4007592F4 /* Feature View */ = {
+			isa = PBXGroup;
+			children = (
+				33F6298B2A937A2E007592F4 /* NewFeatureViewController.swift */,
+				33F6298F2A938B65007592F4 /* FeatureCloudView.swift */,
+				33F6299A2A95BC7A007592F4 /* ICloudFeatureMessageView.swift */,
+			);
+			path = "Feature View";
+			sourceTree = "<group>";
+		};
+		33F629992A95B1C7007592F4 /* Cloud Manager */ = {
+			isa = PBXGroup;
+			children = (
+				33B306622A8E149300F87659 /* CloudManager.swift */,
+				33F629942A948179007592F4 /* Extension CloudManager.swift */,
+			);
+			path = "Cloud Manager";
+			sourceTree = "<group>";
+		};
 		33F8253529C050B700B349D5 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -1617,6 +1690,18 @@
 				33F8253F29C1648700B349D5 /* SearchInListProductView.swift */,
 			);
 			path = "In list";
+			sourceTree = "<group>";
+		};
+		33FCBE7A2AA5751A00CB61C7 /* Stop sharing */ = {
+			isa = PBXGroup;
+			children = (
+				33FCBE762AA56FCA00CB61C7 /* StopSharingPopUpViewController.swift */,
+				33FCBE782AA574F800CB61C7 /* StopSharingViewModel.swift */,
+				33FCBE7B2AA5755000CB61C7 /* StopSharingPopUpView.swift */,
+				33FCBE7D2AA5956E00CB61C7 /* GroceryView.swift */,
+				33FCBE7F2AA602EE00CB61C7 /* PantryView.swift */,
+			);
+			path = "Stop sharing";
 			sourceTree = "<group>";
 		};
 		383C77F4293F79D60030AE78 /* RecipesListViewController */ = {
@@ -2101,6 +2186,7 @@
 		B36AF9482913FA5B00944E9D /* CustomUiElements */ = {
 			isa = PBXGroup;
 			children = (
+				33C5F1EA2AA05DB900E864A8 /* SynchronizationViewController.swift */,
 				3328AD85299CF40800187B57 /* SharingView.swift */,
 				B34BB809292D1C4600748E8E /* ShimmerView.swift */,
 				B36AF9402913D37300944E9D /* CustomSegmentControl.swift */,
@@ -2213,9 +2299,10 @@
 				B3179EA4291E304700455419 /* ColorManager */,
 				B35F0F642937975900C19891 /* MeashureManager */,
 				33E544AA29CA1107008D84F8 /* Feature Manager */,
+				33B306602A8E147000F87659 /* KeyChainManager */,
+				33B306612A8E147700F87659 /* FeedbackManager */,
 				33AF97902A7A6DE700716104 /* for shared sheet */,
-				B371CCAF299E36BB00E0E197 /* KeychainManager.swift */,
-				3342C9BC2A146D290010DA4A /* FeedbackManager.swift */,
+				33F629992A95B1C7007592F4 /* Cloud Manager */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -2237,6 +2324,7 @@
 				B3D858462939D43B00CCE230 /* Paywall */,
 				B37A2CDD2911027E003C01AD /* Onboarding */,
 				33796E622A139F71009AD385 /* Feedback */,
+				33F6298A2A9379F4007592F4 /* Feature View */,
 				33A51B852A163C4200BE11C1 /* Main Tab Bar */,
 				335B54082A3822AD00B53314 /* Grocery List screens */,
 				335B54092A38231100B53314 /* Pantry screens */,
@@ -2784,6 +2872,7 @@
 				33AF97E52A7BA11000716104 /* CollectionModel.swift in Sources */,
 				33AF97B92A7AA93700716104 /* Shared Extensions.swift in Sources */,
 				33AF97932A7A6E2C00716104 /* Extension NetworkEngine.swift in Sources */,
+				33C5F1E92A9EF55300E864A8 /* CloudManagerForShared.swift in Sources */,
 				33AF97A12A7A819400716104 /* UITapGestureRecognizerExtension.swift in Sources */,
 				33AF97B12A7A9F0800716104 /* UIStackViewExtension.swift in Sources */,
 				33AF97F52A7BD36C00716104 /* DBStore+CoreDataClass.swift in Sources */,
@@ -2844,9 +2933,11 @@
 				333D2FB82A30173D0072F779 /* StockHeaderCell.swift in Sources */,
 				B34BB811292E38F700748E8E /* SelectListDataManager.swift in Sources */,
 				38F4904129476FFD00529D1F /* UIBezierPath+MaskedCorners.swift in Sources */,
+				33F6298C2A937A2E007592F4 /* NewFeatureViewController.swift in Sources */,
 				33E31AD92A78DA9C0011B41E /* UITapGestureRecognizerExtension.swift in Sources */,
 				B315F9DC29892EA00009CEB8 /* CheckmarkView.swift in Sources */,
 				840C189F2978D2230006F975 /* Int+Extensions.swift in Sources */,
+				33C5F1E82A9EF53D00E864A8 /* CloudManagerForShared.swift in Sources */,
 				B381EF1D299A573500DCDE40 /* UserAccountManager.swift in Sources */,
 				334764482A24EE48008F4834 /* SelectIconViewController.swift in Sources */,
 				33A51B8D2A17171400BE11C1 /* MainTabBarViewModel.swift in Sources */,
@@ -2875,6 +2966,7 @@
 				33C6F0DF2A434FE400E71023 /* RecipeListTableCell.swift in Sources */,
 				3368FD7929B7348100D97291 /* DBCollection+CoreDataClass.swift in Sources */,
 				B3329598298A8F19002DF1EE /* NotificationsExtension.swift in Sources */,
+				33F629952A948179007592F4 /* Extension CloudManager.swift in Sources */,
 				3323409B2A1B91CB00609813 /* PantryDataSource.swift in Sources */,
 				33323C722A529A0000F552E3 /* TextViewWithPlaceholder.swift in Sources */,
 				3347645D2A2889E4008F4834 /* StocksLinkView.swift in Sources */,
@@ -2910,6 +3002,7 @@
 				33A51B872A163C7A00BE11C1 /* MainTabBarController.swift in Sources */,
 				339254A42A3047600047807E /* DBStock+CoreDataProperties.swift in Sources */,
 				383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */,
+				337B9F082ACEA96700C28884 /* ContactUsViewController.swift in Sources */,
 				3356653F2A578728006F92E6 /* FiltersView.swift in Sources */,
 				B35F0F5F293788AF00C19891 /* UnitsCell.swift in Sources */,
 				3342C9BD2A146D290010DA4A /* FeedbackManager.swift in Sources */,
@@ -2925,6 +3018,7 @@
 				B3AD42DA299117980043A37F /* RegistrationResponse.swift in Sources */,
 				335665372A56B213006F92E6 /* RecipeDefaultFilter.swift in Sources */,
 				389DCF4A29461B2000DB9382 /* RecipeMainImageView.swift in Sources */,
+				33FCBE7E2AA5956E00CB61C7 /* GroceryView.swift in Sources */,
 				33AF97F82A7BF6E300716104 /* RecipeSourceView.swift in Sources */,
 				335665332A569EAB006F92E6 /* RecipeFilterViewController.swift in Sources */,
 				B315F9E6298A3F420009CEB8 /* WriteReviewViewController.swift in Sources */,
@@ -3032,6 +3126,7 @@
 				B381EF31299BAA4800DCDE40 /* EnterNewPasswordViewController.swift in Sources */,
 				3391163329CD96E700881E1D /* SynchronizationActivityView.swift in Sources */,
 				B381EF18299A02A100DCDE40 /* DomainUser+CoreDataClass.swift in Sources */,
+				33F629902A938B65007592F4 /* FeatureCloudView.swift in Sources */,
 				3379B65529B9AEC10080923A /* IngredientViewController.swift in Sources */,
 				333DCC272A6101E500E3F92B /* NewPaywallFeatureView.swift in Sources */,
 				846600E9294A024800D85415 /* DBRecipe+CoreDataClass.swift in Sources */,
@@ -3051,6 +3146,7 @@
 				3379B65A29B9B2ED0080923A /* CategoryView.swift in Sources */,
 				3370EFC02A82A08300885C30 /* NewOnboardingCell.swift in Sources */,
 				33A51B9F2A1780DA00BE11C1 /* MainRecipeCollectionViewLayout.swift in Sources */,
+				33B306632A8E149300F87659 /* CloudManager.swift in Sources */,
 				3379B65C29B9B3030080923A /* AddIngredientView.swift in Sources */,
 				339FF37E2A65793E00C6D6E3 /* NewPaywallProductView.swift in Sources */,
 				3347645B2A287EA5008F4834 /* StocksNavigationView.swift in Sources */,
@@ -3106,6 +3202,7 @@
 				B3802315292BC7DA0039EDE0 /* UserDefaultsManager.swift in Sources */,
 				B3329596298A667E002DF1EE /* AmplitudeManager.swift in Sources */,
 				339254B22A3333AA0047807E /* MainTabBarControllerDelegates.swift in Sources */,
+				33FCBE792AA574F800CB61C7 /* StopSharingViewModel.swift in Sources */,
 				33796E5F2A139457009AD385 /* UIDeviceExtension.swift in Sources */,
 				B3777E232938E4E90074BE38 /* HapticManager.swift in Sources */,
 				33995D2B2A1DA398003FECAE /* PantryModels.swift in Sources */,
@@ -3121,9 +3218,11 @@
 				B34EAC9C2934E95E00FBD0E0 /* SelectCategoryCell.swift in Sources */,
 				3370EFC72A83D0DD00885C30 /* OnboardingViewController.swift in Sources */,
 				B3F7C9C729963F0A0081B245 /* PasswordResetViewController.swift in Sources */,
+				33F6299B2A95BC7A007592F4 /* ICloudFeatureMessageView.swift in Sources */,
 				3360735D2A4B3B5C002427BE /* ShowCollectionDeleteAlertView.swift in Sources */,
 				336A112729F2D1F4008CFF33 /* BundleExtension.swift in Sources */,
 				33C6F0E32A44360400E71023 /* PhotoFromRecipesViewController.swift in Sources */,
+				33FCBE802AA602EE00CB61C7 /* PantryView.swift in Sources */,
 				33AF97DF2A7B934400716104 /* Ext CoreDataManager for shared .swift in Sources */,
 				B37A2CEE29110435003C01AD /* UIFontExtension.swift in Sources */,
 				3366BEE52A2DA05A00D50704 /* StocksDataSource.swift in Sources */,
@@ -3143,16 +3242,19 @@
 				B34EACAA293501E100FBD0E0 /* CreateNewCategoryViewModel.swift in Sources */,
 				334009ED29E98AB800A04978 /* CreateNewProductButtonView.swift in Sources */,
 				B36D18D9291A1960005EE32D /* DataBase.xcdatamodeld in Sources */,
+				33FCBE772AA56FCA00CB61C7 /* StopSharingPopUpViewController.swift in Sources */,
 				386CFAC7299542BE00B4AD76 /* R.generated.swift in Sources */,
 				B381EF2C299BA18500DCDE40 /* PasswordExpiredViewController.swift in Sources */,
 				33A51B922A176CFC00BE11C1 /* ListViewModel.swift in Sources */,
 				B36091902927D99E004EBBE6 /* DBGroceryListModel+CoreDataClass.swift in Sources */,
+				33FCBE7C2AA5755000CB61C7 /* StopSharingPopUpView.swift in Sources */,
 				B34BB81D292E567B00748E8E /* SelectProductViewController.swift in Sources */,
 				B360918F2927D99E004EBBE6 /* DBGroceryListModel+CoreDataProperties.swift in Sources */,
 				B3D20456292F6C0600599A01 /* SelectProductCell.swift in Sources */,
 				38817892293BEC8E0094344D /* DataProviderFacade.swift in Sources */,
 				33995D232A1CC1DE003FECAE /* CustomTabBarView.swift in Sources */,
 				B381EF2A299B977700DCDE40 /* TermsView.swift in Sources */,
+				33C5F1EB2AA05DB900E864A8 /* SynchronizationViewController.swift in Sources */,
 				B381EF24299B660D00DCDE40 /* LogOutView.swift in Sources */,
 				33C6F0E82A44415800E71023 /* PhotoFromRecipesCell.swift in Sources */,
 			);
@@ -3377,13 +3479,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 871B55B860CCE77B83E21B2D /* Pods-GroceryList.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GroceryList/GroceryList.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 40;
+				CURRENT_PROJECT_VERSION = 45;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -3402,7 +3503,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.9.0;
+				MARKETING_VERSION = 2.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ksens.shopp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3416,13 +3517,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 95B72FFDC8116578D0D9BC99 /* Pods-GroceryList.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GroceryList/GroceryListRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 40;
+				CURRENT_PROJECT_VERSION = 45;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GroceryList/SupportingFiles/Info.plist;
@@ -3440,7 +3540,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.9.0;
+				MARKETING_VERSION = 2.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ksens.shopp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

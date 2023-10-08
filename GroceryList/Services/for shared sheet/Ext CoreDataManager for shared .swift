@@ -26,6 +26,7 @@ extension CoreDataManager {
         recipe.photo = webRecipe.image ?? ""
         recipe.sourceUrl = url
         saveRecipes(recipes: [recipe])
+        CloudManagerForShared.saveCloudData(recipe: recipe)
         
         var updateCollection = collections
         
@@ -34,6 +35,7 @@ extension CoreDataManager {
             let favoritesCollection = CollectionModel(from: dbFavoritesCollection)
             updateCollection = [favoritesCollection]
             UserDefaultsManager.shared.favoritesRecipeIds.append(recipe.id)
+            CloudManagerForShared.saveCloudSettings()
         }
         
         for (index, collection) in updateCollection.enumerated() {
@@ -45,6 +47,9 @@ extension CoreDataManager {
         }
         
         saveCollection(collections: updateCollection)
+        updateCollection.forEach { collectionModel in
+            CloudManagerForShared.saveCloudData(collectionModel: collectionModel)
+        }
     }
     
     private func getIngredients(webRecipe: WebRecipe) -> [Ingredient] {

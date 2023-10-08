@@ -120,7 +120,7 @@
 
 "preferencies"              = "Настройки";
 "Problems?"                 = "Проблема? Свяжитесь с нами!";
-"DoYouLikeApp?"             = "Понравилось? Скажи нам!";
+"DoYouLikeApp?"             = "Понравилось? Скажите нам!";
 "Haptic Feedback"           = "Тактильный отклик";
 "Quantity Units"            = "Единицы измерения";
 "Metric"                    = "Метрическая";
@@ -154,22 +154,22 @@
 
 "Select list"               = "Выберите список";
 
-"min" = "мин";
-"Ingredients" = "Ингредиенты";
-"servings" = "порции";
-"servings-1" = "порция";
-"servings-2-4" = "порции";
-"servings>4" = "порций";
-"by taste" = "по вкусу";
-"Instructions" = "Инструкции";
-"AddedEarlier" = "Добавлено ранее";
-"Back" = " Назад";
+"min"                       = "мин";
+"Ingredients"               = "Ингредиенты";
+"servings"                  = "порции";
+"servings-1"                = "порция";
+"servings-2-4"              = "порции";
+"servings>4"                = "порций";
+"by taste"                  = "по вкусу";
+"Instructions"              = "Инструкции";
+"AddedEarlier"              = "Добавлено ранее";
+"Back"                      = " Назад";
 
-"review.mainTitle" = "Оцените приложение в AppStore";
-"review.subtitle" = "Это поможет сделать его лучше";
+"review.mainTitle"          = "Оцените приложение в AppStore";
+"review.subtitle"           = "Это поможет сделать его лучше";
 
 // AlternativePaywallController
-"Save time and money" = "Берегите время и деньги";
+"Save time and money"       = "Берегите время и деньги";
 "Plan your shopping list for the week" = "Планируйте ваш список покупок на неделю";
 "Quick add recipe ingredients into your lists" = "Быстрое добавление ингредиентов из рецептов ваши списки";
 
@@ -208,6 +208,9 @@
 "Shared"                        = "Общий";
 "Send Invitation"               = "Отправить приглашение";
 "Hello! Here is a great app"    = "Привет! Вот отличное приложение для совместных покупок и рецептов!";
+"You cannot remove owner"       = "Вы не можете удалить владельца списка";
+"invited to the Common List"    = "приглашен в Общий список";
+"Stop sharing"                  = "Прекратить совместное использование";
 
 "Settings.Profile"              = "Профиль";
 "Settings.AddPhoto"             = "Добавьте фотографию, так будет красивее";
@@ -225,6 +228,12 @@
 "ResetPassword.EnterNewPassw"   = "Введите новый пароль";
 "ResetPassword.LinkInactive"    = "Эта ссылка может быть использована только один раз и становится неактивной через 1 час. \nПожалуйста, сбросьте пароль еще раз.";
 "ResetPassword.ChangePassword"  = "Cменить пароль";
+
+// Contact Us
+"Contact Us.Your name"          = "Пожалуйста, введите ваше имя";
+"Contact Us.Your email"         = "Пожалуйста, введите свой e-mail";
+"Contact Us.Subject"            = "Пожалуйста, введите короткую тему";
+"Contact Us.How can we help?"   = "Чем мы можем помочь?";
 
 // context menu
 "createRecipe"                  = "Создать рецепт";
@@ -431,7 +440,7 @@
 "kcal"                          = "Ккал";
 "Calories"                      = "Калории";
 "recommended"                   = "рекомендуемый";
-"SAVE RECIPE TO..."             = "СОХРАНИТЕ РЕЦЕПТ В...";
+"SAVE RECIPE TO..."             = "СОХРАНИТЬ РЕЦЕПТ В...";
 
 "search"                        = "Поиск";
 "Add Filter"                    = "Добавить фильтр";
@@ -521,6 +530,21 @@
 // FAQ
 "Help & FAQ"                    = "Справка и часто задаваемые вопросы";
 "Check Internet connection"     = "Проверьте Интернет соединение";
+
+// iCloud
+"icon iCloud Data Backup"       = "􀪺 Резервное копирование данных iCloud";
+"Synchronize your data"         = "Синхронизируйте свои данные с облаком. Ваши списки и рецепты будут надежно сохранены. ";
+"iCloud Registration required"  = "*Требуется регистрация";
+"Great! Enable"                 = "Отлично! Включить";
+"Maybe Later"                   = "Возможно, позже";
+"Turn on iCloud Data Backup"    = "Включите Pезервное копирование данных iCloud в настройках";
+"iCloud Data Backup"            = "Pезервное копирование данных iCloud";
+"couldNotDetermine"             = "Ошибка при получении статуса учетной записи iCloud пользователя. Попробуйте позже.";
+"restricted"                    = "Система отказывает в доступе к учетной записи iCloud пользователя";
+"noAccountTitle"                = "Включите iCloud";
+"noAccount"                     = "Перейдите в «Настройки» > «iCloud»\nНайдите в списке приложений Grocery List и включите";
+"temporarilyUnavailable"        = "Учетная запись iCloud пользователя временно недоступна";
+"Synchronization"               = "Синхронизация";
 
 // Updated Paywall
 "three days "                   = "3 дня ";

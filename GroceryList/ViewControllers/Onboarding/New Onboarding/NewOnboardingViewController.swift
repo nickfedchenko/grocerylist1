@@ -81,7 +81,7 @@ class NewOnboardingViewController: UIViewController {
     private func nextButtonPressed() {
         if currentPage < screenNames.count - 1 {
             currentPage += 1
-            let indexPath = IndexPath.init(item: currentPage, section: 0)
+            let indexPath = IndexPath(item: currentPage, section: 0)
             collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         } else {
             router?.popToRootFromOnboarding()

@@ -123,6 +123,7 @@ class RecipesListViewModel {
         
         defer {
             CoreDataManager.shared.saveRecipes(recipes: [recipe])
+            CloudManager.shared.saveCloudData(recipe: recipe)
             var updateRecipe = section.recipes.remove(at: recipeIndex)
             updateRecipe.isFavorite = isFavorite
             section.recipes.insert(updateRecipe, at: recipeIndex)
@@ -130,6 +131,7 @@ class RecipesListViewModel {
         
         guard isFavorite else {
             UserDefaultsManager.shared.favoritesRecipeIds.removeAll { $0 == recipeId }
+            CloudManager.shared.saveCloudSettings()
             if var localCollection = recipe.localCollection {
                 localCollection.removeAll { $0.id == favoriteCollection.id }
                 recipe.localCollection = localCollection
@@ -138,6 +140,7 @@ class RecipesListViewModel {
         }
 
         UserDefaultsManager.shared.favoritesRecipeIds.append(recipeId)
+        CloudManager.shared.saveCloudSettings()
         if var localCollection = recipe.localCollection {
             localCollection.append(favoriteCollection)
             recipe.localCollection = localCollection
@@ -149,7 +152,7 @@ class RecipesListViewModel {
     func addToCollection(recipeIndex: Int) {
         guard let recipeId = section.recipes[safe: recipeIndex]?.id,
               let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
-              var recipe = Recipe(from: dbRecipe) else {
+              let recipe = Recipe(from: dbRecipe) else {
             return
         }
         router?.goToShowCollection(state: .select, recipe: recipe, updateUI: { 
@@ -161,7 +164,7 @@ class RecipesListViewModel {
     func edit(recipeIndex: Int) {
         guard let recipeId = section.recipes[safe: recipeIndex]?.id,
               let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
-              var recipe = Recipe(from: dbRecipe) else {
+              let recipe = Recipe(from: dbRecipe) else {
             return
         }
         router?.goToCreateNewRecipe(currentRecipe: recipe, compl: { [weak self] recipe in

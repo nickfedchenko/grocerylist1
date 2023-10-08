@@ -114,8 +114,10 @@ final class ShowCollectionViewModel {
         if collection.isDefault {
             collection.isDeleteDefault = true
             CoreDataManager.shared.saveCollection(collections: [collection])
+            CloudManager.shared.saveCloudData(collectionModel: collection)
         } else {
             CoreDataManager.shared.deleteCollection(by: collection.id)
+            CloudManager.shared.delete(recordType: .collectionModel, recordID: collection.recordId)
         }
         
         editCollections.removeAll { $0.id == collection.id }
@@ -159,7 +161,7 @@ final class ShowCollectionViewModel {
     
     private func saveSelectCollections() {
         var selectCollections = collections.filter({ $0.select }).map({ $0.collection })
-        guard var recipe else {
+        guard let recipe else {
             selectedCollection?(selectCollections)
             return
         }
@@ -169,6 +171,9 @@ final class ShowCollectionViewModel {
             selectCollections[index].dishes = Array(dishes)
         }
         CoreDataManager.shared.saveCollection(collections: selectCollections)
+        selectCollections.forEach { collectionModel in
+            CloudManager.shared.saveCloudData(collectionModel: collectionModel)
+        }
         selectedCollection?(selectCollections)
         changedCollection = true
     }
@@ -189,6 +194,9 @@ final class ShowCollectionViewModel {
             changedCollection = true
             DispatchQueue.main.async {
                 CoreDataManager.shared.saveCollection(collections: updateCollections)
+                updateCollections.forEach { collectionModel in
+                    CloudManager.shared.saveCloudData(collectionModel: collectionModel)
+                }
             }
         }
     }

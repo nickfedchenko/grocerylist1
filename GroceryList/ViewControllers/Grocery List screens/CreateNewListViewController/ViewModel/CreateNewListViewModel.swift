@@ -31,6 +31,7 @@ class CreateNewListViewModel {
             model.products = newSavedProducts
             model.isAutomaticCategory = isAutomaticCategory
             CoreDataManager.shared.saveList(list: model)
+            CloudManager.shared.saveCloudData(groceryList: model)
             valueChangedCallback?(model, newSavedProducts)
             return
         }
@@ -39,7 +40,9 @@ class CreateNewListViewModel {
                                      name: nameOfList, color: numberOfColor, isFavorite: false, products: [],
                                      isAutomaticCategory: isAutomaticCategory, typeOfSorting: 0)
         CoreDataManager.shared.saveList(list: list)
+        CloudManager.shared.saveCloudData(groceryList: list)
         UserDefaultsManager.shared.coldStartState = 2
+        AmplitudeManager.shared.logEvent(.listCreate)
         
         copiedProducts.forEach({ saveCopiedProduct(product: $0, listId: list.id) })
         list.products = newSavedProducts
@@ -52,6 +55,7 @@ class CreateNewListViewModel {
                                  dateOfCreation: Date(), category: product.category, isFavorite: false, isSelected: false, description: product.description)
         newSavedProducts.append(newProduct)
         CoreDataManager.shared.createProduct(product: newProduct)
+        CloudManager.shared.saveCloudData(product: newProduct)
     }
     
     func getNumberOfCells() -> Int {

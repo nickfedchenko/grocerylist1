@@ -13,3 +13,9 @@ extension UITextField {
         self.leftViewMode = UITextField.ViewMode.always
     }
 }
+
+extension UITextView {
+    func moveCursorToBegin() {
+        selectedTextRange = textRange(from: beginningOfDocument, to: beginningOfDocument)
+    }
+}

@@ -44,10 +44,8 @@ class CreateNewPantryViewController: UIViewController {
                                  font: UIFont.SFPro.semibold(size: 20).font)
         textView.textContainer.maximumNumberOfLines = 2
         textView.isScrollEnabled = false
-        if UIDevice.isSEorXor12mini {
-            textView.autocorrectionType = .no
-            textView.spellCheckingType = .no
-        }
+        textView.autocorrectionType = .no
+        textView.spellCheckingType = .no
         return textView
     }()
     
@@ -168,7 +166,7 @@ class CreateNewPantryViewController: UIViewController {
         activeLinkedImageView.isHidden = pantry.synchronizedLists.isEmpty
         colorCollectionView.selectItem(at: IndexPath(row: pantry.color, section: 0),
                                        animated: false, scrollPosition: .left)
-        
+        updateSaveButton(isActive: nameTextView.text.count >= 1)
     }
     
     private func setupTemplates() {
@@ -395,6 +393,8 @@ extension CreateNewPantryViewController: PantryListTemplateViewDelegate {
         let template = viewModel.selectedTemplate(by: index)
         iconView.configure(icon: template.icon, name: template.title)
         nameTextView.text = template.title
+        nameTextView.checkPlaceholder()
+        updateSaveButton(isActive: nameTextView.text.count >= 1)
     }
 }
 

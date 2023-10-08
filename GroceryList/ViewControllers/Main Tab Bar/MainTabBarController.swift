@@ -23,6 +23,8 @@ final class MainTabBarController: UITabBarController {
     private var navView = MainNavigationView()
     private(set) var navBackgroundView = UIView()
     private let contextMenuBackgroundView = UIView()
+    private let featureMessageView = ICloudFeatureMessageView()
+    private let featureView = NewFeatureView()
     private var initAnalytic = false
     private var didLayoutSubviews = false
     
@@ -44,6 +46,7 @@ final class MainTabBarController: UITabBarController {
         setupTabBar()
         setupCustomNavBar()
         setupContextMenu()
+        setupFeatureView()
         
         self.selectedViewController = viewModel.initialViewController
     }
@@ -70,6 +73,7 @@ final class MainTabBarController: UITabBarController {
             initAnalytic.toggle()
             viewModel.showFeedback()
         }
+        viewModel.showNewFeature()
         viewModel.showStockReminderIfNeeded()
     }
     
@@ -124,6 +128,27 @@ final class MainTabBarController: UITabBarController {
         }
     }
     
+    private func setupFeatureView() {
+        featureView.isHidden = true
+        featureView.greatEnable = { [weak self] in
+            self?.viewModel.tappedGreatEnable()
+        }
+        
+        featureView.maybeLater = { [weak self] in
+            self?.viewModel.tappedMaybeLater()
+        }
+        
+        featureMessageView.isHidden = true
+        featureMessageView.tapOnView = { [weak self] in
+            self?.featureMessageView.fadeOut()
+        }
+        if UserDefaultsManager.shared.isNewFeature {
+            let messageCount = UserDefaultsManager.shared.countShowMessageNewFeature
+            let isBackupOn = UserDefaultsManager.shared.isICloudDataBackupOn
+            featureMessageView.isHidden = messageCount >= 4 || isBackupOn
+        }
+    }
+    
     private func updateUserInfo() {
         navView.setupName(name: viewModel.userName)
         navView.setupImage(photo: viewModel.userPhoto.url,
@@ -156,6 +181,7 @@ final class MainTabBarController: UITabBarController {
     private func makeConstraints() {
         self.view.addSubview(customTabBar)
         self.view.addSubviews([navBackgroundView, navView, contextMenuBackgroundView, recipeContextMenu])
+        self.view.addSubviews([featureMessageView, featureView])
         
         navBackgroundView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
@@ -181,6 +207,14 @@ final class MainTabBarController: UITabBarController {
         }
         
         contextMenuBackgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        featureMessageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        featureView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
@@ -264,5 +298,18 @@ extension MainTabBarController: MainTabBarViewModelDelegate {
     
     func updatePantryUI(_ pantry: PantryModel) {
         pantryDelegate?.updatePantryUI(pantry)
+    }
+    
+    func showFeatureMessageView() {
+        setupFeatureView()
+    }
+    
+    func hideFeatureView() {
+        featureView.fadeOut()
+        featureView.stopViewPropertyAnimator()
+    }
+    
+    func showFeatureView() {
+        featureView.isHidden = false
     }
 }

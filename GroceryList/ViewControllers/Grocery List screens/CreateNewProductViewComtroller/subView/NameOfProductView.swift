@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 14.04.2023.
 //
 
+import Kingfisher
 import UIKit
 
 protocol NameOfProductViewDelegate: AnyObject {
@@ -147,9 +148,16 @@ class NameOfProductView: UIView {
             setupRemoveImageButton()
             return
         }
-        productImageView.kf.indicatorType = .activity
-        productImageView.kf.setImage(with: URL(string: imageURL), placeholder: nil, options: nil, completionHandler: nil)
-        setupRemoveImageButton()
+        productImageView.kf.indicatorType = .activity        
+        if let url = URL(string: imageURL) {
+            let resource = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
+            productImageView.kf.setImage(with: resource, options: [
+                .processor(DownsamplingImageProcessor(size: CGSize(width: 30, height: 30))),
+                .scaleFactor(UIScreen.main.scale),
+                .cacheOriginalImage
+            ])
+            setupRemoveImageButton()
+        }
     }
     
     func setImage(_ image: UIImage?) {

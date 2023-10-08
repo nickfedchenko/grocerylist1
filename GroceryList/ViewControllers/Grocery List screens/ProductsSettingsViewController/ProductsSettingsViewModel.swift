@@ -219,6 +219,7 @@ class ProductsSettingsViewModel {
     private func deleteList() {
         AmplitudeManager.shared.logEvent(.setDelete)
         CoreDataManager.shared.removeList(model.id)
+        CloudManager.shared.delete(recordType: .groceryListsModel, recordID: model.recordId)
         delegate?.dismissController(comp: { [weak self] in
             self?.controllerDismissed()
         })
@@ -228,6 +229,7 @@ class ProductsSettingsViewModel {
         delegate?.reloadController()
         valueChangedCallback?(model, copiedProducts)
         CoreDataManager.shared.saveList(list: model)
+        CloudManager.shared.saveCloudData(groceryList: model)
     }
     
     private func showPaywall() {

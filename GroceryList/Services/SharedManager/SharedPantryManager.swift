@@ -84,10 +84,20 @@ class SharedPantryManager {
 
     // MARK: - сохранение листа из сокета
     func saveListFromSocket(response: SocketPantryResponse) {
-        appendToUsersDict(id: response.listId, users: response.listUsers)
+        guard let pantryList = response.pantryList else {
+            if !response.listUsers.contains(where: { $0.token == UserAccountManager.shared.getUser()?.token }) {
+                CoreDataManager.shared.removeSharedPantryList(by: response.listId)
+            } else {
+                sharedListsUsers.removeValue(forKey: response.listId)
+                appendToUsersDict(id: response.listId, users: response.listUsers)
+            }
+            NotificationCenter.default.post(name: .sharedPantryDownloadedAndSaved, object: nil)
+            return
+        }
         
-        var localList = transform(sharedList: response.pantryList)
-        let dbList = CoreDataManager.shared.getPantry(id: response.pantryList.id.uuidString)
+        appendToUsersDict(id: response.listId, users: response.listUsers)
+        var localList = transform(sharedList: pantryList)
+        let dbList = CoreDataManager.shared.getPantry(id: pantryList.id.uuidString)
         localList.sharedId = response.listId
         localList.isShowImage = BoolWithNilForCD(rawValue: dbList?.isShowImage ?? 0) ?? .nothing
         localList.synchronizedLists = (try? JSONDecoder().decode([UUID].self,
@@ -97,7 +107,7 @@ class SharedPantryManager {
         CoreDataManager.shared.removeSharedPantryList(by: localList.sharedId)
         
         CoreDataManager.shared.savePantry(pantry: [localList])
-        CoreDataManager.shared.saveStock(stock: localList.stock, for: localList.id.uuidString)
+        CoreDataManager.shared.saveStock(stocks: localList.stock, for: localList.id.uuidString)
         
         NotificationCenter.default.post(name: .sharedPantryDownloadedAndSaved, object: nil)
 //        if isNewListId {
@@ -108,11 +118,11 @@ class SharedPantryManager {
     
     // MARK: - удаление листа из сокета
     func deleteListFromSocket(response: SocketDeleteResponse) {
-        CoreDataManager.shared.removeSharedList(by: response.listId)
+        CoreDataManager.shared.removeSharedPantryList(by: response.listId)
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
 
-    private func removeProductsIfNeeded(list: GroceryListsModel) {
+    private func removeProductsIfNeeded(list: PantryModel) {
         let products = CoreDataManager.shared.getProducts(for: list.id.uuidString)
 
         var arrayOfLocalProductId: [UUID?] = []
@@ -121,15 +131,15 @@ class SharedPantryManager {
         })
 
         var newArrayOfProducts: [UUID?] = []
-        list.products.forEach({ product in
+        list.stock.forEach({ product in
             newArrayOfProducts.append(product.id)
         })
-        
+
         let arrayToDelete = arrayOfLocalProductId.filter { !newArrayOfProducts.contains($0) }
-        
+
         arrayToDelete.forEach { id in
-            guard let id = id?.uuidString else { return }
-            CoreDataManager.shared.removeProduct(id: id)
+            guard let id else { return }
+            CoreDataManager.shared.deleteStock(by: id)
         }
     }
 
@@ -263,7 +273,7 @@ class SharedPantryManager {
         CoreDataManager.shared.savePantry(pantry: arrayOfLists)
         
         arrayOfLists.forEach { list in
-            CoreDataManager.shared.saveStock(stock: list.stock, for: list.id.uuidString)
+            CoreDataManager.shared.saveStock(stocks: list.stock, for: list.id.uuidString)
         }
 
         NotificationCenter.default.post(name: .sharedPantryDownloadedAndSaved, object: nil)
@@ -271,7 +281,7 @@ class SharedPantryManager {
 
     private func appendToUsersDict(id: String, users: [User]) {
         sharedListsUsers[id] = users
-        DispatchQueue.main.async {
+        DispatchQueue.global().async {
             users.forEach {
                 if let stringUrl = $0.avatar,
                    let url = URL(string: stringUrl) {

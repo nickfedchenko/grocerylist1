@@ -111,7 +111,6 @@ final class StocksViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         navigationView.setupCustomRoundIfNeeded()
-        setupIconVisible()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -221,6 +220,7 @@ final class StocksViewController: UIViewController {
         DispatchQueue.main.async {
             self.dataSource?.apply(snapshot, animatingDifferences: true)
             self.calculateLinkViewOffset()
+            self.setupIconVisible()
         }
     }
 
@@ -235,9 +235,8 @@ final class StocksViewController: UIViewController {
     private func calculateLinkViewOffset() {
         let topSafeArea = UIView.safeAreaTop
         let bottomOffset = topSafeArea > 24 ? 114 : 84
-        linkViewOffset = 50
-        let maxHeight = self.view.frame.height - 150
-        linkViewOffset += viewModel.necessaryOffsetToLink
+        let maxHeight = self.view.frame.height - 170
+        linkViewOffset = collectionView.collectionViewLayout.collectionViewContentSize.height + 64
         
         linkView.snp.remakeConstraints {
             $0.centerX.equalToSuperview()
@@ -251,12 +250,20 @@ final class StocksViewController: UIViewController {
     }
     
     private func setupIconVisible() {
+        guard !viewModel.isEmptyStocks else {
+            iconImageView.isHidden = false
+            return
+        }
         let cell = collectionView.cellForItem(at: viewModel.lastIndex)
         let cellRect: CGRect = cell?.frame ?? collectionView.frame
         let lastCellRect = cell?.convert(cellRect, to: collectionView) ?? .zero
         let iconRect: CGRect = iconImageView.frame
-        
-        iconImageView.isHidden = iconRect.origin.y < lastCellRect.origin.y
+
+        if lastCellRect.origin.y - 250 < 0 {
+            iconImageView.isHidden = true
+        } else {
+            iconImageView.isHidden = iconRect.origin.y < lastCellRect.origin.y - 250
+        }
     }
     
     @objc
@@ -299,7 +306,7 @@ final class StocksViewController: UIViewController {
                 (self?.tabBarController as? MainTabBarController)?.customTabBar.layoutIfNeeded()
             }, completion: nil)
         })
-        
+        linkView.isUserInteractionEnabled = false
         collectionView.reloadData()
     }
     
@@ -315,6 +322,7 @@ final class StocksViewController: UIViewController {
             (self?.tabBarController as? MainTabBarController)?.customTabBar.layoutIfNeeded()
         }
         editTabBarView.setCountSelectedItems(0)
+        linkView.isUserInteractionEnabled = true
         collectionView.reloadData()
     }
     
@@ -359,6 +367,7 @@ final class StocksViewController: UIViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(navigationView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(UIView.safeAreaTop > 24 ? -80 : -50)
         }
         
         iconImageView.snp.makeConstraints {
@@ -370,7 +379,7 @@ final class StocksViewController: UIViewController {
         linkView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(40)
-            $0.bottom.equalToSuperview().offset(viewModel.necessaryOffsetToLink + 124)
+            $0.bottom.equalToSuperview().offset(0)
         }
         
         linkBackgroundView.snp.makeConstraints {
@@ -538,7 +547,7 @@ extension StocksViewController: EditTabBarViewDelegate {
     
     func tappedDelete() {
         viewModel.deleteProducts()
-        cancelEditButtonPressed()
+        cancelEditButton.setTitle(R.string.localizable.done(), for: .normal)
     }
     
     func tappedClearAll() {
@@ -551,11 +560,13 @@ extension StocksViewController: EditSelectListDelegate {
     func productsSuccessfullyMoved() {
         AmplitudeManager.shared.logEvent(.pantryMoveItems)
         viewModel.moveProducts()
-        cancelEditButtonPressed()
+        cancelEditButton.setTitle(R.string.localizable.done(), for: .normal)
     }
     
     func productsSuccessfullyCopied() {
         AmplitudeManager.shared.logEvent(.pantryCopyItems)
-        cancelEditButtonPressed()
+        cancelEditButton.setTitle(R.string.localizable.done(), for: .normal)
+        viewModel.resetEditProducts()
+        collectionView.reloadData()
     }
 }

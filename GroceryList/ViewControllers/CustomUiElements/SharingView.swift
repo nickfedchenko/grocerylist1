@@ -157,12 +157,11 @@ final class SharingView: UIView {
             }
             
             let resource = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
-            imageView.kf.setImage(with: resource,
-                                  options: [
-                                    .processor(DownsamplingImageProcessor(size: CGSize(width: 30, height: 30))),
-                                    .scaleFactor(UIScreen.main.scale),
-                                    .cacheOriginalImage
-                                  ])
+            imageView.kf.setImage(with: resource, options: [
+                .processor(DownsamplingImageProcessor(size: CGSize(width: 30, height: 30))),
+                .scaleFactor(UIScreen.main.scale),
+                .cacheOriginalImage
+            ])
         }
     }
     

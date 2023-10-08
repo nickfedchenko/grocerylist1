@@ -98,6 +98,7 @@ final class CreateNewPantryViewModel {
                                  synchronizedLists: synchronizedLists)
         }
         CoreDataManager.shared.savePantry(pantry: [pantry])
+        CloudManager.shared.saveCloudData(pantryModel: pantry)
         AmplitudeManager.shared.logEvent(.pantryListCreated)
         if !synchronizedLists.isEmpty {
             AmplitudeManager.shared.logEvent(.pantryLinkListCreated)

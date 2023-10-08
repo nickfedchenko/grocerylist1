@@ -54,13 +54,14 @@ final class RootRouter: RootRouterProtocol {
     
     func presentRootNavigationControllerInWindow() {
         setupTabBarController()
-
         viewController = navigationController
         
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
+#if RELEASE
         showTestOnboarding()
+#endif
     }
     
     func openResetPassword(token: String) {
@@ -119,6 +120,7 @@ final class RootRouter: RootRouterProtocol {
         
         let onboardingController = viewControllerFactory.createNewOnboardingController(router: self)
         navigationPushViewController(onboardingController, animated: false)
+        return
     }
     
     func goToOnboarding() {
@@ -227,6 +229,19 @@ final class RootRouter: RootRouterProtocol {
         let controller = viewControllerFactory.createSharingPopUpController(router: self, compl: compl)
         controller.modalTransitionStyle = .crossDissolve
         navigationPresent(controller, animated: true)
+    }
+    
+    func goToStopSharingPopUp(user: User,
+                              listToShareModel: GroceryListsModel?,
+                              pantryToShareModel: PantryModel?,
+                              updateUI: ((Bool) -> Void)?) {
+        let controller = viewControllerFactory.createStopSharingPopUpController(user: user,
+                                                                                listToShareModel: listToShareModel,
+                                                                                pantryToShareModel: pantryToShareModel,
+                                                                                updateUI: updateUI)
+        controller.modalTransitionStyle = .crossDissolve
+        controller.modalPresentationStyle = .overCurrentContext
+        UIViewController.currentController()?.present(controller, animated: true)
     }
     
     func goToSharingList(listToShare: GroceryListsModel? = nil,
@@ -475,7 +490,7 @@ final class RootRouter: RootRouterProtocol {
     func showAlertVC(title: String, message: String, completion: (() -> Void)? = nil) {
         guard let controller = viewControllerFactory.createAlertController(title: title, message: message,
                                                                            completion) else { return }
-        topViewController?.present(controller, animated: true, completion: nil)
+        UIViewController.currentController()?.present(controller, animated: true, completion: nil)
     }
     
     func showPaywallVC() {
@@ -588,6 +603,12 @@ final class RootRouter: RootRouterProtocol {
         navigationPushViewController(controller, animated: true)
     }
     
+    func showSynchronizationController(isVisible: Bool) {
+        let controller = SynchronizationViewController()
+        controller.modalTransitionStyle = .crossDissolve
+        topViewController?.present(controller, animated: true, completion: nil)
+    }
+    
     // просто создание вью - контролер сам будет презентить их, т.к топ контролер уже презентит вью и эти не получается так запрезентить
     func prepareSelectProductController(height: Double, model: GroceryListsModel,
                                         setOfSelectedProd: Set<Product>, compl: @escaping ((Set<Product>) -> Void)) -> UIViewController {
@@ -681,7 +702,7 @@ final class RootRouter: RootRouterProtocol {
         pantryNavController = UINavigationController(rootViewController: pantryController)
         recipeNavController = UINavigationController(rootViewController: recipeController)
         
-        var controllers: [UIViewController] = [listNavController, pantryNavController, recipeNavController]
+        let controllers: [UIViewController] = [listNavController, pantryNavController, recipeNavController]
 
         let rootTabBarController = viewControllerFactory.createMainTabBarController(
             router: self, controllers: controllers

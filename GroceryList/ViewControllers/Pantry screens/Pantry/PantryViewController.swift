@@ -52,6 +52,7 @@ final class PantryViewController: UIViewController {
     private var contextMenuIndex: IndexPath?
     private let titleBackgroundView = UIView()
     private let deleteAlertView = EditDeleteAlertView()
+    private let activityView = ActivityIndicatorView()
     private var movedCell: PantryCell?
     
     init(viewModel: PantryViewModel) {
@@ -70,6 +71,7 @@ final class PantryViewController: UIViewController {
         titleBackgroundView.backgroundColor = R.color.background()
         
         viewModel.reloadData = { [weak self] in
+            self?.isVisibleActivityView()
             self?.reloadData()
         }
         viewModel.updateNavUI = { [weak self] in
@@ -110,6 +112,14 @@ final class PantryViewController: UIViewController {
         
         deleteAlertView.cancelTapped = { [weak self] in
             self?.updateDeleteAlertViewConstraint(with: 0)
+        }
+    }
+    
+    private func isVisibleActivityView() {
+        if InternetConnection.isConnected() && viewModel.ifNeedActivity() {
+            activityView.show(for: self.view)
+        } else {
+            activityView.removeFromView()
         }
     }
     
@@ -191,7 +201,7 @@ final class PantryViewController: UIViewController {
     
     private func makeConstraints() {
         view.addSubviews([collectionView, titleBackgroundView, titleLabel,
-                          contextMenuBackgroundView, contextMenuView])
+                          contextMenuBackgroundView, contextMenuView, activityView])
         (self.tabBarController as? MainTabBarController)?.customTabBar.addSubview(deleteAlertView)
         
         titleBackgroundView.snp.makeConstraints {
@@ -228,6 +238,10 @@ final class PantryViewController: UIViewController {
         deleteAlertView.snp.makeConstraints {
             $0.leading.centerX.bottom.equalToSuperview()
             $0.height.equalTo(0)
+        }
+        
+        activityView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
 }

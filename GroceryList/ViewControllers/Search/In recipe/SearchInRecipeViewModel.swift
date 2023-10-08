@@ -188,6 +188,7 @@ final class SearchInRecipeViewModel {
         
         defer {
             CoreDataManager.shared.saveRecipes(recipes: [recipe])
+            CloudManager.shared.saveCloudData(recipe: recipe)
             var updateRecipe = editableRecipes.remove(at: recipeIndex)
             updateRecipe.isFavorite = isFavorite
             editableRecipes.insert(updateRecipe, at: recipeIndex)
@@ -195,6 +196,7 @@ final class SearchInRecipeViewModel {
         
         guard isFavorite else {
             UserDefaultsManager.shared.favoritesRecipeIds.removeAll { $0 == recipeId }
+            CloudManager.shared.saveCloudSettings()
             if var localCollection = recipe.localCollection {
                 localCollection.removeAll { $0.id == favoriteCollection.id }
                 recipe.localCollection = localCollection
@@ -203,6 +205,7 @@ final class SearchInRecipeViewModel {
         }
 
         UserDefaultsManager.shared.favoritesRecipeIds.append(recipeId)
+        CloudManager.shared.saveCloudSettings()
         if var localCollection = recipe.localCollection {
             localCollection.append(favoriteCollection)
             recipe.localCollection = localCollection
@@ -214,7 +217,7 @@ final class SearchInRecipeViewModel {
     func addToCollection(recipeIndex: Int) {
         guard let recipeId = editableRecipes[safe: recipeIndex]?.id,
               let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
-              var recipe = Recipe(from: dbRecipe) else {
+              let recipe = Recipe(from: dbRecipe) else {
             return
         }
         router?.goToShowCollection(state: .select, recipe: recipe, updateUI: {
@@ -226,7 +229,7 @@ final class SearchInRecipeViewModel {
     func edit(recipeIndex: Int) {
         guard let recipeId = editableRecipes[safe: recipeIndex]?.id,
               let dbRecipe = CoreDataManager.shared.getRecipe(by: recipeId),
-              var recipe = Recipe(from: dbRecipe) else {
+              let recipe = Recipe(from: dbRecipe) else {
             return
         }
         router?.goToCreateNewRecipe(currentRecipe: recipe, compl: { [weak self] recipe in

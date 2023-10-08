@@ -39,10 +39,8 @@ final class StocksViewModel {
         
         NotificationCenter.default.addObserver(self, selector: #selector(sharedPantryDownloaded),
                                                name: .sharedPantryDownloadedAndSaved, object: nil)
-    }
-    
-    var necessaryOffsetToLink: Double {
-        dataSource.allStocks.isEmpty ? 0 : Double(dataSource.allStocks.count * 56)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadStorageData),
+                                               name: .cloudStock, object: nil)
     }
     
     var pantryName: String {
@@ -113,17 +111,19 @@ final class StocksViewModel {
     }
     
     func getCostCellModel(model: Stock) -> StockCell.CostCellModel {
-        var isVisibleCost = false
+        var isVisibleCost = model.isVisibleCost
 #if RELEASE
         if Apphud.hasActiveSubscription() {
-            isVisibleCost = model.isVisibleСost
+            isVisibleCost = model.isVisibleCost
+        } else {
+            isVisibleCost = false
         }
 #endif
         
-        let newLine = (model.description?.count ?? 0 + (model.store?.title.count ?? 0)) > 30 && isVisibleCost
+        let newLine = ((model.description?.count ?? 0) + (model.store?.title.count ?? 0)) > 30 && isVisibleCost
         let theme = colorManager.getGradient(index: pantry.color)
-        let productCost = calculateCost(quantity: model.quantity, cost: model.cost)
-        
+        var productCost = calculateCost(quantity: model.quantity, cost: model.cost)
+        productCost = (productCost ?? 0) <= 0 ? nil : productCost
         return StockCell.CostCellModel(isVisible: isVisibleCost,
                                        isAddNewLine: newLine,
                                        color: theme.medium,
@@ -210,6 +210,7 @@ final class StocksViewModel {
             }
             self.pantry.synchronizedLists = uuids
             CoreDataManager.shared.savePantry(pantry: [self.pantry])
+            CloudManager.shared.saveCloudData(pantryModel: self.pantry)
             
             self.delegate?.updateLinkButton()
             if !uuids.isEmpty {
@@ -288,8 +289,11 @@ final class StocksViewModel {
         delegate?.updateUIEditTabBar()
     }
     
+    @objc
     func reloadStorageData() {
-        dataSource.updateStocks()
+        DispatchQueue.main.async { [weak self] in
+            self?.dataSource.updateStocks()
+        }
     }
     
     func showPaywall() {
@@ -334,7 +338,7 @@ final class StocksViewModel {
     }
     
     private func calculateCost(quantity: Double?, cost: Double?) -> Double? {
-        guard quantity != 0 && cost != 0 else {
+        guard quantity ?? -1 <= 0 || cost ?? -1 <= 0 else {
             return nil
         }
         

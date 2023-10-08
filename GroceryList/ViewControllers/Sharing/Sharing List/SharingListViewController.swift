@@ -69,9 +69,9 @@ final class SharingListViewController: UIViewController {
         showContentView()
     }
     
-    deinit {
-        print("SharingListViewController deinited")
-    }
+//    deinit {
+//        print("SharingListViewController deinited")
+//    }
     
     private func setup() {
         let swipeDownRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction(_:)))
@@ -82,12 +82,23 @@ final class SharingListViewController: UIViewController {
         tapRecognizer.delegate = self
         self.view.addGestureRecognizer(tapRecognizer)
         
+        viewModel?.updateUsers = { [weak self] in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.calculateContentViewHeight()
+                self.contentView.snp.updateConstraints { $0.height.equalTo(self.contentViewHeight) }
+                self.view.layoutIfNeeded()
+                self.tableView.reloadData()
+            }
+        }
+        
         calculateContentViewHeight()
         setupTableView()
         makeConstraints()
     }
     
     private func calculateContentViewHeight() {
+        contentViewHeight = 306.0
         let maxHeight = self.view.frame.height * 0.75
         contentViewHeight += viewModel?.necessaryHeight ?? 0
         tableView.isScrollEnabled = contentViewHeight > maxHeight
@@ -236,10 +247,13 @@ extension SharingListViewController: UITableViewDataSource {
 
 extension SharingListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard tableView.cellForRow(at: indexPath) as? SendInvitationCell != nil else {
-            return
+        if tableView.cellForRow(at: indexPath) as? SendInvitationCell != nil {
+            viewModel?.shareListTapped()
         }
-        viewModel?.shareListTapped()
+        
+        if tableView.cellForRow(at: indexPath) as? SharedCell != nil {
+            viewModel?.showStopSharingPopUp(by: indexPath.row)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

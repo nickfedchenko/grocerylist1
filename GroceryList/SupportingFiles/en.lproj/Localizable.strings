@@ -211,6 +211,9 @@
 "Shared"                        = "Shared";
 "Send Invitation"               = "Send Invitation";
 "Hello! Here is a great app"    = "Hello! Here is a great app for joint shopping and recipes!";
+"You cannot remove owner"       = "You cannot remove the list owner";
+"invited to the Common List"    = "invited to the Common List";
+"Stop sharing"                  = "Stop sharing";
 
 "Settings.Profile"              = "Profile";
 "Settings.AddPhoto"             = "Add your photo, it will be more beautiful";
@@ -228,6 +231,12 @@
 "ResetPassword.EnterNewPassw"   = "Enter new password";
 "ResetPassword.LinkInactive"    = "This link can be used only once and will become inactive in 1 hour. \nPlease reset again.";
 "ResetPassword.ChangePassword"  = "Change password";
+
+// Contact Us
+"Contact Us.Your name"          = "Please, enter your name";
+"Contact Us.Your email"         = "Please, enter your email";
+"Contact Us.Subject"            = "Please, enter a short subject";
+"Contact Us.How can we help?"   = "How we can help?";
 
 // context menu
 "createRecipe"                  = "Create Recipe";
@@ -524,6 +533,21 @@
 // FAQ
 "Help & FAQ"                    = "Help & FAQ";
 "Check Internet connection"     = "Check Internet connection";
+
+// iCloud
+"icon iCloud Data Backup"       = "􀪺 iCloud Data Backup";
+"Synchronize your data"         = "Synchronize your data with the cloud. Your lists and recipes will be securely stored. ";
+"iCloud Registration required"  = "*Registration required";
+"Great! Enable"                 = "Great! Enable";
+"Maybe Later"                   = "Maybe Later";
+"Turn on iCloud Data Backup"    = "Turn on iCloud Data Backup  in settings";
+"iCloud Data Backup"            = "iCloud Data Backup";
+"couldNotDetermine"             = "Error retrieving the status of the user's iCloud account. Try again later.";
+"restricted"                    = "The system denies access to the user’s iCloud account.";
+"noAccountTitle"                = "Turn on iCloud";
+"noAccount"                     = "Go to Settings > iCloud\nFind Grocery List in the list of applications and turn on";
+"temporarilyUnavailable"        = "The user’s iCloud account is temporarily unavailable.";
+"Synchronization"               = "Synchronization";
 
 // Updated Paywall
 "three days "                   = "3 days ";

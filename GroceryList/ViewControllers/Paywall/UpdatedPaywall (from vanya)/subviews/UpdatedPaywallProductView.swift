@@ -221,7 +221,11 @@ final private class ProductView: UIView {
             $0.leading.top.equalToSuperview()
             $0.width.height.equalTo(16)
         }
-        
+
+        makeInfoViewConstraints()
+    }
+    
+    private func makeInfoViewConstraints() {
         badgeView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(-7)
             $0.centerX.equalToSuperview()
@@ -245,5 +249,4 @@ final private class ProductView: UIView {
             $0.centerX.equalToSuperview()
         }
     }
-
 }

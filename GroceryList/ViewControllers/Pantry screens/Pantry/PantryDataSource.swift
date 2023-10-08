@@ -22,8 +22,6 @@ final class PantryDataSource {
             UserDefaultsManager.shared.lastUpdateStockDate = today.todayWithSetting(hour: stocksUpdateHours)
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(defaultPantry),
-                                               name: .productsDownloadedAndSaved, object: nil)
         getPantriesFromDB()
     }
     
@@ -37,11 +35,16 @@ final class PantryDataSource {
             updatedPantries[newIndex].index = newIndex
         }
         CoreDataManager.shared.savePantry(pantry: updatedPantries)
+        updatedPantries.forEach { pantry in
+            CloudManager.shared.saveCloudData(pantryModel: pantry)
+        }
         
         updatePantry()
     }
     
     func updatePantry() {
+        defaultPantry()
+        
         getPantriesFromDB()
         reloadData?()
     }
@@ -53,6 +56,7 @@ final class PantryDataSource {
     
     func delete(pantry: PantryModel) {
         CoreDataManager.shared.deletePantry(by: pantry.id)
+        CloudManager.shared.delete(recordType: .pantryModel, recordID: pantry.recordId)
         updatePantry()
     }
     
@@ -89,45 +93,42 @@ final class PantryDataSource {
     private func checkThatItemIsOutOfStock() {
         let today = Date()
         let dbStock = CoreDataManager.shared.getAllStock()?.filter { $0.isAutoRepeat } ?? []
-        var outOfStocks = dbStock.map({ Stock(dbModel: $0) })
+        let outOfStocks = dbStock.map({ Stock(dbModel: $0) })
         
-        for (index, stock) in outOfStocks.enumerated() {
+        for stock in outOfStocks {
             guard let autoRepeat = stock.autoRepeat else { break }
             let startDate = stock.dateOfCreation.onlyDate
             let resetDay = today.todayWithSetting(hour: stocksUpdateHours)
             switch autoRepeat.state {
             case .daily:
-                outOfStocks[index].isAvailability = resetDay > today
-                CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
-                                                 for: stock.pantryId.uuidString)
+                updateStock(stock: stock, isAvailability: resetDay > today)
             case .weekly:
                 if startDate.dayNumberOfWeek == today.dayNumberOfWeek {
-                    outOfStocks[index].isAvailability = resetDay > today
-                    CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
-                                                     for: stock.pantryId.uuidString)
+                    updateStock(stock: stock, isAvailability: resetDay > today)
                 }
             case .monthly:
                 if startDate.day == today.day {
-                    outOfStocks[index].isAvailability = resetDay > today
-                    CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
-                                                     for: stock.pantryId.uuidString)
+                    updateStock(stock: stock, isAvailability: resetDay > today)
                 }
             case .yearly:
                 if startDate.month == today.month,
                    startDate.day == today.day {
-                    outOfStocks[index].isAvailability = resetDay > today
-                    CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
-                                                     for: stock.pantryId.uuidString)
+                    updateStock(stock: stock, isAvailability: resetDay > today)
                 }
             case .custom:
                 if checkCustomAutoRepeat(autoRepeat: autoRepeat,
                                          today: today, startDate: startDate) {
-                    outOfStocks[index].isAvailability = resetDay > today
-                    CoreDataManager.shared.saveStock(stock: [outOfStocks[index]],
-                                                     for: stock.pantryId.uuidString)
+                    updateStock(stock: stock, isAvailability: resetDay > today)
                 }
             }
         }
+    }
+    
+    private func updateStock(stock: Stock, isAvailability: Bool) {
+        var stock = stock
+        stock.isAvailability = isAvailability
+        CoreDataManager.shared.saveStock(stocks: [stock], for: stock.pantryId.uuidString)
+        CloudManager.shared.saveCloudData(stock: stock)
     }
     
     private func checkCustomAutoRepeat(autoRepeat: AutoRepeatModel,
@@ -212,100 +213,90 @@ final class PantryDataSource {
     private func defaultFridgeStocks(fridgeId: UUID, allProducts: [DBNewNetProduct]) {
         var defaultsFridgeStocks: [Stock] = []
         DefaultsFridgeStocks.allCases.forEach { stock in
-            var netProduct: DBNewNetProduct?
-            if let netProductId = stock.netProductId {
-                netProduct = allProducts.first(where: { $0.id == netProductId })
-            }
-            
-            let defaultsStock = Stock(index: stock.rawValue, pantryId: fridgeId,
+            let netProduct = allProducts.first(where: { $0.id == stock.netProductId })
+            let defaultsStock = Stock(id: UUID(number: stock.netProductId),
+                                      index: stock.rawValue, pantryId: fridgeId,
                                       name: stock.title,
                                       imageData: stock.imageData,
                                       description: stock.description,
                                       category: netProduct?.marketCategory,
                                       quantity: stock.quantity,
                                       unitId: stock.unitId,
-                                      isAvailability: stock.isAvailability)
+                                      isAvailability: stock.isAvailability,
+                                      isDefault: true)
             defaultsFridgeStocks.append(defaultsStock)
         }
         
-        CoreDataManager.shared.saveStock(stock: defaultsFridgeStocks, for: fridgeId.uuidString)
+        CoreDataManager.shared.saveStock(stocks: defaultsFridgeStocks, for: fridgeId.uuidString)
     }
     
     private func defaultGroceryStocks(groceryId: UUID, allProducts: [DBNewNetProduct]) {
         var defaultGroceryStocks: [Stock] = []
         DefaultsGroceryStocks.allCases.forEach { stock in
-            var netProduct: DBNewNetProduct?
-            if let netProductId = stock.netProductId {
-                netProduct = allProducts.first(where: { $0.id == netProductId })
-            }
-            
-            let defaultsStock = Stock(index: stock.rawValue, pantryId: groceryId,
+            let netProduct = allProducts.first(where: { $0.id == stock.netProductId })
+            let defaultsStock = Stock(id: UUID(number: stock.netProductId),
+                                      index: stock.rawValue, pantryId: groceryId,
                                       name: netProduct?.title ?? stock.title,
                                       imageData: stock.imageData,
                                       description: stock.description,
                                       category: netProduct?.marketCategory,
                                       quantity: stock.quantity,
                                       unitId: stock.unitId,
-                                      isAvailability: stock.isAvailability)
+                                      isAvailability: stock.isAvailability,
+                                      isDefault: true)
             defaultGroceryStocks.append(defaultsStock)
         }
         
-        CoreDataManager.shared.saveStock(stock: defaultGroceryStocks, for: groceryId.uuidString)
+        CoreDataManager.shared.saveStock(stocks: defaultGroceryStocks, for: groceryId.uuidString)
     }
     
     private func defaultSpicesHerbsStocks(spicesHerbsId: UUID, allProducts: [DBNewNetProduct]) {
         var defaultsSpicesHerbsStocks: [Stock] = []
         DefaultsSpicesHerbsStocks.allCases.forEach { stock in
-            var netProduct: DBNewNetProduct?
-            if let netProductId = stock.netProductId {
-                netProduct = allProducts.first(where: { $0.id == netProductId })
-            }
-            
-            let defaultsStock = Stock(index: stock.rawValue, pantryId: spicesHerbsId,
+            let netProduct = allProducts.first(where: { $0.id == stock.netProductId })
+            let defaultsStock = Stock(id: UUID(number: stock.netProductId),
+                                      index: stock.rawValue, pantryId: spicesHerbsId,
                                       name: stock.title,
                                       imageData: stock.imageData,
-                                      category: netProduct?.marketCategory)
+                                      category: netProduct?.marketCategory,
+                                      isDefault: true)
             defaultsSpicesHerbsStocks.append(defaultsStock)
         }
         
-        CoreDataManager.shared.saveStock(stock: defaultsSpicesHerbsStocks, for: spicesHerbsId.uuidString)
+        CoreDataManager.shared.saveStock(stocks: defaultsSpicesHerbsStocks, for: spicesHerbsId.uuidString)
     }
     
     private func defaultBeautyHealthStocks(beautyHealthId: UUID, allProducts: [DBNewNetProduct]) {
         var defaultBeautyHealthStocks: [Stock] = []
         DefaultsBeautyHealthStocks.allCases.forEach { stock in
-            var netProduct: DBNewNetProduct?
-            if let netProductId = stock.netProductId {
-                netProduct = allProducts.first(where: { $0.id == netProductId })
-            }
-            
-            let defaultsStock = Stock(index: stock.rawValue, pantryId: beautyHealthId,
+            let netProduct = allProducts.first(where: { $0.id == stock.netProductId })
+            let defaultsStock = Stock(id: UUID(number: stock.netProductId),
+                                      index: stock.rawValue, pantryId: beautyHealthId,
                                       name: stock.title,
                                       imageData: stock.imageData,
-                                      category: netProduct?.marketCategory)
+                                      category: netProduct?.marketCategory,
+                                      isDefault: true)
             defaultBeautyHealthStocks.append(defaultsStock)
         }
         
-        CoreDataManager.shared.saveStock(stock: defaultBeautyHealthStocks, for: beautyHealthId.uuidString)
+        CoreDataManager.shared.saveStock(stocks: defaultBeautyHealthStocks, for: beautyHealthId.uuidString)
     }
     
     private func defaultHouseholdStocks(householdId: UUID, allProducts: [DBNewNetProduct]) {
         var defaultHouseholdStocks: [Stock] = []
         DefaultsHouseholdStocks.allCases.forEach { stock in
-            var netProduct: DBNewNetProduct?
-            if let netProductId = stock.netProductId {
-                netProduct = allProducts.first(where: { $0.id == netProductId })
-            }
-            
-            let defaultsStock = Stock(index: stock.rawValue, pantryId: householdId,
+            let netProduct = allProducts.first(where: { $0.id == stock.netProductId })
+            let defaultsStock = Stock(id: UUID(number: stock.netProductId),
+                                      index: stock.rawValue, pantryId: householdId,
                                       name: stock.title,
                                       imageData: stock.imageData,
                                       category: netProduct?.marketCategory,
-                                      isAvailability: stock.isAvailability)
+                                      isAvailability: stock.isAvailability,
+                                      isDefault: true)
             defaultHouseholdStocks.append(defaultsStock)
         }
         
-        CoreDataManager.shared.saveStock(stock: defaultHouseholdStocks, for: householdId.uuidString)
+        CoreDataManager.shared.saveStock(stocks: defaultHouseholdStocks, for: householdId.uuidString)
     }
 }
 

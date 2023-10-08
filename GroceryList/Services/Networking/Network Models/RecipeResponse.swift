@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 21.07.2023.
 //
 
+import CloudKit
 import Foundation
 
 struct AllRecipesResponse: Codable {
@@ -14,6 +15,7 @@ struct AllRecipesResponse: Codable {
 
 struct Recipe: Codable, Hashable, Equatable {
     let id: Int
+    var recordId = ""
     var title, description: String
     var cookingTime: Int?
     var totalServings: Int
@@ -52,11 +54,6 @@ struct Recipe: Codable, Hashable, Equatable {
         dishWeight = dbModel.dishWeight < 0 ? nil : dbModel.dishWeight
         dishWeightType = dbModel.dishWeightType < 0 ? nil : Int(dbModel.dishWeightType)
         countries = (try? JSONDecoder().decode([String].self, from: dbModel.countries ?? Data())) ?? []
-        if let decodedInstructions = (try? JSONDecoder().decode([String].self, from: dbModel.instructions ?? Data())) {
-       
-        } else {
-          
-        }
         instructions = (try? JSONDecoder().decode([String].self, from: dbModel.instructions ?? Data())) ?? []
         ingredients = (try? JSONDecoder().decode([Ingredient].self, from: dbModel.ingredients ?? Data())) ?? []
         eatingTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dbModel.eatingTags ?? Data())) ?? []
@@ -72,6 +69,8 @@ struct Recipe: Codable, Hashable, Equatable {
         localImage = dbModel.localImage
         values = (try? JSONDecoder().decode(Values.self, from: dbModel.values ?? Data()))
         isDefaultRecipe = dbModel.isDefaultRecipe
+        sourceUrl = dbModel.sourceUrl
+        recordId = dbModel.recordId ?? ""
     }
     
     init?(title: String, totalServings: Int = -1,
@@ -104,6 +103,46 @@ struct Recipe: Codable, Hashable, Equatable {
         exceptionTags = []
         isDraft = false
         isDefaultRecipe = false
+    }
+    
+    init?(record: CKRecord, imageData: Data?, ingredientsData: Data?) {
+        guard let recipeId = record.value(forKey: "id") as? Int else {
+            return nil
+        }
+        
+        id = recipeId
+        recordId = record.recordID.recordName
+        
+        title = record.value(forKey: "title") as? String ?? ""
+        description = record.value(forKey: "description") as? String ?? ""
+        cookingTime = record.value(forKey: "cookingTime") as? Int
+        totalServings = record.value(forKey: "totalServings") as? Int ?? -1
+        dishWeight = record.value(forKey: "dishWeight") as? Double
+        dishWeightType = record.value(forKey: "dishWeightType") as? Int
+        countries = record.value(forKey: "countries") as? [String] ?? []
+        instructions = record.value(forKey: "instructions") as? [String] ?? []
+        photo = record.value(forKey: "photo") as? String ?? ""
+        isDraft = (record.value(forKey: "isDraft") as? Int64 ?? 0).boolValue
+        createdAt = record.value(forKey: "createdAt") as? Date ?? Date()
+        localImage = imageData
+        isDefaultRecipe = (record.value(forKey: "isDefaultRecipe") as? Int64 ?? 0).boolValue
+        sourceUrl = record.value(forKey: "sourceUrl") as? String
+        
+        ingredients = (try? JSONDecoder().decode([Ingredient].self, from: ingredientsData ?? Data())) ?? []
+        let valuesData = record.value(forKey: "values") as? Data
+        values = (try? JSONDecoder().decode(Values.self, from: valuesData ?? Data()))
+        let eatingTagsData = record.value(forKey: "eatingTags") as? Data
+        eatingTags = (try? JSONDecoder().decode([AdditionalTag].self, from: eatingTagsData ?? Data())) ?? []
+        let dishTypeTagsData = record.value(forKey: "dishTypeTags") as? Data
+        dishTypeTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dishTypeTagsData ?? Data())) ?? []
+        let processingTypeTagsData = record.value(forKey: "processingTypeTags") as? Data
+        processingTypeTags = (try? JSONDecoder().decode([AdditionalTag].self, from: processingTypeTagsData ?? Data())) ?? []
+        let additionalTagsData = record.value(forKey: "additionalTags") as? Data
+        additionalTags = (try? JSONDecoder().decode([AdditionalTag].self, from: additionalTagsData ?? Data())) ?? []
+        let dietTagsData = record.value(forKey: "dietTags") as? Data
+        dietTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dietTagsData ?? Data())) ?? []
+        let exceptionTagsData = record.value(forKey: "exceptionTags") as? Data
+        exceptionTags = (try? JSONDecoder().decode([AdditionalTag].self, from: exceptionTagsData ?? Data())) ?? []
     }
     
     func hasDefaultCollection() -> Bool {
@@ -166,6 +205,7 @@ struct MarketCategory: Codable {
 
 struct Store: Hashable, Equatable, Codable {
     var id: UUID
+    var recordId = ""
     var title: String
     var createdAt: Date
     
@@ -179,6 +219,18 @@ struct Store: Hashable, Equatable, Codable {
         id = dbStore.id ?? UUID()
         title = dbStore.title ?? ""
         createdAt = dbStore.createdAt ?? Date()
+        recordId = dbStore.recordId ?? ""
+    }
+    
+    init?(record: CKRecord) {
+        guard let idAsString = record.value(forKey: "id") as? String,
+        let id = UUID(uuidString: idAsString) else {
+            return nil
+        }
+        self.id = id
+        recordId = record.recordID.recordName
+        title = record.value(forKey: "title") as? String ?? ""
+        createdAt = record.value(forKey: "createdAt") as? Date ?? Date()
     }
 }
 

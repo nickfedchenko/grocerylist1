@@ -99,6 +99,12 @@ final class ListViewController: UIViewController {
     }
     
     private func updateImageConstraint() {
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async {
+                self.updateImageConstraint()
+            }
+            return
+        }
         let height = viewModel.getImageHeight()
         
         switch height {

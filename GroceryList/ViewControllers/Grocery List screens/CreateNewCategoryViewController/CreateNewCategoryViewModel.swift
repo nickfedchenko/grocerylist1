@@ -44,6 +44,7 @@ class CreateNewCategoryViewModel {
     func saveNewCategory(name: String) {
         let newCategory = CategoryModel(ind: newModelInd, name: name)
         CoreDataManager.shared.saveCategory(category: newCategory)
+        CoreDataManager.shared.saveCategory(category: newCategory)
         categoryCreatedCallBack?(newCategory)
     }
 }

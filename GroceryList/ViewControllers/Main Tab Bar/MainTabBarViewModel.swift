@@ -12,6 +12,9 @@ protocol MainTabBarViewModelDelegate: AnyObject {
     func updateRecipeUI(_ recipe: Recipe?)
     func updatePantryUI(_ pantry: PantryModel)
     func updateListUI()
+    func showFeatureMessageView()
+    func showFeatureView()
+    func hideFeatureView()
 }
 
 final class MainTabBarViewModel {
@@ -105,13 +108,65 @@ final class MainTabBarViewModel {
     }
 
     func showFeedback() {
+        guard UserDefaultsManager.shared.isNewFeature else {
+            return
+        }
         if FeedbackManager.shared.isShowFeedbackScreen() {
             router?.goToFeedback()
         }
     }
     
+    func showNewFeature() {
+        guard !UserDefaultsManager.shared.isNewFeature &&
+        !UserDefaultsManager.shared.shouldShowOnboarding else {
+            return
+        }
+        delegate?.showFeatureView()
+    }
+    
     func settingsTapped() {
         router?.goToSettingsController()
+    }
+    
+    func tappedGreatEnable() {
+        AmplitudeManager.shared.logEvent(.iCloudAccept)
+        UserDefaultsManager.shared.isNewFeature = true
+        CloudManager.shared.getICloudStatus { [weak self] status in
+            if status == .available {
+                UserDefaultsManager.shared.isICloudDataBackupOn = true
+                DispatchQueue.global(qos: .default).async {
+                    CloudManager.shared.enable()
+                }
+                self?.delegate?.hideFeatureView()
+                return
+            }
+            
+            UserDefaultsManager.shared.isICloudDataBackupOn = false
+            var alertTitle = ""
+            switch status {
+            case .couldNotDetermine:
+                alertTitle = R.string.localizable.couldNotDetermine()
+            case .restricted:
+                alertTitle = R.string.localizable.restricted()
+            case .noAccount:
+                alertTitle = R.string.localizable.noAccount()
+            case .temporarilyUnavailable:
+                alertTitle = R.string.localizable.temporarilyUnavailable()
+            default:
+                break
+            }
+            
+            self?.router?.showAlertVC(title: "", message: alertTitle,
+                                      completion: { [weak self] in
+                self?.delegate?.hideFeatureView()
+            })
+        }
+    }
+    
+    func tappedMaybeLater() {
+        AmplitudeManager.shared.logEvent(.iCloudLater)
+        UserDefaultsManager.shared.isNewFeature = true
+        delegate?.hideFeatureView()
     }
     
     func showPaywall() {
@@ -210,13 +265,12 @@ final class MainTabBarViewModel {
         let allStocks = CoreDataManager.shared.getAllStock() ?? []
         let reminderStock = allStocks.filter { $0.isReminder }
         let dbStock = reminderStock.filter({ !$0.isAvailability })
-
-        var outOfStocks = dbStock.map({ Stock(dbModel: $0) })
+        let outOfStocks = dbStock.map({ Stock(dbModel: $0) })
         
         for stock in outOfStocks {
             guard let autoRepeat = stock.autoRepeat else { break }
             let startDate = stock.dateOfCreation.onlyDate
-            let resetDay = today.todayWithSetting(hour: 7)
+//            let resetDay = today.todayWithSetting(hour: 7)
             switch autoRepeat.state {
             case .daily:
                 self.outOfStocks.append(stock)

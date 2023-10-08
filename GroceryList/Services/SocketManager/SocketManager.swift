@@ -76,6 +76,7 @@ class SocketManager: PusherDelegate {
         channel.bind(eventName: "updated", eventCallback: { (event: PusherEvent) -> Void in
 //            SharedListManager.shared.fetchMyGroceryLists()
             if let data: Data = event.data?.data(using: .utf8) {
+//                data.printJSON()
                 guard let decoded = try? JSONDecoder().decode(SocketResponse.self, from: data) else {
                     print("errModel")
                     return
@@ -88,6 +89,7 @@ class SocketManager: PusherDelegate {
         channel.bind(eventName: "delete", eventCallback: { (event: PusherEvent) -> Void in
 //            SharedListManager.shared.fetchMyGroceryLists()
             if let data: Data = event.data?.data(using: .utf8) {
+//                data.printJSON()
                 guard let decoded = try? JSONDecoder().decode(SocketDeleteResponse.self, from: data) else {
                     print("errModel")
                     return
@@ -126,9 +128,26 @@ class SocketManager: PusherDelegate {
 
 struct SocketResponse: Codable {
     var sendForUserToken: String
-    var groceryList: SharedGroceryList
+    var groceryList: SharedGroceryList?
     var listUsers: [User]
     var listId: String
+    
+    enum CodingKeys: String, CodingKey {
+        case sendForUserToken, groceryList, listUsers, listId
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        sendForUserToken = try container.decode(String.self, forKey: .sendForUserToken)
+        listUsers = try container.decode([User].self, forKey: .listUsers)
+        listId = try container.decode(String.self, forKey: .listId)
+
+        if let groceryList = try? container.decode(SharedGroceryList.self, forKey: .groceryList) {
+            self.groceryList = groceryList
+        } else {
+            groceryList = nil
+        }
+    }
 }
 
 struct SocketDeleteResponse: Codable {
@@ -138,7 +157,24 @@ struct SocketDeleteResponse: Codable {
 
 struct SocketPantryResponse: Codable {
     var sendForUserToken: String
-    var pantryList: SharedPantryModel
+    var pantryList: SharedPantryModel?
     var listUsers: [User]
     var listId: String
+    
+    enum CodingKeys: String, CodingKey {
+        case sendForUserToken, pantryList, listUsers, listId
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        sendForUserToken = try container.decode(String.self, forKey: .sendForUserToken)
+        listUsers = try container.decode([User].self, forKey: .listUsers)
+        listId = try container.decode(String.self, forKey: .listId)
+
+        if let groceryList = try? container.decode(SharedPantryModel.self, forKey: .pantryList) {
+            self.pantryList = groceryList
+        } else {
+            pantryList = nil
+        }
+    }
 }

@@ -55,6 +55,7 @@ class NewPaywallViewController: UIViewController {
         makeConstraints()
         
         closeCrossButton.isHidden = isHardPaywall
+        featureView.isHard = isHardPaywall
         
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard let products = paywalls.first(where: { $0.isDefault })?.products,
