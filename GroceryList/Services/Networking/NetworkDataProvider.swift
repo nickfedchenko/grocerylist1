@@ -91,13 +91,13 @@ extension NetworkEngine: NetworkDataProvider {
     }
     
     ///  подключение юзера к листу
-    func groceryListRelease(userToken: String, sharingToken: String, completion: @escaping GroceryListReleaseResult) {
+    func groceryListRelease(userToken: String, sharingToken: String, completion: @escaping ListReleaseResult) {
         performDecodableRequest(request: .groceryListRelease(userToken: userToken,
                                                              sharingToken: sharingToken), completion: completion)
     }
     
     ///   удаление листа - может только овнер
-    func groceryListDelete(userToken: String, listId: String, completion: @escaping GroceryListDeleteResult) {
+    func groceryListDelete(userToken: String, listId: String, completion: @escaping ShareSuccessResult) {
         performDecodableRequest(request: .groceryListDelete(userToken: userToken, listId: listId), completion: completion)
     }
     
@@ -107,12 +107,12 @@ extension NetworkEngine: NetworkDataProvider {
     }
     
     ///   получить список юзеров подписанных на лист
-    func fetchGroceryListUsers(userToken: String, listId: String, completion: @escaping FetchGroceryListUsersResult) {
+    func fetchGroceryListUsers(userToken: String, listId: String, completion: @escaping FetchListUsersResult) {
         performDecodableRequest(request: .fetchGroceryListUsers(userToken: userToken, listId: listId), completion: completion)
     }
     
     ///   отписать юзера от листа
-    func groceryListUserDelete(userToken: String, listId: String, completion: @escaping GroceryListUserDeleteResult) {
+    func groceryListUserDelete(userToken: String, listId: String, completion: @escaping ShareSuccessResult) {
         performDecodableRequest(request: .groceryListUserDelete(userToken: userToken, listId: listId), completion: completion)
     }
     
@@ -123,7 +123,8 @@ extension NetworkEngine: NetworkDataProvider {
     }
     
     ///   зашарить список
-    func updateGroceryList(userToken: String, listId: String, listModel: GroceryListsModel, completion: @escaping UpdateGroceryListResult) {
+    func updateGroceryList(userToken: String, listId: String, listModel: GroceryListsModel,
+                           completion: @escaping ShareSuccessResult) {
         let param = ["grocery_list": listModel]
         performDecodableRequestSend(request: .updateGroceryList(userToken: userToken, listId: listId), params: param, completion: completion)
     }
@@ -152,27 +153,27 @@ extension NetworkEngine: NetworkDataProvider {
     
     ///  подключение юзера к Pantry листу
     func pantryListRelease(userToken: String, sharingToken: String,
-                           completion: @escaping PantryListReleaseResult) {
+                           completion: @escaping ListReleaseResult) {
         performDecodableRequest(request: .pantryListRelease(userToken: userToken, sharingToken: sharingToken),
                                 completion: completion)
     }
     
     ///   удаление Pantry листа - может только владелец
-    func pantryListDelete(userToken: String, pantryId: String, completion: @escaping PantryListDeleteResult) {
+    func pantryListDelete(userToken: String, pantryId: String, completion: @escaping ShareSuccessResult) {
         performDecodableRequest(request: .pantryListDelete(userToken: userToken, listId: pantryId),
                                 completion: completion)
     }
     
     ///   обновить зашаренный Pantry список
     func updatePantry(userToken: String, pantryId: String, pantryModel: PantryModel,
-                      completion: @escaping UpdatePantryResult) {
+                      completion: @escaping ShareSuccessResult) {
         let param = ["pantry_list": pantryModel]
         performDecodableRequestSend(request: .pantryListUpdate(userToken: userToken, listId: pantryId),
                                     params: param, completion: completion)
     }
     
     ///   отписать юзера от Pantry листа
-    func pantryListUserDelete(userToken: String, pantryId: String, completion: @escaping PantryListUserDeleteResult) {
+    func pantryListUserDelete(userToken: String, pantryId: String, completion: @escaping ShareSuccessResult) {
         performDecodableRequest(request: .pantryListUserDelete(userToken: userToken, listId: pantryId),
                                 completion: completion)
     }
@@ -184,7 +185,7 @@ extension NetworkEngine: NetworkDataProvider {
     }
     
     ///   получить список юзеров подписанных на Pantry лист
-    func fetchPantryListUsers(userToken: String, pantryId: String, completion: @escaping FetchPantryListUsersResult) {
+    func fetchPantryListUsers(userToken: String, pantryId: String, completion: @escaping FetchListUsersResult) {
         performDecodableRequest(request: .fetchPantryListUsers(userToken: userToken, listId: pantryId),
                                 completion: completion)
     }
@@ -205,5 +206,46 @@ extension NetworkEngine: NetworkDataProvider {
         performDecodableRequestSend(request: .sendMail,
                                     params: sendMail,
                                     completion: completion)
+    }
+    
+    ///   зашарить Meal Plan
+    func shareMealPlan(userToken: String, mealList: MealList,
+                       completion: @escaping ShareMealPlanResult) {
+        let param = ["meal_list": mealList]
+        performDecodableRequestSend(request: .shareMealPlanList(userToken: userToken, mealListId: mealList.mealListId),
+                                    params: param, completion: completion)
+    }
+    
+    ///  подключение юзера к Meal Plan
+    func mealPlanRelease(userToken: String, sharingToken: String,
+                         completion: @escaping ListReleaseResult) {
+        performDecodableRequest(request: .mealPlanRelease(userToken: userToken, sharingToken: sharingToken),
+                                completion: completion)
+    }
+    
+    ///  обновить зашаренный Meal Plan
+    func updateMealPlan(userToken: String, mealList: MealList,
+                        completion: @escaping ShareSuccessResult) {
+        let param = ["meal_list": mealList]
+        performDecodableRequestSend(request: .mealPlanUpdate(userToken: userToken, mealListId: mealList.mealListId),
+                                    params: param, completion: completion)
+    }
+    
+    ///   отписать юзера от Meal Plan-a
+    func mealPlanUserDelete(userToken: String, mealListId: String, completion: @escaping ShareSuccessResult) {
+        performDecodableRequest(request: .mealPlanUserDelete(userToken: userToken, mealListId: mealListId),
+                                completion: completion)
+    }
+
+    ///   получение Meal Plan-ов на которые подписан юзер
+    func fetchMyMealPlans(userToken: String, completion: @escaping FetchMyMealPlanResult) {
+        performDecodableRequest(request: .fetchMyMealPlanLists(userToken: userToken),
+                                completion: completion)
+    }
+
+    ///   получить список юзеров подписанных на Meal Plan
+    func fetchMealPlanUsers(userToken: String, mealListId: String, completion: @escaping FetchListUsersResult) {
+        performDecodableRequest(request: .fetchMealPlanUsers(userToken: userToken, mealListId: mealListId),
+                                completion: completion)
     }
 }

@@ -87,7 +87,7 @@ class SelectRecipeViewController: MainRecipeViewController {
     override func recipeChangeViewAction() {
         isFolder.toggle()
         let image = isFolder ? R.image.recipeCollectionView() : R.image.recipeFolderView()
-        let contentInset: CGFloat = isFolder ? 58 : 68
+        let contentInset: CGFloat = isFolder ? 68 : 78
         recipeChangeViewButton.setImage(image, for: .normal)
 
         DispatchQueue.main.async {

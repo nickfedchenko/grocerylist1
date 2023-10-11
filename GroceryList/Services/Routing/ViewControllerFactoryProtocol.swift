@@ -57,6 +57,7 @@ protocol ViewControllerFactoryProtocol {
     func createEnterNewPasswordController(router: RootRouter) -> UIViewController?
     func createSharingPopUpController(router: RootRouter, compl: (() -> Void)?) -> UIViewController
     func createStopSharingPopUpController(user: User,
+                                          state: SharingListViewModel.State,
                                           listToShareModel: GroceryListsModel?,
                                           pantryToShareModel: PantryModel?,
                                           updateUI: ((Bool) -> Void)?) -> UIViewController

@@ -233,10 +233,12 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goToStopSharingPopUp(user: User,
+                              state: SharingListViewModel.State,
                               listToShareModel: GroceryListsModel?,
                               pantryToShareModel: PantryModel?,
                               updateUI: ((Bool) -> Void)?) {
         let controller = viewControllerFactory.createStopSharingPopUpController(user: user,
+                                                                                state: state,
                                                                                 listToShareModel: listToShareModel,
                                                                                 pantryToShareModel: pantryToShareModel,
                                                                                 updateUI: updateUI)
@@ -550,9 +552,8 @@ final class RootRouter: RootRouterProtocol {
         topViewController?.present(controller, animated: true)
     }
     
-    func goToMealPlanContextMenu(contextDelegate: MealPlanContextMenuViewDelegate, mealPlan: MealPlan?) {
-        let controller = MealPlanContextMenuViewController(contextDelegate: contextDelegate,
-                                                           mealPlan: mealPlan)
+    func goToMealPlanContextMenu(contextDelegate: MealPlanContextMenuViewDelegate) {
+        let controller = MealPlanContextMenuViewController(contextDelegate: contextDelegate)
         controller.modalPresentationStyle = .overCurrentContext
         controller.modalTransitionStyle = .crossDissolve
         topViewController?.present(controller, animated: true)
@@ -572,6 +573,17 @@ final class RootRouter: RootRouterProtocol {
         controller.modalPresentationStyle = .overCurrentContext
         controller.modalTransitionStyle = .crossDissolve
         topViewController?.present(controller, animated: true)
+    }
+    
+    func goToSharingMealPlan(users: [User], mealPlanForSharing: MealList) {
+        let viewController = SharingListViewController()
+        let networkManager = NetworkEngine()
+        let viewModel = SharingListViewModel(network: networkManager, state: .mealPlan, users: users)
+        viewModel.router = self
+        viewModel.delegate = viewController
+        viewModel.mealPlansToShare = mealPlanForSharing
+        viewController.viewModel = viewModel
+        navigationPresent(viewController, animated: true)
     }
     
     func dismissCurrentController() {

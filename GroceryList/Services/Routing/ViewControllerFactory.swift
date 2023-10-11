@@ -331,10 +331,11 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createStopSharingPopUpController(user: User,
+                                          state: SharingListViewModel.State,
                                           listToShareModel: GroceryListsModel?,
                                           pantryToShareModel: PantryModel?,
                                           updateUI: ((Bool) -> Void)?) -> UIViewController {
-        let viewModel = StopSharingViewModel(user: user)
+        let viewModel = StopSharingViewModel(user: user, state: state)
         viewModel.listToShareModel = listToShareModel
         viewModel.pantryToShareModel = pantryToShareModel
         viewModel.updateUI = updateUI
@@ -347,7 +348,9 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
                                      users: [User]) -> UIViewController {
         let viewController = SharingListViewController()
         let networkManager = NetworkEngine()
-        let viewModel = SharingListViewModel(network: networkManager, users: users)
+        let viewModel = SharingListViewModel(network: networkManager,
+                                             state: listToShare == nil ? .pantry : .grocery,
+                                             users: users)
         viewModel.router = router
         viewModel.listToShareModel = listToShare
         viewModel.pantryToShareModel = pantryToShare

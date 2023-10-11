@@ -284,6 +284,11 @@ class UserDefaultsManager {
         set { userDefaults.set(newValue, forKey: "isFillingDefaultLabels") }
     }
     
+    var mealPlanUserTokens: [String]? {
+        get { userDefaults.array(forKey: "mealPlanUserTokens") as? [String] }
+        set { userDefaults.set(newValue, forKey: "mealPlanUserTokens") }
+    }
+    
     private func setValue<T>(value: T, for key: UDKeys) {
         userDefaults.set(value, forKey: key.rawValue)
     }

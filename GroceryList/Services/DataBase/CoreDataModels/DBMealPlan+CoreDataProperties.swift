@@ -22,6 +22,8 @@ extension DBMealPlan {
     @NSManaged public var destinationListId: UUID?
     @NSManaged public var index: Int16
     @NSManaged public var recordId: String?
+    @NSManaged public var isOwner: Bool
+    @NSManaged public var sharedId: String?
 
     static func prepare(fromPlainModel model: MealPlan, context: NSManagedObjectContext) -> DBMealPlan {
         let dbPlan = DBMealPlan(context: context)
@@ -32,6 +34,7 @@ extension DBMealPlan {
         dbPlan.destinationListId = model.destinationListId
         dbPlan.index = Int16(model.index)
         dbPlan.recordId = model.recordId
+        dbPlan.isOwner = model.isOwner
         return dbPlan
     }
 }

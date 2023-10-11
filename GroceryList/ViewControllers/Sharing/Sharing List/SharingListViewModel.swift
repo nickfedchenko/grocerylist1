@@ -13,6 +13,12 @@ protocol SharingListViewModelDelegate: AnyObject {
 
 final class SharingListViewModel {
     
+    enum State {
+        case grocery
+        case pantry
+        case mealPlan
+    }
+    
     weak var router: RootRouter?
     weak var delegate: SharingListViewModelDelegate?
     var updateUsers: (() -> Void)?
@@ -27,24 +33,36 @@ final class SharingListViewModel {
     
     var listToShareModel: GroceryListsModel?
     var pantryToShareModel: PantryModel?
+    var mealPlansToShare: MealList?
     
     private var sharedUsers: [User] = []
     private var network: NetworkEngine
+    private let state: State
     
-    init(network: NetworkEngine, users: [User]) {
+    init(network: NetworkEngine, state: State, users: [User]) {
         self.network = network
+        self.state = state
         sharedUsers = users
         sharedUsers.removeAll(where: { $0.token == UserAccountManager.shared.getUser()?.token })
     }
     
     func shareListTapped() {
-        if let listToShareModel {
-            shareGrocery(listToShareModel: listToShareModel)
-            return
-        }
-        if let pantryToShareModel {
-            sharePantry(pantryToShareModel: pantryToShareModel)
-            return
+        switch state {
+        case .grocery:
+            if let listToShareModel {
+                shareGrocery(listToShareModel: listToShareModel)
+                return
+            }
+        case .pantry:
+            if let pantryToShareModel {
+                sharePantry(pantryToShareModel: pantryToShareModel)
+                return
+            }
+        case .mealPlan:
+            if let mealPlansToShare {
+                shareMealPlan(mealPlansToShare: mealPlansToShare)
+                return
+            }
         }
     }
     
@@ -76,12 +94,17 @@ final class SharingListViewModel {
     
     func showStopSharingPopUp(by index: Int) {
         let user = sharedUsers[index]
-        router?.goToStopSharingPopUp(user: user, listToShareModel: listToShareModel,
+        router?.goToStopSharingPopUp(user: user, state: state, listToShareModel: listToShareModel,
                                      pantryToShareModel: pantryToShareModel, updateUI: { [weak self] isStop in
-            guard isStop else { return }
-            guard let self else { return }
-            self.deleteUserGrocery(user: user, index: index)
-            self.deleteUserPantry(user: user, index: index)
+            guard isStop, let self else { return }
+            switch self.state {
+            case .grocery:
+                self.deleteUserGrocery(user: user, index: index)
+            case .pantry:
+                self.deleteUserPantry(user: user, index: index)
+            case .mealPlan:
+                self.deleteUserMealPlan(user: user, index: index)
+            }
         })
     }
     
@@ -141,6 +164,35 @@ final class SharingListViewModel {
         }
     }
     
+    private func deleteUserMealPlan(user: User, index: Int) {
+        guard CoreDataManager.shared.getMealListSharedInfo() != nil else {
+            return
+        }
+        
+        SharedMealPlanManager.shared.mealPlanUserDelete(user: user) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+                self.router?.showAlertVC(title: R.string.localizable.error(), message: "")
+            case .success(let result):
+                guard result.error else {
+                    self.sharedUsers.remove(at: index)
+                    self.updateUsers?()
+                    return
+                }
+                print(result)
+                guard let messages = result.messages.first else {
+                    return
+                }
+                if messages == "Owner can not delete yourself" {
+                    self.router?.showAlertVC(title: "", message: R.string.localizable.youCannotRemoveOwner())
+                } else {
+                    self.router?.showAlertVC(title: R.string.localizable.error(), message: messages)
+                }
+            }
+        }
+    }
+    
     private func shareGrocery(listToShareModel: GroceryListsModel) {
         idsOfChangedLists.insert(listToShareModel.id)
         AmplitudeManager.shared.logEvent(.sendInvite)
@@ -153,6 +205,14 @@ final class SharingListViewModel {
     
     private func sharePantry(pantryToShareModel: PantryModel) {
         SharedPantryManager.shared.sharePantry(pantry: pantryToShareModel) { [weak self] deepLink in
+            DispatchQueue.main.async {
+                self?.delegate?.openShareController(with: deepLink)
+            }
+        }
+    }
+    
+    private func shareMealPlan(mealPlansToShare: MealList) {
+        SharedMealPlanManager.shared.shareMealPlan(mealPlans: mealPlansToShare) { [weak self] deepLink in
             DispatchQueue.main.async {
                 self?.delegate?.openShareController(with: deepLink)
             }

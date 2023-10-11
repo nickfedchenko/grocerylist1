@@ -52,6 +52,16 @@ enum RequestGenerator: Codable {
     case fetchFAQState
     case parseWebLink(url: String)
     case sendMail
+//    case uploadImage
+    
+    case shareMealPlanList(userToken: String, mealListId: String?)
+    case mealPlanRelease(userToken: String, sharingToken: String)
+//    case mealPlanDelete(userToken: String, listId: String)
+    case mealPlanUpdate(userToken: String, mealListId: String?)
+    case mealPlanUserDelete(userToken: String, mealListId: String)
+    case fetchMyMealPlanLists(userToken: String)
+    case fetchMealPlanUsers(userToken: String, mealListId: String)
+//    case saveUserMealPlan(pantryTitle: String, stockTitle: String)
 }
 
 extension RequestGenerator {
@@ -105,6 +115,13 @@ extension RequestGenerator {
         case .fetchFAQState: return "https://ketodietapplication.site/api/faq/state"
         case .parseWebLink: return "https://ketodietapplication.site/api/parseWebLink"
         case .sendMail: return "https://ketodietapplication.site/api/mail"
+            
+        case .shareMealPlanList: return "https://ketodietapplication.site/api/mealList/share"
+        case .mealPlanRelease: return "https://ketodietapplication.site/api/mealList/release"
+        case .mealPlanUpdate: return "https://ketodietapplication.site/api/mealList/update"
+        case .mealPlanUserDelete: return "https://ketodietapplication.site/api/mealList/users/delete"
+        case .fetchMyMealPlanLists: return "https://ketodietapplication.site/api/mealList/fetch"
+        case .fetchMealPlanUsers: return "https://ketodietapplication.site/api/mealList/fetch/users"
         }
     }
     
@@ -241,6 +258,37 @@ extension RequestGenerator {
             }
         case .sendMail:
             return requestCreator(basicURL: url, method: .get) { _ in }
+        case .shareMealPlanList(userToken: let userToken, mealListId: let mealListId):
+            return requestCreator(basicURL: url, method: .post) { components in
+                injectUserToken(in: &components, userToken: userToken)
+                if let mealListId {
+                    injectMealPlanId(in: &components, mealListId: mealListId)
+                }
+            }
+        case .mealPlanRelease(userToken: let userToken, sharingToken: let sharingToken):
+            return requestCreator(basicURL: url, method: .post) { components in
+                injectUserToken(in: &components, userToken: userToken)
+                injectSharingToken(in: &components, sharingToken: sharingToken)
+            }
+        case .mealPlanUpdate(userToken: let userToken, mealListId: let mealListId):
+            return requestCreator(basicURL: url, method: .post) { components in
+                injectUserToken(in: &components, userToken: userToken)
+                injectMealPlanId(in: &components, mealListId: mealListId ?? "")
+            }
+        case .mealPlanUserDelete(userToken: let userToken, mealListId: let mealListId):
+            return requestCreator(basicURL: url, method: .post) { components in
+                injectUserToken(in: &components, userToken: userToken)
+                injectMealPlanId(in: &components, mealListId: mealListId)
+            }
+        case .fetchMyMealPlanLists(userToken: let userToken):
+            return requestCreator(basicURL: url, method: .get) { components in
+                injectUserToken(in: &components, userToken: userToken)
+            }
+        case .fetchMealPlanUsers(userToken: let userToken, mealListId: let mealListId):
+            return requestCreator(basicURL: url, method: .get) { components in
+                injectUserToken(in: &components, userToken: userToken)
+                injectMealPlanId(in: &components, mealListId: mealListId)
+            }
         }
     }
     
@@ -398,6 +446,13 @@ extension RequestGenerator {
     private func injectWebRecipeUrl(in components: inout URLComponents, recipeUrl: String) {
         let queries: [URLQueryItem] = [
             .init(name: "url", value: recipeUrl)
+        ]
+        insert(queries: queries, components: &components)
+    }
+    
+    private func injectMealPlanId(in components: inout URLComponents, mealListId: String) {
+        let queries: [URLQueryItem] = [
+            .init(name: "meal_list_id", value: mealListId)
         ]
         insert(queries: queries, components: &components)
     }

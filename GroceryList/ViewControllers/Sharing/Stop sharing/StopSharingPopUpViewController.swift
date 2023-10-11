@@ -30,12 +30,20 @@ class StopSharingPopUpViewController: UIViewController {
         makeConstraints()
         setupPopUpView()
         
-        if let grocery = viewModel.listToShareModel {
-            groceryView.configureList(grocery)
-            pantryView.isHidden = true
-        } else if let pantry = viewModel.getPantry() {
-            pantryView.configure(pantry)
+        switch viewModel.state {
+        case .grocery:
+            if let grocery = viewModel.listToShareModel {
+                groceryView.configureList(grocery)
+                pantryView.isHidden = true
+            }
+        case .pantry:
+            if let pantry = viewModel.getPantry() {
+                pantryView.configure(pantry)
+                groceryView.isHidden = true
+            }
+        case .mealPlan:
             groceryView.isHidden = true
+            pantryView.isHidden = true
         }
     }
     
@@ -43,13 +51,15 @@ class StopSharingPopUpViewController: UIViewController {
         popUpView.configureUser(viewModel.user)
         
         popUpView.stopSharing = { [weak self] in
-            self?.viewModel.stopSharing()
-            self?.dismiss(animated: true)
+            self?.dismiss(animated: true, completion: {
+                self?.viewModel.stopSharing()
+            })
         }
         
         popUpView.cancel = { [weak self] in
-            self?.viewModel.cancel()
-            self?.dismiss(animated: true)
+            self?.dismiss(animated: true, completion: {
+                self?.viewModel.cancel()
+            })
         }
     }
 
