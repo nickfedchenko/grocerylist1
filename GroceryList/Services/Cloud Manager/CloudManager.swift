@@ -21,6 +21,9 @@ final class CloudManager {
         case collectionModel = "CollectionModel"
         case recipe = "Recipe"
         case settings = "Settings"
+        case mealPlan = "MealPlan"
+        case mealPlanNote = "MealPlanNote"
+        case mealPlanLabel = "MealPlanLabel"
     }
     
     var router: RootRouter?
@@ -37,6 +40,9 @@ final class CloudManager {
     private var stocks: [CKRecord] = []
     private var collections: [CKRecord] = []
     private var recipes: [CKRecord] = []
+    private var mealPlans: [CKRecord] = []
+    private var mealPlanNotes: [CKRecord] = []
+    private var mealPlanLabels: [CKRecord] = []
     private let recordsQueue = DispatchQueue(label: "com.ksens.shopp.recordsQueue", attributes: .concurrent)
 
     private init() {
@@ -257,7 +263,7 @@ final class CloudManager {
         }
         return serverChangeToken
     }
-    
+    // swiftlint:disable:next cyclomatic_complexity
     private func updateData(by record: CKRecord) {
         DispatchQueue.global(qos: .background).async {
             guard let recordType = RecordType(rawValue: record.recordType) else {
@@ -274,6 +280,9 @@ final class CloudManager {
                 case .collectionModel:     self.collections.append(record)
                 case .recipe:              self.recipes.append(record)
                 case .settings:            self.setupSettings(record: record)
+                case .mealPlan:            self.mealPlans.append(record)
+                case .mealPlanNote:        self.mealPlanNotes.append(record)
+                case .mealPlanLabel:       self.mealPlanLabels.append(record)
                 }
             }
         }
@@ -319,6 +328,7 @@ final class CloudManager {
         }
         
         setupStock()
+        setupMealPlan()
     }
     
     private func setupGroceryList(record: CKRecord) {
@@ -384,6 +394,25 @@ final class CloudManager {
         UserDefaultsManager.shared.favoritesRecipeIds = record.value(forKey: "favoritesRecipeIds") as? [Int] ?? []
     }
     
+    private func setupMealPlan() {
+        mealPlans.forEach {
+            if let mealPlan = MealPlan(record: $0) {
+                CoreDataManager.shared.saveMealPlan(mealPlan)
+            }
+        }
+        
+        mealPlanNotes.forEach {
+            if let mealPlanNote = MealPlanNote(record: $0) {
+                CoreDataManager.shared.saveMealPlanNote(mealPlanNote)
+            }
+        }
+        
+        let mealPlanLabels = self.mealPlanLabels.compactMap { MealPlanLabel(record: $0) }
+        CoreDataManager.shared.saveLabel(mealPlanLabels)
+        
+        NotificationCenter.default.post(name: .cloudMealPlans, object: nil)
+    }
+    // swiftlint:disable:next cyclomatic_complexity
     private func deleteData(recordId: CKRecord.ID, recordType: CKRecord.RecordType) {
         DispatchQueue.global(qos: .background).async {
             guard let recordType = RecordType(rawValue: recordType) else {
@@ -401,6 +430,9 @@ final class CloudManager {
                 case .collectionModel:      coreData.removeCollection(recordId: recordId.recordName)
                 case .recipe:               coreData.removeRecipe(recordId: recordId.recordName)
                 case .settings:             break
+                case .mealPlan:             coreData.removeMealPlan(recordId: recordId.recordName)
+                case .mealPlanNote:         coreData.removeMealPlanNote(recordId: recordId.recordName)
+                case .mealPlanLabel:        coreData.removeLabel(recordId: recordId.recordName)
                 }
             }
         }
@@ -422,6 +454,7 @@ extension CloudManager {
         
         saveCloudAllGroceryLists()
         saveCloudAllPantryLists()
+        saveCloudAllMealPlan()
         
         let collections = CoreDataManager.shared.getAllCollection()?.compactMap({
             ($0.recordId?.isEmpty ?? true) ? CollectionModel(from: $0) : nil
@@ -482,6 +515,23 @@ extension CloudManager {
             $0.isDefault ? nil : ($0.recordId?.isEmpty ?? true) ? Stock(dbModel: $0) : nil
         }) ?? []
         stocks.forEach { saveCloudData(stock: $0) }
+    }
+    
+    private func saveCloudAllMealPlan() {
+        let mealPlans = CoreDataManager.shared.getAllMealPlans()?.compactMap({
+            ($0.recordId?.isEmpty ?? true) ? MealPlan(dbModel: $0) : nil
+        }) ?? []
+        mealPlans.forEach { saveCloudData(mealPlan: $0) }
+        
+        let mealPlanNotes = CoreDataManager.shared.getMealPlanNotes()?.compactMap({
+            ($0.recordId?.isEmpty ?? true) ? MealPlanNote(dbModel: $0) : nil
+        }) ?? []
+        mealPlanNotes.forEach { saveCloudData(mealPlanNote: $0) }
+        
+        let mealPlanLabels = CoreDataManager.shared.getAllLabels()?.compactMap({
+            ($0.recordId?.isEmpty ?? true) ? MealPlanLabel(dbModel: $0) : nil
+        }) ?? []
+        mealPlanLabels.forEach { saveCloudData(mealPlanLabel: $0) }
     }
 }
 

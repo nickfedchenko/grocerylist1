@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 11.09.2023.
 //
 
+import CloudKit
 import Foundation
 
 protocol ItemWithLabelProtocol {
@@ -15,11 +16,14 @@ protocol ItemWithLabelProtocol {
 
 struct MealPlan: Hashable, Codable, ItemWithLabelProtocol {
     let id: UUID
+    var recordId = ""
     let recipeId: Int
     var date: Date
     var label: UUID?
     var destinationListId: UUID?
     var index: Int = 0
+    var isShared = false
+    var isSharedListOwner = true
     
     init(id: UUID = UUID(), recipeId: Int, date: Date,
          label: UUID?, destinationListId: UUID? = nil) {
@@ -41,6 +45,7 @@ struct MealPlan: Hashable, Codable, ItemWithLabelProtocol {
     
     init(dbModel: DBMealPlan) {
         self.id = dbModel.id
+        self.recordId = dbModel.recordId ?? ""
         self.recipeId = dbModel.recipeId.asInt
         self.date = dbModel.date
         self.label = dbModel.label
@@ -56,10 +61,36 @@ struct MealPlan: Hashable, Codable, ItemWithLabelProtocol {
         self.destinationListId = copy.destinationListId
         self.index = copy.index
     }
+    
+    init?(record: CKRecord) {
+        guard let idAsString = record.value(forKey: "id") as? String,
+              let id = UUID(uuidString: idAsString),
+              let recipeId = record.value(forKey: "recipeId") as? Int,
+              let date = record.value(forKey: "date") as? Date else {
+            return nil
+        }
+        self.id = id
+        recordId = record.recordID.recordName
+        
+        self.recipeId = recipeId
+        self.date = date
+        
+        if let labelIdAsString = record.value(forKey: "label") as? String,
+           let labelId = UUID(uuidString: labelIdAsString) {
+            self.label = labelId
+        }
+        if let destinationListIdAsString = record.value(forKey: "destinationListId") as? String,
+           let destinationListId = UUID(uuidString: destinationListIdAsString) {
+            self.destinationListId = destinationListId
+        }
+        
+        self.index = record.value(forKey: "index") as? Int ?? 0
+    }
 }
 
 struct MealPlanLabel: Hashable, Codable {
     let id: UUID
+    var recordId = ""
     var title: String
     var color: Int
     var index: Int
@@ -75,6 +106,7 @@ struct MealPlanLabel: Hashable, Codable {
     
     init(dbModel: DBLabel) {
         self.id = dbModel.id
+        self.recordId = dbModel.recordId ?? ""
         self.title = (dbModel.title ?? "").localized
         self.color = Int(dbModel.color)
         self.index = Int(dbModel.index)
@@ -86,10 +118,24 @@ struct MealPlanLabel: Hashable, Codable {
         self.color = color
         self.index = index
     }
+    
+    init?(record: CKRecord) {
+        guard let idAsString = record.value(forKey: "id") as? String,
+              let id = UUID(uuidString: idAsString) else {
+            return nil
+        }
+        self.id = id
+        recordId = record.recordID.recordName
+        
+        self.title = record.value(forKey: "title") as? String ?? ""
+        self.color = record.value(forKey: "color") as? Int ?? 0
+        self.index = record.value(forKey: "index") as? Int ?? 0
+    }
 }
 
 struct MealPlanNote: Hashable, Codable, ItemWithLabelProtocol {
     let id: UUID
+    var recordId = ""
     var title: String
     var details: String?
     var date: Date
@@ -106,11 +152,32 @@ struct MealPlanNote: Hashable, Codable, ItemWithLabelProtocol {
     
     init(dbModel: DBMealPlanNote) {
         self.id = dbModel.id
+        self.recordId = dbModel.recordId ?? ""
         self.title = dbModel.title
         self.details = dbModel.details
         self.date = dbModel.date
         self.label = dbModel.label
         self.index = Int(dbModel.index)
+    }
+    
+    init?(record: CKRecord) {
+        guard let idAsString = record.value(forKey: "id") as? String,
+              let id = UUID(uuidString: idAsString),
+              let date = record.value(forKey: "date") as? Date else {
+            return nil
+        }
+        self.id = id
+        self.date = date
+        recordId = record.recordID.recordName
+        
+        self.title = record.value(forKey: "title") as? String ?? ""
+        self.details = record.value(forKey: "details") as? String
+        
+        if let labelIdAsString = record.value(forKey: "label") as? String,
+           let labelId = UUID(uuidString: labelIdAsString) {
+            self.label = labelId
+        }
+        self.index = record.value(forKey: "index") as? Int ?? 0
     }
 }
 

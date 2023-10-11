@@ -22,6 +22,7 @@ extension DBMealPlanNote {
     @NSManaged public var date: Date
     @NSManaged public var label: UUID?
     @NSManaged public var index: Int16
+    @NSManaged public var recordId: String?
 
     static func prepare(fromPlainModel model: MealPlanNote, context: NSManagedObjectContext) -> DBMealPlanNote {
         let dbNote = DBMealPlanNote(context: context)
@@ -31,6 +32,7 @@ extension DBMealPlanNote {
         dbNote.date = model.date
         dbNote.label = model.label
         dbNote.index = Int16(model.index)
+        dbNote.recordId = model.recordId
         return dbNote
     }
 }

@@ -87,6 +87,7 @@ class MealPlanLabelsViewModel {
             currentLabel = MealPlanLabel(defaultLabel: .none)
         }
         CoreDataManager.shared.deleteLabel(by: label.id)
+        CloudManager.shared.delete(recordType: .mealPlanLabel, recordID: label.recordId)
         getLabelFromStorage()
         hasBeenChangedLabel = true
         reloadData?()
@@ -123,6 +124,9 @@ class MealPlanLabelsViewModel {
         if !updateLabels.isEmpty {
             hasBeenChangedLabel = true
             CoreDataManager.shared.saveLabel(updateLabels)
+            updateLabels.forEach {
+                CloudManager.shared.saveCloudData(mealPlanLabel: $0)
+            }
         }
     }
     

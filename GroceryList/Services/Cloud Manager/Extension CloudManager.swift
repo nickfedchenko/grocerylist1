@@ -511,4 +511,125 @@ extension CloudManager {
         record.setValue(favoritesRecipeIds.isEmpty ? nil : favoritesRecipeIds , forKey: "favoritesRecipeIds")
         return record
     }
+    
+    func saveCloudData(mealPlan: MealPlan) {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
+        
+        if mealPlan.recordId.isEmpty {
+            var record = CKRecord(recordType: RecordType.mealPlan.rawValue, recordID: CKRecord.ID(zoneID: zoneID))
+            record = fillInRecord(record: record, mealPlan: mealPlan)
+            
+            save(record: record) { recordID in
+                var updateMealPlan = mealPlan
+                updateMealPlan.recordId = recordID
+                CoreDataManager.shared.saveMealPlan(updateMealPlan)
+            }
+            return
+        }
+        
+        let recordID = CKRecord.ID(recordName: mealPlan.recordId, zoneID: zoneID)
+        privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
+            if let error {
+                print("[CloudKit]:", error.localizedDescription)
+                return
+            }
+            if var record {
+                record = self.fillInRecord(record: record, mealPlan: mealPlan)
+                self.save(record: record) { _ in }
+            }
+        }
+    }
+    
+    private func fillInRecord(record: CKRecord, mealPlan: MealPlan) -> CKRecord {
+        let record = record
+        record.setValue(mealPlan.id.uuidString, forKey: "id")
+        record.setValue(mealPlan.recipeId, forKey: "recipeId")
+        record.setValue(mealPlan.date, forKey: "date")
+        record.setValue(mealPlan.label?.uuidString, forKey: "label")
+        record.setValue(mealPlan.destinationListId?.uuidString, forKey: "destinationListId")
+        record.setValue(mealPlan.index, forKey: "index")
+        return record
+    }
+    
+    func saveCloudData(mealPlanNote: MealPlanNote) {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
+        
+        if mealPlanNote.recordId.isEmpty {
+            var record = CKRecord(recordType: RecordType.mealPlanNote.rawValue, recordID: CKRecord.ID(zoneID: zoneID))
+            record = fillInRecord(record: record, mealPlanNote: mealPlanNote)
+            
+            save(record: record) { recordID in
+                var updateMealPlanNote = mealPlanNote
+                updateMealPlanNote.recordId = recordID
+                CoreDataManager.shared.saveMealPlanNote(updateMealPlanNote)
+            }
+            return
+        }
+        
+        let recordID = CKRecord.ID(recordName: mealPlanNote.recordId, zoneID: zoneID)
+        privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
+            if let error {
+                print("[CloudKit]:", error.localizedDescription)
+                return
+            }
+            if var record {
+                record = self.fillInRecord(record: record, mealPlanNote: mealPlanNote)
+                self.save(record: record) { _ in }
+            }
+        }
+    }
+    
+    private func fillInRecord(record: CKRecord, mealPlanNote: MealPlanNote) -> CKRecord {
+        let record = record
+        record.setValue(mealPlanNote.id.uuidString, forKey: "id")
+        record.setValue(mealPlanNote.title, forKey: "title")
+        record.setValue(mealPlanNote.details, forKey: "details")
+        record.setValue(mealPlanNote.date, forKey: "date")
+        record.setValue(mealPlanNote.label?.uuidString, forKey: "label")
+        record.setValue(mealPlanNote.index, forKey: "index")
+        return record
+    }
+    
+    func saveCloudData(mealPlanLabel: MealPlanLabel) {
+        guard UserDefaultsManager.shared.isICloudDataBackupOn else {
+            return
+        }
+        
+        if mealPlanLabel.recordId.isEmpty {
+            var record = CKRecord(recordType: RecordType.mealPlanLabel.rawValue, recordID: CKRecord.ID(zoneID: zoneID))
+            record = fillInRecord(record: record, mealPlanLabel: mealPlanLabel)
+            
+            save(record: record) { recordID in
+                var updateMealPlanLabel = mealPlanLabel
+                updateMealPlanLabel.recordId = recordID
+                CoreDataManager.shared.saveLabel([updateMealPlanLabel])
+            }
+            return
+        }
+        
+        let recordID = CKRecord.ID(recordName: mealPlanLabel.recordId, zoneID: zoneID)
+        privateCloudDataBase.fetch(withRecordID: recordID) { record, error in
+            if let error {
+                print("[CloudKit]:", error.localizedDescription)
+                return
+            }
+            if var record {
+                record = self.fillInRecord(record: record, mealPlanLabel: mealPlanLabel)
+                self.save(record: record) { _ in }
+            }
+        }
+    }
+    
+    private func fillInRecord(record: CKRecord, mealPlanLabel: MealPlanLabel) -> CKRecord {
+        let record = record
+        record.setValue(mealPlanLabel.id.uuidString, forKey: "id")
+        record.setValue(mealPlanLabel.title, forKey: "title")
+        record.setValue(mealPlanLabel.color, forKey: "color")
+        record.setValue(mealPlanLabel.index, forKey: "index")
+        return record
+    }
 }

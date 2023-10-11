@@ -117,10 +117,12 @@ class MealPlanDataSource {
             if var plan = model.mealPlan {
                 plan.index = newIndex
                 CoreDataManager.shared.saveMealPlan(plan)
+                CloudManager.shared.saveCloudData(mealPlan: plan)
             }
             if var note = model.note {
                 note.index = newIndex
                 CoreDataManager.shared.saveMealPlanNote(note)
+                CloudManager.shared.saveCloudData(mealPlanNote: note)
             }
         }
     }
@@ -158,6 +160,7 @@ class MealPlanDataSource {
         editMealPlan.forEach {
             var updatePlan = MealPlan(copy: $0, date: date)
             CoreDataManager.shared.saveMealPlan(updatePlan)
+            CloudManager.shared.saveCloudData(mealPlan: updatePlan)
         }
     }
     
@@ -170,6 +173,7 @@ class MealPlanDataSource {
     
     func delete(mealPlan: MealPlan) {
         CoreDataManager.shared.deleteMealPlan(by: mealPlan.id)
+        CloudManager.shared.delete(recordType: .mealPlan, recordID: mealPlan.recordId)
         reloadData?()
     }
     
@@ -275,6 +279,9 @@ class MealPlanDataSource {
             labels.append(MealPlanLabel(defaultLabel: $0))
         }
         CoreDataManager.shared.saveLabel(labels)
+        labels.forEach {
+            CloudManager.shared.saveCloudData(mealPlanLabel: $0)
+        }
         UserDefaultsManager.shared.isFillingDefaultLabels = true
     }
 }

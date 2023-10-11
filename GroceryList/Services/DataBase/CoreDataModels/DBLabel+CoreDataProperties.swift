@@ -19,6 +19,7 @@ extension DBLabel {
     @NSManaged public var title: String?
     @NSManaged public var color: Int16
     @NSManaged public var index: Int16
+    @NSManaged public var recordId: String?
 
     static func prepare(fromPlainModel model: MealPlanLabel, context: NSManagedObjectContext) -> DBLabel {
         let dbLabel = DBLabel(context: context)
@@ -26,6 +27,7 @@ extension DBLabel {
         dbLabel.title = model.title
         dbLabel.color = Int16(model.color)
         dbLabel.index = Int16(model.index)
+        dbLabel.recordId = model.recordId
         return dbLabel
     }
 }
