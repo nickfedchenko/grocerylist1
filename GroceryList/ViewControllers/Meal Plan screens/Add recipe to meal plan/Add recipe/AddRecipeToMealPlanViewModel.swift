@@ -11,6 +11,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     
     var updateDestinationList: (() -> Void)?
     var updateLabels: (() -> Void)?
+    var selectedDate: ((Date) -> Void)?
     var mealPlan: MealPlan? {
         didSet { setMealPlan() }
     }
@@ -87,6 +88,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
         
         CoreDataManager.shared.saveMealPlan(newMealPlan)
         CloudManager.shared.saveCloudData(mealPlan: newMealPlan)
+        selectedDate?(date)
         router?.dismissAddRecipeToMealPlan()
     }
     

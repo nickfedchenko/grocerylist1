@@ -117,11 +117,14 @@ protocol ViewControllerFactoryProtocol {
                                        router: RootRouter) -> UIViewController
     func createImportWebRecipeController(router: RootRouter) -> UIViewController
     
-    func createSelectRecipeToMealPlan(router: RootRouter, date: Date, updateUI: (() -> Void)?) -> UIViewController
+    func createSelectRecipeToMealPlan(router: RootRouter, date: Date,
+                                      updateUI: (() -> Void)?, mealPlanDate: ((Date) -> Void)?) -> UIViewController
     func createSearchInMealPlan(router: RootRouter, date: Date) -> UIViewController
     func createRecipeCollectionFromMealPlan(for section: RecipeSectionsModel, date: Date, router: RootRouter) -> UIViewController
-    func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe, date: Date) -> UIViewController
-    func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe, mealPlan: MealPlan, updateUI: (() -> Void)?) -> UIViewController
+    func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe,
+                                  date: Date, selectedDate: ((Date) -> Void)?) -> UIViewController
+    func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe, mealPlan: MealPlan,
+                                  updateUI: (() -> Void)?, selectedDate: ((Date) -> Void)?) -> UIViewController
     func createDestinationList(router: RootRouter, delegate: DestinationListDelegate) -> UIViewController
     
     func createMealPlanLabels(router: RootRouter, label: MealPlanLabel?, isDisplayState: Bool, 

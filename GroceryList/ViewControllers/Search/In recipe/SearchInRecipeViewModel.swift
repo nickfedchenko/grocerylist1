@@ -247,7 +247,7 @@ final class SearchInRecipeViewModel {
               let recipe = Recipe(from: dbRecipe) else {
             return
         }
-        router?.goToRecipeFromMealPlan(recipe: recipe, date: mealPlanDate ?? Date())
+        router?.goToRecipeFromMealPlan(recipe: recipe, date: mealPlanDate ?? Date(), selectedDate: nil)
     }
     
     func showPaywall() {

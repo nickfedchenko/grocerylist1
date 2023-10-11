@@ -21,7 +21,7 @@ class MealPlanUpdateDateView: UIView {
     }()
     
     private lazy var calendarView: CalendarView = {
-        let view = CalendarView()
+        let view = CalendarView(viewScope: .month)
         view.delegate = self
         view.backgroundColor = .clear
         return view

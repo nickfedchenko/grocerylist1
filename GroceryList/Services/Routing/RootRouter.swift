@@ -477,9 +477,9 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func goToSelectRecipeToMealPlan(date: Date, updateUI: (() -> Void)?) {
+    func goToSelectRecipeToMealPlan(date: Date, updateUI: (() -> Void)?, mealPlanDate: ((Date) -> Void)?) {
         let navigationController = viewControllerFactory.createSelectRecipeToMealPlan(
-            router: self, date: date, updateUI: updateUI
+            router: self, date: date, updateUI: updateUI, mealPlanDate: mealPlanDate
         )
         topViewController?.present(navigationController, animated: true)
     }
@@ -498,8 +498,9 @@ final class RootRouter: RootRouterProtocol {
         navController?.pushViewController(recipeListVC, animated: true)
     }
     
-    func goToRecipeFromMealPlan(recipe: Recipe, date: Date) {
-        let controller = viewControllerFactory.createRecipeFromMealPlan(router: self, recipe: recipe, date: date)
+    func goToRecipeFromMealPlan(recipe: Recipe, date: Date, selectedDate: ((Date) -> Void)?) {
+        let controller = viewControllerFactory.createRecipeFromMealPlan(router: self, recipe: recipe,
+                                                                        date: date, selectedDate: selectedDate)
         if let navController = topViewController?.navigationController as? MealPlanNavigationController {
             navController.pushViewController(controller, animated: true)
         } else {
@@ -507,9 +508,10 @@ final class RootRouter: RootRouterProtocol {
         }
     }
     
-    func goToRecipeFromMealPlan(recipe: Recipe, mealPlan: MealPlan, updateUI: (() -> Void)?) {
+    func goToRecipeFromMealPlan(recipe: Recipe, mealPlan: MealPlan,
+                                updateUI: (() -> Void)?, selectedDate: ((Date) -> Void)?) {
         let controller = viewControllerFactory.createRecipeFromMealPlan(
-            router: self, recipe: recipe, mealPlan: mealPlan, updateUI: updateUI
+            router: self, recipe: recipe, mealPlan: mealPlan, updateUI: updateUI, selectedDate: selectedDate
         )
         topViewController?.present(controller, animated: true)
     }

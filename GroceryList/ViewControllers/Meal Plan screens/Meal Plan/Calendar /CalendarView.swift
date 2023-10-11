@@ -42,7 +42,7 @@ final class CalendarView: UIView {
         calendar.delegate = self
         calendar.register(CalendarCell.self, forCellReuseIdentifier: "cell")
 
-        calendar.scope = scope
+        calendar.scope = viewScope ?? scope
         calendar.firstWeekday = UInt(Calendar.current.firstWeekday)
         calendar.scrollDirection = .vertical
         calendar.pagingEnabled = true
@@ -94,18 +94,21 @@ final class CalendarView: UIView {
         return imageView
     }()
     private var currentCalendarCell: CalendarCell?
+    private var viewScope: FSCalendarScope?
     private var scope: FSCalendarScope {
         UserDefaultsManager.shared.selectedMonthOrWeek == 0 ? .month : .week
     }
     private(set) var selectedDate = Date()
     private(set) var selectedDates: [Date] = []
 
-    override init(frame: CGRect = .zero) {
-        super.init(frame: frame)
+    init(viewScope: FSCalendarScope? = nil) {
+        self.viewScope = viewScope
+        super.init(frame: .zero)
         setup()
     }
     
     required init?(coder: NSCoder) {
+        viewScope = .month
         super.init(coder: coder)
         setup()
     }
@@ -209,6 +212,7 @@ final class CalendarView: UIView {
     }
     
     private func setup() {
+        let scope = viewScope ?? scope
         let isMonth = scope == .month
         previousMonthButton.alpha = isMonth ? 0 : 1
         nextMonthButton.alpha = isMonth ? 0 : 1

@@ -19,7 +19,7 @@ class MealPlanContextMenuView: UIView {
         case addToShoppingList
         case moveCopyDelete
         case editLabels
-        case share
+//        case share
         case sendTo
 
         var title: String {
@@ -27,7 +27,7 @@ class MealPlanContextMenuView: UIView {
             case .addToShoppingList:    return R.string.localizable.addtoshoppinglisT()
             case .moveCopyDelete:       return R.string.localizable.moveCopyDelete()
             case .editLabels:           return R.string.localizable.editLabels()
-            case .share:                return R.string.localizable.share()
+//            case .share:                return R.string.localizable.share()
             case .sendTo:               return R.string.localizable.sendTo()
             }
         }
@@ -37,7 +37,7 @@ class MealPlanContextMenuView: UIView {
             case .addToShoppingList:    return R.image.contextMenuAddToCart()
             case .moveCopyDelete:       return R.image.contextMenuEdit()
             case .editLabels:           return R.image.contextMenuMarker()
-            case .share:                return R.image.contextMenuAddUser()
+//            case .share:                return R.image.contextMenuAddUser()
             case .sendTo:               return R.image.contextMenuSend()
             }
         }
@@ -78,9 +78,9 @@ class MealPlanContextMenuView: UIView {
     
     func configureSharing(state: SharingView.SharingState, color: UIColor, images: [String?]) {
         stackView.arrangedSubviews.forEach { view in
-            if view.tag == MainMenuState.share.rawValue {
-                (view as? ContextMenuSubView)?.setupSharingView(state: state, color: color, images: images)
-            }
+//            if view.tag == MainMenuState.share.rawValue {
+//                (view as? ContextMenuSubView)?.setupSharingView(state: state, color: color, images: images)
+//            }
         }
     }
     

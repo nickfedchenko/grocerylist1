@@ -22,7 +22,7 @@ class AddIngredientsToListCalendarView: UIView {
     }()
     
     private lazy var calendarView: CalendarView = {
-        let view = CalendarView()
+        let view = CalendarView(viewScope: .month)
         view.delegate = self
         view.allowsMultipleSelection = true
         view.backgroundColor = .clear

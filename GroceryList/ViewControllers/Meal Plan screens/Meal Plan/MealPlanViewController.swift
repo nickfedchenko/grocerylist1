@@ -173,6 +173,16 @@ class MealPlanViewController: UIViewController {
             self?.editTabBarView.setCountSelectedItems(self?.viewModel.editMealPlansCount() ?? 0)
         }
         
+        viewModel.reloadCalendar = { [weak self] date in
+            if self?.UDMSelectedMonthOrWeek == 0 {
+                return
+            }
+            DispatchQueue.main.async {
+                self?.calendarView.calendar.setCurrentPage(date, animated: true)
+                self?.calendarView.reloadData()
+            }
+        }
+        
         createDataSource()
         reloadDataSource()
         updatedTodayButton()
@@ -438,6 +448,7 @@ extension MealPlanViewController: CalendarViewDelegate {
     func selectedDate(_ date: Date) {
         updatedTodayButton(isActive: calendarView.selectedDate.onlyDate != Date().onlyDate)
         reloadDataSource()
+        collectionView.scrollToItem(at: .init(row: 0, section: 0), at: .bottom, animated: true)
     }
     
     func pageDidChange() {

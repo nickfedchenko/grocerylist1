@@ -598,11 +598,13 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return controller
     }
     
-    func createSelectRecipeToMealPlan(router: RootRouter, date: Date, updateUI: (() -> Void)?) -> UIViewController {
+    func createSelectRecipeToMealPlan(router: RootRouter, date: Date,
+                                      updateUI: (() -> Void)?, mealPlanDate: ((Date) -> Void)?) -> UIViewController {
         let dataSource = MainRecipeDataSource()
         let viewModel = SelectRecipeViewModel(dataSource: dataSource)
         viewModel.router = router
         viewModel.selectedDate = date
+        viewModel.mealPlanDate = mealPlanDate
         let controller = SelectRecipeViewController(viewModel: viewModel)
         let navigationController = MealPlanNavigationController(rootViewController: controller)
         navigationController.dismissController = updateUI
@@ -627,17 +629,21 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return recipeListVC
     }
     
-    func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe, date: Date) -> UIViewController {
+    func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe,
+                                  date: Date, selectedDate: ((Date) -> Void)?) -> UIViewController {
         let viewModel = AddRecipeToMealPlanViewModel(recipe: recipe, mealPlanDate: date)
         viewModel.router = router
+        viewModel.selectedDate = selectedDate
         let controller = AddRecipeToMealPlanViewController(viewModel: viewModel)
         return controller
     }
     
-    func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe, mealPlan: MealPlan, updateUI: (() -> Void)?) -> UIViewController {
+    func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe, mealPlan: MealPlan,
+                                  updateUI: (() -> Void)?, selectedDate: ((Date) -> Void)?) -> UIViewController {
         let viewModel = AddRecipeToMealPlanViewModel(recipe: recipe, mealPlanDate: mealPlan.date)
         viewModel.router = router
         viewModel.mealPlan = mealPlan
+        viewModel.selectedDate = selectedDate
         let controller = AddRecipeToMealPlanViewController(viewModel: viewModel)
         let navigationController = MealPlanNavigationController(rootViewController: controller)
         navigationController.dismissController = updateUI

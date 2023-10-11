@@ -11,6 +11,7 @@ class MealPlanViewModel {
     
     weak var router: RootRouter?
     var reloadData: (() -> Void)?
+    var reloadCalendar: ((Date) -> Void)?
     var updateEditMode: (() -> Void)?
     var updateEditTabBar: (() -> Void)?
     
@@ -95,6 +96,8 @@ class MealPlanViewModel {
     func showSelectRecipeToMealPlan(selectedDate: Date) {
         router?.goToSelectRecipeToMealPlan(date: selectedDate, updateUI: { [weak self] in
             self?.updateStorage()
+        }, mealPlanDate: { [weak self] date in
+            self?.reloadCalendar?(date.onlyDate)
         })
     }
     
@@ -107,7 +110,7 @@ class MealPlanViewModel {
         
         router?.goToRecipeFromMealPlan(recipe: recipe, mealPlan: mealPlan, updateUI: { [weak self] in
             self?.updateStorage()
-        })
+        }, selectedDate: nil)
     }
     
     func showAddNoteToMealPlan(by date: Date, for index: IndexPath? = nil) {
@@ -193,14 +196,7 @@ class MealPlanViewModel {
             router?.goToSharingPopUp()
             return
         }
-        // TODO: отправка на бэк данных о расшаренном плане
-//        let users = SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
-//        var shareModel = model
-//        if let dbModel = CoreDataManager.shared.getList(list: model.id.uuidString),
-//            let model = GroceryListsModel(from: dbModel) {
-//            shareModel = model
-//        }
-//        router?.goToSharingList(listToShare: shareModel, users: users)
+        // TODO: дописать шаринг
     }
     
     private func showLabel() {
@@ -304,8 +300,8 @@ extension MealPlanViewModel: MealPlanContextMenuViewDelegate {
             editMode(isEdit: true)
         case .editLabels:
             showLabel()
-        case .share:
-            sharingTapped()
+//        case .share:
+//            sharingTapped()
         case .sendTo:
             router?.showActivityVC(image: [sendToMealPlanByText()])
         }
