@@ -210,7 +210,7 @@ class MealPlanViewController: UIViewController {
                   let section = self.dataSource?.snapshot().sectionIdentifier(containingItem: model) else {
                 return sectionHeader ?? UICollectionReusableView()
             }
-            sectionHeader?.setupHeader(section: section, index: indexPath)
+            sectionHeader?.setupHeader(section: section)
             sectionHeader?.configure(labelColors: self.viewModel.getLabelColors(by: section.date))
             sectionHeader?.delegate = self
             return sectionHeader
@@ -520,18 +520,16 @@ extension MealPlanViewController: MealPlanCellDelegate {
 extension MealPlanViewController: MealPlanHeaderCellDelegate {
     func addNote(_ cell: MealPlanHeaderCell) {
         var date = calendarView.selectedDate
-        if let index = cell.index,
-           let model = dataSource?.itemIdentifier(for: index) {
-            date = model.date
+        if let dateFromCell = cell.date {
+            date = dateFromCell
         }
         viewModel.showAddNoteToMealPlan(by: date)
     }
     
     func addRecipe(_ cell: MealPlanHeaderCell) {
         var date = calendarView.selectedDate
-        if let index = cell.index,
-           let model = dataSource?.itemIdentifier(for: index) {
-            date = model.date
+        if let dateFromCell = cell.date {
+            date = dateFromCell
         }
         viewModel.showSelectRecipeToMealPlan(selectedDate: date)
     }

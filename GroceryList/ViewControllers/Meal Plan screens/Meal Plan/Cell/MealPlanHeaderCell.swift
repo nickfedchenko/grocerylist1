@@ -55,7 +55,7 @@ class MealPlanHeaderCell: UICollectionReusableView {
         return stackView
     }()
     
-    private(set) var index: IndexPath?
+    private(set) var date: Date?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -77,12 +77,14 @@ class MealPlanHeaderCell: UICollectionReusableView {
         labelStackView.removeAllArrangedSubviews()
         separatorView.isHidden = true
         containerView.isHidden = true
+        date = nil
     }
     
-    func setupHeader(section: MealPlanSection, index: IndexPath) {
+    func setupHeader(section: MealPlanSection) {
         weekdayLabel.text = section.date.getStringDate(format: "EEEE").uppercased()
         dateLabel.text = section.date.getStringDate(format: "ddMMyyyy")
-        self.index = index
+        self.date = section.date
+        
         let bottomOffset: Int
         let height: Int
         switch section.sectionType {
