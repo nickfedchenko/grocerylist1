@@ -80,6 +80,7 @@ class AddIngredientsToListViewController: UIViewController {
         collectionView.contentInset.bottom = 120
         collectionView.contentInset.top = 84
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(classCell: AddIngredientsToListCell.self)
         collectionView.registerHeader(classHeader: AddIngredientsToListHeaderCell.self)
@@ -114,7 +115,7 @@ class AddIngredientsToListViewController: UIViewController {
         return layoutSectionHeader
     }()
     
-    private var dataSource: UICollectionViewDiffableDataSource<AddIngredientsToListHeaderModel, IngredientForMealPlan>?
+//    private var dataSource: UICollectionViewDiffableDataSource<AddIngredientsToListHeaderModel, IngredientForMealPlan>?
     private var dateButtonTopConstraint: Constraint?
     private var dateButtonBottomConstraint: Constraint?
     
@@ -136,22 +137,19 @@ class AddIngredientsToListViewController: UIViewController {
             DispatchQueue.main.async {
                 self?.datesButton.setTitle(self?.viewModel.dates(), for: .normal)
                 self?.destinationListView.configure(list: self?.viewModel.getDestinationListTitle() ?? "")
-                self?.reloadDataSource()
+                self?.collectionView.reloadData()
             }
         }
         viewModel.updateDestinationList = { [weak self] in
             self?.destinationListView.configure(list: self?.viewModel.getDestinationListTitle() ?? "")
         }
-        viewModel.getImageData = { [weak self] model in
-            guard let index = self?.dataSource?.indexPath(for: model),
-                  let cell = self?.collectionView.cellForItem(at: index) as? AddIngredientsToListCell else {
+        viewModel.getImageData = { [weak self] index in
+            guard let cell = self?.collectionView.cellForItem(at: index) as? AddIngredientsToListCell else {
                       return nil
                   }
             return cell.info
         }
         
-        createDataSource()
-        reloadDataSource()
         setupCalendar()
         setupDestinationList()
         setupMenu()
@@ -205,55 +203,6 @@ class AddIngredientsToListViewController: UIViewController {
         
         menuView.fadeOutView = { [weak self] in
             self?.menuView.fadeOut()
-        }
-    }
-
-    private func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
-                                                        cellProvider: { [weak self] _, indexPath, model in
-            guard let self else {
-                return UICollectionViewCell()
-            }
-            let cell = self.collectionView.reusableCell(classCell: AddIngredientsToListCell.self, indexPath: indexPath)
-            var quantity = model.ingredient.quantity
-            var unitTitle = model.ingredient.unit?.shortTitle ?? ""
-            if let unit = self.viewModel.unit(unitID: model.ingredient.unit?.id) {
-                quantity *= self.viewModel.convertValue(unitID: model.ingredient.unit?.id)
-                unitTitle = unit.title
-            }
-            let serving = quantity == 0 ? R.string.localizable.byTaste() : quantity.asString + " " + unitTitle
-            cell.configure(ingredient: model.ingredient, serving: serving, state: model.state)
-            cell.configureInStock(isVisible: model.state == .inStock, color: viewModel.getPantryColor(ingredient: model))
-            cell.tapInStockCross = { [weak self] in
-                self?.viewModel.removeInStockInfo(ingredient: model)
-            }
-            return cell
-        })
-        
-        dataSource?.supplementaryViewProvider = { [weak self] collectionView, _, indexPath in
-            guard let self else {
-                return UICollectionViewCell()
-            }
-            let sectionHeader = collectionView.reusableHeader(classHeader: AddIngredientsToListHeaderCell.self, indexPath: indexPath)
-            guard let model = self.dataSource?.itemIdentifier(for: indexPath),
-                  let section = self.dataSource?.snapshot().sectionIdentifier(containingItem: model) else {
-                return sectionHeader ?? UICollectionReusableView()
-            }
-            sectionHeader?.configure(model: section)
-            return sectionHeader
-        }
-    }
-    
-    private func reloadDataSource() {
-        var snapshot = NSDiffableDataSourceSnapshot<AddIngredientsToListHeaderModel, IngredientForMealPlan>()
-        let sections = viewModel.getSections()
-        for section in sections {
-            snapshot.appendSections([section])
-            snapshot.appendItems(section.products, toSection: section)
-        }
-        
-        DispatchQueue.main.async {
-            self.dataSource?.apply(snapshot, animatingDifferences: true)
         }
     }
     
@@ -343,9 +292,62 @@ class AddIngredientsToListViewController: UIViewController {
     }
 }
 
+extension AddIngredientsToListViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        viewModel.getSections().count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        let sections = viewModel.getSections()
+        return sections[safe: section]?.products.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.reusableCell(classCell: AddIngredientsToListCell.self, indexPath: indexPath)
+        guard let model = viewModel.getSections()[safe: indexPath.section]?.products[safe: indexPath.row] else {
+            return cell
+        }
+        var quantity = model.ingredient.quantity
+        var unitTitle = model.ingredient.unit?.shortTitle ?? ""
+        if let unit = self.viewModel.unit(unitID: model.ingredient.unit?.id) {
+            quantity *= self.viewModel.convertValue(unitID: model.ingredient.unit?.id)
+            unitTitle = unit.title
+        }
+        let serving = quantity == 0 ? R.string.localizable.byTaste() : quantity.asString + " " + unitTitle
+        cell.configure(ingredient: model.ingredient, serving: serving, state: model.state)
+        cell.configureInStock(isVisible: model.state == .inStock, color: viewModel.getPantryColor(ingredient: model))
+        cell.tapInStockCross = { [weak self] in
+            self?.viewModel.removeInStockInfo(ingredient: model)
+        }
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let sectionHeader = collectionView.reusableHeader(classHeader: AddIngredientsToListHeaderCell.self,
+                                                                indexPath: indexPath),
+              let section = viewModel.getSections()[safe: indexPath.section]  else {
+            return UICollectionReusableView()
+        }
+        sectionHeader.configure(model: section)
+        return sectionHeader
+    }
+}
+
 extension AddIngredientsToListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let model = viewModel.getSections()[safe: indexPath.section]?.products[safe: indexPath.row],
+              let cell = collectionView.cellForItem(at: indexPath) as? AddIngredientsToListCell else {
+            return
+        }
         viewModel.updateState(indexPath: indexPath)
+        let state = viewModel.getState(indexPath: indexPath)
+        cell.updateState(state: state)
+        cell.configureInStock(isVisible: state == .inStock,
+                              color: viewModel.getPantryColor(ingredient: model))
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

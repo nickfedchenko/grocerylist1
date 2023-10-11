@@ -138,6 +138,8 @@ class AddIngredientsToListCell: UICollectionViewCell {
     func configureInStock(isVisible: Bool, color: UIColor?) {
         foundInPantryView.isHidden = !isVisible
         guard isVisible else {
+            contentViews.snp.updateConstraints { $0.top.equalToSuperview().offset(0) }
+            setNeedsUpdateConstraints()
             return
         }
         stateImageView.image = stateImageView.image?.withTintColor(color ?? .black)
@@ -147,8 +149,12 @@ class AddIngredientsToListCell: UICollectionViewCell {
         }
     }
     
+    func updateState(state: IngredientState) {
+        stateImageView.image = state.image
+        whiteCheckmarkImageView.isHidden = state != .inStock
+    }
+    
     private func setupImage(imageData: Data?, imageURL: String?) {
-        productImageView.image = nil
         if let imageData {
             productImageView.image = UIImage(data: imageData)
             return

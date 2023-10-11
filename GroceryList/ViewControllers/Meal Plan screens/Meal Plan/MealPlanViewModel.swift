@@ -65,7 +65,8 @@ class MealPlanViewModel {
     }
     
     func getLabel(by date: Date, for index: IndexPath, type: MealPlanCellType) -> (text: String, color: UIColor) {
-        guard let label = dataSource.getLabel(by: date, for: index, type: type) else {
+        guard let label = dataSource.getLabel(by: date, for: index, type: type),
+              label.id != DefaultLabel.none.id else {
             return ("", .clear)
         }
         let color = colorManager.getLabelColor(index: label.color)

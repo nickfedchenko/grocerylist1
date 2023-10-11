@@ -12,7 +12,7 @@ class AddIngredientsToListViewModel {
     weak var router: RootRouter?
     var reloadData: (() -> Void)?
     var updateDestinationList: (() -> Void)?
-    var getImageData: ((IngredientForMealPlan) -> (Data?))?
+    var getImageData: ((IndexPath) -> (Data?))?
     
     private let startDate: Date
     private var selectedDate: [Date]
@@ -108,7 +108,10 @@ class AddIngredientsToListViewModel {
             } else {
                 break
             }
-
+            var image: Data?
+            if let index = getIndexOfIngredient(ingredientForMealPlan) {
+                image = getImageData?(index)
+            }
             let netProduct = ingredientForMealPlan.ingredient.product
             let product = Product(listId: destinationList,
                                   name: netProduct.title,
@@ -116,7 +119,7 @@ class AddIngredientsToListViewModel {
                                   dateOfCreation: Date(),
                                   category: netProduct.marketCategory?.title ?? "",
                                   isFavorite: false,
-                                  imageData: getImageData?(ingredientForMealPlan),
+                                  imageData: image,
                                   description: "",
                                   fromMealPlan: ingredientForMealPlan.mealPlanId)
             CoreDataManager.shared.createProduct(product: product)
@@ -203,7 +206,10 @@ class AddIngredientsToListViewModel {
         } else {
             selectedIngredients.append(updatedIngredient)
         }
-        reloadData?()
+    }
+    
+    func getState(indexPath: IndexPath) -> IngredientState {
+        recipes[indexPath.section].ingredients[indexPath.row].state
     }
     
     func removeInStockInfo(ingredient: IngredientForMealPlan) {
@@ -336,6 +342,19 @@ class AddIngredientsToListViewModel {
                                    createdAt: Date(),
                                    ingredients: $0.value)
         }
+    }
+    
+    private func getIndexOfIngredient(_ ingredientForMealPlan: IngredientForMealPlan) -> IndexPath? {
+        let sections = getSections()
+        
+        for (sectionIndex, section) in sections.enumerated() {
+            for (index, ingredient) in section.products.enumerated() {
+                if ingredient == ingredientForMealPlan {
+                    return IndexPath(row: index, section: sectionIndex)
+                }
+            }
+        }
+        return nil
     }
 }
 

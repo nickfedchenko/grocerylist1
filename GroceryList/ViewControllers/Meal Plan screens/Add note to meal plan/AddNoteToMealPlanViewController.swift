@@ -246,6 +246,7 @@ extension AddNoteToMealPlanViewController: MealPlanNoteTitleViewDelegate {
 
 extension AddNoteToMealPlanViewController: MealPlanDateViewDelegate {
     func selectDate() {
+        dismissKeyboard()
         calendarView.fadeIn()
     }
 }
