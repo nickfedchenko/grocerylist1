@@ -61,6 +61,7 @@ class AddNoteToMealPlanViewModel {
                                    date: date, label: label?.id)
         }
         CoreDataManager.shared.saveMealPlanNote(newNote)
+        CloudManager.shared.saveCloudData(mealPlanNote: newNote)
         updateUI?()
     }
     

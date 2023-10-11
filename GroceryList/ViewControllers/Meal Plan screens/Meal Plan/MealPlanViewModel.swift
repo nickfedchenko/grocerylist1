@@ -32,6 +32,9 @@ class MealPlanViewModel {
         dataSource.reloadData = { [weak self] in
             self?.reloadData?()
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDataSource),
+                                               name: .cloudMealPlans, object: nil)
     }
     
     func getMealPlanSections(by date: Date) -> [MealPlanSection] {
@@ -279,6 +282,13 @@ class MealPlanViewModel {
         })
         
         return recipeTitle
+    }
+    
+    @objc
+    private func updateDataSource() {
+        DispatchQueue.main.async {
+            self.updateStorage()
+        }
     }
 }
 

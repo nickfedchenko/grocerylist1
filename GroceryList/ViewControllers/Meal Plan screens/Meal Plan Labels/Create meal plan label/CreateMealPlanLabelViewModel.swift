@@ -65,6 +65,7 @@ class CreateMealPlanLabelViewModel {
         }
         
         CoreDataManager.shared.saveLabel([newLabel])
+        CloudManager.shared.saveCloudData(mealPlanLabel: newLabel)
         updateLabels?()
     }
     

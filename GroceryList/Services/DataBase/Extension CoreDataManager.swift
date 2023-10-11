@@ -600,6 +600,9 @@ extension CoreDataManager {
         resetRecordId(request: DBStock.fetchRequest()) { $0.recordId = "" }
         resetRecordId(request: DBCollection.fetchRequest()) { $0.recordId = "" }
         resetRecordId(request: DBRecipe.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBMealPlan.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBMealPlanNote.fetchRequest()) { $0.recordId = "" }
+        resetRecordId(request: DBLabel.fetchRequest()) { $0.recordId = "" }
     }
     
     // MARK: - Meal Plan
@@ -637,6 +640,16 @@ extension CoreDataManager {
         let fetchRequest = DBLabel.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
         if let object = fetch(request: fetchRequest, context: context).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
+    func removeLabel(recordId: String) {
+        let context = coreData.container.viewContext
+        let fetchRequest = DBLabel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "recordId = '\(recordId)'")
+        if let object = try? context.fetch(fetchRequest).first {
             context.delete(object)
         }
         try? context.save()
@@ -690,6 +703,16 @@ extension CoreDataManager {
         try? context.save()
     }
     
+    func removeMealPlan(recordId: String) {
+        let context = coreData.container.viewContext
+        let fetchRequest = DBMealPlan.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "recordId = '\(recordId)'")
+        if let object = try? context.fetch(fetchRequest).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
     func saveMealPlanNote(_ note: MealPlanNote) {
         let asyncContext = coreData.taskContext
         asyncContext.performAndWait {
@@ -721,6 +744,16 @@ extension CoreDataManager {
         let fetchRequest = DBMealPlanNote.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = '\(id)'")
         if let object = fetch(request: fetchRequest, context: context).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
+    func removeMealPlanNote(recordId: String) {
+        let context = coreData.container.viewContext
+        let fetchRequest = DBMealPlanNote.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "recordId = '\(recordId)'")
+        if let object = try? context.fetch(fetchRequest).first {
             context.delete(object)
         }
         try? context.save()

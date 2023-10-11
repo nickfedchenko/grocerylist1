@@ -84,6 +84,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
         }
         
         CoreDataManager.shared.saveMealPlan(newMealPlan)
+        CloudManager.shared.saveCloudData(mealPlan: newMealPlan)
         router?.dismissAddRecipeToMealPlan()
     }
     
