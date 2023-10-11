@@ -203,7 +203,7 @@ class MealPlanViewModel {
     }
     
     private func showLabel() {
-        router?.goToMealPlanLabels(label: nil, updateUI: { _ in })
+        router?.goToMealPlanLabels(label: nil, isDisplayState: true, updateUI: { _ in })
     }
     
     private func sendToMealPlanByText() -> String {

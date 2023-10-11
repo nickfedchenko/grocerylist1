@@ -74,7 +74,7 @@ class AddNoteToMealPlanViewModel {
     }
     
     func showLabels() {
-        router?.goToMealPlanLabels(label: mealPlanLabel,
+        router?.goToMealPlanLabels(label: mealPlanLabel, isDisplayState: false,
                                    updateUI: { [weak self] selectedLabel in
             self?.mealPlanLabel = selectedLabel
             self?.getLabelsFromStorage()

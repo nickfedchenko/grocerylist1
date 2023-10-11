@@ -126,7 +126,7 @@ class MealPlanRecipeView: UIView {
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(timeBadgeView.snp.bottom)
             make.leading.equalTo(mainImage.snp.trailing).offset(8)
-            make.trailing.equalToSuperview().inset(64)
+            make.trailing.equalToSuperview().inset(8)
             make.bottom.equalToSuperview()
         }
         

@@ -193,6 +193,10 @@ extension MealPlanLabelsViewController: UITableViewDelegate {
             viewModel.createNewLabel()
             return
         }
+        guard !viewModel.isDisplayState else {
+            return
+        }
+        
         viewModel.updateSelect(by: indexPath.row - 1)
     }
     

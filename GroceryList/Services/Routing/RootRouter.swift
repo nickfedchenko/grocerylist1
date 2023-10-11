@@ -519,8 +519,9 @@ final class RootRouter: RootRouterProtocol {
         topViewController?.present(controller, animated: true)
     }
 
-    func goToMealPlanLabels(label: MealPlanLabel?, updateUI: ((MealPlanLabel?) -> Void)?) {
-        let controller = viewControllerFactory.createMealPlanLabels(router: self, label: label, updateUI: updateUI)
+    func goToMealPlanLabels(label: MealPlanLabel?, isDisplayState: Bool, updateUI: ((MealPlanLabel?) -> Void)?) {
+        let controller = viewControllerFactory.createMealPlanLabels(router: self, label: label,
+                                                                    isDisplayState: isDisplayState, updateUI: updateUI)
         topViewController?.present(controller, animated: true)
     }
     

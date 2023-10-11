@@ -113,7 +113,8 @@ class MainRecipeViewController: UIViewController {
     func updateCollectionContentInset() {
         let topContentInset = navigationView.frame.height - topContentInset
         let contentInset: CGFloat = recipeIsFolderView ? -8 : 8
-        recipesCollectionView.contentInset.top = topContentInset + contentInset
+        let seOffset: CGFloat = UIDevice.isSE2 ? 40 : 0
+        recipesCollectionView.contentInset.top = topContentInset + contentInset + seOffset
     }
     
     private func viewModelChanges() {

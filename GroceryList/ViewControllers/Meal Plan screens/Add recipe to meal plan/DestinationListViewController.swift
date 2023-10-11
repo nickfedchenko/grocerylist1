@@ -41,7 +41,8 @@ class DestinationListViewController: EditSelectListViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let model = collectionViewDataSource?.itemIdentifier(for: indexPath) else { return }
-        destinationListDelegate?.selectedListId(model.id)
-        dismiss(animated: true)
+        dismiss(animated: true) {
+            self.destinationListDelegate?.selectedListId(model.id)
+        }
     }
 }

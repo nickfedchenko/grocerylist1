@@ -73,7 +73,7 @@ class MealPlanViewController: UIViewController {
         let layout = compositionalLayout
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
-        collectionView.contentInset.bottom = 110
+        collectionView.contentInset.bottom = UIDevice.isSE2 ? 20 : 60
         collectionView.contentInset.top = 16
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
@@ -398,12 +398,13 @@ class MealPlanViewController: UIViewController {
         calendarView.snp.makeConstraints {
             $0.top.equalTo(segmentedControl.snp.bottom).offset(12)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(364)
+            $0.height.equalTo(UIDevice.isSE2 ? 300 : 364)
         }
         
         collectionView.snp.makeConstraints {
             $0.top.equalTo(calendarView.snp.bottom)
             $0.horizontalEdges.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
         
         noEntiresLabel.snp.makeConstraints {

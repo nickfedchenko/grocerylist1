@@ -42,6 +42,8 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
         guard let listId = destinationListId,
               let dbList = CoreDataManager.shared.getList(list: listId.uuidString),
               let list = GroceryListsModel(from: dbList) else {
+            UserDefaultsManager.shared.defaultDestinationListId = nil
+            destinationListId = nil
             return nil
         }
         return list.name
@@ -131,7 +133,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     }
     
     func showLabels() {
-        router?.goToMealPlanLabels(label: mealPlanLabel,
+        router?.goToMealPlanLabels(label: mealPlanLabel, isDisplayState: false,
                                    updateUI: { [weak self] selectedLabel in
             self?.mealPlanLabel = selectedLabel
             self?.getLabelsFromStorage()

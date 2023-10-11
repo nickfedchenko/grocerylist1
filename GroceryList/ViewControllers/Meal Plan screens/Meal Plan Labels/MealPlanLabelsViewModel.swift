@@ -11,6 +11,7 @@ class MealPlanLabelsViewModel {
     
     weak var router: RootRouter?
     var updateUI: ((MealPlanLabel?) -> Void)?
+    let isDisplayState: Bool
     
     var reloadData: (() -> Void)?
     var necessaryHeight: Double {
@@ -26,8 +27,9 @@ class MealPlanLabelsViewModel {
     private var hasBeenChangedLabel = false
     private let colorManager = ColorManager.shared
     
-    init(label: MealPlanLabel?) {
+    init(label: MealPlanLabel?, isDisplayState: Bool) {
         currentLabel = label
+        self.isDisplayState = isDisplayState
         getLabelFromStorage()
     }
     
