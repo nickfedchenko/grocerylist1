@@ -16,6 +16,8 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
         didSet { setMealPlan() }
     }
     
+    var updatedSharingPlan: (() -> Void)?
+    
     private var allMealPlans: [MealPlan] = []
     private let colorManager = ColorManager.shared
     private(set) var labels: [MealPlanLabel] = []
@@ -27,6 +29,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     private var isContinueSaving = false
     private var isContinueAddToCart = false
     private var ingredientsPhoto: [Data?] = []
+    private var changedDate = false
     
     init(recipe: Recipe, mealPlanDate: Date) {
         self.mealPlanDate = mealPlanDate
@@ -76,11 +79,14 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
         let label = mealPlanLabel
         let newMealPlan: MealPlan
         if var mealPlan {
+            changedDate = mealPlan.date != date
             mealPlan.date = date
             mealPlan.label = label?.id
             mealPlan.destinationListId = destinationListId
+            mealPlan = ifNeedUpdatedSharedMealPlan(mealPlan: mealPlan)
             newMealPlan = mealPlan
         } else {
+            changedDate = true
             newMealPlan = MealPlan(recipeId: recipe.id, date: date,
                                    label: label?.id,
                                    destinationListId: destinationListId)
@@ -89,6 +95,9 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
         CoreDataManager.shared.saveMealPlan(newMealPlan)
         CloudManager.shared.saveCloudData(mealPlan: newMealPlan)
         selectedDate?(date)
+        if changedDate {
+            updatedSharingPlan?()
+        }
         router?.dismissAddRecipeToMealPlan()
     }
     
@@ -162,6 +171,19 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
             labels[index].isSelected = label.id == mealPlanLabel?.id
         }
         updateLabels?()
+    }
+    
+    private func ifNeedUpdatedSharedMealPlan(mealPlan: MealPlan) -> MealPlan {
+        guard UserAccountManager.shared.getUser() != nil,
+              let mealPlansSharedInfo = CoreDataManager.shared.getMealListSharedInfo(),
+              let sharedInfo = mealPlansSharedInfo.first(where: { mealPlan.sharedId == $0.mealListId }) else {
+            return mealPlan
+        }
+        var updatedMealPlan = mealPlan
+        if let createdAt = sharedInfo.createdAt, updatedMealPlan.date < createdAt {
+            updatedMealPlan.sharedId = ""
+        }
+        return updatedMealPlan
     }
     
     private func getMealPlansFromStorage() {

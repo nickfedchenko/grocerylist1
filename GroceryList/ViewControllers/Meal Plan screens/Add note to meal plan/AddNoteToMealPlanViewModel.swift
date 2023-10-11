@@ -11,6 +11,7 @@ class AddNoteToMealPlanViewModel {
     
     weak var router: RootRouter?
     var updateUI: (() -> Void)?
+    var updatedSharingPlan: (() -> Void)?
     
     var updateLabels: (() -> Void)?
     
@@ -48,21 +49,27 @@ class AddNoteToMealPlanViewModel {
     }
     
     func saveNote(title: String, details: String?, date: Date) {
+        let updateSharing: Bool
         let label = mealPlanLabel
         let newNote: MealPlanNote
         if var note {
+            updateSharing = note.date != date
             note.title = title
             note.details = details
             note.date = date
             note.label = label?.id
             newNote = note
         } else {
+            updateSharing = true
             newNote = MealPlanNote(title: title, details: details,
                                    date: date, label: label?.id)
         }
         CoreDataManager.shared.saveMealPlanNote(newNote)
         CloudManager.shared.saveCloudData(mealPlanNote: newNote)
         updateUI?()
+        if updateSharing {
+            updatedSharingPlan?()
+        }
     }
     
     func selectLabel(index: Int) {

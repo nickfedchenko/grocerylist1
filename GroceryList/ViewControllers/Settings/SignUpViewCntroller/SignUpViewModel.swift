@@ -267,6 +267,7 @@ class SignUpViewModel {
         UserAccountManager.shared.saveUser(user: userModel)
         SharedListManager.shared.connectToListAfterRegistration()
         SharedPantryManager.shared.connectToListAfterRegistration()
+        SharedMealPlanManager.shared.connectToListAfterRegistration()
         SocketManager.shared.connect()
         AmplitudeManager.shared.logEvent(.registerFromLink)
         router?.pop()

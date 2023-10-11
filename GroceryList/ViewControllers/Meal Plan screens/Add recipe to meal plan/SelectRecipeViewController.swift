@@ -12,6 +12,7 @@ class SelectRecipeViewModel: MainRecipeViewModel {
     
     var selectedDate: Date = Date()
     var mealPlanDate: ((Date) -> Void)?
+    var updatedSharingPlan: (() -> Void)?
     
     override func showSearch() {
 #if RELEASE
@@ -37,7 +38,8 @@ class SelectRecipeViewModel: MainRecipeViewModel {
               let model = Recipe(from: dbRecipe) else {
             return
         }
-        router?.goToRecipeFromMealPlan(recipe: model, date: selectedDate, selectedDate: mealPlanDate)
+        router?.goToRecipeFromMealPlan(recipe: model, date: selectedDate, selectedDate: mealPlanDate,
+                                       updatedSharingPlan: updatedSharingPlan)
     }
 }
 
@@ -87,7 +89,7 @@ class SelectRecipeViewController: MainRecipeViewController {
     override func recipeChangeViewAction() {
         isFolder.toggle()
         let image = isFolder ? R.image.recipeCollectionView() : R.image.recipeFolderView()
-        let contentInset: CGFloat = isFolder ? 58 : 68
+        let contentInset: CGFloat = isFolder ? 68 : 78
         recipeChangeViewButton.setImage(image, for: .normal)
 
         DispatchQueue.main.async {

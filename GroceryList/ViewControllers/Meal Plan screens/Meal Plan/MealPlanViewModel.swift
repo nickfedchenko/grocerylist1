@@ -36,6 +36,9 @@ class MealPlanViewModel {
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateDataSource),
                                                name: .cloudMealPlans, object: nil)
+        SharedMealPlanManager.shared.fetchMyMealPlans()
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDataSource),
+                                               name: .sharedMealPlanDownloadedAndSaved, object: nil)
     }
     
     func getMealPlanSections(by date: Date) -> [MealPlanSection] {
@@ -87,17 +90,22 @@ class MealPlanViewModel {
         dataSource.updateIndexAfterMove(cellModels: cellModels)
         updateStorage()
     }
-    
+   
     func updateStorage() {
-        dataSource.getMealPlansFromStorage()
-        reloadData?()
+        self.dataSource.getMealPlansFromStorage()
+        self.reloadData?()
     }
     
     func showSelectRecipeToMealPlan(selectedDate: Date) {
-        router?.goToSelectRecipeToMealPlan(date: selectedDate, updateUI: { [weak self] in
+        self.selectedDate = selectedDate
+        router?.goToSelectRecipeToMealPlan(date: selectedDate,
+                                           updateUI: { [weak self] in
             self?.updateStorage()
         }, mealPlanDate: { [weak self] date in
             self?.reloadCalendar?(date.onlyDate)
+        }, updatedSharingPlan: { [weak self] in
+            self?.updateStorage()
+            self?.updateSharingMealPlan()
         })
     }
     
@@ -107,10 +115,14 @@ class MealPlanViewModel {
               let recipe = Recipe(from: dbRecipe) else {
             return
         }
-        
-        router?.goToRecipeFromMealPlan(recipe: recipe, mealPlan: mealPlan, updateUI: { [weak self] in
+        selectedDate = mealPlan.date
+        router?.goToRecipeFromMealPlan(recipe: recipe, mealPlan: mealPlan,
+                                       updateUI: { [weak self] in
             self?.updateStorage()
-        }, selectedDate: nil)
+        }, selectedDate: nil, updatedSharingPlan: { [weak self] in
+            self?.updateStorage()
+            self?.updateSharingMealPlan()
+        })
     }
     
     func showAddNoteToMealPlan(by date: Date, for index: IndexPath? = nil) {
@@ -122,13 +134,15 @@ class MealPlanViewModel {
         router?.goToAddNoteToMealPlan(note: note, date: note?.date ?? date,
                                       updateUI: { [weak self] in
             self?.updateStorage()
+        }, updatedSharingPlan: { [weak self] in
+            self?.updateStorage()
+            self?.updateSharingMealPlan()
         })
     }
     
     func showContextMenu(date: Date) {
         selectedDate = date
-        let mealPlan = dataSource.sdsd(date: date)
-        router?.goToMealPlanContextMenu(contextDelegate: self, mealPlan: mealPlan)
+        router?.goToMealPlanContextMenu(contextDelegate: self)
     }
     
     func editMode(isEdit: Bool) {
@@ -162,6 +176,7 @@ class MealPlanViewModel {
         moveEditMeals()
         resetEditProducts()
         updateStorage()
+        updateSharingMealPlan()
     }
     
     func showCalendar(currentDate: Date, isCopy: Bool) {
@@ -173,6 +188,7 @@ class MealPlanViewModel {
             }
             self?.resetEditProducts()
             self?.updateStorage()
+            self?.updateSharingMealPlan()
         })
     }
     
@@ -180,6 +196,7 @@ class MealPlanViewModel {
         dataSource.deleteEditMealPlans()
         updateStorage()
         updateEditTabBar?()
+        updateSharingMealPlan()
     }
     
     func resetEditProducts() {
@@ -196,7 +213,18 @@ class MealPlanViewModel {
             router?.goToSharingPopUp()
             return
         }
-        // TODO: дописать шаринг
+        let users = SharedMealPlanManager.shared.allUsers
+        
+        var date = Date()
+        var mealListId = ""
+        if let mealPlansSharedInfo = CoreDataManager.shared.getMealListSharedInfo(),
+           let owner = mealPlansSharedInfo.first(where: { $0.isOwner == true }) {
+            date = owner.createdAt ?? Date()
+            mealListId = owner.mealListId ?? ""
+        }
+        
+        let plans = dataSource.getMealPlanForSharing(date: date, mealListId: mealListId)
+        router?.goToSharingMealPlan(users: users, mealPlanForSharing: plans)
     }
     
     private func showLabel() {
@@ -237,7 +265,7 @@ class MealPlanViewModel {
     private func getLabelTitle(labelId: UUID?) -> String? {
         guard let labelId,
               let dbLabel = CoreDataManager.shared.getLabel(id: labelId.uuidString),
-              let title = dbLabel.title else {
+              let title = dbLabel.title?.localized else {
             return nil
         }
         return title.uppercased() + "\n"
@@ -287,6 +315,19 @@ class MealPlanViewModel {
             self.updateStorage()
         }
     }
+    
+    private func updateSharingMealPlan() {
+        guard UserAccountManager.shared.getUser() != nil,
+              let mealPlansSharedInfo = CoreDataManager.shared.getMealListSharedInfo() else {
+            return
+        }
+        
+        mealPlansSharedInfo.forEach { info in
+            let plans = dataSource.getMealPlanForSharing(date: info.createdAt ?? Date(),
+                                                         mealListId: info.mealListId ?? "")
+            SharedMealPlanManager.shared.updateMealPlan(mealPlans: plans)
+        }
+    }
 }
 
 extension MealPlanViewModel: MealPlanContextMenuViewDelegate {
@@ -300,8 +341,8 @@ extension MealPlanViewModel: MealPlanContextMenuViewDelegate {
             editMode(isEdit: true)
         case .editLabels:
             showLabel()
-//        case .share:
-//            sharingTapped()
+        case .share:
+            sharingTapped()
         case .sendTo:
             router?.showActivityVC(image: [sendToMealPlanByText()])
         }

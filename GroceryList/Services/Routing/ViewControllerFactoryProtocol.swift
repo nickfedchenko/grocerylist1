@@ -57,6 +57,7 @@ protocol ViewControllerFactoryProtocol {
     func createEnterNewPasswordController(router: RootRouter) -> UIViewController?
     func createSharingPopUpController(router: RootRouter, compl: (() -> Void)?) -> UIViewController
     func createStopSharingPopUpController(user: User,
+                                          state: SharingListViewModel.State,
                                           listToShareModel: GroceryListsModel?,
                                           pantryToShareModel: PantryModel?,
                                           updateUI: ((Bool) -> Void)?) -> UIViewController
@@ -118,13 +119,16 @@ protocol ViewControllerFactoryProtocol {
     func createImportWebRecipeController(router: RootRouter) -> UIViewController
     
     func createSelectRecipeToMealPlan(router: RootRouter, date: Date,
-                                      updateUI: (() -> Void)?, mealPlanDate: ((Date) -> Void)?) -> UIViewController
+                                      updateUI: (() -> Void)?, mealPlanDate: ((Date) -> Void)?,
+                                      updatedSharingPlan: (() -> Void)?) -> UIViewController
     func createSearchInMealPlan(router: RootRouter, date: Date) -> UIViewController
     func createRecipeCollectionFromMealPlan(for section: RecipeSectionsModel, date: Date, router: RootRouter) -> UIViewController
     func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe,
-                                  date: Date, selectedDate: ((Date) -> Void)?) -> UIViewController
+                                  date: Date, selectedDate: ((Date) -> Void)?,
+                                  updatedSharingPlan: (() -> Void)?) -> UIViewController
     func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe, mealPlan: MealPlan,
-                                  updateUI: (() -> Void)?, selectedDate: ((Date) -> Void)?) -> UIViewController
+                                  updateUI: (() -> Void)?, selectedDate: ((Date) -> Void)?,
+                                  updatedSharingPlan: (() -> Void)?) -> UIViewController
     func createDestinationList(router: RootRouter, delegate: DestinationListDelegate) -> UIViewController
     
     func createMealPlanLabels(router: RootRouter, label: MealPlanLabel?, isDisplayState: Bool, 

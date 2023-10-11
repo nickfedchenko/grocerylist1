@@ -19,31 +19,6 @@ struct SharePantryResponse: Codable {
     }
 }
 
-struct PantryListReleaseResponse: Codable {
-    var error: Bool
-    var messages: [String]
-    var success: Bool?
-    var id: String?
-}
-
-struct PantryListDeleteResponse: Codable {
-    var error: Bool
-    var messages: [String]
-    var success: Bool?
-}
-
-struct UpdatePantryResponse: Codable {
-    var error: Bool
-    var messages: [String]
-    var success: Bool?
-}
-
-struct PantryListUserDeleteResponse: Codable {
-    var error: Bool
-    var messages: [String]
-    var success: Bool?
-}
-
 struct FetchMyPantryListsResponse: Codable {
     var error: Bool
     var messages: [String]
@@ -79,12 +54,6 @@ struct FetchMyPantryListsItems: Codable {
             pantryList = SharedPantryModel()
         }
     }
-}
-
-struct FetchPantryListUsersResponse: Codable {
-    var error: Bool
-    var messages: [String]
-    var users: [User]
 }
 
 struct SharedPantryModel: Codable {

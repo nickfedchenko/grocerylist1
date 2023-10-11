@@ -669,9 +669,6 @@ extension CoreDataManager {
     }
     
     func getAllMealPlans() -> [DBMealPlan]? {
-//        let fetchRequest = DBLabel.fetchRequest()
-//        let sort = NSSortDescriptor(key: "index", ascending: true)
-//        fetchRequest.sortDescriptors = [sort]
         fetch(request: DBMealPlan.fetchRequest(), context: coreData.context)
     }
     
@@ -709,6 +706,23 @@ extension CoreDataManager {
         fetchRequest.predicate = NSPredicate(format: "recordId = '\(recordId)'")
         if let object = try? context.fetch(fetchRequest).first {
             context.delete(object)
+        }
+        try? context.save()
+    }
+    
+    func removeSharedMealPlan(by sharedId: String, isOwner: Bool? = nil) {
+        let context = coreData.context
+        let fetchRequest = DBMealPlan.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "sharedId = '\(sharedId)'")
+        let objects = fetch(request: fetchRequest, context: context)
+        objects.forEach {
+            if let isOwner {
+                if !isOwner, !$0.isOwner {
+                    context.delete($0)
+                }
+            } else {
+                context.delete($0)
+            }
         }
         try? context.save()
     }
@@ -758,7 +772,53 @@ extension CoreDataManager {
         }
         try? context.save()
     }
+    
+    func removeSharedMealPlanNote(by sharedId: String, isOwner: Bool? = nil) {
+        let context = coreData.context
+        let fetchRequest = DBMealPlanNote.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "sharedId = '\(sharedId)'")
+        let objects = fetch(request: fetchRequest, context: context)
+        objects.forEach {
+            if let isOwner {
+                if !isOwner, !$0.isOwner {
+                    context.delete($0)
+                }
+            } else {
+                context.delete($0)
+            }
+        }
+        try? context.save()
+    }
 
+    func getMealListSharedInfo() -> [DBMealListSharedInfo]? {
+        fetch(request: DBMealListSharedInfo.fetchRequest(), context: coreData.context)
+    }
+    
+    func saveMealListSharedInfo(mealListId: String, createdAt: Date, isOwner: Bool) {
+        let context = coreData.context
+        context.perform {
+            do {
+                let dbNetCategory = DBMealListSharedInfo(context: context)
+                dbNetCategory.mealListId = mealListId
+                dbNetCategory.createdAt = createdAt
+                dbNetCategory.isOwner = isOwner
+                try context.save()
+            } catch {
+                context.rollback()
+            }
+        }
+    }
+    
+    func removeMealListSharedInfo(mealListId id: String) {
+        let context = coreData.context
+        let fetchRequest = DBMealListSharedInfo.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "mealListId = '\(id)'")
+        if let object = fetch(request: fetchRequest, context: context).first {
+            context.delete(object)
+        }
+        try? context.save()
+    }
+    
     private func resetRecordId<T: NSManagedObject>(request: NSFetchRequest<T>,
                                                    configurationBlock: @escaping ((T) -> Void)) {
         let asyncContext = coreData.taskContext

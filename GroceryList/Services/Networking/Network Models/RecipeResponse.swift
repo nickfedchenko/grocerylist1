@@ -22,13 +22,13 @@ struct Recipe: Codable, Hashable, Equatable {
     var dishWeight: Double?
     var dishWeightType: Int?
     var values: Values?
-    let countries: [String]
+    var countries: [String]
     var instructions: [String]?
     var ingredients: [Ingredient]
     let eatingTags, dishTypeTags, processingTypeTags, additionalTags: [AdditionalTag]
     let dietTags, exceptionTags: [AdditionalTag]
     var photo: String
-    let isDraft: Bool
+    var isDraft: Bool
     let createdAt: Date
     var localCollection: [CollectionModel]?
     var localImage: Data?
@@ -143,6 +143,31 @@ struct Recipe: Codable, Hashable, Equatable {
         dietTags = (try? JSONDecoder().decode([AdditionalTag].self, from: dietTagsData ?? Data())) ?? []
         let exceptionTagsData = record.value(forKey: "exceptionTags") as? Data
         exceptionTags = (try? JSONDecoder().decode([AdditionalTag].self, from: exceptionTagsData ?? Data())) ?? []
+    }
+    
+    init(sharedRecipe: RecipeForSharing) {
+        id = sharedRecipe.id
+        title = sharedRecipe.title
+        description = sharedRecipe.description ?? ""
+        cookingTime = sharedRecipe.cookingTime
+        totalServings = sharedRecipe.totalServings ?? -1
+        dishWeight = sharedRecipe.dishWeight
+        values = sharedRecipe.values
+        instructions = sharedRecipe.instructions
+        ingredients = sharedRecipe.ingredients
+        eatingTags = sharedRecipe.eatingTags
+        dishTypeTags = sharedRecipe.dishTypeTags
+        processingTypeTags = sharedRecipe.processingTypeTags
+        additionalTags = sharedRecipe.additionalTags
+        dietTags = sharedRecipe.dietTags
+        exceptionTags = sharedRecipe.exceptionTags
+        photo = sharedRecipe.photo
+        createdAt = sharedRecipe.createdAt.toDate() ?? Date()
+        
+        dishWeightType = nil
+        countries = []
+        isDraft = false
+        isDefaultRecipe = false
     }
     
     func hasDefaultCollection() -> Bool {
@@ -312,4 +337,44 @@ struct NetworkCollectionResponse: Codable {
     let error: Bool
     let messages: [String]
     let data: [NetworkCollection]
+}
+
+struct RecipeForSharing: Codable {
+    let id: Int
+    let createdAt: String
+    let title: String
+    let description: String?
+    let totalServings: Int?
+    let dishWeight: Double?
+    let values: Values?
+    let ingredients: [Ingredient]
+    let cookingTime: Int?
+    let instructions: [String]?
+    let photo: String
+    let processingTypeTags: [AdditionalTag]
+    let exceptionTags: [AdditionalTag]
+    let eatingTags: [AdditionalTag]
+    let additionalTags: [AdditionalTag]
+    let dietTags: [AdditionalTag]
+    let dishTypeTags: [AdditionalTag]
+
+    init(fromRecipe: Recipe) {
+        id = fromRecipe.id
+        title = fromRecipe.title
+        description = fromRecipe.description
+        cookingTime = fromRecipe.cookingTime
+        totalServings = fromRecipe.totalServings
+        dishWeight = fromRecipe.dishWeight
+        values = fromRecipe.values
+        instructions = fromRecipe.instructions
+        ingredients = fromRecipe.ingredients
+        eatingTags = fromRecipe.eatingTags
+        dishTypeTags = fromRecipe.dishTypeTags
+        processingTypeTags = fromRecipe.processingTypeTags
+        additionalTags = fromRecipe.additionalTags
+        dietTags = fromRecipe.dietTags
+        exceptionTags = fromRecipe.exceptionTags
+        photo = fromRecipe.photo
+        createdAt = fromRecipe.createdAt.toString()
+    }
 }

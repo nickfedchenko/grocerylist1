@@ -109,3 +109,12 @@ extension UIView {
         }
     }
 }
+
+extension Date {
+    func toString(format: String = "dd.MM.yyyy HH:mm:ss") -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        let date = dateFormatter.string(from: self)
+        return date
+    }
+}

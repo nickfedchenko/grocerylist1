@@ -31,6 +31,13 @@ extension String {
         let newStr = self.replacingOccurrences(of: ",", with: ".", options: .literal, range: nil)
         return Double(newStr)
     }
+    
+    func toDate(withFormat format: String = "dd.MM.yyyy HH:mm:ss") -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        let date = dateFormatter.date(from: self)
+        return date
+    }
 }
 
 extension String {

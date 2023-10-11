@@ -127,11 +127,6 @@ class MealPlanDataSource {
         }
     }
     
-    func sdsd(date: Date) -> MealPlan? {
-        let mealPlansByDate = mealPlan.filter { $0.date.onlyDate == date.onlyDate }
-        return mealPlansByDate.first
-    }
-    
     func updateEditMode(isEdit: Bool) {
         isEditMode = isEdit
     }
@@ -158,7 +153,7 @@ class MealPlanDataSource {
     
     func copyEditMealPlans(date: Date) {
         editMealPlan.forEach {
-            var updatePlan = MealPlan(copy: $0, date: date)
+            let updatePlan = MealPlan(copy: $0, date: date)
             CoreDataManager.shared.saveMealPlan(updatePlan)
             CloudManager.shared.saveCloudData(mealPlan: updatePlan)
         }
@@ -207,6 +202,20 @@ class MealPlanDataSource {
         }
     }
     
+    func getMealPlanForSharing(date: Date, mealListId: String) -> MealList {
+        let mealPlansByDate = self.mealPlan.filter { $0.date.onlyDate >= date.onlyDate }
+        let mealPlanForSharing = mealPlansByDate.compactMap {
+            SharedMealPlan(mealPlan: $0)
+        }
+        let notesByDate = self.note.filter { $0.date.onlyDate >= date.onlyDate }
+        let noteForSharing = notesByDate.compactMap {
+            SharedNote(note: $0)
+        }
+        
+        return MealList(mealListId: mealListId, startDate: date.onlyDate.toString(), 
+                        plans: mealPlanForSharing, notes: noteForSharing)
+    }
+    
     private func getMealPlan(by date: Date, for index: IndexPath) -> MealPlan? {
         let section = getMealPlans(by: date)
         return section[safe: index.section]?.mealPlans[safe: index.row]?.mealPlan
@@ -214,7 +223,7 @@ class MealPlanDataSource {
     
     private func getMealPlanForWeekState(date: Date) -> [MealPlanSection] {
         guard weekSection.isEmpty else {
-            return weekSection.filter { $0.date >= date }
+            return weekSection.filter { $0.date.onlyDate >= date.onlyDate }
         }
         
         var section: [MealPlanSection] = []
