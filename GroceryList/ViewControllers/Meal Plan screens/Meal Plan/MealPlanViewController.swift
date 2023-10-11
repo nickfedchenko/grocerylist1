@@ -178,8 +178,8 @@ class MealPlanViewController: UIViewController {
                 return
             }
             DispatchQueue.main.async {
-                self?.calendarView.calendar.setCurrentPage(date, animated: true)
-                self?.calendarView.reloadData()
+                self?.calendarView.setDate(date)
+                self?.reloadDataSource()
             }
         }
         
