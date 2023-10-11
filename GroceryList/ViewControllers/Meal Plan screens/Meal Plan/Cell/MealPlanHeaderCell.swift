@@ -8,8 +8,8 @@
 import UIKit
 
 protocol MealPlanHeaderCellDelegate: AnyObject {
-    func addNote()
-    func addRecipe()
+    func addNote(_ cell: MealPlanHeaderCell)
+    func addRecipe(_ cell: MealPlanHeaderCell)
 }
 
 class MealPlanHeaderCell: UICollectionReusableView {
@@ -55,6 +55,8 @@ class MealPlanHeaderCell: UICollectionReusableView {
         return stackView
     }()
     
+    private(set) var index: IndexPath?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -77,10 +79,10 @@ class MealPlanHeaderCell: UICollectionReusableView {
         containerView.isHidden = true
     }
     
-    func setupHeader(section: MealPlanSection) {
+    func setupHeader(section: MealPlanSection, index: IndexPath) {
         weekdayLabel.text = section.date.getStringDate(format: "EEEE").uppercased()
         dateLabel.text = section.date.getStringDate(format: "ddMMyyyy")
-        
+        self.index = index
         let bottomOffset: Int
         let height: Int
         switch section.sectionType {
@@ -128,12 +130,12 @@ class MealPlanHeaderCell: UICollectionReusableView {
     
     @objc
     private func tappedAddNoteButton() {
-        delegate?.addNote()
+        delegate?.addNote(self)
     }
     
     @objc
     private func tappedAddRecipeButton() {
-        delegate?.addRecipe()
+        delegate?.addRecipe(self)
     }
     
     private func makeConstraints() {

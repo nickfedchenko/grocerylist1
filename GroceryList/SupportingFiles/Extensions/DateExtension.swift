@@ -48,6 +48,10 @@ extension Date {
         return Calendar.current.component(.day, from: self)
     }
     
+    var week: Int {
+        return Calendar.current.component(.weekOfYear, from: self)
+    }
+    
     var startOfWeek: Date {
         return Calendar.current.date(from: Calendar.current.dateComponents([.yearForWeekOfYear, .weekOfYear],
                                                                            from: self)) ?? self

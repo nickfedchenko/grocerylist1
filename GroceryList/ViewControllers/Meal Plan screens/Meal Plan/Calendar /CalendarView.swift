@@ -348,12 +348,21 @@ extension CalendarView: FSCalendarDelegate {
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         changeMonthLabel(calendar.currentPage)
-        delegate?.pageDidChange()
-        if calendar.currentPage.month == Date().month {
-            selectedDate = Date()
+        
+        if  UserDefaultsManager.shared.selectedMonthOrWeek == 0 {
+            if calendar.currentPage.month == Date().month {
+                selectedDate = Date()
+            } else {
+                selectedDate = calendar.currentPage
+            }
         } else {
-            selectedDate = calendar.currentPage
+            if calendar.currentPage.week == Date().week {
+                selectedDate = Date()
+            } else {
+                selectedDate = calendar.currentPage
+            }
         }
         calendar.reloadData()
+        delegate?.pageDidChange()
     }
 }
