@@ -22,4 +22,5 @@ extension Notification.Name {
     static let cloudRecipe = Notification.Name("cloudRecipe")
     static let cloudPantry = Notification.Name("cloudPantry")
     static let cloudStock = Notification.Name("cloudStock")
+    static let cloudMealPlans = Notification.Name("cloudMealPlans")
 }

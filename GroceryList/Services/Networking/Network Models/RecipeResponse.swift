@@ -169,7 +169,7 @@ struct Values: Codable {
 }
 
 // MARK: - Ingredient
-struct Ingredient: Codable {
+struct Ingredient: Codable, Hashable, Equatable {
     let id: Int
     let product: NetworkProductModel
     let quantity: Double
@@ -177,9 +177,19 @@ struct Ingredient: Codable {
     let unit: MarketUnitClass?
     var description: String?
     var quantityStr: String?
+    
+    static func == (lhs: Ingredient, rhs: Ingredient) -> Bool {
+        lhs.id == rhs.id && lhs.product == rhs.product && lhs.quantity == rhs.quantity &&
+        lhs.isNamed == rhs.isNamed && lhs.description == rhs.description &&
+        lhs.quantityStr == rhs.quantityStr
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
 
-struct NetworkProductModel: Codable {
+struct NetworkProductModel: Codable, Equatable {
     let id: Int
     let title: String
     let productTypeId: Int?
@@ -190,6 +200,12 @@ struct NetworkProductModel: Codable {
     let localImage: Data?
     var store: Store?
     var cost: Double?
+    
+    static func == (lhs: NetworkProductModel, rhs: NetworkProductModel) -> Bool {
+        lhs.id == rhs.id && lhs.title == rhs.title && lhs.productTypeId == rhs.productTypeId &&
+        lhs.marketCategory == rhs.marketCategory && lhs.photo == rhs.photo &&
+        lhs.localImage == rhs.localImage && lhs.cost == rhs.cost
+    }
 }
 
 struct Unit: Codable {
@@ -198,7 +214,7 @@ struct Unit: Codable {
     let isDefault: Bool?
 }
 
-struct MarketCategory: Codable {
+struct MarketCategory: Codable, Equatable {
     let id: Int
     let title: String
 }

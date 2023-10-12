@@ -108,7 +108,7 @@ extension DataProviderFacade: DataSyncProtocol {
         DispatchQueue.global().async {
             recipes.forEach {
                 if let url = URL(string: $0.photo) {
-                    _ = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
+                    _ = Kingfisher.ImageResource(downloadURL: url, cacheKey: url.absoluteString)
                 }
             }
         }
@@ -119,7 +119,7 @@ extension DataProviderFacade: DataSyncProtocol {
         DispatchQueue.global().async {
             products.forEach {
                 if let url = URL(string: $0.photo) {
-                    _ = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
+                    _ = Kingfisher.ImageResource(downloadURL: url, cacheKey: url.absoluteString)
                 }
             }
         }

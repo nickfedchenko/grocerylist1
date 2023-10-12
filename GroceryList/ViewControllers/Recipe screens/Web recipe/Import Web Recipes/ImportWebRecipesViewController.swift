@@ -27,7 +27,7 @@ class ImportWebRecipesViewController: UIViewController {
     private let topInfoView: UIView = {
         let view = UIView()
         view.backgroundColor = R.color.background()
-        view.addCustomShadow(offset: .init(width: 0, height: 2))
+        view.addShadow(offset: .init(width: 0, height: 2))
         return view
     }()
 

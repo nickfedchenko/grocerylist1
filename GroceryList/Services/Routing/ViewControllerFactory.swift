@@ -7,6 +7,7 @@
 
 import UIKit
 
+// swiftlint:disable file_length
 // swiftlint:disable:next type_body_length
 final class ViewControllerFactory: ViewControllerFactoryProtocol {
     
@@ -49,12 +50,30 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createRecipeController(router: RootRouter) -> UIViewController {
+    func createParentMealPlanViewController(router: RootRouter) -> UIViewController {
+        let recipeViewController = createRecipeController(router: router)
+        let mealPlanViewController = createMealPlanController(router: router)
+        
+        let viewController = ParentMealPlanRecipeViewController(headerViewController: nil,
+                                                                segmentControllers: [mealPlanViewController, recipeViewController])
+        return viewController
+    }
+    
+    func createRecipeController(router: RootRouter) -> MainRecipeViewController {
         let dataSource = MainRecipeDataSource()
         let viewModel = MainRecipeViewModel(dataSource: dataSource)
         viewModel.router = router
         
         let viewController = MainRecipeViewController(viewModel: viewModel)
+        return viewController
+    }
+    
+    func createMealPlanController(router: RootRouter) -> MealPlanViewController {
+        let dataSource = MealPlanDataSource()
+        let viewModel = MealPlanViewModel(dataSource: dataSource)
+        viewModel.router = router
+        
+        let viewController = MealPlanViewController(viewModel: viewModel)
         return viewController
     }
     
@@ -578,6 +597,85 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         let controller = ImportWebRecipesViewController(viewModel: viewModel)
         return controller
     }
+    
+    func createSelectRecipeToMealPlan(router: RootRouter, date: Date,
+                                      updateUI: (() -> Void)?, mealPlanDate: ((Date) -> Void)?) -> UIViewController {
+        let dataSource = MainRecipeDataSource()
+        let viewModel = SelectRecipeViewModel(dataSource: dataSource)
+        viewModel.router = router
+        viewModel.selectedDate = date
+        viewModel.mealPlanDate = mealPlanDate
+        let controller = SelectRecipeViewController(viewModel: viewModel)
+        let navigationController = MealPlanNavigationController(rootViewController: controller)
+        navigationController.dismissController = updateUI
+        navigationController.navigationBar.isHidden = true
+        return navigationController
+    }
+    
+    func createSearchInMealPlan(router: RootRouter, date: Date) -> UIViewController {
+        let viewModel = SearchInRecipeViewModel(section: nil)
+        viewModel.router = router
+        viewModel.mealPlanDate = date
+        let controller = SearchInRecipeMealPlanViewController()
+        controller.viewModel = viewModel
+        return controller
+    }
+    
+    func createRecipeCollectionFromMealPlan(for section: RecipeSectionsModel, date: Date, router: RootRouter) -> UIViewController {
+        let viewModel = RecipesListViewModel(with: section)
+        viewModel.router = router
+        viewModel.mealPlanDate = date
+        let recipeListVC = RecipesListFromMealPlanViewController(viewModel: viewModel)
+        return recipeListVC
+    }
+    
+    func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe,
+                                  date: Date, selectedDate: ((Date) -> Void)?) -> UIViewController {
+        let viewModel = AddRecipeToMealPlanViewModel(recipe: recipe, mealPlanDate: date)
+        viewModel.router = router
+        viewModel.selectedDate = selectedDate
+        let controller = AddRecipeToMealPlanViewController(viewModel: viewModel)
+        return controller
+    }
+    
+    func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe, mealPlan: MealPlan,
+                                  updateUI: (() -> Void)?, selectedDate: ((Date) -> Void)?) -> UIViewController {
+        let viewModel = AddRecipeToMealPlanViewModel(recipe: recipe, mealPlanDate: mealPlan.date)
+        viewModel.router = router
+        viewModel.mealPlan = mealPlan
+        viewModel.selectedDate = selectedDate
+        let controller = AddRecipeToMealPlanViewController(viewModel: viewModel)
+        let navigationController = MealPlanNavigationController(rootViewController: controller)
+        navigationController.dismissController = updateUI
+        navigationController.navigationBar.isHidden = true
+        return navigationController
+    }
+    
+    func createDestinationList(router: RootRouter, delegate: DestinationListDelegate) -> UIViewController {
+        let dataSource = SelectListDataManager()
+        let viewModel = SelectListViewModel(dataSource: dataSource)
+        viewModel.router = router
+        let controller = DestinationListViewController()
+        controller.viewModel = viewModel
+        controller.destinationListDelegate = delegate
+        return controller
+    }
+    
+    func createMealPlanLabels(router: RootRouter, label: MealPlanLabel?, isDisplayState: Bool,
+                              updateUI: ((MealPlanLabel?) -> Void)?) -> UIViewController {
+        let viewModel = MealPlanLabelsViewModel(label: label, isDisplayState: isDisplayState)
+        viewModel.router = router
+        viewModel.updateUI = updateUI
+        let controller = MealPlanLabelsViewController(viewModel: viewModel)
+        return controller
+    }
+    
+    func createCreateMealPlanLabel(label: MealPlanLabel?, updateUI: (() -> Void)?) -> UIViewController {
+        let viewModel = CreateMealPlanLabelViewModel(currentLabel: label)
+        viewModel.updateLabels = updateUI
+        let controller = CreateMealPlanLabelViewController(viewModel: viewModel)
+        return controller
+    }
 }
 
 class MyNavigationController: UINavigationController {
@@ -585,3 +683,4 @@ class MyNavigationController: UINavigationController {
         topViewController
     }
 }
+// swiftlint:enable file_length

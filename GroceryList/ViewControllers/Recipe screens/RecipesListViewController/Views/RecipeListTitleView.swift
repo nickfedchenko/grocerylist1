@@ -24,6 +24,10 @@ class RecipeListTitleView: UIView {
         return titleHeight < 40 ? 40 : titleHeight
     }
     
+    var maximumLineHeight: CGFloat = 32 {
+        didSet { titleLabel.setMaximumLineHeight(value: maximumLineHeight) }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupSubviews()
@@ -35,13 +39,17 @@ class RecipeListTitleView: UIView {
     
     func setTitle(_ title: String?) {
         titleLabel.text = title
-        titleLabel.setMaximumLineHeight(value: 32)
+        maximumLineHeight = 32
     }
     
     func setColor(_ theme: Theme) {
         iconImageView.image = R.image.menuFolderBig()?.withTintColor(theme.medium)
         titleLabel.textColor = theme.dark
         self.backgroundColor = theme.light.withAlphaComponent(0.95)
+    }
+    
+    func setFont(font: UIFont) {
+        titleLabel.font = font
     }
     
     private func setupSubviews() {
@@ -55,9 +63,10 @@ class RecipeListTitleView: UIView {
         
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(8)
-            $0.centerY.equalToSuperview()
             $0.leading.equalTo(iconImageView.snp.trailing).offset(8)
             $0.trailing.equalToSuperview()
+            $0.height.greaterThanOrEqualTo(iconImageView)
+            $0.bottom.lessThanOrEqualToSuperview().offset(-8)
         }
     }
 }

@@ -111,7 +111,7 @@ final class SelectIconView: UIView {
         self.layer.cornerRadius = 24
         self.layer.cornerCurve = .continuous
         self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        self.addCustomShadow(radius: 11, offset: CGSize(width: 0, height: -12))
+        self.addShadow(radius: 11, offset: CGSize(width: 0, height: -12))
         
         makeConstraints()
     }

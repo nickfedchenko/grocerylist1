@@ -51,8 +51,8 @@ extension UIImage {
 }
 
 extension UIImage {
-    // swiftlint:disable: cyclomatic_complexity
-    // swiftlint:disable:next function_body_length
+    // swiftlint:disable function_body_length
+    // swiftlint:disable:next cyclomatic_complexity
     func fixedOrientation() -> UIImage {
         if imageOrientation == .up { return self }
         var transform: CGAffineTransform = CGAffineTransform.identity
@@ -101,4 +101,5 @@ extension UIImage {
             return self
         }
     }
+    // swiftlint:enable function_body_length
 }

@@ -64,8 +64,8 @@ class RecipeView: UIView {
         ingredientsView.configure(recipe: recipe)
         instructionsView.configure(recipe: recipe)
         sourceView.configure(url: url)
-        imageAndKcalView.addCustomShadow(color: .init(hex: "858585"), opacity: 0.1,
-                                         radius: 6, offset: .init(width: 0, height: 4))
+        imageAndKcalView.addShadow(color: .init(hex: "858585"), opacity: 0.1,
+                                   radius: 6, offset: .init(width: 0, height: 4))
     }
     
     private func updateMessageViewConstraints(isVisible: Bool) {

@@ -24,8 +24,12 @@ extension Date {
         return Calendar.current.date(byAdding: .day, value: -1, to: self) ?? self
     }
     
+    var nextWeek: Date {
+        return Calendar.current.date(byAdding: .weekOfYear, value: 1, to: self) ?? self
+    }
+    
     var previousWeek: Date {
-        return Calendar.current.date(byAdding: .weekOfYear, value: 0, to: self) ?? self
+        return Calendar.current.date(byAdding: .weekOfYear, value: -1, to: self) ?? self
     }
     
     var previousMonth: Date {
@@ -42,6 +46,10 @@ extension Date {
     
     var day: Int {
         return Calendar.current.component(.day, from: self)
+    }
+    
+    var week: Int {
+        return Calendar.current.component(.weekOfYear, from: self)
     }
     
     var startOfWeek: Date {
@@ -85,12 +93,28 @@ extension Date {
         return weekDates
     }
     
+    func getDates(by date: Date) -> [Date] {
+        var dates: [Date] = []
+        var startDate = self
+        let endDate = date
+        
+        while startDate <= endDate {
+            dates.append(startDate)
+            startDate = startDate.nextDay
+        }
+        return dates
+    }
+    
     func after(dayCount: Int) -> Date {
         return Calendar.current.date(byAdding: .day, value: dayCount, to: self) ?? self
     }
     
-    func getDateFor(days:Int) -> Date? {
+    func getDateFor(days: Int) -> Date? {
         return Calendar.current.date(byAdding: .day, value: days, to: Date())
+    }
+    
+    func getStringDate(format: String) -> String {
+        return DateFormatter().getString(format: format, from: self)
     }
     
     private func getDate(with calendarComponents: Set<Calendar.Component>) -> Date? {
@@ -99,5 +123,12 @@ extension Date {
         components.month = Calendar.current.component(.month, from: self)
         components.day = Calendar.current.component(.day, from: self)
         return Calendar.current.date(from: components as DateComponents)
+    }
+}
+
+extension DateFormatter {
+    func getString(format: String, from date: Date) -> String {
+        self.setLocalizedDateFormatFromTemplate(format)
+        return self.string(from: date)
     }
 }

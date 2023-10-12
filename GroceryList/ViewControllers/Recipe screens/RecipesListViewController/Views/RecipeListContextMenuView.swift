@@ -17,7 +17,7 @@ class RecipeListContextMenuView: UIView {
     
     enum MainMenuState: Int, CaseIterable {
         case addToShoppingList
-//        case addToIWillCookIt
+        case addToMealPlan
         case addToFavorites
         case addToCollection
         case edit
@@ -29,6 +29,7 @@ class RecipeListContextMenuView: UIView {
         var title: String {
             switch self {
             case .addToShoppingList:    return R.string.localizable.addtoshoppinglisT().firstCharacterUpperCase()
+            case .addToMealPlan:        return R.string.localizable.addToMealPlan()
             case .addToFavorites:       return R.string.localizable.addToFavorites()
             case .addToCollection:      return R.string.localizable.addToCollection()
             case .edit:                 return R.string.localizable.edit()
@@ -39,6 +40,7 @@ class RecipeListContextMenuView: UIView {
         var image: UIImage? {
             switch self {
             case .addToShoppingList:    return R.image.contextMenuAddToCart()
+            case .addToMealPlan:        return R.image.contextMenuAddToMealPlan()
             case .addToFavorites:       return R.image.contextMenuFavorite()
             case .addToCollection:      return R.image.contextMenuCollection()
             case .edit:                 return R.image.contextMenuEdit()
@@ -116,7 +118,7 @@ class RecipeListContextMenuView: UIView {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.stackView.arrangedSubviews.forEach {
                 $0.backgroundColor = .white
-                ($0 as? RecipeListContextMenuSubView)?.configure(color: self.mainColor?.dark ?? .black)
+                ($0 as? ContextMenuSubView)?.configure(color: self.mainColor?.dark ?? .black)
             }
         }
     }
@@ -134,7 +136,7 @@ class RecipeListContextMenuView: UIView {
         stackView.removeAllArrangedSubviews()
         
         allMenuFunctions.forEach { state in
-            let view = RecipeListContextMenuSubView()
+            let view = ContextMenuSubView()
             let color = (state == .delete ? R.color.attention() : mainColor?.dark) ?? .black
             if isFavorite && state == .addToFavorites {
                 view.configure(title: R.string.localizable.deleteFromFavorites(), image: state.image, color: color)
@@ -157,7 +159,7 @@ class RecipeListContextMenuView: UIView {
         stackView.arrangedSubviews.forEach { view in
             let contextMenuColor = view.tag == state.rawValue ? .white : activeColor
             view.backgroundColor = view.tag == state.rawValue ? activeColor : .white
-            (view as? RecipeListContextMenuSubView)?.configure(color: contextMenuColor)
+            (view as? ContextMenuSubView)?.configure(color: contextMenuColor)
         }
     }
     
@@ -165,6 +167,8 @@ class RecipeListContextMenuView: UIView {
         switch state {
         case .addToShoppingList:
             AmplitudeManager.shared.logEvent(.recipeMenuAddToShoppingList)
+        case .addToMealPlan:
+            break
         case .addToFavorites:
             AmplitudeManager.shared.logEvent(.recipeMenuAddToFav)
         case .addToCollection:
@@ -186,78 +190,6 @@ class RecipeListContextMenuView: UIView {
         
         stackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-        }
-    }
-}
-
-private final class RecipeListContextMenuSubView: UIView {
-    
-    var onViewAction: (() -> Void)?
-    
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.SFPro.medium(size: 16).font
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.5
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    private lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
-    private var mainColor: UIColor = .black
-    
-    override init(frame: CGRect = .zero) {
-        super.init(frame: frame)
-        setup()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    func configure(color: UIColor) {
-        titleLabel.textColor = color
-        imageView.image = imageView.image?.withTintColor(color)
-    }
-    
-    func configure(title: String, image: UIImage?, color: UIColor) {
-        titleLabel.text = title
-        titleLabel.textColor = color
-        
-        imageView.image = image?.withTintColor(color)
-    }
-    
-    private func setup() {
-        self.backgroundColor = .white
-        let tapOnView = UITapGestureRecognizer(target: self, action: #selector(onViewTapped))
-        self.addGestureRecognizer(tapOnView)
-        
-        makeConstraints()
-    }
-    
-    @objc
-    private func onViewTapped() {
-        onViewAction?()
-    }
-    
-    private func makeConstraints() {
-        self.addSubviews([titleLabel, imageView])
-        
-        titleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalTo(imageView.snp.leading).offset(-8)
-            $0.centerY.top.bottom.equalToSuperview()
-        }
-        
-        imageView.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.top.equalToSuperview().offset(11)
-            $0.height.width.equalTo(40)
         }
     }
 }

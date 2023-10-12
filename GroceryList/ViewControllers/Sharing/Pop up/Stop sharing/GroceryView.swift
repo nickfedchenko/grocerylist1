@@ -85,11 +85,11 @@ class GroceryView: UIView {
             shadowView.backgroundColor = .white
             shadowView.layer.cornerRadius = 8
         }
-        shadowOneView.addCustomShadow(color: .black,
+        shadowOneView.addShadow(color: .black,
                                       opacity: 0.15,
                                       radius: 11,
                                       offset: .init(width: 0, height: 12))
-        shadowTwoView.addCustomShadow(color: .black,
+        shadowTwoView.addShadow(color: .black,
                                       opacity: 0.06,
                                       radius: 3,
                                       offset: .init(width: 0, height: 2))

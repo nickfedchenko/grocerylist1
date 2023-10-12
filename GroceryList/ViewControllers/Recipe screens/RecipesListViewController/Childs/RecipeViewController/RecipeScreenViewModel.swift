@@ -25,13 +25,14 @@ protocol RecipeScreenViewModelProtocol {
     func updateFavoriteState(isSelected: Bool)
     func addToShoppingList(contentViewHeigh: CGFloat, photo: [Data?], delegate: AddProductsSelectionListDelegate)
     func addToCollection()
+    func addToMealPlan()
     func edit()
     func removeRecipe()
     func getStoreAndCost(by index: Int) -> (store: String?, cost: Double?)
     func showPaywall()
 }
 
-final class RecipeScreenViewModel {
+class RecipeScreenViewModel {
     
     enum RecipeUnit: Int {
         case gram = 1
@@ -45,7 +46,7 @@ final class RecipeScreenViewModel {
     var updateRecipeRemove: ((Recipe) -> Void)?
     var theme: Theme
     var fromSearch = false
-    private(set) var recipe: Recipe
+    var recipe: Recipe
     private var isMetricSystem = UserDefaultsManager.shared.isMetricSystem
     private var recipeUnit: RecipeUnit?
     private var sectionColor: Theme?
@@ -216,6 +217,10 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
 
     }
     
+    func addToMealPlan() {
+        router?.goToRecipeFromMealPlan(recipe: recipe, date: Date(), selectedDate: nil)
+    }
+    
     func edit() {
         router?.goToCreateNewRecipe(currentRecipe: recipe, compl: { [weak self] recipe in
             self?.recipe = recipe
@@ -233,7 +238,7 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
     }
 }
 
-private extension UnitSystem {
+extension UnitSystem {
     var convertValue: Double {
         switch self {
         case .ozz: return 28.3495

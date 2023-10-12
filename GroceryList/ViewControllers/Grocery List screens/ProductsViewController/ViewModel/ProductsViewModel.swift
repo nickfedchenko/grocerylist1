@@ -330,6 +330,41 @@ class ProductsViewModel {
         dataSource.removeInStockInfo(product: product)
     }
     
+    func getRecipeTitle(title: String?, isPurchased: Bool) -> Bool {
+        guard dataSource.typeOfSorting != .recipe else {
+            return false
+        }
+        guard !(isPurchased && dataSource.typeOfSortingPurchased == .recipe) else {
+            return false
+        }
+        
+        return title != nil
+    }
+    
+    func getMealPlanForCell(by planId: UUID?, isPurchased: Bool) -> MealPlan? {
+        guard dataSource.typeOfSorting != .recipe else {
+            return nil
+        }
+        guard !(isPurchased && dataSource.typeOfSortingPurchased == .recipe) else {
+            return nil
+        }
+
+        guard let planId,
+              let dbMealPlan = CoreDataManager.shared.getMealPlan(id: planId.uuidString) else {
+            return nil
+        }
+        return MealPlan(dbModel: dbMealPlan)
+    }
+    
+    func getMealPlanForHeader(by product: Product?) -> Date? {
+        guard let product,
+              let planId = product.fromMealPlan,
+              let dbMealPlan = CoreDataManager.shared.getMealPlan(id: planId.uuidString) else {
+            return nil
+        }
+        return MealPlan(dbModel: dbMealPlan).date
+    }
+    
     @objc
     func reloadStorageData() {
         DispatchQueue.main.async { [weak self] in

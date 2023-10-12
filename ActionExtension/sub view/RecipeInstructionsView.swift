@@ -14,6 +14,7 @@ class RecipeInstructionsView: UIView {
         label.font = UIFont.SFProRounded.bold(size: 18).font
         label.textColor = R.color.primaryDark()
         label.text = "Instructions".localized
+        label.numberOfLines = 0
         return label
     }()
     
@@ -35,17 +36,42 @@ class RecipeInstructionsView: UIView {
     }
     
     func configure(recipe: WebRecipe) {
-        instructionsStack.removeAllArrangedSubviews()
-
         guard let instructions = recipe.methods else {
             return
         }
+        
+        setupInstructions(instructions: instructions)
+    }
+    
+    func setupInstructions(instructions: [String]) {
+        instructionsStack.removeAllArrangedSubviews()
         
         for (index, instruction) in instructions.enumerated() {
             let view = InstructionView()
             view.setStepNumber(num: index + 1)
             view.setInstruction(instruction: instruction)
             instructionsStack.addArrangedSubview(view)
+            view.layoutIfNeeded()
+            view.setContentHuggingPriority(.init(1000), for: .vertical)
+            view.setContentCompressionResistancePriority(.init(1000), for: .vertical)
+        }
+    }
+    
+    func updateViewsConstraints() {
+        instructionsLabel.textColor = R.color.darkGray()
+        
+        instructionsLabel.snp.removeConstraints()
+        instructionsStack.snp.removeConstraints()
+        
+        instructionsLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().offset(8)
+            $0.height.equalTo(40)
+        }
+        
+        instructionsStack.snp.makeConstraints {
+            $0.top.equalTo(instructionsLabel.snp.bottom)
+            $0.horizontalEdges.bottom.equalToSuperview()
         }
     }
     

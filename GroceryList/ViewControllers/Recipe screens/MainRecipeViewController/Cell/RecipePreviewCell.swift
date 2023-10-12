@@ -118,7 +118,7 @@ final class RecipePreviewCell: UICollectionViewCell {
         }
         
         if let url = URL(string: recipe.photo) {
-            let resource = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
+            let resource = Kingfisher.ImageResource(downloadURL: url, cacheKey: url.absoluteString)
             mainImage.kf.setImage(with: resource, options: [
                 .processor(DownsamplingImageProcessor(size: CGSize(width: 100, height: 100))),
                 .scaleFactor(UIScreen.main.scale),

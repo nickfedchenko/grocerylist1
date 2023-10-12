@@ -312,8 +312,9 @@ class ProductsDataManager {
                 }
             case .recipe:
                 if let recipeTitle = product.fromRecipeTitle {
-                    let dicTitle = R.string.localizable.recipe().getTitleWithout(symbols: [" "]) + ": " + recipeTitle
-                    baseDict.add(product, toArrayOn: dicTitle)
+                    baseDict.add(product, toArrayOn: recipeTitle)
+                } else if let mealPlan = getMealPlanTitle(planId: product.fromMealPlan) {
+                    baseDict.add(product, toArrayOn: mealPlan)
                 } else {
                     otherDict.add(product, toArrayOn: R.string.localizable.other())
                 }
@@ -342,6 +343,15 @@ class ProductsDataManager {
         let purchasedProducts = products.filter { $0.isPurchased || $0.category == "Purchased".localized }
         return getSortedProductsInOrder(products: purchasedProducts, isAscendingOrder: isAscendingOrderPurchased,
                                         typeOfSorting: typeOfSortingPurchased)
+    }
+    
+    private func getMealPlanTitle(planId: UUID?) -> String? {
+        guard let planId,
+              let dbMealPlan = CoreDataManager.shared.getMealPlan(id: planId.uuidString),
+              let dbRecipe = CoreDataManager.shared.getRecipe(by: MealPlan(dbModel: dbMealPlan).recipeId) else {
+            return nil
+        }
+        return dbRecipe.title // MealPlan(dbModel: dbMealPlan).recipeId
     }
     
     private func filteredProducts(products: [Product]) -> [Product] {

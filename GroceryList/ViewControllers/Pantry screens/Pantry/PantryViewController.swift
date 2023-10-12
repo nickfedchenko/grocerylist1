@@ -125,7 +125,8 @@ final class PantryViewController: UIViewController {
     
     private func createDataSource() {
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
-                                                                      cellProvider: { [self] _, indexPath, model in
+                                                                      cellProvider: { [weak self] _, indexPath, model in
+            guard let self else { return UICollectionViewCell() }
             let cell = self.collectionView.reusableCell(classCell: PantryCell.self, indexPath: indexPath)
             let cellModel = viewModel.getCellModel(by: indexPath, and: model)
             cell.delegate = self

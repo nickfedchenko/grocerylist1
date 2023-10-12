@@ -58,7 +58,6 @@ final class InstructionView: UIView {
     }
     
     func setupSubviews() {
-
         addSubviews([stepNumber, instructionLabel])
         
         stepNumber.snp.makeConstraints { make in

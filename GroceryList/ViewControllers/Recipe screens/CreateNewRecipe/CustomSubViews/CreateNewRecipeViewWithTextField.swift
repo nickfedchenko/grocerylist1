@@ -103,7 +103,7 @@ final class CreateNewRecipeViewWithTextField: UIView {
     
     private func updateState() {
         shadowViews.enumerated().forEach { index, shadowView in
-            shadowView.addCustomShadow(color: state.shadowColors[index],
+            shadowView.addShadow(color: state.shadowColors[index],
                                        opacity: state.shadowOpacity[index],
                                        radius: state.shadowRadius[index],
                                        offset: state.shadowOffset[index])

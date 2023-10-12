@@ -8,14 +8,14 @@
 import ApphudSDK
 import UIKit
 
-final class MainRecipeViewModel {
+class MainRecipeViewModel {
     
     weak var router: RootRouter?
     
     var reloadRecipes: (() -> Void)?
     var updateRecipeLoaded: (() -> Void)?
     
-    private var dataSource: MainRecipeDataSourceProtocol
+    var dataSource: MainRecipeDataSourceProtocol
     private var colorManager = ColorManager.shared
     private let groupForSavingSharedUser = DispatchGroup()
     private var startTime: Date?
@@ -100,6 +100,19 @@ final class MainRecipeViewModel {
         }
         let color = collectionColor(for: indexPath.section)
         router?.goToRecipe(recipe: model, sectionColor: color, removeRecipe: nil)
+    }
+    
+    func showSection(by index: Int) {
+        guard let section = getRecipeSectionsModel(for: index) else {
+            return
+        }
+        router?.goToRecipes(for: section)
+    }
+    
+    func showCollection() {
+        router?.goToShowCollection(state: .edit, updateUI: { [weak self] in
+            self?.updateUI()
+        })
     }
     
     func showSearch() {

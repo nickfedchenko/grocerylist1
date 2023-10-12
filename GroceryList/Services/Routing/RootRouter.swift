@@ -150,7 +150,8 @@ final class RootRouter: RootRouterProtocol {
     func goCreateNewList(compl: @escaping (GroceryListsModel, [Product]) -> Void) {
         guard let controller = viewControllerFactory.createCreateNewListController(model: nil, router: self,
                                                                                    compl: compl) else { return }
-        navigationPresent(controller, animated: false)
+        controller.modalPresentationStyle = .overCurrentContext
+        UIViewController.currentController()?.present(controller, animated: false)
     }
     
     func presentCreateNewList(model: GroceryListsModel,
@@ -476,6 +477,107 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func goToSelectRecipeToMealPlan(date: Date, updateUI: (() -> Void)?, mealPlanDate: ((Date) -> Void)?) {
+        let navigationController = viewControllerFactory.createSelectRecipeToMealPlan(
+            router: self, date: date, updateUI: updateUI, mealPlanDate: mealPlanDate
+        )
+        topViewController?.present(navigationController, animated: true)
+    }
+    
+    func goToSearchInMealPlan(date: Date) {
+        let controller = viewControllerFactory.createSearchInMealPlan(router: self, date: date)
+        let navController = topViewController?.navigationController
+        navController?.pushViewController(controller, animated: true)
+    }
+    
+    func goToRecipeCollectionFromMealPlan(for section: RecipeSectionsModel, date: Date) {
+        let recipeListVC = viewControllerFactory.createRecipeCollectionFromMealPlan(
+            for: section, date: date, router: self
+        )
+        let navController = topViewController?.navigationController
+        navController?.pushViewController(recipeListVC, animated: true)
+    }
+    
+    func goToRecipeFromMealPlan(recipe: Recipe, date: Date, selectedDate: ((Date) -> Void)?) {
+        let controller = viewControllerFactory.createRecipeFromMealPlan(router: self, recipe: recipe,
+                                                                        date: date, selectedDate: selectedDate)
+        if let navController = topViewController?.navigationController as? MealPlanNavigationController {
+            navController.pushViewController(controller, animated: true)
+        } else {
+            UIViewController.currentController()?.present(controller, animated: true)
+        }
+    }
+    
+    func goToRecipeFromMealPlan(recipe: Recipe, mealPlan: MealPlan,
+                                updateUI: (() -> Void)?, selectedDate: ((Date) -> Void)?) {
+        let controller = viewControllerFactory.createRecipeFromMealPlan(
+            router: self, recipe: recipe, mealPlan: mealPlan, updateUI: updateUI, selectedDate: selectedDate
+        )
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func goToDestinationList(delegate: DestinationListDelegate) {
+        let controller = viewControllerFactory.createDestinationList(router: self, delegate: delegate)
+        topViewController?.present(controller, animated: true)
+    }
+
+    func goToMealPlanLabels(label: MealPlanLabel?, isDisplayState: Bool, updateUI: ((MealPlanLabel?) -> Void)?) {
+        let controller = viewControllerFactory.createMealPlanLabels(router: self, label: label,
+                                                                    isDisplayState: isDisplayState, updateUI: updateUI)
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func goToCreateMealPlanLabel(label: MealPlanLabel?, updateUI: (() -> Void)?) {
+        let controller = viewControllerFactory.createCreateMealPlanLabel(label: label, updateUI: updateUI)
+        controller.modalPresentationStyle = .overCurrentContext
+        controller.modalTransitionStyle = .crossDissolve
+        UIViewController.currentController()?.present(controller, animated: true)
+    }
+    
+    func dismissAddRecipeToMealPlan() {
+        if let navController = topViewController?.navigationController {
+            navController.dismiss(animated: true)
+        } else {
+            UIViewController.currentController()?.dismiss(animated: true)
+        }
+    }
+    
+    func goToAddNoteToMealPlan(note: MealPlanNote?, date: Date, updateUI: (() -> Void)?) {
+        let viewModel = AddNoteToMealPlanViewModel(note: note, date: date)
+        viewModel.router = self
+        viewModel.updateUI = updateUI
+        let controller = AddNoteToMealPlanViewController(viewModel: viewModel)
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func goToMealPlanContextMenu(contextDelegate: MealPlanContextMenuViewDelegate, mealPlan: MealPlan?) {
+        let controller = MealPlanContextMenuViewController(contextDelegate: contextDelegate,
+                                                           mealPlan: mealPlan)
+        controller.modalPresentationStyle = .overCurrentContext
+        controller.modalTransitionStyle = .crossDissolve
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func goToAddIngredientsToList(startDate: Date) {
+        let viewModel = AddIngredientsToListViewModel(date: startDate)
+        viewModel.router = self
+        let controller = AddIngredientsToListViewController(viewModel: viewModel)
+        
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func goToMealPlanCalendar(currentDate: Date, selectedDate: ((Date) -> Void)?) {
+        let controller = CalendarViewController(currentDate: currentDate)
+        controller.selectedDate = selectedDate
+        controller.modalPresentationStyle = .overCurrentContext
+        controller.modalTransitionStyle = .crossDissolve
+        topViewController?.present(controller, animated: true)
+    }
+    
+    func dismissCurrentController() {
+        UIViewController.currentController()?.dismiss(animated: true)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
@@ -697,7 +799,7 @@ final class RootRouter: RootRouterProtocol {
     private func setupTabBarController() {
         let listController = viewControllerFactory.createListController(router: self)
         let pantryController = viewControllerFactory.createPantryController(router: self)
-        let recipeController = viewControllerFactory.createRecipeController(router: self)
+        let recipeController = viewControllerFactory.createParentMealPlanViewController(router: self)
         listNavController = UINavigationController(rootViewController: listController)
         pantryNavController = UINavigationController(rootViewController: pantryController)
         recipeNavController = UINavigationController(rootViewController: recipeController)
