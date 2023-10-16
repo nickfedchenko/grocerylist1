@@ -101,6 +101,7 @@ class MealPlanViewModel {
         router?.goToSelectRecipeToMealPlan(date: selectedDate,
                                            updateUI: { [weak self] in
             self?.updateStorage()
+            self?.updateSharingMealPlan()
         }, mealPlanDate: { [weak self] date in
             self?.reloadCalendar?(date.onlyDate)
         }, updatedSharingPlan: { [weak self] in
