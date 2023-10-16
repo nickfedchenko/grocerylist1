@@ -86,7 +86,7 @@ struct WebIngredient: Codable {
     let title, name, amount, unit: String
 }
 
-struct Value: Codable {
+struct Value: Codable, Hashable {
     var weight: Double?
     var kcal: Double?
     var netCarbs: Double?

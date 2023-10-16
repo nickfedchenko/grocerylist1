@@ -208,6 +208,12 @@ extension NetworkEngine: NetworkDataProvider {
                                     completion: completion)
     }
     
+    ///   oтправка картинки на сервер
+    func uploadImage(imageData: Data, completion: @escaping UploadImageResult) {
+        performDecodableUploadRequest(request: .uploadImage(imageData: imageData),
+                                      completion: completion)
+    }
+    
     ///   зашарить Meal Plan
     func shareMealPlan(userToken: String, mealList: MealList,
                        completion: @escaping ShareMealPlanResult) {

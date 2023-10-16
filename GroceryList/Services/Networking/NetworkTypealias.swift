@@ -32,6 +32,7 @@ typealias FeedbackResult = (Result<FeedbackResponse, AFError>) -> Void
 
 typealias FetchFAQStateResult = (Result<FetchFAQStateResponse, AFError>) -> Void
 typealias SendMailResult = (Result<String, AFError>) -> Void
+typealias UploadImageResult = (Result<UploadImageResponse, AFError>) -> Void
 
 // Share
 typealias ListReleaseResult = (Result<ListReleaseResponse, AFError>) -> Void

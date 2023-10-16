@@ -101,7 +101,6 @@ class MealPlanViewModel {
         router?.goToSelectRecipeToMealPlan(date: selectedDate,
                                            updateUI: { [weak self] in
             self?.updateStorage()
-            self?.updateSharingMealPlan()
         }, mealPlanDate: { [weak self] date in
             self?.reloadCalendar?(date.onlyDate)
         }, updatedSharingPlan: { [weak self] in
@@ -224,8 +223,9 @@ class MealPlanViewModel {
             mealListId = owner.mealListId ?? ""
         }
         
-        let plans = dataSource.getMealPlanForSharing(date: date, mealListId: mealListId)
-        router?.goToSharingMealPlan(users: users, mealPlanForSharing: plans)
+        dataSource.getMealPlanForSharing(date: date, mealListId: mealListId) { [weak self] plans in
+            self?.router?.goToSharingMealPlan(users: users, mealPlanForSharing: plans)
+        }
     }
     
     private func showLabel() {
@@ -324,9 +324,10 @@ class MealPlanViewModel {
         }
         
         mealPlansSharedInfo.forEach { info in
-            let plans = dataSource.getMealPlanForSharing(date: info.createdAt ?? Date(),
-                                                         mealListId: info.mealListId ?? "")
-            SharedMealPlanManager.shared.updateMealPlan(mealPlans: plans)
+            dataSource.getMealPlanForSharing(date: info.createdAt ?? Date(),
+                                                         mealListId: info.mealListId ?? "") { plans in
+                SharedMealPlanManager.shared.updateMealPlan(mealPlans: plans)
+            }
         }
     }
 }

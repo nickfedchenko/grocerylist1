@@ -282,20 +282,13 @@ struct MealList: Codable {
     }
 }
 
-struct SharedMealPlan: Codable {
+struct SharedMealPlan: Codable, Hashable {
     let id: String
     var date: String
     var recipe: RecipeForSharing
-
-    init?(mealPlan: MealPlan) {
-        self.id = mealPlan.id.uuidString
-        self.date = mealPlan.date.toString()
-        
-        guard let dbRecipe = CoreDataManager.shared.getRecipe(by: mealPlan.recipeId),
-              let localRecipe = Recipe(from: dbRecipe) else {
-                  return nil
-              }
-        self.recipe = RecipeForSharing(fromRecipe: localRecipe)
+    
+    static func == (lhs: SharedMealPlan, rhs: SharedMealPlan) -> Bool {
+        lhs.id == rhs.id && lhs.date == rhs.date
     }
 }
 
@@ -305,7 +298,7 @@ struct SharedNote: Codable {
     var title: String
     var details: String?
 
-    init?(note: MealPlanNote) {
+    init(note: MealPlanNote) {
         self.id = note.id.uuidString
         self.date = note.date.toString()
         self.title = note.title

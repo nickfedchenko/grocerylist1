@@ -172,6 +172,7 @@ class SharedMealPlanManager {
                 recipe.countries = (try? JSONDecoder().decode([String].self, from: dbRecipe.countries ?? Data())) ?? []
                 recipe.isDraft = dbRecipe.isDraft
                 recipe.isDefaultRecipe = dbRecipe.isDefaultRecipe
+                recipe = updatedIngredients(recipe: recipe, dbRecipe: dbRecipe)
             }
             CoreDataManager.shared.saveRecipes(recipes: [recipe])
             
@@ -207,6 +208,20 @@ class SharedMealPlanManager {
         }
     }
 
+    private func updatedIngredients(recipe: Recipe, dbRecipe: DBRecipe) -> Recipe {
+        let dbIngredients = (try? JSONDecoder().decode([Ingredient].self, from: dbRecipe.ingredients ?? Data())) ?? []
+        guard !dbIngredients.isEmpty else {
+            return recipe
+        }
+        var recipe = recipe
+        dbIngredients.forEach { dbIngredient in
+            if let index = recipe.ingredients.firstIndex(where: { $0.id == dbIngredient.id }) {
+                recipe.ingredients[index].product.localImage = dbIngredient.product.localImage
+            }
+        }
+        return recipe
+    }
+    
     private func appendToUsersDict(id: String, users: [User]) {
         sharedMealPlanUsers[id] = users
         DispatchQueue.global().async {

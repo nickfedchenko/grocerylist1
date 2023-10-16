@@ -187,7 +187,7 @@ struct Recipe: Codable, Hashable, Equatable {
     }
 }
 
-struct Values: Codable {
+struct Values: Codable, Hashable {
     var dish: Value?
     var serving: Value?
     var hundred: Value?
@@ -196,12 +196,24 @@ struct Values: Codable {
 // MARK: - Ingredient
 struct Ingredient: Codable, Hashable, Equatable {
     let id: Int
-    let product: NetworkProductModel
+    var product: NetworkProductModel
     let quantity: Double
     let isNamed: Bool
     let unit: MarketUnitClass?
     var description: String?
     var quantityStr: String?
+    
+    init(id: Int, product: NetworkProductModel, quantity: Double,
+         isNamed: Bool, unit: MarketUnitClass? = nil, description: String? = nil,
+         quantityStr: String? = nil) {
+        self.id = id
+        self.product = product
+        self.quantity = quantity
+        self.isNamed = isNamed
+        self.unit = unit
+        self.description = description
+        self.quantityStr = quantityStr
+    }
     
     static func == (lhs: Ingredient, rhs: Ingredient) -> Bool {
         lhs.id == rhs.id && lhs.product == rhs.product && lhs.quantity == rhs.quantity &&
@@ -212,6 +224,29 @@ struct Ingredient: Codable, Hashable, Equatable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+
+    enum CodingKeys: String, CodingKey {
+        case id, product, quantity, isNamed, unit, description, quantityStr
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        product = try container.decode(NetworkProductModel.self, forKey: .product)
+        isNamed = try container.decode(Bool.self, forKey: .isNamed)
+        unit = try? container.decode(MarketUnitClass.self, forKey: .unit)
+        description = try? container.decode(String.self, forKey: .description)
+        quantityStr = try? container.decode(String.self, forKey: .quantityStr)
+        
+        if let quantity = try? container.decode(Double.self, forKey: .quantity) {
+            self.quantity = quantity
+        } else if let quantity = try? container.decode(Int.self, forKey: .quantity) {
+            self.quantity = Double(quantity)
+        } else {
+            self.quantity = -1
+        }
+    }
+    
 }
 
 struct NetworkProductModel: Codable, Equatable {
@@ -220,16 +255,56 @@ struct NetworkProductModel: Codable, Equatable {
     let productTypeId: Int?
     let marketCategory: MarketCategory?
     let units: [Unit]?
-    let photo: String
+    var photo: String
     let marketUnit: MarketUnitClass?
-    let localImage: Data?
+    var localImage: Data?
     var store: Store?
     var cost: Double?
+
+    init(id: Int, title: String, productTypeId: Int? = nil, marketCategory: MarketCategory? = nil, 
+         units: [Unit]? = nil, photo: String, marketUnit: MarketUnitClass? = nil,
+         localImage: Data? = nil, store: Store? = nil, cost: Double? = nil) {
+        self.id = id
+        self.title = title
+        self.productTypeId = productTypeId
+        self.marketCategory = marketCategory
+        self.units = units
+        self.photo = photo
+        self.marketUnit = marketUnit
+        self.localImage = localImage
+        self.store = store
+        self.cost = cost
+    }
     
     static func == (lhs: NetworkProductModel, rhs: NetworkProductModel) -> Bool {
         lhs.id == rhs.id && lhs.title == rhs.title && lhs.productTypeId == rhs.productTypeId &&
         lhs.marketCategory == rhs.marketCategory && lhs.photo == rhs.photo &&
         lhs.localImage == rhs.localImage && lhs.cost == rhs.cost
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case id, title, productTypeId, marketCategory, units, photo, marketUnit,
+             store, cost
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        title = try container.decode(String.self, forKey: .title)
+        productTypeId = try? container.decode(Int.self, forKey: .productTypeId)
+        marketCategory = try? container.decode(MarketCategory.self, forKey: .marketCategory)
+        units = try? container.decode([Unit].self, forKey: .units)
+        marketUnit = try? container.decode(MarketUnitClass.self, forKey: .marketUnit)
+        store = try? container.decode(Store.self, forKey: .store)
+        cost = try? container.decode(Double.self, forKey: .cost)
+        
+        if let photo = try? container.decode(String.self, forKey: .photo) {
+            self.photo = photo
+        } else {
+            self.photo = ""
+        }
+        
+        localImage = nil
     }
 }
 
@@ -242,6 +317,26 @@ struct Unit: Codable {
 struct MarketCategory: Codable, Equatable {
     let id: Int
     let title: String
+    
+    init(id: Int, title: String) {
+        self.id = id
+        self.title = title
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case id, title
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        
+        if let title = try? container.decode(String.self, forKey: .title) {
+            self.title = title
+        } else {
+            self.title = ""
+        }
+    }
 }
 
 struct Store: Hashable, Equatable, Codable {
@@ -319,7 +414,7 @@ struct MarketUnitClass: Codable {
 }
 
 // MARK: - AdditionalTag
-struct AdditionalTag: Codable {
+struct AdditionalTag: Codable, Hashable {
     let id: Int
     let title: String
 
@@ -339,7 +434,7 @@ struct NetworkCollectionResponse: Codable {
     let data: [NetworkCollection]
 }
 
-struct RecipeForSharing: Codable {
+struct RecipeForSharing: Codable, Hashable {
     let id: Int
     let createdAt: String
     let title: String
@@ -357,6 +452,44 @@ struct RecipeForSharing: Codable {
     let additionalTags: [AdditionalTag]
     let dietTags: [AdditionalTag]
     let dishTypeTags: [AdditionalTag]
+    
+    enum CodingKeys: String, CodingKey {
+        case id, createdAt, title, description, totalServings, dishWeight,
+             values, ingredients, cookingTime, instructions, photo,
+             processingTypeTags, exceptionTags, eatingTags, additionalTags,
+             dietTags, dishTypeTags
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        createdAt = try container.decode(String.self, forKey: .createdAt)
+        title = try container.decode(String.self, forKey: .title)
+        description = try? container.decode(String.self, forKey: .description)
+        totalServings = try? container.decode(Int.self, forKey: .totalServings)
+        dishWeight = try? container.decode(Double.self, forKey: .dishWeight)
+        
+        if let values = try? container.decode(Values.self, forKey: .values) {
+            self.values = values
+        } else {
+            values = nil
+        }
+        ingredients = try container.decode([Ingredient].self, forKey: .ingredients)
+        cookingTime = try? container.decode(Int.self, forKey: .cookingTime)
+        instructions = try? container.decode([String].self, forKey: .instructions)
+        if let photo = try? container.decode(String.self, forKey: .photo) {
+            self.photo = photo
+        } else {
+            self.photo = ""
+        }
+        
+        eatingTags = try container.decode([AdditionalTag].self, forKey: .eatingTags)
+        dishTypeTags = try container.decode([AdditionalTag].self, forKey: .dishTypeTags)
+        processingTypeTags = try container.decode([AdditionalTag].self, forKey: .processingTypeTags)
+        additionalTags = try container.decode([AdditionalTag].self, forKey: .additionalTags)
+        dietTags = try container.decode([AdditionalTag].self, forKey: .dietTags)
+        exceptionTags = try container.decode([AdditionalTag].self, forKey: .exceptionTags)
+    }
 
     init(fromRecipe: Recipe) {
         id = fromRecipe.id
@@ -367,7 +500,6 @@ struct RecipeForSharing: Codable {
         dishWeight = fromRecipe.dishWeight
         values = fromRecipe.values
         instructions = fromRecipe.instructions
-        ingredients = fromRecipe.ingredients
         eatingTags = fromRecipe.eatingTags
         dishTypeTags = fromRecipe.dishTypeTags
         processingTypeTags = fromRecipe.processingTypeTags
@@ -376,5 +508,15 @@ struct RecipeForSharing: Codable {
         exceptionTags = fromRecipe.exceptionTags
         photo = fromRecipe.photo
         createdAt = fromRecipe.createdAt.toString()
+        let ingredients = fromRecipe.ingredients.map { ingredient in
+            var ingredientWithoutLocalImage = ingredient
+            ingredientWithoutLocalImage.product.localImage = nil
+            return ingredientWithoutLocalImage
+        }
+        self.ingredients = ingredients
+    }
+    
+    static func == (lhs: RecipeForSharing, rhs: RecipeForSharing) -> Bool {
+        lhs.id == rhs.id
     }
 }

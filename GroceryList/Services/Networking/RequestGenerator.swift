@@ -52,16 +52,14 @@ enum RequestGenerator: Codable {
     case fetchFAQState
     case parseWebLink(url: String)
     case sendMail
-//    case uploadImage
+    case uploadImage(imageData: Data)
     
     case shareMealPlanList(userToken: String, mealListId: String?)
     case mealPlanRelease(userToken: String, sharingToken: String)
-//    case mealPlanDelete(userToken: String, listId: String)
     case mealPlanUpdate(userToken: String, mealListId: String?)
     case mealPlanUserDelete(userToken: String, mealListId: String)
     case fetchMyMealPlanLists(userToken: String)
     case fetchMealPlanUsers(userToken: String, mealListId: String)
-//    case saveUserMealPlan(pantryTitle: String, stockTitle: String)
 }
 
 extension RequestGenerator {
@@ -85,7 +83,7 @@ extension RequestGenerator {
         case .createUser: return "https://ketodietapplication.site/api/user/register"
         case .logIn: return "https://ketodietapplication.site/api/user/login"
         case .updateUsername: return "https://ketodietapplication.site/api/user/name"
-        case .uploadAvatar: return "use multiformRequestObject"
+        case .uploadAvatar, .uploadImage: return "use multiformRequestObject"
         case .checkEmail: return "https://ketodietapplication.site/api/user/email"
         case .resendVerification: return "https://ketodietapplication.site/api/user/register/resend"
         case .passwordReset: return "https://ketodietapplication.site/api/user/password/request"
@@ -202,7 +200,7 @@ extension RequestGenerator {
                 injectUserToken(in: &components, userToken: userToken)
                 injectListId(in: &components, listId: listId)
             }
-        case .uploadAvatar:
+        case .uploadAvatar, .uploadImage:
             fatalError("use multiformRequestObject")
             
         case .userProduct:
@@ -316,6 +314,23 @@ extension RequestGenerator {
                 fileName: "avatar.jpg",
                 mimeType: "avatar/jpg"
             )
+            return (mfData, url)
+        case .uploadImage(let data):
+            guard let components = URLComponents(string: "https://ketodietapplication.site/api/upload") else {
+                fatalError("Error With Creating Components")
+            }
+            guard let url = components.url else {
+                fatalError("Error resolving URL")
+            }
+            
+            let imageData = data
+            let boundary = UUID().uuidString
+            let mfData = MultipartFormData(fileManager: .default, boundary: boundary)
+            
+            mfData.append(imageData,
+                          withName: "filename",
+                          fileName: "filename.jpg",
+                          mimeType: "filename/jpg")
             return (mfData, url)
         default:
             fatalError("Use request property instead")

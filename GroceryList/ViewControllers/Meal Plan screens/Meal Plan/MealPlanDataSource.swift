@@ -27,7 +27,7 @@ class MealPlanDataSource {
     private(set) var section: [MealPlanSection] = []
     private(set) var isEditMode = false
     private(set) var editMealPlan: [MealPlan] = []
-    
+    private let network = NetworkEngine()
     init() {
         getMealPlansFromStorage()
         setDefaultLabels()
@@ -202,18 +202,92 @@ class MealPlanDataSource {
         }
     }
     
-    func getMealPlanForSharing(date: Date, mealListId: String) -> MealList {
+    func getMealPlanForSharing(date: Date, mealListId: String, completion: @escaping ((MealList) -> Void)) {
         let mealPlansByDate = self.mealPlan.filter { $0.date.onlyDate >= date.onlyDate }
-        let mealPlanForSharing = mealPlansByDate.compactMap {
-            SharedMealPlan(mealPlan: $0)
-        }
+        
         let notesByDate = self.note.filter { $0.date.onlyDate >= date.onlyDate }
         let noteForSharing = notesByDate.compactMap {
             SharedNote(note: $0)
         }
         
-        return MealList(mealListId: mealListId, startDate: date.onlyDate.toString(), 
-                        plans: mealPlanForSharing, notes: noteForSharing)
+        getSharedMealPlan(mealPlansByDate: mealPlansByDate) { mealPlanForSharing in
+            let mealList = MealList(mealListId: mealListId, startDate: date.onlyDate.toString(),
+                                    plans: mealPlanForSharing, notes: noteForSharing)
+            completion(mealList)
+        }
+    }
+    
+    private func getSharedMealPlan(mealPlansByDate: [MealPlan], completion: @escaping (([SharedMealPlan]) -> Void)) {
+        let imageGroup = DispatchGroup()
+        var mealPlanForSharing = Set<SharedMealPlan>()
+        var updatedRecipe = Set<Recipe>()
+        
+        mealPlansByDate.forEach { mealPlan in
+            if let dbRecipe = CoreDataManager.shared.getRecipe(by: mealPlan.recipeId),
+               var localRecipe = Recipe(from: dbRecipe) {
+                
+                let ifNeededUploadImage = self.ifNeededUploadImage(recipe: localRecipe)
+                if URL(string: localRecipe.photo) == nil, let localImage = localRecipe.localImage {
+                    imageGroup.enter()
+                    uploadImage(imageData: localImage) { uploadImageResponse in
+                        imageGroup.leave()
+                        localRecipe.photo = uploadImageResponse.data.url
+                        updatedRecipe.insert(localRecipe)
+                        mealPlanForSharing.insert(SharedMealPlan(id: mealPlan.id.uuidString, date: mealPlan.date.toString(),
+                                                                 recipe: RecipeForSharing(fromRecipe: localRecipe)))
+                    }
+                }
+                for (index, ingredient) in localRecipe.ingredients.enumerated() {
+                    if URL(string: ingredient.product.photo) == nil, let localImage = ingredient.product.localImage {
+                        imageGroup.enter()
+                        uploadImage(imageData: localImage) { uploadImageResponse in
+                            imageGroup.leave()
+                            localRecipe.ingredients[index].product.photo = uploadImageResponse.data.url
+                            updatedRecipe.insert(localRecipe)
+                            mealPlanForSharing.insert(SharedMealPlan(id: mealPlan.id.uuidString, date: mealPlan.date.toString(),
+                                                                     recipe: RecipeForSharing(fromRecipe: localRecipe)))
+                        }
+                    }
+                }
+                
+                if !ifNeededUploadImage {
+                    mealPlanForSharing.insert(SharedMealPlan(id: mealPlan.id.uuidString, date: mealPlan.date.toString(),
+                                                             recipe: RecipeForSharing(fromRecipe: localRecipe)))
+                }
+            }
+        }
+        
+        imageGroup.notify(queue: .main) {
+            CoreDataManager.shared.saveRecipes(recipes: Array(updatedRecipe))
+            completion(Array(mealPlanForSharing))
+        }
+    }
+    
+    private func ifNeededUploadImage(recipe: Recipe) -> Bool {
+        if URL(string: recipe.photo) == nil,
+           recipe.localImage != nil {
+            return true
+        }
+        
+        for ingredient in recipe.ingredients {
+            if URL(string: ingredient.product.photo) == nil,
+                ingredient.product.localImage != nil {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    private func uploadImage(imageData: Data, completion: @escaping ((UploadImageResponse) -> Void)) {
+        network.uploadImage(imageData: imageData) { result in
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success(let success):
+                completion(success)
+            }
+        }
     }
     
     private func getMealPlan(by date: Date, for index: IndexPath) -> MealPlan? {
