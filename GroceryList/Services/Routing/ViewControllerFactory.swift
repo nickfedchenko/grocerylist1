@@ -331,10 +331,11 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createStopSharingPopUpController(user: User,
+                                          state: SharingListViewModel.State,
                                           listToShareModel: GroceryListsModel?,
                                           pantryToShareModel: PantryModel?,
                                           updateUI: ((Bool) -> Void)?) -> UIViewController {
-        let viewModel = StopSharingViewModel(user: user)
+        let viewModel = StopSharingViewModel(user: user, state: state)
         viewModel.listToShareModel = listToShareModel
         viewModel.pantryToShareModel = pantryToShareModel
         viewModel.updateUI = updateUI
@@ -347,7 +348,9 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
                                      users: [User]) -> UIViewController {
         let viewController = SharingListViewController()
         let networkManager = NetworkEngine()
-        let viewModel = SharingListViewModel(network: networkManager, users: users)
+        let viewModel = SharingListViewModel(network: networkManager,
+                                             state: listToShare == nil ? .pantry : .grocery,
+                                             users: users)
         viewModel.router = router
         viewModel.listToShareModel = listToShare
         viewModel.pantryToShareModel = pantryToShare
@@ -599,12 +602,15 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createSelectRecipeToMealPlan(router: RootRouter, date: Date,
-                                      updateUI: (() -> Void)?, mealPlanDate: ((Date) -> Void)?) -> UIViewController {
+                                      updateUI: (() -> Void)?, 
+                                      mealPlanDate: ((Date) -> Void)?,
+                                      updatedSharingPlan: (() -> Void)?) -> UIViewController {
         let dataSource = MainRecipeDataSource()
         let viewModel = SelectRecipeViewModel(dataSource: dataSource)
         viewModel.router = router
         viewModel.selectedDate = date
         viewModel.mealPlanDate = mealPlanDate
+        viewModel.updatedSharingPlan = updatedSharingPlan
         let controller = SelectRecipeViewController(viewModel: viewModel)
         let navigationController = MealPlanNavigationController(rootViewController: controller)
         navigationController.dismissController = updateUI
@@ -630,20 +636,24 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe,
-                                  date: Date, selectedDate: ((Date) -> Void)?) -> UIViewController {
+                                  date: Date, selectedDate: ((Date) -> Void)?,
+                                  updatedSharingPlan: (() -> Void)?) -> UIViewController {
         let viewModel = AddRecipeToMealPlanViewModel(recipe: recipe, mealPlanDate: date)
         viewModel.router = router
         viewModel.selectedDate = selectedDate
+        viewModel.updatedSharingPlan = updatedSharingPlan
         let controller = AddRecipeToMealPlanViewController(viewModel: viewModel)
         return controller
     }
     
     func createRecipeFromMealPlan(router: RootRouter, recipe: Recipe, mealPlan: MealPlan,
-                                  updateUI: (() -> Void)?, selectedDate: ((Date) -> Void)?) -> UIViewController {
+                                  updateUI: (() -> Void)?, selectedDate: ((Date) -> Void)?,
+                                  updatedSharingPlan: (() -> Void)?) -> UIViewController {
         let viewModel = AddRecipeToMealPlanViewModel(recipe: recipe, mealPlanDate: mealPlan.date)
         viewModel.router = router
         viewModel.mealPlan = mealPlan
         viewModel.selectedDate = selectedDate
+        viewModel.updatedSharingPlan = updatedSharingPlan
         let controller = AddRecipeToMealPlanViewController(viewModel: viewModel)
         let navigationController = MealPlanNavigationController(rootViewController: controller)
         navigationController.dismissController = updateUI

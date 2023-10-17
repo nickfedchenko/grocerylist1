@@ -90,6 +90,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .share:
             if components.scheme == "pantryList" {
                 SharedPantryManager.shared.gottenDeeplinkToken(token: token)
+            } else if components.scheme == "mealList" {
+                SharedMealPlanManager.shared.gottenDeeplinkToken(token: token)
             } else {
                 SharedListManager.shared.gottenDeeplinkToken(token: token)
             }
@@ -145,6 +147,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .share:
             if components.scheme == "pantryList" {
                 SharedPantryManager.shared.gottenDeeplinkToken(token: token)
+            } else if components.scheme == "mealList" {
+                SharedMealPlanManager.shared.gottenDeeplinkToken(token: token)
             } else {
                 SharedListManager.shared.gottenDeeplinkToken(token: token)
             }

@@ -52,6 +52,14 @@ enum RequestGenerator: Codable {
     case fetchFAQState
     case parseWebLink(url: String)
     case sendMail
+    case uploadImage(imageData: Data)
+    
+    case shareMealPlanList(userToken: String, mealListId: String?)
+    case mealPlanRelease(userToken: String, sharingToken: String)
+    case mealPlanUpdate(userToken: String, mealListId: String?)
+    case mealPlanUserDelete(userToken: String, mealListId: String)
+    case fetchMyMealPlanLists(userToken: String)
+    case fetchMealPlanUsers(userToken: String, mealListId: String)
 }
 
 extension RequestGenerator {
@@ -75,7 +83,7 @@ extension RequestGenerator {
         case .createUser: return "https://ketodietapplication.site/api/user/register"
         case .logIn: return "https://ketodietapplication.site/api/user/login"
         case .updateUsername: return "https://ketodietapplication.site/api/user/name"
-        case .uploadAvatar: return "use multiformRequestObject"
+        case .uploadAvatar, .uploadImage: return "use multiformRequestObject"
         case .checkEmail: return "https://ketodietapplication.site/api/user/email"
         case .resendVerification: return "https://ketodietapplication.site/api/user/register/resend"
         case .passwordReset: return "https://ketodietapplication.site/api/user/password/request"
@@ -105,6 +113,13 @@ extension RequestGenerator {
         case .fetchFAQState: return "https://ketodietapplication.site/api/faq/state"
         case .parseWebLink: return "https://ketodietapplication.site/api/parseWebLink"
         case .sendMail: return "https://ketodietapplication.site/api/mail"
+            
+        case .shareMealPlanList: return "https://ketodietapplication.site/api/mealList/share"
+        case .mealPlanRelease: return "https://ketodietapplication.site/api/mealList/release"
+        case .mealPlanUpdate: return "https://ketodietapplication.site/api/mealList/update"
+        case .mealPlanUserDelete: return "https://ketodietapplication.site/api/mealList/users/delete"
+        case .fetchMyMealPlanLists: return "https://ketodietapplication.site/api/mealList/fetch"
+        case .fetchMealPlanUsers: return "https://ketodietapplication.site/api/mealList/fetch/users"
         }
     }
     
@@ -185,7 +200,7 @@ extension RequestGenerator {
                 injectUserToken(in: &components, userToken: userToken)
                 injectListId(in: &components, listId: listId)
             }
-        case .uploadAvatar:
+        case .uploadAvatar, .uploadImage:
             fatalError("use multiformRequestObject")
             
         case .userProduct:
@@ -241,6 +256,37 @@ extension RequestGenerator {
             }
         case .sendMail:
             return requestCreator(basicURL: url, method: .get) { _ in }
+        case .shareMealPlanList(userToken: let userToken, mealListId: let mealListId):
+            return requestCreator(basicURL: url, method: .post) { components in
+                injectUserToken(in: &components, userToken: userToken)
+                if let mealListId {
+                    injectMealPlanId(in: &components, mealListId: mealListId)
+                }
+            }
+        case .mealPlanRelease(userToken: let userToken, sharingToken: let sharingToken):
+            return requestCreator(basicURL: url, method: .post) { components in
+                injectUserToken(in: &components, userToken: userToken)
+                injectSharingToken(in: &components, sharingToken: sharingToken)
+            }
+        case .mealPlanUpdate(userToken: let userToken, mealListId: let mealListId):
+            return requestCreator(basicURL: url, method: .post) { components in
+                injectUserToken(in: &components, userToken: userToken)
+                injectMealPlanId(in: &components, mealListId: mealListId ?? "")
+            }
+        case .mealPlanUserDelete(userToken: let userToken, mealListId: let mealListId):
+            return requestCreator(basicURL: url, method: .post) { components in
+                injectUserToken(in: &components, userToken: userToken)
+                injectMealPlanId(in: &components, mealListId: mealListId)
+            }
+        case .fetchMyMealPlanLists(userToken: let userToken):
+            return requestCreator(basicURL: url, method: .get) { components in
+                injectUserToken(in: &components, userToken: userToken)
+            }
+        case .fetchMealPlanUsers(userToken: let userToken, mealListId: let mealListId):
+            return requestCreator(basicURL: url, method: .get) { components in
+                injectUserToken(in: &components, userToken: userToken)
+                injectMealPlanId(in: &components, mealListId: mealListId)
+            }
         }
     }
     
@@ -268,6 +314,23 @@ extension RequestGenerator {
                 fileName: "avatar.jpg",
                 mimeType: "avatar/jpg"
             )
+            return (mfData, url)
+        case .uploadImage(let data):
+            guard let components = URLComponents(string: "https://ketodietapplication.site/api/upload") else {
+                fatalError("Error With Creating Components")
+            }
+            guard let url = components.url else {
+                fatalError("Error resolving URL")
+            }
+            
+            let imageData = data
+            let boundary = UUID().uuidString
+            let mfData = MultipartFormData(fileManager: .default, boundary: boundary)
+            
+            mfData.append(imageData,
+                          withName: "filename",
+                          fileName: "filename.jpg",
+                          mimeType: "filename/jpg")
             return (mfData, url)
         default:
             fatalError("Use request property instead")
@@ -398,6 +461,13 @@ extension RequestGenerator {
     private func injectWebRecipeUrl(in components: inout URLComponents, recipeUrl: String) {
         let queries: [URLQueryItem] = [
             .init(name: "url", value: recipeUrl)
+        ]
+        insert(queries: queries, components: &components)
+    }
+    
+    private func injectMealPlanId(in components: inout URLComponents, mealListId: String) {
+        let queries: [URLQueryItem] = [
+            .init(name: "meal_list_id", value: mealListId)
         ]
         insert(queries: queries, components: &components)
     }

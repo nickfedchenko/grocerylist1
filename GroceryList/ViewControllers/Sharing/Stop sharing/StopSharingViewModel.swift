@@ -13,9 +13,11 @@ class StopSharingViewModel {
     var listToShareModel: GroceryListsModel?
     var pantryToShareModel: PantryModel?
     let user: User
+    let state: SharingListViewModel.State
     
-    init(user: User) {
+    init(user: User, state: SharingListViewModel.State) {
         self.user = user
+        self.state = state
     }
     
     func getPantry() -> PantryCell.CellModel? {
