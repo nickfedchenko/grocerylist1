@@ -75,7 +75,8 @@ class CreateNewListViewModel {
             self?.copiedProducts = products
             self?.updateText()
         })
-        delegate?.presentController(controller: controller)
+        guard let controller else { return }
+        router?.topViewController?.present(controller, animated: true)
     }
     
     func updateText() {

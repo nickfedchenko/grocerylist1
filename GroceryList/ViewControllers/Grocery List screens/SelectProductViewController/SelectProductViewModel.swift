@@ -70,6 +70,7 @@ class SelectProductViewModel {
     
     func cellSelected(at ind: Int) {
         if ind == 0 {
+            Vibration.selection.vibrate()
             for ind in arrayOfProducts.indices {
                 arrayOfProducts[ind].isSelected = true
             }

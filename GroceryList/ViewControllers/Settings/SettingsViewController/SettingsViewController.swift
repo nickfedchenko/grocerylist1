@@ -35,7 +35,6 @@ class SettingsViewController: UIViewController {
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
-//        scrollView.contentInset.top = 80 + UIView.safeAreaTop
         return scrollView
     }()
     
@@ -52,6 +51,7 @@ class SettingsViewController: UIViewController {
         view.setupView(text: R.string.localizable.iCloudDataBackup(), isSwitchView: true)
         view.updateSwitcher(isOn: UserDefaultsManager.shared.isICloudDataBackupOn)
         view.switchValueChanged = { switchValue in
+            Vibration.rigid.vibrate()
             self.viewModel?.tappedICloudDataBackup(switchValue, completion: {
                 view.updateSwitcher(isOn: UserDefaultsManager.shared.isICloudDataBackupOn)
             })
@@ -64,6 +64,7 @@ class SettingsViewController: UIViewController {
         view.setupView(text: "Haptic Feedback".localized, isSwitchView: true)
         view.updateSwitcher(isOn: UserDefaultsManager.shared.isHapticOn)
         view.switchValueChanged = { switchValue in
+            Vibration.rigid.vibrate()
             AmplitudeManager.shared.logEvent(.prefHapticToggle, properties: [.isActive: switchValue ? .yes : .valueNo])
             UserDefaultsManager.shared.isHapticOn = switchValue
             CloudManager.shared.saveCloudSettings()
@@ -76,6 +77,7 @@ class SettingsViewController: UIViewController {
         view.setupView(text: R.string.localizable.settingsPictureMatching(), isSwitchView: true)
         view.updateSwitcher(isOn: UserDefaultsManager.shared.isShowImage)
         view.switchValueChanged = { switchValue in
+            Vibration.rigid.vibrate()
             AmplitudeManager.shared.logEvent(.prefPictureToggle, properties: [.isActive: switchValue ? .yes : .valueNo])
             UserDefaultsManager.shared.isShowImage = switchValue
             CloudManager.shared.saveCloudSettings()
@@ -105,6 +107,7 @@ class SettingsViewController: UIViewController {
         let view = SelectUnitsView(imperialColor: viewModel?.getBackgroundColorForImperial(),
                                    metricColor: viewModel?.getBackgroundColorForMetric())
         view.systemSelected = { [weak self] selectedSystem in
+            Vibration.selection.vibrate()
             self?.viewModel?.systemSelected(system: selectedSystem)
         }
         view.layer.cornerRadius = 12
@@ -303,6 +306,7 @@ extension SettingsViewController {
     
     @objc
     private func unitsViewAction(_ recognizer: UIPanGestureRecognizer) {
+        Vibration.selection.vibrate()
         AmplitudeManager.shared.logEvent(.prefUnits)
         UIView.animate(withDuration: 0.3, delay: 0,
                        usingSpringWithDamping: 0.8,
@@ -316,6 +320,7 @@ extension SettingsViewController {
     
     @objc
     private func likeAppViewAction(_ recognizer: UIPanGestureRecognizer) {
+        Vibration.selection.vibrate()
         AmplitudeManager.shared.logEvent(.prefLike)
         guard let
                 url = URL(string: "itms-apps://itunes.apple.com/app/id1659848939?action=write-review"),
@@ -326,6 +331,7 @@ extension SettingsViewController {
     
     @objc
     private func contactUsAction(_ recognizer: UIPanGestureRecognizer) {
+        Vibration.selection.vibrate()
         AmplitudeManager.shared.logEvent(.problemTell)
         let controller = ContactUsViewController()
         self.navigationController?.pushViewController(controller, animated: true)
@@ -333,6 +339,7 @@ extension SettingsViewController {
     
     @objc
     private func helpAndFaqAction(_ recognizer: UIPanGestureRecognizer) {
+        Vibration.selection.vibrate()
         let controller = FAQViewController()
         self.navigationController?.pushViewController(controller, animated: true)
     }
@@ -358,12 +365,6 @@ extension SettingsViewController: SettingsViewModelDelegate {
             make.left.right.equalToSuperview()
         }
         
-//        unitsView.snp.remakeConstraints { make in
-//            make.left.right.equalToSuperview().inset(20)
-//            make.top.equalTo(profileView.snp.bottom).inset(-5)
-//            make.height.equalTo(54)
-//        }
-        
         registerView.snp.remakeConstraints { make in
             make.top.greaterThanOrEqualTo(helpAndFaqView.snp.bottom).offset(-24)
             make.height.equalTo(0)
@@ -384,12 +385,6 @@ extension SettingsViewController: SettingsViewModelDelegate {
             make.height.equalTo(0)
             make.left.right.equalToSuperview()
         }
-        
-//        unitsView.snp.remakeConstraints { make in
-//            make.left.right.equalToSuperview().inset(20)
-//            make.top.equalTo(preferenciesLabel.snp.bottom).inset(-42)
-//            make.height.equalTo(54)
-//        }
         
         registerView.snp.remakeConstraints { make in
             make.top.greaterThanOrEqualTo(helpAndFaqView.snp.bottom).offset(-24)

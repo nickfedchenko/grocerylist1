@@ -201,6 +201,7 @@ class CreateNewProductViewController: UIViewController {
     
     @objc
     func saveButtonTapped() {
+        Vibration.success.vibrate()
         viewModel?.saveProduct(categoryName: categoryView.categoryTitle ?? R.string.localizable.other(),
                                productName: productView.productTitle ?? "",
                                description: productView.descriptionTitle ?? "",
@@ -225,6 +226,7 @@ class CreateNewProductViewController: UIViewController {
     
     @objc
     private func tappedOnCategoryView() {
+        Vibration.selection.vibrate()
         AmplitudeManager.shared.logEvent(.categoryChange)
         viewModel?.goToSelectCategoryVC()
     }
@@ -490,6 +492,7 @@ extension CreateNewProductViewController: StoreOfProductViewDelegate {
 
 extension CreateNewProductViewController: QuantityOfProductViewDelegate {
     func unitSelected(_ unit: UnitSystem?) {
+        Vibration.selection.vibrate()
         self.unit = unit
         viewModel?.setUnit(unit)
         updateQuantity(quantityView.quantity)
@@ -500,6 +503,7 @@ extension CreateNewProductViewController: QuantityOfProductViewDelegate {
     }
     
     func tappedMinusPlusButtons(_ quantity: Double) {
+        Vibration.rigid.vibrate()
         tappedQuantityButtons(quantity)
     }
 }

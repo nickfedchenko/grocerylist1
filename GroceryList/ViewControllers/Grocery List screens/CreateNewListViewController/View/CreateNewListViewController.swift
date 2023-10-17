@@ -179,10 +179,11 @@ class CreateNewListViewController: UIViewController {
         return label
     }()
     
-    private let switchView: UISwitch = {
+    private lazy var switchView: UISwitch = {
         let switcher = UISwitch()
         switcher.onTintColor = UIColor(hex: "#31635A")
         switcher.isOn = true
+        switcher.addTarget(self, action: #selector(switchValueDidChange), for: .valueChanged)
         return switcher
     }()
     
@@ -362,6 +363,7 @@ extension CreateNewListViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        Vibration.selection.vibrate()
         selectedColor = indexPath.row
         let textFieldColer = viewModel?.getTextFieldColor(at: indexPath.row)
         let backgroundColor = viewModel?.getBackgroundColor(at: indexPath.row)
@@ -398,13 +400,20 @@ extension CreateNewListViewController {
     
     @objc
     private func saveAction() {
+        Vibration.success.vibrate()
         viewModel?.savePressed(nameOfList: textfield.text, numberOfColor: selectedColor, isAutomaticCategory: switchView.isOn)
         hidePanel()
     }
     
     @objc
     private func pickItemsAction() {
+        Vibration.medium.vibrate()
         viewModel?.pickItemTapped(height: keyboardHeight + contentViewHeight)
+    }
+    
+    @objc
+    private func switchValueDidChange() {
+        Vibration.rigid.vibrate()
     }
     
     @objc

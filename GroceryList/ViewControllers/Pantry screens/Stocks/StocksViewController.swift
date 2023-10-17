@@ -431,7 +431,7 @@ extension StocksViewController: UICollectionViewDelegate {
             }
             return
         }
-        
+        Vibration.success.vibrate()
         viewModel.updateStockStatus(stock: stock)
     }
 }

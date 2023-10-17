@@ -68,7 +68,11 @@ class AutoRepeatSettingView: UIView {
         return label
     }()
     
-    private let reminderSwitch = UISwitch()
+    private lazy var reminderSwitch: UISwitch = {
+        let switcher = UISwitch()
+        switcher.addTarget(self, action: #selector(switchValueDidChange), for: .valueChanged)
+        return switcher
+    }()
     private var switchEnable = false {
         didSet { reminderSwitch.isUserInteractionEnabled = switchEnable }
     }
@@ -140,6 +144,7 @@ class AutoRepeatSettingView: UIView {
                 $0.height.equalTo(46)
             }
             view.selectView = { [weak self] tag in
+                Vibration.selection.vibrate()
                 self?.delegate?.changeRepeat(StockAutoRepeat(rawValue: tag)?.title)
                 self?.selectedTag = tag
                 self?.updateReminderColor()
@@ -210,7 +215,13 @@ class AutoRepeatSettingView: UIView {
     
     @objc
     private func doneButtonTapped() {
+        Vibration.success.vibrate()
         delegate?.tappedDone()
+    }
+    
+    @objc
+    private func switchValueDidChange() {
+        Vibration.rigid.vibrate()
     }
     
     private func makeConstraints() {

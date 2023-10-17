@@ -193,6 +193,7 @@ class CreateNewPantryViewController: UIViewController {
     
     @objc
     private func saveButtonTapped() {
+        Vibration.success.vibrate()
         viewModel.savePantryList(name: nameTextView.text,
                                  icon: iconView.icon)
         hidePanel()
@@ -200,6 +201,7 @@ class CreateNewPantryViewController: UIViewController {
     
     @objc
     private func selectListButtonTapped() {
+        Vibration.medium.vibrate()
         viewModel.showSelectList(contentViewHeigh: contentViewHeigh)
     }
 
@@ -447,6 +449,7 @@ extension CreateNewPantryViewController: UICollectionViewDataSource {
 extension CreateNewPantryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
+        Vibration.selection.vibrate()
         viewModel.setColor(at: indexPath.row)
     }
 }

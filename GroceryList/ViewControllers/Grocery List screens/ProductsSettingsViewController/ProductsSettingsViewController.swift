@@ -90,6 +90,7 @@ class ProductsSettingsViewController: UIViewController {
     // MARK: - close vc
     @objc
     private func doneButtonPressed() {
+        Vibration.success.vibrate()
         hidePanel(compl: nil)
     }
     
@@ -222,6 +223,7 @@ extension ProductsSettingsViewController: UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        Vibration.selection.vibrate()
         viewModel?.cellSelected(at: indexPath.row)
     }
 }

@@ -43,6 +43,7 @@ class SelectProductViewController: UIViewController {
     
     @objc
     private func doneButtonPressed() {
+        Vibration.medium.vibrate()
         updateConstr(with: -contentViewHeigh) {
             self.dismiss(animated: true, completion: { [weak self] in
                 self?.viewModel?.doneButtonPressed()
@@ -181,9 +182,9 @@ class SelectProductViewController: UIViewController {
             let name = viewModel.getNameOfCell(at: indexPath.row)
             let isSelectAllButton = indexPath.row == 0 ? true : false
             let isProductSelected = viewModel.isProductSelected(at: indexPath.row)
-
-                cell.setupCell(bcgColor: backgroundColor, foregroundColor: foregroundColor, text: name,
-                               rightImage: nil, isSelected: isProductSelected, isSelectAllButton: isSelectAllButton)
+            
+            cell.setupCell(bcgColor: backgroundColor, foregroundColor: foregroundColor, text: name,
+                           rightImage: nil, isSelected: isProductSelected, isSelectAllButton: isSelectAllButton)
             return cell
         }
         

@@ -245,6 +245,7 @@ extension MainTabBarController: MainNavigationViewDelegate {
 
 extension MainTabBarController: CustomTabBarViewDelegate {
     func tabSelected(at index: Int) {
+        Vibration.medium.vibrate()
         analytics(tabIndex: index)
         selectedIndex = index
         customTabBar.updateItems(by: index)
@@ -260,6 +261,7 @@ extension MainTabBarController: CustomTabBarViewDelegate {
         guard let item = TabBarItemView.Item(rawValue: itemTag) else {
             return
         }
+        Vibration.heavy.vibrate()
         switch item {
         case .list:
             let navController = self.selectedViewController as? UINavigationController

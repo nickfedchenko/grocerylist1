@@ -211,6 +211,7 @@ class MainRecipeViewController: UIViewController {
     
     @objc
     private func tappedOnSearch() {
+        Vibration.selection.vibrate()
         viewModel.showSearch()
     }
     
@@ -280,6 +281,7 @@ class MainRecipeViewController: UIViewController {
 // MARK: - CollectionView
 extension MainRecipeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        Vibration.medium.vibrate()
         guard recipeIsFolderView else {
             viewModel.showRecipe(by: indexPath)
             return

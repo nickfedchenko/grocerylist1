@@ -179,6 +179,7 @@ final class StocksNavigationView: UIView {
     
     @objc
     private func tappedBackButton() {
+        Vibration.medium.vibrate()
         delegate?.tapOnBackButton()
     }
     
@@ -194,6 +195,7 @@ final class StocksNavigationView: UIView {
     
     @objc
     private func tappedOutButton() {
+        Vibration.medium.vibrate()
         delegate?.tapOnOutButton()
     }
     

@@ -483,6 +483,7 @@ class RecipeViewController: UIViewController {
 
 extension RecipeViewController: RecipeServingSelectorDelegate {
     func servingChangedTo(count: Double) {
+        Vibration.rigid.vibrate()
         let servings = viewModel.getIngredientsSizeAccordingToServings(servings: count)
         updateIngredientsCount(by: servings)
     }
@@ -519,6 +520,7 @@ extension RecipeViewController: RecipeScreenHeaderDelegate {
 
 extension RecipeViewController: RecipeMainImageViewDelegate {
     func shareButtonTapped() {
+        Vibration.medium.vibrate()
         AmplitudeManager.shared.logEvent(.recipeSendOnPhoto)
         let screenshot = containerView.snapshotNewView(with: view.backgroundColor)
         DispatchQueue.main.async {
@@ -528,12 +530,14 @@ extension RecipeViewController: RecipeMainImageViewDelegate {
     }
     
     func addToFavoritesTapped() {
+        Vibration.soft.vibrate()
         viewModel.updateFavoriteState(isSelected: !isFavorite)
     }
 }
 
 extension RecipeViewController: AddProductsSelectionListDelegate {
     func ingredientsSuccessfullyAdded() {
+        Vibration.heavy.vibrate()
         AmplitudeManager.shared.logEvent(.recipeAddToList)
     }
 }
