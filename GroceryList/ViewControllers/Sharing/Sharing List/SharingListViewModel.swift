@@ -38,6 +38,7 @@ final class SharingListViewModel {
     private var sharedUsers: [User] = []
     private var network: NetworkEngine
     private let state: State
+    private var gotShareLink = false
     
     init(network: NetworkEngine, state: State, users: [User]) {
         self.network = network
@@ -67,6 +68,9 @@ final class SharingListViewModel {
     }
     
     func showCustomReview() {
+        guard gotShareLink else {
+            return
+        }
         router?.goReviewController()
     }
     
@@ -197,6 +201,7 @@ final class SharingListViewModel {
         idsOfChangedLists.insert(listToShareModel.id)
         AmplitudeManager.shared.logEvent(.sendInvite)
         SharedListManager.shared.shareGroceryList(listModel: listToShareModel) { [weak self] deepLink in
+            self?.gotShareLink = true
             DispatchQueue.main.async {
                 self?.delegate?.openShareController(with: deepLink)
             }
@@ -205,6 +210,7 @@ final class SharingListViewModel {
     
     private func sharePantry(pantryToShareModel: PantryModel) {
         SharedPantryManager.shared.sharePantry(pantry: pantryToShareModel) { [weak self] deepLink in
+            self?.gotShareLink = true
             DispatchQueue.main.async {
                 self?.delegate?.openShareController(with: deepLink)
             }
@@ -213,6 +219,7 @@ final class SharingListViewModel {
     
     private func shareMealPlan(mealPlansToShare: MealList) {
         SharedMealPlanManager.shared.shareMealPlan(mealPlans: mealPlansToShare) { [weak self] deepLink in
+            self?.gotShareLink = true
             DispatchQueue.main.async {
                 self?.delegate?.openShareController(with: deepLink)
             }

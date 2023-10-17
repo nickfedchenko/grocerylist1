@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 506 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 508 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -730,6 +730,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var destinationList: RswiftResources.StringResource { .init(key: "Destination List", tableName: "Localizable", source: source, developmentValue: "Destination List", comment: nil) }
+
+      /// en translation: Details
+      ///
+      /// Key: Details
+      ///
+      /// Locales: en, ru, fr, de
+      var details: RswiftResources.StringResource { .init(key: "Details", tableName: "Localizable", source: source, developmentValue: "Details", comment: nil) }
 
       /// en translation: Diet
       ///
@@ -2620,6 +2627,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var thanksForYourFeedback: RswiftResources.StringResource { .init(key: "Thanks for your feedback", tableName: "Localizable", source: source, developmentValue: "Thanks for your feedback", comment: nil) }
+
+      /// en translation: Title
+      ///
+      /// Key: Title
+      ///
+      /// Locales: en, ru, fr, de
+      var title: RswiftResources.StringResource { .init(key: "Title", tableName: "Localizable", source: source, developmentValue: "Title", comment: nil) }
 
       /// en translation: Start your full access to all game modes
       ///
