@@ -42,9 +42,11 @@ class MealPlanViewModel {
             self?.reloadData?()
         }
         
+        DispatchQueue.global().async { 
+            SharedMealPlanManager.shared.fetchMyMealPlans()
+        }
         NotificationCenter.default.addObserver(self, selector: #selector(updateDataSource),
                                                name: .cloudMealPlans, object: nil)
-        SharedMealPlanManager.shared.fetchMyMealPlans()
         NotificationCenter.default.addObserver(self, selector: #selector(updateDataSource),
                                                name: .sharedMealPlanDownloadedAndSaved, object: nil)
     }

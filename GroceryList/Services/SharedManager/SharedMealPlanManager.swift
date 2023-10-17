@@ -72,7 +72,9 @@ class SharedMealPlanManager {
             case .failure(let error):
                 print(error)
             case .success(let response):
-                self.transformSharedModelsToLocal(response: response)
+                DispatchQueue.global().async {
+                    self.transformSharedModelsToLocal(response: response)
+                }
             }
         }
     }
