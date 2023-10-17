@@ -27,6 +27,14 @@ class MealPlanViewModel {
         dataSource.isEditMode
     }
     
+    private var isSharingOn: Bool {
+        guard UserAccountManager.shared.getUser() != nil,
+              !(CoreDataManager.shared.getMealListSharedInfo()?.isEmpty ?? true) else {
+            return false
+        }
+        return true
+    }
+    
     init(dataSource: MealPlanDataSource) {
         self.dataSource = dataSource
         
@@ -100,7 +108,9 @@ class MealPlanViewModel {
         self.selectedDate = selectedDate
         router?.goToSelectRecipeToMealPlan(date: selectedDate,
                                            updateUI: { [weak self] in
-            self?.updateStorage()
+            if !(self?.isSharingOn ?? false) {
+                self?.updateStorage()
+            }
         }, mealPlanDate: { [weak self] date in
             self?.reloadCalendar?(date.onlyDate)
         }, updatedSharingPlan: { [weak self] in
@@ -118,7 +128,9 @@ class MealPlanViewModel {
         selectedDate = mealPlan.date
         router?.goToRecipeFromMealPlan(recipe: recipe, mealPlan: mealPlan,
                                        updateUI: { [weak self] in
-            self?.updateStorage()
+            if !(self?.isSharingOn ?? false) {
+                self?.updateStorage()
+            }
         }, selectedDate: nil, updatedSharingPlan: { [weak self] in
             self?.updateStorage()
             self?.updateSharingMealPlan()
@@ -133,7 +145,9 @@ class MealPlanViewModel {
         
         router?.goToAddNoteToMealPlan(note: note, date: note?.date ?? date,
                                       updateUI: { [weak self] in
-            self?.updateStorage()
+            if !(self?.isSharingOn ?? false) {
+                self?.updateStorage()
+            }
         }, updatedSharingPlan: { [weak self] in
             self?.updateStorage()
             self?.updateSharingMealPlan()
@@ -312,8 +326,8 @@ class MealPlanViewModel {
     
     @objc
     private func updateDataSource() {
-        DispatchQueue.main.async {
-            self.updateStorage()
+        DispatchQueue.global().async { [weak self] in
+            self?.updateStorage()
         }
     }
     
@@ -323,10 +337,12 @@ class MealPlanViewModel {
             return
         }
         
-        mealPlansSharedInfo.forEach { info in
-            dataSource.getMealPlanForSharing(date: info.createdAt ?? Date(),
-                                                         mealListId: info.mealListId ?? "") { plans in
-                SharedMealPlanManager.shared.updateMealPlan(mealPlans: plans)
+        DispatchQueue.global().async { [weak self] in
+            mealPlansSharedInfo.forEach { info in
+                self?.dataSource.getMealPlanForSharing(date: info.createdAt ?? Date(),
+                                                       mealListId: info.mealListId ?? "") { plans in
+                    SharedMealPlanManager.shared.updateMealPlan(mealPlans: plans)
+                }
             }
         }
     }

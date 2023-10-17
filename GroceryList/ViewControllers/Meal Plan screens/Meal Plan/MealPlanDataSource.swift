@@ -260,7 +260,7 @@ class MealPlanDataSource {
             }
         }
         
-        imageGroup.notify(queue: .main) {
+        imageGroup.notify(queue: .global()) {
             CoreDataManager.shared.saveRecipes(recipes: Array(updatedRecipe))
             completion(Array(mealPlanForSharing))
         }
