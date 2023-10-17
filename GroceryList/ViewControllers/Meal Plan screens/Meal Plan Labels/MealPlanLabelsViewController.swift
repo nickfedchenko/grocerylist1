@@ -102,6 +102,7 @@ class MealPlanLabelsViewController: UIViewController {
 
     @objc
     private func tappedDoneButton() {
+        Vibration.success.vibrate()
         viewModel.saveChanges()
         viewModel.dismissView()
         self.dismiss(animated: true)

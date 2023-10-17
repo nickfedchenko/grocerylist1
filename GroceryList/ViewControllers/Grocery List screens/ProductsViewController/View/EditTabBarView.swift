@@ -88,12 +88,14 @@ final class EditTabBarView: ViewWithOverriddenPoint {
         }
         
         deleteAlertView.deleteTapped = { [weak self] in
+            Vibration.heavy.vibrate()
             AmplitudeManager.shared.logEvent(.editDeleteDone)
             self?.delegate?.tappedDelete()
             self?.updateDeleteAlertViewConstraint(with: 0)
         }
         
         deleteAlertView.cancelTapped = { [weak self] in
+            Vibration.rigid.vibrate()
             self?.updateDeleteAlertViewConstraint(with: 0)
         }
 
@@ -152,6 +154,7 @@ final class EditTabBarView: ViewWithOverriddenPoint {
 
 extension EditTabBarView: EditTabBarItemViewDelegate {
     fileprivate func tappedItem(state: EditTabBarItemState) {
+        Vibration.medium.vibrate()
         switch state {
         case .selectAll(let isSelect):
             if isSelect {

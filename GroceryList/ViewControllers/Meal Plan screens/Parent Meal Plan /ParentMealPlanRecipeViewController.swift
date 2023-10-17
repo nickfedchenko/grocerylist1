@@ -101,6 +101,7 @@ extension ParentMealPlanRecipeViewController: SJSegmentedViewControllerDelegate 
 
 extension ParentMealPlanRecipeViewController: CustomSegmentedControlViewDelegate {
     func segmentChanged(_ selectedSegmentIndex: Int) {
+        Vibration.heavy.vibrate()
         segmentedControl.selectedSegmentIndex = selectedSegmentIndex
         setSelectedSegmentAt(selectedSegmentIndex, animated: true)
         updateUI(index: selectedSegmentIndex)

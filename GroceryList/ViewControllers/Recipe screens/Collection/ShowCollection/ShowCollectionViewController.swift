@@ -178,18 +178,21 @@ final class ShowCollectionViewController: UIViewController {
     
     @objc
     private func doneButtonAction() {
+        Vibration.medium.vibrate()
         hideContentView()
         doneButton.isUserInteractionEnabled = false
     }
     
     @objc
     private func menuTapAction() {
+        Vibration.medium.vibrate()
         contextMenuView.fadeOut()
         contextMenuBackgroundView.isHidden = true
     }
     
     @objc
     private func deleteTapAction() {
+        Vibration.heavy.vibrate()
         deleteAlertView.fadeOut()
         deleteAlertBackgroundView.isHidden = true
     }
@@ -358,6 +361,7 @@ extension ShowCollectionViewController: UITableViewDelegate {
         }
 #endif
         if indexPath.row == 0 {
+            Vibration.medium.vibrate()
             viewModel?.createCollectionTapped()
             return
         }
@@ -365,6 +369,7 @@ extension ShowCollectionViewController: UITableViewDelegate {
               !(viewModel?.isTechnicalCollection(by: indexPath.row - 1) ?? true) else {
             return
         }
+        Vibration.selection.vibrate()
         viewModel?.updateSelect(by: indexPath.row - 1)
     }
     

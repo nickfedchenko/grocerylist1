@@ -342,6 +342,7 @@ class MealPlanViewController: UIViewController {
     
     @objc
     private func tappedTodayButton() {
+        Vibration.medium.vibrate()
         calendarView.setToday()
         updatedTodayButton()
         
@@ -352,6 +353,7 @@ class MealPlanViewController: UIViewController {
     
     @objc
     private func tappedMenuButton() {
+        Vibration.medium.vibrate()
         guard viewModel.isEditMode else {
             viewModel.showContextMenu(date: calendarView.selectedDate)
             return
@@ -469,6 +471,7 @@ extension MealPlanViewController: CalendarViewDelegate {
 
 extension MealPlanViewController: CustomSegmentedControlViewDelegate {
     func segmentChanged(_ selectedSegmentIndex: Int) {
+        Vibration.medium.vibrate()
         segmentedControl.selectedSegmentIndex = selectedSegmentIndex
         UDMSelectedMonthOrWeek = selectedSegmentIndex
         calendarView.setScope()
@@ -530,6 +533,7 @@ extension MealPlanViewController: MealPlanCellDelegate {
 
 extension MealPlanViewController: MealPlanHeaderCellDelegate {
     func addNote(_ cell: MealPlanHeaderCell) {
+        Vibration.medium.vibrate()
         var date = calendarView.selectedDate
         if let dateFromCell = cell.date {
             date = dateFromCell
@@ -538,6 +542,7 @@ extension MealPlanViewController: MealPlanHeaderCellDelegate {
     }
     
     func addRecipe(_ cell: MealPlanHeaderCell) {
+        Vibration.medium.vibrate()
         var date = calendarView.selectedDate
         if let dateFromCell = cell.date {
             date = dateFromCell

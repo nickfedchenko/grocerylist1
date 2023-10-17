@@ -168,6 +168,7 @@ OS version: \(systemVersion)
                                 message: message + setInfo())
         
         NetworkEngine().sendMail(sendMail: sendMail) { _ in }
+        Vibration.medium.vibrate()
         
         self.navigationController?.popViewController(animated: true)
     }

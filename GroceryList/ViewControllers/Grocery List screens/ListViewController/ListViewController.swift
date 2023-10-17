@@ -174,11 +174,13 @@ final class ListViewController: UIViewController {
         
         // Удаление и закрепление ячейки
         cell.swipeDeleteAction = { [weak self] in
+            Vibration.medium.vibrate()
             AmplitudeManager.shared.logEvent(.listDelete)
             self?.viewModel.deleteCell(with: model)
         }
         
         cell.swipeToAddOrDeleteFromFavorite = { [weak self] in
+            Vibration.medium.vibrate()
             self?.viewModel.addOrDeleteFromFavorite(with: model)
         }
         // Шаринг карточки списка
@@ -260,6 +262,7 @@ extension ListViewController: UICollectionViewDelegate {
         guard section.cellType == .usual else {
             return
         }
+        Vibration.selection.vibrate()
         viewModel.cellTapped(with: model)
     }
 }

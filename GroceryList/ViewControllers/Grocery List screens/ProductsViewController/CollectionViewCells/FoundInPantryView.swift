@@ -57,6 +57,7 @@ class FoundInPantryView: UIView {
     
     @objc
     private func tappedCrossButton() {
+        Vibration.medium.vibrate()
         tapCross?()
     }
     

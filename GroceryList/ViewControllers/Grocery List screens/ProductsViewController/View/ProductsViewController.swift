@@ -232,21 +232,23 @@ class ProductsViewController: UIViewController {
 //    }
     
     // MARK: - buttonPressed
-    
     @objc
     private func arrowBackButtonPressed() {
+        Vibration.medium.vibrate()
         self.navigationController?.popViewController(animated: true)
         viewModel?.goBackButtonPressed()
     }
     
     @objc
     private func contextMenuButtonPressed() {
+        Vibration.medium.vibrate()
         let snapshot = makeSnapshot()
         viewModel?.settingsTapped(with: snapshot)
     }
     
     @objc
     private func sortButtonPressed() {
+        Vibration.medium.vibrate()
         viewModel?.sortTapped(productType: .products)
     }
     
@@ -339,6 +341,7 @@ class ProductsViewController: UIViewController {
     
     @objc
     private func sharingViewPressed() {
+        Vibration.medium.vibrate()
         AmplitudeManager.shared.logEvent(.setInvite)
         viewModel?.sharingTapped()
     }
@@ -661,6 +664,7 @@ extension ProductsViewController: UICollectionViewDelegate {
             guard cellState != .edit else {
                 // редактирование ячеек
                 guard let viewModel else { return }
+                Vibration.selection.vibrate()
                 AmplitudeManager.shared.logEvent(.editCheckItem)
                 viewModel.updateEditProduct(product)
                 let isEditCell = viewModel.editProducts.contains(where: { $0.id == product.id })
@@ -685,6 +689,7 @@ extension ProductsViewController: UICollectionViewDelegate {
                     self?.viewModel?.updatePurchasedStatus(product: product)
                 }
             } else {
+                Vibration.success.vibrate()
                 AmplitudeManager.shared.logEvent(.itemChecked)
                 if product.fromRecipeTitle != nil {
                     AmplitudeManager.shared.logEvent(.itemCheckedFromRecipe)
@@ -714,6 +719,7 @@ extension ProductsViewController: UICollectionViewDelegate {
             items.append(item)
             indexPaths.append(indexPath)
             
+            Vibration.rigid.vibrate()
             // для схлопывыания Куплено
             if parent.typeOFCell == .purchased {
                 viewModel?.isExpandedPurchased.toggle()

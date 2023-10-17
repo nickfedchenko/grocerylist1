@@ -2543,12 +2543,12 @@
 			path = InternetConnection;
 			sourceTree = "<group>";
 		};
-		B3777E212938E4CC0074BE38 /* HapticManader */ = {
+		B3777E212938E4CC0074BE38 /* HapticManager */ = {
 			isa = PBXGroup;
 			children = (
 				B3777E222938E4E90074BE38 /* HapticManager.swift */,
 			);
-			path = HapticManader;
+			path = HapticManager;
 			sourceTree = "<group>";
 		};
 		B37A0F4A29100CD900343FF1 /* Application */ = {
@@ -2584,7 +2584,7 @@
 				B381EF1B299A56A200DCDE40 /* UserAccountManager */,
 				B3329594298A6475002DF1EE /* Ampllitude */,
 				38817890293BEC7E0094344D /* DataProviderFacade */,
-				B3777E212938E4CC0074BE38 /* HapticManader */,
+				B3777E212938E4CC0074BE38 /* HapticManager */,
 				B3777E1E2938D8050074BE38 /* InternetConnection */,
 				B3802313292BC7B70039EDE0 /* UserDefaultsManager */,
 				B3179EA5291E305F00455419 /* Networking */,
