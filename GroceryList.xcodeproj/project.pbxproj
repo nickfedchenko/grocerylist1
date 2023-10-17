@@ -161,6 +161,7 @@
 		339254B72A33EEE80047807E /* StockReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254B62A33EEE80047807E /* StockReminderViewController.swift */; };
 		339254B92A33EF020047807E /* StockReminderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254B82A33EF020047807E /* StockReminderViewModel.swift */; };
 		3394868E2ADE851300DDE971 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E222938E4E90074BE38 /* HapticManager.swift */; };
+		339486912ADE995000DDE971 /* cart.json in Resources */ = {isa = PBXBuildFile; fileRef = 339486902ADE995000DDE971 /* cart.json */; };
 		33995D202A1C5C88003FECAE /* PantryStarterPackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */; };
 		33995D232A1CC1DE003FECAE /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */; };
 		33995D252A1CC501003FECAE /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D242A1CC501003FECAE /* TabBarItemView.swift */; };
@@ -715,6 +716,7 @@
 		339254B32A3347DA0047807E /* StockReminderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockReminderDataSource.swift; sourceTree = "<group>"; };
 		339254B62A33EEE80047807E /* StockReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockReminderViewController.swift; sourceTree = "<group>"; };
 		339254B82A33EF020047807E /* StockReminderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockReminderViewModel.swift; sourceTree = "<group>"; };
+		339486902ADE995000DDE971 /* cart.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cart.json; sourceTree = "<group>"; };
 		33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryStarterPackViewController.swift; sourceTree = "<group>"; };
 		33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
 		33995D242A1CC501003FECAE /* TabBarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
@@ -1529,6 +1531,14 @@
 				339254B32A3347DA0047807E /* StockReminderDataSource.swift */,
 			);
 			path = "Stock Reminder";
+			sourceTree = "<group>";
+		};
+		3394868F2ADE993A00DDE971 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				339486902ADE995000DDE971 /* cart.json */,
+			);
+			path = Animation;
 			sourceTree = "<group>";
 		};
 		33995D212A1C5C91003FECAE /* StarterPack */ = {
@@ -2563,6 +2573,7 @@
 		B37A0F4B29100CEA00343FF1 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				3394868F2ADE993A00DDE971 /* Animation */,
 				386CFAC5299542BE00B4AD76 /* Generated */,
 				B37A2CF229111BFB003C01AD /* Fonts */,
 				B37A2CE02911034D003C01AD /* Extensions */,
@@ -2990,6 +3001,7 @@
 				B3981C56297A86EA00206DB7 /* SF Pro Rounded Bold.otf in Resources */,
 				B3981C60297A89E800206DB7 /* SF Pro Text Medium.otf in Resources */,
 				B3981C5A297A86F200206DB7 /* SF Pro Rounded Regular.otf in Resources */,
+				339486912ADE995000DDE971 /* cart.json in Resources */,
 				B3C3FA4929115F510011EC0A /* SF Pro Display Semibold.otf in Resources */,
 				33897D1329C87F11009C6932 /* GoogleService-Info.plist in Resources */,
 				B315F9E3298939E60009CEB8 /* SF Pro Text Black.otf in Resources */,

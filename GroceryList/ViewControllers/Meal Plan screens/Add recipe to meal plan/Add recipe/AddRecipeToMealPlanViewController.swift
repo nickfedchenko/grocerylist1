@@ -110,6 +110,11 @@ class AddRecipeToMealPlanViewController: UIViewController {
             }
             self.view.layoutIfNeeded()
         }
+        
+        viewModel.addedToCart = { [weak self] in
+            guard let self else { return }
+            self.ingredientsView.startAnimation()
+        }
     }
     
     private func setupRecipe() {

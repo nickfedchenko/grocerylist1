@@ -4840,7 +4840,7 @@ struct _R {
     }
   }
 
-  /// This `_R.file` struct is generated, and contains static references to 20 resource files.
+  /// This `_R.file` struct is generated, and contains static references to 21 resource files.
   struct file {
     let bundle: Foundation.Bundle
 
@@ -4900,6 +4900,9 @@ struct _R {
 
     /// Resource file `SF-Compact-Display-Semibold.otf`.
     var sfCompactDisplaySemiboldOtf: RswiftResources.FileResource { .init(name: "SF-Compact-Display-Semibold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
+
+    /// Resource file `cart.json`.
+    var cartJson: RswiftResources.FileResource { .init(name: "cart", pathExtension: "json", bundle: bundle, locale: LocaleReference.none) }
 
     /// Resource file `defaults_icon.bundle`.
     var defaults_iconBundle: RswiftResources.FileResource { .init(name: "defaults_icon", pathExtension: "bundle", bundle: bundle, locale: LocaleReference.none) }

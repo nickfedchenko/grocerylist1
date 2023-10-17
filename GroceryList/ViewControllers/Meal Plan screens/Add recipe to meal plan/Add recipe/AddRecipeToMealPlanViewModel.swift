@@ -11,6 +11,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     
     var updateDestinationList: (() -> Void)?
     var updateLabels: (() -> Void)?
+    var addedToCart: (() -> Void)?
     var selectedDate: ((Date) -> Void)?
     var mealPlan: MealPlan? {
         didSet { setMealPlan() }
@@ -128,6 +129,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
                                   fromMealPlan: mealPlan?.id)
             CoreDataManager.shared.createProduct(product: product)
         })
+        addedToCart?()
     }
     
     func selectLabel(index: Int) {

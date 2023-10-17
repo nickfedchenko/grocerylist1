@@ -28,6 +28,7 @@ target 'GroceryList' do
   pod 'TagListView'
   pod 'SJSegmentedScrollView'
   pod 'FSCalendar'
+  pod 'lottie-ios'
   
   # Pods for GroceryList
   post_install do |installer|
