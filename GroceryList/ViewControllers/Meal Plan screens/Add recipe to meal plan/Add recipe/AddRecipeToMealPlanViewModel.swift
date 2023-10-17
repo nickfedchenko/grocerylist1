@@ -26,7 +26,6 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     private var mealPlanLabel: MealPlanLabel? {
         didSet { selectedLabel() }
     }
-    private var isContinueSaving = false
     private var isContinueAddToCart = false
     private var ingredientsPhoto: [Data?] = []
     private var changedDate = false
@@ -69,12 +68,6 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     
     func saveMealPlan(date: Date) {
         mealPlanDate = date
-        
-        guard let destinationListId else {
-            showDestinationLabel()
-            isContinueSaving = true
-            return
-        }
         
         let label = mealPlanLabel
         let newMealPlan: MealPlan
@@ -203,9 +196,6 @@ extension AddRecipeToMealPlanViewModel: DestinationListDelegate {
     func selectedListId(_ listId: UUID) {
         UserDefaultsManager.shared.defaultDestinationListId = listId
         destinationListId = listId
-        if isContinueSaving {
-            saveMealPlan(date: mealPlanDate)
-        }
         if isContinueAddToCart {
             addToCart(photo: ingredientsPhoto)
         }
