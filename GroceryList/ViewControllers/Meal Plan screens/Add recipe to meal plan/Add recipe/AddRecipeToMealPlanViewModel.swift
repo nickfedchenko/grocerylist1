@@ -30,6 +30,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     private var isContinueAddToCart = false
     private var ingredientsPhoto: [Data?] = []
     private var changedForSharing = false
+    private var newMealPlanId = UUID()
     
     init(recipe: Recipe, mealPlanDate: Date) {
         self.mealPlanDate = mealPlanDate
@@ -83,7 +84,8 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
             newMealPlan = mealPlan
         } else {
             changedForSharing = true
-            newMealPlan = MealPlan(recipeId: recipe.id, date: date,
+            newMealPlan = MealPlan(id: newMealPlanId,
+                                   recipeId: recipe.id, date: date,
                                    label: label?.id,
                                    destinationListId: destinationListId)
         }
@@ -126,7 +128,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
                                   isFavorite: false,
                                   imageData: photo[index],
                                   description: "",
-                                  fromMealPlan: mealPlan?.id)
+                                  fromMealPlan: mealPlan?.id ?? newMealPlanId)
             CoreDataManager.shared.createProduct(product: product)
         })
         addedToCart?()
@@ -154,7 +156,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
             return
         }
         
-        destinationListId = mealPlan.destinationListId
+        destinationListId = mealPlan.destinationListId ?? UserDefaultsManager.shared.defaultDestinationListId
         if let labelId = mealPlan.label,
            let dbLabel = CoreDataManager.shared.getLabel(id: labelId.uuidString) {
             mealPlanLabel = MealPlanLabel(dbModel: dbLabel)
