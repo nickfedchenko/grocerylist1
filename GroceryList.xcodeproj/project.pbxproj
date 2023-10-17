@@ -160,6 +160,7 @@
 		339254B42A3347DA0047807E /* StockReminderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254B32A3347DA0047807E /* StockReminderDataSource.swift */; };
 		339254B72A33EEE80047807E /* StockReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254B62A33EEE80047807E /* StockReminderViewController.swift */; };
 		339254B92A33EF020047807E /* StockReminderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254B82A33EF020047807E /* StockReminderViewModel.swift */; };
+		3394868E2ADE851300DDE971 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E222938E4E90074BE38 /* HapticManager.swift */; };
 		33995D202A1C5C88003FECAE /* PantryStarterPackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */; };
 		33995D232A1CC1DE003FECAE /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */; };
 		33995D252A1CC501003FECAE /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D242A1CC501003FECAE /* TabBarItemView.swift */; };
@@ -3132,6 +3133,7 @@
 				33AF97EB2A7BBAA800716104 /* UUIDExtension.swift in Sources */,
 				33AF97A02A7A815C00716104 /* ImportWebRecipeCell.swift in Sources */,
 				33AF97F02A7BD25000716104 /* RecipeResponse.swift in Sources */,
+				3394868E2ADE851300DDE971 /* HapticManager.swift in Sources */,
 				33AF97F62A7BD37100716104 /* DBStore+CoreDataProperties.swift in Sources */,
 				33AF97F72A7BD3B600716104 /* NotificationsExtension.swift in Sources */,
 				33AF97E02A7B9D2400716104 /* ShowCollectionCell.swift in Sources */,
