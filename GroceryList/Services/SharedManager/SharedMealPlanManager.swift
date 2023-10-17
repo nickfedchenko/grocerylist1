@@ -178,7 +178,7 @@ class SharedMealPlanManager {
             
             var mealPlan = MealPlan(sharedModel: sharedMealPlan)
             let dbMealPlan = CoreDataManager.shared.getMealPlan(id: sharedMealPlan.id)
-            mealPlan.label = dbMealPlan?.label
+            mealPlan.label = dbMealPlan?.label ?? mealPlan.label
             mealPlan.destinationListId = dbMealPlan?.destinationListId
             mealPlan.index = Int(dbMealPlan?.index ?? 0)
             mealPlan.isOwner = dbMealPlan?.isOwner ?? false

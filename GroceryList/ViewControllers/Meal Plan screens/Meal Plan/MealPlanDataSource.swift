@@ -233,7 +233,8 @@ class MealPlanDataSource {
                         imageGroup.leave()
                         localRecipe.photo = uploadImageResponse.data.url
                         updatedRecipe.insert(localRecipe)
-                        mealPlanForSharing.insert(SharedMealPlan(id: mealPlan.id.uuidString, date: mealPlan.date.toString(),
+                        mealPlanForSharing.insert(SharedMealPlan(id: mealPlan.id.uuidString, date: mealPlan.date.toString(), 
+                                                                 label: mealPlan.label?.uuidString,
                                                                  recipe: RecipeForSharing(fromRecipe: localRecipe)))
                     }
                 }
@@ -244,7 +245,8 @@ class MealPlanDataSource {
                             imageGroup.leave()
                             localRecipe.ingredients[index].product.photo = uploadImageResponse.data.url
                             updatedRecipe.insert(localRecipe)
-                            mealPlanForSharing.insert(SharedMealPlan(id: mealPlan.id.uuidString, date: mealPlan.date.toString(),
+                            mealPlanForSharing.insert(SharedMealPlan(id: mealPlan.id.uuidString, date: mealPlan.date.toString(), 
+                                                                     label: mealPlan.label?.uuidString,
                                                                      recipe: RecipeForSharing(fromRecipe: localRecipe)))
                         }
                     }
@@ -252,6 +254,7 @@ class MealPlanDataSource {
                 
                 if !ifNeededUploadImage {
                     mealPlanForSharing.insert(SharedMealPlan(id: mealPlan.id.uuidString, date: mealPlan.date.toString(),
+                                                             label: mealPlan.label?.uuidString,
                                                              recipe: RecipeForSharing(fromRecipe: localRecipe)))
                 }
             }

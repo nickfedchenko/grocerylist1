@@ -50,6 +50,27 @@ class MealPlanCell: RecipeListCell {
         editImageView.isHidden = true
         contextMenuButton.setImage(R.image.chevronMealPlan(), for: .normal)
         contextMenuButton.tintColor = nil
+        
+        mealPlanLabel.snp.remakeConstraints {
+            $0.leading.equalTo(kcalBadgeView.snp.trailing).offset(6)
+            $0.bottom.equalTo(kcalLabel)
+        }
+    }
+    
+    override func configure(with recipe: ShortRecipeModel) {
+        super.configure(with: recipe)
+
+        if let kcal = recipe.values?.serving?.kcal ?? recipe.values?.dish?.kcal {
+            mealPlanLabel.snp.remakeConstraints {
+                $0.leading.equalTo(kcalBadgeView.snp.trailing).offset(6)
+                $0.bottom.equalTo(kcalLabel)
+            }
+        } else {
+            mealPlanLabel.snp.remakeConstraints {
+                $0.leading.equalTo(timeBadgeView.snp.trailing).offset(6)
+                $0.bottom.equalTo(kcalLabel)
+            }
+        }
     }
     
     func configureMealPlanLabel(text: String, color: UIColor) {

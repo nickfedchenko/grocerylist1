@@ -93,7 +93,12 @@ struct MealPlan: Hashable, Codable, ItemWithLabelProtocol {
         id = UUID(uuidString: sharedModel.id) ?? UUID()
         recipeId = sharedModel.recipe.id
         date = sharedModel.date.toDate() ?? Date()
-        label = nil
+        if let label = sharedModel.label,
+           let labelId = UUID(uuidString: label) {
+            self.label = labelId
+        } else {
+            self.label = nil
+        }
         destinationListId = nil
         index = 0
     }
@@ -285,6 +290,7 @@ struct MealList: Codable {
 struct SharedMealPlan: Codable, Hashable {
     let id: String
     var date: String
+    var label: String?
     var recipe: RecipeForSharing
     
     static func == (lhs: SharedMealPlan, rhs: SharedMealPlan) -> Bool {
@@ -295,12 +301,14 @@ struct SharedMealPlan: Codable, Hashable {
 struct SharedNote: Codable {
     let id: String
     var date: String
+    var label: String?
     var title: String
     var details: String?
 
     init(note: MealPlanNote) {
         self.id = note.id.uuidString
         self.date = note.date.toString()
+        self.label = note.label?.uuidString
         self.title = note.title
         self.details = note.details
     }

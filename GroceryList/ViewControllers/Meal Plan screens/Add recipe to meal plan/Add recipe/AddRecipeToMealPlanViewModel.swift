@@ -28,7 +28,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     }
     private var isContinueAddToCart = false
     private var ingredientsPhoto: [Data?] = []
-    private var changedDate = false
+    private var changedForSharing = false
     
     init(recipe: Recipe, mealPlanDate: Date) {
         self.mealPlanDate = mealPlanDate
@@ -72,14 +72,16 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
         let label = mealPlanLabel
         let newMealPlan: MealPlan
         if var mealPlan {
-            changedDate = mealPlan.date != date
+            let changedDate = mealPlan.date != date
+            let changedLabel = mealPlan.label != label?.id
+            changedForSharing = changedDate || changedLabel
             mealPlan.date = date
             mealPlan.label = label?.id
             mealPlan.destinationListId = destinationListId
             mealPlan = ifNeedUpdatedSharedMealPlan(mealPlan: mealPlan)
             newMealPlan = mealPlan
         } else {
-            changedDate = true
+            changedForSharing = true
             newMealPlan = MealPlan(recipeId: recipe.id, date: date,
                                    label: label?.id,
                                    destinationListId: destinationListId)
@@ -88,7 +90,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
         CoreDataManager.shared.saveMealPlan(newMealPlan)
         CloudManager.shared.saveCloudData(mealPlan: newMealPlan)
         selectedDate?(date)
-        if changedDate {
+        if changedForSharing {
             updatedSharingPlan?()
         }
         router?.dismissAddRecipeToMealPlan()
