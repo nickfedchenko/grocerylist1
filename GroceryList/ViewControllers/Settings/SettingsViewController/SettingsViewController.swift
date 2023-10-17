@@ -118,6 +118,7 @@ class SettingsViewController: UIViewController {
     private lazy var registerView: RegisterWithMessageView = {
         let view = RegisterWithMessageView()
         view.registerButtonPressed = { [weak self] in
+            Vibration.medium.vibrate()
             self?.viewModel?.registerButtonPressed()
         }
         return view

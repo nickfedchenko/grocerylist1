@@ -342,6 +342,7 @@ class MealPlanViewController: UIViewController {
     
     @objc
     private func tappedTodayButton() {
+        Vibration.medium.vibrate()
         calendarView.setToday()
         updatedTodayButton()
         
@@ -352,8 +353,8 @@ class MealPlanViewController: UIViewController {
     
     @objc
     private func tappedMenuButton() {
+        Vibration.medium.vibrate()
         guard viewModel.isEditMode else {
-            Vibration.medium.vibrate()
             viewModel.showContextMenu(date: calendarView.selectedDate)
             return
         }

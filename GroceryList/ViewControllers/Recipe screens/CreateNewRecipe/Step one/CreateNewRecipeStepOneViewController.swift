@@ -407,6 +407,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
     
     @objc
     private func backButtonTapped() {
+        Vibration.medium.vibrate()
         viewModel?.savedToDrafts(title: nameView.textView.text,
                                  description: descriptionView.textView.text)
         viewModel?.back()
@@ -414,6 +415,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
     
     @objc
     private func savedToDraftsButtonTapped() {
+        Vibration.medium.vibrate()
         viewModel?.isDraftRecipe = true
         updateIsActiveSavedToDraftsButton()
         viewModel?.savedToDrafts(title: nameView.textView.text,
@@ -427,7 +429,7 @@ final class CreateNewRecipeStepOneViewController: UIViewController {
             updateNextButton(isActive: false)
             return
         }
-        
+        Vibration.medium.vibrate()
         viewModel?.saveRecipe(title: name, description: descriptionView.textView.text)
         viewModel?.savedToDrafts(title: name, description: descriptionView.textView.text)
         viewModel?.next()

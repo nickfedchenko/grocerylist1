@@ -328,6 +328,7 @@ final class StocksViewController: UIViewController {
     
     @objc
     private func tapOnLinkView() {
+        Vibration.medium.vibrate()
 #if RELEASE
         if !Apphud.hasActiveSubscription() {
             viewModel.showPaywall()

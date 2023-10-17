@@ -73,6 +73,7 @@ class MealPlanDateView: UIView {
     
     @objc
     private func tappedOnDate() {
+        Vibration.medium.vibrate()
         delegate?.selectDate()
     }
     

@@ -47,10 +47,12 @@ class AccountViewController: UIViewController {
     private lazy var logOutView: LogOutView = {
         let view = LogOutView()
         view.logOutPressed = { [weak self] in
+            Vibration.medium.vibrate()
             self?.viewModel?.logOutInPopupPressed()
         }
         
         view.cancelPressed = { [weak self] in
+            Vibration.rigid.vibrate()
             self?.logOutView.hideView()
         }
         
@@ -60,10 +62,12 @@ class AccountViewController: UIViewController {
     private lazy var deleteAccountView: DeleteAccountView = {
         let view = DeleteAccountView()
         view.deletePressed = { [weak self] in
+            Vibration.heavy.vibrate()
             self?.viewModel?.deleteInPopupPressed()
         }
         
         view.cancelPressed = { [weak self] in
+            Vibration.rigid.vibrate()
             self?.deleteAccountView.hideView()
         }
         
@@ -123,16 +127,19 @@ class AccountViewController: UIViewController {
         // MARK: - Actions
     @objc
     private func backButtonPressed() {
+        Vibration.medium.vibrate()
         viewModel?.backButtonPressed()
     }
     
     @objc
     private func logOutAction() {
+        Vibration.selection.vibrate()
         viewModel?.logOutPressed()
     }
     
     @objc
     private func deleteAccountAction() {
+        Vibration.selection.vibrate()
         viewModel?.deleteAccountPressed()
     }
     

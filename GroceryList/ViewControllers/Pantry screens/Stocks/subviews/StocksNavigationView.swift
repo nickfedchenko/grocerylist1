@@ -185,6 +185,7 @@ final class StocksNavigationView: UIView {
     
     @objc
     private func tappedSharingButton() {
+        Vibration.medium.vibrate()
         delegate?.tapOnSharingButton()
     }
     

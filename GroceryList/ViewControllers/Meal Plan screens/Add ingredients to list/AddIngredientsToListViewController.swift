@@ -115,7 +115,6 @@ class AddIngredientsToListViewController: UIViewController {
         return layoutSectionHeader
     }()
     
-//    private var dataSource: UICollectionViewDiffableDataSource<AddIngredientsToListHeaderModel, IngredientForMealPlan>?
     private var dateButtonTopConstraint: Constraint?
     private var dateButtonBottomConstraint: Constraint?
     
@@ -178,6 +177,7 @@ class AddIngredientsToListViewController: UIViewController {
         destinationListView.configure(list: viewModel.getDestinationListTitle())
         
         destinationListView.selectList = { [weak self] in
+            Vibration.medium.vibrate()
             self?.viewModel.showDestinationLabel()
         }
     }
@@ -208,17 +208,20 @@ class AddIngredientsToListViewController: UIViewController {
     
     @objc
     private func tappedMenuButton() {
+        Vibration.medium.vibrate()
         menuView.configure(type: viewModel.addIngredientsType)
         menuView.fadeIn()
     }
     
     @objc
     private func tappedDoneButton() {
+        Vibration.success.vibrate()
         viewModel.save()
     }
     
     @objc
     private func tappedDatesButton() {
+        Vibration.medium.vibrate()
         calendarView.fadeIn()
     }
     

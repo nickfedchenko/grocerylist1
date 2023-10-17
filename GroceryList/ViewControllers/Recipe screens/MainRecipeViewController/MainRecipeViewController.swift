@@ -222,6 +222,7 @@ class MainRecipeViewController: UIViewController {
     
     @objc
     func recipeChangeViewAction() {
+        Vibration.medium.vibrate()
         UserDefaultsManager.shared.recipeIsFolderView = !UserDefaultsManager.shared.recipeIsFolderView
         CloudManager.shared.saveCloudSettings()
         updateImageChangeViewButton()
@@ -230,6 +231,7 @@ class MainRecipeViewController: UIViewController {
     
     @objc
     private func sortButtonAction() {
+        Vibration.medium.vibrate()
         viewModel.showCollection()
     }
     

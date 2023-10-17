@@ -84,7 +84,7 @@ class SocketManager: PusherDelegate {
                     return
                 }
                 SharedListManager.shared.saveListFromSocket(response: decoded)
-                UINotificationFeedbackGenerator().notificationOccurred(.success)
+                Vibration.success.vibrate()
             }
         })
         
@@ -110,7 +110,7 @@ class SocketManager: PusherDelegate {
                 }
                 
                 SharedPantryManager.shared.saveListFromSocket(response: decoded)
-                UINotificationFeedbackGenerator().notificationOccurred(.success)
+                Vibration.success.vibrate()
             }
         })
         
@@ -135,6 +135,7 @@ class SocketManager: PusherDelegate {
                     return
                 }
                 SharedMealPlanManager.shared.saveListFromSocket(response: decoded)
+                Vibration.success.vibrate()
             }
         })
         

@@ -139,11 +139,13 @@ class AddNoteToMealPlanViewController: UIViewController {
     
     @objc
     private func tappedCancelButton() {
+        Vibration.medium.vibrate()
         self.dismiss(animated: true)
     }
     
     @objc
     private func tappedDoneButton() {
+        Vibration.success.vibrate()
         viewModel.saveNote(title: noteView.title,
                            details: noteView.details,
                            date: dateView.currentDate)
