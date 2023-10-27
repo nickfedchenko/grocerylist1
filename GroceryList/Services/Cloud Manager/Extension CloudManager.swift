@@ -215,7 +215,7 @@ extension CloudManager {
                     switch result {
                     case .success(let success):
                         guard let recordId = success.matchResults.first?.0 else {
-                            firstSave(pantryModel: pantryModel, image: image, stocks: stocks)
+                            self.firstSave(pantryModel: pantryModel, image: image, stocks: stocks)
                             return
                         }
                         var updatePantryModel = pantryModel
@@ -285,7 +285,7 @@ extension CloudManager {
                     switch result {
                     case .success(let success):
                         guard let recordId = success.matchResults.first?.0 else {
-                            firstSave(stock: stock, image: image)
+                            self.firstSave(stock: stock, image: image)
                             return
                         }
                         var updateStock = stock
@@ -418,7 +418,7 @@ extension CloudManager {
                     switch result {
                     case .success(let success):
                         guard let recordId = success.matchResults.first?.0 else {
-                            firstSave(collectionModel: collectionModel, image: image)
+                            self.firstSave(collectionModel: collectionModel, image: image)
                             return
                         }
                         var updateCollectionModel = collectionModel

@@ -92,6 +92,7 @@ final class PreparationStepViewController: UIViewController {
     
     @objc
     private func saveButtonTapped() {
+        Vibration.success.vibrate()
         viewModel?.save(step: textView.text)
         hidePanel()
     }

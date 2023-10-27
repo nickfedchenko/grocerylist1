@@ -233,10 +233,12 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goToStopSharingPopUp(user: User,
+                              state: SharingListViewModel.State,
                               listToShareModel: GroceryListsModel?,
                               pantryToShareModel: PantryModel?,
                               updateUI: ((Bool) -> Void)?) {
         let controller = viewControllerFactory.createStopSharingPopUpController(user: user,
+                                                                                state: state,
                                                                                 listToShareModel: listToShareModel,
                                                                                 pantryToShareModel: pantryToShareModel,
                                                                                 updateUI: updateUI)
@@ -477,9 +479,11 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
-    func goToSelectRecipeToMealPlan(date: Date, updateUI: (() -> Void)?, mealPlanDate: ((Date) -> Void)?) {
+    func goToSelectRecipeToMealPlan(date: Date, updateUI: (() -> Void)?, mealPlanDate: ((Date) -> Void)?,
+                                    updatedSharingPlan: (() -> Void)?) {
         let navigationController = viewControllerFactory.createSelectRecipeToMealPlan(
-            router: self, date: date, updateUI: updateUI, mealPlanDate: mealPlanDate
+            router: self, date: date, updateUI: updateUI, mealPlanDate: mealPlanDate,
+            updatedSharingPlan: updatedSharingPlan
         )
         topViewController?.present(navigationController, animated: true)
     }
@@ -498,9 +502,11 @@ final class RootRouter: RootRouterProtocol {
         navController?.pushViewController(recipeListVC, animated: true)
     }
     
-    func goToRecipeFromMealPlan(recipe: Recipe, date: Date, selectedDate: ((Date) -> Void)?) {
+    func goToRecipeFromMealPlan(recipe: Recipe, date: Date, selectedDate: ((Date) -> Void)?,
+                                updatedSharingPlan: (() -> Void)?) {
         let controller = viewControllerFactory.createRecipeFromMealPlan(router: self, recipe: recipe,
-                                                                        date: date, selectedDate: selectedDate)
+                                                                        date: date, selectedDate: selectedDate, 
+                                                                        updatedSharingPlan: updatedSharingPlan)
         if let navController = topViewController?.navigationController as? MealPlanNavigationController {
             navController.pushViewController(controller, animated: true)
         } else {
@@ -509,9 +515,11 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func goToRecipeFromMealPlan(recipe: Recipe, mealPlan: MealPlan,
-                                updateUI: (() -> Void)?, selectedDate: ((Date) -> Void)?) {
+                                updateUI: (() -> Void)?, selectedDate: ((Date) -> Void)?,
+                                updatedSharingPlan: (() -> Void)?) {
         let controller = viewControllerFactory.createRecipeFromMealPlan(
-            router: self, recipe: recipe, mealPlan: mealPlan, updateUI: updateUI, selectedDate: selectedDate
+            router: self, recipe: recipe, mealPlan: mealPlan, 
+            updateUI: updateUI, selectedDate: selectedDate, updatedSharingPlan: updatedSharingPlan
         )
         topViewController?.present(controller, animated: true)
     }
@@ -542,17 +550,18 @@ final class RootRouter: RootRouterProtocol {
         }
     }
     
-    func goToAddNoteToMealPlan(note: MealPlanNote?, date: Date, updateUI: (() -> Void)?) {
+    func goToAddNoteToMealPlan(note: MealPlanNote?, date: Date, updateUI: (() -> Void)?,
+                               updatedSharingPlan: (() -> Void)?) {
         let viewModel = AddNoteToMealPlanViewModel(note: note, date: date)
         viewModel.router = self
         viewModel.updateUI = updateUI
+        viewModel.updatedSharingPlan = updatedSharingPlan
         let controller = AddNoteToMealPlanViewController(viewModel: viewModel)
         topViewController?.present(controller, animated: true)
     }
     
-    func goToMealPlanContextMenu(contextDelegate: MealPlanContextMenuViewDelegate, mealPlan: MealPlan?) {
-        let controller = MealPlanContextMenuViewController(contextDelegate: contextDelegate,
-                                                           mealPlan: mealPlan)
+    func goToMealPlanContextMenu(contextDelegate: MealPlanContextMenuViewDelegate) {
+        let controller = MealPlanContextMenuViewController(contextDelegate: contextDelegate)
         controller.modalPresentationStyle = .overCurrentContext
         controller.modalTransitionStyle = .crossDissolve
         topViewController?.present(controller, animated: true)
@@ -572,6 +581,17 @@ final class RootRouter: RootRouterProtocol {
         controller.modalPresentationStyle = .overCurrentContext
         controller.modalTransitionStyle = .crossDissolve
         topViewController?.present(controller, animated: true)
+    }
+    
+    func goToSharingMealPlan(users: [User], mealPlanForSharing: MealList) {
+        let viewController = SharingListViewController()
+        let networkManager = NetworkEngine()
+        let viewModel = SharingListViewModel(network: networkManager, state: .mealPlan, users: users)
+        viewModel.router = self
+        viewModel.delegate = viewController
+        viewModel.mealPlansToShare = mealPlanForSharing
+        viewController.viewModel = viewModel
+        navigationPresent(viewController, animated: true)
     }
     
     func dismissCurrentController() {

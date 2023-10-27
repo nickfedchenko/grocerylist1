@@ -110,6 +110,11 @@ class AddRecipeToMealPlanViewController: UIViewController {
             }
             self.view.layoutIfNeeded()
         }
+        
+        viewModel.addedToCart = { [weak self] in
+            guard let self else { return }
+            self.ingredientsView.startAnimation()
+        }
     }
     
     private func setupRecipe() {
@@ -173,6 +178,7 @@ class AddRecipeToMealPlanViewController: UIViewController {
     
     @objc
     private func tappedDoneButton() {
+        Vibration.success.vibrate()
         viewModel.saveMealPlan(date: dateView.currentDate)
     }
     
@@ -309,11 +315,13 @@ extension AddRecipeToMealPlanViewController: MealPlanIngredientsViewDelegate {
     }
     
     func servingChangedTo(count: Double) {
+        Vibration.rigid.vibrate()
         let servings = viewModel.getIngredientsSizeAccordingToServings(servings: count)
         ingredientsView.updateIngredientsCount(by: servings)
     }
     
     func addToCartButton() {
+        Vibration.heavy.vibrate()
         viewModel.addToCart(photo: ingredientsView.photos)
     }
 }

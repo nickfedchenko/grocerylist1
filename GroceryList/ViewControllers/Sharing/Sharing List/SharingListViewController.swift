@@ -131,7 +131,9 @@ final class SharingListViewController: UIViewController {
     private func hideContentView() {
         updateConstraints(with: contentViewHeight, alpha: 0)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            self.dismiss(animated: false)
+            self.dismiss(animated: false) {
+                self.viewModel?.showCustomReview()
+            }
         }
     }
     
@@ -156,9 +158,7 @@ final class SharingListViewController: UIViewController {
             activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop,
                                                 UIActivity.ActivityType.addToReadingList]
 
-            self.present(activityVC, animated: true) {
-                self.viewModel?.showCustomReview()
-            }
+            self.present(activityVC, animated: true)
         }
     }
     

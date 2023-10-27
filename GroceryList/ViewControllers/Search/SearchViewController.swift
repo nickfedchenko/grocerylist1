@@ -134,6 +134,7 @@ class SearchViewController: UIViewController {
     
     @objc
     func tappedCleanerButton() {
+        Vibration.rigid.vibrate()
         searchTextField.text = ""
     }
     

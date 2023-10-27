@@ -390,6 +390,7 @@ extension SearchInRecipeViewController: UICollectionViewDataSource {
 
 extension SearchInRecipeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        Vibration.selection.vibrate()
         tapCell(indexPath)
     }
     

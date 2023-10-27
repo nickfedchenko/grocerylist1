@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct GroceryListReleaseResponse: Codable {
+struct ListReleaseResponse: Codable {
     var error: Bool
     var messages: [String]
     var success: Bool?
     var id: String?
 }
 
-struct GroceryListDeleteResponse: Codable {
+struct ShareSuccessResponse: Codable {
     var error: Bool
     var messages: [String]
     var success: Bool?
@@ -58,16 +58,10 @@ struct GroceryList: Codable {
     var param: String
 }
 
-struct FetchGroceryListUsersResponse: Codable {
+struct FetchListUsersResponse: Codable {
     var error: Bool
     var messages: [String]
     var users: [User]
-}
-
-struct GroceryListUserDeleteResponse: Codable {
-    var error: Bool
-    var messages: [String]
-    var success: Bool?
 }
 
 struct ShareGroceryListResponse: Codable {
@@ -80,12 +74,6 @@ struct ShareGroceryListResponse: Codable {
     enum CodingKeys: String, CodingKey {
         case error, messages, sharingToken = "sharing_token", groceryListId = "grocery_list_id", url
     }
-}
-
-struct UpdateGroceryListResponse: Codable {
-    var error: Bool
-    var messages: [String]
-    var success: Bool?
 }
 
 struct SharedGroceryList: Codable {

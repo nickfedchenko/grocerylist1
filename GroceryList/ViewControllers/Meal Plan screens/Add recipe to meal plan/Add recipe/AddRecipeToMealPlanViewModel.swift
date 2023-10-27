@@ -11,10 +11,13 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     
     var updateDestinationList: (() -> Void)?
     var updateLabels: (() -> Void)?
+    var addedToCart: (() -> Void)?
     var selectedDate: ((Date) -> Void)?
     var mealPlan: MealPlan? {
         didSet { setMealPlan() }
     }
+    
+    var updatedSharingPlan: (() -> Void)?
     
     private var allMealPlans: [MealPlan] = []
     private let colorManager = ColorManager.shared
@@ -24,9 +27,10 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     private var mealPlanLabel: MealPlanLabel? {
         didSet { selectedLabel() }
     }
-    private var isContinueSaving = false
     private var isContinueAddToCart = false
     private var ingredientsPhoto: [Data?] = []
+    private var changedForSharing = false
+    private var newMealPlanId = UUID()
     
     init(recipe: Recipe, mealPlanDate: Date) {
         self.mealPlanDate = mealPlanDate
@@ -67,21 +71,21 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     func saveMealPlan(date: Date) {
         mealPlanDate = date
         
-        guard let destinationListId else {
-            showDestinationLabel()
-            isContinueSaving = true
-            return
-        }
-        
         let label = mealPlanLabel
         let newMealPlan: MealPlan
         if var mealPlan {
+            let changedDate = mealPlan.date != date
+            let changedLabel = mealPlan.label != label?.id
+            changedForSharing = changedDate || changedLabel
             mealPlan.date = date
             mealPlan.label = label?.id
             mealPlan.destinationListId = destinationListId
+            mealPlan = ifNeedUpdatedSharedMealPlan(mealPlan: mealPlan)
             newMealPlan = mealPlan
         } else {
-            newMealPlan = MealPlan(recipeId: recipe.id, date: date,
+            changedForSharing = true
+            newMealPlan = MealPlan(id: newMealPlanId,
+                                   recipeId: recipe.id, date: date,
                                    label: label?.id,
                                    destinationListId: destinationListId)
         }
@@ -89,6 +93,9 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
         CoreDataManager.shared.saveMealPlan(newMealPlan)
         CloudManager.shared.saveCloudData(mealPlan: newMealPlan)
         selectedDate?(date)
+        if changedForSharing {
+            updatedSharingPlan?()
+        }
         router?.dismissAddRecipeToMealPlan()
     }
     
@@ -121,9 +128,10 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
                                   isFavorite: false,
                                   imageData: photo[index],
                                   description: "",
-                                  fromMealPlan: mealPlan?.id)
+                                  fromMealPlan: mealPlan?.id ?? newMealPlanId)
             CoreDataManager.shared.createProduct(product: product)
         })
+        addedToCart?()
     }
     
     func selectLabel(index: Int) {
@@ -148,7 +156,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
             return
         }
         
-        destinationListId = mealPlan.destinationListId
+        destinationListId = mealPlan.destinationListId ?? UserDefaultsManager.shared.defaultDestinationListId
         if let labelId = mealPlan.label,
            let dbLabel = CoreDataManager.shared.getLabel(id: labelId.uuidString) {
             mealPlanLabel = MealPlanLabel(dbModel: dbLabel)
@@ -162,6 +170,19 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
             labels[index].isSelected = label.id == mealPlanLabel?.id
         }
         updateLabels?()
+    }
+    
+    private func ifNeedUpdatedSharedMealPlan(mealPlan: MealPlan) -> MealPlan {
+        guard UserAccountManager.shared.getUser() != nil,
+              let mealPlansSharedInfo = CoreDataManager.shared.getMealListSharedInfo(),
+              let sharedInfo = mealPlansSharedInfo.first(where: { mealPlan.sharedId == $0.mealListId }) else {
+            return mealPlan
+        }
+        var updatedMealPlan = mealPlan
+        if let createdAt = sharedInfo.createdAt, updatedMealPlan.date < createdAt {
+            updatedMealPlan.sharedId = ""
+        }
+        return updatedMealPlan
     }
     
     private func getMealPlansFromStorage() {
@@ -181,9 +202,6 @@ extension AddRecipeToMealPlanViewModel: DestinationListDelegate {
     func selectedListId(_ listId: UUID) {
         UserDefaultsManager.shared.defaultDestinationListId = listId
         destinationListId = listId
-        if isContinueSaving {
-            saveMealPlan(date: mealPlanDate)
-        }
         if isContinueAddToCart {
             addToCart(photo: ingredientsPhoto)
         }

@@ -17,6 +17,7 @@ class SocketManager: PusherDelegate {
     private var key = "IfmOiX4mZXFd9MVbMGTwdBHnzNT6ZlS6"
     private var channelName = "groceryList_" + (UserAccountManager.shared.getUser()?.token ?? "")
     private var pantryChannelName = "pantryList_" + (UserAccountManager.shared.getUser()?.token ?? "")
+    private var mealPlanChannelName = "mealList_" + (UserAccountManager.shared.getUser()?.token ?? "")
     private var portNumber = 6001
     
     // MARK: - InitPusher
@@ -34,9 +35,11 @@ class SocketManager: PusherDelegate {
         
         let myChannel = pusher.subscribe(channelName)
         let pantryChannel = pusher.subscribe(channelName: pantryChannelName)
+        let mealPlanChannel = pusher.subscribe(channelName: mealPlanChannelName)
         
         groceryListBind(channel: myChannel)
         pantryListBind(channel: pantryChannel)
+        mealPlanBind(channel: mealPlanChannel)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             myChannel.trigger(eventName: "push", data: "sendMessage")
@@ -74,7 +77,6 @@ class SocketManager: PusherDelegate {
     
     private func groceryListBind(channel: PusherChannel) {
         channel.bind(eventName: "updated", eventCallback: { (event: PusherEvent) -> Void in
-//            SharedListManager.shared.fetchMyGroceryLists()
             if let data: Data = event.data?.data(using: .utf8) {
 //                data.printJSON()
                 guard let decoded = try? JSONDecoder().decode(SocketResponse.self, from: data) else {
@@ -82,12 +84,11 @@ class SocketManager: PusherDelegate {
                     return
                 }
                 SharedListManager.shared.saveListFromSocket(response: decoded)
-                UINotificationFeedbackGenerator().notificationOccurred(.success)
+                Vibration.success.vibrate()
             }
         })
         
         channel.bind(eventName: "delete", eventCallback: { (event: PusherEvent) -> Void in
-//            SharedListManager.shared.fetchMyGroceryLists()
             if let data: Data = event.data?.data(using: .utf8) {
 //                data.printJSON()
                 guard let decoded = try? JSONDecoder().decode(SocketDeleteResponse.self, from: data) else {
@@ -109,7 +110,7 @@ class SocketManager: PusherDelegate {
                 }
                 
                 SharedPantryManager.shared.saveListFromSocket(response: decoded)
-                UINotificationFeedbackGenerator().notificationOccurred(.success)
+                Vibration.success.vibrate()
             }
         })
         
@@ -121,6 +122,31 @@ class SocketManager: PusherDelegate {
                     return
                 }
                 SharedPantryManager.shared.deleteListFromSocket(response: decoded)
+            }
+        })
+    }
+    
+    private func mealPlanBind(channel: PusherChannel) {
+        channel.bind(eventName: "updated", eventCallback: { (event: PusherEvent) -> Void in
+            if let data: Data = event.data?.data(using: .utf8) {
+//                data.printJSON()
+                guard let decoded = try? JSONDecoder().decode(SocketMealPlanResponse.self, from: data) else {
+                    print("errModel")
+                    return
+                }
+                SharedMealPlanManager.shared.saveListFromSocket(response: decoded)
+                Vibration.success.vibrate()
+            }
+        })
+        
+        channel.bind(eventName: "delete", eventCallback: { (event: PusherEvent) -> Void in
+            if let data: Data = event.data?.data(using: .utf8) {
+//                data.printJSON()
+                guard let decoded = try? JSONDecoder().decode(SocketDeleteResponse.self, from: data) else {
+                    print("errModel")
+                    return
+                }
+                SharedMealPlanManager.shared.deleteListFromSocket(response: decoded)
             }
         })
     }
@@ -171,10 +197,34 @@ struct SocketPantryResponse: Codable {
         listUsers = try container.decode([User].self, forKey: .listUsers)
         listId = try container.decode(String.self, forKey: .listId)
 
-        if let groceryList = try? container.decode(SharedPantryModel.self, forKey: .pantryList) {
-            self.pantryList = groceryList
+        if let pantryList = try? container.decode(SharedPantryModel.self, forKey: .pantryList) {
+            self.pantryList = pantryList
         } else {
             pantryList = nil
+        }
+    }
+}
+
+struct SocketMealPlanResponse: Codable {
+    var sendForUserToken: String
+    var mealList: [MealList]
+    var listUsers: [User]
+    var listId: String
+    
+    enum CodingKeys: String, CodingKey {
+        case sendForUserToken, mealList, listUsers, listId
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        sendForUserToken = try container.decode(String.self, forKey: .sendForUserToken)
+        listUsers = try container.decode([User].self, forKey: .listUsers)
+        listId = try container.decode(String.self, forKey: .listId)
+
+        if let mealList = try? container.decode(MealList.self, forKey: .mealList) {
+            self.mealList = [mealList]
+        } else {
+            mealList = []
         }
     }
 }

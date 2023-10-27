@@ -54,7 +54,6 @@ final class MainNavigationView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupConstraints()
-//        updateImageChangeViewButton()
     }
     
     required init?(coder: NSCoder) {
@@ -62,14 +61,6 @@ final class MainNavigationView: UIView {
     }
     
     func configure(with mode: TabBarItemView.Item, animate: Bool = true) {
-//        recipeEditCollectionButton.snp.updateConstraints {
-//            $0.width.height.equalTo(mode == .recipe ? 40 : 0)
-//        }
-//
-//        recipeChangeViewButton.snp.updateConstraints {
-//            $0.width.height.equalTo(mode == .recipe ? 40 : 0)
-//        }
-        
         searchButton.snp.updateConstraints {
             $0.width.height.equalTo(mode == .list ? 40 : 0)
         }
@@ -117,11 +108,13 @@ final class MainNavigationView: UIView {
     
     @objc
     private func searchButtonAction() {
+        Vibration.medium.vibrate()
         delegate?.searchButtonTapped()
     }
     
     @objc
     private func settingsButtonAction() {
+        Vibration.medium.vibrate()
         delegate?.settingsTapped()
     }
         

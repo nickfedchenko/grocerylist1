@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 18.09.2023.
 //
 
+import Lottie
 import UIKit
 
 protocol MealPlanIngredientsViewDelegate: AnyObject {
@@ -41,15 +42,7 @@ class MealPlanIngredientsView: UIView {
         return view
     }()
     
-    private lazy var addToCartButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(R.image.addToCartFilled(), for: .normal)
-        button.addTarget(self, action: #selector(tappedAddToCartButton), for: .touchUpInside)
-        button.backgroundColor = UIColor(hex: "1A645A")
-        button.setCornerRadius(8)
-        button.clipsToBounds = true
-        return button
-    }()
+    private lazy var addToCartButton = LottieAnimationView(name: "cart")
     
     private let vectorArrowImage: UIImageView = {
         let imageView = UIImageView()
@@ -106,7 +99,13 @@ class MealPlanIngredientsView: UIView {
         }
     }
     
+    func startAnimation() {
+        addToCartButton.play()
+    }
+    
     private func setup() {
+        let tapOnCart = UITapGestureRecognizer(target: self, action: #selector(tappedAddToCartButton))
+        addToCartButton.addGestureRecognizer(tapOnCart)        
         makeConstraints()
     }
     
@@ -138,15 +137,15 @@ class MealPlanIngredientsView: UIView {
         }
         
         addToCartButton.snp.makeConstraints {
-            $0.width.height.equalTo(40)
-            $0.trailing.equalToSuperview()
+            $0.width.height.equalTo(56)
+            $0.trailing.equalToSuperview().offset(8)
             $0.centerY.equalTo(servingView)
         }
         
         vectorArrowImage.snp.makeConstraints {
             $0.centerY.equalTo(servingView)
             $0.leading.equalTo(servingView.snp.trailing).offset(9)
-            $0.trailing.equalTo(addToCartButton.snp.leading).offset(-9)
+            $0.trailing.equalTo(addToCartButton.snp.leading).offset(-1)
         }
         
         ingredientsStack.setContentHuggingPriority(.init(1000), for: .vertical)

@@ -16,11 +16,14 @@ class MealPlanEmptyCell: UICollectionViewCell {
     weak var delegate: MealPlanEmptyCellDelegate?
     
     private let containerView = UIView()
+    private let shadowOneView = UIView()
+    private let shadowTwoView = UIView()
     
     private let plusImageView: UIImageView = {
         let imageView = UIImageView()
+        let color = R.color.darkGray() ?? .black
+        imageView.image = R.image.mealPlanPlus()?.withTintColor(color)
         imageView.clipsToBounds = true
-        imageView.image = R.image.mealPlanPlus()
         imageView.contentMode = .scaleAspectFill
         imageView.isUserInteractionEnabled = true
         return imageView
@@ -29,7 +32,7 @@ class MealPlanEmptyCell: UICollectionViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.SFPro.semibold(size: 17).font
-        label.textColor = R.color.mediumGray()
+        label.textColor = R.color.darkGray()
         return label
     }()
     
@@ -54,6 +57,10 @@ class MealPlanEmptyCell: UICollectionViewCell {
         containerView.layer.borderWidth = state.border.width
         
         titleLabel.text = state.title
+        
+        if state == .planEmpty || state == .noteEmpty {
+            setupShadowView()
+        }
     }
     
     private func setup() {
@@ -62,14 +69,33 @@ class MealPlanEmptyCell: UICollectionViewCell {
         makeConstraints()
     }
     
+    private func setupShadowView() {
+        [shadowOneView, shadowTwoView].forEach { shadowView in
+            shadowView.backgroundColor = UIColor(hex: "#DBF6F6")
+            shadowView.layer.cornerRadius = 8
+        }
+        shadowOneView.addShadow(color: UIColor(hex: "#484848"),
+                                      opacity: 0.15,
+                                      radius: 1,
+                                      offset: .init(width: 0, height: 0.5))
+        shadowTwoView.addShadow(color: UIColor(hex: "#858585"),
+                                      opacity: 0.1,
+                                      radius: 6,
+                                      offset: .init(width: 0, height: 4))
+    }
+    
     @objc
     private func tappedOnView() {
         delegate?.tapAdd(state: state)
     }
     
     private func makeConstraints() {
-        self.addSubview(containerView)
+        self.addSubviews([shadowOneView, shadowTwoView, containerView])
         containerView.addSubviews([plusImageView, titleLabel])
+        
+        [shadowOneView, shadowTwoView].forEach { shadowView in
+            shadowView.snp.makeConstraints { $0.edges.equalTo(containerView) }
+        }
         
         containerView.snp.makeConstraints {
             $0.top.equalToSuperview()

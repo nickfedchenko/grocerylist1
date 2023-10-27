@@ -12,6 +12,7 @@ class SelectRecipeViewModel: MainRecipeViewModel {
     
     var selectedDate: Date = Date()
     var mealPlanDate: ((Date) -> Void)?
+    var updatedSharingPlan: (() -> Void)?
     
     override func showSearch() {
 #if RELEASE
@@ -37,7 +38,8 @@ class SelectRecipeViewModel: MainRecipeViewModel {
               let model = Recipe(from: dbRecipe) else {
             return
         }
-        router?.goToRecipeFromMealPlan(recipe: model, date: selectedDate, selectedDate: mealPlanDate)
+        router?.goToRecipeFromMealPlan(recipe: model, date: selectedDate, selectedDate: mealPlanDate,
+                                       updatedSharingPlan: updatedSharingPlan)
     }
 }
 

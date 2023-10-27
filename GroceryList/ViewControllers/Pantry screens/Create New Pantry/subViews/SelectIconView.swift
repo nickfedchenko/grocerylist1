@@ -133,11 +133,13 @@ final class SelectIconView: UIView {
     
     @objc
     private func tappedCrossButton() {
+        Vibration.medium.vibrate()
         delegate?.tappedCross()
     }
     
     @objc
     private func tappedMoreButton() {
+        Vibration.medium.vibrate()
         defaultCollectionView.snp.updateConstraints {
             $0.leading.equalToSuperview().offset(-self.bounds.width)
         }
@@ -210,6 +212,7 @@ extension SelectIconView: UICollectionViewDataSource {
 extension SelectIconView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.reloadData()
+        Vibration.selection.vibrate()
         let icon = collectionView == defaultCollectionView ? defaultSymbols[indexPath.row]
                                                            : allSymbols[indexPath.row]
         selectedIcon = icon

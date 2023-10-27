@@ -79,6 +79,7 @@ class MealPlanLabelView: UIView {
             view.configure(label)
             view.isSelected = label.isSelected
             view.selectedView = { [weak self] view in
+                Vibration.selection.vibrate()
                 self?.delegate?.tapLabel(index: view.tag)
             }
             labelStackView.addArrangedSubview(view)
@@ -101,6 +102,7 @@ class MealPlanLabelView: UIView {
     
     @objc
     private func tappedOnMenuButton() {
+        Vibration.medium.vibrate()
         delegate?.tapMenuLabel()
     }
     

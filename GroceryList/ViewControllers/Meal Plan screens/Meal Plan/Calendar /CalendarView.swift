@@ -175,6 +175,7 @@ final class CalendarView: UIView {
         case .began:
             break
         case .changed:
+            Vibration.success.vibrate()
             currentCalendarCell?.editHighlight(isVisible: false)
             guard let index = calendar.collectionView.indexPathForItem(at: calendarLocation),
                   let calendarCell = calendar.collectionView.cellForItem(at: index) as? CalendarCell else {
@@ -199,6 +200,7 @@ final class CalendarView: UIView {
             }
 
             calendarCell.editSelect()
+            Vibration.soft.vibrate()
             recipeHidden()
         default:
             recipeHidden()
@@ -250,11 +252,13 @@ final class CalendarView: UIView {
     
     @objc
     private func tappedPreviousMonthButton() {
+        Vibration.selection.vibrate()
         calendar.setCurrentPage(calendar.currentPage.previousWeek, animated: true)
     }
 
     @objc
     private func tappedNextMonthButton() {
+        Vibration.selection.vibrate()
         calendar.setCurrentPage(calendar.currentPage.nextWeek, animated: true)
     }
     
@@ -333,6 +337,7 @@ extension CalendarView: FSCalendarDataSource {
 extension CalendarView: FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, didSelect date: Date,
                   at monthPosition: FSCalendarMonthPosition) {
+        Vibration.selection.vibrate()
         selectedDate = date
         isSelectedEdit = true
         

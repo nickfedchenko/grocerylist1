@@ -142,6 +142,7 @@ class ProductsSortViewController: UIViewController {
 
     @objc
     private func doneButtonPressed() {
+        Vibration.success.vibrate()
         hidePanel(compl: nil)
     }
     
@@ -241,6 +242,7 @@ extension ProductsSortViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        Vibration.selection.vibrate()
         viewModel?.cellSelected(at: indexPath.row)
     }
 }

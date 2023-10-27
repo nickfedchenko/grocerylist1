@@ -27,7 +27,7 @@ class MealPlanDataSource {
     private(set) var section: [MealPlanSection] = []
     private(set) var isEditMode = false
     private(set) var editMealPlan: [MealPlan] = []
-    
+    private let network = NetworkEngine()
     init() {
         getMealPlansFromStorage()
         setDefaultLabels()
@@ -127,11 +127,6 @@ class MealPlanDataSource {
         }
     }
     
-    func sdsd(date: Date) -> MealPlan? {
-        let mealPlansByDate = mealPlan.filter { $0.date.onlyDate == date.onlyDate }
-        return mealPlansByDate.first
-    }
-    
     func updateEditMode(isEdit: Bool) {
         isEditMode = isEdit
     }
@@ -158,7 +153,7 @@ class MealPlanDataSource {
     
     func copyEditMealPlans(date: Date) {
         editMealPlan.forEach {
-            var updatePlan = MealPlan(copy: $0, date: date)
+            let updatePlan = MealPlan(copy: $0, date: date)
             CoreDataManager.shared.saveMealPlan(updatePlan)
             CloudManager.shared.saveCloudData(mealPlan: updatePlan)
         }
@@ -207,6 +202,97 @@ class MealPlanDataSource {
         }
     }
     
+    func getMealPlanForSharing(date: Date, mealListId: String, completion: @escaping ((MealList) -> Void)) {
+        let mealPlansByDate = self.mealPlan.filter { $0.date.onlyDate >= date.onlyDate }
+        
+        let notesByDate = self.note.filter { $0.date.onlyDate >= date.onlyDate }
+        let noteForSharing = notesByDate.compactMap {
+            SharedNote(note: $0)
+        }
+        
+        getSharedMealPlan(mealPlansByDate: mealPlansByDate) { mealPlanForSharing in
+            let mealList = MealList(mealListId: mealListId, startDate: date.onlyDate.toString(),
+                                    plans: mealPlanForSharing, notes: noteForSharing)
+            completion(mealList)
+        }
+    }
+    
+    private func getSharedMealPlan(mealPlansByDate: [MealPlan], completion: @escaping (([SharedMealPlan]) -> Void)) {
+        let imageGroup = DispatchGroup()
+        var mealPlanForSharing = Set<SharedMealPlan>()
+        var updatedRecipe = Set<Recipe>()
+        
+        mealPlansByDate.forEach { mealPlan in
+            if let dbRecipe = CoreDataManager.shared.getRecipe(by: mealPlan.recipeId),
+               var localRecipe = Recipe(from: dbRecipe) {
+                
+                let ifNeededUploadImage = self.ifNeededUploadImage(recipe: localRecipe)
+                if URL(string: localRecipe.photo) == nil, let localImage = localRecipe.localImage {
+                    imageGroup.enter()
+                    uploadImage(imageData: localImage) { uploadImageResponse in
+                        imageGroup.leave()
+                        localRecipe.photo = uploadImageResponse.data.url
+                        updatedRecipe.insert(localRecipe)
+                        mealPlanForSharing.insert(SharedMealPlan(id: mealPlan.id.uuidString, date: mealPlan.date.toString(), 
+                                                                 label: mealPlan.label?.uuidString,
+                                                                 recipe: RecipeForSharing(fromRecipe: localRecipe)))
+                    }
+                }
+                for (index, ingredient) in localRecipe.ingredients.enumerated() {
+                    if URL(string: ingredient.product.photo) == nil, let localImage = ingredient.product.localImage {
+                        imageGroup.enter()
+                        uploadImage(imageData: localImage) { uploadImageResponse in
+                            imageGroup.leave()
+                            localRecipe.ingredients[index].product.photo = uploadImageResponse.data.url
+                            updatedRecipe.insert(localRecipe)
+                            mealPlanForSharing.insert(SharedMealPlan(id: mealPlan.id.uuidString, date: mealPlan.date.toString(), 
+                                                                     label: mealPlan.label?.uuidString,
+                                                                     recipe: RecipeForSharing(fromRecipe: localRecipe)))
+                        }
+                    }
+                }
+                
+                if !ifNeededUploadImage {
+                    mealPlanForSharing.insert(SharedMealPlan(id: mealPlan.id.uuidString, date: mealPlan.date.toString(),
+                                                             label: mealPlan.label?.uuidString,
+                                                             recipe: RecipeForSharing(fromRecipe: localRecipe)))
+                }
+            }
+        }
+        
+        imageGroup.notify(queue: .global()) {
+            CoreDataManager.shared.saveRecipes(recipes: Array(updatedRecipe))
+            completion(Array(mealPlanForSharing))
+        }
+    }
+    
+    private func ifNeededUploadImage(recipe: Recipe) -> Bool {
+        if URL(string: recipe.photo) == nil,
+           recipe.localImage != nil {
+            return true
+        }
+        
+        for ingredient in recipe.ingredients {
+            if URL(string: ingredient.product.photo) == nil,
+                ingredient.product.localImage != nil {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    private func uploadImage(imageData: Data, completion: @escaping ((UploadImageResponse) -> Void)) {
+        network.uploadImage(imageData: imageData) { result in
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success(let success):
+                completion(success)
+            }
+        }
+    }
+    
     private func getMealPlan(by date: Date, for index: IndexPath) -> MealPlan? {
         let section = getMealPlans(by: date)
         return section[safe: index.section]?.mealPlans[safe: index.row]?.mealPlan
@@ -214,7 +300,7 @@ class MealPlanDataSource {
     
     private func getMealPlanForWeekState(date: Date) -> [MealPlanSection] {
         guard weekSection.isEmpty else {
-            return weekSection.filter { $0.date >= date }
+            return weekSection.filter { $0.date.onlyDate >= date.onlyDate }
         }
         
         var section: [MealPlanSection] = []

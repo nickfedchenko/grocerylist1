@@ -9,11 +9,9 @@ import UIKit
 
 class MealPlanContextMenuViewController: UIViewController {
 
-    private let mealPlan: MealPlan?
     private let contextMenuView = MealPlanContextMenuView()
     
-    init(contextDelegate: MealPlanContextMenuViewDelegate, mealPlan: MealPlan?) {
-        self.mealPlan = mealPlan
+    init(contextDelegate: MealPlanContextMenuViewDelegate) {
         contextMenuView.delegate = contextDelegate
         super.init(nibName: nil, bundle: nil)
     }
@@ -31,30 +29,24 @@ class MealPlanContextMenuViewController: UIViewController {
 
         contextMenuView.configureSharing(state: getSharingState(),
                                          color: R.color.primaryDark() ?? .black,
-                                         images: [])
+                                         images: getShareImages())
         
         makeConstraints()
     }
     
     func getSharingState() -> SharingView.SharingState {
-        .invite
-//        model.isShared ? .added : .invite
+        CoreDataManager.shared.getMealListSharedInfo() != nil ? .added : .invite
     }
     
     func getShareImages() -> [String?] {
         var arrayOfImageUrls: [String?] = []
         
-        getSharedListsUsers().forEach { user in
+        SharedMealPlanManager.shared.allUsers.forEach { user in
             if user.token != UserAccountManager.shared.getUser()?.token {
                 arrayOfImageUrls.append(user.avatar)
             }
         }
         return arrayOfImageUrls
-    }
-    
-    private func getSharedListsUsers() -> [User] {
-        []
-//        return SharedListManager.shared.sharedListsUsers[model.sharedId] ?? []
     }
     
     @objc

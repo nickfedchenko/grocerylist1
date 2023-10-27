@@ -144,6 +144,7 @@ final class StoreOfProductView: CreateNewProductButtonView {
     
     @objc
     private func tappedOnStoreBackgroundView() {
+        Vibration.selection.vibrate()
         hideTableView(isHide: true)
     }
     
@@ -273,6 +274,7 @@ extension StoreOfProductView: UITableViewDelegate {
 extension StoreOfProductView: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         guard textField == shortView.titleTextField else { return }
+        Vibration.selection.vibrate()
         AmplitudeManager.shared.logEvent(.shopCostBtn)
         if textField.text == R.string.localizable.cost() {
             textField.text = ""

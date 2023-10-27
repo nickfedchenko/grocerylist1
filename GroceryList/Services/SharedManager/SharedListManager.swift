@@ -11,7 +11,7 @@ import Kingfisher
 class SharedListManager {
 
     static let shared = SharedListManager()
-    var router: RootRouter?
+    weak var router: RootRouter?
     var sharedListsUsers: [String: [User]] = [:]
     
     private var network: NetworkEngine
@@ -177,7 +177,7 @@ class SharedListManager {
     }
 
     // MARK: - Fetch grocery list users
-    func fetchGroceryListUsers(listId: String, completion: @escaping ((FetchGroceryListUsersResponse) -> Void)) {
+    func fetchGroceryListUsers(listId: String, completion: @escaping ((FetchListUsersResponse) -> Void)) {
         guard let user = UserAccountManager.shared.getUser() else { return }
         network.fetchGroceryListUsers(userToken: user.token, listId: listId) { result in
             switch result {
@@ -281,7 +281,7 @@ class SharedListManager {
             users.forEach {
                 if let stringUrl = $0.avatar,
                    let url = URL(string: stringUrl) {
-                    _ = ImageResource(downloadURL: url, cacheKey: url.absoluteString)
+                    _ = Kingfisher.ImageResource(downloadURL: url, cacheKey: url.absoluteString)
                 }
             }
         }

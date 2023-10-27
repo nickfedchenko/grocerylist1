@@ -129,6 +129,7 @@
 		3379B65A29B9B2ED0080923A /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65929B9B2ED0080923A /* CategoryView.swift */; };
 		3379B65C29B9B3030080923A /* AddIngredientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379B65B29B9B3030080923A /* AddIngredientView.swift */; };
 		337B9F082ACEA96700C28884 /* ContactUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B9F072ACEA96700C28884 /* ContactUsViewController.swift */; };
+		337C331A2AD4D1B700270985 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8458A6CC2A155ECA00179871 /* StoreKit.framework */; };
 		337E79C829E51B2D00668578 /* EditSelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79C729E51B2D00668578 /* EditSelectListViewController.swift */; };
 		337E79CA29E51D6200668578 /* AddListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79C929E51D6200668578 /* AddListView.swift */; };
 		337E79CC29E547D600668578 /* EditDeleteAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337E79CB29E547D600668578 /* EditDeleteAlertView.swift */; };
@@ -159,6 +160,8 @@
 		339254B42A3347DA0047807E /* StockReminderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254B32A3347DA0047807E /* StockReminderDataSource.swift */; };
 		339254B72A33EEE80047807E /* StockReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254B62A33EEE80047807E /* StockReminderViewController.swift */; };
 		339254B92A33EF020047807E /* StockReminderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339254B82A33EF020047807E /* StockReminderViewModel.swift */; };
+		3394868E2ADE851300DDE971 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3777E222938E4E90074BE38 /* HapticManager.swift */; };
+		339486912ADE995000DDE971 /* cart.json in Resources */ = {isa = PBXBuildFile; fileRef = 339486902ADE995000DDE971 /* cart.json */; };
 		33995D202A1C5C88003FECAE /* PantryStarterPackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */; };
 		33995D232A1CC1DE003FECAE /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */; };
 		33995D252A1CC501003FECAE /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33995D242A1CC501003FECAE /* TabBarItemView.swift */; };
@@ -269,6 +272,8 @@
 		33B3065C2A8C7E6E00F87659 /* MealPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B3065B2A8C7E6E00F87659 /* MealPlanViewController.swift */; };
 		33B3065F2A8C7F5E00F87659 /* ParentMealPlanRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B3065E2A8C7F5E00F87659 /* ParentMealPlanRecipeViewController.swift */; };
 		33B306632A8E149300F87659 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B306622A8E149300F87659 /* CloudManager.swift */; };
+		33BA197A2AD908FB009A1F20 /* DBMealListSharedInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BA19782AD908FB009A1F20 /* DBMealListSharedInfo+CoreDataClass.swift */; };
+		33BA197B2AD908FB009A1F20 /* DBMealListSharedInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BA19792AD908FB009A1F20 /* DBMealListSharedInfo+CoreDataProperties.swift */; };
 		33C5F1E82A9EF53D00E864A8 /* CloudManagerForShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */; };
 		33C5F1E92A9EF55300E864A8 /* CloudManagerForShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */; };
 		33C5F1EB2AA05DB900E864A8 /* SynchronizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C5F1EA2AA05DB900E864A8 /* SynchronizationViewController.swift */; };
@@ -313,6 +318,8 @@
 		33E31B1A2A7A4E0A0011B41E /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A2CE12911034D003C01AD /* UIColorExtension.swift */; };
 		33E544A929C98C27008D84F8 /* PredictiveTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E544A829C98C27008D84F8 /* PredictiveTextView.swift */; };
 		33E544AC29CA1122008D84F8 /* FeatureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E544AB29CA1122008D84F8 /* FeatureManager.swift */; };
+		33E7B74F2AD3B40F00961E88 /* SharedMealPlanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E7B74E2AD3B40F00961E88 /* SharedMealPlanManager.swift */; };
+		33E7B7512AD3CAB400961E88 /* MealPlanResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E7B7502AD3CAB400961E88 /* MealPlanResponse.swift */; };
 		33E8A8B22A5D5482007D7ED9 /* UpdatedPaywallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8B12A5D5482007D7ED9 /* UpdatedPaywallViewController.swift */; };
 		33E8A8B62A5E20B0007D7ED9 /* UpdatedPaywallFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8B52A5E20B0007D7ED9 /* UpdatedPaywallFeaturesView.swift */; };
 		33E8A8B82A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E8A8B72A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift */; };
@@ -393,7 +400,6 @@
 		840C189F2978D2230006F975 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840C189E2978D2230006F975 /* Int+Extensions.swift */; };
 		844FC6392978612B008173AA /* OnboardingReviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FC6382978612B008173AA /* OnboardingReviewController.swift */; };
 		844FC63B2978B825008173AA /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FC63A2978B825008173AA /* ReviewCell.swift */; };
-		8458A6CD2A155ECA00179871 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8458A6CC2A155ECA00179871 /* StoreKit.framework */; };
 		846600E9294A024800D85415 /* DBRecipe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846600E7294A024800D85415 /* DBRecipe+CoreDataClass.swift */; };
 		846600EA294A024800D85415 /* DBRecipe+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846600E8294A024800D85415 /* DBRecipe+CoreDataProperties.swift */; };
 		B30573BB29222BE700CA8BDE /* HeaderListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30573BA29222BE700CA8BDE /* HeaderListCell.swift */; };
@@ -710,6 +716,7 @@
 		339254B32A3347DA0047807E /* StockReminderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockReminderDataSource.swift; sourceTree = "<group>"; };
 		339254B62A33EEE80047807E /* StockReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockReminderViewController.swift; sourceTree = "<group>"; };
 		339254B82A33EF020047807E /* StockReminderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockReminderViewModel.swift; sourceTree = "<group>"; };
+		339486902ADE995000DDE971 /* cart.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cart.json; sourceTree = "<group>"; };
 		33995D1F2A1C5C88003FECAE /* PantryStarterPackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryStarterPackViewController.swift; sourceTree = "<group>"; };
 		33995D222A1CC1DE003FECAE /* CustomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
 		33995D242A1CC501003FECAE /* TabBarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
@@ -759,6 +766,8 @@
 		33B3065B2A8C7E6E00F87659 /* MealPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanViewController.swift; sourceTree = "<group>"; };
 		33B3065E2A8C7F5E00F87659 /* ParentMealPlanRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentMealPlanRecipeViewController.swift; sourceTree = "<group>"; };
 		33B306622A8E149300F87659 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
+		33BA19782AD908FB009A1F20 /* DBMealListSharedInfo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBMealListSharedInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		33BA19792AD908FB009A1F20 /* DBMealListSharedInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBMealListSharedInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		33C5F1E72A9EF53D00E864A8 /* CloudManagerForShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManagerForShared.swift; sourceTree = "<group>"; };
 		33C5F1EA2AA05DB900E864A8 /* SynchronizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizationViewController.swift; sourceTree = "<group>"; };
 		33C6F0D22A408BED00E71023 /* RecipeSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeSearchView.swift; sourceTree = "<group>"; };
@@ -796,6 +805,8 @@
 		33E31AF72A7953E40011B41E /* ImportSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportSteps.swift; sourceTree = "<group>"; };
 		33E544A829C98C27008D84F8 /* PredictiveTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictiveTextView.swift; sourceTree = "<group>"; };
 		33E544AB29CA1122008D84F8 /* FeatureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureManager.swift; sourceTree = "<group>"; };
+		33E7B74E2AD3B40F00961E88 /* SharedMealPlanManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedMealPlanManager.swift; sourceTree = "<group>"; };
+		33E7B7502AD3CAB400961E88 /* MealPlanResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanResponse.swift; sourceTree = "<group>"; };
 		33E8A8B12A5D5482007D7ED9 /* UpdatedPaywallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPaywallViewController.swift; sourceTree = "<group>"; };
 		33E8A8B52A5E20B0007D7ED9 /* UpdatedPaywallFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPaywallFeaturesView.swift; sourceTree = "<group>"; };
 		33E8A8B72A5E25CF007D7ED9 /* UpdatedPaywallProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPaywallProductView.swift; sourceTree = "<group>"; };
@@ -1043,8 +1054,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8458A6CD2A155ECA00179871 /* StoreKit.framework in Frameworks */,
 				5BD0097864598F7B139A0C72 /* Pods_GroceryList.framework in Frameworks */,
+				337C331A2AD4D1B700270985 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1206,6 +1217,7 @@
 			children = (
 				334BAE50299E39DD005F52F5 /* Pop up */,
 				334BAE51299E39EB005F52F5 /* Sharing List */,
+				33FCBE7A2AA5751A00CB61C7 /* Stop sharing */,
 			);
 			path = Sharing;
 			sourceTree = "<group>";
@@ -1214,7 +1226,6 @@
 			isa = PBXGroup;
 			children = (
 				334BAE4C299DF8CC005F52F5 /* SharingPopUpViewController.swift */,
-				33FCBE7A2AA5751A00CB61C7 /* Stop sharing */,
 			);
 			path = "Pop up";
 			sourceTree = "<group>";
@@ -1520,6 +1531,14 @@
 				339254B32A3347DA0047807E /* StockReminderDataSource.swift */,
 			);
 			path = "Stock Reminder";
+			sourceTree = "<group>";
+		};
+		3394868F2ADE993A00DDE971 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				339486902ADE995000DDE971 /* cart.json */,
+			);
+			path = Animation;
 			sourceTree = "<group>";
 		};
 		33995D212A1C5C91003FECAE /* StarterPack */ = {
@@ -2169,6 +2188,7 @@
 			children = (
 				B32767C729A608A500DD9D20 /* SharedListManager.swift */,
 				339254A72A3160F80047807E /* SharedPantryManager.swift */,
+				33E7B74E2AD3B40F00961E88 /* SharedMealPlanManager.swift */,
 			);
 			path = SharedManager;
 			sourceTree = "<group>";
@@ -2192,6 +2212,8 @@
 		B33DFD1E291A676400AC7403 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
+				33BA19782AD908FB009A1F20 /* DBMealListSharedInfo+CoreDataClass.swift */,
+				33BA19792AD908FB009A1F20 /* DBMealListSharedInfo+CoreDataProperties.swift */,
 				332619E92AC1686A0010F412 /* DBMealPlanNote+CoreDataClass.swift */,
 				332619EA2AC1686A0010F412 /* DBMealPlanNote+CoreDataProperties.swift */,
 				33FCBEBD2AB9907D00CB61C7 /* DBMealPlan+CoreDataClass.swift */,
@@ -2532,12 +2554,12 @@
 			path = InternetConnection;
 			sourceTree = "<group>";
 		};
-		B3777E212938E4CC0074BE38 /* HapticManader */ = {
+		B3777E212938E4CC0074BE38 /* HapticManager */ = {
 			isa = PBXGroup;
 			children = (
 				B3777E222938E4E90074BE38 /* HapticManager.swift */,
 			);
-			path = HapticManader;
+			path = HapticManager;
 			sourceTree = "<group>";
 		};
 		B37A0F4A29100CD900343FF1 /* Application */ = {
@@ -2551,6 +2573,7 @@
 		B37A0F4B29100CEA00343FF1 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				3394868F2ADE993A00DDE971 /* Animation */,
 				386CFAC5299542BE00B4AD76 /* Generated */,
 				B37A2CF229111BFB003C01AD /* Fonts */,
 				B37A2CE02911034D003C01AD /* Extensions */,
@@ -2567,13 +2590,13 @@
 			isa = PBXGroup;
 			children = (
 				B32767C929A6381600DD9D20 /* DomainModelsToLocalTransformer */,
+				B3AD42D32991061D0043A37F /* SocketManager */,
 				B32767C629A6088F00DD9D20 /* SharedManager */,
 				B371CCAA299C995A00E0E197 /* ResetPasswordModelManager */,
 				B381EF1B299A56A200DCDE40 /* UserAccountManager */,
-				B3AD42D32991061D0043A37F /* SocketManager */,
 				B3329594298A6475002DF1EE /* Ampllitude */,
 				38817890293BEC7E0094344D /* DataProviderFacade */,
-				B3777E212938E4CC0074BE38 /* HapticManader */,
+				B3777E212938E4CC0074BE38 /* HapticManager */,
 				B3777E1E2938D8050074BE38 /* InternetConnection */,
 				B3802313292BC7B70039EDE0 /* UserDefaultsManager */,
 				B3179EA5291E305F00455419 /* Networking */,
@@ -2746,6 +2769,7 @@
 				B371CCB1299F7B0200E0E197 /* GroceryListResponse.swift */,
 				339254A92A3161710047807E /* PantryResponse.swift */,
 				339EBBEA2A6A240F00FC78C4 /* RecipeResponse.swift */,
+				33E7B7502AD3CAB400961E88 /* MealPlanResponse.swift */,
 				B3AD42D9299117980043A37F /* RegistrationResponse.swift */,
 			);
 			path = "Network Models";
@@ -2977,6 +3001,7 @@
 				B3981C56297A86EA00206DB7 /* SF Pro Rounded Bold.otf in Resources */,
 				B3981C60297A89E800206DB7 /* SF Pro Text Medium.otf in Resources */,
 				B3981C5A297A86F200206DB7 /* SF Pro Rounded Regular.otf in Resources */,
+				339486912ADE995000DDE971 /* cart.json in Resources */,
 				B3C3FA4929115F510011EC0A /* SF Pro Display Semibold.otf in Resources */,
 				33897D1329C87F11009C6932 /* GoogleService-Info.plist in Resources */,
 				B315F9E3298939E60009CEB8 /* SF Pro Text Black.otf in Resources */,
@@ -3120,6 +3145,7 @@
 				33AF97EB2A7BBAA800716104 /* UUIDExtension.swift in Sources */,
 				33AF97A02A7A815C00716104 /* ImportWebRecipeCell.swift in Sources */,
 				33AF97F02A7BD25000716104 /* RecipeResponse.swift in Sources */,
+				3394868E2ADE851300DDE971 /* HapticManager.swift in Sources */,
 				33AF97F62A7BD37100716104 /* DBStore+CoreDataProperties.swift in Sources */,
 				33AF97F72A7BD3B600716104 /* NotificationsExtension.swift in Sources */,
 				33AF97E02A7B9D2400716104 /* ShowCollectionCell.swift in Sources */,
@@ -3257,6 +3283,7 @@
 				334764662A2A2610008F4834 /* PantryListOptionViewModel.swift in Sources */,
 				B3693402291BA62F00AFFAA6 /* CreateNewListViewModel.swift in Sources */,
 				332619E82AC15FA30010F412 /* AddNoteToMealPlanViewModel.swift in Sources */,
+				33E7B7512AD3CAB400961E88 /* MealPlanResponse.swift in Sources */,
 				B3777E202938D8210074BE38 /* InternetConnection.swift in Sources */,
 				B36AF95C2915556700944E9D /* GroseryListModels.swift in Sources */,
 				33FCBE9B2AB0A49200CB61C7 /* MealPlanHeaderCell.swift in Sources */,
@@ -3314,6 +3341,7 @@
 				33F496E52ACB833900212D93 /* AddIngredientsToListMenuView.swift in Sources */,
 				3342C9BD2A146D290010DA4A /* FeedbackManager.swift in Sources */,
 				B371CCA9299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift in Sources */,
+				33BA197A2AD908FB009A1F20 /* DBMealListSharedInfo+CoreDataClass.swift in Sources */,
 				33A51B992A1775EB00BE11C1 /* MainRecipeViewModel.swift in Sources */,
 				3368FD6A29B6E0BF00D97291 /* CreateNewCollectionViewModel.swift in Sources */,
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
@@ -3450,6 +3478,7 @@
 				3379B65529B9AEC10080923A /* IngredientViewController.swift in Sources */,
 				333DCC272A6101E500E3F92B /* NewPaywallFeatureView.swift in Sources */,
 				846600E9294A024800D85415 /* DBRecipe+CoreDataClass.swift in Sources */,
+				33BA197B2AD908FB009A1F20 /* DBMealListSharedInfo+CoreDataProperties.swift in Sources */,
 				B3FECE4329375AA80077F8EF /* DBCategories+CoreDataProperties.swift in Sources */,
 				383C77FA293FB7310030AE78 /* RecipeListCell.swift in Sources */,
 				334BAE53299E6606005F52F5 /* SharingListViewModel.swift in Sources */,
@@ -3484,6 +3513,7 @@
 				B36D18ED291A2CF4005EE32D /* Extension CoreDataManager.swift in Sources */,
 				337719AE29B1A669000791BD /* CreateNewRecipeViewWithButton.swift in Sources */,
 				B34BB80F292E389B00748E8E /* SelectListViewModel.swift in Sources */,
+				33E7B74F2AD3B40F00961E88 /* SharedMealPlanManager.swift in Sources */,
 				33A51B9D2A1777AB00BE11C1 /* ListCollectionViewLayout.swift in Sources */,
 				33A51B9B2A1775F800BE11C1 /* MainRecipeDataSource.swift in Sources */,
 				337E79CC29E547D600668578 /* EditDeleteAlertView.swift in Sources */,

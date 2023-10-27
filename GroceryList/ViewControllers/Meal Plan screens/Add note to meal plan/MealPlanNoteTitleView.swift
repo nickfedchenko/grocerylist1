@@ -97,8 +97,8 @@ private class NoteTitleView: UIView {
         
         var placeholder: String {
             switch self {
-            case .title:    return "Title"
-            case .details:  return "Details"
+            case .title:    return R.string.localizable.title()
+            case .details:  return R.string.localizable.details()
             }
         }
         

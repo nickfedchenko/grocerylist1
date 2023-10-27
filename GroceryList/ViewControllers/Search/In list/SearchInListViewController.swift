@@ -62,6 +62,7 @@ extension SearchInListViewController: UICollectionViewDataSource {
         cell.configureList(list)
         cell.configureProducts(viewModel?.getProducts(by: indexPath.row))
         cell.listTapped = { [weak self] in
+            Vibration.selection.vibrate()
             self?.dismiss(animated: true, completion: {
                 self?.viewModel?.showList(list)
             })

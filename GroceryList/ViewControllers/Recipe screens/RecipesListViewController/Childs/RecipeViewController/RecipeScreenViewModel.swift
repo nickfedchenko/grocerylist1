@@ -218,7 +218,7 @@ extension RecipeScreenViewModel: RecipeScreenViewModelProtocol {
     }
     
     func addToMealPlan() {
-        router?.goToRecipeFromMealPlan(recipe: recipe, date: Date(), selectedDate: nil)
+        router?.goToRecipeFromMealPlan(recipe: recipe, date: Date(), selectedDate: nil, updatedSharingPlan: nil)
     }
     
     func edit() {

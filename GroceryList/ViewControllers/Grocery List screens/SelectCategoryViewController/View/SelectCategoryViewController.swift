@@ -188,6 +188,7 @@ class SelectCategoryViewController: UIViewController {
         }
         
         if tempTranslation.y <= -100 {
+            Vibration.rigid.vibrate()
             textField.becomeFirstResponder()
         }
        
@@ -326,6 +327,7 @@ extension SelectCategoryViewController: UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        Vibration.selection.vibrate()
         viewModel?.selectCell(at: indexPath.row)
         let selectedCategoryName = viewModel?.getTitleText(at: indexPath.row)
         

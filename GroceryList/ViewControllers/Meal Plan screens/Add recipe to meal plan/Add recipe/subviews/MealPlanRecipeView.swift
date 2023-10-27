@@ -9,14 +9,7 @@ import UIKit
 
 class MealPlanRecipeView: UIView {
 
-    private let containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.setCornerRadius(8)
-        view.addShadow(color: .init(hex: "858585"), opacity: 0.15,
-                             radius: 6, offset: .init(width: 0, height: 4))
-        return view
-    }()
+    private let containerView = UIView()
     
     private let mainImage: UIImageView = {
         let image = UIImageView()
@@ -67,11 +60,6 @@ class MealPlanRecipeView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        drawInlinedStroke()
     }
     
     func configureColor(theme: Theme) {
@@ -174,10 +162,4 @@ class MealPlanRecipeView: UIView {
             $0.trailing.equalToSuperview().offset(-4)
         }
     }
-        
-    private func drawInlinedStroke() {
-        containerView.layer.borderColor = UIColor.white.cgColor
-        containerView.layer.borderWidth = 1
-    }
-
 }

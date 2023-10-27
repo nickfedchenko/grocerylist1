@@ -574,6 +574,8 @@
 "Add All to List"               = "Ajouter tout à la liste";
 "Custom dates"                  = "Dates personnalisées" ;
 "Various Lists"                 = "Listes diverses" ;
+"Title"                         = "Titre";
+"Details"                       = "Détails";
 
 // Updated Paywall
 "three days "                   = "3 jours ";

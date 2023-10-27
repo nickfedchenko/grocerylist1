@@ -34,7 +34,6 @@ class AddIngredientsToListViewModel {
         mealPlans = CoreDataManager.shared.getAllMealPlans()?.map({ MealPlan(dbModel: $0) }) ?? []
         getItemsInStock()
         getRecipes()
-        setDestinationListId()
     }
     
     func dates() -> String {
@@ -55,7 +54,6 @@ class AddIngredientsToListViewModel {
     func updateSelectedDates(dates: [Date]) {
         selectedDate = dates
         getRecipes()
-        setDestinationListId()
         reloadData?()
     }
     
@@ -74,6 +72,13 @@ class AddIngredientsToListViewModel {
     }
     
     func getDestinationListTitle() -> String {
+        let uniqueListIds = setDestinationListId()
+        
+        guard !uniqueListIds.isEmpty else {
+            return R.string.localizable.notSelected()
+        }
+        
+        selectedList = uniqueListIds.count == 1 ? uniqueListIds.first : nil
         guard let selectedList,
               let dbList = CoreDataManager.shared.getList(list: selectedList.uuidString) else {
             return R.string.localizable.variousLists()
@@ -321,14 +326,18 @@ class AddIngredientsToListViewModel {
         return startMonth + " " + startDay + " - " + endDay + ", " + startYear
     }
     
-    private func setDestinationListId() {
+    private func setDestinationListId() -> [UUID] {
         var plans: [MealPlan] = []
         for date in selectedDate {
             plans.append(contentsOf: mealPlans.filter { $0.date.onlyDate == date.onlyDate })
         }
-        let listIds = plans.compactMap { $0.destinationListId }
-        let uniqueListIds = Array(Set(listIds))
-        selectedList = uniqueListIds.count == 1 ? uniqueListIds.first : nil
+        let listIds = plans.map { $0.destinationListId }
+        if listIds.contains(where: { $0 == nil }) {
+            return []
+        }
+        
+        let uniqueListIds = Array(Set(listIds.compactMap({ $0 })))
+        return uniqueListIds
     }
     
     private func sortByCategories() -> [ShortRecipeForMealPlan] {
@@ -348,10 +357,8 @@ class AddIngredientsToListViewModel {
         let sections = getSections()
         
         for (sectionIndex, section) in sections.enumerated() {
-            for (index, ingredient) in section.products.enumerated() {
-                if ingredient == ingredientForMealPlan {
-                    return IndexPath(row: index, section: sectionIndex)
-                }
+            for (index, ingredient) in section.products.enumerated() where ingredient == ingredientForMealPlan {
+                return IndexPath(row: index, section: sectionIndex)
             }
         }
         return nil

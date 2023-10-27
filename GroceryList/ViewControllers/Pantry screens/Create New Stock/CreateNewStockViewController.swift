@@ -179,6 +179,7 @@ final class CreateNewStockViewController: UIViewController {
     
     @objc
     private func saveButtonTapped() {
+        Vibration.success.vibrate()
         viewModel.saveStock(productName: productView.productTitle ?? "",
                             category: category,
                             description: productView.descriptionTitle ?? "",
@@ -430,6 +431,7 @@ extension CreateNewStockViewController: StoreOfProductViewDelegate {
 
 extension CreateNewStockViewController: QuantityOfProductViewDelegate {
     func unitSelected(_ unit: UnitSystem?) {
+        Vibration.selection.vibrate()
         self.unit = unit
         updateQuantityValue(quantityView.quantity)
     }
@@ -440,6 +442,7 @@ extension CreateNewStockViewController: QuantityOfProductViewDelegate {
     }
     
     func tappedMinusPlusButtons(_ quantity: Double) {
+        Vibration.rigid.vibrate()
         guard let costOfProductPerUnit = viewModel.costOfProductPerUnit else {
             return
         }

@@ -135,6 +135,7 @@ final class CreateNewCollectionViewController: UIViewController {
     
     @objc
     private func saveButtonTapped() {
+        Vibration.success.vibrate()
         viewModel?.save(textField.text)
         hidePanel()
     }

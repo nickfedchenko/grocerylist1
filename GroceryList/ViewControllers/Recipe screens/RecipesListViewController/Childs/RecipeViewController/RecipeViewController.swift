@@ -6,6 +6,7 @@
 //
 
 import ApphudSDK
+import Lottie
 import UIKit
 
 class RecipeViewController: UIViewController {
@@ -62,13 +63,12 @@ class RecipeViewController: UIViewController {
         return selector
     }()
     
-    private lazy var addToCartButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(R.image.addToCartFilled(), for: .normal)
-        button.layer.cornerRadius = 8
-        button.layer.cornerCurve = .continuous
-        button.clipsToBounds = true
-        button.backgroundColor = viewModel.theme.dark
+    private lazy var addToCartButton: LottieAnimationView = {
+        let button = LottieAnimationView(name: "cart")
+        let color = viewModel.theme.dark.lottieColorValue
+        let orangeColorValueProvider = ColorValueProvider(color)
+        let keyPath = AnimationKeypath(keypath: "Group 41618 / Rectangle 2110..Color")
+        button.setValueProvider(orangeColorValueProvider, keypath: keyPath)
         return button
     }()
     
@@ -256,7 +256,8 @@ class RecipeViewController: UIViewController {
     }
     
     private func setupActions() {
-        addToCartButton.addTarget(self, action: #selector(addToCartTapped), for: .touchUpInside)
+        let tapOnCart = UITapGestureRecognizer(target: self, action: #selector(addToCartTapped))
+        addToCartButton.addGestureRecognizer(tapOnCart)
     }
     
     private func configureContent() {
@@ -408,15 +409,15 @@ class RecipeViewController: UIViewController {
         }
         
         addToCartButton.snp.makeConstraints { make in
-            make.width.height.equalTo(40)
-            make.trailing.equalTo(mainImageView)
+            make.width.height.equalTo(56)
+            make.trailing.equalTo(mainImageView).offset(8)
             make.centerY.equalTo(servingSelector)
         }
         
         vectorArrowImage.snp.makeConstraints { make in
             make.centerY.equalTo(servingSelector)
             make.leading.equalTo(servingSelector.snp.trailing).offset(9)
-            make.trailing.equalTo(addToCartButton.snp.leading).offset(-9)
+            make.trailing.equalTo(addToCartButton.snp.leading).offset(-1)
         }
         
         ingredientsStack.snp.makeConstraints { make in
@@ -483,6 +484,7 @@ class RecipeViewController: UIViewController {
 
 extension RecipeViewController: RecipeServingSelectorDelegate {
     func servingChangedTo(count: Double) {
+        Vibration.rigid.vibrate()
         let servings = viewModel.getIngredientsSizeAccordingToServings(servings: count)
         updateIngredientsCount(by: servings)
     }
@@ -519,6 +521,7 @@ extension RecipeViewController: RecipeScreenHeaderDelegate {
 
 extension RecipeViewController: RecipeMainImageViewDelegate {
     func shareButtonTapped() {
+        Vibration.medium.vibrate()
         AmplitudeManager.shared.logEvent(.recipeSendOnPhoto)
         let screenshot = containerView.snapshotNewView(with: view.backgroundColor)
         DispatchQueue.main.async {
@@ -528,6 +531,7 @@ extension RecipeViewController: RecipeMainImageViewDelegate {
     }
     
     func addToFavoritesTapped() {
+        Vibration.soft.vibrate()
         viewModel.updateFavoriteState(isSelected: !isFavorite)
     }
 }
@@ -535,6 +539,10 @@ extension RecipeViewController: RecipeMainImageViewDelegate {
 extension RecipeViewController: AddProductsSelectionListDelegate {
     func ingredientsSuccessfullyAdded() {
         AmplitudeManager.shared.logEvent(.recipeAddToList)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            Vibration.heavy.vibrate()
+            self.addToCartButton.play()
+        }
     }
 }
 

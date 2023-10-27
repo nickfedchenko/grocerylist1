@@ -211,6 +211,7 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     
     @objc
     private func backButtonTapped() {
+        Vibration.medium.vibrate()
         viewModel?.setParameters(time: timeView.textView.text?.asInt,
                                  servings: servingsView.textView.text.asInt,
                                  image: photoView.image,
@@ -220,6 +221,7 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     
     @objc
     private func nextButtonTapped() {
+        Vibration.success.vibrate()
         viewModel?.setParameters(time: timeView.textView.text?.asInt,
                                 servings: servingsView.textView.text.asInt,
                                 image: photoView.image,
@@ -229,6 +231,7 @@ final class CreateNewRecipeStepTwoViewController: UIViewController {
     
     @objc
     private func savedToDraftsButtonTapped() {
+        Vibration.medium.vibrate()
         viewModel?.isDraftRecipe = true
         savedToDrafts()
         viewModel?.setParameters(time: timeView.textView.text?.asInt,

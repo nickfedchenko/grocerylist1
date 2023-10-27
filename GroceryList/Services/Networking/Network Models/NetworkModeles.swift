@@ -97,3 +97,14 @@ struct SendMail: Codable {
     let subject: String
     let message: String
 }
+
+// MARK: - Ссылка на картинку
+struct UploadImageResponse: Codable {
+    var error: Bool
+    var messages: [String]
+    var data: ImageBackUrl
+}
+
+struct ImageBackUrl: Codable {
+    let url: String
+}

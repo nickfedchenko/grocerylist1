@@ -11,7 +11,7 @@ import Kingfisher
 class SharedPantryManager {
 
     static let shared = SharedPantryManager()
-    var router: RootRouter?
+    weak var router: RootRouter?
     var sharedListsUsers: [String: [User]] = [:]
     
     private let network = NetworkEngine()
@@ -76,7 +76,9 @@ class SharedPantryManager {
             case .failure(let error):
                 print(error)
             case .success(let response):
-                self.transformSharedModelsToLocal(response: response)
+                DispatchQueue.global().async {
+                    self.transformSharedModelsToLocal(response: response)
+                }
 //                self.showStockViewController()
             }
         }
@@ -122,27 +124,6 @@ class SharedPantryManager {
         NotificationCenter.default.post(name: .sharedListDownloadedAndSaved, object: nil)
     }
 
-    private func removeProductsIfNeeded(list: PantryModel) {
-        let products = CoreDataManager.shared.getProducts(for: list.id.uuidString)
-
-        var arrayOfLocalProductId: [UUID?] = []
-        products.forEach({ product in
-            arrayOfLocalProductId.append(product.id)
-        })
-
-        var newArrayOfProducts: [UUID?] = []
-        list.stock.forEach({ product in
-            newArrayOfProducts.append(product.id)
-        })
-
-        let arrayToDelete = arrayOfLocalProductId.filter { !newArrayOfProducts.contains($0) }
-
-        arrayToDelete.forEach { id in
-            guard let id else { return }
-            CoreDataManager.shared.deleteStock(by: id)
-        }
-    }
-
     // MARK: - отписка от списка
     func unsubscribeFromPantryList(pantryId: String) {
         guard let user = UserAccountManager.shared.getUser() else {
@@ -177,7 +158,7 @@ class SharedPantryManager {
 
     // MARK: - Fetch grocery list users
     func fetchPantryListUsers(pantryId: String,
-                              completion: @escaping ((FetchPantryListUsersResponse) -> Void)) {
+                              completion: @escaping ((FetchListUsersResponse) -> Void)) {
         guard let user = UserAccountManager.shared.getUser() else {
             return
         }

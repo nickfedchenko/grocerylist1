@@ -103,6 +103,7 @@ final class PantryViewController: UIViewController {
         contextMenuBackgroundView.isHidden = true
         
         deleteAlertView.deleteTapped = { [weak self] in
+            Vibration.heavy.vibrate()
             if let contextMenuIndex = self?.contextMenuIndex,
                let model = self?.dataSource?.itemIdentifier(for: contextMenuIndex) {
                 self?.viewModel.delete(model: model)
@@ -111,6 +112,7 @@ final class PantryViewController: UIViewController {
         }
         
         deleteAlertView.cancelTapped = { [weak self] in
+            Vibration.rigid.vibrate()
             self?.updateDeleteAlertViewConstraint(with: 0)
         }
     }
@@ -253,6 +255,7 @@ extension PantryViewController: UICollectionViewDelegate {
         guard let model = dataSource?.itemIdentifier(for: indexPath) else {
             return
         }
+        Vibration.success.vibrate()
         viewModel.showStocks(controller: self, model: model)
     }
 }
@@ -271,8 +274,10 @@ extension PantryViewController: PantryCellDelegate {
             movedCell?.addDragAndDropShadow()
             collectionView.beginInteractiveMovementForItem(at: targetIndexPath)
         case .changed:
+            Vibration.success.vibrate()
             collectionView.updateInteractiveMovementTargetPosition(gestureLocation)
         case .ended:
+            Vibration.soft.vibrate()
             movedCell?.removeDragAndDropShadow()
             collectionView.endInteractiveMovement()
         default:
@@ -282,6 +287,7 @@ extension PantryViewController: PantryCellDelegate {
     }
     
     func tapContextMenu(point: CGPoint, cell: PantryCell) {
+        Vibration.medium.vibrate()
         let convertPointOnCollection = cell.convert(point, to: collectionView)
         let convertPointOnView = cell.convert(point, to: self.view)
         contextMenuIndex = collectionView.indexPathForItem(at: convertPointOnCollection)
