@@ -180,7 +180,7 @@ class RecipeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 #if RELEASE
-        self.view.isUserInteractionEnabled = !Apphud.hasActiveSubscription()
+        self.view.isUserInteractionEnabled = Apphud.hasActiveSubscription()
 #endif
         setupAppearance()
         setupContextMenu()
