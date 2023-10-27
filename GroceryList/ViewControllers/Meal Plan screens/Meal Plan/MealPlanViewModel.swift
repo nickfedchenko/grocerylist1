@@ -356,14 +356,19 @@ extension MealPlanViewModel: MealPlanContextMenuViewDelegate {
         
         switch state {
         case .addToShoppingList:
+            AmplitudeManager.shared.logEvent(.mplanMenuAddToList)
             showAddIngredientsToList()
         case .moveCopyDelete:
+            AmplitudeManager.shared.logEvent(.mplanMenuEdit)
             editMode(isEdit: true)
         case .editLabels:
+            AmplitudeManager.shared.logEvent(.mplanMenuEditLabels)
             showLabel()
         case .share:
+            AmplitudeManager.shared.logEvent(.mplanMenuShare)
             sharingTapped()
         case .sendTo:
+            AmplitudeManager.shared.logEvent(.mplanMenuSend)
             router?.showActivityVC(image: [sendToMealPlanByText()])
         }
     }

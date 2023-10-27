@@ -171,8 +171,8 @@ final class MainTabBarController: UITabBarController {
     
     private func analytics(tabIndex: Int) {
         switch tabIndex {
-        case TabBarItemView.Item.recipe.rawValue:
-            AmplitudeManager.shared.logEvent(.recipeSection)
+        case TabBarItemView.Item.mealPlan.rawValue:
+            AmplitudeManager.shared.logEvent(.mplanSectionTabbar)
         case TabBarItemView.Item.pantry.rawValue:
             AmplitudeManager.shared.logEvent(.pantrySection)
         default: break
@@ -281,7 +281,7 @@ extension MainTabBarController: CustomTabBarViewDelegate {
             if topViewController is StocksViewController {
                 stocksDelegate?.tappedAddItem()
             }
-        case .recipe:
+        case .mealPlan:
             let navController = self.selectedViewController as? UINavigationController
             let topViewController = navController?.topViewController as? ParentMealPlanRecipeViewController
             if topViewController?.currentIndex == 0 {
