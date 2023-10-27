@@ -77,7 +77,6 @@ final class RecipePreviewCell: UICollectionViewCell {
     // swiftlint:disable:next function_body_length
     func configure(with recipe: ShortRecipeModel, color: Theme) {
         titleLabel.textColor = color.dark
-        contentView.backgroundColor = color.light
         
         titleLabel.text = recipe.title
         timeLabel.text = recipe.time < 0 ? "--" : "\(recipe.time)"
@@ -140,6 +139,7 @@ final class RecipePreviewCell: UICollectionViewCell {
         contentView.layer.cornerRadius = 8
         contentView.layer.cornerCurve = .continuous
         contentView.layer.masksToBounds = true
+        contentView.backgroundColor = .white
         
         badgeView.layer.cornerCurve = .continuous
         badgeView.layer.maskedCorners = [.layerMaxXMinYCorner]
