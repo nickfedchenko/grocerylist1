@@ -225,7 +225,7 @@ class RecipeViewController: UIViewController {
     
     @objc
     private func addToCartTapped() {
-        Vibration.selection.vibrate()
+        Vibration.heavy.vibrate()
         let photos: [Data?] = self.ingredientViews.map { $0.photo }
         self.viewModel.addToShoppingList(contentViewHeigh: 500,
                                          photo: photos, delegate: self)

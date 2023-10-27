@@ -101,6 +101,7 @@ extension ParentMealPlanRecipeViewController: SJSegmentedViewControllerDelegate 
 
 extension ParentMealPlanRecipeViewController: CustomSegmentedControlViewDelegate {
     func segmentChanged(_ selectedSegmentIndex: Int) {
+        AmplitudeManager.shared.logEvent(selectedSegmentIndex == 0 ? .mplanSection : .recipesSection)
         Vibration.heavy.vibrate()
         segmentedControl.selectedSegmentIndex = selectedSegmentIndex
         setSelectedSegmentAt(selectedSegmentIndex, animated: true)

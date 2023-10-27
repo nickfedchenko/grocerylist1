@@ -16,7 +16,7 @@ final class TabBarItemView: UIView {
     enum Item: Int, CaseIterable {
         case list
         case pantry
-        case recipe
+        case mealPlan
     }
 
     weak var delegate: TabBarItemDelegate?
@@ -99,7 +99,7 @@ extension TabBarItemView.Item {
         switch self {
         case .list:     return R.string.localizable.list()
         case .pantry:   return R.string.localizable.pantry()
-        case .recipe:   return R.string.localizable.tabBarMealPlan()
+        case .mealPlan:   return R.string.localizable.tabBarMealPlan()
         }
     }
     
@@ -107,7 +107,7 @@ extension TabBarItemView.Item {
         switch self {
         case .list:     return R.image.list_tabbar_inactive()
         case .pantry:   return R.image.pantry_tabbar_inactive()
-        case .recipe:   return R.image.mealplan_tabbar_inactive()
+        case .mealPlan:   return R.image.mealplan_tabbar_inactive()
         }
     }
     
@@ -115,7 +115,7 @@ extension TabBarItemView.Item {
         switch self {
         case .list:     return R.image.list_tabbar_active()
         case .pantry:   return R.image.pantry_tabbar_active()
-        case .recipe:   return R.image.mealplan_tabbar_active()
+        case .mealPlan:   return R.image.mealplan_tabbar_active()
         }
     }
     

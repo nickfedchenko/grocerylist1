@@ -201,6 +201,7 @@ final class CalendarView: UIView {
 
             calendarCell.editSelect()
             Vibration.soft.vibrate()
+            AmplitudeManager.shared.logEvent(.mplanDateChangeWithDrop)
             recipeHidden()
         default:
             recipeHidden()

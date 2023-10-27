@@ -213,6 +213,33 @@ enum EventName: String {
     case iCloudAccept = "icloud_accept"
     case iCloudLater = "icloud_later"
     case iCloudSettingsOnOff = "icloud_settings_on-off"
+    
+    // Meal Plan
+    case mplanSectionTabbar = "mplan_section_tabbar"
+    case mplanSection = "mplan_section"
+    case recipesSection = "recipes_section"
+    case mplanMenuAddToList = "mplan_menu_add_to_list"
+    case mplanMenuEdit = "mplan_menu_edit"
+    case mplanMenuEditLabels = "mplan_menu_edit_labels"
+    case mplanMenuShare = "mplan_menu_share"
+    case mplanMenuSend = "mplan_menu_send"
+    case mplanMonthView = "mplan_monthView"
+    case mplanWeekView = "mplan_weekView"
+    case mplanTodayButton = "mplan_todayButton"
+    case mplanAddRecipePrimaryButton = "mplan_addRecipe_PrimaryButton"
+    case mplanAddRecipeButton = "mplan_addRecipe_Button"
+    case mplanAddNoteButton = "mplan_addNote_Button"
+    case mplanLabelSelect = "mplan_labelSelect"
+    case mplanServingEdit = "mplan_servingEdit"
+    case mplanAddRecipeToShoppingList = "mplan_addRecipe_to_shoppingList"
+    case mplanChangeDate = "mplan_changeDate"
+    case mplanNewLabelCreated = "mplan_newLabel_created"
+    case mplanDateChangeWithDrop = "mplan_dateChange_withDrop"
+    case mplanAddToListDateButton = "mplan_add_toList_dateButton"
+    case mplanAddToListMenuSort = "mplan_add_toList_menu-sort"
+    case mplanAddToListMenuAll = "mplan_add_toList_menu-All"
+    case mplanRecipesMenuAddToPlan = "mplan_recipes_menu_add_to_plan"
+    
 }
 
 typealias PropertyKey = String

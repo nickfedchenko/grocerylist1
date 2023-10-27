@@ -342,6 +342,7 @@ class MealPlanViewController: UIViewController {
     
     @objc
     private func tappedTodayButton() {
+        AmplitudeManager.shared.logEvent(.mplanTodayButton)
         Vibration.medium.vibrate()
         calendarView.setToday()
         updatedTodayButton()
@@ -471,6 +472,7 @@ extension MealPlanViewController: CalendarViewDelegate {
 
 extension MealPlanViewController: CustomSegmentedControlViewDelegate {
     func segmentChanged(_ selectedSegmentIndex: Int) {
+        AmplitudeManager.shared.logEvent(selectedSegmentIndex == 0 ? .mplanMonthView : .mplanWeekView)
         Vibration.medium.vibrate()
         segmentedControl.selectedSegmentIndex = selectedSegmentIndex
         UDMSelectedMonthOrWeek = selectedSegmentIndex
@@ -485,6 +487,7 @@ extension MealPlanViewController: CustomSegmentedControlViewDelegate {
 
 extension MealPlanViewController: MainTabBarControllerMealPlanDelegate {
     func tappedAddRecipeToMealPlan() {
+        AmplitudeManager.shared.logEvent(.mplanAddRecipePrimaryButton)
         viewModel.showSelectRecipeToMealPlan(selectedDate: calendarView.selectedDate)
     }
 }
@@ -533,6 +536,7 @@ extension MealPlanViewController: MealPlanCellDelegate {
 
 extension MealPlanViewController: MealPlanHeaderCellDelegate {
     func addNote(_ cell: MealPlanHeaderCell) {
+        AmplitudeManager.shared.logEvent(.mplanAddNoteButton)
         Vibration.medium.vibrate()
         var date = calendarView.selectedDate
         if let dateFromCell = cell.date {
@@ -542,6 +546,7 @@ extension MealPlanViewController: MealPlanHeaderCellDelegate {
     }
     
     func addRecipe(_ cell: MealPlanHeaderCell) {
+        AmplitudeManager.shared.logEvent(.mplanAddRecipeButton)
         Vibration.medium.vibrate()
         var date = calendarView.selectedDate
         if let dateFromCell = cell.date {
@@ -557,8 +562,10 @@ extension MealPlanViewController: MealPlanEmptyCellDelegate {
         case .plan, .note:
             break
         case .planEmpty:
+            AmplitudeManager.shared.logEvent(.mplanAddRecipeButton)
             viewModel.showSelectRecipeToMealPlan(selectedDate: calendarView.selectedDate)
         case .noteEmpty, .noteFilled:
+            AmplitudeManager.shared.logEvent(.mplanAddNoteButton)
             viewModel.showAddNoteToMealPlan(by: calendarView.selectedDate)
         }
     }

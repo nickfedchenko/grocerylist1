@@ -31,9 +31,13 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
     private var ingredientsPhoto: [Data?] = []
     private var changedForSharing = false
     private var newMealPlanId = UUID()
+
+    private var addToList = false
+    private let initialDate: Date
     
     init(recipe: Recipe, mealPlanDate: Date) {
         self.mealPlanDate = mealPlanDate
+        initialDate = mealPlanDate
         mealPlanLabel = MealPlanLabel(defaultLabel: .none)
         destinationListId = UserDefaultsManager.shared.defaultDestinationListId
         
@@ -96,6 +100,7 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
         if changedForSharing {
             updatedSharingPlan?()
         }
+        analytics()
         router?.dismissAddRecipeToMealPlan()
     }
     
@@ -132,6 +137,9 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
             CoreDataManager.shared.createProduct(product: product)
         })
         addedToCart?()
+        if mealPlan == nil {
+            addToList = true
+        }
     }
     
     func selectLabel(index: Int) {
@@ -195,6 +203,21 @@ class AddRecipeToMealPlanViewModel: RecipeScreenViewModel {
             label.isSelected = label.id == mealPlanLabel?.id
             return label
         }) ?? []
+    }
+    
+    private func analytics() {
+        if let mealPlanLabel,
+           mealPlanLabel.id != DefaultLabel.none.id {
+            AmplitudeManager.shared.logEvent(.mplanAddNoteButton)
+        }
+        
+        if initialDate != mealPlanDate {
+            AmplitudeManager.shared.logEvent(.mplanChangeDate)
+        }
+        
+        if addToList {
+            AmplitudeManager.shared.logEvent(.mplanAddRecipeToShoppingList)
+        }
     }
 }
 
