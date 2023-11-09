@@ -58,7 +58,7 @@ final class CloudManager {
             enableGroup.notify(queue: DispatchQueue.global()) {
                 if UserDefaultsManager.shared.createdCustomZone {
                     self.syncAllDataWithICloud()
-                    self.fetchChanges(isShowSyncController: true)
+                    self.fetchChanges()
                 }
             }
         }
