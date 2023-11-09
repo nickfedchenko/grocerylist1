@@ -328,6 +328,7 @@ struct Product: Hashable, Equatable, Codable {
     var isVisibleСost: Bool = false
     var isOutOfStock: Bool = false
     var inStock: UUID?
+    var imageUrl: String?
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

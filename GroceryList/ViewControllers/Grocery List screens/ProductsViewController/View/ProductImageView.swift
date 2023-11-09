@@ -5,6 +5,7 @@
 //  Created by Хандымаа Чульдум on 27.02.2023.
 //
 
+import Kingfisher
 import UIKit
 
 final class ProductImageView: UIView {
@@ -80,7 +81,7 @@ final class ProductImageView: UIView {
     
     private lazy var productImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -128,10 +129,21 @@ final class ProductImageView: UIView {
         self.textColor = textColor
         isRecipe = product.fromRecipeTitle != nil
         purchaseStatus = product.isPurchased
-        productImageView.image = UIImage(data: image)
         productTitleLabel.text = product.name
         descriptionLabel.text = product.description
         recipeLabel.text = isRecipe ? R.string.localizable.recipe() : ""
+        
+        if !(product.isUserImage ?? false), 
+            let imageUrl = product.imageUrl, let url = URL(string: imageUrl) {
+            let resource = Kingfisher.ImageResource(downloadURL: url, cacheKey: url.absoluteString)
+            productImageView.kf.setImage(with: resource, options: [
+                .processor(DownsamplingImageProcessor(size: productImageView.bounds.size)),
+                .scaleFactor(UIScreen.main.scale),
+                .cacheOriginalImage
+            ])
+        } else {
+            productImageView.image = UIImage(data: image)
+        }
     }
     
     func updateContentViewFrame(_ frame: CGPoint) {
