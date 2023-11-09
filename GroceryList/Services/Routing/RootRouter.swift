@@ -358,8 +358,11 @@ final class RootRouter: RootRouterProtocol {
         addProductsVC.contentViewHeigh = contentViewHeigh
         addProductsVC.viewModel = viewModel
         addProductsVC.delegate = delegate
-//        addProductsVC.modalPresentationStyle = .overCurrentContext
-        UIViewController.currentController()?.present(addProductsVC, animated: true)
+        if contentViewHeigh == 500 {
+            navigationPresent(addProductsVC, style: .overCurrentContext, animated: true)
+        } else {
+            UIViewController.currentController()?.present(addProductsVC, animated: true)
+        }
     }
     
     func goToCreateStore(model: GroceryListsModel?,

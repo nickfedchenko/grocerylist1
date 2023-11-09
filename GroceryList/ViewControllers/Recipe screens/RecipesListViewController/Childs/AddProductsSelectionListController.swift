@@ -28,6 +28,11 @@ final class AddProductsSelectionListController: SelectListViewController {
         createListView.setColor(background: R.color.primaryDark(), image: R.color.primaryDark())
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        addShadow()
+    }
+    
     init(with productsSet: [Product]) {
         self.productsToAdd = productsSet
         super.init(nibName: nil, bundle: nil)
@@ -44,19 +49,25 @@ final class AddProductsSelectionListController: SelectListViewController {
         cell?.markAsSelect(isSelect: true)
         viewModel?.shouldAdd(to: model, products: productsToAdd)
         delegate?.ingredientsSuccessfullyAdded()
+        Vibration.success.vibrate()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.dismiss(animated: true)
         }
     }
     
     private func correctTitleLabel() {
-        createListLabel.text = "Add to..."
+        createListLabel.text = R.string.localizable.addTo()
         createListLabel.textAlignment = .center
         
         closeButton.setImage(nil, for: .normal)
         closeButton.setTitle(R.string.localizable.cancel(), for: .normal)
         closeButton.setTitleColor(R.color.darkGray(), for: .normal)
         closeButton.titleLabel?.font = UIFont.SFPro.semibold(size: 16).font
+    }
+    
+    private func addShadow() {
+        self.view.backgroundColor = .black.withAlphaComponent(0.2)
+        contentView.addDefaultShadowForPopUp()
     }
     
     @objc

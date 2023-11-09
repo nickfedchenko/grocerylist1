@@ -179,6 +179,9 @@ class RecipeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+#if RELEASE
+        self.view.isUserInteractionEnabled = Apphud.hasActiveSubscription()
+#endif
         setupAppearance()
         setupContextMenu()
         setupSubviews()
@@ -222,30 +225,10 @@ class RecipeViewController: UIViewController {
     
     @objc
     private func addToCartTapped() {
-        let photos: [Data?] = ingredientViews.map { $0.photo }
-        let recipeTitle = viewModel.recipe.title
-        let products: [Product] = viewModel.recipe.ingredients.enumerated().map { index, ingredient in
-            let netProduct = ingredient.product
-            let description = ingredientViews[safe: index]?.servingText ?? ""
-            let product = Product(name: netProduct.title,
-                                  isPurchased: false,
-                                  dateOfCreation: Date(),
-                                  category: netProduct.marketCategory?.title ?? "",
-                                  isFavorite: false,
-                                  imageData: photos[index],
-                                  description: description,
-                                  fromRecipeTitle: recipeTitle)
-            return product
-        }
-        
-        let addProductsVC = AddProductsSelectionListController(with:products)
-        addProductsVC.contentViewHeigh = 500
-        addProductsVC.modalPresentationStyle = .overCurrentContext
-        let dataSource = SelectListDataManager()
-        let viewModel = SelectListViewModel(dataSource: dataSource)
-        addProductsVC.viewModel = viewModel
-        addProductsVC.delegate = self
-        present(addProductsVC, animated: false)
+        Vibration.heavy.vibrate()
+        let photos: [Data?] = self.ingredientViews.map { $0.photo }
+        self.viewModel.addToShoppingList(contentViewHeigh: 500,
+                                         photo: photos, delegate: self)
     }
     
     private func setupAppearance() {
@@ -540,7 +523,6 @@ extension RecipeViewController: AddProductsSelectionListDelegate {
     func ingredientsSuccessfullyAdded() {
         AmplitudeManager.shared.logEvent(.recipeAddToList)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            Vibration.heavy.vibrate()
             self.addToCartButton.play()
         }
     }

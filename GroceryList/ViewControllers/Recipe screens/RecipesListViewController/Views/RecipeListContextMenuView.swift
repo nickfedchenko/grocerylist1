@@ -168,7 +168,7 @@ class RecipeListContextMenuView: UIView {
         case .addToShoppingList:
             AmplitudeManager.shared.logEvent(.recipeMenuAddToShoppingList)
         case .addToMealPlan:
-            break
+            AmplitudeManager.shared.logEvent(.mplanRecipesMenuAddToPlan)
         case .addToFavorites:
             AmplitudeManager.shared.logEvent(.recipeMenuAddToFav)
         case .addToCollection:

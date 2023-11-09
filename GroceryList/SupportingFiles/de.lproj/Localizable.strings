@@ -417,6 +417,7 @@
 "addToFavorites"                = "zu Favoriten hinzufügen";
 "deleteFromFavorites"           = "Aus Favoriten entfernen";
 "added to"                      = "Hinzugefügt zu";
+"Add to..."                     = "Hinzufügen zu...";
 
 "Delete Collection?"            = "Sammlung löschen?";
 "You are deleting a collection" = "Sie löschen eine Sammlung. Alle darin enthaltenen Rezepte werden nicht aus der Datenbank oder anderen Sammlungen entfernt.";

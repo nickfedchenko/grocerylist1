@@ -193,10 +193,13 @@ class AddIngredientsToListViewController: UIViewController {
             menuView.configure(type: self.viewModel.addIngredientsType)
             switch state {
             case .sortByRecipe:
+                AmplitudeManager.shared.logEvent(.mplanAddToListMenuSort)
                 viewModel.setSortType(type: .recipe)
             case .sortByCategory:
+                AmplitudeManager.shared.logEvent(.mplanAddToListMenuSort)
                 viewModel.setSortType(type: .category)
             case .addAllToList:
+                AmplitudeManager.shared.logEvent(.mplanAddToListMenuAll)
                 viewModel.addAllToList()
             }
         }
@@ -221,6 +224,7 @@ class AddIngredientsToListViewController: UIViewController {
     
     @objc
     private func tappedDatesButton() {
+        AmplitudeManager.shared.logEvent(.mplanAddToListDateButton)
         Vibration.medium.vibrate()
         calendarView.fadeIn()
     }
