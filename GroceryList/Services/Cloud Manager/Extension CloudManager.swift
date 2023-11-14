@@ -28,6 +28,7 @@ extension CloudManager {
                 var updateGroceryList = groceryList
                 updateGroceryList.recordId = recordID
                 CoreDataManager.shared.saveList(list: updateGroceryList)
+                print("[CloudKit]: save groceryList")
             }
             return
         }
@@ -40,7 +41,9 @@ extension CloudManager {
             }
             if var record {
                 record = self.fillInRecord(record: record, groceryList: groceryList)
-                self.save(record: record) { _ in }
+                self.save(record: record) { _ in
+                    print("[CloudKit]: save groceryList")
+                }
             }
         }
     }
@@ -83,6 +86,7 @@ extension CloudManager {
                 var updateProduct = product
                 updateProduct.recordId = recordID
                 CoreDataManager.shared.createProduct(product: updateProduct)
+                print("[CloudKit]: save product")
             }
             return
         }
@@ -95,7 +99,9 @@ extension CloudManager {
             }
             if var record {
                 record = self.fillInRecord(record: record, product: product, asset: image)
-                self.save(record: record) { _ in }
+                self.save(record: record) { _ in
+                    print("[CloudKit]: save product")
+                }
             }
         }
     }
@@ -134,6 +140,7 @@ extension CloudManager {
                 var updateCategory = category
                 updateCategory.recordId = recordID
                 CoreDataManager.shared.saveCategory(category: updateCategory)
+                print("[CloudKit]: save category")
             }
             return
         }
@@ -146,7 +153,9 @@ extension CloudManager {
             }
             if var record {
                 record = self.fillInRecord(record: record, category: category)
-                self.save(record: record) { _ in }
+                self.save(record: record) { _ in
+                    print("[CloudKit]: save category")
+                }
             }
         }
     }
@@ -171,6 +180,7 @@ extension CloudManager {
                 var updateStore = store
                 updateStore.recordId = recordID
                 CoreDataManager.shared.saveStore(updateStore)
+                print("[CloudKit]: save store")
             }
             return
         }
@@ -183,7 +193,9 @@ extension CloudManager {
             }
             if var record {
                 record = self.fillInRecord(record: record, store: store)
-                self.save(record: record) { _ in }
+                self.save(record: record) { _ in
+                    print("[CloudKit]: save store")
+                }
             }
         }
     }
@@ -236,7 +248,9 @@ extension CloudManager {
             if let error { print("[CloudKit]: ", error.localizedDescription); return }
             if var record {
                 record = self.fillInRecord(record: record, pantryModel: pantryModel, image: image, stocks: stocks)
-                self.save(record: record) { _ in }
+                self.save(record: record) { _ in
+                    print("[CloudKit]: save pantryModel")
+                }
             }
         }
     }
@@ -249,6 +263,7 @@ extension CloudManager {
             var updatePantryModel = pantryModel
             updatePantryModel.recordId = recordID
             CoreDataManager.shared.savePantry(pantry: [updatePantryModel])
+            print("[CloudKit]: save pantryModel")
         }
     }
     
@@ -306,7 +321,9 @@ extension CloudManager {
             if let error { print("[CloudKit]:", error.localizedDescription); return }
             if var record {
                 record = self.fillInRecord(record: record, stock: stock, asset: image)
-                self.save(record: record) { _ in }
+                self.save(record: record) { _ in
+                    print("[CloudKit]: save stock")
+                }
             }
         }
     }
@@ -319,6 +336,7 @@ extension CloudManager {
             var updateStock = stock
             updateStock.recordId = recordID
             CoreDataManager.shared.saveStock(stocks: [updateStock], for: stock.pantryId.uuidString)
+            print("[CloudKit]: save stock")
         }
     }
     
@@ -360,6 +378,7 @@ extension CloudManager {
                 var updateRecipe = recipe
                 updateRecipe.recordId = recordID
                 CoreDataManager.shared.saveRecipes(recipes: [updateRecipe])
+                print("[CloudKit]: save recipe")
             }
             return
         }
@@ -372,7 +391,9 @@ extension CloudManager {
             }
             if var record {
                 record = self.fillInRecord(record: record, recipe: recipe, image: image, ingredients: ingredients)
-                self.save(record: record) { _ in }
+                self.save(record: record) { _ in
+                    print("[CloudKit]: save recipe")
+                }
             }
         }
     }
@@ -442,7 +463,9 @@ extension CloudManager {
             }
             if var record {
                 record = self.fillInRecord(record: record, collectionModel: collectionModel, asset: image)
-                self.save(record: record) { _ in }
+                self.save(record: record) { _ in
+                    print("[CloudKit]: save collectionModel")
+                }
             }
         }
     }
@@ -455,6 +478,7 @@ extension CloudManager {
             var updateCollectionModel = collectionModel
             updateCollectionModel.recordId = recordID
             CoreDataManager.shared.saveCollection(collections: [updateCollectionModel])
+            print("[CloudKit]: save collectionModel")
         }
     }
     
@@ -483,6 +507,7 @@ extension CloudManager {
             save(record: record) { recordID in
                 UserDefaultsManager.shared.settingsRecordId = recordID
             }
+            print("[CloudKit]: save Settings")
             return
         }
         
@@ -494,7 +519,9 @@ extension CloudManager {
             }
             if var record {
                 record = self.fillInRecordSettings(record: record)
-                self.save(record: record) { _ in }
+                self.save(record: record) { _ in
+                    print("[CloudKit]: save Settings")
+                }
             }
         }
     }
@@ -525,6 +552,7 @@ extension CloudManager {
                 var updateMealPlan = mealPlan
                 updateMealPlan.recordId = recordID
                 CoreDataManager.shared.saveMealPlan(updateMealPlan)
+                print("[CloudKit]: save mealPlan")
             }
             return
         }
@@ -537,7 +565,9 @@ extension CloudManager {
             }
             if var record {
                 record = self.fillInRecord(record: record, mealPlan: mealPlan)
-                self.save(record: record) { _ in }
+                self.save(record: record) { _ in
+                    print("[CloudKit]: save mealPlan")
+                }
             }
         }
     }
@@ -566,6 +596,7 @@ extension CloudManager {
                 var updateMealPlanNote = mealPlanNote
                 updateMealPlanNote.recordId = recordID
                 CoreDataManager.shared.saveMealPlanNote(updateMealPlanNote)
+                print("[CloudKit]: save mealPlanNote")
             }
             return
         }
@@ -578,7 +609,9 @@ extension CloudManager {
             }
             if var record {
                 record = self.fillInRecord(record: record, mealPlanNote: mealPlanNote)
-                self.save(record: record) { _ in }
+                self.save(record: record) { _ in
+                    print("[CloudKit]: save mealPlanNote")
+                }
             }
         }
     }
@@ -607,6 +640,7 @@ extension CloudManager {
                 var updateMealPlanLabel = mealPlanLabel
                 updateMealPlanLabel.recordId = recordID
                 CoreDataManager.shared.saveLabel([updateMealPlanLabel])
+                print("[CloudKit]: save mealPlanLabel")
             }
             return
         }
@@ -619,7 +653,9 @@ extension CloudManager {
             }
             if var record {
                 record = self.fillInRecord(record: record, mealPlanLabel: mealPlanLabel)
-                self.save(record: record) { _ in }
+                self.save(record: record) { _ in
+                    print("[CloudKit]: save mealPlanLabel")
+                }
             }
         }
     }

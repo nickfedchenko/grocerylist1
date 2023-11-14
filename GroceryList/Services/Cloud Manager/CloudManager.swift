@@ -51,6 +51,7 @@ final class CloudManager {
     
     func enable() {
         let enableGroup = DispatchGroup()
+        print("[CloudKit]: isICloudDataBackupOn - \(UserDefaultsManager.shared.isICloudDataBackupOn)")
         if UserDefaultsManager.shared.isICloudDataBackupOn {
             createCustomZone(createZoneGroup: enableGroup)
             subscribingToChangeNotifications()
@@ -65,6 +66,7 @@ final class CloudManager {
     }
     
     func fetchChanges(isShowSyncController: Bool = false) {
+        print("[CloudKit]: проверяем есть ли изменения с ICloud")
         var changedZoneIDs: [CKRecordZone.ID] = []
         let serverChangeToken = getToken(changeTokenKey: UserDefaultsManager.shared.databaseChangeTokenKey)
         let databaseOperation = CKFetchDatabaseChangesOperation(previousServerChangeToken: serverChangeToken)
@@ -90,6 +92,7 @@ final class CloudManager {
                 return
             }
             if !changedZoneIDs.isEmpty {
+                print("[CloudKit]: есть изменения ICloud")
                 self.presentSyncController(isShowSyncController: isShowSyncController)
                 self.fetchZoneChanges(zoneIDs: changedZoneIDs) { [weak self] in
                     self?.saveRecords()
@@ -98,6 +101,7 @@ final class CloudManager {
                         UserDefaultsManager.shared.databaseChangeTokenKey = changeTokenData
                     }
                     self?.dismissSyncController(isShowSyncController: isShowSyncController)
+                    print("[CloudKit]: все записи получены")
                 }
             }
         }
@@ -210,6 +214,7 @@ final class CloudManager {
     }
     
     private func fetchZoneChanges(zoneIDs: [CKRecordZone.ID], completion: @escaping (() -> Void)) {
+        print("[CloudKit]: получаем изменения ICloud")
         let serverChangeToken = getToken(changeTokenKey: UserDefaultsManager.shared.zoneChangeTokenKey)
         var configurations = [CKRecordZone.ID: CKFetchRecordZoneChangesOperation.ZoneConfiguration]()
         for zoneID in zoneIDs {
@@ -269,6 +274,7 @@ final class CloudManager {
             guard let recordType = RecordType(rawValue: record.recordType) else {
                 return
             }
+            print("[CloudKit]: получили запись на обновление - \(recordType)")
             self.recordsQueue.async(flags: .barrier) {
                 switch recordType {
                 case .groceryListsModel:   self.groceryLists.append(record)
@@ -289,6 +295,7 @@ final class CloudManager {
     }
     
     private func saveRecords() {
+        print("[CloudKit]: получили все записи на изменения, начинаем сохранять/удалять данные из устройства")
         groceryLists.enumerated().forEach { (index, list) in
             setupGroceryList(record: list)
             if index == groceryLists.count - 1 {
@@ -335,6 +342,7 @@ final class CloudManager {
         let products = self.convertAssetToData(asset: record.value(forKey: "products"))
         if let groceryList = GroceryListsModel(record: record, productsData: products) {
             CoreDataManager.shared.saveList(list: groceryList)
+            print("[CloudKit]: сохранили groceryList - \(groceryList.name ?? "-")")
         }
     }
     
@@ -344,6 +352,7 @@ final class CloudManager {
             CoreDataManager.shared.createProduct(product: product) {
                 if isLast {
                     NotificationCenter.default.post(name: .cloudProducts, object: nil)
+                    print("[CloudKit]: сохранили продукты")
                 }
             }
         }
@@ -352,12 +361,14 @@ final class CloudManager {
     private func setupCategory(record: CKRecord) {
         if let category = CategoryModel(record: record) {
             CoreDataManager.shared.saveCategory(category: category)
+            print("[CloudKit]: сохранили category - \(category.name)")
         }
     }
     
     private func setupStore(record: CKRecord) {
         if let store = Store(record: record) {
             CoreDataManager.shared.saveStore(store)
+            print("[CloudKit]: сохранили store - \(store.title)")
         }
     }
     
@@ -380,6 +391,7 @@ final class CloudManager {
         stocksDistributedByPantries.forEach { pantryId, stocks in
             self.recordsQueue.async(flags: .barrier) {
                 CoreDataManager.shared.saveStock(stocks: stocks, for: pantryId.uuidString)
+                print("[CloudKit]: сохранили stocks")
             }
         }
     }
@@ -392,23 +404,28 @@ final class CloudManager {
         UserDefaultsManager.shared.recipeIsFolderView = (record.value(forKey: "recipeIsFolderView") as? Int64 ?? 0).boolValue
         UserDefaultsManager.shared.recipeIsTableView = (record.value(forKey: "recipeIsTableView") as? Int64 ?? 0).boolValue
         UserDefaultsManager.shared.favoritesRecipeIds = record.value(forKey: "favoritesRecipeIds") as? [Int] ?? []
+        
+        print("[CloudKit]: сохранили Settings")
     }
     
     private func setupMealPlan() {
         mealPlans.forEach {
             if let mealPlan = MealPlan(record: $0) {
                 CoreDataManager.shared.saveMealPlan(mealPlan)
+                print("[CloudKit]: сохранили mealPlan - \(mealPlan.date.toString())")
             }
         }
         
         mealPlanNotes.forEach {
             if let mealPlanNote = MealPlanNote(record: $0) {
                 CoreDataManager.shared.saveMealPlanNote(mealPlanNote)
+                print("[CloudKit]: сохранили mealPlanNote - \(mealPlanNote.title)")
             }
         }
         
         let mealPlanLabels = self.mealPlanLabels.compactMap { MealPlanLabel(record: $0) }
         CoreDataManager.shared.saveLabel(mealPlanLabels)
+        print("[CloudKit]: сохранили mealPlanLabels")
         
         NotificationCenter.default.post(name: .cloudMealPlans, object: nil)
     }
@@ -418,6 +435,7 @@ final class CloudManager {
             guard let recordType = RecordType(rawValue: recordType) else {
                 return
             }
+            print("[CloudKit]: получили запись на удаление - \(recordType)")
             let coreData = CoreDataManager.shared
             self.recordsQueue.async(flags: .barrier) {
                 switch recordType {
@@ -448,6 +466,7 @@ final class CloudManager {
 
 extension CloudManager {
     private func syncAllDataWithICloud() {
+        print("[CloudKit]: сохраняем данные с устройства в ICloud")
         if UserDefaultsManager.shared.settingsRecordId.isEmpty {
             saveCloudSettings()
         }
