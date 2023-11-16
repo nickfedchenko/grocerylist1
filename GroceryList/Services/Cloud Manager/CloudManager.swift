@@ -44,7 +44,8 @@ final class CloudManager {
     private var mealPlanNotes: [CKRecord] = []
     private var mealPlanLabels: [CKRecord] = []
     private let recordsQueue = DispatchQueue(label: "com.ksens.shopp.recordsQueue", attributes: .concurrent)
-
+    private let updateRecordsGroup = DispatchGroup()
+    
     private init() {
         enable()
     }
@@ -95,14 +96,18 @@ final class CloudManager {
                 print("[CloudKit]: есть изменения ICloud")
                 self.presentSyncController(isShowSyncController: isShowSyncController)
                 self.fetchZoneChanges(zoneIDs: changedZoneIDs) { [weak self] in
-                    self?.saveRecords()
+                    print("[CloudKit]: все записи получены")
+                    self?.updateRecordsGroup.notify(queue: .global()) {
+                        self?.saveRecords()
+                    }
                     if let token {
                         let changeTokenData = try? NSKeyedArchiver.archivedData(withRootObject: token, requiringSecureCoding: true)
                         UserDefaultsManager.shared.databaseChangeTokenKey = changeTokenData
                     }
                     self?.dismissSyncController(isShowSyncController: isShowSyncController)
-                    print("[CloudKit]: все записи получены")
                 }
+            } else {
+                print("[CloudKit]: изменений ICloud - нет")
             }
         }
         
@@ -225,6 +230,7 @@ final class CloudManager {
         let zoneOperation = CKFetchRecordZoneChangesOperation(recordZoneIDs: zoneIDs, configurationsByRecordZoneID: configurations)
         
         zoneOperation.recordChangedBlock = { record in
+            self.updateRecordsGroup.enter()
             self.updateData(by: record)
         }
         
@@ -290,22 +296,15 @@ final class CloudManager {
                 case .mealPlanNote:        self.mealPlanNotes.append(record)
                 case .mealPlanLabel:       self.mealPlanLabels.append(record)
                 }
+                self.updateRecordsGroup.leave()
             }
         }
     }
     
     private func saveRecords() {
-        print("[CloudKit]: получили все записи на изменения, начинаем сохранять/удалять данные из устройства")
-        groceryLists.enumerated().forEach { (index, list) in
-            setupGroceryList(record: list)
-            if index == groceryLists.count - 1 {
-                NotificationCenter.default.post(name: .cloudList, object: nil)
-                UserDefaultsManager.shared.coldStartState = 2
-            }
-        }
-        products.enumerated().forEach { (index, product) in
-            setupProduct(record: product, isLast: index == products.count - 1)
-        }
+        print("[CloudKit]: получили все записи на изменения, начинаем сохранять данные на устройство")
+        setupGroceryList()
+        
         categories.forEach { setupCategory(record: $0) }
         stores.forEach { setupStore(record: $0) }
         
@@ -338,11 +337,22 @@ final class CloudManager {
         setupMealPlan()
     }
     
-    private func setupGroceryList(record: CKRecord) {
-        let products = self.convertAssetToData(asset: record.value(forKey: "products"))
-        if let groceryList = GroceryListsModel(record: record, productsData: products) {
-            CoreDataManager.shared.saveList(list: groceryList)
-            print("[CloudKit]: сохранили groceryList - \(groceryList.name ?? "-")")
+    private func setupGroceryList() {
+        self.recordsQueue.async(flags: .barrier) {
+            let groceryListsFromCloud = self.groceryLists.compactMap { record in
+                let products = self.convertAssetToData(asset: record.value(forKey: "products"))
+                return GroceryListsModel(record: record, productsData: products)
+            }
+            
+            CoreDataManager.shared.saveLists(lists: groceryListsFromCloud) {
+                print("[CloudKit]: сохранили groceryLists")
+                NotificationCenter.default.post(name: .cloudList, object: nil)
+                UserDefaultsManager.shared.coldStartState = 2
+                
+                self.products.enumerated().forEach { (index, product) in
+                    self.setupProduct(record: product, isLast: index == self.products.count - 1)
+                }
+            }
         }
     }
     
@@ -412,7 +422,7 @@ final class CloudManager {
         mealPlans.forEach {
             if let mealPlan = MealPlan(record: $0) {
                 CoreDataManager.shared.saveMealPlan(mealPlan)
-                print("[CloudKit]: сохранили mealPlan - \(mealPlan.date.toString())")
+                print("[CloudKit]: сохранили mealPlan - \(mealPlan.date.toString()), recipeID = \(mealPlan.recordId)")
             }
         }
         
