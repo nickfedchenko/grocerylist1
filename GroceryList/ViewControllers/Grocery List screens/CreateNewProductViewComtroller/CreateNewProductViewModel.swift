@@ -309,10 +309,15 @@ class CreateNewProductViewModel {
             return
         }
         
-        if networkProductTitles.contains(where: { $0.prepareForSearch() == name }),
-           let product = networkBaseProducts?.first(where: { $0.title?.prepareForSearch().smartContains(name) ?? false }) {
-            getInformation(networkProduct: product)
-            return
+        if networkProductTitles.contains(where: { $0.prepareForSearch() == name }) {
+            if let product = networkBaseProducts?.first(where: { $0.title?.prepareForSearch() == name.prepareForSearch() }) {
+                getInformation(networkProduct: product)
+                return
+            }
+            if let product = networkBaseProducts?.first(where: { $0.title?.prepareForSearch().smartContains(name) ?? false }) {
+                getInformation(networkProduct: product)
+                return
+            }
         }
         
         if networkDishesProductTitles.contains(where: { $0.prepareForSearch() == name }),
@@ -327,6 +332,10 @@ class CreateNewProductViewModel {
     
     private func search(name: String, by titles: [String]) -> [String] {
         var resultTitles: [String] = []
+        
+        if let title = titles.first(where: { $0.prepareForSearch() == name }) {
+            return [title]
+        }
         
         for title in titles {
             let searchTitle = title.prepareForSearch()

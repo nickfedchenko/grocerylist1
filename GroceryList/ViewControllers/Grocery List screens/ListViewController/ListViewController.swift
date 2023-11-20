@@ -113,18 +113,20 @@ final class ListViewController: UIViewController {
         case .min:
             foodImage.isHidden = false
             foodImage.image = UIImage(named: "halfFood")
-            foodImage.snp.updateConstraints { make in
+            foodImage.snp.remakeConstraints { make in
                 make.bottom.equalTo(collectionView.contentSize.height)
                 make.left.right.equalToSuperview().inset(20)
                 make.height.equalTo(213)
+                make.centerX.equalToSuperview()
             }
         case .middle:
             foodImage.isHidden = false
             foodImage.image = UIImage(named: "foodImage")
-            foodImage.snp.updateConstraints { make in
+            foodImage.snp.remakeConstraints { make in
                 make.bottom.equalTo(collectionView.contentSize.height)
                 make.left.right.equalToSuperview().inset(20)
                 make.height.equalTo(400)
+                make.centerX.equalToSuperview()
             }
         }
     }
