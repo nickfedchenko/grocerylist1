@@ -61,9 +61,9 @@ class FamilyPaywallProductsView: UIView {
 
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
-        button.setTitle(R.string.localizable.cancelAnytime(), for: .normal)
+        button.setTitle("  " + R.string.localizable.cancelAnytime(), for: .normal)
         button.setTitleColor(UIColor(hex: "#1A645A"), for: .normal)
-        button.titleLabel?.font = UIFont.SFPro.medium(size: UIDevice.isSE2 ? 12 : 15).font
+        button.titleLabel?.font = UIFont.SFProRounded.medium(size: UIDevice.isSE2 ? 12 : 15).font
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.minimumScaleFactor = 0.1
         button.titleLabel?.numberOfLines = 2
@@ -171,16 +171,17 @@ class FamilyPaywallProductsView: UIView {
         }
         
         cancelButton.snp.makeConstraints {
-            $0.top.equalTo(continueButton.snp.bottom).offset(9)
+            $0.top.equalTo(continueButton.snp.bottom).offset(UIDevice.isSEorXor12mini ? 9 : 16)
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(126)
+            $0.width.equalTo(135)
         }
         
         privacyButton.setContentCompressionResistancePriority(.init(1), for: .horizontal)
         privacyButton.snp.makeConstraints {
-            $0.top.equalTo(continueButton.snp.bottom).offset(11)
+            $0.top.equalTo(continueButton.snp.bottom).offset(UIDevice.isSEorXor12mini ? 10 : 18)
             $0.leading.equalToSuperview().offset(17)
             $0.trailing.equalTo(cancelButton.snp.leading).offset(-16)
+            $0.bottom.equalToSuperview()
         }
         
         termsButton.setContentCompressionResistancePriority(.init(1), for: .horizontal)

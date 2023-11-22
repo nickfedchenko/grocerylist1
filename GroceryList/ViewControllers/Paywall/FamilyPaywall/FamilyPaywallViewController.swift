@@ -114,7 +114,7 @@ class FamilyPaywallViewController: UIViewController {
         }
         
         titleView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(self.view.frame.height * (UIDevice.isSEorXor12mini ? 0.11 : 0.16))
+            $0.top.equalToSuperview().offset(self.view.frame.height * (UIDevice.isLessPhoneSE ? 0.11 : 0.16))
             $0.horizontalEdges.equalToSuperview()
             $0.height.lessThanOrEqualTo(88)
         }
@@ -130,7 +130,7 @@ class FamilyPaywallViewController: UIViewController {
         productsView.snp.makeConstraints {
             $0.top.equalTo(featureView.snp.bottom).offset(UIDevice.isSEorXor12mini ? 12 : 15)
             $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(UIDevice.isSEorXor12mini ? 0 : 15)
         }
     }
 }
