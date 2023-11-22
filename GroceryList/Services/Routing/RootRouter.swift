@@ -724,6 +724,13 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func showFamilyPaywall() {
+        let controller = FamilyPaywallViewController()
+        
+        controller.modalPresentationStyle = .fullScreen
+        navigationPresent(controller, animated: true)
+    }
+    
     func showReviewRequestController() {
        let controller = viewControllerFactory.createReviewsController(router: self)
         navigationPushViewController(controller, animated: true)

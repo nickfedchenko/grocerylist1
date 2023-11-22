@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol NewPaywallProductsViewDelegate: AnyObject {
+protocol BottomProductsViewDelegate: AnyObject {
     func privacyDidTap()
     func termsDidTap()
     func didTapToRestorePurchases()
@@ -17,7 +17,7 @@ protocol NewPaywallProductsViewDelegate: AnyObject {
 
 class NewPaywallBottomProductsView: UIView {
 
-    weak var delegate: NewPaywallProductsViewDelegate?
+    weak var delegate: BottomProductsViewDelegate?
     
     private let contentView = UIView()
     

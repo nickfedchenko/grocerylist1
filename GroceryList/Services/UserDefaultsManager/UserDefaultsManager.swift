@@ -220,8 +220,8 @@ class UserDefaultsManager {
     }
     
     var countShowMessageNewFeature: Int {
-        get { userDefaults.integer(forKey: "createdCustomZone") }
-        set { userDefaults.set(newValue, forKey: "createdCustomZone") }
+        get { userDefaults.integer(forKey: "countShowMessageNewFeature") }
+        set { userDefaults.set(newValue, forKey: "countShowMessageNewFeature") }
     }
     
     var settingsRecordId: String {
@@ -287,6 +287,11 @@ class UserDefaultsManager {
     var mealPlanUserTokens: [String]? {
         get { userDefaults.array(forKey: "mealPlanUserTokens") as? [String] }
         set { userDefaults.set(newValue, forKey: "mealPlanUserTokens") }
+    }
+    
+    var countShowSettingsMessageFeature: Int {
+        get { userDefaults.integer(forKey: "countShowSettingsMessageFeature") }
+        set { userDefaults.set(newValue, forKey: "countShowSettingsMessageFeature") }
     }
     
     private func setValue<T>(value: T, for key: UDKeys) {

@@ -126,6 +126,7 @@
 "Metric"                    = "Метрическая";
 "Imperial"                  = "Cтандарт США";
 "settings.pictureMatching"  = "Подбор картинок";
+"Upgrade Subscription Plan" = "Обновить план подписки";
 
 "Warning"                   = "Внимание";
 
@@ -167,11 +168,6 @@
 
 "review.mainTitle"          = "Оцените приложение в AppStore";
 "review.subtitle"           = "Это поможет сделать его лучше";
-
-// AlternativePaywallController
-"Save time and money"       = "Берегите время и деньги";
-"Plan your shopping list for the week" = "Планируйте ваш список покупок на неделю";
-"Quick add recipe ingredients into your lists" = "Быстрое добавление ингредиентов из рецептов ваши списки";
 
 // WriteReviewController
 "Your opinion matter to us!"    = "Ваше мнение важно для нас!";
@@ -583,6 +579,20 @@
 "Various Lists"                 = "Различные списки";
 "Title"                         = "Заголовок";
 "Details"                       = "Подробности";
+
+"Enjoy with the whole iCloud Family" = "Наслаждайтесь всей семьей iCloud";
+
+// MARK: - Paywalls
+
+// AlternativePaywallController
+"Save time and money"       = "Берегите время и деньги";
+"Plan your shopping list for the week" = "Планируйте ваш список покупок на неделю";
+"Quick add recipe ingredients into your lists" = "Быстрое добавление ингредиентов из рецептов ваши списки";
+
+// Family paywall
+"Add recipes and share them" = "Добавляйте рецепты и делитесь ими";
+"iCloud Family Plan" = "Семейный план iCloud";
+"Family Plan members" = "До 6 участников!";
 
 // Updated Paywall
 "three days "                   = "3 дня ";
