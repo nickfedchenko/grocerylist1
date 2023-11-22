@@ -10,6 +10,11 @@
 		24EC0A9D6C58DEB18A92E68F /* Pods_ActionExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07A595E62D1DC71AFB7270E8 /* Pods_ActionExtension.framework */; };
 		3318E5A02A7CC10900D357E4 /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3329595298A667E002DF1EE /* AmplitudeManager.swift */; };
 		3318E5A22A7CE5E200D357E4 /* RecipeEditMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3318E5A12A7CE5E200D357E4 /* RecipeEditMessageView.swift */; };
+		331EC0232B0DAB8400EDFBE7 /* FamilyPaywallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331EC0222B0DAB8400EDFBE7 /* FamilyPaywallViewController.swift */; };
+		331EC0252B0DAF4200EDFBE7 /* FamilyPaywallTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331EC0242B0DAF4200EDFBE7 /* FamilyPaywallTitleView.swift */; };
+		331EC0272B0DAFE200EDFBE7 /* FamilyPaywallFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331EC0262B0DAFE200EDFBE7 /* FamilyPaywallFeatureView.swift */; };
+		331EC0292B0DB89100EDFBE7 /* FamilyPaywallProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331EC0282B0DB89100EDFBE7 /* FamilyPaywallProductsView.swift */; };
+		331EC02C2B0E235100EDFBE7 /* SettingsFeatureMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331EC02B2B0E235100EDFBE7 /* SettingsFeatureMessageView.swift */; };
 		3320531C2A0CD5ED00E19EA8 /* ProductsSortViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3320531B2A0CD5ED00E19EA8 /* ProductsSortViewModel.swift */; };
 		3320531E2A0E6CAB00E19EA8 /* DictionaryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3320531D2A0E6CAB00E19EA8 /* DictionaryExtension.swift */; };
 		332340922A1B31CC00609813 /* MainNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332340912A1B31CC00609813 /* MainNavigationView.swift */; };
@@ -568,6 +573,11 @@
 /* Begin PBXFileReference section */
 		07A595E62D1DC71AFB7270E8 /* Pods_ActionExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ActionExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3318E5A12A7CE5E200D357E4 /* RecipeEditMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeEditMessageView.swift; sourceTree = "<group>"; };
+		331EC0222B0DAB8400EDFBE7 /* FamilyPaywallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyPaywallViewController.swift; sourceTree = "<group>"; };
+		331EC0242B0DAF4200EDFBE7 /* FamilyPaywallTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyPaywallTitleView.swift; sourceTree = "<group>"; };
+		331EC0262B0DAFE200EDFBE7 /* FamilyPaywallFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyPaywallFeatureView.swift; sourceTree = "<group>"; };
+		331EC0282B0DB89100EDFBE7 /* FamilyPaywallProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyPaywallProductsView.swift; sourceTree = "<group>"; };
+		331EC02B2B0E235100EDFBE7 /* SettingsFeatureMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFeatureMessageView.swift; sourceTree = "<group>"; };
 		3320531B2A0CD5ED00E19EA8 /* ProductsSortViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsSortViewModel.swift; sourceTree = "<group>"; };
 		3320531D2A0E6CAB00E19EA8 /* DictionaryExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExtension.swift; sourceTree = "<group>"; };
 		332340912A1B31CC00609813 /* MainNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationView.swift; sourceTree = "<group>"; };
@@ -1062,6 +1072,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		331EC0212B0DAB4A00EDFBE7 /* FamilyPaywall */ = {
+			isa = PBXGroup;
+			children = (
+				331EC0222B0DAB8400EDFBE7 /* FamilyPaywallViewController.swift */,
+				331EC02A2B0DD12F00EDFBE7 /* subviews */,
+			);
+			path = FamilyPaywall;
+			sourceTree = "<group>";
+		};
+		331EC02A2B0DD12F00EDFBE7 /* subviews */ = {
+			isa = PBXGroup;
+			children = (
+				331EC0242B0DAF4200EDFBE7 /* FamilyPaywallTitleView.swift */,
+				331EC0262B0DAFE200EDFBE7 /* FamilyPaywallFeatureView.swift */,
+				331EC0282B0DB89100EDFBE7 /* FamilyPaywallProductsView.swift */,
+			);
+			path = subviews;
+			sourceTree = "<group>";
+		};
 		332340932A1B8E4500609813 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -2542,6 +2571,7 @@
 				B3777E182938BEA80074BE38 /* SettingsViewController.swift */,
 				B381EF19299A08ED00DCDE40 /* SettingsProfileView.swift */,
 				B3777E1A2938BF830074BE38 /* SettingsViewModel.swift */,
+				331EC02B2B0E235100EDFBE7 /* SettingsFeatureMessageView.swift */,
 			);
 			path = SettingsViewController;
 			sourceTree = "<group>";
@@ -2808,6 +2838,7 @@
 				B315F9D82988FF4E0009CEB8 /* AlternativePaywall */,
 				33E8A8B02A5D53B6007D7ED9 /* UpdatedPaywall (from vanya) */,
 				333DCC212A61015A00E3F92B /* NewPaywall (from ivan) */,
+				331EC0212B0DAB4A00EDFBE7 /* FamilyPaywall */,
 			);
 			path = Paywall;
 			sourceTree = "<group>";
@@ -3332,6 +3363,7 @@
 				337719AA29B1A517000791BD /* CreateNewRecipeStepTwoViewController.swift in Sources */,
 				337719B129B1B552000791BD /* CreateNewRecipeViewState.swift in Sources */,
 				33F496D32AC6ADE000212D93 /* AddIngredientsToListViewController.swift in Sources */,
+				331EC0292B0DB89100EDFBE7 /* FamilyPaywallProductsView.swift in Sources */,
 				33A51B872A163C7A00BE11C1 /* MainTabBarController.swift in Sources */,
 				339254A42A3047600047807E /* DBStock+CoreDataProperties.swift in Sources */,
 				383C77E4293DC5000030AE78 /* RecipePreviewCell.swift in Sources */,
@@ -3380,6 +3412,7 @@
 				B371CCA8299C977E00E0E197 /* DomainResetPasswordModel+CoreDataProperties.swift in Sources */,
 				337E79CA29E51D6200668578 /* AddListView.swift in Sources */,
 				33E8A8B62A5E20B0007D7ED9 /* UpdatedPaywallFeaturesView.swift in Sources */,
+				331EC02C2B0E235100EDFBE7 /* SettingsFeatureMessageView.swift in Sources */,
 				844FC6392978612B008173AA /* OnboardingReviewController.swift in Sources */,
 				334BAE57299E7305005F52F5 /* SharedCell.swift in Sources */,
 				B373CDD2298D3A6A00AE522D /* AddToAnotherListViewController.swift in Sources */,
@@ -3392,6 +3425,7 @@
 				3347646F2A2B7DE2008F4834 /* CreateNewStockViewModel.swift in Sources */,
 				334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */,
 				33E31AF82A7953E40011B41E /* ImportSteps.swift in Sources */,
+				331EC0272B0DAFE200EDFBE7 /* FamilyPaywallFeatureView.swift in Sources */,
 				33AF97B52A7AA5BF00716104 /* Shared Extensions.swift in Sources */,
 				3379B65729B9AED50080923A /* IngredientViewModel.swift in Sources */,
 				3379B65229B870A70080923A /* ShowCollectionCell.swift in Sources */,
@@ -3403,6 +3437,7 @@
 				B381EF26299B661700DCDE40 /* DeleteAccountView.swift in Sources */,
 				33995D322A1F96BE003FECAE /* CreateNewPantryViewController.swift in Sources */,
 				B315F9D52988FD530009CEB8 /* AlternativePaywallViewController.swift in Sources */,
+				331EC0252B0DAF4200EDFBE7 /* FamilyPaywallTitleView.swift in Sources */,
 				B3AD42D5299106360043A37F /* SocketManager.swift in Sources */,
 				B3F7C9B029937CD60081B245 /* RegisterWithMessageView.swift in Sources */,
 				B3693405291BB44A00AFFAA6 /* ColorCollectionViewCell.swift in Sources */,
@@ -3521,6 +3556,7 @@
 				339FF3762A650CA700C6D6E3 /* PaywallCarouselCell.swift in Sources */,
 				338F43352ABA8F1F000B7A61 /* MealPlanLabelCell.swift in Sources */,
 				338EB6B629C1BEED00D6A03F /* SearchInRecipeViewModel.swift in Sources */,
+				331EC0232B0DAB8400EDFBE7 /* FamilyPaywallViewController.swift in Sources */,
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,
 				33A51B892A163C9500BE11C1 /* CustomTransition.swift in Sources */,
 				334764552A277C9F008F4834 /* StocksViewController.swift in Sources */,

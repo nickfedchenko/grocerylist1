@@ -128,6 +128,7 @@
 "Metric"                    = "Metrisch";
 "Imperial"                  = "US-Standard";
 "settings.pictureMatching"  = "Bildauswahl";
+"Upgrade Subscription Plan" = "Upgrade-Abonnementplan";
 
 "Warning"                   = "Achtung";
 "NoInternet"                = "Kein Internet";
@@ -170,11 +171,6 @@
 
 "review.mainTitle" = "Bewerten Sie die App im AppStore";
 "review.subtitle" = "Dies wird dazu beitragen, dass es besser wird.";
-
-// AlternativePaywallController
-"Save time and money" = "Sparen Sie Zeit und Geld";
-"Plan your shopping list for the week" = "Planen Sie Ihre Einkaufsliste für die Woche";
-"Quick add recipe ingredients into your lists" = "Fügen Sie Rezeptzutaten schnell zu Ihren Listen hinzu";
 
 // WriteReviewController
 "Your opinion matter to us!"    = "Ihre Meinung ist uns wichtig!";
@@ -580,6 +576,20 @@
 "Various Lists"                 = "Verschiedene Listen";
 "Title"                         = "Titel";
 "Details"                       = "Einzelheiten";
+
+"Enjoy with the whole iCloud Family" = "Genießen Sie es mit der gesamten iCloud-Familie";
+
+// MARK: - Paywalls
+
+// AlternativePaywallController
+"Save time and money" = "Sparen Sie Zeit und Geld";
+"Plan your shopping list for the week" = "Planen Sie Ihre Einkaufsliste für die Woche";
+"Quick add recipe ingredients into your lists" = "Fügen Sie Rezeptzutaten schnell zu Ihren Listen hinzu";
+
+// Family paywall
+"Add recipes and share them" = "Fügen Sie Rezepte hinzu und teilen Sie sie";
+"iCloud Family Plan" = "iCloud-Familienplan";
+"Family Plan members" = "Bis zu 6 Mitglieder!";
 
 // Updated Paywall
 "three days "                   = "3 tage ";
