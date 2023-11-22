@@ -350,6 +350,7 @@ extension SettingsViewController {
     private func upgradeSubscriptionPlanAction(_ recognizer: UIPanGestureRecognizer) {
         Vibration.selection.vibrate()
         let controller = FamilyPaywallViewController()
+        controller.isSettings = true
         controller.modalPresentationStyle = .overCurrentContext
         self.navigationController?.present(controller, animated: true)
     }

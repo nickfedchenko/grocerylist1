@@ -11,6 +11,7 @@ import UIKit
 class FamilyPaywallViewController: UIViewController {
 
     var isHardPaywall = false
+    var isSettings = false
     
     private let contentView = UIView()
     private lazy var closeCrossButton: UIButton = {
@@ -178,9 +179,16 @@ extension FamilyPaywallViewController: BottomProductsViewDelegate {
             }
 
             if let subscription = result.subscription, subscription.isActive() {
+                if self?.isSettings ?? false {
+                    AmplitudeManager.shared.logEvent(.upgradeSub, properties: [.type: selectedProduct.forAnalitcs])
+                }
                 self?.dismiss(animated: true)
             } else if let purchase = result.nonRenewingPurchase, purchase.isActive() {
+                if self?.isSettings ?? false {
+                    AmplitudeManager.shared.logEvent(.upgradeSub, properties: [.type: selectedProduct.forAnalitcs])
+                }
                 self?.dismiss(animated: true)
+                
             } else {
                 if Apphud.hasActiveSubscription() {
                     self?.dismiss(animated: true)
@@ -196,6 +204,9 @@ extension FamilyPaywallViewController: BottomProductsViewDelegate {
 
 extension FamilyPaywallViewController: FamilyPaywallProductsDelegate {
     func changeFamilySwitch(value: Bool) {
+        if value && !isSettings {
+            AmplitudeManager.shared.logEvent(.familySubToggle)
+        }
         let currentProducts = choiceOfCostArray.filter { $0.isFamily == value }
         productsView.configure(products: currentProducts)
         productsView.selectProduct(selectedProductIndex)

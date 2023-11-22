@@ -204,4 +204,23 @@ extension ApphudProduct {
             return ""
         }
     }
+    
+    var forAnalitcs: String {
+        guard let skProduct = self.skProduct else {
+            return ""
+        }
+        let numberOfUnits = skProduct.subscriptionPeriod?.numberOfUnits
+        
+        switch skProduct.subscriptionPeriod?.unit {
+        case .year:
+            return isFamilyShareable ? .yearlyF : .yearly
+        case .month:
+            return isFamilyShareable ? .monthlyF : .monthly
+        case .week:
+            return isFamilyShareable ? .weeklyF : .weekly
+        default: break
+        }
+        
+        return ""
+    }
 }
