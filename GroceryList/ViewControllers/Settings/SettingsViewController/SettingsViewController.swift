@@ -40,6 +40,12 @@ class SettingsViewController: UIViewController {
     
     private let contentView = UIView()
     
+    private lazy var upgradeSubscriptionPlanView: SettingsParametrView = {
+        let view = SettingsParametrView()
+        view.setupView(text: R.string.localizable.upgradeSubscriptionPlan())
+        return view
+    }()
+    
     private lazy var unitsView: SettingsParametrView = {
         let view = SettingsParametrView()
         view.setupView(text: "Quantity Units".localized, unitSustemText: viewModel?.getTextForUnitSystemView())
@@ -141,6 +147,15 @@ class SettingsViewController: UIViewController {
         return view
     }()
     
+    private let messageBackgroundView = UIView()
+    private let settingMessageView = SettingsFeatureMessageView()
+    private let orangeCircle: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = R.image.orangeCircle()
+        return imageView
+    }()
+    
     // MARK: - LifeCycle
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
@@ -153,6 +168,7 @@ class SettingsViewController: UIViewController {
         setupConstraints()
         addRecognizer()
         setupNavigationBar(titleText: R.string.localizable.preferencies())
+        setupFeatureView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -172,11 +188,13 @@ class SettingsViewController: UIViewController {
         navigationView.backgroundColor = R.color.background()?.withAlphaComponent(0.9)
         
         self.view.addSubviews([scrollView, navigationView])
-        self.scrollView.addSubview(contentView)
+        self.scrollView.addSubviews([contentView, messageBackgroundView])
         navigationView.addSubviews([preferenciesLabel, closeButton])
-        contentView.addSubviews([profileView, unitsView, iCloudDataBackupView, likeAppView,
+        contentView.addSubviews([profileView, upgradeSubscriptionPlanView,
+                                 unitsView, iCloudDataBackupView, likeAppView,
                                  hapticView, showProductImageView, contactUsView,
                                  selectUnitsView, helpAndFaqView, registerView])
+        messageBackgroundView.addSubviews([orangeCircle, settingMessageView])
         
         navigationView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
@@ -211,9 +229,15 @@ class SettingsViewController: UIViewController {
             make.left.right.equalToSuperview()
         }
         
-        unitsView.snp.makeConstraints { make in
+        upgradeSubscriptionPlanView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
             make.top.equalTo(profileView.snp.bottom).inset(-5)
+            make.height.equalTo(54)
+        }
+        
+        unitsView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(20)
+            make.top.equalTo(upgradeSubscriptionPlanView.snp.bottom).inset(-5)
             make.height.equalTo(54)
         }
         
@@ -265,6 +289,21 @@ class SettingsViewController: UIViewController {
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(30)
         }
+        
+        messageBackgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        orangeCircle.snp.makeConstraints { make in
+            make.centerY.equalTo(upgradeSubscriptionPlanView)
+            make.trailing.equalToSuperview().inset(52)
+            make.width.height.equalTo(15)
+        }
+        
+        settingMessageView.snp.makeConstraints { make in
+            make.top.equalTo(orangeCircle.snp.bottom).offset(5)
+            make.trailing.equalToSuperview().offset(-254)
+        }
     }
 }
 
@@ -277,10 +316,12 @@ extension SettingsViewController {
     }
 
     private func addRecognizer() {
+        let upgradeSubscriptionPlanViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(upgradeSubscriptionPlanAction))
         let unitsViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(unitsViewAction))
         let likeAppViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(likeAppViewAction))
         let contactUsViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(contactUsAction))
         let helpAndFaqViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(helpAndFaqAction))
+        upgradeSubscriptionPlanView.addGestureRecognizer(upgradeSubscriptionPlanViewRecognizer)
         unitsView.addGestureRecognizer(unitsViewRecognizer)
         likeAppView.addGestureRecognizer(likeAppViewRecognizer)
         contactUsView.addGestureRecognizer(contactUsViewRecognizer)
@@ -303,6 +344,15 @@ extension SettingsViewController {
     
     func updateUnitSystemView() {
         selectUnitsView.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+    }
+    
+    @objc
+    private func upgradeSubscriptionPlanAction(_ recognizer: UIPanGestureRecognizer) {
+        Vibration.selection.vibrate()
+        let controller = FamilyPaywallViewController()
+        controller.isSettings = true
+        controller.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(controller, animated: true)
     }
     
     @objc
@@ -345,6 +395,29 @@ extension SettingsViewController {
         self.navigationController?.pushViewController(controller, animated: true)
     }
   
+    private func setupFeatureView() {
+        let messageBackgroundTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(messageBackgroundTapAction))
+        messageBackgroundView.addGestureRecognizer(messageBackgroundTapRecognizer)
+        
+        messageBackgroundView.isHidden = true
+        orangeCircle.isHidden = true
+        settingMessageView.isHidden = true
+        
+        settingMessageView.tapOnView = { [weak self] in
+            self?.messageBackgroundView.fadeOut()
+        }
+        if UserDefaultsManager.shared.countShowSettingsMessageFeature <= 2 {
+            messageBackgroundView.isHidden = false
+            orangeCircle.isHidden = false
+            settingMessageView.isHidden = false
+        }
+    }
+    
+    @objc
+    private func messageBackgroundTapAction() {
+        messageBackgroundView.fadeOut()
+        UserDefaultsManager.shared.countShowSettingsMessageFeature += 1
+    }
 }
 
 // MARK: - Contact Us

@@ -1,53 +1,50 @@
 //
-//  NewPaywallViewController.swift
+//  FamilyPaywallViewController.swift
 //  GroceryList
 //
-//  Created by Хандымаа Чульдум on 14.07.2023.
+//  Created by Хандымаа Чульдум on 22.11.2023.
 //
 
 import ApphudSDK
 import UIKit
 
-class NewPaywallViewController: UIViewController {
+class FamilyPaywallViewController: UIViewController {
 
     var isHardPaywall = false
+    var isSettings = false
     
     private let contentView = UIView()
     private lazy var closeCrossButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(closeButtonAction), for: .touchUpInside)
-        button.setImage(R.image.updatedPaywall_crossButton(), for: .normal)
+        button.setImage(R.image.whiteCross(), for: .normal)
         return button
     }()
     
-    private let topCarouselView = NewPaywallCarouselView()
-    private let featureView = NewPaywallFeatureView()
-    private let productsView = NewPaywallBottomProductsView()
+    private let backgroundImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = R.image.paywall_family_bg()
+        return imageView
+    }()
     
-    private var weekPrice = 0.0
-    private let loadingInfoString = "Loading info".localized
+    private let titleView = FamilyPaywallTitleView()
+    private let featureView = FamilyPaywallFeatureView()
+    private let productsView = FamilyPaywallProductsView()
+    
     private let isSmallSize = !UIScreen.main.isSizeAsIPhone8PlusOrBigger
     private var products: [ApphudProduct] = []
     private var selectedPrice: PayWallModel?
     private var selectedProduct: ApphudProduct?
-    private var selectedProductIndex = 2 {
+    private var selectedProductIndex = 0 {
         didSet {
             selectedProduct = products[selectedProductIndex]
             productsView.selectProduct(selectedProductIndex)
         }
     }
-    private var choiceOfCostArray = [PayWallModel(),
-                                     PayWallModel(),
-                                     PayWallModel()]
     
-    init(isTrial: Bool) {
-        super.init(nibName: nil, bundle: nil)
-        featureView.updateTitle(isTrial: isTrial)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private var choiceOfCostArray = Array(repeating: PayWallModel(), count: 3)
+    private var isFamilyIndex = [3, 4, 5]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,46 +52,31 @@ class NewPaywallViewController: UIViewController {
         makeConstraints()
         
         closeCrossButton.isHidden = isHardPaywall
-        featureView.isHard = isHardPaywall
         
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
-            guard let products = paywalls.first(where: { $0.isDefault })?.products,
+            guard let products = paywalls.first(where: { $0.identifier == "Family_AB_test" })?.products,
                   let self = self else {
                 return
             }
             self.products = products
-            let lastNumber = products.count - 1
             self.choiceOfCostArray = self.products.enumerated().map { index, product in
-                    .init(isPopular: index == lastNumber,
-                          isVisibleSave: index == lastNumber,
+                    .init(isPopular: (index + 3) % 3 == 0,
+                          isVisibleSave: false,
+                          isFamily: self.isFamilyIndex.contains(index),
                           badgeColor: nil,
                           savePrecent: product.savePercent(allProducts: products),
                           period: product.period,
                           price: product.priceString,
                           description: product.getPricePerMinPeriod(allProducts: products))
             }
-            self.productsView.configure(products: self.choiceOfCostArray)
-            self.selectedProductIndex = lastNumber
+            self.changeFamilySwitch(value: false)
+            self.selectedProductIndex = 0
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        topCarouselView.startCarousel()
-        featureView.layoutIfNeeded()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        topCarouselView.stopCarousel()
-    }
-    
     private func setupView() {
-        contentView.layer.cornerRadius = 24
-        contentView.backgroundColor = .white
-        contentView.addDefaultShadowForContentView()
-        
         productsView.delegate = self
+        productsView.familyDelegate = self
         productsView.configure(products: choiceOfCostArray)
         productsView.selectProduct(selectedProductIndex)
     }
@@ -114,39 +96,47 @@ class NewPaywallViewController: UIViewController {
     }
     
     private func makeConstraints() {
-        self.view.addSubviews([contentView])
-        contentView.addSubviews([topCarouselView, featureView, productsView, closeCrossButton])
+        self.view.addSubviews([backgroundImageView, contentView])
+        contentView.addSubviews([titleView, featureView, productsView, closeCrossButton])
 
+        backgroundImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         contentView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             $0.horizontalEdges.bottom.equalToSuperview()
         }
-        
+
         closeCrossButton.snp.makeConstraints {
-            $0.top.trailing.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().inset(5)
+            $0.trailing.equalToSuperview().inset(20)
             $0.height.width.equalTo(40)
         }
         
-        topCarouselView.snp.makeConstraints {
-            $0.top.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(232)
+        titleView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(self.view.frame.height * (UIDevice.isLessPhoneSE ? 0.11 : 0.16))
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.lessThanOrEqualTo(88)
         }
         
         featureView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(175)
-            $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(553)
+            $0.top.equalTo(titleView.snp.bottom).offset(13)
+            $0.centerX.equalToSuperview()
+            $0.leading.greaterThanOrEqualTo(20)
+            $0.height.greaterThanOrEqualTo(UIDevice.isSEorXor12mini ? 80 : 88)
+            $0.width.greaterThanOrEqualTo(32)
         }
         
         productsView.snp.makeConstraints {
-            $0.bottom.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(247)
+            $0.top.equalTo(featureView.snp.bottom).offset(UIDevice.isSEorXor12mini ? 12 : 15)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(UIDevice.isSEorXor12mini ? 0 : 15)
         }
     }
-
 }
 
-extension NewPaywallViewController: BottomProductsViewDelegate {
+extension FamilyPaywallViewController: BottomProductsViewDelegate {
     func privacyDidTap() {
         let urlString = "https://docs.google.com/document/d/1FBzdkA2rqRdDLhimwz7fgF3b7VTA-lh4PvOdMHBGKSA/edit?usp=sharing"
         openUrl(urlString: urlString)
@@ -189,9 +179,16 @@ extension NewPaywallViewController: BottomProductsViewDelegate {
             }
 
             if let subscription = result.subscription, subscription.isActive() {
+                if self?.isSettings ?? false {
+                    AmplitudeManager.shared.logEvent(.upgradeSub, properties: [.type: selectedProduct.forAnalitcs])
+                }
                 self?.dismiss(animated: true)
             } else if let purchase = result.nonRenewingPurchase, purchase.isActive() {
+                if self?.isSettings ?? false {
+                    AmplitudeManager.shared.logEvent(.upgradeSub, properties: [.type: selectedProduct.forAnalitcs])
+                }
                 self?.dismiss(animated: true)
+                
             } else {
                 if Apphud.hasActiveSubscription() {
                     self?.dismiss(animated: true)
@@ -203,5 +200,15 @@ extension NewPaywallViewController: BottomProductsViewDelegate {
     func tapProduct(tag: Int) {
         selectedProductIndex = tag
     }
-    
+}
+
+extension FamilyPaywallViewController: FamilyPaywallProductsDelegate {
+    func changeFamilySwitch(value: Bool) {
+        if value && !isSettings {
+            AmplitudeManager.shared.logEvent(.familySubToggle)
+        }
+        let currentProducts = choiceOfCostArray.filter { $0.isFamily == value }
+        productsView.configure(products: currentProducts)
+        productsView.selectProduct(selectedProductIndex)
+    }
 }

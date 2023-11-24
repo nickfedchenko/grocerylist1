@@ -20,7 +20,7 @@ extension CoreDataManager {
     // MARK: - Products
     func createProduct(product: Product, successSave: (() -> Void)? = nil) {
         let asyncContext = coreData.context
-        let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
+        let fetchRequest = DBGroceryListModel.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "\(#keyPath(DBGroceryListModel.id)) = '\(product.listId)'")
         guard let list = try? asyncContext.fetch(fetchRequest).first else {
             return
@@ -109,10 +109,6 @@ extension CoreDataManager {
     // MARK: - GroceryList
     func saveList(list: GroceryListsModel) {
         idsOfChangedLists.insert(list.id)
-        guard getList(list: list.id.uuidString) == nil else {
-            updateList(list)
-            return
-        }
         let context = coreData.container.viewContext
         context.performAndWait {
             do {
@@ -125,6 +121,19 @@ extension CoreDataManager {
         }
     }
     
+    func saveLists(lists: [GroceryListsModel], successSave: (() -> Void)? = nil) {
+        let asyncContext = coreData.viewContext
+        asyncContext.performAndWait {
+            do {
+                let _ = lists.map { DBGroceryListModel.prepare(fromPlainModel: $0, context: asyncContext)}
+                try asyncContext.save()
+                successSave?()
+            } catch let error {
+                print(error)
+                asyncContext.rollback()
+            }
+        }
+    }
     
     func getList(list: String) -> DBGroceryListModel? {
         let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
@@ -133,30 +142,6 @@ extension CoreDataManager {
             return nil
         }
         return object
-    }
-    
-    private func updateList(_ list: GroceryListsModel) {
-        let context = coreData.container.viewContext
-        let fetchRequest: NSFetchRequest<DBGroceryListModel> = DBGroceryListModel.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id = '\(list.id)'")
-        if let object = try? context.fetch(fetchRequest).first {
-            object.id = list.id
-            object.isFavorite = list.isFavorite
-            object.color = Int64(list.color)
-            object.name = list.name
-            object.dateOfCreation = list.dateOfCreation
-            object.typeOfSorting = Int64(list.typeOfSorting)
-            object.isShared = list.isShared
-            object.sharedListId = list.sharedId
-            object.isShowImage = list.isShowImage.rawValue
-            object.isVisibleCost = list.isVisibleCost
-            object.typeOfSortingPurchased = Int64(list.typeOfSortingPurchased)
-            object.isAscendingOrder = list.isAscendingOrder
-            object.isAscendingOrderPurchased = list.isAscendingOrderPurchased.rawValue
-            object.isAutomaticCategory = list.isAutomaticCategory
-            object.recordId = list.recordId
-        }
-        try? context.save()
     }
     
     func getAllLists() -> [DBGroceryListModel]? {

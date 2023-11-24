@@ -240,6 +240,10 @@ enum EventName: String {
     case mplanAddToListMenuAll = "mplan_add_toList_menu-All"
     case mplanRecipesMenuAddToPlan = "mplan_recipes_menu_add_to_plan"
     
+    // Family plan
+    case upgradeSub = "upgrade_sub"
+    case familySubToggle = "family_sub_toggle"
+    
 }
 
 typealias PropertyKey = String
@@ -255,6 +259,8 @@ extension PropertyKey {
     static let succes = "succes"
     static let ingredientsAndSteps = "ingredients count : steps count"
     static let status = "status"
+    
+    static let type = "type"
 }
 
 typealias PropertyValue = String
@@ -269,6 +275,10 @@ extension PropertyValue {
     static let yearly = "yearly"
     static let monthly = "monthly"
     static let weekly = "weekly"
+    
+    static let yearlyF = "F-yearly"
+    static let monthlyF = "F-monthly"
+    static let weeklyF = "F-weekly"
     
     static let yes = "yes"
     static let valueNo = "no"

@@ -43,12 +43,14 @@ class ProductsDataManager {
         getOutOfStockProducts()
     }
     private var itemsInStock: [Stock] = []
+    private var dbNetProduct: [DBNewNetProduct] = []
 
     init (products: [Product], typeOfSorting: SortingType,
           groceryListId: UUID) {
         self.typeOfSorting = typeOfSorting
         self.groceryListId = groceryListId
         
+        dbNetProduct = CoreDataManager.shared.getAllNetworkProducts() ?? []
         if let domainList = CoreDataManager.shared.getList(list: groceryListId.uuidString) {
             typeOfSortingPurchased = SortingType(rawValue: Int(domainList.typeOfSortingPurchased)) ?? .category
             isAscendingOrder = domainList.isAscendingOrder
@@ -171,6 +173,9 @@ class ProductsDataManager {
                     products[index].inStock = stock.id
                     AmplitudeManager.shared.logEvent(.pantryItemInStock)
                 }
+            }
+            if let netProduct = dbNetProduct.first(where: { $0.title?.lowercased() == product.name.lowercased() }) {
+                products[index].imageUrl = netProduct.photo
             }
         }
         

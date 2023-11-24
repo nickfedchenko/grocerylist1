@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 509 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 514 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -142,6 +142,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var addStep: RswiftResources.StringResource { .init(key: "Add Step", tableName: "Localizable", source: source, developmentValue: "Add Step", comment: nil) }
+
+      /// en translation: Add recipes and share them
+      ///
+      /// Key: Add recipes and share them
+      ///
+      /// Locales: en, ru, fr, de
+      var addRecipesAndShareThem: RswiftResources.StringResource { .init(key: "Add recipes and share them", tableName: "Localizable", source: source, developmentValue: "Add recipes and share them", comment: nil) }
 
       /// en translation: Add recipes to favorites
       ///
@@ -829,6 +836,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var enableRecipeImportAction: RswiftResources.StringResource { .init(key: "Enable Recipe Import Action", tableName: "Localizable", source: source, developmentValue: "Enable the Recipe Import Action", comment: nil) }
 
+      /// en translation: Enjoy with the whole iCloud Family
+      ///
+      /// Key: Enjoy with the whole iCloud Family
+      ///
+      /// Locales: en, ru, fr, de
+      var enjoyWithTheWholeICloudFamily: RswiftResources.StringResource { .init(key: "Enjoy with the whole iCloud Family", tableName: "Localizable", source: source, developmentValue: "Enjoy with the whole iCloud Family", comment: nil) }
+
       /// en translation: Error
       ///
       /// Key: Error
@@ -863,6 +877,13 @@ struct _R {
       ///
       /// Locales: en, ru, fr, de
       var familyPlan: RswiftResources.StringResource { .init(key: "Family Plan", tableName: "Localizable", source: source, developmentValue: "Family Plan", comment: nil) }
+
+      /// en translation: Up to 6 members!
+      ///
+      /// Key: Family Plan members
+      ///
+      /// Locales: en, ru, fr, de
+      var familyPlanMembers: RswiftResources.StringResource { .init(key: "Family Plan members", tableName: "Localizable", source: source, developmentValue: "Up to 6 members!", comment: nil) }
 
       /// en translation: Favorites
       ///
@@ -2740,6 +2761,13 @@ struct _R {
       /// Locales: en, ru, fr, de
       var upTo6Members: RswiftResources.StringResource { .init(key: "Up to 6 members", tableName: "Localizable", source: source, developmentValue: "Up to 6 members", comment: nil) }
 
+      /// en translation: Upgrade Subscription Plan
+      ///
+      /// Key: Upgrade Subscription Plan
+      ///
+      /// Locales: en, ru, fr, de
+      var upgradeSubscriptionPlan: RswiftResources.StringResource { .init(key: "Upgrade Subscription Plan", tableName: "Localizable", source: source, developmentValue: "Upgrade Subscription Plan", comment: nil) }
+
       /// en translation: Various Lists
       ///
       /// Key: Various Lists
@@ -3152,6 +3180,13 @@ struct _R {
       ///
       /// Locales: en, ru, de
       var iCloudDataBackup: RswiftResources.StringResource { .init(key: "iCloud Data Backup", tableName: "Localizable", source: source, developmentValue: "iCloud Data Backup", comment: nil) }
+
+      /// en translation: iCloud Family Plan
+      ///
+      /// Key: iCloud Family Plan
+      ///
+      /// Locales: en, ru, fr, de
+      var iCloudFamilyPlan: RswiftResources.StringResource { .init(key: "iCloud Family Plan", tableName: "Localizable", source: source, developmentValue: "iCloud Family Plan", comment: nil) }
 
       /// en translation: *Registration required
       ///
@@ -3683,7 +3718,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 355 images.
+  /// This `_R.image` struct is generated, and contains static references to 359 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -4488,6 +4523,15 @@ struct _R {
     /// Image `paywallDot`.
     var paywallDot: RswiftResources.ImageResource { .init(name: "paywallDot", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `paywall_family_bg`.
+    var paywall_family_bg: RswiftResources.ImageResource { .init(name: "paywall_family_bg", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `paywall_family_icon`.
+    var paywall_family_icon: RswiftResources.ImageResource { .init(name: "paywall_family_icon", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `paywall_lock`.
+    var paywall_lock: RswiftResources.ImageResource { .init(name: "paywall_lock", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `phoneShadow`.
     var phoneShadow: RswiftResources.ImageResource { .init(name: "phoneShadow", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -4625,6 +4669,9 @@ struct _R {
 
     /// Image `settingsButtonImage`.
     var settingsButtonImage: RswiftResources.ImageResource { .init(name: "settingsButtonImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `settingsFeatureMessage`.
+    var settingsFeatureMessage: RswiftResources.ImageResource { .init(name: "settingsFeatureMessage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `shareAvatar`.
     var shareAvatar: RswiftResources.ImageResource { .init(name: "shareAvatar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
