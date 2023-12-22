@@ -12,6 +12,15 @@ class FamilyPaywallViewController: UIViewController {
 
     var isHardPaywall = false
     var isSettings = false
+    var products: [ApphudProduct] = []
+    var choiceOfCostArray = Array(repeating: PayWallModel(), count: 3)
+    var isFamilyIndex = [3, 4, 5]
+    var selectedProductIndex = 0 {
+        didSet {
+            selectedProduct = products[selectedProductIndex]
+            productsView.selectProduct(selectedProductIndex)
+        }
+    }
     
     private let contentView = UIView()
     private lazy var closeCrossButton: UIButton = {
@@ -33,31 +42,25 @@ class FamilyPaywallViewController: UIViewController {
     private let productsView = FamilyPaywallProductsView()
     
     private let isSmallSize = !UIScreen.main.isSizeAsIPhone8PlusOrBigger
-    private var products: [ApphudProduct] = []
     private var selectedPrice: PayWallModel?
     private var selectedProduct: ApphudProduct?
-    private var selectedProductIndex = 0 {
-        didSet {
-            selectedProduct = products[selectedProductIndex]
-            productsView.selectProduct(selectedProductIndex)
-        }
-    }
-    
-    private var choiceOfCostArray = Array(repeating: PayWallModel(), count: 3)
-    private var isFamilyIndex = [3, 4, 5]
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         makeConstraints()
-        
         closeCrossButton.isHidden = isHardPaywall
-        
+        configureProducts()
+    }
+    
+    func configureProducts() {
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
+            
             guard let products = paywalls.first(where: { $0.identifier == "Family_AB_test" })?.products,
                   let self = self else {
                 return
             }
+            
             self.products = products
             self.choiceOfCostArray = self.products.enumerated().map { index, product in
                     .init(isPopular: (index + 3) % 3 == 0,
@@ -72,6 +75,10 @@ class FamilyPaywallViewController: UIViewController {
             self.changeFamilySwitch(value: false)
             self.selectedProductIndex = 0
         }
+    }
+    
+    func hideFamilyPlan() {
+        productsView.hideFamilyPlan()
     }
     
     private func setupView() {

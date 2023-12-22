@@ -11,19 +11,6 @@ class NewOnboardingViewController: UIViewController {
 
     weak var router: RootRouter?
     
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(classCell: NewOnboardingCell.self)
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.backgroundColor = .clear
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.isPagingEnabled = true
-        return collectionView
-    }()
-    
     private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.currentPageIndicatorTintColor = R.color.primaryDark()
@@ -51,21 +38,38 @@ class NewOnboardingViewController: UIViewController {
         return button
     }()
     
-    private var currentPage = 0 {
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(classCell: NewOnboardingCell.self)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.backgroundColor = .clear
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.isPagingEnabled = true
+        return collectionView
+    }()
+    
+    var currentPage = 0 {
         didSet { pageControl.currentPage = currentPage }
     }
     
-    private let screenNames = ["IMG for export (PNG or JPEG) 1",
-                               "IMG for export (PNG or JPEG) 2",
-                               "IMG for export (PNG or JPEG) 3",
-                               "IMG for export (PNG or JPEG) 4",
-                               "IMG for export (PNG or JPEG) 5",
-                               "IMG for export (PNG or JPEG) 6",
-                               "IMG for export (PNG or JPEG) 7",
-                               "IMG for export (PNG or JPEG) 8",
-                               "IMG for export (PNG or JPEG) 9",
-                               "IMG for export (PNG or JPEG) 10",
-                               "IMG for export (PNG or JPEG) 11"]
+    var screenNames: [String] {
+        [
+            "IMG for export (PNG or JPEG) 1",
+            "IMG for export (PNG or JPEG) 2",
+            "IMG for export (PNG or JPEG) 3",
+            "IMG for export (PNG or JPEG) 4",
+            "IMG for export (PNG or JPEG) 5",
+            "IMG for export (PNG or JPEG) 6",
+            "IMG for export (PNG or JPEG) 7",
+            "IMG for export (PNG or JPEG) 8",
+            "IMG for export (PNG or JPEG) 9",
+            "IMG for export (PNG or JPEG) 10",
+            "IMG for export (PNG or JPEG) 11"
+        ]
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +82,7 @@ class NewOnboardingViewController: UIViewController {
     }
 
     @objc
-    private func nextButtonPressed() {
+    func nextButtonPressed() {
         if currentPage < screenNames.count - 1 {
             currentPage += 1
             let indexPath = IndexPath(item: currentPage, section: 0)
@@ -131,7 +135,7 @@ extension NewOnboardingViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.reusableCell(classCell: NewOnboardingCell.self,
                                                           indexPath: indexPath)
-        cell.imageView.image = UIImage(named: screenNames[indexPath.row]) 
+        cell.imageView.image = UIImage(named: screenNames[indexPath.row])
         return cell
     }
 }

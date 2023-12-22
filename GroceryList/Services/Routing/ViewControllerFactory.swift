@@ -23,6 +23,18 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
+    func createOnboardingWithQuestions(router: RootRouter) -> UIViewController {
+        let viewController = OnboardingWithQuestionsFirstController()
+        viewController.router = router
+        return viewController
+    }
+    
+    func createOnboardingWithQuestionSecondController(router: RootRouter) -> UIViewController {
+        let viewController = OnboardingWithQuestionSecondController()
+        viewController.router = router
+        return viewController
+    }
+    
     func createMainTabBarController(router: RootRouter, controllers: [UIViewController]) -> UITabBarController {
         let isRightHanded = true
         let viewModel = MainTabBarViewModel(isRightHanded: isRightHanded, viewControllers: controllers)

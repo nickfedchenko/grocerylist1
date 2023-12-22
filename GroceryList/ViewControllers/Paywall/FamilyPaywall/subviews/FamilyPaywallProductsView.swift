@@ -122,6 +122,10 @@ class FamilyPaywallProductsView: UIView {
         }
     }
     
+    func hideFamilyPlan() {
+        familyPlanView.isHidden = true
+    }
+    
     @objc
     private func nextButtonPressed() {
         delegate?.continueButtonPressed()

@@ -508,6 +508,10 @@
 		B381EF2E299BA19600DCDE40 /* PasswordExpiredViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF2D299BA19600DCDE40 /* PasswordExpiredViewModel.swift */; };
 		B381EF31299BAA4800DCDE40 /* EnterNewPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF30299BAA4800DCDE40 /* EnterNewPasswordViewController.swift */; };
 		B381EF33299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF32299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift */; };
+		B388288E2B358D2E00A3B051 /* OnboardingWithQuestionsFirstController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B388288D2B358D2E00A3B051 /* OnboardingWithQuestionsFirstController.swift */; };
+		B38828902B359F1400A3B051 /* OnboardingWithQuestionSecondController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B388288F2B359F1400A3B051 /* OnboardingWithQuestionSecondController.swift */; };
+		B38828922B35A50D00A3B051 /* OnboardingWithQuestionFirstPaywall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38828912B35A50D00A3B051 /* OnboardingWithQuestionFirstPaywall.swift */; };
+		B38828952B35AAAB00A3B051 /* OnboardingWithQuestionQuestionnaire.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38828942B35AAAB00A3B051 /* OnboardingWithQuestionQuestionnaire.swift */; };
 		B3981C56297A86EA00206DB7 /* SF Pro Rounded Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C54297A85F800206DB7 /* SF Pro Rounded Bold.otf */; };
 		B3981C57297A86EC00206DB7 /* SF Pro Rounded Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */; };
 		B3981C58297A86EE00206DB7 /* SF Pro Rounded Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */; };
@@ -1009,6 +1013,10 @@
 		B381EF2D299BA19600DCDE40 /* PasswordExpiredViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordExpiredViewModel.swift; sourceTree = "<group>"; };
 		B381EF30299BAA4800DCDE40 /* EnterNewPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNewPasswordViewController.swift; sourceTree = "<group>"; };
 		B381EF32299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNewPasswordViewModel.swift; sourceTree = "<group>"; };
+		B388288D2B358D2E00A3B051 /* OnboardingWithQuestionsFirstController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWithQuestionsFirstController.swift; sourceTree = "<group>"; };
+		B388288F2B359F1400A3B051 /* OnboardingWithQuestionSecondController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWithQuestionSecondController.swift; sourceTree = "<group>"; };
+		B38828912B35A50D00A3B051 /* OnboardingWithQuestionFirstPaywall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWithQuestionFirstPaywall.swift; sourceTree = "<group>"; };
+		B38828942B35AAAB00A3B051 /* OnboardingWithQuestionQuestionnaire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWithQuestionQuestionnaire.swift; sourceTree = "<group>"; };
 		B3981C51297A85F800206DB7 /* SF Pro Rounded Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Regular.otf"; sourceTree = "<group>"; };
 		B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Heavy.otf"; sourceTree = "<group>"; };
 		B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Medium.otf"; sourceTree = "<group>"; };
@@ -2680,6 +2688,7 @@
 				3370EFC82A83D15D00885C30 /* New Onboarding */,
 				3370EFC92A83D17600885C30 /* Old Onboarding */,
 				3370EFC12A838B9200885C30 /* Review */,
+				B38828932B35A88000A3B051 /* OnboardingWithQuestions */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -2782,6 +2791,17 @@
 				B381EF32299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift */,
 			);
 			path = EnterNewPasswordController;
+			sourceTree = "<group>";
+		};
+		B38828932B35A88000A3B051 /* OnboardingWithQuestions */ = {
+			isa = PBXGroup;
+			children = (
+				B388288D2B358D2E00A3B051 /* OnboardingWithQuestionsFirstController.swift */,
+				B388288F2B359F1400A3B051 /* OnboardingWithQuestionSecondController.swift */,
+				B38828912B35A50D00A3B051 /* OnboardingWithQuestionFirstPaywall.swift */,
+				B38828942B35AAAB00A3B051 /* OnboardingWithQuestionQuestionnaire.swift */,
+			);
+			path = OnboardingWithQuestions;
 			sourceTree = "<group>";
 		};
 		B3AD42D32991061D0043A37F /* SocketManager */ = {
@@ -3270,6 +3290,7 @@
 				33FCBEC22AB9907D00CB61C7 /* DBMealPlan+CoreDataProperties.swift in Sources */,
 				33C6F0DD2A4309C800E71023 /* RecipeListPhotoView.swift in Sources */,
 				334009F129E9956800A04978 /* QuantityOfProductView.swift in Sources */,
+				B38828922B35A50D00A3B051 /* OnboardingWithQuestionFirstPaywall.swift in Sources */,
 				B3F7C9BA2994BF830081B245 /* SignUpViewForTyping.swift in Sources */,
 				33FCBEB62AB87DDB00CB61C7 /* MealPlanUpdateDateView.swift in Sources */,
 				33C8DB8529DFCE95009F4760 /* EditTabBarView.swift in Sources */,
@@ -3338,6 +3359,7 @@
 				337719AC29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift in Sources */,
 				332619EE2AC18D9D0010F412 /* MealPlanNoteTitleView.swift in Sources */,
 				33A51B942A176D1200BE11C1 /* ListDataSource.swift in Sources */,
+				B388288E2B358D2E00A3B051 /* OnboardingWithQuestionsFirstController.swift in Sources */,
 				B36AF9552915410400944E9D /* InstructionCell.swift in Sources */,
 				B34EACA8293500C000FBD0E0 /* CreateNewCategoryViewController.swift in Sources */,
 				33C6F0EA2A456F9E00E71023 /* RecipeListMessageView.swift in Sources */,
@@ -3403,6 +3425,7 @@
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
 				334764522A264B4F008F4834 /* PantryEditMenuView.swift in Sources */,
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
+				B38828952B35AAAB00A3B051 /* OnboardingWithQuestionQuestionnaire.swift in Sources */,
 				3347644D2A258E49008F4834 /* IconCollectionViewCell.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
 				337224CA2A5632D100A23270 /* PaddingLabel.swift in Sources */,
@@ -3541,6 +3564,7 @@
 				3368FD6E29B700F300D97291 /* UUIDExtension.swift in Sources */,
 				33FCBEA82AB3486F00CB61C7 /* RecipeInstructionsView.swift in Sources */,
 				3370EFBE2A8285E400885C30 /* NewOnboardingViewController.swift in Sources */,
+				B38828902B359F1400A3B051 /* OnboardingWithQuestionSecondController.swift in Sources */,
 				339254AC2A3161D50047807E /* RequestGenerator.swift in Sources */,
 				337E79CE29E595F700668578 /* ViewWithOverriddenPoint.swift in Sources */,
 				333E2D3529F1226D00F705E7 /* DisplayCostListCell.swift in Sources */,

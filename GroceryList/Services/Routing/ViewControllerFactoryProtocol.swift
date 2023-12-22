@@ -10,6 +10,9 @@ import UIKit
 protocol ViewControllerFactoryProtocol {
     func createOnboardingController(router: RootRouter) -> UIViewController
     func createNewOnboardingController(router: RootRouter) -> UIViewController
+   
+    func createOnboardingWithQuestions(router: RootRouter) -> UIViewController
+    func createOnboardingWithQuestionSecondController(router: RootRouter) -> UIViewController
     
     func createPaywallController() -> UIViewController
     func createAlternativePaywallController(isHard: Bool) -> UIViewController

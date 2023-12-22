@@ -59,9 +59,31 @@ final class RootRouter: RootRouterProtocol {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
+        DispatchQueue.main.async {
+            self.showOnboardingWithQuestionsFlow()
+        }
+
 #if RELEASE
-        showTestOnboarding()
+      //  showTestOnboarding()
 #endif
+    }
+    
+    // TODO: - fdf
+    private func showOnboardingWithQuestionsFlow() {
+        let onboardingController = viewControllerFactory.createOnboardingWithQuestions(router: self)
+        navigationPushViewController(onboardingController, animated: false)
+    }
+    
+    func openOnboardingWithQuestionsSecondController() {
+        let onboardingController = viewControllerFactory.createOnboardingWithQuestionSecondController(router: self)
+        navigationPushViewController(onboardingController, animated: true)
+    }
+    
+    func openFirstPaywallForOnboardingWithQuestions() {
+        let controller = OnboardingWithQuestionFirstPaywall()
+        controller.isHardPaywall = false
+        controller.modalPresentationStyle = .fullScreen
+        navigationPresent(controller, animated: true)
     }
     
     func openResetPassword(token: String) {
