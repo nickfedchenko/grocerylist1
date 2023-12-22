@@ -70,17 +70,22 @@ final class RootRouter: RootRouterProtocol {
     
     // TODO: - fdf
     private func showOnboardingWithQuestionsFlow() {
-        let onboardingController = viewControllerFactory.createOnboardingWithQuestions(router: self)
+        let onboardingController = viewControllerFactory.createQuestionnaireFirstController(router: self)
         navigationPushViewController(onboardingController, animated: false)
     }
     
-    func openOnboardingWithQuestionsSecondController() {
-        let onboardingController = viewControllerFactory.createOnboardingWithQuestionSecondController(router: self)
+    func openQuestionnaireSecondController() {
+        let onboardingController = viewControllerFactory.createQuestionnaireSecondController(router: self)
         navigationPushViewController(onboardingController, animated: true)
     }
     
-    func openFirstPaywallForOnboardingWithQuestions() {
-        let controller = OnboardingWithQuestionFirstPaywall()
+    func openQuestionnaireThirdController() {
+        let onboardingController = viewControllerFactory.createQuestionnaireThirdController(router: self)
+        navigationPushViewController(onboardingController, animated: false)
+    }
+    
+    func openQuestionnaireFirstPaywall() {
+        let controller = QuestionnaireFirstPaywall()
         controller.isHardPaywall = false
         controller.modalPresentationStyle = .fullScreen
         navigationPresent(controller, animated: true)

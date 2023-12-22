@@ -6,7 +6,7 @@
 //
 
 import Foundation
-class OnboardingWithQuestionSecondController: NewOnboardingViewController {
+class QuestionnaireSecondController: NewOnboardingViewController {
     
     override var screenNames: [String] {
        [
@@ -23,7 +23,7 @@ class OnboardingWithQuestionSecondController: NewOnboardingViewController {
             collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         } else {
             router?.popToRootFromOnboarding()
-            router?.openFirstPaywallForOnboardingWithQuestions()
+            router?.openQuestionnaireThirdController()
         }
     }
    

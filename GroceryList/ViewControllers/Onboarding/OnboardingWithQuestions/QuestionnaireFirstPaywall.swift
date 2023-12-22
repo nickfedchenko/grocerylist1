@@ -1,5 +1,5 @@
 //
-//  OnboardingWithQuestionFirstPaywall.swift
+//  QuestionnaireFirstPaywall.swift
 //  GroceryList
 //
 //  Created by Шамиль Моллачиев on 22.12.2023.
@@ -7,7 +7,7 @@
 
 import ApphudSDK
 
-class OnboardingWithQuestionFirstPaywall: FamilyPaywallViewController {
+class QuestionnaireFirstPaywall: FamilyPaywallViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()

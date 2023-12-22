@@ -23,15 +23,23 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
-    func createOnboardingWithQuestions(router: RootRouter) -> UIViewController {
-        let viewController = OnboardingWithQuestionsFirstController()
+    func createQuestionnaireFirstController(router: RootRouter) -> UIViewController {
+        let viewController = QuestionnaireFirstController()
         viewController.router = router
         return viewController
     }
     
-    func createOnboardingWithQuestionSecondController(router: RootRouter) -> UIViewController {
-        let viewController = OnboardingWithQuestionSecondController()
+    func createQuestionnaireSecondController(router: RootRouter) -> UIViewController {
+        let viewController = QuestionnaireSecondController()
         viewController.router = router
+        return viewController
+    }
+    
+    func createQuestionnaireThirdController(router: RootRouter) -> UIViewController {
+        let viewController = QuestionnaireThirdController()
+        let viewModel = QuestionnaireThirdViewModel()
+        viewController.router = router
+        viewController.viewModel = viewModel
         return viewController
     }
     

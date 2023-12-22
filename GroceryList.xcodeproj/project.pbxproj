@@ -509,9 +509,9 @@
 		B381EF31299BAA4800DCDE40 /* EnterNewPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF30299BAA4800DCDE40 /* EnterNewPasswordViewController.swift */; };
 		B381EF33299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF32299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift */; };
 		B388288E2B358D2E00A3B051 /* OnboardingWithQuestionsFirstController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B388288D2B358D2E00A3B051 /* OnboardingWithQuestionsFirstController.swift */; };
-		B38828902B359F1400A3B051 /* OnboardingWithQuestionSecondController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B388288F2B359F1400A3B051 /* OnboardingWithQuestionSecondController.swift */; };
-		B38828922B35A50D00A3B051 /* OnboardingWithQuestionFirstPaywall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38828912B35A50D00A3B051 /* OnboardingWithQuestionFirstPaywall.swift */; };
-		B38828952B35AAAB00A3B051 /* OnboardingWithQuestionQuestionnaire.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38828942B35AAAB00A3B051 /* OnboardingWithQuestionQuestionnaire.swift */; };
+		B38828902B359F1400A3B051 /* QuestionnaireSecondController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B388288F2B359F1400A3B051 /* QuestionnaireSecondController.swift */; };
+		B38828922B35A50D00A3B051 /* QuestionnaireFirstPaywall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38828912B35A50D00A3B051 /* QuestionnaireFirstPaywall.swift */; };
+		B38828952B35AAAB00A3B051 /* QuestionnaireThirdController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38828942B35AAAB00A3B051 /* QuestionnaireThirdController.swift */; };
 		B3981C56297A86EA00206DB7 /* SF Pro Rounded Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C54297A85F800206DB7 /* SF Pro Rounded Bold.otf */; };
 		B3981C57297A86EC00206DB7 /* SF Pro Rounded Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */; };
 		B3981C58297A86EE00206DB7 /* SF Pro Rounded Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */; };
@@ -534,6 +534,11 @@
 		B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D858472939D45000CCE230 /* PaywallViewController.swift */; };
 		B3D8584A293A1A2A00CCE230 /* PaywallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D85849293A1A2A00CCE230 /* PaywallCell.swift */; };
 		B3D8584C293A405E00CCE230 /* PaywallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8584B293A405E00CCE230 /* PaywallModel.swift */; };
+		B3DC79B22B35B2CD007E8FA3 /* QuestionnaireThirdControllerLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DC79B12B35B2CD007E8FA3 /* QuestionnaireThirdControllerLayoutManager.swift */; };
+		B3DC79B42B35B3F3007E8FA3 /* QuestionnaireCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DC79B32B35B3F3007E8FA3 /* QuestionnaireCell.swift */; };
+		B3DC79B62B35B7CD007E8FA3 /* QuestionnaireHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DC79B52B35B7CD007E8FA3 /* QuestionnaireHeaderCell.swift */; };
+		B3DC79BA2B35B89E007E8FA3 /* QuestionarieThirdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DC79B92B35B89E007E8FA3 /* QuestionarieThirdViewModel.swift */; };
+		B3DC79BC2B35B9E2007E8FA3 /* QuestionarieModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DC79BB2B35B9E2007E8FA3 /* QuestionarieModels.swift */; };
 		B3F7C9B029937CD60081B245 /* RegisterWithMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9AF29937CD60081B245 /* RegisterWithMessageView.swift */; };
 		B3F7C9B229938E150081B245 /* SelectUnitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9B129938E150081B245 /* SelectUnitsView.swift */; };
 		B3F7C9B429939E0B0081B245 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9B329939E0B0081B245 /* SignUpViewController.swift */; };
@@ -1014,9 +1019,9 @@
 		B381EF30299BAA4800DCDE40 /* EnterNewPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNewPasswordViewController.swift; sourceTree = "<group>"; };
 		B381EF32299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNewPasswordViewModel.swift; sourceTree = "<group>"; };
 		B388288D2B358D2E00A3B051 /* OnboardingWithQuestionsFirstController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWithQuestionsFirstController.swift; sourceTree = "<group>"; };
-		B388288F2B359F1400A3B051 /* OnboardingWithQuestionSecondController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWithQuestionSecondController.swift; sourceTree = "<group>"; };
-		B38828912B35A50D00A3B051 /* OnboardingWithQuestionFirstPaywall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWithQuestionFirstPaywall.swift; sourceTree = "<group>"; };
-		B38828942B35AAAB00A3B051 /* OnboardingWithQuestionQuestionnaire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWithQuestionQuestionnaire.swift; sourceTree = "<group>"; };
+		B388288F2B359F1400A3B051 /* QuestionnaireSecondController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireSecondController.swift; sourceTree = "<group>"; };
+		B38828912B35A50D00A3B051 /* QuestionnaireFirstPaywall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireFirstPaywall.swift; sourceTree = "<group>"; };
+		B38828942B35AAAB00A3B051 /* QuestionnaireThirdController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireThirdController.swift; sourceTree = "<group>"; };
 		B3981C51297A85F800206DB7 /* SF Pro Rounded Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Regular.otf"; sourceTree = "<group>"; };
 		B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Heavy.otf"; sourceTree = "<group>"; };
 		B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Medium.otf"; sourceTree = "<group>"; };
@@ -1040,6 +1045,11 @@
 		B3D858472939D45000CCE230 /* PaywallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewController.swift; sourceTree = "<group>"; };
 		B3D85849293A1A2A00CCE230 /* PaywallCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallCell.swift; sourceTree = "<group>"; };
 		B3D8584B293A405E00CCE230 /* PaywallModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallModel.swift; sourceTree = "<group>"; };
+		B3DC79B12B35B2CD007E8FA3 /* QuestionnaireThirdControllerLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireThirdControllerLayoutManager.swift; sourceTree = "<group>"; };
+		B3DC79B32B35B3F3007E8FA3 /* QuestionnaireCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireCell.swift; sourceTree = "<group>"; };
+		B3DC79B52B35B7CD007E8FA3 /* QuestionnaireHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireHeaderCell.swift; sourceTree = "<group>"; };
+		B3DC79B92B35B89E007E8FA3 /* QuestionarieThirdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionarieThirdViewModel.swift; sourceTree = "<group>"; };
+		B3DC79BB2B35B9E2007E8FA3 /* QuestionarieModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionarieModels.swift; sourceTree = "<group>"; };
 		B3F7C9AF29937CD60081B245 /* RegisterWithMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterWithMessageView.swift; sourceTree = "<group>"; };
 		B3F7C9B129938E150081B245 /* SelectUnitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectUnitsView.swift; sourceTree = "<group>"; };
 		B3F7C9B329939E0B0081B245 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -2797,9 +2807,9 @@
 			isa = PBXGroup;
 			children = (
 				B388288D2B358D2E00A3B051 /* OnboardingWithQuestionsFirstController.swift */,
-				B388288F2B359F1400A3B051 /* OnboardingWithQuestionSecondController.swift */,
-				B38828912B35A50D00A3B051 /* OnboardingWithQuestionFirstPaywall.swift */,
-				B38828942B35AAAB00A3B051 /* OnboardingWithQuestionQuestionnaire.swift */,
+				B388288F2B359F1400A3B051 /* QuestionnaireSecondController.swift */,
+				B38828912B35A50D00A3B051 /* QuestionnaireFirstPaywall.swift */,
+				B3DC79B72B35B859007E8FA3 /* ThirdController */,
 			);
 			path = OnboardingWithQuestions;
 			sourceTree = "<group>";
@@ -2861,6 +2871,27 @@
 				331EC0212B0DAB4A00EDFBE7 /* FamilyPaywall */,
 			);
 			path = Paywall;
+			sourceTree = "<group>";
+		};
+		B3DC79B72B35B859007E8FA3 /* ThirdController */ = {
+			isa = PBXGroup;
+			children = (
+				B38828942B35AAAB00A3B051 /* QuestionnaireThirdController.swift */,
+				B3DC79B92B35B89E007E8FA3 /* QuestionarieThirdViewModel.swift */,
+				B3DC79BB2B35B9E2007E8FA3 /* QuestionarieModels.swift */,
+				B3DC79B12B35B2CD007E8FA3 /* QuestionnaireThirdControllerLayoutManager.swift */,
+				B3DC79B82B35B86C007E8FA3 /* Cells */,
+			);
+			path = ThirdController;
+			sourceTree = "<group>";
+		};
+		B3DC79B82B35B86C007E8FA3 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B3DC79B32B35B3F3007E8FA3 /* QuestionnaireCell.swift */,
+				B3DC79B52B35B7CD007E8FA3 /* QuestionnaireHeaderCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		B3F7C9B72993A0B90081B245 /* CustomView */ = {
@@ -3290,7 +3321,7 @@
 				33FCBEC22AB9907D00CB61C7 /* DBMealPlan+CoreDataProperties.swift in Sources */,
 				33C6F0DD2A4309C800E71023 /* RecipeListPhotoView.swift in Sources */,
 				334009F129E9956800A04978 /* QuantityOfProductView.swift in Sources */,
-				B38828922B35A50D00A3B051 /* OnboardingWithQuestionFirstPaywall.swift in Sources */,
+				B38828922B35A50D00A3B051 /* QuestionnaireFirstPaywall.swift in Sources */,
 				B3F7C9BA2994BF830081B245 /* SignUpViewForTyping.swift in Sources */,
 				33FCBEB62AB87DDB00CB61C7 /* MealPlanUpdateDateView.swift in Sources */,
 				33C8DB8529DFCE95009F4760 /* EditTabBarView.swift in Sources */,
@@ -3313,6 +3344,7 @@
 				B381EF1D299A573500DCDE40 /* UserAccountManager.swift in Sources */,
 				334764482A24EE48008F4834 /* SelectIconViewController.swift in Sources */,
 				332619E22ABC91290010F412 /* UILabelExtension.swift in Sources */,
+				B3DC79BC2B35B9E2007E8FA3 /* QuestionarieModels.swift in Sources */,
 				33A51B8D2A17171400BE11C1 /* MainTabBarViewModel.swift in Sources */,
 				B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */,
 				339254B72A33EEE80047807E /* StockReminderViewController.swift in Sources */,
@@ -3378,6 +3410,7 @@
 				33FCBEBC2AB9656B00CB61C7 /* MealPlanLabelsViewController.swift in Sources */,
 				335519C229ACC00F00AD2B77 /* ProductImageView.swift in Sources */,
 				33FCBEB92AB913CB00CB61C7 /* DestinationListViewController.swift in Sources */,
+				B3DC79B62B35B7CD007E8FA3 /* QuestionnaireHeaderCell.swift in Sources */,
 				33C6F0D72A41445600E71023 /* FolderRecipePreviewCell.swift in Sources */,
 				33F496D72AC9BB8B00212D93 /* AddIngredientsToListHeaderCell.swift in Sources */,
 				334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */,
@@ -3425,7 +3458,7 @@
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
 				334764522A264B4F008F4834 /* PantryEditMenuView.swift in Sources */,
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
-				B38828952B35AAAB00A3B051 /* OnboardingWithQuestionQuestionnaire.swift in Sources */,
+				B38828952B35AAAB00A3B051 /* QuestionnaireThirdController.swift in Sources */,
 				3347644D2A258E49008F4834 /* IconCollectionViewCell.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
 				337224CA2A5632D100A23270 /* PaddingLabel.swift in Sources */,
@@ -3447,10 +3480,12 @@
 				33F496D52AC6AE2400212D93 /* AddIngredientsToListViewModel.swift in Sources */,
 				3347646F2A2B7DE2008F4834 /* CreateNewStockViewModel.swift in Sources */,
 				334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */,
+				B3DC79B22B35B2CD007E8FA3 /* QuestionnaireThirdControllerLayoutManager.swift in Sources */,
 				33E31AF82A7953E40011B41E /* ImportSteps.swift in Sources */,
 				331EC0272B0DAFE200EDFBE7 /* FamilyPaywallFeatureView.swift in Sources */,
 				33AF97B52A7AA5BF00716104 /* Shared Extensions.swift in Sources */,
 				3379B65729B9AED50080923A /* IngredientViewModel.swift in Sources */,
+				B3DC79B42B35B3F3007E8FA3 /* QuestionnaireCell.swift in Sources */,
 				3379B65229B870A70080923A /* ShowCollectionCell.swift in Sources */,
 				338F433A2ABB2171000B7A61 /* CreateMealPlanLabelViewModel.swift in Sources */,
 				33F496E12ACB726600212D93 /* AddIngredientsToDestinationListView.swift in Sources */,
@@ -3549,6 +3584,7 @@
 				33F496DD2ACAC25300212D93 /* AddIngredientsToListModels.swift in Sources */,
 				33F8253929C0559000B349D5 /* SearchInListViewModel.swift in Sources */,
 				3366BEE92A2F37BB00D50704 /* SelectPantryListViewController.swift in Sources */,
+				B3DC79BA2B35B89E007E8FA3 /* QuestionarieThirdViewModel.swift in Sources */,
 				B3F7C9CB299645F80081B245 /* PasswordResetView.swift in Sources */,
 				389DCF4829460A1B00DB9382 /* RecipeScreenHeader.swift in Sources */,
 				3379B65A29B9B2ED0080923A /* CategoryView.swift in Sources */,
@@ -3564,7 +3600,7 @@
 				3368FD6E29B700F300D97291 /* UUIDExtension.swift in Sources */,
 				33FCBEA82AB3486F00CB61C7 /* RecipeInstructionsView.swift in Sources */,
 				3370EFBE2A8285E400885C30 /* NewOnboardingViewController.swift in Sources */,
-				B38828902B359F1400A3B051 /* OnboardingWithQuestionSecondController.swift in Sources */,
+				B38828902B359F1400A3B051 /* QuestionnaireSecondController.swift in Sources */,
 				339254AC2A3161D50047807E /* RequestGenerator.swift in Sources */,
 				337E79CE29E595F700668578 /* ViewWithOverriddenPoint.swift in Sources */,
 				333E2D3529F1226D00F705E7 /* DisplayCostListCell.swift in Sources */,

@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class OnboardingWithQuestionsFirstController: UIViewController {
+final class QuestionnaireFirstController: UIViewController {
 
     weak var router: RootRouter?
     
@@ -96,11 +96,11 @@ final class OnboardingWithQuestionsFirstController: UIViewController {
     // MARK: - actions
     @objc
     private func nextButtonPressed() {
-        router?.openOnboardingWithQuestionsSecondController()
+        router?.openQuestionnaireSecondController()
     }
 }
 
-extension OnboardingWithQuestionsFirstController {
+extension QuestionnaireFirstController {
     private func makeConstraints() {
         self.view.addSubviews([imageView, bottomContentView])
         

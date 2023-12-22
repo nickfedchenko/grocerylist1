@@ -1,12 +1,12 @@
 //
-//  OnboardingWithQuestionQuestionnaire.swift
+//  QuestionnaireThirdController.swift
 //  GroceryList
 //
 //  Created by Шамиль Моллачиев on 22.12.2023.
 //
 
 import UIKit
-class OnboardingWithQuestionQuestionnaire: UIViewController {
+class QuestionnaireThirdController: UIViewController {
     weak var router: RootRouter?
     
     override func viewDidLoad() {
