@@ -52,10 +52,7 @@ class QuestionnaireThirdViewModel {
     }
     
     func cellDeselected(at indexPath: IndexPath) {
-        if dataSource.sections[currentPage].isMultiselectionEnabled {
-            dataSource.questionSelected(indexPath: indexPath)
-        }
-
+        dataSource.questionDeselected(indexPath: indexPath)
         isNextButtonEnabled?(dataSource.isNextButtonEnabled(page: currentPage))
     }
     

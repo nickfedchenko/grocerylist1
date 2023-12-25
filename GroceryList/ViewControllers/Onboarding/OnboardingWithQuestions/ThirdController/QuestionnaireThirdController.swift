@@ -131,7 +131,7 @@ extension QuestionnaireThirdController: UICollectionViewDelegate, UICollectionVi
         guard collectionView.cellForItem(at: indexPath) is QuestionnaireCell else {
             return
         }
-        viewModel?.cellSelected(at: indexPath)
+        viewModel?.cellDeselected(at: indexPath)
     }
     
 }

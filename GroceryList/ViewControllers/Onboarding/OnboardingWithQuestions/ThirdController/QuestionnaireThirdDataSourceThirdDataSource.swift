@@ -58,14 +58,11 @@ class QuestionnaireThirdDataSource {
     )
     
     func questionSelected(indexPath: IndexPath) {
-        let section = sections[indexPath.section]
-        if !section.isMultiselectionEnabled {
-            section.questions.enumerated().forEach({
-                sections[indexPath.section].questions[$0.offset].isSelected = false
-            })
-        }
-       
-        sections[indexPath.section].questions[indexPath.row - 1].isSelected = !section.questions[indexPath.row - 1].isSelected
+        sections[indexPath.section].questions[indexPath.row - 1].isSelected = true
+    }
+    
+    func questionDeselected(indexPath: IndexPath) {
+        sections[indexPath.section].questions[indexPath.row - 1].isSelected = false
     }
     
     func configureAnswers() {
