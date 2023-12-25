@@ -9,14 +9,29 @@ import Kingfisher
 import UIKit
 
 final class QuestionnaireCell: UICollectionViewCell {
-    
+
     static let identifier = String(describing: QuestionnaireCell.self)
     
-    private let imageView: UIImageView = {
+    private let checkMarkImageView: UIImageView = {
         let view = UIImageView()
         view.isUserInteractionEnabled = false
+        view.image = R.image.questionaireeChekmarkNotActive()
         return view
     }()
+    
+    private var titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(hex: "#0C5151")
+        label.font = R.font.sfProTextSemibold(size: 17)
+        label.numberOfLines = 0 
+        return label
+    }()
+    
+    override var isSelected: Bool {
+        didSet {
+            checkMarkImageView.image = isSelected ? R.image.questionaireeChekmarkActive() : R.image.questionaireeChekmarkNotActive()
+        }
+    }
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -27,16 +42,12 @@ final class QuestionnaireCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        imageView.image = nil
-    }
 
     // MARK: - Public methods
-    func configure() {
-
+    func configure(text: String) {
+        titleLabel.text = text
     }
+
 }
 
 extension QuestionnaireCell {
@@ -45,18 +56,33 @@ extension QuestionnaireCell {
     private func configureUI() {
         addSubViews()
         setupConstraints()
-        contentView.backgroundColor = .blue
+        contentView.backgroundColor = UIColor(hex: "#E8FEFE")
+        contentView.layer.cornerRadius = 16
+        contentView.layer.masksToBounds = true
+        //let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+      //  contentView.addGestureRecognizer(tapRecognizer)
     }
     
     private func addSubViews() {
-      //   contentView.addSubview(imageView)
+         contentView.addSubviews([checkMarkImageView, titleLabel])
     }
     
     // MARK: - Constraints
     private func setupConstraints() {
         contentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            make.height.equalTo(50).priority(999)
+        }
+        
+        checkMarkImageView.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(16)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(40)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.left.equalTo(checkMarkImageView.snp.right).inset(-8)
+            make.right.equalToSuperview().inset(16)
+            make.top.bottom.equalToSuperview().inset(24).priority(999)
         }
     }
     

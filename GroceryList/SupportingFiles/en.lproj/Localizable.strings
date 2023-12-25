@@ -642,3 +642,29 @@
 "OnboardingWithQuestions.welcome"      = "WELCOME TO";
 "OnboardingWithQuestions.groceryList"  = "Grocery List App";
 "OnboardingWithQuestions.saveMoney"    = "Free your head, save time and money";
+"OnboardingWithQuestions.question "    = "QUESTION ";
+
+
+"OnboardingWithQuestions.chooseAnswers"        = "Choose one or more answers";
+
+"OnboardingWithQuestions.question1Title"       = "How can we help you?";
+"OnboardingWithQuestions.question1answer1"     = "Save your time and money with categorized shopping lists";
+"OnboardingWithQuestions.question1answer2"     = "Always keep your pantry well-stocked";
+"OnboardingWithQuestions.question1answer3"     = "Create own Meal Plan";
+"OnboardingWithQuestions.question1answer4"     = "Have a lot of recipes at your fingertips";
+
+"OnboardingWithQuestions.question2Title"       = "How often do you plan to share lists with relatives and friends?";
+"OnboardingWithQuestions.question2answer1"     = "I plan to share my shopping list on a regular basis";
+"OnboardingWithQuestions.question2answer2"     = "Sometimes, for example during holidays";
+"OnboardingWithQuestions.question2answer3"     = "Never";
+
+"OnboardingWithQuestions.question3Title"       = "How old are you?";
+"OnboardingWithQuestions.question3answer1"     = "18-30";
+"OnboardingWithQuestions.question3answer2"     = "31-40";
+"OnboardingWithQuestions.question3answer3"     = "41-50";
+"OnboardingWithQuestions.question3answer4"     = "51+";
+
+"OnboardingWithQuestions.question4Title"       = "What's your gender?";
+"OnboardingWithQuestions.question4answer1"     = "Male";
+"OnboardingWithQuestions.question4answer2"     = "Female";
+"OnboardingWithQuestions.question4answer3"     = "Other";

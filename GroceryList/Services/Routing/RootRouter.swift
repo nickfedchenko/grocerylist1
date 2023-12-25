@@ -91,6 +91,11 @@ final class RootRouter: RootRouterProtocol {
         navigationPresent(controller, animated: true)
     }
     
+    func openPaywallWithTimer() {
+        let controller = viewControllerFactory.createPaywallWithTimer(router: self)
+        navigationPresent(controller, style: .popover, animated: true)
+    }
+    
     func openResetPassword(token: String) {
         guard let resetModel = ResetPasswordModelManager.shared.getResetPasswordModel() else { return }
         if resetModel.resetToken == token && Date() < (resetModel.dateOfExpiration + 3600) {

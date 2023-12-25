@@ -103,26 +103,22 @@ class NewOnboardingViewController: UIViewController {
                     UIDevice.screenType == .iPhonesXXS11Pro ? 45 :
                     UIDevice.screenType == .iPhones678SE2 ? 61 : 105
             )
-            $0.bottom.equalTo(nextButton.snp.top).offset(
-                UIDevice.screenType == .iPhones678SE2 ? -32 :
-                    UIDevice.screenType == .iPhonesXXS11Pro ? 0 :
-                    UIDevice.screenType == .iPhones678SE2 ? -14 : -58
-            )
+            $0.bottom.equalTo(nextButton.snp.top).inset(-16)
         }
         
         pageControl.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(nextButton.snp.top).offset(-8)
             $0.height.equalTo(22)
+            $0.bottom.equalToSuperview().offset(
+                UIDevice.screenType == .iPhones678SE2 ? -16 : -64
+            )
         }
         
         nextButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(64)
             $0.width.equalTo(350)
-            $0.bottom.equalToSuperview().offset(
-                UIDevice.screenType == .iPhones678SE2 ? -16 : -64
-            )
+            $0.bottom.equalTo(pageControl.snp.top).offset(-8)
         }
     }
 }

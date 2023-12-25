@@ -38,8 +38,14 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     func createQuestionnaireThirdController(router: RootRouter) -> UIViewController {
         let viewController = QuestionnaireThirdController()
         let viewModel = QuestionnaireThirdViewModel()
-        viewController.router = router
+        viewModel.router = router
         viewController.viewModel = viewModel
+        return viewController
+    }
+    
+    func createPaywallWithTimer(router: RootRouter) -> UIViewController {
+        let viewController = PaywallWithTimer()
+    //    viewController.router = router
         return viewController
     }
     

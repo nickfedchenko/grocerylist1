@@ -43,9 +43,9 @@ final class QuestionnaireThirdControllerLayoutManager {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
                                                                          heightDimension: .estimated(1)), subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = .init(top: 70,
+        section.contentInsets = .init(top: 41,
                                       leading: 20,
-                                      bottom: 40,
+                                      bottom: 0,
                                       trailing: 20)
         section.orthogonalScrollingBehavior = .continuous
         return section

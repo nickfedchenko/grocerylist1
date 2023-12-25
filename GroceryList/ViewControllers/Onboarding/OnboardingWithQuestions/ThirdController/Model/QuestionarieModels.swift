@@ -8,15 +8,25 @@
 import Foundation
 struct QuestionnaireThirdControllerSections: Hashable {
     var headerTitle: String
-    var questions: [String]
+    var headerQuestionNumber: String
+    var questions: [QuestionModel]
+    var isMultiselectionEnabled: Bool
     
     func getHeaderModel() -> QuestionnaireThirdControllerCellModel {
-        .topHeader(model: QuestionnaireHeaderCellModel() )
+        .topHeader(model: QuestionnaireHeaderCellModel(
+            text: headerTitle,
+            questionNumber: headerQuestionNumber
+        ))
     }
     
     func getQuestionModels() -> [QuestionnaireThirdControllerCellModel] {
-        questions.map({ _ in .cell(model: QuestionnaireCellModel() ) })
+        questions.map({ .cell(model: QuestionnaireCellModel(text: $0.question) ) })
     }
+}
+
+struct QuestionModel: Hashable {
+    var question: String
+    var isSelected = false
 }
 
 enum QuestionnaireThirdControllerCellModel: Hashable {
@@ -26,8 +36,11 @@ enum QuestionnaireThirdControllerCellModel: Hashable {
 
 struct QuestionnaireHeaderCellModel: Hashable {
     var id: UUID = UUID()
+    var text: String
+    var questionNumber: String
 }
 
 struct QuestionnaireCellModel: Hashable {
     var id: UUID = UUID()
+    var text: String
 }
