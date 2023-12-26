@@ -78,6 +78,8 @@ final class QuestionnaireFirstController: UIViewController {
         button.backgroundColor = UIColor(hex: "#1A645A")
         button.layer.cornerRadius = 16
         button.layer.cornerCurve = .continuous
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.white.cgColor
         button.addShadowForView()
         button.setImage(UIImage(named: "nextArrow"), for: .normal)
         button.semanticContentAttribute = .forceRightToLeft

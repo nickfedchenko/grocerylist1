@@ -34,6 +34,8 @@ class NewOnboardingViewController: UIViewController {
         button.setImage(UIImage(named: "nextArrow"), for: .normal)
         button.semanticContentAttribute = .forceRightToLeft
         button.tintColor = .white
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.white.cgColor
         button.imageEdgeInsets.left = 8
         return button
     }()
@@ -109,16 +111,14 @@ class NewOnboardingViewController: UIViewController {
         pageControl.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(22)
-            $0.bottom.equalToSuperview().offset(
-                UIDevice.screenType == .iPhones678SE2 ? -16 : -64
-            )
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(14)
         }
         
         nextButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(64)
             $0.width.equalTo(350)
-            $0.bottom.equalTo(pageControl.snp.top).offset(-8)
+            $0.bottom.equalTo(pageControl.snp.top).inset(-12)
         }
     }
 }

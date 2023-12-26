@@ -15,6 +15,7 @@ protocol ViewControllerFactoryProtocol {
     func createQuestionnaireSecondController(router: RootRouter) -> UIViewController
     func createQuestionnaireThirdController(router: RootRouter) -> UIViewController
     func createPaywallWithTimer(router: RootRouter) -> UIViewController
+    func createRateUsController(router: RootRouter) -> UIViewController
     
     func createPaywallController() -> UIViewController
     func createAlternativePaywallController(isHard: Bool) -> UIViewController

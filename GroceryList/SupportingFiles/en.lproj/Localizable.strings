@@ -638,7 +638,7 @@
 "NewPaywall.Feature.8"          = "Create your own recipes and collections, the ability to share recipes";
 "NewPaywall.Feature.9"          = "Adding ingredients to the shopping list for the selected number of servings";
 
-// New Paywall
+// New Flow
 "OnboardingWithQuestions.welcome"      = "WELCOME TO";
 "OnboardingWithQuestions.groceryList"  = "Grocery List App";
 "OnboardingWithQuestions.saveMoney"    = "Free your head, save time and money";
@@ -668,3 +668,8 @@
 "OnboardingWithQuestions.question4answer1"     = "Male";
 "OnboardingWithQuestions.question4answer2"     = "Female";
 "OnboardingWithQuestions.question4answer3"     = "Other";
+
+"OnboardingWithQuestions.paywallOnlyOneHour"   = "only 1 hour";
+"OnboardingWithQuestions.paywallSale"          = "-50%";
+"OnboardingWithQuestions.paywallSaveMoney"     = "Save even more time and money";
+"OnboardingWithQuestions.cancelAnyTime"        = "*then $39.99 · Cancel anytime";

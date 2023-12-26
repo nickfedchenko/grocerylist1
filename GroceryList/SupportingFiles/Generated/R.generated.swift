@@ -76,7 +76,7 @@ struct _R {
       let source: RswiftResources.StringResource.Source
     }
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 537 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 541 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -1711,165 +1711,193 @@ struct _R {
       /// Locales: en, ru, fr, de
       var onTheCoals: RswiftResources.StringResource { .init(key: "On the coals", tableName: "Localizable", source: source, developmentValue: "On the coals", comment: nil) }
 
+      /// en translation: *then $39.99 · Cancel anytime
+      ///
+      /// Key: OnboardingWithQuestions.cancelAnyTime
+      ///
+      /// Locales: en, ru, fr, de
+      var onboardingWithQuestionsCancelAnyTime: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.cancelAnyTime", tableName: "Localizable", source: source, developmentValue: "*then $39.99 · Cancel anytime", comment: nil) }
+
       /// en translation: Choose one or more answers
       ///
       /// Key: OnboardingWithQuestions.chooseAnswers
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsChooseAnswers: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.chooseAnswers", tableName: "Localizable", source: source, developmentValue: "Choose one or more answers", comment: nil) }
 
       /// en translation: Grocery List App
       ///
       /// Key: OnboardingWithQuestions.groceryList
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsGroceryList: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.groceryList", tableName: "Localizable", source: source, developmentValue: "Grocery List App", comment: nil) }
+
+      /// en translation: only 1 hour
+      ///
+      /// Key: OnboardingWithQuestions.paywallOnlyOneHour
+      ///
+      /// Locales: en, ru, fr, de
+      var onboardingWithQuestionsPaywallOnlyOneHour: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.paywallOnlyOneHour", tableName: "Localizable", source: source, developmentValue: "only 1 hour", comment: nil) }
+
+      /// en translation: -50%
+      ///
+      /// Key: OnboardingWithQuestions.paywallSale
+      ///
+      /// Locales: en, ru, fr, de
+      var onboardingWithQuestionsPaywallSale: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.paywallSale", tableName: "Localizable", source: source, developmentValue: "-50%", comment: nil) }
+
+      /// en translation: Save even more time and money
+      ///
+      /// Key: OnboardingWithQuestions.paywallSaveMoney
+      ///
+      /// Locales: en, ru, fr, de
+      var onboardingWithQuestionsPaywallSaveMoney: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.paywallSaveMoney", tableName: "Localizable", source: source, developmentValue: "Save even more time and money", comment: nil) }
 
       /// en translation: QUESTION 
       ///
       /// Key: OnboardingWithQuestions.question 
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question ", tableName: "Localizable", source: source, developmentValue: "QUESTION ", comment: nil) }
 
       /// en translation: How can we help you?
       ///
       /// Key: OnboardingWithQuestions.question1Title
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion1Title: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question1Title", tableName: "Localizable", source: source, developmentValue: "How can we help you?", comment: nil) }
 
       /// en translation: Save your time and money with categorized shopping lists
       ///
       /// Key: OnboardingWithQuestions.question1answer1
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion1answer1: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question1answer1", tableName: "Localizable", source: source, developmentValue: "Save your time and money with categorized shopping lists", comment: nil) }
 
       /// en translation: Always keep your pantry well-stocked
       ///
       /// Key: OnboardingWithQuestions.question1answer2
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion1answer2: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question1answer2", tableName: "Localizable", source: source, developmentValue: "Always keep your pantry well-stocked", comment: nil) }
 
       /// en translation: Create own Meal Plan
       ///
       /// Key: OnboardingWithQuestions.question1answer3
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion1answer3: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question1answer3", tableName: "Localizable", source: source, developmentValue: "Create own Meal Plan", comment: nil) }
 
       /// en translation: Have a lot of recipes at your fingertips
       ///
       /// Key: OnboardingWithQuestions.question1answer4
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion1answer4: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question1answer4", tableName: "Localizable", source: source, developmentValue: "Have a lot of recipes at your fingertips", comment: nil) }
 
       /// en translation: How often do you plan to share lists with relatives and friends?
       ///
       /// Key: OnboardingWithQuestions.question2Title
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion2Title: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question2Title", tableName: "Localizable", source: source, developmentValue: "How often do you plan to share lists with relatives and friends?", comment: nil) }
 
       /// en translation: I plan to share my shopping list on a regular basis
       ///
       /// Key: OnboardingWithQuestions.question2answer1
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion2answer1: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question2answer1", tableName: "Localizable", source: source, developmentValue: "I plan to share my shopping list on a regular basis", comment: nil) }
 
       /// en translation: Sometimes, for example during holidays
       ///
       /// Key: OnboardingWithQuestions.question2answer2
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion2answer2: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question2answer2", tableName: "Localizable", source: source, developmentValue: "Sometimes, for example during holidays", comment: nil) }
 
       /// en translation: Never
       ///
       /// Key: OnboardingWithQuestions.question2answer3
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion2answer3: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question2answer3", tableName: "Localizable", source: source, developmentValue: "Never", comment: nil) }
 
       /// en translation: How old are you?
       ///
       /// Key: OnboardingWithQuestions.question3Title
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion3Title: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question3Title", tableName: "Localizable", source: source, developmentValue: "How old are you?", comment: nil) }
 
       /// en translation: 18-30
       ///
       /// Key: OnboardingWithQuestions.question3answer1
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion3answer1: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question3answer1", tableName: "Localizable", source: source, developmentValue: "18-30", comment: nil) }
 
       /// en translation: 31-40
       ///
       /// Key: OnboardingWithQuestions.question3answer2
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion3answer2: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question3answer2", tableName: "Localizable", source: source, developmentValue: "31-40", comment: nil) }
 
       /// en translation: 41-50
       ///
       /// Key: OnboardingWithQuestions.question3answer3
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion3answer3: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question3answer3", tableName: "Localizable", source: source, developmentValue: "41-50", comment: nil) }
 
       /// en translation: 51+
       ///
       /// Key: OnboardingWithQuestions.question3answer4
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion3answer4: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question3answer4", tableName: "Localizable", source: source, developmentValue: "51+", comment: nil) }
 
       /// en translation: What's your gender?
       ///
       /// Key: OnboardingWithQuestions.question4Title
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion4Title: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question4Title", tableName: "Localizable", source: source, developmentValue: "What's your gender?", comment: nil) }
 
       /// en translation: Male
       ///
       /// Key: OnboardingWithQuestions.question4answer1
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion4answer1: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question4answer1", tableName: "Localizable", source: source, developmentValue: "Male", comment: nil) }
 
       /// en translation: Female
       ///
       /// Key: OnboardingWithQuestions.question4answer2
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion4answer2: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question4answer2", tableName: "Localizable", source: source, developmentValue: "Female", comment: nil) }
 
       /// en translation: Other
       ///
       /// Key: OnboardingWithQuestions.question4answer3
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsQuestion4answer3: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.question4answer3", tableName: "Localizable", source: source, developmentValue: "Other", comment: nil) }
 
       /// en translation: Free your head, save time and money
       ///
       /// Key: OnboardingWithQuestions.saveMoney
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsSaveMoney: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.saveMoney", tableName: "Localizable", source: source, developmentValue: "Free your head, save time and money", comment: nil) }
 
       /// en translation: WELCOME TO
       ///
       /// Key: OnboardingWithQuestions.welcome
       ///
-      /// Locales: en
+      /// Locales: en, ru, fr, de
       var onboardingWithQuestionsWelcome: RswiftResources.StringResource { .init(key: "OnboardingWithQuestions.welcome", tableName: "Localizable", source: source, developmentValue: "WELCOME TO", comment: nil) }
 
       /// en translation: Optional
@@ -3879,7 +3907,7 @@ struct _R {
     var primaryLight: RswiftResources.ColorResource { .init(name: "primaryLight", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 366 images.
+  /// This `_R.image` struct is generated, and contains static references to 371 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -3991,6 +4019,12 @@ struct _R {
     /// Image `DeselectAll_TabBar`.
     var deselectAll_TabBar: RswiftResources.ImageResource { .init(name: "DeselectAll_TabBar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `DotsImageView`.
+    var dotsImageView: RswiftResources.ImageResource { .init(name: "DotsImageView", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `FamilyPlanIncluded`.
+    var familyPlanIncluded: RswiftResources.ImageResource { .init(name: "FamilyPlanIncluded", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `FolderIcon`.
     var folderIcon: RswiftResources.ImageResource { .init(name: "FolderIcon", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -4063,11 +4097,20 @@ struct _R {
     /// Image `NewFeatureImage`.
     var newFeatureImage: RswiftResources.ImageResource { .init(name: "NewFeatureImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `NewPrice`.
+    var newPrice: RswiftResources.ImageResource { .init(name: "NewPrice", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `OnboardingWithQuestionsBackground`.
     var onboardingWithQuestionsBackground: RswiftResources.ImageResource { .init(name: "OnboardingWithQuestionsBackground", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `OnboardingWithQuestionsIcon`.
     var onboardingWithQuestionsIcon: RswiftResources.ImageResource { .init(name: "OnboardingWithQuestionsIcon", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `PaywalWithTimerCloseButton`.
+    var paywalWithTimerCloseButton: RswiftResources.ImageResource { .init(name: "PaywalWithTimerCloseButton", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `PaywallWithTimerBackground`.
+    var paywallWithTimerBackground: RswiftResources.ImageResource { .init(name: "PaywallWithTimerBackground", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `Pin`.
     var pin: RswiftResources.ImageResource { .init(name: "Pin", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

@@ -68,7 +68,6 @@ final class RootRouter: RootRouterProtocol {
 #endif
     }
     
-    // TODO: - fdf
     private func showOnboardingWithQuestionsFlow() {
         let onboardingController = viewControllerFactory.createQuestionnaireFirstController(router: self)
         navigationPushViewController(onboardingController, animated: false)
@@ -92,7 +91,14 @@ final class RootRouter: RootRouterProtocol {
     }
     
     func openPaywallWithTimer() {
+        openRateUs()
+        return
         let controller = viewControllerFactory.createPaywallWithTimer(router: self)
+        navigationPresent(controller, style: .popover, animated: true)
+    }
+    
+    func openRateUs() {
+        let controller = viewControllerFactory.createRateUsController(router: self)
         navigationPresent(controller, style: .popover, animated: true)
     }
     

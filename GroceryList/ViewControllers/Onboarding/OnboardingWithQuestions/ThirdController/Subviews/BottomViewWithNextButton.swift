@@ -29,6 +29,8 @@ final class BottomViewWithNextButton: UIView {
         button.tintColor = .white
         button.imageEdgeInsets.left = 8
         button.isUserInteractionEnabled = false
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 0
         return button
     }()
     
@@ -64,10 +66,12 @@ final class BottomViewWithNextButton: UIView {
             nextButton.addShadowForView(radius: 10, height: 5)
             nextButton.backgroundColor = UIColor(hex: "#1A645A")
             nextButton.setTitleColor(.white, for: .normal)
+            nextButton.layer.borderWidth = 2
         } else {
             nextButton.addShadowForView(radius: 0, height: 0)
             nextButton.backgroundColor = UIColor(hex: "#A2ABAB")
             nextButton.setTitleColor(UIColor(hex: "#FFFFFF"), for: .normal)
+            nextButton.layer.borderWidth = 0
         }
 
         nextButton.isUserInteractionEnabled = isActive
@@ -92,20 +96,18 @@ extension BottomViewWithNextButton {
     }
     
     private func setupConstraint() {
-        pageControl.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(22)
-            $0.bottom.equalToSuperview().offset(
-                UIDevice.screenType == .iPhones678SE2 ? -16 : -64
-            )
+        pageControl.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.height.equalTo(22)
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(14)
         }
         
-        nextButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().inset(16)
-            $0.height.equalTo(64)
-            $0.width.equalTo(350)
-            $0.bottom.equalTo(pageControl.snp.top).offset(-8)
+        nextButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().inset(16)
+            make.height.equalTo(64)
+            make.width.equalTo(350)
+            make.bottom.equalTo(pageControl.snp.top).offset(-12)
         }
     }
 }

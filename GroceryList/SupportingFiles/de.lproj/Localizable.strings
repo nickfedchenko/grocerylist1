@@ -631,3 +631,38 @@
 "NewPaywall.Feature.7"          = "Importieren von Rezepten von Websites. Rezepte mit Filtern finden";
 "NewPaywall.Feature.8"          = "Erstellen Sie Ihre eigenen Rezepte und Sammlungen, die Möglichkeit, Rezepte zu teilen";
 "NewPaywall.Feature.9"          = "Zutaten für die ausgewählte Anzahl von Portionen zur Einkaufsliste hinzufügen";
+
+// New Flow
+"OnboardingWithQuestions.welcome"      = "willkommen bei";
+"OnboardingWithQuestions.groceryList"  = "Lebensmittelliste";
+"OnboardingWithQuestions.saveMoney"    = "Den Kopf frei bekommen, Zeit und Geld sparen";
+
+"OnboardingWithQuestions.question "            = "Frage ";
+"OnboardingWithQuestions.chooseAnswers"        = "Wählen Sie eine oder mehrere Antworten";
+
+"OnboardingWithQuestions.question1Title"       = "Wie können wir Ihnen helfen?";
+"OnboardingWithQuestions.question1answer1"     = "Sparen Sie Zeit und Geld mit kategorisierten Einkaufslisten";
+"OnboardingWithQuestions.question1answer2"     = "Halten Sie immer Ordnung in der Speisekammer";
+"OnboardingWithQuestions.question1answer3"     = "Erstellen Sie Ihren eigenen Speiseplan";
+"OnboardingWithQuestions.question1answer4"     = "Halten Sie eine Vielzahl von Rezepten bereit";
+
+"OnboardingWithQuestions.question2Title"       = "Wie oft wollen Sie Listen mit Familie und Freunden austauschen?";
+"OnboardingWithQuestions.question2answer1"     = "Ich habe vor, meine Einkaufsliste regelmäßig zu veröffentlichen";
+"OnboardingWithQuestions.question2answer2"     = "Manchmal, zum Beispiel in den Ferien";
+"OnboardingWithQuestions.question2answer3"     = "Niemals";
+
+"OnboardingWithQuestions.question3Title"       = "Wie alt sind Sie?";
+"OnboardingWithQuestions.question3answer1"     = "18-30";
+"OnboardingWithQuestions.question3answer2"     = "31-40";
+"OnboardingWithQuestions.question3answer3"     = "41-50";
+"OnboardingWithQuestions.question3answer4"     = "51+";
+
+"OnboardingWithQuestions.question4Title"       = "Welches Geschlecht sind Sie?";
+"OnboardingWithQuestions.question4answer1"     = "Mann";
+"OnboardingWithQuestions.question4answer2"     = "Frau";
+"OnboardingWithQuestions.question4answer3"     = "Die andere";
+
+"OnboardingWithQuestions.paywallOnlyOneHour"   = "nur 1 Stunde";
+"OnboardingWithQuestions.paywallSale"          = "-50%";
+"OnboardingWithQuestions.paywallSaveMoney"     = "Sparen Sie noch mehr Zeit und Geld";
+"OnboardingWithQuestions.cancelAnyTime"        = "*dann 39,99 € · Jederzeitige Stornierung";

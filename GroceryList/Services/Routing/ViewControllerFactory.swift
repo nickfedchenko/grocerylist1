@@ -44,8 +44,20 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
     }
     
     func createPaywallWithTimer(router: RootRouter) -> UIViewController {
-        let viewController = PaywallWithTimer()
-    //    viewController.router = router
+        let viewController = PaywallWithTimerViewController()
+        let viewModel = PaywallWithTimerViewModel()
+        
+        viewController.viewModel = viewModel
+        viewModel.router = router
+        return viewController
+    }
+    
+    func createRateUsController(router: RootRouter) -> UIViewController {
+        let viewController = RateUsViewController()
+        let viewModel = RateUsViewModel()
+        
+        viewController.viewModel = viewModel
+        viewModel.router = router
         return viewController
     }
     
