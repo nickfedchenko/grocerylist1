@@ -634,3 +634,39 @@
 "NewPaywall.Feature.7"          = "Импорт рецептов с веб-сайтов. Поиск рецептов с помощью фильтров";
 "NewPaywall.Feature.8"          = "Создавайте свои собственные рецепты и коллекции, возможность делиться рецептами";
 "NewPaywall.Feature.9"          = "Добавление ингредиентов в список покупок для выбранного количества порций";
+
+
+// New Flow
+"OnboardingWithQuestions.welcome"      = "ДОБРО ПОЖАЛОВАТЬ В";
+"OnboardingWithQuestions.groceryList"  = "Список покупок";
+"OnboardingWithQuestions.saveMoney"    = "Освободите голову, сэкономьте время и деньги";
+
+"OnboardingWithQuestions.question "            = "ВОПРОС ";
+"OnboardingWithQuestions.chooseAnswers"        = "Выберите один или несколько ответов";
+
+"OnboardingWithQuestions.question1Title"       = "Чем мы можем вам помочь?";
+"OnboardingWithQuestions.question1answer1"     = "Экономить время и деньги с помощью категоризированных списков покупок";
+"OnboardingWithQuestions.question1answer2"     = "Всегда держать кладовку в порядке";
+"OnboardingWithQuestions.question1answer3"     = "Создать собственный план питания";
+"OnboardingWithQuestions.question1answer4"     = "Иметь под рукой множество рецептов";
+
+"OnboardingWithQuestions.question2Title"       = "Как часто вы планируете делиться списками с родными и друзьями?";
+"OnboardingWithQuestions.question2answer1"     = "Я планирую регулярно делиться своим списком покупок";
+"OnboardingWithQuestions.question2answer2"     = "Иногда, например, во время праздников";
+"OnboardingWithQuestions.question2answer3"     = "Никогда";
+
+"OnboardingWithQuestions.question3Title"       = "Сколько вам лет?";
+"OnboardingWithQuestions.question3answer1"     = "18-30";
+"OnboardingWithQuestions.question3answer2"     = "31-40";
+"OnboardingWithQuestions.question3answer3"     = "41-50";
+"OnboardingWithQuestions.question3answer4"     = "51+";
+
+"OnboardingWithQuestions.question4Title"       = "Какого вы пола?";
+"OnboardingWithQuestions.question4answer1"     = "Мужчина ";
+"OnboardingWithQuestions.question4answer2"     = "Женщина ";
+"OnboardingWithQuestions.question4answer3"     = "Другой";
+
+"OnboardingWithQuestions.paywallOnlyOneHour"   = "только 1 час";
+"OnboardingWithQuestions.paywallSale"          = "-50%";
+"OnboardingWithQuestions.paywallSaveMoney"     = "Экономьте еще больше времени и денег";
+"OnboardingWithQuestions.cancelAnyTime"        = "*Затем $39.99 · Отмена в любое время";

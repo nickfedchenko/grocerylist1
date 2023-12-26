@@ -51,6 +51,23 @@ class UserDefaultsManager {
         set { userDefaults.set(newValue, forKey: "isMetricSystem") }
     }
     
+//    var paywallWithTimerSeconds: Int {
+//        get { userDefaults.integer(forKey: "paywallWithTimerSeconds") }
+//        set { userDefaults.set(newValue, forKey: "paywallWithTimerSeconds") }
+//    }
+//
+    var paywallWithTimerSeconds: Int? {
+        get {
+            if let opt = userDefaults.object(forKey: "myKey") as? Int {
+                return opt
+            }
+            return nil
+        }
+        set {
+            userDefaults.set(newValue, forKey: "myKey")
+        }
+    }
+    
     var isHapticOn: Bool {
         get { userDefaults.bool(forKey: "isHapticOn") }
         set { userDefaults.set(newValue, forKey: "isHapticOn") }

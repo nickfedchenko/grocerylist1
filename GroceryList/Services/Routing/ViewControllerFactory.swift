@@ -23,6 +23,44 @@ final class ViewControllerFactory: ViewControllerFactoryProtocol {
         return viewController
     }
     
+    func createQuestionnaireFirstController(router: RootRouter) -> UIViewController {
+        let viewController = QuestionnaireFirstController()
+        viewController.router = router
+        return viewController
+    }
+    
+    func createQuestionnaireSecondController(router: RootRouter) -> UIViewController {
+        let viewController = QuestionnaireSecondController()
+        viewController.router = router
+        return viewController
+    }
+    
+    func createQuestionnaireThirdController(router: RootRouter) -> UIViewController {
+        let viewController = QuestionnaireThirdController()
+        let viewModel = QuestionnaireThirdViewModel()
+        viewModel.router = router
+        viewController.viewModel = viewModel
+        return viewController
+    }
+    
+    func createPaywallWithTimer(router: RootRouter) -> UIViewController {
+        let viewController = PaywallWithTimerViewController()
+        let viewModel = PaywallWithTimerViewModel()
+        
+        viewController.viewModel = viewModel
+        viewModel.router = router
+        return viewController
+    }
+    
+    func createRateUsController(router: RootRouter) -> UIViewController {
+        let viewController = RateUsViewController()
+        let viewModel = RateUsViewModel()
+        
+        viewController.viewModel = viewModel
+        viewModel.router = router
+        return viewController
+    }
+    
     func createMainTabBarController(router: RootRouter, controllers: [UIViewController]) -> UITabBarController {
         let isRightHanded = true
         let viewModel = MainTabBarViewModel(isRightHanded: isRightHanded, viewControllers: controllers)
