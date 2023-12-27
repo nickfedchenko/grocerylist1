@@ -80,10 +80,16 @@ extension PaywallWithTimerViewController {
     private func configureCallbacks() {
         viewModel?.timerCallback = { [weak self] min, sec in
             self?.viewWithTimer.setupTimer(minutes: min, seconds: sec)
+
         }
         
         viewModel?.showErrorAlertCallback = { [weak self] message in
             self?.alertOk(title: "Error", message: message)
+        }
+        
+        viewModel?.updatePrices = { [weak self] oldPrice, newPrice in
+            self?.viewWithTimer.configurePrice(oldPrice: oldPrice, newPrice: newPrice)
+            self?.bottomView.configure(oldPrice: oldPrice)
         }
     }
     

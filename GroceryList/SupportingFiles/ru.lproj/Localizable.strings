@@ -669,4 +669,20 @@
 "OnboardingWithQuestions.paywallOnlyOneHour"   = "только 1 час";
 "OnboardingWithQuestions.paywallSale"          = "-50%";
 "OnboardingWithQuestions.paywallSaveMoney"     = "Экономьте еще больше времени и денег";
-"OnboardingWithQuestions.cancelAnyTime"        = "*Затем $39.99 · Отмена в любое время";
+"OnboardingWithQuestions.Then"                 = "*Затем ";
+"OnboardingWithQuestions.cancelAnyTime"        = " · Отмена в любое время";
+"OnboardingWithQuestions.paywall.firstYear"    = " / первый год";
+
+"RateUs.TellUsMore"                            = "Расскажите подробнее";
+"RateUs.HowDoYouLikeAppTitle"                  = "Насколько вам нравится приложение?";
+"RateUs.HowDoYouLikeAppSubtitle"               = "Поделитесь с нами своим отзывом и расскажите, с какими проблемами вы столкнулись. Это поможет улучшить приложение для вас";
+
+"RateUs.VeryGood"                              = "Очень хорошо";
+"RateUs.Good"                                  = "Хорошо";
+"RateUs.Neutral"                               = "Нейтрально";
+"RateUs.Bad"                                   = "Плохо";
+"RateUs.VeryBad"                               = "Очень плохо";
+
+"RateUs.Great"                                 = "Отлично!";
+"RateUs.ThanksForFeedbackTitle"                = "Спасибо за ваш отзыв!";
+"RateUs.ThanksForFeedbackSubtitle"             = "Вы также можете помочь нам, поставив оценку в AppStore ";

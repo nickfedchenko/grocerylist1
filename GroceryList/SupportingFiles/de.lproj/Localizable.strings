@@ -665,4 +665,20 @@
 "OnboardingWithQuestions.paywallOnlyOneHour"   = "nur 1 Stunde";
 "OnboardingWithQuestions.paywallSale"          = "-50%";
 "OnboardingWithQuestions.paywallSaveMoney"     = "Sparen Sie noch mehr Zeit und Geld";
-"OnboardingWithQuestions.cancelAnyTime"        = "*dann 39,99 € · Jederzeitige Stornierung";
+"OnboardingWithQuestions.Then"                 = "*dann ";
+"OnboardingWithQuestions.cancelAnyTime"        = " · Jederzeitige Stornierung";
+"OnboardingWithQuestions.paywall.firstYear"    = " / erstes Jahr";
+
+"RateUs.TellUsMore"                            = "Erzählen Sie uns mehr";
+"RateUs.HowDoYouLikeAppTitle"                  = "Wie sehr gefällt Ihnen die App?";
+"RateUs.HowDoYouLikeAppSubtitle"               = "Teilen Sie uns Ihr Feedback und die Probleme mit, auf die Sie gestoßen sind. Dies wird uns helfen, die App für Sie zu verbessern";
+
+"RateUs.VeryGood"                              = "Sehr gut";
+"RateUs.Good"                                  = "Gut";
+"RateUs.Neutral"                               = "Neutral";
+"RateUs.Bad"                                   = "Schlecht";
+"RateUs.VeryBad"                               = "Sehr schlecht";
+
+"RateUs.Great"                                 = "Großartig!";
+"RateUs.ThanksForFeedbackTitle"                = "Vielen Dank für Ihr Feedback!";
+"RateUs.ThanksForFeedbackSubtitle"             = "Sie können uns auch durch eine Bewertung im AppStore helfen ";

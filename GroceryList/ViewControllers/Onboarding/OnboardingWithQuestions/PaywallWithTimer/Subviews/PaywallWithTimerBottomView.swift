@@ -18,7 +18,6 @@ final class PaywallWithTimerBottomView: UIView {
         let label = UILabel()
         label.textColor = UIColor(hex: "#FFFFFF").withAlphaComponent(0.4)
         label.font = UIFont.SFPro.regular(size: 15).font
-        label.text = R.string.localizable.onboardingWithQuestionsCancelAnyTime()
         label.textAlignment = .center
         return label
     }()
@@ -78,6 +77,10 @@ final class PaywallWithTimerBottomView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(oldPrice: String) {
+        cancelLabel.text = R.string.localizable.onboardingWithQuestionsThen() + oldPrice + R.string.localizable.onboardingWithQuestionsCancelAnyTime()
     }
     
     // MARK: - Actions

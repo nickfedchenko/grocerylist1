@@ -24,7 +24,7 @@ final class RateUsLayoutManager {
         let item = NSCollectionLayoutItem(
             layoutSize: .init(
                 widthDimension: .absolute(
-                    UIScreen.main.bounds.width - 40
+                    UIScreen.main.bounds.width
                 ),
                 heightDimension: .estimated(
                     1
@@ -42,10 +42,10 @@ final class RateUsLayoutManager {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
                                                                          heightDimension: .estimated(1)), subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = .init(top: 0,
-                                      leading: 20,
+        section.contentInsets = .init(top: -8,
+                                      leading: 0,
                                       bottom: 46,
-                                      trailing: 20)
+                                      trailing: 0)
         section.orthogonalScrollingBehavior = .continuous
         return section
     }

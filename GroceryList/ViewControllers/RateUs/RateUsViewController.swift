@@ -31,11 +31,28 @@ final class RateUsViewController: UIViewController {
         collectionView.isPagingEnabled = true
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
-        collectionView.allowsMultipleSelection = true
         collectionView.isScrollEnabled = false
         collectionView.register(classCell: RateUsTopCell.self)
         collectionView.register(classCell: RateUsBottomCell.self)
         return collectionView
+    }()
+    
+    private lazy var nextButton: UIButton = {
+        let button = UIButton(type: .system)
+        let attributedTitle = NSAttributedString(string: "Next".localized.uppercased(), attributes: [
+            .font: UIFont.SFPro.semibold(size: 20).font ?? UIFont(),
+            .foregroundColor: UIColor(hex: "#FFFFFF")
+        ])
+        button.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
+        button.setAttributedTitle(attributedTitle, for: .normal)
+        button.backgroundColor = UIColor(hex: "#1A645A")
+        button.layer.cornerRadius = 16
+        button.layer.cornerCurve = .continuous
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.white.cgColor
+        button.addShadowForView()
+        button.alpha = 0
+        return button
     }()
     
     override func viewDidLoad() {
@@ -51,12 +68,27 @@ final class RateUsViewController: UIViewController {
         viewModel?.applyShapshot = { [weak self] snapshot in
             self?.collectionViewDataSource?.apply(snapshot, animatingDifferences: true)
         }
+        
+        viewModel?.scrollToPage = { [weak self] page in
+            guard let self = self else { return }
+            let offset = CGPoint(
+                x: collectionView.frame.size.width * CGFloat(page),
+                y: .zero
+            )
+            self.collectionView.setContentOffset(offset, animated: true)
+            self.nextButton.fadeIn()
+        }
     }
     
     // MARK: - Actions
     @objc
     private func closeButtonTapped() {
         viewModel?.closeButtonTapped()
+    }
+    
+    @objc
+    private func nextButtonPressed() {
+        viewModel?.nextButtonTapped()
     }
 }
 
@@ -69,11 +101,11 @@ extension RateUsViewController: UICollectionViewDelegate, UICollectionViewDelega
                 switch model {
                 case .topCell(let model):
                     let cell = self?.collectionView.reusableCell(classCell: RateUsTopCell.self, indexPath: indexPath)
-              
+                    cell?.configure(model: model)
                     return cell
                 case .bottomCell(let model):
                     let cell = self?.collectionView.reusableCell(classCell: RateUsBottomCell.self, indexPath: indexPath)
-
+                    cell?.configure(model: model)
                     return cell
                 }
             }
@@ -81,10 +113,8 @@ extension RateUsViewController: UICollectionViewDelegate, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        guard collectionView.cellForItem(at: indexPath) is QuestionnaireCell else {
-//            return
-//        }
-//        viewModel?.cellSelected(at: indexPath)
+        guard collectionView.cellForItem(at: indexPath) is RateUsBottomCell else { return }
+            viewModel?.cellSelected(at: indexPath)
     }
     
 }
@@ -96,7 +126,8 @@ extension RateUsViewController {
         view.backgroundColor = .white
         view.addSubviews([
             collectionView,
-            closeButton
+            closeButton,
+            nextButton
         ])
     }
     
@@ -109,6 +140,12 @@ extension RateUsViewController {
         closeButton.snp.makeConstraints { make in
             make.top.right.equalToSuperview().inset(12)
             make.width.height.equalTo(40)
+        }
+        
+        nextButton.snp.makeConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(40)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.height.equalTo(64)
         }
 
     }

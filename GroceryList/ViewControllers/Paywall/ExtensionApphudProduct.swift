@@ -103,6 +103,33 @@ extension ApphudProduct {
         return loadingInfo
     }
     
+    var priceStringX2: String {
+        guard let skProduct = self.skProduct else {
+            return loadingInfo
+        }
+        let price = skProduct.price.doubleValue * 2
+        let numberOfUnits = skProduct.subscriptionPeriod?.numberOfUnits
+        let currencySymbol = "\(skProduct.priceLocale.currencySymbol ?? "$")"
+        
+        switch skProduct.subscriptionPeriod?.unit {
+        case .year:
+            return currencySymbol + String(format: "%.2f", price)
+        case .month:
+            if numberOfUnits == 6 || numberOfUnits == 1 {
+                return currencySymbol + String(format: "%.2f", price)
+            }
+        case .week:
+            return currencySymbol + String(format: "%.2f", price)
+        case .day:
+            if numberOfUnits == 7 {
+                return currencySymbol + String(format: "%.2f", price)
+            }
+        default: break
+        }
+        
+        return loadingInfo
+    }
+    
     func getPricePerMinPeriod(allProducts: [ApphudProduct]) -> String {
         guard let skProduct = self.skProduct else {
             return loadingInfo

@@ -46,9 +46,8 @@ final class PaywallWithTimerTimerView: UIView {
         return label
     }()
     
-    private let newPriceImageView: UIImageView = {
-        let view = UIImageView()
-        view.image = R.image.newPrice()
+    private let oldAndNewPriceView: PaywallWithTimerOldAndNewPrice = {
+        let view = PaywallWithTimerOldAndNewPrice()
         return view
     }()
     
@@ -66,6 +65,10 @@ final class PaywallWithTimerTimerView: UIView {
         minutesLabel.text = minutes
         secondsLabel.text = seconds
     }
+    
+    func configurePrice(oldPrice: String, newPrice: String) {
+        oldAndNewPriceView.configure(oldPrice: oldPrice, newPrice: newPrice)
+    }
 }
 
 extension PaywallWithTimerTimerView {
@@ -76,7 +79,7 @@ extension PaywallWithTimerTimerView {
     }
     
     private func addSubview() {
-        addSubviews([minutesView, dotsImageView, secondsView, newPriceImageView])
+        addSubviews([minutesView, dotsImageView, secondsView, oldAndNewPriceView])
         minutesView.addSubview(minutesLabel)
         secondsView.addSubview(secondsLabel)
     }
@@ -84,7 +87,8 @@ extension PaywallWithTimerTimerView {
     private func setupConstraint() {
         
         dotsImageView.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.centerY.equalTo(minutesView.snp.centerY)
         }
         
         minutesView.snp.makeConstraints { make in
@@ -109,8 +113,9 @@ extension PaywallWithTimerTimerView {
             make.center.equalTo(secondsView)
         }
         
-        newPriceImageView.snp.makeConstraints { make in
+        oldAndNewPriceView.snp.makeConstraints { make in
             make.top.equalTo(minutesView.snp.bottom).inset(-16)
+            make.centerX.equalToSuperview()
             make.bottom.equalToSuperview()
         }
     }

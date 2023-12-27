@@ -17,11 +17,12 @@ class QuestionnaireFirstPaywall: FamilyPaywallViewController {
     func initWithoutFamilyParams() {
         hideFamilyPlan()
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
-            
-            guard let products = paywalls.first?.products,
+         
+            guard let paywall = paywalls.first(where: { $0.experimentName != nil }),
                   let self = self else {
                 return
             }
+            let products = paywall.products
             
             self.products = products
             self.choiceOfCostArray = self.products.enumerated().map { index, product in

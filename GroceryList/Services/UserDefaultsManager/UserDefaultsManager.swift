@@ -58,14 +58,19 @@ class UserDefaultsManager {
 //
     var paywallWithTimerSeconds: Int? {
         get {
-            if let opt = userDefaults.object(forKey: "myKey") as? Int {
+            if let opt = userDefaults.object(forKey: "paywallWithTimerSeconds") as? Int {
                 return opt
             }
             return nil
         }
         set {
-            userDefaults.set(newValue, forKey: "myKey")
+            userDefaults.set(newValue, forKey: "paywallWithTimerSeconds")
         }
+    }
+    
+    var paywallWithTimerStartedDate: Date? {
+        get { userDefaults.object(forKey: "paywallWithTimerStartedDate") as? Date }
+        set { userDefaults.set(newValue, forKey: "paywallWithTimerStartedDate") }
     }
     
     var isHapticOn: Bool {

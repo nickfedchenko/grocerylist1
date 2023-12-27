@@ -437,7 +437,6 @@
 		B347C98F2B39B0A90053B474 /* PaywallWithTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C98E2B39B0A90053B474 /* PaywallWithTimerViewController.swift */; };
 		B347C9912B3ACE7A0053B474 /* PaywallWithTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9902B3ACE7A0053B474 /* PaywallWithTimerViewModel.swift */; };
 		B347C9932B3AD59D0053B474 /* PaywallWithTimerBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9922B3AD59D0053B474 /* PaywallWithTimerBottomView.swift */; };
-		B347C9972B3AD9DE0053B474 /* FamilyPaywallFamilyIncluded.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9962B3AD9DE0053B474 /* FamilyPaywallFamilyIncluded.swift */; };
 		B347C9992B3AE2860053B474 /* PaywallWithTimerTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9982B3AE2860053B474 /* PaywallWithTimerTopView.swift */; };
 		B347C99B2B3AE8B50053B474 /* PaywallWithTimerTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C99A2B3AE8B50053B474 /* PaywallWithTimerTimerView.swift */; };
 		B347C99E2B3AFD5A0053B474 /* RateUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C99D2B3AFD5A0053B474 /* RateUsViewController.swift */; };
@@ -446,6 +445,8 @@
 		B347C9A62B3B00480053B474 /* RateUsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9A52B3B00480053B474 /* RateUsModel.swift */; };
 		B347C9A82B3B01210053B474 /* RateUsTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9A72B3B01210053B474 /* RateUsTopCell.swift */; };
 		B347C9AA2B3B012C0053B474 /* RateUsBottomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9A92B3B012C0053B474 /* RateUsBottomCell.swift */; };
+		B347C9AC2B3BE9220053B474 /* LabelInContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9AB2B3BE9220053B474 /* LabelInContainerView.swift */; };
+		B347C9AE2B3C45AD0053B474 /* PaywallWithTimerOldAndNewPrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9AD2B3C45AD0053B474 /* PaywallWithTimerOldAndNewPrice.swift */; };
 		B34BB80A292D1C4600748E8E /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB809292D1C4600748E8E /* ShimmerView.swift */; };
 		B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB80C292E339400748E8E /* SelectListViewController.swift */; };
 		B34BB80F292E389B00748E8E /* SelectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB80E292E389B00748E8E /* SelectListViewModel.swift */; };
@@ -961,7 +962,6 @@
 		B347C98E2B39B0A90053B474 /* PaywallWithTimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallWithTimerViewController.swift; sourceTree = "<group>"; };
 		B347C9902B3ACE7A0053B474 /* PaywallWithTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallWithTimerViewModel.swift; sourceTree = "<group>"; };
 		B347C9922B3AD59D0053B474 /* PaywallWithTimerBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallWithTimerBottomView.swift; sourceTree = "<group>"; };
-		B347C9962B3AD9DE0053B474 /* FamilyPaywallFamilyIncluded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyPaywallFamilyIncluded.swift; sourceTree = "<group>"; };
 		B347C9982B3AE2860053B474 /* PaywallWithTimerTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallWithTimerTopView.swift; sourceTree = "<group>"; };
 		B347C99A2B3AE8B50053B474 /* PaywallWithTimerTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallWithTimerTimerView.swift; sourceTree = "<group>"; };
 		B347C99D2B3AFD5A0053B474 /* RateUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUsViewController.swift; sourceTree = "<group>"; };
@@ -970,6 +970,8 @@
 		B347C9A52B3B00480053B474 /* RateUsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUsModel.swift; sourceTree = "<group>"; };
 		B347C9A72B3B01210053B474 /* RateUsTopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUsTopCell.swift; sourceTree = "<group>"; };
 		B347C9A92B3B012C0053B474 /* RateUsBottomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUsBottomCell.swift; sourceTree = "<group>"; };
+		B347C9AB2B3BE9220053B474 /* LabelInContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelInContainerView.swift; sourceTree = "<group>"; };
+		B347C9AD2B3C45AD0053B474 /* PaywallWithTimerOldAndNewPrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallWithTimerOldAndNewPrice.swift; sourceTree = "<group>"; };
 		B34BB809292D1C4600748E8E /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		B34BB80C292E339400748E8E /* SelectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewController.swift; sourceTree = "<group>"; };
 		B34BB80E292E389B00748E8E /* SelectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewModel.swift; sourceTree = "<group>"; };
@@ -1133,7 +1135,6 @@
 				331EC0242B0DAF4200EDFBE7 /* FamilyPaywallTitleView.swift */,
 				331EC0262B0DAFE200EDFBE7 /* FamilyPaywallFeatureView.swift */,
 				331EC0282B0DB89100EDFBE7 /* FamilyPaywallProductsView.swift */,
-				B347C9962B3AD9DE0053B474 /* FamilyPaywallFamilyIncluded.swift */,
 			);
 			path = subviews;
 			sourceTree = "<group>";
@@ -2428,7 +2429,9 @@
 			children = (
 				B347C9922B3AD59D0053B474 /* PaywallWithTimerBottomView.swift */,
 				B347C9982B3AE2860053B474 /* PaywallWithTimerTopView.swift */,
+				B347C9AB2B3BE9220053B474 /* LabelInContainerView.swift */,
 				B347C99A2B3AE8B50053B474 /* PaywallWithTimerTimerView.swift */,
+				B347C9AD2B3C45AD0053B474 /* PaywallWithTimerOldAndNewPrice.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -3498,6 +3501,7 @@
 				339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */,
 				33E8A8BE2A5FB4EE007D7ED9 /* FAQViewController.swift in Sources */,
 				332340922A1B31CC00609813 /* MainNavigationView.swift in Sources */,
+				B347C9AC2B3BE9220053B474 /* LabelInContainerView.swift in Sources */,
 				333DCC2B2A61156E00E3F92B /* ExtensionApphudProduct.swift in Sources */,
 				337719AC29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift in Sources */,
 				332619EE2AC18D9D0010F412 /* MealPlanNoteTitleView.swift in Sources */,
@@ -3606,7 +3610,6 @@
 				338F433A2ABB2171000B7A61 /* CreateMealPlanLabelViewModel.swift in Sources */,
 				33F496E12ACB726600212D93 /* AddIngredientsToDestinationListView.swift in Sources */,
 				3356653B2A575013006F92E6 /* RecipeFilterCell.swift in Sources */,
-				B347C9972B3AD9DE0053B474 /* FamilyPaywallFamilyIncluded.swift in Sources */,
 				B37A2CE82911034D003C01AD /* UITextFieldExtension.swift in Sources */,
 				B3F7C9CD29964D320081B245 /* YourEmailView.swift in Sources */,
 				B381EF26299B661700DCDE40 /* DeleteAccountView.swift in Sources */,
@@ -3733,6 +3736,7 @@
 				B3D8584A293A1A2A00CCE230 /* PaywallCell.swift in Sources */,
 				339FF3762A650CA700C6D6E3 /* PaywallCarouselCell.swift in Sources */,
 				338F43352ABA8F1F000B7A61 /* MealPlanLabelCell.swift in Sources */,
+				B347C9AE2B3C45AD0053B474 /* PaywallWithTimerOldAndNewPrice.swift in Sources */,
 				338EB6B629C1BEED00D6A03F /* SearchInRecipeViewModel.swift in Sources */,
 				331EC0232B0DAB8400EDFBE7 /* FamilyPaywallViewController.swift in Sources */,
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,

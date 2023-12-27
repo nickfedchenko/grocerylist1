@@ -14,6 +14,7 @@ class PaywallWithTimerViewModel {
     
     var timerCallback: ((String, String) -> Void)?
     var showErrorAlertCallback: ((String) -> Void)?
+    var updatePrices: ((String, String) -> Void)?
    
     private var numberOfSeconds: Int
     private var timer: Timer?
@@ -21,10 +22,22 @@ class PaywallWithTimerViewModel {
     private var products: [ApphudProduct] = []
     
     init() {
+        numberOfSeconds = 3600
         if UserDefaultsManager.shared.paywallWithTimerSeconds == nil {
             UserDefaultsManager.shared.paywallWithTimerSeconds = 3600
         }
-        numberOfSeconds = UserDefaultsManager.shared.paywallWithTimerSeconds ?? 0
+        
+        if UserDefaultsManager.shared.paywallWithTimerStartedDate == nil {
+            UserDefaultsManager.shared.paywallWithTimerStartedDate = Date()
+        }
+        
+        guard let date = UserDefaultsManager.shared.paywallWithTimerStartedDate else {
+            return
+        }
+        
+        let time = Date().timeIntervalSince(date)
+        
+        numberOfSeconds = 3600 - Int(time)
         configureApphud()
         startTimer()
     }
@@ -77,13 +90,15 @@ class PaywallWithTimerViewModel {
 
     private func configureApphud() {
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
-            // TODO: - Айдишник
-            guard let products = paywalls.first(where: { $0.identifier == "" })?.products,
+            guard let paywall = paywalls.first(where: { $0.experimentName != nil }),
                   let self = self else {
                 return
             }
-            self.products = products
-            selectedProduct = products.first
+            self.products = paywall.products
+            selectedProduct = products.last
+            guard let selectedProduct = selectedProduct else { return }
+            
+            updatePrices?(selectedProduct.priceStringX2, selectedProduct.priceString)
         }
     }
     

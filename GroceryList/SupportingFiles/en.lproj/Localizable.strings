@@ -672,4 +672,21 @@
 "OnboardingWithQuestions.paywallOnlyOneHour"   = "only 1 hour";
 "OnboardingWithQuestions.paywallSale"          = "-50%";
 "OnboardingWithQuestions.paywallSaveMoney"     = "Save even more time and money";
-"OnboardingWithQuestions.cancelAnyTime"        = "*then $39.99 · Cancel anytime";
+"OnboardingWithQuestions.Then"                 = "*then ";
+"OnboardingWithQuestions.cancelAnyTime"        = " · Cancel anytime";
+"OnboardingWithQuestions.paywall.firstYear"    = " / first year";
+
+"RateUs.TellUsMore"                            = "Tell us more";
+"RateUs.HowDoYouLikeAppTitle"                  = "How much do you like the app?";
+"RateUs.HowDoYouLikeAppSubtitle"               = "Share your feedback with us and what problems you encountered. This will help to improve the app for you";
+
+"RateUs.VeryGood"                              = "Very good";
+"RateUs.Good"                                  = "Good";
+
+"RateUs.Neutral"                               = "Neutral";
+"RateUs.Bad"                                   = "Bad";
+"RateUs.VeryBad"                               = "Very bad";
+
+"RateUs.Great"                                 = "Great!";
+"RateUs.ThanksForFeedbackTitle"                = "Thanks for your feedback!";
+"RateUs.ThanksForFeedbackSubtitle"             = "You can also help us by rating in the AppStore";

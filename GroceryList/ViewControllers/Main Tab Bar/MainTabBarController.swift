@@ -33,6 +33,19 @@ final class MainTabBarController: UITabBarController {
         UIView.safeAreaTop > 24 ? 90 : 60
     }
     
+    private lazy var presentButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(presentButtonTapped), for: .touchUpInside)
+        button.setImage(R.image.paywalWithTimerPresent(), for: .normal)
+        return button
+    }()
+    
+    @objc
+    private func presentButtonTapped() {
+        print("fdfdf")
+    }
+    
     init(viewModel: MainTabBarViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -183,7 +196,7 @@ final class MainTabBarController: UITabBarController {
         self.view.addSubview(customTabBar)
         self.view.addSubviews([navBackgroundView, navView, contextMenuBackgroundView, recipeContextMenu])
         self.view.addSubviews([featureMessageView, featureView])
-        
+        self.view.addSubview(presentButton)
         navBackgroundView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(navView)
@@ -198,6 +211,12 @@ final class MainTabBarController: UITabBarController {
         customTabBar.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(tabBarHeight)
+        }
+        
+        presentButton.snp.makeConstraints { make in
+            make.bottom.equalTo(customTabBar.snp.top).inset(-20)
+            make.width.height.equalTo(64)
+            make.right.equalToSuperview().inset(24)
         }
         
         recipeContextMenu.snp.makeConstraints { make in
