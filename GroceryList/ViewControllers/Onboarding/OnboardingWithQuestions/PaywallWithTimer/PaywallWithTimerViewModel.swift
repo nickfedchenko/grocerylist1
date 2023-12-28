@@ -17,7 +17,6 @@ class PaywallWithTimerViewModel {
     var updatePrices: ((String, String) -> Void)?
    
     private var selectedProduct: ApphudProduct?
-    private var products: [ApphudProduct] = []
     
     init() {
         setupTimerCallback()
@@ -25,6 +24,10 @@ class PaywallWithTimerViewModel {
     
     deinit {
         print("fdfdf")
+    }
+    
+    func viewDidLoad() {
+        configureApphud()
     }
     
     func closeButtonTapped() {
@@ -79,8 +82,7 @@ class PaywallWithTimerViewModel {
                   let self = self else {
                 return
             }
-            self.products = paywall.products
-            selectedProduct = products.last
+            selectedProduct = paywall.products.last
             guard let selectedProduct = selectedProduct else { return }
             
             updatePrices?(selectedProduct.priceStringX2, selectedProduct.priceString)

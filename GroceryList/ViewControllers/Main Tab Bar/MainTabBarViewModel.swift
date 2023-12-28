@@ -55,6 +55,11 @@ final class MainTabBarViewModel {
         viewControllers
     }
     
+    func tabSelected(at index: Int) {
+        guard index == 1 else { return }
+        RateUsReachability.shared.pantyOpened(router: router)
+    }
+    
     func createNewRecipeTapped() {
         AmplitudeManager.shared.logEvent(.recipeCreateRecipe)
 #if RELEASE

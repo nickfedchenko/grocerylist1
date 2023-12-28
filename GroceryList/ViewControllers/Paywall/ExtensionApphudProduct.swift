@@ -107,7 +107,7 @@ extension ApphudProduct {
         guard let skProduct = self.skProduct else {
             return loadingInfo
         }
-        let price = skProduct.price.doubleValue * 2
+        let price = (skProduct.price.doubleValue * 2) + 0.01
         let numberOfUnits = skProduct.subscriptionPeriod?.numberOfUnits
         let currencySymbol = "\(skProduct.priceLocale.currencySymbol ?? "$")"
         

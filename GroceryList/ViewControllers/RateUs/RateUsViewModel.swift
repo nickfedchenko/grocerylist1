@@ -89,7 +89,7 @@ final class RateUsViewModel {
     
     private func likeAppViewAction() {
         guard let
-                url = URL(string: ""),
+                url = URL(string: "itms-apps://itunes.apple.com/app/id1659848939?action=write-review"),
               UIApplication.shared.canOpenURL(url)
         else { return }
         UIApplication.shared.open(url)

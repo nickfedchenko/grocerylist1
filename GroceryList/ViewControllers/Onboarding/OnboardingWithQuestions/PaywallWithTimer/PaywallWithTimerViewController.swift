@@ -56,6 +56,7 @@ class PaywallWithTimerViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureCallbacks()
+        viewModel?.viewDidLoad()
     }
     
     // MARK: - Actions

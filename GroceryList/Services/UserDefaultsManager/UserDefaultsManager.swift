@@ -56,6 +56,11 @@ class UserDefaultsManager {
         set { userDefaults.set(newValue, forKey: "newProductCreatedCount") }
     }
     
+    var pantryOpenedCount: Int {
+        get { userDefaults.integer(forKey: "pantryOpenedCount") }
+        set { userDefaults.set(newValue, forKey: "pantryOpenedCount") }
+    }
+    
     var listHasBeenShared: Bool {
         get { userDefaults.bool(forKey: "listHasBeenShared") }
         set { userDefaults.set(newValue, forKey: "listHasBeenShared") }

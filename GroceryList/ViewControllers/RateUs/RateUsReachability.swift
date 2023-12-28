@@ -16,7 +16,15 @@ class RateUsReachability {
     
     func newProductCreated(router: RootRouter?) {
         UserDefaultsManager.shared.newProductCreatedCount += 1
-        guard UserDefaultsManager.shared.newProductCreatedCount == 3 else {
+        guard UserDefaultsManager.shared.newProductCreatedCount == 4 else {
+            return
+        }
+        router?.openRateUs()
+    }
+    
+    func pantyOpened(router: RootRouter?) {
+        UserDefaultsManager.shared.pantryOpenedCount += 1
+        guard UserDefaultsManager.shared.pantryOpenedCount == 3 else {
             return
         }
         router?.openRateUs()

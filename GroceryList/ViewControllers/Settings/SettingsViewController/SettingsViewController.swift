@@ -5,6 +5,7 @@
 //  Created by Шамиль Моллачиев on 01.12.2022.
 //
 
+import ApphudSDK
 import MessageUI
 import SnapKit
 import StoreKit
@@ -169,6 +170,7 @@ class SettingsViewController: UIViewController {
         addRecognizer()
         setupNavigationBar(titleText: R.string.localizable.preferencies())
         setupFeatureView()
+        checkExperiment()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -178,6 +180,38 @@ class SettingsViewController: UIViewController {
     
     deinit {
         print("SettingsViewController deinited")
+    }
+    
+    private func checkExperiment() {
+
+        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
+            guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
+                return
+            }
+            
+            if let targetOnboarding = paywall.json?["onboarding"] as? String,
+               let self = self {
+                UserDefaultsManager.shared.testOnboardingValue = targetOnboarding
+                if targetOnboarding.lowercased() == "new" {
+                    hideSubscription()
+                    messageBackgroundView.isHidden = true
+                    settingMessageView.isHidden = true
+                }
+            }
+        }
+        
+        func hideSubscription() {
+            upgradeSubscriptionPlanView.snp.remakeConstraints { make in
+                make.left.right.equalToSuperview().inset(20)
+                make.height.equalTo(0)
+            }
+            
+            unitsView.snp.remakeConstraints { make in
+                make.left.right.equalToSuperview().inset(20)
+                make.top.equalTo(profileView.snp.bottom).inset(-5)
+                make.height.equalTo(54)
+            }
+        }
     }
     
     // MARK: - Functions
@@ -229,13 +263,13 @@ class SettingsViewController: UIViewController {
             make.left.right.equalToSuperview()
         }
         
-        upgradeSubscriptionPlanView.snp.makeConstraints { make in
+        upgradeSubscriptionPlanView.snp.remakeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
             make.top.equalTo(profileView.snp.bottom).inset(-5)
             make.height.equalTo(54)
         }
         
-        unitsView.snp.makeConstraints { make in
+        unitsView.snp.remakeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
             make.top.equalTo(upgradeSubscriptionPlanView.snp.bottom).inset(-5)
             make.height.equalTo(54)

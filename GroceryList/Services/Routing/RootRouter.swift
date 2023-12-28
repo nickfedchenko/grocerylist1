@@ -689,10 +689,9 @@ final class RootRouter: RootRouterProtocol {
                     return
                 }
                 
-                self?.showAlternativePaywallVC(isHard: false)
+                self?.showAlternativePaywallVC(isHard: true)
                 return
             }
-            let timer = false
             
             if PaywallWithTimerReachability.shared.isDateCorrect() {
                 self?.openPaywallWithTimer()
@@ -703,7 +702,7 @@ final class RootRouter: RootRouterProtocol {
                     let isHard = (paywall.json?["isHardPaywall"] as? Bool) ?? isNewOnboarding
                     self?.showPaywall(by: targetPaywallName, isHard: isHard)
                 } else {
-                    self?.showAlternativePaywallVC(isHard: false)
+                    self?.showAlternativePaywallVC(isHard: true)
                 }
             }
         }
@@ -734,6 +733,9 @@ final class RootRouter: RootRouterProtocol {
             }
 
             controller.modalPresentationStyle = .overCurrentContext
+            if controller is PaywallWithTimerViewController {
+                controller.modalPresentationStyle = .popover
+            }
             UIViewController.currentController()?.present(controller, animated: true)
         }
     }
@@ -770,8 +772,14 @@ final class RootRouter: RootRouterProtocol {
             controller.isHardPaywall = isHard
             return controller
         } else if name == "QuestionnaireFirstPaywall" {
-            let controller = QuestionnaireFirstPaywall()
-            return controller
+            if PaywallWithTimerReachability.shared.isDateCorrect() {
+                let controller = viewControllerFactory.createPaywallWithTimer(router: self)
+                return controller
+            } else {
+                let controller = QuestionnaireFirstPaywall()
+                return controller
+            }
+      
         } else {
             return viewControllerFactory.createAlternativePaywallController(isHard: isHard)
         }
