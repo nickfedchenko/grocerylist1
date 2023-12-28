@@ -244,6 +244,14 @@ enum EventName: String {
     case upgradeSub = "upgrade_sub"
     case familySubToggle = "family_sub_toggle"
     
+    // RateUs
+    case rateValue = "rate_value"
+    case rateClosed = "rate_closed"
+    case discountTap = "discount_icon_tap"
+    case onboardingUsage = "onboarding_question_usage"
+    case onboardingSharing = "onboarding_question_sharing"
+    case onboardingAge = "onboarding_question_age"
+    case onboardingGender = "onboarding_question_gender"
 }
 
 typealias PropertyKey = String

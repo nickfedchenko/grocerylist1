@@ -58,11 +58,6 @@ class PaywallWithTimerViewController: UIViewController {
         configureCallbacks()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        viewModel?.viewWillDisappear()
-    }
-    
     // MARK: - Actions
     @objc
     private func closeButtonTapped() {

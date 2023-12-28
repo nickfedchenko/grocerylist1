@@ -51,21 +51,14 @@ class UserDefaultsManager {
         set { userDefaults.set(newValue, forKey: "isMetricSystem") }
     }
     
-//    var paywallWithTimerSeconds: Int {
-//        get { userDefaults.integer(forKey: "paywallWithTimerSeconds") }
-//        set { userDefaults.set(newValue, forKey: "paywallWithTimerSeconds") }
-//    }
-//
-    var paywallWithTimerSeconds: Int? {
-        get {
-            if let opt = userDefaults.object(forKey: "paywallWithTimerSeconds") as? Int {
-                return opt
-            }
-            return nil
-        }
-        set {
-            userDefaults.set(newValue, forKey: "paywallWithTimerSeconds")
-        }
+    var newProductCreatedCount: Int {
+        get { userDefaults.integer(forKey: "newProductCreatedCount") }
+        set { userDefaults.set(newValue, forKey: "newProductCreatedCount") }
+    }
+    
+    var listHasBeenShared: Bool {
+        get { userDefaults.bool(forKey: "listHasBeenShared") }
+        set { userDefaults.set(newValue, forKey: "listHasBeenShared") }
     }
     
     var paywallWithTimerStartedDate: Date? {

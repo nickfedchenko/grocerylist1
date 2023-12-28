@@ -38,12 +38,14 @@ final class MainTabBarController: UITabBarController {
         button.backgroundColor = .clear
         button.addTarget(self, action: #selector(presentButtonTapped), for: .touchUpInside)
         button.setImage(R.image.paywalWithTimerPresent(), for: .normal)
+        button.isHidden = true
+        button.addShadowForView()
         return button
     }()
     
     @objc
     private func presentButtonTapped() {
-        print("fdfdf")
+        viewModel.presentTapped()
     }
     
     init(viewModel: MainTabBarViewModel) {
@@ -61,7 +63,7 @@ final class MainTabBarController: UITabBarController {
         setupCustomNavBar()
         setupContextMenu()
         setupFeatureView()
-        
+        viewModel.viewDidLoad()
         self.selectedViewController = viewModel.initialViewController
     }
     
@@ -315,6 +317,10 @@ extension MainTabBarController: CustomTabBarViewDelegate {
 }
 
 extension MainTabBarController: MainTabBarViewModelDelegate {
+    func changePresentButton(isHidden: Bool) {
+        presentButton.isHidden = isHidden
+    }
+    
     func updateListUI() {
         listDelegate?.updatedUI()
     }

@@ -15,6 +15,7 @@ protocol MainTabBarViewModelDelegate: AnyObject {
     func showFeatureMessageView()
     func showFeatureView()
     func hideFeatureView()
+    func changePresentButton(isHidden: Bool)
 }
 
 final class MainTabBarViewModel {
@@ -171,6 +172,31 @@ final class MainTabBarViewModel {
     
     func showPaywall() {
         router?.showPaywallVC()
+    }
+    
+    // MARK: - paywall with timer
+    func presentTapped() {
+        guard PaywallWithTimerReachability.shared.isDateCorrect() else { return }
+        AmplitudeManager.shared.logEvent(.discountTap)
+        router?.openPaywallWithTimer()
+    }
+    
+    func viewDidLoad() {
+        subscribeToPresent()
+    }
+    
+    private func subscribeToPresent() {
+        if PaywallWithTimerReachability.shared.isDateCorrect() {
+            delegate?.changePresentButton(isHidden: false)
+        }
+        
+        PaywallWithTimerReachability.shared.showPresentCallback = { [weak self] in
+            self?.delegate?.changePresentButton(isHidden: false)
+        }
+        
+        PaywallWithTimerReachability.shared.hidePresentCallback = { [weak self] in
+            self?.delegate?.changePresentButton(isHidden: true)
+        }
     }
     
     func showPantryStarterPack() {

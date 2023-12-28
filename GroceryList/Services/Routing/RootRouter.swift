@@ -59,16 +59,19 @@ final class RootRouter: RootRouterProtocol {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
-        DispatchQueue.main.async {
-            self.showOnboardingWithQuestionsFlow()
-        }
-
 #if RELEASE
         showTestOnboarding()
 #endif
     }
     
     private func showOnboardingWithQuestionsFlow() {
+        if !UserDefaultsManager.shared.isFirstLaunch {
+            UserDefaultsManager.shared.firstLaunchDate = Date()
+            FeatureManager.shared.activeFeaturesOnFirstLaunch()
+        }
+        
+        guard UserDefaultsManager.shared.shouldShowOnboarding else { return }
+        
         let onboardingController = viewControllerFactory.createQuestionnaireFirstController(router: self)
         navigationPushViewController(onboardingController, animated: false)
     }
@@ -691,8 +694,8 @@ final class RootRouter: RootRouterProtocol {
             }
             let timer = false
             
-            if timer {
-                //show timer paywall
+            if PaywallWithTimerReachability.shared.isDateCorrect() {
+                self?.openPaywallWithTimer()
             } else {
                 if let targetPaywallName = paywall.json?["name"] as? String {
                     let onboarding = (paywall.json?["onboarding"] as? String) ?? ""

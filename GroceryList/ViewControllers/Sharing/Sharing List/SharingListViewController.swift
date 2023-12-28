@@ -69,6 +69,11 @@ final class SharingListViewController: UIViewController {
         showContentView()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+    }
+    
 //    deinit {
 //        print("SharingListViewController deinited")
 //    }

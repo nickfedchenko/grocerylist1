@@ -447,6 +447,8 @@
 		B347C9AA2B3B012C0053B474 /* RateUsBottomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9A92B3B012C0053B474 /* RateUsBottomCell.swift */; };
 		B347C9AC2B3BE9220053B474 /* LabelInContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9AB2B3BE9220053B474 /* LabelInContainerView.swift */; };
 		B347C9AE2B3C45AD0053B474 /* PaywallWithTimerOldAndNewPrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9AD2B3C45AD0053B474 /* PaywallWithTimerOldAndNewPrice.swift */; };
+		B347C9B02B3D30F20053B474 /* PaywallWithTimerReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9AF2B3D30F20053B474 /* PaywallWithTimerReachability.swift */; };
+		B347C9B22B3D353E0053B474 /* RateUsReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9B12B3D353E0053B474 /* RateUsReachability.swift */; };
 		B34BB80A292D1C4600748E8E /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB809292D1C4600748E8E /* ShimmerView.swift */; };
 		B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB80C292E339400748E8E /* SelectListViewController.swift */; };
 		B34BB80F292E389B00748E8E /* SelectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB80E292E389B00748E8E /* SelectListViewModel.swift */; };
@@ -972,6 +974,8 @@
 		B347C9A92B3B012C0053B474 /* RateUsBottomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUsBottomCell.swift; sourceTree = "<group>"; };
 		B347C9AB2B3BE9220053B474 /* LabelInContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelInContainerView.swift; sourceTree = "<group>"; };
 		B347C9AD2B3C45AD0053B474 /* PaywallWithTimerOldAndNewPrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallWithTimerOldAndNewPrice.swift; sourceTree = "<group>"; };
+		B347C9AF2B3D30F20053B474 /* PaywallWithTimerReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallWithTimerReachability.swift; sourceTree = "<group>"; };
+		B347C9B12B3D353E0053B474 /* RateUsReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUsReachability.swift; sourceTree = "<group>"; };
 		B34BB809292D1C4600748E8E /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		B34BB80C292E339400748E8E /* SelectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewController.swift; sourceTree = "<group>"; };
 		B34BB80E292E389B00748E8E /* SelectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewModel.swift; sourceTree = "<group>"; };
@@ -2418,6 +2422,7 @@
 			isa = PBXGroup;
 			children = (
 				B347C9902B3ACE7A0053B474 /* PaywallWithTimerViewModel.swift */,
+				B347C9AF2B3D30F20053B474 /* PaywallWithTimerReachability.swift */,
 				B347C98E2B39B0A90053B474 /* PaywallWithTimerViewController.swift */,
 				B347C9942B3AD92F0053B474 /* Subviews */,
 			);
@@ -2448,6 +2453,7 @@
 			isa = PBXGroup;
 			children = (
 				B347C99D2B3AFD5A0053B474 /* RateUsViewController.swift */,
+				B347C9B12B3D353E0053B474 /* RateUsReachability.swift */,
 				B347C99F2B3AFE4A0053B474 /* RateUsViewModel.swift */,
 				B347C9A32B3AFF7B0053B474 /* RateUsLayoutManager.swift */,
 				B347C9A52B3B00480053B474 /* RateUsModel.swift */,
@@ -3658,6 +3664,7 @@
 				33FCBEB02AB3FC0300CB61C7 /* MealPlanDestinationListView.swift in Sources */,
 				33E8A8BA2A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift in Sources */,
 				33AF97922A7A6E2800716104 /* Extension NetworkEngine.swift in Sources */,
+				B347C9B22B3D353E0053B474 /* RateUsReachability.swift in Sources */,
 				33F8254029C1648800B349D5 /* SearchInListProductView.swift in Sources */,
 				33E31AD12A77B8E40011B41E /* RecipeWebsites.swift in Sources */,
 				33D912C029A396A900C32117 /* MoreRecipeCell.swift in Sources */,
@@ -3697,6 +3704,7 @@
 				383C77FA293FB7310030AE78 /* RecipeListCell.swift in Sources */,
 				334BAE53299E6606005F52F5 /* SharingListViewModel.swift in Sources */,
 				B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */,
+				B347C9B02B3D30F20053B474 /* PaywallWithTimerReachability.swift in Sources */,
 				3360735F2A4C03BB002427BE /* CreateNewRecipeSavedToDraftsAlertView.swift in Sources */,
 				B34BB80A292D1C4600748E8E /* ShimmerView.swift in Sources */,
 				B36AF9432913D39400944E9D /* UIImageExtension.swift in Sources */,

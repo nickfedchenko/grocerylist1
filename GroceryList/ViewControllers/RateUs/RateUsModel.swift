@@ -58,7 +58,7 @@ enum RateUsTopCellModel: Hashable {
     }
 }
 
-enum RateUsBottomCellModel: Hashable, CaseIterable {
+enum RateUsBottomCellModel: String, Hashable, CaseIterable {
     case veryGood
     case good
     case neutral

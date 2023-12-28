@@ -31,7 +31,7 @@ class QuestionnaireThirdDataSource {
             QuestionModel(question: R.string.localizable.onboardingWithQuestionsQuestion2answer2()),
             QuestionModel(question: R.string.localizable.onboardingWithQuestionsQuestion2answer3())
         ],
-        isMultiselectionEnabled: true
+        isMultiselectionEnabled: false
     )
     
     private var thirdSection = QuestionnaireThirdControllerSections(
@@ -66,6 +66,25 @@ class QuestionnaireThirdDataSource {
     }
     
     func configureAnswers() {
+        sections[0].questions.filter({ $0.isSelected }).forEach({
+            AmplitudeManager.shared.logEvent(.onboardingUsage,
+                                             properties: [.value: $0.question])
+        })
+        
+        sections[1].questions.filter({ $0.isSelected }).forEach({
+            AmplitudeManager.shared.logEvent(.onboardingSharing,
+                                             properties: [.value: $0.question])
+        })
+        
+        sections[2].questions.filter({ $0.isSelected }).forEach({
+            AmplitudeManager.shared.logEvent(.onboardingAge,
+                                             properties: [.value: $0.question])
+        })
+        
+        sections[3].questions.filter({ $0.isSelected }).forEach({
+            AmplitudeManager.shared.logEvent(.onboardingGender,
+                                             properties: [.value: $0.question])
+        })
         print(sections.map({ $0.questions }))
     }
     

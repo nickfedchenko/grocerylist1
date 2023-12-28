@@ -16,30 +16,15 @@ class PaywallWithTimerViewModel {
     var showErrorAlertCallback: ((String) -> Void)?
     var updatePrices: ((String, String) -> Void)?
    
-    private var numberOfSeconds: Int
-    private var timer: Timer?
     private var selectedProduct: ApphudProduct?
     private var products: [ApphudProduct] = []
     
     init() {
-        numberOfSeconds = 3600
-        if UserDefaultsManager.shared.paywallWithTimerSeconds == nil {
-            UserDefaultsManager.shared.paywallWithTimerSeconds = 3600
-        }
-        
-        if UserDefaultsManager.shared.paywallWithTimerStartedDate == nil {
-            UserDefaultsManager.shared.paywallWithTimerStartedDate = Date()
-        }
-        
-        guard let date = UserDefaultsManager.shared.paywallWithTimerStartedDate else {
-            return
-        }
-        
-        let time = Date().timeIntervalSince(date)
-        
-        numberOfSeconds = 3600 - Int(time)
-        configureApphud()
-        startTimer()
+        setupTimerCallback()
+    }
+    
+    deinit {
+        print("fdfdf")
     }
     
     func closeButtonTapped() {
@@ -102,31 +87,10 @@ class PaywallWithTimerViewModel {
         }
     }
     
-    // MARK: - Timer
-    func viewWillDisappear() {
-        stopTimer()
+    private func setupTimerCallback() {
+        PaywallWithTimerReachability.shared.timerCallback = { [weak self] min, sec in
+            self?.timerCallback?(min, sec)
+        }
     }
     
-    private func startTimer() {
-        guard timer == nil else { return }
-        timer = Timer.scheduledTimer(
-            timeInterval: 1,
-            target: self,
-            selector: #selector(checkStatus),
-            userInfo: nil,
-            repeats: true)
-    }
-    @objc
-    private func checkStatus() {
-        numberOfSeconds -= 1
-        let min = (numberOfSeconds % 3600) / 60
-        let sec = (numberOfSeconds % 3600) % 60
-        timerCallback?(min.asString, sec.asString)
-        UserDefaultsManager.shared.paywallWithTimerSeconds = numberOfSeconds
-    }
-    
-    private func stopTimer() {
-        timer?.invalidate()
-        timer = nil
-    }
 }

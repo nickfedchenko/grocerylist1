@@ -37,7 +37,8 @@ class QuestionnaireThirdViewModel {
             isMultiselectionEnabled?(dataSource.sections[currentPage].isMultiselectionEnabled)
             isNextButtonEnabled?(dataSource.isNextButtonEnabled(page: currentPage))
         } else {
-            print("done")
+            dataSource.configureAnswers()
+            PaywallWithTimerReachability.shared.setupInitialDate()
             router?.popToRoot()
         
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

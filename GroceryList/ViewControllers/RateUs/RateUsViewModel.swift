@@ -22,6 +22,7 @@ final class RateUsViewModel {
     }
     
     func closeButtonTapped() {
+        AmplitudeManager.shared.logEvent(.rateClosed)
         router?.dismissCurrentController()
     }
     
@@ -37,6 +38,26 @@ final class RateUsViewModel {
             router?.dismissCurrentController(compl: { [weak self] in
                 self?.router?.openContactUsController()
             })
+        }
+        
+        switch index.row {
+        case 1:
+            AmplitudeManager.shared.logEvent(.rateValue,
+                                             properties: [.value: "Very good"])
+        case 2:
+            AmplitudeManager.shared.logEvent(.rateValue,
+                                             properties: [.value: "Good"])
+        case 3:
+            AmplitudeManager.shared.logEvent(.rateValue,
+                                             properties: [.value: "Neutral"])
+        case 4:
+            AmplitudeManager.shared.logEvent(.rateValue,
+                                             properties: [.value: "Bad"])
+        case 5:
+            AmplitudeManager.shared.logEvent(.rateValue,
+                                             properties: [.value: "Very bad"])
+        default:
+            break
         }
     }
     
