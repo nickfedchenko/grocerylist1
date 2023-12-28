@@ -22,6 +22,7 @@ final class PaywallWithTimerOldAndNewPrice: UIView {
         label.textColor = UIColor(hex: "FFFFFF", alpha: 0.6)
         label.font = R.font.sfProTextSemibold(size: 17)
         label.text = "→"
+        label.isHidden = true
         return label
     }()
     
@@ -37,6 +38,7 @@ final class PaywallWithTimerOldAndNewPrice: UIView {
         label.textColor = UIColor(hex: "6FF4E1")
         label.font = R.font.sfProTextRegular(size: 17)
         label.text = R.string.localizable.onboardingWithQuestionsPaywallFirstYear()
+        label.isHidden = true
         return label
     }()
     
@@ -57,6 +59,8 @@ final class PaywallWithTimerOldAndNewPrice: UIView {
                                      range: NSMakeRange(0, attributeString.length))
         oldPriceLabel.attributedText = attributeString
         newPriceLabel.text = newPrice
+        arrowLabel.isHidden = false
+        firstYearLabel.isHidden = false
     }
 }
 

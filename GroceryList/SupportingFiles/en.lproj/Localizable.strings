@@ -646,6 +646,7 @@
 
 
 "OnboardingWithQuestions.chooseAnswers"        = "Choose one or more answers";
+"OnboardingWithQuestions.chooseAnswer"         = "Choose one answer";
 
 "OnboardingWithQuestions.question1Title"       = "How can we help you?";
 "OnboardingWithQuestions.question1answer1"     = "Save your time and money with categorized shopping lists";

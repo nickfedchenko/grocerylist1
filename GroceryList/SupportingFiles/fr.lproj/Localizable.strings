@@ -636,6 +636,7 @@
 
 "OnboardingWithQuestions.question "            = "QUESTION ";
 "OnboardingWithQuestions.chooseAnswers"        = "Choisissez une ou plusieurs réponses";
+"OnboardingWithQuestions.chooseAnswer"         = "Choisissez une réponse";
 
 "OnboardingWithQuestions.question1Title"       = "Comment pouvons-nous vous aider ?";
 "OnboardingWithQuestions.question1answer1"     = "Gagnez du temps et de l'argent grâce aux listes de courses classées par catégories";

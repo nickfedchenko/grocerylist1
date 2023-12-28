@@ -643,6 +643,7 @@
 
 "OnboardingWithQuestions.question "            = "ВОПРОС ";
 "OnboardingWithQuestions.chooseAnswers"        = "Выберите один или несколько ответов";
+"OnboardingWithQuestions.chooseAnswer"         = "Выберите один ответ";
 
 "OnboardingWithQuestions.question1Title"       = "Чем мы можем вам помочь?";
 "OnboardingWithQuestions.question1answer1"     = "Экономить время и деньги с помощью категоризированных списков покупок";

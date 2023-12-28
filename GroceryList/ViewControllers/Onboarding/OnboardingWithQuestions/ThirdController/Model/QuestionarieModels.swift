@@ -15,7 +15,8 @@ struct QuestionnaireThirdControllerSections: Hashable {
     func getHeaderModel() -> QuestionnaireThirdControllerCellModel {
         .topHeader(model: QuestionnaireHeaderCellModel(
             text: headerTitle,
-            questionNumber: headerQuestionNumber
+            questionNumber: headerQuestionNumber,
+            isMultiselected: isMultiselectionEnabled
         ))
     }
     
@@ -38,6 +39,7 @@ struct QuestionnaireHeaderCellModel: Hashable {
     var id: UUID = UUID()
     var text: String
     var questionNumber: String
+    var isMultiselected: Bool
 }
 
 struct QuestionnaireCellModel: Hashable {

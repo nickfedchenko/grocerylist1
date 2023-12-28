@@ -69,9 +69,10 @@ final class QuestionnaireHeaderCell: UICollectionViewCell {
     }
 
     // MARK: - Public methods
-    func configure(text: String, questionNumber: String) {
+    func configure(text: String, questionNumber: String, isMultiselected: Bool) {
         questionNumberLabel.text = R.string.localizable.onboardingWithQuestionsQuestion() + questionNumber
         titleLabel.text = text
+        subtitleLabel.text = isMultiselected ? R.string.localizable.onboardingWithQuestionsChooseAnswers() : R.string.localizable.onboardingWithQuestionsChooseAnswer()
     }
 }
 

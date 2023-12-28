@@ -38,7 +38,7 @@ class FamilyPaywallProductsView: UIView {
     private lazy var continueButton: UIButton = {
         let button = UIButton()
         let font = UIFont.SFProDisplay.semibold(size: 20).font ?? UIFont()
-        let attributedTitle = NSAttributedString(string: R.string.localizable.next().uppercased(),
+        let attributedTitle = NSAttributedString(string: R.string.localizable.continue().uppercased(),
                                                  attributes: [.font: font,
                                                               .foregroundColor: UIColor.white])
         button.setAttributedTitle(attributedTitle, for: .normal)

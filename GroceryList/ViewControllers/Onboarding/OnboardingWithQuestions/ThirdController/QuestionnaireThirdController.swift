@@ -103,7 +103,7 @@ extension QuestionnaireThirdController: UICollectionViewDelegate, UICollectionVi
                 switch model {
                 case .topHeader(let model):
                     let cell = self?.collectionView.reusableCell(classCell: QuestionnaireHeaderCell.self, indexPath: indexPath)
-                    cell?.configure(text: model.text, questionNumber: model.questionNumber)
+                    cell?.configure(text: model.text, questionNumber: model.questionNumber, isMultiselected: model.isMultiselected)
                     return cell
                 case .cell(let model):
                     let cell = self?.collectionView.reusableCell(classCell: QuestionnaireCell.self, indexPath: indexPath)

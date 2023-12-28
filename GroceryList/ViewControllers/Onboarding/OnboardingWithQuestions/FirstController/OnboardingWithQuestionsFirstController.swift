@@ -69,7 +69,7 @@ final class QuestionnaireFirstController: UIViewController {
     
     private lazy var nextButton: UIButton = {
         let button = UIButton(type: .system)
-        let attributedTitle = NSAttributedString(string: "Next".localized.uppercased(), attributes: [
+        let attributedTitle = NSAttributedString(string: R.string.localizable.continue().uppercased(), attributes: [
             .font: UIFont.SFPro.semibold(size: 20).font ?? UIFont(),
             .foregroundColor: UIColor(hex: "#FFFFFF")
         ])

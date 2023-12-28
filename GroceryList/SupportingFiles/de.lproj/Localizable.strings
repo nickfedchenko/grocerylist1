@@ -639,6 +639,7 @@
 
 "OnboardingWithQuestions.question "            = "Frage ";
 "OnboardingWithQuestions.chooseAnswers"        = "Wählen Sie eine oder mehrere Antworten";
+"OnboardingWithQuestions.chooseAnswer"         = "Wählen Sie eine Antwort";
 
 "OnboardingWithQuestions.question1Title"       = "Wie können wir Ihnen helfen?";
 "OnboardingWithQuestions.question1answer1"     = "Sparen Sie Zeit und Geld mit kategorisierten Einkaufslisten";
