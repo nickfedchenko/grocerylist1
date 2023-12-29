@@ -685,7 +685,9 @@ final class RootRouter: RootRouterProtocol {
                     let onboarding = (paywall.json?["onboarding"] as? String) ?? ""
                     let isNewOnboarding = onboarding == "new"
                     let isHard = (paywall.json?["isHardPaywall"] as? Bool) ?? isNewOnboarding
-                    self?.showPaywall(by: targetPaywallName, isHard: isHard)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self?.showPaywall(by: targetPaywallName, isHard: isHard)
+                    }
                     return
                 }
                 
@@ -700,7 +702,9 @@ final class RootRouter: RootRouterProtocol {
                     let onboarding = (paywall.json?["onboarding"] as? String) ?? ""
                     let isNewOnboarding = onboarding == "new"
                     let isHard = (paywall.json?["isHardPaywall"] as? Bool) ?? isNewOnboarding
-                    self?.showPaywall(by: targetPaywallName, isHard: isHard)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self?.showPaywall(by: targetPaywallName, isHard: isHard)
+                    }
                 } else {
                     self?.showAlternativePaywallVC(isHard: true)
                 }
