@@ -39,7 +39,7 @@ final class MainTabBarController: UITabBarController {
         button.addTarget(self, action: #selector(presentButtonTapped), for: .touchUpInside)
         button.setImage(R.image.paywalWithTimerPresent(), for: .normal)
         button.isHidden = true
-        button.addShadowForView()
+        button.addShadowForView(radius: 10, height: 5)
         return button
     }()
     

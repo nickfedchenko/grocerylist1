@@ -29,7 +29,7 @@ final class LabelInContainerView: UIView {
     }
     
     func configure(text: String) {
-        label.text = text
+        label.text = text.uppercased()
     }
 }
 

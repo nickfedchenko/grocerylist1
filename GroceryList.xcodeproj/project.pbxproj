@@ -2918,7 +2918,6 @@
 		B38828932B35A88000A3B051 /* OnboardingWithQuestions */ = {
 			isa = PBXGroup;
 			children = (
-				B347C98D2B39B0900053B474 /* PaywallWithTimer */,
 				B347C98B2B39B0790053B474 /* FirstController */,
 				B347C98C2B39B0840053B474 /* SecondController */,
 				B347C9952B3AD9620053B474 /* FIrstPaywall */,
@@ -2978,6 +2977,7 @@
 				333DCC2A2A61156E00E3F92B /* ExtensionApphudProduct.swift */,
 				B315F9D92988FF5C0009CEB8 /* Model */,
 				B315F9DA2988FF760009CEB8 /* DefaultPaywall */,
+				B347C98D2B39B0900053B474 /* PaywallWithTimer */,
 				B315F9D82988FF4E0009CEB8 /* AlternativePaywall */,
 				33E8A8B02A5D53B6007D7ED9 /* UpdatedPaywall (from vanya) */,
 				333DCC212A61015A00E3F92B /* NewPaywall (from ivan) */,
