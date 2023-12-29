@@ -71,7 +71,7 @@ final class SharingListViewModel {
         guard gotShareLink else {
             return
         }
-        router?.goReviewController()
+        RateUsReachability.shared.listShared(router: router)
     }
     
     func getSection() -> Int {

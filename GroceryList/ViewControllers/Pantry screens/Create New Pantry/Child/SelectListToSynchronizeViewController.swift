@@ -18,10 +18,6 @@ class SelectListToSynchronizeViewController: SelectListViewController {
         correctCollectionView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     override func createTableViewDataSource() {
         collectionViewDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView,
                                                                       cellProvider: { [weak self] _, indexPath, model in

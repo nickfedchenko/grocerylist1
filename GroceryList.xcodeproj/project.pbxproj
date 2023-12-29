@@ -432,6 +432,23 @@
 		B3476904291D017B0045A287 /* ProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3476903291D017B0045A287 /* ProductsViewModel.swift */; };
 		B3476909291D21730045A287 /* ProductsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3476908291D21730045A287 /* ProductsSettingsViewController.swift */; };
 		B347690B291D23800045A287 /* ProductsSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347690A291D23800045A287 /* ProductsSettingsViewModel.swift */; };
+		B347C9862B3952B70053B474 /* BottomViewWithNextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9852B3952B70053B474 /* BottomViewWithNextButton.swift */; };
+		B347C9882B39677D0053B474 /* QuestionnaireThirdDataSourceThirdDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9872B39677D0053B474 /* QuestionnaireThirdDataSourceThirdDataSource.swift */; };
+		B347C98F2B39B0A90053B474 /* PaywallWithTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C98E2B39B0A90053B474 /* PaywallWithTimerViewController.swift */; };
+		B347C9912B3ACE7A0053B474 /* PaywallWithTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9902B3ACE7A0053B474 /* PaywallWithTimerViewModel.swift */; };
+		B347C9932B3AD59D0053B474 /* PaywallWithTimerBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9922B3AD59D0053B474 /* PaywallWithTimerBottomView.swift */; };
+		B347C9992B3AE2860053B474 /* PaywallWithTimerTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9982B3AE2860053B474 /* PaywallWithTimerTopView.swift */; };
+		B347C99B2B3AE8B50053B474 /* PaywallWithTimerTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C99A2B3AE8B50053B474 /* PaywallWithTimerTimerView.swift */; };
+		B347C99E2B3AFD5A0053B474 /* RateUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C99D2B3AFD5A0053B474 /* RateUsViewController.swift */; };
+		B347C9A02B3AFE4A0053B474 /* RateUsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C99F2B3AFE4A0053B474 /* RateUsViewModel.swift */; };
+		B347C9A42B3AFF7B0053B474 /* RateUsLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9A32B3AFF7B0053B474 /* RateUsLayoutManager.swift */; };
+		B347C9A62B3B00480053B474 /* RateUsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9A52B3B00480053B474 /* RateUsModel.swift */; };
+		B347C9A82B3B01210053B474 /* RateUsTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9A72B3B01210053B474 /* RateUsTopCell.swift */; };
+		B347C9AA2B3B012C0053B474 /* RateUsBottomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9A92B3B012C0053B474 /* RateUsBottomCell.swift */; };
+		B347C9AC2B3BE9220053B474 /* LabelInContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9AB2B3BE9220053B474 /* LabelInContainerView.swift */; };
+		B347C9AE2B3C45AD0053B474 /* PaywallWithTimerOldAndNewPrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9AD2B3C45AD0053B474 /* PaywallWithTimerOldAndNewPrice.swift */; };
+		B347C9B02B3D30F20053B474 /* PaywallWithTimerReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9AF2B3D30F20053B474 /* PaywallWithTimerReachability.swift */; };
+		B347C9B22B3D353E0053B474 /* RateUsReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = B347C9B12B3D353E0053B474 /* RateUsReachability.swift */; };
 		B34BB80A292D1C4600748E8E /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB809292D1C4600748E8E /* ShimmerView.swift */; };
 		B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB80C292E339400748E8E /* SelectListViewController.swift */; };
 		B34BB80F292E389B00748E8E /* SelectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BB80E292E389B00748E8E /* SelectListViewModel.swift */; };
@@ -508,6 +525,10 @@
 		B381EF2E299BA19600DCDE40 /* PasswordExpiredViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF2D299BA19600DCDE40 /* PasswordExpiredViewModel.swift */; };
 		B381EF31299BAA4800DCDE40 /* EnterNewPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF30299BAA4800DCDE40 /* EnterNewPasswordViewController.swift */; };
 		B381EF33299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B381EF32299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift */; };
+		B388288E2B358D2E00A3B051 /* OnboardingWithQuestionsFirstController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B388288D2B358D2E00A3B051 /* OnboardingWithQuestionsFirstController.swift */; };
+		B38828902B359F1400A3B051 /* QuestionnaireSecondController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B388288F2B359F1400A3B051 /* QuestionnaireSecondController.swift */; };
+		B38828922B35A50D00A3B051 /* QuestionnaireFirstPaywall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38828912B35A50D00A3B051 /* QuestionnaireFirstPaywall.swift */; };
+		B38828952B35AAAB00A3B051 /* QuestionnaireThirdController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38828942B35AAAB00A3B051 /* QuestionnaireThirdController.swift */; };
 		B3981C56297A86EA00206DB7 /* SF Pro Rounded Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C54297A85F800206DB7 /* SF Pro Rounded Bold.otf */; };
 		B3981C57297A86EC00206DB7 /* SF Pro Rounded Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */; };
 		B3981C58297A86EE00206DB7 /* SF Pro Rounded Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */; };
@@ -530,6 +551,11 @@
 		B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D858472939D45000CCE230 /* PaywallViewController.swift */; };
 		B3D8584A293A1A2A00CCE230 /* PaywallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D85849293A1A2A00CCE230 /* PaywallCell.swift */; };
 		B3D8584C293A405E00CCE230 /* PaywallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8584B293A405E00CCE230 /* PaywallModel.swift */; };
+		B3DC79B22B35B2CD007E8FA3 /* QuestionnaireThirdControllerLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DC79B12B35B2CD007E8FA3 /* QuestionnaireThirdControllerLayoutManager.swift */; };
+		B3DC79B42B35B3F3007E8FA3 /* QuestionnaireCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DC79B32B35B3F3007E8FA3 /* QuestionnaireCell.swift */; };
+		B3DC79B62B35B7CD007E8FA3 /* QuestionnaireHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DC79B52B35B7CD007E8FA3 /* QuestionnaireHeaderCell.swift */; };
+		B3DC79BA2B35B89E007E8FA3 /* QuestionarieThirdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DC79B92B35B89E007E8FA3 /* QuestionarieThirdViewModel.swift */; };
+		B3DC79BC2B35B9E2007E8FA3 /* QuestionarieModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DC79BB2B35B9E2007E8FA3 /* QuestionarieModels.swift */; };
 		B3F7C9B029937CD60081B245 /* RegisterWithMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9AF29937CD60081B245 /* RegisterWithMessageView.swift */; };
 		B3F7C9B229938E150081B245 /* SelectUnitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9B129938E150081B245 /* SelectUnitsView.swift */; };
 		B3F7C9B429939E0B0081B245 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7C9B329939E0B0081B245 /* SignUpViewController.swift */; };
@@ -933,6 +959,23 @@
 		B3476903291D017B0045A287 /* ProductsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewModel.swift; sourceTree = "<group>"; };
 		B3476908291D21730045A287 /* ProductsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsSettingsViewController.swift; sourceTree = "<group>"; };
 		B347690A291D23800045A287 /* ProductsSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsSettingsViewModel.swift; sourceTree = "<group>"; };
+		B347C9852B3952B70053B474 /* BottomViewWithNextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomViewWithNextButton.swift; sourceTree = "<group>"; };
+		B347C9872B39677D0053B474 /* QuestionnaireThirdDataSourceThirdDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireThirdDataSourceThirdDataSource.swift; sourceTree = "<group>"; };
+		B347C98E2B39B0A90053B474 /* PaywallWithTimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallWithTimerViewController.swift; sourceTree = "<group>"; };
+		B347C9902B3ACE7A0053B474 /* PaywallWithTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallWithTimerViewModel.swift; sourceTree = "<group>"; };
+		B347C9922B3AD59D0053B474 /* PaywallWithTimerBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallWithTimerBottomView.swift; sourceTree = "<group>"; };
+		B347C9982B3AE2860053B474 /* PaywallWithTimerTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallWithTimerTopView.swift; sourceTree = "<group>"; };
+		B347C99A2B3AE8B50053B474 /* PaywallWithTimerTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallWithTimerTimerView.swift; sourceTree = "<group>"; };
+		B347C99D2B3AFD5A0053B474 /* RateUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUsViewController.swift; sourceTree = "<group>"; };
+		B347C99F2B3AFE4A0053B474 /* RateUsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUsViewModel.swift; sourceTree = "<group>"; };
+		B347C9A32B3AFF7B0053B474 /* RateUsLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUsLayoutManager.swift; sourceTree = "<group>"; };
+		B347C9A52B3B00480053B474 /* RateUsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUsModel.swift; sourceTree = "<group>"; };
+		B347C9A72B3B01210053B474 /* RateUsTopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUsTopCell.swift; sourceTree = "<group>"; };
+		B347C9A92B3B012C0053B474 /* RateUsBottomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUsBottomCell.swift; sourceTree = "<group>"; };
+		B347C9AB2B3BE9220053B474 /* LabelInContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelInContainerView.swift; sourceTree = "<group>"; };
+		B347C9AD2B3C45AD0053B474 /* PaywallWithTimerOldAndNewPrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallWithTimerOldAndNewPrice.swift; sourceTree = "<group>"; };
+		B347C9AF2B3D30F20053B474 /* PaywallWithTimerReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallWithTimerReachability.swift; sourceTree = "<group>"; };
+		B347C9B12B3D353E0053B474 /* RateUsReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUsReachability.swift; sourceTree = "<group>"; };
 		B34BB809292D1C4600748E8E /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		B34BB80C292E339400748E8E /* SelectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewController.swift; sourceTree = "<group>"; };
 		B34BB80E292E389B00748E8E /* SelectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectListViewModel.swift; sourceTree = "<group>"; };
@@ -1009,6 +1052,10 @@
 		B381EF2D299BA19600DCDE40 /* PasswordExpiredViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordExpiredViewModel.swift; sourceTree = "<group>"; };
 		B381EF30299BAA4800DCDE40 /* EnterNewPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNewPasswordViewController.swift; sourceTree = "<group>"; };
 		B381EF32299BAA5400DCDE40 /* EnterNewPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNewPasswordViewModel.swift; sourceTree = "<group>"; };
+		B388288D2B358D2E00A3B051 /* OnboardingWithQuestionsFirstController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWithQuestionsFirstController.swift; sourceTree = "<group>"; };
+		B388288F2B359F1400A3B051 /* QuestionnaireSecondController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireSecondController.swift; sourceTree = "<group>"; };
+		B38828912B35A50D00A3B051 /* QuestionnaireFirstPaywall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireFirstPaywall.swift; sourceTree = "<group>"; };
+		B38828942B35AAAB00A3B051 /* QuestionnaireThirdController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireThirdController.swift; sourceTree = "<group>"; };
 		B3981C51297A85F800206DB7 /* SF Pro Rounded Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Regular.otf"; sourceTree = "<group>"; };
 		B3981C52297A85F800206DB7 /* SF Pro Rounded Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Heavy.otf"; sourceTree = "<group>"; };
 		B3981C53297A85F800206DB7 /* SF Pro Rounded Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF Pro Rounded Medium.otf"; sourceTree = "<group>"; };
@@ -1032,6 +1079,11 @@
 		B3D858472939D45000CCE230 /* PaywallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewController.swift; sourceTree = "<group>"; };
 		B3D85849293A1A2A00CCE230 /* PaywallCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallCell.swift; sourceTree = "<group>"; };
 		B3D8584B293A405E00CCE230 /* PaywallModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallModel.swift; sourceTree = "<group>"; };
+		B3DC79B12B35B2CD007E8FA3 /* QuestionnaireThirdControllerLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireThirdControllerLayoutManager.swift; sourceTree = "<group>"; };
+		B3DC79B32B35B3F3007E8FA3 /* QuestionnaireCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireCell.swift; sourceTree = "<group>"; };
+		B3DC79B52B35B7CD007E8FA3 /* QuestionnaireHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireHeaderCell.swift; sourceTree = "<group>"; };
+		B3DC79B92B35B89E007E8FA3 /* QuestionarieThirdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionarieThirdViewModel.swift; sourceTree = "<group>"; };
+		B3DC79BB2B35B9E2007E8FA3 /* QuestionarieModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionarieModels.swift; sourceTree = "<group>"; };
 		B3F7C9AF29937CD60081B245 /* RegisterWithMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterWithMessageView.swift; sourceTree = "<group>"; };
 		B3F7C9B129938E150081B245 /* SelectUnitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectUnitsView.swift; sourceTree = "<group>"; };
 		B3F7C9B329939E0B0081B245 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -2334,6 +2386,83 @@
 			path = ProductsSettingsViewController;
 			sourceTree = "<group>";
 		};
+		B347C9892B39743C0053B474 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B3DC79BB2B35B9E2007E8FA3 /* QuestionarieModels.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B347C98A2B3974590053B474 /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				B347C9852B3952B70053B474 /* BottomViewWithNextButton.swift */,
+			);
+			path = Subviews;
+			sourceTree = "<group>";
+		};
+		B347C98B2B39B0790053B474 /* FirstController */ = {
+			isa = PBXGroup;
+			children = (
+				B388288D2B358D2E00A3B051 /* OnboardingWithQuestionsFirstController.swift */,
+			);
+			path = FirstController;
+			sourceTree = "<group>";
+		};
+		B347C98C2B39B0840053B474 /* SecondController */ = {
+			isa = PBXGroup;
+			children = (
+				B388288F2B359F1400A3B051 /* QuestionnaireSecondController.swift */,
+			);
+			path = SecondController;
+			sourceTree = "<group>";
+		};
+		B347C98D2B39B0900053B474 /* PaywallWithTimer */ = {
+			isa = PBXGroup;
+			children = (
+				B347C9902B3ACE7A0053B474 /* PaywallWithTimerViewModel.swift */,
+				B347C9AF2B3D30F20053B474 /* PaywallWithTimerReachability.swift */,
+				B347C98E2B39B0A90053B474 /* PaywallWithTimerViewController.swift */,
+				B347C9942B3AD92F0053B474 /* Subviews */,
+			);
+			path = PaywallWithTimer;
+			sourceTree = "<group>";
+		};
+		B347C9942B3AD92F0053B474 /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				B347C9922B3AD59D0053B474 /* PaywallWithTimerBottomView.swift */,
+				B347C9982B3AE2860053B474 /* PaywallWithTimerTopView.swift */,
+				B347C9AB2B3BE9220053B474 /* LabelInContainerView.swift */,
+				B347C99A2B3AE8B50053B474 /* PaywallWithTimerTimerView.swift */,
+				B347C9AD2B3C45AD0053B474 /* PaywallWithTimerOldAndNewPrice.swift */,
+			);
+			path = Subviews;
+			sourceTree = "<group>";
+		};
+		B347C9952B3AD9620053B474 /* FIrstPaywall */ = {
+			isa = PBXGroup;
+			children = (
+				B38828912B35A50D00A3B051 /* QuestionnaireFirstPaywall.swift */,
+			);
+			path = FIrstPaywall;
+			sourceTree = "<group>";
+		};
+		B347C99C2B3AFD400053B474 /* RateUs */ = {
+			isa = PBXGroup;
+			children = (
+				B347C99D2B3AFD5A0053B474 /* RateUsViewController.swift */,
+				B347C9B12B3D353E0053B474 /* RateUsReachability.swift */,
+				B347C99F2B3AFE4A0053B474 /* RateUsViewModel.swift */,
+				B347C9A32B3AFF7B0053B474 /* RateUsLayoutManager.swift */,
+				B347C9A52B3B00480053B474 /* RateUsModel.swift */,
+				B347C9A72B3B01210053B474 /* RateUsTopCell.swift */,
+				B347C9A92B3B012C0053B474 /* RateUsBottomCell.swift */,
+			);
+			path = RateUs;
+			sourceTree = "<group>";
+		};
 		B34BB80B292E330D00748E8E /* SelectListViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2657,6 +2786,7 @@
 		B37A2CDC29110263003C01AD /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				B347C99C2B3AFD400053B474 /* RateUs */,
 				B3D858462939D43B00CCE230 /* Paywall */,
 				B37A2CDD2911027E003C01AD /* Onboarding */,
 				33796E622A139F71009AD385 /* Feedback */,
@@ -2680,6 +2810,7 @@
 				3370EFC82A83D15D00885C30 /* New Onboarding */,
 				3370EFC92A83D17600885C30 /* Old Onboarding */,
 				3370EFC12A838B9200885C30 /* Review */,
+				B38828932B35A88000A3B051 /* OnboardingWithQuestions */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -2784,6 +2915,17 @@
 			path = EnterNewPasswordController;
 			sourceTree = "<group>";
 		};
+		B38828932B35A88000A3B051 /* OnboardingWithQuestions */ = {
+			isa = PBXGroup;
+			children = (
+				B347C98B2B39B0790053B474 /* FirstController */,
+				B347C98C2B39B0840053B474 /* SecondController */,
+				B347C9952B3AD9620053B474 /* FIrstPaywall */,
+				B3DC79B72B35B859007E8FA3 /* ThirdController */,
+			);
+			path = OnboardingWithQuestions;
+			sourceTree = "<group>";
+		};
 		B3AD42D32991061D0043A37F /* SocketManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -2835,12 +2977,36 @@
 				333DCC2A2A61156E00E3F92B /* ExtensionApphudProduct.swift */,
 				B315F9D92988FF5C0009CEB8 /* Model */,
 				B315F9DA2988FF760009CEB8 /* DefaultPaywall */,
+				B347C98D2B39B0900053B474 /* PaywallWithTimer */,
 				B315F9D82988FF4E0009CEB8 /* AlternativePaywall */,
 				33E8A8B02A5D53B6007D7ED9 /* UpdatedPaywall (from vanya) */,
 				333DCC212A61015A00E3F92B /* NewPaywall (from ivan) */,
 				331EC0212B0DAB4A00EDFBE7 /* FamilyPaywall */,
 			);
 			path = Paywall;
+			sourceTree = "<group>";
+		};
+		B3DC79B72B35B859007E8FA3 /* ThirdController */ = {
+			isa = PBXGroup;
+			children = (
+				B38828942B35AAAB00A3B051 /* QuestionnaireThirdController.swift */,
+				B3DC79B92B35B89E007E8FA3 /* QuestionarieThirdViewModel.swift */,
+				B347C9872B39677D0053B474 /* QuestionnaireThirdDataSourceThirdDataSource.swift */,
+				B3DC79B12B35B2CD007E8FA3 /* QuestionnaireThirdControllerLayoutManager.swift */,
+				B347C98A2B3974590053B474 /* Subviews */,
+				B347C9892B39743C0053B474 /* Model */,
+				B3DC79B82B35B86C007E8FA3 /* Cells */,
+			);
+			path = ThirdController;
+			sourceTree = "<group>";
+		};
+		B3DC79B82B35B86C007E8FA3 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B3DC79B32B35B3F3007E8FA3 /* QuestionnaireCell.swift */,
+				B3DC79B52B35B7CD007E8FA3 /* QuestionnaireHeaderCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		B3F7C9B72993A0B90081B245 /* CustomView */ = {
@@ -3250,6 +3416,7 @@
 				337E79D629E974A500668578 /* CreateNewProductViewController.swift in Sources */,
 				335665392A574D71006F92E6 /* RecipeFilterViewModel.swift in Sources */,
 				B347690B291D23800045A287 /* ProductsSettingsViewModel.swift in Sources */,
+				B347C9A42B3AFF7B0053B474 /* RateUsLayoutManager.swift in Sources */,
 				33E544AC29CA1122008D84F8 /* FeatureManager.swift in Sources */,
 				335665312A568B3B006F92E6 /* PantryDefaultsValue.swift in Sources */,
 				33B3065C2A8C7E6E00F87659 /* MealPlanViewController.swift in Sources */,
@@ -3266,10 +3433,12 @@
 				33FCBEB42AB836BA00CB61C7 /* MealPlanIngredientsView.swift in Sources */,
 				3320531E2A0E6CAB00E19EA8 /* DictionaryExtension.swift in Sources */,
 				335519C729AF1AE600AD2B77 /* CreateNewRecipeStepOneViewController.swift in Sources */,
+				B347C9932B3AD59D0053B474 /* PaywallWithTimerBottomView.swift in Sources */,
 				B381EF1A299A08ED00DCDE40 /* SettingsProfileView.swift in Sources */,
 				33FCBEC22AB9907D00CB61C7 /* DBMealPlan+CoreDataProperties.swift in Sources */,
 				33C6F0DD2A4309C800E71023 /* RecipeListPhotoView.swift in Sources */,
 				334009F129E9956800A04978 /* QuantityOfProductView.swift in Sources */,
+				B38828922B35A50D00A3B051 /* QuestionnaireFirstPaywall.swift in Sources */,
 				B3F7C9BA2994BF830081B245 /* SignUpViewForTyping.swift in Sources */,
 				33FCBEB62AB87DDB00CB61C7 /* MealPlanUpdateDateView.swift in Sources */,
 				33C8DB8529DFCE95009F4760 /* EditTabBarView.swift in Sources */,
@@ -3277,6 +3446,7 @@
 				33B3065F2A8C7F5E00F87659 /* ParentMealPlanRecipeViewController.swift in Sources */,
 				B371CCAC299C998700E0E197 /* ResetPasswordModelManager.swift in Sources */,
 				3367C78C299F30E8008B39A5 /* SharingHeaderView.swift in Sources */,
+				B347C99B2B3AE8B50053B474 /* PaywallWithTimerTimerView.swift in Sources */,
 				383C77F7293F79EB0030AE78 /* RecipesListHeaderView.swift in Sources */,
 				B37A2CEA2911034D003C01AD /* UIViewExtension.swift in Sources */,
 				3356653D2A5762CA006F92E6 /* RecipeFilterCellHeader.swift in Sources */,
@@ -3287,11 +3457,13 @@
 				33F6298C2A937A2E007592F4 /* NewFeatureViewController.swift in Sources */,
 				33E31AD92A78DA9C0011B41E /* UITapGestureRecognizerExtension.swift in Sources */,
 				B315F9DC29892EA00009CEB8 /* CheckmarkView.swift in Sources */,
+				B347C9A62B3B00480053B474 /* RateUsModel.swift in Sources */,
 				840C189F2978D2230006F975 /* Int+Extensions.swift in Sources */,
 				33C5F1E82A9EF53D00E864A8 /* CloudManagerForShared.swift in Sources */,
 				B381EF1D299A573500DCDE40 /* UserAccountManager.swift in Sources */,
 				334764482A24EE48008F4834 /* SelectIconViewController.swift in Sources */,
 				332619E22ABC91290010F412 /* UILabelExtension.swift in Sources */,
+				B3DC79BC2B35B9E2007E8FA3 /* QuestionarieModels.swift in Sources */,
 				33A51B8D2A17171400BE11C1 /* MainTabBarViewModel.swift in Sources */,
 				B3D858482939D45000CCE230 /* PaywallViewController.swift in Sources */,
 				339254B72A33EEE80047807E /* StockReminderViewController.swift in Sources */,
@@ -3327,6 +3499,7 @@
 				33F629952A948179007592F4 /* Extension CloudManager.swift in Sources */,
 				3323409B2A1B91CB00609813 /* PantryDataSource.swift in Sources */,
 				33323C722A529A0000F552E3 /* TextViewWithPlaceholder.swift in Sources */,
+				B347C9912B3ACE7A0053B474 /* PaywallWithTimerViewModel.swift in Sources */,
 				3347645D2A2889E4008F4834 /* StocksLinkView.swift in Sources */,
 				332340972A1B91B300609813 /* PantryViewController.swift in Sources */,
 				383C77FD2940ED0F0030AE78 /* AddProductsSelectionListController.swift in Sources */,
@@ -3334,10 +3507,12 @@
 				339C1AEB299A67DD0092F93E /* InfoMessageView.swift in Sources */,
 				33E8A8BE2A5FB4EE007D7ED9 /* FAQViewController.swift in Sources */,
 				332340922A1B31CC00609813 /* MainNavigationView.swift in Sources */,
+				B347C9AC2B3BE9220053B474 /* LabelInContainerView.swift in Sources */,
 				333DCC2B2A61156E00E3F92B /* ExtensionApphudProduct.swift in Sources */,
 				337719AC29B1A524000791BD /* CreateNewRecipeStepTwoViewModel.swift in Sources */,
 				332619EE2AC18D9D0010F412 /* MealPlanNoteTitleView.swift in Sources */,
 				33A51B942A176D1200BE11C1 /* ListDataSource.swift in Sources */,
+				B388288E2B358D2E00A3B051 /* OnboardingWithQuestionsFirstController.swift in Sources */,
 				B36AF9552915410400944E9D /* InstructionCell.swift in Sources */,
 				B34EACA8293500C000FBD0E0 /* CreateNewCategoryViewController.swift in Sources */,
 				33C6F0EA2A456F9E00E71023 /* RecipeListMessageView.swift in Sources */,
@@ -3352,10 +3527,12 @@
 				33A51B972A17749200BE11C1 /* MainRecipeViewController.swift in Sources */,
 				3370EFC52A83D0DD00885C30 /* OnboardingContentView.swift in Sources */,
 				338EB6B429C1BACC00D6A03F /* SearchInRecipeViewController.swift in Sources */,
+				B347C9AA2B3B012C0053B474 /* RateUsBottomCell.swift in Sources */,
 				33AF97AF2A7A9EC200716104 /* NutritionFacts.swift in Sources */,
 				33FCBEBC2AB9656B00CB61C7 /* MealPlanLabelsViewController.swift in Sources */,
 				335519C229ACC00F00AD2B77 /* ProductImageView.swift in Sources */,
 				33FCBEB92AB913CB00CB61C7 /* DestinationListViewController.swift in Sources */,
+				B3DC79B62B35B7CD007E8FA3 /* QuestionnaireHeaderCell.swift in Sources */,
 				33C6F0D72A41445600E71023 /* FolderRecipePreviewCell.swift in Sources */,
 				33F496D72AC9BB8B00212D93 /* AddIngredientsToListHeaderCell.swift in Sources */,
 				334BAE4D299DF8CC005F52F5 /* SharingPopUpViewController.swift in Sources */,
@@ -3375,6 +3552,7 @@
 				B371CCA9299C977E00E0E197 /* DomainResetPasswordModel+CoreDataClass.swift in Sources */,
 				33BA197A2AD908FB009A1F20 /* DBMealListSharedInfo+CoreDataClass.swift in Sources */,
 				33A51B992A1775EB00BE11C1 /* MainRecipeViewModel.swift in Sources */,
+				B347C9A02B3AFE4A0053B474 /* RateUsViewModel.swift in Sources */,
 				3368FD6A29B6E0BF00D97291 /* CreateNewCollectionViewModel.swift in Sources */,
 				B37A2CEC2911034D003C01AD /* DateExtension.swift in Sources */,
 				33C6F0D52A4097CD00E71023 /* RecipeColorCell.swift in Sources */,
@@ -3383,6 +3561,7 @@
 				389DCF452945CE9A00DB9382 /* RecipeScreenViewModel.swift in Sources */,
 				33995D252A1CC501003FECAE /* TabBarItemView.swift in Sources */,
 				B3AD42DA299117980043A37F /* RegistrationResponse.swift in Sources */,
+				B347C9882B39677D0053B474 /* QuestionnaireThirdDataSourceThirdDataSource.swift in Sources */,
 				335665372A56B213006F92E6 /* RecipeDefaultFilter.swift in Sources */,
 				389DCF4A29461B2000DB9382 /* RecipeMainImageView.swift in Sources */,
 				33FCBE7E2AA5956E00CB61C7 /* GroceryView.swift in Sources */,
@@ -3403,6 +3582,8 @@
 				B36AF94F2914DB5E00944E9D /* ColorManager.swift in Sources */,
 				334764522A264B4F008F4834 /* PantryEditMenuView.swift in Sources */,
 				B3179EA9291E324B00455419 /* Network.swift in Sources */,
+				B38828952B35AAAB00A3B051 /* QuestionnaireThirdController.swift in Sources */,
+				B347C9992B3AE2860053B474 /* PaywallWithTimerTopView.swift in Sources */,
 				3347644D2A258E49008F4834 /* IconCollectionViewCell.swift in Sources */,
 				B34BB80D292E339400748E8E /* SelectListViewController.swift in Sources */,
 				337224CA2A5632D100A23270 /* PaddingLabel.swift in Sources */,
@@ -3417,6 +3598,7 @@
 				334BAE57299E7305005F52F5 /* SharedCell.swift in Sources */,
 				B373CDD2298D3A6A00AE522D /* AddToAnotherListViewController.swift in Sources */,
 				B37A2CDA2910EE93003C01AD /* RootRouter.swift in Sources */,
+				B347C98F2B39B0A90053B474 /* PaywallWithTimerViewController.swift in Sources */,
 				337719B729B2051E000791BD /* Ingredient and step views.swift in Sources */,
 				B3F7C9B229938E150081B245 /* SelectUnitsView.swift in Sources */,
 				B36D18EB291A2CCD005EE32D /* CoreDataStorage.swift in Sources */,
@@ -3424,10 +3606,12 @@
 				33F496D52AC6AE2400212D93 /* AddIngredientsToListViewModel.swift in Sources */,
 				3347646F2A2B7DE2008F4834 /* CreateNewStockViewModel.swift in Sources */,
 				334BAE4F299E38B6005F52F5 /* SharingListViewController.swift in Sources */,
+				B3DC79B22B35B2CD007E8FA3 /* QuestionnaireThirdControllerLayoutManager.swift in Sources */,
 				33E31AF82A7953E40011B41E /* ImportSteps.swift in Sources */,
 				331EC0272B0DAFE200EDFBE7 /* FamilyPaywallFeatureView.swift in Sources */,
 				33AF97B52A7AA5BF00716104 /* Shared Extensions.swift in Sources */,
 				3379B65729B9AED50080923A /* IngredientViewModel.swift in Sources */,
+				B3DC79B42B35B3F3007E8FA3 /* QuestionnaireCell.swift in Sources */,
 				3379B65229B870A70080923A /* ShowCollectionCell.swift in Sources */,
 				338F433A2ABB2171000B7A61 /* CreateMealPlanLabelViewModel.swift in Sources */,
 				33F496E12ACB726600212D93 /* AddIngredientsToDestinationListView.swift in Sources */,
@@ -3437,6 +3621,7 @@
 				B381EF26299B661700DCDE40 /* DeleteAccountView.swift in Sources */,
 				33995D322A1F96BE003FECAE /* CreateNewPantryViewController.swift in Sources */,
 				B315F9D52988FD530009CEB8 /* AlternativePaywallViewController.swift in Sources */,
+				B347C9A82B3B01210053B474 /* RateUsTopCell.swift in Sources */,
 				331EC0252B0DAF4200EDFBE7 /* FamilyPaywallTitleView.swift in Sources */,
 				B3AD42D5299106360043A37F /* SocketManager.swift in Sources */,
 				B3F7C9B029937CD60081B245 /* RegisterWithMessageView.swift in Sources */,
@@ -3479,6 +3664,7 @@
 				33FCBEB02AB3FC0300CB61C7 /* MealPlanDestinationListView.swift in Sources */,
 				33E8A8BA2A5E2A2F007D7ED9 /* UpdatedPaywallTitleView.swift in Sources */,
 				33AF97922A7A6E2800716104 /* Extension NetworkEngine.swift in Sources */,
+				B347C9B22B3D353E0053B474 /* RateUsReachability.swift in Sources */,
 				33F8254029C1648800B349D5 /* SearchInListProductView.swift in Sources */,
 				33E31AD12A77B8E40011B41E /* RecipeWebsites.swift in Sources */,
 				33D912C029A396A900C32117 /* MoreRecipeCell.swift in Sources */,
@@ -3518,6 +3704,7 @@
 				383C77FA293FB7310030AE78 /* RecipeListCell.swift in Sources */,
 				334BAE53299E6606005F52F5 /* SharingListViewModel.swift in Sources */,
 				B33EFF0F290FF02800AD9BEE /* AppDelegate.swift in Sources */,
+				B347C9B02B3D30F20053B474 /* PaywallWithTimerReachability.swift in Sources */,
 				3360735F2A4C03BB002427BE /* CreateNewRecipeSavedToDraftsAlertView.swift in Sources */,
 				B34BB80A292D1C4600748E8E /* ShimmerView.swift in Sources */,
 				B36AF9432913D39400944E9D /* UIImageExtension.swift in Sources */,
@@ -3526,6 +3713,7 @@
 				33F496DD2ACAC25300212D93 /* AddIngredientsToListModels.swift in Sources */,
 				33F8253929C0559000B349D5 /* SearchInListViewModel.swift in Sources */,
 				3366BEE92A2F37BB00D50704 /* SelectPantryListViewController.swift in Sources */,
+				B3DC79BA2B35B89E007E8FA3 /* QuestionarieThirdViewModel.swift in Sources */,
 				B3F7C9CB299645F80081B245 /* PasswordResetView.swift in Sources */,
 				389DCF4829460A1B00DB9382 /* RecipeScreenHeader.swift in Sources */,
 				3379B65A29B9B2ED0080923A /* CategoryView.swift in Sources */,
@@ -3541,6 +3729,7 @@
 				3368FD6E29B700F300D97291 /* UUIDExtension.swift in Sources */,
 				33FCBEA82AB3486F00CB61C7 /* RecipeInstructionsView.swift in Sources */,
 				3370EFBE2A8285E400885C30 /* NewOnboardingViewController.swift in Sources */,
+				B38828902B359F1400A3B051 /* QuestionnaireSecondController.swift in Sources */,
 				339254AC2A3161D50047807E /* RequestGenerator.swift in Sources */,
 				337E79CE29E595F700668578 /* ViewWithOverriddenPoint.swift in Sources */,
 				333E2D3529F1226D00F705E7 /* DisplayCostListCell.swift in Sources */,
@@ -3555,6 +3744,7 @@
 				B3D8584A293A1A2A00CCE230 /* PaywallCell.swift in Sources */,
 				339FF3762A650CA700C6D6E3 /* PaywallCarouselCell.swift in Sources */,
 				338F43352ABA8F1F000B7A61 /* MealPlanLabelCell.swift in Sources */,
+				B347C9AE2B3C45AD0053B474 /* PaywallWithTimerOldAndNewPrice.swift in Sources */,
 				338EB6B629C1BEED00D6A03F /* SearchInRecipeViewModel.swift in Sources */,
 				331EC0232B0DAB8400EDFBE7 /* FamilyPaywallViewController.swift in Sources */,
 				B37A2CD92910EE93003C01AD /* NavigationInterface.swift in Sources */,
@@ -3572,6 +3762,7 @@
 				33C6F0E62A4439CB00E71023 /* PhotoFromRecipesViewModel.swift in Sources */,
 				3370EFC62A83D0DD00885C30 /* FirstOnboardingView.swift in Sources */,
 				33796E612A139F5D009AD385 /* FeedbackViewController.swift in Sources */,
+				B347C9862B3952B70053B474 /* BottomViewWithNextButton.swift in Sources */,
 				B3777E1D2938CBF40074BE38 /* SettingsParametrView.swift in Sources */,
 				B37A2CEB2911034D003C01AD /* StringExtension.swift in Sources */,
 				B3777E152937CBB30074BE38 /* DBProduct+CoreDataClass.swift in Sources */,
@@ -3627,6 +3818,7 @@
 				339254A52A3047600047807E /* DBPantry+CoreDataClass.swift in Sources */,
 				338F43382ABB20D6000B7A61 /* CreateMealPlanLabelViewController.swift in Sources */,
 				3366BEE02A2C1D3A00D50704 /* AutoRepeatSettingView.swift in Sources */,
+				B347C99E2B3AFD5A0053B474 /* RateUsViewController.swift in Sources */,
 				338F43312ABA83D7000B7A61 /* MealPlanNavigationController.swift in Sources */,
 				B315F9D72988FF270009CEB8 /* AlternativePaywallCell.swift in Sources */,
 				335519C429AE26CE00AD2B77 /* RecipeContextMenuView.swift in Sources */,

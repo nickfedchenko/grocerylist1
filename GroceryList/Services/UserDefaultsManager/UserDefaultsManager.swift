@@ -51,6 +51,26 @@ class UserDefaultsManager {
         set { userDefaults.set(newValue, forKey: "isMetricSystem") }
     }
     
+    var newProductCreatedCount: Int {
+        get { userDefaults.integer(forKey: "newProductCreatedCount") }
+        set { userDefaults.set(newValue, forKey: "newProductCreatedCount") }
+    }
+    
+    var pantryOpenedCount: Int {
+        get { userDefaults.integer(forKey: "pantryOpenedCount") }
+        set { userDefaults.set(newValue, forKey: "pantryOpenedCount") }
+    }
+    
+    var listHasBeenShared: Bool {
+        get { userDefaults.bool(forKey: "listHasBeenShared") }
+        set { userDefaults.set(newValue, forKey: "listHasBeenShared") }
+    }
+    
+    var paywallWithTimerStartedDate: Date? {
+        get { userDefaults.object(forKey: "paywallWithTimerStartedDate") as? Date }
+        set { userDefaults.set(newValue, forKey: "paywallWithTimerStartedDate") }
+    }
+    
     var isHapticOn: Bool {
         get { userDefaults.bool(forKey: "isHapticOn") }
         set { userDefaults.set(newValue, forKey: "isHapticOn") }

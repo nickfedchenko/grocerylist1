@@ -11,19 +11,6 @@ class NewOnboardingViewController: UIViewController {
 
     weak var router: RootRouter?
     
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(classCell: NewOnboardingCell.self)
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.backgroundColor = .clear
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.isPagingEnabled = true
-        return collectionView
-    }()
-    
     private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.currentPageIndicatorTintColor = R.color.primaryDark()
@@ -34,7 +21,7 @@ class NewOnboardingViewController: UIViewController {
     
     private lazy var nextButton: UIButton = {
         let button = UIButton(type: .system)
-        let attributedTitle = NSAttributedString(string: "Next".localized.uppercased(), attributes: [
+        let attributedTitle = NSAttributedString(string: R.string.localizable.continue().uppercased(), attributes: [
             .font: UIFont.SFPro.semibold(size: 20).font ?? UIFont(),
             .foregroundColor: UIColor(hex: "#FFFFFF")
         ])
@@ -47,25 +34,44 @@ class NewOnboardingViewController: UIViewController {
         button.setImage(UIImage(named: "nextArrow"), for: .normal)
         button.semanticContentAttribute = .forceRightToLeft
         button.tintColor = .white
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.white.cgColor
         button.imageEdgeInsets.left = 8
         return button
     }()
     
-    private var currentPage = 0 {
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(classCell: NewOnboardingCell.self)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.backgroundColor = .clear
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.isPagingEnabled = true
+        return collectionView
+    }()
+    
+    var currentPage = 0 {
         didSet { pageControl.currentPage = currentPage }
     }
     
-    private let screenNames = ["IMG for export (PNG or JPEG) 1",
-                               "IMG for export (PNG or JPEG) 2",
-                               "IMG for export (PNG or JPEG) 3",
-                               "IMG for export (PNG or JPEG) 4",
-                               "IMG for export (PNG or JPEG) 5",
-                               "IMG for export (PNG or JPEG) 6",
-                               "IMG for export (PNG or JPEG) 7",
-                               "IMG for export (PNG or JPEG) 8",
-                               "IMG for export (PNG or JPEG) 9",
-                               "IMG for export (PNG or JPEG) 10",
-                               "IMG for export (PNG or JPEG) 11"]
+    var screenNames: [String] {
+        [
+            "IMG for export (PNG or JPEG) 1",
+            "IMG for export (PNG or JPEG) 2",
+            "IMG for export (PNG or JPEG) 3",
+            "IMG for export (PNG or JPEG) 4",
+            "IMG for export (PNG or JPEG) 5",
+            "IMG for export (PNG or JPEG) 6",
+            "IMG for export (PNG or JPEG) 7",
+            "IMG for export (PNG or JPEG) 8",
+            "IMG for export (PNG or JPEG) 9",
+            "IMG for export (PNG or JPEG) 10",
+            "IMG for export (PNG or JPEG) 11"
+        ]
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +84,7 @@ class NewOnboardingViewController: UIViewController {
     }
 
     @objc
-    private func nextButtonPressed() {
+    func nextButtonPressed() {
         if currentPage < screenNames.count - 1 {
             currentPage += 1
             let indexPath = IndexPath(item: currentPage, section: 0)
@@ -99,26 +105,20 @@ class NewOnboardingViewController: UIViewController {
                     UIDevice.screenType == .iPhonesXXS11Pro ? 45 :
                     UIDevice.screenType == .iPhones678SE2 ? 61 : 105
             )
-            $0.bottom.equalTo(nextButton.snp.top).offset(
-                UIDevice.screenType == .iPhones678SE2 ? -32 :
-                    UIDevice.screenType == .iPhonesXXS11Pro ? 0 :
-                    UIDevice.screenType == .iPhones678SE2 ? -14 : -58
-            )
+            $0.bottom.equalTo(nextButton.snp.top).inset(-16)
         }
         
         pageControl.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(nextButton.snp.top).offset(-8)
             $0.height.equalTo(22)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(14)
         }
         
         nextButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(64)
             $0.width.equalTo(350)
-            $0.bottom.equalToSuperview().offset(
-                UIDevice.screenType == .iPhones678SE2 ? -16 : -64
-            )
+            $0.bottom.equalTo(pageControl.snp.top).inset(-12)
         }
     }
 }
@@ -131,7 +131,7 @@ extension NewOnboardingViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.reusableCell(classCell: NewOnboardingCell.self,
                                                           indexPath: indexPath)
-        cell.imageView.image = UIImage(named: screenNames[indexPath.row]) 
+        cell.imageView.image = UIImage(named: screenNames[indexPath.row])
         return cell
     }
 }

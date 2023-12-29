@@ -64,6 +64,59 @@ final class RootRouter: RootRouterProtocol {
 #endif
     }
     
+    private func showOnboardingWithQuestionsFlow() {
+        if !UserDefaultsManager.shared.isFirstLaunch {
+            UserDefaultsManager.shared.firstLaunchDate = Date()
+            FeatureManager.shared.activeFeaturesOnFirstLaunch()
+        }
+        
+        guard UserDefaultsManager.shared.shouldShowOnboarding else { return }
+        
+        let onboardingController = viewControllerFactory.createQuestionnaireFirstController(router: self)
+        navigationPushViewController(onboardingController, animated: false)
+    }
+    
+    func openQuestionnaireSecondController() {
+        let onboardingController = viewControllerFactory.createQuestionnaireSecondController(router: self)
+        navigationPushViewController(onboardingController, animated: true)
+    }
+    
+    func openQuestionnaireThirdController() {
+        let onboardingController = viewControllerFactory.createQuestionnaireThirdController(router: self)
+        navigationPushViewController(onboardingController, animated: false)
+    }
+    
+    func openQuestionnaireFirstPaywall() {
+        let controller = QuestionnaireFirstPaywall()
+        controller.isHardPaywall = false
+        controller.modalPresentationStyle = .fullScreen
+        navigationPresent(controller, animated: true)
+    }
+    
+    func openPaywallWithTimer() {
+        guard !Apphud.hasActiveSubscription() else {
+            return
+        }
+        let controller = viewControllerFactory.createPaywallWithTimer(router: self)
+        navigationPresent(controller, style: .popover, animated: true)
+    }
+    
+    func openRateUs() {
+        Apphud.paywallsDidLoadCallback { [weak self] paywalls in
+            guard let _ = paywalls.first(where: { $0.experimentName != nil }),
+            let self = self else {
+                return
+            }
+            let controller = viewControllerFactory.createRateUsController(router: self)
+            navigationPresent(controller, style: .popover, animated: true)
+        }
+    }
+    
+    func openContactUsController() {
+        let controller = viewControllerFactory.createContactUsController(router: self)
+        navigationPushViewController(controller, animated: true)
+    }
+    
     func openResetPassword(token: String) {
         guard let resetModel = ResetPasswordModelManager.shared.getResetPasswordModel() else { return }
         if resetModel.resetToken == token && Date() < (resetModel.dateOfExpiration + 3600) {
@@ -84,28 +137,28 @@ final class RootRouter: RootRouterProtocol {
         if !InternetConnection.isConnected() {
             if let testOnboardingValue = UserDefaultsManager.shared.testOnboardingValue,
                testOnboardingValue.lowercased() == "new" {
-                goToNewOnboarding()
+                showOnboardingWithQuestionsFlow() // тут мой онбординг
             } else {
-                goToOnboarding()
+                goToNewOnboarding()
             }
             return
         }
         
         Apphud.paywallsDidLoadCallback { [weak self] paywalls in
             guard let paywall = paywalls.first(where: { $0.experimentName != nil }) else {
-                self?.goToOnboarding()
+                self?.goToNewOnboarding()
                 return
             }
             
             if let targetOnboarding = paywall.json?["onboarding"] as? String {
                 UserDefaultsManager.shared.testOnboardingValue = targetOnboarding
                 if targetOnboarding.lowercased() == "new" {
-                    self?.goToNewOnboarding()
+                    self?.showOnboardingWithQuestionsFlow()
                 } else {
-                    self?.goToOnboarding()
+                    self?.goToNewOnboarding()
                 }
             } else {
-                self?.goToOnboarding()
+                self?.goToNewOnboarding()
             }
         }
     }
@@ -602,6 +655,10 @@ final class RootRouter: RootRouterProtocol {
         UIViewController.currentController()?.dismiss(animated: true)
     }
     
+    func dismissCurrentController(compl: (()-> Void)?) {
+        UIViewController.currentController()?.dismiss(animated: true, completion: compl)
+    }
+    
     // алерты / активити и принтер
     func showActivityVC(image: [Any]) {
         guard let controller = viewControllerFactory.createActivityController(image: image) else { return }
@@ -631,18 +688,22 @@ final class RootRouter: RootRouterProtocol {
                     self?.showPaywall(by: targetPaywallName, isHard: isHard)
                     return
                 }
-
-                self?.showAlternativePaywallVC(isHard: false)
+                
+                self?.showAlternativePaywallVC(isHard: true)
                 return
             }
-
-            if let targetPaywallName = paywall.json?["name"] as? String {
-                let onboarding = (paywall.json?["onboarding"] as? String) ?? ""
-                let isNewOnboarding = onboarding == "new"
-                let isHard = (paywall.json?["isHardPaywall"] as? Bool) ?? isNewOnboarding
-                self?.showPaywall(by: targetPaywallName, isHard: isHard)
+            
+            if PaywallWithTimerReachability.shared.isDateCorrect() {
+                self?.openPaywallWithTimer()
             } else {
-                self?.showAlternativePaywallVC(isHard: false)
+                if let targetPaywallName = paywall.json?["name"] as? String {
+                    let onboarding = (paywall.json?["onboarding"] as? String) ?? ""
+                    let isNewOnboarding = onboarding == "new"
+                    let isHard = (paywall.json?["isHardPaywall"] as? Bool) ?? isNewOnboarding
+                    self?.showPaywall(by: targetPaywallName, isHard: isHard)
+                } else {
+                    self?.showAlternativePaywallVC(isHard: true)
+                }
             }
         }
     }
@@ -672,6 +733,9 @@ final class RootRouter: RootRouterProtocol {
             }
 
             controller.modalPresentationStyle = .overCurrentContext
+            if controller is PaywallWithTimerViewController {
+                controller.modalPresentationStyle = .popover
+            }
             UIViewController.currentController()?.present(controller, animated: true)
         }
     }
@@ -687,6 +751,8 @@ final class RootRouter: RootRouterProtocol {
             showAlternativePaywallVC(isHard: isHard)
         } else if name == "FamilyPaywall" {
             showFamilyPaywall(isHard: isHard)
+        } else if name == "QuestionnaireFirstPaywall" {
+            openQuestionnaireFirstPaywall()
         } else {
             showAlternativePaywallVC(isHard: isHard)
         }
@@ -705,6 +771,15 @@ final class RootRouter: RootRouterProtocol {
             let controller = FamilyPaywallViewController()
             controller.isHardPaywall = isHard
             return controller
+        } else if name == "QuestionnaireFirstPaywall" {
+            if PaywallWithTimerReachability.shared.isDateCorrect() {
+                let controller = viewControllerFactory.createPaywallWithTimer(router: self)
+                return controller
+            } else {
+                let controller = QuestionnaireFirstPaywall()
+                return controller
+            }
+      
         } else {
             return viewControllerFactory.createAlternativePaywallController(isHard: isHard)
         }

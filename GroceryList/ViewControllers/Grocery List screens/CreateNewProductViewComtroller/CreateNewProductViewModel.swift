@@ -247,6 +247,8 @@ class CreateNewProductViewModel {
         idsOfChangedProducts.insert(product.id)
         idsOfChangedLists.insert(model.id)
         
+        RateUsReachability.shared.newProductCreated(router: router)
+        
 #if RELEASE
         sendUserProduct(category: categoryName, product: productName)
 #endif

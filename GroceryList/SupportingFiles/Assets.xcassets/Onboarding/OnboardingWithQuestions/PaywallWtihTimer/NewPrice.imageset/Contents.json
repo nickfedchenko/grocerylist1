@@ -1,0 +1,35 @@
+{
+  "images" : [
+    {
+      "filename" : "NewPrice.svg",
+      "idiom" : "universal"
+    },
+    {
+      "filename" : "NewPrice 1.svg",
+      "idiom" : "universal",
+      "locale" : "en"
+    },
+    {
+      "filename" : "NewPriceRu.svg",
+      "idiom" : "universal",
+      "locale" : "ru"
+    },
+    {
+      "filename" : "NewPriceFR.svg",
+      "idiom" : "universal",
+      "locale" : "fr"
+    },
+    {
+      "filename" : "NewPriceDe.svg",
+      "idiom" : "universal",
+      "locale" : "de"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
+  }
+}

@@ -28,10 +28,17 @@ class FamilyPaywallProductsView: UIView {
     
     private let familyPlanView = FamilyPaywallProductView()
     
+    private let familyPlanIncludedImage: UIImageView = {
+        let view = UIImageView()
+        view.image = R.image.familyPlanIncluded()
+        view.isHidden = true
+        return view
+    }()
+    
     private lazy var continueButton: UIButton = {
         let button = UIButton()
         let font = UIFont.SFProDisplay.semibold(size: 20).font ?? UIFont()
-        let attributedTitle = NSAttributedString(string: R.string.localizable.next().uppercased(),
+        let attributedTitle = NSAttributedString(string: R.string.localizable.continue().uppercased(),
                                                  attributes: [.font: font,
                                                               .foregroundColor: UIColor.white])
         button.setAttributedTitle(attributedTitle, for: .normal)
@@ -122,6 +129,11 @@ class FamilyPaywallProductsView: UIView {
         }
     }
     
+    func hideFamilyPlan() {
+        familyPlanView.isHidden = true
+        familyPlanIncludedImage.isHidden = false
+    }
+    
     @objc
     private func nextButtonPressed() {
         delegate?.continueButtonPressed()
@@ -144,7 +156,7 @@ class FamilyPaywallProductsView: UIView {
     
     private func makeConstraints() {
         self.addSubviews([contentView])
-        contentView.addSubviews([stackView, familyPlanView, continueButton,
+        contentView.addSubviews([stackView, familyPlanIncludedImage, familyPlanView, continueButton,
                                  cancelButton, privacyButton, termsButton])
         
         contentView.snp.makeConstraints {
@@ -155,6 +167,11 @@ class FamilyPaywallProductsView: UIView {
             $0.top.equalToSuperview().inset(16)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.height.equalTo(UIDevice.isSEorXor12mini ? 196 : 220)
+        }
+        
+        familyPlanIncludedImage.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(continueButton.snp.top).inset(-16)
         }
         
         familyPlanView.snp.makeConstraints {

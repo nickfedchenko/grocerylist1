@@ -637,3 +637,57 @@
 "NewPaywall.Feature.7"          = "Importing recipes from websites. Find recipes with filters";
 "NewPaywall.Feature.8"          = "Create your own recipes and collections, the ability to share recipes";
 "NewPaywall.Feature.9"          = "Adding ingredients to the shopping list for the selected number of servings";
+
+// New Flow
+"OnboardingWithQuestions.welcome"      = "WELCOME TO";
+"OnboardingWithQuestions.groceryList"  = "Grocery List App";
+"OnboardingWithQuestions.saveMoney"    = "Free your head, save time and money";
+"OnboardingWithQuestions.question "    = "QUESTION ";
+
+
+"OnboardingWithQuestions.chooseAnswers"        = "Choose one or more answers";
+"OnboardingWithQuestions.chooseAnswer"         = "Choose one answer";
+
+"OnboardingWithQuestions.question1Title"       = "How can we help you?";
+"OnboardingWithQuestions.question1answer1"     = "Save your time and money with categorized shopping lists";
+"OnboardingWithQuestions.question1answer2"     = "Always keep your pantry well-stocked";
+"OnboardingWithQuestions.question1answer3"     = "Create own Meal Plan";
+"OnboardingWithQuestions.question1answer4"     = "Have a lot of recipes at your fingertips";
+
+"OnboardingWithQuestions.question2Title"       = "How often do you plan to share lists with relatives and friends?";
+"OnboardingWithQuestions.question2answer1"     = "I plan to share my shopping list on a regular basis";
+"OnboardingWithQuestions.question2answer2"     = "Sometimes, for example during holidays";
+"OnboardingWithQuestions.question2answer3"     = "Never";
+
+"OnboardingWithQuestions.question3Title"       = "How old are you?";
+"OnboardingWithQuestions.question3answer1"     = "18-30";
+"OnboardingWithQuestions.question3answer2"     = "31-40";
+"OnboardingWithQuestions.question3answer3"     = "41-50";
+"OnboardingWithQuestions.question3answer4"     = "51+";
+
+"OnboardingWithQuestions.question4Title"       = "What's your gender?";
+"OnboardingWithQuestions.question4answer1"     = "Male";
+"OnboardingWithQuestions.question4answer2"     = "Female";
+"OnboardingWithQuestions.question4answer3"     = "Other";
+
+"OnboardingWithQuestions.paywallOnlyOneHour"   = "only 1 hour";
+"OnboardingWithQuestions.paywallSale"          = "-50%";
+"OnboardingWithQuestions.paywallSaveMoney"     = "Save even more time and money";
+"OnboardingWithQuestions.Then"                 = "*then ";
+"OnboardingWithQuestions.cancelAnyTime"        = " · Cancel anytime";
+"OnboardingWithQuestions.paywall.firstYear"    = " / first year";
+
+"RateUs.TellUsMore"                            = "Tell us more";
+"RateUs.HowDoYouLikeAppTitle"                  = "How much do you like the app?";
+"RateUs.HowDoYouLikeAppSubtitle"               = "Share your feedback with us and what problems you encountered. This will help to improve the app for you";
+
+"RateUs.VeryGood"                              = "Very good";
+"RateUs.Good"                                  = "Good";
+
+"RateUs.Neutral"                               = "Neutral";
+"RateUs.Bad"                                   = "Bad";
+"RateUs.VeryBad"                               = "Very bad";
+
+"RateUs.Great"                                 = "Great!";
+"RateUs.ThanksForFeedbackTitle"                = "Thanks for your feedback!";
+"RateUs.ThanksForFeedbackSubtitle"             = "You can also help us by rating in the AppStore";
