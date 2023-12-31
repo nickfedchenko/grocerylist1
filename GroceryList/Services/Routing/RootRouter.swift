@@ -197,7 +197,7 @@ final class RootRouter: RootRouterProtocol {
             UserDefaultsManager.shared.coldStartState = 0
             UserDefaultsManager.shared.isFirstLaunch = true
         }
-        navigationPopToRootViewController(animated: true)
+        navigationPopToRootViewController(animated: false)
         UserDefaultsManager.shared.shouldShowOnboarding = false
     }
     
@@ -690,8 +690,9 @@ final class RootRouter: RootRouterProtocol {
                     }
                     return
                 }
-                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self?.showAlternativePaywallVC(isHard: true)
+                }
                 return
             }
             
@@ -706,7 +707,9 @@ final class RootRouter: RootRouterProtocol {
                         self?.showPaywall(by: targetPaywallName, isHard: isHard)
                     }
                 } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     self?.showAlternativePaywallVC(isHard: true)
+                    }
                 }
             }
         }
